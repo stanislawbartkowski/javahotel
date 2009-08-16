@@ -1,0 +1,287 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
+
+Packages:
+
+|| *Package name* || *Package path* || *Description* || *GAE* || *GAE-TEST* || *HotelEJB* || *HotelEJBTest* || *Hotel-UI* ||
+
+
+Package name
+	Package path
+	Description
+	GAE
+	GAE-TEST
+	HotelEJB
+	HotelEJBTest
+	Hotel-UI
+gwtclient
+	com.javahotel.client (view,server)
+	client (gwt) sources	X
+	
+	
+	
+	X
+webhelper
+	com.javahotel.webhelper	helper for GWT RPC, bridge between RPC and server part	X
+	
+	
+	
+	X
+gaenginecache
+	com.javahotel.commoncache
+	GAE implementation of cache (TODO: it is temporary solution, needs refactoring)
+	X
+	X
+	
+	
+	
+hotellogintypes
+	com.javahotel.security.login
+	classes and interafces for loging in.
+	X
+	X
+	X
+	
+	X
+hoteltypes
+	com.javahotel.types
+	GWT module, interfaces and classes shared by client and server
+	X
+	X
+	X
+	X
+	X
+emptyejb3
+	javax.ejb
+	empty definitions for ejb3 interfaces, used for local (without remote ejb) solution
+	X
+	X
+	
+	
+	
+hotelgaenginejpa
+	com.jabahotel.db
+	GAE part of JPA implementation.
+	X
+	X
+	
+	
+	
+hotelinterface
+	com.javahotel.remoteinterfaces
+	interfaces (facade) for db (DAO) beans.
+	X
+	X
+	X
+	X
+	X
+hoteldbres
+	com.javahotel.dbres
+	some common util and resources for db (DAO) beans
+	X
+	X
+	X
+	X
+	
+hotelcommon
+	com.javahotel.common
+	GWT module, contains TO (Transient Objects) and some common definitions for server and client part
+	X
+	X
+	X
+	X
+	X
+hoteldbutil
+	com.javahotel.dbutil
+	some common util for db (DAO) beans
+	X
+	X
+	X
+	
+	
+hoteldbjpa
+	com.javahotel.dbjpa
+	some common classes and packages for JPA handling, also facade for JPA interface
+	X
+	X
+	X
+	
+	
+hotellocallogin
+	com.javahotel.loginhelper
+	local implementation for providing remote beans
+	X
+	X
+	
+	
+	
+hoteltomcatlogin
+	com.javahotel.security.tomcat.login	implementation of admin log-in, user and password taken from xml file
+	X
+	X
+	X
+	
+	
+hoteljpa
+	com.javahotel.db
+	"business rules", main DAO (server part) implementation
+	X
+	X
+	X
+	
+	
+resources/gwtwar
+	
+	some files to copy to eclipse gae war project
+	
+	
+	
+	
+	
+resources/gwtwartest
+	
+	some files to copy to eclipse gaetest war project
+	
+	
+	
+	
+	
+resources/jboss
+	
+	examples of datasource definition used for testing and running
+	
+	
+	
+	
+	
+daotest
+	com.javahotel.test com.javahotel.statictest
+	junit test for dao facade
+	
+	X
+	
+	X
+	
+gaetest
+	com.javahotel.javatest
+	GWT wrap around junit dao test
+	
+	X
+	
+	
+	
+hotelejb3jpa
+	com.javahotel.db
+	EJB3/JPA part of JPA implementation
+	
+	
+	X
+	
+	
+hotelejb3cache
+	com.javahotel.commoncache
+	Simple Java(static)  implementation of cache
+	
+	
+	X
+	
+	X
+hotelejblogin
+	com.javahotel.loginhelper
+	Remote implementation for accesing beans
+	
+	
+	
+	X
+	X
+hoteldbdef
+	com.javahotel.commoncache
+	Some common definition for db
+	X
+	X
+	X
+	
+	X
+
+
+
+1. How to create development environment: GAE + Eclipse.
+
+Prerequisities: http://code.google.com/intl/pl/eclipse/
+
+Check-out and create Resource Project in Eclipse - directory structure like (below) should be created.
+
+    * javahotel
+
+    * src
+          o emptyejb3
+          o gaenginecache
+          o .....
+
+
+Create new "Web Application" (GAE+GWT) project, make sure that Google SDKs are checked. As 'package name' put something meaningless (com.xxx.xxx).
+
+Remove "meaningles" package (com.xxx.xxx)
+'war' directory - remove two files (html and css).
+
+Link sources using package table above
+
+Add to the build path JUnit3 library and two jars from resources/gaewar/modules directory
+
+Open "Properties" - "Google" - "Web Toolkit" - remove all modules except "web - com.javahotel"
+
+Copy following files from resources/gaewar : WEB-INF/logging.properties ad web.xml and welcomeGWT.html
+
+2. How to create develpoment environment fo GAE-TEST Eclipse
+
+Create new "Web Application" (GAE+GWT) project, make sure that Google SDKs are checked. As 'package name' put something meaningless (com.xxx.xxx).
+
+Remove "meaningles" package (com.xxx.xxx)
+'war' directory - remove two files (html and css).
+
+Link sources using package table above.
+
+Add to the build path Junit4 library.
+
+Copy to 'war' directory following files taken from resources/reshotel/gaetest  :  WebHotelTest.css and WebHotelTest.html and WEB-INF/web.xml and WEB-INF/logging.properties
+
+Open "Properties" - "Google" - "Web Toolkit" - remove all modules except "WebHotelTest - com.javahotel.javatest"
+
+Copy to WEB-INF/lib folder junit.jar file taken from JUnit4 package.
+
+3. How to create development environment for distributed (remote EJB3) J2EE installation. (ECLIPSE-JBOSS)
+
+HotelEJB (remote)
+
+Create new EJB project.
+
+Link sources using package table above.
+
+Deploy EJB to JBoss server.
+
+4. How to create development environment for JUnit test
+
+Create standard Java project.
+
+Add Junit4 to build path
+
+Link sources using package table above.
+
+In the folder resource/jboss in an example of datasource definition used to define test database.
+
+5. How to create develpoment environment for Hotel UI client
+
+Create project exactly like in point 1. The only difference: "Use Google App Engine" check box should be disabled
+
+
