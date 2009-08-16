@@ -3,9 +3,11 @@ Package description, instruction how to create development environment
 = Introduction =
 
 Because of a lot of technologies covered the package structure and deployment is complicated a little bit. 
-
+Below is a short package description and relation matrix between packages and different software deployment units.
 
 = Details =
+
+
 
 Package list:
 
@@ -35,19 +37,30 @@ Package list:
 ||hotelejblogin||com.javahotel.loginhelper||Remote implementation for accesing beans|| || || ||X||X||
 ||hoteldbdef||com.javahotel.commoncache||Some common definition for db||X||X||X|| ||X||
 
+==Eclipse==
 
-1. How to create development environment: GAE + Eclipse.
+http://code.google.com/intl/pl/eclipse/
 
-Prerequisities: http://code.google.com/intl/pl/eclipse/
+==Sources==
 
-Check-out and create Resource Project in Eclipse - directory structure like (below) should be created.
+Check-out sources: 
+http://code.google.com/p/javahotel/source/checkout
 
-    * javahotel
+Eclipse - create non-java (resource) project and check-out sources there. This project will be used as sources repository and SNV synchronization container.
+Directory structure like (below) should be created.
 
-    * src
-          o emptyejb3
-          o gaenginecache
-          o .....
+ * javahotel
+ * src
+  * emptyejb3
+  * gaenginecache
+  * .....
+
+
+==Eclipse+GAE==
+
+Creating Eclipse project to develop GAE version of JavaHotel application.
+
+Column descriptor: GAE
 
 
 Create new "Web Application" (GAE+GWT) project, make sure that Google SDKs are checked. As 'package name' put something meaningless (com.xxx.xxx).
