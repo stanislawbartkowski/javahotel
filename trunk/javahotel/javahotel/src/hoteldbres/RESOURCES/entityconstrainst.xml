@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entityconstraintants>
+	<entity>
+		<class>default</class>
+		<sym>name</sym>
+		<kom>DuplicateSym</kom>
+		<vname>name</vname>
+	</entity>
+	<entity>
+		<class>Hotel</class>
+	</entity>
+	<entity>
+		<class>Person</class>
+		<vname>login</vname>
+	</entity>
+	<entity>
+		<class>VatDictionary</class>
+	</entity>
+	<entity>
+		<class>RoomFacilities</class>
+	</entity>
+	<entity>
+		<class>RoomStandard</class>
+	</entity>
+	<entity>
+		<class>ResObject</class>
+	</entity>
+	<entity>
+		<class>ServiceDictionary</class>
+	</entity>
+	<entity>
+		<class>OfferSeason</class>
+	</entity>
+	<entity>
+		<class>OfferPrice</class>
+	</entity>
+	<entity>
+		<class>Customer</class>
+	</entity>
+	<entity>
+		<class>Booking</class>
+	</entity>
+</entityconstraintants>
