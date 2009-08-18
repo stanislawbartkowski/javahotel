@@ -5,7 +5,7 @@ Package description, instruction how to create development environment
 Because of a lot of technologies covered the package structure and deployment is complicated a little bit. 
 Below is a short package description and relation matrix between packages and different software deployment units.
 
-Future: NetBeans/Glassfish/Tomcat + Derby/DB2
+Future: NetBeans//Glassfish//Tomcat + Derby/DB2
 
 <wiki:toc max_depth="3*" />
 
