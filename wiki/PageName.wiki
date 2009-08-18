@@ -135,4 +135,4 @@ Purpose: Creating eclipse project to run Hotel-UI component (client side)
 
 Column descriptor: Hotel-UI
 
- * Create project exactly like [#Eclipse+GAE]. The only difference: "Use Google App Engine" check box should be disabled.
+ * Create project exactly like [Eclipse+GAE]. The only difference: "Use Google App Engine" check box should be disabled.
