@@ -4,6 +4,7 @@ Package description, instruction how to create development environment
 
 Because of a lot of technologies covered the package structure and deployment is complicated a little bit. 
 Below is a short package description and relation matrix between packages and different software deployment units.
+Future: NetBeans/Glassfish/Tomcat + Derby/DB2
 
 <wiki:toc max_depth="3*" />
 
@@ -135,4 +136,4 @@ Purpose: Creating eclipse project to run Hotel-UI component (client side)
 
 Column descriptor: Hotel-UI
 
- * Create project exactly like [Eclipse+GAE]. The only difference: "Use Google App Engine" check box should be disabled.
+ * Create project exactly like [#Eclipse+GAE]. The only difference: "Use Google App Engine" check box should be disabled.
