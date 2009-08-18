@@ -58,61 +58,79 @@ Directory structure like (below) should be created.
 
 ==Eclipse+GAE==
 
-Creating Eclipse project to develop GAE version of JavaHotel application.
+Purpose: Creating Eclipse project to develop GAE version of JavaHotel application.
 
 Column descriptor: GAE
 
+ * Create new "Web Application" (GAE+GWT) project, make sure that Google SDKs are checked. As 'package name' put something meaningless (com.xxx.xxx).
+ * Remove meaningless package (com.xxx.xxx) , 
+ * 'war' directory - remove two files (html and css).
 
-Create new "Web Application" (GAE+GWT) project, make sure that Google SDKs are checked. As 'package name' put something meaningless (com.xxx.xxx).
+ * Link sources using package table above
 
-Remove "meaningles" package (com.xxx.xxx)
-'war' directory - remove two files (html and css).
+ * Add to the build path JUnit3 library and two jars from resources/gaewar/modules directory
 
-Link sources using package table above
+ * Open "Properties" - "Google" - "Web Toolkit" - remove all modules except "web - com.javahotel"
 
-Add to the build path JUnit3 library and two jars from resources/gaewar/modules directory
+ * Copy following files from resources/gaewar : WEB-INF/logging.properties ad web.xml and welcomeGWT.html
 
-Open "Properties" - "Google" - "Web Toolkit" - remove all modules except "web - com.javahotel"
+==Eclipse+GAE-TEST==
 
-Copy following files from resources/gaewar : WEB-INF/logging.properties ad web.xml and welcomeGWT.html
+Purpose: Creating Eclipse project to run and develop GAE-TEST version of JavaHotel application
 
-2. How to create develpoment environment fo GAE-TEST Eclipse
+Column descriptor: GAE-TEST
 
-Create new "Web Application" (GAE+GWT) project, make sure that Google SDKs are checked. As 'package name' put something meaningless (com.xxx.xxx).
+ * Create new "Web Application" (GAE+GWT) project, make sure that Google SDKs are checked. As 'package name' put something meaningless (com.xxx.xxx).
 
-Remove "meaningles" package (com.xxx.xxx)
-'war' directory - remove two files (html and css).
+ * Remove "meaningles" package (com.xxx.xxx)
+ * 'war' directory - remove two files (html and css).
 
-Link sources using package table above.
+ * Link sources using package table above.
 
-Add to the build path Junit4 library.
+ * Add to the build path Junit4 library.
 
-Copy to 'war' directory following files taken from resources/reshotel/gaetest  :  WebHotelTest.css and WebHotelTest.html and WEB-INF/web.xml and WEB-INF/logging.properties
+ * Copy to 'war' directory following files taken from resources/reshotel/gaetest  :  WebHotelTest.css and WebHotelTest.html and WEB-INF/web.xml and WEB-INF/logging.properties
 
-Open "Properties" - "Google" - "Web Toolkit" - remove all modules except "WebHotelTest - com.javahotel.javatest"
+ * Open "Properties" - "Google" - "Web Toolkit" - remove all modules except "WebHotelTest - com.javahotel.javatest"
 
-Copy to WEB-INF/lib folder junit.jar file taken from JUnit4 package.
+ * Copy to WEB-INF/lib folder junit.jar file taken from JUnit4 package.
 
-3. How to create development environment for distributed (remote EJB3) J2EE installation. (ECLIPSE-JBOSS)
+==Eclipse+JBoss==
 
-HotelEJB (remote)
+Purpose: Creating Eclipse project to develop distribute JavaHotel J2EE application for JBoss. You have to create projects for server and client side. Test project is optional. JavaHotel was tested using Postgress database.
 
-Create new EJB project.
+=== Eclipse+JBoss+EJB (remote)===
 
-Link sources using package table above.
+Purpose: Creating project for server component.
 
-Deploy EJB to JBoss server.
+Column descriptor: HotelEJB
 
-4. How to create development environment for JUnit test
+ * Create new EJB project.
 
-Create standard Java project.
+ * Link sources using package table above.
 
-Add Junit4 to build path
+ * Deploy EJB to JBoss server.
 
-Link sources using package table above.
+ * In the folder resource/jboss in an example of datasource definition used to define  database (Postgress)
 
-In the folder resource/jboss in an example of datasource definition used to define test database.
+==Eclipse+JBoss+EJB-Test==
 
-5. How to create develpoment environment for Hotel UI client
+Purpose: Creating project for testing server component (business rules)
 
-Create project exactly like in point 1. The only difference: "Use Google App Engine" check box should be disabled
+Column descriptor: HotelEJBTest
+
+ * Create standard Java project.
+
+ * Add Junit4 to build path
+
+ * Link sources using package table above.
+
+ * In the folder resource/jboss in an example of datasource definition used to define test database.
+
+==Eclipse+JBoss+Hotel-GUI===
+
+Purpose: Creating eclipse project to run Hotel-UI component (client side)
+
+Column descriptor: Hotel-UI
+
+* Create project exactly like in point 1. The only difference: "Use Google App Engine" check box should be disabled.
