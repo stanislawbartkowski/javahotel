@@ -5,6 +5,8 @@ Package description, instruction how to create development environment
 Because of a lot of technologies covered the package structure and deployment is complicated a little bit. 
 Below is a short package description and relation matrix between packages and different software deployment units.
 
+<wiki:toc max_depth="3*" />
+
 = Details =
 
 
@@ -113,7 +115,7 @@ Column descriptor: HotelEJB
 
  * In the folder resource/jboss in an example of datasource definition used to define  database (Postgress)
 
-==Eclipse+JBoss+EJB-Test==
+===Eclipse+JBoss+EJB-Test===
 
 Purpose: Creating project for testing server component (business rules)
 
@@ -127,10 +129,10 @@ Column descriptor: HotelEJBTest
 
  * In the folder resource/jboss in an example of datasource definition used to define test database.
 
-==Eclipse+JBoss+Hotel-GUI===
+===Eclipse+JBoss+Hotel-GUI====
 
 Purpose: Creating eclipse project to run Hotel-UI component (client side)
 
 Column descriptor: Hotel-UI
 
-* Create project exactly like in point 1. The only difference: "Use Google App Engine" check box should be disabled.
+ * Create project exactly like [PageName#Eclipse+GAE]. The only difference: "Use Google App Engine" check box should be disabled.
