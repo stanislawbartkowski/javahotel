@@ -1,0 +1,52 @@
+Package description, instruction how to create development environment in NetBeans
+
+= Introduction =
+
+NetBeans (unlike Eclipse) does not allow the same source directory to be used in different projects. So some addtional project should be created and being shared between main projects.
+
+<wiki:toc max_depth="3*" />
+
+= Projects description =
+Below is a short package description and relation matrix between packages and different software deployment units.
+
+|| Project name || Project description|| Deployable|| Subproject||
+|| HotelCommon || Contains code shared betwwen server and client || || X ||
+|| HotelEJB || Server part || X || ||
+|| HotelEJBLogin || Classes for login || || X ||
+|| HotelEJBTest || Contains unit tests for HotelEJB || X || ||
+|| HotelLoginHelper || Service locator || || X ||
+|| WebHotel || Client part (GWT) || X || ||
+|| WebHotelHelper || Bridge for RPC || || X ||
+
+
+= Details =
+
+
+
+Package list:
+
+|| *Package name* || *Package path* || *Description* || *GAE* || *GAE-TEST* || *HotelEJB* || *HotelEJBTest* || *Hotel-UI* ||
+|| gwtclient || com.javahotel.client (view,server) || Client (gwt) sources || X || || || ||X||
+|| webhelper || com.javahotel.webhelper	|| Helper for GWT RPC, bridge between RPC and server part ||X|| || || ||X||
+||gaenginecache||com.javahotel.commoncache||GAE implementation of cache (TODO: it is temporary solution, needs refactoring)||X||X|| || || || 
+||hotellogintypes||com.javahotel.security.login||Classes and interafces for loging in||X||X||X|| ||X||
+||hoteltypes||com.javahotel.types||GWT module, interfaces and classes shared by client and server||X||X||X||X||X||
+||emptyejb3||javax.ejb||Empty definitions for ejb3 interfaces, used for local (without remote ejb) solution||X||X|| || || ||
+||hotelgaenginejpa||com.jabahotel.db||GAE part of JPA implementation||X||X|| || || ||
+||hotelinterface||com.javahotel.remoteinterfaces||Onterfaces (facade) for db (DAO) beans||X||X||X||X||X||
+||hoteldbres||com.javahotel.dbres||Some common util and resources for db (DAO) beans||X||X||X||X|| ||
+||hotelcommon||com.javahotel.common||GWT module, contains TO (Transient Objects) and some common definitions for server and client part||X||X||X||X||X||
+||hoteldbutil||com.javahotel.dbutil||Some common util for db (DAO) beans||X||X||X|| || ||
+||hoteldbjpa||com.javahotel.dbjpa||Some common classes and packages for JPA handling, also facade for JPA interface||X||X||X|| || ||
+||hotellocallogin||com.javahotel.loginhelper||Local implementation for providing remote beans||X||X|| || || ||
+||hoteltomcatlogin||com.javahotel.security.tomcat.login||Implementation of admin log-in, user and password taken from xml file||X||X||X|| || ||
+||hoteljpa||com.javahotel.db||"Business rules", main DAO (server part) implementation||X||X||X|| || ||
+||resources/gwtwar|| ||Some files to copy to eclipse gae war project|| || || || || ||
+||resources/gwtwartest|| ||Some files to copy to eclipse gaetest war project|| || || || || ||
+||resources/jboss|| || Examples of datasource definition used for testing and running|| || || || || ||
+||daotest||com.javahotel.test com.javahotel.statictest||Junit test for dao facade|| ||X|| ||X|| ||
+||gaetest||com.javahotel.javatest||GWT wrap-around junit dao test|| ||X|| || || ||
+||hotelejb3jpa||com.javahotel.db||EJB3/JPA part of JPA implementation|| || ||X|| || || 
+||hotelejb3cache||com.javahotel.commoncache||Simple Java(static)  implementation of cache|| || ||X|| ||X||
+||hotelejblogin||com.javahotel.loginhelper||Remote implementation for accesing beans|| || || ||X||X||
+||hoteldbdef||com.javahotel.commoncache||Some common definition for db||X||X||X|| ||X||
