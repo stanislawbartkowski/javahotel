@@ -26,7 +26,7 @@ abstract public class GetPeriodsTemplate {
     protected final Collection<Date> dLine;
     protected final Collection<PeriodT> coP;
 
-    protected GetPeriodsTemplate(final Date startD, 
+    protected GetPeriodsTemplate(final Date startD,
             final Collection<Date> dLine, final Collection<PeriodT> coP) {
         this.startD = startD;
         this.dLine = dLine;
@@ -44,31 +44,29 @@ abstract public class GetPeriodsTemplate {
         int currentno = -1;
         for (final Date dd : dLine) {
             currentno++;
-            if (currentno < startno) {
-                prevd = dd;
-                continue;
-            }
             if (currentno > ldraw) {
                 break;
             }
-            int no = startF(dd);
-            assert no != 0 : "Width cannot be 0";
+            if (currentno >= startno) {
+                int no = startF(dd);
+                assert no != 0 : "Width cannot be 0";
 
-            Collection<PeriodT> cou = GetPeriods.get(new PeriodT(prevd, dd, null), coP);
-            int pnoD = DateUtil.noLodgings(prevd, dd);
-            Collection<Integer> pCo = new ArrayList<Integer>();
-            for (PeriodT pr : cou) {
-                int noD = DateUtil.noLodgings(pr.getFrom(), pr.getTo());
-                pCo.add(new Integer(noD));
-            }
-            int[] pixe = CountPixel.countP(no, pnoD, pCo);
-            int iP = 0;
+                Collection<PeriodT> cou = GetPeriods.get(new PeriodT(prevd, dd, null), coP);
+                int pnoD = DateUtil.noLodgings(prevd, dd);
+                Collection<Integer> pCo = new ArrayList<Integer>();
+                for (PeriodT pr : cou) {
+                    int noD = DateUtil.noLodgings(pr.getFrom(), pr.getTo());
+                    pCo.add(new Integer(noD));
+                }
+                int[] pixe = CountPixel.countP(no, pnoD, pCo);
+                int iP = 0;
 
-            for (PeriodT pr : cou) {
-                int wi = pixe[iP++];
-                addElem(pr, wi);
+                for (PeriodT pr : cou) {
+                    int wi = pixe[iP++];
+                    addElem(pr, wi);
+                }
+                endF();
             }
-            endF();
             prevd = DateUtil.copyDate(dd);
             DateUtil.NextDay(prevd);
         }
