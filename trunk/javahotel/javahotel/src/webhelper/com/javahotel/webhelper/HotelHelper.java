@@ -26,7 +26,6 @@ import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.PersonP;
-import com.javahotel.dbres.resources.IMess;
 import com.javahotel.dbutil.log.GetLogger;
 import com.javahotel.dbutil.prop.ReadProperties;
 import com.javahotel.loginhelper.HotelServiceLocator;
@@ -47,8 +46,8 @@ import com.javahotel.remoteinterfaces.SessionT;
 public class HotelHelper {
 
 	private static final IList iL;
-	// private static final HotelServerType t = HotelServerType.GLASSFISH;
-	private static final HotelServerType t = HotelServerType.JBOSS;
+	private static final HotelServerType t = HotelServerType.GLASSFISH;
+	// private static final HotelServerType t = HotelServerType.JBOSS;
 	// private static final HotelServerType t = HotelServerType.APPENGINE;
 	// private static final HotelServerType t = HotelServerType.TOMCAT;
 	private static ISecurity sec;
