@@ -64,9 +64,10 @@ public abstract class CallBackHotel<T> implements AsyncCallback<T> {
                 return;
             }
         }
-        getReply().setStyleName("error-reply");
-        getReply().setVisible(true);
-        getReply().setText(pLocator.getLabels().commError());
+        Label e = pLocator.getPanel().getErrorL();
+        e.setStyleName("error-reply");
+        e.setVisible(true);
+        e.setText(pLocator.getLabels().commError());
 
     }
 }

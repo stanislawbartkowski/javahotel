@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.panel;
 
 import com.javahotel.client.IResLocator;
@@ -21,13 +20,11 @@ import com.javahotel.client.dialog.ICommand;
  * @author stanislawbartkowski@gmail.com
  */
 public class WebHotelPanelFactory {
-    
+
     private WebHotelPanelFactory() {
-        
     }
 
-    public static IWebHotelPanel getPanel(IResLocator  rI, ICommand logOut) {
+    public static IWebHotelPanel getPanel(IResLocator rI, ICommand logOut) {
         return rI.getView().getPanel(rI, logOut);
     }
-
 }

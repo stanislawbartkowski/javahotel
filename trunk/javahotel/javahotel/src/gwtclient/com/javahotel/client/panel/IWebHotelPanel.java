@@ -24,6 +24,8 @@ public interface IWebHotelPanel {
 
 	Label getReplyL();
 
+        Label getErrorL();
+
 	void setUserHotel(String user, String hotel);
 
 	void setDCenter(Widget w);
