@@ -42,5 +42,5 @@ Package list:
 ||daotest||com.javahotel.test com.javahotel.statictest||Junit test for dao facade|| || || ||X|| || || ||
 ||hotelejb3jpa||com.javahotel.db||EJB3/JPA part of JPA|| ||X|| || || || || ||
 ||hotelejb3cache||com.javahotel.commoncache||Simple Java(static)  implementation of cache||X|| || || || || || ||
-||hotelejblogin||com.javahotel.loginhelper||Remote implementation for accesing beans|| || || ||X|| || || ||
+||hotelejblogin||com.javahotel.loginhelper||Remote implementation for accesing beans|| || || || ||X|| || ||
 ||hoteldbdef||com.javahotel.commoncache||Some common definition for db||X|| || || || || || ||
