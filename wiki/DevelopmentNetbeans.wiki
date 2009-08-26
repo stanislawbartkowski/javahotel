@@ -47,8 +47,9 @@ Package list:
 ||hoteldbdef||com.javahotel.commoncache||Some common definition for db||X|| || || || || || ||
 
 
-Prerequisites:
-JavaBeans
+=Prerequisites=
+
+JavaBeans and install gwt4nb plugin.
 
 
 =Projects=
@@ -93,9 +94,3 @@ Add also Junit3 (package column unchecked)
 "Java class library" project
 Type: subproject
 Subprojects: HotelLoginHelper, HotelCommon
-
-
-
-==
-
-
