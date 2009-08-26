@@ -10,11 +10,13 @@ Poniższy opis określa wymaganie dotyczące systemu. *Wymagania* definiują jak
 Zakładanie baz danych (hoteli), użytkowników, praw dostępu, archiwizacja
 Oferta, cenniki
 Tworzenie listy usług, cenników, rabatów
+Uwaga: cenniki definiowane na początku sezonu są elementem planowania. Istotną cechą jest łatwość modyfikacji ceny w momencie rezerwacji czy sprzedaży. 
 
 ==Rezerwacja==
-Prowadzenie rezerwacji miejsc hotelowych oraz usług dodatkowych
+Prowadzenie rezerwacji miejsc hotelowych oraz usług dodatkowych.
 Obsługa osób indywidualnych i grup
 Obsługa „cyklu życiowego” rezerwacji: wstępna, potwierdzona, niepotwierdzona, internetowa
+Rezerwacja: wymagana zaliczka lub bez zaliczki.
 
 ==Recepcja==
 
@@ -28,12 +30,14 @@ Rozliczenie gościa, grupy. Wystawienie rachunku, zaliczki, przedpłaty. Korekty
 
 ==Raporty, statystyki==
 Statystyka sprzedaży, kosztów, obłozenia itp. itd.
-Biuro rachunkowe
+Mozliwość łatwego dodawania nowych raportów, specyficznych dla użytkownika
+
+==Biuro rachunkowe==
 Emisja danych do biura rachunkowego
 
-==Scenariusze użycia==
+=Scenariusze użycia=
 
-===Scen01, rezerwacja===
+==Scen01, rezerwacja==
 *Klient* (indywidualny, firma) dzwoni, faksuje, mejluje i podaje co chce zarezerować: ile osób, pokoi, usług dodatkowych (parking, ognisko ..), czas pobytu od -do
 Recepcjonistka
 czy pokoje, usługi są dostępne
