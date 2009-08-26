@@ -14,7 +14,7 @@ Tworzenie listy usług, cenników, rabatów
 ==Rezerwacja==
 Prowadzenie rezerwacji miejsc hotelowych oraz usług dodatkowych
 Obsługa osób indywidualnych i grup
-Obsługa „cyklu życiowego” rezerwacji: wstępna, potwierdzona, niepotwierdzona, gwarantowana, zablokowana, internetowa, specjalna, warunkowa
+Obsługa „cyklu życiowego” rezerwacji: wstępna, potwierdzona, niepotwierdzona, internetowa
 
 ==Recepcja==
 
@@ -33,11 +33,9 @@ Emisja danych do biura rachunkowego
 
 ==Scenariusze użycia==
 
-Scen01, rezerwacja
-Klient (indywidualny, firma) dzwoni, faksuje, mejluje i podaje co chce zarezerować: ile osób, pokoi, usług dodatkowych (parking, ognisko ..), czas pobytu od -do
+===Scen01, rezerwacja===
+*Klient* (indywidualny, firma) dzwoni, faksuje, mejluje i podaje co chce zarezerować: ile osób, pokoi, usług dodatkowych (parking, ognisko ..), czas pobytu od -do
 Recepcjonistka
-sprawdzić, czy klient/firma nie jest na „czarnej liście”
-czy przysługują rabaty, specjalne cenniki
 czy pokoje, usługi są dostępne
 podać cenę (z uwzględnieniem rabatu, cenników)
 podać wysokość zaliczki i termin zapłacenia
