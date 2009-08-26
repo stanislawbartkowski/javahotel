@@ -34,7 +34,7 @@ import javax.persistence.NamedQuery;
 */
 @NamedQueries({
 @NamedQuery(name = "getParamsLike", query = "SELECT Object(o) FROM ParamRegistry o WHERE (o.hotel = :hotel) AND (o.name LIKE :namelike)") ,
-@NamedQuery(name = "getValidationsForDay", query = "SELECT Object(o) FROM AdvancePayment o WHERE o.bill.booking.season.hotel = :hotel"),
+@NamedQuery(name = "getValidationsForDay", query = "SELECT Object(o) FROM AdvancePayment o WHERE o.bill.booking.hotel = :hotel"),
 @NamedQuery(name = "getObjectResState", query = "SELECT Object(o) FROM PaymentRow o WHERE ((o.rowFrom<= :dTo) AND (o.rowTo >= :dFrom) AND (o.bookelem.resObject = :oName) AND (o.bookelem.bookrecord.booking.hotel = :hotel))"),
 @NamedQuery(name = "getBookingList", query = "SELECT Object(o) FROM Booking o WHERE o.hotel.name = :hotel"),
 @NamedQuery(name = "getOnePriceList", query = "SELECT Object(o) FROM OfferPrice o WHERE o.hotel = :hotel AND o.season = :seasonname AND o.name = :name"),

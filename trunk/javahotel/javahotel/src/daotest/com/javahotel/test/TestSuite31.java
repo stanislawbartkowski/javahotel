@@ -62,7 +62,7 @@ public class TestSuite31 extends TestHelper {
         assertEquals(1,col.size());
         for (BookRecordP br : col) {
         	assertNotNull(br.getSeqId());
-        	assertEquals(1,br.getSeqId());
+        	assertEquals(new Long(1),new Long(br.getSeqId()));
         }
     }
 
@@ -100,11 +100,11 @@ public class TestSuite31 extends TestHelper {
         	Integer sid = br.getSeqId();
         	if (lp.intValue() == 1) {
         		noc++;
-        		assertEquals(1,sid);
+        		assertEquals(new Integer(1),sid);
         	}
         	if (lp.intValue() == 2) {
         		noc++;
-        		assertEquals(2,sid);        		
+        		assertEquals(new Integer(2),sid);
         	}        	
         }    
         assertEquals(2,noc);
@@ -138,7 +138,7 @@ public class TestSuite31 extends TestHelper {
         assertEquals(1,col.size());
         for (BookRecordP br : col) {
         	assertNotNull(br.getSeqId());
-        	assertEquals(3,br.getSeqId());
+        	assertEquals(new Integer(3),br.getSeqId());
         }
     	
     }
@@ -159,7 +159,7 @@ public class TestSuite31 extends TestHelper {
         assertEquals(1,col.size());
         for (BookRecordP br : col) {
         	assertNotNull(br.getSeqId());
-        	assertEquals(4,br.getSeqId());
+        	assertEquals(new Integer(4),br.getSeqId());
         }
 
     }

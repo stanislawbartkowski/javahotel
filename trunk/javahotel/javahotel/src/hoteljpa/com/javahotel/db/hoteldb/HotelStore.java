@@ -17,6 +17,8 @@ import java.util.Collection;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.commoncache.CollCache;
 import com.javahotel.db.authentication.impl.GetList;
+import com.javahotel.dbres.log.HLog;
+import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.dbres.resources.IMess;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
@@ -27,75 +29,42 @@ import com.javahotel.remoteinterfaces.SessionT;
  */
 public class HotelStore {
 
-	private static CollCache<String> ca;
+    private static CollCache<String> ca;
 
-	static {
-		ca = new CollCache<String>(IMess.HOTELCACHEID);
-	}
 
-	public static void invalidateCache() {
-		ca.clearT();
-	}
+    static {
+        ca = new CollCache<String>(IMess.HOTELCACHEID);
+    }
 
-	private static void checkD(final SessionT se) {
-		if (ca.EmptyT()) {
-			readD(se);
-		}
-	}
+    public static void invalidateCache() {
+        ca.clearT();
+    }
 
-	public static boolean isHotel(final SessionT se, final HotelT ho) {
-		checkD(se);
-		String da = ca.get(ho.getName());
-		return da != null;
-	}
+    private static void checkD(final SessionT se) {
+        if (ca.EmptyT()) {
+            readD(se);
+        }
+    }
 
-	public static String getDatabase(final SessionT se, final HotelT ho) {
-		checkD(se);
-		String da = ca.get(ho.getName());
-		return da;
-	}
+    public static boolean isHotel(final SessionT se, final HotelT ho) {
+        checkD(se);
+        String da = ca.get(ho.getName());
+        return da != null;
+    }
 
-	// private static Map<String, String> cache;
-	//
-	// static {
-	// invalidateCache();
-	// }
-	//
-	// private HotelStore() {
-	// }
-	//
-	// public static void invalidateCache() {
-	// cache = null;
-	// }
-	//
-	// synchronized private static void checkCache(final SessionT se) {
-	// if (cache == null) {
-	// readD(se);
-	// }
-	// }
-	//
-	private static void readD(final SessionT se) {
-		Collection<HotelP> ho = GetList.getHotelList(se);
-		for (HotelP h : ho) {
-			ca.addT(h.getName(), h.getDatabase());
-		}
-	}
-	//
-	// public static boolean isHotel(final SessionT se, final HotelT ho) {
-	// checkCache(se);
-	//
-	// String da = cache.get(ho.getName());
-	// return da != null;
-	// }
-	//
-	// public static String getDatabase(final SessionT se, final HotelT ho) {
-	//
-	// checkCache(se);
-	//
-	// String da = cache.get(ho.getName());
-	// if (da == null) {
-	// HLog.failureE(IMessId.UNKNOWNHOTEL, ho.getName());
-	// }
-	// return da;
-	// }
+    public static String getDatabase(final SessionT se, final HotelT ho) {
+        checkD(se);
+        String da = ca.get(ho.getName());
+        if (da == null) {
+            HLog.failureE(IMessId.UNKNOWNHOTEL, ho.getName());
+        }
+        return da;
+    }
+
+    private static void readD(final SessionT se) {
+        Collection<HotelP> ho = GetList.getHotelList(se);
+        for (HotelP h : ho) {
+            ca.addT(h.getName(), h.getDatabase());
+        }
+    }
 }

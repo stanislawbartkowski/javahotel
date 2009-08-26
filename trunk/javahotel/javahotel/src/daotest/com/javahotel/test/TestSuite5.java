@@ -1,6 +1,14 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2009 stanislawbartkowski@gmail.com
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.javahotel.test;
 
@@ -23,18 +31,27 @@ import static org.junit.Assert.*;
  */
 public class TestSuite5 extends TestHelper {
 
-//    @Test
+    /**
+     * Negative test : try persist object in nonexistring hotel
+     * 1. Set object for non-existring hotel
+     * 2. Persist object
+     * Expected result: exception
+     */
+    @Test
     public void Test1() throws Exception {
         System.out.println("Negative test");
         loginuser();
         try {
+            // 1.
             DictionaryP a = new DictionaryP();
             a.setName("internet");
             a.setHotel("nonhotel");
+            // 2.
             hot.persistDic(se, DictType.RoomFacility, a);
+            // failure
             fail();
         } catch (Exception e) {
-            // expected
+            // expected result
         }
     }
 
@@ -87,14 +104,24 @@ public class TestSuite5 extends TestHelper {
         }
     }
 
+
+    /**
+     * Simple test: persist object in existing hotel
+     * 1. Set object
+     * 2. Persist object
+     * Expected result: no exception
+     */
     @Test
     public void Test2() throws Exception {
         System.out.println("Persist element");
         loginuser();
+        // 1.
         DictionaryP a = new DictionaryP();
         a.setName("internet");
         a.setHotel(HOTEL1);
+        // 2.
         hot.persistDic(se, DictType.RoomFacility, a);
+        // Expected result
     }
 
     @Test

@@ -29,70 +29,69 @@ import com.javahotel.remoteinterfaces.HotelT;
 
 public class CommonHelper {
 
-	public static JpaEntity getAutJPA() {
+    public static JpaEntity getAutJPA() {
 
-		JpaEntity jpa = new JpaEntity(new JpaDataId(GetProp.getSeID()), HLog
-				.getL());
-		return jpa;
-	}
+        JpaEntity jpa = new JpaEntity(new JpaDataId(GetProp.getSeID()), HLog.getL());
+        return jpa;
+    }
 
-	synchronized public static RHotel getH(final ICommandContext iC,
-			final HotelT hotel) {
-		RHotel o = iC.getJpa().getOneWhereRecord(RHotel.class, "name",
-				hotel.getName());
-		if (o == null) {
-			o = new RHotel();
-			o.setName(hotel.getName());
-			addTraObject(iC, o);
-		}
-		return o;
-	}
+    synchronized public static RHotel getH(final ICommandContext iC,
+            final HotelT hotel) {
+        RHotel o = iC.getJpa().getOneWhereRecord(RHotel.class, "name",
+                hotel.getName());
+        if (o == null) {
+            o = new RHotel();
+            o.setName(hotel.getName());
+            addTraObject(iC, o);
+        }
+        return o;
+    }
 
-	private static <T> void addCol(final ICommandContext iC,
-			final Collection<T> col) {
-		for (T o : col) {
-			iC.getJpa().addRecord(o);
-		}
-	}
+    private static <T> void addCol(final ICommandContext iC,
+            final Collection<T> col) {
+        for (T o : col) {
+            iC.getJpa().addRecord(o);
+        }
+    }
 
-	public static <T> void addTraCollection(final ICommandContext iC,
-			final Collection<T> col) {
+    public static <T> void addTraCollection(final ICommandContext iC,
+            final Collection<T> col) {
 
-		if (iC.getJpa().tranIsActive()) {
-			addCol(iC, col);
-		} else {
-			iC.getJpa().startTransaction(true);
-			addCol(iC, col);
-			iC.getJpa().endTransaction(true);
-		}
-	}
+        if (iC.getJpa().tranIsActive()) {
+            addCol(iC, col);
+        } else {
+            iC.getJpa().startTransaction(true);
+            addCol(iC, col);
+            iC.getJpa().endTransaction(true);
+        }
+    }
 
-	static <T> void addTraObject(final ICommandContext iC, final T o) {
-		Collection<T> col = new ArrayList<T>();
-		col.add(o);
-		addTraCollection(iC, col);
+    static <T> void addTraObject(final ICommandContext iC, final T o) {
+        Collection<T> col = new ArrayList<T>();
+        col.add(o);
+        addTraCollection(iC, col);
 
-	}
+    }
 
-	public static <T> T getA(final ICommandContext iC, final Class<?> cla,
-			final String name) {
-		IHotelDictionary o = GetQueries.getD(iC, cla, iC.getRHotel(), name);
-		return (T) o;
-	}
+    public static <T> T getA(final ICommandContext iC, final Class<?> cla,
+            final String name) {
+        IHotelDictionary o = GetQueries.getD(iC, cla, iC.getRHotel(), name);
+        return (T) o;
+    }
 
-	public static OfferPrice getOneOffer(final ICommandContext iC,
-			final String seasonName, final String offerName) {
-		OfferPrice o = GetQueries.getOnePriceList(iC, seasonName, offerName);
-		return o;
-	}
+    public static OfferPrice getOneOffer(final ICommandContext iC,
+            final String seasonName, final String offerName) {
+        OfferPrice o = GetQueries.getOnePriceList(iC, seasonName, offerName);
+        return o;
+    }
 
-	public static <T extends IPureDictionary> T getName(
-			final Collection<? extends IPureDictionary> col, final String name) {
-		for (IPureDictionary t : col) {
-			if (t.getName().equals(name)) {
-				return (T) t;
-			}
-		}
-		return null;
-	}
+    public static <T extends IPureDictionary> T getName(
+            final Collection<? extends IPureDictionary> col, final String name) {
+        for (IPureDictionary t : col) {
+            if (t.getName().equals(name)) {
+                return (T) t;
+            }
+        }
+        return null;
+    }
 }
