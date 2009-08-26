@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adminusers>
+	<adminuser>
+		<name>admin</name>
+		<password>admin</password>
+	</adminuser>
+	<adminuser>
+		<name>admin</name>
+		<password>rybka</password>
+	</adminuser>
+	<adminuser>
+		<name>admindb</name>
+		<password>passworddb</password>
+	</adminuser>
+</adminusers>

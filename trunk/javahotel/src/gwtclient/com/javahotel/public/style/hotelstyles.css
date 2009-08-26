@@ -1,0 +1,76 @@
+/* 
+    Document   : hotelstyles
+    Created on : Jun 24, 2008, 11:01:40 PM
+    Author     : hotel
+    Description:
+        Purpose of the stylesheet follows.
+*/ 
+/* -----------------------*/
+.dialog-empty-field {
+	border: 2px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-style: solid;
+	border-top-color: #ff6666;
+	border-bottom-color: #ff6666;
+	border-left-color: #ff6666;
+	border-right-color: #ff6666;
+}
+
+/* ---------------------- */
+.error-reply {
+	background-color: red;
+}
+
+.wait-reply {
+	background-color: #b5fede;
+	width : 75px;
+}
+
+.header-panel {
+	background-color: #b5febe;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 4px;
+}
+
+.header-panel .product-name {
+	font-size: larger;
+}
+
+.header-panel .hotel-name {
+	color: #000066;
+}
+
+/* --------------- */
+.reserved-no-confirmed {
+	background-color: yellow;
+}
+
+.reserved-confirmed {
+	background-color: #7FFF00;
+}
+
+.reserved-stay {
+	background-color: red;
+}
+
+/* color for the today */
+.res-today {
+	border: 1px solid green;
+}
+
+/* ----------------------------------- */
+/* style for stack  button (left side)  */
+/* ----------------------------------- */
+.stack-button {
+	width: 100px;
+}
+
+/* ------------------------- */ 
+/* additional style for date */
+/* ------------------------- */
+.calendar-date {
+	width: 100px;
+}
