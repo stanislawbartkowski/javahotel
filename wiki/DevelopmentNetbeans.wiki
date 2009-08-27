@@ -97,3 +97,68 @@ Add also Junit3 (package column unchecked)
 "Java class library" project
 Type: subproject
 Subprojects: HotelLoginHelper, HotelCommon
+
+=Set up Glassfish application server=
+
+==Admin and users for EJB unit tests==
+
+If EJB unit tests are not run this step is not necessary
+
+Configuration-Security-Realms:
+
+Two realms should be created: *TestHotelAdmin* and *TestHotelUsers*
+
+*TestHotelAdmin* could be defined "FileRealm" (or any other) and contain one user *admin* belonging to group *admin*
+
+*TestHotelUsers* should be defined as JDBCRealms and have JNDI name:  dbc/hotelsecuritytest
+
+Field mapping should be defined as below.
+
+==Admin and users==
+
+Two realms should be created: *HotelAdmin* and *HotelUsers*
+
+*HotelAdmin* could be defined "FileRealm" (or any other) and should contain (mandatory) user: *admindb* (with password *admindb*) belonging to the group *admin*. This user is used at the beginning to set up database and is not allowed to do anything else.
+Also at least one additional user should be added (belonging to the group *admin*). This user can login to the system as 'Administrator'
+
+*HotelUsers* should be define as JDBCRealsm abd have JNDI name: jdbc/datahotel
+
+Followig field mapping should be created:
+
+ * User Table: PERSON
+	
+ * User Name Column: NAM
+  
+ *Password Column: PASSWORD
+	
+ *Group Table: GROUPD
+  
+ *Group Name Column: GROUPNAME
+
+
+==Database for EJB unit tests==
+
+If EJB unit tests are not run this step is not necessary
+
+Resources - JDBC - JDBC Resources
+
+Two JDBC datasource should be created:	
+
+ * jdbc/hotelsecuritytest : contains users and password
+ * jdbc/hoteldbtest : database
+
+==Database==
+
+Resources - JDBC - JDBC Resources
+
+Two JDBC datasource should be created:	
+
+ * jdbc/securityhotel : contains users and password
+ * jdbc/datahoteldb2 : database (if DB2 is used)
+
+===Derby database - run as client ===
+
+Resources - JDBC - Connection Pool
+
+Data source class name : org.apache.derby.jdbc.ClientDataSource
+
