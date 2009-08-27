@@ -136,7 +136,9 @@ Followig field mapping should be created:
  *Group Name Column: GROUPNAME
 
 
-==Database for EJB unit tests==
+==Database==
+
+===Database for EJB unit tests===
 
 If EJB unit tests are not run this step is not necessary
 
@@ -147,7 +149,7 @@ Two JDBC datasource should be created:
  * jdbc/hotelsecuritytest : contains users and password
  * jdbc/hoteldbtest : database
 
-==Database==
+===Database===
 
 Resources - JDBC - JDBC Resources
 
@@ -156,9 +158,8 @@ Two JDBC datasource should be created:
  * jdbc/securityhotel : contains users and password
  * jdbc/datahoteldb2 : database (if DB2 is used)
 
-===Derby database - run as client ===
+==Derby database - run as client ==
 
 Resources - JDBC - Connection Pool
 
 Data source class name : org.apache.derby.jdbc.ClientDataSource
-
