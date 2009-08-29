@@ -61,46 +61,68 @@ For all project create links to source as described in table above.
 
 == HotelCommon ==
 "Java class library" project.
+
 Type: Subproject
 
 == HotelEJB ==
 "JavaEE EJB Module" project
+
 Type: deployable
+
 Subprojects: HotelCommon,  HotelEJBLogin
+
 Additional: should contain in 'claspath' appserv-rt.jar (jar taken from glassfish), as it uses specific glassfish security login option.
 
 == HotelEJBLogin ==
+
 "Java class library" project
+
 Type: subproject
+
 Subproject: HotelCommon
 
 == HotelEJBTest ==
 "Java class library" project
+
 Type: runnable
+
 Subproject: HotelCommon, HotelEJBLogin, HotelLoginHelper (package column checked)
+
 Additonal: JUnit4
 
-==HotelLoginHelper==
+== HotelLoginHelper ==
+
 "Java class library" project
+
 Type: subproject
+
 Subproject: HotelCommon
 
-==HotelWeb==
+== HotelWeb ==
+
 "Java Web" - "WebApplication"
+
 Add framework: "Google Web Toolkit"
+
 Type: deployable
+
 Subprojects: HotelCommon, HotelLoginHelper, WebHotelHelper (package column checked)
+
 Add two jars from javahotel/resource/gwtwar/modules (package column unchecked)
+
 Add also Junit3 (package column unchecked)
 
-==WebHotelHelper==
+== WebHotelHelper ==
+
 "Java class library" project
+
 Type: subproject
+
 Subprojects: HotelLoginHelper, HotelCommon
 
-=Set up Glassfish application server=
+= Set up Glassfish application server =
 
-==Admin and users for EJB unit tests==
+== Admin and users for EJB unit tests ==
 
 If EJB unit tests are not run this step is not necessary
 
@@ -110,7 +132,7 @@ Two realms should be created: *TestHotelAdmin* and *TestHotelUsers*
 
 *TestHotelAdmin* could be defined "FileRealm" (or any other) and contain one user *admin* belonging to group *admin*
 
-*TestHotelUsers* should be defined as JDBCRealms and have JNDI name:  dbc/hotelsecuritytest
+*TestHotelUsers* should be defined as JDBCRealms and have JNDI name:  jdbc/hotelsecuritytest
 
 Field mapping should be defined as below.
 
@@ -121,9 +143,9 @@ Two realms should be created: *HotelAdmin* and *HotelUsers*
 *HotelAdmin* could be defined "FileRealm" (or any other) and should contain (mandatory) user: *admindb* (with password *admindb*) belonging to the group *admin*. This user is used at the beginning to set up database and is not allowed to do anything else.
 Also at least one additional user should be added (belonging to the group *admin*). This user can login to the system as 'Administrator'
 
-*HotelUsers* should be define as JDBCRealsm abd have JNDI name: jdbc/datahotel
+*HotelUsers* should be define as JDBCRealsm and have JNDI name: jdbc/datahotel
 
-Followig field mapping should be created:
+Following field mapping should be created:
 
  * User Table: PERSON
 	
@@ -136,9 +158,9 @@ Followig field mapping should be created:
  *Group Name Column: GROUPNAME
 
 
-==Database==
+== Database ==
 
-===Database for EJB unit tests===
+=== Database for EJB unit tests ===
 
 If EJB unit tests are not run this step is not necessary
 
@@ -149,7 +171,7 @@ Two JDBC datasource should be created:
  * jdbc/hotelsecuritytest : contains users and password
  * jdbc/hoteldbtest : database
 
-===Database===
+=== Database ===
 
 Resources - JDBC - JDBC Resources
 
