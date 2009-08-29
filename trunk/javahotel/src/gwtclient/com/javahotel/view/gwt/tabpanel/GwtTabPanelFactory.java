@@ -14,8 +14,8 @@
 package com.javahotel.view.gwt.tabpanel;
 
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.tabpanel.IDrawTabPanel;
-import com.javahotel.client.dialog.tabpanel.TabPanelElem;
+import com.javahotel.client.panelcommand.EPanelCommand;
+import com.javahotel.view.IDrawTabPanel;
 import java.util.ArrayList;
 
 /**
@@ -29,8 +29,8 @@ public class GwtTabPanelFactory {
     }
 
     public static IDrawTabPanel getPanel(final IResLocator rI,
-            final ArrayList<TabPanelElem> pList) {
-        return new GwtTabPanel(rI,pList);
+            final ArrayList<EPanelCommand> pList) {
+        return new NGwtTabPanel(rI,pList);
     }
 
 }

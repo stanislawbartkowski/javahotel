@@ -10,18 +10,34 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.javahotel.client.panelcommand;
 
-package com.javahotel.client.stackmenu.model;
-
-import com.javahotel.client.dialog.IGwtWidget;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.DefaultMvcWidget;
+import com.javahotel.client.dialog.IMvcWidget;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public interface IStackButtonClick extends IGwtWidget {
+class RoomsAdmin implements IPanelCommand {
 
-    void beforeDrawAction();
-    void drawAction();
+    private PokojePanel pa;
+    private final IResLocator rI;
 
+    RoomsAdmin(IResLocator rI) {
+        this.rI = rI;
+
+    }
+
+    public IMvcWidget getMWidget() {
+        return new DefaultMvcWidget(pa.getMWidget().getWidget());
+    }
+
+    public void beforeDrawAction() {
+        pa = new PokojePanel(rI);
+    }
+
+    public void drawAction() {
+    }
 }

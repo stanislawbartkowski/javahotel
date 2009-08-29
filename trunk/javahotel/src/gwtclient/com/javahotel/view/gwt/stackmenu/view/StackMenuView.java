@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcWidget;
-import com.javahotel.client.stackmenu.model.IStackButtonClick;
+import com.javahotel.client.panelcommand.IPanelCommand;
 import com.javahotel.client.stackmenu.model.IStackMenuModel;
 import com.javahotel.client.stackmenu.model.StackButtonElem;
 import com.javahotel.client.stackmenu.model.StackButtonHeader;
@@ -52,7 +52,7 @@ class StackMenuView implements IStackMenuView {
                 ClickListener cli = new ClickListener() {
 
                     public void onClick(Widget sender) {
-                        IStackButtonClick c = bu.getBClick();
+                        IPanelCommand c = bu.getBClick();
                         c.beforeDrawAction();
                         iCLicked.ClickedView(c);
                         c.drawAction();

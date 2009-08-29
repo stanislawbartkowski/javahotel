@@ -10,44 +10,37 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dialog.user;
+package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.IMvcWidget;
-import com.javahotel.client.dialog.tabpanel.IDrawTabPanel;
-import com.javahotel.client.dialog.tabpanel.TabPanelElem;
-import com.javahotel.common.command.DictType;
+import com.javahotel.view.IDrawTabPanel;
 import java.util.ArrayList;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-class PokojePanel implements IGwtWidget  {
+class PokojePanel implements IGwtWidget {
 
     public IMvcWidget getMWidget() {
         return tPanel.getMWidget();
     }
-
     private final IDrawTabPanel tPanel;
-
-    private final ArrayList<TabPanelElem> pList = new ArrayList<TabPanelElem>();
     private final IResLocator rI;
 
-    private void initP() {
-        pList.add(new TabPanelElem("Standard", DictType.RoomStandard));
-        pList.add(new TabPanelElem("Wyposażenie", DictType.RoomFacility));
-        pList.add(new TabPanelElem("Pokoje", DictType.RoomObjects));
-        pList.add(new TabPanelElem("Vat", DictType.VatDict));
-        pList.add(new TabPanelElem("Lista usług", DictType.ServiceDict));
-        pList.add(new TabPanelElem("Sezony", DictType.OffSeasonDict));
-        pList.add(new TabPanelElem("Cenniki", DictType.PriceListDict));
-        pList.add(new TabPanelElem("Klienci", DictType.CustomerList));
-    }
     PokojePanel(final IResLocator rI) {
         this.rI = rI;
-        initP();
-        tPanel = rI.getView().getTabPanel(rI, pList);
+        ArrayList<EPanelCommand> aList = new ArrayList<EPanelCommand>();
+        aList.add(EPanelCommand.STANDARD);
+        aList.add(EPanelCommand.FACILITY);
+        aList.add(EPanelCommand.ROOMS);
+        aList.add(EPanelCommand.VAT);
+        aList.add(EPanelCommand.SERVICES);
+        aList.add(EPanelCommand.SEASON);
+        aList.add(EPanelCommand.PRICES);
+        aList.add(EPanelCommand.CUSTOMERS);
+        tPanel = rI.getView().getTabPanel(rI, aList);
     }
 }

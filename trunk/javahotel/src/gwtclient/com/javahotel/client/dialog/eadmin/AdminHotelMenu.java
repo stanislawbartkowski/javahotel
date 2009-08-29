@@ -29,15 +29,15 @@ import java.util.ArrayList;
  */
 class AdminHotelMenu implements IGwtWidget {
 
-	private final IStackMenuView iView;
+    private final IStackMenuView iView;
 
-	AdminHotelMenu(IResLocator rI, IStackMenuClicked iClicked) {
-		ArrayList<StackButtonHeader> hList = AdminHotelFactory.getAList(rI);
-		IStackMenuModel iModel = StackMenuModelFactory.getModel(hList);
-		iView = StackMenuViewFactory.getStackView(rI, iModel, iClicked);
-	}
+    AdminHotelMenu(IResLocator rI, IStackMenuClicked iClicked) {
+        ArrayList<StackButtonHeader> hList = AdminHotelFactory.getAList(rI);
+        IStackMenuModel iModel = StackMenuModelFactory.getModel(hList);
+        iView = StackMenuViewFactory.getStackView(rI, iModel, iClicked);
+    }
 
-	public IMvcWidget getMWidget() {
-		return iView.getMWidget();
-	}
+    public IMvcWidget getMWidget() {
+        return iView.getMWidget();
+    }
 }

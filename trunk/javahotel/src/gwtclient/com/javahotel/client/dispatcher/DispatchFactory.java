@@ -14,13 +14,11 @@ package com.javahotel.client.dispatcher;
 
 public class DispatchFactory {
 
-	private DispatchFactory() {
+    private DispatchFactory() {
+    }
 
-	}
+    public static IDispatch createDispatch() {
+        return new Dispatch();
 
-	public static IDispatch createDispatch() {
-		return new Dispatch();
-
-	}
-
+    }
 }

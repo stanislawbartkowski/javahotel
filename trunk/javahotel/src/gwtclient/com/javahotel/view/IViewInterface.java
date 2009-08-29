@@ -19,14 +19,13 @@ import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.GridCellType;
 import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.dialog.MvcWindowSize;
-import com.javahotel.client.dialog.tabpanel.IDrawTabPanel;
-import com.javahotel.client.dialog.tabpanel.TabPanelElem;
 import com.javahotel.client.mvc.checkmodel.ICheckDictModel;
 import com.javahotel.client.mvc.gridmodel.model.view.IGridView;
 import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.IRecordViewFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
 import com.javahotel.client.panel.IWebHotelPanel;
+import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.stackmenu.model.IStackMenuModel;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 import com.javahotel.client.stackmenu.view.IStackMenuView;
@@ -54,7 +53,7 @@ public interface IViewInterface {
 
     MvcWindowSize getSize(DictData da);
 
-    IDrawTabPanel getTabPanel(IResLocator rI, ArrayList<TabPanelElem> pList);
+    IDrawTabPanel getTabPanel(IResLocator rI, ArrayList<EPanelCommand> pList);
 
     IRecordViewFactory getViewFactory(IResLocator rI);
 

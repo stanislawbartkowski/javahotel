@@ -10,20 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.stackmenu.model;
+
+import com.javahotel.client.panelcommand.IPanelCommand;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
 public class StackButtonElem {
-    
+
     private final String bName;
-    private final IStackButtonClick bClick;
+    private final IPanelCommand bClick;
     private final String iName;
 
-    public StackButtonElem(String bName,IStackButtonClick bCLick) {
+    public StackButtonElem(String bName, IPanelCommand bCLick) {
         this.bName = bName;
         this.bClick = bCLick;
         this.iName = null;
@@ -39,7 +40,7 @@ public class StackButtonElem {
     /**
      * @return the bClick
      */
-    public IStackButtonClick getBClick() {
+    public IPanelCommand getBClick() {
         return bClick;
     }
 
@@ -49,5 +50,4 @@ public class StackButtonElem {
     public String getIName() {
         return iName;
     }
-
 }

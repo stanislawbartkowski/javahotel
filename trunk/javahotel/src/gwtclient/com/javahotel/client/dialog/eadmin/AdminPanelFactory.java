@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.dialog.eadmin;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.panel.IUserPanelMenuFactory;
+import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 
 /**
@@ -24,19 +24,23 @@ import com.javahotel.client.stackmenu.view.IStackMenuClicked;
  */
 public class AdminPanelFactory {
 
-	private AdminPanelFactory() {
-	}
+    private AdminPanelFactory() {
+    }
 
-	public static IUserPanelMenuFactory getFactory() {
+    public static IUserPanelMenuFactory getFactory() {
 
-		IUserPanelMenuFactory i = new IUserPanelMenuFactory() {
+        IUserPanelMenuFactory i = new IUserPanelMenuFactory() {
 
-			public IGwtWidget getMenuPanel(final IResLocator rI,
-					final IStackMenuClicked iClicked) {
-				return new AdminHotelMenu(rI, iClicked);
-			}
-		};
+            public IGwtWidget getMenuPanel(final IResLocator rI,
+                    final IStackMenuClicked iClicked) {
+                return new AdminHotelMenu(rI, iClicked);
+            }
 
-		return i;
-	}
+            public EPanelCommand getCentreWidget(IResLocator rI) {
+                return null;
+            }
+        };
+
+        return i;
+    }
 }

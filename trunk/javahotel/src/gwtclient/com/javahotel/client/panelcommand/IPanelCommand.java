@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2009 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,26 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dialog.user;
+package com.javahotel.client.panelcommand;
 
-import com.google.gwt.user.client.ui.Composite;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.user.booking.BookingObjects;
+import com.javahotel.client.dialog.IGwtWidget;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-class BookingPanel extends Composite {
-	private final BookingObjects bO;
-	
-    BookingPanel(final IResLocator rI) {
-        bO = new BookingObjects(rI);
-        initWidget(bO);
-    }
-    
-    void draw() {
-    	bO.draw();
-    	
-    }
+public interface IPanelCommand extends IGwtWidget {
+
+    void beforeDrawAction();
+
+    void drawAction();
 }
