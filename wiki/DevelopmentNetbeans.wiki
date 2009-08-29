@@ -151,11 +151,11 @@ Following field mapping should be created:
 	
  * User Name Column: NAM
   
- *Password Column: PASSWORD
+ * Password Column: PASSWORD
 	
- *Group Table: GROUPD
+ * Group Table: GROUPD
   
- *Group Name Column: GROUPNAME
+ * Group Name Column: GROUPNAME
 
 
 == Database ==
