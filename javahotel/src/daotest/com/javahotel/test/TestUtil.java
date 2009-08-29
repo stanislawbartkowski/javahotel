@@ -31,10 +31,10 @@ import com.javahotel.remoteinterfaces.SessionT;
  * @author stanislawbartkowski@gmail.com
  */
 public class TestUtil {
-	private static final HotelServerType t = HotelServerType.GLASSFISH;
+	// private static final HotelServerType t = HotelServerType.GLASSFISH;
 	// private static final HotelServerType t = HotelServerType.APPENGINE;
 	// private static final HotelServerType t = HotelServerType.JBOSS;
-	// private static final HotelServerType t = HotelServerType.TOMCAT;
+	private static final HotelServerType t = HotelServerType.TOMCAT;
 	private static final boolean remote = true;
 	private static String LOCALBEANGLASS = "securityTestEJB";
 

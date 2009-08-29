@@ -10,35 +10,35 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dialog.tabpanel;
+package com.javahotel.client.panelcommand;
 
-import com.javahotel.common.command.DictType;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.user.downpayment.DownPaymentControler;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public class TabPanelElem {
+class PrePaid implements IPanelCommand {
 
-    private final String pName;
-    private final DictType d;
+    private DownPaymentControler pa;
+    private final IResLocator rI;
 
-    public TabPanelElem(String p, DictType d) {
-        this.pName = p;
-        this.d = d;
+    PrePaid(IResLocator rI) {
+        this.rI = rI;
+
     }
 
-    /**
-     * @return the pName
-     */
-    public String getPName() {
-        return pName;
+    public void beforeDrawAction() {
+        pa = new DownPaymentControler(rI);
     }
 
-    /**
-     * @return the d
-     */
-    public DictType getD() {
-        return d;
+    public IMvcWidget getMWidget() {
+        return pa.getMWidget();
+    }
+
+    public void drawAction() {
+        pa.show();
     }
 }

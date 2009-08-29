@@ -27,27 +27,29 @@ public interface HoLabel extends Constants {
 
     String productName();
 
-    Map<String,String> Roles();
+    Map<String, String> Roles();
 
-    Map<String,String> Services();
+    Map<String, String> Services();
 
-    Map<String,String> SeasonNames();
+    Map<String, String> SeasonNames();
 
-    Map<String,String> CustomerType();
+    Map<String, String> CustomerType();
 
-    Map<String,String> PeriodType();
+    Map<String, String> PeriodType();
 
-    Map<String,String> BookingStateType();
+    Map<String, String> BookingStateType();
 
-    Map<String,String> PaymentMethod();
+    Map<String, String> PaymentMethod();
 
-    Map<String,String> HotelRoles();
+    Map<String, String> HotelRoles();
 
-    Map<String,String> PTitles();
+    Map<String, String> PTitles();
 
-    Map<String,String> DocTypes();
-    
+    Map<String, String> DocTypes();
+
+    Map<String, String> PanelLabelNames();
+
     String PasswordDifferent();
-    
+
     String LogoutQuestion();
-}    
+}

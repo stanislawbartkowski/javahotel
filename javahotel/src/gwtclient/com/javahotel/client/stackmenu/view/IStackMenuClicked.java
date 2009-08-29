@@ -13,7 +13,7 @@
 
 package com.javahotel.client.stackmenu.view;
 
-import com.javahotel.client.stackmenu.model.IStackButtonClick;
+import com.javahotel.client.panelcommand.IPanelCommand;
 
 /**
  *
@@ -21,6 +21,6 @@ import com.javahotel.client.stackmenu.model.IStackButtonClick;
  */
 public interface IStackMenuClicked {
 
-    void ClickedView(IStackButtonClick clicked);
+    void ClickedView(IPanelCommand clicked);
 
 }

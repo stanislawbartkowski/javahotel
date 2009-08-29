@@ -10,13 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dialog;
+package com.javahotel.client.panelcommand;
+
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.IMvcWidget;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public enum GridCellType {
+class ClearHotelDataCommand implements IPanelCommand {
 
-    BOOLEAN, NUMERIC;
+    private final IResLocator rI;
+    private ClearHotelDataWidget ha;
+
+    ClearHotelDataCommand(IResLocator rI) {
+        this.rI = rI;
+    }
+
+    public void beforeDrawAction() {
+        ha = new ClearHotelDataWidget(rI);
+    }
+
+    public void drawAction() {
+        ha.drawData();
+    }
+
+    public IMvcWidget getMWidget() {
+        return ha.getW();
+    }
 }

@@ -10,13 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dialog;
+
+package com.javahotel.view;
+
+import com.javahotel.client.dialog.tabpanel.*;
+import com.javahotel.client.dialog.IGwtWidget;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public enum GridCellType {
+public interface IDrawTabPanel extends IGwtWidget {
 
-    BOOLEAN, NUMERIC;
 }

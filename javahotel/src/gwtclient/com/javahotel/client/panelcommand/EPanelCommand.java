@@ -10,13 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dialog;
+package com.javahotel.client.panelcommand;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public enum GridCellType {
+public enum EPanelCommand {
 
-    BOOLEAN, NUMERIC;
+    PERSON, HOTEL, REMOVEDATA,
+    BOOKING, PREPAID, BOOKINGPANEL, ROOMSADMIN,
+    ROOMS, SERVICES, VAT, CUSTOMERS, SEASON, PRICES,STANDARD,FACILITY
 }

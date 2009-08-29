@@ -16,7 +16,6 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.javahotel.dbres.resources.IMess;
 import com.javahotel.dbutil.log.GetLogger;
 import com.javahotel.dbutil.prop.ReadProperties;
 

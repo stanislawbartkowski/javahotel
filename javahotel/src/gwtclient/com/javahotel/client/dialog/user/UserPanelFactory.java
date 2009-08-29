@@ -15,6 +15,7 @@ package com.javahotel.client.dialog.user;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.panel.IUserPanelMenuFactory;
+import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 
 /**
@@ -32,7 +33,12 @@ public class UserPanelFactory {
 
             public IGwtWidget getMenuPanel(final IResLocator rI,
                     final IStackMenuClicked iClicked) {
-                return new AdminShortcutMenu(rI, iClicked);
+//                return new AdminShortcutMenu(rI, iClicked);
+                return null;
+            }
+
+            public EPanelCommand getCentreWidget(IResLocator rI) {
+                return EPanelCommand.BOOKINGPANEL;
             }
         };
 

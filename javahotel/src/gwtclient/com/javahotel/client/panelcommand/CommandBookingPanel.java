@@ -10,16 +10,35 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.javahotel.client.panelcommand;
 
-package com.javahotel.client.dialog.tabpanel;
-
-import com.javahotel.client.dialog.IGwtWidget;
-import java.util.ArrayList;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.DefaultMvcWidget;
+import com.javahotel.client.dialog.IMvcWidget;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public interface IDrawTabPanel extends IGwtWidget {
+class CommandBookingPanel implements IPanelCommand {
 
+    private BookingPanel pa;
+    private final IResLocator rI;
+
+    CommandBookingPanel(IResLocator rI) {
+        this.rI = rI;
+
+    }
+
+    public void beforeDrawAction() {
+        pa = new BookingPanel(rI);
+    }
+
+    public IMvcWidget getMWidget() {
+        return new DefaultMvcWidget(pa);
+    }
+
+    public void drawAction() {
+        pa.draw();
+    }
 }

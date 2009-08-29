@@ -12,33 +12,30 @@
  */
 package com.javahotel.view.gwt.tabpanel;
 
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
-import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IMvcWidget;
-import com.javahotel.client.dialog.tabpanel.IDrawTabPanel;
-import com.javahotel.client.dialog.tabpanel.TabPanelElem;
-import com.javahotel.client.mvc.crud.controler.ICrudControler;
-import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
+import com.javahotel.client.panelcommand.EPanelCommand;
+import com.javahotel.client.panelcommand.IPanelCommand;
+import com.javahotel.client.panelcommand.PanelCommandFactory;
+import com.javahotel.view.IDrawTabPanel;
 import java.util.ArrayList;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-class GwtTabPanel implements IDrawTabPanel {
+class NGwtTabPanel implements IDrawTabPanel {
 
     private final IResLocator rI;
     private final TabPanel sPanel = new TabPanel();
 
-    GwtTabPanel(IResLocator rI, ArrayList<TabPanelElem> pList) {
+    NGwtTabPanel(IResLocator rI, ArrayList<EPanelCommand> pList) {
         this.rI = rI;
-        final ArrayList<ICrudControler> iList = new ArrayList<ICrudControler>();
-        final ArrayList<Panel> paList = new ArrayList<Panel>();
+        final ArrayList<IPanelCommand> iList = new ArrayList<IPanelCommand>();
 
         TabListener t = new TabListener() {
 
@@ -51,16 +48,16 @@ class GwtTabPanel implements IDrawTabPanel {
                 if (tabIndex >= iList.size()) {
                     return;
                 }
-                ICrudControler cr = iList.get(tabIndex);
-                cr.drawTable();
+                IPanelCommand cr = iList.get(tabIndex);
+                cr.drawAction();
             }
         };
 
-        for (TabPanelElem p : pList) {
-            ICrudControler cPan = DictCrudControlerFactory.getCrud(rI,
-                    new DictData(p.getD()));
-            sPanel.add(cPan.getMWidget().getWidget(), p.getPName());
-            iList.add(cPan);
+        for (EPanelCommand p : pList) {
+            IPanelCommand cr = PanelCommandFactory.getPanelCommand(rI, p);
+            cr.beforeDrawAction();
+            sPanel.add(cr.getMWidget().getWidget(), PanelCommandFactory.getPanelCommandLabel(rI, p));
+            iList.add(cr);
         }
 
         sPanel.addTabListener(t);
