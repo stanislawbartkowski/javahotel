@@ -50,12 +50,12 @@ Package list:
 
 
 
-=Prerequisites=
+= Prerequisites =
 
 JavaBeans and install gwt4nb plugin.
 
 
-=Projects=
+= Projects =
 
 For all project create links to source as described in table above.
 
@@ -185,3 +185,21 @@ Two JDBC datasource should be created:
 Resources - JDBC - Connection Pool
 
 Data source class name : org.apache.derby.jdbc.ClientDataSource
+
+= Setup Tomcat =
+
+== Prerequisites ==
+
+Download and install OpenEJB : http://openejb.apache.org/
+
+Make sure  that at least openjpa-1.1.0.jar is installed (directory webapps/openejb/lib)
+
+Copy derbyclient.jar to {CATALINAHOME}/lib/directory.
+
+== HotelEJBTomcat ==
+
+You cannot deploy HotelEJB project directly to Tomcat app server. Tomcat is not official "J2EE" and NetBeanse does not allow to deploy "EJB" project there.
+But there is workaround:
+ * Create "Java - Web - Web application" HotelEJBTomcat project. 
+ * Add following subprojects (package column checked) : HotelEJB, HotelCommon, HotelEJBLogin)
+  * This project can be deployed to Tomcat without any problem.
