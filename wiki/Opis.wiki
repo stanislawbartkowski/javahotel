@@ -39,10 +39,13 @@ Emisja danych do biura rachunkowego
 
 ==Scen01, rezerwacja==
 *Klient* (indywidualny, firma) dzwoni, faksuje, mejluje i podaje co chce zarezerować: ile osób, pokoi, usług dodatkowych (parking, ognisko ..), czas pobytu od -do
-Recepcjonistka
+
+*Recepcjonistka*/*System*
 czy pokoje, usługi są dostępne
 podać cenę (z uwzględnieniem rabatu, cenników)
 podać wysokość zaliczki i termin zapłacenia
+
+*System*
 wykonać rezerwację wstępną
 
 Scen02, rezerwacja, tylko zapytanie
