@@ -199,7 +199,7 @@ Copy derbyclient.jar to {CATALINAHOME}/lib/directory.
 == HotelEJBTomcat ==
 
 You cannot deploy HotelEJB project directly to Tomcat app server. Tomcat is not official "J2EE" and NetBeanse does not allow to deploy "EJB" project there.
-But there is workaround:
+But there is a workaround:
  * Create "Java - Web - Web application" HotelEJBTomcat project. 
  * Add following subprojects (package column checked) : HotelEJB, HotelCommon, HotelEJBLogin)
-  * This project can be deployed to Tomcat without any problem.
+ * This project can be deployed to Tomcat without any problem.
