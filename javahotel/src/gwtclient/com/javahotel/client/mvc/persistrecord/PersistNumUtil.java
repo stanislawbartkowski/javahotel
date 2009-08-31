@@ -16,7 +16,7 @@ import com.javahotel.client.mvc.auxabstract.NumAbstractTo;
 import com.javahotel.client.mvc.table.model.ITableModel;
 import com.javahotel.client.dialog.IPersistAction;
 import com.javahotel.common.util.GetMaxUtil;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -41,7 +41,7 @@ class PersistNumUtil {
         }
 
         public Integer getNext() {
-            Collection<NumAbstractTo> col = (Collection<NumAbstractTo>) mo.getList();
+            List<NumAbstractTo> col = (List<NumAbstractTo>) mo.getList();
             Integer i = GetMaxUtil.getMaxL(col);
             if (i == null) {
                 i = new Integer(0);
@@ -52,7 +52,7 @@ class PersistNumUtil {
 
     static NumAbstractTo persist(final int action, final ITableModel mo,
             final IGenNextLp gNext, final NumAbstractTo a) {
-        Collection<NumAbstractTo> col = (Collection<NumAbstractTo>) mo.getList();
+        List<NumAbstractTo> col = (List<NumAbstractTo>) mo.getList();
         Integer i;
         NumAbstractTo res = null;
         switch (action) {

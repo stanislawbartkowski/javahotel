@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ public class TestSuite28 extends TestHelper {
 	public void Test1() {
 		loginuser();
 		BookingP bok = createB();
-		Collection<AdvancePaymentP> col = new ArrayList<AdvancePaymentP>();
+		List<AdvancePaymentP> col = new ArrayList<AdvancePaymentP>();
 		AdvancePaymentP va = new AdvancePaymentP();
 		va.setLp(new Integer(1));
 		va.setAmount(new BigDecimal(100));
@@ -68,7 +68,7 @@ public class TestSuite28 extends TestHelper {
 		par.setHotel(HOTEL1);
 		par.setDateFrom(DateFormatUtil.toD("2008/03/07"));
 		par.setDateTo(DateFormatUtil.toD("2008/03/09"));
-		Collection<AbstractTo> res = list.getList(se, RType.DownPayments, par);
+		List<AbstractTo> res = list.getList(se, RType.DownPayments, par);
 		assertEquals(3, res.size());
 		
 		par = new CommandParam();

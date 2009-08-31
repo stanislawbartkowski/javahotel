@@ -14,7 +14,7 @@ package com.javahotel.common.util;
 
 import com.javahotel.common.toobject.AbstractTo;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -26,7 +26,7 @@ public class CollToArray {
 	}
 
 	public static ArrayList<? extends AbstractTo> toA(
-			final Collection<? extends AbstractTo> a) {
+			final List<? extends AbstractTo> a) {
 		return (ArrayList<? extends AbstractTo>) a;
 	}
 

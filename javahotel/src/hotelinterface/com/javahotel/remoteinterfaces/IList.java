@@ -15,7 +15,7 @@ package com.javahotel.remoteinterfaces;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
-import java.util.Collection;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -25,7 +25,7 @@ import javax.ejb.Remote;
 @Remote
 public interface IList {
 
-    public Collection<AbstractTo> getList(SessionT sessionId, RType r,
+    public List<AbstractTo> getList(SessionT sessionId, RType r,
             CommandParam p);
 
     public AbstractTo getOne(SessionT sessionId, RType r, CommandParam p);

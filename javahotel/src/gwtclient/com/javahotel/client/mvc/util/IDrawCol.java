@@ -13,7 +13,7 @@
 package com.javahotel.client.mvc.util;
 
 import com.javahotel.common.toobject.AbstractTo;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -21,5 +21,5 @@ import java.util.Collection;
  */
 public interface IDrawCol {
 
-    void draw(Collection<? extends AbstractTo> co);
+    void draw(List<? extends AbstractTo> co);
 }

@@ -27,7 +27,7 @@ import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.remoteinterfaces.HotelT;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -55,7 +55,7 @@ public class TestSuite6 extends TestHelper {
         r.setRStandard(sta);
         hot.persistDic(se, DictType.RoomObjects, r);
         // teraz sprawdz standard
-        Collection<DictionaryP> col = getDicList(se, DictType.RoomStandard, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(se, DictType.RoomStandard, new HotelT(HOTEL1));
         assertEquals(1, col.size());
         // czy zostala nazwa
         for (DictionaryP p : col) {
@@ -86,7 +86,7 @@ public class TestSuite6 extends TestHelper {
         hot.persistDic(se, DictType.RoomObjects, r);
 
         // teraz dodaj wyposazenie
-        Collection<DictionaryP> rC = getDicList(se, DictType.RoomObjects, new HotelT(HOTEL1));
+        List<DictionaryP> rC = getDicList(se, DictType.RoomObjects, new HotelT(HOTEL1));
         assertEquals(1, rC.size());
         ResObjectP rO = null;
         for (DictionaryP p : rC) {
@@ -94,7 +94,7 @@ public class TestSuite6 extends TestHelper {
         }
         assertNotNull(rO);
         assertNotNull(rO.getHotel());
-        Collection<DictionaryP> fDic = new ArrayList<DictionaryP>();
+        List<DictionaryP> fDic = new ArrayList<DictionaryP>();
         DictionaryP fac;
         fac = new DictionaryP();
         fac.setName("internet");
@@ -115,7 +115,7 @@ public class TestSuite6 extends TestHelper {
     public void Test3() throws Exception {
         System.out.println("Vat Dict");
         loginuser();
-        Collection<DictionaryP> col = getDicList(se, DictType.VatDict, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(se, DictType.VatDict, new HotelT(HOTEL1));
         assertEquals(4, col.size());
         boolean found = false;
         for (DictionaryP o : col) {
@@ -148,7 +148,7 @@ public class TestSuite6 extends TestHelper {
         ser.setName("1os2p");
         ser.setHotel(HOTEL1);
         hot.persistDic(se, DictType.ServiceDict, ser);
-        Collection<DictionaryP> col;
+        List<DictionaryP> col;
         col = getDicList(se, DictType.ServiceDict, new HotelT(HOTEL1));
         assertEquals(1, col.size());
         ser = null;
@@ -187,7 +187,7 @@ public class TestSuite6 extends TestHelper {
         RoomStandardP r = new RoomStandardP();
         r.setName("1p");
         r.setHotel(HOTEL1);
-        Collection<ServiceDictionaryP> col = new ArrayList<ServiceDictionaryP>();
+        List<ServiceDictionaryP> col = new ArrayList<ServiceDictionaryP>();
         ServiceDictionaryP ser = new ServiceDictionaryP();
         VatDictionaryP va = new VatDictionaryP();
         va.setName("zw");
@@ -198,7 +198,7 @@ public class TestSuite6 extends TestHelper {
         r.setServices(col);
         hot.persistDic(seu, DictType.RoomStandard, r);
 
-        Collection<DictionaryP> rcol;
+        List<DictionaryP> rcol;
         rcol = getDicList(se, DictType.RoomStandard, new HotelT(HOTEL1));
         for (DictionaryP dp : rcol) {
             r = (RoomStandardP) dp;

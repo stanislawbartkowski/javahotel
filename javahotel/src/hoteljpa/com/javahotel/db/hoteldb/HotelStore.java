@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.hoteldb;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.commoncache.CollCache;
@@ -62,7 +62,7 @@ public class HotelStore {
     }
 
     private static void readD(final SessionT se) {
-        Collection<HotelP> ho = GetList.getHotelList(se);
+        List<HotelP> ho = GetList.getHotelList(se);
         for (HotelP h : ho) {
             ca.addT(h.getName(), h.getDatabase());
         }

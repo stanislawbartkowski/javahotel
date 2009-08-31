@@ -14,7 +14,7 @@ package com.javahotel.client.paymentdata;
 
 import com.javahotel.common.tableprice.TableSeasonPrice;
 import com.javahotel.common.toobject.AbstractTo;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.RData.IOneList;
@@ -40,7 +40,7 @@ public class PaymentData {
 
     public interface ISetPaymentRows {
 
-        void setRow(Collection<PaymentRowP> col);
+        void setRow(List<PaymentRowP> col);
     }
 
     private void initT() {
@@ -50,7 +50,7 @@ public class PaymentData {
 
     private void setRows(final Date dFrom, final Date dTo,
             final String service, final ISetPaymentRows i) {
-        Collection<PaymentRowP> co = tPrice.getPriceRows(service, dFrom, dTo);
+        List<PaymentRowP> co = tPrice.getPriceRows(service, dFrom, dTo);
         i.setRow(co);
     }
 

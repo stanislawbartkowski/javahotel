@@ -24,7 +24,7 @@ import com.javahotel.common.toobject.OfferServicePriceP;
 import com.javahotel.common.toobject.OfferSpecialPriceP;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -53,7 +53,7 @@ class PersistRecordPrice extends PersistRecordDict {
 
         public void set(ArrayList<MapSpecialToI> col) {
             ArrayList<String> rows = tView.getSRow();
-            Collection<OfferServicePriceP> off = new ArrayList<OfferServicePriceP>();
+            List<OfferServicePriceP> off = new ArrayList<OfferServicePriceP>();
             for (int i = 0; i < rows.size(); i++) {
                 OfferServicePriceP o = new OfferServicePriceP();
                 o.setService(rows.get(i));
@@ -62,7 +62,7 @@ class PersistRecordPrice extends PersistRecordDict {
                 o.setHighseasonweekendprice(val.get(ISeasonPriceModel.HIGHSEASONWEEKEND));
                 o.setLowseasonprice(val.get(ISeasonPriceModel.LOWSEASON));
                 o.setLowseasonweekendprice(val.get(ISeasonPriceModel.LOWSEASONWEEKEND));
-                Collection<OfferSpecialPriceP> se = new ArrayList<OfferSpecialPriceP>();
+                List<OfferSpecialPriceP> se = new ArrayList<OfferSpecialPriceP>();
                 for (int co = 0; co < col.size(); co++) {
                     OfferSpecialPriceP pp = new OfferSpecialPriceP();
                     pp.setSpecialperiod(col.get(co).getSpecId());

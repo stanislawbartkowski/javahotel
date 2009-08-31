@@ -22,7 +22,7 @@ import com.javahotel.common.toobject.OfferServicePriceP;
 import com.javahotel.common.toobject.OfferSpecialPriceP;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -59,7 +59,7 @@ class SetTableVal {
 				for (int i = 0; i < si; i++) {
 					va.add(null);
 				}
-				Collection<OfferServicePriceP> colO = oP.getServiceprice();
+				List<OfferServicePriceP> colO = oP.getServiceprice();
 				if (colO != null) {
 					for (OfferServicePriceP pe : colO) {
 						if (pe.getService().equals(ss)) {

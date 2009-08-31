@@ -13,7 +13,7 @@
 package com.javahotel.client.mvc.dict.validator;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.client.CallBackHotel;
 import com.javahotel.client.IResLocator;
@@ -39,12 +39,12 @@ class ValidUtil {
 	private ValidUtil() {
 	}
 
-	static Collection<InvalidateMess> checkEmpty(RecordModel mo,
-			Collection<IField> eF) {
+	static List<InvalidateMess> checkEmpty(RecordModel mo,
+			List<IField> eF) {
 		AbstractTo a = mo.getA();
-		Collection<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+		List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
 		boolean ok = true;
-		Collection<RecordField> co = mo.getRDef().getFields();
+		List<RecordField> co = mo.getRDef().getFields();
 		for (IField f : eF) {
 			if (a.emptyS(f)) {
 				boolean o = false;
@@ -69,7 +69,7 @@ class ValidUtil {
 		return errMess;
 	}
 
-	static void callSig(Collection<InvalidateMess> col, ISignalValidate sig,
+	static void callSig(List<InvalidateMess> col, ISignalValidate sig,
 			IErrorMessageContext iCo) {
 		if (col == null) {
 			sig.success();
@@ -78,17 +78,17 @@ class ValidUtil {
 		}
 	}
 
-	static Collection<InvalidateMess> createErr(IField f, String errmess) {
-		Collection<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+	static List<InvalidateMess> createErr(IField f, String errmess) {
+		List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
 		errMess = new ArrayList<InvalidateMess>();
 		errMess.add(new InvalidateMess(f, errmess));
 		return errMess;
 	}
 
-	static Collection<InvalidateMess> validateEmpty(final DictData d,
+	static List<InvalidateMess> validateEmpty(final DictData d,
 			final int action, final RecordModel a) {
-		Collection<IField> eF = DictEmptyFactory.getNoEmpty(action, d);
-		Collection<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
+		List<IField> eF = DictEmptyFactory.getNoEmpty(action, d);
+		List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
 		return errMess;
 	}
 
@@ -108,7 +108,7 @@ class ValidUtil {
 
 		@Override
 		public void onMySuccess(ReturnPersist arg) {
-			Collection<InvalidateMess> errMess = null;
+			List<InvalidateMess> errMess = null;
 			if (arg.getErrorMessage() != null) {
 				IField f1 = ValidUtil.getIField(a, arg.getViewName());
 				errMess = createErr(f1, arg.getErrorMessage());

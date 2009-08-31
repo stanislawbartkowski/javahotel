@@ -14,7 +14,7 @@ package com.javahotel.common.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -35,7 +35,7 @@ public class StringU {
         return false;
     }
 
-    public static boolean isEmpty(final Collection col) {
+    public static boolean isEmpty(final List col) {
         if (col == null) {
             return true;
         }
@@ -61,7 +61,7 @@ public class StringU {
         return s1.equals(s2);
     }
 
-    public static String[] toA(final Collection<String> li) {
+    public static String[] toA(final List<String> li) {
         String[] a = new String[li.size()];
         int i = 0;
         for (String s : li) {

@@ -24,7 +24,7 @@ import com.javahotel.common.toobject.RemarkP;
 
 import com.javahotel.remoteinterfaces.HotelT;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -44,7 +44,7 @@ public class TestSuite9 extends TestHelper {
         cust.setCountry("PL");
         cust.setName("P003");
         hot.persistDic(seu, DictType.CustomerList, cust);
-        Collection<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
         assertNotNull(res);
         assertEquals(1, res.size());
         cust = null;
@@ -73,7 +73,7 @@ public class TestSuite9 extends TestHelper {
         assertEquals("last", cust.getLastName());
 
         System.out.println("now try remarks");
-        Collection<RemarkP> rCol = new ArrayList<RemarkP>();
+        List<RemarkP> rCol = new ArrayList<RemarkP>();
         RemarkP r1 = new RemarkP();
         r1.setRemark("rybka");
         r1.setAddDate(DateFormatUtil.toT("2008/10/10"));
@@ -156,13 +156,13 @@ public class TestSuite9 extends TestHelper {
         cust.setCType(CustomerType.Company);
         cust.setCountry("PL");
         cust.setName("P003");
-        Collection<PhoneNumberP> col = new ArrayList<PhoneNumberP>();
+        List<PhoneNumberP> col = new ArrayList<PhoneNumberP>();
         PhoneNumberP ph = new PhoneNumberP();
         ph.setPhoneNumber("123345");
         col.add(ph);
         cust.setPhones(col);
         hot.persistDic(seu, DictType.CustomerList, cust);
-        Collection<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
         assertNotNull(res);
         assertEquals(1, res.size());
         cust = null;
@@ -185,13 +185,13 @@ public class TestSuite9 extends TestHelper {
         cust.setCType(CustomerType.Company);
         cust.setCountry("PL");
         cust.setName("P003");
-        Collection<BankAccountP> col = new ArrayList<BankAccountP>();
+        List<BankAccountP> col = new ArrayList<BankAccountP>();
         BankAccountP ph = new BankAccountP();
         ph.setAccountNumber("123345");
         col.add(ph);
         cust.setAccounts(col);
         hot.persistDic(seu, DictType.CustomerList, cust);
-        Collection<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
         assertNotNull(res);
         assertEquals(1, res.size());
         cust = null;

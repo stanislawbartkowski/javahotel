@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -44,7 +44,7 @@ public class TestSuite30 extends TestHelper {
 		logInfo("id:" + ca.getId());
 		assertNotNull(ca.getId());
 		assertFalse(ca.getId().isNull());
-		Collection<DictionaryP> col = getDicList(se, DictType.CustomerList,
+		List<DictionaryP> col = getDicList(se, DictType.CustomerList,
 				new HotelT(HOTEL1));
 		assertEquals(1, col.size());
 		ca.setDescription("Kowalski");
@@ -81,7 +81,7 @@ public class TestSuite30 extends TestHelper {
 		// Step 2
 		RoomStandardP st = getpersistName(DictType.RoomStandard, a1, "STAND");
 		assertNotNull(st);
-		Collection<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
+		List<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
 		li.add(sp);
 		st.setServices(li);
 		// Step 3
@@ -92,7 +92,7 @@ public class TestSuite30 extends TestHelper {
 
 		// important : should be one
 		// Expectedd result
-		Collection<AbstractTo> col = hot.getDicList(se, DictType.ServiceDict,
+		List<AbstractTo> col = hot.getDicList(se, DictType.ServiceDict,
 				new HotelT(HOTEL1));
 		assertEquals(1, col.size());
 	}
@@ -107,7 +107,7 @@ public class TestSuite30 extends TestHelper {
 	public void Test3() {
 		loginuser();
 		// Step 1
-		Collection<AbstractTo> col = hot.getDicList(se, DictType.VatDict,
+		List<AbstractTo> col = hot.getDicList(se, DictType.VatDict,
 				new HotelT(HOTEL1));
 		assertEquals(4, col.size());
 		DictionaryP a = getDict(DictType.ServiceDict, HOTEL1);
@@ -134,7 +134,7 @@ public class TestSuite30 extends TestHelper {
 		loginuser();
 
 		logInfo("Test vat consistency");
-		Collection<AbstractTo> col = hot.getDicList(se, DictType.VatDict,
+		List<AbstractTo> col = hot.getDicList(se, DictType.VatDict,
 				new HotelT(HOTEL1));
 		// Step 1
 		assertEquals(4, col.size());
@@ -152,7 +152,7 @@ public class TestSuite30 extends TestHelper {
 		DictionaryP a1 = getDict(DictType.RoomStandard, HOTEL1);
 		RoomStandardP st = getpersistName(DictType.RoomStandard, a1, "STAND");
 		assertNotNull(st);
-		Collection<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
+		List<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
 		li.add(sp);
 		st.setServices(li);
 		// Step 3
@@ -187,14 +187,14 @@ public class TestSuite30 extends TestHelper {
 		d = getDict(DictType.ServiceDict, HOTEL1);
 		ServiceDictionaryP a1 = getpersistName(DictType.ServiceDict, d, "1p2");
 
-		Collection<AbstractTo> col = hot.getDicList(se, DictType.ServiceDict,
+		List<AbstractTo> col = hot.getDicList(se, DictType.ServiceDict,
 				new HotelT(HOTEL1));
 		assertEquals(2, col.size());
 
 		DictionaryP r = getDict(DictType.RoomStandard, HOTEL1);
 		RoomStandardP st = getpersistName(DictType.RoomStandard, r, "STAND");
 		assertNotNull(st);
-		Collection<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
+		List<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
 		li.add(a);
 		li.add(a1);
 		st.setServices(li);

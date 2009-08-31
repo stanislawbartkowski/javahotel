@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -45,7 +45,7 @@ public class TestSuite13 extends TestHelper {
     public void Test1() {
         loginuser();
         BookingP bok = createB();
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -64,7 +64,7 @@ public class TestSuite13 extends TestHelper {
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/03/07"));
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
 
@@ -83,7 +83,7 @@ public class TestSuite13 extends TestHelper {
         par.setHotel(HOTEL1);
         par.setDateFrom(DateFormatUtil.toD("2008/03/07"));
         par.setDateTo(DateFormatUtil.toD("2008/03/09"));
-        Collection<AbstractTo> res = list.getList(se, RType.DownPayments, par);
+        List<AbstractTo> res = list.getList(se, RType.DownPayments, par);
         assertEquals(0, res.size());
     }
     
@@ -95,7 +95,7 @@ public class TestSuite13 extends TestHelper {
     public void Test2() {
         loginuser();
         BookingP bok = createB();
-        Collection<AdvancePaymentP> col = new ArrayList<AdvancePaymentP>();
+        List<AdvancePaymentP> col = new ArrayList<AdvancePaymentP>();
         AdvancePaymentP va = new AdvancePaymentP();
         va.setLp(new Integer(1));
         va.setAmount(new BigDecimal(100));
@@ -108,7 +108,7 @@ public class TestSuite13 extends TestHelper {
         par.setHotel(HOTEL1);
         par.setDateFrom(DateFormatUtil.toD("2008/03/07"));
         par.setDateTo(DateFormatUtil.toD("2008/03/09"));
-        Collection<AbstractTo> res = list.getList(se, RType.DownPayments, par);
+        List<AbstractTo> res = list.getList(se, RType.DownPayments, par);
         assertEquals(1,res.size());
         for (AbstractTo a : res) {
             DownPaymentP dp = (DownPaymentP) a;
@@ -155,8 +155,8 @@ public class TestSuite13 extends TestHelper {
     public void Test3() {
         Test2();
         BookingP bok = getOneName(DictType.BookingList,"BOK0001");
-//        Collection<AdvancePaymentP> col = bok.getValidations();
-        Collection<AdvancePaymentP> col = getVal(bok);
+//        List<AdvancePaymentP> col = bok.getValidations();
+        List<AdvancePaymentP> col = getVal(bok);
         AdvancePaymentP va = new AdvancePaymentP();
         va.setLp(new Integer(4));
         va.setAmount(new BigDecimal(300));
@@ -167,7 +167,7 @@ public class TestSuite13 extends TestHelper {
         par.setHotel(HOTEL1);
         par.setDateFrom(DateFormatUtil.toD("2008/03/08"));
         par.setDateTo(DateFormatUtil.toD("2008/03/09"));
-        Collection<AbstractTo> res = list.getList(se, RType.DownPayments, par);
+        List<AbstractTo> res = list.getList(se, RType.DownPayments, par);
         assertEquals(0, res.size());        
         
         par = new CommandParam();
@@ -212,7 +212,7 @@ public class TestSuite13 extends TestHelper {
         Test2();
         
         BookingP bok = createB();
-        Collection<AdvancePaymentP> col = new ArrayList<AdvancePaymentP>();
+        List<AdvancePaymentP> col = new ArrayList<AdvancePaymentP>();
         AdvancePaymentP va = new AdvancePaymentP();
         va.setLp(new Integer(1));
         va.setAmount(new BigDecimal(100));
@@ -226,7 +226,7 @@ public class TestSuite13 extends TestHelper {
         par.setHotel(HOTEL1);
         par.setDateFrom(DateFormatUtil.toD("2008/03/07"));
         par.setDateTo(DateFormatUtil.toD("2008/03/09"));
-        Collection<AbstractTo> res = list.getList(se, RType.DownPayments, par);
+        List<AbstractTo> res = list.getList(se, RType.DownPayments, par);
         assertEquals(2, res.size());           
     }
 

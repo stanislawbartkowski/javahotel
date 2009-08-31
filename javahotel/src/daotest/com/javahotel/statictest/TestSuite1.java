@@ -22,7 +22,7 @@ import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.dateutil.GetPeriods.StartWeek;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import org.junit.After;
 import org.junit.Before;
@@ -56,7 +56,7 @@ public class TestSuite1 {
         System.out.println("Basic Test");
         Date dfrom = createD(2008, 8, 1);
         Date to = createD(2009, 7, 31);
-        Collection<Date> col = CalendarTable.listOfDates(dfrom, to, PeriodType.byMonth);
+        List<Date> col = CalendarTable.listOfDates(dfrom, to, PeriodType.byMonth);
         int no = 0;
         for (final Date d : col) {
             String s = DateFormatUtil.toS(d);
@@ -123,9 +123,9 @@ public class TestSuite1 {
     @Test
     public void Test2() throws Exception {
         PeriodT pe = new PeriodT(createD(2008, 8, 1), createD(2008, 8, 31), null);
-        Collection<PeriodT> col = new ArrayList<PeriodT>();
+        List<PeriodT> col = new ArrayList<PeriodT>();
         col.add(createP(2008, 8, 1, 2008, 8, 2));
-        Collection<PeriodT> out = GetPeriods.get(pe, col);
+        List<PeriodT> out = GetPeriods.get(pe, col);
         int no = 0;
         for (PeriodT p : out) {
             drawP(p);
@@ -149,9 +149,9 @@ public class TestSuite1 {
     @Test
     public void Test3() throws Exception {
         PeriodT pe = new PeriodT(createD(2008, 8, 1), createD(2008, 8, 31), null);
-        Collection<PeriodT> col = new ArrayList<PeriodT>();
+        List<PeriodT> col = new ArrayList<PeriodT>();
         col.add(createP(2008, 8, 10, 2008, 8, 19));
-        Collection<PeriodT> out = GetPeriods.get(pe, col);
+        List<PeriodT> out = GetPeriods.get(pe, col);
         int no = 0;
         for (PeriodT p : out) {
             drawP(p);
@@ -178,7 +178,7 @@ public class TestSuite1 {
     
     @Test
     public void Test4() throws Exception {
-        Collection<Integer> inte = new ArrayList<Integer>();
+        List<Integer> inte = new ArrayList<Integer>();
         inte.add(new Integer(7));
         inte.add(new Integer(24));
         int[] res = CountPixel.countP(91, 31, inte);
@@ -200,7 +200,7 @@ public class TestSuite1 {
     
     @Test
     public void Test5() throws Exception {
-        Collection<PeriodT> out = GetPeriods.listOfWeekends(new PeriodT(createD(2008, 8, 1), createD(2008, 8, 31), null),StartWeek.onSaturday);
+        List<PeriodT> out = GetPeriods.listOfWeekends(new PeriodT(createD(2008, 8, 1), createD(2008, 8, 31), null),StartWeek.onSaturday);
         int i = 0;
         for (PeriodT pe : out) {
             drawP(pe);
@@ -261,7 +261,7 @@ public class TestSuite1 {
         System.out.println("by Day");
         Date dfrom = createD(2008, 8, 1);
         Date to = createD(2008, 8, 5);
-        Collection<Date> col = CalendarTable.listOfDates(dfrom, to, PeriodType.byDay);
+        List<Date> col = CalendarTable.listOfDates(dfrom, to, PeriodType.byDay);
         for (final Date d : col) {
             String s = DateFormatUtil.toS(d);
             System.out.println(s);

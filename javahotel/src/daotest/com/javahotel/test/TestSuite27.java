@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -52,7 +52,7 @@ public class TestSuite27 extends TestHelper {
         setPay(bok, new ArrayList<PaymentP>());
         BillP bi = BillUtil.getBill(bok);
         bi.setBillType(BillEnumTypes.MainBill);
-        Collection<AddPaymentP> add = new ArrayList<AddPaymentP>();
+        List<AddPaymentP> add = new ArrayList<AddPaymentP>();
         AddPaymentP a = new AddPaymentP();
         a.setCustomerPrice(new BigDecimal(100));
         a.setLp(new Integer(1));
@@ -92,7 +92,7 @@ public class TestSuite27 extends TestHelper {
         bok.setHotel(HOTEL1);
         bok.setName("");
         bok.setBookingType(BookingEnumTypes.Stay);
-        Collection<BillP> bil = bok.getBill();
+        List<BillP> bil = bok.getBill();
         String bName = "rybka";
         BillP bi = new BillP();
         BillP bii = BillUtil.getBill(bok);
@@ -107,7 +107,7 @@ public class TestSuite27 extends TestHelper {
         ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, "LUX");
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
 
-        Collection<AddPaymentP> add = new ArrayList<AddPaymentP>();
+        List<AddPaymentP> add = new ArrayList<AddPaymentP>();
         AddPaymentP a = new AddPaymentP();
         a.setCustomerPrice(new BigDecimal(100));
         a.setLp(new Integer(1));
@@ -187,7 +187,7 @@ public class TestSuite27 extends TestHelper {
 
         ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, "LUX");
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
-        Collection<AddPaymentP> add = new ArrayList<AddPaymentP>();
+        List<AddPaymentP> add = new ArrayList<AddPaymentP>();
         AddPaymentP a = new AddPaymentP();
         a.setCustomerPrice(new BigDecimal(100));
         a.setLp(new Integer(1));
@@ -237,7 +237,7 @@ public class TestSuite27 extends TestHelper {
 
         ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, "LUX");
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
-        Collection<AddPaymentP> add = new ArrayList<AddPaymentP>();
+        List<AddPaymentP> add = new ArrayList<AddPaymentP>();
         AddPaymentP a = new AddPaymentP();
         a.setCustomerPrice(new BigDecimal(100));
         a.setLp(new Integer(1));

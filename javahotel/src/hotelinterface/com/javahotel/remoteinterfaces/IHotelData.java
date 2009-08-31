@@ -12,7 +12,7 @@
  */
 package com.javahotel.remoteinterfaces;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Remote;
 
@@ -30,7 +30,7 @@ import com.javahotel.common.toobject.DictionaryP;
 @Remote
 public interface IHotelData {
 
-	Collection<AbstractTo> getDicList(SessionT sessionId, DictType d,
+	List<AbstractTo> getDicList(SessionT sessionId, DictType d,
 			HotelT hotel);
 
 	void persistDic(SessionT sessionId, DictType d, DictionaryP a);

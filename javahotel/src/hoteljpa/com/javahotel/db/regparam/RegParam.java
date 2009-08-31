@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.regparam;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.ParamRegistry;
@@ -62,9 +62,9 @@ public class RegParam {
 		return Integer.parseInt(pa);
 	}
 
-	public static Collection<ParamRegistry> getParams(final ICommandContext iC,
+	public static List<ParamRegistry> getParams(final ICommandContext iC,
 			final String keylike) {
-		Collection<ParamRegistry> col = GetQueries.getRegistryEntries(iC,
+		List<ParamRegistry> col = GetQueries.getRegistryEntries(iC,
 				keylike);
 		return col;
 

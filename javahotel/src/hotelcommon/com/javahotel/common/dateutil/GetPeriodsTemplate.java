@@ -13,7 +13,7 @@
 package com.javahotel.common.dateutil;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 /**
@@ -23,11 +23,11 @@ import java.util.Date;
 abstract public class GetPeriodsTemplate {
 
     protected final Date startD;
-    protected final Collection<Date> dLine;
-    protected final Collection<PeriodT> coP;
+    protected final List<Date> dLine;
+    protected final List<PeriodT> coP;
 
     protected GetPeriodsTemplate(final Date startD,
-            final Collection<Date> dLine, final Collection<PeriodT> coP) {
+            final List<Date> dLine, final List<PeriodT> coP) {
         this.startD = startD;
         this.dLine = dLine;
         this.coP = coP;
@@ -51,9 +51,9 @@ abstract public class GetPeriodsTemplate {
                 int no = startF(dd);
                 assert no != 0 : "Width cannot be 0";
 
-                Collection<PeriodT> cou = GetPeriods.get(new PeriodT(prevd, dd, null), coP);
+                List<PeriodT> cou = GetPeriods.get(new PeriodT(prevd, dd, null), coP);
                 int pnoD = DateUtil.noLodgings(prevd, dd);
-                Collection<Integer> pCo = new ArrayList<Integer>();
+                List<Integer> pCo = new ArrayList<Integer>();
                 for (PeriodT pr : cou) {
                     int noD = DateUtil.noLodgings(pr.getFrom(), pr.getTo());
                     pCo.add(new Integer(noD));

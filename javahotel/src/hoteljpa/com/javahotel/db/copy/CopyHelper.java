@@ -14,7 +14,7 @@ package com.javahotel.db.copy;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.javahotel.common.dateutil.DateUtil;
@@ -101,9 +101,9 @@ public class CopyHelper {
 
     static void copyRes2Collection(final ICommandContext iC, final Object sou,
             final AbstractTo dest, final String colField, final Class<?> memCla) {
-        Collection<?> col =
-                (Collection<?>) GetFieldHelper.getterVal(sou, colField, iC.getLog());
-        Collection<Object> de = new ArrayList();
+        List<?> col =
+                (List<?>) GetFieldHelper.getterVal(sou, colField, iC.getLog());
+        List<Object> de = new ArrayList();
         if (col != null) {
             for (Object o : col) {
                 try {
@@ -118,7 +118,7 @@ public class CopyHelper {
                 }
             }
         }
-        GetFieldHelper.setterVal(dest, de, colField, Collection.class,
+        GetFieldHelper.setterVal(dest, de, colField, List.class,
                 iC.getLog());
     }
 

@@ -13,7 +13,7 @@
 package com.javahotel.common.dateutil;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -39,8 +39,8 @@ public class GetPeriods {
         Collections.sort(col, new ICompare());
     }
 
-    private static Collection<PeriodT> cut(final PeriodT pe,
-            final Collection<PeriodT> sou) {
+    private static List<PeriodT> cut(final PeriodT pe,
+            final List<PeriodT> sou) {
         ArrayList<PeriodT> pout = new ArrayList<PeriodT>();
         Date pefrom = pe.getFrom();
         Date peto = pe.getTo();
@@ -62,10 +62,10 @@ public class GetPeriods {
         return pout;
     }
 
-    public static Collection<PeriodT> get(final PeriodT pe,
-            final Collection<PeriodT> sou) {
+    public static List<PeriodT> get(final PeriodT pe,
+            final List<PeriodT> sou) {
 
-        Collection<PeriodT> pout = cut(pe, sou);
+        List<PeriodT> pout = cut(pe, sou);
         ArrayList<PeriodT> out = new ArrayList<PeriodT>();
         PeriodT beg = null;
         for (PeriodT pr : pout) {
@@ -98,9 +98,9 @@ public class GetPeriods {
         return out;
     }
 
-    public static Collection<PeriodT> cutPeriods(final PeriodT pe,
-            final Collection<PeriodT> sou) {
-        Collection<PeriodT> out = cut(pe, sou);
+    public static List<PeriodT> cutPeriods(final PeriodT pe,
+            final List<PeriodT> sou) {
+        List<PeriodT> out = cut(pe, sou);
         return out;
     }
 
@@ -109,10 +109,10 @@ public class GetPeriods {
         boolean eq(PeriodT p1, PeriodT p2);
     }
 
-    public static Collection<PeriodT> consolidatePeriods(
-            final Collection<PeriodT> sou, final IEqPeriodT i) {
+    public static List<PeriodT> consolidatePeriods(
+            final List<PeriodT> sou, final IEqPeriodT i) {
         PeriodT prev = null;
-        Collection<PeriodT> out = new ArrayList<PeriodT>();
+        List<PeriodT> out = new ArrayList<PeriodT>();
         for (PeriodT p : sou) {
             if (prev != null) {
                 if (i.eq(prev, p)) {
@@ -162,12 +162,12 @@ public class GetPeriods {
         return false;
     }
 
-    public static Collection<PeriodT> listOfWeekends(final PeriodT pe,
+    public static List<PeriodT> listOfWeekends(final PeriodT pe,
             final StartWeek sWeek) {
         Date first = pe.getFrom();
         Date last = pe.getTo();
         Date actC = DateUtil.copyDate(first);
-        Collection<PeriodT> cDays = new ArrayList<PeriodT>();
+        List<PeriodT> cDays = new ArrayList<PeriodT>();
         Date begW = null;
         while (DateUtil.compareDate(actC, last) != 1) {
             int dOfWeek = actC.getDay();
@@ -191,7 +191,7 @@ public class GetPeriods {
     }
 
     public static PeriodT findPeriod(final Date d,
-            final Collection<PeriodT> sou) {
+            final List<PeriodT> sou) {
         for (PeriodT p : sou) {
             if (DateUtil.compPeriod(d, p) == 0) {
                 return p;

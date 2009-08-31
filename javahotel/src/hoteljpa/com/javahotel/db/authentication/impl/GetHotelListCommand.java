@@ -13,7 +13,7 @@
 package com.javahotel.db.authentication.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.db.authentication.jpa.Hotel;
@@ -28,7 +28,7 @@ import com.javahotel.remoteinterfaces.SessionT;
  */
 class GetHotelListCommand extends CommandTra {
 
-    final Collection<HotelP> res;
+    final List<HotelP> res;
 
     GetHotelListCommand(final SessionT sessionId) {
         super(sessionId, null, null, false, false, false, false);
@@ -37,7 +37,7 @@ class GetHotelListCommand extends CommandTra {
 
     @Override
     protected void command() {
-        Collection<Hotel> li =
+        List<Hotel> li =
                 iC.getJpa().getAllListOrdered(Hotel.class, "name", true);
         for (Hotel ha : li) {
             HotelP hp = new HotelP();

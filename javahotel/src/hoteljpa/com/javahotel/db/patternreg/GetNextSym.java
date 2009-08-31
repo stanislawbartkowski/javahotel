@@ -13,7 +13,7 @@
 package com.javahotel.db.patternreg;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.javahotel.common.gensymbol.GenSymbol;
@@ -22,6 +22,7 @@ import com.javahotel.common.gensymbol.GenSymbolData.SymbolContainer;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.ParamRegistry;
 import com.javahotel.db.regparam.RegParam;
+import java.util.Collection;
 
 /**
  * 
@@ -47,9 +48,9 @@ public class GetNextSym {
 		String s = getS(kId, false);
 		int maxN = RegParam.getParam(iC, s, 0);
 		String s1 = getS(kId, true);
-		Collection<ParamRegistry> col = RegParam.getParams(iC, s1);
+		List<ParamRegistry> col = RegParam.getParams(iC, s1);
 
-		Collection<SymbolContainer> out = new ArrayList<SymbolContainer>();
+		List<SymbolContainer> out = new ArrayList<SymbolContainer>();
 		for (ParamRegistry pa : col) {
 			String y = pa.getName().substring(s1.length());
 			int year = Integer.parseInt(y);

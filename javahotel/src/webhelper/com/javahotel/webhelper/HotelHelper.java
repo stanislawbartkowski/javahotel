@@ -12,7 +12,7 @@
  */
 package com.javahotel.webhelper;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import com.javahotel.common.command.CommandParam;
@@ -38,6 +38,7 @@ import com.javahotel.remoteinterfaces.IList;
 import com.javahotel.remoteinterfaces.ISecurity;
 import com.javahotel.remoteinterfaces.PasswordT;
 import com.javahotel.remoteinterfaces.SessionT;
+import java.util.List;
 
 /**
  * 
@@ -146,7 +147,7 @@ public class HotelHelper {
 
 		private final RType r;
 		private final CommandParam p;
-		Collection<AbstractTo> out;
+		List<AbstractTo> out;
 
 		GetIList(RType r, final CommandParam p) {
 			this.r = r;
@@ -204,7 +205,7 @@ public class HotelHelper {
 		SessionCache.removeSession(sessionId);
 	}
 
-	public static Collection<AbstractTo> getList(final String sessionId,
+	public static List<AbstractTo> getList(final String sessionId,
 			final RType r, final CommandParam p) {
 		if (r == RType.AllHotels) {
 			GetIList ilist = new GetIList(r, p);
@@ -244,7 +245,7 @@ public class HotelHelper {
 	}
 
 	public static void setRoles(final String sessionId, final String person,
-			final String hotel, final Collection<String> roles) {
+			final String hotel, final List<String> roles) {
 		SessionT se = SessionCache.getSessionT(sessionId);
 		aut.persistPersonHotel(se, person, new HotelT(hotel), roles);
 	}
@@ -283,6 +284,18 @@ public class HotelHelper {
 			final HotelOpType op, final CommandParam p) {
 		SessionT se = SessionCache.getSessionT(sessionId);
 		return hop.hotelOpRet(se, op, p);
+	}
+
+	public static ReturnPersist hotelOpRet(final String sessionId,
+			final CommandParam p) {
+		SessionT se = SessionCache.getSessionT(sessionId);
+		return hop.hotelOpRet(se, p);
+	}
+
+	public static List<ReturnPersist> hotelOpRet(final String sessionId,
+			final List<CommandParam> p) {
+		SessionT se = SessionCache.getSessionT(sessionId);
+		return hop.hotelOpRet(se, p);
 	}
 
 	public static void clearHotelData(final String sessionId, HotelP hotel) {

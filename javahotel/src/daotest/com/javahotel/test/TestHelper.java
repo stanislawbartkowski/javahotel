@@ -9,7 +9,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import org.junit.After;
@@ -120,12 +120,12 @@ public class TestHelper {
         hot.clearHotelBase(se, new HotelT(HOTEL1));
         hot.clearHotelBase(se, new HotelT(HOTEL2));
         aut.clearAuthBase(se);
-        Collection<HotelP> res = aut.getHotelList(se);
+        List<HotelP> res = aut.getHotelList(se);
         assertEquals(0, res.size());
     }
 
     protected <T> T getOneName(DictType d, final String name) {
-        Collection<AbstractTo> res = hot.getDicList(se, d, new HotelT(HOTEL1));
+        List<AbstractTo> res = hot.getDicList(se, d, new HotelT(HOTEL1));
         assertNotNull(res);
 //        assertEquals(1, res.size());
         T out = null;
@@ -197,7 +197,7 @@ public class TestHelper {
     protected BookingP createB() {
         CustomerP cP = new CustomerP();
         cP.setCType(CustomerType.Person);
-        Collection<RemarkP> rCol = new ArrayList<RemarkP>();
+        List<RemarkP> rCol = new ArrayList<RemarkP>();
         RemarkP r1 = new RemarkP();
         r1.setRemark("rybka");
         r1.setAddDate(DateFormatUtil.toT("2008/01/01"));
@@ -219,7 +219,7 @@ public class TestHelper {
         BookingStateP bState = new BookingStateP();
         bState.setBState(BookingStateType.Confirmed);
         bState.setLp(new Integer(1));
-        Collection<BookingStateP> staCol = new ArrayList<BookingStateP>();
+        List<BookingStateP> staCol = new ArrayList<BookingStateP>();
         staCol.add(bState);
 
 
@@ -235,8 +235,8 @@ public class TestHelper {
         return bok;
     }
 
-    Collection<DictionaryP> getDicList(final SessionT sessionId, final DictType d, HotelT hotel) {
-        Collection res = hot.getDicList(sessionId, d, hotel);
+    List<DictionaryP> getDicList(final SessionT sessionId, final DictType d, HotelT hotel) {
+        List res = hot.getDicList(sessionId, d, hotel);
         return res;
     }
 
@@ -275,7 +275,7 @@ public class TestHelper {
                 sep.setEndP(DateFormatUtil.toD("2008/10/02"));
 
                 OfferSeasonPeriodP pe = new OfferSeasonPeriodP();
-                Collection<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
+                List<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
                 pe.setStartP(DateFormatUtil.toD("2008/03/11"));
                 pe.setEndP(DateFormatUtil.toD("2008/06/11"));
                 pe.setPeriodT(SeasonPeriodT.LOW);
@@ -308,7 +308,7 @@ public class TestHelper {
                 oP1.setHotel(sP1.getHotel());
 
                 OfferServicePriceP osp;
-                Collection<OfferServicePriceP> lP = new ArrayList<OfferServicePriceP>();
+                List<OfferServicePriceP> lP = new ArrayList<OfferServicePriceP>();
                 osp = new OfferServicePriceP();
 //                osp.setSpecialperiod(new Long(1));
 //                osp.setPrice(new BigDecimal("123"));
@@ -322,7 +322,7 @@ public class TestHelper {
             case CustomerList:
                 CustomerP cP = new CustomerP();
                 cP.setCType(CustomerType.Person);
-                Collection<RemarkP> rCol = new ArrayList<RemarkP>();
+                List<RemarkP> rCol = new ArrayList<RemarkP>();
                 RemarkP r1 = new RemarkP();
                 r1.setRemark("rybka");
                 r1.setAddDate(DateFormatUtil.toT("2008/01/01"));
@@ -340,7 +340,7 @@ public class TestHelper {
             case BookingList:
                 CustomerP cP1 = new CustomerP();
                 cP1.setCType(CustomerType.Person);
-                Collection<RemarkP> rCol1 = new ArrayList<RemarkP>();
+                List<RemarkP> rCol1 = new ArrayList<RemarkP>();
                 RemarkP r2 = new RemarkP();
                 r2.setRemark("rybka");
                 r2.setAddDate(DateFormatUtil.toT("2008/01/01"));
@@ -370,12 +370,12 @@ public class TestHelper {
                 BookingStateP bState = new BookingStateP();
                 bState.setBState(BookingStateType.Confirmed);
                 bState.setLp(new Integer(1));
-                Collection<BookingStateP> staCol = new ArrayList<BookingStateP>();
+                List<BookingStateP> staCol = new ArrayList<BookingStateP>();
                 staCol.add(bState);
                 bok.setState(staCol);
 
 
-                Collection<PaymentP> colP = new ArrayList<PaymentP>();
+                List<PaymentP> colP = new ArrayList<PaymentP>();
                 PaymentP p = new PaymentP();
                 p.setAmount(new BigDecimal(123));
                 p.setDateOp(DateFormatUtil.toD("2008/02/02"));
@@ -394,7 +394,7 @@ public class TestHelper {
                 colP.add(p);
 //                BillP bill = BillUtil.createPaymentBill();
 //                bill.setPayments(colP);
-//                Collection<BillP> colB = new ArrayList<BillP>();
+//                List<BillP> colB = new ArrayList<BillP>();
 //                colB.add(bill);
 //                bok.setBill(colB);
                 setPay(bok,colP);
@@ -410,45 +410,45 @@ public class TestHelper {
 
     }
 
-    protected void setPay(BookingP bok, Collection<PaymentP> colP) {
+    protected void setPay(BookingP bok, List<PaymentP> colP) {
         BillP bill = BillUtil.createPaymentBill();
         bill.setPayments(colP);
         bill.setCustomer(bok.getCustomer());
-        Collection<BillP> colB = new ArrayList<BillP>();
+        List<BillP> colB = new ArrayList<BillP>();
         colB.add(bill);
         bok.setBill(colB);
     }
     
-    protected void addPay(BookingP bok, Collection<PaymentP> colP) {
-        Collection<BillP> colB =bok.getBill();
+    protected void addPay(BookingP bok, List<PaymentP> colP) {
+        List<BillP> colB =bok.getBill();
         for (BillP p : colB) {
             p.setPayments(colP);
         }
     }
     
-    protected Collection<PaymentP> getPay(BookingP bok) {
+    protected List<PaymentP> getPay(BookingP bok) {
         BillP bi = BillUtil.getBill(bok);
         return bi.getPayments();
     }
     
-    protected Collection<PaymentP> getFPay(BookingP bok) {
-        Collection<BillP> col = bok.getBill();
+    protected List<PaymentP> getFPay(BookingP bok) {
+        List<BillP> col = bok.getBill();
         for (BillP p : col) {
             return p.getPayments();
         }
         return null;
     }
     
-    protected void setVal(BookingP bok, Collection<AdvancePaymentP> colP) {
+    protected void setVal(BookingP bok, List<AdvancePaymentP> colP) {
         BillP bill = BillUtil.createPaymentBill();
         bill.setCustomer(bok.getCustomer());
         bill.setAdvancePay(colP);
-        Collection<BillP> colB = new ArrayList<BillP>();
+        List<BillP> colB = new ArrayList<BillP>();
         colB.add(bill);
         bok.setBill(colB);
     }
     
-    protected Collection<AdvancePaymentP> getVal(BookingP bok) {
+    protected List<AdvancePaymentP> getVal(BookingP bok) {
         BillP bi = BillUtil.getBill(bok);
         return bi.getAdvancePay();
     }

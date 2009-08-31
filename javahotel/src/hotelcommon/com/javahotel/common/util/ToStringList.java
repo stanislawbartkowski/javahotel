@@ -14,7 +14,7 @@ package com.javahotel.common.util;
 
 import com.javahotel.common.toobject.DictionaryP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -25,9 +25,9 @@ public class ToStringList {
     private ToStringList() {
     }
 
-    public static Collection<String> toL(
-            final Collection<? extends DictionaryP> col) {
-        Collection<String> out = new ArrayList<String>();
+    public static List<String> toL(
+            final List<? extends DictionaryP> col) {
+        List<String> out = new ArrayList<String>();
         for (DictionaryP d : col) {
             out.add(d.getName());
         }

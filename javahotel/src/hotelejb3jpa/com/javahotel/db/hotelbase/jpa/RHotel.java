@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.db.hotelbase.jpa;
 
 import javax.persistence.Basic;
@@ -20,11 +19,10 @@ import javax.persistence.Entity;
  *
  * @author stanislawbartkowski@gmail.com
  */
-
 @Entity
 public class RHotel extends AbstractIID {
-        
-    @Basic(optional=false)
+
+    @Basic(optional = false)
     private String name;
 
     public String getName() {
@@ -34,6 +32,4 @@ public class RHotel extends AbstractIID {
     public void setName(final String name) {
         this.name = name;
     }
-
-
 }

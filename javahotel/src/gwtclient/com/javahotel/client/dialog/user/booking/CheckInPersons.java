@@ -28,7 +28,7 @@ import com.javahotel.common.command.SynchronizeList;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.ResObjectP;
-import java.util.Collection;
+import java.util.List;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
@@ -45,115 +45,115 @@ import com.javahotel.common.command.CustomerType;
  */
 class CheckInPersons {
 
-	private final IResLocator rI;
-	private final BookingP p;
-	private final RoomInfoData rInfo;
-	private Sync sync;
-	private final IPersistResult pe;
+    private final IResLocator rI;
+    private final BookingP p;
+    private final RoomInfoData rInfo;
+    private Sync sync;
+    private final IPersistResult pe;
 
-	CheckInPersons(IResLocator rI, BookingP p, IPersistResult pe) {
-		this.rI = rI;
-		this.p = p;
-		this.rInfo = new RoomInfoData(rI);
-		this.pe = pe;
-	}
+    CheckInPersons(IResLocator rI, BookingP p, IPersistResult pe) {
+        this.rI = rI;
+        this.p = p;
+        this.rInfo = new RoomInfoData(rI);
+        this.pe = pe;
+    }
 
-	private class Sync extends SynchronizeList {
+    private class Sync extends SynchronizeList {
 
-		private final ArrayList<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
-		private final Widget w;
+        private final ArrayList<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
+        private final Widget w;
 
-		Sync(int no, Widget w) {
-			super(no);
-			this.w = w;
-		}
+        Sync(int no, Widget w) {
+            super(no);
+            this.w = w;
+        }
 
-		@Override
-		protected void doTask() {
-			IEditTableDialog iD = EditTableDialogFactory.getDialog(rI,
-					new DictData(DictData.SpecE.ResGuestList), p.getName(),
-					gList);
-			iD.setPersist(pe);
-			PopupUtil.setPos(iD.getDialog(), w);
-			iD.show();
-		}
-	}
+        @Override
+        protected void doTask() {
+            IEditTableDialog iD = EditTableDialogFactory.getDialog(rI,
+                    new DictData(DictData.SpecE.ResGuestList), p.getName(),
+                    gList);
+            iD.setPersist(pe);
+            PopupUtil.setPos(iD.getDialog(), w);
+            iD.show();
+        }
+    }
 
-	private class R implements IOneList {
+    private class R implements IOneList {
 
-		private final BookElemP r;
-		private SyncC s;
+        private final BookElemP r;
+        private SyncC s;
 
-		R(BookElemP r) {
-			this.r = r;
-		}
+        R(BookElemP r) {
+            this.r = r;
+        }
 
-		private class SyncC extends SynchronizeList {
+        private class SyncC extends SynchronizeList {
 
-			SyncC(int no) {
-				super(no);
-			}
+            SyncC(int no) {
+                super(no);
+            }
 
-			@Override
-			protected void doTask() {
+            @Override
+            protected void doTask() {
 
-				sync.signalDone();
-			}
-		}
+                sync.signalDone();
+            }
+        }
 
-		private class BackC implements RData.IOneList {
+        private class BackC implements RData.IOneList {
 
-			private final ResRoomGuest ge;
+            private final ResRoomGuest ge;
 
-			BackC(ResRoomGuest ge) {
-				this.ge = ge;
-			}
+            BackC(ResRoomGuest ge) {
+                this.ge = ge;
+            }
 
-			public void doOne(AbstractTo val) {
-				CustomerP cu = (CustomerP) val;
-				ge.setO2(cu);
-				s.signalDone();
-			}
-		}
+            public void doOne(AbstractTo val) {
+                CustomerP cu = (CustomerP) val;
+                ge.setO2(cu);
+                s.signalDone();
+            }
+        }
 
-		private ResRoomGuest createR(ResObjectP re) {
-			ResRoomGuest gu = new ResRoomGuest(re);
-			gu.getO2().setCType(CustomerType.Person);
-			return gu;
-		}
+        private ResRoomGuest createR(ResObjectP re) {
+            ResRoomGuest gu = new ResRoomGuest(re);
+            gu.getO2().setCType(CustomerType.Person);
+            return gu;
+        }
 
-		public void doOne(AbstractTo val) {
-			ResObjectP re = (ResObjectP) val;
-			int ma = re.getNoPerson();
-			ArrayList<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
-			Collection<GuestP> ge = r.getGuests();
-			s = new SyncC(1);
-			if (ge != null) {
-				s = new SyncC(1 + ge.size());
-				for (GuestP g : ge) {
-					ResRoomGuest gu = createR(re);
-					gu.setO1(g);
-					gList.add(gu);
-					CommandParam pa = rI.getR().getHotelDictId(
-							DictType.CustomerList, g.getCustomer());
-					rI.getR().getOne(RType.ListDict, pa, new BackC(gu));
-				}
-			}
-			while (gList.size() < ma) {
-				ResRoomGuest gu = createR(re);
-				gList.add(gu);
-			}
-			sync.gList.addAll(gList);
-			s.signalDone();
-		}
-	}
+        public void doOne(AbstractTo val) {
+            ResObjectP re = (ResObjectP) val;
+            int ma = re.getNoPerson();
+            ArrayList<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
+            List<GuestP> ge = r.getGuests();
+            s = new SyncC(1);
+            if (ge != null) {
+                s = new SyncC(1 + ge.size());
+                for (GuestP g : ge) {
+                    ResRoomGuest gu = createR(re);
+                    gu.setO1(g);
+                    gList.add(gu);
+                    CommandParam pa = rI.getR().getHotelDictId(
+                            DictType.CustomerList, g.getCustomer());
+                    rI.getR().getOne(RType.ListDict, pa, new BackC(gu));
+                }
+            }
+            while (gList.size() < ma) {
+                ResRoomGuest gu = createR(re);
+                gList.add(gu);
+            }
+            sync.gList.addAll(gList);
+            s.signalDone();
+        }
+    }
 
-	void showDialog(Widget arg0) {
-		BookRecordP br = GetMaxUtil.getLastBookRecord(p);
-		sync = new Sync(br.getBooklist().size(), arg0);
-		for (BookElemP r : br.getBooklist()) {
-			R rr = new R(r);
-			rInfo.getInfo(r.getResObject(), rr);
-		}
-	}
+    void showDialog(Widget arg0) {
+        BookRecordP br = GetMaxUtil.getLastBookRecord(p);
+        sync = new Sync(br.getBooklist().size(), arg0);
+        for (BookElemP r : br.getBooklist()) {
+            R rr = new R(r);
+            rInfo.getInfo(r.getResObject(), rr);
+        }
+    }
 }

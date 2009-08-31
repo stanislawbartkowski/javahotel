@@ -15,6 +15,7 @@ package com.javahotel.remoteinterfaces;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.ReturnPersist;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -28,5 +29,8 @@ public interface IHotelOp {
 
     ReturnPersist hotelOpRet(SessionT sessionID, HotelOpType op,
             CommandParam p);
-    
+
+    ReturnPersist hotelOpRet(SessionT sessionID, CommandParam p);
+
+    List<ReturnPersist> hotelOpRet(SessionT sessionID, List<CommandParam> p);
 }

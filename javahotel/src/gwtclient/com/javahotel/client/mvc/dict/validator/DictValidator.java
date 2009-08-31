@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.mvc.dict.validator;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.GWTGetService;
@@ -39,7 +39,7 @@ class DictValidator extends AbstractValidator {
 
 	public void validateS(final int action, final RecordModel a,
 			final ISignalValidate sig) {
-		Collection<InvalidateMess> errMess = ValidUtil.validateEmpty(d, action,
+		List<InvalidateMess> errMess = ValidUtil.validateEmpty(d, action,
 				a);
 		if (errMess != null) {
 			ValidUtil.callSig(errMess, sig, iCo);

@@ -20,7 +20,7 @@ import com.javahotel.common.command.RRoom;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResObjectP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -33,16 +33,16 @@ class PersistRecordResRoom extends AbstractPersistRecordDict {
     }
 
     @Override
-    protected Collection<? extends DictionaryP> createNew() {
-        Collection<DictionaryP> dcol =
+    protected List<? extends DictionaryP> createNew() {
+        List<DictionaryP> dcol =
                 new ArrayList<DictionaryP>();
         return dcol;
     }
 
     @Override
-    protected void setRes(RecordModel mo, Collection<? extends DictionaryP> col) {
+    protected void setRes(RecordModel mo, List<? extends DictionaryP> col) {
         ResObjectP dp = (ResObjectP) mo.getA();
-        dp.setFacilities((Collection<DictionaryP>) col);
+        dp.setFacilities((List<DictionaryP>) col);
         if (dp.getRType() == null) {
             dp.setRType(RRoom.Room);
         }

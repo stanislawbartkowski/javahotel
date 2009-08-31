@@ -18,7 +18,7 @@ import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 
 import com.javahotel.remoteinterfaces.HotelT;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -65,7 +65,7 @@ public class TestSuite15 extends TestHelper {
         t2.start();
         t1.join();
         t2.join();
-        Collection<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
         assertEquals(2, res.size());
         int no = 0;
         for (DictionaryP d : res) {
@@ -87,7 +87,7 @@ public class TestSuite15 extends TestHelper {
         t2.start();
         t1.join();
         t2.join();
-        Collection<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
         assertEquals(100, res.size());
         DictionaryP de = null;
         int no = 0;
@@ -115,7 +115,7 @@ public class TestSuite15 extends TestHelper {
         for (int i = 0; i < ta.length; i++) {
             ta[i].join();
         }
-        Collection<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
         assertEquals(200, res.size());
         DictionaryP de = null;
         boolean isOk = false;

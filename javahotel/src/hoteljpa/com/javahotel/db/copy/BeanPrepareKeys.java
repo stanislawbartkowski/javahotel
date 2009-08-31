@@ -1,6 +1,6 @@
 package com.javahotel.db.copy;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.toobject.AddPaymentP;
@@ -49,7 +49,7 @@ public class BeanPrepareKeys {
 	}
 
 	private static void checkCollection(final ICommandContext iC, Class<?> cla,
-			Collection<? extends DictionaryP> co) {
+			List<? extends DictionaryP> co) {
 		for (DictionaryP o : co) {
 			checkD(iC, cla, o);
 		}
@@ -62,12 +62,12 @@ public class BeanPrepareKeys {
 	}
 
 	private static void prepare(final ICommandContext iC, OfferPriceP o) {
-		Collection<OfferServicePriceP> col = o.getServiceprice();
+		List<OfferServicePriceP> col = o.getServiceprice();
 		final String seasonName = o.getSeason();
 		if (col != null) {
 			for (OfferServicePriceP of : col) {
 				checkD(iC, ServiceDictionary.class, of.getService());
-				Collection<OfferSpecialPriceP> sCol = of.getSpecialprice();
+				List<OfferSpecialPriceP> sCol = of.getSpecialprice();
 				if (sCol != null) {
 					for (OfferSpecialPriceP sp : sCol) {
 						Long pId = sp.getSpecialperiod();
@@ -84,7 +84,7 @@ public class BeanPrepareKeys {
 		}
 	}
 
-	public static void prepareA(ICommandContext iC, Collection<AddPaymentP> col) {
+	public static void prepareA(ICommandContext iC, List<AddPaymentP> col) {
 		if (col == null) {
 			return;
 		}
@@ -94,7 +94,7 @@ public class BeanPrepareKeys {
 	}
 
 	private static void prepare(final ICommandContext iC, RoomStandardP o) {
-		Collection<? extends DictionaryP> col = o.getServices();
+		List<? extends DictionaryP> col = o.getServices();
 		for (DictionaryP d : col) {
 			ServiceDictionaryP dp = (ServiceDictionaryP) d;
 			checkD(iC, ServiceDictionary.class, dp);
@@ -124,7 +124,7 @@ public class BeanPrepareKeys {
 			}
 		}
 
-		Collection<BillP> col = o.getBill();
+		List<BillP> col = o.getBill();
 		if (col != null) {
 			for (BillP p : col) {
 				prepareB(iC, p);

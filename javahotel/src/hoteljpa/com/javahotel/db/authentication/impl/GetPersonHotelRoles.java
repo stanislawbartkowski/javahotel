@@ -13,7 +13,7 @@
 package com.javahotel.db.authentication.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.db.authentication.jpa.GroupD;
 import com.javahotel.remoteinterfaces.HotelT;
@@ -26,7 +26,7 @@ import com.javahotel.security.login.PersonHotelRules;
  */
 class GetPersonHotelRoles extends CommandTra {
 
-	final Collection<String> out;
+	final List<String> out;
 
 	GetPersonHotelRoles(final SessionT sessionId, final String person,
 			final HotelT hotel) {

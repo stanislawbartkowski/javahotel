@@ -14,7 +14,7 @@ package com.javahotel.db.commands;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +30,7 @@ import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.ToLD;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
+import java.util.List;
 
 /**
  *
@@ -37,7 +38,7 @@ import com.javahotel.remoteinterfaces.SessionT;
  */
 public class GetDownPaymentsList extends CommandAbstract {
 
-    private Collection<DownPaymentP> col;
+    private List<DownPaymentP> col;
     private final Date dFrom;
     private final Date dTo;
 
@@ -48,13 +49,13 @@ public class GetDownPaymentsList extends CommandAbstract {
         this.dTo = dTo;
     }
 
-    public Collection<? extends AbstractTo> getRes() {
+    public List<? extends AbstractTo> getRes() {
         return col;
     }
 
     @Override
     protected void command() {
-        Collection<AdvancePayment> c = GetQueries.getValidationForHotel(iC);
+        List<AdvancePayment> c = GetQueries.getValidationForHotel(iC);
         PeriodT pe = new PeriodT(dFrom, dTo);
         Map<Long, AdvancePayment> ma = new HashMap<Long, AdvancePayment>();
         for (AdvancePayment va : c) {

@@ -14,7 +14,7 @@ package com.javahotel.db.commands;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
@@ -34,6 +34,7 @@ import com.javahotel.dbjpa.ejb3.JpaEntity;
 import com.javahotel.dbres.log.HLog;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
+import java.util.List;
 
 /**
  * 
@@ -41,71 +42,70 @@ import com.javahotel.remoteinterfaces.SessionT;
  */
 class HotelHelper {
 
-	private HotelHelper() {
-	}
+    private HotelHelper() {
+    }
 
-	static void removeAllDic(final ICommandContext iC, final DictType d,
-			final HotelT ho) {
-		Collection<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d,
-				true);
-		iC.getJpa().removeCollection(c);
-	}
+    static void removeAllDic(final ICommandContext iC, final DictType d,
+            final HotelT ho) {
+        List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d,
+                true);
+        iC.getJpa().removeList(c);
+    }
 
-	static void removeHo(final ICommandContext iC, final HotelT ho) {
-		// re-read to make attached
-		RHotel ro = iC.getJpa().getRecord(RHotel.class, iC.getRHotel().getId());
-		iC.getJpa().removeObject(ro);
-	}
+    static void removeHo(final ICommandContext iC, final HotelT ho) {
+        // re-read to make attached
+        RHotel ro = iC.getJpa().getRecord(RHotel.class, iC.getRHotel().getId());
+        iC.getJpa().removeObject(ro);
+    }
 
-	static JpaEntity getJPA(final SessionT se, final HotelT ho) {
+    static JpaEntity getJPA(final SessionT se, final HotelT ho) {
 
-		String databasename = HotelStore.getDatabase(se, ho);
+        String databasename = HotelStore.getDatabase(se, ho);
 
-		JpaEntity jpa = new JpaEntity(new JpaDataId(databasename), HLog.getL());
-		return jpa;
-	}
+        JpaEntity jpa = new JpaEntity(new JpaDataId(databasename), HLog.getL());
+        return jpa;
+    }
 
-	static Collection<AbstractTo> toA(final ICommandContext iC,
-			final Collection<?> sou, final DictType d) {
-		Collection<AbstractTo> dest = new ArrayList<AbstractTo>();
-		for (Object o : sou) {
-			AbstractTo a = AbstractObjectFactory.getAbstract(d);
-			CommonCopyBean.copyB(iC, o, a);
-			dest.add(a);
-		}
-		return dest;
-	}
+    static List<AbstractTo> toA(final ICommandContext iC,
+            final List<?> sou, final DictType d) {
+        List<AbstractTo> dest = new ArrayList<AbstractTo>();
+        for (Object o : sou) {
+            AbstractTo a = AbstractObjectFactory.getAbstract(d);
+            CommonCopyBean.copyB(iC, o, a);
+            dest.add(a);
+        }
+        return dest;
+    }
 
-	static BigDecimal sumPayment(Collection<Payment> col) {
-		BigDecimal sum = new BigDecimal(0);
-		for (Payment pa : col) {
-			if (pa.isSumOp()) {
-				sum = sum.add(pa.getAmount());
-			} else {
-				sum = sum.subtract(pa.getAmount());
-			}
-		}
-		return sum;
-	}
+    static BigDecimal sumPayment(List<Payment> col) {
+        BigDecimal sum = new BigDecimal(0);
+        for (Payment pa : col) {
+            if (pa.isSumOp()) {
+                sum = sum.add(pa.getAmount());
+            } else {
+                sum = sum.subtract(pa.getAmount());
+            }
+        }
+        return sum;
+    }
 
-	static BigDecimal sumPayment(final Booking p) {
-		Collection<Payment> col = getBill(p).getPayments();
-		return sumPayment(col);
-	}
+    static BigDecimal sumPayment(final Booking p) {
+        List<Payment> col = getBill(p).getPayments();
+        return sumPayment(col);
+    }
 
-	private static <T extends IPureDictionary> T getName(
-			final Collection<? extends IPureDictionary> col, final String name) {
-		for (IPureDictionary t : col) {
-			if (t.getName().equals(name)) {
-				return (T) t;
-			}
-		}
-		return null;
-	}
+    private static <T extends IPureDictionary> T getName(
+            final List<? extends IPureDictionary> col, final String name) {
+        for (IPureDictionary t : col) {
+            if (t.getName().equals(name)) {
+                return (T) t;
+            }
+        }
+        return null;
+    }
 
-	public static Bill getBill(Booking p) {
-		Bill b = getName(p.getBill(), BillUtil.DOWNSYMBOL);
-		return b;
-	}
-
+    public static Bill getBill(Booking p) {
+        Bill b = getName(p.getBill(), BillUtil.DOWNSYMBOL);
+        return b;
+    }
 }

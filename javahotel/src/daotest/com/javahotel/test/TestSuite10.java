@@ -10,7 +10,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -62,7 +62,7 @@ public class TestSuite10 extends TestHelper {
         System.out.println("Payments");
         loginuser();
         BookingP bok = createB();
-        Collection<PaymentP> col = new ArrayList<PaymentP>();
+        List<PaymentP> col = new ArrayList<PaymentP>();
         PaymentP p = new PaymentP();
         p.setAmount(new BigDecimal(123));
         p.setDateOp(DateFormatUtil.toD("2008/02/02"));
@@ -88,7 +88,7 @@ public class TestSuite10 extends TestHelper {
         System.out.println("validation");
         loginuser();
         BookingP bok = createB();
-        Collection<AdvancePaymentP> col = new ArrayList<AdvancePaymentP>();
+        List<AdvancePaymentP> col = new ArrayList<AdvancePaymentP>();
         AdvancePaymentP p = new AdvancePaymentP();
         p.setLp(new Integer(1));
         p.setDateOp(DateFormatUtil.toD("2008/02/02"));
@@ -138,7 +138,7 @@ public class TestSuite10 extends TestHelper {
         System.out.println("states");
         loginuser();
         BookingP bok = createB();
-        Collection<BookingStateP> col = new ArrayList<BookingStateP>();
+        List<BookingStateP> col = new ArrayList<BookingStateP>();
         BookingStateP p = new BookingStateP();
         p.setLp(new Integer(1));
         p.setDateOp(DateFormatUtil.toD("2008/02/02"));
@@ -175,7 +175,7 @@ public class TestSuite10 extends TestHelper {
         System.out.println("booking record");
         loginuser();
         BookingP bok = createB();
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
 //        OfferSeasonP oSeason = getOfferSeason("P2008");
 //        bok.setSeason("P2008");
@@ -215,7 +215,7 @@ public class TestSuite10 extends TestHelper {
         be.setService("2p2");
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/03/07"));
-        Collection<BookElemP> col = new ArrayList<BookElemP>();
+        List<BookElemP> col = new ArrayList<BookElemP>();
         col.add(be);
         p.setBooklist(col);
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
@@ -244,7 +244,7 @@ public class TestSuite10 extends TestHelper {
             be = bb;
         }
         PaymentRowP pR = new PaymentRowP();
-        Collection<PaymentRowP> col = new ArrayList<PaymentRowP>();
+        List<PaymentRowP> col = new ArrayList<PaymentRowP>();
         pR.setCustomerPrice(new BigDecimal(123));
         pR.setOfferPrice(new BigDecimal(333));
         pR.setRowFrom(DateFormatUtil.toD("2008/02/07"));

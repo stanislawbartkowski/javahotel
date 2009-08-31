@@ -12,7 +12,7 @@
  */
 package com.javahotel.dbjpa.ejb3;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -25,7 +25,7 @@ class GetValidDataBaseNames {
 	private static final String RELEASE = ".databasevalid";
 	private static final String OK = "ok";
 
-	static Collection<String> getNames() {
+	static List<String> getNames() {
 		Map<String, String> prop = CommonData.getProp();
 		Vector<String> v = new Vector<String>();
 		for (final String s : prop.keySet()) {

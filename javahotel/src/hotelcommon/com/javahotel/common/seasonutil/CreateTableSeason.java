@@ -20,7 +20,7 @@ import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.SeasonPeriodT;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -36,9 +36,9 @@ public class CreateTableSeason {
         return pe;
     }
 
-    private static Collection<PeriodT> createC(final OfferSeasonP oP,
+    private static List<PeriodT> createC(final OfferSeasonP oP,
             final SeasonPeriodT t) {
-        Collection<PeriodT> out = new ArrayList<PeriodT>();
+        List<PeriodT> out = new ArrayList<PeriodT>();
         for (OfferSeasonPeriodP p : oP.getPeriods()) {
             if (p.getPeriodT() == t) {
                 out.add(createP(p));
@@ -47,19 +47,19 @@ public class CreateTableSeason {
         return out;
     }
 
-    public static Collection<PeriodT> createTable(
+    public static List<PeriodT> createTable(
             final OfferSeasonP oP, final StartWeek sWeek) {
-        Collection<PeriodT> co = createC(oP, SeasonPeriodT.LOW);
-        Collection<PeriodT> cous = GetPeriods.get(
+        List<PeriodT> co = createC(oP, SeasonPeriodT.LOW);
+        List<PeriodT> cous = GetPeriods.get(
                 new PeriodT(oP.getStartP(), oP.getEndP(), null), co);
 
         Integer sign = new Integer(0);
-        Collection<PeriodT> wCo = GetPeriods.listOfWeekends(
+        List<PeriodT> wCo = GetPeriods.listOfWeekends(
                 new PeriodT(oP.getStartP(), oP.getEndP(), sign), sWeek);
 
-        Collection<PeriodT> cou = new ArrayList<PeriodT>();
+        List<PeriodT> cou = new ArrayList<PeriodT>();
         for (PeriodT p : cous) {
-            Collection<PeriodT> pp = GetPeriods.get(p, wCo);
+            List<PeriodT> pp = GetPeriods.get(p, wCo);
             for (PeriodT pp1 : pp) {
                 if (pp1.getI() == sign) {
                     OfferSeasonPeriodP oPP = new OfferSeasonPeriodP();
@@ -75,10 +75,10 @@ public class CreateTableSeason {
         }
 
 
-        Collection<PeriodT> coS = createC(oP, SeasonPeriodT.SPECIAL);
-        Collection<PeriodT> out = new ArrayList<PeriodT>();
+        List<PeriodT> coS = createC(oP, SeasonPeriodT.SPECIAL);
+        List<PeriodT> out = new ArrayList<PeriodT>();
         for (PeriodT p : cou) {
-            Collection<PeriodT> pp = GetPeriods.get(p, coS);
+            List<PeriodT> pp = GetPeriods.get(p, coS);
             out.addAll(pp);
         }
 
@@ -96,7 +96,7 @@ public class CreateTableSeason {
             }
         };
 
-        Collection<PeriodT> cout = GetPeriods.consolidatePeriods(out, ie);
+        List<PeriodT> cout = GetPeriods.consolidatePeriods(out, ie);
         return cout;
     }
 }

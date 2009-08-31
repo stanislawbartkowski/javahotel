@@ -18,7 +18,7 @@ import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.PaymentP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -36,7 +36,7 @@ public class BillUtil {
     }
 
     public static <T extends DictionaryP> T getName(
-            final Collection<? extends DictionaryP> col, final String name) {
+            final List<? extends DictionaryP> col, final String name) {
         for (DictionaryP t : col) {
             if (t.getName().equals(name)) {
                 return (T) t;
@@ -53,17 +53,17 @@ public class BillUtil {
         return getBill(p, BillUtil.DOWNSYMBOL);
     }
     
-    public static Collection<PaymentP> getPayment(final BookingP p, 
+    public static List<PaymentP> getPayment(final BookingP p,
             final String bName) {
         return getBill(p,bName).getPayments();        
     }
     
-    public static Collection<PaymentP> getPayment(final BookingP p) {
+    public static List<PaymentP> getPayment(final BookingP p) {
         return getBill(p).getPayments();        
     }
     
-    public static <T> Collection<T> getEmptyCol(T elem) {
-        Collection<T> col = new ArrayList<T>();
+    public static <T> List<T> getEmptyCol(T elem) {
+        List<T> col = new ArrayList<T>();
         col.add(elem);
         return col;
     }

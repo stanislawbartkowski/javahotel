@@ -35,7 +35,7 @@ import com.javahotel.common.toobject.AdvancePaymentP;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -49,7 +49,7 @@ public class TestSuite16 extends TestHelper {
     public void Test1() {
         loginuser();
         BookingP bok = createB();
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -68,11 +68,11 @@ public class TestSuite16 extends TestHelper {
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/03/07"));
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
         
-        Collection<AdvancePaymentP> vCol = new ArrayList<AdvancePaymentP>();
+        List<AdvancePaymentP> vCol = new ArrayList<AdvancePaymentP>();
         AdvancePaymentP v = new AdvancePaymentP();
         v.setLp(new Integer(1));
         v.setAmount(new BigDecimal(100));
@@ -87,7 +87,7 @@ public class TestSuite16 extends TestHelper {
         par.setHotel(HOTEL1);
         par.setDateFrom(DateFormatUtil.toD("2008/03/07"));
         par.setDateTo(DateFormatUtil.toD("2008/03/09"));
-        Collection<AbstractTo> res = list.getList(se, RType.DownPayments, par);
+        List<AbstractTo> res = list.getList(se, RType.DownPayments, par);
         assertEquals(1, res.size());
         for (AbstractTo a : res) {
             DownPaymentP dp = (DownPaymentP) a;
@@ -95,7 +95,7 @@ public class TestSuite16 extends TestHelper {
             eqBig(new BigDecimal(0),dp.getSumPayment());
         }
         
-        Collection<PaymentP> pCol = new ArrayList<PaymentP>();
+        List<PaymentP> pCol = new ArrayList<PaymentP>();
         PaymentP pp = new PaymentP();
         pp.setAmount(new BigDecimal(80));
         pp.setLp(new Integer(1));

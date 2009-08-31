@@ -15,7 +15,7 @@ package com.javahotel.db.hotelbase.jpa;
 
 import com.javahotel.common.command.BookingEnumTypes;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -47,11 +47,11 @@ public class Booking extends AbstractDictionary {
     @Basic(optional=false)
     private String season;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-    private Collection<BookRecord> bookrecords;
+    private List<BookRecord> bookrecords;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-    private Collection<BookingState> state;
+    private List<BookingState> state;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-    private Collection<Bill> bill;
+    private List<Bill> bill;
     @Basic
     private String resName;
     @Basic(optional=false)
@@ -103,19 +103,19 @@ public class Booking extends AbstractDictionary {
 		this.season = season;
 	}
 
-	public Collection<BookRecord> getBookrecords() {
+	public List<BookRecord> getBookrecords() {
         return bookrecords;
     }
 
-    public void setBookrecords(final Collection<BookRecord> bookrecords) {
+    public void setBookrecords(final List<BookRecord> bookrecords) {
         this.bookrecords = bookrecords;
     }
 
-    public Collection<BookingState> getState() {
+    public List<BookingState> getState() {
         return state;
     }
 
-    public void setState(final Collection<BookingState> state) {
+    public void setState(final List<BookingState> state) {
         this.state = state;
     }
 
@@ -135,11 +135,11 @@ public class Booking extends AbstractDictionary {
         this.bookingType = bookingType;
     }
 
-    public Collection<Bill> getBill() {
+    public List<Bill> getBill() {
         return bill;
     }
 
-    public void setBill(Collection<Bill> bill) {
+    public void setBill(List<Bill> bill) {
         this.bill = bill;
     }
 

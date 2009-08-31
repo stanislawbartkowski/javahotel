@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.hotelbase.impl;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -42,7 +42,7 @@ import com.javahotel.remoteinterfaces.SessionT;
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class HotelData implements IHotelData {
 
-	public Collection<AbstractTo> getDicList(final SessionT sessionId,
+	public List<AbstractTo> getDicList(final SessionT sessionId,
 			final DictType d, final HotelT hotel) {
 		GetListCommand co = new GetListCommand(sessionId, d, hotel);
 		co.run();

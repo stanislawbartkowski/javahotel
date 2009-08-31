@@ -23,7 +23,7 @@ import com.javahotel.common.rescache.ResObjectCache.IReadResCallBack;
 import com.javahotel.common.rescache.ResObjectCache.IReadResData;
 import com.javahotel.common.rescache.ResObjectCache.ISetResState;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -38,7 +38,7 @@ public class TestSuite5 {
     public void Test1() {
         Date d1 = TestDUtil.createD(2008, 10, 1);
         Date d2 = TestDUtil.createD(2008, 10, 2);
-        Collection<String> col = new ArrayList<String>();
+        List<String> col = new ArrayList<String>();
         col.add("1p");
         ReadResParam r = new ReadResParam(col, new PeriodT(d1,d2));
         IReadResData ir = new IReadResData() {
@@ -56,7 +56,7 @@ public class TestSuite5 {
                 assertEquals("1p", sx);
                 assertEquals("2008/10/01", DateFormatUtil.toS(pa.getPe().getFrom()));
                 assertEquals("2008/10/02", DateFormatUtil.toS(pa.getPe().getTo()));
-                Collection<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
+                List<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
                 ResDayObjectStateP re = new ResDayObjectStateP();
                 re.setD(TestDUtil.createD(2008, 10, 1));
                 re.setResObject("1p");
@@ -108,7 +108,7 @@ public class TestSuite5 {
                     assertEquals("1p", sx);
                     assertEquals("2008/10/01", DateFormatUtil.toS(pa.getPe().getFrom()));
                     assertEquals("2008/10/02", DateFormatUtil.toS(pa.getPe().getTo()));
-                    Collection<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
+                    List<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
                     ResDayObjectStateP re = new ResDayObjectStateP();
                     re.setD(TestDUtil.createD(2008, 10, 1));
                     re.setResObject("1p");
@@ -148,7 +148,7 @@ public class TestSuite5 {
     public void Test2() {
         Date d1 = TestDUtil.createD(2008, 10, 1);
         Date d2 = TestDUtil.createD(2008, 10, 2);
-        Collection<String> col = new ArrayList<String>();
+        List<String> col = new ArrayList<String>();
         col.add("1p");
         ReadResParam r = new ReadResParam(col, new PeriodT(d1,d2));
         readRes ir = new readRes();
@@ -224,7 +224,7 @@ public class TestSuite5 {
                     for (final String s : pa.getResList()) {
                         sx = s;
                     }
-                    Collection<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
+                    List<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
                     ResDayObjectStateP re = new ResDayObjectStateP();
                     re.setD(TestDUtil.createD(2008, 10, 1));
                     re.setResObject("1p");
@@ -274,7 +274,7 @@ public class TestSuite5 {
     public void Test3() {
         Date d1 = TestDUtil.createD(2008, 10, 1);
         Date d2 = TestDUtil.createD(2008, 10, 2);
-        Collection<String> col = new ArrayList<String>();
+        List<String> col = new ArrayList<String>();
         col.add("1p");
         ReadResParam r = new ReadResParam(col, new PeriodT(d1,d2));
         readRes3 ir = new readRes3();
@@ -331,7 +331,7 @@ public class TestSuite5 {
     public void Test4() {
         Date d1 = TestDUtil.createD(2008, 10, 1);
         Date d2 = TestDUtil.createD(2008, 10, 2);
-        Collection<String> col = new ArrayList<String>();
+        List<String> col = new ArrayList<String>();
         col.add("1p");
         ReadResParam r = new ReadResParam(col, new PeriodT(d1,d2));
         readRes3 ir = new readRes3();
@@ -356,7 +356,7 @@ public class TestSuite5 {
     public void Test5() {
         Date d1 = TestDUtil.createD(2008, 10, 1);
         Date d2 = TestDUtil.createD(2008, 10, 2);
-        Collection<String> col = new ArrayList<String>();
+        List<String> col = new ArrayList<String>();
         col.add("1p");
         ReadResParam r = new ReadResParam(col, new PeriodT(d1,d2));
         readRes3 ir = new readRes3();

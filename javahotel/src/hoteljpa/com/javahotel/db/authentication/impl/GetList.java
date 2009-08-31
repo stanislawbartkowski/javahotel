@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.authentication.impl;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.PersonP;
@@ -25,19 +25,19 @@ import com.javahotel.remoteinterfaces.SessionT;
  */
 public class GetList {
 
-	public static Collection<HotelP> getHotelList(final SessionT sessionId) {
+	public static List<HotelP> getHotelList(final SessionT sessionId) {
 		GetHotelListCommand p = new GetHotelListCommand(sessionId);
 		p.run();
 		return p.res;
 	}
 
-	public static Collection<PersonP> getPersonList(final SessionT sessionId) {
+	public static List<PersonP> getPersonList(final SessionT sessionId) {
 		GetPersonListCommand p = new GetPersonListCommand(sessionId);
 		p.run();
 		return p.out;
 	}
 
-	public static Collection<String> getPersonHotelRoles(
+	public static List<String> getPersonHotelRoles(
 			final SessionT sessionId, final String person, final HotelT hotel) {
 		GetPersonHotelRoles p = new GetPersonHotelRoles(sessionId, person,
 				hotel);

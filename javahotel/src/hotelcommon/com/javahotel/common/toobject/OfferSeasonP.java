@@ -14,7 +14,7 @@ package com.javahotel.common.toobject;
 
 import com.javahotel.common.command.CommandUtil;
 import com.javahotel.types.DateP;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 /**
@@ -31,13 +31,13 @@ public class OfferSeasonP extends DictionaryP {
         startP = new DateP();
         endP = new DateP();
     }
-    private Collection<OfferSeasonPeriodP> periods;
+    private List<OfferSeasonPeriodP> periods;
 
-    public Collection<OfferSeasonPeriodP> getPeriods() {
+    public List<OfferSeasonPeriodP> getPeriods() {
         return periods;
     }
 
-    public void setPeriods(final Collection<OfferSeasonPeriodP> periods) {
+    public void setPeriods(final List<OfferSeasonPeriodP> periods) {
         this.periods = periods;
     }
 

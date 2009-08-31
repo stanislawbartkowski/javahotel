@@ -24,9 +24,12 @@ import com.javahotel.db.commands.AddDownPaymentState;
 import com.javahotel.db.commands.AddGuests;
 import com.javahotel.db.commands.AddPayment;
 import com.javahotel.db.commands.ChangeBookingToStay;
+import com.javahotel.db.commands.DictNumberRecord;
+import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.IHotelOp;
 import com.javahotel.remoteinterfaces.SessionT;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -55,6 +58,13 @@ public class HotelOp implements IHotelOp {
         String ho = p.getHotel();
         ReturnPersist ret = null;
         switch (op) {
+            case NumberOfDictRecords:
+                DictNumberRecord nu = new DictNumberRecord(sessionId,
+                        p.getDict(null), new HotelT( p.getHotel()));
+                nu.run();
+                ret = nu.getRes();
+                break;
+                
             case ChangeBookingToStay:
                 String resName = p.getReservName();
                 ChangeBookingToStay sta = new ChangeBookingToStay(sessionId,
@@ -74,14 +84,14 @@ public class HotelOp implements IHotelOp {
                 break;
             case PersistGuests:
                 resName = p.getReservName();
-                Map<String, Collection<GuestP>> c = p.getGuests();
+                Map<String, List<GuestP>> c = p.getGuests();
                 AddGuests a = new AddGuests(sessionId, ho, resName, c);
                 a.run();
                 break;
             case PersistAddPayment:
                 resName = p.getReservName();
                 BillP bi = p.getBill();
-                Collection<AddPaymentP> add = p.getAddpayment();
+                List<AddPaymentP> add = p.getAddpayment();
                 AddPayment addCo = new AddPayment(sessionId, ho, resName,
                         bi, add);
                 addCo.run();
@@ -89,6 +99,19 @@ public class HotelOp implements IHotelOp {
                 break;
             default:
 
+        }
+        return ret;
+    }
+
+    public ReturnPersist hotelOpRet(SessionT sessionID, CommandParam p) {
+        return hotelOpRet(sessionID, p.getoP(), p);
+    }
+
+    public List<ReturnPersist> hotelOpRet(SessionT sessionID, List<CommandParam> p) {
+        List<ReturnPersist> ret = new ArrayList<ReturnPersist>();
+        for (CommandParam pa : p) {
+            ReturnPersist re = hotelOpRet(sessionID, pa);
+            ret.add(re);
         }
         return ret;
     }

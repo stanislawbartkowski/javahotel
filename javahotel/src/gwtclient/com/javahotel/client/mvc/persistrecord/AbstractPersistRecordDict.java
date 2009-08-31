@@ -22,7 +22,7 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -37,20 +37,20 @@ abstract class AbstractPersistRecordDict extends PersistRecordDict {
         this.serv = serv;
     }
 
-    protected abstract Collection<? extends DictionaryP> createNew();
+    protected abstract List<? extends DictionaryP> createNew();
 
     protected abstract void setRes(RecordModel mo,
-            Collection<? extends DictionaryP> col);
+            List<? extends DictionaryP> col);
 
     private class SetD implements IVectorList {
 
         private final IPersistResult ires;
-        private final Collection<String> dic;
+        private final List<String> dic;
         private final int action;
         private final RecordModel mo;
 
         SetD(final IPersistResult ires,
-                final Collection<String> dic, final int action,
+                final List<String> dic, final int action,
                 final RecordModel mo) {
             this.ires = ires;
             this.dic = dic;
@@ -59,7 +59,7 @@ abstract class AbstractPersistRecordDict extends PersistRecordDict {
         }
 
         public void doVList(final ArrayList<? extends AbstractTo> val) {
-            Collection<DictionaryP> dcol = (Collection<DictionaryP>) createNew();
+            List<DictionaryP> dcol = (List<DictionaryP>) createNew();
             for (String s : dic) {
                 for (AbstractTo a : val) {
                     DictionaryP se = (DictionaryP) a;
@@ -78,7 +78,7 @@ abstract class AbstractPersistRecordDict extends PersistRecordDict {
         ICheckDictModel i = (ICheckDictModel) mo.getAuxData();
         CommandParam p = rI.getR().getHotelCommandParam();
         p.setDict(serv);
-        Collection<String> dic = i.getValues();
+        List<String> dic = i.getValues();
         rI.getR().getList(RType.ListDict, p, new SetD(ires, dic, action, mo));
     }
 }

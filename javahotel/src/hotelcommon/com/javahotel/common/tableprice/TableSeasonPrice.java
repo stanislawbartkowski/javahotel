@@ -14,7 +14,7 @@ package com.javahotel.common.tableprice;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.javahotel.common.dateutil.DateUtil;
@@ -36,7 +36,7 @@ import com.javahotel.common.toobject.PaymentRowP;
  */
 public class TableSeasonPrice {
 
-    private Collection<PeriodT> periods;
+    private List<PeriodT> periods;
     private final StartWeek sWeek;
     private OfferPriceP oP;
 
@@ -58,7 +58,7 @@ public class TableSeasonPrice {
     	return MathUtil.multI(price,no);    	
     }
 
-    public Collection<PaymentRowP> getPriceRows(final String service,
+    public List<PaymentRowP> getPriceRows(final String service,
             final Date dFrom, final Date dTo) {
         OfferServicePriceP seP = null;
         for (OfferServicePriceP p : oP.getServiceprice()) {
@@ -68,8 +68,8 @@ public class TableSeasonPrice {
             }
         }
         PeriodT p = new PeriodT(dFrom, dTo, null);
-        Collection<PeriodT> out = GetPeriods.get(p, periods);
-        Collection<PaymentRowP> col = new ArrayList<PaymentRowP>();
+        List<PeriodT> out = GetPeriods.get(p, periods);
+        List<PaymentRowP> col = new ArrayList<PaymentRowP>();
         for (PeriodT pe : out) {
             PaymentRowP pr = new PaymentRowP();
             pr.setRowFrom(pe.getFrom());

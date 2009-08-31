@@ -16,7 +16,7 @@ import com.javahotel.dbutil.container.ContainerInfo;
 import com.javahotel.remoteinterfaces.HotelServerType;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -83,7 +83,7 @@ class CreateNamedManager {
     }
 
     static void closeAll() {
-        Collection<String> ss = new ArrayList<String>();
+        List<String> ss = new ArrayList<String>();
         for (String s : m.keySet()) {
             EntityFactoryInfo ef = m.get(s);
             try {

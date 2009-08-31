@@ -21,7 +21,7 @@ import com.javahotel.dbres.exceptions.HotelException;
 import com.javahotel.dbres.log.HLog;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -29,7 +29,7 @@ import java.util.Collection;
  */
 class GetPersonListCommand extends CommandTra {
 
-    final Collection<PersonP> out;
+    final List<PersonP> out;
 
     GetPersonListCommand(final SessionT sessionId) {
         super(sessionId, null, null, false, false, false, false);
@@ -39,7 +39,7 @@ class GetPersonListCommand extends CommandTra {
 
     @Override
     protected void command() {
-        Collection<Person> li = iC.getJpa().getAllListOrdered(Person.class,
+        List<Person> li = iC.getJpa().getAllListOrdered(Person.class,
                 "name", true);
         for (Person ha : li) {
             PersonP hp = new PersonP();

@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.authentication.jpa;
 
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -30,7 +30,7 @@ public class Person {
     @Basic(optional = false)
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nameid")
-    private Collection<GroupD> group;
+    private List<GroupD> group;
     @Basic
     private String password;
 
@@ -53,11 +53,11 @@ public class Person {
         this.name = name;
     }
 
-    public Collection<GroupD> getGroup() {
+    public List<GroupD> getGroup() {
         return group;
     }
 
-    public void setGroup(final Collection<GroupD> group) {
+    public void setGroup(final List<GroupD> group) {
         this.group = group;
     }
 

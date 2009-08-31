@@ -15,7 +15,7 @@ package com.javahotel.security.login;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -93,7 +93,7 @@ public class HotelLoginP implements Serializable {
         return user;
     }
 
-    public Collection<HotelT> getHotels() {
+    public List<HotelT> getHotels() {
         Set<String> se = hot.keySet();
         ArrayList<HotelT> res = new ArrayList<HotelT>();
         for (final String ho : se) {
@@ -102,8 +102,8 @@ public class HotelLoginP implements Serializable {
         return res;
     }
 
-    public Collection<String> getRoles(final HotelT ho) {
-        Collection<String> co = hot.get(ho.getName());
+    public List<String> getRoles(final HotelT ho) {
+        List<String> co = hot.get(ho.getName());
         if (co == null) {
             co = new ArrayList<String>();
         }

@@ -13,6 +13,7 @@
 package com.javahotel.common.gensymbol;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,7 +58,7 @@ public class GenSymbolData {
             new HashMap<Integer, SymbolContainer>();
     private int maxNumb;
 
-    public GenSymbolData(final Collection<SymbolContainer> col,
+    public GenSymbolData(final List<SymbolContainer> col,
             final int maxNo) {
         for (SymbolContainer s : col) {
             ma.put(s.year, s);
@@ -72,12 +73,12 @@ public class GenSymbolData {
     public int maxNo() {
         return maxNumb;
     }
-    
+
     public int getNextMaxNo() {
         maxNumb++;
         return maxNo();
     }
-    
+
     public int getNextYear(int year) {
         SymbolContainer sy = ma.get(year);
         if (sy == null) {

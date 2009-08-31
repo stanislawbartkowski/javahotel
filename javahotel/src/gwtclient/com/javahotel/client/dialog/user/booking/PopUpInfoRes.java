@@ -13,7 +13,7 @@
 package com.javahotel.client.dialog.user.booking;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.google.gwt.user.client.Window;
@@ -54,8 +54,8 @@ class PopUpInfoRes {
 	private final static int CHECKINPERSONS = 1;
 	private final static int ADDPAYMENT = 2;
 	private final IResLocator rI;
-	private final Collection<String> rList;
-	private final Collection<Date> dLine;
+	private final List<String> rList;
+	private final List<Date> dLine;
 	private final PanelResCalendar pCa;
 	private final ResDayObjectStateP p;
 	private final Date d;
@@ -63,8 +63,8 @@ class PopUpInfoRes {
 	private PopUpWithMenuClose aPanel;
 	private Widget inW = null;
 
-	PopUpInfoRes(IResLocator rI, final Collection<String> r,
-			final Collection<Date> dLine, PanelResCalendar pCa,
+	PopUpInfoRes(IResLocator rI, final List<String> r,
+			final List<Date> dLine, PanelResCalendar pCa,
 			ResDayObjectStateP p, Date d) {
 		this.rI = rI;
 		this.rList = r;

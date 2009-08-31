@@ -16,7 +16,7 @@ import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
 import com.javahotel.client.mvc.gridmodel.model.view.IGridView;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -27,7 +27,7 @@ class GridModelView implements IGridModelView {
     private ArrayList<String> rows = null;
     private ArrayList<ColsHeader> cols = null;
     private int tNo;
-    private Collection<C> q = new ArrayList<C>();
+    private List<C> q = new ArrayList<C>();
     private boolean enabled = true;
     private final IGridView iGrid;
 

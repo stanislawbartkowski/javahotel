@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.copy;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AddPaymentP;
@@ -271,7 +271,7 @@ class CopyBooking {
 	}
 
 	static void copyGuests(final ICommandContext iC, final BookElem dest,
-			Collection<GuestP> guests) {
+			List<GuestP> guests) {
 
 		BookElemP sou = new BookElemP();
 		sou.setGuests(guests);
@@ -282,7 +282,7 @@ class CopyBooking {
 	}
 
 	static void copyAddPayment(final ICommandContext iC, final Bill dest,
-			HotelT ho, Collection<AddPaymentP> col) {
+			HotelT ho, List<AddPaymentP> col) {
 		BillP sou = new BillP();
 		sou.setAddpayments(col);
 		final CopyBeanToP.ICopyHelper copylist = getAddPayment(ho);

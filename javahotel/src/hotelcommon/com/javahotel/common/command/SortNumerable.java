@@ -14,7 +14,7 @@ package com.javahotel.common.command;
 
 import com.javahotel.types.INumerable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -36,7 +36,7 @@ public class SortNumerable {
         }
     }
 
-    public static void sortN(final Collection col) {
+    public static void sortN(final List col) {
         ArrayList a = (ArrayList) col;
         Collections.sort(a, new sortC());
     }

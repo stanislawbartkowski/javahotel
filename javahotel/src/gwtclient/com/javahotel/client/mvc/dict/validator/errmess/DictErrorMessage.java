@@ -17,7 +17,7 @@ import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.mvc.validator.IErrorMessageContext;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -25,10 +25,10 @@ import java.util.Collection;
  */
 public class DictErrorMessage implements IErrorMessage {
 
-	private final Collection<InvalidateMess> errmess;
+	private final List<InvalidateMess> errmess;
 	private final IErrorMessageContext iCo;
 
-	public DictErrorMessage(Collection<InvalidateMess> errmess,
+	public DictErrorMessage(List<InvalidateMess> errmess,
 			IErrorMessageContext iCo) {
 		this.errmess = errmess;
 		this.iCo = iCo;
@@ -41,7 +41,7 @@ public class DictErrorMessage implements IErrorMessage {
 	/**
 	 * @return the errmess
 	 */
-	public Collection<InvalidateMess> getErrmess() {
+	public List<InvalidateMess> getErrmess() {
 		return errmess;
 	}
 

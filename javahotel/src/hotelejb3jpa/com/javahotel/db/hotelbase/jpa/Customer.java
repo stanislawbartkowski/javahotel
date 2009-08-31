@@ -15,7 +15,7 @@ package com.javahotel.db.hotelbase.jpa;
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.IdentDocType;
 import com.javahotel.common.command.PersonTitle;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -60,11 +60,11 @@ public class Customer extends AbstractDictionary {
     private CustomerPersonalData customerperson;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Collection<CustomerRemark> remarks;
+    private List<CustomerRemark> remarks;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Collection<CustomerPhoneNumber> phones;
+    private List<CustomerPhoneNumber> phones;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Collection<CustomerBankAccount> accounts;
+    private List<CustomerBankAccount> accounts;
 
 
     public String getZipCode() {
@@ -163,27 +163,27 @@ public class Customer extends AbstractDictionary {
         this.stateUS = stateUS;
     }
 
-    public Collection<CustomerRemark> getRemarks() {
+    public List<CustomerRemark> getRemarks() {
         return remarks;
     }
 
-    public void setRemarks(final Collection<CustomerRemark> remarks) {
+    public void setRemarks(final List<CustomerRemark> remarks) {
         this.remarks = remarks;
     }
 
-    public Collection<CustomerPhoneNumber> getPhones() {
+    public List<CustomerPhoneNumber> getPhones() {
         return phones;
     }
 
-    public void setPhones(final Collection<CustomerPhoneNumber> phones) {
+    public void setPhones(final List<CustomerPhoneNumber> phones) {
         this.phones = phones;
     }
 
-    public Collection<CustomerBankAccount> getAccounts() {
+    public List<CustomerBankAccount> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(final Collection<CustomerBankAccount> accounts) {
+    public void setAccounts(final List<CustomerBankAccount> accounts) {
         this.accounts = accounts;
     }
 

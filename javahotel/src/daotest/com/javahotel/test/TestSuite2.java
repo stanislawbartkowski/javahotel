@@ -16,7 +16,7 @@ import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.PersonP;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.PasswordT;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class TestSuite2 extends TestHelper {
     public void Test2() throws Exception {
         System.out.println("Add one hotel");
         aut.persistHotel(se, new HotelT("holtel1"), "super hotel", "did");
-        Collection<HotelP> res = aut.getHotelList(se);
+        List<HotelP> res = aut.getHotelList(se);
         assertEquals(1,res.size());
         for (HotelP hp : res) {
             assertEquals("holtel1",hp.getName());
@@ -59,7 +59,7 @@ public class TestSuite2 extends TestHelper {
         System.out.println("Add and remove hotels");
         clearAll();
         aut.persistHotel(se, new HotelT("holtel1"), "super hotel", "did");
-        Collection<HotelP> res = aut.getHotelList(se);
+        List<HotelP> res = aut.getHotelList(se);
         assertEquals(1,res.size());
         for (HotelP hp : res) {
             assertEquals("holtel1",hp.getName());
@@ -88,7 +88,7 @@ public class TestSuite2 extends TestHelper {
         System.out.println("Add and remove userd");
         clearAll();
         aut.persistPerson(se, "user1",new PasswordT("password1"));
-        Collection<PersonP> res = aut.getPersonList(se);
+        List<PersonP> res = aut.getPersonList(se);
         assertEquals(1,res.size());
         for (PersonP hp : res) {
             assertEquals("user1",hp.getName());

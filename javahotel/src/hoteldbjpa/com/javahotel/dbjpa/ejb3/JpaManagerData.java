@@ -12,7 +12,7 @@
  */
 package com.javahotel.dbjpa.ejb3;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.dbutil.log.GetLogger;
 import com.javahotel.dbutil.prop.GetPropertiesFactoryI;
@@ -55,12 +55,12 @@ public class JpaManagerData {
         CommonData.setPuname(p);
     }
 
-    public static Collection<String> getDataBaseNames() {
+    public static List<String> getDataBaseNames() {
         return GetValidDataBaseNames.getNames();
     }
 
     static boolean isDataBaseIdValid(final String rel) {
-        Collection<String> col = getDataBaseNames();
+        List<String> col = getDataBaseNames();
         for (final String s : col) {
             String ds = s + ".";
             if (ds.equals(PersProperties.DEFAULT)) {

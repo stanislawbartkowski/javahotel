@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.mvc.auxabstract;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.command.BillEnumTypes;
 import com.javahotel.common.command.CommandUtil;
@@ -34,7 +34,7 @@ public class BillsCustomer extends AbstractTo {
     private String desc;
     private BillEnumTypes billType;
     private LId id;
-    private Collection<AddPaymentP> aP;
+    private List<AddPaymentP> aP;
     private String oPrice;
 
     public BillsCustomer(DictionaryP dict, CustomerP cust) {
@@ -110,14 +110,14 @@ public class BillsCustomer extends AbstractTo {
     /**
      * @return the aP
      */
-    public Collection<AddPaymentP> getAP() {
+    public List<AddPaymentP> getAP() {
         return aP;
     }
 
     /**
      * @param aP the aP to set
      */
-    public void setAP(Collection<AddPaymentP> aP) {
+    public void setAP(List<AddPaymentP> aP) {
         this.aP = aP;
     }
 

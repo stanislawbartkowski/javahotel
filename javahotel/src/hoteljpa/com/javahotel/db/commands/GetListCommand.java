@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.commands;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
@@ -22,6 +22,7 @@ import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.dbres.resources.IMess;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
+import java.util.List;
 
 /**
  * 
@@ -30,7 +31,7 @@ import com.javahotel.remoteinterfaces.SessionT;
 public class GetListCommand extends CommandAbstract {
 
 	private final DictType d;
-	private Collection<AbstractTo> col;
+	private List<AbstractTo> col;
 
 	public GetListCommand(final SessionT se, final DictType d,
 			final HotelT hotel) {
@@ -40,7 +41,7 @@ public class GetListCommand extends CommandAbstract {
 
 	@Override
 	protected void command() {
-		Collection<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d);
+		List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d);
 		if ((d == DictType.VatDict) && (c.size() == 0)) {
 			c = readDefault(VatDictionary.class, IMess.VATDICTTAGNAME,
 					IMess.VATDICTXMLFILE);
@@ -54,7 +55,7 @@ public class GetListCommand extends CommandAbstract {
 		iC.getLog().getL().info(msg);
 	}
 
-	public Collection<AbstractTo> getCol() {
+	public List<AbstractTo> getCol() {
 		return col;
 	}
 }

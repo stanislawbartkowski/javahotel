@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.commands;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.ReturnPersist;
@@ -49,7 +49,7 @@ public class PersistDictCommand extends CommandAbstract {
 	}
 
 	private boolean canBookRes() {
-		Collection<ResDayObjectStateP> conflict = BookCanReserv.isConflict(iC,
+		List<ResDayObjectStateP> conflict = BookCanReserv.isConflict(iC,
 				(BookingP) a);
 		if (conflict == null) {
 			return true;

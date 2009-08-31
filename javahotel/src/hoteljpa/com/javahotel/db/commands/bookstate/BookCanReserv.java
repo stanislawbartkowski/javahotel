@@ -28,7 +28,7 @@ import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.db.context.ICommandContext;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -40,10 +40,10 @@ public class BookCanReserv {
 	}
 
 	private static ReadResParam createResParam(final BookingP b,
-			final Collection<ResObjectElem> col) {
+			final List<ResObjectElem> col) {
 		BookRecordP bR = GetMaxUtil.getLastBookRecord(b);
 		PeriodT pe = new PeriodT(null, null);
-		Collection<String> resList = new ArrayList<String>();
+		List<String> resList = new ArrayList<String>();
 		for (BookElemP e : bR.getBooklist()) {
 			// TODO: can be duplicated
 			resList.add(e.getResObject());
@@ -55,11 +55,11 @@ public class BookCanReserv {
 		return new ReadResParam(resList, pe);
 	}
 
-	public static Collection<ResDayObjectStateP> isConflict(
+	public static List<ResDayObjectStateP> isConflict(
 			final ICommandContext iC, final BookingP p) {
-		Collection<ResObjectElem> col = new ArrayList<ResObjectElem>();
+		List<ResObjectElem> col = new ArrayList<ResObjectElem>();
 		ReadResParam pa = createResParam(p, col);
-		final Collection<ResDayObjectStateP> rese = BookState.getRestState(iC,
+		final List<ResDayObjectStateP> rese = BookState.getRestState(iC,
 				pa, p.getName());
 		IReadResData iRes = new IReadResData() {
 
@@ -75,7 +75,7 @@ public class BookCanReserv {
 			}
 		};
 		ca.ReadResState(pa, ii);
-		Collection<ResDayObjectStateP> out = ca.isConflict(col);
+		List<ResDayObjectStateP> out = ca.isConflict(col);
 		if (out.size() == 0) {
 			return null;
 		}

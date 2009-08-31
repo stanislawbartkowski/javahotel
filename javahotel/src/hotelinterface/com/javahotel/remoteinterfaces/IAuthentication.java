@@ -12,7 +12,7 @@
  */
 package com.javahotel.remoteinterfaces;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Remote;
 
@@ -35,14 +35,14 @@ public interface IAuthentication {
 
 	public void removeHotel(SessionT sessionId, HotelT hotel);
 
-	public Collection<HotelP> getHotelList(SessionT sessionId);
+	public List<HotelP> getHotelList(SessionT sessionId);
 
 	public void clearAuthBase(SessionT sessionId);
 
 	public void persistPersonHotel(SessionT sessionId, String person,
-			HotelT hotel, Collection<String> roles);
+			HotelT hotel, List<String> roles);
 
-	public Collection<String> getPersonHotelRoles(SessionT sessionId,
+	public List<String> getPersonHotelRoles(SessionT sessionId,
 			String person, HotelT hotel);
 
 	public void persistPerson(SessionT sessionId, String person,
@@ -50,5 +50,5 @@ public interface IAuthentication {
 
 	public void removePerson(SessionT sessionId, String person);
 
-	public Collection<PersonP> getPersonList(SessionT sessionId);
+	public List<PersonP> getPersonList(SessionT sessionId);
 }

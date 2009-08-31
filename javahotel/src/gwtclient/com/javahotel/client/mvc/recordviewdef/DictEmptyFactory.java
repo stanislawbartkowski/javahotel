@@ -20,7 +20,7 @@ import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import com.javahotel.client.dialog.IPersistAction;
 import com.javahotel.client.mvc.auxabstract.BillsCustomer;
 import com.javahotel.common.toobject.AddPaymentP;
@@ -51,28 +51,28 @@ public class DictEmptyFactory {
 	private DictEmptyFactory() {
 	}
 
-	private static final Collection<IField> dictE;
-	private static final Collection<IField> loginE;
-	private static final Collection<IField> adminE;
-	private static final Collection<IField> personE;
-	private static final Collection<IField> hotelE;
-	private static final Collection<IField> personERemove;
-	private static final Collection<IField> roomObjectE;
-	private static final Collection<IField> vatE;
-	private static final Collection<IField> servE;
-	private static final Collection<IField> seasonE;
-	private static final Collection<IField> specE;
-	private static final Collection<IField> priceE;
-	private static final Collection<IField> bankE;
-	private static final Collection<IField> phoneE;
-	private static final Collection<IField> bookE;
-	private static final Collection<IField> bookH;
-	private static final Collection<IField> validH;
-	private static final Collection<IField> bookEH;
-	private static final Collection<IField> addPayE;
-	private static final Collection<IField> roomGuestE;
-	private static final Collection<IField> billE;
-	private static final Collection<IField> addE;
+	private static final List<IField> dictE;
+	private static final List<IField> loginE;
+	private static final List<IField> adminE;
+	private static final List<IField> personE;
+	private static final List<IField> hotelE;
+	private static final List<IField> personERemove;
+	private static final List<IField> roomObjectE;
+	private static final List<IField> vatE;
+	private static final List<IField> servE;
+	private static final List<IField> seasonE;
+	private static final List<IField> specE;
+	private static final List<IField> priceE;
+	private static final List<IField> bankE;
+	private static final List<IField> phoneE;
+	private static final List<IField> bookE;
+	private static final List<IField> bookH;
+	private static final List<IField> validH;
+	private static final List<IField> bookEH;
+	private static final List<IField> addPayE;
+	private static final List<IField> roomGuestE;
+	private static final List<IField> billE;
+	private static final List<IField> addE;
 
 	static {
 		roomObjectE = new ArrayList<IField>();
@@ -175,7 +175,7 @@ public class DictEmptyFactory {
 		addE.add(AddPaymentP.F.customerSum);
 	}
 
-	private static Collection<IField> getNoEmpty(final DictData.SpecE d) {
+	private static List<IField> getNoEmpty(final DictData.SpecE d) {
 		switch (d) {
 		case SpecialPeriod:
 			return specE;
@@ -205,7 +205,7 @@ public class DictEmptyFactory {
 		return null;
 	}
 
-	private static Collection<IField> getNoEmpty(final DictType d) {
+	private static List<IField> getNoEmpty(final DictType d) {
 		switch (d) {
 		case RoomObjects:
 			return roomObjectE;
@@ -225,7 +225,7 @@ public class DictEmptyFactory {
 		return dictE;
 	}
 
-	private static Collection<IField> getNoEmpty(final int action,
+	private static List<IField> getNoEmpty(final int action,
 			final RType rt) {
 		switch (rt) {
 		case AllPersons:
@@ -239,9 +239,9 @@ public class DictEmptyFactory {
 		return null;
 	}
 
-	public static Collection<IField> getNoEmpty(final int action,
+	public static List<IField> getNoEmpty(final int action,
 			final DictData d) {
-		Collection<IField> c = null;
+		List<IField> c = null;
 		if (d.getRt() != null) {
 			c = getNoEmpty(action, d.getRt());
 			if (c != null) {
@@ -254,18 +254,18 @@ public class DictEmptyFactory {
 		return getNoEmpty(d.getD());
 	}
 
-	public static Collection<IField> getNoEmpty(final DictData d) {
+	public static List<IField> getNoEmpty(final DictData d) {
 		return getNoEmpty(IPersistAction.MODIFACTION, d);
 	}
 
 	public static Set<IField> getNoEmptyS(final DictData d) {
-		Collection<IField> co = getNoEmpty(d);
+		List<IField> co = getNoEmpty(d);
 		Set<IField> se = new HashSet<IField>();
 		se.addAll(co);
 		return se;
 	}
 
-	// public static Collection<IField> getNoEmpty(final int action, final RType
+	// public static List<IField> getNoEmpty(final int action, final RType
 	// rt) {
 	// switch (rt) {
 	// case AllPersons:

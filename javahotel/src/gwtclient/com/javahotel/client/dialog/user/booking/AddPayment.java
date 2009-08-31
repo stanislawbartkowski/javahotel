@@ -45,7 +45,7 @@ import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -141,7 +141,7 @@ public class AddPayment {
 			ABillsCustomer a;
 			a = (ABillsCustomer) mo.getA();
 			BillsCustomer bi = (BillsCustomer) a.getO();
-			Collection<AddPaymentP> col = bi.getAP();
+			List<AddPaymentP> col = bi.getAP();
 			ArrayList<NumAbstractTo> an = new ArrayList<NumAbstractTo>();
 			if (col != null) {
 				for (AddPaymentP pa : col) {
@@ -179,7 +179,7 @@ public class AddPayment {
 
 	void drawBill(BookingP book) {
 		this.p = book;
-		Collection<BillP> a = p.getBill();
+		List<BillP> a = p.getBill();
 		sync = new SS(a.size());
 
 		for (BillP bu : a) {

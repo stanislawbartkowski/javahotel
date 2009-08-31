@@ -13,7 +13,7 @@
 package com.javahotel.view.gwt.record.view;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +35,7 @@ import com.javahotel.common.toobject.IField;
 @SuppressWarnings("deprecation")
 class ELineStore {
 
-	private Collection<RecordField> el = new ArrayList<RecordField>();
+	private List<RecordField> el = new ArrayList<RecordField>();
 
 
 	void initErr() {

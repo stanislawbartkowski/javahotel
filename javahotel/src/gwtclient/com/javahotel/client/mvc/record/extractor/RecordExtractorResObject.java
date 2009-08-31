@@ -15,7 +15,7 @@ package com.javahotel.client.mvc.record.extractor;
 
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.record.view.IRecordView;
-import java.util.Collection;
+import java.util.List;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.DictionaryP;
@@ -33,7 +33,7 @@ class RecordExtractorResObject extends AbstractRecordDictExtractor {
     }
 
     @Override
-    protected Collection<? extends DictionaryP> getDic(IRecordView view, RecordModel a) {
+    protected List<? extends DictionaryP> getDic(IRecordView view, RecordModel a) {
         ResObjectP rp = (ResObjectP) a.getA();
         return rp.getFacilities();
     }

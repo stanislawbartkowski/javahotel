@@ -21,7 +21,7 @@ import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.IHotelTest;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -59,7 +59,7 @@ public class TestSuite5 extends TestHelper {
 
         String s = t.name();
         System.out.println(s);
-        Collection<DictionaryP> col = getDicList(se, t, new HotelT("hotel1"));
+        List<DictionaryP> col = getDicList(se, t, new HotelT("hotel1"));
         assertEquals(0, col.size());
         final String hotel1 = "hotel1";
         DictionaryP a = getDict(t, hotel1);
@@ -156,7 +156,7 @@ public class TestSuite5 extends TestHelper {
         st.setName("1p");
         r.setRStandard(st);
 
-        Collection<DictionaryP> fac = new ArrayList<DictionaryP>();
+        List<DictionaryP> fac = new ArrayList<DictionaryP>();
         DictionaryP f1 = new DictionaryP();
         DictionaryP f2 = new DictionaryP();
         f1.setHotel(HOTEL1);
@@ -166,7 +166,7 @@ public class TestSuite5 extends TestHelper {
         r.setRType(RRoom.Room);
         hot.persistDic(se, DictType.RoomObjects, r);
 
-        Collection<DictionaryP> ro = getDicList(se, DictType.RoomObjects, new HotelT(HOTEL1));
+        List<DictionaryP> ro = getDicList(se, DictType.RoomObjects, new HotelT(HOTEL1));
         assertEquals(1, ro.size());
         for (DictionaryP p : ro) {
             ResObjectP re = (ResObjectP) p;
@@ -214,7 +214,7 @@ public class TestSuite5 extends TestHelper {
         ResObjectP r = new ResObjectP();
         r.setHotel(ho);
         r.setName("jedynka");
-        Collection<DictionaryP> fac = new ArrayList<DictionaryP>();
+        List<DictionaryP> fac = new ArrayList<DictionaryP>();
         DictionaryP f1 = new DictionaryP();
         DictionaryP f2 = new DictionaryP();
         f1.setHotel(ho);
@@ -238,14 +238,14 @@ public class TestSuite5 extends TestHelper {
         loginuser();
         ustawHotel(HOTEL1);
 
-        Collection<DictionaryP> col;
+        List<DictionaryP> col;
 
         col = getDicList(se, DictType.RoomFacility, new HotelT(HOTEL1));
         assertEquals(2, col.size());
         col = getDicList(se, DictType.RoomStandard, new HotelT(HOTEL1));
         assertEquals(1, col.size());
 
-        Collection<DictionaryP> ro = getDicList(se, DictType.RoomObjects, new HotelT(HOTEL1));
+        List<DictionaryP> ro = getDicList(se, DictType.RoomObjects, new HotelT(HOTEL1));
         assertEquals(1, ro.size());
         for (DictionaryP p : ro) {
             ResObjectP re = (ResObjectP) p;
@@ -260,7 +260,7 @@ public class TestSuite5 extends TestHelper {
         loginuser();
         ustawHotel(HOTEL1);
         ustawHotel(HOTEL2);
-        Collection<DictionaryP> col;
+        List<DictionaryP> col;
 
         col = getDicList(se, DictType.RoomFacility, new HotelT(HOTEL1));
         assertEquals(2, col.size());
@@ -281,7 +281,7 @@ public class TestSuite5 extends TestHelper {
         loginuser();
         ustawHotel(HOTEL1);
         ustawHotel(HOTEL2);
-        Collection<DictionaryP> col;
+        List<DictionaryP> col;
 
         col = getDicList(se, DictType.RoomFacility, new HotelT(HOTEL1));
         assertEquals(2, col.size());

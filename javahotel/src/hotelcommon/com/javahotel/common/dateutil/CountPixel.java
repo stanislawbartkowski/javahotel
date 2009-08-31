@@ -13,7 +13,7 @@
 
 package com.javahotel.common.dateutil;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -25,7 +25,7 @@ public class CountPixel {
     }
 
     private static int[] count(final int pixw, final int maxw, 
-            final Collection<Integer> sou) {
+            final List<Integer> sou) {
         int[] aI = new int[sou.size()];
         int i = 0;
         for (Integer ii : sou) {
@@ -45,7 +45,7 @@ public class CountPixel {
     }
 
     public static int[] countP(final int pixw, final int maxw, 
-            final Collection<Integer> sou) {
+            final List<Integer> sou) {
         int[] c1 = count(pixw, maxw, sou);
         int restw = pixw - sum(c1);
         int[] c2 = count(restw, sum(c1), sou);

@@ -12,7 +12,7 @@
  */
 package com.javahotel.client;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -34,7 +34,7 @@ import com.javahotel.common.toobject.PersonP;
  */
 public interface GWTService extends RemoteService {
 
-	Collection<AbstractTo> getList(RType r, CommandParam p);
+	List<AbstractTo> getList(RType r, CommandParam p);
 
 	AbstractTo getOne(RType r, CommandParam p);
 
@@ -52,7 +52,7 @@ public interface GWTService extends RemoteService {
 
 	void removePerson(PersonP person);
 
-	void setRoles(String person, String hotel, Collection<String> roles);
+	void setRoles(String person, String hotel, List<String> roles);
 
 	void persistDict(DictType d, DictionaryP t);
 
@@ -63,6 +63,10 @@ public interface GWTService extends RemoteService {
 	void hotelOp(HotelOpType op, CommandParam p);
 
 	ReturnPersist hotelOpRet(HotelOpType op, CommandParam p);
+
+	ReturnPersist hotelOpRet(CommandParam p);
+
+	List<ReturnPersist> hotelOpRet(List<CommandParam> p);
 
 	ReturnPersist persistResBookingReturn(BookingP dp);
 

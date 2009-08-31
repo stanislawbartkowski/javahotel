@@ -16,7 +16,7 @@ import com.javahotel.client.mvc.auxabstract.ANumAbstractTo;
 import com.javahotel.client.mvc.table.model.ITableModel;
 import com.javahotel.common.toobject.AbstractTo;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -28,7 +28,7 @@ public class DictUtil {
     }
 
     public static <T extends AbstractTo> void readList(ITableModel mo,
-            Collection<T> col) {
+            List<T> col) {
         for (AbstractTo a : mo.getList()) {
             ANumAbstractTo aa = (ANumAbstractTo) a;
             T t = (T) aa.getO();
@@ -37,9 +37,9 @@ public class DictUtil {
     }
 
     public static <T extends AbstractTo> void setList(ITableModel mo,
-            Collection<T> col) {
+            List<T> col) {
         int lp = 0;
-        Collection<ANumAbstractTo> out = new ArrayList<ANumAbstractTo>();
+        List<ANumAbstractTo> out = new ArrayList<ANumAbstractTo>();
         if (col != null) {
             for (T t : col) {
                 ANumAbstractTo a = new ANumAbstractTo(t, t.getT());

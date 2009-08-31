@@ -20,7 +20,7 @@ import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.util.CommonHelper;
 import com.javahotel.dbjpa.copybean.CopyBean;
 import com.javahotel.remoteinterfaces.HotelT;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class AddPayments {
 	}
 
 	public static String addPayment(final ICommandContext iC, final Booking b,
-			final BillP bill, final Collection<AddPaymentP> col) {
+			final BillP bill, final List<AddPaymentP> col) {
 		Bill bi = CommonHelper.getName(b.getBill(), bill.getName());
 		HotelT ho = new HotelT(iC.getHotel());
 		if (bi == null) {

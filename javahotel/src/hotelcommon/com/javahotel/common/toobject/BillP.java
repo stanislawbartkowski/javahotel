@@ -12,7 +12,7 @@
  */
 package com.javahotel.common.toobject;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.command.BillEnumTypes;
 import com.javahotel.common.command.CommandUtil;
@@ -33,19 +33,19 @@ public class BillP extends DictionaryP implements ILd {
 		this.billType = billType;
 	}
 
-	public Collection<PaymentP> getPayments() {
+	public List<PaymentP> getPayments() {
 		return payments;
 	}
 
-	public void setPayments(Collection<PaymentP> payments) {
+	public void setPayments(List<PaymentP> payments) {
 		this.payments = payments;
 	}
 
-	public Collection<AdvancePaymentP> getAdvancePay() {
+	public List<AdvancePaymentP> getAdvancePay() {
 		return advancePay;
 	}
 
-	public void setAdvancePay(Collection<AdvancePaymentP> advancePay) {
+	public void setAdvancePay(List<AdvancePaymentP> advancePay) {
 		this.advancePay = advancePay;
 	}
 
@@ -60,7 +60,7 @@ public class BillP extends DictionaryP implements ILd {
 	/**
 	 * @return the addpayments
 	 */
-	public Collection<AddPaymentP> getAddpayments() {
+	public List<AddPaymentP> getAddpayments() {
 		return addpayments;
 	}
 
@@ -68,7 +68,7 @@ public class BillP extends DictionaryP implements ILd {
 	 * @param addpayments
 	 *            the addpayments to set
 	 */
-	public void setAddpayments(Collection<AddPaymentP> addpayments) {
+	public void setAddpayments(List<AddPaymentP> addpayments) {
 		this.addpayments = addpayments;
 	}
 
@@ -92,10 +92,10 @@ public class BillP extends DictionaryP implements ILd {
 	};
 
 	private BillEnumTypes billType;
-	private Collection<PaymentP> payments;
-	private Collection<AdvancePaymentP> advancePay;
+	private List<PaymentP> payments;
+	private List<AdvancePaymentP> advancePay;
 	private LId customer;
-	private Collection<AddPaymentP> addpayments;
+	private List<AddPaymentP> addpayments;
 	private String oPrice;
 
 	@Override

@@ -17,7 +17,7 @@ import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.remoteinterfaces.HotelT;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -34,7 +34,7 @@ public class TestSuite14 extends TestHelper {
         BookingP bok = createB();
         bok.setHotel(HOTEL1);
         hot.persistDic(seu, DictType.BookingList, bok);
-        Collection<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
         assertEquals(1, res.size());
         for (DictionaryP p : res) {
             BookingP pp = (BookingP) p;
@@ -83,7 +83,7 @@ public class TestSuite14 extends TestHelper {
             System.out.println(ret.getIdName());
         }
         assertEquals("100/10/2008", ret.getIdName());
-        Collection<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
         assertEquals(100, res.size());
     }
 

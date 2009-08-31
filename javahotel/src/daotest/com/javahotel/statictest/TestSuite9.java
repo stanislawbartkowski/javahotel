@@ -24,7 +24,7 @@ import com.javahotel.common.rescache.ResObjectCache.IReadResData;
 import com.javahotel.common.rescache.ResObjectCache.ISetResState;
 import com.javahotel.common.rescache.ResObjectElem;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -39,7 +39,7 @@ public class TestSuite9 {
     public void Test1() {
         Date d1 = TestDUtil.createD(2008, 10, 1);
         Date d2 = TestDUtil.createD(2008, 10, 10);
-        Collection<String> col = new ArrayList<String>();
+        List<String> col = new ArrayList<String>();
         col.add("1p");
         ReadResParam r = new ReadResParam(col, new PeriodT(d1,d2));
         IReadResData ir = new IReadResData() {
@@ -57,7 +57,7 @@ public class TestSuite9 {
                 assertEquals("1p", sx);
                 assertEquals("2008/10/01", DateFormatUtil.toS(pa.getPe().getFrom()));
                 assertEquals("2008/10/10", DateFormatUtil.toS(pa.getPe().getTo()));
-                Collection<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
+                List<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
                 ResDayObjectStateP re = new ResDayObjectStateP();
                 re.setD(TestDUtil.createD(2008, 10, 1));
                 re.setResObject("1p");
@@ -92,7 +92,7 @@ public class TestSuite9 {
         
         PeriodT per = new PeriodT(TestDUtil.createD(2008, 10, 8),TestDUtil.createD(2008, 10, 9));
         ResObjectElem el = new ResObjectElem("1p",per);
-        Collection<ResDayObjectStateP> res = ca.isConflict(el);
+        List<ResDayObjectStateP> res = ca.isConflict(el);
         assertEquals(0,res.size());
         
         per = new PeriodT(TestDUtil.createD(2008, 10, 1),TestDUtil.createD(2008, 10, 9));

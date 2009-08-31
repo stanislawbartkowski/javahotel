@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.common.command;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.types.LId;
@@ -25,50 +24,64 @@ import com.javahotel.types.LId;
  */
 public class ReturnPersist implements Serializable {
 
-	private LId id;
-	private String idName;
-	private Collection<ResDayObjectStateP> resState;
-	private String errMessage;
-	private String viewName;
+    private LId id;
+    private String idName;
+    private List<ResDayObjectStateP> resState;
+    private String errMessage;
+    private String viewName;
+    private int numberOf;
 
-	public String getViewName() {
-		return viewName;
-	}
+    public String getViewName() {
+        return viewName;
+    }
 
-	public void setViewName(String viewName) {
-		this.viewName = viewName;
-	}
+    public void setViewName(String viewName) {
+        this.viewName = viewName;
+    }
 
-	public LId getId() {
-		return id;
-	}
+    public LId getId() {
+        return id;
+    }
 
-	public void setId(LId id) {
-		this.id = id;
-	}
+    public void setId(LId id) {
+        this.id = id;
+    }
 
-	public String getIdName() {
-		return idName;
-	}
+    public String getIdName() {
+        return idName;
+    }
 
-	public void setIdName(String idName) {
-		this.idName = idName;
-	}
+    public void setIdName(String idName) {
+        this.idName = idName;
+    }
 
-	public Collection<ResDayObjectStateP> getResState() {
-		return resState;
-	}
+    public List<ResDayObjectStateP> getResState() {
+        return resState;
+    }
 
-	public void setResState(Collection<ResDayObjectStateP> resState) {
-		this.resState = resState;
-	}
+    public void setResState(List<ResDayObjectStateP> resState) {
+        this.resState = resState;
+    }
 
-	public void setErrorMessage(final String s) {
-		errMessage = s;
-	}
+    public void setErrorMessage(final String s) {
+        errMessage = s;
+    }
 
-	public String getErrorMessage() {
-		return errMessage;
-	}
+    public String getErrorMessage() {
+        return errMessage;
+    }
 
+    /**
+     * @return the numberOf
+     */
+    public int getNumberOf() {
+        return numberOf;
+    }
+
+    /**
+     * @param numberOf the numberOf to set
+     */
+    public void setNumberOf(int numberOf) {
+        this.numberOf = numberOf;
+    }
 }

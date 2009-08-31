@@ -13,7 +13,7 @@
 package com.javahotel.db.copy;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AddPaymentP;
@@ -246,12 +246,12 @@ public class CommonCopyBean {
 			dest.setRStandard(r);
 		}
 
-		Collection<RoomFacilities> fa = sou.getFacilities();
+		List<RoomFacilities> fa = sou.getFacilities();
 		if (fa == null) {
 			return;
 		}
 
-		Collection<DictionaryP> fac = new ArrayList<DictionaryP>();
+		List<DictionaryP> fac = new ArrayList<DictionaryP>();
 		for (RoomFacilities s : fa) {
 			DictionaryP afa = new DictionaryP();
 			CopyHelper.copyDict2(iC, s, afa, FieldList.DictList);

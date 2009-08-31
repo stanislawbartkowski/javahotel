@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.security.impl;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -149,12 +149,12 @@ public class SecurityImpl implements ISecurity, ISecurityLocal {
 		JpaManagerData.setIA(ia);		
 	}
 
-	public Collection<HotelT> getListHotels(final SessionT sessionT) {
+	public List<HotelT> getListHotels(final SessionT sessionT) {
 		HotelLoginP hp = SecurityFilter.isLogged(sessionT, false);
 		return hp.getHotels();
 	}
 
-	public Collection<String> getListRoles(final SessionT sessionT,
+	public List<String> getListRoles(final SessionT sessionT,
 			final HotelT ho) {
 		HotelLoginP hp = SecurityFilter.isLogged(sessionT, false);
 		return hp.getRoles(ho);

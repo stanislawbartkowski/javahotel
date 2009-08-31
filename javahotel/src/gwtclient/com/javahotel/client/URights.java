@@ -15,7 +15,7 @@ package com.javahotel.client;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.StringP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -23,9 +23,9 @@ import java.util.Collection;
  */
 public class URights {
 
-    private Collection<String> roles;
+    private List<String> roles;
 
-    public void setColl(final Collection<? extends AbstractTo> rol) {
+    public void setColl(final List<? extends AbstractTo> rol) {
         roles = new ArrayList<String>();
         for (final AbstractTo a : rol) {
             StringP p = (StringP) a;

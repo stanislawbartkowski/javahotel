@@ -14,7 +14,7 @@ package com.javahotel.common.toobject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.types.DecimalP;
 
@@ -29,7 +29,7 @@ public class OfferServicePriceP extends AbstractTo {
     private DecimalP highseasonweekendprice;
     private DecimalP lowseasonweekendprice;
     private String service;
-    private Collection<OfferSpecialPriceP> specialprice;
+    private List<OfferSpecialPriceP> specialprice;
 
     public OfferServicePriceP() {
         highseasonprice = new DecimalP();
@@ -47,11 +47,11 @@ public class OfferServicePriceP extends AbstractTo {
         this.service = service;
     }
 
-    public Collection<OfferSpecialPriceP> getSpecialprice() {
+    public List<OfferSpecialPriceP> getSpecialprice() {
         return specialprice;
     }
 
-    public void setSpecialprice(final Collection<OfferSpecialPriceP> specialprice) {
+    public void setSpecialprice(final List<OfferSpecialPriceP> specialprice) {
         this.specialprice = specialprice;
     }
 

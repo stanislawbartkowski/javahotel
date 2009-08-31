@@ -19,7 +19,7 @@ import com.javahotel.common.toobject.StringP;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.PasswordT;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Test;
@@ -58,7 +58,7 @@ public class TestSuite4 extends TestHelper {
         aut.persistPerson(se, "user1", new PasswordT("password1"));
         
         aut.persistHotel(se, new HotelT("hotel1"), "super hotel", "did");
-        Collection<String> perm = new ArrayList<String>();
+        List<String> perm = new ArrayList<String>();
         perm.add("write");
         aut.persistPersonHotel(se, "user1", new HotelT("hotel1"), perm);
 
@@ -91,9 +91,9 @@ public class TestSuite4 extends TestHelper {
         aut.persistPerson(se, "user1", new PasswordT("password1"));
         seu = sec.loginSession(SESSIONU, "user1", new PasswordT("password1"));
         aut.persistHotel(se, new HotelT("hotel1"), "super hotel", "did");
-        Collection<HotelT> co = sec.getListHotels(seu);
+        List<HotelT> co = sec.getListHotels(seu);
         assertEquals(0, co.size());
-        Collection<String> perm = new ArrayList<String>();
+        List<String> perm = new ArrayList<String>();
         perm.add("write");
         aut.persistPersonHotel(se, "user1", new HotelT("hotel1"), perm);
         sec.logoutSession(seu);
@@ -104,7 +104,7 @@ public class TestSuite4 extends TestHelper {
             assertEquals("hotel1", ho.getName());
         }
 
-        Collection<String> ro = sec.getListRoles(seu, new HotelT("hotel1"));
+        List<String> ro = sec.getListRoles(seu, new HotelT("hotel1"));
         assertEquals(1, ro.size());
         for (final String s : ro) {
             assertEquals("write", s);
@@ -132,7 +132,7 @@ public class TestSuite4 extends TestHelper {
     public void Test5() throws Exception {
         System.out.println("get database list");
         clearAll();
-        Collection<AbstractTo> d = list.getList(se,RType.DataBases, null);
+        List<AbstractTo> d = list.getList(se,RType.DataBases, null);
         for (final AbstractTo a : d) {
             StringP ps = (StringP)a;
             System.out.println(ps.getName());

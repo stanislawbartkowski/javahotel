@@ -16,7 +16,7 @@ import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
 import com.javahotel.client.mvc.seasonprice.model.ISeasonPriceModel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -35,7 +35,7 @@ class StorePrices {
 		}
 	}
 
-	final private Collection<C> st = new ArrayList<C>();
+	final private List<C> st = new ArrayList<C>();
 	final private IDecimalTableView t;
 
 	StorePrices(IDecimalTableView t) {

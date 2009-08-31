@@ -14,7 +14,7 @@ package com.javahotel.client.mvc.dictcrud.controler.booking;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.client.mvc.auxabstract.NumAbstractTo;
 import com.javahotel.client.mvc.table.model.ITableModel;
@@ -58,7 +58,7 @@ class SumPayment {
 		SumRes sumR = new SumRes();
 		for (NumAbstractTo n : c) {
 			BookElemP b = (BookElemP) n.getO();
-			Collection<PaymentRowP> p = b.getPaymentrows();
+			List<PaymentRowP> p = b.getPaymentrows();
 			for (PaymentRowP ro : p) {
 				sumR.addBig(ro.getCustomerPrice(), ro.getOfferPrice());
 			}

@@ -13,7 +13,7 @@
 package com.javahotel.db.copy;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
@@ -52,14 +52,14 @@ class CopyBeanToP {
 			final AbstractTo sou, final Object dest, final String colField,
 			final String upF, final Class<?> cupF, final ICopyHelper i,
 			final boolean remove) {
-		Collection col = (Collection) GetFieldHelper.getterVal(sou, colField,
+		List col = (List) GetFieldHelper.getterVal(sou, colField,
 				iC.getLog());
-		Collection de = (Collection) GetFieldHelper.getterVal(dest, colField,
+		List de = (List) GetFieldHelper.getterVal(dest, colField,
 				iC.getLog());
-		Collection removeO = new ArrayList();
+		List removeO = new ArrayList();
 		if (de == null) {
 			de = new ArrayList();
-			GetFieldHelper.setterVal(dest, de, colField, Collection.class, iC
+			GetFieldHelper.setterVal(dest, de, colField, List.class, iC
 					.getLog());
 		} else {
 			for (Object o : de) {
@@ -101,13 +101,13 @@ class CopyBeanToP {
 			final AbstractTo sou, final Object dest, final String colField,
 			final String upF, final Class<?> cupF, final ICopyHelper i,
 			final boolean removefromDB) {
-		Collection<?> col = (Collection<?>) GetFieldHelper.getterVal(sou,
+		List<?> col = (List<?>) GetFieldHelper.getterVal(sou,
 				colField, iC.getLog());
-		Collection<Object> de = (Collection<Object>) GetFieldHelper.getterVal(
+		List<Object> de = (List<Object>) GetFieldHelper.getterVal(
 				dest, colField, iC.getLog());
 		if (de == null) {
 			de = new ArrayList<Object>();
-			GetFieldHelper.setterVal(dest, de, colField, Collection.class, iC
+			GetFieldHelper.setterVal(dest, de, colField, List.class, iC
 					.getLog());
 		}
 

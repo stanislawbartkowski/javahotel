@@ -25,7 +25,7 @@ import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.PersonP;
 import com.javahotel.webhelper.HotelHelper;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -51,7 +51,7 @@ public interface GWTServiceAsync {
 
 	void removePerson(PersonP person, AsyncCallback callback);
 
-	void setRoles(String person, String hotel, Collection<String> roles,
+	void setRoles(String person, String hotel, List<String> roles,
 			AsyncCallback callback);
 
 	void persistDict(DictType d, DictionaryP t, AsyncCallback callback);
@@ -62,7 +62,11 @@ public interface GWTServiceAsync {
 
 	void hotelOp(HotelOpType op, CommandParam p, AsyncCallback callback);
 
-	void hotelOpRet(HotelOpType op, CommandParam p, AsyncCallback callback);
+	void hotelOpRet(HotelOpType op, CommandParam p, AsyncCallback<ReturnPersist> callback);
+
+	void hotelOpRet(CommandParam p, AsyncCallback<ReturnPersist> callback);
+
+	void hotelOpRet(List<CommandParam> p, AsyncCallback<List<ReturnPersist>> callback);
 
 	void persistResBookingReturn(BookingP dp, AsyncCallback callback);
 

@@ -14,7 +14,7 @@
 package com.javahotel.client.mvc.dictcrud.read;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.javahotel.client.IResLocator;
@@ -65,7 +65,7 @@ class CrudReadAdvancePayModel implements ICrudReadModel {
 		}
 
 		public void doVList(final ArrayList<? extends AbstractTo> val) {
-			Collection<AdvancePaymentCustomer> v = new ArrayList<AdvancePaymentCustomer>();
+			List<AdvancePaymentCustomer> v = new ArrayList<AdvancePaymentCustomer>();
 			for (AbstractTo a : val) {
 				DownPaymentP d = (DownPaymentP) a;
 				AdvancePaymentCustomer dV = new AdvancePaymentCustomer();

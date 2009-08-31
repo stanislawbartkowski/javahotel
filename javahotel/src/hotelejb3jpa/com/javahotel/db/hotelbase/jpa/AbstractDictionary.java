@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.db.hotelbase.jpa;
 
 import javax.persistence.JoinColumn;
@@ -26,11 +25,10 @@ import com.javahotel.db.hotelbase.types.IHotelDictionary;
 @MappedSuperclass
 public abstract class AbstractDictionary extends AbstractPureDictionary implements IHotelDictionary {
 
-    
     @ManyToOne(optional = false)
     @JoinColumn(name = "hotel_id", nullable = false)
-    private RHotel hotel;    
-    
+    private RHotel hotel;
+
     public RHotel getHotel() {
         return hotel;
     }
