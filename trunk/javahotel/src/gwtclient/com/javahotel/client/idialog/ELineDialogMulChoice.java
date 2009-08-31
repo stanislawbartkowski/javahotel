@@ -13,7 +13,7 @@
 package com.javahotel.client.idialog;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -40,7 +40,7 @@ public class ELineDialogMulChoice extends ELineDialog {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void isetVal(final Collection<String> col) {
+	private void isetVal(final List<String> col) {
 		for (CC c : aL) {
 			boolean is = false;
 			for (final String s : col) {
@@ -57,7 +57,7 @@ public class ELineDialogMulChoice extends ELineDialog {
 		private boolean waitforenable = false;
 		private boolean waitforsetval = false;
 		private boolean enable;
-		private Collection<String> val;
+		private List<String> val;
 
 		void setEnable(boolean enable) {
 			waitforenable = true;
@@ -65,7 +65,7 @@ public class ELineDialogMulChoice extends ELineDialog {
 			dowaiting();
 		}
 
-		void setVal(Collection<String> col) {
+		void setVal(List<String> col) {
 			waitforsetval = true;
 			this.val = col;
 			dowaiting();
@@ -110,7 +110,7 @@ public class ELineDialogMulChoice extends ELineDialog {
 		}
 	}
 
-	private final Collection<CC> aL = new ArrayList<CC>();
+	private final List<CC> aL = new ArrayList<CC>();
 
 	private class R implements RData.IVectorList {
 
@@ -179,13 +179,13 @@ public class ELineDialogMulChoice extends ELineDialog {
 		return true;
 	}
 
-	public void setValues(final Collection<String> col) {
+	public void setValues(final List<String> col) {
 		sync.setVal(col);
 	}
 
 	@SuppressWarnings("deprecation")
-	public Collection<String> getValues() {
-		Collection<String> co = new ArrayList<String>();
+	public List<String> getValues() {
+		List<String> co = new ArrayList<String>();
 		for (CC c : aL) {
 			if (c.c.isChecked()) {
 				co.add(c.dName);

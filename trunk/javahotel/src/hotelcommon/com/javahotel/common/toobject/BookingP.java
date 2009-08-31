@@ -12,7 +12,7 @@
  */
 package com.javahotel.common.toobject;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.javahotel.common.command.BookingEnumTypes;
@@ -31,17 +31,17 @@ public class BookingP extends DictionaryP {
     private LId customer;
     private Integer noPersons;
     private String season;
-    private Collection<BookRecordP> bookrecords;
-    private Collection<BookingStateP> state;
-    private Collection<BillP> bill;
+    private List<BookRecordP> bookrecords;
+    private List<BookingStateP> state;
+    private List<BillP> bill;
     private BookingEnumTypes bookingType;
     private String resName;
 
-    public Collection<BillP> getBill() {
+    public List<BillP> getBill() {
         return bill;
     }
 
-    public void setBill(Collection<BillP> bill) {
+    public void setBill(List<BillP> bill) {
         this.bill = bill;
     }
 
@@ -227,19 +227,19 @@ public class BookingP extends DictionaryP {
         this.season = season;
     }
 
-    public Collection<BookRecordP> getBookrecords() {
+    public List<BookRecordP> getBookrecords() {
         return bookrecords;
     }
 
-    public void setBookrecords(final Collection<BookRecordP> bookrecords) {
+    public void setBookrecords(final List<BookRecordP> bookrecords) {
         this.bookrecords = bookrecords;
     }
 
-    public Collection<BookingStateP> getState() {
+    public List<BookingStateP> getState() {
         return state;
     }
 
-    public void setState(final Collection<BookingStateP> state) {
+    public void setState(final List<BookingStateP> state) {
         this.state = state;
     }
 }

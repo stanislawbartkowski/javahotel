@@ -29,7 +29,7 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.util.GetMaxUtil;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import com.javahotel.common.dateutil.DateFormatUtil;
@@ -79,7 +79,7 @@ public class TestSuite22 extends TestHelper {
         pay.setDatePayment(D("2008/02/02"));
         pay.setPayMethod(PaymentMethod.Cache);
         pay.setLp(new Integer(1));
-        Collection<PaymentP> colP = new ArrayList<PaymentP>();
+        List<PaymentP> colP = new ArrayList<PaymentP>();
         colP.add(pay);
         setPay(bok, colP);
 
@@ -123,7 +123,7 @@ public class TestSuite22 extends TestHelper {
         BookingP bok = createB();
         bok.setHotel(HOTEL1);
         bok.setName("BOKRYBKA");
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -142,7 +142,7 @@ public class TestSuite22 extends TestHelper {
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
         PaymentRowP rP = new PaymentRowP();
@@ -150,7 +150,7 @@ public class TestSuite22 extends TestHelper {
         rP.setOfferPrice(new  BigDecimal(100));
         rP.setRowFrom(be.getCheckIn());
         rP.setRowTo(be.getCheckOut());
-        Collection<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
+        List<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
         rCol.add(rP);
         be.setPaymentrows(rCol);
         

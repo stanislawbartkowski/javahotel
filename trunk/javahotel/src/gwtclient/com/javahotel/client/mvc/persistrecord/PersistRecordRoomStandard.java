@@ -18,7 +18,7 @@ import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import com.javahotel.common.toobject.RoomStandardP;
 
 /**
@@ -32,16 +32,16 @@ class PersistRecordRoomStandard extends AbstractPersistRecordDict {
     }
 
     @Override
-    protected Collection<? extends DictionaryP> createNew() {
-        Collection<ServiceDictionaryP> dcol =
+    protected List<? extends DictionaryP> createNew() {
+        List<ServiceDictionaryP> dcol =
                 new ArrayList<ServiceDictionaryP>();
         return dcol;
     }
 
     @Override
-    protected void setRes(RecordModel mo, Collection<? extends DictionaryP> col) {
+    protected void setRes(RecordModel mo, List<? extends DictionaryP> col) {
         RoomStandardP dp = (RoomStandardP) mo.getA();
-        dp.setServices((Collection<ServiceDictionaryP>) col);
+        dp.setServices((List<ServiceDictionaryP>) col);
     }
 
 }

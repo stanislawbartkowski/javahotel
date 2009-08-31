@@ -16,7 +16,7 @@ import com.javahotel.types.DateP;
 import com.javahotel.types.DecimalP;
 import com.javahotel.types.INumerable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 /**
@@ -29,7 +29,7 @@ public class BookRecordP extends AbstractTo implements INumerable {
 	private DateP dataFrom;
 	private String oPrice;
 	private DecimalP customerPrice;
-	private Collection<BookElemP> booklist;
+	private List<BookElemP> booklist;
 	private Integer lp;
 	private Integer seqId;
 
@@ -170,11 +170,11 @@ public class BookRecordP extends AbstractTo implements INumerable {
 		this.customerPrice.setDecim(customerPrice);
 	}
 
-	public Collection<BookElemP> getBooklist() {
+	public List<BookElemP> getBooklist() {
 		return booklist;
 	}
 
-	public void setBooklist(final Collection<BookElemP> booklist) {
+	public void setBooklist(final List<BookElemP> booklist) {
 		this.booklist = booklist;
 	}
 }

@@ -18,7 +18,7 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.RoomStandardP;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -31,7 +31,7 @@ class RecordExtractorStandard extends AbstractRecordDictExtractor {
     }
 
     @Override
-    protected Collection<? extends DictionaryP> getDic(IRecordView view, RecordModel a) {
+    protected List<? extends DictionaryP> getDic(IRecordView view, RecordModel a) {
         RoomStandardP rp = (RoomStandardP) a.getA();
         return rp.getServices();
     }

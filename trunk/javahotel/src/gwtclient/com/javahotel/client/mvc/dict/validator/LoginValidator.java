@@ -31,7 +31,7 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -68,7 +68,7 @@ class LoginValidator implements IRecordValidator {
 		}
 
 		public boolean doSth(final Throwable ext) {
-			Collection<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+			List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
 			errMess.add(new InvalidateMess(LoginRecord.F.password, false,
 					"User lub Hasło niepoprawne"));
 			sig.failue(new DictErrorMessage(errMess, iCo));
@@ -91,7 +91,7 @@ class LoginValidator implements IRecordValidator {
 
 			public void doVList(final ArrayList<? extends AbstractTo> val) {
 				if (val.size() == 0) {
-					Collection<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+					List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
 					errMess.add(new InvalidateMess(LoginRecord.F.hotel, false,
 							"Nie masz uprawnień w tym hotelu"));
 					sig.failue(new DictErrorMessage(errMess, iCo));
@@ -125,8 +125,8 @@ class LoginValidator implements IRecordValidator {
 	}
 
 	public void validateS(int action, RecordModel a, ISignalValidate sig) {
-		Collection<IField> eF = DictEmptyFactory.getNoEmpty(da);
-		Collection<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
+		List<IField> eF = DictEmptyFactory.getNoEmpty(da);
+		List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
 		if (errMess != null) {
 			sig.failue(new DictErrorMessage(errMess, iCo));
 			return;

@@ -12,7 +12,7 @@
  */
 package com.javahotel.common.toobject;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.javahotel.types.DateP;
@@ -30,8 +30,8 @@ public class BookElemP extends AbstractTo implements ILd {
 	private DateP checkOut;
 	private String resObject;
 	private String service;
-	private Collection<PaymentRowP> paymentrows;
-	private Collection<GuestP> guests;
+	private List<PaymentRowP> paymentrows;
+	private List<GuestP> guests;
 
 	public BookElemP() {
 		this.checkIn = new DateP();
@@ -57,7 +57,7 @@ public class BookElemP extends AbstractTo implements ILd {
 	/**
 	 * @return the guests
 	 */
-	public Collection<GuestP> getGuests() {
+	public List<GuestP> getGuests() {
 		return guests;
 	}
 
@@ -65,7 +65,7 @@ public class BookElemP extends AbstractTo implements ILd {
 	 * @param guests
 	 *            the guests to set
 	 */
-	public void setGuests(Collection<GuestP> guests) {
+	public void setGuests(List<GuestP> guests) {
 		this.guests = guests;
 	}
 
@@ -136,7 +136,7 @@ public class BookElemP extends AbstractTo implements ILd {
 			setService((String) o);
 			break;
 		case paymentrows:
-			setPaymentrows((Collection<PaymentRowP>) o);
+			setPaymentrows((List<PaymentRowP>) o);
 			break;
 		}
 	}
@@ -165,11 +165,11 @@ public class BookElemP extends AbstractTo implements ILd {
 		this.checkOut.setD(checkOut);
 	}
 
-	public Collection<PaymentRowP> getPaymentrows() {
+	public List<PaymentRowP> getPaymentrows() {
 		return paymentrows;
 	}
 
-	public void setPaymentrows(final Collection<PaymentRowP> paymentrows) {
+	public void setPaymentrows(final List<PaymentRowP> paymentrows) {
 		this.paymentrows = paymentrows;
 	}
 }

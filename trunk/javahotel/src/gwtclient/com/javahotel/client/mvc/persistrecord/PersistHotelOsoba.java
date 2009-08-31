@@ -27,7 +27,7 @@ import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
 import com.javahotel.common.toobject.AbstractTo;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -114,7 +114,7 @@ class PersistHotelOsoba implements IPersistRecord {
 			ar = le;
 		}
 		HotelRoles[] rol = HotelRoles.values();
-		Collection<ColsHeader> cols = iCe.getSCol();
+		List<ColsHeader> cols = iCe.getSCol();
 
 		if (cols.size() == 0) {
 			finalPersist(res, action, ar);
@@ -127,7 +127,7 @@ class PersistHotelOsoba implements IPersistRecord {
 			String s = ch.getHName();
 			ArrayList<Boolean> val = iCe.getCols(co);
 			co++;
-			Collection<String> roles = new ArrayList<String>();
+			List<String> roles = new ArrayList<String>();
 			for (int i = 0; i < val.size(); i++) {
 				Boolean b = val.get(i);
 				if (b.booleanValue()) {

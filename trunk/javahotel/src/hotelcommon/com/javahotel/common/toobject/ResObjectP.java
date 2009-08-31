@@ -15,7 +15,7 @@ package com.javahotel.common.toobject;
 import com.javahotel.common.command.CommandUtil;
 import com.javahotel.common.command.RRoom;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -57,7 +57,7 @@ public class ResObjectP extends DictionaryP {
     private int noPerson;
     private int maxPerson;
     private DictionaryP rStandard;
-    private Collection<DictionaryP> facilities;
+    private List<DictionaryP> facilities;
 
     @Override
     protected boolean emptySpecialTrue(final IField f) {
@@ -108,11 +108,11 @@ public class ResObjectP extends DictionaryP {
         this.rStandard = rStandard;
     }
 
-    public Collection<DictionaryP> getFacilities() {
+    public List<DictionaryP> getFacilities() {
         return facilities;
     }
 
-    public void setFacilities(final Collection<DictionaryP> facilities) {
+    public void setFacilities(final List<DictionaryP> facilities) {
         this.facilities = facilities;
     }
 

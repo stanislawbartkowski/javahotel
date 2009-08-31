@@ -14,7 +14,7 @@ package com.javahotel.db.commands;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.command.BillEnumTypes;
 import com.javahotel.common.command.BookingEnumTypes;
@@ -52,7 +52,7 @@ public class ChangeBookingToStay extends CommandAbstract {
 
     public ChangeBookingToStay(final SessionT se, final String ho,
             final String resName) {
-        super(se, true, new HotelT(ho),false);
+        super(se, true, new HotelT(ho), false);
         this.resName = resName;
         re = new ReturnPersist();
     }
@@ -97,10 +97,10 @@ public class ChangeBookingToStay extends CommandAbstract {
         bill.setCustomer(bp.getCustomer());
         // move payments
         bill.setPayments(abill.getPayments());
-        Collection<BillP> cP = BillUtil.getEmptyCol(bill);
+        List<BillP> cP = BillUtil.getEmptyCol(bill);
         bp.setBill(cP);
 
-        Collection<BookingStateP> col = new ArrayList<BookingStateP>();
+        List<BookingStateP> col = new ArrayList<BookingStateP>();
         BookingStateP bs = new BookingStateP();
         bs.setBState(BookingStateType.Stay);
         GetMaxUtil.setFirstLp(bs);
@@ -118,7 +118,7 @@ public class ChangeBookingToStay extends CommandAbstract {
                     ro.setId(null);
                 }
             }
-            Collection<BookRecordP> bCol = BillUtil.getEmptyCol(rec);
+            List<BookRecordP> bCol = BillUtil.getEmptyCol(rec);
             bp.setBookrecords(bCol);
         }
     }

@@ -12,7 +12,6 @@
  */
 package com.javahotel.db.hotelbase.queries;
 
-import java.util.Collection;
 import java.util.Date;
 
 import com.javahotel.common.command.DictType;
@@ -25,6 +24,7 @@ import com.javahotel.db.hotelbase.jpa.PaymentRow;
 import com.javahotel.db.hotelbase.jpa.RHotel;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
 import com.javahotel.db.jtypes.IId;
+import java.util.List;
 
 public class GetQueries {
 
@@ -38,7 +38,7 @@ public class GetQueries {
         return o;
     }
 
-    public static Collection<IId> getDList(final ICommandContext iC,
+    public static List<IId> getDList(final ICommandContext iC,
             final Class<?> cla, final DictType d, boolean all) {
         String qName = null;
         switch (d) {
@@ -70,12 +70,12 @@ public class GetQueries {
                 qName = "getBookingList";
                 break;
         }
-        Collection<IId> c = iC.getJpa().getNamedQuery(qName, "hotel",
+        List<IId> c = iC.getJpa().getNamedQuery(qName, "hotel",
                 iC.getHotel());
         return c;
     }
 
-    public static Collection<IId> getDList(final ICommandContext iC,
+    public static List<IId> getDList(final ICommandContext iC,
             final Class<?> cla, final DictType d) {
         return getDList(iC, cla, d, false);
     }
@@ -91,6 +91,11 @@ public class GetQueries {
         return l.intValue();
     }
 
+    public static int getDictNumber(final ICommandContext iC, final Class<?> cla) {
+        Long l = iC.getJpa().getNumberWhereQ(cla, "hotel", iC.getRHotel());
+        return l.intValue();
+    }
+
     public static OfferSeasonPeriod getSeasonPeriod(final ICommandContext iC,
             String seasonName, Long pId) {
         OfferSeasonPeriod op;
@@ -100,26 +105,26 @@ public class GetQueries {
 
     }
 
-    public static Collection<PaymentRow> getPaymentForReservation(
+    public static List<PaymentRow> getPaymentForReservation(
             final ICommandContext iC, final Date dFrom, final Date dTo,
             final String oName) {
-        Collection<PaymentRow> c = iC.getJpa().getNamedQuery(
+        List<PaymentRow> c = iC.getJpa().getNamedQuery(
                 "getObjectResState", "hotel", iC.getRHotel(), "oName", oName,
                 "dFrom", dFrom, "dTo", dTo);
         return c;
     }
 
-    public static Collection<AdvancePayment> getValidationForHotel(
+    public static List<AdvancePayment> getValidationForHotel(
             final ICommandContext iC) {
-        Collection<AdvancePayment> col;
+        List<AdvancePayment> col;
         col = iC.getJpa().getNamedQuery("getValidationsForDay", "hotel",
                 iC.getRHotel());
         return col;
     }
 
-    public static Collection<ParamRegistry> getRegistryEntries(
+    public static List<ParamRegistry> getRegistryEntries(
             final ICommandContext iC, final String keylike) {
-        Collection<ParamRegistry> c = iC.getJpa().getNamedQuery(
+        List<ParamRegistry> c = iC.getJpa().getNamedQuery(
                 "getParamsLike", "hotel", iC.getRHotel(), "namelike",
                 keylike + "%");
         return c;

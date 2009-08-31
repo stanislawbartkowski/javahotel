@@ -16,7 +16,7 @@ import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.rescache.ReadResParam;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 /**
@@ -28,7 +28,7 @@ class BookStateParam {
 	private final ReadResParam rParam;
 
 	BookStateParam(final CommandParam p) {
-		Collection<String> resList;
+		List<String> resList;
 		Date dFrom = p.getDateFrom();
 		Date dTo = p.getDateTo();
 		resList = new ArrayList<String>();

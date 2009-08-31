@@ -33,7 +33,7 @@ import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -50,7 +50,7 @@ class ConflictInfo {
 
 		this.rI = rI;
 
-		Collection<ResDayObjectStateP> col = res.getResState();
+		List<ResDayObjectStateP> col = res.getResState();
 
 		RecordAuxParam aux = new RecordAuxParam();
 		aux.setModifPanel(false);

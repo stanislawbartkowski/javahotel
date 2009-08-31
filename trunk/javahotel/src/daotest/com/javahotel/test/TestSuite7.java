@@ -20,7 +20,7 @@ import com.javahotel.common.toobject.SeasonPeriodT;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.remoteinterfaces.HotelT;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -40,7 +40,7 @@ public class TestSuite7 extends TestHelper {
         sep.setStartP(DateFormatUtil.toD("2008/01/01"));
         sep.setEndP(DateFormatUtil.toD("2008/10/02"));
         hot.persistDic(seu, DictType.OffSeasonDict, sep);
-        Collection<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict, new HotelT(HOTEL1));
         assertEquals(1, col.size());
         for (DictionaryP d : col) {
             sep = (OfferSeasonP) d;
@@ -50,7 +50,7 @@ public class TestSuite7 extends TestHelper {
             assertEquals("2008/10/02", s);
         }
 
-        Collection<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
+        List<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
         OfferSeasonPeriodP pe = new OfferSeasonPeriodP();
         pe.setStartP(DateFormatUtil.toD("2008/03/01"));
         pe.setEndP(DateFormatUtil.toD("2008/06/01"));
@@ -109,7 +109,7 @@ public class TestSuite7 extends TestHelper {
         sep.setName("GL");
         sep.setStartP(DateFormatUtil.toD("2008/01/01"));
         sep.setEndP(DateFormatUtil.toD("2008/10/02"));
-        Collection<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
+        List<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
 
         OfferSeasonPeriodP pe = new OfferSeasonPeriodP();
         pe.setStartP(DateFormatUtil.toD("2008/03/01"));
@@ -136,7 +136,7 @@ public class TestSuite7 extends TestHelper {
 
         hot.persistDic(seu, DictType.OffSeasonDict, sep);
 
-        Collection<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict, new HotelT(HOTEL1));
         assertEquals(1, col.size());
         for (DictionaryP d : col) {
             sep = (OfferSeasonP) d;

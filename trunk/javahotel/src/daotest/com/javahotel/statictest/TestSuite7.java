@@ -23,7 +23,7 @@ import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.SeasonPeriodT;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -47,7 +47,7 @@ public class TestSuite7 {
     public void Test1() throws Exception {
         System.out.println("Test create table day more");
         OfferSeasonP oP = new OfferSeasonP();
-        Collection<OfferSeasonPeriodP> per = new ArrayList<OfferSeasonPeriodP>();
+        List<OfferSeasonPeriodP> per = new ArrayList<OfferSeasonPeriodP>();
         OfferSeasonPeriodP spp = new OfferSeasonPeriodP();
         spp.setStartP(createD(2008, 10, 6));
         spp.setEndP(createD(2008, 10, 30));
@@ -63,7 +63,7 @@ public class TestSuite7 {
         oP.setStartP(createD(2008, 9, 1));
         oP.setEndP(createD(2008, 10, 30)); // day more
         OfferPriceP pri = new OfferPriceP();
-        Collection<OfferServicePriceP> sp = new ArrayList<OfferServicePriceP>();
+        List<OfferServicePriceP> sp = new ArrayList<OfferServicePriceP>();
         OfferServicePriceP pp1 = new OfferServicePriceP();
         pp1.setHighseasonprice(new BigDecimal(100));
         pp1.setHighseasonweekendprice(new BigDecimal(200));
@@ -82,7 +82,7 @@ public class TestSuite7 {
         TableSeasonPrice ta = new TableSeasonPrice(StartWeek.onFriday);
         ta.setPeriods(oP);
         ta.setPriceList(pri);
-        Collection<PaymentRowP> pr = ta.getPriceRows("1p", createD(2008, 9, 1), createD(2008, 9, 4));
+        List<PaymentRowP> pr = ta.getPriceRows("1p", createD(2008, 9, 1), createD(2008, 9, 4));
         assertEquals(1, pr.size());
         int no = 0;
         for (PaymentRowP p : pr) {
@@ -164,7 +164,7 @@ public class TestSuite7 {
             no++;
         }
 
-        Collection<OfferSpecialPriceP> sCol = new ArrayList<OfferSpecialPriceP>();
+        List<OfferSpecialPriceP> sCol = new ArrayList<OfferSpecialPriceP>();
         OfferSpecialPriceP oo = new OfferSpecialPriceP();
         oo.setSpecialperiod(new Long(1001));
         oo.setPrice(new BigDecimal(999));

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,7 +57,7 @@ public class TestSuite26 extends TestHelper {
         bok.setHotel(HOTEL1);
         bok.setName("");
         bok.setBookingType(BookingEnumTypes.Stay);
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -75,7 +75,7 @@ public class TestSuite26 extends TestHelper {
         be.setService("LUX");
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
 
@@ -88,9 +88,9 @@ public class TestSuite26 extends TestHelper {
         cust = getpersistName(DictType.CustomerList,cust,"P001");
         GuestP guest = new GuestP();
         guest.setCustomer(cust.getId());
-        Collection<GuestP> guests = new ArrayList<GuestP>();
+        List<GuestP> guests = new ArrayList<GuestP>();
         guests.add(guest);
-        Map<String,Collection<GuestP>> ma = new HashMap<String,Collection<GuestP>>();
+        Map<String,List<GuestP>> ma = new HashMap<String,List<GuestP>>();
         ma.put("1p",guests);
         par.setGuests(ma);
         par.setHotel(HOTEL1);
@@ -120,7 +120,7 @@ public class TestSuite26 extends TestHelper {
         guest.setCustomer(cust.getId());
         guests = new ArrayList<GuestP>();
         guests.add(guest);
-        ma = new HashMap<String,Collection<GuestP>>();
+        ma = new HashMap<String,List<GuestP>>();
         ma.put("1p",guests);
         par.setGuests(ma);
         par.setHotel(HOTEL1);

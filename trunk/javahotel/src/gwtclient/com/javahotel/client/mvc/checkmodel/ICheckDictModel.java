@@ -14,7 +14,7 @@ package com.javahotel.client.mvc.checkmodel;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.dialog.IGwtWidget;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -22,9 +22,9 @@ import java.util.Collection;
  */
 public interface ICheckDictModel extends IGwtWidget {
 
-    void setValues(final Collection<String> val);
+    void setValues(final List<String> val);
 
-    Collection<String> getValues();
+    List<String> getValues();
 
     void setEnable(boolean enable);
 

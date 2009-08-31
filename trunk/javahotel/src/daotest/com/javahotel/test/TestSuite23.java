@@ -27,7 +27,7 @@ import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import com.javahotel.common.dateutil.DateFormatUtil;
@@ -46,7 +46,7 @@ public class TestSuite23 extends TestHelper {
         BookingP bok = createB();
         bok.setHotel(HOTEL1);
         bok.setName("BOKRYBKA");
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -65,7 +65,7 @@ public class TestSuite23 extends TestHelper {
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
         PaymentRowP rP = new PaymentRowP();
@@ -73,7 +73,7 @@ public class TestSuite23 extends TestHelper {
         rP.setOfferPrice(new BigDecimal(100));
         rP.setRowFrom(be.getCheckIn());
         rP.setRowTo(be.getCheckOut());
-        Collection<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
+        List<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
         rCol.add(rP);
         be.setPaymentrows(rCol);
 
@@ -100,7 +100,7 @@ public class TestSuite23 extends TestHelper {
         BookingP bok = createB();
         bok.setHotel(HOTEL1);
         bok.setName("BOKRYBKA");
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -119,7 +119,7 @@ public class TestSuite23 extends TestHelper {
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
         PaymentRowP rP = new PaymentRowP();
@@ -127,7 +127,7 @@ public class TestSuite23 extends TestHelper {
         rP.setOfferPrice(new BigDecimal(100));
         rP.setRowFrom(be.getCheckIn());
         rP.setRowTo(be.getCheckOut());
-        Collection<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
+        List<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
         rCol.add(rP);
         be.setPaymentrows(rCol);
 
@@ -156,7 +156,7 @@ public class TestSuite23 extends TestHelper {
         par.setDateTo(DateFormatUtil.toD("2008/03/09"));
         par.setResListNo(0, "1p");
         // Expected result
-        Collection<AbstractTo> res = list.getList(se, RType.ResObjectState, par);
+        List<AbstractTo> res = list.getList(se, RType.ResObjectState, par);
         assertEquals(2,res.size());
         for (AbstractTo a : res) {
             ResDayObjectStateP re = (ResDayObjectStateP) a;

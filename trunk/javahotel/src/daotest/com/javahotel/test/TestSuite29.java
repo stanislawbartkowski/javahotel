@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public class TestSuite29 extends TestHelper {
 		loginuser();
 		System.out.println("Add one more hotel");
 		aut.persistHotel(se, new HotelT("hotel24"), "super hotel", "did");
-		Collection<HotelP> res = aut.getHotelList(se);
+		List<HotelP> res = aut.getHotelList(se);
 		assertEquals(3, res.size());
 		HotelP te = new HotelP();
 		te.setName("hotelsuper");

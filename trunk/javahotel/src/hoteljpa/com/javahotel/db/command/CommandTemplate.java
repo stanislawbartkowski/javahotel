@@ -74,24 +74,24 @@ abstract public class CommandTemplate {
         }
 
         public void setHotel(final String h) {
-        	rHotel = CommonHelper.getH(this,new HotelT(h));
+            rHotel = CommonHelper.getH(this, new HotelT(h));
         }
 
         public String getHotel() {
             return rHotel.getName();
         }
-        
+
         public RHotel getRHotel() {
-        	return rHotel;
-        }
-        
-        public String logEvent(String eId,final Object ... params) {
-            String se = sessionId.getName();
-            String user = hp.getUser();
-        	return ELog.logEventHS(eId, eId, se, user, getHotel(), params);
+            return rHotel;
         }
 
-        public void logFatal(final String messid, final Object ... params) {
+        public String logEvent(String eId, final Object... params) {
+            String se = sessionId.getName();
+            String user = hp.getUser();
+            return ELog.logEventHS(eId, eId, se, user, getHotel(), params);
+        }
+
+        public void logFatal(final String messid, final Object... params) {
             String se = sessionId.getName();
             String user = hp.getUser();
             HLog.logFailureSE(se, user, getHotel(), messid, params);
@@ -105,33 +105,33 @@ abstract public class CommandTemplate {
             return HLog.getL();
         }
 
-		public IPersistCache getC() {
-			return iCache;
-		}
-		
-		public boolean isNull(HId id) {
-			if (id == null) { return true; }
-			return id.isNull();
-		}
-		
-		public String getRecordDescr(DictType d, IPureDictionary o) {
-			HId id = o.getId();
-			String name = o.getName();
-			String descr = o.getDescription();
-			String idS = "(no)";
-			if (!isNull(id)) {
-				idS = id.toString();
-			}
-			String cName = o.getName();
-			if (d != null) {
-				cName = d.toString();
-			}
-			String logs = MessageFormat.format(GetLMess
-					.getM(IMessId.DICTRECORDDESCRIPTION), cName, idS, name,
-					descr);
-			return logs;
-		}
+        public IPersistCache getC() {
+            return iCache;
+        }
 
+        public boolean isNull(HId id) {
+            if (id == null) {
+                return true;
+            }
+            return id.isNull();
+        }
+
+        public String getRecordDescr(DictType d, IPureDictionary o) {
+            HId id = o.getId();
+            String name = o.getName();
+            String descr = o.getDescription();
+            String idS = "(no)";
+            if (!isNull(id)) {
+                idS = id.toString();
+            }
+            String cName = o.getName();
+            if (d != null) {
+                cName = d.toString();
+            }
+            String logs = MessageFormat.format(GetLMess.getM(IMessId.DICTRECORDDESCRIPTION), cName, idS, name,
+                    descr);
+            return logs;
+        }
     }
     private final boolean blockP;
     protected boolean trasuccess;
@@ -149,7 +149,7 @@ abstract public class CommandTemplate {
     }
 
     public CommandTemplate(final SessionT sessionId, final boolean admin,
-            final boolean blockP,final boolean startTraAutom) {
+            final boolean blockP, final boolean startTraAutom) {
         HotelLoginP hp = SecurityFilter.isLogged(sessionId, admin);
         this.blockP = blockP;
         trasuccess = true;
@@ -168,18 +168,20 @@ abstract public class CommandTemplate {
 
     protected void closeJpa(final boolean success) {
 
-        if (iC.getJpa() == null) { return; }
+        if (iC.getJpa() == null) {
+            return;
+        }
         if (startedt) {
             try {
                 iC.getJpa().endTransaction(blockP, success);
             } catch (Exception e) {
-            	iC.getJpa().stopSemTransaction(blockP);
+                iC.getJpa().stopSemTransaction(blockP);
                 iC.getJpa().closeEntity();
-                HLog.getLo().log(Level.SEVERE,"",e);
+                HLog.getLo().log(Level.SEVERE, "", e);
                 throw new HotelException(e);
             }
         } else {
-        	iC.getJpa().stopSemTransaction(blockP);        	
+            iC.getJpa().stopSemTransaction(blockP);
         }
         iC.getJpa().closeEntity();
     }
@@ -187,8 +189,10 @@ abstract public class CommandTemplate {
     public void run() {
         try {
             prevRun(); // before
-        	iC.getJpa().startSemTransaction(blockP);
-            if (startTraAutom) { startTra(); }
+            iC.getJpa().startSemTransaction(blockP);
+            if (startTraAutom) {
+                startTra();
+            }
             command();
 //            GetNextSym.FlushReg(iC);
             iC.getC().persistRecords(iC);
@@ -196,7 +200,7 @@ abstract public class CommandTemplate {
             closeJpa(false);
             throw e;
         } catch (Exception e) {
-            HLog.getLo().log(Level.SEVERE,"",e);
+            HLog.getLo().log(Level.SEVERE, "", e);
             closeJpa(false);
             throw new HotelException(e);
         }

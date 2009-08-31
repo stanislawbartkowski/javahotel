@@ -15,7 +15,7 @@ package com.javahotel.statictest;
 import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.dateutil.GetPeriodsTemplate;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -34,7 +34,7 @@ public class TestSuite4 {
         
         private int no;
         
-        myC(final Date startD,Collection<Date>dLine,Collection<PeriodT> coP) {
+        myC(final Date startD,List<Date>dLine,List<PeriodT> coP) {
             super(startD,dLine,coP);
             no = 0;
         }
@@ -69,10 +69,10 @@ public class TestSuite4 {
         Integer i = new Integer(1);
         PeriodT p = new PeriodT(createD(2008,9,7),createD(2008,9,7),i);
         PeriodT p1 = new PeriodT(createD(2008,9,8),createD(2008,9,8),i);
-        Collection<PeriodT> coP = new ArrayList<PeriodT>();
+        List<PeriodT> coP = new ArrayList<PeriodT>();
         coP.add(p);
         coP.add(p1);
-        Collection<Date> dLine = new ArrayList<Date>();
+        List<Date> dLine = new ArrayList<Date>();
         Date d1 = createD(2008,9,7);
         Date d2 = createD(2008,9,8);
         dLine.add(d2);

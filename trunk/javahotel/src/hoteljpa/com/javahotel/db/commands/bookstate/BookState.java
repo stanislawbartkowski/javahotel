@@ -14,7 +14,7 @@ package com.javahotel.db.commands.bookstate;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,7 +48,7 @@ public class BookState {
 	private BookState() {
 	}
 
-	private static Set<String> getResName(final Collection<PaymentRow> col) {
+	private static Set<String> getResName(final List<PaymentRow> col) {
 		Set<String> se = new HashSet<String>();
 		for (PaymentRow p : col) {
 			se.add(rName(p));
@@ -71,10 +71,10 @@ public class BookState {
 		return MessageFormat.format(format, bName, dFrom1, dTo1);
 	}
 
-	private static Collection<PaymentRow> getResCol(final String resName,
-			final Collection<PaymentRow> col) {
+	private static List<PaymentRow> getResCol(final String resName,
+			final List<PaymentRow> col) {
 
-		Collection<PaymentRow> out = new ArrayList<PaymentRow>();
+		List<PaymentRow> out = new ArrayList<PaymentRow>();
 		for (PaymentRow p : col) {
 			if (rName(p).equals(resName)) {
 				out.add(p);
@@ -87,23 +87,23 @@ public class BookState {
 				return p.getBookelem().getBookrecord().getLp();
 			}
 		};
-		Collection<PaymentRow> out1 = GetMaxUtil.getListLp(out, i);
+		List<PaymentRow> out1 = GetMaxUtil.getListLp(out, i);
 		return out1;
 	}
 
-	private static Collection<PaymentRow> getForRes(final ICommandContext iC,
+	private static List<PaymentRow> getForRes(final ICommandContext iC,
 			final Date dFrom, final Date dTo, final String oName) {
-		Collection<PaymentRow> c = GetQueries.getPaymentForReservation(iC,
+		List<PaymentRow> c = GetQueries.getPaymentForReservation(iC,
 				dFrom, dTo, oName);
 		Set<String> resName = getResName(c);
-		Collection<PaymentRow> out = new ArrayList<PaymentRow>();
+		List<PaymentRow> out = new ArrayList<PaymentRow>();
 		// log
 		String msg = iC.logEvent(IMessId.RESGETDATA, oName, DateFormatUtil
 				.toS(dFrom), DateFormatUtil.toS(dTo));
 		iC.getLog().getL().fine(msg);
 
 		for (String rName : resName) {
-			Collection<PaymentRow> o = getResCol(rName, c);
+			List<PaymentRow> o = getResCol(rName, c);
 			out.addAll(o);
 			// log
 			for (PaymentRow po : o) {
@@ -115,8 +115,8 @@ public class BookState {
 	}
 
 	private static PaymentRow getForDay(ICommandContext iC, final Date d,
-			final Collection<PaymentRow> col) {
-		Collection<PaymentRow> out = new ArrayList<PaymentRow>();
+			final List<PaymentRow> col) {
+		List<PaymentRow> out = new ArrayList<PaymentRow>();
 		for (PaymentRow p : col) {
 			
 			int c = DateUtil.comparePeriod(d, p.getRowFrom(), p.getRowTo());
@@ -141,10 +141,10 @@ public class BookState {
 	}
 
 	private static void addBookRes(final ICommandContext iC, final Date dFrom,
-			final Date dTo, final Collection<Date> li,
-			final Collection<ResDayObjectStateP> res, final String oName,
+			final Date dTo, final List<Date> li,
+			final List<ResDayObjectStateP> res, final String oName,
 			final String omitResName) {
-		Collection<PaymentRow> roc = getForRes(iC, dFrom, dTo, oName);
+		List<PaymentRow> roc = getForRes(iC, dFrom, dTo, oName);
 		for (final Date d : li) {
 			PaymentRow p = getForDay(iC, d, roc);
 			String logD = DateFormatUtil.toS(d);
@@ -171,7 +171,7 @@ public class BookState {
 			o.setLp(new Integer(0));
 			o.setBookName(rName);
 			// BookingStateP
-			Collection<BookingState> cP = p.getBookelem().getBookrecord()
+			List<BookingState> cP = p.getBookelem().getBookrecord()
 					.getBooking().getState();
 			BookingState sta = GetMaxUtil.getLast(cP);
 			if (sta == null) {
@@ -196,13 +196,13 @@ public class BookState {
 		}
 	}
 
-	public static Collection<ResDayObjectStateP> getRestState(
+	public static List<ResDayObjectStateP> getRestState(
 			final ICommandContext iC, final ReadResParam resParam,
 			final String omitResName) {
 
-		Collection<ResDayObjectStateP> rOut = new ArrayList<ResDayObjectStateP>();
+		List<ResDayObjectStateP> rOut = new ArrayList<ResDayObjectStateP>();
 
-		Collection<Date> dLine = CalendarTable.listOfDates(resParam.getPe()
+		List<Date> dLine = CalendarTable.listOfDates(resParam.getPe()
 				.getFrom(), resParam.getPe().getTo(), PeriodType.byDay);
 		for (String oName : resParam.getResList()) {
 			addBookRes(iC, resParam.getPe().getFrom(),

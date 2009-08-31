@@ -13,7 +13,7 @@
 package com.javahotel.common.command;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,223 +33,236 @@ import com.javahotel.types.LId;
 @SuppressWarnings("serial")
 public class CommandParam implements Serializable {
 
-	private static final transient String PERSON = "Person";
-	private static final transient String HOTEL = "Hotel";
-	private static final transient String DICT = "Dict";
-	private static final transient String RECNAME = "RecName";
-	private static final transient String DATEFROM = "DateFrom";
-	private static final transient String DATETO = "DateTo";
-	private static final transient String RESLIST = "ResList";
-	private static final transient String SEASONNAME = "SeasonName";
-	private static final transient String RESERVNAME = "ReservName";
-	private PaymentP payP;
-	private BookingStateP stateP;
-	private Map<String, Collection<GuestP>> guests;
-	private Collection<AddPaymentP> addpayment;
-	private BillP bill;
-	private LId recId;
+    private static final transient String PERSON = "Person";
+    private static final transient String HOTEL = "Hotel";
+    private static final transient String DICT = "Dict";
+    private static final transient String RECNAME = "RecName";
+    private static final transient String DATEFROM = "DateFrom";
+    private static final transient String DATETO = "DateTo";
+    private static final transient String RESLIST = "ResList";
+    private static final transient String SEASONNAME = "SeasonName";
+    private static final transient String RESERVNAME = "ReservName";
+    private PaymentP payP;
+    private BookingStateP stateP;
+    private Map<String, List<GuestP>> guests;
+    private List<AddPaymentP> addpayment;
+    private BillP bill;
+    private LId recId;
+    private HotelOpType oP;
 
-	/**
-	 * @return the guests
-	 */
-	public Map<String, Collection<GuestP>> getGuests() {
-		return guests;
-	}
+    /**
+     * @return the guests
+     */
+    public Map<String, List<GuestP>> getGuests() {
+        return guests;
+    }
 
-	/**
-	 * @param guests
-	 *            the guests to set
-	 */
-	public void setGuests(Map<String, Collection<GuestP>> guests) {
-		this.guests = guests;
-	}
+    /**
+     * @param guests
+     *            the guests to set
+     */
+    public void setGuests(Map<String, List<GuestP>> guests) {
+        this.guests = guests;
+    }
 
-	/**
-	 * @return the addpayment
-	 */
-	public Collection<AddPaymentP> getAddpayment() {
-		return addpayment;
-	}
+    /**
+     * @return the addpayment
+     */
+    public List<AddPaymentP> getAddpayment() {
+        return addpayment;
+    }
 
-	/**
-	 * @param addpayment
-	 *            the addpayment to set
-	 */
-	public void setAddpayment(Collection<AddPaymentP> addpayment) {
-		this.addpayment = addpayment;
-	}
+    /**
+     * @param addpayment
+     *            the addpayment to set
+     */
+    public void setAddpayment(List<AddPaymentP> addpayment) {
+        this.addpayment = addpayment;
+    }
 
-	/**
-	 * @return the bill
-	 */
-	public BillP getBill() {
-		return bill;
-	}
+    /**
+     * @return the bill
+     */
+    public BillP getBill() {
+        return bill;
+    }
 
-	/**
-	 * @param bill
-	 *            the bill to set
-	 */
-	public void setBill(BillP bill) {
-		this.bill = bill;
-	}
+    /**
+     * @param bill
+     *            the bill to set
+     */
+    public void setBill(BillP bill) {
+        this.bill = bill;
+    }
 
-	public interface ILog extends Serializable {
+    /**
+     * @return the oP
+     */
+    public HotelOpType getoP() {
+        return oP;
+    }
 
-		void logEmptyParam(final String pa);
-	}
+    /**
+     * @param oP the oP to set
+     */
+    public void setoP(HotelOpType oP) {
+        this.oP = oP;
+    }
 
-	// cannot be final
-	private Map<String, String> params;
+    public interface ILog extends Serializable {
 
-	public CommandParam() {
-		params = new HashMap<String, String>();
-		payP = null;
-		stateP = null;
-		guests = null;
-	}
+        void logEmptyParam(final String pa);
+    }
+    // cannot be final
+    private Map<String, String> params;
 
-	private void setS(final String key, final String s) {
-		params.put(key, s);
-	}
+    public CommandParam() {
+        params = new HashMap<String, String>();
+        payP = null;
+        stateP = null;
+        guests = null;
+    }
 
-	private String getS(final String key, final ILog iL) {
-		String s = params.get(key);
-		if (s == null) {
-			if (iL != null) {
-				iL.logEmptyParam(key);
-			}
-		}
-		return s;
-	}
+    private void setS(final String key, final String s) {
+        params.put(key, s);
+    }
 
-	public void setPerson(final String person) {
-		setS(PERSON, person);
-	}
+    private String getS(final String key, final ILog iL) {
+        String s = params.get(key);
+        if (s == null) {
+            if (iL != null) {
+                iL.logEmptyParam(key);
+            }
+        }
+        return s;
+    }
 
-	public String getPerson() {
-		return getS(PERSON, null);
-	}
+    public void setPerson(final String person) {
+        setS(PERSON, person);
+    }
 
-	public void setHotel(final String hotel) {
-		setS(HOTEL, hotel);
-	}
+    public String getPerson() {
+        return getS(PERSON, null);
+    }
 
-	public String getHotel() {
-		return getS(HOTEL, null);
-	}
+    public void setHotel(final String hotel) {
+        setS(HOTEL, hotel);
+    }
 
-	public void setDict(final DictType d) {
-		setS(DICT, d.toString());
-	}
+    public String getHotel() {
+        return getS(HOTEL, null);
+    }
 
-	public void setRecId(final LId id) {
-		recId = id;
-	}
+    public void setDict(final DictType d) {
+        setS(DICT, d.toString());
+    }
 
-	public LId getRecId() {
-		return recId;
-	}
+    public void setRecId(final LId id) {
+        recId = id;
+    }
 
-	public DictType getDict(final ILog iL) {
-		String d = getS(DICT, iL);
-		if (d == null) {
-			return null;
-		}
-		return DictType.valueOf(d);
-	}
+    public LId getRecId() {
+        return recId;
+    }
 
-	public void setDateFrom(final Date dFrom) {
-		String s = DateFormatUtil.toS(dFrom);
-		setS(DATEFROM, s);
-	}
+    public DictType getDict(final ILog iL) {
+        String d = getS(DICT, iL);
+        if (d == null) {
+            return null;
+        }
+        return DictType.valueOf(d);
+    }
 
-	public void setDateTo(final Date dTo) {
-		String s = DateFormatUtil.toS(dTo);
-		setS(DATETO, s);
-	}
+    public void setDateFrom(final Date dFrom) {
+        String s = DateFormatUtil.toS(dFrom);
+        setS(DATEFROM, s);
+    }
 
-	public Date getDateFrom() {
-		String s = getS(DATEFROM, null);
-		if (s == null) {
-			return null;
-		}
-		return DateFormatUtil.toD(s);
-	}
+    public void setDateTo(final Date dTo) {
+        String s = DateFormatUtil.toS(dTo);
+        setS(DATETO, s);
+    }
 
-	public Date getDateTo() {
-		String s = getS(DATETO, null);
-		if (s == null) {
-			return null;
-		}
-		return DateFormatUtil.toD(s);
-	}
+    public Date getDateFrom() {
+        String s = getS(DATEFROM, null);
+        if (s == null) {
+            return null;
+        }
+        return DateFormatUtil.toD(s);
+    }
 
-	private static String getResListKey(final int no) {
-		return RESLIST + no;
-	}
+    public Date getDateTo() {
+        String s = getS(DATETO, null);
+        if (s == null) {
+            return null;
+        }
+        return DateFormatUtil.toD(s);
+    }
 
-	public void setResListNo(final int no, final String s) {
-		String key = getResListKey(no);
-		setS(key, s);
-	}
+    private static String getResListKey(final int no) {
+        return RESLIST + no;
+    }
 
-	public String getResListNo(final int no) {
-		String key = getResListKey(no);
-		return getS(key, null);
-	}
+    public void setResListNo(final int no, final String s) {
+        String key = getResListKey(no);
+        setS(key, s);
+    }
 
-	public void setRecName(final String s) {
-		setS(RECNAME, s);
-	}
+    public String getResListNo(final int no) {
+        String key = getResListKey(no);
+        return getS(key, null);
+    }
 
-	public String getRecName() {
-		return getS(RECNAME, null);
-	}
+    public void setRecName(final String s) {
+        setS(RECNAME, s);
+    }
 
-	public void setSeasonName(final String s) {
-		setS(SEASONNAME, s);
-	}
+    public String getRecName() {
+        return getS(RECNAME, null);
+    }
 
-	public String getSeasonName() {
-		return getS(SEASONNAME, null);
-	}
+    public void setSeasonName(final String s) {
+        setS(SEASONNAME, s);
+    }
 
-	public void setDownPayment(final PaymentP p) {
-		payP = p;
-	}
+    public String getSeasonName() {
+        return getS(SEASONNAME, null);
+    }
 
-	public PaymentP getDownPayment() {
-		return payP;
-	}
+    public void setDownPayment(final PaymentP p) {
+        payP = p;
+    }
 
-	public void setStateP(final BookingStateP p) {
-		stateP = p;
-	}
+    public PaymentP getDownPayment() {
+        return payP;
+    }
 
-	public BookingStateP getStateP() {
-		return stateP;
-	}
+    public void setStateP(final BookingStateP p) {
+        stateP = p;
+    }
 
-	public void setReservName(final String s) {
-		setS(RESERVNAME, s);
-	}
+    public BookingStateP getStateP() {
+        return stateP;
+    }
 
-	public String getReservName() {
-		return getS(RESERVNAME, null);
-	}
-	
-	// default visibility
+    public void setReservName(final String s) {
+        setS(RESERVNAME, s);
+    }
 
-	String toHashString() {
-		String h = "";
-		for (final String s : params.keySet()) {
-			String val = params.get(s);
-			h += s + "=" + val;
-		}
-		if (recId != null) {
-			h += "recId=" + recId.toString();
-		}
-		return h;
-	}
+    public String getReservName() {
+        return getS(RESERVNAME, null);
+    }
+
+    // default visibility
+    String toHashString() {
+        String h = "";
+        for (final String s : params.keySet()) {
+            String val = params.get(s);
+            h += s + "=" + val;
+        }
+        if (recId != null) {
+            h += "recId=" + recId.toString();
+        }
+        return h;
+    }
 }

@@ -28,7 +28,7 @@ import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.remoteinterfaces.HotelT;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -53,7 +53,7 @@ public class TestSuite20 extends TestHelper {
             be.setService("LUX");
             be.setCheckIn(dpocz);
             be.setCheckOut(dkon);
-            Collection<BookElemP> colE = new ArrayList<BookElemP>();
+            List<BookElemP> colE = new ArrayList<BookElemP>();
             colE.add(be);
 
             BookRecordP p = new BookRecordP();
@@ -61,13 +61,13 @@ public class TestSuite20 extends TestHelper {
             p.setDataFrom(dpocz);
             p.setLp(new Integer(1));
             p.setOPrice("Norm");
-            Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+            List<BookRecordP> col = new ArrayList<BookRecordP>();
             col.add(p);
             bok.setBookrecords(col);
             p.setBooklist(colE);
 
             PaymentRowP pR = new PaymentRowP();
-            Collection<PaymentRowP> colP = new ArrayList<PaymentRowP>();
+            List<PaymentRowP> colP = new ArrayList<PaymentRowP>();
             pR.setCustomerPrice(new BigDecimal(123));
             pR.setOfferPrice(new BigDecimal(333));
             pR.setRowFrom(dpocz);
@@ -109,7 +109,7 @@ public class TestSuite20 extends TestHelper {
         loginuser();
         itest.setTodayDate(D("2008/10/08"));
         BookingP bok = createB();
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -147,7 +147,7 @@ public class TestSuite20 extends TestHelper {
             ta[i].join();
         }
 
-        Collection<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
         assertEquals(50, res.size());
         int no100 = 0;
         for (DictionaryP pe : res) {

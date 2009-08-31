@@ -13,7 +13,7 @@
 package com.javahotel.client.mvc.dictcrud.controler.booking;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.javahotel.client.IResLocator;
@@ -105,7 +105,7 @@ class BookingElem implements IMvcView {
 			this.b = b;
 		}
 
-		public void setRow(Collection<PaymentRowP> col) {
+		public void setRow(List<PaymentRowP> col) {
 			b.setPaymentrows(col);
 			SumPayment.SumRes pRes = SumPayment.sum(cI.getTableView()
 					.getModel());
@@ -135,7 +135,7 @@ class BookingElem implements IMvcView {
 		public void signal(ClickedContext co) {
 			ITableView mo = cI.getTableView();
 			AbstractTo re = mo.getClicked();
-			Collection<PaymentRowP> col;
+			List<PaymentRowP> col;
 			if (re == null) {
 				col = new ArrayList<PaymentRowP>();
 			} else {
@@ -165,7 +165,7 @@ class BookingElem implements IMvcView {
 	}
 
 	void setFields(BookRecordP b) {
-		Collection<BookElemP> col = b.getBooklist();
+		List<BookElemP> col = b.getBooklist();
 		if (col == null) {
 			col = new ArrayList<BookElemP>();
 		}
@@ -173,8 +173,8 @@ class BookingElem implements IMvcView {
 		DictUtil.setList(mo, col);
 	}
 
-	Collection<BookElemP> extractFields() {
-		Collection<BookElemP> col = new ArrayList<BookElemP>();
+	List<BookElemP> extractFields() {
+		List<BookElemP> col = new ArrayList<BookElemP>();
 		ITableModel mo = cI.getTableView().getModel();
 		DictUtil.readList(mo, col);
 		return col;

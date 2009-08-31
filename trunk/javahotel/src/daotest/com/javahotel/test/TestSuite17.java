@@ -22,7 +22,7 @@ import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.PaymentP;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -37,8 +37,8 @@ public class TestSuite17 extends TestHelper {
         loginuser();
         BookingP bok = createB();
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-//        Collection<PaymentP> col = bok.getPayments();
-        Collection<PaymentP> col = getPay(bok);
+//        List<PaymentP> col = bok.getPayments();
+        List<PaymentP> col = getPay(bok);
         assertEquals(0, col.size());
         
         CommandParam pa = new CommandParam();
@@ -60,7 +60,7 @@ public class TestSuite17 extends TestHelper {
         }
         assertEquals(new Integer(1), pay.getLp());
 
-        Collection<BookingStateP> colp = bok.getState();
+        List<BookingStateP> colp = bok.getState();
         assertEquals(1, colp.size());
 
         BookingStateP bs = new BookingStateP();
@@ -117,8 +117,8 @@ public class TestSuite17 extends TestHelper {
         loginuser();
         BookingP bok = createB();
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-        Collection<PaymentP> col;
-        Collection<BookingStateP> colp;
+        List<PaymentP> col;
+        List<BookingStateP> colp;
         for (int i = 0; i < 50; i++) {
             System.out.println(i);
             bok = getOneName(DictType.BookingList, "BOK0001");

@@ -21,7 +21,7 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.ResObjectP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -30,8 +30,8 @@ import java.util.Collection;
 public class RoomInfoData {
 
     private final IResLocator rI;
-    private Collection<ResObjectP> resC;
-    private final Collection<RI> wList;
+    private List<ResObjectP> resC;
+    private final List<RI> wList;
     private boolean launched;
 
     private class RI {
@@ -74,7 +74,7 @@ public class RoomInfoData {
     private class R implements IVectorList {
 
         public void doVList(final ArrayList<? extends AbstractTo> val) {
-            resC = (Collection<ResObjectP>) val;
+            resC = (List<ResObjectP>) val;
             launched = false;
             doInfo();
         }

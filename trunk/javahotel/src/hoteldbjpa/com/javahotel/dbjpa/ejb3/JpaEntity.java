@@ -16,14 +16,13 @@ package com.javahotel.dbjpa.ejb3;
  *
  * @author stanislawbartkowski@gmail.com
  */
-import java.util.Collection;
-
 import javax.persistence.EntityManager;
 
 import com.javahotel.db.jtypes.HId;
 import com.javahotel.dbjpa.ejb3.CreateNamedManager.EntityInfo;
 import com.javahotel.dbutil.log.GetLogger;
 import com.javahotel.types.LId;
+import java.util.List;
 
 /**
  * @author sb
@@ -156,18 +155,18 @@ public class JpaEntity {
         return (T) o;
     }
 
-    public <T> Collection<T> getAllListOrdered(final Class<?> cla,
+    public <T> List<T> getAllListOrdered(final Class<?> cla,
             final String columnId, final boolean desc) {
-        Collection<?> col = JpaDb.pgetAllListOrdered(em, getClaName(cla),
+        List<?> col = JpaDb.pgetAllListOrdered(em, getClaName(cla),
                 columnId, desc);
         afterLoadCol(col);
-        return (Collection<T>) col;
+        return (List<T>) col;
     }
 
-    public <T> Collection<T> getAllList(final Class<?> cla) {
-        Collection<?> col = JpaDb.pgetAllList(em, getClaName(cla));
+    public <T> List<T> getAllList(final Class<?> cla) {
+        List<?> col = JpaDb.pgetAllList(em, getClaName(cla));
         afterLoadCol(col);
-        return (Collection<T>) col;
+        return (List<T>) col;
     }
 
     public <T> T getOneWhereRecord(final Class<?> cla, final Object... params) {
@@ -184,17 +183,16 @@ public class JpaEntity {
         return JpaDb.getNumber(em, getClaName(cla));
     }
 
-    public long getNumberWhereQ(final Class<?> cla, final String field,
-            final Object par) {
-        return JpaDb.getNumberWhereQ(em, getClaName(cla), field, par);
+    public long getNumberWhereQ(final Class<?> cla, Object... params) {
+        return JpaDb.getNumberWhereQ(em, getClaName(cla), params);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Collection<T> getNamedQuery(final String queryName,
+    public <T> List<T> getNamedQuery(final String queryName,
             Object... params) {
-        Collection<?> col = JpaDb.pgetNamedQuery(em, queryName, params);
+        List<?> col = JpaDb.pgetNamedQuery(em, queryName, params);
         afterLoadCol(col);
-        return (Collection<T>) col;
+        return (List<T>) col;
     }
 
     @SuppressWarnings("unchecked")
@@ -205,18 +203,18 @@ public class JpaEntity {
         return (T) o;
     }
 
-    private void afterLoadCol(Collection<?> col) {
+    private void afterLoadCol(List<?> col) {
         for (Object o : col) {
             afterLoad(o);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Collection<T> getListQuery(final Class<?> cla,
+    public <T> List<T> getListQuery(final Class<?> cla,
             final Object... params) {
-        Collection<?> col = JpaDb.pgetList(em, getClaName(cla), params);
+        List<?> col = JpaDb.pgetList(em, getClaName(cla), params);
         afterLoadCol(col);
-        return (Collection<T>) col;
+        return (List<T>) col;
     }
 
     public void refreshObject(final Object o) {
@@ -227,8 +225,8 @@ public class JpaEntity {
         JpaDb.removeRecord(em, o);
     }
 
-    public <T> void removeCollection(final Collection<T> col) {
-        JpaDb.premoveCollection(em, col);
+    public <T> void removeList(final List<T> col) {
+        JpaDb.premoveList(em, col);
     }
 
     public void removeAll(final Class<?> cla) {

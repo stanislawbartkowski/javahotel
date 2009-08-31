@@ -14,7 +14,7 @@ package com.javahotel.db.report.impl;
 
 import com.javahotel.common.toobject.StringP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -25,10 +25,10 @@ class ReportUtil {
     private ReportUtil() {
     }
 
-    static Collection<StringP> toS(final Collection<String> cos,
+    static List<StringP> toS(final List<String> cos,
             final String removeS) {
 
-        Collection<StringP> co = new ArrayList<StringP>();
+        List<StringP> co = new ArrayList<StringP>();
         for (final String s : cos) {
             if (removeS != null) {
                 if (s.equals(removeS)) {

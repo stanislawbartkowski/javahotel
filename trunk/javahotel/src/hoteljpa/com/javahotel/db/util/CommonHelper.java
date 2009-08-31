@@ -13,7 +13,7 @@
 package com.javahotel.db.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.OfferPrice;
@@ -48,14 +48,14 @@ public class CommonHelper {
     }
 
     private static <T> void addCol(final ICommandContext iC,
-            final Collection<T> col) {
+            final List<T> col) {
         for (T o : col) {
             iC.getJpa().addRecord(o);
         }
     }
 
-    public static <T> void addTraCollection(final ICommandContext iC,
-            final Collection<T> col) {
+    public static <T> void addTraList(final ICommandContext iC,
+            final List<T> col) {
 
         if (iC.getJpa().tranIsActive()) {
             addCol(iC, col);
@@ -67,9 +67,9 @@ public class CommonHelper {
     }
 
     static <T> void addTraObject(final ICommandContext iC, final T o) {
-        Collection<T> col = new ArrayList<T>();
+        List<T> col = new ArrayList<T>();
         col.add(o);
-        addTraCollection(iC, col);
+        addTraList(iC, col);
 
     }
 
@@ -86,7 +86,7 @@ public class CommonHelper {
     }
 
     public static <T extends IPureDictionary> T getName(
-            final Collection<? extends IPureDictionary> col, final String name) {
+            final List<? extends IPureDictionary> col, final String name) {
         for (IPureDictionary t : col) {
             if (t.getName().equals(name)) {
                 return (T) t;

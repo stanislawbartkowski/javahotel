@@ -14,7 +14,7 @@
 package com.javahotel.db.hotelbase.jpa;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.MappedSuperclass;
@@ -37,7 +37,7 @@ public abstract class AbstractPriceOffer {
     private BigDecimal lowseasonweekendprice;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "priceid")
-    private Collection<OfferSpecialPrice> specialprice;
+    private List<OfferSpecialPrice> specialprice;
 
     public BigDecimal getHighseasonprice() {
         return highseasonprice;
@@ -71,11 +71,11 @@ public abstract class AbstractPriceOffer {
         this.lowseasonweekendprice = lowseasonweekendprice;
     }
 
-    public Collection<OfferSpecialPrice> getSpecialprice() {
+    public List<OfferSpecialPrice> getSpecialprice() {
         return specialprice;
     }
 
-    public void setSpecialprice(final Collection<OfferSpecialPrice> specialprice) {
+    public void setSpecialprice(final List<OfferSpecialPrice> specialprice) {
         this.specialprice = specialprice;
     }
 

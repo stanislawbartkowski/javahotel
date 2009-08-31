@@ -21,7 +21,7 @@ import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.dateutil.RunPeriodLoop;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,7 +53,7 @@ public class ResObjectCache {
 
     public interface IReadResCallBack {
 
-        void setCol(final Collection<ResDayObjectStateP> col);
+        void setCol(final List<ResDayObjectStateP> col);
     }
 
     private class SignalReadResCallBack implements IReadResCallBack {
@@ -66,7 +66,7 @@ public class ResObjectCache {
             this.rP = rP;
         }
 
-        public void setCol(final Collection<ResDayObjectStateP> col) {
+        public void setCol(final List<ResDayObjectStateP> col) {
             for (ResDayObjectStateP r : col) {
                 setS(r);
             }
@@ -147,10 +147,10 @@ public class ResObjectCache {
     }
 
     private boolean isCovered(final Date dFrom, final Date dTo,
-            final Collection<String> resList) {
-        Collection<Date> dLine = CalendarTable.listOfDates(dFrom, dTo, PeriodType.byDay);
-        for (final String s : resList) {
-            for (final Date d : dLine) {
+            final Set<String> resList) {
+        List<Date> dLine = CalendarTable.listOfDates(dFrom, dTo, PeriodType.byDay);
+        for (String s : resList) {
+            for (Date d : dLine) {
                 if (getS(s, d) == null) {
                     return false;
                 }
@@ -238,7 +238,7 @@ public class ResObjectCache {
         if (mD == null) {
             return rP;
         }
-        Collection<String> colS = rP.getResList();
+        List<String> colS = rP.getResList();
         Date dFrom = rP.getPe().getFrom();
         Date dTo = rP.getPe().getTo();
         int c1 = DateUtil.compareDate(dFrom, mD.min);
@@ -322,8 +322,8 @@ public class ResObjectCache {
         return p;
     }
 
-    public Collection<ResDayObjectStateP> isConflict(final ResObjectElem res) {
-        final Collection<ResDayObjectStateP> out =
+    public List<ResDayObjectStateP> isConflict(final ResObjectElem res) {
+        final List<ResDayObjectStateP> out =
                 new ArrayList<ResDayObjectStateP>();
         RunPeriodLoop re = new RunPeriodLoop() {
 
@@ -340,12 +340,12 @@ public class ResObjectCache {
         return out;
     }
 
-    public Collection<ResDayObjectStateP> isConflict(
-            final Collection<ResObjectElem> res) {
-        final Collection<ResDayObjectStateP> out =
+    public List<ResDayObjectStateP> isConflict(
+            final List<ResObjectElem> res) {
+        final List<ResDayObjectStateP> out =
                 new ArrayList<ResDayObjectStateP>();
         for (ResObjectElem e : res) {
-            Collection<ResDayObjectStateP> p = isConflict(e);
+            List<ResDayObjectStateP> p = isConflict(e);
             out.addAll(p);
         }
         return out;

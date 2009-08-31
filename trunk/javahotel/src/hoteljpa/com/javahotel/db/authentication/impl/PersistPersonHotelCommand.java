@@ -21,7 +21,7 @@ import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
 import com.javahotel.security.login.PersonHotelRules;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -29,10 +29,10 @@ import java.util.Collection;
  */
 class PersistPersonHotelCommand extends CommandTra {
 
-    private final Collection<String> principals;
+    private final List<String> principals;
 
     PersistPersonHotelCommand(final SessionT sessionId, final String person,
-            final HotelT hotel, Collection<String> principals)
+            final HotelT hotel, List<String> principals)
             {
         super(sessionId, person, hotel, true, true, true, true);
         this.principals = principals;
@@ -40,7 +40,7 @@ class PersistPersonHotelCommand extends CommandTra {
 
     @Override
     protected void command() {
-        Collection<GroupD> col = new ArrayList<GroupD>();
+        List<GroupD> col = new ArrayList<GroupD>();
         for (GroupD d : pe.getGroup()) {
             if (PersonHotelRules.onHotel(d.getGroupname(), hotel) != null) {
                 col.add(d);

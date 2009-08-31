@@ -12,7 +12,7 @@
  */
 package com.javahotel.remoteinterfaces;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import javax.ejb.Remote;
 
@@ -35,7 +35,7 @@ public interface ISecurity {
 
 	void setNewProperties(SessionT sessionT, Map<String, String> prop);
 
-	Collection<HotelT> getListHotels(SessionT sessionT);
+	List<HotelT> getListHotels(SessionT sessionT);
 
-	Collection<String> getListRoles(SessionT sessionT, HotelT ho);
+	List<String> getListRoles(SessionT sessionT, HotelT ho);
 }

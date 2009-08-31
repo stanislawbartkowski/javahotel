@@ -12,7 +12,7 @@
  */
 package com.javahotel.common.toobject;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -20,13 +20,13 @@ import java.util.Collection;
  */
 public class RoomStandardP extends DictionaryP {
 
-    private Collection<ServiceDictionaryP> services;
+    private List<ServiceDictionaryP> services;
 
-    public Collection<ServiceDictionaryP> getServices() {
+    public List<ServiceDictionaryP> getServices() {
         return services;
     }
 
-    public void setServices(final Collection<ServiceDictionaryP> services) {
+    public void setServices(final List<ServiceDictionaryP> services) {
         this.services = services;
     }
 }

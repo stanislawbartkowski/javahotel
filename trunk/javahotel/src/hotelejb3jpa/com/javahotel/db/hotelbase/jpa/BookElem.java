@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.hotelbase.jpa;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -54,10 +54,10 @@ public class BookElem extends AbstractIID {
 	private String service;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "bookelem")
-	private Collection<PaymentRow> paymentrows;
+	private List<PaymentRow> paymentrows;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "bookelem")
-	private Collection<Guest> guests;
+	private List<Guest> guests;
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "bookrecord", nullable = false)
@@ -79,7 +79,7 @@ public class BookElem extends AbstractIID {
 		this.checkOut = checkOut;
 	}
 
-	public Collection<PaymentRow> getPaymentrows() {
+	public List<PaymentRow> getPaymentrows() {
 		return paymentrows;
 	}
 
@@ -103,14 +103,14 @@ public class BookElem extends AbstractIID {
 	 * @param paymentrows
 	 *            the paymentrows to set
 	 */
-	public void setPaymentrows(Collection<PaymentRow> paymentrows) {
+	public void setPaymentrows(List<PaymentRow> paymentrows) {
 		this.paymentrows = paymentrows;
 	}
 
 	/**
 	 * @return the guests
 	 */
-	public Collection<Guest> getGuests() {
+	public List<Guest> getGuests() {
 		return guests;
 	}
 
@@ -118,7 +118,7 @@ public class BookElem extends AbstractIID {
 	 * @param guests
 	 *            the guests to set
 	 */
-	public void setGuests(Collection<Guest> guests) {
+	public void setGuests(List<Guest> guests) {
 		this.guests = guests;
 	}
 

@@ -13,7 +13,7 @@
 package com.javahotel.client.mvc.dictcrud.controler.booking;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
@@ -46,7 +46,7 @@ class BookRowList implements ICrudAuxControler {
 	}
 
 	@SuppressWarnings("unchecked")
-	void drawTable(Collection<PaymentRowP> col) {
+	void drawTable(List<PaymentRowP> col) {
 		ArrayList<PaymentRowP> a = (ArrayList<PaymentRowP>) CollToArray
 				.toA(col);
 		iC.getTableView().getModel().setList(a);

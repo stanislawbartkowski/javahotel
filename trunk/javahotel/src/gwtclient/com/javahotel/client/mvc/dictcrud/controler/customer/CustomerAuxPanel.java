@@ -28,7 +28,7 @@ import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.PhoneNumberP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -70,10 +70,10 @@ public class CustomerAuxPanel implements IAuxRecordPanel {
 
     public void extractFields(RecordModel mo) {
         CustomerP cu = (CustomerP) mo.getA();
-        Collection<PhoneNumberP> c1 = new ArrayList<PhoneNumberP>();
+        List<PhoneNumberP> c1 = new ArrayList<PhoneNumberP>();
         DictUtil.readList(cPhone.getICrud().getTableView().getModel(), c1);
         cu.setPhones(c1);
-        Collection<BankAccountP> c2 = new ArrayList<BankAccountP>();
+        List<BankAccountP> c2 = new ArrayList<BankAccountP>();
         DictUtil.readList(cBank.getICrud().getTableView().getModel(), c2);
         cu.setAccounts(c2);
     }

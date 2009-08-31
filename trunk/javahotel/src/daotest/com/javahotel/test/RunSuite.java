@@ -52,7 +52,8 @@ import org.junit.runners.Suite;
         TestSuite28.class,
         TestSuite29.class,
         TestSuite30.class,
-        TestSuite31.class
+        TestSuite31.class,
+        TestSuite32.class
 })
 //)
 //@Suite.SuiteClasses({TestSuite6.class})

@@ -16,7 +16,7 @@ package com.javahotel.dbjpa.ejb3;
  *
  * @author stanislawbartkowski@gmail.com
  */
-import java.util.Collection;
+import java.util.List;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -42,14 +42,14 @@ public class JpaDb {
     }
 
     @SuppressWarnings("unchecked")
-    static <T> Collection<T> pgetAllList(final EntityManager em,
+    static <T> List<T> pgetAllList(final EntityManager em,
             final String pClass) {
         Query q = em.createQuery("SELECT p FROM " + pClass + " p");
         return q.getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    static Collection<Object> pgetAllListOrdered(final EntityManager em,
+    static List<Object> pgetAllListOrdered(final EntityManager em,
             final String pClass, final String columnId, boolean desc) {
         String query = "SELECT p FROM " + pClass + " p ORDER BY p." + columnId;
         if (desc) {
@@ -81,8 +81,8 @@ public class JpaDb {
     }
 
     static void pRemoveAll(final EntityManager em, final String pClass) {
-        Collection<?> col = pgetAllList(em, pClass);
-        premoveCollection(em, col);
+        List<?> col = pgetAllList(em, pClass);
+        premoveList(em, col);
 
     }
 
@@ -121,16 +121,18 @@ public class JpaDb {
     }
 
     static Long getNumberWhereQ(final EntityManager em, final String pClass,
-            final String field, final Object par) {
-        Query q = em.createQuery("SELECT COUNT(p) FROM " + pClass + " p  WHERE p." + field + " = :" + field);
-        q.setParameter(field, par);
-        Object o = q.getSingleResult();
+            final Object... params) {
+        String q = "SELECT COUNT(p) FROM " + pClass + " p  ";
+        q += " " + getWhereQuery(params);
+        Query qe = em.createQuery(q);
+        querySetParam(qe, params);
+        Object o = qe.getSingleResult();
         Long l = (Long) o;
         return l;
     }
 
     @SuppressWarnings("unchecked")
-    static <T> Collection<T> pgetList(final EntityManager em,
+    static <T> List<T> pgetList(final EntityManager em,
             final String pClass, final Object... params) {
         String q = getSelectQuery(pClass);
         q += " " + getWhereQuery(params);
@@ -159,7 +161,7 @@ public class JpaDb {
                 q += " AND ";
             }
             // OpenJPA: p is necessary
-            q += "p."+param + " = :" + param;
+            q += "p." + param + " = :" + param;
             first = true;
             firste = false;
             param = null;
@@ -191,11 +193,11 @@ public class JpaDb {
     }
 
     @SuppressWarnings("unchecked")
-    static <T> Collection<T> pgetNamedQuery(final EntityManager em,
+    static <T> List<T> pgetNamedQuery(final EntityManager em,
             final String queryName, final Object... params) {
         Query query = qgetNamedQuery(em, queryName, params);
-        Collection<?> result = query.getResultList();
-        return (Collection<T>) result;
+        List<?> result = query.getResultList();
+        return (List<T>) result;
     }
 
     @SuppressWarnings("unchecked")
@@ -205,8 +207,8 @@ public class JpaDb {
         return (T) getSingle(query);
     }
 
-    static <T> void premoveCollection(final EntityManager em,
-            final Collection<T> col) {
+    static <T> void premoveList(final EntityManager em,
+            final List<T> col) {
         for (Object o : col) {
             em.remove(o);
         }

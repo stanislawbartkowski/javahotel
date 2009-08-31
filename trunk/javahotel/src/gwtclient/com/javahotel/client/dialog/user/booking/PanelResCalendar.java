@@ -19,7 +19,7 @@ import com.javahotel.client.dialog.user.tableseason.PanelSeason;
 import com.javahotel.client.widgets.stable.ScrollTable;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.toobject.OfferSeasonP;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 /**
@@ -43,7 +43,7 @@ class PanelResCalendar {
 		pS.drawPa(oP, PeriodType.byDay, today);
 	}
 
-	Collection<Date> getDLine() {
+	List<Date> getDLine() {
 		return pS.getDLine();
 	}
 

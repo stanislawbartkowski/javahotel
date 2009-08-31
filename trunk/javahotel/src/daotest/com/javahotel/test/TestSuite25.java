@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class TestSuite25 extends TestHelper {
         BookingP bok = createB();
         bok.setHotel(HOTEL1);
         bok.setName("");
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -62,7 +62,7 @@ public class TestSuite25 extends TestHelper {
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
         PaymentRowP rP = new PaymentRowP();
@@ -70,7 +70,7 @@ public class TestSuite25 extends TestHelper {
         rP.setOfferPrice(new BigDecimal(100));
         rP.setRowFrom(be.getCheckIn());
         rP.setRowTo(be.getCheckOut());
-        Collection<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
+        List<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
         rCol.add(rP);
         be.setPaymentrows(rCol);
 
@@ -92,7 +92,7 @@ public class TestSuite25 extends TestHelper {
         BookingP bok = createB();
         bok.setHotel(HOTEL1);
         bok.setName("");
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -119,11 +119,11 @@ public class TestSuite25 extends TestHelper {
         ge.setCustomer(cust.getId());
         ge.setCheckIn(D("2009/02/07"));
         ge.setCheckOut(D("2009/02/08"));
-        Collection<GuestP> gList = new ArrayList<GuestP>();
+        List<GuestP> gList = new ArrayList<GuestP>();
         gList.add(ge);
         be.setGuests(gList);
 
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
 
@@ -132,7 +132,7 @@ public class TestSuite25 extends TestHelper {
 //        rP.setOfferPrice(new BigDecimal(100));
 //        rP.setRowFrom(be.getCheckIn());
 //        rP.setRowTo(be.getCheckOut());
-//        Collection<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
+//        List<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
 //        rCol.add(rP);
 //        be.setPaymentrows(rCol);
 

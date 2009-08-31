@@ -13,7 +13,7 @@
 package com.javahotel.dbres.log;
 
 import java.text.MessageFormat;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import java.util.logging.Level;
 
@@ -136,7 +136,7 @@ public class ELog {
 				DateFormatUtil.toS(dFrom), DateFormatUtil.toS(Dto));
 	}
 
-	public static String drawColStringS(final Collection<String> col) {
+	public static String drawColStringS(final List<String> col) {
 		return col.toString();
 	}
 }

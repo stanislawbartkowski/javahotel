@@ -14,7 +14,7 @@
 package com.javahotel.client.mvc.dict.validator;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
@@ -35,10 +35,10 @@ class ResGuestValidator extends DictValidator {
 
 	@Override
 	public boolean isEmpty(RecordModel a) {
-		Collection<IField> emptyC = new ArrayList<IField>();
+		List<IField> emptyC = new ArrayList<IField>();
 		emptyC.add(CustomerP.F.firstName);
 		emptyC.add(CustomerP.F.lastName);
-		Collection<InvalidateMess> errMess = ValidUtil.checkEmpty(a, emptyC);
+		List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, emptyC);
 		if (errMess == null) {
 			return false;
 		}

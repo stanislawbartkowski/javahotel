@@ -13,7 +13,7 @@
 package com.javahotel.client.mvc.persistrecord;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +46,7 @@ class PersistGuestList implements IPersistRecord {
         this.rI = rI;
     }
     private SS syncs;
-    private Map<String, Collection<GuestP>> ma;
+    private Map<String, List<GuestP>> ma;
 
     private class B extends CallBackHotel {
 
@@ -101,7 +101,7 @@ class PersistGuestList implements IPersistRecord {
         String resName = ge.getResName();
         GuestP g = ge.getO1();
         g.setCustomer(id);
-        Collection<GuestP> gl = ma.get(resName);
+        List<GuestP> gl = ma.get(resName);
         if (gl == null) {
             gl = new ArrayList<GuestP>();
             ma.put(resName, gl);
@@ -119,7 +119,7 @@ class PersistGuestList implements IPersistRecord {
         syncs = new SS(gList.size());
         syncs.ires = ires;
         syncs.ge = get;
-        ma = new HashMap<String, Collection<GuestP>>();
+        ma = new HashMap<String, List<GuestP>>();
         for (int i = 0; i < gList.size(); i++) {
             ResRoomGuest ge = gList.get(i);
             ResRoomGuest pge = prevList.get(i);

@@ -14,7 +14,7 @@
 package com.javahotel.db.hotelbase.jpa;
 
 import com.javahotel.common.command.RRoom;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -42,7 +42,7 @@ public class ResObject extends AbstractDictionary {
     private RoomStandard rStandard;
     
     @ManyToMany
-    private Collection<RoomFacilities> facilities;
+    private List<RoomFacilities> facilities;
 
 
     public RRoom getRType() {
@@ -77,11 +77,11 @@ public class ResObject extends AbstractDictionary {
         this.rStandard = rStandard;
     }
 
-    public Collection<RoomFacilities> getFacilities() {
+    public List<RoomFacilities> getFacilities() {
         return facilities;
     }
 
-    public void setFacilities(final Collection<RoomFacilities> facilities) {
+    public void setFacilities(final List<RoomFacilities> facilities) {
         this.facilities = facilities;
     }
 

@@ -16,7 +16,7 @@ import com.javahotel.common.command.CommandUtil;
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.IdentDocType;
 import com.javahotel.common.command.PersonTitle;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -38,9 +38,9 @@ public class CustomerP extends DictionaryP {
     private IdentDocType docType;
     private String docNumber;
     private PersonalDataP customerperson;
-    private Collection<RemarkP> remarks;
-    private Collection<PhoneNumberP> phones;
-    private Collection<BankAccountP> accounts;
+    private List<RemarkP> remarks;
+    private List<PhoneNumberP> phones;
+    private List<BankAccountP> accounts;
 
     public IdentDocType getDocType() {
         return docType;
@@ -289,27 +289,27 @@ public class CustomerP extends DictionaryP {
         this.customerperson = customerperson;
     }
 
-    public Collection<RemarkP> getRemarks() {
+    public List<RemarkP> getRemarks() {
         return remarks;
     }
 
-    public void setRemarks(final Collection<RemarkP> remarks) {
+    public void setRemarks(final List<RemarkP> remarks) {
         this.remarks = remarks;
     }
 
-    public Collection<PhoneNumberP> getPhones() {
+    public List<PhoneNumberP> getPhones() {
         return phones;
     }
 
-    public void setPhones(final Collection<PhoneNumberP> phones) {
+    public void setPhones(final List<PhoneNumberP> phones) {
         this.phones = phones;
     }
 
-    public Collection<BankAccountP> getAccounts() {
+    public List<BankAccountP> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(final Collection<BankAccountP> accounts) {
+    public void setAccounts(final List<BankAccountP> accounts) {
         this.accounts = accounts;
     }
 

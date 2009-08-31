@@ -20,7 +20,7 @@ import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.SeasonPeriodT;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -46,7 +46,7 @@ public class TestSuite6 {
         OfferSeasonP oP = new OfferSeasonP();
         oP.setStartP(createD(2008, 9, 1));
         oP.setEndP(createD(2008, 10,30)); // day more
-        Collection<OfferSeasonPeriodP> colP = new ArrayList<OfferSeasonPeriodP>();
+        List<OfferSeasonPeriodP> colP = new ArrayList<OfferSeasonPeriodP>();
         OfferSeasonPeriodP sp = new OfferSeasonPeriodP();
         sp.setStartP(createD(2008, 10, 1));
         sp.setEndP(createD(2008, 10, 4));
@@ -54,7 +54,7 @@ public class TestSuite6 {
         colP.add(sp);
         
         oP.setPeriods(colP);
-        Collection<PeriodT> col = CreateTableSeason.createTable(oP, StartWeek.onFriday);
+        List<PeriodT> col = CreateTableSeason.createTable(oP, StartWeek.onFriday);
         assertEquals(17,col.size());
         int no = 0;
         for (PeriodT p : col) {

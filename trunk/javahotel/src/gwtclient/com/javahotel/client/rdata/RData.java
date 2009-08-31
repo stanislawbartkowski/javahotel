@@ -13,7 +13,7 @@
 package com.javahotel.client.rdata;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.javahotel.client.CallBackHotel;
@@ -95,7 +95,7 @@ public class RData {
 
             @Override
             public void onMySuccess(final Object arg) {
-                Collection<ResDayObjectStateP> a = (Collection<ResDayObjectStateP>) arg;
+                List<ResDayObjectStateP> a = (List<ResDayObjectStateP>) arg;
                 ca.setCol(a);
             }
         }

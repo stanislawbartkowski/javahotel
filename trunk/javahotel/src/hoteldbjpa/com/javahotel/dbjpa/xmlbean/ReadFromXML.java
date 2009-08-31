@@ -7,7 +7,7 @@ package com.javahotel.dbjpa.xmlbean;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.xml.sax.InputSource;
@@ -23,7 +23,7 @@ import com.javahotel.dbutil.log.GetLogger;
  */
 public class ReadFromXML {
 
-	public static Collection<Object> readCol(InputStream i, Class<?> cla,
+	public static List<Object> readCol(InputStream i, Class<?> cla,
 			final String tagName, String rootName, GetLogger log) {
 		try {
 			XMLReader xr = XMLReaderFactory.createXMLReader();

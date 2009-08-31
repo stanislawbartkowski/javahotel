@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.authentication.impl;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -43,7 +43,7 @@ public class AuthenticationImpl implements IAuthentication,
 		p.run();
 	}
 
-	public Collection<HotelP> getHotelList(final SessionT sessionId) {
+	public List<HotelP> getHotelList(final SessionT sessionId) {
 		return GetList.getHotelList(sessionId);
 	}
 
@@ -59,7 +59,7 @@ public class AuthenticationImpl implements IAuthentication,
 
 	public void persistPersonHotel(final SessionT sessionId,
 			final String person, final HotelT hotel,
-			final Collection<String> principals) {
+			final List<String> principals) {
 		PersistPersonHotelCommand p = new PersistPersonHotelCommand(sessionId,
 				person, hotel, principals);
 		p.run();
@@ -77,11 +77,11 @@ public class AuthenticationImpl implements IAuthentication,
 		p.run();
 	}
 
-	public Collection<PersonP> getPersonList(final SessionT sessionId) {
+	public List<PersonP> getPersonList(final SessionT sessionId) {
 		return GetList.getPersonList(sessionId);
 	}
 
-	public Collection<String> getPersonHotelRoles(final SessionT sessionId,
+	public List<String> getPersonHotelRoles(final SessionT sessionId,
 			final String person, final HotelT hotel) {
 		return GetList.getPersonHotelRoles(sessionId, person, hotel);
 	}

@@ -13,7 +13,7 @@
 
 package com.javahotel.db.hotelbase.jpa;
 
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
@@ -25,13 +25,13 @@ import javax.persistence.ManyToMany;
 public class RoomStandard extends AbstractDictionary {
     
     @ManyToMany
-    private Collection<ServiceDictionary> services;
+    private List<ServiceDictionary> services;
 
-    public Collection<ServiceDictionary> getServices() {
+    public List<ServiceDictionary> getServices() {
         return services;
     }
 
-    public void setServices(final Collection<ServiceDictionary> services) {
+    public void setServices(final List<ServiceDictionary> services) {
         this.services = services;
     }
 

@@ -22,7 +22,7 @@ import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.dbres.resources.IMess;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -31,13 +31,13 @@ import java.util.Collection;
 public class AddPayment extends CommandAbstract {
 
     private final String resName;
-    private final Collection<AddPaymentP> col;
+    private final List<AddPaymentP> col;
     private final BillP bill;
     private final ReturnPersist re;
 
     public AddPayment(final SessionT se, final String ho, String resName,
-            final BillP bill, Collection<AddPaymentP> col) {
-        super(se, true, new HotelT(ho),false); // defer start transaction
+            final BillP bill, List<AddPaymentP> col) {
+        super(se, true, new HotelT(ho), false); // defer start transaction
         this.resName = resName;
         this.bill = bill;
         this.col = col;

@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +48,7 @@ class ReadBeanHandler extends DefaultHandler {
 
 	}
 
-	private final Collection<Object> out = new ArrayList<Object>();
+	private final List<Object> out = new ArrayList<Object>();
 	private Object o;
 	private final Class cla;
 	private final String tagName;
@@ -57,7 +57,7 @@ class ReadBeanHandler extends DefaultHandler {
 	private String chars;
 	private final setField sF = new setField();
 
-	Collection<Object> getRes() {
+	List<Object> getRes() {
 		return out;
 	}
 

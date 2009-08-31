@@ -25,7 +25,7 @@ import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.SeasonPeriodT;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -57,7 +57,7 @@ class GetSeasonSpecial {
 		public void doOne(AbstractTo val) {
 			OfferSeasonP oP = (OfferSeasonP) val;
 			toI = new ArrayList<MapSpecialToI>();
-			Collection<OfferSeasonPeriodP> co = oP.getPeriods();
+			List<OfferSeasonPeriodP> co = oP.getPeriods();
 			if (co != null) {
 				for (OfferSeasonPeriodP p : co) {
 					if (p.getPeriodT() !=SeasonPeriodT.SPECIAL) { continue; }

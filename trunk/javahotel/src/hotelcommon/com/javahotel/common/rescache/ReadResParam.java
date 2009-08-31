@@ -14,7 +14,7 @@
 package com.javahotel.common.rescache;
 
 import com.javahotel.common.dateutil.PeriodT;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -22,15 +22,15 @@ import java.util.Collection;
  */
 public class ReadResParam {
 
-    private final Collection<String> resList;
+    private final List<String> resList;
     private final PeriodT pe;
     
-    public ReadResParam(final Collection<String> co, final PeriodT pe) {
+    public ReadResParam(final List<String> co, final PeriodT pe) {
         this.resList = co;
         this.pe = pe;
     }
 
-    public Collection<String> getResList() {
+    public List<String> getResList() {
         return resList;
     }
 

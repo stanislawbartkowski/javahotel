@@ -20,7 +20,7 @@ import com.javahotel.db.hotelbase.jpa.BookElem;
 import com.javahotel.db.hotelbase.jpa.BookRecord;
 import com.javahotel.db.hotelbase.jpa.Booking;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,12 +33,12 @@ public class CopyGuests {
     }
 
     public static void copyGuests(final ICommandContext iC, Booking b,
-            Map<String, Collection<GuestP>> guests) {
+            Map<String, List<GuestP>> guests) {
 
         BookRecord bR = GetMaxUtil.getLast(b.getBookrecords());
         for (BookElem el : bR.getBooklist()) {
             String resName = el.getResObject();
-            Collection<GuestP> col = guests.get(resName);
+            List<GuestP> col = guests.get(resName);
             CopyBooking.copyGuests(iC, el, col);
         }
     }

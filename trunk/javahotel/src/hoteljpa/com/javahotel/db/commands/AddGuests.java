@@ -19,7 +19,7 @@ import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.dbres.resources.IMess;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,10 +29,10 @@ import java.util.Map;
 public class AddGuests extends CommandAbstract {
 
     private final String resName;
-    private final Map<String, Collection<GuestP>> col;
+    private final Map<String, List<GuestP>> col;
 
     public AddGuests(final SessionT se, final String ho,
-            final String resName, Map<String, Collection<GuestP>> col) {
+            final String resName, Map<String, List<GuestP>> col) {
         super(se, true, new HotelT(ho));
         this.resName = resName;
         this.col = col;
@@ -42,7 +42,7 @@ public class AddGuests extends CommandAbstract {
     protected void command() {
         Booking b = getBook(resName);
         if (b.getBookingType() == BookingEnumTypes.Reservation) {
-            iC.logFatal(IMess.RESERVATIONNOTSTAY,resName);
+            iC.logFatal(IMess.RESERVATIONNOTSTAY, resName);
             return;
         }
 

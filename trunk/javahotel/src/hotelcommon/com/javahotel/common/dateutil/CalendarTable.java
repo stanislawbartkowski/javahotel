@@ -14,7 +14,7 @@
 package com.javahotel.common.dateutil;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 /**
@@ -44,11 +44,11 @@ public class CalendarTable {
     }
         
 
-    public static Collection<Date> listOfDates(final Date first, 
+    public static List<Date> listOfDates(final Date first, 
             final Date last, final PeriodType pType) {
         // get beginning of first week
         Date actC = DateUtil.copyDate(first);
-        Collection<Date> cDays = new ArrayList<Date>();
+        List<Date> cDays = new ArrayList<Date>();
         boolean ladded = false;
 
         while (DateUtil.compareDate(actC, last) != 1) {

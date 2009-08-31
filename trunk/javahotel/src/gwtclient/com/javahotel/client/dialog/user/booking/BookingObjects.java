@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.dialog.user.booking;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -42,112 +42,112 @@ import com.javahotel.common.toobject.OfferSeasonP;
  */
 public class BookingObjects extends Composite {
 
-	private ResRoomTable bO;
-	private final IResLocator rI;
-	private ILineField season;
-	private PanelResCalendar pCa;
-	private DrawResGrid dG;
-	private DrawLock sSync;
-	private final HorizontalPanel controlH = new HorizontalPanel();
-	private final VerticalPanel sPanel = new VerticalPanel();
-	private final HorizontalPanel seasonC = new HorizontalPanel();
-	private final Date today = DateUtil.getToday();
+    private ResRoomTable bO;
+    private final IResLocator rI;
+    private ILineField season;
+    private PanelResCalendar pCa;
+    private DrawResGrid dG;
+    private DrawLock sSync;
+    private final HorizontalPanel controlH = new HorizontalPanel();
+    private final VerticalPanel sPanel = new VerticalPanel();
+    private final HorizontalPanel seasonC = new HorizontalPanel();
+    private final Date today = DateUtil.getToday();
 
-	private void drawPa(final ILineField e) {
-		final String sName = e.getVal();
-		CommandParam co = rI.getR().getHotelCommandParam();
-		co.setDict(DictType.OffSeasonDict);
-		IDrawCol ic = new IDrawCol() {
+    private void drawPa(final ILineField e) {
+        final String sName = e.getVal();
+        CommandParam co = rI.getR().getHotelCommandParam();
+        co.setDict(DictType.OffSeasonDict);
+        IDrawCol ic = new IDrawCol() {
 
-			public void draw(final Collection<? extends AbstractTo> co) {
-				OfferSeasonP oP = null;
-				for (final AbstractTo a : co) {
-					oP = (OfferSeasonP) a;
-					if (oP.getName().equals(sName)) {
-						break;
-					}
-				}
-				if (oP != null) {
-					pCa.draPa(oP, today);
-				}
-			}
-		};
-		rI.getR().getList(RType.ListDict, co, new DefDrawCol(ic));
+            public void draw(final List<? extends AbstractTo> co) {
+                OfferSeasonP oP = null;
+                for (final AbstractTo a : co) {
+                    oP = (OfferSeasonP) a;
+                    if (oP.getName().equals(sName)) {
+                        break;
+                    }
+                }
+                if (oP != null) {
+                    pCa.draPa(oP, today);
+                }
+            }
+        };
+        rI.getR().getList(RType.ListDict, co, new DefDrawCol(ic));
 
-	}
+    }
 
-	private class DrawLock extends SynchronizeList {
+    private class DrawLock extends SynchronizeList {
 
-		private ILineField e;
+        private ILineField e;
 
-		DrawLock() {
-			super(2);
-			e = null;
-		}
+        DrawLock() {
+            super(2);
+            e = null;
+        }
 
-		@Override
-		protected void doTask() {
-			drawPa(e);
-		}
+        @Override
+        protected void doTask() {
+            drawPa(e);
+        }
 
-		/**
-		 * @param e
-		 *            the e to set
-		 */
-		void setE(ILineField e) {
-			this.e = e;
-		}
-	}
+        /**
+         * @param e
+         *            the e to set
+         */
+        void setE(ILineField e) {
+            this.e = e;
+        }
+    }
 
-	public void draw() {
-		this.sSync = new DrawLock();
-		bO = new ResRoomTable(rI, sSync);
-		sPanel.add(controlH);
-		sPanel.add(bO.getG());
-		ScrollTable.DrawPartI drawI = new ScrollTable.DrawPartI() {
+    public void draw() {
+        this.sSync = new DrawLock();
+        bO = new ResRoomTable(rI, sSync);
+        sPanel.add(controlH);
+        sPanel.add(bO.getG());
+        ScrollTable.DrawPartI drawI = new ScrollTable.DrawPartI() {
 
-			public void draw(final int sno, final int sto) {
-				dG.draw();
-			}
+            public void draw(final int sno, final int sto) {
+                dG.draw();
+            }
 
-			public void drawagain(final int l, final int lno, final int cno,
-					final boolean setC) {
-			}
+            public void drawagain(final int l, final int lno, final int cno,
+                    final boolean setC) {
+            }
 
-			public void setSWidget(Widget w) {
-			}
-		};
-		pCa = new PanelResCalendar(rI, bO.getG(), seasonC, bO.colS(), drawI);
-		CommandParam p = rI.getR().getHotelCommandParam();
-		p.setDict(DictType.OffSeasonDict);
-		dG = new DrawResGrid(rI, bO, pCa, bO.getG(),today);
+            public void setSWidget(Widget w) {
+            }
+        };
+        pCa = new PanelResCalendar(rI, bO.getG(), seasonC, bO.colS(), drawI);
+        CommandParam p = rI.getR().getHotelCommandParam();
+        p.setDict(DictType.OffSeasonDict);
+        dG = new DrawResGrid(rI, bO, pCa, bO.getG(), today);
 
-		ICreatedValue iV = new ICreatedValue() {
+        ICreatedValue iV = new ICreatedValue() {
 
-			public void createdSignal(final ILineField e) {
-				sSync.setE(e);
-				sSync.signalDone();
-			}
-		};
-		season = GetIEditFactory.getListValuesBox(rI, RType.ListDict, p,
-				DictionaryP.F.name, iV);
+            public void createdSignal(final ILineField e) {
+                sSync.setE(e);
+                sSync.signalDone();
+            }
+        };
+        season = GetIEditFactory.getListValuesBox(rI, RType.ListDict, p,
+                DictionaryP.F.name, iV);
 
-		IChangeListener cLi = new IChangeListener() {
+        IChangeListener cLi = new IChangeListener() {
 
-			public void onChange(final ILineField arg0) {
-				if (sSync.signalledAlready()) {
-					drawPa(season);
-				}
-			}
-		};
-		season.setChangeListener(cLi);
-		controlH.add(season.getMWidget().getWidget());
-		controlH.add(seasonC);
+            public void onChange(final ILineField arg0) {
+                if (sSync.signalledAlready()) {
+                    drawPa(season);
+                }
+            }
+        };
+        season.setChangeListener(cLi);
+        controlH.add(season.getMWidget().getWidget());
+        controlH.add(seasonC);
 
-	}
+    }
 
-	public BookingObjects(final IResLocator rI) {
-		this.rI = rI;
-		initWidget(sPanel);
-	}
+    public BookingObjects(final IResLocator rI) {
+        this.rI = rI;
+        initWidget(sPanel);
+    }
 }

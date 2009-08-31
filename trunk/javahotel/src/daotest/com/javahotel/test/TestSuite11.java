@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -40,7 +40,7 @@ public class TestSuite11 extends TestHelper {
     public void Test1() {
         loginuser();
         BookingP bok = createB();
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -59,7 +59,7 @@ public class TestSuite11 extends TestHelper {
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/03/07"));
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
 
@@ -78,7 +78,7 @@ public class TestSuite11 extends TestHelper {
         par.setHotel(HOTEL1);
         par.setDateFrom(DateFormatUtil.toD("2008/03/07"));
         par.setDateTo(DateFormatUtil.toD("2008/03/09"));
-        Collection<AbstractTo> res = list.getList(se, RType.ResObjectState, par);
+        List<AbstractTo> res = list.getList(se, RType.ResObjectState, par);
         assertEquals(0, res.size());
     }
 
@@ -86,7 +86,7 @@ public class TestSuite11 extends TestHelper {
     public void Test2() {
         Test1();
         BookingP bok = getOneName(DictType.BookingList, "BOK0001");
-        Collection<BookRecordP> col = bok.getBookrecords();
+        List<BookRecordP> col = bok.getBookrecords();
         BookRecordP p = null;
         for (BookRecordP pp : bok.getBookrecords()) {
             p = pp;
@@ -96,7 +96,7 @@ public class TestSuite11 extends TestHelper {
             be = bb;
         }
         PaymentRowP pR = new PaymentRowP();
-        Collection<PaymentRowP> colp = new ArrayList<PaymentRowP>();
+        List<PaymentRowP> colp = new ArrayList<PaymentRowP>();
         pR.setCustomerPrice(new BigDecimal(123));
         pR.setOfferPrice(new BigDecimal(333));
         pR.setRowFrom(DateFormatUtil.toD("2008/02/07"));
@@ -115,7 +115,7 @@ public class TestSuite11 extends TestHelper {
         par.setHotel(HOTEL1);
         par.setDateFrom(DateFormatUtil.toD("2008/03/09"));
         par.setDateTo(DateFormatUtil.toD("2008/03/09"));
-        Collection<AbstractTo> res = list.getList(se, RType.ResObjectState, par);
+        List<AbstractTo> res = list.getList(se, RType.ResObjectState, par);
         assertEquals(0, res.size());
 
         par = new CommandParam();
@@ -135,7 +135,7 @@ public class TestSuite11 extends TestHelper {
         assertEquals(2, res.size());
         int no = 0;
         for (final AbstractTo a : res) {
-//        	Collection<AbstractTo> ap = hot.getDicList(se, DictType.PaymentRowList, new HotelT(HOTEL1));
+//        	List<AbstractTo> ap = hot.getDicList(se, DictType.PaymentRowList, new HotelT(HOTEL1));
             ResDayObjectStateP pp = (ResDayObjectStateP) a;
             LId rId = pp.getPaymentRowId();
             CommandParam cP = new CommandParam();
@@ -164,7 +164,7 @@ public class TestSuite11 extends TestHelper {
     public void Test3() {
         Test2();
         BookingP bok = getOneName(DictType.BookingList, "BOK0001");
-        Collection<BookingStateP> cC = new ArrayList<BookingStateP>();
+        List<BookingStateP> cC = new ArrayList<BookingStateP>();
         BookingStateP pe = new BookingStateP();
         pe.setBState(BookingStateType.Confirmed);
         pe.setDateOp(DateFormatUtil.toD("2008/03/09"));
@@ -183,7 +183,7 @@ public class TestSuite11 extends TestHelper {
         par.setDateFrom(DateFormatUtil.toD("2008/02/07"));
         par.setDateTo(DateFormatUtil.toD("2008/02/08"));
         par.setResListNo(0, "1p");
-        Collection<AbstractTo> res = list.getList(se, RType.ResObjectState, par);
+        List<AbstractTo> res = list.getList(se, RType.ResObjectState, par);
         assertEquals(2, res.size());
         int no = 0;
         for (final AbstractTo a : res) {

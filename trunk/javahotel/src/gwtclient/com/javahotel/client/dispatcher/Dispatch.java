@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.dispatcher;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 import com.javahotel.client.IResLocator;
@@ -42,7 +42,7 @@ class Dispatch implements IDispatch {
 		}
 	}
 
-	private Collection<CommandT> comT;
+	private List<CommandT> comT;
 
 	Dispatch() {
 	}

@@ -17,7 +17,7 @@ import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.mvc.record.model.IRecordDef;
 import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.common.toobject.IField;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -30,7 +30,7 @@ public class GetELine {
     }
 
     public static ILineField getE(IRecordDef model, IField f) {
-        Collection<RecordField> co = model.getFields();
+        List<RecordField> co = model.getFields();
         for (RecordField re : co) {
             if (re.getFie() == f) {
                 return re.getELine();

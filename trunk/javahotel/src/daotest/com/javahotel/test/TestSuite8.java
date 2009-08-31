@@ -28,7 +28,7 @@ import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.remoteinterfaces.HotelT;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -73,7 +73,7 @@ public class TestSuite8 extends TestHelper {
         oP.setHotel(sP.getHotel());
         hot.persistDic(seu, DictType.PriceListDict, oP);
 
-        Collection<DictionaryP> col = getDicList(seu, DictType.PriceListDict, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(seu, DictType.PriceListDict, new HotelT(HOTEL1));
         assertEquals(1, col.size());
         for (DictionaryP p : col) {
             OfferPriceP ooP = (OfferPriceP) p;
@@ -87,7 +87,7 @@ public class TestSuite8 extends TestHelper {
     public void Test2() {
         Test1();
         System.out.println("Price list podlist");
-        Collection<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict, new HotelT(HOTEL1));
         OfferSeasonP oP = null;
         for (DictionaryP p : col) {
             oP = (OfferSeasonP) p;
@@ -95,7 +95,7 @@ public class TestSuite8 extends TestHelper {
         assertNotNull(oP);
 
         OfferSeasonPeriodP pe = new OfferSeasonPeriodP();
-        Collection<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
+        List<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
         pe.setStartP(DateFormatUtil.toD("2008/03/11"));
         pe.setEndP(DateFormatUtil.toD("2008/06/11"));
         pe.setPeriodT(SeasonPeriodT.LOW);
@@ -119,14 +119,14 @@ public class TestSuite8 extends TestHelper {
         assertNotNull(opp);
 
         OfferSpecialPriceP osp;
-        Collection<OfferSpecialPriceP> lP = new ArrayList<OfferSpecialPriceP>();
+        List<OfferSpecialPriceP> lP = new ArrayList<OfferSpecialPriceP>();
         osp = new OfferSpecialPriceP();
         osp.setSpecialperiod(new Long(1));
         osp.setPrice(new BigDecimal("123"));
         lP.add(osp);
 
         OfferServicePriceP ospp;
-        Collection<OfferServicePriceP> lPp = new ArrayList<OfferServicePriceP>();
+        List<OfferServicePriceP> lPp = new ArrayList<OfferServicePriceP>();
         ospp = new OfferServicePriceP();
         ospp.setService("DOST");
         ospp.setSpecialprice(lP);
@@ -140,7 +140,7 @@ public class TestSuite8 extends TestHelper {
         for (DictionaryP p : col) {
             opp = (OfferPriceP) p;
         }
-        Collection<OfferServicePriceP> colP = opp.getServiceprice();
+        List<OfferServicePriceP> colP = opp.getServiceprice();
         assertNotNull(colP);
         assertEquals(1, colP.size());
         ospp = null;

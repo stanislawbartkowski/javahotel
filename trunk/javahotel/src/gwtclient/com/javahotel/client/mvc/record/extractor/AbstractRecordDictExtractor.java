@@ -19,7 +19,7 @@ import com.javahotel.client.mvc.record.view.IRecordView;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.DictionaryP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -39,12 +39,12 @@ abstract class AbstractRecordDictExtractor implements IRecordExtractor {
         view.extractFields(mo);
     }
 
-    protected abstract Collection<? extends DictionaryP> getDic(IRecordView view, RecordModel a);
+    protected abstract List<? extends DictionaryP> getDic(IRecordView view, RecordModel a);
 
     public void toView(IRecordView view, RecordModel a) {
         view.setFields(a);
-        Collection<? extends DictionaryP> se = getDic(view, a);
-        Collection<String> dic = new ArrayList<String>();
+        List<? extends DictionaryP> se = getDic(view, a);
+        List<String> dic = new ArrayList<String>();
         if (se != null) {
             for (DictionaryP d : se) {
                 dic.add(d.getName());

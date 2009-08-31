@@ -27,7 +27,7 @@ import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.PaymentRowP;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 /**
@@ -40,7 +40,7 @@ public class TestSuite21 extends TestHelper {
     public void Test1() {
         loginuser();
         BookingP bok = createB();
-        Collection<BookRecordP> col = new ArrayList<BookRecordP>();
+        List<BookRecordP> col = new ArrayList<BookRecordP>();
         BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         p.setCustomerPrice(new BigDecimal(999));
@@ -59,12 +59,12 @@ public class TestSuite21 extends TestHelper {
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
-        Collection<BookElemP> colE = new ArrayList<BookElemP>();
+        List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         p.setBooklist(colE);
 
         PaymentRowP pR = new PaymentRowP();
-        Collection<PaymentRowP> colP = new ArrayList<PaymentRowP>();
+        List<PaymentRowP> colP = new ArrayList<PaymentRowP>();
         pR.setCustomerPrice(new BigDecimal(123));
         pR.setOfferPrice(new BigDecimal(333));
         pR.setRowFrom(DateFormatUtil.toD("2008/02/07"));
@@ -108,7 +108,7 @@ public class TestSuite21 extends TestHelper {
         BookingStateP bState = new BookingStateP();
         bState.setBState(BookingStateType.Canceled);
         bState.setLp(new Integer(1));
-        Collection<BookingStateP> staCol = bok.getState();
+        List<BookingStateP> staCol = bok.getState();
         staCol.add(bState);
         
         hot.persistDic(se, DictType.BookingList,bok);

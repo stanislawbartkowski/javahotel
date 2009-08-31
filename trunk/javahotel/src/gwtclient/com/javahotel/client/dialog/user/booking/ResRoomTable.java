@@ -18,7 +18,7 @@ import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.DictData.SpecE;
 import com.javahotel.common.command.SynchronizeList;
 import com.javahotel.common.toobject.AbstractTo;
-import java.util.Collection;
+import java.util.List;
 import com.javahotel.client.mvc.crudtable.controler.ICrudTableControler;
 import com.javahotel.client.mvc.tablecrud.controler.TableDictCrudControlerFactory;
 import com.javahotel.client.mvc.crud.controler.ITableModelSignalRead;
@@ -28,39 +28,38 @@ import com.javahotel.client.mvc.crudtable.controler.CrudTableControlerParam;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-
 class ResRoomTable {
 
-	private final IResLocator rI;
-	private final ICrudTableControler iTable;
-	private final SynchronizeList sSync;
+    private final IResLocator rI;
+    private final ICrudTableControler iTable;
+    private final SynchronizeList sSync;
 
-	Grid getG() {
-		return iTable.getTableView().getGrid();
-	}
+    Grid getG() {
+        return iTable.getTableView().getGrid();
+    }
 
-	int colS() {
-		return iTable.getTableView().getModel().colNum();
-	}
+    int colS() {
+        return iTable.getTableView().getModel().colNum();
+    }
 
-	Collection<? extends AbstractTo> getResList() {
-		return iTable.getTableView().getModel().getList();
-	}
+    List<? extends AbstractTo> getResList() {
+        return iTable.getTableView().getModel().getList();
+    }
 
-	ResRoomTable(final IResLocator rI, final SynchronizeList sSyncc) {
-		this.rI = rI;
-		this.sSync = sSyncc;
+    ResRoomTable(final IResLocator rI, final SynchronizeList sSyncc) {
+        this.rI = rI;
+        this.sSync = sSyncc;
 
-		ITableModelSignalRead iSig = new ITableModelSignalRead() {
+        ITableModelSignalRead iSig = new ITableModelSignalRead() {
 
-			public void successRead() {
-				sSync.signalDone();
-			}
-		};
-		CrudTableControlerParam pa = new CrudTableControlerParam();
-		pa.setSRead(iSig);
-		iTable = TableDictCrudControlerFactory.getCrud(rI, new DictData(
-				SpecE.ResTablePanel), null, pa);
-		iTable.drawTable();
-	}
+            public void successRead() {
+                sSync.signalDone();
+            }
+        };
+        CrudTableControlerParam pa = new CrudTableControlerParam();
+        pa.setSRead(iSig);
+        iTable = TableDictCrudControlerFactory.getCrud(rI, new DictData(
+                SpecE.ResTablePanel), null, pa);
+        iTable.drawTable();
+    }
 }

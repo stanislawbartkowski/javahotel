@@ -16,7 +16,7 @@ package com.javahotel.test;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.PasswordT;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class TestSuite3 extends TestHelper {
     public void Test1() throws Exception {
         System.out.println("Negative test");
         aut.persistPerson(se, "user1", new PasswordT("password1"));
-        Collection<String> perm = new ArrayList<String>();
+        List<String> perm = new ArrayList<String>();
         perm.add("czytaj");
 
         try {
@@ -69,10 +69,10 @@ public class TestSuite3 extends TestHelper {
         System.out.println("Add one role");
         aut.persistPerson(se, "user1", new PasswordT("password1"));
         aut.persistHotel(se, new HotelT("hotel1"), "super hotel", "did");
-        Collection<String> perm = new ArrayList<String>();
+        List<String> perm = new ArrayList<String>();
         perm.add("read");
         aut.persistPersonHotel(se, "user1", new HotelT("hotel1"), perm);
-        Collection<String> res = aut.getPersonHotelRoles(se, "user1", new HotelT("hotel1"));
+        List<String> res = aut.getPersonHotelRoles(se, "user1", new HotelT("hotel1"));
         assertEquals(1, res.size());
         for (final String s : res) {
             assertEquals("read", s);
@@ -84,7 +84,7 @@ public class TestSuite3 extends TestHelper {
         aut.persistPerson(se, "user1", new PasswordT("password1"));
         aut.persistHotel(se, new HotelT("hotel1"), "super hotel", "did");
         aut.persistHotel(se, new HotelT("hotel2"), "super hotel", "did");
-        Collection<String> perm = new ArrayList<String>();
+        List<String> perm = new ArrayList<String>();
         perm.add("read");
         aut.persistPersonHotel(se, "user1", new HotelT("hotel1"), perm);
 
@@ -92,7 +92,7 @@ public class TestSuite3 extends TestHelper {
         perm.add("write");
         aut.persistPersonHotel(se, "user1", new HotelT("hotel2"), perm);
 
-        Collection<String> res = aut.getPersonHotelRoles(se, "user1", new HotelT("hotel1"));
+        List<String> res = aut.getPersonHotelRoles(se, "user1", new HotelT("hotel1"));
         assertEquals(1, res.size());
         for (final String s : res) {
             assertEquals("read", s);
@@ -110,7 +110,7 @@ public class TestSuite3 extends TestHelper {
         aut.persistPerson(se, "user1", new PasswordT("password1"));
         aut.persistHotel(se, new HotelT("hotel1"), "super hotel", "did");
         aut.persistHotel(se, new HotelT("hotel2"), "super hotel", "did");
-        Collection<String> perm = new ArrayList<String>();
+        List<String> perm = new ArrayList<String>();
         perm.add("read");
         aut.persistPersonHotel(se, "user1", new HotelT("hotel1"), perm);
 
@@ -121,7 +121,7 @@ public class TestSuite3 extends TestHelper {
         perm = new ArrayList<String>();
         aut.persistPersonHotel(se, "user1", new HotelT("hotel1"), perm);
 
-        Collection<String> res = aut.getPersonHotelRoles(se, "user1", new HotelT("hotel1"));
+        List<String> res = aut.getPersonHotelRoles(se, "user1", new HotelT("hotel1"));
         assertEquals(0, res.size());
 
         res = aut.getPersonHotelRoles(se, "user1", new HotelT("hotel2"));
@@ -138,7 +138,7 @@ public class TestSuite3 extends TestHelper {
         aut.persistPerson(se, "user1", new PasswordT("password1"));
         aut.persistHotel(se, new HotelT("hotel1"), "super hotel", "did");
         aut.persistHotel(se, new HotelT("hotel2"), "super hotel", "did");
-        Collection<String> perm = new ArrayList<String>();
+        List<String> perm = new ArrayList<String>();
         perm.add("read");
         aut.persistPersonHotel(se, "user1", new HotelT("hotel1"), perm);
 
@@ -150,7 +150,7 @@ public class TestSuite3 extends TestHelper {
         perm.add("write");
         aut.persistPersonHotel(se, "user1", new HotelT("hotel1"), perm);
 
-        Collection<String> res = aut.getPersonHotelRoles(se, "user1", new HotelT("hotel1"));
+        List<String> res = aut.getPersonHotelRoles(se, "user1", new HotelT("hotel1"));
         assertEquals(1, res.size());
         for (final String s : res) {
             assertEquals("write", s);

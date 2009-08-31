@@ -44,7 +44,7 @@ import com.javahotel.client.mvc.persistrecord.IPersistResult;
 import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.client.mvc.validator.ISignalValidate;
 import com.javahotel.common.command.SynchronizeList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -58,7 +58,7 @@ class EditTableDialog implements IEditTableDialog {
     private final IControlerEditTable cPan;
     private final DictData da;
     private S sync;
-    private Collection<ResRoomGuest> gList;
+    private List<ResRoomGuest> gList;
     private IPersistResult aP;
 
     public void setPersist(IPersistResult pe) {

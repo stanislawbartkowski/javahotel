@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.hotelbase.jpa;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -38,7 +38,7 @@ public class OfferSeason extends AbstractDictionary {
     private Date endP;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "offerid")
-    private Collection<OfferSeasonPeriod> periods;
+    private List<OfferSeasonPeriod> periods;
 
 
     public Date getStartP() {
@@ -57,11 +57,11 @@ public class OfferSeason extends AbstractDictionary {
         this.endP = endP;
     }
 
-    public Collection<OfferSeasonPeriod> getPeriods() {
+    public List<OfferSeasonPeriod> getPeriods() {
         return periods;
     }
 
-    public void setPeriods(final Collection<OfferSeasonPeriod> periods) {
+    public void setPeriods(final List<OfferSeasonPeriod> periods) {
         this.periods = periods;
     }
 }

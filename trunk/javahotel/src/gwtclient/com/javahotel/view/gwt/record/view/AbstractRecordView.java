@@ -12,7 +12,7 @@
  */
 package com.javahotel.view.gwt.record.view;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
@@ -117,7 +117,7 @@ abstract class AbstractRecordView implements IRecordView {
 
 	public void showInvalidate(IErrorMessage me) {
 		DictErrorMessage dictM = (DictErrorMessage) me;
-		Collection<InvalidateMess> col = dictM.getErrmess();
+		List<InvalidateMess> col = dictM.getErrmess();
 
 		for (InvalidateMess m : col) {
 			IField f = m.getFie();

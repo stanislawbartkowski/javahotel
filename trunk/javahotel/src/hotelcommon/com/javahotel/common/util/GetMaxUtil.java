@@ -19,7 +19,7 @@ import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BillP;
 import com.javahotel.types.INumerable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -35,7 +35,7 @@ public class GetMaxUtil {
         Integer getLp(Object o);
     }
 
-    public static int getMax(final Collection col, final IGetLp i) {
+    public static int getMax(final List col, final IGetLp i) {
         int no = -1;
         for (Object o : col) {
             int lp = i.getLp(o);
@@ -46,10 +46,10 @@ public class GetMaxUtil {
         return no;
     }
 
-    public static <T> Collection<T> getListLp(final Collection<T> col,
+    public static <T> List<T> getListLp(final List<T> col,
             final IGetLp i) {
         int no = getMax(col, i);
-        Collection<T> out = new ArrayList<T>();
+        List<T> out = new ArrayList<T>();
         for (T t : col) {
             int l = i.getLp(t);
             if (l == no) {
@@ -59,7 +59,7 @@ public class GetMaxUtil {
         return out;
     }
 
-    public static <T> T getOneLp(final Collection<T> col, final IGetLp i) {
+    public static <T> T getOneLp(final List<T> col, final IGetLp i) {
         int no = getMax(col, i);
         T obj = null;
         for (T t : col) {
@@ -83,12 +83,12 @@ public class GetMaxUtil {
         return in;
     }
 
-    public static int getMax(final Collection<? extends INumerable> col) {
+    public static int getMax(final List<? extends INumerable> col) {
         IGetLp in = createI();
         return getMax(col, in);
     }
 
-    public static Integer getMaxL(final Collection<? extends INumerable> col) {
+    public static Integer getMaxL(final List<? extends INumerable> col) {
         int m = getMax(col);
         if (m == -1) {
             return null;
@@ -97,7 +97,7 @@ public class GetMaxUtil {
     }
 
     public static <T> T getLast(
-            final Collection<? extends INumerable> col) {
+            final List<? extends INumerable> col) {
         IGetLp in = createI();
         return (T) getOneLp(col, in);
     }
@@ -151,7 +151,7 @@ public class GetMaxUtil {
          i.setLp(new Integer(1));
      }
      
-     public static void setNextLp(final Collection<? extends INumerable> col, 
+     public static void setNextLp(final List<? extends INumerable> col, 
             final INumerable dest) {
         int no = GetMaxUtil.getMax(col);
         Integer lp;
@@ -163,7 +163,7 @@ public class GetMaxUtil {
         dest.setLp(lp);
     }
 
-     public static <T extends INumerable> void addNextLp(final Collection<T> col,
+     public static <T extends INumerable> void addNextLp(final List<T> col,
             final T dest) {
          setNextLp(col,dest);
          col.add(dest);

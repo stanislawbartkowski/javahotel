@@ -16,7 +16,7 @@ import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.mvc.checkmodel.*;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
-import java.util.Collection;
+import java.util.List;
 import com.javahotel.client.idialog.ELineDialogMulChoice;
 import com.javahotel.common.command.CommandParam;
 import java.util.ArrayList;
@@ -40,15 +40,15 @@ class CheckDictModel implements ICheckDictModel {
         serv = GetIEditFactory.getMChoice(rI, p, false, false);
     }
 
-    public void setValues(final Collection<String> val) {
-        Collection<String> v = val;
+    public void setValues(final List<String> val) {
+        List<String> v = val;
         if (v == null) {
             v = new ArrayList<String>();
         }
         serv.setValues(v);
     }
 
-    public Collection<String> getValues() {
+    public List<String> getValues() {
         return serv.getValues();
     }
 

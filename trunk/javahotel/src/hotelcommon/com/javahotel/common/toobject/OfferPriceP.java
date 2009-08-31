@@ -13,7 +13,7 @@
 package com.javahotel.common.toobject;
 
 import com.javahotel.common.command.CommandUtil;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -22,14 +22,14 @@ import java.util.Collection;
 public class OfferPriceP extends DictionaryP {
 
 	private String season;
-	private Collection<OfferServicePriceP> serviceprice;
+	private List<OfferServicePriceP> serviceprice;
 
-	public Collection<OfferServicePriceP> getServiceprice() {
+	public List<OfferServicePriceP> getServiceprice() {
 		return serviceprice;
 	}
 
 	public void setServiceprice(
-			final Collection<OfferServicePriceP> serviceprice) {
+			final List<OfferServicePriceP> serviceprice) {
 		this.serviceprice = serviceprice;
 	}
 

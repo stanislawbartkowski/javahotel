@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.commands;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.toobject.BookingStateP;
@@ -29,7 +29,7 @@ import com.javahotel.remoteinterfaces.SessionT;
 public class GetObjectBookState extends CommandAbstract {
 
 	private final ReadResParam rParam;
-	private Collection<ResDayObjectStateP> rOut;
+	private List<ResDayObjectStateP> rOut;
 
 	public GetObjectBookState(final SessionT sessionId, final HotelT hotel,
 			final ReadResParam rParam) {
@@ -42,7 +42,7 @@ public class GetObjectBookState extends CommandAbstract {
 		rOut = BookState.getRestState(iC, rParam, null);
 	}
 
-	public Collection<ResDayObjectStateP> getROut() {
+	public List<ResDayObjectStateP> getROut() {
 		for (ResDayObjectStateP p : rOut) {
 			String s = p.getResObject();
 			String bName = p.getBookName();

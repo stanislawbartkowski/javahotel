@@ -120,9 +120,9 @@ class PersistCache implements IPersistCache {
 	}
 }
 
-// public Collection<IId> getAll(Class<?> cla) {
-// Collection<IId> col = new ArrayList<IId>();
-// Collection<IId> val = h.values();
+// public List<IId> getAll(Class<?> cla) {
+// List<IId> col = new ArrayList<IId>();
+// List<IId> val = h.values();
 // for (IId i : val) {
 // if (i.getClass() == cla) {
 // col.add(i);

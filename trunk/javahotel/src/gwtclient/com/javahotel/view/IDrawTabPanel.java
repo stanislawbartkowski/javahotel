@@ -13,7 +13,6 @@
 
 package com.javahotel.view;
 
-import com.javahotel.client.dialog.tabpanel.*;
 import com.javahotel.client.dialog.IGwtWidget;
 
 /**

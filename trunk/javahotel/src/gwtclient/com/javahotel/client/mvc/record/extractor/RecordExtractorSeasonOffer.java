@@ -22,7 +22,7 @@ import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -44,7 +44,7 @@ class RecordExtractorSeasonOffer implements IRecordExtractor {
         i.getTableView().getModel().setList(a);
     }
 
-    private void addTable(Collection<OfferSeasonPeriodP> col,
+    private void addTable(List<OfferSeasonPeriodP> col,
             ICrudControler i, SeasonPeriodT t) {
         for (int k = 0; k < i.getTableView().getModel().rowNum(); k++) {
             AbstractTo a = i.getTableView().getModel().getRow(k);
@@ -60,7 +60,7 @@ class RecordExtractorSeasonOffer implements IRecordExtractor {
         view.extractFields(mo);
         OfferSeasonP oP = (OfferSeasonP) mo.getA();
         ISeasonOffModel oM = (ISeasonOffModel) mo.getAuxData();
-        Collection<OfferSeasonPeriodP> col = new ArrayList<OfferSeasonPeriodP>();
+        List<OfferSeasonPeriodP> col = new ArrayList<OfferSeasonPeriodP>();
         addTable(col, oM.getTable1(), oM.getP1());
         addTable(col, oM.getTable2(), oM.getP2());
         oP.setPeriods(col);

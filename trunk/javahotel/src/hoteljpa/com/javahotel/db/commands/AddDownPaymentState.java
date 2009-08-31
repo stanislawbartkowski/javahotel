@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.commands;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.PaymentP;
@@ -51,7 +51,7 @@ public class AddDownPaymentState extends CommandAbstract {
     }
 
     private void setCol(final Object p,
-            final Collection<? extends INumerable> col, final INumerable sou,
+            final List<? extends INumerable> col, final INumerable sou,
             final Class cla, final String name, final Class mecl) {
 
 //        int no = GetMaxUtil.getMax(col);
@@ -75,7 +75,7 @@ public class AddDownPaymentState extends CommandAbstract {
         GetFieldHelper.setterVal(dest, p, name, mecl,
                 iC.getLog());
         CopyHelper.checkPersonDateOp(iC, dest);
-        ((Collection) col).add(dest);
+        ((List) col).add(dest);
     }
 
     @Override
