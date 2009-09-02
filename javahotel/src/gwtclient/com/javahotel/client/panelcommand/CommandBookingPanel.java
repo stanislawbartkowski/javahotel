@@ -14,7 +14,6 @@ package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
-import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.user.booking.BookingObjects;
 
 /**
@@ -31,12 +30,9 @@ class CommandBookingPanel implements IPanelCommand {
 
     }
 
-    public void beforeDrawAction() {
+    public void beforeDrawAction(ISetGwtWidget iSet) {
         bO = new BookingObjects(rI);
-    }
-
-    public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(bO);
+        iSet.setGwtWidget(new DefaultMvcWidget(bO));
     }
 
     public void drawAction() {

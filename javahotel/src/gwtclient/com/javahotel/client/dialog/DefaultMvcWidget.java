@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.dialog;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -38,18 +37,18 @@ public class DefaultMvcWidget implements IMvcWidget {
         return mSize;
     }
 
-
     public void setFireWindowChangeSize(IFireWindowChangeSize iChange) {
         iSize = iChange;
     }
 
     public void fireChage() {
-        if (iSize == null) { return; }
+        if (iSize == null) {
+            return;
+        }
         iSize.changeSize();
     }
 
     public void setSize(MvcWindowSize s) {
         this.mSize = s;
     }
-
 }

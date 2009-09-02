@@ -16,18 +16,16 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.ICommand;
 
 class DecorateAfterLogin implements ICommand {
-	
-	private final IResLocator rI;
-	
-	DecorateAfterLogin(IResLocator rI) {
-		this.rI = rI;
-	}
 
-	public void execute() {
-		String user = rI.getR().getUserName();
-		String hotel = rI.getR().getHotel();
-		rI.getPanel().setUserHotel(user, hotel);
-		
-	}
+    private final IResLocator rI;
 
+    DecorateAfterLogin(IResLocator rI) {
+        this.rI = rI;
+    }
+
+    public void execute() {
+        String user = rI.getR().getUserName();
+        String hotel = rI.getR().getHotel();
+        rI.getPanel().setUserHotel(user, hotel);
+    }
 }

@@ -48,7 +48,7 @@ class ListenerCustomer {
 
         private final RecordModel a;
         @SuppressWarnings("unused")
-		private final ArrayList<RecordField> dict;
+        private final ArrayList<RecordField> dict;
 
         BackCC(RecordModel a, ArrayList<RecordField> dict) {
             this.a = a;

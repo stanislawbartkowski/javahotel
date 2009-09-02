@@ -14,7 +14,6 @@ package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.mvc.controller.onerecord.RecordFa;
 import com.javahotel.client.mvc.controller.onerecord.RecordFaParam;
 import com.javahotel.common.command.DictType;
@@ -33,17 +32,14 @@ class CustTest implements IPanelCommand {
 
     }
 
-    public void beforeDrawAction() {
+    public void beforeDrawAction(ISetGwtWidget iSet) {
         RecordFaParam pa = new RecordFaParam();
         pa.setNewchoosetag(true);
         fa = new RecordFa(rI,
                 new DictData(DictType.CustomerList), pa);
         fa.setModifWidgetStatus(true);
         fa.setNewWidgetStatus(true);
-    }
-
-    public IMvcWidget getMWidget() {
-        return fa.getMWidget();
+        iSet.setGwtWidget(fa.getMWidget());
     }
 
     public void drawAction() {

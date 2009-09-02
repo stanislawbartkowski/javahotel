@@ -14,7 +14,6 @@ package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.mvc.auxabstract.LoginRecord;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
@@ -49,42 +48,18 @@ class HotelPersonCommand implements IPanelCommand {
         this.r = r;
     }
 
-    public void beforeDrawAction() {
+    public void beforeDrawAction(ISetGwtWidget iSet) {
         RecordAuxParam aux = new RecordAuxParam();
         if (r == RType.AllPersons) {
             aux.setIConv(new PersonConv());
         }
         iCrud = DictCrudControlerFactory.getCrud(rI, new DictData(r),
                 aux, null);
-        iCrud.drawTable();
-    }
-
-    public IMvcWidget getMWidget() {
-        return iCrud.getMWidget();
+        iSet.setGwtWidget(iCrud.getMWidget());
     }
 
     public void drawAction() {
         iCrud.drawTable();
     }
 }
-//    static private StackButtonElem getRemoveData(final IResLocator rI) {
-//        IPanelCommand iClick = new IPanelCommand() {
-//
-//            ClearHotelDataWidget ha;
-//
-//            public void beforeDrawAction() {
-//                ha = new ClearHotelDataWidget(rI);
-//            }
-//
-//            public void drawAction() {
-//                ha.drawData();
-//            }
-//
-//            public IMvcWidget getMWidget() {
-//                return ha.getW();
-//            }
-//        };
-//
-//        return new StackButtonElem("Usuń dane", iClick);
-//    }
 

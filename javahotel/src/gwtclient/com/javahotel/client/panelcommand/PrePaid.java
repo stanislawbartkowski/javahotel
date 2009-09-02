@@ -13,7 +13,6 @@
 package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.user.downpayment.DownPaymentControler;
 
 /**
@@ -30,12 +29,9 @@ class PrePaid implements IPanelCommand {
 
     }
 
-    public void beforeDrawAction() {
+    public void beforeDrawAction(ISetGwtWidget iSet) {
         pa = new DownPaymentControler(rI);
-    }
-
-    public IMvcWidget getMWidget() {
-        return pa.getMWidget();
+        iSet.setGwtWidget(pa.getMWidget());
     }
 
     public void drawAction() {

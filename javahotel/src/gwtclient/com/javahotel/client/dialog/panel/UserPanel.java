@@ -15,8 +15,10 @@ package com.javahotel.client.dialog.panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
+import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.panelcommand.IPanelCommand;
+import com.javahotel.client.panelcommand.ISetGwtWidget;
 import com.javahotel.client.panelcommand.PanelCommandFactory;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 
@@ -32,25 +34,34 @@ public class UserPanel {
         rI.getPanel().setDCenter(w);
     }
 
+    private void setC(final IPanelCommand ic) {
+        ISetGwtWidget i = new ISetGwtWidget() {
+
+            public void setGwtWidget(IMvcWidget i) {
+                psetW(i.getWidget());
+                ic.drawAction();
+            }
+        };
+        ic.beforeDrawAction(i);
+    }
+
     public UserPanel(final IResLocator rI, IUserPanelMenuFactory fPanel) {
         this.rI = rI;
         IStackMenuClicked iClicked = new IStackMenuClicked() {
 
             public void ClickedView(IPanelCommand clicked) {
-                psetW(clicked.getMWidget().getWidget());
+                setC(clicked);
             }
         };
         rI.getPanel().setDCenter(null);
         IGwtWidget wPanel = fPanel.getMenuPanel(rI, iClicked);
         EPanelCommand e = fPanel.getCentreWidget(rI);
         if (wPanel != null) {
-          rI.getPanel().setWest(wPanel.getMWidget().getWidget());
+            rI.getPanel().setWest(wPanel.getMWidget().getWidget());
         }
         if (e != null) {
-            IPanelCommand i  = PanelCommandFactory.getPanelCommand(rI, e);
-            i.beforeDrawAction();
-            psetW(i.getMWidget().getWidget());
-            i.drawAction();
+            IPanelCommand i = PanelCommandFactory.getPanelCommand(rI, e);
+            setC(i);
         }
     }
 }

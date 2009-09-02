@@ -4,71 +4,70 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class WidgetSizeFactory {
 
-	private WidgetSizeFactory() {
+    private WidgetSizeFactory() {
+    }
 
-	}
+    private static class SizeW implements IWidgetSize {
 
-	private static class SizeW implements IWidgetSize {
+        private final Widget w;
 
-		private final Widget w;
+        SizeW(Widget w) {
+            this.w = w;
+        }
 
-		SizeW(Widget w) {
-			this.w = w;
-		}
+        public int getTop() {
+            return w.getAbsoluteTop();
+        }
 
-		public int getTop() {
-			return w.getAbsoluteTop();
-		}
+        public int getLeft() {
+            return w.getAbsoluteLeft();
+        }
 
-		public int getLeft() {
-			return w.getAbsoluteLeft();
-		}
+        public int getHeight() {
+            return w.getOffsetHeight();
+        }
 
-		public int getHeight() {
-			return w.getOffsetHeight();
-		}
+        public int getWidth() {
+            return w.getOffsetWidth();
+        }
+    }
 
-		public int getWidth() {
-			return w.getOffsetWidth();
-		}
+    public static IWidgetSize getW(Widget w) {
+        if (w == null) {
+            return null;
+        }
+        return new SizeW(w);
+    }
 
-	}
+    private static class AW implements IWidgetSize {
 
-	public static IWidgetSize getW(Widget w) {
-		if (w == null) { return null; }
-		return new SizeW(w);
-	}
+        private final int top, left, height, width;
 
-	private static class AW implements IWidgetSize {
+        AW(int top, int left, int height, int width) {
+            this.top = top;
+            this.left = left;
+            this.height = height;
+            this.width = width;
+        }
 
-		private final int top, left, height, width;
+        public int getTop() {
+            return top;
+        }
 
-		AW(int top, int left, int height, int width) {
-			this.top = top;
-			this.left = left;
-			this.height = height;
-			this.width = width;
-		}
+        public int getLeft() {
+            return left;
+        }
 
-		public int getTop() {
-			return top;
-		}
+        public int getHeight() {
+            return height;
+        }
 
-		public int getLeft() {
-			return left;
-		}
+        public int getWidth() {
+            return width;
+        }
+    }
 
-		public int getHeight() {
-			return height;
-		}
-
-		public int getWidth() {
-			return width;
-		}
-	}
-
-	public static IWidgetSize getW(int top, int left, int height, int width) {
-		return new AW(top, left, height, width);
-	}
-
+    public static IWidgetSize getW(int top, int left, int height, int width) {
+        return new AW(top, left, height, width);
+    }
 }

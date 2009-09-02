@@ -59,7 +59,6 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
     public void loginUser(final String user, final String password) {
         HotelHelper.loginUser(getSessionId(), user, password);
-
     }
 
     public void logout() {

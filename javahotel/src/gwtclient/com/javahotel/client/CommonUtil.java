@@ -30,168 +30,166 @@ import com.javahotel.common.dateutil.DateUtil;
  */
 public class CommonUtil {
 
-	private CommonUtil() {
+    private CommonUtil() {
+    }
 
-	}
+    public static HTML createHTML(final String s) {
+        HTML ha = new HTML("<a href='javascript:;'>" + s + "</a>");
+        return ha;
+    }
 
-	public static HTML createHTML(final String s) {
-		HTML ha = new HTML("<a href='javascript:;'>" + s + "</a>");
-		return ha;
-	}
+    public static String getImageAdr(final String image) {
+        String path;
+        path = "com.javahotel.web";
+        return path + "/img/" + image;
+    }
 
-	public static String getImageAdr(final String image) {
-		String path;
+    public static String getResAdr(final String res) {
+        String path;
+        path = "com.javahotel.web";
+        return path + "/res/" + res;
+    }
 
-		if (GWT.isScript()) {
-			path = "com.javahotel.web";
-		} else {
-			path = "com.javahotel.web";
-		}
+    public static boolean IsScript() {
+        return GWT.isScript();
+    }
 
-		return path + "/img/" + image;
-	}
+    public static String getImageHTML(final String imageUrl) {
+        String s = "<td><img src='" + getImageAdr(imageUrl) + "'></td>";
+        return s;
+    }
 
-	public static boolean IsScript() {
-		return GWT.isScript();
-	}
+    public static String getCookieVal(final String pName) {
+        String v = Cookies.getCookie(pName);
+        if (v == null) {
+            return null;
+        }
+        if (v.trim().equals("")) {
+            return null;
+        }
+        return v.trim();
+    }
 
-	public static String getImageHTML(final String imageUrl) {
-		String s = "<td><img src='" + getImageAdr(imageUrl) + "'></td>";
-		return s;
-	}
+    public static void setCookieVal(final String pName, final String pVal) {
+        Date now = new Date();
+        long nowLong = now.getTime();
+        nowLong = nowLong + (1000 * 60 * 60 * 24 * 7);// seven days
+        now.setTime(nowLong);
+        Cookies.setCookie(pName, pVal, now);
+    }
 
-	public static String getCookieVal(final String pName) {
-		String v = Cookies.getCookie(pName);
-		if (v == null) {
-			return null;
-		}
-		if (v.trim().equals("")) {
-			return null;
-		}
-		return v.trim();
-	}
+    public static void removeCookie(final String pName) {
+        Cookies.removeCookie(pName);
+    }
+    public static final int BADNUMBER = -1;
 
-	public static void setCookieVal(final String pName, final String pVal) {
-		Date now = new Date();
-		long nowLong = now.getTime();
-		nowLong = nowLong + (1000 * 60 * 60 * 24 * 7);// seven days
-		now.setTime(nowLong);
-		Cookies.setCookie(pName, pVal, now);
-	}
+    public static int getNum(final String s) {
+        if ((s == null) || s.equals("")) {
+            return BADNUMBER;
+        }
+        int i;
+        try {
+            i = Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return BADNUMBER;
+        }
+        return i;
+    }
 
-	public static void removeCookie(final String pName) {
-		Cookies.removeCookie(pName);
-	}
+    public static BigDecimal toBig(final String s) {
+        if (s == null) {
+            return null;
+        }
+        if (s.equals("")) {
+            return null;
+        }
+        return new BigDecimal(s);
+    }
 
-	public static final int BADNUMBER = -1;
+    public static BigDecimal toBig(final Double d) {
+        if (d == null) {
+            return null;
+        }
+        String s = Double.toString(d);
+        return new BigDecimal(s);
+    }
 
-	public static int getNum(final String s) {
-		if ((s == null) || s.equals("")) {
-			return BADNUMBER;
-		}
-		int i;
-		try {
-			i = Integer.parseInt(s);
-		} catch (NumberFormatException e) {
-			return BADNUMBER;
-		}
-		return i;
-	}
+    public static Double toDouble(final BigDecimal b) {
+        if (b == null) {
+            return null;
+        }
+        String s = DecimalToS(b);
+        return new Double(s);
+    }
 
-	public static BigDecimal toBig(final String s) {
-		if (s == null) {
-			return null;
-		}
-		if (s.equals("")) {
-			return null;
-		}
-		return new BigDecimal(s);
-	}
+    public static String DecimalToS(final BigDecimal c) {
+        int l = c.intValue();
+        String sl = Integer.toString(l);
+        BigDecimal re = new BigDecimal(sl);
+        int rest = c.subtract(re).intValue();
+        String sr = DateFormatUtil.toNS(rest, 2);
+        String st = sl + "." + sr;
+        return st;
+    }
 
-	public static BigDecimal toBig(final Double d) {
-		if (d == null) {
-			return null;
-		}
-		String s = Double.toString(d);
-		return new BigDecimal(s);
-	}
+    public static BigDecimal percent0(final BigDecimal c,
+            final BigDecimal percent) {
+        BigDecimal res = c.multiply(percent);
+        BigDecimal l100 = new BigDecimal("100");
+        BigDecimal res1 = res.divide(l100, 2, 0);
+        // int l = res1.intValue();
+        // return new BigDecimal(Integer.toString(l));
+        return res1;
+    }
 
-	public static Double toDouble(final BigDecimal b) {
-		if (b == null) {
-			return null;
-		}
-		String s = DecimalToS(b);
-		return new Double(s);
-	}
+    public static void adjustCols(final FlexTable ftable, final int row,
+            final int aCols) {
 
-	public static String DecimalToS(final BigDecimal c) {
-		int l = c.intValue();
-		String sl = Integer.toString(l);
-		BigDecimal re = new BigDecimal(sl);
-		int rest = c.subtract(re).intValue();
-		String sr = DateFormatUtil.toNS(rest, 2);
-		String st = sl + "." + sr;
-		return st;
-	}
+        int aRows = ftable.getCellCount(row);
+        if (aCols < aRows) {
+            ftable.removeCells(row, aCols, aRows - aCols);
+        }
+    }
 
-	public static BigDecimal percent0(final BigDecimal c,
-			final BigDecimal percent) {
-		BigDecimal res = c.multiply(percent);
-		BigDecimal l100 = new BigDecimal("100");
-		BigDecimal res1 = res.divide(l100, 2, 0);
-		// int l = res1.intValue();
-		// return new BigDecimal(Integer.toString(l));
-		return res1;
-	}
+    public static String getLodgingS(final Date from, final Date to) {
+        Date d1 = DateUtil.copyDate(to);
+        DateUtil.NextDay(d1);
+        String s = DateFormatUtil.toS(from);
+        String s1 = DateFormatUtil.toS(d1);
+        String st = "Nocleg : " + s + " - " + s1;
+        return st;
+    }
 
-	public static void adjustCols(final FlexTable ftable, final int row,
-			final int aCols) {
+    public static String getBookingS(final Date from, final Date to) {
+        Date d1 = DateUtil.copyDate(to);
+        DateUtil.NextDay(d1);
+        String s = DateFormatUtil.toS(from);
+        String s1 = DateFormatUtil.toS(d1);
+        String st = "Rezerwacja, przyjazd : " + s + " wyjazd:" + s1;
 
-		int aRows = ftable.getCellCount(row);
-		if (aCols < aRows) {
-			ftable.removeCells(row, aCols, aRows - aCols);
-		}
-	}
+        return st;
+    }
 
-	public static String getLodgingS(final Date from, final Date to) {
-		Date d1 = DateUtil.copyDate(to);
-		DateUtil.NextDay(d1);
-		String s = DateFormatUtil.toS(from);
-		String s1 = DateFormatUtil.toS(d1);
-		String st = "Nocleg : " + s + " - " + s1;
-		return st;
-	}
+    public static String noLodgings(final Date from, final Date to) {
+        int noD = DateUtil.noLodgings(from, to);
+        String st = "Liczba noclegów:" + noD;
+        return st;
+    }
 
-	public static String getBookingS(final Date from, final Date to) {
-		Date d1 = DateUtil.copyDate(to);
-		DateUtil.NextDay(d1);
-		String s = DateFormatUtil.toS(from);
-		String s1 = DateFormatUtil.toS(d1);
-		String st = "Rezerwacja, przyjazd : " + s + " wyjazd:" + s1;
+    public static int getWidthPix(String s) {
+        int len = s.length();
+        return len * 10;
+    }
 
-		return st;
-	}
-
-	public static String noLodgings(final Date from, final Date to) {
-		int noD = DateUtil.noLodgings(from, to);
-		String st = "Liczba noclegów:" + noD;
-		return st;
-	}
-
-	public static int getWidthPix(String s) {
-		int len = s.length();
-		return len * 10;
-	}
-
-	public static PersistType getPType(int pAction) {
-		switch (pAction) {
-		case IPersistAction.ADDACION:
-			return PersistType.ADD;
-		case IPersistAction.DELACTION:
-			return PersistType.REMOVE;
-		case IPersistAction.MODIFACTION:
-			return PersistType.CHANGE;
-		}
-		return null;
-	}
+    public static PersistType getPType(int pAction) {
+        switch (pAction) {
+            case IPersistAction.ADDACION:
+                return PersistType.ADD;
+            case IPersistAction.DELACTION:
+                return PersistType.REMOVE;
+            case IPersistAction.MODIFACTION:
+                return PersistType.CHANGE;
+        }
+        return null;
+    }
 }

@@ -28,34 +28,34 @@ import java.util.Date;
  */
 class PanelResCalendar {
 
-	@SuppressWarnings("unused")
-	private final IResLocator rI;
-	private PanelSeason pS;
+    @SuppressWarnings("unused")
+    private final IResLocator rI;
+    private PanelSeason pS;
 
-	PanelResCalendar(final IResLocator rI, final Grid g,
-			final ComplexPanel controlP, final int startC,
-			final ScrollTable.DrawPartI drawI) {
-		this.rI = rI;
-		pS = new PanelSeason(rI, g, controlP, startC, drawI);
-	}
+    PanelResCalendar(final IResLocator rI, final Grid g,
+            final ComplexPanel controlP, final int startC,
+            final ScrollTable.DrawPartI drawI) {
+        this.rI = rI;
+        pS = new PanelSeason(rI, g, controlP, startC, drawI);
+    }
 
-	public void draPa(final OfferSeasonP oP, Date today) {
-		pS.drawPa(oP, PeriodType.byDay, today);
-	}
+    public void draPa(final OfferSeasonP oP, Date today) {
+        pS.drawPa(oP, PeriodType.byDay, today);
+    }
 
-	List<Date> getDLine() {
-		return pS.getDLine();
-	}
+    List<Date> getDLine() {
+        return pS.getDLine();
+    }
 
-	int getStartNo() {
-		return pS.getStartNo();
-	}
+    int getStartNo() {
+        return pS.getStartNo();
+    }
 
-	int getColNo() {
-		return pS.getColNumber();
-	}
+    int getColNo() {
+        return pS.getColNumber();
+    }
 
-	PanelSeason getPPSeason() {
-		return pS;
-	}
+    PanelSeason getPPSeason() {
+        return pS;
+    }
 }

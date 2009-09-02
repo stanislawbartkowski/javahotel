@@ -12,13 +12,29 @@
  */
 package com.javahotel.client.panelcommand;
 
+import com.javahotel.client.IResLocator;
+import com.javahotel.common.command.DictType;
+
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public interface IPanelCommand  {
+class PanelCommandBeforeCheckFactory {
 
-    void beforeDrawAction(ISetGwtWidget iSet);
+    private PanelCommandBeforeCheckFactory() {
+    }
 
-    void drawAction();
+    static IPanelCommandBeforeCheck getPanelCheck(IResLocator sI,
+            EPanelCommand command) {
+        IPanelCommandBeforeCheck i = null;
+        switch (command) {
+            case BOOKINGPANEL:
+                i = new VerifyNumberOfDict(sI,
+                        new DictType[]{DictType.RoomObjects,
+                        DictType.OffSeasonDict, DictType.PriceListDict });
+                break;
+
+        }
+        return i;
+    }
 }
