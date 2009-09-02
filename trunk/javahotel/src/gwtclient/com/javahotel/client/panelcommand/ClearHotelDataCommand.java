@@ -28,15 +28,13 @@ class ClearHotelDataCommand implements IPanelCommand {
         this.rI = rI;
     }
 
-    public void beforeDrawAction() {
+    public void beforeDrawAction(ISetGwtWidget iSet) {
         ha = new ClearHotelDataWidget(rI);
+        iSet.setGwtWidget(ha.getW());
     }
 
     public void drawAction() {
         ha.drawData();
     }
 
-    public IMvcWidget getMWidget() {
-        return ha.getW();
-    }
 }

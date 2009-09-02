@@ -40,93 +40,89 @@ import com.javahotel.types.LId;
  */
 public class BookingInfo extends Composite {
 
-	private final IResLocator rI;
-	private final String resName;
-	private final VerticalPanel vp = new VerticalPanel();
-	private LId resId;
-	private final BookingStateP bState;
+    private final IResLocator rI;
+    private final String resName;
+    private final VerticalPanel vp = new VerticalPanel();
+    private LId resId;
+    private final BookingStateP bState;
 
-	private class CC implements RData.IOneList {
+    private class CC implements RData.IOneList {
 
-		public void doOne(final AbstractTo val) {
-			CustomerP p = (CustomerP) val;
-			CustomerPopInfo po = new CustomerPopInfo(p);
-			vp.add(po);
-		}
-	}
+        public void doOne(final AbstractTo val) {
+            CustomerP p = (CustomerP) val;
+            CustomerPopInfo po = new CustomerPopInfo(p);
+            vp.add(po);
+        }
+    }
 
-	private void setB(BookingP p) {
-		BookRecordP bR = GetMaxUtil.getLastBookRecord(p);
-		if (resId != null) {
-			BookElemP e = null;
-			for (BookElemP ee : bR.getBooklist()) {
-				for (PaymentRowP pr : ee.getPaymentrows()) {
-					if (pr.getId().equals(resId)) {
-						e = ee;
-					}
-				}
-			}
-			assert e != null : "Reservation " + resId.getId().longValue()
-					+ " not found";
-			String st = CommonUtil.getBookingS(e.getCheckIn(), e.getCheckOut());
-			vp.add(new Label(st));
-			st = CommonUtil.noLodgings(e.getCheckIn(), e.getCheckOut());
-			vp.add(new Label(st));
-			if (bState != null) {
-				String na = bState.getBState().toString();
-				String name = (String) rI.getLabels().BookingStateType()
-						.get(na);
-				if (name != null) {
-					vp.add(new Label(name));
-				}
-			}
+    private void setB(BookingP p) {
+        BookRecordP bR = GetMaxUtil.getLastBookRecord(p);
+        if (resId != null) {
+            BookElemP e = null;
+            for (BookElemP ee : bR.getBooklist()) {
+                for (PaymentRowP pr : ee.getPaymentrows()) {
+                    if (pr.getId().equals(resId)) {
+                        e = ee;
+                    }
+                }
+            }
+            assert e != null : "Reservation " + resId.getId().longValue() + " not found";
+            String st = CommonUtil.getBookingS(e.getCheckIn(), e.getCheckOut());
+            vp.add(new Label(st));
+            st = CommonUtil.noLodgings(e.getCheckIn(), e.getCheckOut());
+            vp.add(new Label(st));
+            if (bState != null) {
+                String na = bState.getBState().toString();
+                String name = (String) rI.getLabels().BookingStateType().get(na);
+                if (name != null) {
+                    vp.add(new Label(name));
+                }
+            }
 
-		}
-		BigDecimal c = bR.getCustomerPrice();
-		String price;
-		if (c != null) {
-			price = CommonUtil.DecimalToS(c);
-		} else {
-			price = "";
-		}
-		vp.add(new Label("Cena " + price));
-		LId custId = p.getCustomer();
-		assert custId != null : "Customer id" + custId.getId().longValue()
-				+ " cannot be null";
-		CommandParam pa = rI.getR().getHotelDictId(DictType.CustomerList,
-				custId);
-		rI.getR().getOne(RType.ListDict, pa, new CC());
-	}
+        }
+        BigDecimal c = bR.getCustomerPrice();
+        String price;
+        if (c != null) {
+            price = CommonUtil.DecimalToS(c);
+        } else {
+            price = "";
+        }
+        vp.add(new Label("Cena " + price));
+        LId custId = p.getCustomer();
+        assert custId != null : "Customer id" + custId.getId().longValue() + " cannot be null";
+        CommandParam pa = rI.getR().getHotelDictId(DictType.CustomerList,
+                custId);
+        rI.getR().getOne(RType.ListDict, pa, new CC());
+    }
 
-	private class R implements RData.IOneList {
+    private class R implements RData.IOneList {
 
-		public void doOne(AbstractTo val) {
-			BookingP p = (BookingP) val;
-			setB(p);
-		}
-	}
+        public void doOne(AbstractTo val) {
+            BookingP p = (BookingP) val;
+            setB(p);
+        }
+    }
 
-	public BookingInfo(final IResLocator rI, final BookingP p,
-			final LId BookId, final BookingStateP bState) {
-		this.rI = rI;
-		this.bState = bState;
-		this.resName = p.getName();
-		this.resId = BookId;
-		initWidget(vp);
-		vp.add(new Label(resName));
-		setB(p);
-	}
+    public BookingInfo(final IResLocator rI, final BookingP p,
+            final LId BookId, final BookingStateP bState) {
+        this.rI = rI;
+        this.bState = bState;
+        this.resName = p.getName();
+        this.resId = BookId;
+        initWidget(vp);
+        vp.add(new Label(resName));
+        setB(p);
+    }
 
-	public BookingInfo(final IResLocator rI, final String resName) {
-		this.rI = rI;
-		this.bState = null;
-		this.resName = resName;
-		this.resId = null;
-		initWidget(vp);
-		vp.add(new Label(resName));
-		CommandParam p = rI.getR().getHotelDictName(DictType.BookingList,
-				resName);
-		rI.getR().getOne(RType.ListDict, p, new R());
-	}
-
+    public BookingInfo(final IResLocator rI, final String resName) {
+        this.rI = rI;
+        this.bState = null;
+        this.resName = resName;
+        this.resId = null;
+        initWidget(vp);
+        vp.add(new Label(resName));
+        CommandParam p = rI.getR().getHotelDictName(DictType.BookingList,
+                resName);
+        rI.getR().getOne(RType.ListDict, p, new R());
+    }
 }

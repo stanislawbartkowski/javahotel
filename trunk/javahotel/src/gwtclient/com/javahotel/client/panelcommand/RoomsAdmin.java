@@ -14,7 +14,6 @@ package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
-import com.javahotel.client.dialog.IMvcWidget;
 
 /**
  *
@@ -30,12 +29,9 @@ class RoomsAdmin implements IPanelCommand {
 
     }
 
-    public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(pa.getMWidget().getWidget());
-    }
-
-    public void beforeDrawAction() {
+    public void beforeDrawAction(ISetGwtWidget iSet) {
         pa = new PokojePanel(rI);
+        iSet.setGwtWidget(new DefaultMvcWidget(pa.getMWidget().getWidget()));
     }
 
     public void drawAction() {

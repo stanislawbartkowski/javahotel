@@ -10,15 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+
 package com.javahotel.client.panelcommand;
+
+import com.javahotel.client.dialog.IMvcWidget;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public interface IPanelCommand  {
+public interface ISetGwtWidget {
 
-    void beforeDrawAction(ISetGwtWidget iSet);
+    void setGwtWidget(IMvcWidget i);
 
-    void drawAction();
 }

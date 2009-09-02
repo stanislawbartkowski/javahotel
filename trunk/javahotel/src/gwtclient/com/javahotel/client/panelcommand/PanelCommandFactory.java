@@ -35,38 +35,63 @@ public class PanelCommandFactory {
     }
 
     public static IPanelCommand getPanelCommand(IResLocator sI, EPanelCommand command) {
+
+        IPanelCommandBeforeCheck iV = PanelCommandBeforeCheckFactory.getPanelCheck(sI, command);
+        IPanelCommand i = null;
         switch (command) {
             case PERSON:
-                return new HotelPersonCommand(sI, RType.AllPersons);
+                i = new HotelPersonCommand(sI, RType.AllPersons);
+                break;
             case HOTEL:
-                return new HotelPersonCommand(sI, RType.AllHotels);
+                i = new HotelPersonCommand(sI, RType.AllHotels);
+                break;
             case REMOVEDATA:
-                return new ClearHotelDataCommand(sI);
+                i = new ClearHotelDataCommand(sI);
+                break;
             case ROOMSADMIN:
-                return new RoomsAdmin(sI);
+                i = new RoomsAdmin(sI);
+                break;
             case BOOKINGPANEL:
-                return new CommandBookingPanel(sI);
+                i = new CommandBookingPanel(sI);
+                break;
             case BOOKING:
-                return new DoBooking(sI);
+                i = new DoBooking(sI);
+                break;
             case PREPAID:
-                return new PrePaid(sI);
+                i = new PrePaid(sI);
+                break;
             case ROOMS:
-                return new DictPanelCommand(sI, DictType.RoomObjects);
+                i = new DictPanelCommand(sI, DictType.RoomObjects);
+                break;
             case SERVICES:
-                return new DictPanelCommand(sI, DictType.ServiceDict);
+                i = new DictPanelCommand(sI, DictType.ServiceDict);
+                break;
             case VAT:
-                return new DictPanelCommand(sI, DictType.VatDict);
+                i = new DictPanelCommand(sI, DictType.VatDict);
+                break;
             case CUSTOMERS:
-                return new DictPanelCommand(sI, DictType.CustomerList);
+                i = new DictPanelCommand(sI, DictType.CustomerList);
+                break;
             case SEASON:
-                return new DictPanelCommand(sI, DictType.OffSeasonDict);
+                i = new DictPanelCommand(sI, DictType.OffSeasonDict);
+                break;
             case PRICES:
-                return new DictPanelCommand(sI, DictType.PriceListDict);
+                i = new DictPanelCommand(sI, DictType.PriceListDict);
+                break;
             case STANDARD:
-                return new DictPanelCommand(sI, DictType.RoomStandard);
+                i = new DictPanelCommand(sI, DictType.RoomStandard);
+                break;
             case FACILITY:
-                return new DictPanelCommand(sI, DictType.RoomFacility);
+                i = new DictPanelCommand(sI, DictType.RoomFacility);
+                break;
         }
-        return null;
+        if (i == null) {
+            return null;
+        }
+        if (iV == null) {
+            return i;
+        }
+        iV.setIPanelCommand(i);
+        return iV;
     }
 }

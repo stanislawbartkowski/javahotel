@@ -53,9 +53,9 @@ class StackMenuView implements IStackMenuView {
 
                     public void onClick(Widget sender) {
                         IPanelCommand c = bu.getBClick();
-                        c.beforeDrawAction();
+//                        c.beforeDrawAction();
                         iCLicked.ClickedView(c);
-                        c.drawAction();
+//                        c.drawAction();
                     }
                 };
                 Button but = new Button(bu.getBName());

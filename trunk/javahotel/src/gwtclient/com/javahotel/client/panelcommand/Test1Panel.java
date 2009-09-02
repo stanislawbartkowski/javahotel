@@ -15,7 +15,6 @@ package com.javahotel.client.panelcommand;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.DictData.SpecE;
-import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
 import com.javahotel.client.mvc.edittable.controller.ControlerEditTableFactory;
 import com.javahotel.client.mvc.edittable.controller.IControlerEditTable;
@@ -36,7 +35,7 @@ class Test1Panel implements IPanelCommand {
 
     }
 
-    public void beforeDrawAction() {
+    public void beforeDrawAction(ISetGwtWidget iSet) {
         cPan = ControlerEditTableFactory.getTable(rI,
                 new DictData(SpecE.ResGuestList), null);
         ArrayList<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
@@ -47,11 +46,7 @@ class Test1Panel implements IPanelCommand {
             gList.add(new ResRoomGuest(re));
         }
         cPan.getView().getModel().setList(gList);
-        cPan.show();
-    }
-
-    public IMvcWidget getMWidget() {
-        return cPan.getMWidget();
+        iSet.setGwtWidget(cPan.getMWidget());
     }
 
     public void drawAction() {

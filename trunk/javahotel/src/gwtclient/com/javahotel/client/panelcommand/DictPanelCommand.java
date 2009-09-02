@@ -14,7 +14,6 @@ package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.common.command.DictType;
@@ -35,16 +34,14 @@ class DictPanelCommand implements IPanelCommand {
 
     }
 
-    public void beforeDrawAction() {
+    public void beforeDrawAction(ISetGwtWidget iSet) {
         cPan = DictCrudControlerFactory.getCrud(rI,
                 new DictData(r));
+        iSet.setGwtWidget(cPan.getMWidget());
     }
 
     public void drawAction() {
         cPan.drawTable();
     }
 
-    public IMvcWidget getMWidget() {
-        return cPan.getMWidget();
-    }
 }

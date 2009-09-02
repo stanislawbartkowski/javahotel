@@ -55,7 +55,7 @@ class CallBackProgress {
             lR.setText(ss);
             if (tim == null) {
                 tim = new TimerT();
-              tim.schedule(100);
+                tim.schedule(100);
             }
         }
     }

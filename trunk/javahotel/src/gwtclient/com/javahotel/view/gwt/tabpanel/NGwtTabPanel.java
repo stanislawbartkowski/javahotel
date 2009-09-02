@@ -15,14 +15,17 @@ package com.javahotel.view.gwt.tabpanel;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.panelcommand.IPanelCommand;
+import com.javahotel.client.panelcommand.ISetGwtWidget;
 import com.javahotel.client.panelcommand.PanelCommandFactory;
+import com.javahotel.common.command.SynchronizeList;
 import com.javahotel.view.IDrawTabPanel;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -33,9 +36,49 @@ class NGwtTabPanel implements IDrawTabPanel {
     private final IResLocator rI;
     private final TabPanel sPanel = new TabPanel();
 
-    NGwtTabPanel(IResLocator rI, ArrayList<EPanelCommand> pList) {
+    private class Synch extends SynchronizeList {
+
+        private final String[] iString;
+        private final Widget[] iWidget;
+
+        Synch(int no) {
+            super(no);
+            iString = new String[no];
+            iWidget = new Widget[no];
+        }
+
+        @Override
+        protected void doTask() {
+            for (int i = 0; i < iString.length; i++) {
+                sPanel.add(iWidget[i], iString[i]);
+            }
+            sPanel.selectTab(0);
+        }
+    }
+
+    private class ISetW implements ISetGwtWidget {
+
+        private final int inde;
+        private final String label;
+        private final Synch sy;
+
+        ISetW(int inde, String label, Synch sy) {
+            this.inde = inde;
+            this.label = label;
+            this.sy = sy;
+        }
+
+        public void setGwtWidget(IMvcWidget i) {
+            sy.iWidget[inde] = i.getWidget();
+            sy.signalDone();
+        }
+    }
+
+    NGwtTabPanel(IResLocator rI, List<EPanelCommand> pList) {
         this.rI = rI;
-        final ArrayList<IPanelCommand> iList = new ArrayList<IPanelCommand>();
+        int no = pList.size();
+        final IPanelCommand[] iList = new IPanelCommand[no];
+        final Synch sy = new Synch(no);
 
         TabListener t = new TabListener() {
 
@@ -45,25 +88,29 @@ class NGwtTabPanel implements IDrawTabPanel {
             }
 
             public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
-                if (tabIndex >= iList.size()) {
+                if (tabIndex >= iList.length) {
                     return;
                 }
-                IPanelCommand cr = iList.get(tabIndex);
+                IPanelCommand cr = iList[tabIndex];
                 cr.drawAction();
             }
         };
 
+        int inde = 0;
+
         for (EPanelCommand p : pList) {
             IPanelCommand cr = PanelCommandFactory.getPanelCommand(rI, p);
-            cr.beforeDrawAction();
-            sPanel.add(cr.getMWidget().getWidget(), PanelCommandFactory.getPanelCommandLabel(rI, p));
-            iList.add(cr);
+            ISetW is = new ISetW(inde++, PanelCommandFactory.getPanelCommandLabel(rI, p),
+                    sy);
+            cr.beforeDrawAction(is);
+//            sPanel.add(cr.getMWidget().getWidget(),
+//                    PanelCommandFactory.getPanelCommandLabel(rI, p));
+//            iList.add(cr);
         }
 
         sPanel.addTabListener(t);
 
-        sPanel.selectTab(0);
-
+//        sPanel.selectTab(0);
     }
 
     public IMvcWidget getMWidget() {
