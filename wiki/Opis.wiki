@@ -112,58 +112,62 @@ Nowy termin wpłacenia zaliczki, potwierdzenia, jak Scen03
 
 =Scenariusze: check-in, checkout=
 
-Scen20, zameldowanie, check-in gościa, grupy, rezerwacja
-Przybywa gość, grupa, podaje numer rezerwacji
-Recepcjonistka melduje gości, przydziela osoby do pokoi
+==Scen20, zameldowanie, check-in gościa, grupy, rezerwacja==
+
+Przybywa *gość*, grupa, podaje numer rezerwacji
+
+*Recepcjonistka* melduje gości, przydziela osoby do pokoi
 Otwiera rachunek płatnika
 Możliwość zmiany w stosunku do rezerwacji: liczby osób, pokoi, terminu itp. itd.
 
-Scen21, gość grupa, bez rezerwacji
-Przybywa gość, grupa, jak Scen01
-Jeśli możliwe, to zameldowanie jak Scen20
+==Scen21, gość grupa, bez rezerwacji==
 
-Scen22, gość, grupa zamawia dodatkowe usługi, zakupy z dopisaniem do rachunku
-Gość, grupa zamawia dodatkowe usługi, płatność przy wymeldowaniu
-Dopisane do rachunku płatnika
+Przybywa *gość*, grupa, jak Scen01
+*Recepcjonistka* Jeśli możliwe, to zameldowanie jak Scen20
 
-Scen23, gość, członek grupy, zamawia dodatkowe usługi z dopisaniem do własnego rachunku
-Gość, członek grupy, zamiast dodatkowe usługi, ale na własny rachunek
-Dopisanie do rachunku gościa (nie płatnika)
+==Scen22, gość, grupa zamawia dodatkowe usługi, zakupy z dopisaniem do rachunku==
 
-Scen24, gość, grupa zamawia dodatkowe usługi, płatność gotówką
-Gość, grupa zamawia, kupuje dodatkowe usługi, płaci od razu
-Przyjęcie gotówki, wpłata do kasy, wydanie KP
+*Gość*, grupa zamawia dodatkowe usługi, płatność przy wymeldowaniu
 
-Scen25, wymeldowanie gościa, grupy
-Gość, grupa wymeldowywuje się, koniec pobytu
-Recepcjonistka widzi rachunek całej grupy oraz zaliczkę
+*Recepcjonistka* Dopisane do rachunku płatnika
+
+==Scen23, gość, członek grupy, zamawia dodatkowe usługi z dopisaniem do własnego rachunku==
+
+*Gość*, członek grupy, zamiast dodatkowe usługi, ale na własny rachunek
+
+*Recepcjonistka* Dopisanie do rachunku gościa (nie płatnika)
+
+==Scen24, gość, grupa zamawia dodatkowe usługi, płatność gotówką==
+
+*Gość*, grupa zamawia, kupuje dodatkowe usługi, płaci od razu
+
+*Recepcjonistka* Przyjęcie gotówki, wpłata do kasy, wydanie KP
+
+==Scen25, wymeldowanie gościa, grupy==
+
+*Gość*, grupa wymeldowywuje się, koniec pobytu
+
+*Recepcjonistka* : widzi rachunek całej grupy oraz zaliczkę
 Wystawia rachunek, paragon, fakturę
 Możliwość różnej formy płatności, gotówka. Przelew, rozbicie płatności na kilka faktur (inni płatnicy)
 Wystawia rachunki dla członków grupy (Scen23)
 Jeśli płatność gotówką, to wpłata do kasy, wystawienie KP.
 Zwolnienie pokoi, pokój do sprzątania
 
-Scen26, wymeldowanie pojedynczego członka grupy
-Recepcjonistka widzi rachunek własny (Scen23)
+==Scen26, wymeldowanie pojedynczego członka grupy==
+
+*Recepcjonistka* widzi rachunek własny (Scen23)
 Wystawia dokument, fakturę, paragon.
 Zwalnia pokój, pokój do sprzątania
 
-Scen27, zmiana pokoi podczas pobytu, wydłużenie pobytu
-Gość, grupa chce zmienić pokój, wydłużyć pobyt.
-Sprawdzenie, czy jest to możliwe.
-Recepcjonistka modyfikuje rezerwację, przydziela pokój, określa nową cenę
+==Scen27, zmiana pokoi podczas pobytu, wydłużenie pobytu==
+
+*Gość*, grupa chce zmienić pokój, wydłużyć pobyt.
+*Recepcjonistka*: Sprawdzenie, czy jest to możliwe, modyfikuje rezerwację, przydziela pokój, określa nową cenę
 Poprzedni do sprzątania.
 
-Scen28, awaria w pokoju
-W czasie pobytu nastąpiła awaria, gościa trzeba przekwaterować do innego pokoju
-Poprzedni pokój „awaria/remont”,
-Zajęty nowy pokój, nowa/stara cena
 
-Scen40, pokój posprzątany
-Sprzątaczka informuje recepcję o posprzątaniu pokoju
-Zmiana statusu pokoju na „wolny”
+==Scen48, pokój posprzątany==
 
-Scen41, remonty
-Wyłączenie pokoju, zasobu na jakiś czas (od - do) z eksploatacji.
-Status pokoju „planowany remont” w czasie od-do
----------------------------------------------------------- 
+*Sprzątaczka* informuje recepcję o posprzątaniu pokoju
+*Recepcjonistka* : Zmiana statusu pokoju na „wolny”
