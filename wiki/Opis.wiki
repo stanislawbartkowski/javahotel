@@ -167,7 +167,7 @@ Zwalnia pokój, pokój do sprzątania
 Poprzedni do sprzątania.
 
 
-==Scen48, pokój posprzątany==
+==Scen28, pokój posprzątany==
 
 *Sprzątaczka* informuje recepcję o posprzątaniu pokoju
 *Recepcjonistka* : Zmiana statusu pokoju na „wolny”
