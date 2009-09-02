@@ -37,6 +37,8 @@ Emisja danych do biura rachunkowego
 
 =Scenariusze użycia=
 
+=Scenariusze: Rezerwacja=
+
 ==Scen01, rezerwacja==
 *Klient* (indywidualny, firma) dzwoni, faksuje, mejluje i podaje co chce zarezerować: ile osób, pokoi, usług dodatkowych (parking, ognisko ..), czas pobytu od -do
 
@@ -46,54 +48,69 @@ podać cenę (z uwzględnieniem rabatu, cenników)
 podać wysokość zaliczki i termin zapłacenia
 
 *System*
-wykonać rezerwację wstępną
+ma wykonać rezerwację wstępną
 
-Scen02, rezerwacja, tylko zapytanie
+==Scen02 rezerwacja, tylko zapytanie==
+
 Tak samo jak Scen01, ale bez żadnej rezerwacji, tylko odpowiedź, albo wysłanie oferty mejlem, faksem, wydrukowanie
 
-Scen03, modyfikacja rezerwacji
+==Scen03, modyfikacja rezerwacji==
+
 Jest już założona rezerwacja
-Klient (indywidualny, firma) dzwoni, faksuje, mejluje i chce zmodyfikować rezerwację: może zmienić każdy element rezerwacji: liczbę pokoi, osób, czas itp. itd.
-Recepcjonistka
+
+*Klient* (indywidualny, firma) dzwoni, faksuje, mejluje i chce zmodyfikować rezerwację: może zmienić każdy element rezerwacji: liczbę pokoi, osób, czas itp. itd.
+
+*Recepcjonistka*
 Sprawdza dostępność
 Modyfikuje rezerwację.
 Wylicza nową cenę i wysokość zaliczki
 
 
-Scen04, anulacja rezerwacji
-Jest już założona rezerwacja
-Klient (indywidualny, firma) dzwoni, faksuje, mejluje i chce anulować rezerwację
-Recepcjonistka
-Anuluje rezerwację
-Pytanie: co z zaliczką: zwraca, przepada, częściowy zwrot
+==Scen04, anulacja rezerwacji==
 
-Scen05, potwierdzenie rezerwacji
 Jest już założona rezerwacja
-Wpływa zaliczka, klient (indywidualny, firma) dzwoni, faksuje, mejluje i potwierdza rezerwację
-Recepcjonistka
+
+*Klient* (indywidualny, firma) dzwoni, faksuje, mejluje i chce anulować rezerwację
+
+*Recepcjonistka* Anuluje rezerwację
+(Pytanie: co z zaliczką: zwraca, przepada, częściowy zwrot)
+
+==Scen05, potwierdzenie rezerwacji==
+
+Jest już założona rezerwacja
+
+*(Z zewnątrz)* wpływa zaliczka, *klient* (indywidualny, firma) dzwoni, faksuje, mejluje i potwierdza rezerwację
+
+*Recepcjonistka*
+
 Zamienia status rezerwacji na „potwierdzoną”
 Drukuj, faksuje, mejluje potwierdzenie rezerwacji.
 
-Scen06, brak potwierdzenia rezerwacji.
-Jest już założona rezerwacja warunkowa
-Mija termin wpłacenia zaliczki, potwierdzenia
-System powinien na ekranie wyraźnie wyświetlić informację:
-Rezerwacja, osoba (firma, osoba indywidualna) mija dzisiaj (na żółto), minęła wczoraj (na czerwono) data potwierdzenia, wpłacenia zaliczki
-Recepcjonista: powinna wykonać jakieś działanie, zadzwonić, faksowac, wysłać mejla, wyjaśnić sytuację
+==Scen06, brak potwierdzenia rezerwacji.==
 
-Scen07, anulacja niepotwierdzonej rezerwacji
+Jest już założona rezerwacja warunkowa
+
+Mija termin wpłacenia zaliczki, potwierdzenia
+
+*System* powinien na ekranie wyraźnie wyświetlić informację:
+
+Rezerwacja, osoba (firma, osoba indywidualna) mija dzisiaj (na żółto), minęła wczoraj (na czerwono) data potwierdzenia, wpłacenia zaliczki
+
+*Recepcjonistka*: powinna wykonać jakieś działanie, zadzwonić, faksowac, wysłać mejla, wyjaśnić sytuację
+
+==Scen07, anulacja niepotwierdzonej rezerwacji==
+
 Zaistnienie Scen06
+
 Tak jak Scen04, ale z informacją jaka przyczyna
 
-Scen08, nowy termin potwierdzenie dla niepotwierdzonej rezerwacji
+==Scen08, nowy termin potwierdzenie dla niepotwierdzonej rezerwacji==
+
 Zaistnienie Scen06
+
 Nowy termin wpłacenia zaliczki, potwierdzenia, jak Scen03
 
-Scen09, rezerwacja warunkowa
-Jak Scen01, ale jeśli pokrywa się z rezerwacja niepotwierdzoną, to recepcjonistka proponuj wpisanie na rezerwacją warunkową.
-Podaje termin do którego zostanie podana odpowiedź, czy rezerwacja przyjęta czy nie.
-Dodatkowe scenariusze: jak Scen03, Scen04
-Uwzględnić rezerwację warunkową w Scen03, Scen04, Scen05. Scen06, Scen07
+=Scenariusze: check-in, checkout=
 
 Scen20, zameldowanie, check-in gościa, grupy, rezerwacja
 Przybywa gość, grupa, podaje numer rezerwacji
