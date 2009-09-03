@@ -46,6 +46,8 @@ Emisja danych do biura rachunkowego
 czy pokoje, usługi są dostępne
 podać cenę (z uwzględnieniem rabatu, cenników)
 podać wysokość zaliczki i termin zapłacenia
+Powinna istnieć możliwość pominięcia zaliczki.
+Rezerwacja staje się od razu rezerwacją potwiedzoną. 
 
 *System*
 ma wykonać rezerwację wstępną
@@ -85,6 +87,8 @@ Jest już założona rezerwacja
 
 Zamienia status rezerwacji na „potwierdzoną”
 Drukuj, faksuje, mejluje potwierdzenie rezerwacji.
+
+Powinna istnieć także możliwość potwierdzenie rezerwacji z pominięciem "zapłacenia zaliczki".
 
 ==Scen06, brak potwierdzenia rezerwacji.==
 
