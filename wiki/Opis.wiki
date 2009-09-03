@@ -2,7 +2,7 @@ Ta strona opisuje ogólne wymagania i działanie system
 
 = Wstęp =
 
-Poniższy opis określa wymaganie dotyczące systemu. *Wymagania* definiują jakie funkcje system ma realizować, zaś *Uzycie* określa w postaci tzw. Use Case/User Story (przypadki użycia/scenariusze) opisuje sytuacje, w jakich system ma funkcjonwać
+Poniższy opis określa wymaganie dotyczące systemu. *Wymagania* definiują jakie funkcje system ma realizować, zaś *Uzycie* określa w postaci tzw. Use Case/User Story (przypadki użycia/scenariusze) opisuje sytuacje, w jakich system ma funkcjonwać. *Dodatkowe uwagi* opisuję kilka założeń jakie powinien spełniać system
 
 = Wymagania =
 
