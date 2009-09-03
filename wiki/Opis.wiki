@@ -35,7 +35,7 @@ Mozliwość łatwego dodawania nowych raportów, specyficznych dla użytkownika
 ==Biuro rachunkowe==
 Emisja danych do biura rachunkowego
 
-=Scenariusze użycia=
+=Użycie=
 
 =Scenariusze: Rezerwacja=
 
