@@ -27,62 +27,61 @@ import com.javahotel.client.dispatcher.command.UserPanelCommand;
  */
 class Dispatch implements IDispatch {
 
-	@SuppressWarnings("unused")
-	private IResLocator rI;
-	private ICommand decorateAfterLogin;
+    @SuppressWarnings("unused")
+    private IResLocator rI;
+    private ICommand decorateAfterLogin;
 
-	class CommandT {
+    class CommandT {
 
-		private final EnumDialog t;
-		private final UICommand com;
+        private final EnumDialog t;
+        private final UICommand com;
 
-		CommandT(final EnumDialog t, final UICommand com) {
-			this.t = t;
-			this.com = com;
-		}
-	}
+        CommandT(final EnumDialog t, final UICommand com) {
+            this.t = t;
+            this.com = com;
+        }
+    }
+    private List<CommandT> comT;
 
-	private List<CommandT> comT;
+    Dispatch() {
+    }
 
-	Dispatch() {
-	}
+    private void runCommand(final EnumDialog t) {
+        for (CommandT ta : comT) {
+            if (ta.t == t) {
+                ta.com.execute();
+                break;
+            }
+        }
+    }
 
-	private void runCommand(final EnumDialog t) {
-		for (CommandT ta : comT) {
-			if (ta.t == t) {
-				ta.com.execute();
-				break;
-			}
-		}
-	}
+    public void dispatch(final EnumDialog t, final EnumAction a) {
+        EnumDialog tn = null;
+        switch (t) {
+            case STARTLOGIN:
+                decorateAfterLogin.execute();
+                switch (a) {
+                    case LOGINADMIN:
+                        tn = EnumDialog.ADMINPANEL;
+                        break;
+                    case LOGINUSER:
+                        tn = EnumDialog.USERPANEL;
+                        break;
+                }
+        }
+        if (tn != null) {
+            runCommand(tn);
+        }
 
-	public void dispatch(final EnumDialog t, final EnumAction a) {
-		EnumDialog tn = null;
-		switch (t) {
-		case STARTLOGIN:
-			decorateAfterLogin.execute();
-			switch (a) {
-			case LOGINADMIN:
-				tn = EnumDialog.ADMINPANEL;
-				break;
-			case LOGINUSER:
-				tn = EnumDialog.USERPANEL;
-				break;
-			}
-		}
-		if (tn != null) {
-			runCommand(tn);
-		}
+    }
 
-	}
-
-	public void start(final IResLocator i, ICommand decorateAfterLogin) {
-		this.rI = i;
-		this.decorateAfterLogin = decorateAfterLogin;
-		comT = new Vector<CommandT>();
-		comT.add(new CommandT(EnumDialog.STARTLOGIN, new LoginCommand(i)));
-		comT.add(new CommandT(EnumDialog.ADMINPANEL, new AdminPanelCommand(i)));
-		comT.add(new CommandT(EnumDialog.USERPANEL, new UserPanelCommand(i)));
-		runCommand(EnumDialog.STARTLOGIN);
-	}
+    public void start(final IResLocator i, ICommand decorateAfterLogin) {
+        this.rI = i;
+        this.decorateAfterLogin = decorateAfterLogin;
+        comT = new Vector<CommandT>();
+        comT.add(new CommandT(EnumDialog.STARTLOGIN, new LoginCommand(i)));
+        comT.add(new CommandT(EnumDialog.ADMINPANEL, new AdminPanelCommand(i)));
+        comT.add(new CommandT(EnumDialog.USERPANEL, new UserPanelCommand(i)));
+        runCommand(EnumDialog.STARTLOGIN);
+    }
 }

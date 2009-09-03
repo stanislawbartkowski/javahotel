@@ -15,6 +15,7 @@ package com.javahotel.client.mvc.contrpanel.model;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 import com.javahotel.client.IResLocator;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -23,15 +24,15 @@ import java.util.ArrayList;
 class ContrButtonModel implements IContrPanel {
 
     private final IResLocator rI;
-    private final ArrayList<ContrButton> cList;
+    private final List<ContrButton> cList;
     private IControlClick iClick = null;
 
-    ContrButtonModel(final IResLocator rI, final ArrayList<ContrButton> cList) {
+    ContrButtonModel(final IResLocator rI, final List<ContrButton> cList) {
         this.rI = rI;
         this.cList = cList;
     }
 
-    public ArrayList<ContrButton> getContr() {
+    public List<ContrButton> getContr() {
         return cList;
     }
 

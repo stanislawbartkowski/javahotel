@@ -16,12 +16,11 @@ import com.javahotel.client.dispatcher.IDispatch;
 
 public class testWebEntryPoint extends AbstractWebEntry {
 
-	public testWebEntryPoint(IDispatch di) {
-		super(false, di);
-	}
-	
-	public void testLoad() {
-		load();
-	}
+    public testWebEntryPoint(IDispatch di) {
+        super(false, di);
+    }
 
+    public void testLoad() {
+        load();
+    }
 }

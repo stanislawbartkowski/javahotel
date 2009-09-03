@@ -12,15 +12,11 @@
  */
 package com.javahotel.client.widgets.popup;
 
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
-import java.util.ArrayList;
 
 /**
  *
@@ -32,23 +28,6 @@ public class PopUpAPanel extends Composite {
 
     public VerticalPanel getVP() {
         return hP;
-    }
-
-    private static class BCall implements Command {
-
-        private final ContrButton bdef;
-        private final Widget w;
-        private final IControlClick co;
-
-        private BCall(final ContrButton b,final Widget w, IControlClick co) {
-            this.bdef = b;
-            this.w = w;
-            this.co = co;
-        }
-
-        public void execute() {
-            co.click(bdef, w);
-        }
     }
 
     public PopUpAPanel(final ICloseAction c, final IContrPanel coP,
@@ -68,15 +47,9 @@ public class PopUpAPanel extends Composite {
         MenuBar bmenu = null;
         if (coP != null) {
             bmenu = new MenuBar();
-            ArrayList<ContrButton> cL = coP.getContr();
-
-            menu = new MenuBar(true);
-            for (ContrButton b : cL) {
-                BCall bc = new BCall(b,bmenu,cli);
-                menu.addItem(b.getContrName(),bc);
-            }
+            menu = PopupCreateMenu.createMenu(coP, cli, bmenu);
         }
-        PopupUtil.addClose(hP, iC, menu,bmenu);
+        PopupUtil.addClose(hP, iC, menu, bmenu);
         initWidget(hP);
     }
 }

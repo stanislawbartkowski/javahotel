@@ -25,13 +25,13 @@ import com.javahotel.client.dispatcher.UICommand;
  */
 public class UserPanelCommand extends UICommand {
 
-	public UserPanelCommand(final IResLocator i) {
-		super(i, EnumDialog.USERPANEL);
-	}
+    public UserPanelCommand(final IResLocator i) {
+        super(i, EnumDialog.USERPANEL);
+    }
 
-	public void execute() {
+    public void execute() {
 
-		IUserPanelMenuFactory iFa = UserPanelFactory.getFactory();
-		new UserPanel(rI, iFa);
-	}
+        IUserPanelMenuFactory iFa = UserPanelFactory.getFactory();
+        new UserPanel(rI, iFa);
+    }
 }

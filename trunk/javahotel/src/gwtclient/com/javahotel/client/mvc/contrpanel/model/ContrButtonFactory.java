@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.mvc.contrpanel.model;
 
 import com.javahotel.client.IResLocator;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -22,12 +21,11 @@ import java.util.ArrayList;
  */
 public class ContrButtonFactory {
 
-	private ContrButtonFactory() {
-	}
+    private ContrButtonFactory() {
+    }
 
-	public static IContrPanel getContr(final IResLocator rI,
-			final ArrayList<ContrButton> contr) {
-		return new ContrButtonModel(rI, contr);
-	}
-
+    public static IContrPanel getContr(final IResLocator rI,
+            final List<ContrButton> contr) {
+        return new ContrButtonModel(rI, contr);
+    }
 }

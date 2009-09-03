@@ -65,7 +65,7 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
                 iPanel.beforeDrawAction(iSet);
             } else {
                 errorTe = true;
-                String res = CommonUtil.getResAdr("cannotdisplaypanel.html");
+                String res = CommonUtil.getResAdr("cannotdisplaypanel.jsp");
                 ReadRequestHtml.doGet(res, new IRequestSet());
 //                ReadRequestHtml.doGet("http://localhost:8084/WebHotel/welcomeGWT.html", new IRequestSet());
             }

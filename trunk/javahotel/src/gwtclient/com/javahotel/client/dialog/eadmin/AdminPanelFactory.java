@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.dialog.eadmin;
 
+import com.google.gwt.user.client.ui.Panel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.panel.IUserPanelMenuFactory;
@@ -37,6 +38,10 @@ public class AdminPanelFactory {
             }
 
             public EPanelCommand getCentreWidget(IResLocator rI) {
+                return null;
+            }
+
+            public Panel getMenuPanel(IResLocator rI) {
                 return null;
             }
         };

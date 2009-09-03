@@ -5,12 +5,12 @@ import com.javahotel.client.dispatcher.DispatchFactory;
 
 public class webEntryPoint2 extends AbstractWebEntry implements EntryPoint {
 
-	/** Creates a new instance of webEntryPoint */
-	public webEntryPoint2() {
-		super(false, DispatchFactory.createDispatch());
-	}
+    /** Creates a new instance of webEntryPoint */
+    public webEntryPoint2() {
+        super(false, DispatchFactory.createDispatch());
+    }
 
-	public void onModuleLoad() {
-		load();
-	}
+    public void onModuleLoad() {
+        load();
+    }
 }

@@ -103,14 +103,9 @@ class NGwtTabPanel implements IDrawTabPanel {
             ISetW is = new ISetW(inde++, PanelCommandFactory.getPanelCommandLabel(rI, p),
                     sy);
             cr.beforeDrawAction(is);
-//            sPanel.add(cr.getMWidget().getWidget(),
-//                    PanelCommandFactory.getPanelCommandLabel(rI, p));
-//            iList.add(cr);
         }
 
         sPanel.addTabListener(t);
-
-//        sPanel.selectTab(0);
     }
 
     public IMvcWidget getMWidget() {

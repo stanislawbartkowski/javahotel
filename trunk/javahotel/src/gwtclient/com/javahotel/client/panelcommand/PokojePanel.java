@@ -28,10 +28,8 @@ class PokojePanel implements IGwtWidget {
         return tPanel.getMWidget();
     }
     private final IDrawTabPanel tPanel;
-    private final IResLocator rI;
 
     PokojePanel(final IResLocator rI) {
-        this.rI = rI;
         ArrayList<EPanelCommand> aList = new ArrayList<EPanelCommand>();
         aList.add(EPanelCommand.STANDARD);
         aList.add(EPanelCommand.FACILITY);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2009 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,27 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.mvc.gridmodel.model;
+package com.javahotel.client.panelcommand;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.GridCellType;
-import com.javahotel.client.mvc.gridmodel.model.view.GetViewFactory;
-import com.javahotel.client.mvc.gridmodel.model.view.IGridView;
+import com.javahotel.client.dialog.IMvcWidget;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public class GridModelViewFactory {
+public class CommandDrawPanel {
 
-    private GridModelViewFactory() {
+    private CommandDrawPanel() {
     }
 
-    public static IGridModelView getModel(final IResLocator rI,
-            GridCellType gType) {
+    private static void psetW(IResLocator rI, final Widget w) {
+        rI.getPanel().setDCenter(w);
+    }
 
-        IGridView g = GetViewFactory.getView(rI, gType);
+    public static void setC(final IResLocator rI, final IPanelCommand ic) {
+        ISetGwtWidget i = new ISetGwtWidget() {
 
-        return new GridModelView(g);
+            public void setGwtWidget(IMvcWidget i) {
+                psetW(rI, i.getWidget());
+                ic.drawAction();
+            }
+        };
+        ic.beforeDrawAction(i);
     }
 }

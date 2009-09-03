@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.mvc.contrpanel.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,5 +20,5 @@ import java.util.ArrayList;
  */
 public interface IContrPanel {
 
-    ArrayList<ContrButton> getContr();
+    List<ContrButton> getContr();
 }
