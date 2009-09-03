@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.panel;
 
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -22,16 +22,17 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public interface IWebHotelPanel {
 
-	Label getReplyL();
+    Label getReplyL();
 
-        Label getErrorL();
+    Label getErrorL();
 
-	void setUserHotel(String user, String hotel);
+    void setUserHotel(String user, String hotel);
 
-	void setDCenter(Widget w);
+    void setDCenter(Widget w);
 
-	void setWest(Widget w);
+    void setWest(Widget w);
 
-	Widget getWidget();
+    Widget getWidget();
 
+    void setMenuPanel(Panel pa);
 }

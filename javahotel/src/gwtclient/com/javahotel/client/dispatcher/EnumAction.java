@@ -18,5 +18,5 @@ package com.javahotel.client.dispatcher;
  */
 public enum EnumAction {
 
-	LOGINUSER, LOGINADMIN;
+    LOGINUSER, LOGINADMIN;
 }

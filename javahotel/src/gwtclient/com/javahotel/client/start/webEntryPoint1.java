@@ -23,18 +23,18 @@ import com.javahotel.client.dispatcher.DispatchFactory;
  */
 public class webEntryPoint1 extends AbstractWebEntry implements EntryPoint {
 
-	/** Creates a new instance of webEntryPoint */
-	public webEntryPoint1() {
-		super(true, DispatchFactory.createDispatch());
-	}
+    /** Creates a new instance of webEntryPoint */
+    public webEntryPoint1() {
+        super(true, DispatchFactory.createDispatch());
+    }
 
-	public void onModuleLoad() {
-		Runnable onLoadCallback = new Runnable() {
+    public void onModuleLoad() {
+        Runnable onLoadCallback = new Runnable() {
 
-			public void run() {
-				load();
-			}
-		};
-		VisualizationUtils.loadVisualizationApi(onLoadCallback, Table.PACKAGE);
-	}
+            public void run() {
+                load();
+            }
+        };
+        VisualizationUtils.loadVisualizationApi(onLoadCallback, Table.PACKAGE);
+    }
 }

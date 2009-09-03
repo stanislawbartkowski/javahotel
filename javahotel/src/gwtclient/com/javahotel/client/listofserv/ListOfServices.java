@@ -32,42 +32,42 @@ import java.util.ArrayList;
  */
 public class ListOfServices {
 
-	private final IResLocator rI;
-	private final IVectorList i;
+    private final IResLocator rI;
+    private final IVectorList i;
 
-	public ListOfServices(final IResLocator rI, final IVectorList i) {
-		this.rI = rI;
-		this.i = i;
-	}
+    public ListOfServices(final IResLocator rI, final IVectorList i) {
+        this.rI = rI;
+        this.i = i;
+    }
 
-	private class GetS implements IOneList {
+    private class GetS implements IOneList {
 
-		public void doOne(final AbstractTo val) {
-			RoomStandardP p = (RoomStandardP) val;
-			i.doVList(CollToArray.toA(p.getServices()));
-		}
-	}
+        public void doOne(final AbstractTo val) {
+            RoomStandardP p = (RoomStandardP) val;
+            i.doVList(CollToArray.toA(p.getServices()));
+        }
+    }
 
-	private class GetR implements IOneList {
+    private class GetR implements IOneList {
 
-		public void doOne(final AbstractTo val) {
-			ResObjectP re = (ResObjectP) val;
-			DictionaryP d = re.getRStandard();
-			String name = d.getName();
-			CommandParam p = rI.getR().getHotelDictName(DictType.RoomStandard,
-					name);
-			rI.getR().getOne(RType.ListDict, p, new GetS());
-		}
-	}
+        public void doOne(final AbstractTo val) {
+            ResObjectP re = (ResObjectP) val;
+            DictionaryP d = re.getRStandard();
+            String name = d.getName();
+            CommandParam p = rI.getR().getHotelDictName(DictType.RoomStandard,
+                    name);
+            rI.getR().getOne(RType.ListDict, p, new GetS());
+        }
+    }
 
-	public void getServices(final String resRoom) {
-		GetR g = new GetR();
-		if (resRoom == null) {
-			i.doVList(new ArrayList<ServiceDictionaryP>());
-			return;
-		}
-		CommandParam p = rI.getR().getHotelDictName(DictType.RoomObjects,
-				resRoom);
-		rI.getR().getOne(RType.ListDict, p, new GetR());
-	}
+    public void getServices(final String resRoom) {
+        GetR g = new GetR();
+        if (resRoom == null) {
+            i.doVList(new ArrayList<ServiceDictionaryP>());
+            return;
+        }
+        CommandParam p = rI.getR().getHotelDictName(DictType.RoomObjects,
+                resRoom);
+        rI.getR().getOne(RType.ListDict, p, new GetR());
+    }
 }

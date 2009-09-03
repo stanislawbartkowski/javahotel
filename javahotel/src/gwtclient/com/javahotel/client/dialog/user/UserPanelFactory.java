@@ -12,6 +12,10 @@
  */
 package com.javahotel.client.dialog.user;
 
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Panel;
+import com.javahotel.client.CommonUtil;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.panel.IUserPanelMenuFactory;
@@ -39,6 +43,20 @@ public class UserPanelFactory {
 
             public EPanelCommand getCentreWidget(IResLocator rI) {
                 return EPanelCommand.BOOKINGPANEL;
+            }
+
+            public Panel getMenuPanel(IResLocator rI) {
+                HorizontalPanel hp = new HorizontalPanel();
+                MenuBar mp = new MenuBar();
+                hp.add(mp);
+                MenuBar menu = CreateMenuCommand.createMenu(rI,
+                        new EPanelCommand[]{
+                            EPanelCommand.BOOKINGPANEL,
+                            EPanelCommand.BOOKING,
+                            EPanelCommand.PREPAID,
+                            EPanelCommand.ROOMSADMIN});
+                mp.addItem(CommonUtil.getImageHTML("DataViewerMax.gif"), true, menu);
+                return hp;
             }
         };
 

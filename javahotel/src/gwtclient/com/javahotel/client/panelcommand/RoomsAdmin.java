@@ -26,7 +26,6 @@ class RoomsAdmin implements IPanelCommand {
 
     RoomsAdmin(IResLocator rI) {
         this.rI = rI;
-
     }
 
     public void beforeDrawAction(ISetGwtWidget iSet) {

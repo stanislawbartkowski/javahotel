@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.IResLocator;
@@ -81,6 +82,10 @@ class WebHotelPanel implements IWebHotelPanel {
             dPanel.add(w, DockPanel.CENTER);
             dPanel.setCellWidth(w, "100%");
         }
+    }
+
+    public void setMenuPanel(Panel pa) {
+        uPanel.insert(pa, 3);
     }
 
     private class ClickLogOut implements MouseDownHandler {

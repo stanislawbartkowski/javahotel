@@ -18,5 +18,5 @@ package com.javahotel.client.dispatcher;
  */
 public enum EnumDialog {
 
-	STARTLOGIN, ADMINPANEL, USERPANEL
+    STARTLOGIN, ADMINPANEL, USERPANEL
 }

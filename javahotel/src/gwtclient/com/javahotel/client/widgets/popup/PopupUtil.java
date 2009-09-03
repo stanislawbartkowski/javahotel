@@ -30,9 +30,8 @@ import com.javahotel.client.dialog.WidgetSizeFactory;
  */
 public class PopupUtil {
 
-
     @SuppressWarnings("deprecation")
-	public static void addClose(final Panel hP, final ICloseAction i,
+    public static void addClose(final Panel hP, final ICloseAction i,
             final MenuBar menu, final MenuBar bmenu) {
         HorizontalPanel hC = new HorizontalPanel();
         hC.setWidth("100%");
@@ -67,13 +66,12 @@ public class PopupUtil {
         int l = w.getLeft() + (w.getWidth() / 2);
         pUp.setPopupPosition(l, t);
     }
-    
+
     public static void setPos(final PopupPanel pUp, final Widget w) {
-    	setPos(pUp,WidgetSizeFactory.getW(w));
+        setPos(pUp, WidgetSizeFactory.getW(w));
     }
 
     public static void setMiddlePos(final PopupPanel pUp, final Widget w) {
-    	setMiddlePos(pUp,WidgetSizeFactory.getW(w));
+        setMiddlePos(pUp, WidgetSizeFactory.getW(w));
     }
-
 }

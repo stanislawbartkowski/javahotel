@@ -43,49 +43,46 @@ import com.javahotel.client.mvc.validator.ISignalValidate;
  */
 public class ELoginDialog extends Composite {
 
-	private final IResLocator rI;
-	private final ICommand iNext;
-	private final IRecordView v;
-	private final DictData da;
+    private final IResLocator rI;
+    private final ICommand iNext;
+    private final IRecordView v;
+    private final DictData da;
 
-	private class ValidBack implements ISignalValidate {
+    private class ValidBack implements ISignalValidate {
 
-		public void success() {
-			iNext.execute();
-		}
+        public void success() {
+            iNext.execute();
+        }
 
-		public void failue(IErrorMessage errmess) {
-			v.showInvalidate(errmess);
-		}
-	}
+        public void failue(IErrorMessage errmess) {
+            v.showInvalidate(errmess);
+        }
+    }
 
-	private class LoginClick implements IControlClick {
+    private class LoginClick implements IControlClick {
 
-		public void click(ContrButton co, Widget w) {
-			LoginRecord re = new LoginRecord();
-			RecordModel mo = new RecordModel(null, null);
-			mo.setRDef(v.getModel());
-			mo.setA(re);
-			v.extractFields(mo);
-			IRecordValidator val = DictValidatorFactory.getValidator(rI, da);
-			val.validateS(0, mo, new ValidBack());
-		}
-	}
+        public void click(ContrButton co, Widget w) {
+            LoginRecord re = new LoginRecord();
+            RecordModel mo = new RecordModel(null, null);
+            mo.setRDef(v.getModel());
+            mo.setA(re);
+            v.extractFields(mo);
+            IRecordValidator val = DictValidatorFactory.getValidator(rI, da);
+            val.validateS(0, mo, new ValidBack());
+        }
+    }
 
-	public ELoginDialog(final IResLocator rI, final boolean user,
-			final ICommand iNext) {
-		this.rI = rI;
-		this.iNext = iNext;
-		IContrPanel co = DictButtonFactory.getLoginButt(rI);
-		da = new DictData(user ? SpecE.LoginUser : SpecE.LoginAdmin);
-		ArrayList<RecordField> field = GetRecordDefFactory.getDef(rI, da);
-		String dTitle = GetRecordDefFactory.getTitle(rI, da);
-		IRecordDef model = RecordDefFactory.getRecordDef(rI, dTitle, field);
-		v = RecordViewFactory.getRecordView(rI, da, model, co,
-				new LoginClick(), null);
-		// clear user and password
-//		v.setString(LoginRecord.F.login, "X");
-//		v.setString(LoginRecord.F.password, "X");
-		initWidget(v.getMWidget().getWidget());
-	}
+    public ELoginDialog(final IResLocator rI, final boolean user,
+            final ICommand iNext) {
+        this.rI = rI;
+        this.iNext = iNext;
+        IContrPanel co = DictButtonFactory.getLoginButt(rI);
+        da = new DictData(user ? SpecE.LoginUser : SpecE.LoginAdmin);
+        ArrayList<RecordField> field = GetRecordDefFactory.getDef(rI, da);
+        String dTitle = GetRecordDefFactory.getTitle(rI, da);
+        IRecordDef model = RecordDefFactory.getRecordDef(rI, dTitle, field);
+        v = RecordViewFactory.getRecordView(rI, da, model, co,
+                new LoginClick(), null);
+        initWidget(v.getMWidget().getWidget());
+    }
 }

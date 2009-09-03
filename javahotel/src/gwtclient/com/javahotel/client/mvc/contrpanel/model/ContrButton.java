@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.mvc.contrpanel.model;
 
 /**
@@ -19,50 +18,49 @@ package com.javahotel.client.mvc.contrpanel.model;
  */
 public class ContrButton {
 
-	private final String imageHtml;
-	private final String contrName;
-	private final int actionId;
-	private final boolean textimage;
+    private final String imageHtml;
+    private final String contrName;
+    private final int actionId;
+    private final boolean textimage;
 
-	public ContrButton(final String imageHtml, final String contrName,
-			final int actionId) {
-		this.imageHtml = imageHtml;
-		this.contrName = contrName;
-		this.actionId = actionId;
-		textimage = false;
-	}
+    public ContrButton(final String imageHtml, final String contrName,
+            final int actionId) {
+        this.imageHtml = imageHtml;
+        this.contrName = contrName;
+        this.actionId = actionId;
+        textimage = false;
+    }
 
-	public ContrButton(final String imageHtml, final String contrName,
-			final int actionId, boolean textimage) {
-		this.imageHtml = imageHtml;
-		this.contrName = contrName;
-		this.actionId = actionId;
-		this.textimage = textimage;
-	}
+    public ContrButton(final String imageHtml, final String contrName,
+            final int actionId, boolean textimage) {
+        this.imageHtml = imageHtml;
+        this.contrName = contrName;
+        this.actionId = actionId;
+        this.textimage = textimage;
+    }
 
-	public boolean isTextimage() {
-		return textimage;
-	}
+    public boolean isTextimage() {
+        return textimage;
+    }
 
-	/**
-	 * @return the imageHtml
-	 */
-	public String getImageHtml() {
-		return imageHtml;
-	}
+    /**
+     * @return the imageHtml
+     */
+    public String getImageHtml() {
+        return imageHtml;
+    }
 
-	/**
-	 * @return the contrName
-	 */
-	public String getContrName() {
-		return contrName;
-	}
+    /**
+     * @return the contrName
+     */
+    public String getContrName() {
+        return contrName;
+    }
 
-	/**
-	 * @return the actionId
-	 */
-	public int getActionId() {
-		return actionId;
-	}
-
+    /**
+     * @return the actionId
+     */
+    public int getActionId() {
+        return actionId;
+    }
 }

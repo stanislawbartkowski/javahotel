@@ -16,7 +16,8 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.ICommand;
 
 public interface IDispatch {
-	void start(final IResLocator i, ICommand decorateAfterLogin);
 
-	void dispatch(final EnumDialog t, final EnumAction a);
+    void start(final IResLocator i, ICommand decorateAfterLogin);
+
+    void dispatch(final EnumDialog t, final EnumAction a);
 }

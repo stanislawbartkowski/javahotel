@@ -30,10 +30,10 @@ class AdminMenuFactory {
     private AdminMenuFactory() {
     }
 
-    private static void addElem(IResLocator rI,ArrayList<StackButtonElem> v, EPanelCommand e) {
+    private static void addElem(IResLocator rI, ArrayList<StackButtonElem> v, EPanelCommand e) {
         String label = PanelCommandFactory.getPanelCommandLabel(rI, e);
         IPanelCommand i = PanelCommandFactory.getPanelCommand(rI, e);
-        v.add(new StackButtonElem(label,i));
+        v.add(new StackButtonElem(label, i));
 
     }
 
@@ -41,13 +41,13 @@ class AdminMenuFactory {
 
         ArrayList<StackButtonHeader> hList = new ArrayList<StackButtonHeader>();
         ArrayList<StackButtonElem> aList = new ArrayList<StackButtonElem>();
-        addElem(rI,aList,EPanelCommand.ROOMSADMIN);
+        addElem(rI, aList, EPanelCommand.ROOMSADMIN);
         hList.add(new StackButtonHeader("Admin", "people.gif", aList));
 
         aList = new ArrayList<StackButtonElem>();
-        addElem(rI,aList,EPanelCommand.BOOKINGPANEL);
-        addElem(rI,aList,EPanelCommand.BOOKING);
-        addElem(rI,aList,EPanelCommand.PREPAID);
+        addElem(rI, aList, EPanelCommand.BOOKINGPANEL);
+        addElem(rI, aList, EPanelCommand.BOOKING);
+        addElem(rI, aList, EPanelCommand.PREPAID);
         hList.add(new StackButtonHeader("Rezerwacja", "reports.gif", aList));
 
         return hList;

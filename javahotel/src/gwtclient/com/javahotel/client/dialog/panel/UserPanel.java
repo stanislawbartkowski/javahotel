@@ -12,13 +12,12 @@
  */
 package com.javahotel.client.dialog.panel;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Panel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
-import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.panelcommand.CommandDrawPanel;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.panelcommand.IPanelCommand;
-import com.javahotel.client.panelcommand.ISetGwtWidget;
 import com.javahotel.client.panelcommand.PanelCommandFactory;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 
@@ -30,27 +29,28 @@ public class UserPanel {
 
     private final IResLocator rI;
 
-    private void psetW(final Widget w) {
-        rI.getPanel().setDCenter(w);
-    }
-
-    private void setC(final IPanelCommand ic) {
-        ISetGwtWidget i = new ISetGwtWidget() {
-
-            public void setGwtWidget(IMvcWidget i) {
-                psetW(i.getWidget());
-                ic.drawAction();
-            }
-        };
-        ic.beforeDrawAction(i);
-    }
+//    private void psetW(final Widget w) {
+//        rI.getPanel().setDCenter(w);
+//    }
+//
+//    private void setC(final IPanelCommand ic) {
+//        ISetGwtWidget i = new ISetGwtWidget() {
+//
+//            public void setGwtWidget(IMvcWidget i) {
+//                psetW(i.getWidget());
+//                ic.drawAction();
+//            }
+//        };
+//        ic.beforeDrawAction(i);
+//    }
 
     public UserPanel(final IResLocator rI, IUserPanelMenuFactory fPanel) {
         this.rI = rI;
         IStackMenuClicked iClicked = new IStackMenuClicked() {
 
             public void ClickedView(IPanelCommand clicked) {
-                setC(clicked);
+//                setC(clicked);
+                CommandDrawPanel.setC(rI, clicked);
             }
         };
         rI.getPanel().setDCenter(null);
@@ -61,7 +61,11 @@ public class UserPanel {
         }
         if (e != null) {
             IPanelCommand i = PanelCommandFactory.getPanelCommand(rI, e);
-            setC(i);
+            CommandDrawPanel.setC(rI, i);
+        }
+        Panel pa = fPanel.getMenuPanel(rI);
+        if (pa != null) {
+            rI.getPanel().setMenuPanel(pa);
         }
     }
 }
