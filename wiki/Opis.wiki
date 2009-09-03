@@ -4,7 +4,15 @@ Ta strona opisuje ogólne wymagania i działanie system
 
 = Wstęp =
 
-Poniższy opis określa wymaganie dotyczące systemu. *Wymagania* definiują jakie funkcje system ma realizować, zaś *Uzycie* określa w postaci tzw. Use Case/User Story (przypadki użycia/scenariusze) opisuje sytuacje, w jakich system ma funkcjonwać. *Dodatkowe uwagi* opisuję kilka założeń jakie powinien spełniać system
+Poniższy opis określa wymaganie dotyczące systemu. *Wymagania* definiują jakie funkcje system ma realizować, zaś *Uzycie* określa w postaci tzw. Use Case/User Story (przypadki użycia/scenariusze) opisuje sytuacje, w jakich system ma funkcjonwać. *Różne uwagi* opisuję kilka założeń jakie powinien spełniać system
+
+= Różne uwagi =
+
+Główną częścią programu z punktu widzenia użytkownika powinna być tabela (panel) rezerwacyjna. Zdecydowaną większość czasu użytkownik będzie spędzał mając wyswietloną tę tabelę, jest wskazanem aby cała podstawowa funkcjonalność programu była możliwa do wykonania poprzez tę tabelę. Pozostałe funkcje (rzadziej używany) nie powinny być eksponowane z głównego panelu.
+
+Cenniki są raczej elementem planowania i nie powinny krępować użytkownika w trakcie sprzedaży. Użytkownik powinien mieć swobodę wyznaczania ceny.
+
+Podział pokoi na standardy może także ulegać zmianie w trakcie sprzedaży. Np. pokój w standardzie LUX może byc sprzedany gościowi jaki zwykły STANDARD, dwójka jako jedynka itp itd.
 
 = Wymagania =
 
