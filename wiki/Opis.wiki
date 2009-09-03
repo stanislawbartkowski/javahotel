@@ -98,7 +98,7 @@ Jest już założona rezerwacja
 Zamienia status rezerwacji na „potwierdzoną”
 Drukuj, faksuje, mejluje potwierdzenie rezerwacji.
 
-Powinna istnieć także możliwość potwierdzenie rezerwacji z pominięciem "zapłacenia zaliczki".
+Powinna istnieć także możliwość potwierdzenia rezerwacji z pominięciem "zapłacenia zaliczki".
 
 ==Scen06, brak potwierdzenia rezerwacji.==
 
@@ -118,13 +118,13 @@ Zaistnienie Scen06
 
 Tak jak Scen04, ale z informacją jaka przyczyna
 
-==Scen08, nowy termin potwierdzenie dla niepotwierdzonej rezerwacji==
+==Scen08, nowy termin potwierdzenia dla niepotwierdzonej rezerwacji==
 
 Zaistnienie Scen06
 
 Nowy termin wpłacenia zaliczki, potwierdzenia, jak Scen03
 
-=Scenariusze: check-in, checkout=
+=Scenariusze: check-in, check-out=
 
 ==Scen20, zameldowanie, check-in gościa, grupy, rezerwacja==
 
