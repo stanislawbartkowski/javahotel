@@ -13,7 +13,7 @@
 
 package com.javahotel.client.stackmenu.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -21,13 +21,13 @@ import java.util.ArrayList;
  */
 class StackMenuModel implements IStackMenuModel {
 
-    private final ArrayList<StackButtonHeader> hList;
+    private final List<StackButtonHeader> hList;
 
-    StackMenuModel(ArrayList<StackButtonHeader> hList) {
+    StackMenuModel(List<StackButtonHeader> hList) {
         this.hList = hList;
     }
 
-    public ArrayList<StackButtonHeader> getHList() {
+    public List<StackButtonHeader> getHList() {
         return hList;
     }
 

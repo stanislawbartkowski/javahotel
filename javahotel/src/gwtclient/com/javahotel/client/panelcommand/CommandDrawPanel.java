@@ -29,14 +29,34 @@ public class CommandDrawPanel {
         rI.getPanel().setDCenter(w);
     }
 
-    public static void setC(final IResLocator rI, final IPanelCommand ic) {
+    public static void setC(final IResLocator rI, final IPanelCommand ic,
+            boolean setWest) {
+
+        if (setWest) {
+            IMvcWidget iw = ic.getWestWidget();
+            Widget w = null;
+            if (iw != null) {
+                w = iw.getWidget();
+            }
+            rI.getPanel().setWest1(w);
+        }
+
         ISetGwtWidget i = new ISetGwtWidget() {
 
             public void setGwtWidget(IMvcWidget i) {
+                if (i == null) {
+                    psetW(rI, null);
+                    return;
+                }
                 psetW(rI, i.getWidget());
                 ic.drawAction();
             }
         };
         ic.beforeDrawAction(i);
+    }
+
+    public static void setC(final IResLocator rI, final IPanelCommand ic) {
+        setC(rI, ic, true);
+
     }
 }

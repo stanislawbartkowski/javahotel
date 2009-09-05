@@ -22,7 +22,7 @@ import com.javahotel.common.command.DictType;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class DictPanelCommand implements IPanelCommand {
+class DictPanelCommand extends AbstractPanelCommand {
 
     private final IResLocator rI;
     private final DictType r;

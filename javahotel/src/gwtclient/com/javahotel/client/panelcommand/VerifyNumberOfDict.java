@@ -13,11 +13,14 @@
 package com.javahotel.client.panelcommand;
 
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.javahotel.client.CallBackHotel;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
+import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.HotelOpType;
@@ -36,12 +39,25 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
     private final DictType[] dList;
     private ISetGwtWidget iSet;
     private boolean errorTe;
+    private final int numb[];
+    private final String pageName;
+
+    public IMvcWidget getWestWidget() {
+        return null;
+    }
 
     private class IRequestSet implements ReadRequestHtml.ISetRequestText {
 
         public void setText(String s) {
+            VerticalPanel hp = new VerticalPanel();
+            for (int i = 0; i<dList.length; i++) {
+                String sl = sI.getLabels().DictList().get(dList[i].toString());
+                String fo = sI.getMessages().noDict(sl,numb[i]);
+                hp.add(new Label(fo));
+            }
             HTML ha = new HTML(s);
-            iSet.setGwtWidget(new DefaultMvcWidget(ha));
+            hp.add(ha);
+            iSet.setGwtWidget(new DefaultMvcWidget(hp));
         }
     }
 
@@ -54,8 +70,10 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
         @Override
         public void onMySuccess(List<ReturnPersist> li) {
             boolean success = true;
+            int nn = 0;
             for (ReturnPersist pe : li) {
                 int no = pe.getNumberOf();
+                numb[nn++] = no;
                 if (no == 0) {
                     success = false;
                 }
@@ -65,16 +83,17 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
                 iPanel.beforeDrawAction(iSet);
             } else {
                 errorTe = true;
-                String res = CommonUtil.getResAdr("cannotdisplaypanel.jsp");
+                String res = CommonUtil.getResAdr(pageName);
                 ReadRequestHtml.doGet(res, new IRequestSet());
-//                ReadRequestHtml.doGet("http://localhost:8084/WebHotel/welcomeGWT.html", new IRequestSet());
             }
         }
     }
 
-    VerifyNumberOfDict(IResLocator sI, DictType[] dList) {
+    VerifyNumberOfDict(IResLocator sI, DictType[] dList,String pageName) {
         this.sI = sI;
         this.dList = dList;
+        numb = new int[dList.length];
+        this.pageName = pageName;
     }
 
     public void setIPanelCommand(IPanelCommand i) {

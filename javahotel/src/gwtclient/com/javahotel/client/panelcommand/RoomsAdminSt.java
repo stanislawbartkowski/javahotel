@@ -10,34 +10,59 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dialog.eadmin;
+package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.stackmenu.model.IStackMenuModel;
+import com.javahotel.client.stackmenu.model.StackButtonElem;
 import com.javahotel.client.stackmenu.model.StackButtonHeader;
 import com.javahotel.client.stackmenu.model.StackMenuModelFactory;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 import com.javahotel.client.stackmenu.view.IStackMenuView;
 import com.javahotel.client.stackmenu.view.StackMenuViewFactory;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
-class AdminHotelMenu implements IGwtWidget {
+class RoomsAdminSt implements IPanelCommand {
 
-    private final IStackMenuView iView;
+    private IStackMenuView iView;
+    private final IResLocator rI;
 
-    AdminHotelMenu(IResLocator rI, IStackMenuClicked iClicked) {
-        List<StackButtonHeader> hList = AdminHotelFactory.getAList(rI);
-        IStackMenuModel iModel = StackMenuModelFactory.getModel(hList);
-        iView = StackMenuViewFactory.getStackView(rI, iModel, iClicked);
+    RoomsAdminSt(IResLocator rI) {
+        this.rI = rI;
     }
 
-    public IMvcWidget getMWidget() {
+    public IMvcWidget getWestWidget() {
+        EPanelCommand[] et = {
+            EPanelCommand.STANDARD, EPanelCommand.FACILITY, EPanelCommand.ROOMS,
+            EPanelCommand.VAT, EPanelCommand.SERVICES, EPanelCommand.SEASON,
+            EPanelCommand.PRICES, EPanelCommand.CUSTOMERS};
+        List<StackButtonHeader> hList = new ArrayList<StackButtonHeader>();
+        List<StackButtonElem> aList = StackHeaderAddList.CreateStackButtonList(rI, et);
+        hList.add(new StackButtonHeader("Admin", "people.gif", aList));
+
+        IStackMenuModel iModel = StackMenuModelFactory.getModel(hList);
+
+        IStackMenuClicked iClicked = new IStackMenuClicked() {
+
+            public void ClickedView(IPanelCommand clicked) {
+                CommandDrawPanel.setC(rI, clicked, false);
+            }
+        };
+
+        iView = StackMenuViewFactory.getStackView(rI, iModel, iClicked);
         return iView.getMWidget();
+    }
+
+    public void beforeDrawAction(ISetGwtWidget iSet) {
+        iSet.setGwtWidget(null);
+    }
+
+    public void drawAction() {
     }
 }

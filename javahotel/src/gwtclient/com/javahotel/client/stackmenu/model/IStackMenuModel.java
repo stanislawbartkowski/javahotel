@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.stackmenu.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -21,6 +20,5 @@ import java.util.ArrayList;
  */
 public interface IStackMenuModel {
 
-    ArrayList<StackButtonHeader> getHList();
-
+    List<StackButtonHeader> getHList();
 }

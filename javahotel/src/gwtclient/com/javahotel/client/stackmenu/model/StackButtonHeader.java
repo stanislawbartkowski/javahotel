@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.stackmenu.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -23,10 +22,10 @@ public class StackButtonHeader {
 
     private final String hName;
     private final String iName;
-    private final ArrayList<StackButtonElem> eList;
+    private final List<StackButtonElem> eList;
 
-    public StackButtonHeader(String hName,String iName,
-            ArrayList<StackButtonElem> eList) {
+    public StackButtonHeader(String hName, String iName,
+            List<StackButtonElem> eList) {
         this.hName = hName;
         this.iName = iName;
         this.eList = eList;
@@ -49,9 +48,7 @@ public class StackButtonHeader {
     /**
      * @return the eList
      */
-    public ArrayList<StackButtonElem> getEList() {
+    public List<StackButtonElem> getEList() {
         return eList;
     }
-
-
 }

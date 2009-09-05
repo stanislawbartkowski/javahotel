@@ -12,11 +12,15 @@
  */
 package com.javahotel.client.panelcommand;
 
+import com.javahotel.client.dialog.IMvcWidget;
+
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
 public interface IPanelCommand  {
+
+    IMvcWidget getWestWidget();
 
     void beforeDrawAction(ISetGwtWidget iSet);
 

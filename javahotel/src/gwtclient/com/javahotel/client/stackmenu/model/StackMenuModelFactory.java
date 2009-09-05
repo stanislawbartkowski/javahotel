@@ -12,20 +12,18 @@
  */
 package com.javahotel.client.stackmenu.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
 public class StackMenuModelFactory {
-    
+
     private StackMenuModelFactory() {
-        
     }
 
-    public static IStackMenuModel getModel(
-            ArrayList<StackButtonHeader> hList) {
+    public static IStackMenuModel getModel(List<StackButtonHeader> hList) {
         return new StackMenuModel(hList);
     }
 }

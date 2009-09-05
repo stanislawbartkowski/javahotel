@@ -32,6 +32,8 @@ public interface IWebHotelPanel {
 
     void setWest(Widget w);
 
+    void setWest1(Widget w);
+
     Widget getWidget();
 
     void setMenuPanel(Panel pa);

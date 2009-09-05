@@ -14,6 +14,8 @@ package com.javahotel.client.dialog.user;
 
 import com.google.gwt.user.client.ui.Widget;
 
+// TODO: remove
+
 /**
  *
  * @author stanislawbartkowski@gmail.com

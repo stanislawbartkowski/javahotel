@@ -12,6 +12,8 @@
  */
 package com.javahotel.client.panelcommand;
 
+// TODO: not in use
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;

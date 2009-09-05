@@ -66,6 +66,7 @@ class NGwtTabPanel implements IDrawTabPanel {
             this.inde = inde;
             this.label = label;
             this.sy = sy;
+            sy.iString[inde] = label;
         }
 
         public void setGwtWidget(IMvcWidget i) {
@@ -100,6 +101,7 @@ class NGwtTabPanel implements IDrawTabPanel {
 
         for (EPanelCommand p : pList) {
             IPanelCommand cr = PanelCommandFactory.getPanelCommand(rI, p);
+            iList[inde] = cr;
             ISetW is = new ISetW(inde++, PanelCommandFactory.getPanelCommandLabel(rI, p),
                     sy);
             cr.beforeDrawAction(is);
