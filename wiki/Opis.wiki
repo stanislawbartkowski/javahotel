@@ -18,7 +18,7 @@ Podział pokoi na standardy może także ulegać zmianie w trakcie sprzedaży. N
 
 ==Administracja programem==
 Zakładanie baz danych (hoteli), użytkowników, praw dostępu, archiwizacja
-Oferta, cenniki
+Oferta (lista usług), cenniki
 Tworzenie listy usług, cenników, rabatów
 Uwaga: cenniki definiowane na początku sezonu są elementem planowania. Istotną cechą jest łatwość modyfikacji ceny w momencie rezerwacji czy sprzedaży. 
 
@@ -57,10 +57,10 @@ czy pokoje, usługi są dostępne
 podać cenę (z uwzględnieniem rabatu, cenników)
 podać wysokość zaliczki i termin zapłacenia
 Powinna istnieć możliwość pominięcia zaliczki.
-Rezerwacja staje się od razu rezerwacją potwiedzoną. 
+Powinna istnieć także możliwość określenia rezerwacji jako potwiedzoną. 
 
 *System*
-ma wykonać rezerwację wstępną
+ma wykonać rezerwację wstępną lub potwierdzoną.
 
 ==Scen02 rezerwacja, tylko zapytanie==
 
@@ -82,7 +82,7 @@ Wylicza nową cenę i wysokość zaliczki
 
 Jest już założona rezerwacja
 
-*Klient* (indywidualny, firma) dzwoni, faksuje, mejluje i chce anulować rezerwację
+*Klient* (indywidualny, firma) dzwoni, faksuje, mejluje i chce anulować rezerwację.
 
 *Recepcjonistka* Anuluje rezerwację
 (Pytanie: co z zaliczką: zwraca, przepada, częściowy zwrot)
@@ -96,7 +96,7 @@ Jest już założona rezerwacja
 *Recepcjonistka*
 
 Zamienia status rezerwacji na „potwierdzoną”
-Drukuj, faksuje, mejluje potwierdzenie rezerwacji.
+Drukuje, faksuje, mejluje potwierdzenie rezerwacji.
 
 Powinna istnieć także możliwość potwierdzenia rezerwacji z pominięciem "zapłacenia zaliczki".
 
@@ -128,7 +128,7 @@ Nowy termin wpłacenia zaliczki, potwierdzenia, jak Scen03
 
 ==Scen20, zameldowanie, check-in gościa, grupy, rezerwacja==
 
-Przybywa *gość*, grupa, podaje numer rezerwacji
+Przybywa *gość*, grupa.
 
 *Recepcjonistka* melduje gości, przydziela osoby do pokoi
 Otwiera rachunek płatnika
@@ -137,6 +137,7 @@ Możliwość zmiany w stosunku do rezerwacji: liczby osób, pokoi, terminu itp. 
 ==Scen21, gość grupa, bez rezerwacji==
 
 Przybywa *gość*, grupa, jak Scen01
+
 *Recepcjonistka* Jeśli możliwe, to zameldowanie jak Scen20
 
 ==Scen22, gość, grupa zamawia dodatkowe usługi, zakupy z dopisaniem do rachunku==
@@ -163,6 +164,7 @@ Przybywa *gość*, grupa, jak Scen01
 
 *Recepcjonistka* : widzi rachunek całej grupy oraz zaliczkę
 Wystawia rachunek, paragon, fakturę
+
 Możliwość różnej formy płatności, gotówka. Przelew, rozbicie płatności na kilka faktur (inni płatnicy)
 Wystawia rachunki dla członków grupy (Scen23)
 Jeśli płatność gotówką, to wpłata do kasy, wystawienie KP.
@@ -177,6 +179,7 @@ Zwalnia pokój, pokój do sprzątania
 ==Scen27, zmiana pokoi podczas pobytu, wydłużenie pobytu==
 
 *Gość*, grupa chce zmienić pokój, wydłużyć pobyt.
+
 *Recepcjonistka*: Sprawdzenie, czy jest to możliwe, modyfikuje rezerwację, przydziela pokój, określa nową cenę
 Poprzedni do sprzątania.
 
@@ -184,4 +187,5 @@ Poprzedni do sprzątania.
 ==Scen28, pokój posprzątany==
 
 *Sprzątaczka* informuje recepcję o posprzątaniu pokoju
+
 *Recepcjonistka* : Zmiana statusu pokoju na „wolny”
