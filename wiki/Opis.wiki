@@ -165,7 +165,7 @@ Przybywa *gość*, grupa, jak Scen01
 *Recepcjonistka* : widzi rachunek całej grupy oraz zaliczkę
 Wystawia rachunek, paragon, fakturę
 
-Możliwość różnej formy płatności, gotówka. Przelew, rozbicie płatności na kilka faktur (inni płatnicy)
+Możliwość różnej formy płatności, gotówka, przelew itp  Rozbicie płatności na kilka faktur (inni płatnicy). Scalenie kilku rachunków w jeden.
 Wystawia rachunki dla członków grupy (Scen23)
 Jeśli płatność gotówką, to wpłata do kasy, wystawienie KP.
 Zwolnienie pokoi, pokój do sprzątania
