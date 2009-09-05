@@ -29,27 +29,11 @@ public class UserPanel {
 
     private final IResLocator rI;
 
-//    private void psetW(final Widget w) {
-//        rI.getPanel().setDCenter(w);
-//    }
-//
-//    private void setC(final IPanelCommand ic) {
-//        ISetGwtWidget i = new ISetGwtWidget() {
-//
-//            public void setGwtWidget(IMvcWidget i) {
-//                psetW(i.getWidget());
-//                ic.drawAction();
-//            }
-//        };
-//        ic.beforeDrawAction(i);
-//    }
-
     public UserPanel(final IResLocator rI, IUserPanelMenuFactory fPanel) {
         this.rI = rI;
         IStackMenuClicked iClicked = new IStackMenuClicked() {
 
             public void ClickedView(IPanelCommand clicked) {
-//                setC(clicked);
                 CommandDrawPanel.setC(rI, clicked);
             }
         };

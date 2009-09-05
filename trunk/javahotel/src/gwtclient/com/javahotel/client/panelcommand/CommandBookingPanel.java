@@ -20,7 +20,7 @@ import com.javahotel.client.dialog.user.booking.BookingObjects;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class CommandBookingPanel implements IPanelCommand {
+class CommandBookingPanel extends AbstractPanelCommand {
 
     private BookingObjects bO;
     private final IResLocator rI;

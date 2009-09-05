@@ -49,10 +49,9 @@ class CreateMenuCommand {
         public void click(ContrButton co, Widget w) {
             int i = co.getActionId();
             EPanelCommand e = eMenu[i];
-            IPanelCommand iP = PanelCommandFactory.getPanelCommand(rI, eMenu[i]);
+            IPanelCommand iP = PanelCommandFactory.getPanelCommand(rI, e);
             CommandDrawPanel.setC(rI, iP);
         }
-
     }
 
     static MenuBar createMenu(IResLocator rI, EPanelCommand[] eMenu) {
@@ -60,12 +59,11 @@ class CreateMenuCommand {
         for (int i = 0; i < eMenu.length; i++) {
             String label = PanelCommandFactory.getPanelCommandLabel(rI,
                     eMenu[i]);
-            IPanelCommand iP = PanelCommandFactory.getPanelCommand(rI, eMenu[i]);
             ContrButton bu = new ContrButton(null, label, i);
             li.add(bu);
         }
         IContrPanel pa = ContrButtonFactory.getContr(rI, li);
-        MenuBar menu = PopupCreateMenu.createMenu(pa, new ExecuteC(rI,eMenu),
+        MenuBar menu = PopupCreateMenu.createMenu(pa, new ExecuteC(rI, eMenu),
                 null);
         return menu;
     }

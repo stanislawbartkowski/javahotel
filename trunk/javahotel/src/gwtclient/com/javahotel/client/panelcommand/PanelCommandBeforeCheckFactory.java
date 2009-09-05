@@ -31,7 +31,30 @@ class PanelCommandBeforeCheckFactory {
             case BOOKINGPANEL:
                 i = new VerifyNumberOfDict(sI,
                         new DictType[]{DictType.RoomObjects,
-                        DictType.OffSeasonDict, DictType.PriceListDict });
+                            DictType.OffSeasonDict, DictType.PriceListDict},
+                        "cannotdisplaypanel.jsp");
+                break;
+            case ROOMS:
+                i = new VerifyNumberOfDict(sI,
+                        new DictType[]{DictType.RoomFacility,
+                            DictType.ServiceDict, DictType.RoomStandard},
+                        "cannotdisplayrooms.jsp");
+                break;
+            case STANDARD:
+                i = new VerifyNumberOfDict(sI, new DictType[]{
+                            DictType.ServiceDict},
+                        "cannotdisplaystandard.jsp");
+                break;
+            case PRICES:
+                i = new VerifyNumberOfDict(sI, new DictType[]{
+                            DictType.ServiceDict, DictType.OffSeasonDict},
+                        "cannotdisplayprice.jsp");
+                break;
+            case BOOKING:
+                i = new VerifyNumberOfDict(sI, new DictType[]{
+                            DictType.ServiceDict, DictType.OffSeasonDict, DictType.RoomObjects,
+                            DictType.PriceListDict},
+                        "cannotdisplaybooking.jsp");
                 break;
 
         }

@@ -22,7 +22,7 @@ import com.javahotel.common.command.DictType;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class DoBooking implements IPanelCommand {
+class DoBooking extends AbstractPanelCommand {
 
     private ICrudControler cPan;
     private final IResLocator rI;

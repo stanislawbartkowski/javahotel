@@ -19,7 +19,7 @@ import com.javahotel.client.dialog.DefaultMvcWidget;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class RoomsAdmin implements IPanelCommand {
+class RoomsAdmin extends AbstractPanelCommand {
 
     private PokojePanel pa;
     private final IResLocator rI;

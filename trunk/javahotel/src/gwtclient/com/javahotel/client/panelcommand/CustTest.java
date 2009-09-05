@@ -22,7 +22,7 @@ import com.javahotel.common.command.DictType;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class CustTest implements IPanelCommand {
+class CustTest extends AbstractPanelCommand {
 
     private RecordFa fa;
     private final IResLocator rI;

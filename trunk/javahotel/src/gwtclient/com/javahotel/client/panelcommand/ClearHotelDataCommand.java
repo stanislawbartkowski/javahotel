@@ -19,7 +19,7 @@ import com.javahotel.client.dialog.IMvcWidget;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class ClearHotelDataCommand implements IPanelCommand {
+class ClearHotelDataCommand extends AbstractPanelCommand {
 
     private final IResLocator rI;
     private ClearHotelDataWidget ha;

@@ -49,7 +49,8 @@ public class PanelCommandFactory {
                 i = new ClearHotelDataCommand(sI);
                 break;
             case ROOMSADMIN:
-                i = new RoomsAdmin(sI);
+//                i = new RoomsAdmin(sI);
+                i = new RoomsAdminSt(sI);
                 break;
             case BOOKINGPANEL:
                 i = new CommandBookingPanel(sI);

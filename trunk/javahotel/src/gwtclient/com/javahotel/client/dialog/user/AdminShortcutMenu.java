@@ -11,8 +11,7 @@
  * limitations under the License.
  */
 package com.javahotel.client.dialog.user;
-
-import java.util.ArrayList;
+// TODO: not in use
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
@@ -23,6 +22,7 @@ import com.javahotel.client.stackmenu.model.StackMenuModelFactory;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 import com.javahotel.client.stackmenu.view.IStackMenuView;
 import com.javahotel.client.stackmenu.view.StackMenuViewFactory;
+import java.util.List;
 
 /**
  *
@@ -33,7 +33,7 @@ class AdminShortcutMenu implements IGwtWidget {
     private final IStackMenuView iView;
 
     AdminShortcutMenu(IResLocator rI, IStackMenuClicked iClicked) {
-        ArrayList<StackButtonHeader> hList = AdminMenuFactory.getAList(rI);
+        List<StackButtonHeader> hList = AdminMenuFactory.getAList(rI);
         IStackMenuModel iModel = StackMenuModelFactory.getModel(hList);
         iView = StackMenuViewFactory.getStackView(rI, iModel, iClicked);
     }

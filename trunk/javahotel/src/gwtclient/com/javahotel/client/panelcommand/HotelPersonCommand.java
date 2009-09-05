@@ -27,7 +27,7 @@ import com.javahotel.common.toobject.PersonP;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class HotelPersonCommand implements IPanelCommand {
+class HotelPersonCommand extends AbstractPanelCommand {
 
     private final IResLocator rI;
     private final RType r;

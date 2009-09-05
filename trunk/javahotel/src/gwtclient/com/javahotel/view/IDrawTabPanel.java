@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.view;
 
 import com.javahotel.client.dialog.IGwtWidget;
@@ -20,5 +19,4 @@ import com.javahotel.client.dialog.IGwtWidget;
  * @author stanislawbartkowski@gmail.com
  */
 public interface IDrawTabPanel extends IGwtWidget {
-
 }

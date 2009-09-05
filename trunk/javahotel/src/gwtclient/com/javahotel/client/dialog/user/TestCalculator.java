@@ -12,6 +12,8 @@
  */
 package com.javahotel.client.dialog.user;
 
+// TODO: remove
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.javahotel.client.IResLocator;

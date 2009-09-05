@@ -12,42 +12,34 @@
  */
 package com.javahotel.client.dialog.user;
 
+// TODO: not in use
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.panelcommand.EPanelCommand;
-import com.javahotel.client.panelcommand.IPanelCommand;
-import com.javahotel.client.panelcommand.PanelCommandFactory;
+import com.javahotel.client.panelcommand.StackHeaderAddList;
 import com.javahotel.client.stackmenu.model.StackButtonElem;
 import com.javahotel.client.stackmenu.model.StackButtonHeader;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-@SuppressWarnings("deprecation")
 class AdminMenuFactory {
 
     private AdminMenuFactory() {
     }
 
-    private static void addElem(IResLocator rI, ArrayList<StackButtonElem> v, EPanelCommand e) {
-        String label = PanelCommandFactory.getPanelCommandLabel(rI, e);
-        IPanelCommand i = PanelCommandFactory.getPanelCommand(rI, e);
-        v.add(new StackButtonElem(label, i));
+    static List<StackButtonHeader> getAList(IResLocator rI) {
 
-    }
-
-    static ArrayList<StackButtonHeader> getAList(IResLocator rI) {
-
-        ArrayList<StackButtonHeader> hList = new ArrayList<StackButtonHeader>();
-        ArrayList<StackButtonElem> aList = new ArrayList<StackButtonElem>();
-        addElem(rI, aList, EPanelCommand.ROOMSADMIN);
+        List<StackButtonHeader> hList = new ArrayList<StackButtonHeader>();
+        EPanelCommand[] et = {EPanelCommand.ROOMSADMIN};
+        List<StackButtonElem> aList = StackHeaderAddList.CreateStackButtonList(rI, et);
         hList.add(new StackButtonHeader("Admin", "people.gif", aList));
 
-        aList = new ArrayList<StackButtonElem>();
-        addElem(rI, aList, EPanelCommand.BOOKINGPANEL);
-        addElem(rI, aList, EPanelCommand.BOOKING);
-        addElem(rI, aList, EPanelCommand.PREPAID);
+        EPanelCommand[] et1 = {EPanelCommand.BOOKINGPANEL,
+            EPanelCommand.BOOKING, EPanelCommand.PREPAID};
+        aList = StackHeaderAddList.CreateStackButtonList(rI, et1);
         hList.add(new StackButtonHeader("Rezerwacja", "reports.gif", aList));
 
         return hList;

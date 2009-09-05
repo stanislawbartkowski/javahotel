@@ -12,6 +12,8 @@
  */
 package com.javahotel.client.panelcommand;
 
+// TODO: not in use
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.DictData.SpecE;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class Test1Panel implements IPanelCommand {
+class Test1Panel extends AbstractPanelCommand {
 
     private IControlerEditTable cPan;
     private final IResLocator rI;

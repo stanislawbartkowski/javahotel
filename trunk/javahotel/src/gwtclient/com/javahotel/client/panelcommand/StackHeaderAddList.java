@@ -10,29 +10,37 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dialog.eadmin;
-
-import java.util.ArrayList;
+package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.panelcommand.EPanelCommand;
-import com.javahotel.client.panelcommand.StackHeaderAddList;
 import com.javahotel.client.stackmenu.model.StackButtonElem;
-import com.javahotel.client.stackmenu.model.StackButtonHeader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
-class AdminHotelFactory {
+public class StackHeaderAddList {
 
-    static List<StackButtonHeader> getAList(IResLocator rI) {
-        List<StackButtonHeader> hList = new ArrayList<StackButtonHeader>();
-        EPanelCommand eList[] = {EPanelCommand.PERSON, EPanelCommand.HOTEL, EPanelCommand.REMOVEDATA};
-        List<StackButtonElem> aList = StackHeaderAddList.CreateStackButtonList(rI, eList);
-        hList.add(new StackButtonHeader("Admin", "people.gif", aList));
-        return hList;
+    private StackHeaderAddList() {
+    }
 
+    private static void addElem(IResLocator rI, List<StackButtonElem> v,
+            EPanelCommand e) {
+        String label = PanelCommandFactory.getPanelCommandLabel(rI, e);
+        IPanelCommand i = PanelCommandFactory.getPanelCommand(rI, e);
+        v.add(new StackButtonElem(label, i));
+
+    }
+
+    public static List<StackButtonElem> CreateStackButtonList(IResLocator rI,
+            EPanelCommand[] et) {
+
+        List<StackButtonElem> aList = new ArrayList<StackButtonElem>();
+        for (int i = 0; i < et.length; i++) {
+            addElem(rI, aList, et[i]);
+        }
+        return aList;
     }
 }

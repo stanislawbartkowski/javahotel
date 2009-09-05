@@ -44,6 +44,8 @@ class WebHotelPanel implements IWebHotelPanel {
     private final Label replyL = new Label();
     private final Label userName = new Label();
     private Widget wCenter = null;
+    private Widget wWest = null;
+    private Widget wWest1 = null;
     private final static String LOGOUTIMAGE = "up_one_level.gif";
     private final HTML ha = new HTML();
     private final ICommand logOut;
@@ -86,6 +88,16 @@ class WebHotelPanel implements IWebHotelPanel {
 
     public void setMenuPanel(Panel pa) {
         uPanel.insert(pa, 3);
+    }
+
+    public void setWest1(Widget w) {
+        if (wWest1 != null) {
+            dPanel.remove(wWest1);
+        }
+        if (w != null) {
+            dPanel.add(w, DockPanel.WEST);
+        }
+        wWest1 = w;
     }
 
     private class ClickLogOut implements MouseDownHandler {
@@ -145,7 +157,13 @@ class WebHotelPanel implements IWebHotelPanel {
     }
 
     public void setWest(Widget w) {
-        dPanel.add(w, DockPanel.WEST);
+        if (wWest != null) {
+            dPanel.remove(wWest);
+        }
+        if (w != null) {
+            dPanel.add(w, DockPanel.WEST);
+        }
+        wWest = w;
     }
 
     public void setUserHotel(String user, String hotel) {

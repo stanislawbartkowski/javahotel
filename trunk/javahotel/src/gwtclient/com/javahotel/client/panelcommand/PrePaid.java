@@ -19,7 +19,7 @@ import com.javahotel.client.dialog.user.downpayment.DownPaymentControler;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class PrePaid implements IPanelCommand {
+class PrePaid extends AbstractPanelCommand {
 
     private DownPaymentControler pa;
     private final IResLocator rI;

@@ -200,7 +200,7 @@ public class JpaDb {
         return (List<T>) result;
     }
 
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
     static <T> T pgetNamedOneQuery(final EntityManager em,
             final String queryName, final Object... params) {
         Query query = qgetNamedQuery(em, queryName, params);

@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.view.gwt.tabpanel;
 
 import com.javahotel.client.IResLocator;
@@ -23,14 +22,13 @@ import java.util.ArrayList;
  * @author stanislawbartkowski@gmail.com
  */
 public class GwtTabPanelFactory {
-    
+
     private GwtTabPanelFactory() {
-        
     }
 
     public static IDrawTabPanel getPanel(final IResLocator rI,
             final ArrayList<EPanelCommand> pList) {
-        return new NGwtTabPanel(rI,pList);
+        return new NGwtTabPanel(rI, pList);
+//        return new NextGwtTabPanel(rI, pList);
     }
-
 }
