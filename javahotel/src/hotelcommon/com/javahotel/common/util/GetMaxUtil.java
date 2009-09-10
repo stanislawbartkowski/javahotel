@@ -116,7 +116,7 @@ public class GetMaxUtil {
     }
 
     public static AdvancePaymentP getLastValidationRecord(final BookingP p) {
-    
+
         IGetLp i = new IGetLp() {
 
             public Integer getLp(final Object o) {
@@ -131,8 +131,6 @@ public class GetMaxUtil {
         INumerable in = getLast(bi.getAdvancePay());
         return (AdvancePaymentP) in;
     }
-    
-
 
     public static BookingStateP getLastStateRecord(final BookingP p) {
 
@@ -146,12 +144,12 @@ public class GetMaxUtil {
         INumerable in = getLast(p.getState());
         return (BookingStateP) in;
     }
-    
-     public static void setFirstLp(INumerable i) {
-         i.setLp(new Integer(1));
-     }
-     
-     public static void setNextLp(final List<? extends INumerable> col, 
+
+    public static void setFirstLp(INumerable i) {
+        i.setLp(new Integer(1));
+    }
+
+    public static void setNextLp(final List<? extends INumerable> col,
             final INumerable dest) {
         int no = GetMaxUtil.getMax(col);
         Integer lp;
@@ -163,10 +161,9 @@ public class GetMaxUtil {
         dest.setLp(lp);
     }
 
-     public static <T extends INumerable> void addNextLp(final List<T> col,
+    public static <T extends INumerable> void addNextLp(final List<T> col,
             final T dest) {
-         setNextLp(col,dest);
-         col.add(dest);
+        setNextLp(col, dest);
+        col.add(dest);
     }
-
 }

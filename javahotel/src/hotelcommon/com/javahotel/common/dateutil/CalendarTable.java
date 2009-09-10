@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.common.dateutil;
 
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ import java.util.Date;
 public class CalendarTable {
 
     private CalendarTable() {
-
     }
 
     private static boolean endOfWeek(final Date cal) {
@@ -38,13 +36,13 @@ public class CalendarTable {
         int da = d.getDate();
         return da == 1;
     }
-    
-    public enum PeriodType {
-        byMonth,byWeek,byDay;
-    }
-        
 
-    public static List<Date> listOfDates(final Date first, 
+    public enum PeriodType {
+
+        byMonth, byWeek, byDay;
+    }
+
+    public static List<Date> listOfDates(final Date first,
             final Date last, final PeriodType pType) {
         // get beginning of first week
         Date actC = DateUtil.copyDate(first);
@@ -54,9 +52,15 @@ public class CalendarTable {
         while (DateUtil.compareDate(actC, last) != 1) {
             boolean addd = false;
             switch (pType) {
-                case byMonth: addd = endOfMonth(actC); break;
-                case byWeek:  addd = endOfWeek(actC); break;
-                case byDay: addd = true; break;
+                case byMonth:
+                    addd = endOfMonth(actC);
+                    break;
+                case byWeek:
+                    addd = endOfWeek(actC);
+                    break;
+                case byDay:
+                    addd = true;
+                    break;
             }
             if (addd) {
                 cDays.add(DateUtil.copyDate(actC));

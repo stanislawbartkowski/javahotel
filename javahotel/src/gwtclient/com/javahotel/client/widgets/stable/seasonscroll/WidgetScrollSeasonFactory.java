@@ -10,16 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.panelcommand;
+package com.javahotel.client.widgets.stable.seasonscroll;
+
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.widgets.stable.IDrawPartSeason;
+import com.javahotel.client.widgets.stable.IScrollSeason;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public enum EPanelCommand {
+public class WidgetScrollSeasonFactory {
 
-    PERSON, HOTEL, REMOVEDATA,
-    BOOKING, PREPAID, BOOKINGPANEL, ROOMSADMIN,
-    ROOMS, SERVICES, VAT, CUSTOMERS, SEASON, PRICES,STANDARD,FACILITY,
-    TESTSCROLLSEASON, TESTSCROLLSEASONWIDGET;
+    private WidgetScrollSeasonFactory() {
+    }
+
+    public static IScrollSeason getScrollSeason(final IResLocator pLoc,
+            final IDrawPartSeason i, final int periodNo) {
+        return new SeasonScrollWidget(pLoc, i, periodNo);
+    }
 }

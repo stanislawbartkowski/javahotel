@@ -26,7 +26,7 @@ import com.javahotel.client.ifield.ICreatedValue;
 import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.mvc.util.DefDrawCol;
 import com.javahotel.client.mvc.util.IDrawCol;
-import com.javahotel.client.widgets.stable.ScrollTable;
+import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
@@ -104,7 +104,7 @@ public class BookingObjects extends Composite {
         bO = new ResRoomTable(rI, sSync);
         sPanel.add(controlH);
         sPanel.add(bO.getG());
-        ScrollTable.DrawPartI drawI = new ScrollTable.DrawPartI() {
+        IDrawPartSeason drawI = new IDrawPartSeason() {
 
             public void draw(final int sno, final int sto) {
                 dG.draw();

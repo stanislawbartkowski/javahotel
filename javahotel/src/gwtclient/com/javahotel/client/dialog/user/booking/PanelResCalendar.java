@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.user.tableseason.PanelSeason;
-import com.javahotel.client.widgets.stable.ScrollTable;
+import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.toobject.OfferSeasonP;
 import java.util.List;
@@ -34,7 +34,7 @@ class PanelResCalendar {
 
     PanelResCalendar(final IResLocator rI, final Grid g,
             final ComplexPanel controlP, final int startC,
-            final ScrollTable.DrawPartI drawI) {
+            final IDrawPartSeason drawI) {
         this.rI = rI;
         pS = new PanelSeason(rI, g, controlP, startC, drawI);
     }

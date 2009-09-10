@@ -85,6 +85,12 @@ public class PanelCommandFactory {
             case FACILITY:
                 i = new DictPanelCommand(sI, DictType.RoomFacility);
                 break;
+            case TESTSCROLLSEASON:
+                i = new TestSeasonScrollPanel(sI);
+                break;
+            case TESTSCROLLSEASONWIDGET:
+                i = new TestSeasonScrollPanelWidget(sI);
+                break;
         }
         if (i == null) {
             return null;

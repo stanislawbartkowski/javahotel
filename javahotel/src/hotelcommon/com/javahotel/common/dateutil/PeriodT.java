@@ -29,7 +29,7 @@ public class PeriodT {
         this.to = d2;
         this.i = i;
     }
-    
+
     public PeriodT(final Date d1, final Date d2) {
         this.from = d1;
         this.to = d2;

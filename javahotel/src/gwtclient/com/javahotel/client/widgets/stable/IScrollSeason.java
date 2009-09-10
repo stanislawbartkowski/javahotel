@@ -10,16 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.panelcommand;
+package com.javahotel.client.widgets.stable;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public enum EPanelCommand {
+public interface IScrollSeason {
 
-    PERSON, HOTEL, REMOVEDATA,
-    BOOKING, PREPAID, BOOKINGPANEL, ROOMSADMIN,
-    ROOMS, SERVICES, VAT, CUSTOMERS, SEASON, PRICES,STANDARD,FACILITY,
-    TESTSCROLLSEASON, TESTSCROLLSEASONWIDGET;
+    int getStartNo();
+
+    /**
+     * Creates scroll panel.
+     *
+     * @param no
+     *            Total number of lines
+     * @param actC
+     *            if != -1 then column number to display
+     */
+    void createVPanel(final int no, final int actC);
+
+    void createVPanel(List<Date> dList, final int actC);
 }

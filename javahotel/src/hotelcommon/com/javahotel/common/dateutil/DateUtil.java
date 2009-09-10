@@ -22,159 +22,157 @@ import com.javahotel.types.DateP;
  */
 public class DateUtil {
 
-	private DateUtil() {
-	}
+    private DateUtil() {
+    }
+    private static final long DAY_IN_MILISECONDS = 86400000;
 
-	private static final long DAY_IN_MILISECONDS = 86400000;
+    public static void NextDay(final Date d) {
+        long ti = d.getTime();
+        ti += DAY_IN_MILISECONDS;
+        d.setTime(ti);
+    }
 
-	public static void NextDay(final Date d) {
-		long ti = d.getTime();
-		ti += DAY_IN_MILISECONDS;
-		d.setTime(ti);
-	}
+    public static void PrevDay(final Date d) {
+        long ti = d.getTime();
+        ti -= DAY_IN_MILISECONDS;
+        d.setTime(ti);
+    }
 
-	public static void PrevDay(final Date d) {
-		long ti = d.getTime();
-		ti -= DAY_IN_MILISECONDS;
-		d.setTime(ti);
-	}
+    public static Date copyDate(final Date d) {
+        return new Date(d.getTime());
+    }
 
-	public static Date copyDate(final Date d) {
-		return new Date(d.getTime());
-	}
+    public static boolean eqDate(final Date d1, final Date d2) {
+        return compareDate(d1, d2) == 0;
+    }
 
-	public static boolean eqDate(final Date d1, final Date d2) {
-		return compareDate(d1, d2) == 0;
-	}
+    public static boolean eqNDate(final Date d1, final Date d2) {
+        if (d1 == null) {
+            if (d2 != null) {
+                return false;
+            }
+        } else {
+            if (d1 == null) {
+                return false;
+            }
+        }
+        return eqDate(d1, d2);
+    }
 
-	public static boolean eqNDate(final Date d1, final Date d2) {
-		if (d1 == null) {
-			if (d2 != null) {
-				return false;
-			}
-		} else {
-			if (d1 == null) {
-				return false;
-			}
-		}
-		return eqDate(d1, d2);
-	}
+    @SuppressWarnings("deprecation")
+    public static int compareDate(final Date d1, final Date d2) {
+        int y1 = d1.getYear();
+        int y2 = d2.getYear();
+        if (y1 != y2) {
+            if (y1 < y2) {
+                return -1;
+            }
+            return 1;
+        }
+        int m1 = d1.getMonth();
+        int m2 = d2.getMonth();
+        if (m1 != m2) {
+            if (m1 < m2) {
+                return -1;
+            }
+            return 1;
+        }
+        int dd1 = d1.getDate();
+        int dd2 = d2.getDate();
+        if (dd1 != dd2) {
+            if (dd1 < dd2) {
+                return -1;
+            }
+            return 1;
+        }
+        return 0;
+    }
 
-	@SuppressWarnings("deprecation")
-	public static int compareDate(final Date d1, final Date d2) {
-		int y1 = d1.getYear();
-		int y2 = d2.getYear();
-		if (y1 != y2) {
-			if (y1 < y2) {
-				return -1;
-			}
-			return 1;
-		}
-		int m1 = d1.getMonth();
-		int m2 = d2.getMonth();
-		if (m1 != m2) {
-			if (m1 < m2) {
-				return -1;
-			}
-			return 1;
-		}
-		int dd1 = d1.getDate();
-		int dd2 = d2.getDate();
-		if (dd1 != dd2) {
-			if (dd1 < dd2) {
-				return -1;
-			}
-			return 1;
-		}
-		return 0;
-	}
+    public static int comparePeriod(final Date d, final Date pFrom,
+            final Date pTo) {
+        int c1 = compareDate(d, pFrom);
+        if (c1 == -1) {
+            return -1;
+        }
+        int c2 = compareDate(d, pTo);
+        if (c2 == 1) {
+            return 1;
+        }
+        return 0;
+    }
 
-	public static int comparePeriod(final Date d, final Date pFrom,
-			final Date pTo) {
-		int c1 = compareDate(d, pFrom);
-		if (c1 == -1) {
-			return -1;
-		}
-		int c2 = compareDate(d, pTo);
-		if (c2 == 1) {
-			return 1;
-		}
-		return 0;
-	}
+    public static Date getMinMaxDate(final Date d1, Date d2, int co) {
+        if (compareDate(d1, d2) == co) {
+            return copyDate(d1);
+        }
+        return copyDate(d2);
+    }
 
-	public static Date getMinMaxDate(final Date d1, Date d2, int co) {
-		if (compareDate(d1, d2) == co) {
-			return copyDate(d1);
-		}
-		return copyDate(d2);
-	}
+    public static Date getMinDate(final Date d1, Date d2) {
+        return getMinMaxDate(d1, d2, -1);
+    }
 
-	public static Date getMinDate(final Date d1, Date d2) {
-		return getMinMaxDate(d1, d2, -1);
-	}
+    public static Date getMaxDate(final Date d1, Date d2) {
+        return getMinMaxDate(d1, d2, 1);
+    }
 
-	public static Date getMaxDate(final Date d1, Date d2) {
-		return getMinMaxDate(d1, d2, 1);
-	}
+    public static int noDays(final Date from, Date to) {
+        long dif = to.getTime() - from.getTime();
+        long l = dif / DAY_IN_MILISECONDS;
+        return (int) l;
+    }
 
-	public static int noDays(final Date from, Date to) {
-		long dif = to.getTime() - from.getTime();
-		long l = dif / DAY_IN_MILISECONDS;
-		return (int) l;
-	}
+    public static int noLodgings(final Date from, Date to) {
+        return noDays(from, to) + 1;
+    }
 
-	public static int noLodgings(final Date from, Date to) {
-		return noDays(from, to) + 1;
-	}
+    public static int compPeriod(final Date d, final PeriodT pe) {
+        if (pe.getFrom() != null) {
+            if (compareDate(d, pe.getFrom()) == -1) {
+                return -1;
+            }
+        }
+        if (pe.getTo() != null) {
+            if (compareDate(d, pe.getTo()) == 1) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    private static Date testToday = null;
 
-	public static int compPeriod(final Date d, final PeriodT pe) {
-		if (pe.getFrom() != null) {
-			if (compareDate(d, pe.getFrom()) == -1) {
-				return -1;
-			}
-		}
-		if (pe.getTo() != null) {
-			if (compareDate(d, pe.getTo()) == 1) {
-				return 1;
-			}
-		}
-		return 0;
-	}
+    public static void setTestToday(final Date d) {
+        testToday = d;
+    }
 
-	private static Date testToday = null;
+    public static Date getToday() {
+        DateP d = new DateP();
+        Date tt;
+        if (testToday != null) {
+            tt = testToday;
+        } else {
+            tt = new Date();
+        }
+        d.setD(tt);
+        return d.getD();
+    }
 
-	public static void setTestToday(final Date d) {
-		testToday = d;
-	}
+    public static void addDays(final Date d, int noD) {
+        while (noD > 0) {
+            NextDay(d);
+            noD--;
+        }
+    }
 
-	public static Date getToday() {
-		DateP d = new DateP();
-		Date tt;
-		if (testToday != null) {
-			tt = testToday;
-		} else {
-			tt = new Date();
-		}
-		d.setD(tt);
-		return d.getD();
-	}
-
-	public static void addDays(final Date d, int noD) {
-		while (noD > 0) {
-			NextDay(d);
-			noD--;
-		}
-	}
-
-	public static PeriodT getWider(final PeriodT pe, final PeriodT pe1) {
-		Date d1 = pe.getFrom();
-		if ((d1 == null) || (compareDate(pe1.getFrom(), d1) == -1)) {
-			d1 = copyDate(pe1.getFrom());
-		}
-		Date d2 = pe.getTo();
-		if ((d2 == null) || (compareDate(d2, pe1.getTo()) == -1)) {
-			d2 = copyDate(pe1.getTo());
-		}
-		return new PeriodT(d1, d2);
-	}
+    public static PeriodT getWider(final PeriodT pe, final PeriodT pe1) {
+        Date d1 = pe.getFrom();
+        if ((d1 == null) || (compareDate(pe1.getFrom(), d1) == -1)) {
+            d1 = copyDate(pe1.getFrom());
+        }
+        Date d2 = pe.getTo();
+        if ((d2 == null) || (compareDate(d2, pe1.getTo()) == -1)) {
+            d2 = copyDate(pe1.getTo());
+        }
+        return new PeriodT(d1, d2);
+    }
 }

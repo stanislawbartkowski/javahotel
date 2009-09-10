@@ -10,16 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.panelcommand;
+package com.javahotel.client.widgets.stable;
+
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public enum EPanelCommand {
+public interface IDrawPartSeason {
 
-    PERSON, HOTEL, REMOVEDATA,
-    BOOKING, PREPAID, BOOKINGPANEL, ROOMSADMIN,
-    ROOMS, SERVICES, VAT, CUSTOMERS, SEASON, PRICES,STANDARD,FACILITY,
-    TESTSCROLLSEASON, TESTSCROLLSEASONWIDGET;
+    /**
+     * Draw lines.
+     *
+     * @param fromL
+     *            - number of first row to draw
+     * @param toL
+     *            - number of last row to draw
+     */
+    void draw(final int fromL, final int toL);
+
+    void drawagain(final int fromL, final int toL, final int actL,
+            final boolean setC);
+
+    void setSWidget(Widget w);
 }
