@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.javahotel.client.mvc.util;
 
 import com.google.gwt.user.client.ui.DialogBox;
@@ -35,43 +34,42 @@ import com.javahotel.client.widgets.popup.PopupUtil;
  */
 public class YesNoDialog {
 
-	private final DialogBox dBox;
+    private final DialogBox dBox;
 
-	public YesNoDialog(final IResLocator rI, final String ask,
-			final IClickNextYesNo yes) {
+    public YesNoDialog(final IResLocator rI, final String ask,
+            final IClickNextYesNo yes) {
 
-		final VerticalPanel vp = new VerticalPanel();
-		MDialog mDial = new MDialog(vp, "Pytanie") {
+        final VerticalPanel vp = new VerticalPanel();
+        MDialog mDial = new MDialog(vp, "Pytanie") {
 
-			@Override
-			protected void addVP(VerticalPanel vp) {
-				vp.add(new Label(ask));
-			}
-		};
-		IContrPanel yP = DictButtonFactory.getYesNoButt(rI);
-		IControlClick cli = new IControlClick() {
+            @Override
+            protected void addVP(VerticalPanel vp) {
+                vp.add(new Label(ask));
+            }
+        };
+        IContrPanel yP = DictButtonFactory.getYesNoButt(rI);
+        IControlClick cli = new IControlClick() {
 
-			public void click(ContrButton co, Widget w) {
-				dBox.hide();
-				yes.click(co.getActionId() == IPersistAction.AKCACTION);
-			}
+            public void click(ContrButton co, Widget w) {
+                dBox.hide();
+                yes.click(co.getActionId() == IPersistAction.AKCACTION);
+            }
+        };
+        IContrButtonView i = ContrButtonViewFactory.getView(rI, yP, cli);
+        vp.add(i.getMWidget().getWidget());
+        dBox = mDial.getDBox();
+    }
 
-		};
-		IContrButtonView i = ContrButtonViewFactory.getView(rI, yP, cli);
-		vp.add(i.getMWidget().getWidget());
-		dBox = mDial.getDBox();
-	}
+    public PopupPanel getW() {
+        return dBox;
+    }
 
-	public PopupPanel getW() {
-		return dBox;
-	}
+    public void show() {
+        dBox.show();
+    }
 
-	public void show() {
-		dBox.show();
-	}
-
-	public void show(Widget w) {
-		PopupUtil.setPos(dBox, w);
-		dBox.show();
-	}
+    public void show(Widget w) {
+        PopupUtil.setPos(dBox, w);
+        dBox.show();
+    }
 }

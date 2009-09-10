@@ -43,13 +43,28 @@ public class DateFormatUtil {
         return s;
     }
 
+    public static int getY(final Date d) {
+        int year = d.getYear() + 1900;
+        return year;
+    }
+
+    public static int getM(final Date d) {
+        int mo = d.getMonth() + 1;
+        return mo;
+    }
+
+    public static int getD(final Date d) {
+        int da = d.getDate();
+        return da;
+    }
+
     public static String toS(final Date d) {
         if (d == null) {
             return "";
         }
-        int year = d.getYear() + 1900;
-        int mo = d.getMonth() + 1;
-        int da = d.getDate();
+        int year = getY(d);
+        int mo = getM(d);
+        int da = getD(d);
         String s = toNS(year, 4) + "/" + toNS(mo, 2) + "/" + toNS(da, 2);
         return s;
     }
@@ -85,13 +100,7 @@ public class DateFormatUtil {
             if ((m < 1) || (m > 12)) {
                 return false;
             }
-            dd.setYear(y - 1900);
-            dd.setMonth(m - 1);
-            dd.setDate(d);
-
-            dd.setHours(DateP.DEFH);
-            dd.setMinutes(DateP.DEFM);
-            dd.setSeconds(DateP.DEFS);
+            toD(dd, y, m, d);
 
             return true;
         } catch (NumberFormatException e) {
@@ -131,6 +140,22 @@ public class DateFormatUtil {
             return null;
         }
         return d;
+    }
+
+    private static void toD(Date dd, int y, int m, int d) {
+        dd.setYear(y - 1900);
+        dd.setMonth(m - 1);
+        dd.setDate(d);
+
+        dd.setHours(DateP.DEFH);
+        dd.setMinutes(DateP.DEFM);
+        dd.setSeconds(DateP.DEFS);
+    }
+
+    public static Date toD(int y, int m, int d) {
+        Date dd = new Date();
+        toD(dd, y, m, d);
+        return dd;
     }
 
     public static Timestamp toT(final String s) {

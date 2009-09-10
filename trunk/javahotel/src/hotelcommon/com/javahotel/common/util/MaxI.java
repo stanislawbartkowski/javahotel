@@ -10,16 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.panelcommand;
+package com.javahotel.common.util;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public enum EPanelCommand {
+public class MaxI {
 
-    PERSON, HOTEL, REMOVEDATA,
-    BOOKING, PREPAID, BOOKINGPANEL, ROOMSADMIN,
-    ROOMS, SERVICES, VAT, CUSTOMERS, SEASON, PRICES,STANDARD,FACILITY,
-    TESTSCROLLSEASON, TESTSCROLLSEASONWIDGET;
+    private MaxI() {
+    }
+
+    public static int min(int m1, int m2) {
+        if (m1 < m2) {
+            return m1;
+        }
+        return m2;
+    }
 }

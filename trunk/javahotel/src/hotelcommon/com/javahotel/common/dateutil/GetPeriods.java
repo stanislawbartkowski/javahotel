@@ -178,7 +178,7 @@ public class GetPeriods {
                 if (begW == null) {
                     begW = DateUtil.copyDate(first);
                 }
-                cDays.add(new PeriodT(begW, DateUtil.copyDate(actC), 
+                cDays.add(new PeriodT(begW, DateUtil.copyDate(actC),
                         pe.getI()));
                 begW = null;
             }

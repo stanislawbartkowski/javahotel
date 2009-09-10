@@ -30,7 +30,9 @@ import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.widgets.popup.PopUpWithClose;
 import com.javahotel.client.widgets.solid.SolidColor;
-import com.javahotel.client.widgets.stable.ScrollTable;
+import com.javahotel.client.widgets.stable.IDrawPartSeason;
+import com.javahotel.client.widgets.stable.IScrollSeason;
+import com.javahotel.client.widgets.stable.ScrollSeasonFactory;
 import com.javahotel.common.dateutil.CalendarTable;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
@@ -54,7 +56,7 @@ public class PanelSeason {
     private final ComplexPanel controlP;
     private final IResLocator rI;
     private final ILineField ePeriod;
-    private final ScrollTable sCr;
+    private final IScrollSeason sCr;
     private OfferSeasonP oP;
     private Date d1;
     private Date d2;
@@ -62,22 +64,23 @@ public class PanelSeason {
     private List<PeriodT> coP;
     private final Grid g;
     private final int startC;
-    private final ScrollTable.DrawPartI drawI;
+    private final IDrawPartSeason drawI;
 
     @SuppressWarnings("unchecked")
     public PanelSeason(final IResLocator rI, final Grid g,
             final ComplexPanel controlP, final int startC,
-            final ScrollTable.DrawPartI drawI) {
+            final IDrawPartSeason drawI) {
         this.rI = rI;
         this.g = g;
         this.startC = startC;
         this.controlP = controlP;
         this.drawI = drawI;
         ePeriod = GetIEditFactory.getEnumMap(rI, rI.getLabels().PeriodType());
-        sCr = new ScrollTable(rI, new DrawC(), 12);
+//        sCr = new ScrollTable(rI, new DrawC(), 12);
+        sCr = ScrollSeasonFactory.getScrollSeason(rI, new DrawC(), 12);
     }
 
-    private class DrawC implements ScrollTable.DrawPartI {
+    private class DrawC implements IDrawPartSeason {
 
         public void draw(final int sno, final int sto) {
             drawD(sno, sto);
