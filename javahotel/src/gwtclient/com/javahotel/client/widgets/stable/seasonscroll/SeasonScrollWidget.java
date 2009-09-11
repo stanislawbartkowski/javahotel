@@ -12,6 +12,8 @@
  */
 package com.javahotel.client.widgets.stable.seasonscroll;
 
+import com.javahotel.YearMonthPe;
+import com.javahotel.client.widgets.stable.model.CreateMonthPeList;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;

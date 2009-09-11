@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.widgets.stable.seasonscroll;
+package com.javahotel.client.widgets.stable.model;
 
+import com.javahotel.client.widgets.stable.seasonscroll.*;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import java.util.ArrayList;
 import java.util.Date;
