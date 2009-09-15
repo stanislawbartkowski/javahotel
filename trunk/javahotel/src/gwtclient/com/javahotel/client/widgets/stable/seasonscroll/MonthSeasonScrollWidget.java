@@ -12,15 +12,14 @@
  */
 package com.javahotel.client.widgets.stable.seasonscroll;
 
-import com.javahotel.YearMonthPe;
-import com.javahotel.client.widgets.stable.model.CreateMonthPeList;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
-import com.javahotel.common.util.MaxI;
+import com.javahotel.common.scrollseason.model.MonthSeasonScrollData;
+import com.javahotel.common.scrollseason.model.YearMonthPe;
 import java.util.Date;
 import java.util.List;
 
@@ -28,22 +27,18 @@ import java.util.List;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class SeasonScrollWidget implements IScrollSeason {
+class MonthSeasonScrollWidget implements IScrollSeason {
 
     private final IResLocator iR;
     private final IDrawPartSeason dPart;
-    private final int periodNo;
-    private List<Date> dList;
-    private final int maxmonthPe = 6;
-    private int monthPe;
-    private List<YearMonthPe> dMonth;
-    private int firstP, lastP;
     private HorizontalPanel hp;
+    private final MonthSeasonScrollData sData;
 
-    SeasonScrollWidget(final IResLocator pLoc, final IDrawPartSeason i, final int pNo) {
+    MonthSeasonScrollWidget(final IResLocator pLoc, final IDrawPartSeason i,
+            final int pNo) {
         this.iR = pLoc;
         this.dPart = i;
-        this.periodNo = pNo;
+        sData = new MonthSeasonScrollData();
     }
 
     public int getStartNo() {
@@ -59,27 +54,23 @@ class SeasonScrollWidget implements IScrollSeason {
     }
 
     private final void drawNames() {
-        for (int i = firstP; i <= lastP; i++) {
-            YearMonthPe pe = dMonth.get(i);
+        for (int i = sData.getFirstP(); i <= sData.getLastP(); i++) {
+            YearMonthPe pe = sData.getPe(i);
             String na = pe.getYear() + " - " + pe.getMonth();
-            Label la = getNo(i - firstP);
+            Label la = getNo(i - sData.getFirstP());
             la.setText(na);
         }
 
     }
 
     public void createVPanel(List<Date> dList, int actC) {
-        this.dList = dList;
-        dMonth = CreateMonthPeList.createLi(dList);
-        monthPe = MaxI.min(maxmonthPe, dMonth.size());
+        sData.createVPanel(dList, actC);
         hp = new HorizontalPanel();
         hp.setSpacing(5);
-        for (int i = 0; i < monthPe; i++) {
+        for (int i = 0; i < sData.getMonthPe(); i++) {
             Label la = new Label("");
             hp.add(la);
         }
-        firstP = 0;
-        lastP = monthPe-1;
         drawNames();
         dPart.setSWidget(hp);
     }
