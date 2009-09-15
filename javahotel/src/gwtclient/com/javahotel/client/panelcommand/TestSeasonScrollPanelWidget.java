@@ -59,11 +59,11 @@ class TestSeasonScrollPanelWidget extends AbstractPanelCommand {
     public void beforeDrawAction(ISetGwtWidget iSet) {
 //        iS = ScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet), 12);
 //        iS.createVPanel(156, -1);
-        iS = WidgetScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet), 12);
+        iS = WidgetScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet), 34);
         Date dF = DateFormatUtil.toD(2009, 1, 1);
         Date dT = DateFormatUtil.toD(2009, 12, 20);
         List<Date> dList = CalendarTable.listOfDates(dF, dT, PeriodType.byDay);
-        iS.createVPanel(dList, 0);
+        iS.createVPanel(dList, 12);
     }
 
     public void drawAction() {

@@ -42,6 +42,17 @@ public class CalendarTable {
         byMonth, byWeek, byDay;
     }
 
+    public static int findIndex(List<Date> dList, Date d) {
+        int i = 0;
+        for (Date dd : dList) {
+            if (DateUtil.eqDate(dd, d)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
     public static List<Date> listOfDates(final Date first,
             final Date last, final PeriodType pType) {
         // get beginning of first week

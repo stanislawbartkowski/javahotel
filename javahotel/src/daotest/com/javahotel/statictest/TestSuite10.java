@@ -24,21 +24,21 @@ import com.javahotel.dbres.entityconstr.IEntityConstr;
 import com.javahotel.dbres.log.HLog;
 
 public class TestSuite10 {
-	@Test
-	public void Test1() throws Exception {
-		IEntityConstr co = EntityConstrFactory.createEntityConstr(HLog.getL());
-		assertNotNull(co);
-		EntityConstr e1 = co.getEntityC("rybka");
-		assertNull(e1);
-		e1 = co.getEntityC("Hotel");
-		assertNotNull(e1);
-		assertEquals("name", e1.getSymname());
-		assertEquals("name", e1.getViewname());
-		e1 = co.getEntityC("Person");
-		assertNotNull(e1);
-		assertEquals("DuplicateSym", e1.getKomname());
-		assertEquals("login", e1.getViewname());
 
-	}
+    @Test
+    public void Test1() throws Exception {
+        IEntityConstr co = EntityConstrFactory.createEntityConstr(HLog.getL());
+        assertNotNull(co);
+        EntityConstr e1 = co.getEntityC("rybka");
+        assertNull(e1);
+        e1 = co.getEntityC("Hotel");
+        assertNotNull(e1);
+        assertEquals("name", e1.getSymname());
+        assertEquals("name", e1.getViewname());
+        e1 = co.getEntityC("Person");
+        assertNotNull(e1);
+        assertEquals("DuplicateSym", e1.getKomname());
+        assertEquals("login", e1.getViewname());
 
+    }
 }

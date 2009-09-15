@@ -20,19 +20,19 @@ import org.junit.runners.Suite;
  * @author stanislawbartkowski@gmail.com
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-    TestSuite1.class,
-    TestSuite2.class,
-    TestSuite3.class,
-    TestSuite4.class,
-    TestSuite5.class,
-    TestSuite6.class,
-    TestSuite7.class,
-    TestSuite8.class,
-    TestSuite9.class,
-    TestSuite10.class
-})
+//@Suite.SuiteClasses({
+//    TestSuite1.class,
+//    TestSuite2.class,
+//    TestSuite3.class,
+//    TestSuite4.class,
+//    TestSuite5.class,
+//    TestSuite6.class,
+//    TestSuite7.class,
+//    TestSuite8.class,
+//    TestSuite9.class,
+//    TestSuite10.class
+//})
 //)
-//@Suite.SuiteClasses({TestSuite6.class})
+@Suite.SuiteClasses({TestSuite11.class})
 public class RunSuite {
 }
