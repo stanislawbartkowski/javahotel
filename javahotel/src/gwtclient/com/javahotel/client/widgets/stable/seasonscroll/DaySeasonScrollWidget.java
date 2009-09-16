@@ -11,6 +11,8 @@
  * limitations under the License.
  */
 
+// TODO: not used
+
 package com.javahotel.client.widgets.stable.seasonscroll;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -20,7 +22,6 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
 import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
-import com.javahotel.common.scrollseason.model.YearMonthPe;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,7 @@ class DaySeasonScrollWidget implements IScrollSeason {
     private HorizontalPanel hp;
     private final DaySeasonScrollData sData;
 
-    DaySeasonScrollWidget(final IResLocator pLoc, final IDrawPartSeason i,
+    private DaySeasonScrollWidget(final IResLocator pLoc, final IDrawPartSeason i,
             final int todayC) {
         this.iR = pLoc;
         this.dPart = i;
