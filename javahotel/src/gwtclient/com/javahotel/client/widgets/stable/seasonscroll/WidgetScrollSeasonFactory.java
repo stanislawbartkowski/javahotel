@@ -28,6 +28,7 @@ public class WidgetScrollSeasonFactory {
     public static IScrollSeason getScrollSeason(final IResLocator pLoc,
             final IDrawPartSeason i, final int periodNo) {
    //     return new MonthSeasonScrollWidget(pLoc, i, periodNo);
-        return new DaySeasonScrollWidget(pLoc, i, periodNo);
+   //   return new DaySeasonScrollWidget(pLoc, i, periodNo);
+        return new DaySeasonPanelWidget(pLoc, i, periodNo);
     }
 }

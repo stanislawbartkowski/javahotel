@@ -10,18 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
-// TODO: not used
-
 package com.javahotel.client.widgets.stable.seasonscroll;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.widgets.stable.IDrawPartSeason;
-import com.javahotel.client.widgets.stable.IScrollSeason;
+import com.javahotel.client.dialog.DefaultMvcWidget;
+import com.javahotel.client.dialog.IGwtWidget;
+import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
+import com.javahotel.common.scrollseason.model.MoveSkip;
+import com.javahotel.common.scrollseason.model.PanelDesc;
 import java.util.Date;
 import java.util.List;
 
@@ -29,26 +29,15 @@ import java.util.List;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class DaySeasonScrollWidget implements IScrollSeason {
+class DayLineWidget implements IGwtWidget {
 
     private final IResLocator iR;
-    private final IDrawPartSeason dPart;
     private HorizontalPanel hp;
     private final DaySeasonScrollData sData;
 
-    private DaySeasonScrollWidget(final IResLocator pLoc, final IDrawPartSeason i,
-            final int todayC) {
+    DayLineWidget(final IResLocator pLoc, final int todayC) {
         this.iR = pLoc;
-        this.dPart = i;
         sData = new DaySeasonScrollData(todayC);
-    }
-
-
-    public int getStartNo() {
-        return -1;
-    }
-
-    public void createVPanel(int no, int actC) {
     }
 
     private Label getNo(int no) {
@@ -68,7 +57,11 @@ class DaySeasonScrollWidget implements IScrollSeason {
         }
     }
 
-    public void createVPanel(List<Date> dList, int panelW) {
+    void refresh() {
+        drawNames();
+    }
+
+    void createVPanel(List<Date> dList, int panelW) {
         sData.createSPanel(dList, panelW);
         hp = new HorizontalPanel();
         hp.setSpacing(5);
@@ -77,7 +70,20 @@ class DaySeasonScrollWidget implements IScrollSeason {
             hp.add(la);
         }
         drawNames();
-        dPart.setSWidget(hp);
     }
+
+    public IMvcWidget getMWidget() {
+        return new DefaultMvcWidget(hp);
+    }
+
+    boolean moveD(MoveSkip m, int noD) {
+        return sData.moveD(m, noD);
+    }
+
+    
+    public PanelDesc getPanelDesc() {
+        return sData.getDayScrollStatus();
+    }
+
 
 }

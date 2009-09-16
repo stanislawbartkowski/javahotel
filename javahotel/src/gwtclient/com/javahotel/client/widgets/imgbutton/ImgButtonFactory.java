@@ -35,8 +35,7 @@ public class ImgButtonFactory {
         }
         return but;
     }
-    
-    
+
 //    <button>
 //    <table border="1" width="100%">
 //    <tr>
@@ -47,12 +46,11 @@ public class ImgButtonFactory {
 //    </button>
     //        String s = "<td><img src='" + getImageAdr(imageUrl) + "'></td>";
     public static Button getButtonTextImage(String bName, String img) {
-        Button but;
-        String ht = "<table><tr>"; 
+        String ht = "<table><tr>";
         String h = CommonUtil.getImageHTML(img + ".gif");
         ht += h;
         Label la = new Label(bName);
-        ht += "<td>" +  la.getElement().getInnerHTML() + "</td>";
+        ht += "<td>" + la.getElement().getInnerHTML() + "</td>";
         ht += "</tr></table>";
         Button b = new Button();
         b.setHTML(ht);

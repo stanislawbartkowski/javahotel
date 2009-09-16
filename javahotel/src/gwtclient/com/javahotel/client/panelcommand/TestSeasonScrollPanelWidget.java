@@ -63,7 +63,7 @@ class TestSeasonScrollPanelWidget extends AbstractPanelCommand {
         Date dF = DateFormatUtil.toD(2009, 1, 1);
         Date dT = DateFormatUtil.toD(2009, 12, 20);
         List<Date> dList = CalendarTable.listOfDates(dF, dT, PeriodType.byDay);
-        iS.createVPanel(dList, 12);
+        iS.createVPanel(dList, 35);
     }
 
     public void drawAction() {
