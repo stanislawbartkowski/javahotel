@@ -26,7 +26,7 @@ public class PopUpWithMenuClose {
                 pUp.setVisible(visible);
             }
         };
-        aPanel = new PopUpAPanel(cL, coP,cli);
+        aPanel = new PopUpAPanel(cL, coP, cli);
         pUp = new ClickPopUp(w, aPanel);
 
     }

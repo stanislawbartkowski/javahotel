@@ -21,15 +21,15 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class PopUpTip {
 
-	public static PopupPanel getPopupTip(Widget info) {
-		PopupPanel pUp = new PopupPanel(true);
-		pUp.setWidget(info);
-		return pUp;
-	}
+    public static PopupPanel getPopupTip(Widget info) {
+        PopupPanel pUp = new PopupPanel(true);
+        pUp.setWidget(info);
+        return pUp;
+    }
 
-	public static void drawPopupTip(int left, int top, Widget info) {
-		PopupPanel pUp = getPopupTip(info);
-		pUp.setPopupPosition(left, top);
-		pUp.show();
-	}
+    public static void drawPopupTip(int left, int top, Widget info) {
+        PopupPanel pUp = getPopupTip(info);
+        pUp.setPopupPosition(left, top);
+        pUp.show();
+    }
 }

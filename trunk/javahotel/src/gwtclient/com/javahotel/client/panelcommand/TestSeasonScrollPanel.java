@@ -55,7 +55,7 @@ class TestSeasonScrollPanel extends  AbstractPanelCommand {
     }
 
     public void beforeDrawAction(ISetGwtWidget iSet) {
-        iS = ScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet), 12);
+        iS = ScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet), 40);
         iS.createVPanel(156, -1);
 
     }
