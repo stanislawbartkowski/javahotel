@@ -46,7 +46,6 @@ class GetValueLB extends ELineDialog implements IValueLB {
         return lB.getItemText(i);
     }
 
-
     private void setV(final String s) {
         if (s == null) {
             return;
@@ -70,7 +69,6 @@ class GetValueLB extends ELineDialog implements IValueLB {
             lC.onChange(this);
         }
     }
-
 
     public void refresh() {
     }
@@ -107,8 +105,8 @@ class GetValueLB extends ELineDialog implements IValueLB {
     }
 
     public void setList(ArrayList<String> li) {
-    	lB.clear();
-        for (String s: li) {
+        lB.clear();
+        for (String s : li) {
             lB.addItem(s);
         }
     }

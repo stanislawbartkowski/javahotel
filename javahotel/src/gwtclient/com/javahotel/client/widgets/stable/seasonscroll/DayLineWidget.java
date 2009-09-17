@@ -80,6 +80,10 @@ class DayLineWidget implements IGwtWidget {
         return sData.moveD(m, noD);
     }
 
+    void gotoD(Date d) {
+        sData.gotoD(d);
+    }
+
     
     public PanelDesc getPanelDesc() {
         return sData.getDayScrollStatus();

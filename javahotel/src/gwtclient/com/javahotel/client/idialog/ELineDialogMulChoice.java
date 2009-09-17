@@ -31,166 +31,163 @@ import com.javahotel.common.toobject.DictionaryP;
  */
 public class ELineDialogMulChoice extends ELineDialog {
 
-	private final VerticalPanel vP = new VerticalPanel();
+    private final VerticalPanel vP = new VerticalPanel();
 
-	private void isetReadOnly(final boolean readOnly) {
-		for (CC c : aL) {
-			c.c.setEnabled(!readOnly);
-		}
-	}
+    private void isetReadOnly(final boolean readOnly) {
+        for (CC c : aL) {
+            c.c.setEnabled(!readOnly);
+        }
+    }
 
-	@SuppressWarnings("deprecation")
-	private void isetVal(final List<String> col) {
-		for (CC c : aL) {
-			boolean is = false;
-			for (final String s : col) {
-				if (s.equals(c.dName)) {
-					is = true;
-				}
-			}
-			c.c.setChecked(is);
-		}
-	}
+    @SuppressWarnings("deprecation")
+    private void isetVal(final List<String> col) {
+        for (CC c : aL) {
+            boolean is = false;
+            for (final String s : col) {
+                if (s.equals(c.dName)) {
+                    is = true;
+                }
+            }
+            c.c.setChecked(is);
+        }
+    }
 
-	private class SyncC extends SynchronizeList {
+    private class SyncC extends SynchronizeList {
 
-		private boolean waitforenable = false;
-		private boolean waitforsetval = false;
-		private boolean enable;
-		private List<String> val;
+        private boolean waitforenable = false;
+        private boolean waitforsetval = false;
+        private boolean enable;
+        private List<String> val;
 
-		void setEnable(boolean enable) {
-			waitforenable = true;
-			this.enable = enable;
-			dowaiting();
-		}
+        void setEnable(boolean enable) {
+            waitforenable = true;
+            this.enable = enable;
+            dowaiting();
+        }
 
-		void setVal(List<String> col) {
-			waitforsetval = true;
-			this.val = col;
-			dowaiting();
-		}
+        void setVal(List<String> col) {
+            waitforsetval = true;
+            this.val = col;
+            dowaiting();
+        }
 
-		private void dowaiting() {
-			if (!signalledAlready()) {
-				return;
-			}
-			if (waitforenable) {
-				isetReadOnly(!enable);
-				waitforenable = false;
-			}
-			if (waitforsetval) {
-				isetVal(val);
-				waitforsetval = false;
-			}
-		}
+        private void dowaiting() {
+            if (!signalledAlready()) {
+                return;
+            }
+            if (waitforenable) {
+                isetReadOnly(!enable);
+                waitforenable = false;
+            }
+            if (waitforsetval) {
+                isetVal(val);
+                waitforsetval = false;
+            }
+        }
 
-		SyncC() {
-			super(1);
-		}
+        SyncC() {
+            super(1);
+        }
 
-		@Override
-		protected void doTask() {
-			dowaiting();
-		}
-	}
+        @Override
+        protected void doTask() {
+            dowaiting();
+        }
+    }
+    private SyncC sync;
+    private final CommandParam pa;
 
-	private SyncC sync;
+    private class CC {
 
-	private final CommandParam pa;
+        final String dName;
+        final CheckBox c;
 
-	private class CC {
+        CC(final String p1, final CheckBox c1) {
+            this.dName = p1;
+            this.c = c1;
+        }
+    }
+    private final List<CC> aL = new ArrayList<CC>();
 
-		final String dName;
-		final CheckBox c;
+    private class R implements RData.IVectorList {
 
-		CC(final String p1, final CheckBox c1) {
-			this.dName = p1;
-			this.c = c1;
-		}
-	}
+        private final boolean enable;
 
-	private final List<CC> aL = new ArrayList<CC>();
+        R(final boolean penable) {
+            this.enable = penable;
+        }
 
-	private class R implements RData.IVectorList {
+        public void doVList(final ArrayList<? extends AbstractTo> val) {
+            for (final AbstractTo a : val) {
+                DictionaryP p = (DictionaryP) a;
+                CheckBox c = new CheckBox(p.getName());
+                c.setEnabled(enable);
+                CC cc = new CC(p.getName(), c);
+                aL.add(cc);
+                vP.add(c);
+            }
+            sync.signalDone();
+        }
+    }
 
-		private final boolean enable;
+    ELineDialogMulChoice(final IResLocator rI, final CommandParam p,
+            final boolean enable, final boolean readynow) {
+        super(rI);
+        pa = p;
+        sync = new SyncC();
+        sync.setEnable(enable);
+        if (readynow) {
+            refresh();
+        }
+        initWidget(vP);
+        setMouse();
+    }
 
-		R(final boolean penable) {
-			this.enable = penable;
-		}
+    ELineDialogMulChoice(final IResLocator rI, final CommandParam p,
+            final boolean enable) {
+        super(rI);
+        pa = p;
+        sync = new SyncC();
+        sync.setEnable(enable);
+        refresh();
+        initWidget(vP);
+        setMouse();
+    }
 
-		public void doVList(final ArrayList<? extends AbstractTo> val) {
-			for (final AbstractTo a : val) {
-				DictionaryP p = (DictionaryP) a;
-				CheckBox c = new CheckBox(p.getName());
-				c.setEnabled(enable);
-				CC cc = new CC(p.getName(), c);
-				aL.add(cc);
-				vP.add(c);
-			}
-			sync.signalDone();
-		}
-	}
+    public String getVal() {
+        return null;
+    }
 
-	ELineDialogMulChoice(final IResLocator rI, final CommandParam p,
-			final boolean enable, final boolean readynow) {
-		super(rI);
-		pa = p;
-		sync = new SyncC();
-		sync.setEnable(enable);
-		if (readynow) {
-			refresh();
-		}
-		initWidget(vP);
-		setMouse();
-	}
+    public void setVal(final String s) {
+    }
 
-	ELineDialogMulChoice(final IResLocator rI, final CommandParam p,
-			final boolean enable) {
-		super(rI);
-		pa = p;
-		sync = new SyncC();
-		sync.setEnable(enable);
-		refresh();
-		initWidget(vP);
-		setMouse();
-	}
+    public void refresh() {
+        sync.reset();
+        aL.clear();
+        vP.clear();
+        pLi.getR().getList(RType.ListDict, pa, new R(false));
+    }
 
-	public String getVal() {
-		return null;
-	}
+    public void setReadOnly(final boolean readOnly) {
+        sync.setEnable(!readOnly);
+    }
 
-	public void setVal(final String s) {
-	}
+    public boolean validateField() {
+        return true;
+    }
 
-	public void refresh() {
-		sync.reset();
-		aL.clear();
-		vP.clear();
-		pLi.getR().getList(RType.ListDict, pa, new R(false));
-	}
+    public void setValues(final List<String> col) {
+        sync.setVal(col);
+    }
 
-	public void setReadOnly(final boolean readOnly) {
-		sync.setEnable(!readOnly);
-	}
-
-	public boolean validateField() {
-		return true;
-	}
-
-	public void setValues(final List<String> col) {
-		sync.setVal(col);
-	}
-
-	@SuppressWarnings("deprecation")
-	public List<String> getValues() {
-		List<String> co = new ArrayList<String>();
-		for (CC c : aL) {
-			if (c.c.isChecked()) {
-				co.add(c.dName);
-			}
-		}
-		return co;
-	}
+    @SuppressWarnings("deprecation")
+    public List<String> getValues() {
+        List<String> co = new ArrayList<String>();
+        for (CC c : aL) {
+            if (c.c.isChecked()) {
+                co.add(c.dName);
+            }
+        }
+        return co;
+    }
 }

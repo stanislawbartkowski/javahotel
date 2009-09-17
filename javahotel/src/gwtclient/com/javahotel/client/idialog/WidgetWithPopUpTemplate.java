@@ -26,30 +26,29 @@ import com.javahotel.client.IResLocator;
 @SuppressWarnings("deprecation")
 abstract class WidgetWithPopUpTemplate extends ExtendTextBox {
 
-	abstract protected Widget getPopUpWidget();
+    abstract protected Widget getPopUpWidget();
+    private PopupPanel pUp = null;
+    final private ClickListener cL = new ClickListener() {
 
-	private PopupPanel pUp = null;
-	final private ClickListener cL = new ClickListener() {
+        public void onClick(final Widget arg0) {
+            if (pUp == null) {
+                Widget w = getPopUpWidget();
+                int le = hPanel.getAbsoluteLeft() + hPanel.getOffsetWidth();
+                int to = hPanel.getAbsoluteTop() + hPanel.getOffsetHeight();
+                pUp = new PopupPanel(true);
+                pUp.setPopupPosition(le, to);
+                pUp.add(w);
+            }
+            pUp.show();
+        }
+    };
 
-		public void onClick(final Widget arg0) {
-			if (pUp == null) {
-				Widget w = getPopUpWidget();
-				int le = hPanel.getAbsoluteLeft() + hPanel.getOffsetWidth();
-				int to = hPanel.getAbsoluteTop() + hPanel.getOffsetHeight();
-				pUp = new PopupPanel(true);
-				pUp.setPopupPosition(le, to);
-				pUp.add(w);
-			}
-			pUp.show();
-		}
-	};
-
-	protected WidgetWithPopUpTemplate(final IResLocator pLoc) {
-		super(pLoc, false);
-		String iPath = CommonUtil.getImageHTML("calendar.gif");
-		HTML dB = new HTML(iPath);
-		dB.addStyleName("calendar-image");
-		hPanel.add(dB);
-		dB.addClickListener(cL);
-	}
+    protected WidgetWithPopUpTemplate(final IResLocator pLoc) {
+        super(pLoc, false);
+        String iPath = CommonUtil.getImageHTML("calendar.gif");
+        HTML dB = new HTML(iPath);
+        dB.addStyleName("calendar-image");
+        hPanel.add(dB);
+        dB.addClickListener(cL);
+    }
 }

@@ -1,3 +1,16 @@
+/*
+ * Copyright 2008 stanislawbartkowski@gmail.com
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.javahotel.client.idialog;
 
 import java.util.Date;
@@ -10,17 +23,17 @@ import com.javahotel.common.dateutil.DateFormatUtil;
 
 class DDateCalendar extends ELineDialog {
 
-	DateBox dateBox = new DateBox();
-	
-	DDateCalendar(IResLocator iRes) {
-		super(iRes);
-		dateBox.setFormat(new DFormat());
-		initWidget(dateBox);
-		setMouse();
-		dateBox.addStyleName("calendar-date");
-		dateBox.addValueChangeHandler(new VC());
-	}
-	
+    DateBox dateBox = new DateBox();
+
+    DDateCalendar(IResLocator iRes) {
+        super(iRes);
+        dateBox.setFormat(new DFormat());
+        initWidget(dateBox);
+        setMouse();
+        dateBox.addStyleName("calendar-date");
+        dateBox.addValueChangeHandler(new VC());
+    }
+
     private class DFormat implements DateBox.Format {
 
         public String format(DateBox dateBox, Date date) {
@@ -38,37 +51,31 @@ class DDateCalendar extends ELineDialog {
         }
     }
 
-	public String getVal() {
-		return dateBox.getTextBox().getText();
-	}
+    public String getVal() {
+        return dateBox.getTextBox().getText();
+    }
 
+    public void refresh() {
+    }
 
-	public void refresh() {
-	}
+    public void setReadOnly(boolean readOnly) {
+        dateBox.getTextBox().setReadOnly(readOnly);
+    }
 
+    public void setVal(String s) {
+        dateBox.getTextBox().setValue(s);
+    }
 
-	public void setReadOnly(boolean readOnly) {
-		dateBox.getTextBox().setReadOnly(readOnly);
-	}
+    public boolean validateField() {
+        return true;
+    }
 
+    private class VC implements ValueChangeHandler<java.util.Date> {
 
-	public void setVal(String s) {
-		dateBox.getTextBox().setValue(s);
-	}
-
-
-	public boolean validateField() {
-		return true;
-	}
-	
-	private class VC implements ValueChangeHandler<java.util.Date> {
-
-		public void onValueChange(ValueChangeEvent<Date> event) {
-			if (lC != null) {
-				lC.onChange(DDateCalendar.this);
-			}			
-		}
-		
-	}
-
+        public void onValueChange(ValueChangeEvent<Date> event) {
+            if (lC != null) {
+                lC.onChange(DDateCalendar.this);
+            }
+        }
+    }
 }

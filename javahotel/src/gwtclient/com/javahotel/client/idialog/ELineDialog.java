@@ -40,133 +40,131 @@ import com.javahotel.common.dateutil.DateFormatUtil;
  */
 abstract class ELineDialog extends Composite implements ILineField {
 
-	protected final IResLocator pLi;
-	protected IKeyboardAction kLi;
-	protected IChangeListener lC;
-	protected final boolean isCheckBox;
-	protected final boolean checkBoxVal;
+    protected final IResLocator pLi;
+    protected IKeyboardAction kLi;
+    protected IChangeListener lC;
+    protected final boolean isCheckBox;
+    protected final boolean checkBoxVal;
+    private String errmess = null;
+    private PopupPanel tup = null;
 
-	private String errmess = null;
-	private PopupPanel tup = null;
+    private void hideUp() {
+        if (tup != null) {
+            tup.hide();
+            tup = null;
+        }
+    }
 
-	private void hideUp() {
-		if (tup != null) {
-			tup.hide();
-			tup = null;
-		}
-	}
+    private class MouseO implements MouseOverHandler, MouseOutHandler {
 
-	private class MouseO implements MouseOverHandler, MouseOutHandler {
+        public void onMouseOver(MouseOverEvent event) {
+            if (errmess != null) {
+                tup = PopUpTip.getPopupTip(new Label(errmess));
+                PopupUtil.setPos(tup, ELineDialog.this);
+                tup.show();
+            }
+        }
 
-		public void onMouseOver(MouseOverEvent event) {
-			if (errmess != null) {
-				tup = PopUpTip.getPopupTip(new Label(errmess));
-				PopupUtil.setPos(tup, ELineDialog.this);
-				tup.show();
-			}
-		}
+        public void onMouseOut(MouseOutEvent event) {
+            hideUp();
+        }
+    }
 
-		public void onMouseOut(MouseOutEvent event) {
-			hideUp();
-		}
-	}
+    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+        return addDomHandler(handler, MouseOverEvent.getType());
+    }
 
-	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
-		return addDomHandler(handler, MouseOverEvent.getType());
-	}
+    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+        return addDomHandler(handler, MouseOutEvent.getType());
+    }
 
-	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-		return addDomHandler(handler, MouseOutEvent.getType());
-	}
+    protected void setMouse() {
+        this.addMouseOutHandler(new MouseO());
+        this.addMouseOverHandler(new MouseO());
+    }
 
-	protected void setMouse() {
-		this.addMouseOutHandler(new MouseO());
-		this.addMouseOverHandler(new MouseO());
-	}
+    ELineDialog(final IResLocator pLi) {
+        this.pLi = pLi;
+        kLi = null;
+        lC = null;
+        checkBoxVal = false;
+        isCheckBox = true;
+    }
 
-	ELineDialog(final IResLocator pLi) {
-		this.pLi = pLi;
-		kLi = null;
-		lC = null;
-		checkBoxVal = false;
-		isCheckBox = true;
-	}
+    ELineDialog(final IResLocator pLi, boolean checkenable) {
+        this.pLi = pLi;
+        kLi = null;
+        lC = null;
+        checkBoxVal = checkenable;
+        isCheckBox = true;
+    }
 
-	ELineDialog(final IResLocator pLi, boolean checkenable) {
-		this.pLi = pLi;
-		kLi = null;
-		lC = null;
-		checkBoxVal = checkenable;
-		isCheckBox = true;
-	}
+    public int getChooseResult() {
+        return NOCHOOSECHECK;
+    }
 
-	public int getChooseResult() {
-		return NOCHOOSECHECK;
-	}
+    public void setChooseCheck(boolean enable) {
+    }
 
-	public void setChooseCheck(boolean enable) {
-	}
+    public boolean emptyF() {
+        String val = getVal();
+        return ((val == null) || val.equals(""));
+    }
 
-	public boolean emptyF() {
-		String val = getVal();
-		return ((val == null) || val.equals(""));
-	}
+    public void setStyleName(final String sName, final boolean set) {
+        if (set) {
+            getMWidget().getWidget().setStyleName(sName);
+        } else {
+            getMWidget().getWidget().removeStyleName(sName);
+        }
+    }
 
-	public void setStyleName(final String sName, final boolean set) {
-		if (set) {
-			getMWidget().getWidget().setStyleName(sName);
-		} else {
-			getMWidget().getWidget().removeStyleName(sName);
-		}
-	}
+    public void setKLi(final IKeyboardAction pkLi) {
+        this.kLi = pkLi;
+    }
 
-	public void setKLi(final IKeyboardAction pkLi) {
-		this.kLi = pkLi;
-	}
+    public int getIntVal() {
+        String n = getVal();
+        int no = CommonUtil.getNum(n);
+        return no;
+    }
 
-	public int getIntVal() {
-		String n = getVal();
-		int no = CommonUtil.getNum(n);
-		return no;
-	}
+    public BigDecimal getDecimal() {
+        return CommonUtil.toBig(getVal());
+    }
 
-	public BigDecimal getDecimal() {
-		return CommonUtil.toBig(getVal());
-	}
+    public Date getDate() {
+        String n = getVal();
+        if (n == null) {
+            return null;
+        }
+        return DateFormatUtil.toD(n);
+    }
 
-	public Date getDate() {
-		String n = getVal();
-		if (n == null) {
-			return null;
-		}
-		return DateFormatUtil.toD(n);
-	}
+    public void setDecimal(BigDecimal b) {
+        if (b == null) {
+            setVal("");
+            return;
+        }
+        setVal(CommonUtil.DecimalToS(b));
+    }
 
-	public void setDecimal(BigDecimal b) {
-		if (b == null) {
-			setVal("");
-			return;
-		}
-		setVal(CommonUtil.DecimalToS(b));
-	}
+    public void setChangeListener(final IChangeListener l) {
+        lC = l;
+    }
 
-	public void setChangeListener(final IChangeListener l) {
-		lC = l;
-	}
+    public void setWidget(final ISetWidget i) {
+        i.setW(getMWidget().getWidget());
+    }
 
-	public void setWidget(final ISetWidget i) {
-		i.setW(getMWidget().getWidget());
-	}
+    public void setErrMess(String errmess) {
+        this.errmess = errmess;
+        if (errmess == null) {
+            hideUp();
+        }
+    }
 
-	public void setErrMess(String errmess) {
-		this.errmess = errmess;
-		if (errmess == null) {
-			hideUp();
-		}
-	}
-	
-	public IMvcWidget getMWidget() {
-		return new DefaultMvcWidget(this);
-	}
-
+    public IMvcWidget getMWidget() {
+        return new DefaultMvcWidget(this);
+    }
 }
