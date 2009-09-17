@@ -16,12 +16,17 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.idialog.GetIEditFactory;
+import com.javahotel.client.ifield.IChangeListener;
+import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.widgets.imgbutton.ImgButtonFactory;
 import com.javahotel.common.scrollseason.model.MoveSkip;
 import com.javahotel.common.scrollseason.model.PanelDesc;
+import java.util.Date;
 
 /**
  *
@@ -38,11 +43,15 @@ class ScrollArrowWidget implements IGwtWidget {
             "arrow-right-default");
     private final Button endP = ImgButtonFactory.getButton(null,
             "arrow-right-end-default");
+    private final ILineField dDate;
     private final IsignalP iP;
+    private final IResLocator rI;
 
     interface IsignalP {
 
         void clicked(MoveSkip a);
+
+        void clicked(Date d);
     }
 
     private class ClickEvent implements MouseDownHandler {
@@ -58,10 +67,24 @@ class ScrollArrowWidget implements IGwtWidget {
         }
     }
 
-    ScrollArrowWidget(IsignalP i) {
+    private class ChangeD implements IChangeListener {
+
+        public void onChange(ILineField i) {
+            Date d = i.getDate();
+            if (d == null) { return; }
+            iP.clicked(d);
+        }
+
+    }
+
+    ScrollArrowWidget(IResLocator rI, IsignalP i) {
+        this.rI = rI;
+        dDate = GetIEditFactory.getTextCalendard(rI);
+        dDate.setChangeListener(new ChangeD());
         hp.setSpacing(5);
         hp.add(begP);
         hp.add(leftP);
+        hp.add(dDate.getMWidget().getWidget());
         hp.add(rightP);
         hp.add(endP);
         begP.addMouseDownHandler(new ClickEvent(MoveSkip.BEG));

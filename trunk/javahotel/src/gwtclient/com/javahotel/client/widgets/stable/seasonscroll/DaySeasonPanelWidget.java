@@ -31,14 +31,24 @@ public class DaySeasonPanelWidget implements IScrollSeason {
     private final IDrawPartSeason dPart;
     private final ScrollArrowWidget sW;
 
+    private void refresh() {
+        sW.setState(dW.getPanelDesc());
+        dW.refresh();
+
+    }
+
     private class ScrollCli implements ScrollArrowWidget.IsignalP {
 
         public void clicked(MoveSkip a) {
             if (!dW.moveD(a, 1)) {
                 return;
             }
-            sW.setState(dW.getPanelDesc());
-            dW.refresh();
+            refresh();
+        }
+
+        public void clicked(Date d) {
+            dW.gotoD(d);
+            refresh();
         }
     }
 
@@ -46,7 +56,7 @@ public class DaySeasonPanelWidget implements IScrollSeason {
             final int todayC) {
         dW = new DayLineWidget(pLoc, todayC);
         this.dPart = dPart;
-        sW = new ScrollArrowWidget(new ScrollCli());
+        sW = new ScrollArrowWidget(pLoc, new ScrollCli());
     }
 
     public int getStartNo() {

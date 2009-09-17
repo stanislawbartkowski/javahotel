@@ -28,79 +28,77 @@ import com.javahotel.client.ifield.IChangeListener;
 @SuppressWarnings("deprecation")
 class GetEnumLB extends ELineDialog {
 
-	final protected ListBox lB = new ListBox();
-	final private Map<String, String> ma;
+    final protected ListBox lB = new ListBox();
+    final private Map<String, String> ma;
 
-	GetEnumLB(final IResLocator li, final Map<String, String> ma) {
-		super(li);
-		this.ma = ma;
-		Set<String> se = ma.keySet();
-		for (String s : se) {
-			String val = ma.get(s);
-			lB.addItem(val);
-		}
-		initWidget(lB);
-		setMouse();
-	}
+    GetEnumLB(final IResLocator li, final Map<String, String> ma) {
+        super(li);
+        this.ma = ma;
+        Set<String> se = ma.keySet();
+        for (String s : se) {
+            String val = ma.get(s);
+            lB.addItem(val);
+        }
+        initWidget(lB);
+        setMouse();
+    }
 
-	public String getVal() {
-		int i = lB.getSelectedIndex();
-		if (i == -1) {
-			return null;
-		}
-		String val = lB.getItemText(i);
-		Set<String> se = ma.keySet();
-		String e = null;
-		for (String s : se) {
-			String v = ma.get(s);
-			if (v.equals(val)) {
-				e = s;
-				break;
-			}
-		}
-		return e;
-	}
+    public String getVal() {
+        int i = lB.getSelectedIndex();
+        if (i == -1) {
+            return null;
+        }
+        String val = lB.getItemText(i);
+        Set<String> se = ma.keySet();
+        String e = null;
+        for (String s : se) {
+            String v = ma.get(s);
+            if (v.equals(val)) {
+                e = s;
+                break;
+            }
+        }
+        return e;
+    }
 
-	public void setVal(final String s) {
-		if (s == null) {
-			return;
-		}
-		String val = (String) ma.get(s);
-		for (int i = 0; i < lB.getItemCount(); i++) {
-			String v = lB.getItemText(i);
-			if (v.equals(val)) {
-				lB.setSelectedIndex(i);
-				if (lC != null) {
-					lC.onChange(this);
-				}
-				return;
-			}
-		}
-	}
+    public void setVal(final String s) {
+        if (s == null) {
+            return;
+        }
+        String val = (String) ma.get(s);
+        for (int i = 0; i < lB.getItemCount(); i++) {
+            String v = lB.getItemText(i);
+            if (v.equals(val)) {
+                lB.setSelectedIndex(i);
+                if (lC != null) {
+                    lC.onChange(this);
+                }
+                return;
+            }
+        }
+    }
 
-	public void refresh() {
-	}
+    public void refresh() {
+    }
 
-	public void setReadOnly(boolean readOnly) {
-		lB.setEnabled(!readOnly);
-	}
+    public void setReadOnly(boolean readOnly) {
+        lB.setEnabled(!readOnly);
+    }
 
-	public boolean validateField() {
-		return true;
-	}
+    public boolean validateField() {
+        return true;
+    }
 
-	private class L implements ChangeListener {
+    private class L implements ChangeListener {
 
-		public void onChange(Widget sender) {
-			lC.onChange(GetEnumLB.this);
-		}
+        public void onChange(Widget sender) {
+            lC.onChange(GetEnumLB.this);
+        }
+    }
 
-	}
+    public void setChangeListener(IChangeListener l) {
+        lC = l;
+        lB.addChangeListener(new L());
 
-	public void setChangeListener(IChangeListener l) {
-		lC = l;
-		lB.addChangeListener(new L());
-
-	}
-
+    }
 }

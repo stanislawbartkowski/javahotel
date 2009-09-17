@@ -12,6 +12,7 @@
  */
 package com.javahotel.common.scrollseason.model;
 
+import com.javahotel.common.dateutil.CalendarTable;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,12 @@ public class DaySeasonScrollData {
         pos = new PosData();
     }
 
+    private void setD(Date d) {
+        int no = CalendarTable.findIndex(dList, d);
+        if (no == -1) { return; }
+        setD(no);
+    }
+
     private void setD(int d) {
         pos.setD(d);
     }
@@ -48,6 +55,10 @@ public class DaySeasonScrollData {
     }
 
     public void gotoD(int d) {
+        setD(d);
+    }
+
+    public void gotoD(Date d) {
         setD(d);
     }
 
