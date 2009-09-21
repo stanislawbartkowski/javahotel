@@ -3,6 +3,7 @@ package com.javahotel.javatest.server.runtest;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
+import com.javahotel.test.RunSuite;
 import com.javahotel.test.TestSuite1;
 import com.javahotel.test.TestSuite10;
 import com.javahotel.test.TestSuite11;
@@ -28,6 +29,7 @@ import com.javahotel.test.TestSuite29;
 import com.javahotel.test.TestSuite3;
 import com.javahotel.test.TestSuite30;
 import com.javahotel.test.TestSuite31;
+import com.javahotel.test.TestSuite32;
 import com.javahotel.test.TestSuite4;
 import com.javahotel.test.TestSuite5;
 import com.javahotel.test.TestSuite6;
@@ -70,11 +72,14 @@ public class RunTest {
      	Class<?> cla29 = TestSuite29.class; 
      	Class<?> cla30 = TestSuite30.class; 
      	Class<?> cla31 = TestSuite31.class; 
+        Class<?> cla32 = TestSuite32.class; 
+        Class<?> runSuite = RunSuite.class;
 //	    Result res = JUnitCore.runClasses(new Class[] { cla1, cla2, cla3 , cla4, cla5,cla6, cla7 } );
 //	    Result res = JUnitCore.runClasses(new Class[] { cla8, cla9,cla10,cla11,cla12,cla13,cla14 } );
 //	    Result res = JUnitCore.runClasses(new Class[] { cla17, cla18,cla19,cla21,cla22,cla23,cla24 } );
-	    Result res = JUnitCore.runClasses(new Class[] { cla25,cla26,cla27,cla28,cla29,cla30, cla31 } );
-//	    Result res = JUnitCore.runClasses(new Class[] { cla23 } );
+//	    Result res = JUnitCore.runClasses(new Class[] { cla25,cla26,cla27,cla28,cla29,cla30, cla31 } );
+//	    Result res = JUnitCore.runClasses(new Class[] { cla6 } );
+        Result res = JUnitCore.runClasses(new Class[] { runSuite } );
 	    System.out.println("Number of tests :" + res.getRunCount());
 	    if (res.wasSuccessful()) {
 	    	System.out.println("Success");	    	

@@ -13,8 +13,8 @@
 package com.javahotel.db.hotelbase.jpa;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -65,7 +65,7 @@ public class BookRecord implements INumerable,IId {
     @Basic(optional = false)
     private BigDecimal customerPrice;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bookrecord")
-    private Collection<BookElem> booklist;
+    private List<BookElem> booklist;
     @ManyToOne(optional = false)
     @JoinColumn(name = "booking", nullable = false)
     private Booking booking;
@@ -100,11 +100,11 @@ public class BookRecord implements INumerable,IId {
         this.customerPrice = customerPrice;
     }
 
-    public Collection<BookElem> getBooklist() {
+    public List<BookElem> getBooklist() {
         return booklist;
     }
 
-    public void setBooklist(final Collection<BookElem> booklist) {
+    public void setBooklist(final List<BookElem> booklist) {
         this.booklist = booklist;
     }
 

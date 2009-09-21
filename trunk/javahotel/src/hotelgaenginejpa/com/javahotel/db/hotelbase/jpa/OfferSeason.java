@@ -12,8 +12,8 @@
  */
 package com.javahotel.db.hotelbase.jpa;
 
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -108,7 +108,7 @@ public class OfferSeason implements IHotelDictionary {
     private Date endP;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "offerid")
-    private Collection<OfferSeasonPeriod> periods;
+    private List<OfferSeasonPeriod> periods;
 
     public Date getStartP() {
         return startP;
@@ -126,11 +126,11 @@ public class OfferSeason implements IHotelDictionary {
         this.endP = endP;
     }
 
-    public Collection<OfferSeasonPeriod> getPeriods() {
+    public List<OfferSeasonPeriod> getPeriods() {
         return periods;
     }
 
-    public void setPeriods(final Collection<OfferSeasonPeriod> periods) {
+    public void setPeriods(final List<OfferSeasonPeriod> periods) {
         this.periods = periods;
     }
 }

@@ -50,17 +50,10 @@ public class PaymentRow implements IId {
 
 	// =====================
 
-//	@Basic(optional = false)
-//	@Temporal(TemporalType.DATE)
-//	private Date rowFrom;
 	@Basic(optional = false)
 	private Long lrowFrom;
-//	@Basic(optional = false)
-//	@Temporal(TemporalType.DATE)
-//	private Date rowTo;
 	
 	@Basic(optional = false)
-//	@Temporal(TemporalType.DATE)
 	private Long lrowTo;
 	
 	@Basic(optional = false)

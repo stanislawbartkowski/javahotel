@@ -13,7 +13,7 @@
 package com.javahotel.db.hotelbase.jpa;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -94,11 +94,11 @@ public class Bill implements IPureDictionary {
 	private Booking booking;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "bill")
-	private Collection<AdvancePayment> advancePay;
+	private List<AdvancePayment> advancePay;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "bill")
-	private Collection<Payment> payments;
+	private List<Payment> payments;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "bill")
-	private Collection<AddPayment> addpayments;
+	private List<AddPayment> addpayments;
 	@Basic(optional = false)
 	private BillEnumTypes billType;
 
@@ -125,19 +125,19 @@ public class Bill implements IPureDictionary {
 		this.booking = booking;
 	}
 
-	public Collection<AdvancePayment> getAdvancePay() {
+	public List<AdvancePayment> getAdvancePay() {
 		return advancePay;
 	}
 
-	public void setAdvancePay(Collection<AdvancePayment> advancePay) {
+	public void setAdvancePay(List<AdvancePayment> advancePay) {
 		this.advancePay = advancePay;
 	}
 
-	public Collection<Payment> getPayments() {
+	public List<Payment> getPayments() {
 		return payments;
 	}
 
-	public void setPayments(Collection<Payment> payments) {
+	public void setPayments(List<Payment> payments) {
 		this.payments = payments;
 	}
 
@@ -152,7 +152,7 @@ public class Bill implements IPureDictionary {
 	/**
 	 * @return the addpayments
 	 */
-	public Collection<AddPayment> getAddpayments() {
+	public List<AddPayment> getAddpayments() {
 		return addpayments;
 	}
 
@@ -160,7 +160,7 @@ public class Bill implements IPureDictionary {
 	 * @param addpayments
 	 *            the addpayments to set
 	 */
-	public void setAddpayments(Collection<AddPayment> addpayments) {
+	public void setAddpayments(List<AddPayment> addpayments) {
 		this.addpayments = addpayments;
 	}
 

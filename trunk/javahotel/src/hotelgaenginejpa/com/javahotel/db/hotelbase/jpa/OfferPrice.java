@@ -12,7 +12,7 @@
  */
 package com.javahotel.db.hotelbase.jpa;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -102,7 +102,7 @@ public class OfferPrice implements IHotelDictionary {
 	private String season;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "offerid")
-	private Collection<OfferServicePrice> serviceprice;
+	private List<OfferServicePrice> serviceprice;
 
 	public String getSeason() {
 		return season;
@@ -112,11 +112,11 @@ public class OfferPrice implements IHotelDictionary {
 		this.season = season;
 	}
 
-	public Collection<OfferServicePrice> getServiceprice() {
+	public List<OfferServicePrice> getServiceprice() {
 		return serviceprice;
 	}
 
-	public void setServiceprice(final Collection<OfferServicePrice> serviceprice) {
+	public void setServiceprice(final List<OfferServicePrice> serviceprice) {
 		this.serviceprice = serviceprice;
 	}
 

@@ -14,7 +14,7 @@
 package com.javahotel.db.hotelbase.jpa;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -39,11 +39,11 @@ public class RoomStandard implements IHotelDictionary {
 		services = new ArrayList<ServiceDictionary>();
 	}
 
-	public Collection<Long> getKeyServices() {
+	public List<Long> getKeyServices() {
 		return keyServices;
 	}
 
-	public void setKeyServices(Collection<Long> keyServices) {
+	public void setKeyServices(List<Long> keyServices) {
 		this.keyServices = keyServices;
 	}
 
@@ -113,16 +113,16 @@ public class RoomStandard implements IHotelDictionary {
 	// ===================================================
 
 	@Transient
-	private Collection<ServiceDictionary> services;
+	private List<ServiceDictionary> services;
 
 	@Basic
-	private Collection<Long> keyServices;
+	private List<Long> keyServices;
 
-	public Collection<ServiceDictionary> getServices() {
+	public List<ServiceDictionary> getServices() {
 		return services;
 	}
 
-	public void setServices(final Collection<ServiceDictionary> services) {
+	public void setServices(final List<ServiceDictionary> services) {
 		this.services = services;
 	}
 
