@@ -49,8 +49,8 @@ public class HotelHelper {
 	private static final IList iL;
 	// private static final HotelServerType t = HotelServerType.GLASSFISH;
 	// private static final HotelServerType t = HotelServerType.JBOSS;
-	// private static final HotelServerType t = HotelServerType.APPENGINE;
-	private static final HotelServerType t = HotelServerType.TOMCAT;
+	private static final HotelServerType t = HotelServerType.APPENGINE;
+	// private static final HotelServerType t = HotelServerType.TOMCAT;
 	private static ISecurity sec;
 	private static IAuthentication aut;
 	private static IHotelData hot;

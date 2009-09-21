@@ -68,10 +68,15 @@ public class GetProp {
 		String forma = confP.get(ROOTTAGNAME);
 		return MessageFormat.format(forma, new Object[] { val });
 	}
+	
+	public static String getResourceName(String name) {
+        String fName = IMess.RESOURCEFOLDER + "/" + name;
+        return fName;	    
+	}
 
 	public static InputStream getXMLFile(final String prop) {
 		String xmlname = confP.get(prop);
-		String fName = IMess.RESOURCEFOLDER + "/" + xmlname;
+		String fName = getResourceName(xmlname);
 		InputStream i = ReadProperties.getInputStream(fName);
 		return i;
 	}

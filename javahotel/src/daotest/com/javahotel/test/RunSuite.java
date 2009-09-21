@@ -36,12 +36,12 @@ import org.junit.runners.Suite;
         TestSuite12.class,
         TestSuite13.class,
         TestSuite14.class,
-        TestSuite15.class,
-        TestSuite16.class,
+//        TestSuite15.class,  // T
+//        TestSuite16.class,  // T
         TestSuite17.class,
         TestSuite18.class,
         TestSuite19.class,
-        TestSuite20.class,
+//        TestSuite20.class, // T
         TestSuite21.class,
         TestSuite22.class,
         TestSuite23.class,

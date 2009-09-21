@@ -36,7 +36,7 @@ public class TestSuite2 extends TestHelper {
     @After
     @Override
     public void tearDown() {
-        aut.clearAuthBase(se); // important: clear auth base - problem with next test
+//        aut.clearAuthBase(se); // important: clear auth base - problem with next test
         tearDownG();
     }
     

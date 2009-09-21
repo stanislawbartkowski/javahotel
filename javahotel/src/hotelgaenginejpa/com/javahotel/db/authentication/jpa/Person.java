@@ -13,6 +13,7 @@
 package com.javahotel.db.authentication.jpa;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -49,7 +50,7 @@ public class Person {
 		return group;
 	}
 
-	public void setGroup(final Collection<GroupD> group) {
+	public void setGroup(final List<GroupD> group) {
 		this.group = group;
 	}
 

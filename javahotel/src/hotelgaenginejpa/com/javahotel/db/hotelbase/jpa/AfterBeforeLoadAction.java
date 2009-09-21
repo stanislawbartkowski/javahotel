@@ -1,9 +1,22 @@
+/*
+ * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
+
 package com.javahotel.db.hotelbase.jpa;
 
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 
 import com.google.appengine.api.datastore.Key;
@@ -19,9 +32,9 @@ class AfterBeforeLoadAction implements IAfterBeforeLoadAction {
 	private void doCollectionAction(GetLogger log, JpaEntity jpa, Object o,
 			String keyCollectionField, String objectCollectionField,
 			Class<?> cla) {
-		Collection<Long> keyC = (Collection<Long>) GetFieldHelper.getterVal(o,
+		List<Long> keyC = (List<Long>) GetFieldHelper.getterVal(o,
 				keyCollectionField, log);
-		Collection<Object> objC = (Collection<Object>) GetFieldHelper
+		List<Object> objC = (List<Object>) GetFieldHelper
 				.getterVal(o, objectCollectionField, log);
 		objC.clear();
 		if (keyC != null) {
@@ -95,14 +108,14 @@ class AfterBeforeLoadAction implements IAfterBeforeLoadAction {
 
 	private void doCollectionBeforeAction(GetLogger log, JpaEntity jpa,
 			Object o, String keyCollectionField, String objectColllectionField) {
-		Collection<Long> keyC = (Collection<Long>) GetFieldHelper.getterVal(o,
+		List<Long> keyC = (List<Long>) GetFieldHelper.getterVal(o,
 				keyCollectionField, log);
-		Collection<Object> objC = (Collection<Object>) GetFieldHelper
+		List<Object> objC = (List<Object>) GetFieldHelper
 				.getterVal(o, objectColllectionField, log);
 		if (keyC == null) {
 			keyC = new ArrayList<Long>();
 			GetFieldHelper.setterVal(o, keyC, keyCollectionField,
-					Collection.class, log);
+					List.class, log);
 		}
 		keyC.clear();
 		for (Object oc : objC) {
@@ -114,7 +127,7 @@ class AfterBeforeLoadAction implements IAfterBeforeLoadAction {
 
 	private void objectCollection(GetLogger log, JpaEntity jpa, Object o,
 			String objectCollectionField) {
-		Collection<Object> objC = (Collection<Object>) GetFieldHelper
+		List<Object> objC = (List<Object>) GetFieldHelper
 				.getterVal(o, objectCollectionField, log);
 		if (objC == null) {
 			return;
@@ -127,7 +140,7 @@ class AfterBeforeLoadAction implements IAfterBeforeLoadAction {
 
 	private void beforePersisObjectCollection(GetLogger log, JpaEntity jpa,
 			Object o, String objectCollectionField) {
-		Collection<Object> objC = (Collection<Object>) GetFieldHelper
+		List<Object> objC = (List<Object>) GetFieldHelper
 				.getterVal(o, objectCollectionField, log);
 		if (objC == null) {
 			return;
