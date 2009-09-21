@@ -25,8 +25,8 @@ Uwaga: cenniki definiowane na początku sezonu są elementem planowania. Istotn�
 ==Rezerwacja==
 Prowadzenie rezerwacji miejsc hotelowych oraz usług dodatkowych.
 Obsługa osób indywidualnych i grup
-Obsługa „cyklu życiowego” rezerwacji: wstępna, potwierdzona, niepotwierdzona, internetowa
-Rezerwacja: wymagana zaliczka lub bez zaliczki.
+Obsługa „cyklu życiowego” rezerwacji: potwierdzona, niepotwierdzona, internetowa
+Rezerwacja: wymagana zaliczka lub bez zaliczki. Sytuacja "rezerwacja bezkosztowa" (bez zaliczki), ale wymagająca potwierdzenia.
 
 ==Recepcja==
 
@@ -85,7 +85,7 @@ Jest już założona rezerwacja
 *Klient* (indywidualny, firma) dzwoni, faksuje, mejluje i chce anulować rezerwację.
 
 *Recepcjonistka* Anuluje rezerwację
-(Pytanie: co z zaliczką: zwraca, przepada, częściowy zwrot)
+Jeśli wpłacona zaliczka, to pełna swoboda w sprawie zwrotu zaliczki, może być zwrócona w całości, przepaść lib zrócona częściowo. 
 
 ==Scen05, potwierdzenie rezerwacji==
 
@@ -98,13 +98,13 @@ Jest już założona rezerwacja
 Zamienia status rezerwacji na „potwierdzoną”
 Drukuje, faksuje, mejluje potwierdzenie rezerwacji.
 
-Powinna istnieć także możliwość potwierdzenia rezerwacji z pominięciem "zapłacenia zaliczki".
+Powinna istnieć także możliwość potwierdzenia rezerwacji z pominięciem "zapłacenia zaliczki", może także minąć czaz bezkosztowej rezerwacji.
 
 ==Scen06, brak potwierdzenia rezerwacji.==
 
 Jest już założona rezerwacja warunkowa
 
-Mija termin wpłacenia zaliczki, potwierdzenia
+Mija termin wpłacenia zaliczki, potwierdzenia, czas bezkosztowej rezerwacji.
 
 *System* powinien na ekranie wyraźnie wyświetlić informację:
 
@@ -167,7 +167,7 @@ Wystawia rachunek, paragon, fakturę
 
 Możliwość różnej formy płatności, gotówka, przelew itp  Rozbicie płatności na kilka faktur (inni płatnicy). Scalenie kilku rachunków w jeden.
 Wystawia rachunki dla członków grupy (Scen23)
-Jeśli płatność gotówką, to wpłata do kasy, wystawienie KP.
+Jeśli płatność gotówką, to wpłata do kasy, paragon fiskalny,
 Zwolnienie pokoi, pokój do sprzątania
 
 ==Scen26, wymeldowanie pojedynczego członka grupy==
@@ -186,6 +186,6 @@ Poprzedni do sprzątania.
 
 ==Scen28, pokój posprzątany==
 
-*Sprzątaczka* informuje recepcję o posprzątaniu pokoju
+*Pokojówka* informuje recepcję o posprzątaniu pokoju
 
 *Recepcjonistka* : Zmiana statusu pokoju na „wolny”
