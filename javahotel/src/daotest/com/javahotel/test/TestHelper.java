@@ -1,6 +1,14 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
  */
 package com.javahotel.test;
 
@@ -9,8 +17,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -46,6 +54,7 @@ import com.javahotel.common.toobject.ServiceType;
 import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.common.util.BillUtil;
 import com.javahotel.dbutil.log.GetLogger;
+import com.javahotel.javatest.exttest.ExtTestHelper;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.IAuthentication;
 import com.javahotel.remoteinterfaces.IHotelData;
@@ -61,7 +70,7 @@ import com.javahotel.types.LId;
  *
  * @author stanislawbartkowski@gmail.com
  */
-public class TestHelper {
+abstract public class TestHelper extends ExtTestHelper {
 
     protected ISecurity sec;
     protected SessionT se;
@@ -76,8 +85,18 @@ public class TestHelper {
     protected final GetLogger log = new GetLogger("com.javahotel.javatest");
     protected static final String HOTEL1 = "hotel1";
     protected static final String HOTEL2 = "hotel2";
+    
+    private static ISetUpTestEnvironment iSetupx = null;
+        
+    public static void setiSetup(ISetUpTestEnvironment iSetup) {
+        TestHelper.iSetupx = iSetup;
+    }
 
     protected void setUpG() {
+//        if (iSetup != null) {
+//            iSetup.setUp();
+//        }
+        beforeTest();
         sec = TestUtil.getSe();
         aut = TestUtil.getAu();
         list = TestUtil.getList();
@@ -88,6 +107,10 @@ public class TestHelper {
 
     protected void tearDownG() {
         itest.setTodayDate(null);
+//        if (iSetup != null) {
+//            iSetup.tearDown();
+//        }
+        afterTest();
     }
 
     @After

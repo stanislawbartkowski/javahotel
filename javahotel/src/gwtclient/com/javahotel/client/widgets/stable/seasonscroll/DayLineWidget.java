@@ -32,12 +32,13 @@ import java.util.List;
 class DayLineWidget implements IGwtWidget {
 
     private final IResLocator iR;
-    private HorizontalPanel hp;
+    private final HorizontalPanel hp;
     private final DaySeasonScrollData sData;
 
     DayLineWidget(final IResLocator pLoc, final int todayC) {
         this.iR = pLoc;
         sData = new DaySeasonScrollData(todayC);
+        hp = new HorizontalPanel();
     }
 
     private Label getNo(int no) {
@@ -48,7 +49,7 @@ class DayLineWidget implements IGwtWidget {
     private final void drawNames() {
         for (int i = sData.getFirstD(); i <= sData.getLastD(); i++) {
             Date pe = sData.getD(i);
-            String na = pe.getMonth() + "/" + pe.getDate();
+            String na = (pe.getMonth() + 1) + "/" + pe.getDate();
             Label la = getNo(i - sData.getFirstD());
             if (i == sData.getTodayC()) {
                 na = "[" + na + "]";
@@ -63,7 +64,6 @@ class DayLineWidget implements IGwtWidget {
 
     void createVPanel(List<Date> dList, int panelW) {
         sData.createSPanel(dList, panelW);
-        hp = new HorizontalPanel();
         hp.setSpacing(5);
         for (int i = 0; i < sData.getPeriodNo(); i++) {
             Label la = new Label("");

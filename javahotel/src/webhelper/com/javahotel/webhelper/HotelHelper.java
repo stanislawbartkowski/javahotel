@@ -38,7 +38,6 @@ import com.javahotel.remoteinterfaces.IList;
 import com.javahotel.remoteinterfaces.ISecurity;
 import com.javahotel.remoteinterfaces.PasswordT;
 import com.javahotel.remoteinterfaces.SessionT;
-import java.util.List;
 
 /**
  * 

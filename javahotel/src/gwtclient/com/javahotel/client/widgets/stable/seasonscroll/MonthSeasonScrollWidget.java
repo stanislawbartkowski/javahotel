@@ -16,6 +16,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.DefaultMvcWidget;
+import com.javahotel.client.dialog.IGwtWidget;
+import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
 import com.javahotel.common.scrollseason.model.MonthSeasonScrollData;
@@ -24,28 +27,22 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
-class MonthSeasonScrollWidget implements IScrollSeason {
+class MonthSeasonScrollWidget implements IGwtWidget {
 
     private final IResLocator iR;
-    private final IDrawPartSeason dPart;
-    private HorizontalPanel hp;
+    private final HorizontalPanel hp;
     private final MonthSeasonScrollData sData;
+    private final int todayM;
 
-    MonthSeasonScrollWidget(final IResLocator pLoc, final IDrawPartSeason i,
-            final int pNo) {
+    MonthSeasonScrollWidget(final IResLocator pLoc,
+            final int todayM) {
         this.iR = pLoc;
-        this.dPart = i;
         sData = new MonthSeasonScrollData();
-    }
-
-    public int getStartNo() {
-        return -1;
-    }
-
-    public void createVPanel(int no, int actC) {
+        this.todayM = todayM;
+        hp = new HorizontalPanel();
     }
 
     private Label getNo(int no) {
@@ -57,21 +54,26 @@ class MonthSeasonScrollWidget implements IScrollSeason {
         for (int i = sData.getFirstP(); i <= sData.getLastP(); i++) {
             YearMonthPe pe = sData.getPe(i);
             String na = pe.getYear() + " - " + pe.getMonth();
+            if (i == todayM) {
+                na = "[ " + na + "]";
+            }
             Label la = getNo(i - sData.getFirstP());
             la.setText(na);
         }
 
     }
 
-    public void createVPanel(List<Date> dList, int actC) {
-        sData.createVPanel(dList, actC);
-        hp = new HorizontalPanel();
+    void createVPanel(List<Date> dList, int panelW) {
+        sData.createVPanel(dList, panelW);
         hp.setSpacing(5);
         for (int i = 0; i < sData.getMonthPe(); i++) {
             Label la = new Label("");
             hp.add(la);
         }
         drawNames();
-        dPart.setSWidget(hp);
+    }
+
+    public IMvcWidget getMWidget() {
+        return new DefaultMvcWidget(hp);
     }
 }
