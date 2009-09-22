@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class DaySeasonPanelWidget implements IScrollSeason {
@@ -30,6 +30,7 @@ public class DaySeasonPanelWidget implements IScrollSeason {
     private final VerticalPanel hp = new VerticalPanel();
     private final IDrawPartSeason dPart;
     private final ScrollArrowWidget sW;
+    private final MonthSeasonScrollWidget mW;
 
     private void refresh() {
         sW.setState(dW.getPanelDesc());
@@ -55,6 +56,7 @@ public class DaySeasonPanelWidget implements IScrollSeason {
     DaySeasonPanelWidget(final IResLocator pLoc, IDrawPartSeason dPart,
             final int todayC) {
         dW = new DayLineWidget(pLoc, todayC);
+        mW = new MonthSeasonScrollWidget(pLoc,6);
         this.dPart = dPart;
         sW = new ScrollArrowWidget(pLoc, new ScrollCli());
     }
@@ -69,6 +71,8 @@ public class DaySeasonPanelWidget implements IScrollSeason {
     public void createVPanel(List<Date> dList, int actC) {
         dW.createVPanel(dList, actC);
         sW.setState(dW.getPanelDesc());
+        mW.createVPanel(dList, 6);
+        hp.add(mW.getMWidget().getWidget());
         hp.add(sW.getMWidget().getWidget());
         hp.add(dW.getMWidget().getWidget());
         dPart.setSWidget(hp);

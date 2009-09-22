@@ -30,7 +30,7 @@ import com.javahotel.remoteinterfaces.SessionT;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class TestUtil {
+class TestUtil {
 	// private static final HotelServerType t = HotelServerType.GLASSFISH;
 	private static final HotelServerType t = HotelServerType.APPENGINE;
 //	private static final HotelServerType t = HotelServerType.JBOSS;
