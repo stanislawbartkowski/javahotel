@@ -83,7 +83,7 @@ Purpose: Creating Eclipse project to run and develop GAE-TEST version of JavaHot
 
 Column descriptor: GAE-TEST
 
- * Create new "Web Application" GAE (not GWT) project, make sure that Google GWT SDK is checked. 
+ * Create new "Web Application" GAE (not GWT) project, make sure that Google Google App Engine SDK is checked. 
 
 
  * Link sources using package table above.
