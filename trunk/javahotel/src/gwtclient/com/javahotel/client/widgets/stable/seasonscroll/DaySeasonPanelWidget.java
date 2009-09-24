@@ -12,30 +12,37 @@
  */
 package com.javahotel.client.widgets.stable.seasonscroll;
 
+import java.util.Date;
+import java.util.List;
+
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
 import com.javahotel.common.scrollseason.model.MoveSkip;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class DaySeasonPanelWidget implements IScrollSeason {
+class DaySeasonPanelWidget implements IScrollSeason {
 
     private final DayLineWidget dW;
-    private final VerticalPanel hp = new VerticalPanel();
+    private final VerticalPanel vp = new VerticalPanel();
     private final IDrawPartSeason dPart;
-    private final ScrollArrowWidget sW;
+    private final ScrollArrowWidget scrollDayW;
+    private final ScrollArrowWidget scrollMonthW;
     private final MonthSeasonScrollWidget mW;
 
     private void refresh() {
-        sW.setState(dW.getPanelDesc());
+        scrollDayW.setState(dW.getPanelDesc());
         dW.refresh();
-
+    }
+    
+    private void refreshM() {
+        scrollMonthW.setState(mW.getPanelDesc());
+        mW.refresh();       
     }
 
     private class ScrollCli implements ScrollArrowWidget.IsignalP {
@@ -52,13 +59,28 @@ public class DaySeasonPanelWidget implements IScrollSeason {
             refresh();
         }
     }
+    
+    private class ScrollCliM implements ScrollArrowWidget.IsignalP {
+
+        public void clicked(MoveSkip a) {
+            if (!mW.moveD(a)) {
+                return;
+            }
+            refreshM();
+        }
+
+        // not called
+        public void clicked(Date d) {
+        }
+    }
 
     DaySeasonPanelWidget(final IResLocator pLoc, IDrawPartSeason dPart,
             final int todayC) {
         dW = new DayLineWidget(pLoc, todayC);
-        mW = new MonthSeasonScrollWidget(pLoc,6);
+        mW = new MonthSeasonScrollWidget(pLoc);
         this.dPart = dPart;
-        sW = new ScrollArrowWidget(pLoc, new ScrollCli());
+        scrollDayW = new ScrollArrowWidget(pLoc, new ScrollCli(),true);
+        scrollMonthW = new ScrollArrowWidget(pLoc, new ScrollCliM(),false);
     }
 
     public int getStartNo() {
@@ -68,13 +90,17 @@ public class DaySeasonPanelWidget implements IScrollSeason {
     public void createVPanel(int no, int actC) {
     }
 
-    public void createVPanel(List<Date> dList, int actC) {
-        dW.createVPanel(dList, actC);
-        sW.setState(dW.getPanelDesc());
-        mW.createVPanel(dList, 6);
+    public void createVPanel(List<Date> dList, int panelW) {
+        HorizontalPanel hp = new HorizontalPanel();
+        dW.createVPanel(dList, panelW);
+        hp.add(scrollDayW.getMWidget().getWidget());
+        mW.createVPanel(dList, 6, dW.getTodayM());
         hp.add(mW.getMWidget().getWidget());
-        hp.add(sW.getMWidget().getWidget());
-        hp.add(dW.getMWidget().getWidget());
-        dPart.setSWidget(hp);
+        hp.add(scrollMonthW.getMWidget().getWidget());
+        vp.add(hp);
+        
+        vp.add(dW.getMWidget().getWidget());
+        scrollDayW.setState(dW.getPanelDesc());
+        dPart.setSWidget(vp);
     }
 }

@@ -88,6 +88,10 @@ class DayLineWidget implements IGwtWidget {
     public PanelDesc getPanelDesc() {
         return sData.getDayScrollStatus();
     }
+    
+    int getTodayM() {
+        return sData.getTodayM();
+    }
 
 
 }
