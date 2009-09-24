@@ -49,7 +49,7 @@ public class DaySeasonScrollData {
 
     public void createSPanel(List<Date> dList, int pWidth) {
         this.dList = dList;
-        mScroll.createVPanel(dList, getTodayC());
+        mScroll.createVPanel(dList, todayC);
         pos.createW(dList.size(), pWidth);
         pos.setD(todayC);
     }
@@ -101,5 +101,9 @@ public class DaySeasonScrollData {
      */
     public int getTodayC() {
         return todayC;
+    }
+    
+    public int getTodayM() {
+        return mScroll.getIntP();
     }
 }

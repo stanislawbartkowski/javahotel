@@ -12,6 +12,9 @@
  */
 package com.javahotel.client.widgets.stable.seasonscroll;
 
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,12 +22,10 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.IMvcWidget;
-import com.javahotel.client.widgets.stable.IDrawPartSeason;
-import com.javahotel.client.widgets.stable.IScrollSeason;
 import com.javahotel.common.scrollseason.model.MonthSeasonScrollData;
+import com.javahotel.common.scrollseason.model.MoveSkip;
+import com.javahotel.common.scrollseason.model.PanelDesc;
 import com.javahotel.common.scrollseason.model.YearMonthPe;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 
@@ -35,19 +36,21 @@ class MonthSeasonScrollWidget implements IGwtWidget {
     private final IResLocator iR;
     private final HorizontalPanel hp;
     private final MonthSeasonScrollData sData;
-    private final int todayM;
+    private int todayM;
 
-    MonthSeasonScrollWidget(final IResLocator pLoc,
-            final int todayM) {
+    MonthSeasonScrollWidget(final IResLocator pLoc) {
         this.iR = pLoc;
         sData = new MonthSeasonScrollData();
-        this.todayM = todayM;
         hp = new HorizontalPanel();
     }
 
     private Label getNo(int no) {
         Widget w = hp.getWidget(no);
         return (Label) w;
+    }
+
+    boolean moveD(MoveSkip m) {
+        return sData.skipMonth(m);
     }
 
     private final void drawNames() {
@@ -63,7 +66,8 @@ class MonthSeasonScrollWidget implements IGwtWidget {
 
     }
 
-    void createVPanel(List<Date> dList, int panelW) {
+    void createVPanel(List<Date> dList, int panelW, int todayM) {
+        this.todayM = todayM;
         sData.createVPanel(dList, panelW);
         hp.setSpacing(5);
         for (int i = 0; i < sData.getMonthPe(); i++) {
@@ -76,4 +80,14 @@ class MonthSeasonScrollWidget implements IGwtWidget {
     public IMvcWidget getMWidget() {
         return new DefaultMvcWidget(hp);
     }
+
+    public PanelDesc getPanelDesc() {
+        return sData.getMonthScrollStatus();
+    }
+    
+    void refresh() {
+        drawNames();
+    }
+
+
 }

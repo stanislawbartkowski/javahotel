@@ -77,14 +77,16 @@ class ScrollArrowWidget implements IGwtWidget {
 
     }
 
-    ScrollArrowWidget(IResLocator rI, IsignalP i) {
+    ScrollArrowWidget(IResLocator rI, IsignalP i,boolean withDate) {
         this.rI = rI;
         dDate = GetIEditFactory.getTextCalendard(rI);
         dDate.setChangeListener(new ChangeD());
         hp.setSpacing(5);
         hp.add(begP);
         hp.add(leftP);
-        hp.add(dDate.getMWidget().getWidget());
+        if (withDate)  {
+            hp.add(dDate.getMWidget().getWidget());
+        }
         hp.add(rightP);
         hp.add(endP);
         begP.addMouseDownHandler(new ClickEvent(MoveSkip.BEG));
