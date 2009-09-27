@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+
+	<persistence-unit name="ExampleJPA" transaction-type="RESOURCE_LOCAL">
+		<class>org.example.jpa.entities.Customer</class>
+		<properties>
+			<property name="eclipselink.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+			<property name="eclipselink.jdbc.url"
+				value="jdbc:derby:customerDB;create=true" />
+			<property name="eclipselink.jdbc.user" value="" />
+			<property name="eclipselink.jdbc.password" value="" />
+
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode"
+				value="database" />
+		</properties>
+	</persistence-unit>
+
+</persistence>
