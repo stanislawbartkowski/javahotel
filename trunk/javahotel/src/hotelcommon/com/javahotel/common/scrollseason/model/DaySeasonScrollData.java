@@ -13,11 +13,13 @@
 package com.javahotel.common.scrollseason.model;
 
 import com.javahotel.common.dateutil.CalendarTable;
+import com.javahotel.common.dateutil.DateFormatUtil;
+
 import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class DaySeasonScrollData {
@@ -39,7 +41,9 @@ public class DaySeasonScrollData {
 
     private void setD(Date d) {
         int no = CalendarTable.findIndex(dList, d);
-        if (no == -1) { return; }
+        if (no == -1) {
+            return;
+        }
         setD(no);
     }
 
@@ -62,13 +66,40 @@ public class DaySeasonScrollData {
         setD(d);
     }
 
+    public void gotoMonth(YearMonthPe m) {
+        int day = m.getNoDays() / 2;
+        int no = -1;
+        boolean found = false;
+        for (Date d : dList) {
+            no++;
+            int y = DateFormatUtil.getY(d);
+            int mt = DateFormatUtil.getM(d);
+            int dt = DateFormatUtil.getD(d);
+            if (y != m.getYear()) {
+                continue;
+            }
+            if (mt != m.getMonth()) {
+                continue;
+            }
+            if (dt < day) {
+                continue;
+            }
+            found = true;
+            break;
+        }
+        if (!found) {
+            return;
+        }
+        setD(no);
+    }
+
     public PanelDesc getDayScrollStatus() {
         return pos.getDayScrollStatus();
     }
 
     public boolean moveD(MoveSkip m, int noD) {
         return pos.skipPos(m, noD);
-        
+
     }
 
     public Date getD(int c) {
@@ -102,7 +133,7 @@ public class DaySeasonScrollData {
     public int getTodayC() {
         return todayC;
     }
-    
+
     public int getTodayM() {
         return mScroll.getIntP();
     }

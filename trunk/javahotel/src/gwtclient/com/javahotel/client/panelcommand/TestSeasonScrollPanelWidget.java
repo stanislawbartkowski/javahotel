@@ -12,17 +12,19 @@
  */
 package com.javahotel.client.panelcommand;
 
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
 import com.javahotel.client.widgets.stable.seasonscroll.WidgetScrollSeasonFactory;
 import com.javahotel.common.dateutil.CalendarTable;
-import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.dateutil.DateFormatUtil;
-import java.util.Date;
-import java.util.List;
+import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 
 /**
  *

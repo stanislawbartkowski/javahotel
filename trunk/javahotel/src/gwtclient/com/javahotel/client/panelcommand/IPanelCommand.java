@@ -13,6 +13,7 @@
 package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
 
 /**
  *

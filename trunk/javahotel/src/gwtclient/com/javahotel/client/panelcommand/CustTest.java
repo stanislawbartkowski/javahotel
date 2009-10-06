@@ -14,6 +14,7 @@ package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.mvc.controller.onerecord.RecordFa;
 import com.javahotel.client.mvc.controller.onerecord.RecordFaParam;
 import com.javahotel.common.command.DictType;

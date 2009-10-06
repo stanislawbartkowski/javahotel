@@ -12,6 +12,8 @@
  */
 package com.javahotel.view.gwt.tabpanel;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -19,16 +21,15 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.panelcommand.IPanelCommand;
-import com.javahotel.client.panelcommand.ISetGwtWidget;
 import com.javahotel.client.panelcommand.PanelCommandFactory;
 import com.javahotel.common.command.SynchronizeList;
 import com.javahotel.view.IDrawTabPanel;
-import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class NGwtTabPanel implements IDrawTabPanel {
@@ -102,8 +103,8 @@ class NGwtTabPanel implements IDrawTabPanel {
         for (EPanelCommand p : pList) {
             IPanelCommand cr = PanelCommandFactory.getPanelCommand(rI, p);
             iList[inde] = cr;
-            ISetW is = new ISetW(inde++, PanelCommandFactory.getPanelCommandLabel(rI, p),
-                    sy);
+            ISetW is = new ISetW(inde++, PanelCommandFactory
+                    .getPanelCommandLabel(rI, p), sy);
             cr.beforeDrawAction(is);
         }
 

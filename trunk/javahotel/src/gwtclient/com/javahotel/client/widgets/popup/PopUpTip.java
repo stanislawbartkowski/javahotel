@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class PopUpTip {
+public final class PopUpTip {
 
     public static PopupPanel getPopupTip(Widget info) {
         PopupPanel pUp = new PopupPanel(true);

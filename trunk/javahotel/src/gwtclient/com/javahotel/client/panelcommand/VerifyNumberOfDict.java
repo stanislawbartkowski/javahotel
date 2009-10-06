@@ -12,6 +12,9 @@
  */
 package com.javahotel.client.panelcommand;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -19,14 +22,14 @@ import com.javahotel.client.CallBackHotel;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.ReadRequestHtml;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.ReturnPersist;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

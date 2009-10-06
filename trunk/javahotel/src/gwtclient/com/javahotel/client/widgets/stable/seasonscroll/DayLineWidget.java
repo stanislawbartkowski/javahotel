@@ -12,6 +12,9 @@
  */
 package com.javahotel.client.widgets.stable.seasonscroll;
 
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,11 +25,10 @@ import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 import com.javahotel.common.scrollseason.model.MoveSkip;
 import com.javahotel.common.scrollseason.model.PanelDesc;
-import java.util.Date;
-import java.util.List;
+import com.javahotel.common.scrollseason.model.YearMonthPe;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class DayLineWidget implements IGwtWidget {
@@ -84,14 +86,16 @@ class DayLineWidget implements IGwtWidget {
         sData.gotoD(d);
     }
 
-    
+    void gotoMonth(YearMonthPe m) {
+        sData.gotoMonth(m);
+    }
+
     public PanelDesc getPanelDesc() {
         return sData.getDayScrollStatus();
     }
-    
+
     int getTodayM() {
         return sData.getTodayM();
     }
-
 
 }

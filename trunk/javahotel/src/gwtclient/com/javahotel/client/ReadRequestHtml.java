@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.panelcommand;
+package com.javahotel.client;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -23,12 +23,12 @@ import com.google.gwt.http.client.Response;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class ReadRequestHtml {
+public class ReadRequestHtml {
 
     private ReadRequestHtml() {
     }
 
-    interface ISetRequestText {
+    public interface ISetRequestText {
 
         void setText(String s);
     }
@@ -62,7 +62,7 @@ class ReadRequestHtml {
         }
     }
 
-    static void doGet(String url, ISetRequestText iSet) {
+    public static void doGet(String url, ISetRequestText iSet) {
         RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
         try {
             Request response = builder.sendRequest(null, new RequestCallbackM(iSet));

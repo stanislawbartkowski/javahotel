@@ -12,9 +12,7 @@
  */
 package com.javahotel.client.mvc.util;
 
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
@@ -25,15 +23,13 @@ import com.javahotel.client.mvc.contrpanel.view.ContrButtonViewFactory;
 import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
-import com.javahotel.client.widgets.popup.PopupUtil;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public class OkDialog {
+public class OkDialog extends AbstractDialog {
 
-    private final DialogBox dBox;
 
     public OkDialog(final IResLocator rI, final String message,
             final ICommand ok) {
@@ -61,16 +57,4 @@ public class OkDialog {
         dBox = mDial.getDBox();
     }
 
-    public PopupPanel getW() {
-        return dBox;
-    }
-
-    public void show() {
-        dBox.show();
-    }
-
-    public void show(Widget w) {
-        PopupUtil.setPos(dBox, w);
-        dBox.show();
-    }
 }
