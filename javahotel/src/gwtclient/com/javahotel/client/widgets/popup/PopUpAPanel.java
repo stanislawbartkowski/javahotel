@@ -19,7 +19,7 @@ import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class PopUpAPanel extends Composite {

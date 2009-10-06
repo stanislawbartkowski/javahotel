@@ -54,4 +54,6 @@ public interface HoLabel extends Constants {
     String LogoutQuestion();
 
     Map<String, String> DictList();
+    
+    String Wersja();
 }

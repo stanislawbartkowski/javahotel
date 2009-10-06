@@ -12,8 +12,12 @@
  */
 package com.javahotel.client.panelcommand;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.stackmenu.model.IStackMenuModel;
 import com.javahotel.client.stackmenu.model.StackButtonElem;
 import com.javahotel.client.stackmenu.model.StackButtonHeader;
@@ -21,8 +25,6 @@ import com.javahotel.client.stackmenu.model.StackMenuModelFactory;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 import com.javahotel.client.stackmenu.view.IStackMenuView;
 import com.javahotel.client.stackmenu.view.StackMenuViewFactory;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

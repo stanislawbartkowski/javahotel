@@ -20,7 +20,6 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.javahotel.client.CommonUtil;
@@ -30,6 +29,7 @@ import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.ifield.ISetWidget;
+import com.javahotel.client.mvc.util.PopupTip;
 import com.javahotel.client.widgets.popup.PopUpTip;
 import com.javahotel.client.widgets.popup.PopupUtil;
 import com.javahotel.common.dateutil.DateFormatUtil;
@@ -38,50 +38,50 @@ import com.javahotel.common.dateutil.DateFormatUtil;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-abstract class ELineDialog extends Composite implements ILineField {
+abstract class ELineDialog extends PopupTip implements ILineField {
 
     protected final IResLocator pLi;
     protected IKeyboardAction kLi;
     protected IChangeListener lC;
     protected final boolean isCheckBox;
     protected final boolean checkBoxVal;
-    private String errmess = null;
-    private PopupPanel tup = null;
-
-    private void hideUp() {
-        if (tup != null) {
-            tup.hide();
-            tup = null;
-        }
-    }
-
-    private class MouseO implements MouseOverHandler, MouseOutHandler {
-
-        public void onMouseOver(MouseOverEvent event) {
-            if (errmess != null) {
-                tup = PopUpTip.getPopupTip(new Label(errmess));
-                PopupUtil.setPos(tup, ELineDialog.this);
-                tup.show();
-            }
-        }
-
-        public void onMouseOut(MouseOutEvent event) {
-            hideUp();
-        }
-    }
-
-    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
-        return addDomHandler(handler, MouseOverEvent.getType());
-    }
-
-    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-        return addDomHandler(handler, MouseOutEvent.getType());
-    }
-
-    protected void setMouse() {
-        this.addMouseOutHandler(new MouseO());
-        this.addMouseOverHandler(new MouseO());
-    }
+//    private String errmess = null;
+//    private PopupPanel tup = null;
+//
+//    private void hideUp() {
+//        if (tup != null) {
+//            tup.hide();
+//            tup = null;
+//        }
+//    }
+//
+//    private class MouseO implements MouseOverHandler, MouseOutHandler {
+//
+//        public void onMouseOver(MouseOverEvent event) {
+//            if (errmess != null) {
+//                tup = PopUpTip.getPopupTip(new Label(errmess));
+//                PopupUtil.setPos(tup, ELineDialog.this);
+//                tup.show();
+//            }
+//        }
+//
+//        public void onMouseOut(MouseOutEvent event) {
+//            hideUp();
+//        }
+//    }
+//
+//    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+//        return addDomHandler(handler, MouseOverEvent.getType());
+//    }
+//
+//    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+//        return addDomHandler(handler, MouseOutEvent.getType());
+//    }
+//
+//    protected void setMouse() {
+//        this.addMouseOutHandler(new MouseO());
+//        this.addMouseOverHandler(new MouseO());
+//    }
 
     ELineDialog(final IResLocator pLi) {
         this.pLi = pLi;
@@ -158,10 +158,7 @@ abstract class ELineDialog extends Composite implements ILineField {
     }
 
     public void setErrMess(String errmess) {
-        this.errmess = errmess;
-        if (errmess == null) {
-            hideUp();
-        }
+        setMessage(errmess);
     }
 
     public IMvcWidget getMWidget() {

@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public interface IWebHotelPanel {
+public interface IWebHotelPanel  {
 
     Label getReplyL();
 

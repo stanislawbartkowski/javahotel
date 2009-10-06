@@ -46,8 +46,12 @@ public class CommonUtil {
 
     public static String getResAdr(final String res) {
         String path;
-        path = "com.javahotel.web";
-        return path + "/res/" + res;
+        if (!IsScript()) {
+            path = "com.javahotel.web/";
+        } else {
+            path = "";
+        }
+        return path + "res/" + res;
     }
 
     public static boolean IsScript() {
@@ -55,7 +59,18 @@ public class CommonUtil {
     }
 
     public static String getImageHTML(final String imageUrl) {
-        String s = "<td><img src='" + getImageAdr(imageUrl) + "'></td>";
+        return getImageHTML(imageUrl, 0, 0);
+    }
+
+    public static String getImageHTML(final String imageUrl, int w, int h) {
+        String s = "<td><img src='" + getImageAdr(imageUrl) + "'";
+        if (w != 0) {
+            s += " width='" + w + "px'";
+        }
+        if (h != 0) {
+            s += " height='" + w + "px'";
+        }
+        s += "></td>";
         return s;
     }
 
@@ -81,6 +96,7 @@ public class CommonUtil {
     public static void removeCookie(final String pName) {
         Cookies.removeCookie(pName);
     }
+
     public static final int BADNUMBER = -1;
 
     public static int getNum(final String s) {
@@ -183,12 +199,12 @@ public class CommonUtil {
 
     public static PersistType getPType(int pAction) {
         switch (pAction) {
-            case IPersistAction.ADDACION:
-                return PersistType.ADD;
-            case IPersistAction.DELACTION:
-                return PersistType.REMOVE;
-            case IPersistAction.MODIFACTION:
-                return PersistType.CHANGE;
+        case IPersistAction.ADDACION:
+            return PersistType.ADD;
+        case IPersistAction.DELACTION:
+            return PersistType.REMOVE;
+        case IPersistAction.MODIFACTION:
+            return PersistType.CHANGE;
         }
         return null;
     }

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package com.javahotel.client.panelcommand;
+package com.javahotel.client.dialog;
 
 import com.javahotel.client.dialog.IMvcWidget;
 

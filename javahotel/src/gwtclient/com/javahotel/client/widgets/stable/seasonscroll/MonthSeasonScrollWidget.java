@@ -15,6 +15,8 @@ package com.javahotel.client.widgets.stable.seasonscroll;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -37,11 +39,17 @@ class MonthSeasonScrollWidget implements IGwtWidget {
     private final HorizontalPanel hp;
     private final MonthSeasonScrollData sData;
     private int todayM;
+    private final IMonthClicked mClicked;
 
-    MonthSeasonScrollWidget(final IResLocator pLoc) {
+    interface IMonthClicked {
+        void clicked(YearMonthPe m);
+    }
+
+    MonthSeasonScrollWidget(final IResLocator pLoc, IMonthClicked mClicked) {
         this.iR = pLoc;
         sData = new MonthSeasonScrollData();
         hp = new HorizontalPanel();
+        this.mClicked = mClicked;
     }
 
     private Label getNo(int no) {
@@ -66,12 +74,27 @@ class MonthSeasonScrollWidget implements IGwtWidget {
 
     }
 
+    private class MonthEvent implements MouseDownHandler {
+
+        private final int i;
+
+        MonthEvent(int i) {
+            this.i = i;
+        }
+
+        public void onMouseDown(MouseDownEvent event) {
+            YearMonthPe pe = sData.getPe(sData.getFirstP() + i);
+            mClicked.clicked(pe);
+        }
+    }
+
     void createVPanel(List<Date> dList, int panelW, int todayM) {
         this.todayM = todayM;
         sData.createVPanel(dList, panelW);
         hp.setSpacing(5);
         for (int i = 0; i < sData.getMonthPe(); i++) {
             Label la = new Label("");
+            la.addMouseDownHandler(new MonthEvent(i));
             hp.add(la);
         }
         drawNames();
@@ -84,10 +107,9 @@ class MonthSeasonScrollWidget implements IGwtWidget {
     public PanelDesc getPanelDesc() {
         return sData.getMonthScrollStatus();
     }
-    
+
     void refresh() {
         drawNames();
     }
-
 
 }

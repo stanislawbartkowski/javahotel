@@ -14,14 +14,16 @@ package com.javahotel.client.panelcommand;
 
 // TODO: not in use
 
+import java.util.ArrayList;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.dialog.DictData.SpecE;
 import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
 import com.javahotel.client.mvc.edittable.controller.ControlerEditTableFactory;
 import com.javahotel.client.mvc.edittable.controller.IControlerEditTable;
 import com.javahotel.common.toobject.ResObjectP;
-import java.util.ArrayList;
 
 /**
  *

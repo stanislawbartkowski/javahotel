@@ -18,7 +18,7 @@ import com.javahotel.client.widgets.popup.ICloseAction;
 import com.javahotel.client.widgets.popup.PopupUtil;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 abstract public class MDialog {

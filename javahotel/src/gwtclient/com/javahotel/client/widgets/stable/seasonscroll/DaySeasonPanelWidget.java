@@ -21,6 +21,7 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
 import com.javahotel.common.scrollseason.model.MoveSkip;
+import com.javahotel.common.scrollseason.model.YearMonthPe;
 
 /**
  * 
@@ -73,11 +74,20 @@ class DaySeasonPanelWidget implements IScrollSeason {
         public void clicked(Date d) {
         }
     }
+    
+    private class MonthClicked implements MonthSeasonScrollWidget.IMonthClicked {
+
+        public void clicked(YearMonthPe m) {
+            dW.gotoMonth(m);
+            refresh();            
+        }
+        
+    }
 
     DaySeasonPanelWidget(final IResLocator pLoc, IDrawPartSeason dPart,
             final int todayC) {
         dW = new DayLineWidget(pLoc, todayC);
-        mW = new MonthSeasonScrollWidget(pLoc);
+        mW = new MonthSeasonScrollWidget(pLoc, new MonthClicked());
         this.dPart = dPart;
         scrollDayW = new ScrollArrowWidget(pLoc, new ScrollCli(),true);
         scrollMonthW = new ScrollArrowWidget(pLoc, new ScrollCliM(),false);
