@@ -1,0 +1,14 @@
+= Introduction =
+
+This wikipage describes how to setup eclipse project to run Google App Engine example unit test.
+
+= Details =
+
+==Prerequisite==
+
+Eclipse with plugins:
+Google App Engine Java SDK 
+Eclipse Data Tool Platform
+
+Step1:
+Create project (not Java project). This project will play a role of source container. Checkout example to this project.
