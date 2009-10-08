@@ -8,7 +8,26 @@ This wikipage describes how to setup eclipse project to run Google App Engine ex
 
 Eclipse with plugins:
 Google App Engine Java SDK 
+
 Eclipse Data Tool Platform
 
-Step1:
-Create project (not Java project). This project will play a role of source container. Checkout example to this project.
+==Steps to create project==
+
+
+ * Create project (not Java project). This project will play a role of source container. Checkout example to this project using svn : http://javahotel.googlecode.com/svn/trunk/examples/localunittesting javahotel-read-only. Following directory structure should be creaeted:
+  * gaesource
+  * jpasource
+  * nongaesource
+
+ * Create project TestProjectGae. It should be Google Web Application Project. GWT is not necessary. Add JUnit4 library to project path. Add also appengine-api-stubs.jar and appengie-local-runtime.jar to project path. Using eclipse "link source" add 'gaesource' and "jpasource" as source folders.
+
+ * Create project TestProjectNonGae. It should have Java Persisten facet. Also add Derby Embedded JDBC Driver to project path. Using eclipse "link source' add 'nongaesource' and 'jpasource' as source folders. Add also JUnit4 library to project path.
+
+==Run==
+
+ * To run demo test unit for gae project simply run 'JUnit Test' for TestCase1 class.
+ * To run demo test unit for nongae project the same but from TestProjectNonGae
+
+==What more==
+
+Simply add next test method to TestCase1 class and run again for both project. Pay attention that you add new test to common class without bothering about Google App Engine and non Google App Engine frameworks.
