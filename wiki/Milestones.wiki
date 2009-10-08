@@ -8,8 +8,16 @@ Milestones
 || 2009/06/31 || Porting to Google App Engine finished ||
 || 2009/08/20 || Open source project, google hosting, blog started ||
 || 2009/09/21 ||  Requests for beta version completed ||
+
+
 Now
 
 || Date started || Description ||
 || 2009/09/01 - ? || Working on user interface ||
-|| 2009/09/01 - ? || Main reserwation panel - working on date selector ||
+
+Working on:
+|| Date started || Description ||
+|| 2009/09/01 - ? || Main reservation panel - working on date selector ||
+
+Completed 
+|| 2009/10/08 || Finished title bar ||
