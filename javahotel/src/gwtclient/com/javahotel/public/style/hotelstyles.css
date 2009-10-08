@@ -21,26 +21,13 @@
 /* ---------------------- */
 .error-reply {
 	background-color: red;
+	width:100%;
 }
 
 .wait-reply {
 	background-color: #b5fede;
-	width : 75px;
-}
-
-.header-panel {
-	background-color: #b5febe;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	padding-left: 4px;
-}
-
-.header-panel .product-name {
-	font-size: larger;
-}
-
-.header-panel .hotel-name {
-	color: #000066;
+	width:100%;
+	color: blue;
 }
 
 /* --------------- */

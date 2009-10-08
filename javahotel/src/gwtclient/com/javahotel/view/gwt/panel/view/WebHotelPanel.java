@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.CommonUtil;
+import com.javahotel.client.IImageGallery;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.ReadRequestHtml;
 import com.javahotel.client.dialog.IClickNextYesNo;
@@ -39,17 +40,22 @@ class WebHotelPanel implements IWebHotelPanel {
 
     private final DockPanel dPanel = new DockPanel();
     private final IResLocator resI;
-    // private final HorizontalPanel uPanel;
-    // private final HTML uPanel;
-    private boolean isReplyL;
+
+    private enum StatusE {
+        NORMAL, REPLYL, ERRORL
+    };
+
+    private StatusE sta = StatusE.NORMAL;
     private final Label replyL = new Label();
+    private ErrorL errL;
+
     private Widget wCenter = null;
     private Widget wWest = null;
     private Widget wWest1 = null;
-    private final static String LOGOUTIMAGE = "logout.png";
     private final static String HOTELHEADER_LOGOUT = "hotelheader_logout";
-    private final static String LOGOIMAGE = "hotellogo.png";
     private final static String HOTELHEADER_LOGO = "hotelheader_logo";
+    private final static String HOTELHEADER_DOWNMENU = "hotelheader_downmenu";
+    private final static String HOTELHEADER_STATUSBAR = "hotelheader_statusbar";
     private final HTML ha;
     private final LogoH logo;
     private final ICommand logOut;
@@ -61,19 +67,26 @@ class WebHotelPanel implements IWebHotelPanel {
     private final VerticalPanel vp = new VerticalPanel();
     private HTMLPanel uPanel;
 
-    private void toReplayL() {
-        if (isReplyL) {
+    private void setStatusW(Widget w) {
+        if (uPanel == null) {
             return;
         }
-        // uPanel.setCellWidth(replyL, "10%");
-        isReplyL = true;
+        uPanel.addAndReplaceElement(w, HOTELHEADER_STATUSBAR);
     }
 
-    private void toErrorL() {
-        if (isReplyL) {
-            // uPanel.setCellWidth(replyL, "20%");
+    private void setStatusNormal() {
+        setStatusW(new Label(""));
+        sta = StatusE.NORMAL;
+    }
+
+    private void toReplayL() {
+        if (sta == StatusE.REPLYL) {
+            return;
         }
-        isReplyL = true;
+        replyL.setText("");
+        replyL.setStyleName("wait-reply");
+        sta = StatusE.REPLYL;
+        setStatusW(replyL);
     }
 
     public Label getReplyL() {
@@ -81,9 +94,40 @@ class WebHotelPanel implements IWebHotelPanel {
         return replyL;
     }
 
-    public Label getErrorL() {
-        toErrorL();
-        return replyL;
+    public void clearReply() {
+        setStatusNormal();
+    }
+
+    private class ErrorL extends PopupTip {
+
+        ErrorL(String errmess) {
+            setMessage(errmess);
+            setStyleName("error-reply");
+        }
+
+    }
+
+    public void setErrorL(String errmess) {
+        if (sta == StatusE.ERRORL) {
+            return;
+        }
+        sta = StatusE.ERRORL;
+        errL = new ErrorL(errmess);
+        setStatusW(errL);
+    }
+
+    public void initStatus() {
+        switch (sta) {
+        case NORMAL:
+            setStatusNormal();
+            break;
+        case ERRORL:
+            setStatusW(errL);
+            break;
+        case REPLYL:
+            setStatusW(replyL);
+            break;
+        }
     }
 
     public void setDCenter(final Widget w) {
@@ -98,7 +142,7 @@ class WebHotelPanel implements IWebHotelPanel {
     }
 
     public void setMenuPanel(Panel pa) {
-        // uPanel.insert(pa, 3);
+        uPanel.addAndReplaceElement(pa, HOTELHEADER_DOWNMENU);
     }
 
     public void setWest1(Widget w) {
@@ -125,62 +169,12 @@ class WebHotelPanel implements IWebHotelPanel {
             };
             YesNoDialog yesD = new YesNoDialog(resI, resI.getLabels()
                     .LogoutQuestion(), yes);
-//            PopupUtil.setPos(yesD.getW(), ha);
+            // PopupUtil.setPos(yesD.getW(), ha);
             yesD.show(ha);
         }
     }
 
-    /*
-     * WebHotelPanel(final IResLocator rI, ICommand logOut) {
-     * Window.setTitle("Hotel na Javie"); resI = rI; this.logOut = logOut;
-     * uPanel = new HorizontalPanel(); uPanel.setStyleName("header-panel");
-     * Label tL = new Label(resI.getLabels().productName()); uPanel.add(tL);
-     * tL.addStyleName("product-name"); uPanel.setCellWidth(tL, "15%");
-     * 
-     * uPanel.add(hotelName); hotelName.addStyleName("hotel-name");
-     * uPanel.setCellWidth(hotelName, "15%");
-     * 
-     * uPanel.add(userName); hotelName.addStyleName("hotel-name");
-     * uPanel.setCellWidth(userName, "15%");
-     * 
-     * uPanel.add(ha); ha.addMouseDownHandler(new ClickLogOut());
-     * 
-     * 
-     * uPanel.add(replyL); isReplyL = false; toReplayL(); //
-     * uPanel.setCellWidth(replyL, "10%");
-     * uPanel.setCellHorizontalAlignment(replyL,
-     * HasHorizontalAlignment.ALIGN_RIGHT); uPanel.setWidth("100%");
-     * dPanel.add(uPanel, DockPanel.NORTH); dPanel.setWidth("100%"); }
-     */
-
-    // String res = CommonUtil.getResAdr(pageName);
-    // ReadRequestHtml.doGet(res, new IRequestSet());
-
-//    private Widget getById(String sid) {
-//
-//        for (int i = 0; i < uPanel.getWidgetCount(); i++) {
-//            Widget w = uPanel.getWidget(i);
-//            String id = w.getElement().getId();
-//            if (id == null) {
-//                continue;
-//            }
-//            if (id.equals(sid)) {
-//                return w;
-//            }
-//        }
-//        return null;
-//    }
-
     private void setOut(boolean visible) {
-        // for (int i=0; i<uPanel.getWidgetCount(); i++) {
-        // Widget w = uPanel.getWidget(i);
-        // String id = w.getElement().getId();
-        // if (id.equals(HOTELHEADER_LOGOUT)) {
-        // w.setVisible(
-        // }
-        // }
-//        Element e = uPanel.getElementById(HOTELHEADER_LOGOUT);
-//        uPanel.setVisible(e, visible);
         ha.setVisible(visible);
     }
 
@@ -188,76 +182,46 @@ class WebHotelPanel implements IWebHotelPanel {
 
         public void setText(String s) {
             uPanel = new HTMLPanel(s);
-            // HT
-            // RootPanel.get("hotelheader_appname").add(tL);
-            // RootPanel.get("hotelheader_appname");
             uPanel.addAndReplaceElement(tL, "hotelheader_appname");
             uPanel.addAndReplaceElement(ownerName, "hotelheader_ownername");
             uPanel.addAndReplaceElement(userName, "hotelheader_user");
             uPanel.addAndReplaceElement(hotelName, "hotelheader_hotel");
             uPanel.addAndReplaceElement(ha, HOTELHEADER_LOGOUT);
             uPanel.addAndReplaceElement(logo, HOTELHEADER_LOGO);
-            // dPanel.add(uPanel, DockPanel.NORTH);
+            initStatus();
             vp.add(uPanel);
             setOut(false);
-//            Widget w = getById(HOTELHEADER_LOGOUT);
-//            int i = 0;
         }
 
     }
-    
+
     private class LogoH extends PopupTip {
         private final HTML ha;
-        
+
         LogoH(String h) {
             ha = new HTML(h);
             initWidget(ha);
             setMessage(resI.getLabels().Wersja());
             setMouse();
         }
-        
+
     }
 
     WebHotelPanel(final IResLocator rI, ICommand logOut) {
         Window.setTitle("Hotel na Javie");
         resI = rI;
         this.logOut = logOut;
-        // uPanel = new HTML();
-        // uPanel.setStyleName("header-panel");
         tL = new Label(resI.getLabels().productName());
         ownerName = new Label("Wersja demonstracyjna");
-        // uPanel.add(tL);
-        // tL.addStyleName("product-name");
-        // uPanel.setCellWidth(tL, "15%");
 
-        // uPanel.add(hotelName);
-        // hotelName.addStyleName("hotel-name");
-        // uPanel.setCellWidth(hotelName, "15%");
-
-        // uPanel.add(userName);
-        // hotelName.addStyleName("hotel-name");
-        // uPanel.setCellWidth(userName, "15%");
-
-        // uPanel.add(ha);
-        // ha.addMouseDownHandler(new ClickLogOut());
-
-        // uPanel.add(replyL);
-        isReplyL = false;
-        toReplayL();
-        // uPanel.setCellWidth(replyL, "10%");
-        // uPanel.setCellHorizontalAlignment(replyL,
-        // HasHorizontalAlignment.ALIGN_RIGHT);
-        // uPanel.setWidth("100%");
-        // dPanel.add(uPanel, DockPanel.NORTH);
-        // dPanel.setWidth("100%");
-
-        String h = CommonUtil.getImageHTML(LOGOUTIMAGE,20,20);
+        String h = CommonUtil.getImageHTML(IImageGallery.LOGOUT, 20, 20);
         ha = new HTML(h);
+
         ha.addMouseDownHandler(new ClickLogOut());
 
-        h = CommonUtil.getImageHTML(LOGOIMAGE,20,20);
+        h = CommonUtil.getImageHTML(IImageGallery.LOGHOTEL, 20, 20);
         logo = new LogoH(h);
-        
+
         dPanel.add(vp, DockPanel.NORTH);
         vp.setHeight("25px");
         String res = CommonUtil.getResAdr("header.html");
@@ -283,14 +247,6 @@ class WebHotelPanel implements IWebHotelPanel {
         userName.setText(user);
         hotelName.setText(hotel);
         setOut(true);
-        // String h = CommonUtil.getImageHTML(LOGOUTIMAGE);
-        // Element e = uPanel.getElementById(HOTELHEADER_LOGOUT);
-        // uPanel.setVisible(elem, visible)HOTELHEADER_LOGOUT
-        // ha.setHTML(h);
     }
 
-    // public void setGwtWidget(IMvcWidget i) {
-    // TODO Auto-generated method stub
-
-    // }
 }

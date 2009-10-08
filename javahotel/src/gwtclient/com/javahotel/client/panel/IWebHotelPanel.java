@@ -20,11 +20,13 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public interface IWebHotelPanel  {
+public interface IWebHotelPanel {
+
+    void setErrorL(String errmess);
+
+    void clearReply();
 
     Label getReplyL();
-
-    Label getErrorL();
 
     void setUserHotel(String user, String hotel);
 

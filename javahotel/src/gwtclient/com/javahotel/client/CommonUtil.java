@@ -41,7 +41,7 @@ public class CommonUtil {
     public static String getImageAdr(final String image) {
         String path;
         path = "com.javahotel.web";
-        return path + "/img/" + image;
+        return path + "/res/img/" + image;
     }
 
     public static String getResAdr(final String res) {
@@ -60,6 +60,14 @@ public class CommonUtil {
 
     public static String getImageHTML(final String imageUrl) {
         return getImageHTML(imageUrl, 0, 0);
+    }
+    
+    // TODO: remove
+    public static String getImageHTMLStyle(final String imageUrl) {
+        String h = "<span style='background: url(";
+        h += imageUrl;
+        h += ") 50% 100% no-repeat' </span>";
+        return h;
     }
 
     public static String getImageHTML(final String imageUrl, int w, int h) {
