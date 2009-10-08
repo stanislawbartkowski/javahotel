@@ -13,8 +13,25 @@
 }
 
 .hotel_title .logo {
+/*    border: 1px solid; */
 	padding-top: 1px;
 	padding-left: 5px;
+	width: 30px;
+}
+
+.hotel_title .statusbar {
+/*  border: 1px solid; */
+  width: 50px;
+}
+
+.hotel_title .downmenu {
+	padding-top: 2px;
+	padding-left: 5px;
+}
+
+.hotel_title .downmenu :hover {
+	outline: #aaaaaa dotted thick;
+	outline-width: 2px;
 }
 
 .hotel_title .logo :hover {
@@ -34,7 +51,9 @@
 }
 
 .hotel_title .appname {
-	float: left;
+  padding-left:3px;
+/*  border: 1px solid; */
+  width: 150px;
 }
 
 .hotel_title .ownername {	
@@ -47,11 +66,26 @@
 	<tr>
 	
      	<td class="logo"> 
-     	<div id="hotelheader_logo"></div>  
+     	<div id="hotelheader_logo">
+<!--         <img src="img/hotellogo.png" width="20" height="20"></img> -->
+     	</div>  
+		</td>
+		
+     	<td class="statusbar"> 
+     	<div id="hotelheader_statusbar">
+        &nbsp;
+     	</div>  
 		</td>
 		
 		<td class="appname">
+<!--   	    HotelJava --> 
 		<div id="hotelheader_appname"></div>
+		</td>
+		
+     	<td class="downmenu"> 
+     	<div id="hotelheader_downmenu">
+<!--    <img src="img/MenuDown.png" width="40" height="20"></img> -->
+     	</div>  
 		</td>
 		
 		<td class="ownername">

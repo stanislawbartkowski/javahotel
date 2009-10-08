@@ -16,12 +16,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public abstract class CallBackHotel<T> implements AsyncCallback<T> {
 
     abstract public void onMySuccess(final T arg);
+
     final private IResLocator pLocator;
     final private onFailureExt ext;
 
@@ -64,10 +65,13 @@ public abstract class CallBackHotel<T> implements AsyncCallback<T> {
                 return;
             }
         }
-        Label e = pLocator.getPanel().getErrorL();
-        e.setStyleName("error-reply");
-        e.setVisible(true);
-        e.setText(pLocator.getLabels().commError());
+
+        pLocator.getPanel().setErrorL(pLocator.getLabels().commError());
+
+        // Label e = pLocator.getPanel().getErrorL();
+        // e.setStyleName("error-reply");
+        // e.setVisible(true);
+        // e.setText(pLocator.getLabels().commError());
 
     }
 }
