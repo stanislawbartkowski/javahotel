@@ -44,14 +44,35 @@ public class CommonUtil {
         return path + "/res/img/" + image;
     }
 
-    public static String getResAdr(final String res) {
+    
+    public static String getResAdr(final String res,boolean main) {
         String path;
-        if (!IsScript()) {
-            path = "com.javahotel.web/";
-        } else {
-            path = "";
+//        if (!IsScript()) {
+//            path = "com.javahotel.web/";
+//        } else {
+//            path = "";
+//        }
+        if (main) {
+            path="";
         }
+        else {
+          path = "com.javahotel.web/";
+        }
+//        path="";
         return path + "res/" + res;
+    }
+    
+    public static String getResAdr(final String res) {
+        return getResAdr(res,false);
+//        String path;
+//        if (!IsScript()) {
+//            path = "com.javahotel.web/";
+//        } else {
+//            path = "";
+//        }
+//        path = "com.javahotel.web/";
+////        path="";
+//        return path + "res/" + res;
     }
 
     public static boolean IsScript() {

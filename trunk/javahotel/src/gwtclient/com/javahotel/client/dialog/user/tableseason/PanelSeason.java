@@ -12,8 +12,8 @@
  */
 package com.javahotel.client.dialog.user.tableseason;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -24,15 +24,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.WidgetSizeFactory;
-import com.javahotel.client.idialog.GetIEditFactory;
-import com.javahotel.client.ifield.IChangeListener;
-import com.javahotel.client.ifield.ILineField;
+import com.javahotel.client.param.ConfigParam;
 import com.javahotel.client.widgets.popup.PopUpWithClose;
 import com.javahotel.client.widgets.solid.SolidColor;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
-import com.javahotel.client.widgets.stable.ScrollSeasonFactory;
+import com.javahotel.client.widgets.stable.seasonscroll.WidgetScrollSeasonFactory;
 import com.javahotel.common.dateutil.CalendarTable;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
@@ -40,7 +39,6 @@ import com.javahotel.common.dateutil.GetPeriods;
 import com.javahotel.common.dateutil.GetPeriodsTemplate;
 import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
-import com.javahotel.common.dateutil.GetPeriods.StartWeek;
 import com.javahotel.common.seasonutil.CreateTableSeason;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
@@ -55,7 +53,7 @@ public class PanelSeason {
 
     private final ComplexPanel controlP;
     private final IResLocator rI;
-    private final ILineField ePeriod;
+//    private final ILineField ePeriod;
     private final IScrollSeason sCr;
     private OfferSeasonP oP;
     private Date d1;
@@ -66,18 +64,19 @@ public class PanelSeason {
     private final int startC;
     private final IDrawPartSeason drawI;
 
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
     public PanelSeason(final IResLocator rI, final Grid g,
             final ComplexPanel controlP, final int startC,
-            final IDrawPartSeason drawI) {
+            final IDrawPartSeason drawI,final Date today) {
         this.rI = rI;
         this.g = g;
         this.startC = startC;
         this.controlP = controlP;
         this.drawI = drawI;
-        ePeriod = GetIEditFactory.getEnumMap(rI, rI.getLabels().PeriodType());
-//        sCr = new ScrollTable(rI, new DrawC(), 12);
-        sCr = ScrollSeasonFactory.getScrollSeason(rI, new DrawC(), 12);
+//        ePeriod = GetIEditFactory.getEnumMap(rI, rI.getLabels().PeriodType());
+        // sCr = new ScrollTable(rI, new DrawC(), 12);
+//        sCr = ScrollSeasonFactory.getScrollSeason(rI, new DrawC(), 12);
+        sCr = WidgetScrollSeasonFactory.getScrollSeason(rI, new DrawC(), -1);
     }
 
     private class DrawC implements IDrawPartSeason {
@@ -89,18 +88,18 @@ public class PanelSeason {
             }
         }
 
-        public void drawagain(final int l, final int lno, final int cno,
-                final boolean setC) {
-            if (drawI != null) {
-                drawI.drawagain(l, lno, cno, setC);
-            }
-        }
+//        public void drawagain(final int l, final int lno, final int cno,
+//                final boolean setC) {
+//            if (drawI != null) {
+//                drawI.drawagain(l, lno, cno, setC);
+//            }
+//        }
 
-        public void setSWidget(final Widget w) {
-            if (controlP.getWidgetCount() > 1) {
-                controlP.remove(1);
-            }
-            controlP.add(w);
+        public void setGwtWidget(IMvcWidget i) {
+//            if (controlP.getWidgetCount() > 1) {
+//                controlP.remove(1);
+//            }
+            controlP.add(i.getWidget());            
         }
     }
 
@@ -141,7 +140,8 @@ public class PanelSeason {
         }
 
         public void onClick(final Widget arg0) {
-            PopUpWithClose aPanel = new PopUpWithClose(WidgetSizeFactory.getW(arg0));
+            PopUpWithClose aPanel = new PopUpWithClose(WidgetSizeFactory
+                    .getW(arg0));
             VerticalPanel h = aPanel.getVP();
             String s = getName(pe);
             h.add(new Label(s));
@@ -159,8 +159,7 @@ public class PanelSeason {
         private HorizontalPanel pH;
         private int co;
 
-        DrawDC(final Date d1, final List<Date> dLine,
-                final List<PeriodT> coP) {
+        DrawDC(final Date d1, final List<Date> dLine, final List<PeriodT> coP) {
             super(d1, dLine, coP);
             co = 0;
         }
@@ -183,20 +182,20 @@ public class PanelSeason {
                 Object o = pr.getI();
                 OfferSeasonPeriodP pp = (OfferSeasonPeriodP) o;
                 switch (pp.getPeriodT()) {
-                    case LOW:
-                        color = "#00FF00";
-                        break;
-                    case SPECIAL:
-                        color = "#FF0000";
-                        break;
-                    case LOWWEEKEND:
-                        color = "#00FFF0";
-                        break;
-                    case HIGHWEEKEND:
-                        color = "#00FFFF";
-                        break;
-                    default:
-                        break;
+                case LOW:
+                    color = "#00FF00";
+                    break;
+                case SPECIAL:
+                    color = "#FF0000";
+                    break;
+                case LOWWEEKEND:
+                    color = "#00FFF0";
+                    break;
+                case HIGHWEEKEND:
+                    color = "#00FFFF";
+                    break;
+                default:
+                    break;
                 }
             }
             SolidColor d = new SolidColor(color, wi, -1);
@@ -219,41 +218,40 @@ public class PanelSeason {
 
     private void drawCa(final PeriodType pType, int actC) {
         dLine = CalendarTable.listOfDates(d1, d2, pType);
-        coP = CreateTableSeason.createTable(oP, StartWeek.onFriday);
-        sCr.createVPanel(dLine.size(), actC);
+        coP = CreateTableSeason.createTable(oP, ConfigParam.getStartWeek());
+        sCr.createVPanel(dLine, actC);
     }
 
-    private class PChange implements IChangeListener {
+//    private class PChange implements IChangeListener {
+//
+//        public void onChange(final ILineField arg0) {
+//            String val = ePeriod.getVal();
+//            PeriodType pT = PeriodType.valueOf(val);
+//            drawCa(pT, -1);
+//        }
+//    }
 
-        public void onChange(final ILineField arg0) {
-            String val = ePeriod.getVal();
-            PeriodType pT = PeriodType.valueOf(val);
-            drawCa(pT, -1);
-        }
-    }
+//    private void createControl(final ComplexPanel cP, final PeriodType pT) {
+//        cP.add(ePeriod.getMWidget().getWidget());
+//        ePeriod.setVal(pT.name());
+//        ePeriod.setChangeListener(new PChange());
+//    }
 
-    private void createControl(final ComplexPanel cP, final PeriodType pT) {
-        cP.add(ePeriod.getMWidget().getWidget());
-        ePeriod.setVal(pT.name());
-        ePeriod.setChangeListener(new PChange());
-    }
+//    private int countA(final Date t) {
+//        if (t == null) {
+//            return -1;
+//        }
+//        int n = DateUtil.noDays(d1, t);
+//        return n;
+//    }
 
-    private int countA(final Date t) {
-        if (t == null) {
-            return -1;
-        }
-        int n = DateUtil.noDays(d1, t);
-        return n;
-    }
-
-    public void drawPa(final OfferSeasonP oP, final PeriodType t,
-            final Date today) {
+    public void drawPa(final OfferSeasonP oP, final PeriodType t) {
         this.oP = oP;
         controlP.clear();
-        createControl(controlP, t);
+//        createControl(controlP, t);
         d1 = oP.getStartP();
         d2 = oP.getEndP();
-        drawCa(t, countA(today));
+        drawCa(t, 12);
     }
 
     public List<Date> getDLine() {

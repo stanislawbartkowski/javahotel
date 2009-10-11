@@ -16,6 +16,7 @@ package com.javahotel.client.panelcommand;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
+import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
@@ -46,18 +47,17 @@ class TestSeasonScrollPanel extends  AbstractPanelCommand {
         public void draw(int fromL, int toL) {
         }
 
-        public void drawagain(int fromL, int toL, int actL, boolean setC) {
-        }
 
-        public void setSWidget(Widget w) {
-            iSet.setGwtWidget(new DefaultMvcWidget(w));
+        public void setGwtWidget(IMvcWidget i) {
+            iSet.setGwtWidget(i);
+            
         }
 
     }
 
     public void beforeDrawAction(ISetGwtWidget iSet) {
         iS = ScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet), 40);
-        iS.createVPanel(156, -1);
+//        iS.createVPanel(156, -1);
 
     }
 

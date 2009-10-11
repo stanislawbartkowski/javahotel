@@ -12,14 +12,14 @@
  */
 package com.javahotel.client.dialog.user.booking;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.idialog.GetIEditFactory;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ICreatedValue;
@@ -68,7 +68,7 @@ public class BookingObjects extends Composite {
                     }
                 }
                 if (oP != null) {
-                    pCa.draPa(oP, today);
+                    pCa.draPa(oP);
                 }
             }
         };
@@ -110,14 +110,12 @@ public class BookingObjects extends Composite {
                 dG.draw();
             }
 
-            public void drawagain(final int l, final int lno, final int cno,
-                    final boolean setC) {
-            }
-
-            public void setSWidget(Widget w) {
+            public void setGwtWidget(IMvcWidget i) {
+                // TODO Auto-generated method stub
             }
         };
-        pCa = new PanelResCalendar(rI, bO.getG(), seasonC, bO.colS(), drawI);
+        pCa = new PanelResCalendar(rI, bO.getG(), seasonC, bO.colS(), drawI,
+                today);
         CommandParam p = rI.getR().getHotelCommandParam();
         p.setDict(DictType.OffSeasonDict);
         dG = new DrawResGrid(rI, bO, pCa, bO.getG(), today);

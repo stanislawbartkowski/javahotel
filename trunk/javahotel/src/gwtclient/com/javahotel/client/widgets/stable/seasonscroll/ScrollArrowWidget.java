@@ -12,29 +12,32 @@
  */
 package com.javahotel.client.widgets.stable.seasonscroll;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.DefaultMvcWidget;
-import com.javahotel.client.dialog.IGwtWidget;
-import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.htmlview.HtmlElemDesc;
+import com.javahotel.client.htmlview.HtmlPanelFactory;
+import com.javahotel.client.htmlview.HtmlTypeEnum;
+import com.javahotel.client.htmlview.IHtmlPanelCallBack;
 import com.javahotel.client.idialog.GetIEditFactory;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.widgets.imgbutton.ImgButtonFactory;
 import com.javahotel.common.scrollseason.model.MoveSkip;
 import com.javahotel.common.scrollseason.model.PanelDesc;
-import java.util.Date;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
-class ScrollArrowWidget implements IGwtWidget {
+class ScrollArrowWidget {
 
-    private final HorizontalPanel hp = new HorizontalPanel();
+//    private final HorizontalPanel hp = new HorizontalPanel();
     private final Button begP = ImgButtonFactory.getButton(null,
             "arrow-left-end-default");
     private final Button leftP = ImgButtonFactory.getButton(null,
@@ -46,6 +49,12 @@ class ScrollArrowWidget implements IGwtWidget {
     private final ILineField dDate;
     private final IsignalP iP;
     private final IResLocator rI;
+    
+    private final static String scrollBegId = "scrollpanel_Beg";
+    private final static String scrollEndId = "scrollpanel_End";
+    private final static String scrollLeftId = "scrollpanel_Left";
+    private final static String scrollRightId = "scrollpanel_Right";
+    private final static String scrollDateId = "scrollpanel_Date";
 
     interface IsignalP {
 
@@ -71,29 +80,36 @@ class ScrollArrowWidget implements IGwtWidget {
 
         public void onChange(ILineField i) {
             Date d = i.getDate();
-            if (d == null) { return; }
+            if (d == null) {
+                return;
+            }
             iP.clicked(d);
         }
 
     }
 
-    ScrollArrowWidget(IResLocator rI, IsignalP i,boolean withDate) {
+    ScrollArrowWidget(IResLocator rI, IsignalP i, boolean withDate,
+            IHtmlPanelCallBack cBack) {
         this.rI = rI;
         dDate = GetIEditFactory.getTextCalendard(rI);
         dDate.setChangeListener(new ChangeD());
-        hp.setSpacing(5);
-        hp.add(begP);
-        hp.add(leftP);
-        if (withDate)  {
-            hp.add(dDate.getMWidget().getWidget());
-        }
-        hp.add(rightP);
-        hp.add(endP);
+        List<HtmlElemDesc> li = new ArrayList<HtmlElemDesc>();
+        li.add(new HtmlElemDesc(begP,scrollBegId));
+        li.add(new HtmlElemDesc(endP,scrollEndId));
+        li.add(new HtmlElemDesc(leftP,scrollLeftId));
+        li.add(new HtmlElemDesc(rightP,scrollRightId));
         begP.addMouseDownHandler(new ClickEvent(MoveSkip.BEG));
         leftP.addMouseDownHandler(new ClickEvent(MoveSkip.LEFT));
         rightP.addMouseDownHandler(new ClickEvent(MoveSkip.RIGHT));
         endP.addMouseDownHandler(new ClickEvent(MoveSkip.END));
         this.iP = i;
+        if (withDate) {
+            li.add(new HtmlElemDesc(dDate.getMWidget().getWidget(),scrollDateId));
+            HtmlPanelFactory.getHtmlPanel(rI, HtmlTypeEnum.scrollWithDate, cBack, li);
+        }
+        else {
+            HtmlPanelFactory.getHtmlPanel(rI, HtmlTypeEnum.scrollWithoutDate, cBack, li);            
+        }
     }
 
     private void setB(Button b1, Button b2, boolean enable) {
@@ -106,7 +122,4 @@ class ScrollArrowWidget implements IGwtWidget {
         setB(endP, rightP, pa.isScrollRightActive());
     }
 
-    public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(hp);
-    }
 }

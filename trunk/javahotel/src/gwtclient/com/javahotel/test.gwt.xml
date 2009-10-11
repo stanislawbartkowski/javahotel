@@ -10,7 +10,7 @@
 		<entry-point class="com.javahotel.client.start.webEntryPoint2"/>
 	--> 
     <!-- Do not define servlets here, use web.xml -->
-	<stylesheet src='style/hotelstyles.css' />
+	<stylesheet src='res/style/hotelstyles.css' />
 	<inherits name="com.javahotel.common" />
 	<inherits name="com.javahotel.types" />
 	<inherits name="com.googlecode.gwt.math.Math" />

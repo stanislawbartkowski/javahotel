@@ -22,6 +22,7 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 import com.javahotel.common.scrollseason.model.MoveSkip;
 import com.javahotel.common.scrollseason.model.PanelDesc;
@@ -36,11 +37,14 @@ class DayLineWidget implements IGwtWidget {
     private final IResLocator iR;
     private final HorizontalPanel hp;
     private final DaySeasonScrollData sData;
+    private final IDrawPartSeason dPart;
 
-    DayLineWidget(final IResLocator pLoc, final int todayC) {
+    DayLineWidget(final IResLocator pLoc, IDrawPartSeason dPart, final int todayC) {
         this.iR = pLoc;
         sData = new DaySeasonScrollData(todayC);
         hp = new HorizontalPanel();
+        hp.setStyleName("day-scroll-panel");
+        this.dPart = dPart;
     }
 
     private Label getNo(int no) {
@@ -54,9 +58,15 @@ class DayLineWidget implements IGwtWidget {
             String na = (pe.getMonth() + 1) + "/" + pe.getDate();
             Label la = getNo(i - sData.getFirstD());
             if (i == sData.getTodayC()) {
-                na = "[" + na + "]";
+                // na = "[" + na + "]";
+                la.setStyleName("today");
+            } else {
+                la.removeStyleName("today");
             }
             la.setText(na);
+        }
+        if (dPart != null) {
+            dPart.draw(sData.getLastD(),sData.getLastD());
         }
     }
 
@@ -65,8 +75,9 @@ class DayLineWidget implements IGwtWidget {
     }
 
     void createVPanel(List<Date> dList, int panelW) {
+        hp.clear();
         sData.createSPanel(dList, panelW);
-        hp.setSpacing(5);
+        hp.setSpacing(2);
         for (int i = 0; i < sData.getPeriodNo(); i++) {
             Label la = new Label("");
             hp.add(la);

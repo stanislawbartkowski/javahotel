@@ -33,7 +33,7 @@ import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class RData {
@@ -45,14 +45,14 @@ public class RData {
     private String userName;
 
     public String getUserName() {
-		return userName;
-	}
+        return userName;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setHotel(final String hotel) {
+    public void setHotel(final String hotel) {
         this.hotel = hotel;
         resCache = new ResObjectCache(new ReadResInfoData());
         ca.clear();
@@ -100,8 +100,7 @@ public class RData {
             }
         }
 
-        public void getResData(final ReadResParam pa,
-                final IReadResCallBack col) {
+        public void getResData(final ReadResParam pa, final IReadResCallBack col) {
             CommandParam co = getHotelCommandParam();
             co.setDateFrom(pa.getPe().getFrom());
             co.setDateTo(pa.getPe().getTo());
@@ -124,7 +123,7 @@ public class RData {
 
         void doOne(final AbstractTo val);
     }
-    
+
     private class CallList extends CallBackHotel {
 
         private final RetData re;
@@ -165,8 +164,7 @@ public class RData {
         }
     }
 
-    public void getList(final RType r, final CommandParam p,
-            final IVectorList i) {
+    public void getList(final RType r, final CommandParam p, final IVectorList i) {
         RetData re = ca.getCol(r, p);
         if (re.col != null) {
             i.doVList(re.col);
@@ -175,8 +173,7 @@ public class RData {
         GWTGetService.getService().getList(r, p, new CallList(re, i));
     }
 
-    public void getOne(final RType r, final CommandParam p,
-            final IOneList i) {
+    public void getOne(final RType r, final CommandParam p, final IOneList i) {
         RetData re = ca.getCol(r, p);
         if (re.col != null) {
             AbstractTo aa = null;
@@ -204,8 +201,7 @@ public class RData {
         resCache.ReadResState(rp, i);
     }
 
-    public ResDayObjectStateP getResState(final String resObject,
-            final Date d) {
+    public ResDayObjectStateP getResState(final String resObject, final Date d) {
         return resCache.getResState(resObject, d);
     }
 

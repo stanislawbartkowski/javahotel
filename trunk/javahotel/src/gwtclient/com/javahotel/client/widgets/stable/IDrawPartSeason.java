@@ -12,26 +12,26 @@
  */
 package com.javahotel.client.widgets.stable;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.javahotel.client.dialog.ISetGwtWidget;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-public interface IDrawPartSeason {
+public interface IDrawPartSeason extends ISetGwtWidget {
 
     /**
      * Draw lines.
      *
      * @param fromL
-     *            - number of first row to draw
+     *            - number of first row/column to draw
      * @param toL
-     *            - number of last row to draw
+     *            - number of last row/column to draw
      */
     void draw(final int fromL, final int toL);
 
-    void drawagain(final int fromL, final int toL, final int actL,
-            final boolean setC);
+//    void drawagain(final int fromL, final int toL, final int actL,
+//            final boolean setC);
 
-    void setSWidget(Widget w);
+//    void setSWidget(Widget w);
 }

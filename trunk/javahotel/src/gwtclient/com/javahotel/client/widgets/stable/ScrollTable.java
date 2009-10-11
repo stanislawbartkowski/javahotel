@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.idialog.GetIEditFactory;
 import com.javahotel.client.ifield.ILineField;
 
@@ -224,7 +225,8 @@ class ScrollTable implements IScrollSeason {
             uP.setSpacing(1);
         }
         uP.add(edP.getMWidget().getWidget());
-        ii.setSWidget(uP);
+        ii.setGwtWidget(new DefaultMvcWidget(uP));
+//        ii.setSWidget(uP);
         HasVerticalAlignment.VerticalAlignmentConstant al = HasVerticalAlignment.ALIGN_BOTTOM;
         uP.setCellVerticalAlignment(edP.getMWidget().getWidget(), al);
     }

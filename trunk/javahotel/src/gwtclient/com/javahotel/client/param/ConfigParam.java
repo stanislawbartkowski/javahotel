@@ -14,6 +14,8 @@ package com.javahotel.client.param;
 
 import com.javahotel.client.CommonUtil;
 import com.javahotel.common.dateutil.DateUtil;
+import com.javahotel.common.dateutil.GetPeriods.StartWeek;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -42,5 +44,9 @@ public class ConfigParam {
 
     public static String getExtyDateFormat() {
         return "Y/m/d";
+    }
+    
+    public static StartWeek getStartWeek() {
+        return StartWeek.onFriday;
     }
 }

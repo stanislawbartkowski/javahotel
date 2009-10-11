@@ -13,7 +13,7 @@
 package com.javahotel.common.command;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public abstract class SynchronizeList {
