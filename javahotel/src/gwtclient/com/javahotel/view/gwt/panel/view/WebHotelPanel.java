@@ -12,6 +12,9 @@
  */
 package com.javahotel.view.gwt.panel.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Window;
@@ -25,9 +28,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.IImageGallery;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.ReadRequestHtml;
 import com.javahotel.client.dialog.IClickNextYesNo;
 import com.javahotel.client.dialog.ICommand;
+import com.javahotel.client.htmlview.HtmlElemDesc;
+import com.javahotel.client.htmlview.HtmlPanelFactory;
+import com.javahotel.client.htmlview.HtmlTypeEnum;
+import com.javahotel.client.htmlview.IHtmlPanelCallBack;
 import com.javahotel.client.mvc.util.PopupTip;
 import com.javahotel.client.mvc.util.YesNoDialog;
 import com.javahotel.client.panel.IWebHotelPanel;
@@ -65,7 +71,7 @@ class WebHotelPanel implements IWebHotelPanel {
     private final Label userName = new Label();
     private final Label hotelName = new Label();
     private final VerticalPanel vp = new VerticalPanel();
-    private HTMLPanel uPanel;
+    private HTMLPanel uPanel = null;
 
     private void setStatusW(Widget w) {
         if (uPanel == null) {
@@ -169,7 +175,6 @@ class WebHotelPanel implements IWebHotelPanel {
             };
             YesNoDialog yesD = new YesNoDialog(resI, resI.getLabels()
                     .LogoutQuestion(), yes);
-            // PopupUtil.setPos(yesD.getW(), ha);
             yesD.show(ha);
         }
     }
@@ -178,19 +183,14 @@ class WebHotelPanel implements IWebHotelPanel {
         ha.setVisible(visible);
     }
 
-    private class RequestSet implements ReadRequestHtml.ISetRequestText {
+    private class PanelCallback implements IHtmlPanelCallBack {
 
-        public void setText(String s) {
-            uPanel = new HTMLPanel(s);
-            uPanel.addAndReplaceElement(tL, "hotelheader_appname");
-            uPanel.addAndReplaceElement(ownerName, "hotelheader_ownername");
-            uPanel.addAndReplaceElement(userName, "hotelheader_user");
-            uPanel.addAndReplaceElement(hotelName, "hotelheader_hotel");
-            uPanel.addAndReplaceElement(ha, HOTELHEADER_LOGOUT);
-            uPanel.addAndReplaceElement(logo, HOTELHEADER_LOGO);
+        public void setHtmlPanel(Panel ha) {
+            uPanel = (HTMLPanel) ha;
             initStatus();
             vp.add(uPanel);
             setOut(false);
+
         }
 
     }
@@ -224,8 +224,17 @@ class WebHotelPanel implements IWebHotelPanel {
 
         dPanel.add(vp, DockPanel.NORTH);
         vp.setHeight("25px");
-        String res = CommonUtil.getResAdr("header.html");
-        ReadRequestHtml.doGet(res, new RequestSet());
+
+        List<HtmlElemDesc> hList = new ArrayList<HtmlElemDesc>();
+        hList.add(new HtmlElemDesc(tL, "hotelheader_appname"));
+        hList.add(new HtmlElemDesc(ownerName, "hotelheader_ownername"));
+        hList.add(new HtmlElemDesc(userName, "hotelheader_user"));
+        hList.add(new HtmlElemDesc(hotelName, "hotelheader_hotel"));
+        hList.add(new HtmlElemDesc(ha, HOTELHEADER_LOGOUT));
+        hList.add(new HtmlElemDesc(logo, HOTELHEADER_LOGO));
+
+        HtmlPanelFactory.getHtmlPanel(rI, HtmlTypeEnum.MainStatus,
+                new PanelCallback(), hList);
 
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,28 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.widgets.stable;
+package com.javahotel.client.rhtml;
 
-import java.util.Date;
-import java.util.List;
+public interface ISetResText {
+    
+    void setResText(String s);
 
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-public interface IScrollSeason {
-
-    int getStartNo();
-
-    /**
-     * Creates scroll panel.
-     *
-     * @param no
-     *            Total number of lines
-     * @param actC
-     *            if != -1 then column number to display
-     */
-//    void createVPanel(final int no, final int actC);
-
-    void createVPanel(List<Date> dList, final int actC);
 }

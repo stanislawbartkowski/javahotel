@@ -45,7 +45,8 @@ public class UserPanelFactory {
             public EPanelCommand getCentreWidget(IResLocator rI) {
 //                return EPanelCommand.BOOKINGPANEL;
 //                return EPanelCommand.TESTSCROLLSEASON;
-                return EPanelCommand.TESTSCROLLSEASONWIDGET;
+//                return EPanelCommand.TESTSCROLLSEASONWIDGET;
+                return EPanelCommand.SEASON;
             }
 
             public Panel getMenuPanel(IResLocator rI) {

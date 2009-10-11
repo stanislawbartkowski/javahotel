@@ -15,6 +15,8 @@ import com.javahotel.client.dispatcher.IDispatch;
 import com.javahotel.client.panel.IWebHotelPanel;
 import com.javahotel.client.panel.WebHotelPanelFactory;
 import com.javahotel.client.rdata.RData;
+import com.javahotel.client.rhtml.IReadRes;
+import com.javahotel.client.rhtml.ReadResFactory;
 import com.javahotel.view.IViewInterface;
 import com.javahotel.view.gwt.GwtGetViewFactory;
 
@@ -30,6 +32,7 @@ abstract class AbstractWebEntry {
     private final IViewInterface[] iView = new IViewInterface[2];
     private Map<String, String> param;
     private final boolean googletable;
+    private IReadRes readRes;
 
     private class BackLogOut extends CallBackHotel<Object> {
 
@@ -109,6 +112,10 @@ abstract class AbstractWebEntry {
         public boolean withGoogleTable() {
             return googletable;
         }
+
+        public IReadRes readRes() {
+            return readRes;
+        }
     }
 
     private class readP extends CallBackHotel<Map<String, String>> {
@@ -126,6 +133,7 @@ abstract class AbstractWebEntry {
     protected void load() {
         iView[IViewInterface.GWT] = GwtGetViewFactory.getView();
         IResLocator rI = new ResC();
+        readRes = ReadResFactory.getReadRes(rI);
         cProgress = new CallBackProgress(rI);
         rD = new RData(rI);
         wPan = WebHotelPanelFactory.getPanel(rI, new LogOut(rI));

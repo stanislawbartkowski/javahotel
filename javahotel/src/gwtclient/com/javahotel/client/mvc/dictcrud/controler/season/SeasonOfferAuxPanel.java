@@ -23,6 +23,7 @@ import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcView;
 import com.javahotel.client.dialog.user.tableseason.PanelSeason;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
+import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.util.StringU;
@@ -33,35 +34,35 @@ import com.javahotel.common.util.StringU;
  */
 public class SeasonOfferAuxPanel implements IMvcView, IAuxInfoPanel {
 
-	@SuppressWarnings("unused")
-	private final IResLocator rI;
-	private final Grid g = new Grid(1, 0);
-	private final VerticalPanel sPanel = new VerticalPanel();
-	private final HorizontalPanel controlC = new HorizontalPanel();
-	private final PanelSeason pS;
+    @SuppressWarnings("unused")
+    private final IResLocator rI;
+    private final Grid g = new Grid(1, 0);
+    private final VerticalPanel sPanel = new VerticalPanel();
+    private final HorizontalPanel controlC = new HorizontalPanel();
+    private final PanelSeason pS;
 
-	public SeasonOfferAuxPanel(IResLocator rI) {
-		this.rI = rI;
-		pS = new PanelSeason(rI, g, controlC, 0, null);
-		sPanel.add(controlC);
-		sPanel.add(g);
-	}
+    public SeasonOfferAuxPanel(IResLocator rI) {
+        this.rI = rI;
+        pS = new PanelSeason(rI, g, controlC, 0, null,DateUtil.getToday());
+        sPanel.add(controlC);
+        sPanel.add(g);
+    }
 
-	public void show() {
-	}
+    public void show() {
+    }
 
-	public void hide() {
-	}
+    public void hide() {
+    }
 
-	public void draw(Widget w, Widget auxW, RecordModel a) {
-		OfferSeasonP oP = (OfferSeasonP) a.getA();
-		if (StringU.isEmpty(oP.getName())) {
-			return;
-		}
-		pS.drawPa(oP, PeriodType.byMonth, null);
-	}
+    public void draw(Widget w, Widget auxW, RecordModel a) {
+        OfferSeasonP oP = (OfferSeasonP) a.getA();
+        if (StringU.isEmpty(oP.getName())) {
+            return;
+        }
+        pS.drawPa(oP, PeriodType.byDay);
+    }
 
-	public IMvcWidget getMWidget() {
-		return new DefaultMvcWidget(sPanel);
-	}
+    public IMvcWidget getMWidget() {
+        return new DefaultMvcWidget(sPanel);
+    }
 }

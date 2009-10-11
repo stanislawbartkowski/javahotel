@@ -15,6 +15,7 @@ package com.javahotel.client;
 import com.javahotel.client.dispatcher.IDispatch;
 import com.javahotel.client.panel.IWebHotelPanel;
 import com.javahotel.client.rdata.RData;
+import com.javahotel.client.rhtml.IReadRes;
 import com.javahotel.view.IViewInterface;
 
 /**
@@ -44,4 +45,6 @@ public interface IResLocator {
     IViewInterface getView();
     
     String getParam(String key);
+    
+    IReadRes readRes();
 }

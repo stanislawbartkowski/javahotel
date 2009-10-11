@@ -65,10 +65,16 @@ class MonthSeasonScrollWidget implements IGwtWidget {
         for (int i = sData.getFirstP(); i <= sData.getLastP(); i++) {
             YearMonthPe pe = sData.getPe(i);
             String na = pe.getYear() + " - " + pe.getMonth();
-            if (i == todayM) {
-                na = "[ " + na + "]";
-            }
+//            if (i == todayM) {               
+//                na = "[ " + na + "]";
+//            }
             Label la = getNo(i - sData.getFirstP());
+            if (i == todayM) {              
+                la.addStyleName("today");
+            }
+            else {
+                la.removeStyleName("today");
+            }
             la.setText(na);
         }
 
@@ -90,8 +96,10 @@ class MonthSeasonScrollWidget implements IGwtWidget {
 
     void createVPanel(List<Date> dList, int panelW, int todayM) {
         this.todayM = todayM;
+        hp.clear();
         sData.createVPanel(dList, panelW);
         hp.setSpacing(5);
+        hp.setStyleName("month-scroll-panel");
         for (int i = 0; i < sData.getMonthPe(); i++) {
             Label la = new Label("");
             la.addMouseDownHandler(new MonthEvent(i));

@@ -19,6 +19,6 @@ package com.javahotel.client.mvc.validator;
  */
 public interface IErrorMessage {
 
-	IErrorMessageContext getC();
+    IErrorMessageContext getC();
 
 }

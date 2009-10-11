@@ -20,7 +20,7 @@ import com.google.gwt.http.client.RequestTimeoutException;
 import com.google.gwt.http.client.Response;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class ReadRequestHtml {
@@ -40,6 +40,7 @@ public class ReadRequestHtml {
         RequestCallbackM(ISetRequestText iSet) {
             this.iSet = iSet;
         }
+
         private static final int STATUS_CODE_OK = 200;
 
         public void onError(Request request, Throwable exception) {
@@ -65,7 +66,8 @@ public class ReadRequestHtml {
     public static void doGet(String url, ISetRequestText iSet) {
         RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
         try {
-            Request response = builder.sendRequest(null, new RequestCallbackM(iSet));
+            Request response = builder.sendRequest(null, new RequestCallbackM(
+                    iSet));
         } catch (RequestException e) {
             iSet.setText(e.getMessage());
         }
