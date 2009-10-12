@@ -36,7 +36,7 @@ public class SeasonOfferAuxPanel implements IMvcView, IAuxInfoPanel {
 
     @SuppressWarnings("unused")
     private final IResLocator rI;
-    private final Grid g = new Grid(1, 0);
+    private final Grid g = new Grid(2, 1);
     private final VerticalPanel sPanel = new VerticalPanel();
     private final HorizontalPanel controlC = new HorizontalPanel();
     private final PanelSeason pS;

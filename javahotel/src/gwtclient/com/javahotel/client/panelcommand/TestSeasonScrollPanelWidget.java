@@ -15,9 +15,8 @@ package com.javahotel.client.panelcommand;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Grid;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
@@ -25,10 +24,11 @@ import com.javahotel.client.widgets.stable.IScrollSeason;
 import com.javahotel.client.widgets.stable.seasonscroll.WidgetScrollSeasonFactory;
 import com.javahotel.common.dateutil.CalendarTable;
 import com.javahotel.common.dateutil.DateFormatUtil;
+import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class TestSeasonScrollPanelWidget extends AbstractPanelCommand {
@@ -53,14 +53,16 @@ class TestSeasonScrollPanelWidget extends AbstractPanelCommand {
 
         public void setGwtWidget(IMvcWidget i) {
             iSet.setGwtWidget(i);
-            
+
         }
     }
 
     public void beforeDrawAction(ISetGwtWidget iSet) {
-//        iS = ScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet), 12);
-//        iS.createVPanel(156, -1);
-        iS = WidgetScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet), 34);
+        // iS = ScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet), 12);
+        // iS.createVPanel(156, -1);
+        Grid g = new Grid(1, 1);
+        iS = WidgetScrollSeasonFactory.getScrollSeason(iR, new DrawPart(iSet),
+                g, 0, DateUtil.getToday());
         Date dF = DateFormatUtil.toD(2009, 1, 1);
         Date dT = DateFormatUtil.toD(2009, 12, 20);
         List<Date> dList = CalendarTable.listOfDates(dF, dT, PeriodType.byDay);

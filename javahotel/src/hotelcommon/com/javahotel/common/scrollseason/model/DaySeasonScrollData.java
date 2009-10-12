@@ -27,14 +27,14 @@ public class DaySeasonScrollData {
     /** List of days under display. */
     private List<Date> dList;
     /** Actual day, today */
-    private final int todayC;
+    private final Date today;
     /** Month panel. */
     private final MonthSeasonScrollData mScroll;
     /** Pos data. */
     private final PosData pos;
 
-    public DaySeasonScrollData(int todayC) {
-        this.todayC = todayC;
+    public DaySeasonScrollData(Date todayC) {
+        this.today = todayC;
         mScroll = new MonthSeasonScrollData();
         pos = new PosData();
     }
@@ -53,6 +53,7 @@ public class DaySeasonScrollData {
 
     public void createSPanel(List<Date> dList, int pWidth) {
         this.dList = dList;
+        int todayC = CalendarTable.findIndex(dList, today);
         mScroll.createVPanel(dList, todayC);
         pos.createW(dList.size(), pWidth);
         pos.setD(todayC);
@@ -130,8 +131,8 @@ public class DaySeasonScrollData {
     /**
      * @return the todayC
      */
-    public int getTodayC() {
-        return todayC;
+    public Date getTodayC() {
+        return today;
     }
 
     public int getTodayM() {

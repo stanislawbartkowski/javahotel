@@ -15,6 +15,7 @@ package com.javahotel.client.widgets.stable.seasonscroll;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -122,9 +123,9 @@ class DaySeasonPanelWidget implements IScrollSeason {
 
     }
 
-    DaySeasonPanelWidget(final IResLocator pLoc, IDrawPartSeason dPart,
-            final int todayC) {
-        dW = new DayLineWidget(pLoc, dPart, todayC);
+    DaySeasonPanelWidget(final IResLocator pLoc, IDrawPartSeason dPart, Grid g,
+            int startG, final Date todayC) {
+        dW = new DayLineWidget(pLoc, dPart, g, startG, todayC);
         mW = new MonthSeasonScrollWidget(pLoc, new MonthClicked());
         this.dPart = dPart;
         this.pLoc = pLoc;
@@ -135,7 +136,7 @@ class DaySeasonPanelWidget implements IScrollSeason {
     }
 
     public void createVPanel(List<Date> dList, int panelW) {
-        
+
         vp.clear();
 
         final CallWidget ca = new CallWidget(dList, panelW);
