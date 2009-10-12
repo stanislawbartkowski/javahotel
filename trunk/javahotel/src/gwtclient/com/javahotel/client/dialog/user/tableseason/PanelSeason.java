@@ -53,7 +53,6 @@ public class PanelSeason {
 
     private final ComplexPanel controlP;
     private final IResLocator rI;
-//    private final ILineField ePeriod;
     private final IScrollSeason sCr;
     private OfferSeasonP oP;
     private Date d1;
@@ -64,19 +63,16 @@ public class PanelSeason {
     private final int startC;
     private final IDrawPartSeason drawI;
 
-//    @SuppressWarnings("unchecked")
     public PanelSeason(final IResLocator rI, final Grid g,
             final ComplexPanel controlP, final int startC,
-            final IDrawPartSeason drawI,final Date today) {
+            final IDrawPartSeason drawI, final Date today) {
         this.rI = rI;
         this.g = g;
         this.startC = startC;
         this.controlP = controlP;
         this.drawI = drawI;
-//        ePeriod = GetIEditFactory.getEnumMap(rI, rI.getLabels().PeriodType());
-        // sCr = new ScrollTable(rI, new DrawC(), 12);
-//        sCr = ScrollSeasonFactory.getScrollSeason(rI, new DrawC(), 12);
-        sCr = WidgetScrollSeasonFactory.getScrollSeason(rI, new DrawC(), -1);
+        sCr = WidgetScrollSeasonFactory.getScrollSeason(rI, new DrawC(), g,
+                startC, DateUtil.getToday());
     }
 
     private class DrawC implements IDrawPartSeason {
@@ -88,18 +84,8 @@ public class PanelSeason {
             }
         }
 
-//        public void drawagain(final int l, final int lno, final int cno,
-//                final boolean setC) {
-//            if (drawI != null) {
-//                drawI.drawagain(l, lno, cno, setC);
-//            }
-//        }
-
         public void setGwtWidget(IMvcWidget i) {
-//            if (controlP.getWidgetCount() > 1) {
-//                controlP.remove(1);
-//            }
-            controlP.add(i.getWidget());            
+            controlP.add(i.getWidget());
         }
     }
 
@@ -155,7 +141,7 @@ public class PanelSeason {
 
     private class DrawDC extends GetPeriodsTemplate {
 
-        private VerticalPanel hP;
+  //      private VerticalPanel hP;
         private HorizontalPanel pH;
         private int co;
 
@@ -166,13 +152,17 @@ public class PanelSeason {
 
         @Override
         protected int startF(final Date dd) {
-            hP = new VerticalPanel();
+//            hP = new VerticalPanel();
             pH = new HorizontalPanel();
-            String s = DateFormatUtil.toS(dd);
-            hP.add(new Label(s));
-            g.setWidget(0, startC + co, hP);
-            int no = hP.getOffsetWidth();
+//            String s = DateFormatUtil.toS(dd);
+//            hP.add(new Label(s));
+            g.setWidget(1, startC + co, pH);
+            int no = pH.getOffsetWidth();
             return no;
+//            Widget w = g.getWidget(0, startC + co);
+//            int no = w.getOffsetWidth();
+//            return no;
+            
         }
 
         @Override
@@ -205,7 +195,7 @@ public class PanelSeason {
 
         @Override
         protected void endF() {
-            hP.add(pH);
+//            hP.add(pH);
             co++;
         }
     }
@@ -222,33 +212,9 @@ public class PanelSeason {
         sCr.createVPanel(dLine, actC);
     }
 
-//    private class PChange implements IChangeListener {
-//
-//        public void onChange(final ILineField arg0) {
-//            String val = ePeriod.getVal();
-//            PeriodType pT = PeriodType.valueOf(val);
-//            drawCa(pT, -1);
-//        }
-//    }
-
-//    private void createControl(final ComplexPanel cP, final PeriodType pT) {
-//        cP.add(ePeriod.getMWidget().getWidget());
-//        ePeriod.setVal(pT.name());
-//        ePeriod.setChangeListener(new PChange());
-//    }
-
-//    private int countA(final Date t) {
-//        if (t == null) {
-//            return -1;
-//        }
-//        int n = DateUtil.noDays(d1, t);
-//        return n;
-//    }
-
     public void drawPa(final OfferSeasonP oP, final PeriodType t) {
         this.oP = oP;
         controlP.clear();
-//        createControl(controlP, t);
         d1 = oP.getStartP();
         d2 = oP.getEndP();
         drawCa(t, 12);

@@ -12,12 +12,15 @@
  */
 package com.javahotel.client.widgets.stable.seasonscroll;
 
+import java.util.Date;
+
+import com.google.gwt.user.client.ui.Grid;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class WidgetScrollSeasonFactory {
@@ -26,9 +29,9 @@ public class WidgetScrollSeasonFactory {
     }
 
     public static IScrollSeason getScrollSeason(final IResLocator pLoc,
-            final IDrawPartSeason i, final int periodNo) {
-   //     return new MonthSeasonScrollWidget(pLoc, i, periodNo);
-   //   return new DaySeasonScrollWidget(pLoc, i, periodNo);
-        return new DaySeasonPanelWidget(pLoc, i, periodNo);
+            final IDrawPartSeason i, Grid g, int startG, final Date today) {
+        // return new MonthSeasonScrollWidget(pLoc, i, periodNo);
+        // return new DaySeasonScrollWidget(pLoc, i, periodNo);
+        return new DaySeasonPanelWidget(pLoc, i, g, startG, today);
     }
 }
