@@ -1,6 +1,6 @@
-Top secret usage of void pointer
+==Top secret usage of void pointer==
 
-==secret.h==
+===secret.h===
 
 {{{
 #include <string>
@@ -14,7 +14,7 @@ void deleteSecret(secretpointer p);
 std::string revealSecret(secretpointer p);
 }}}
 
-==secret.cpp==
+===secret.cpp===
 
 #include "secret.h"
 
@@ -41,7 +41,7 @@ std::string revealSecret(secretpointer v) {
 }
 }}}
 
-==main.cpp==
+===main.cpp===
 
 {{{
 #include <iostream>
