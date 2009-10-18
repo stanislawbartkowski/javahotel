@@ -12,11 +12,11 @@
  */
 package com.javahotel.view.gwt.record.view;
 
-import com.javahotel.client.mvc.record.view.helper.IInitDialog;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
@@ -24,94 +24,97 @@ import com.javahotel.client.mvc.record.model.IRecordDef;
 import com.javahotel.client.mvc.record.view.IAuxRecordPanel;
 import com.javahotel.client.mvc.record.view.IRecordView;
 import com.javahotel.client.mvc.record.view.IRecordViewFactory;
+import com.javahotel.client.mvc.record.view.helper.IInitDialog;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class RecordViewFactory implements IRecordViewFactory {
 
-
     private static IInitDialog getIDialog(final IResLocator rI,
-            final DictData da, final IRecordDef model, final IContrPanel contr,
-            final IControlClick co, final IAuxRecordPanel auxV) {
+            ISetGwtWidget iSet, final DictData da, final IRecordDef model,
+            final IContrPanel contr, final IControlClick co,
+            final IAuxRecordPanel auxV) {
         if (da.getRt() != null) {
             switch (da.getRt()) {
-                case AllPersons:
-                case AllHotels:
-                    return new RecordView(rI, da, model, contr, co, auxV);
-                default:
-                    break;
+            case AllPersons:
+            case AllHotels:
+                return new RecordView(rI, iSet, da, model, contr, co, auxV);
+            default:
+                break;
             }
         }
         if (da.isSe()) {
             switch (da.getSE()) {
-                case LoginUser:
-                case LoginAdmin:
-                case SpecialPeriod:
-                    return new RecordView(rI, da, model, contr, co, auxV);
-                default:
-                    break;
+            case LoginUser:
+            case LoginAdmin:
+            case SpecialPeriod:
+                return new RecordView(rI, iSet, da, model, contr, co, auxV);
+            default:
+                break;
             }
         }
         if (da.isDa()) {
             switch (da.getD()) {
-                case RoomFacility:
-                case RoomStandard:
-                case RoomObjects:
-                case VatDict:
-                case ServiceDict:
-                case OffSeasonDict:
-                case PriceListDict:
-                    return new RecordView(rI, da, model, contr, co, auxV);
-                case CustomerList:
-                    return new CustomerView(rI, da, model, contr, co, auxV);
-                default:
-                    break;
+            case RoomFacility:
+            case RoomStandard:
+            case RoomObjects:
+            case VatDict:
+            case ServiceDict:
+            case OffSeasonDict:
+            case PriceListDict:
+                return new RecordView(rI, iSet, da, model, contr, co, auxV);
+            case CustomerList:
+                return new CustomerView(rI, iSet, da, model, contr, co, auxV);
+            default:
+                break;
             }
         }
-        return new RecordView(rI, da, model, contr, co, auxV);
+        return new RecordView(rI, iSet, da, model, contr, co, auxV);
 
     }
 
-    public IRecordView getRecordView(final IResLocator rI,
+    public IRecordView getRecordView(final IResLocator rI, ISetGwtWidget iSet,
             final DictData da, final IRecordDef model,
             final IAuxRecordPanel auxV, final IPanel vp) {
-        IInitDialog i = getIDialog(rI, da, model, null, null, auxV);
+        IInitDialog i = getIDialog(rI, iSet, da, model, null, null, auxV);
         i.initW(vp, null);
         return i;
     }
 
-    public IRecordView getRecordView(final IResLocator rI,
+    public IRecordView getRecordView(final IResLocator rI, ISetGwtWidget iSet,
             final DictData da, final IRecordDef model, final IContrPanel contr,
             final IControlClick co, final IAuxRecordPanel auxV) {
-        IInitDialog i = getIDialog(rI, da, model, contr, co, auxV);
-        IPanel pa;
-        pa = PanelFactory.getGwtPanel(new VerticalPanel());
-        i.initW(pa, null);
+        IInitDialog i = getIDialog(rI, iSet, da, model, contr, co, auxV);
+//        IPanel pa;
+//        pa = PanelFactory.getGwtPanel(new VerticalPanel());
+//        i.initW(pa, null);
         i.addEmptyList();
         return i;
     }
 
     public IRecordView getRecordViewDialog(final IResLocator rI,
-            final DictData da, final IRecordDef model, final IContrPanel contr,
-            final IControlClick co, final IAuxRecordPanel auxV) {
-        IInitDialog i = getIDialog(rI, da, model, contr, co, auxV);
+            ISetGwtWidget iSet, final DictData da, final IRecordDef model,
+            final IContrPanel contr, final IControlClick co,
+            final IAuxRecordPanel auxV) {
+        IInitDialog i = getIDialog(rI, iSet, da, model, contr, co, auxV);
         return new RecordVDialog(rI, i);
     }
 
     public IRecordView getRecordViewDialog(final IResLocator rI,
-            final DictData da, final IRecordDef model, final IContrPanel contr,
-            final IControlClick co, final IAuxRecordPanel auxV, Widget auxW) {
+            ISetGwtWidget iSet, final DictData da, final IRecordDef model,
+            final IContrPanel contr, final IControlClick co,
+            final IAuxRecordPanel auxV, Widget auxW) {
         if (auxW == null) {
-            return getRecordViewDialog(rI, da, model, contr, co, auxV);
+            return getRecordViewDialog(rI, iSet, da, model, contr, co, auxV);
         }
-        IInitDialog i = getIDialog(rI, da, model, contr, co, auxV);
+        IInitDialog i = getIDialog(rI, iSet, da, model, contr, co, auxV);
         return new RecordVDialog(rI, i, auxW);
     }
 
     public IRecordView getTableViewRecord(final IResLocator rI,
-            final IRecordDef model) {
+            ISetGwtWidget iSet, final IRecordDef model) {
         return new TableLineRecordView(rI, model);
     }
 }

@@ -63,7 +63,7 @@ public class DictCrudIOneRecordFactory {
            }
        }
        IRecordDef newM = RecordDefFactory.getRecordDef(rI, "", newList);
-       IRecordView vi = RecordViewFactory.getTableViewRecord(rI, newM);
+       IRecordView vi = RecordViewFactory.getTableViewRecord(rI, null, newM);
        return vi;
     }
 }

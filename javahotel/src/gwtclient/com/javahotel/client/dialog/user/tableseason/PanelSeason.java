@@ -85,6 +85,7 @@ public class PanelSeason {
         }
 
         public void setGwtWidget(IMvcWidget i) {
+            int no = controlP.getWidgetCount();
             controlP.add(i.getWidget());
         }
     }
@@ -141,7 +142,7 @@ public class PanelSeason {
 
     private class DrawDC extends GetPeriodsTemplate {
 
-  //      private VerticalPanel hP;
+        // private VerticalPanel hP;
         private HorizontalPanel pH;
         private int co;
 
@@ -152,17 +153,18 @@ public class PanelSeason {
 
         @Override
         protected int startF(final Date dd) {
-//            hP = new VerticalPanel();
+            // hP = new VerticalPanel();
             pH = new HorizontalPanel();
-//            String s = DateFormatUtil.toS(dd);
-//            hP.add(new Label(s));
+            // String s = DateFormatUtil.toS(dd);
+            // hP.add(new Label(s));
             g.setWidget(1, startC + co, pH);
-            int no = pH.getOffsetWidth();
+            Widget w = g.getWidget(0, startC + co);
+            int no = w.getOffsetWidth();
             return no;
-//            Widget w = g.getWidget(0, startC + co);
-//            int no = w.getOffsetWidth();
-//            return no;
-            
+            // Widget w = g.getWidget(0, startC + co);
+            // int no = w.getOffsetWidth();
+            // return no;
+
         }
 
         @Override
@@ -195,15 +197,47 @@ public class PanelSeason {
 
         @Override
         protected void endF() {
-//            hP.add(pH);
+            // hP.add(pH);
             co++;
         }
     }
 
     private void drawD(final int startno, final int endno) {
-        g.resizeColumns(startC + endno - startno + 1);
-        DrawDC d = new DrawDC(d1, dLine, coP);
-        d.drawD(startno, endno);
+        // g.resizeColumns(startC + endno - startno + 1);
+        // DrawDC d = new DrawDC(d1, dLine, coP);
+        // d.drawD(startno, endno);
+        for (int d = startno; d <= endno; d++) {
+            Label l = new Label(".");
+//            l.addClickListener(new IClick());
+            Date da = dLine.get(d);
+            PeriodT p = GetPeriods.findPeriod(da, coP);
+            // PeriodT pType = coP.get(d);
+            OfferSeasonPeriodP pp = (OfferSeasonPeriodP) p.getI();
+            l.addClickListener(new IClick(p));
+            String sTyle = "day_high_season";
+            if (pp != null) {
+                switch (pp.getPeriodT()) {
+                case LOW:
+                    sTyle = "day_low_season";
+                    break;
+                case SPECIAL:
+                    sTyle = "day_special_season";
+                    break;
+                case LOWWEEKEND:
+                    sTyle = "day_lowweekend_season";
+                    break;
+                case HIGHWEEKEND:
+                    sTyle = "day_highweekend_season";
+                    break;
+                default:
+                    break;
+                }
+            }
+            l.setStyleName(sTyle);
+            int co = startC + d - startno;
+            g.setWidget(1, startC + co, l);
+        }
+
     }
 
     private void drawCa(final PeriodType pType, int actC) {
@@ -217,7 +251,9 @@ public class PanelSeason {
         controlP.clear();
         d1 = oP.getStartP();
         d2 = oP.getEndP();
-        drawCa(t, 12);
+        if (d1 != null) {
+            drawCa(t, 12);
+        }
     }
 
     public List<Date> getDLine() {

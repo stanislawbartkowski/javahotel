@@ -13,7 +13,7 @@
 package com.javahotel.client.mvc.record.view;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.dialog.IMvcView;
+import com.javahotel.client.dialog.IMvcShowHide;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.record.model.IRecordDef;
 import com.javahotel.client.mvc.validator.IErrorMessage;
@@ -23,7 +23,7 @@ import com.javahotel.common.toobject.IField;
  *
  * @author stanislawbartkowski@gmail.com
  */
-public interface IRecordView extends IMvcView {
+public interface IRecordView extends IMvcShowHide {
 
     IAuxRecordPanel getAuxV();
 

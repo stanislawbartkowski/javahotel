@@ -30,7 +30,7 @@ import com.javahotel.client.widgets.popup.PopupUtil;
 import com.javahotel.common.toobject.IField;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class RecordVDialog implements IRecordView {
@@ -112,7 +112,7 @@ class RecordVDialog implements IRecordView {
         iDialog.changeMode(actionMode);
     }
 
-    public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(dBox);
-    }
+//    public IMvcWidget getMWidget() {
+//        return new DefaultMvcWidget(dBox);
+//    }
 }

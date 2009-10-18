@@ -12,8 +12,9 @@
  */
 package com.javahotel.view.gwt.record.view;
 
+import java.util.Set;
+
 import com.google.gwt.user.client.ui.Grid;
-import com.javahotel.client.mvc.record.view.helper.IInitDialog;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -21,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.ContrButtonViewFactory;
@@ -30,8 +31,8 @@ import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 import com.javahotel.client.mvc.record.model.IRecordDef;
 import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.IAuxRecordPanel;
+import com.javahotel.client.mvc.record.view.helper.IInitDialog;
 import com.javahotel.common.toobject.IField;
-import java.util.Set;
 
 /**
  * 
@@ -43,17 +44,19 @@ class VRecordView extends AbstractRecordView implements IInitDialog {
 	private final IContrPanel contr;
 	private final IControlClick co;
 	private final IAuxRecordPanel auxV;
+	private final ISetGwtWidget iSet;
 
-	VRecordView(final IResLocator rI, final DictData da,
+	VRecordView(final IResLocator rI, ISetGwtWidget iSet, final DictData da,
 			final IRecordDef model, final IContrPanel contr,
 			final IControlClick co, final IAuxRecordPanel auxV) {
 		super(rI, model);
+		this.iSet = iSet;
 		this.contr = contr;
 		this.co = co;
 		this.auxV = auxV;
 	}
 
-	protected void createWDialog(final VerticalPanel iPanel,
+    protected void createWDialog(final VerticalPanel iPanel,
 			final Set<IField> filter) {
 
 		int rows = 0;
@@ -109,6 +112,7 @@ class VRecordView extends AbstractRecordView implements IInitDialog {
 		}
 
 		this.vP = vP.getPanel();
+		iSet.setGwtWidget(new DefaultMvcWidget(this.vP));
 
 	}
 
@@ -123,7 +127,4 @@ class VRecordView extends AbstractRecordView implements IInitDialog {
 	public void addEmptyList() {
 	}
 
-	public IMvcWidget getMWidget() {
-		return new DefaultMvcWidget(vP);
-	}
 }

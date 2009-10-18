@@ -12,20 +12,23 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler;
 
-import com.javahotel.client.mvc.crud.controler.ICrudChooseTable;
-import com.javahotel.client.mvc.crud.controler.ICrudPersistSignal;
-import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.dialog.MvcWindowSize;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 import com.javahotel.client.mvc.crud.controler.ICrudAccept;
+import com.javahotel.client.mvc.crud.controler.ICrudChooseTable;
+import com.javahotel.client.mvc.crud.controler.ICrudPersistSignal;
 import com.javahotel.client.mvc.crud.controler.ICrudReadModel;
 import com.javahotel.client.mvc.crud.controler.ICrudRecordControler;
 import com.javahotel.client.mvc.crud.controler.ICrudRecordFactory;
@@ -33,6 +36,8 @@ import com.javahotel.client.mvc.crud.controler.ICrudView;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
 import com.javahotel.client.mvc.dictcrud.read.CrudReadModelFactory;
+import com.javahotel.client.mvc.persistrecord.IPersistRecord;
+import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.client.mvc.record.extractor.IRecordExtractor;
 import com.javahotel.client.mvc.record.extractor.RecordExtractorFactory;
 import com.javahotel.client.mvc.record.model.IRecordDef;
@@ -40,15 +45,12 @@ import com.javahotel.client.mvc.record.model.RecordDefFactory;
 import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.IRecordView;
 import com.javahotel.client.mvc.record.view.RecordViewFactory;
+import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
 import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.table.view.ITableSignalClicked;
-import com.javahotel.client.mvc.validator.IErrorMessageContext;
-import com.javahotel.client.mvc.validator.IRecordValidator;
-import com.javahotel.client.mvc.persistrecord.IPersistRecord;
-import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.client.mvc.validator.IErrorMessage;
+import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.common.toobject.AbstractTo;
-import java.util.ArrayList;
 
 /**
  * 
@@ -56,217 +58,239 @@ import java.util.ArrayList;
  */
 class DictRecordControler implements ICrudRecordFactory {
 
-	private final IResLocator rI;
-	private final IRecordExtractor ex;
-	private final DictData da;
-	private final RecordAuxParam aParam;
+    private final IResLocator rI;
+    private final IRecordExtractor ex;
+    private final DictData da;
+    private final RecordAuxParam aParam;
+    
+    private CrudRView rView;
+    private boolean setW;
+    
+    private void showDialog() {
+        if (rView == null) { return; }
+        if (!setW) { return; }
+        rView.iView.show();
+    }
+    
+    private void invalidate() {
+        setW = false;
+        rView = null;
+    }
 
-	DictRecordControler(final IResLocator rI, final DictData da,
-			final RecordAuxParam aParam) {
-		this.rI = rI;
-		this.da = da;
-		this.aParam = aParam;
-		ex = RecordExtractorFactory.getExtractor(rI, da);
-	}
+    DictRecordControler(final IResLocator rI, final DictData da,
+            final RecordAuxParam aParam) {
+        this.rI = rI;
+        this.da = da;
+        this.aParam = aParam;
+        ex = RecordExtractorFactory.getExtractor(rI, da);
+    }
 
-	public ICrudReadModel getCrudRead() {
-		return CrudReadModelFactory.getRead(rI, da);
-	}
+    public ICrudReadModel getCrudRead() {
+        return CrudReadModelFactory.getRead(rI, da);
+    }
 
-	public IRecordView getRView(ICrudView v) {
-		CrudRView r = (CrudRView) v;
-		return r.iView;
-	}
+    public IRecordView getRView(ICrudView v) {
+        CrudRView r = (CrudRView) v;
+        return r.iView;
+    }
 
-	public IRecordExtractor getExtractor() {
-		return ex;
-	}
+    public IRecordExtractor getExtractor() {
+        return ex;
+    }
 
-	public void show(ICrudView v) {
-		CrudRView r = (CrudRView) v;
-		r.iView.show();
+    public void show(ICrudView v) {
+        rView = (CrudRView) v;
+        showDialog();
 
-		if (aParam.getAuxV() != null) {
-			aParam.getAuxV().show();
-		}
-	}
+        if (aParam.getAuxV() != null) {
+            aParam.getAuxV().show();
+        }
+    }
 
-	public ICrudPersistSignal getPersistSignal() {
-		return aParam.getPSignal();
-	}
+    public ICrudPersistSignal getPersistSignal() {
+        return aParam.getPSignal();
+    }
 
-	public ITableSignalClicked getClicked() {
-		return aParam.getSClicked();
-	}
+    public ITableSignalClicked getClicked() {
+        return aParam.getSClicked();
+    }
 
-	public IRecordValidator getValidatorAux() {
-		if (aParam == null) {
-			return null;
-		}
-		if (aParam.getAuxV() == null) {
-			return null;
-		}
-		return aParam.getAuxV().getValidator();
-	}
+    public IRecordValidator getValidatorAux() {
+        if (aParam == null) {
+            return null;
+        }
+        if (aParam.getAuxV() == null) {
+            return null;
+        }
+        return aParam.getAuxV().getValidator();
+    }
 
-	public ICrudChooseTable getChoose() {
-		return aParam.getIChoose();
-	}
+    public ICrudChooseTable getChoose() {
+        return aParam.getIChoose();
+    }
 
-	public ArrayList<RecordField> getDef() {
-		ArrayList<RecordField> dict = GetRecordDefFactory.getDef(rI, da);
-		if (aParam.getModifD() != null) {
-			aParam.getModifD().modifRecordDef(dict);
-		}
-		return dict;
-	}
+    public ArrayList<RecordField> getDef() {
+        ArrayList<RecordField> dict = GetRecordDefFactory.getDef(rI, da);
+        if (aParam.getModifD() != null) {
+            aParam.getModifD().modifRecordDef(dict);
+        }
+        return dict;
+    }
 
-	private class CrudDictRecordControler implements ICrudRecordControler {
+    private class CrudDictRecordControler implements ICrudRecordControler {
 
-		public void showDialog(final int action, final ICrudView view,
-				final Widget w) {
-			CrudRView r = (CrudRView) view;
-			if (w != null) {
-				r.iView.setPos(w);
-			}
-			// if (aParam.getInfoP() != null) {
-			// aParam.getInfoP().draw(w, aParam.getAuxW(), r.mo);
-			// }
-			show(r);
-			if (aParam.getInfoP() != null) {
-				aParam.getInfoP().draw(w, aParam.getAuxW(), r.mo);
-			}
-		}
+        public void showDialog(final int action, final ICrudView view,
+                final Widget w) {
+            CrudRView r = (CrudRView) view;
+            if (w != null) {
+                r.iView.setPos(w);
+            }
+            show(r);
+            if (aParam.getInfoP() != null) {
+                aParam.getInfoP().draw(w, aParam.getAuxW(), r.mo);
+            }
+        }
 
-		public void showInvalidate(final int action, final ICrudView view,
-				final IErrorMessage vali) {
-			CrudRView r = (CrudRView) view;
-			r.iView.showInvalidate(vali);
-		}
+        public void showInvalidate(final int action, final ICrudView view,
+                final IErrorMessage vali) {
+            CrudRView r = (CrudRView) view;
+            r.iView.showInvalidate(vali);
+        }
 
-		public void hideDialog(final ICrudView view) {
-			CrudRView r = (CrudRView) view;
-			r.iView.hide();
-		}
+        public void hideDialog(final ICrudView view) {
+            CrudRView r = (CrudRView) view;
+            r.iView.hide();
+        }
 
-		public void showInvalidateAux(int action, ICrudView view,
-				IErrorMessage vali) {
-			aParam.getAuxV().showInvalidate(vali);
-		}
-	}
+        public void showInvalidateAux(int action, ICrudView view,
+                IErrorMessage vali) {
+            aParam.getAuxV().showInvalidate(vali);
+        }
+    }
 
-	private class CrudRView implements ICrudView {
+    private class CrudRView implements ICrudView {
 
-		private final IRecordView iView;
-		private final RecordModel mo;
+        private final IRecordView iView;
+        private final RecordModel mo;
 
-		CrudRView(final IRecordView v, RecordModel mo) {
-			iView = v;
-			this.mo = mo;
-		}
-	}
+        CrudRView(final IRecordView v, RecordModel mo) {
+            iView = v;
+            this.mo = mo;
+        }
+    }
 
-	public RecordModel getNew(AbstractTo beforea, AbstractTo pa) {
-		AbstractTo aa = pa;
-		if (aa == null) {
-			aa = AbstractToFactory.getA(da);
-		}
-		RecordModel mo = new RecordModel(aParam.getAuxO(), aParam.getAuxO1());
-		mo.setA(aa);
-		mo.setBeforea(beforea);
-		return mo;
-	}
+    public RecordModel getNew(AbstractTo beforea, AbstractTo pa) {
+        AbstractTo aa = pa;
+        if (aa == null) {
+            aa = AbstractToFactory.getA(da);
+        }
+        RecordModel mo = new RecordModel(aParam.getAuxO(), aParam.getAuxO1());
+        mo.setA(aa);
+        mo.setBeforea(beforea);
+        return mo;
+    }
 
-	public IRecordValidator getValidator() {
-		return DictValidatorFactory.getValidator(rI, da);
-	}
+    public IRecordValidator getValidator() {
+        return DictValidatorFactory.getValidator(rI, da);
+    }
 
-	private class ButtonClick implements IControlClick {
+    private class ButtonClick implements IControlClick {
 
-		private final ICrudAccept acc;
-		private IRecordView v;
-		private final RecordModel mo;
-		private final int action;
+        private final ICrudAccept acc;
+        private IRecordView v;
+        private final RecordModel mo;
+        private final int action;
 
-		ButtonClick(ICrudAccept acc, RecordModel mo, int action) {
-			this.acc = acc;
-			this.mo = mo;
-			this.action = action;
-		}
+        ButtonClick(ICrudAccept acc, RecordModel mo, int action) {
+            this.acc = acc;
+            this.mo = mo;
+            this.action = action;
+        }
 
-		public void click(ContrButton co, Widget w) {
-			if (co.getActionId() == IPersistAction.RESACTION) {
-				v.hide();
-				return;
-			}
-			RecordModel a = getNew(mo.getA(), null);
-			if (action != IPersistAction.ADDACION) {
-				a.getA().copyFrom(mo.getA());
-			}
-			ex.toA(a, v);
-			acc.accept(a);
-		}
+        public void click(ContrButton co, Widget w) {
+            if (co.getActionId() == IPersistAction.RESACTION) {
+                v.hide();
+                invalidate();
+                return;
+            }
+            RecordModel a = getNew(mo.getA(), null);
+            if (action != IPersistAction.ADDACION) {
+                a.getA().copyFrom(mo.getA());
+            }
+            ex.toA(a, v);
+            acc.accept(a);
+        }
 
-		/**
-		 * @param v
-		 *            the v to set
-		 */
-		public void setV(IRecordView v) {
-			this.v = v;
-		}
-	}
+        /**
+         * @param v
+         *            the v to set
+         */
+        public void setV(IRecordView v) {
+            this.v = v;
+        }
+    }
 
-	public ICrudView getView(final RecordModel a, final ICrudAccept acc,
-			final int actionId, final IPanel vp) {
+    private class setWidget implements ISetGwtWidget {
 
-		if (aParam.getBSignal() != null) {
-			aParam.getBSignal().signal(a);
-		}
-		ArrayList<RecordField> dict = getDef();
-		String title = GetRecordDefFactory.getTitle(rI, da);
-		String aName = GetRecordDefFactory.getActionName(rI, actionId);
-		MvcWindowSize mSize = GetRecordDefFactory.getSize(rI, da);
-		IRecordDef model = RecordDefFactory.getRecordDef(rI, aName + " / "
-				+ title, dict, mSize);
+        public void setGwtWidget(IMvcWidget i) {
+            setW = true;
+            showDialog();
+        }
 
-		IRecordView v;
-		if (vp == null) {
-			IContrPanel aButton;
-			switch (actionId) {
-			case IPersistAction.DELACTION:
-				aButton = DictButtonFactory.getRecordDelButt(rI);
-				break;
-			default:
-				aButton = DictButtonFactory.getRecordAkcButt(rI);
-				break;
-			}
-			ButtonClick bu = new ButtonClick(acc, a, actionId);
-			v = RecordViewFactory.getRecordViewDialog(rI, da, model, aButton,
-					bu, aParam.getAuxV(), aParam.getAuxW());
-			bu.setV(v);
-		} else {
-			v = RecordViewFactory.getRecordView(rI, da, model,
-					aParam.getAuxV(), vp);
-		}
-		if (a != null) {
-			ex.toView(v, a);
-			v.changeMode(actionId);
-			if (aParam.getAuxV() != null) {
-				aParam.getAuxV().changeMode(actionId);
-			}
-			return new CrudRView(v, a);
-		} else {
-			RecordModel mo = new RecordModel(aParam.getAuxO(), aParam
-					.getAuxO1());
-			return new CrudRView(v, mo);
-		}
-	}
+    }
 
-	public IPersistRecord getPersist() {
-		return PersistRecordFactory.getPersistDict(rI, da);
-	}
+    public ICrudView getView(final RecordModel a, final ICrudAccept acc,
+            final int actionId, final IPanel vp) {
 
-	public ICrudRecordControler getControler() {
-		return new CrudDictRecordControler();
-	}
+        invalidate();
+        if (aParam.getBSignal() != null) {
+            aParam.getBSignal().signal(a);
+        }
+        ArrayList<RecordField> dict = getDef();
+        String title = GetRecordDefFactory.getTitle(rI, da);
+        String aName = GetRecordDefFactory.getActionName(rI, actionId);
+        MvcWindowSize mSize = GetRecordDefFactory.getSize(rI, da);
+        IRecordDef model = RecordDefFactory.getRecordDef(rI, aName + " / "
+                + title, dict, mSize);
+
+        IRecordView v;
+        if (vp == null) {
+            IContrPanel aButton;
+            switch (actionId) {
+            case IPersistAction.DELACTION:
+                aButton = DictButtonFactory.getRecordDelButt(rI);
+                break;
+            default:
+                aButton = DictButtonFactory.getRecordAkcButt(rI);
+                break;
+            }
+            ButtonClick bu = new ButtonClick(acc, a, actionId);
+            v = RecordViewFactory.getRecordViewDialog(rI, new setWidget(), da,
+                    model, aButton, bu, aParam.getAuxV(), aParam.getAuxW());
+            bu.setV(v);
+        } else {
+            v = RecordViewFactory.getRecordView(rI, new setWidget(), da, model,
+                    aParam.getAuxV(), vp);
+        }
+        if (a != null) {
+            ex.toView(v, a);
+            v.changeMode(actionId);
+            if (aParam.getAuxV() != null) {
+                aParam.getAuxV().changeMode(actionId);
+            }
+            return new CrudRView(v, a);
+        } else {
+            RecordModel mo = new RecordModel(aParam.getAuxO(), aParam
+                    .getAuxO1());
+            return new CrudRView(v, mo);
+        }
+    }
+
+    public IPersistRecord getPersist() {
+        return PersistRecordFactory.getPersistDict(rI, da);
+    }
+
+    public ICrudRecordControler getControler() {
+        return new CrudDictRecordControler();
+    }
 }

@@ -15,6 +15,7 @@ package com.javahotel.client.mvc.record.view;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
@@ -26,22 +27,22 @@ import com.javahotel.client.mvc.record.model.IRecordDef;
  */
 public interface IRecordViewFactory {
 
-    IRecordView getRecordView(final IResLocator rI,
+    IRecordView getRecordView(final IResLocator rI, ISetGwtWidget iSet,
             final DictData da, final IRecordDef model,
             final IAuxRecordPanel auxV, final IPanel vp);
 
-    IRecordView getRecordView(final IResLocator rI,
+    IRecordView getRecordView(final IResLocator rI, ISetGwtWidget iSet,
             final DictData da, final IRecordDef model, final IContrPanel contr,
             final IControlClick co, final IAuxRecordPanel auxV);
 
-    IRecordView getRecordViewDialog(final IResLocator rI,
+    IRecordView getRecordViewDialog(final IResLocator rI, ISetGwtWidget iSet,
             final DictData da, final IRecordDef model, final IContrPanel contr,
             final IControlClick co, final IAuxRecordPanel auxV);
 
-    IRecordView getRecordViewDialog(final IResLocator rI,
+    IRecordView getRecordViewDialog(final IResLocator rI, ISetGwtWidget iSet,
             final DictData da, final IRecordDef model, final IContrPanel contr,
             final IControlClick co, final IAuxRecordPanel auxV, Widget auxW);
 
-    IRecordView getTableViewRecord(final IResLocator rI,
+    IRecordView getTableViewRecord(final IResLocator rI, ISetGwtWidget iSet,
             final IRecordDef model);
 }

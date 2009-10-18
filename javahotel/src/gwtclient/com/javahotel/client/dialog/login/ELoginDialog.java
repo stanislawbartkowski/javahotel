@@ -14,11 +14,11 @@ package com.javahotel.client.dialog.login;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.ICommand;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.dialog.DictData.SpecE;
 import com.javahotel.client.mvc.auxabstract.LoginRecord;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
@@ -41,7 +41,7 @@ import com.javahotel.client.mvc.validator.ISignalValidate;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class ELoginDialog extends Composite {
+public class ELoginDialog {
 
     private final IResLocator rI;
     private final ICommand iNext;
@@ -72,8 +72,8 @@ public class ELoginDialog extends Composite {
         }
     }
 
-    public ELoginDialog(final IResLocator rI, final boolean user,
-            final ICommand iNext) {
+    public ELoginDialog(final IResLocator rI, ISetGwtWidget iSet,
+            final boolean user, final ICommand iNext) {
         this.rI = rI;
         this.iNext = iNext;
         IContrPanel co = DictButtonFactory.getLoginButt(rI);
@@ -81,8 +81,8 @@ public class ELoginDialog extends Composite {
         ArrayList<RecordField> field = GetRecordDefFactory.getDef(rI, da);
         String dTitle = GetRecordDefFactory.getTitle(rI, da);
         IRecordDef model = RecordDefFactory.getRecordDef(rI, dTitle, field);
-        v = RecordViewFactory.getRecordView(rI, da, model, co,
+        v = RecordViewFactory.getRecordView(rI, iSet, da, model, co,
                 new LoginClick(), null);
-        initWidget(v.getMWidget().getWidget());
+        // initWidget(v.getMWidget().getWidget());
     }
 }

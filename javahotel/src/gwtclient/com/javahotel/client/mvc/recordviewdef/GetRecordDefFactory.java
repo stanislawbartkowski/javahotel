@@ -20,7 +20,7 @@ import com.javahotel.client.mvc.record.model.RecordField;
 import java.util.ArrayList;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class GetRecordDefFactory {
@@ -36,82 +36,82 @@ public class GetRecordDefFactory {
     public static String getTitle(final IResLocator rI, final DictData da) {
         if (da.getSE() != null) {
             switch (da.getSE()) {
-                case SpecialPeriod:
-                    switch (da.getSpeT()) {
-                        case LOW:
-                            return "Okres poza sezonem";
-                        case SPECIAL:
-                            return "Okres specjalny";
-                        default:
-                            return null;
-                    }
-                case CustomerPhone:
-                    return "Telefon";
-                case CustomerAccount:
-                    return "Konto";
-                case BookingHeader:
-                case ValidationHeader:
-                case RowPaymentElem:
-                    return ""; // empty
-                case BookingElem:
-                    return "Rezerwacja pokoju";
-                case AddPayment:
-                    return "Wpłata zaliczki";
-                case ResGuestList:
-                    return "Zameldowanie";
-                case BillsList:
-                    return "Rachunek";
-                case AddPaymentList:
-                    return "Dodatkowa usługa";
-                case LoginUser:
-                    return "Wejście do hotelu";
-                case LoginAdmin:
-                    return "Administrator";
+            case SpecialPeriod:
+                switch (da.getSpeT()) {
+                case LOW:
+                    return "Okres poza sezonem";
+                case SPECIAL:
+                    return "Okres specjalny";
+                default:
+                    return null;
+                }
+            case CustomerPhone:
+                return "Telefon";
+            case CustomerAccount:
+                return "Konto";
+            case BookingHeader:
+            case ValidationHeader:
+            case RowPaymentElem:
+                return ""; // empty
+            case BookingElem:
+                return "Rezerwacja pokoju";
+            case AddPayment:
+                return "Wpłata zaliczki";
+            case ResGuestList:
+                return "Zameldowanie";
+            case BillsList:
+                return "Rachunek";
+            case AddPaymentList:
+                return "Dodatkowa usługa";
+            case LoginUser:
+                return "Wejście do hotelu";
+            case LoginAdmin:
+                return "Administrator";
             }
         }
         if (da.getD() == null) {
             switch (da.getRt()) {
-                case AllPersons:
-                    return "Osoba";
-                case AllHotels:
-                    return "Hotel";
-                default:
-                    assert false : da.getRt() + " : invalid value";
+            case AllPersons:
+                return "Osoba";
+            case AllHotels:
+                return "Hotel";
+            default:
+                assert false : da.getRt() + " : invalid value";
             }
         }
         switch (da.getD()) {
-            case RoomFacility:
-                return "Wyposażenie pokoju";
-            case RoomStandard:
-                return "Standard pokojów";
-            case RoomObjects:
-                return "Pokoje";
-            case VatDict:
-                return "Stawki vat";
-            case ServiceDict:
-                return "Słownik usług";
-            case OffSeasonDict:
-                return "Sezony";
-            case PriceListDict:
-                return "Cenniki";
-            case CustomerList:
-                return "Kontrahenci";
-            case BookingList:
-                return "Rezerwacje";
-            default:
-                assert false : da.getD() + " : invalid value";
+        case RoomFacility:
+            return "Wyposażenie pokoju";
+        case RoomStandard:
+            return "Standard pokojów";
+        case RoomObjects:
+            return "Pokoje";
+        case VatDict:
+            return "Stawki vat";
+        case ServiceDict:
+            return "Słownik usług";
+        case OffSeasonDict:
+            return "Sezony";
+        case PriceListDict:
+            return "Cenniki";
+        case CustomerList:
+            return "Kontrahenci";
+        case BookingList:
+            return "Rezerwacje";
+        default:
+            assert false : da.getD() + " : invalid value";
         }
         return null;
     }
 
     public static String getActionName(final IResLocator rI, final int action) {
         switch (action) {
-            case IPersistAction.ADDACION:
-                return "Dodanie";
-            case IPersistAction.MODIFACTION:
-                return "Zmiana";
-            case IPersistAction.DELACTION:
-                return "Usunięcie";
+        case IPersistAction.ADDACION:
+            return "Dodanie";
+        case IPersistAction.MODIFACTION:
+            return "Zmiana";
+        case IPersistAction.DELACTION:
+            return "Usunięcie";
         }
         return null;
     }
@@ -120,4 +120,3 @@ public class GetRecordDefFactory {
         return rI.getView().getSize(da);
     }
 }
-

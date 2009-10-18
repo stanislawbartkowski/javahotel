@@ -103,7 +103,7 @@ class GetEditWidget implements IGetWidgetTableView {
             st.fa = iCrud.getF();
             ArrayList<RecordField> li = st.fa.getDef();
             IRecordDef def = RecordDefFactory.getRecordDef(rI, "", li);
-            st.iView = RecordViewFactory.getTableViewRecord(rI, def);
+            st.iView = RecordViewFactory.getTableViewRecord(rI, null,def);
             ma.put(row, st);
         }
         IField fi = model.getCol(col);
