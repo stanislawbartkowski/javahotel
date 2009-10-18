@@ -16,9 +16,8 @@ std::string revealSecret(secretpointer p);
 
 ===secret.cpp===
 
-#include "secret.h"
-
 {{{
+#include "secret.h"
 #include <string>
 
 typedef struct {
