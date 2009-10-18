@@ -15,13 +15,14 @@ package com.javahotel.client.mvc.record.view;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 import com.javahotel.client.mvc.record.model.IRecordDef;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class RecordViewFactory {
@@ -30,39 +31,43 @@ public class RecordViewFactory {
     }
 
     public static final IRecordView getRecordView(final IResLocator rI,
-            final DictData da, final IRecordDef model,
+            ISetGwtWidget iSet, final DictData da, final IRecordDef model,
             final IAuxRecordPanel auxV, final IPanel vp) {
         IRecordViewFactory i = rI.getView().getViewFactory(rI);
-        return i.getRecordView(rI, da, model, auxV, vp);
+        return i.getRecordView(rI, iSet, da, model, auxV, vp);
     }
 
     public static final IRecordView getRecordView(final IResLocator rI,
-            final DictData da, final IRecordDef model, final IContrPanel contr,
-            final IControlClick co, final IAuxRecordPanel auxV) {
+            ISetGwtWidget iSet, final DictData da, final IRecordDef model,
+            final IContrPanel contr, final IControlClick co,
+            final IAuxRecordPanel auxV) {
         IRecordViewFactory i = rI.getView().getViewFactory(rI);
-        return i.getRecordView(rI, da, model, contr, co, auxV);
+        return i.getRecordView(rI, iSet, da, model, contr, co, auxV);
     }
 
     public static final IRecordView getRecordViewDialog(final IResLocator rI,
-            final DictData da, final IRecordDef model, final IContrPanel contr,
-            final IControlClick co, final IAuxRecordPanel auxV) {
+            ISetGwtWidget iSet, final DictData da, final IRecordDef model,
+            final IContrPanel contr, final IControlClick co,
+            final IAuxRecordPanel auxV) {
 
         IRecordViewFactory i = rI.getView().getViewFactory(rI);
-        return i.getRecordViewDialog(rI, da, model, contr, co, auxV);
+        return i.getRecordViewDialog(rI, iSet, da, model, contr, co, auxV);
 
     }
 
     public static final IRecordView getRecordViewDialog(final IResLocator rI,
-            final DictData da, final IRecordDef model, final IContrPanel contr,
-            final IControlClick co, final IAuxRecordPanel auxV, Widget auxW) {
+            ISetGwtWidget iSet, final DictData da, final IRecordDef model,
+            final IContrPanel contr, final IControlClick co,
+            final IAuxRecordPanel auxV, Widget auxW) {
         IRecordViewFactory i = rI.getView().getViewFactory(rI);
-        return i.getRecordViewDialog(rI, da, model, contr, co, auxV, auxW);
+        return i
+                .getRecordViewDialog(rI, iSet, da, model, contr, co, auxV, auxW);
 
     }
 
     public static final IRecordView getTableViewRecord(final IResLocator rI,
-            final IRecordDef model) {
+            ISetGwtWidget iSet, final IRecordDef model) {
         IRecordViewFactory i = rI.getView().getViewFactory(rI);
-        return i.getTableViewRecord(rI, model);
+        return i.getTableViewRecord(rI, iSet, model);
     }
 }

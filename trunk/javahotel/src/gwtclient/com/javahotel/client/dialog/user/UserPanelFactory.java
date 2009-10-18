@@ -24,7 +24,7 @@ import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class UserPanelFactory {
@@ -38,15 +38,16 @@ public class UserPanelFactory {
 
             public IGwtWidget getMenuPanel(final IResLocator rI,
                     final IStackMenuClicked iClicked) {
-//                return new AdminShortcutMenu(rI, iClicked);
+                // return new AdminShortcutMenu(rI, iClicked);
                 return null;
             }
 
             public EPanelCommand getCentreWidget(IResLocator rI) {
-//                return EPanelCommand.BOOKINGPANEL;
-//                return EPanelCommand.TESTSCROLLSEASON;
-//                return EPanelCommand.TESTSCROLLSEASONWIDGET;
-                return EPanelCommand.SEASON;
+                // return EPanelCommand.BOOKINGPANEL;
+                // return EPanelCommand.TESTSCROLLSEASON;
+                // return EPanelCommand.TESTSCROLLSEASONWIDGET;
+                // return EPanelCommand.SEASON;
+                return EPanelCommand.CUSTOMERS;
             }
 
             public Panel getMenuPanel(IResLocator rI) {
@@ -54,12 +55,11 @@ public class UserPanelFactory {
                 MenuBar mp = new MenuBar();
                 hp.add(mp);
                 MenuBar menu = CreateMenuCommand.createMenu(rI,
-                        new EPanelCommand[]{
-                            EPanelCommand.BOOKINGPANEL,
-                            EPanelCommand.BOOKING,
-                            EPanelCommand.PREPAID,
-                            EPanelCommand.ROOMSADMIN});
-                mp.addItem(CommonUtil.getImageHTML(IImageGallery.DOWNMENU), true, menu);
+                        new EPanelCommand[] { EPanelCommand.BOOKINGPANEL,
+                                EPanelCommand.BOOKING, EPanelCommand.PREPAID,
+                                EPanelCommand.ROOMSADMIN });
+                mp.addItem(CommonUtil.getImageHTML(IImageGallery.DOWNMENU),
+                        true, menu);
                 return hp;
             }
         };

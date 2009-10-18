@@ -39,9 +39,11 @@ public class CommonUtil {
     }
 
     public static String getImageAdr(final String image) {
-        String path;
-        path = "com.javahotel.web";
-        return path + "/res/img/" + image;
+//        String path;
+//        path = "com.javahotel.web";
+//        return path + "/res/img/" + image;
+        String path = getResAdr("img/" + image);
+        return path;
     }
 
     
@@ -52,6 +54,7 @@ public class CommonUtil {
 //        } else {
 //            path = "";
 //        }
+        main = false;
         if (main) {
             path="";
         }
@@ -59,7 +62,8 @@ public class CommonUtil {
           path = "com.javahotel.web/";
         }
 //        path="";
-        return path + "res/" + res;
+        path = GWT.getModuleBaseURL();
+        return path + "/res/" + res;
     }
     
     public static String getResAdr(final String res) {

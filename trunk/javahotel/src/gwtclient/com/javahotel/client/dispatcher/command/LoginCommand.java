@@ -14,10 +14,13 @@ package com.javahotel.client.dispatcher.command;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.dialog.login.ELoginDialog;
 import com.javahotel.client.dispatcher.EnumAction;
 import com.javahotel.client.dispatcher.EnumDialog;
 import com.javahotel.client.dispatcher.UICommand;
+import com.javahotel.common.command.SynchronizeList;
 
 /**
  * 
@@ -25,22 +28,55 @@ import com.javahotel.client.dispatcher.UICommand;
  */
 public class LoginCommand extends UICommand {
 
-	private final ELoginDialog loguser;
-	private final ELoginDialog logadmin;
+    private class SynchList extends SynchronizeList {
 
-	public LoginCommand(final IResLocator i) {
-		super(i, EnumDialog.STARTLOGIN);
-		loguser = new ELoginDialog(rI, true, createCLick(EnumAction.LOGINUSER));
-		logadmin = new ELoginDialog(rI, false,
-				createCLick(EnumAction.LOGINADMIN));
-	}
+        private IMvcWidget loguser, logadmin;
 
-	public void execute() {
-		HorizontalPanel ho = new HorizontalPanel();
-		ho.setSpacing(15);
-		ho.add(loguser);
-		ho.add(logadmin);
+        SynchList() {
+            super(2);
+        }
 
-		rI.getPanel().setDCenter(ho);
-	}
+        @Override
+        protected void doTask() {
+            HorizontalPanel ho = new HorizontalPanel();
+            ho.setSpacing(15);
+            ho.add(loguser.getWidget());
+            ho.add(logadmin.getWidget());
+            rI.getPanel().setDCenter(ho);
+        }
+
+    }
+
+    public LoginCommand(final IResLocator i) {
+        super(i, EnumDialog.STARTLOGIN);
+    }
+
+    private class LogUserAdmin implements ISetGwtWidget {
+
+        private final SynchList sList;
+        private boolean user;
+
+        LogUserAdmin(SynchList sList, boolean user) {
+            this.sList = sList;
+            this.user = user;
+        }
+
+        public void setGwtWidget(IMvcWidget i) {
+            if (user) {
+                sList.loguser = i;
+            } else {
+                sList.logadmin = i;
+            }
+            sList.signalDone();
+        }
+
+    }
+
+    public void execute() {
+        SynchList sList = new SynchList();
+        ELoginDialog loguser = new ELoginDialog(rI, new LogUserAdmin(sList,
+                true), true, createCLick(EnumAction.LOGINUSER));
+        ELoginDialog logadmin = new ELoginDialog(rI, new LogUserAdmin(sList,
+                false), false, createCLick(EnumAction.LOGINADMIN));
+    }
 }

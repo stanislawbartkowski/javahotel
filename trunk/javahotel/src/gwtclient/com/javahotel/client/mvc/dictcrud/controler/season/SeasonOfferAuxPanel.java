@@ -45,7 +45,7 @@ public class SeasonOfferAuxPanel implements IMvcView, IAuxInfoPanel {
         this.rI = rI;
         pS = new PanelSeason(rI, g, controlC, 0, null,DateUtil.getToday());
         sPanel.add(controlC);
-        sPanel.add(g);
+//        sPanel.add(g);
     }
 
     public void show() {
@@ -56,9 +56,9 @@ public class SeasonOfferAuxPanel implements IMvcView, IAuxInfoPanel {
 
     public void draw(Widget w, Widget auxW, RecordModel a) {
         OfferSeasonP oP = (OfferSeasonP) a.getA();
-        if (StringU.isEmpty(oP.getName())) {
-            return;
-        }
+//        if (StringU.isEmpty(oP.getName())) {
+//            return;
+//        }
         pS.drawPa(oP, PeriodType.byDay);
     }
 

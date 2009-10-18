@@ -131,6 +131,8 @@ abstract class AbstractWebEntry {
     }
 
     protected void load() {
+        String ba = GWT.getModuleBaseURL();
+        String ba1 = GWT.getHostPageBaseURL();
         iView[IViewInterface.GWT] = GwtGetViewFactory.getView();
         IResLocator rI = new ResC();
         readRes = ReadResFactory.getReadRes(rI);

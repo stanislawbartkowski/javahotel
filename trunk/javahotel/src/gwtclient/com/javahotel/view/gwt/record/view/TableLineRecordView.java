@@ -33,10 +33,5 @@ class TableLineRecordView extends AbstractRecordView {
     public IAuxRecordPanel getAuxV() {
         return null;
     }
-
-
-    public IMvcWidget getMWidget() {
-        return null;
-    }
-
+    
 }

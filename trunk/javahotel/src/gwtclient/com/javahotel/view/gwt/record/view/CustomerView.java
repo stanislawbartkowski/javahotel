@@ -12,11 +12,15 @@
  */
 package com.javahotel.view.gwt.record.view;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.mvc.apanel.IPanel;
@@ -29,11 +33,9 @@ import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class CustomerView extends VRecordView {
@@ -58,10 +60,10 @@ class CustomerView extends VRecordView {
         setTab(eC.getVal());
     }
 
-    CustomerView(final IResLocator rI, final DictData da, final IRecordDef model,
-            final IContrPanel contr, final IControlClick co,
-            final IAuxRecordPanel auxV) {
-        super(rI, da, model, contr, co, auxV);
+    CustomerView(final IResLocator rI, ISetGwtWidget iSet, final DictData da,
+            final IRecordDef model, final IContrPanel contr,
+            final IControlClick co, final IAuxRecordPanel auxV) {
+        super(rI, iSet, da, model, contr, co, auxV);
     }
 
     private class CList implements IChangeListener {
@@ -87,10 +89,9 @@ class CustomerView extends VRecordView {
         fi.add(CustomerP.F.address2);
         createWDialog(vpm, fi);
 
-        //                        zipCode, name1, name2, city, stateUS, country, address1, address2,
-//        cType, NIP, PESEL, docType, docNumber,
-//        firstName, lastName, pTitle
-
+        // zipCode, name1, name2, city, stateUS, country, address1, address2,
+        // cType, NIP, PESEL, docType, docNumber,
+        // firstName, lastName, pTitle
 
         VerticalPanel vp1 = new VerticalPanel();
         fi = new HashSet<IField>();

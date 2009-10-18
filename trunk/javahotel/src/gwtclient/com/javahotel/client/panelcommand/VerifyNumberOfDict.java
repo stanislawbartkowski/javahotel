@@ -19,20 +19,19 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.javahotel.client.CallBackHotel;
-import com.javahotel.client.CommonUtil;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.ReadRequestHtml;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.rhtml.ISetResText;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.ReturnPersist;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
@@ -48,23 +47,25 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
     public IMvcWidget getWestWidget() {
         return null;
     }
+    
+    private class SetRes implements ISetResText {
 
-    private class IRequestSet implements ReadRequestHtml.ISetRequestText {
-
-        public void setText(String s) {
+        public void setResText(String s) {
             VerticalPanel hp = new VerticalPanel();
-            for (int i = 0; i<dList.length; i++) {
+            for (int i = 0; i < dList.length; i++) {
                 String sl = sI.getLabels().DictList().get(dList[i].toString());
-                String fo = sI.getMessages().noDict(sl,numb[i]);
+                String fo = sI.getMessages().noDict(sl, numb[i]);
                 hp.add(new Label(fo));
             }
             HTML ha = new HTML(s);
             hp.add(ha);
             iSet.setGwtWidget(new DefaultMvcWidget(hp));
+            
         }
+        
     }
 
-    class BackHo extends CallBackHotel<List<ReturnPersist>> {
+   class BackHo extends CallBackHotel<List<ReturnPersist>> {
 
         BackHo() {
             super(sI);
@@ -86,13 +87,12 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
                 iPanel.beforeDrawAction(iSet);
             } else {
                 errorTe = true;
-                String res = CommonUtil.getResAdr(pageName);
-                ReadRequestHtml.doGet(res, new IRequestSet());
+                sI.readRes().readRes(new SetRes(), pageName);
             }
         }
     }
 
-    VerifyNumberOfDict(IResLocator sI, DictType[] dList,String pageName) {
+    VerifyNumberOfDict(IResLocator sI, DictType[] dList, String pageName) {
         this.sI = sI;
         this.dList = dList;
         numb = new int[dList.length];

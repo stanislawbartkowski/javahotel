@@ -15,9 +15,8 @@ package com.javahotel.view.gwt.record.view;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
@@ -26,7 +25,7 @@ import com.javahotel.client.mvc.record.view.IAuxRecordPanel;
 import com.javahotel.client.mvc.util.MDialog;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 
@@ -35,10 +34,10 @@ class RecordViewDialog extends VRecordView {
 
     private final DialogBox dBox;
 
-    private RecordViewDialog(final IResLocator rI, final DictData da,
-            final IRecordDef model, final IContrPanel contr,
+    private RecordViewDialog(final IResLocator rI, ISetGwtWidget iSet,
+            final DictData da, final IRecordDef model, final IContrPanel contr,
             final IControlClick co, final IAuxRecordPanel auxV) {
-        super(rI, da, model, contr, co, auxV);
+        super(rI, iSet, da, model, contr, co, auxV);
         final VerticalPanel v = new VerticalPanel();
         final IPanel vP = PanelFactory.getGwtPanel(v);
         MDialog d = new MDialog(v, model.getDTitle()) {
@@ -51,11 +50,10 @@ class RecordViewDialog extends VRecordView {
         dBox = d.getDBox();
     }
 
-
-    @Override
-    public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(dBox);
-    }
+    // @Override
+    // public IMvcWidget getMWidget() {
+    // return new DefaultMvcWidget(dBox);
+    // }
 
     @Override
     public void show() {
