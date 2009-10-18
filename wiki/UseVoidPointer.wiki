@@ -1,13 +1,60 @@
-#summary One-sentence summary of this page.
+Top secret usage of void pointer
 
-= Introduction =
+==secret.h==
 
-Add your content here.
+{{{
+#include <string>
 
+typedef void* secretpointer;
 
-= Details =
+secretpointer newSecret();
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+void deleteSecret(secretpointer p);
+
+std::string revealSecret(secretpointer p);
+}}}
+
+==secret.cpp==
+
+#include "secret.h"
+
+{{{
+#include <string>
+
+typedef struct {
+    std::string secret;
+} secret;
+
+secretpointer newSecret() {
+    return new secret;
+}
+
+void deleteSecret(secretpointer v) {
+     secret *p = static_cast<secret *>(v);
+     delete p;
+}
+
+std::string revealSecret(secretpointer v) {
+     secret *p = static_cast<secret *>(v);
+     p->secret = "top secret message";
+     return p->secret;
+}
+}}}
+
+==main.cpp==
+
+{{{
+#include <iostream>
+#include <cstdlib>
+#include "secret.h"
+
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+    secretpointer p = newSecret();
+    cout << "Secret:" << revealSecret(p) << endl; 
+    deleteSecret(p);
+    return EXIT_SUCCESS;
+}
+}}}
