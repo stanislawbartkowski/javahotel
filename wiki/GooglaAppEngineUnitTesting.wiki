@@ -1,9 +1,11 @@
+
 = Introduction =
 
 http://hoteljavaopensource.blogspot.com/2009/10/migration-to-google-app-engine-and-unit.html
 
 This wikipage describes solution details and describes how to set up environment to run test unit example.
 
+<wiki:toc max_depth="3*" />
 
 ==Solution description==
 
