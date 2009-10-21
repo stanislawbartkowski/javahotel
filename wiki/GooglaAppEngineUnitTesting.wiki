@@ -1,8 +1,9 @@
 = Introduction =
 
-This wikipage describes how to setup eclipse project to run Google App Engine example unit test.
+http://hoteljavaopensource.blogspot.com/2009/10/migration-to-google-app-engine-and-unit.html
 
-= Details =
+This wikipage describes solution details and describes how to set up environment to run test unit example.
+
 
 ==Solution description==
 
