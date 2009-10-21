@@ -17,7 +17,8 @@ Now
 
 Working on:
 || Date started || Description ||
-|| 2009/09/01 - ? || Main reservation panel - working on date selector ||
+|| 2009/10/20 - ? || Main reservation panel - selecting rooms and dates in from main reservation panel ||
 
 Completed 
 || 2009/10/08 || Finished title bar ||
+|| 2009/10/20 || Date/Month selector completed ||
