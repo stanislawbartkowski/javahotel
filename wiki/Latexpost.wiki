@@ -52,5 +52,10 @@ $P_{n-1} = P_{n-2} \cdot (1+x+y) \leq 1$
 $P_{n} = P_{n-2} \cdot a_{1} \cdot a_{2} = P_{n-2} \cdot (1+x) \cdot (1-y) = P_{n-2} \cdot (1+x-y-x\cdot{y}) \leq P_{n-2} \cdot (1+x-y) = P_{n-1} \leq 1$
  
 
+Second post
+$F(N)=\frac{100}{N}+N-1$
+$F'(N)=-\frac{100}{N^2}+1$
+
+
 \end{document}
 }}}
