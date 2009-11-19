@@ -15,9 +15,9 @@ package com.javahotel.client.panelcommand;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.auxabstract.LoginRecord;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
-import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
 import com.javahotel.client.mvc.table.model.ITableConverter;
 import com.javahotel.common.command.RType;
@@ -25,7 +25,7 @@ import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.PersonP;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class HotelPersonCommand extends AbstractPanelCommand {
@@ -54,8 +54,8 @@ class HotelPersonCommand extends AbstractPanelCommand {
         if (r == RType.AllPersons) {
             aux.setIConv(new PersonConv());
         }
-        iCrud = DictCrudControlerFactory.getCrud(rI, new DictData(r),
-                aux, null);
+        iCrud = HInjector.getI().getDictCrudControlerFactory().getCrud(
+                new DictData(r), aux, null);
         iSet.setGwtWidget(iCrud.getMWidget());
     }
 
@@ -63,4 +63,3 @@ class HotelPersonCommand extends AbstractPanelCommand {
         iCrud.drawTable();
     }
 }
-

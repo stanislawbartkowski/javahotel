@@ -12,14 +12,16 @@
  */
 package com.javahotel.client.mvc.checktable.view;
 
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.GridCellType;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.gridmodel.model.GridModelViewFactory;
 import com.javahotel.client.mvc.gridmodel.model.IGridBaseModel;
 import com.javahotel.client.mvc.gridmodel.model.IGridModelView;
 import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
-import java.util.ArrayList;
 
 /**
  *
@@ -32,14 +34,17 @@ abstract class AbstractCheckTable implements IGridBaseModel {
 
     AbstractCheckTable(IResLocator rI, GridCellType c) {
         this.rI = rI;
-        iModel = GridModelViewFactory.getModel(rI, c);
+        GridModelViewFactory fa = HInjector.getI().getGridViewFactory();
+//        
+//        iModel = GridModelViewFactory.getModel(rI, c);
+        iModel = fa.getModel(c);
     }
 
     public void reset() {
         iModel.reset();
     }
 
-    public void setRows(ArrayList<String> rows) {
+    public void setRows(List<String> rows) {
         iModel.setRows(rows);
     }
 
@@ -47,15 +52,15 @@ abstract class AbstractCheckTable implements IGridBaseModel {
         iModel.setEnable(enable);
     }
 
-    public void setCols(ColsHeader rowTitle,ArrayList<ColsHeader> cols) {
+    public void setCols(ColsHeader rowTitle,List<ColsHeader> cols) {
         iModel.setCols(rowTitle,cols);
     }
 
-    public ArrayList<String> getSRow() {
+    public List<String> getSRow() {
         return iModel.getSRow();
     }
 
-    public ArrayList<ColsHeader> getSCol() {
+    public List<ColsHeader> getSCol() {
         return iModel.getSCol();
     }
 

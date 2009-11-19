@@ -132,7 +132,7 @@ class DaySeasonPanelWidget implements IScrollSeason {
     }
 
     public int getStartNo() {
-        return -1;
+        return dW.getStartNo();
     }
 
     public void createVPanel(List<Date> dList, int panelW) {

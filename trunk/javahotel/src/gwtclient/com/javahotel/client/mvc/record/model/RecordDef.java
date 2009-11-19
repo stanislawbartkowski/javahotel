@@ -15,7 +15,7 @@ package com.javahotel.client.mvc.record.model;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.MvcWindowSize;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -23,13 +23,13 @@ import java.util.ArrayList;
  */
 class RecordDef implements IRecordDef {
     
-    private final ArrayList<RecordField> rList;
+    private final List<RecordField> rList;
     private final String dTitle;
     private final IResLocator rI;
     private final MvcWindowSize mSize;
     
     RecordDef(final IResLocator rI, final String dTitle, 
-            final ArrayList<RecordField> rList) {
+            final List<RecordField> rList) {
         this.rList = rList;
         this.dTitle = dTitle;
         this.rI = rI;
@@ -37,14 +37,14 @@ class RecordDef implements IRecordDef {
     }
 
     RecordDef(final IResLocator rI, final String dTitle,
-            final ArrayList<RecordField> rList,MvcWindowSize m) {
+            final List<RecordField> rList,MvcWindowSize m) {
         this.rList = rList;
         this.dTitle = dTitle;
         this.rI = rI;
         mSize = m;
     }
 
-    public ArrayList<RecordField> getFields() {
+    public List<RecordField> getFields() {
         return rList;
     }
 

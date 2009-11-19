@@ -18,6 +18,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IGwtWidget;
@@ -36,69 +37,66 @@ import com.javahotel.common.scrollseason.model.YearMonthPe;
 class DayLineWidget implements IGwtWidget {
 
     private final IResLocator iR;
-//    private final HorizontalPanel hp;
     private final DaySeasonScrollData sData;
     private final IDrawPartSeason dPart;
     private final Grid g;
     private final int startG;
 
-    DayLineWidget(final IResLocator pLoc, IDrawPartSeason dPart, final Grid g, int startG, 
-            final Date todayC) {
+    DayLineWidget(final IResLocator pLoc, IDrawPartSeason dPart, final Grid g,
+            int startG, final Date todayC) {
         this.iR = pLoc;
         this.g = g;
         this.startG = startG;
         sData = new DaySeasonScrollData(todayC);
-//        hp = new HorizontalPanel();
-//        hp.setStyleName("day-scroll-panel");
         this.dPart = dPart;
     }
 
-    private Label getNo(int no) {
-        Label l = (Label) g.getWidget(0,startG+no);
-//        Widget w = hp.getWidget(no);
+    private Widget getNo(int no) {
+        Widget l = g.getWidget(0, startG + no);
         return l;
     }
     
-    private void setC(int c, Label l) {
-        g.setWidget(0,startG+c,l);
+    int getStartNo() {
+        return sData.getFirstD();
+    }
+
+    private void setC(int c, Widget w) {
+        g.setWidget(0, startG + c, w);
     }
 
     private final void drawNames() {
         for (int i = sData.getFirstD(); i <= sData.getLastD(); i++) {
             Date pe = sData.getD(i);
             String na = (pe.getMonth() + 1) + "/" + pe.getDate();
-            Label la = getNo(i - sData.getFirstD());
+            Widget w = getNo(i - sData.getFirstD());
+            Label la = dPart.getLabel(w);
             Date today = sData.getTodayC();
             if (DateUtil.eqDate(pe, today)) {
-                // na = "[" + na + "]";
                 la.setStyleName("today");
             } else {
                 la.removeStyleName("today");
             }
             la.setText(na);
+            dPart.setColumn(w, i, pe, la);
         }
         if (dPart != null) {
-            dPart.draw(sData.getFirstD(),sData.getLastD());
+            dPart.draw(sData.getFirstD(), sData.getLastD());
         }
     }
 
     void refresh() {
         drawNames();
     }
-    
 
     void createVPanel(List<Date> dList, int panelW) {
-//        hp.clear();
         HTMLTable.RowFormatter fo = g.getRowFormatter();
-        fo.setStyleName(0,"day-scroll-panel");
-        g.resizeColumns(startG + panelW); 
+        fo.setStyleName(0, "day-scroll-panel");
+        g.resizeColumns(startG + panelW);
         sData.createSPanel(dList, panelW);
-//        hp.setSpacing(2);
         for (int i = 0; i < sData.getPeriodNo(); i++) {
             Label la = new Label("");
-            setC(i,la);
-            
-//            hp.add(la);
+            Widget w = dPart.getColumnEmpty(la);
+            setC(i, w);
         }
         drawNames();
     }

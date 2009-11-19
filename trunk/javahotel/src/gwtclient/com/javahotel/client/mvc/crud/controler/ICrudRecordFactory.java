@@ -12,16 +12,16 @@
  */
 package com.javahotel.client.mvc.crud.controler;
 
+import java.util.List;
+
 import com.javahotel.client.mvc.apanel.IPanel;
-import com.javahotel.client.mvc.validator.IErrorMessageContext;
-import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.client.mvc.persistrecord.IPersistRecord;
 import com.javahotel.client.mvc.record.extractor.IRecordExtractor;
+import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.IRecordView;
 import com.javahotel.client.mvc.table.view.ITableSignalClicked;
+import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.common.toobject.AbstractTo;
-import java.util.ArrayList;
-import com.javahotel.client.mvc.record.model.RecordField;
 
 /**
  * 
@@ -55,5 +55,5 @@ public interface ICrudRecordFactory {
 
 	ICrudChooseTable getChoose();
 
-	ArrayList<RecordField> getDef();
+	List<RecordField> getDef();
 }

@@ -12,20 +12,22 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.controller.onearecord.IOneARecord;
 import com.javahotel.client.mvc.controller.onearecord.OneRecordFactory;
 import com.javahotel.client.mvc.controller.onerecordmodif.IOneRecordModifWidget;
 import com.javahotel.client.mvc.controller.onerecordmodif.OneRecordModifWidgetFactory;
-import com.javahotel.client.mvc.record.view.IRecordView;
 import com.javahotel.client.mvc.crud.controler.ICrudRecordFactory;
-import java.util.ArrayList;
-import com.javahotel.client.mvc.record.model.RecordField;
-import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
-import com.javahotel.client.mvc.record.model.RecordDefFactory;
 import com.javahotel.client.mvc.record.model.IRecordDef;
+import com.javahotel.client.mvc.record.model.RecordDefFactory;
+import com.javahotel.client.mvc.record.model.RecordField;
+import com.javahotel.client.mvc.record.view.IRecordView;
 import com.javahotel.client.mvc.record.view.RecordViewFactory;
+import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.table.model.ITableFilter;
 
 
@@ -52,9 +54,9 @@ public class DictCrudIOneRecordFactory {
 
     public static IRecordView createNViewCopy(final IResLocator rI,
             final DictData da, final IRecordView vTable) {
-       ArrayList<RecordField> dict = GetRecordDefFactory.getDef(rI, da);
-       ArrayList<RecordField> newList = new ArrayList<RecordField>();
-       ArrayList<RecordField> iList = vTable.getModel().getFields();
+       List<RecordField> dict = GetRecordDefFactory.getDef(rI, da);
+       List<RecordField> newList = new ArrayList<RecordField>();
+       List<RecordField> iList = vTable.getModel().getFields();
        for (RecordField r : iList) {
            for (RecordField rr: dict) {
                if (r.getFie() == rr.getFie()) {

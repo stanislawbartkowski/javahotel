@@ -38,8 +38,8 @@ public class UserPanel {
             }
         };
         rI.getPanel().setDCenter(null);
-        IGwtWidget wPanel = fPanel.getMenuPanel(rI, iClicked);
-        EPanelCommand e = fPanel.getCentreWidget(rI);
+        IGwtWidget wPanel = fPanel.getMenuPanel(iClicked);
+        EPanelCommand e = fPanel.getCentreWidget();
         if (wPanel != null) {
             rI.getPanel().setWest(wPanel.getMWidget().getWidget());
         }
@@ -47,7 +47,7 @@ public class UserPanel {
             IPanelCommand i = PanelCommandFactory.getPanelCommand(rI, e);
             CommandDrawPanel.setC(rI, i);
         }
-        Panel pa = fPanel.getMenuPanel(rI);
+        Panel pa = fPanel.getMenuPanel();
         if (pa != null) {
             rI.getPanel().setMenuPanel(pa);
         }

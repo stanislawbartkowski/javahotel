@@ -12,6 +12,10 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler.priceoffer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.mvc.seasonprice.model.ISpecialMap;
 import com.javahotel.client.mvc.seasonprice.model.MapSpecialToI;
@@ -24,14 +28,11 @@ import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.SeasonPeriodT;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-class GetSeasonSpecial {
+public class GetSeasonSpecial {
 
 	private final IResLocator rI;
 	private String sName;
@@ -41,7 +42,8 @@ class GetSeasonSpecial {
 		sName = null;
 	}
 
-	GetSeasonSpecial(IResLocator rI) {
+	@Inject
+	public GetSeasonSpecial(IResLocator rI) {
 		this.rI = rI;
 		initSeason();
 	}
@@ -71,7 +73,7 @@ class GetSeasonSpecial {
 		}
 	}
 
-	void runSpecial(String s, ISpecialMap i) {
+	public void runSpecial(String s, ISpecialMap i) {
 		if (s == null) {
 			sName = null;
 			toI = new ArrayList<MapSpecialToI>();

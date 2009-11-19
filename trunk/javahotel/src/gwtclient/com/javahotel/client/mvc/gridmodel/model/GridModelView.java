@@ -12,11 +12,12 @@
  */
 package com.javahotel.client.mvc.gridmodel.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
 import com.javahotel.client.mvc.gridmodel.model.view.IGridView;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -24,8 +25,8 @@ import java.util.List;
  */
 class GridModelView implements IGridModelView {
 
-    private ArrayList<String> rows = null;
-    private ArrayList<ColsHeader> cols = null;
+    private List<String> rows = null;
+    private List<ColsHeader> cols = null;
     private int tNo;
     private List<C> q = new ArrayList<C>();
     private boolean enabled = true;
@@ -35,11 +36,11 @@ class GridModelView implements IGridModelView {
         iGrid.setEnable(RowNo(), ColNo(), enable);
     }
 
-    public ArrayList<String> getSRow() {
+    public List<String> getSRow() {
         return rows;
     }
 
-    public ArrayList<ColsHeader> getSCol() {
+    public List<ColsHeader> getSCol() {
         return cols;
     }
 
@@ -61,9 +62,9 @@ class GridModelView implements IGridModelView {
 
         private final int no;
         private final boolean rows;
-        private final ArrayList<? extends Object> a;
+        private final List<? extends Object> a;
 
-        C(int no, boolean rows, ArrayList<? extends Object> a) {
+        C(int no, boolean rows, List<? extends Object> a) {
             this.no = no;
             this.rows = rows;
             this.a = a;
@@ -91,13 +92,13 @@ class GridModelView implements IGridModelView {
         }
     }
 
-    public void setRows(ArrayList<String> rows) {
+    public void setRows(List<String> rows) {
         this.rows = rows;
         iGrid.setRowBeginning(rows);
         nextT();
     }
 
-    public void setCols(ColsHeader rowTitle, ArrayList<ColsHeader> cols) {
+    public void setCols(ColsHeader rowTitle, List<ColsHeader> cols) {
         this.cols = cols;
         iGrid.setCols(rowTitle, cols);
         nextT();
@@ -119,7 +120,7 @@ class GridModelView implements IGridModelView {
     }
 
     private void setA(C aa) {
-        final ArrayList<? extends Object> a = aa.a;
+        final List<? extends Object> a = aa.a;
         final boolean rows = aa.rows;
         final int no = aa.no;
         IGridModelViewVisitor v = new IGridModelViewVisitor() {
@@ -147,16 +148,16 @@ class GridModelView implements IGridModelView {
         }
     }
 
-    public void setRowVal(int row, ArrayList<? extends Object> vals) {
+    public void setRowVal(int row, List<? extends Object> vals) {
         drawA(new C(row, true, vals));
     }
 
-    public void setColVal(int col, ArrayList<? extends Object> vals) {
+    public void setColVal(int col, List<? extends Object> vals) {
         drawA(new C(col, false, vals));
     }
 
-    private ArrayList<Object> getVal(boolean rows, int c) {
-        final ArrayList<Object> a = new ArrayList<Object>();
+    private List<Object> getVal(boolean rows, int c) {
+        final List<Object> a = new ArrayList<Object>();
         IGridModelViewVisitor v = new IGridModelViewVisitor() {
 
             public void visit(int i, Object val) {
@@ -167,15 +168,15 @@ class GridModelView implements IGridModelView {
         return a;
     }
 
-    public ArrayList<? extends Object> getRows(int row) {
+    public List<? extends Object> getRows(int row) {
         return getVal(true, row);
     }
 
-    public ArrayList<? extends Object> getCols(int col) {
+    public List<? extends Object> getCols(int col) {
         return getVal(false, col);
     }
 
-    private int tNo(ArrayList a) {
+    private int tNo(List a) {
         if (a == null) {
             return -1;
         }

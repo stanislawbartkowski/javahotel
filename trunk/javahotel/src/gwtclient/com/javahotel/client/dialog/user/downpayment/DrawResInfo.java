@@ -13,6 +13,7 @@
 package com.javahotel.client.dialog.user.downpayment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,7 +41,7 @@ class DrawResInfo {
         PopUpWithClose aPanel = new PopUpWithClose(w);
         VerticalPanel vp = aPanel.getVP();
 
-        ArrayList<ContrButton> dButton = new ArrayList<ContrButton>();
+        List<ContrButton> dButton = new ArrayList<ContrButton>();;
         dButton.add(new ContrButton(null, "Wprowadź zaliczkę", 0));
         dButton.add(new ContrButton(null, "Skasuj rezerwację", 1));
 

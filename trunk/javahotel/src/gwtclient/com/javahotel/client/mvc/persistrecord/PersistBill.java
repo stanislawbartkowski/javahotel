@@ -13,12 +13,14 @@
 
 package com.javahotel.client.mvc.persistrecord;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.javahotel.client.CallBackHotel;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IPersistAction;
 import com.javahotel.client.mvc.auxabstract.ABillsCustomer;
-import com.javahotel.client.mvc.auxabstract.ANumAbstractTo;
 import com.javahotel.client.mvc.auxabstract.BillsCustomer;
 import com.javahotel.client.mvc.auxabstract.NumAddPaymentP;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
@@ -29,7 +31,6 @@ import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.toobject.AddPaymentP;
 import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.CustomerP;
-import java.util.ArrayList;
 
 /**
  *
@@ -69,7 +70,7 @@ public class PersistBill implements IPersistRecord {
         }
         IGetAddPaymentList iG =  (IGetAddPaymentList) a.getAuxData1();
         String resName = iG.getResName();
-        ArrayList<NumAddPaymentP> aList = iG.getList();
+        List<NumAddPaymentP> aList = iG.getList();
         ABillsCustomer aB = (ABillsCustomer) a.getA();
         BillsCustomer bb = (BillsCustomer) aB.getO();
 

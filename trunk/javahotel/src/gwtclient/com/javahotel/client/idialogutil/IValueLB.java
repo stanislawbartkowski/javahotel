@@ -13,8 +13,9 @@
 
 package com.javahotel.client.idialogutil;
 
+import java.util.List;
+
 import com.javahotel.client.ifield.ILineField;
-import java.util.ArrayList;
 
 /**
  *
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  */
 public interface IValueLB extends ILineField {
 
-    void setList(ArrayList<String> li);
+    void setList(List<String> li);
     String getBeforeVal();
 
 }

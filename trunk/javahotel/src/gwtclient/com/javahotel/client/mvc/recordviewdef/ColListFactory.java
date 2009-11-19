@@ -50,8 +50,6 @@ import java.util.Set;
  */
 public class ColListFactory {
 
-    private ColListFactory() {
-    }
     private static final ArrayList<ColTitle> dictCol;
     private static final ArrayList<ColTitle> hotelCol;
     private static final ArrayList<ColTitle> personCol;
@@ -189,7 +187,7 @@ public class ColListFactory {
         aPay.add(new ColTitle(AddPaymentP.F.noSe, "Ilość"));
     }
 
-    private static ArrayList<ColTitle> getColList(DictData.SpecE e) {
+    private ArrayList<ColTitle> getColList(DictData.SpecE e) {
         switch (e) {
             case SpecialPeriod:
                 return specPe;
@@ -257,7 +255,7 @@ public class ColListFactory {
         return null;
     }
 
-    public static ArrayList<ColTitle> getColList(final DictData da) {
+    public ArrayList<ColTitle> getColList(final DictData da) {
         if (da.isSe()) {
             return getColList(da.getSE());
         }
@@ -267,7 +265,7 @@ public class ColListFactory {
         return getColList(da.getRt());
     }
 
-    public static String getHeader(final DictData da) {
+    public String getHeader(final DictData da) {
         if (da.getD() != null) {
             switch (da.getD()) {
                 case CustomerList:
@@ -301,12 +299,12 @@ public class ColListFactory {
         return null;
     }
 
-    public static ArrayList<ColTitle> getEditColList(final DictData da) {
+    public ArrayList<ColTitle> getEditColList(final DictData da) {
         return editcustCol;
     }
 
-    public static Set<IField> getNoEditableColList(final DictData da) {
-        Set se = new HashSet<IField>();
+    public Set<IField> getNoEditableColList(final DictData da) {
+        Set<IField> se = new HashSet<IField>();
         se.add(ResRoomGuest.F.name);
         se.add(ResRoomGuest.F.desc);
         return se;

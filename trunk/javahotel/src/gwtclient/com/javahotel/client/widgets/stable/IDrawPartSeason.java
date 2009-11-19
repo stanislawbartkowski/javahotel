@@ -12,17 +12,21 @@
  */
 package com.javahotel.client.widgets.stable;
 
+import java.util.Date;
+
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.dialog.ISetGwtWidget;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public interface IDrawPartSeason extends ISetGwtWidget {
 
     /**
      * Draw lines.
-     *
+     * 
      * @param fromL
      *            - number of first row/column to draw
      * @param toL
@@ -30,8 +34,9 @@ public interface IDrawPartSeason extends ISetGwtWidget {
      */
     void draw(final int fromL, final int toL);
 
-//    void drawagain(final int fromL, final int toL, final int actL,
-//            final boolean setC);
+    Widget getColumnEmpty(Label l);
 
-//    void setSWidget(Widget w);
+    void setColumn(Widget w, int cNo, Date d, Label l);
+    
+    Label getLabel(Widget w);
 }

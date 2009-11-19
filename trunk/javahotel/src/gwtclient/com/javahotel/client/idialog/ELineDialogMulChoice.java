@@ -117,7 +117,7 @@ public class ELineDialogMulChoice extends ELineDialog {
             this.enable = penable;
         }
 
-        public void doVList(final ArrayList<? extends AbstractTo> val) {
+        public void doVList(final List<? extends AbstractTo> val) {
             for (final AbstractTo a : val) {
                 DictionaryP p = (DictionaryP) a;
                 CheckBox c = new CheckBox(p.getName());

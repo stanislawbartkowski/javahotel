@@ -21,15 +21,15 @@ import com.javahotel.common.toobject.SeasonPeriodT;
  */
 class SeasonNames {
 
-	private SeasonNames() {
-	}
+    private SeasonNames() {
+    }
 
-	static String getName(final IResLocator rI, final SeasonPeriodT t) {
+    static String getName(final IResLocator rI, final SeasonPeriodT t) {
 
-		String sId = "HIGH";
-		if (t != null) {
-			sId = t.toString();
-		}
-		return (String) rI.getLabels().SeasonNames().get(sId);
-	}
+        String sId = "HIGH";
+        if (t != null) {
+            sId = t.toString();
+        }
+        return (String) rI.getLabels().SeasonNames().get(sId);
+    }
 }

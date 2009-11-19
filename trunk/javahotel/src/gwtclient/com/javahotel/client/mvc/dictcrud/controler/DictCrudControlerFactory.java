@@ -12,27 +12,30 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler;
 
-import com.javahotel.client.mvc.recordviewdef.GetIToSFactory;
-import com.javahotel.client.mvc.recordviewdef.ColListFactory;
-import com.javahotel.client.mvc.dictcrud.controler.hotelperson.HotelPersonRoleView;
-import com.javahotel.client.mvc.dictcrud.controler.season.SpecPeriod2View;
-import com.javahotel.client.mvc.dictcrud.controler.season.SeasonOfferAuxPanel;
-import com.javahotel.client.mvc.dictcrud.controler.priceoffer.PriceListAuxView;
-import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
-import com.javahotel.client.mvc.crud.controler.ICrudControler;
+import java.util.ArrayList;
+
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
 import com.javahotel.client.mvc.crud.controler.CrudControlerFactory;
 import com.javahotel.client.mvc.crud.controler.ICrudAuxControler;
-import com.javahotel.client.mvc.crud.controler.ICrudPersistSignal;
+import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.dictcrud.controler.booking.BookResRoom;
+import com.javahotel.client.mvc.dictcrud.controler.bookroom.BookRoom;
 import com.javahotel.client.mvc.dictcrud.controler.customer.CustomerAuxPanel;
+import com.javahotel.client.mvc.dictcrud.controler.hotelperson.HotelPersonRoleView;
+import com.javahotel.client.mvc.dictcrud.controler.priceoffer.PriceListAuxView;
+import com.javahotel.client.mvc.dictcrud.controler.season.SeasonOfferAuxPanel;
+import com.javahotel.client.mvc.dictcrud.controler.season.SpecPeriod2View;
+import com.javahotel.client.mvc.recordviewdef.ColListFactory;
+import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
+import com.javahotel.client.mvc.recordviewdef.GetIToSFactory;
 import com.javahotel.client.mvc.table.model.ColTitle;
 import com.javahotel.client.mvc.table.model.ITableModel;
 import com.javahotel.client.mvc.table.model.TableModelFactory;
-import java.util.ArrayList;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
 
@@ -42,154 +45,172 @@ import com.javahotel.common.toobject.AbstractTo;
  */
 public class DictCrudControlerFactory {
 
-	private static void setAuxV(IResLocator rI, RecordAuxParam a, DictType d) {
-		DictCheckView va = new DictCheckView(rI, d);
-		a.setAuxV(va);
-		a.setAuxO(va.getAuxO());
-		a.setBSignal(va.getBefore());
+    private final IResLocator rI;
+    private final TableModelFactory tFactory;
+    private final ColListFactory cFactory;
 
-	}
+    @Inject
+    public DictCrudControlerFactory(IResLocator rI, TableModelFactory tFactory,
+            ColListFactory cFactory) {
+        this.rI = rI;
+        this.tFactory = tFactory;
+        this.cFactory = cFactory;
+    }
 
-	private static RecordAuxParam getAuxV(final IResLocator rI,
-			final DictData da, final ITableModel md, Object auxV1) {
-		RecordAuxParam a = new RecordAuxParam();
-		a.setAuxO1(auxV1);
-		if (da.getD() != null) {
-			switch (da.getD()) {
-			case RoomStandard:
-				setAuxV(rI, a, DictType.ServiceDict);
-				break;
-			case RoomObjects:
-				setAuxV(rI, a, DictType.RoomFacility);
-				break;
-			case OffSeasonDict:
-				a.setAuxV(new SpecPeriod2View(rI));
-				a.setAuxO(a.getAuxV());
-				SeasonOfferAuxPanel sAux = new SeasonOfferAuxPanel(rI);
-				a.setAuxW(sAux.getMWidget().getWidget());
-				a.setInfoP(sAux);
-				break;
-			case PriceListDict:
-				PriceListAuxView au = new PriceListAuxView(rI);
-				a.setAuxV(au);
-				a.setAuxO(au.getAuxO());
-				a.setModifD(au.getModif());
-				a.setBSignal(au.getBSignal());
-				break;
-			case CustomerList:
-				CustomerAuxPanel auC = new CustomerAuxPanel(rI);
-				a.setAuxV(auC);
-				a.setAuxO(auC.getV());
-				break;
-			case BookingList:
-				BookResRoom bRoom = new BookResRoom(rI);
-				a.setAuxV(bRoom);
-				a.setModifD(bRoom.getModif());
-				a.setAuxO1(bRoom.getBModel());
-				a.setPSignal(bRoom.getPSignal());
-				break;
-			default:
-			}
-		} else if (da.getRt() != null) {
-			switch (da.getRt()) {
-			case AllPersons:
-			case AllHotels:
-				HotelPersonRoleView v = new HotelPersonRoleView(rI, da.getRt());
-				a.setAuxV(v);
-				a.setAuxO(v.getAuxO());
-			}
-		} else {
-			switch (da.getSE()) {
-			case SpecialPeriod:
-				a.setAuxO(md);
-				break;
-			case CustomerPhone:
-			case CustomerAccount:
-				a.setAuxO(md);
-				break;
-			case BookingElem:
-				a.setAuxO(md);
-				break;
-			// case BillsList:
-			case AddPaymentList:
-				a.setAuxO(md);
-				break;
-			}
-		}
-		return a;
-	}
+    private void setAuxV(RecordAuxParam a, DictType d) {
+        DictCheckView va = new DictCheckView(rI, d);
+        a.setAuxV(va);
+        a.setAuxO(va.getAuxO());
+        a.setBSignal(va.getBefore());
+    }
 
-	public static ICrudControler getCrud(final IResLocator rI,
-			final DictData da, RecordAuxParam aux, ICrudAuxControler cAux) {
-		ArrayList<ColTitle> cTitle = ColListFactory.getColList(da);
-		AbstractTo.IFieldToS iS = GetIToSFactory.getI(rI);
-		String header = ColListFactory.getHeader(da);
-		ITableModel model = TableModelFactory.getModel(rI, cTitle, iS, header,
-				aux.getIFilter(), aux.getIConv());
-		RecordAuxParam auxV = getAuxV(rI, da, model, aux.getAuxO1());
-		if (aux.getModifD() != null) {
-			auxV.setModifD(aux.getModifD());
-		}
-		if (aux.getPSignal() != null) {
-			auxV.setPSignal(aux.getPSignal());
-		}
-		if (aux.getSClicked() != null) {
-			auxV.setSClicked(aux.getSClicked());
-		}
-		IContrPanel cpanel = null;
-		if (aux.isModifPanel()) {
-			cpanel = DictButtonFactory.getDictButt(rI);
-		}
-		if (aux.getCPanel() != null) {
-			cpanel = aux.getCPanel();
-		}
-		if (aux.getIChoose() != null) {
-			auxV.setIChoose(aux.getIChoose());
-		}
-		if (auxV.getIChoose() != null) {
-			cpanel = DictButtonFactory.getDictChooseButt(rI);
-		}
-		auxV.setModifPanel(aux.isModifPanel());
-		if (auxV.getBSignal() == null) {
-			auxV.setBSignal(aux.getBSignal());
-		}
-		if (auxV.getAuxV() == null) {
-			auxV.setAuxV(aux.getAuxV());
-		}
-		if (aux.getIConv() != null) {
-			auxV.setIConv(aux.getIConv());
-		}
+    private class ContextRecord implements IRecordContext {
 
-		ICrudControler crud = CrudControlerFactory.getCrud(rI, da, model,
-				cpanel, new DictRecordControler(rI, da, auxV), cAux, aux
-						.getIClick());
-		return crud;
-	}
+        private final RecordAuxParam pa;
 
-	public static ICrudControler getCrud(final IResLocator rI,
-			final DictData da, final Object auxV1, IModifRecordDef mDef,
-			ICrudAuxControler cAux, ICrudPersistSignal pSignal) {
-		RecordAuxParam aux = new RecordAuxParam();
-		aux.setAuxO1(auxV1);
-		aux.setModifD(mDef);
-		aux.setPSignal(pSignal);
-		return getCrud(rI, da, aux, cAux);
-	}
+        ContextRecord(RecordAuxParam pa) {
+            this.pa = pa;
+        }
 
-	public static ICrudControler getCrud(final IResLocator rI, final DictData da) {
-		return getCrud(rI, da, new RecordAuxParam(), null);
-	}
+        public ICustomConnector getI() {
+            return pa.getiCon();
+        }
 
-	public static ICrudControler getCrud(final IResLocator rI,
-			final DictData da, RecordAuxParam param) {
-		return getCrud(rI, da, param, null);
-	}
+    }
 
-	public static ICrudControlerDialog getCrudD(final IResLocator rI,
-			final DictData da, RecordAuxParam aux, ICrudAuxControler cAux,
-			IContrButtonView bView) {
-		ICrudControler iC = getCrud(rI, da, aux, cAux);
-		return new CrudControlerDialog(iC, bView);
-	}
+    private RecordAuxParam getAuxV(final DictData da, final ITableModel md,
+            Object auxV1) {
+        RecordAuxParam a = new RecordAuxParam();
+        ContextRecord co = new ContextRecord(a);
+        a.setAuxO1(auxV1);
+        if (da.getD() != null) {
+            switch (da.getD()) {
+            case RoomStandard:
+                setAuxV(a, DictType.ServiceDict);
+                break;
+            case RoomObjects:
+                setAuxV(a, DictType.RoomFacility);
+                break;
+            case OffSeasonDict:
+                a.setAuxV(new SpecPeriod2View(rI));
+                a.setAuxO(a.getAuxV());
+                SeasonOfferAuxPanel sAux = new SeasonOfferAuxPanel(rI);
+                a.setAuxW(sAux.getMWidget().getWidget());
+                a.setInfoP(sAux);
+                break;
+            case PriceListDict:
+                PriceListAuxView au = HInjector.getI().getPriceListAuxView();
+                a.setAuxV(au);
+                a.setAuxO(au.getAuxO());
+                a.setModifD(au.getModif());
+                a.setBSignal(au.getBSignal());
+                break;
+            case CustomerList:
+                CustomerAuxPanel auC = new CustomerAuxPanel(rI);
+                a.setAuxV(auC);
+                a.setAuxO(auC.getV());
+                break;
+            case BookingList:
+//                BookResRoom bRoom = new BookResRoom(rI, co);
+                BookResRoom bRoom = HInjector.getI().getBookResRoom();
+                bRoom.SetContextParam(co);
+                a.setAuxV(bRoom);
+                a.setModifD(bRoom.getModif());
+                a.setAuxO1(bRoom.getBModel());
+                a.setPSignal(bRoom.getPSignal());
+                break;
+            default:
+            }
+        } else if (da.getRt() != null) {
+            switch (da.getRt()) {
+            case AllPersons:
+            case AllHotels:
+                HotelPersonRoleView v = new HotelPersonRoleView(rI, da.getRt());
+                a.setAuxV(v);
+                a.setAuxO(v.getAuxO());
+            }
+        } else {
+            switch (da.getSE()) {
+            case SpecialPeriod:
+                a.setAuxO(md);
+                break;
+            case CustomerPhone:
+            case CustomerAccount:
+                a.setAuxO(md);
+                break;
+            case BookingElem:
+                BookRoom bo = HInjector.getI().getBookRoom();
+                bo.SetContextParam(co);
+                a.setAuxV(bo);
+                a.setAuxO(md);
+                break;
+            // case BillsList:
+            case AddPaymentList:
+                a.setAuxO(md);
+                break;
+            }
+        }
+        return a;
+    }
+
+    public ICrudControler getCrud(final DictData da, RecordAuxParam aux,
+            ICrudAuxControler cAux) {
+        ArrayList<ColTitle> cTitle = cFactory.getColList(da);
+        AbstractTo.IFieldToS iS = GetIToSFactory.getI(rI);
+        String header = cFactory.getHeader(da);
+        ITableModel model = tFactory.getModel(cTitle, iS, header, aux
+                .getIFilter(), aux.getIConv());
+        RecordAuxParam auxV = getAuxV(da, model, aux.getAuxO1());
+        if (aux.getModifD() != null) {
+            auxV.setModifD(aux.getModifD());
+        }
+        if (aux.getPSignal() != null) {
+            auxV.setPSignal(aux.getPSignal());
+        }
+        if (aux.getSClicked() != null) {
+            auxV.setSClicked(aux.getSClicked());
+        }
+        IContrPanel cpanel = null;
+        if (aux.isModifPanel()) {
+            cpanel = DictButtonFactory.getDictButt(rI);
+        }
+        if (aux.getCPanel() != null) {
+            cpanel = aux.getCPanel();
+        }
+        if (aux.getiCon() != null) {
+            auxV.setiCon(aux.getiCon());
+        }
+        if (aux.getIChoose() != null) {
+            auxV.setIChoose(aux.getIChoose());
+        }
+        if (auxV.getIChoose() != null) {
+            cpanel = DictButtonFactory.getDictChooseButt(rI);
+        }
+        auxV.setModifPanel(aux.isModifPanel());
+        if (auxV.getBSignal() == null) {
+            auxV.setBSignal(aux.getBSignal());
+        }
+        if (auxV.getAuxV() == null) {
+            auxV.setAuxV(aux.getAuxV());
+        }
+        if (aux.getIConv() != null) {
+            auxV.setIConv(aux.getIConv());
+        }
+
+        ICrudControler crud = CrudControlerFactory.getCrud(rI, da, model,
+                cpanel, new DictRecordControler(rI, da, auxV), cAux, aux
+                        .getIClick());
+        return crud;
+    }
+
+    public ICrudControler getCrud(final DictData da) {
+        return getCrud(da, new RecordAuxParam(), null);
+    }
+
+    public ICrudControlerDialog getCrudD(final DictData da, RecordAuxParam aux,
+            ICrudAuxControler cAux, IContrButtonView bView) {
+        ICrudControler iC = getCrud(da, aux, cAux);
+        return new CrudControlerDialog(iC, bView);
+    }
 
 }

@@ -12,34 +12,38 @@
  */
 package com.javahotel.client.mvc.checktable.view;
 
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.GridCellType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.google.inject.Inject;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.GridCellType;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-class DecimalTableView extends AbstractCheckTable implements IDecimalTableView {
+public class DecimalTableView extends AbstractCheckTable implements IDecimalTableView {
 
-    DecimalTableView(IResLocator rI) {
+    @Inject
+    public DecimalTableView(IResLocator rI) {
         super(rI, GridCellType.NUMERIC);
     }
 
-    public void setRowVal(int row, ArrayList<BigDecimal> vals) {
+    public void setRowVal(int row, List<BigDecimal> vals) {
         iModel.setRowVal(row, vals);
     }
 
-    public void setColVal(int col, ArrayList<BigDecimal> vals) {
+    public void setColVal(int col, List<BigDecimal> vals) {
         iModel.setColVal(col, vals);
     }
 
-    public ArrayList<BigDecimal> getRows(int row) {
+    public List<BigDecimal> getRows(int row) {
         return (ArrayList<BigDecimal>) iModel.getRows(row);
     }
 
-    public ArrayList<BigDecimal> getCols(int col) {
+    public List<BigDecimal> getCols(int col) {
         return (ArrayList<BigDecimal>) iModel.getCols(col);
     }
 

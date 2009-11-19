@@ -12,7 +12,8 @@
  */
 package com.javahotel.client.mvc.gridmodel.model;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import com.javahotel.client.dialog.IMvcView;
 
 /**
@@ -21,12 +22,12 @@ import com.javahotel.client.dialog.IMvcView;
  */
 public interface IGridModelView extends IMvcView, IGridBaseModel {
 
-    void setRowVal(int row, ArrayList<? extends Object> vals);
+    void setRowVal(int row, List<? extends Object> vals);
 
-    void setColVal(int col, ArrayList<? extends Object> vals);
+    void setColVal(int col, List<? extends Object> vals);
 
-    ArrayList<? extends Object> getRows(int row);
+    List<? extends Object> getRows(int row);
 
-    ArrayList<? extends Object> getCols(int col);
+    List<? extends Object> getCols(int col);
 
 }

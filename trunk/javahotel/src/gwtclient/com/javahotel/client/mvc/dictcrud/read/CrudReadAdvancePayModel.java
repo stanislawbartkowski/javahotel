@@ -14,8 +14,8 @@
 package com.javahotel.client.mvc.dictcrud.read;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.mvc.auxabstract.AdvancePaymentCustomer;
@@ -64,7 +64,7 @@ class CrudReadAdvancePayModel implements ICrudReadModel {
 			this.signal = signal;
 		}
 
-		public void doVList(final ArrayList<? extends AbstractTo> val) {
+		public void doVList(final List<? extends AbstractTo> val) {
 			List<AdvancePaymentCustomer> v = new ArrayList<AdvancePaymentCustomer>();
 			for (AbstractTo a : val) {
 				DownPaymentP d = (DownPaymentP) a;
@@ -74,7 +74,7 @@ class CrudReadAdvancePayModel implements ICrudReadModel {
 				dV.setCustomerId(id);
 				v.add(dV);
 			}
-			model.setList((ArrayList<? extends AbstractTo>) v);
+			model.setList((List<? extends AbstractTo>) v);
 			signal.successRead();
 		}
 	}

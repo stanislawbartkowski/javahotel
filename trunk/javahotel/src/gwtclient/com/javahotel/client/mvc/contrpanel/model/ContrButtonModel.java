@@ -12,10 +12,10 @@
  */
 package com.javahotel.client.mvc.contrpanel.model;
 
-import com.javahotel.client.mvc.contrpanel.view.IControlClick;
-import com.javahotel.client.IResLocator;
-import java.util.ArrayList;
 import java.util.List;
+
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 
 /**
  *

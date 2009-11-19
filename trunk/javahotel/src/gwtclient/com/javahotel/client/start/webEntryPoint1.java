@@ -15,7 +15,6 @@ package com.javahotel.client.start;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.Table;
-import com.javahotel.client.dispatcher.DispatchFactory;
 
 /**
  * 
@@ -23,16 +22,21 @@ import com.javahotel.client.dispatcher.DispatchFactory;
  */
 public class webEntryPoint1 extends AbstractWebEntry implements EntryPoint {
 
-    /** Creates a new instance of webEntryPoint */
-    public webEntryPoint1() {
-        super(true, DispatchFactory.createDispatch());
-    }
 
     public void onModuleLoad() {
         Runnable onLoadCallback = new Runnable() {
 
             public void run() {
-                load();
+//                IWebEntry i = new MainWebEntry(DispatchFactory.createDispatch());
+//                IWebEntry i =
+//                HotelInjector in = new HotelInjector();
+//                injector = Guice.createInjector(new CommandModule());
+//                sFactory = injector.getInstance(ISessionContextFactory.class);
+//                final HotelInjector injector = GWT.create(HotelInjector.class);
+//                IWebEntry i = injector.getW();
+//                i.setGoogletable(true);
+//                i.start();
+                starte(true);
             }
         };
         VisualizationUtils.loadVisualizationApi(onLoadCallback, Table.PACKAGE);

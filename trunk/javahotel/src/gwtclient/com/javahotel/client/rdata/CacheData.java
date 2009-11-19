@@ -14,6 +14,7 @@ package com.javahotel.client.rdata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.javahotel.common.command.CommandParam;
@@ -36,14 +37,14 @@ class CacheData {
         String keyId;
         CommandParam p;
         RType r;
-        ArrayList<AbstractTo> col;
+        List<AbstractTo> col;
     }
 
     private class CData {
 
         RType r;
         CommandParam p;
-        ArrayList<AbstractTo> col;
+        List<AbstractTo> col;
     }
 
     private final Map<String, CData> hList = new HashMap<String, CData>();
@@ -73,7 +74,7 @@ class CacheData {
     }
 
     void invalidateCache(final RType r) {
-        ArrayList<String> de = new ArrayList<String>();
+        List<String> de = new ArrayList<String>();
         for (final String s : hList.keySet()) {
             CData co = hList.get(s);
             if (co.r == r) {

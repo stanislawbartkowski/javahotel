@@ -15,12 +15,13 @@ package com.javahotel.client.mvc.seasonprice.model;
 import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public interface ISeasonPriceModel {
 
     IDecimalTableView getT();
+
     int HIGHSEASON = 0;
     int HIGHSEASONWEEKEND = 1;
     int LOWSEASON = 2;

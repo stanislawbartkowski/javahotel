@@ -13,12 +13,14 @@
 package com.javahotel.client.mvc.record.view;
 
 import com.javahotel.client.dialog.IMvcView;
+import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.mvc.validator.IRecordValidator;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public interface IAuxRecordPanel extends IMvcView {
@@ -33,5 +35,7 @@ public interface IAuxRecordPanel extends IMvcView {
 
     void setFields(RecordModel mo);
 
+    boolean getCustomView(ISetGwtWidget iSet, ICreateViewContext con,
+            IContrButtonView i);
 
 }

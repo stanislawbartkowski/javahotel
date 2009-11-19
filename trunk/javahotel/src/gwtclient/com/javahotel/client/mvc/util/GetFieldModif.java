@@ -19,7 +19,7 @@ import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.mvc.dictcrud.controler.IModifRecordDef;
 import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.common.toobject.IField;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -43,7 +43,7 @@ public class GetFieldModif {
 
     private class ModifE implements IModifRecordDef {
 
-        public void modifRecordDef(ArrayList<RecordField> dict) {
+        public void modifRecordDef(List<RecordField> dict) {
             for (RecordField re : dict) {
                 if (re.getFie() == eField) {
                     eres = re.getELine();

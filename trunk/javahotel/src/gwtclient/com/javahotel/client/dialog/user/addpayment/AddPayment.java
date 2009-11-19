@@ -13,36 +13,34 @@
 package com.javahotel.client.dialog.user.addpayment;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.dialog.IMvcView;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.DictData.SpecE;
+import com.javahotel.client.dialog.IMvcView;
 import com.javahotel.client.dialog.IMvcWidget;
-import com.javahotel.client.mvc.crud.controler.ICrudControler;
-import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.client.dialog.IPersistAction;
-import com.javahotel.client.mvc.dictdata.model.IPaymentModel;
-import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
+import com.javahotel.client.dialog.DictData.SpecE;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.crud.controler.ICrudPersistSignal;
+import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
+import com.javahotel.client.mvc.dictdata.model.IPaymentModel;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class AddPayment implements IMvcView, IPaymentModel {
 
     private final ICrudControler iCrud;
-    private final IResLocator rI;
     private final String resName;
 
     public AddPayment(IResLocator rI, Widget w, String resName,
             ICrudPersistSignal iSig) {
-        this.rI = rI;
         this.resName = resName;
         RecordAuxParam aux = new RecordAuxParam();
         aux.setAuxO1(this);
         aux.setPSignal(iSig);
-        iCrud = DictCrudControlerFactory.getCrud(rI,
+        iCrud = HInjector.getI().getDictCrudControlerFactory().getCrud(
                 new DictData(SpecE.AddPayment), aux, null);
         iCrud.RecordDialog(IPersistAction.ADDACION, w, null);
     }

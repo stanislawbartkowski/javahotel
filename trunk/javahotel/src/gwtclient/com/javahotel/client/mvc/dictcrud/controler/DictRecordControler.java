@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
@@ -22,6 +22,7 @@ import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.IPersistAction;
 import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.dialog.MvcWindowSize;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
@@ -62,16 +63,20 @@ class DictRecordControler implements ICrudRecordFactory {
     private final IRecordExtractor ex;
     private final DictData da;
     private final RecordAuxParam aParam;
-    
+
     private CrudRView rView;
     private boolean setW;
-    
+
     private void showDialog() {
-        if (rView == null) { return; }
-        if (!setW) { return; }
+        if (rView == null) {
+            return;
+        }
+        if (!setW) {
+            return;
+        }
         rView.iView.show();
     }
-    
+
     private void invalidate() {
         setW = false;
         rView = null;
@@ -86,7 +91,8 @@ class DictRecordControler implements ICrudRecordFactory {
     }
 
     public ICrudReadModel getCrudRead() {
-        return CrudReadModelFactory.getRead(rI, da);
+        CrudReadModelFactory fa = HInjector.getI().getCrudReadModelFactory();
+        return fa.getRead(da);
     }
 
     public IRecordView getRView(ICrudView v) {
@@ -129,8 +135,8 @@ class DictRecordControler implements ICrudRecordFactory {
         return aParam.getIChoose();
     }
 
-    public ArrayList<RecordField> getDef() {
-        ArrayList<RecordField> dict = GetRecordDefFactory.getDef(rI, da);
+    public List<RecordField> getDef() {
+        List<RecordField> dict = GetRecordDefFactory.getDef(rI, da);
         if (aParam.getModifD() != null) {
             aParam.getModifD().modifRecordDef(dict);
         }
@@ -246,7 +252,7 @@ class DictRecordControler implements ICrudRecordFactory {
         if (aParam.getBSignal() != null) {
             aParam.getBSignal().signal(a);
         }
-        ArrayList<RecordField> dict = getDef();
+        List<RecordField> dict = getDef();
         String title = GetRecordDefFactory.getTitle(rI, da);
         String aName = GetRecordDefFactory.getActionName(rI, actionId);
         MvcWindowSize mSize = GetRecordDefFactory.getSize(rI, da);

@@ -12,35 +12,37 @@
  */
 package com.javahotel.client.mvc.controller.onerecord;
 
-import com.javahotel.client.dialog.IMvcWidget;
-import com.javahotel.client.mvc.util.*;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.apanel.GwtPanel;
 import com.javahotel.client.mvc.apanel.IPanel;
+import com.javahotel.client.mvc.controller.onearecord.IOneARecord;
+import com.javahotel.client.mvc.controller.onearecord.OneRecordFactory;
+import com.javahotel.client.mvc.controller.onerecordmodif.IOneRecordModifWidget;
+import com.javahotel.client.mvc.controller.onerecordmodif.OneRecordModifWidgetFactory;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.crud.controler.ICrudRecordFactory;
 import com.javahotel.client.mvc.crud.controler.ICrudView;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
 import com.javahotel.client.mvc.dictcrud.controler.AbstractAuxRecordPanel;
-import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.client.mvc.dictcrud.controler.IModifRecordDef;
+import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
 import com.javahotel.client.mvc.dictdata.model.IOneRecordModel;
 import com.javahotel.client.mvc.record.model.RecordField;
+import com.javahotel.client.mvc.record.view.IRecordView;
+import com.javahotel.client.mvc.util.GetFieldModif;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
-import java.util.ArrayList;
-import com.javahotel.client.mvc.controller.onearecord.IOneARecord;
-import com.javahotel.client.mvc.controller.onearecord.OneRecordFactory;
-import com.javahotel.client.mvc.record.view.IRecordView;
-import com.javahotel.client.mvc.controller.onerecordmodif.IOneRecordModifWidget;
-import com.javahotel.client.mvc.controller.onerecordmodif.OneRecordModifWidgetFactory;
 
 /**
  * 
@@ -80,7 +82,7 @@ public class RecordFa extends AbstractAuxRecordPanel implements IOneRecordModel 
 
 	private class ModifE implements IModifRecordDef {
 
-		public void modifRecordDef(ArrayList<RecordField> dict) {
+		public void modifRecordDef(List<RecordField> dict) {
 			for (int i = 0; i < mod.length; i++) {
 				mod[i].getModif().modifRecordDef(dict);
 			}
@@ -105,14 +107,15 @@ public class RecordFa extends AbstractAuxRecordPanel implements IOneRecordModel 
 		this.par = par;
 		if (f == null) {
 			mod = null;
-			custI = DictCrudControlerFactory.getCrud(rI, da);
+			custI = HInjector.getI().getDictCrudControlerFactory().getCrud(da);
 		} else {
 			mod = new GetFieldModif[f.length];
 			for (int i = 0; i < f.length; i++) {
 				mod[i] = new GetFieldModif(f[i]);
 			}
-			custI = DictCrudControlerFactory.getCrud(rI, da, null,
-					new ModifE(), null, null);
+			RecordAuxParam pa = new RecordAuxParam();
+			pa.setModifD(new ModifE());
+			custI = HInjector.getI().getDictCrudControlerFactory().getCrud(da, pa,null);
 		}
 		conI = custI.getF();
 		cView = conI.getView(null, null, 0, custV);

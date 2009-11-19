@@ -28,10 +28,7 @@ import com.javahotel.client.mvc.record.view.IAuxRecordPanel;
  */
 class RecordView extends VRecordView {
 
-    private final VerticalPanel v = new VerticalPanel();
-    private final IPanel vP = PanelFactory.getGwtPanel(v);
-
-    RecordView(final IResLocator rI, ISetGwtWidget iSet, final DictData da,
+    RecordView(final IResLocator rI, final IPanel vP, ISetGwtWidget iSet, final DictData da,
             final IRecordDef model, final IContrPanel contr,
             final IControlClick co, final IAuxRecordPanel auxV) {
         super(rI, iSet, da, model, contr, co, auxV);

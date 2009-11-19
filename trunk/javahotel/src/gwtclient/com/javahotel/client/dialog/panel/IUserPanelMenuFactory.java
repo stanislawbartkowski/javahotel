@@ -13,7 +13,6 @@
 package com.javahotel.client.dialog.panel;
 
 import com.google.gwt.user.client.ui.Panel;
-import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
@@ -24,9 +23,9 @@ import com.javahotel.client.stackmenu.view.IStackMenuClicked;
  */
 public interface IUserPanelMenuFactory {
 
-    IGwtWidget getMenuPanel(IResLocator rI, IStackMenuClicked iClicked);
+    IGwtWidget getMenuPanel(IStackMenuClicked iClicked);
 
-    EPanelCommand getCentreWidget(IResLocator rI);
+    EPanelCommand getCentreWidget();
 
-    Panel getMenuPanel(IResLocator rI);
+    Panel getMenuPanel();
 }

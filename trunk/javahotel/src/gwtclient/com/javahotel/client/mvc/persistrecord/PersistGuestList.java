@@ -13,8 +13,8 @@
 package com.javahotel.client.mvc.persistrecord;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.javahotel.client.CallBackHotel;
@@ -111,11 +111,11 @@ class PersistGuestList implements IPersistRecord {
     }
 
     public void persist(int action, RecordModel mod, IPersistResult ires) {
-        ArrayList<? extends AbstractTo> a = mod.getAList();
-        ArrayList<? extends AbstractTo> prevA = mod.getBeforeaList();
+        List<? extends AbstractTo> a = mod.getAList();
+        List<? extends AbstractTo> prevA = mod.getBeforeaList();
         IGetBooking get = (IGetBooking) mod.getAuxData1();
-        ArrayList<ResRoomGuest> gList = (ArrayList<ResRoomGuest>) a;
-        ArrayList<ResRoomGuest> prevList = (ArrayList<ResRoomGuest>) prevA;
+        List<ResRoomGuest> gList = (ArrayList<ResRoomGuest>) a;
+        List<ResRoomGuest> prevList = (ArrayList<ResRoomGuest>) prevA;
         syncs = new SS(gList.size());
         syncs.ires = ires;
         syncs.ge = get;

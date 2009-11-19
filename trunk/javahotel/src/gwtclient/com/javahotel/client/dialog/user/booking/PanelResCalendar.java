@@ -34,7 +34,7 @@ class PanelResCalendar {
 
     PanelResCalendar(final IResLocator rI, final Grid g,
             final ComplexPanel controlP, final int startC,
-            final IDrawPartSeason drawI,Date today) {
+            final IDrawPartSeason drawI, Date today) {
         this.rI = rI;
         pS = new PanelSeason(rI, g, controlP, startC, drawI, today);
     }

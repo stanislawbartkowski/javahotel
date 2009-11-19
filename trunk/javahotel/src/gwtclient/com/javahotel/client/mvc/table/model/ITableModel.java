@@ -12,9 +12,10 @@
  */
 package com.javahotel.client.mvc.table.model;
 
+import java.util.List;
+
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
-import java.util.ArrayList;
 
 /**
  *
@@ -26,7 +27,7 @@ public interface ITableModel {
 
     int colNum();
 
-    ArrayList<ColTitle> colList();
+    List<ColTitle> colList();
 
     String getField(int row, IField f);
 
@@ -36,9 +37,9 @@ public interface ITableModel {
 
     AbstractTo getRow(int row);
 
-    void setList(ArrayList<? extends AbstractTo> tList);
+    void setList(List<? extends AbstractTo> tList);
 
-    ArrayList<? extends AbstractTo> getList();
+    List<? extends AbstractTo> getList();
 
     boolean isTableDefined();
 }

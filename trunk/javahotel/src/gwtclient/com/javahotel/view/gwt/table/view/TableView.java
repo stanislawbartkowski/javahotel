@@ -12,6 +12,9 @@
  */
 package com.javahotel.view.gwt.table.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
@@ -29,11 +32,10 @@ import com.javahotel.client.mvc.table.view.IGetWidgetTableView;
 import com.javahotel.client.mvc.table.view.ITableCallBackSetField;
 import com.javahotel.client.mvc.table.view.ITableSetField;
 import com.javahotel.client.mvc.table.view.ITableSignalClicked;
-import com.javahotel.client.mvc.table.view.ITableSignalClicked.ClickedContext;
 import com.javahotel.client.mvc.table.view.ITableView;
+import com.javahotel.client.mvc.table.view.ITableSignalClicked.ClickedContext;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
-import java.util.ArrayList;
 
 /**
  * 
@@ -122,7 +124,7 @@ class TableView implements ITableView {
 	}
 
 	private void drawTitle() {
-		ArrayList<ColTitle> cTitle = model.colList();
+		List<ColTitle> cTitle = model.colList();
 		g.resizeColumns(cTitle.size());
 		for (int i = 0; i < cTitle.size(); i++) {
 			ColTitle c = cTitle.get(i);
@@ -152,7 +154,7 @@ class TableView implements ITableView {
 	}
 
 	private void pdrawRow(int row) {
-		ArrayList<ColTitle> cTitle = model.colList();
+		List<ColTitle> cTitle = model.colList();
 		for (int col = 0; col < cTitle.size(); col++) {
 			ColTitle c = cTitle.get(col);
 			String s = model.getField(row, c.getF());

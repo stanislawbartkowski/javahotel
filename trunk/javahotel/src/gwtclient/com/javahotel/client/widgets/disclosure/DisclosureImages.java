@@ -21,7 +21,7 @@ import com.javahotel.client.CommonUtil;
  *
  * @author stanislawbartkowski@gmail.com
  */
-class DisclosureImages implements DisclosurePanelImages {
+public class DisclosureImages implements DisclosurePanelImages {
 
     private class IOpen extends AbstractImagePrototype {
 
@@ -29,13 +29,12 @@ class DisclosureImages implements DisclosurePanelImages {
         private Image a = null;
 
         IOpen(String ima) {
-//            hI = DefektUtil.getImageAdr(ima);
             hI = CommonUtil.getImageAdr(ima);
             a = new Image(hI);
         }
 
         public void applyTo(final Image arg0) {
-//                a = arg0;
+            a = arg0;
         }
 
         public Image createImage() {
@@ -48,10 +47,10 @@ class DisclosureImages implements DisclosurePanelImages {
     }
 
     public AbstractImagePrototype disclosurePanelOpen() {
-        return new IOpen("DataViewerMin.gif");
+        return new IOpen("DataViewerMax.gif");
     }
 
     public AbstractImagePrototype disclosurePanelClosed() {
-        return new IOpen("DataViewerMax.gif");
+        return new IOpen("DataViewerMin.gif");
     }
 }

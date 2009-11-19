@@ -15,6 +15,7 @@ package com.javahotel.client.dialog.user;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.inject.Inject;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.IImageGallery;
 import com.javahotel.client.IResLocator;
@@ -27,43 +28,40 @@ import com.javahotel.client.stackmenu.view.IStackMenuClicked;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class UserPanelFactory {
 
-    private UserPanelFactory() {
+public class UserPanelFactory implements IUserPanelMenuFactory {
+
+    private final IResLocator rI;
+    
+    @Inject
+    public UserPanelFactory(final IResLocator rI) {
+        this.rI = rI;
+    }
+    
+    public IGwtWidget getMenuPanel(final IStackMenuClicked iClicked) {
+        // return new AdminShortcutMenu(rI, iClicked);
+        return null;
     }
 
-    public static IUserPanelMenuFactory getFactory() {
+    public EPanelCommand getCentreWidget() {
+        // return EPanelCommand.BOOKINGPANEL;
+        // return EPanelCommand.TESTSCROLLSEASON;
+        // return EPanelCommand.TESTSCROLLSEASONWIDGET;
+        // return EPanelCommand.SEASON;
+        // return EPanelCommand.CUSTOMERS;
+        // return EPanelCommand.BOOKINGPANEL;
+        // return EPanelCommand.BOOKING;
+        return EPanelCommand.TESTBOOKINGELEM;
+    }
 
-        IUserPanelMenuFactory i = new IUserPanelMenuFactory() {
-
-            public IGwtWidget getMenuPanel(final IResLocator rI,
-                    final IStackMenuClicked iClicked) {
-                // return new AdminShortcutMenu(rI, iClicked);
-                return null;
-            }
-
-            public EPanelCommand getCentreWidget(IResLocator rI) {
-                // return EPanelCommand.BOOKINGPANEL;
-                // return EPanelCommand.TESTSCROLLSEASON;
-                // return EPanelCommand.TESTSCROLLSEASONWIDGET;
-                // return EPanelCommand.SEASON;
-                return EPanelCommand.CUSTOMERS;
-            }
-
-            public Panel getMenuPanel(IResLocator rI) {
-                HorizontalPanel hp = new HorizontalPanel();
-                MenuBar mp = new MenuBar();
-                hp.add(mp);
-                MenuBar menu = CreateMenuCommand.createMenu(rI,
-                        new EPanelCommand[] { EPanelCommand.BOOKINGPANEL,
-                                EPanelCommand.BOOKING, EPanelCommand.PREPAID,
-                                EPanelCommand.ROOMSADMIN });
-                mp.addItem(CommonUtil.getImageHTML(IImageGallery.DOWNMENU),
-                        true, menu);
-                return hp;
-            }
-        };
-
-        return i;
+    public Panel getMenuPanel() {
+        HorizontalPanel hp = new HorizontalPanel();
+        MenuBar mp = new MenuBar();
+        hp.add(mp);
+        MenuBar menu = CreateMenuCommand.createMenu(rI, new EPanelCommand[] {
+                EPanelCommand.BOOKINGPANEL, EPanelCommand.BOOKING,
+                EPanelCommand.PREPAID, EPanelCommand.ROOMSADMIN });
+        mp.addItem(CommonUtil.getImageHTML(IImageGallery.DOWNMENU), true, menu);
+        return hp;
     }
 }

@@ -29,6 +29,7 @@ public class DictUtil {
 
     public static <T extends AbstractTo> void readList(ITableModel mo,
             List<T> col) {
+        if (mo.getList() == null) { return; }
         for (AbstractTo a : mo.getList()) {
             ANumAbstractTo aa = (ANumAbstractTo) a;
             T t = (T) aa.getO();

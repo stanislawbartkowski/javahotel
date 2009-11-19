@@ -12,10 +12,10 @@
  */
 package com.javahotel.client.paymentdata;
 
-import com.javahotel.common.tableprice.TableSeasonPrice;
-import com.javahotel.common.toobject.AbstractTo;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.common.command.CommandParam;
@@ -23,6 +23,8 @@ import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.SynchronizeList;
 import com.javahotel.common.dateutil.GetPeriods.StartWeek;
+import com.javahotel.common.tableprice.TableSeasonPrice;
+import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.PaymentRowP;
@@ -54,6 +56,7 @@ public class PaymentData {
         i.setRow(co);
     }
 
+    @Inject
     public PaymentData(final IResLocator rI) {
         initT();
         this.rI = rI;

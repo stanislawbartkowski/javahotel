@@ -14,7 +14,7 @@
 package com.javahotel.client.dialog;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class MvcWindowSize {
@@ -22,9 +22,9 @@ public class MvcWindowSize {
     private final int width;
     private final int height;
 
-    public MvcWindowSize(int h,int w) {
-       width = w;
-       height = h;
+    public MvcWindowSize(int h, int w) {
+        width = w;
+        height = h;
     }
 
     /**

@@ -12,9 +12,11 @@
  */
 package com.javahotel.client.mvc.table.model;
 
+import java.util.List;
+
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.toobject.AbstractTo;
-import java.util.ArrayList;
 
 /**
  *
@@ -22,17 +24,19 @@ import java.util.ArrayList;
  */
 public class TableModelFactory {
 
-    private TableModelFactory() {
+    private final IResLocator rI;
+    
+    @Inject
+    public TableModelFactory(IResLocator rI) {
+        this.rI = rI;
     }
 
-    public static ITableModel getModel(final IResLocator rI,
-            final ArrayList<ColTitle> cTitle, final AbstractTo.IFieldToS iToS,
+    public ITableModel getModel(final List<ColTitle> cTitle, final AbstractTo.IFieldToS iToS,
             final String header) {
         return new TableList(rI, cTitle, iToS, header,null,null);
     }
 
-    public static ITableModel getModel(final IResLocator rI,
-            final ArrayList<ColTitle> cTitle, final AbstractTo.IFieldToS iToS,
+    public ITableModel getModel(final List<ColTitle> cTitle, final AbstractTo.IFieldToS iToS,
             final String header,ITableFilter iF,ITableConverter iConv) {
         return new TableList(rI, cTitle, iToS, header,iF,iConv);
     }

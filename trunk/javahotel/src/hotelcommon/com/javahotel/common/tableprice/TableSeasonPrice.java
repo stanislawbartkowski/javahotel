@@ -74,9 +74,6 @@ public class TableSeasonPrice {
             PaymentRowP pr = new PaymentRowP();
             pr.setRowFrom(pe.getFrom());
             pr.setRowTo(pe.getTo());
-//            System.out.println(DateFormatUtil.toS(pr.getRowFrom()) + " - " +
-//                    DateFormatUtil.toS(pr.getRowTo()));
-//            System.out.println(pe.getI());
             if (seP == null) {
                 continue;
             }
@@ -111,6 +108,7 @@ public class TableSeasonPrice {
                         assert false : "Cannot be here";
                 }
             }
+            assert(price != null);
             BigDecimal pri = countP(price,pe.getFrom(),pe.getTo());
             pr.setCustomerPrice(pri);
             pr.setOfferPrice(pri);

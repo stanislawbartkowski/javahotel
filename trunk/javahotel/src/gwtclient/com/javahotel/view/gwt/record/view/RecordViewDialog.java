@@ -50,11 +50,6 @@ class RecordViewDialog extends VRecordView {
         dBox = d.getDBox();
     }
 
-    // @Override
-    // public IMvcWidget getMWidget() {
-    // return new DefaultMvcWidget(dBox);
-    // }
-
     @Override
     public void show() {
         dBox.show();

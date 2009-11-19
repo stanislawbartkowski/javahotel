@@ -12,8 +12,9 @@
  */
 package com.javahotel.client.dispatcher.command;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.eadmin.AdminPanelFactory;
 import com.javahotel.client.dialog.panel.IUserPanelMenuFactory;
 import com.javahotel.client.dialog.panel.UserPanel;
 import com.javahotel.client.dispatcher.EnumDialog;
@@ -24,14 +25,19 @@ import com.javahotel.client.dispatcher.UICommand;
  * @author stanislawbartkowski@gmail.com
  */
 public class AdminPanelCommand extends UICommand {
-
-	public AdminPanelCommand(final IResLocator i) {
+    
+    private final IUserPanelMenuFactory iFactory;
+    
+    @Inject
+	public AdminPanelCommand(final IResLocator i,
+	        @Named("AdminPanelFactory") IUserPanelMenuFactory iFactory) {
 		super(i, EnumDialog.ADMINPANEL);
+		this.iFactory = iFactory;
 	}
 
 	public void execute() {
-		IUserPanelMenuFactory iFa = AdminPanelFactory.getFactory();
-		new UserPanel(rI, iFa);
+//		IUserPanelMenuFactory iFa = AdminPanelFactory.getFactory();
+		new UserPanel(rI, iFactory);
 
 	}
 }

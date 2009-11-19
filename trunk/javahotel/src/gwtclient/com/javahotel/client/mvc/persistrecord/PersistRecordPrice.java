@@ -51,13 +51,13 @@ class PersistRecordPrice extends PersistRecordDict {
             this.ires = ires;
         }
 
-        public void set(ArrayList<MapSpecialToI> col) {
-            ArrayList<String> rows = tView.getSRow();
+        public void set(List<MapSpecialToI> col) {
+            List<String> rows = tView.getSRow();
             List<OfferServicePriceP> off = new ArrayList<OfferServicePriceP>();
             for (int i = 0; i < rows.size(); i++) {
                 OfferServicePriceP o = new OfferServicePriceP();
                 o.setService(rows.get(i));
-                ArrayList<BigDecimal> val = tView.getRows(i);
+                List<BigDecimal> val = tView.getRows(i);
                 o.setHighseasonprice(val.get(ISeasonPriceModel.HIGHSEASON));
                 o.setHighseasonweekendprice(val.get(ISeasonPriceModel.HIGHSEASONWEEKEND));
                 o.setLowseasonprice(val.get(ISeasonPriceModel.LOWSEASON));

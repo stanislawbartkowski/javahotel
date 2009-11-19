@@ -13,18 +13,20 @@
 
 package com.javahotel.client.mvc.record.model;
 
+import java.util.List;
+
 import com.javahotel.client.dialog.MvcWindowSize;
-import java.util.ArrayList;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public interface IRecordDef {
 
-    ArrayList<RecordField> getFields();
-    String getDTitle();
-    MvcWindowSize getMSize();
+    List<RecordField> getFields();
 
+    String getDTitle();
+
+    MvcWindowSize getMSize();
 
 }

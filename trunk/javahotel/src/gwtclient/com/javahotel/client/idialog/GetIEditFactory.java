@@ -12,17 +12,18 @@
  */
 package com.javahotel.client.idialog;
 
-import com.javahotel.client.ifield.ICreatedValue;
-import com.javahotel.client.ifield.ILineField;
+import java.util.List;
+import java.util.Map;
+
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.idialogutil.AddBoxValues;
+import com.javahotel.client.ifield.ICreatedValue;
+import com.javahotel.client.ifield.ILineField;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  *
@@ -68,7 +69,7 @@ public class GetIEditFactory {
 
     public static void AddValues(final IResLocator pLoc,
             final ILineField e, final IField f,
-            final ArrayList<? extends AbstractTo> col) {
+            final List<? extends AbstractTo> col) {
         GetValueLB lB = (GetValueLB) e;
         AddBoxValues.addValues(pLoc, f, null, lB, col);
     }

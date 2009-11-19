@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.controller.onerecordmodif.IOneRecordModifWidget;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
@@ -143,7 +144,7 @@ class OneRecordFa implements IOneARecord {
 
 		public void click(ContrButton co, Widget w) {
 			if (co.getActionId() == IOneRecordModifWidget.IMODIFDATADIALOG) {
-				ICrudControler iCrud = DictCrudControlerFactory.getCrud(rI, da);
+				ICrudControler iCrud = HInjector.getI().getDictCrudControlerFactory().getCrud(da);
 				ICrudRecordFactory fa = iCrud.getF();
 				ICrudRecordControler con = fa.getControler();
 				int actionId = IPersistAction.MODIFACTION;

@@ -12,32 +12,33 @@
  */
 package com.javahotel.client.dialog.user.booking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
-import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.BookRecordP;
-import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.util.GetMaxUtil;
-import java.util.ArrayList;
+import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
 import com.javahotel.client.mvc.edittable.dialog.EditTableDialogFactory;
 import com.javahotel.client.mvc.edittable.dialog.IEditTableDialog;
-import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.client.roominfo.RoomInfoData;
-import com.javahotel.common.command.SynchronizeList;
-import com.javahotel.client.rdata.RData.IOneList;
-import com.javahotel.common.toobject.GuestP;
-import com.javahotel.common.toobject.ResObjectP;
-import java.util.List;
+import com.javahotel.client.mvc.persistrecord.IPersistResult;
 import com.javahotel.client.rdata.RData;
+import com.javahotel.client.rdata.RData.IOneList;
+import com.javahotel.client.roominfo.RoomInfoData;
+import com.javahotel.client.widgets.popup.PopupUtil;
 import com.javahotel.common.command.CommandParam;
+import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
+import com.javahotel.common.command.SynchronizeList;
+import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.BookElemP;
+import com.javahotel.common.toobject.BookRecordP;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
-import com.javahotel.client.widgets.popup.PopupUtil;
-import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.mvc.persistrecord.IPersistResult;
-import com.javahotel.common.command.CustomerType;
+import com.javahotel.common.toobject.GuestP;
+import com.javahotel.common.toobject.ResObjectP;
+import com.javahotel.common.util.GetMaxUtil;
 
 /**
  * 
@@ -60,7 +61,7 @@ class CheckInPersons {
 
     private class Sync extends SynchronizeList {
 
-        private final ArrayList<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
+        private final List<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
         private final Widget w;
 
         Sync(int no, Widget w) {
@@ -125,7 +126,7 @@ class CheckInPersons {
         public void doOne(AbstractTo val) {
             ResObjectP re = (ResObjectP) val;
             int ma = re.getNoPerson();
-            ArrayList<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
+            List<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
             List<GuestP> ge = r.getGuests();
             s = new SyncC(1);
             if (ge != null) {

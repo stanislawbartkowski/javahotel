@@ -15,9 +15,11 @@ package com.javahotel.client.mvc.dictcrud.controler.season;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.dictcrud.controler.AbstractAuxRecordPanel;
 import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
+import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
 import com.javahotel.common.toobject.SeasonPeriodT;
 
 /**
@@ -26,37 +28,39 @@ import com.javahotel.common.toobject.SeasonPeriodT;
  */
 class SpecPeriodView extends AbstractAuxRecordPanel {
 
-	@SuppressWarnings("unused")
-	private final IResLocator rI;
-	private final SeasonPeriodT te;
-	private final ICrudControler iCrud;
+    @SuppressWarnings("unused")
+    private final IResLocator rI;
+    private final SeasonPeriodT te;
+    private final ICrudControler iCrud;
 
-	SpecPeriodView(IResLocator rI, SeasonPeriodT te, Object auxV1) {
-		this.rI = rI;
-		this.te = te;
-		iCrud = DictCrudControlerFactory.getCrud(rI, new DictData(
-				DictData.SpecE.SpecialPeriod, te), auxV1, null, null, null);
-	}
+    SpecPeriodView(IResLocator rI, SeasonPeriodT te, Object auxV1) {
+        this.rI = rI;
+        this.te = te;
+        RecordAuxParam pa = new RecordAuxParam();
+        pa.setAuxO1(auxV1);
+        iCrud = HInjector.getI().getDictCrudControlerFactory().getCrud(new DictData(
+                DictData.SpecE.SpecialPeriod, te), pa, null);
+    }
 
-	ICrudControler getICrud() {
-		return iCrud;
-	}
+    ICrudControler getICrud() {
+        return iCrud;
+    }
 
-	SeasonPeriodT getS() {
-		return te;
-	}
+    SeasonPeriodT getS() {
+        return te;
+    }
 
-	@Override
-	public void changeMode(int actionMode) {
-		iCrud.changeMode(actionMode);
-	}
+    @Override
+    public void changeMode(int actionMode) {
+        iCrud.changeMode(actionMode);
+    }
 
-	@Override
-	public void show() {
-		iCrud.drawTable();
-	}
+    @Override
+    public void show() {
+        iCrud.drawTable();
+    }
 
-	public IMvcWidget getMWidget() {
-		return iCrud.getMWidget();
-	}
+    public IMvcWidget getMWidget() {
+        return iCrud.getMWidget();
+    }
 }

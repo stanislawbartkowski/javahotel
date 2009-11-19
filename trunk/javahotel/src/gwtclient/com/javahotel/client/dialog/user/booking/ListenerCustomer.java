@@ -12,6 +12,8 @@
  */
 package com.javahotel.client.dialog.user.booking;
 
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
@@ -30,10 +32,9 @@ import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.util.StringU;
-import java.util.ArrayList;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class ListenerCustomer {
@@ -48,9 +49,9 @@ class ListenerCustomer {
 
         private final RecordModel a;
         @SuppressWarnings("unused")
-        private final ArrayList<RecordField> dict;
+        private final List<RecordField> dict;
 
-        BackCC(RecordModel a, ArrayList<RecordField> dict) {
+        BackCC(RecordModel a, List<RecordField> dict) {
             this.a = a;
             this.dict = dict;
         }
@@ -66,9 +67,9 @@ class ListenerCustomer {
     private class ChangeC implements IChangeListener {
 
         private final RecordModel a;
-        private final ArrayList<RecordField> dict;
+        private final List<RecordField> dict;
 
-        ChangeC(RecordModel a, ArrayList<RecordField> dict) {
+        ChangeC(RecordModel a, List<RecordField> dict) {
             this.a = a;
             this.dict = dict;
         }
@@ -79,8 +80,8 @@ class ListenerCustomer {
             if (StringU.isEmpty(name)) {
                 return;
             }
-            CommandParam pa = rI.getR().getHotelDictName(
-                    DictType.CustomerList, name);
+            CommandParam pa = rI.getR().getHotelDictName(DictType.CustomerList,
+                    name);
             rI.getR().getOne(RType.ListDict, pa, new BackCC(a, dict));
         }
     }
@@ -89,7 +90,7 @@ class ListenerCustomer {
 
         private RecordModel a;
 
-        public void modifRecordDef(ArrayList<RecordField> dict) {
+        public void modifRecordDef(List<RecordField> dict) {
             for (RecordField re : dict) {
                 if (re.getFie() == DictionaryP.F.name) {
                     ILineField eL = re.getELine();

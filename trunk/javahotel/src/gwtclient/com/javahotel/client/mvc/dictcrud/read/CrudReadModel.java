@@ -12,6 +12,8 @@
  */
 package com.javahotel.client.mvc.dictcrud.read;
 
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.crud.controler.ICrudReadModel;
@@ -20,7 +22,6 @@ import com.javahotel.client.mvc.table.model.ITableModel;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.toobject.AbstractTo;
-import java.util.ArrayList;
 
 /**
  *
@@ -47,7 +48,7 @@ class CrudReadModel implements ICrudReadModel {
             this.model = model;
         }
 
-        public void doVList(final ArrayList<? extends AbstractTo> val) {
+        public void doVList(final List<? extends AbstractTo> val) {
             model.setList(val);
             signal.successRead();
         }

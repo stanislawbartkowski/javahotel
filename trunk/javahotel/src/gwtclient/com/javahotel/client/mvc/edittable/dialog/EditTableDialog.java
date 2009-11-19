@@ -12,39 +12,40 @@
  */
 package com.javahotel.client.mvc.edittable.dialog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
-import com.javahotel.client.mvc.validator.IErrorMessage;
-import java.util.ArrayList;
-import com.javahotel.client.mvc.util.MDialog;
-import com.javahotel.client.mvc.edittable.controller.ControlerEditTableFactory;
-import com.javahotel.client.mvc.edittable.controller.IControlerEditTable;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
-import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
 import com.javahotel.client.mvc.contrpanel.view.ContrButtonViewFactory;
 import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
-import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.crud.controler.ICrudRecordFactory;
-import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.client.mvc.record.view.IRecordView;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
-import com.javahotel.client.mvc.util.OkDialog;
-import com.javahotel.client.mvc.validator.IRecordValidator;
-import com.javahotel.client.dialog.IPersistAction;
-import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
 import com.javahotel.client.mvc.dictdata.model.IGetBooking;
+import com.javahotel.client.mvc.edittable.controller.ControlerEditTableFactory;
+import com.javahotel.client.mvc.edittable.controller.IControlerEditTable;
 import com.javahotel.client.mvc.persistrecord.IPersistRecord;
 import com.javahotel.client.mvc.persistrecord.IPersistResult;
 import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
+import com.javahotel.client.mvc.record.view.IRecordView;
+import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
+import com.javahotel.client.mvc.util.MDialog;
+import com.javahotel.client.mvc.util.OkDialog;
+import com.javahotel.client.mvc.validator.IErrorMessage;
+import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.client.mvc.validator.ISignalValidate;
 import com.javahotel.common.command.SynchronizeList;
-import java.util.List;
+import com.javahotel.common.toobject.AbstractTo;
 
 /**
  *
@@ -80,7 +81,7 @@ class EditTableDialog implements IEditTableDialog {
         }
     }
 
-    private void saveGuest(ArrayList<? extends AbstractTo> prevL) {
+    private void saveGuest(List<? extends AbstractTo> prevL) {
         IPersistRecord li = PersistRecordFactory.getPersistList(rI, da);
         IGetBooking ge = new IGetBooking() {
 
@@ -89,7 +90,7 @@ class EditTableDialog implements IEditTableDialog {
             }
         };
         RecordModel mo = new RecordModel(null, ge);
-        mo.setAList((ArrayList<? extends AbstractTo>) gList);
+        mo.setAList((List<? extends AbstractTo>) gList);
         mo.setBeforeaList(prevL);
         li.persist(IPersistAction.ADDACION, mo, new PE());
     }
@@ -97,7 +98,7 @@ class EditTableDialog implements IEditTableDialog {
     private class S extends SynchronizeList {
 
         boolean ok;
-        ArrayList<? extends AbstractTo> prevL;
+        List<? extends AbstractTo> prevL;
 
         S(int no) {
             super(no);
@@ -171,7 +172,7 @@ class EditTableDialog implements IEditTableDialog {
     }
 
     EditTableDialog(IResLocator rI, DictData da,
-            ArrayList<? extends AbstractTo> gList,
+            List<? extends AbstractTo> gList,
             String resName) {
         this.rI = rI;
         this.resName = resName;

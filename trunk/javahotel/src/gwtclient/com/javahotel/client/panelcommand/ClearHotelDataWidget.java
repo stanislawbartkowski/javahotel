@@ -23,6 +23,7 @@ import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IClickNextYesNo;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.ContrButtonFactory;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
@@ -80,7 +81,8 @@ class ClearHotelDataWidget {
                 return;
             }
             String ho = hot.getName();
-            YesNoDialog y = new YesNoDialog(rI, ho + " - usunąć dane z hotelu ?", new ConfDelete(ho));
+            YesNoDialog y = new YesNoDialog(rI, ho
+                    + " - usunąć dane z hotelu ?", new ConfDelete(ho));
             y.show(w);
         }
     }
@@ -95,7 +97,7 @@ class ClearHotelDataWidget {
         IContrPanel iC = ContrButtonFactory.getContr(rI, rButton);
         param.setCPanel(iC);
         param.setIClick(new CClick());
-        iCrud = DictCrudControlerFactory.getCrud(rI, d, param);
+        iCrud = HInjector.getI().getDictCrudControlerFactory().getCrud(d, param, null);
     }
 
     void drawData() {

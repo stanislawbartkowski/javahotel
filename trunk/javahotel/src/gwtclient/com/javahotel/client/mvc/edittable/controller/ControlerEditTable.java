@@ -12,22 +12,22 @@
  */
 package com.javahotel.client.mvc.edittable.controller;
 
-import com.javahotel.client.dialog.DictData;
+import java.util.ArrayList;
+
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
 import com.javahotel.client.mvc.crud.controler.ICrudRecordFactory;
 import com.javahotel.client.mvc.edittable.view.EditTableViewFactory;
 import com.javahotel.client.mvc.edittable.view.IEditTableView;
-import com.javahotel.client.mvc.recordviewdef.ColListFactory;
-import java.util.ArrayList;
 import com.javahotel.client.mvc.table.model.ColTitle;
-import com.javahotel.client.mvc.table.model.TableModelFactory;
 import com.javahotel.client.mvc.table.model.ITableModel;
 import com.javahotel.common.command.DictType;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class ControlerEditTable implements IControlerEditTable {
@@ -37,14 +37,13 @@ class ControlerEditTable implements IControlerEditTable {
     private final IEditTableView iView;
     private final ResGuestWidget r;
 
-    ControlerEditTable(IResLocator rI, DictData da,
-            final IContrButtonView cView) {
+    ControlerEditTable(IResLocator rI, DictData da, final IContrButtonView cView) {
         this.rI = rI;
         this.da = da;
-        ArrayList<ColTitle> c = ColListFactory.getEditColList(da);
-        ITableModel mo = TableModelFactory.getModel(rI, c, null, "");
-        r = new ResGuestWidget(rI,
-                new DictData(DictType.CustomerList));
+        ArrayList<ColTitle> c = HInjector.getI().getColListFactory().getEditColList(da);
+        ITableModel mo = HInjector.getI().getTableModelFactory().getModel(c,
+                null, "");
+        r = new ResGuestWidget(rI, new DictData(DictType.CustomerList));
         iView = EditTableViewFactory.getView(rI, da, cView, mo, r);
         r.setIView(iView);
     }

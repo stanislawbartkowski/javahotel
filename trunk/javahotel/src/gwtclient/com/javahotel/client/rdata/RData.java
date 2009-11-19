@@ -44,7 +44,7 @@ public class RData {
     private String hotel;
     private String userName;
 
-    public String getUserName() {
+    public String getUserName() { 
         return userName;
     }
 
@@ -116,7 +116,7 @@ public class RData {
 
     public interface IVectorList {
 
-        void doVList(final ArrayList<? extends AbstractTo> val);
+        void doVList(final List<? extends AbstractTo> val);
     }
 
     public interface IOneList {
@@ -136,7 +136,7 @@ public class RData {
         }
 
         public void onMySuccess(final Object arg) {
-            ArrayList<AbstractTo> v = (ArrayList<AbstractTo>) arg;
+            List<AbstractTo> v = (List<AbstractTo>) arg;
             re.col = v;
             ca.putData(re);
             i.doVList(v);
@@ -156,7 +156,7 @@ public class RData {
 
         public void onMySuccess(final Object arg) {
             AbstractTo a = (AbstractTo) arg;
-            ArrayList<AbstractTo> v = new ArrayList<AbstractTo>();
+            List<AbstractTo> v = new ArrayList<AbstractTo>();
             v.add(a);
             re.col = v;
             ca.putData(re);

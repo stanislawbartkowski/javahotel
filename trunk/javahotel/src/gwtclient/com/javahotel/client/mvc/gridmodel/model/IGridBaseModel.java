@@ -12,8 +12,9 @@
  */
 package com.javahotel.client.mvc.gridmodel.model;
 
+import java.util.List;
+
 import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
-import java.util.ArrayList;
 
 /**
  *
@@ -21,13 +22,13 @@ import java.util.ArrayList;
  */
 public interface IGridBaseModel {
 
-    void setRows(ArrayList<String> rows);
+    void setRows(List<String> rows);
 
-    void setCols(ColsHeader rowTitle,ArrayList<ColsHeader> cols);
+    void setCols(ColsHeader rowTitle,List<ColsHeader> cols);
 
-    ArrayList<String> getSRow();
+    List<String> getSRow();
 
-    ArrayList<ColsHeader> getSCol();
+    List<ColsHeader> getSCol();
 
     int RowNo();
 

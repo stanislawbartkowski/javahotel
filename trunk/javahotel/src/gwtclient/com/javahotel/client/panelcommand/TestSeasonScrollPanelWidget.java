@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
@@ -54,6 +56,21 @@ class TestSeasonScrollPanelWidget extends AbstractPanelCommand {
         public void setGwtWidget(IMvcWidget i) {
             iSet.setGwtWidget(i);
 
+        }
+
+        public Widget getColumnEmpty(Label l) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        public Label getLabel(Widget w) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        public void setColumn(Widget w, int cNo, Date d, Label l) {
+            // TODO Auto-generated method stub
+            
         }
     }
 

@@ -17,15 +17,14 @@ import java.util.Vector;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.ICommand;
-import com.javahotel.client.dispatcher.command.AdminPanelCommand;
-import com.javahotel.client.dispatcher.command.LoginCommand;
-import com.javahotel.client.dispatcher.command.UserPanelCommand;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.injector.IDispatchCommand;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-class Dispatch implements IDispatch {
+public class Dispatch implements IDispatch {
 
     @SuppressWarnings("unused")
     private IResLocator rI;
@@ -41,9 +40,10 @@ class Dispatch implements IDispatch {
             this.com = com;
         }
     }
+
     private List<CommandT> comT;
 
-    Dispatch() {
+    public Dispatch() {
     }
 
     private void runCommand(final EnumDialog t) {
@@ -58,16 +58,16 @@ class Dispatch implements IDispatch {
     public void dispatch(final EnumDialog t, final EnumAction a) {
         EnumDialog tn = null;
         switch (t) {
-            case STARTLOGIN:
-                decorateAfterLogin.execute();
-                switch (a) {
-                    case LOGINADMIN:
-                        tn = EnumDialog.ADMINPANEL;
-                        break;
-                    case LOGINUSER:
-                        tn = EnumDialog.USERPANEL;
-                        break;
-                }
+        case STARTLOGIN:
+            decorateAfterLogin.execute();
+            switch (a) {
+            case LOGINADMIN:
+                tn = EnumDialog.ADMINPANEL;
+                break;
+            case LOGINUSER:
+                tn = EnumDialog.USERPANEL;
+                break;
+            }
         }
         if (tn != null) {
             runCommand(tn);
@@ -75,13 +75,22 @@ class Dispatch implements IDispatch {
 
     }
 
+
+
     public void start(final IResLocator i, ICommand decorateAfterLogin) {
         this.rI = i;
         this.decorateAfterLogin = decorateAfterLogin;
+//        Key<UICommand> k = Key.get(UICommand.class,Names.named("UserLoginCommand"));
+        IDispatchCommand ic = HInjector.getI().getDI();
+        
         comT = new Vector<CommandT>();
-        comT.add(new CommandT(EnumDialog.STARTLOGIN, new LoginCommand(i)));
-        comT.add(new CommandT(EnumDialog.ADMINPANEL, new AdminPanelCommand(i)));
-        comT.add(new CommandT(EnumDialog.USERPANEL, new UserPanelCommand(i)));
+        comT.add(new CommandT(EnumDialog.STARTLOGIN, ic.getLoginCommand()));
+        comT.add(new CommandT(EnumDialog.ADMINPANEL, ic.getAdminPanelCommand()));
+        comT.add(new CommandT(EnumDialog.USERPANEL, ic.getUserPanelCommand()));
+        
+//      comT.add(new CommandT(EnumDialog.STARTLOGIN, new LoginCommand(i)));
+//        comT.add(new CommandT(EnumDialog.ADMINPANEL, new AdminPanelCommand(i)));
+//        comT.add(new CommandT(EnumDialog.USERPANEL, new UserPanelCommand(i)));
         runCommand(EnumDialog.STARTLOGIN);
     }
 }

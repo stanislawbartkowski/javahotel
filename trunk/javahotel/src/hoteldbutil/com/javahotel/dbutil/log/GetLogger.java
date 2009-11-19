@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * 
  * @author sb
  */
 public class GetLogger {
@@ -25,6 +25,7 @@ public class GetLogger {
     public GetLogger(final String logName) {
         log = Logger.getLogger(logName);
     }
+
     private final Logger log;
 
     public void disable() {
@@ -37,8 +38,8 @@ public class GetLogger {
             ha[i].flush();
         }
     }
-    
+
     public Logger getL() {
-    	return log;
+        return log;
     }
 }

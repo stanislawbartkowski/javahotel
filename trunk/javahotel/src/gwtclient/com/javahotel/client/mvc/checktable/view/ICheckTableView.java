@@ -12,7 +12,8 @@
  */
 package com.javahotel.client.mvc.checktable.view;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import com.javahotel.client.dialog.IMvcView;
 import com.javahotel.client.mvc.gridmodel.model.IGridBaseModel;
 
@@ -23,12 +24,12 @@ import com.javahotel.client.mvc.gridmodel.model.IGridBaseModel;
 public interface ICheckTableView extends IMvcView,IGridBaseModel {
 
 
-    void setRowVal(int row, ArrayList<Boolean> vals);
+    void setRowVal(int row, List<Boolean> vals);
 
-    void setColVal(int col, ArrayList<Boolean> vals);
+    void setColVal(int col, List<Boolean> vals);
 
-    ArrayList<Boolean> getRows(int row);
+    List<Boolean> getRows(int row);
 
-    ArrayList<Boolean> getCols(int col);
+    List<Boolean> getCols(int col);
 
 }
