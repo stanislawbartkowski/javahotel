@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.mvc.dictcrud.read;
 
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.crud.controler.ICrudReadModel;
@@ -24,10 +25,14 @@ import com.javahotel.common.command.DictType;
  */
 public class CrudReadModelFactory {
 
-    private CrudReadModelFactory() {
+    private final IResLocator rI;
+    
+    @Inject
+    public CrudReadModelFactory(IResLocator rI) {
+        this.rI = rI;
     }
 
-    public static ICrudReadModel getRead(IResLocator rI, DictData da,
+    public ICrudReadModel getRead(DictData da,
             ICrudReadDictModel mo) {
 
         if (da.getRt() != null) {
@@ -59,7 +64,7 @@ public class CrudReadModelFactory {
 
     }
 
-    public static ICrudReadModel getRead(IResLocator rI, DictData da) {
-        return getRead(rI, da, null);
+    public ICrudReadModel getRead(DictData da) {
+        return getRead(da, null);
     }
 }

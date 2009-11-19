@@ -12,11 +12,12 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler.priceoffer;
 
-import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
-import com.javahotel.client.mvc.seasonprice.model.ISeasonPriceModel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
+import com.javahotel.client.mvc.seasonprice.model.ISeasonPriceModel;
 
 /**
  * 
@@ -24,39 +25,39 @@ import java.util.List;
  */
 class StorePrices {
 
-	private class C {
+    private class C {
 
-		final int row;
-		final ArrayList<BigDecimal> val;
+        final int row;
+        final List<BigDecimal> val;
 
-		C(int r) {
-			this.row = r;
-			val = new ArrayList<BigDecimal>();
-		}
-	}
+        C(int r) {
+            this.row = r;
+            val = new ArrayList<BigDecimal>();
+        }
+    }
 
-	final private List<C> st = new ArrayList<C>();
-	final private IDecimalTableView t;
+    final private List<C> st = new ArrayList<C>();
+    final private IDecimalTableView t;
 
-	StorePrices(IDecimalTableView t) {
+    StorePrices(IDecimalTableView t) {
 
-		this.t = t;
-		ArrayList<String> rows = t.getSRow();
-		if (rows != null) {
-			for (int i = 0; i < rows.size(); i++) {
-				C c = new C(i);
-				ArrayList<BigDecimal> val = t.getRows(i);
-				for (int r = 0; r <= ISeasonPriceModel.MAXSPECIALNO; r++) {
-					c.val.add(val.get(r));
-				}
-				st.add(c);
-			}
-		}
-	}
+        this.t = t;
+        List<String> rows = t.getSRow();
+        if (rows != null) {
+            for (int i = 0; i < rows.size(); i++) {
+                C c = new C(i);
+                List<BigDecimal> val = t.getRows(i);
+                for (int r = 0; r <= ISeasonPriceModel.MAXSPECIALNO; r++) {
+                    c.val.add(val.get(r));
+                }
+                st.add(c);
+            }
+        }
+    }
 
-	void restore() {
-		for (C c : st) {
-			t.setRowVal(c.row, c.val);
-		}
-	}
+    void restore() {
+        for (C c : st) {
+            t.setRowVal(c.row, c.val);
+        }
+    }
 }

@@ -12,6 +12,8 @@
  */
 package com.javahotel.client.widgets.disclosure;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -21,7 +23,6 @@ import com.javahotel.client.mvc.contrpanel.model.ContrButtonFactory;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.ContrButtonViewFactory;
 import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
-import java.util.ArrayList;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 
 /**
@@ -31,7 +32,7 @@ import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 public class DisclosureOptions extends Composite {
 
     public DisclosureOptions(final IResLocator rI,
-            ArrayList<ContrButton> dButton, final IControlClick con) {
+            List<ContrButton> dButton, final IControlClick con) {
 
         DisclosurePanel ds = new DisclosurePanel(new DisclosureImages(),
                 "Opcje", false);

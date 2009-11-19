@@ -14,25 +14,14 @@ package com.javahotel.view.gwt.record.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MouseListener;
-import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess;
 import com.javahotel.client.mvc.record.model.RecordField;
-import com.javahotel.client.widgets.popup.PopUpTip;
-import com.javahotel.common.toobject.IField;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-@SuppressWarnings("deprecation")
 class ELineStore {
 
 	private List<RecordField> el = new ArrayList<RecordField>();

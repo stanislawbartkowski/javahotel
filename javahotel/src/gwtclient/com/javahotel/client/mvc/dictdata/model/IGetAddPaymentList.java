@@ -13,8 +13,9 @@
 
 package com.javahotel.client.mvc.dictdata.model;
 
+import java.util.List;
+
 import com.javahotel.client.mvc.auxabstract.NumAddPaymentP;
-import java.util.ArrayList;
 
 /**
  *
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  */
 public interface IGetAddPaymentList {
 
-    ArrayList<NumAddPaymentP> getList();
+    List<NumAddPaymentP> getList();
 
     String getResName();
 

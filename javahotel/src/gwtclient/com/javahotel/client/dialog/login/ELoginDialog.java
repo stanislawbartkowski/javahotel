@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.dialog.login;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
@@ -78,11 +78,11 @@ public class ELoginDialog {
         this.iNext = iNext;
         IContrPanel co = DictButtonFactory.getLoginButt(rI);
         da = new DictData(user ? SpecE.LoginUser : SpecE.LoginAdmin);
-        ArrayList<RecordField> field = GetRecordDefFactory.getDef(rI, da);
+        List<RecordField> field = GetRecordDefFactory.getDef(rI, da);
         String dTitle = GetRecordDefFactory.getTitle(rI, da);
         IRecordDef model = RecordDefFactory.getRecordDef(rI, dTitle, field);
         v = RecordViewFactory.getRecordView(rI, iSet, da, model, co,
                 new LoginClick(), null);
-        // initWidget(v.getMWidget().getWidget());
     }
+    
 }

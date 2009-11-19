@@ -17,7 +17,7 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.SeasonPeriodT;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class DictData {
@@ -38,12 +38,10 @@ public class DictData {
 
     public enum SpecE {
 
-        SpecialPeriod, CustomerPhone, CustomerAccount, BookingHeader,
-        ValidationHeader,BookingElem,RowPaymentElem,ObjectResConflict,
-        AddPayment,ResTablePanel,ResGuestList,BillsList, AddPaymentList,
-        LoginAdmin,LoginUser
+        SpecialPeriod, CustomerPhone, CustomerAccount, BookingHeader, ValidationHeader, BookingElem, RowPaymentElem, ObjectResConflict, AddPayment, ResTablePanel, ResGuestList, BillsList, AddPaymentList, LoginAdmin, LoginUser, FromReservHeader
 
     }
+
     private final DictType d;
     private final RType rt;
     private final SpecE sE;

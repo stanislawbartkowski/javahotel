@@ -14,12 +14,12 @@ package com.javahotel.client.mvc.util;
 
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.crud.controler.ICrudChooseTable;
 import com.javahotel.client.mvc.dictcrud.controler.ICrudControlerDialog;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
+import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
 import com.javahotel.client.mvc.table.model.ITableFilter;
 import com.javahotel.client.widgets.popup.PopupUtil;
 
@@ -38,8 +38,8 @@ public class ChooseCrudDialog {
         RecordAuxParam aux = new RecordAuxParam();
         aux.setIChoose(c);
         aux.setIFilter(iF);
-        ICrudControlerDialog iD = DictCrudControlerFactory.getCrudD(
-                rI, da, aux, null,null);
+        ICrudControlerDialog iD = HInjector.getI().getDictCrudControlerFactory().getCrudD(
+                da, aux, null,null);
         dBox = (DialogBox) iD.getMWidget().getWidget();
         PopupUtil.setPos(dBox, w);
         iD.show();

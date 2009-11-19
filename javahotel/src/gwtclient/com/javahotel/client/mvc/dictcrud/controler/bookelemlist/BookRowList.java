@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.mvc.dictcrud.controler.booking;
+package com.javahotel.client.mvc.dictcrud.controler.bookelemlist;
 
 import java.util.ArrayList;
 import java.util.List;

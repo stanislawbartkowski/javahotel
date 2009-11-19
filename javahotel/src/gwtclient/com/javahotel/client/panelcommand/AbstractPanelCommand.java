@@ -25,5 +25,4 @@ abstract public class AbstractPanelCommand implements IPanelCommand {
         return null;
     }
 
-
 }

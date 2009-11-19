@@ -13,6 +13,7 @@
 package com.javahotel.client.dispatcher.command;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
@@ -47,6 +48,7 @@ public class LoginCommand extends UICommand {
 
     }
 
+    @Inject
     public LoginCommand(final IResLocator i) {
         super(i, EnumDialog.STARTLOGIN);
     }

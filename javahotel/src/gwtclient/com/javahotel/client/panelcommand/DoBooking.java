@@ -15,6 +15,7 @@ package com.javahotel.client.panelcommand;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.common.command.DictType;
@@ -34,8 +35,7 @@ class DoBooking extends AbstractPanelCommand {
     }
 
     public void beforeDrawAction(ISetGwtWidget iSet) {
-        cPan = DictCrudControlerFactory.getCrud(rI,
-                new DictData(DictType.BookingList));
+        cPan = HInjector.getI().getDictCrudControlerFactory().getCrud(new DictData(DictType.BookingList));
         iSet.setGwtWidget(cPan.getMWidget());
     }
 

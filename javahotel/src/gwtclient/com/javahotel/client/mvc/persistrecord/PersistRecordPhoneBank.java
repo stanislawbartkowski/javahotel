@@ -26,6 +26,7 @@ class PersistRecordPhoneBank implements IPersistRecord {
     public void persist(int action, RecordModel a, IPersistResult ires) {
         NumAbstractTo an = (NumAbstractTo) a.getA();
         ITableModel mo = (ITableModel) a.getAuxData();
+        assert mo.getList() != null;
         NumAbstractTo ares = (NumAbstractTo) PersistNumUtil.persist(action,
                 mo, new PersistNumUtil.GenNextLp(mo), an);
         CallSuccess.callI(ires, action, ares,null);

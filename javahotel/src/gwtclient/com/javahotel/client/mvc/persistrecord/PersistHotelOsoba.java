@@ -125,7 +125,7 @@ class PersistHotelOsoba implements IPersistRecord {
 		int co = 0;
 		for (ColsHeader ch : cols) {
 			String s = ch.getHName();
-			ArrayList<Boolean> val = iCe.getCols(co);
+			List<Boolean> val = iCe.getCols(co);
 			co++;
 			List<String> roles = new ArrayList<String>();
 			for (int i = 0; i < val.size(); i++) {

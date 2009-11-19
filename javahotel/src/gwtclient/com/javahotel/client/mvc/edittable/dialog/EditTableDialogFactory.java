@@ -12,10 +12,11 @@
  */
 package com.javahotel.client.mvc.edittable.dialog;
 
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.common.toobject.AbstractTo;
-import java.util.ArrayList;
 
 /**
  *
@@ -28,7 +29,7 @@ public class EditTableDialogFactory {
 
     public static IEditTableDialog getDialog(final IResLocator rI,
             final DictData da, final String resName,
-            final ArrayList<? extends AbstractTo> gList) {
+            final List<? extends AbstractTo> gList) {
         return new EditTableDialog(rI, da, gList, resName);
     }
 }

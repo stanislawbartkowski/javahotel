@@ -41,6 +41,7 @@ import com.javahotel.common.toobject.IField;
 class CustomerView extends VRecordView {
 
     private final TabPanel tab = new TabPanel();
+    private final IPanel ip;
     private ILineField eC;
 
     private void setTab(String ro) {
@@ -60,10 +61,12 @@ class CustomerView extends VRecordView {
         setTab(eC.getVal());
     }
 
-    CustomerView(final IResLocator rI, ISetGwtWidget iSet, final DictData da,
+    CustomerView(final IResLocator rI, IPanel ip, ISetGwtWidget iSet, final DictData da,
             final IRecordDef model, final IContrPanel contr,
             final IControlClick co, final IAuxRecordPanel auxV) {
         super(rI, iSet, da, model, contr, co, auxV);
+        this.ip = ip;
+        initW(ip,null);
     }
 
     private class CList implements IChangeListener {

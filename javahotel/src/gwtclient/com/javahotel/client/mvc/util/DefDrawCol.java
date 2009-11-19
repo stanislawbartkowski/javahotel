@@ -12,10 +12,10 @@
  */
 package com.javahotel.client.mvc.util;
 
+import java.util.List;
+
 import com.javahotel.client.rdata.RData;
 import com.javahotel.common.toobject.AbstractTo;
-
-import java.util.ArrayList;
 
 /**
  *
@@ -29,7 +29,7 @@ public class DefDrawCol implements RData.IVectorList {
         this.i = i;
     }
 
-    public void doVList(final ArrayList<? extends AbstractTo> val) {
+    public void doVList(final List<? extends AbstractTo> val) {
         i.draw(val);
     }
 }

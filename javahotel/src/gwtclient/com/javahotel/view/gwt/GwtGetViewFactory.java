@@ -12,20 +12,19 @@
  */
 package com.javahotel.view.gwt;
 
-import com.javahotel.client.panelcommand.EPanelCommand;
-import java.util.ArrayList;
+import java.util.List;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.GridCellType;
 import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.dialog.MvcWindowSize;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.checkmodel.ICheckDictModel;
-import com.javahotel.client.mvc.gridmodel.model.view.IGridView;
 import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.IRecordViewFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
 import com.javahotel.client.panel.IWebHotelPanel;
+import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.stackmenu.model.IStackMenuModel;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
 import com.javahotel.client.stackmenu.view.IStackMenuView;
@@ -33,12 +32,10 @@ import com.javahotel.common.command.DictType;
 import com.javahotel.view.IDrawTabPanel;
 import com.javahotel.view.IViewInterface;
 import com.javahotel.view.gwt.checkmodel.view.CheckDictModelFactory;
-import com.javahotel.view.gwt.grid.view.GetViewFactory;
 import com.javahotel.view.gwt.panel.view.WebHotelPanelFactory;
 import com.javahotel.view.gwt.record.view.GwtRecordViewFactory;
 import com.javahotel.view.gwt.recordviewdef.GetRecordDefFactory;
 import com.javahotel.view.gwt.stackmenu.view.StackMenuViewFactory;
-import com.javahotel.view.gwt.table.view.GwtGetTableFactory;
 import com.javahotel.view.gwt.tabpanel.GwtTabPanelFactory;
 
 /**
@@ -61,15 +58,11 @@ public class GwtGetViewFactory {
             return WebHotelPanelFactory.getPanel(rI, logOut);
         }
 
-        public IGridView getGridView(IResLocator rI, GridCellType cType) {
-            return GetViewFactory.getGwtView(rI, cType);
-        }
-
         public ICheckDictModel getModel(IResLocator rI, DictType d) {
             return CheckDictModelFactory.getModel(rI, d);
         }
 
-        public ArrayList<RecordField> getDef(IResLocator rI, DictData da) {
+        public List<RecordField> getDef(IResLocator rI, DictData da) {
             return GetRecordDefFactory.getDef(rI, da);
         }
 
@@ -78,7 +71,7 @@ public class GwtGetViewFactory {
         }
 
         public IDrawTabPanel getTabPanel(IResLocator rI,
-                ArrayList<EPanelCommand> pList) {
+                List<EPanelCommand> pList) {
             return GwtTabPanelFactory.getPanel(rI, pList);
         }
 
@@ -87,7 +80,7 @@ public class GwtGetViewFactory {
         }
 
         public IGetTableViewFactory getTableViewFactory(IResLocator rI) {
-            return GwtGetTableFactory.getFa();
+            return HInjector.getI().getViewTableFactory();
         }
 
     }

@@ -19,7 +19,7 @@ import java.util.Map;
 import com.javahotel.client.IResLocator;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class GetIToSFactory {

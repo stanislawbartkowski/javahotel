@@ -12,15 +12,13 @@
  */
 package com.javahotel.view;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.GridCellType;
 import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.dialog.MvcWindowSize;
 import com.javahotel.client.mvc.checkmodel.ICheckDictModel;
-import com.javahotel.client.mvc.gridmodel.model.view.IGridView;
 import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.IRecordViewFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
@@ -45,15 +43,13 @@ public interface IViewInterface {
 
     IWebHotelPanel getPanel(IResLocator rI, ICommand logOut);
 
-    IGridView getGridView(IResLocator rI, GridCellType cType);
-
     ICheckDictModel getModel(IResLocator rI, DictType d);
 
-    ArrayList<RecordField> getDef(IResLocator rI, DictData da);
+    List<RecordField> getDef(IResLocator rI, DictData da);
 
     MvcWindowSize getSize(DictData da);
 
-    IDrawTabPanel getTabPanel(IResLocator rI, ArrayList<EPanelCommand> pList);
+    IDrawTabPanel getTabPanel(IResLocator rI, List<EPanelCommand> pList);
 
     IRecordViewFactory getViewFactory(IResLocator rI);
 

@@ -265,17 +265,4 @@ public class DictEmptyFactory {
 		return se;
 	}
 
-	// public static List<IField> getNoEmpty(final int action, final RType
-	// rt) {
-	// switch (rt) {
-	// case AllPersons:
-	// if (action == IPersistAction.DELACTION) {
-	// return personERemove;
-	// }
-	// return personE;
-	// case AllHotels:
-	// return hotelE;
-	// }
-	// return null;
-	// }
 }

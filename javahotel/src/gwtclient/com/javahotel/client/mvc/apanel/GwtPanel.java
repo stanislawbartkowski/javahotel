@@ -22,19 +22,19 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class GwtPanel implements IPanel {
 
-	private final Panel pa;
+    private final Panel pa;
 
-	public GwtPanel(Panel pa) {
-		this.pa = pa;
+    public GwtPanel(Panel pa) {
+        this.pa = pa;
 
-	}
+    }
 
-	public void add(Widget w) {
-		pa.add(w);
-	}
+    public void add(Widget w) {
+        pa.add(w);
+    }
 
-	public Widget getPanel() {
-		return pa;
-	}
+    public Widget getPanel() {
+        return pa;
+    }
 
 }

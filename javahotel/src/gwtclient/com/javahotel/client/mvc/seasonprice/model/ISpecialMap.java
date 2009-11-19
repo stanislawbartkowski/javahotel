@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.mvc.seasonprice.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,5 +20,5 @@ import java.util.ArrayList;
  */
 public interface ISpecialMap {
 
-    void set(ArrayList<MapSpecialToI> col);
+    void set(List<MapSpecialToI> col);
 }

@@ -12,12 +12,13 @@
  */
 package com.javahotel.client.mvc.recordviewdef;
 
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IPersistAction;
 import com.javahotel.client.dialog.MvcWindowSize;
 import com.javahotel.client.mvc.record.model.RecordField;
-import java.util.ArrayList;
 
 /**
  * 
@@ -28,7 +29,7 @@ public class GetRecordDefFactory {
     private GetRecordDefFactory() {
     }
 
-    public static ArrayList<RecordField> getDef(final IResLocator rI,
+    public static List<RecordField> getDef(final IResLocator rI,
             final DictData da) {
         return rI.getView().getDef(rI, da);
     }

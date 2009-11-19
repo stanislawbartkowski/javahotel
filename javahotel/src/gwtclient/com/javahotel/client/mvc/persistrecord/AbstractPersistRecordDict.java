@@ -12,17 +12,18 @@
  */
 package com.javahotel.client.mvc.persistrecord;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.client.mvc.checkmodel.ICheckDictModel;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
+import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -58,7 +59,7 @@ abstract class AbstractPersistRecordDict extends PersistRecordDict {
             this.mo = mo;
         }
 
-        public void doVList(final ArrayList<? extends AbstractTo> val) {
+        public void doVList(final List<? extends AbstractTo> val) {
             List<DictionaryP> dcol = (List<DictionaryP>) createNew();
             for (String s : dic) {
                 for (AbstractTo a : val) {

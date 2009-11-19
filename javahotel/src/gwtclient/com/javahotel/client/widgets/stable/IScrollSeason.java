@@ -31,7 +31,5 @@ public interface IScrollSeason {
      * @param actC
      *            if != -1 then column number to display
      */
-//    void createVPanel(final int no, final int actC);
-
     void createVPanel(List<Date> dList, final int actC);
 }

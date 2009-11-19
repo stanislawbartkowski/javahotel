@@ -1,6 +1,6 @@
 package com.javahotel.view.gwt.table.view;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
@@ -76,7 +76,7 @@ class GTableView implements ITableView {
 
 	private void drawrow(int row) {
 		AbstractTo ii = model.getRow(row);
-		ArrayList<ColTitle> co = model.colList();
+		List<ColTitle> co = model.colList();
 		for (int c = 0; c < co.size(); c++) {
 			ColTitle cl = co.get(c);
 			String val = ii.getS(cl.getF());
@@ -92,7 +92,7 @@ class GTableView implements ITableView {
 
 	private void getTable() {
 		data = DataTable.create();
-		ArrayList<ColTitle> co = model.colList();
+		List<ColTitle> co = model.colList();
 		// if (iModel.isHeaders()) {
 		for (ColTitle c : co) {
 			data.addColumn(ColumnType.STRING, c.getCTitle());

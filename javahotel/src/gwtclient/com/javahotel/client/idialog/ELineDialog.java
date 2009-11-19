@@ -15,13 +15,6 @@ package com.javahotel.client.idialog;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
@@ -30,8 +23,6 @@ import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.ifield.ISetWidget;
 import com.javahotel.client.mvc.util.PopupTip;
-import com.javahotel.client.widgets.popup.PopUpTip;
-import com.javahotel.client.widgets.popup.PopupUtil;
 import com.javahotel.common.dateutil.DateFormatUtil;
 
 /**
@@ -45,43 +36,6 @@ abstract class ELineDialog extends PopupTip implements ILineField {
     protected IChangeListener lC;
     protected final boolean isCheckBox;
     protected final boolean checkBoxVal;
-//    private String errmess = null;
-//    private PopupPanel tup = null;
-//
-//    private void hideUp() {
-//        if (tup != null) {
-//            tup.hide();
-//            tup = null;
-//        }
-//    }
-//
-//    private class MouseO implements MouseOverHandler, MouseOutHandler {
-//
-//        public void onMouseOver(MouseOverEvent event) {
-//            if (errmess != null) {
-//                tup = PopUpTip.getPopupTip(new Label(errmess));
-//                PopupUtil.setPos(tup, ELineDialog.this);
-//                tup.show();
-//            }
-//        }
-//
-//        public void onMouseOut(MouseOutEvent event) {
-//            hideUp();
-//        }
-//    }
-//
-//    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
-//        return addDomHandler(handler, MouseOverEvent.getType());
-//    }
-//
-//    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-//        return addDomHandler(handler, MouseOutEvent.getType());
-//    }
-//
-//    protected void setMouse() {
-//        this.addMouseOutHandler(new MouseO());
-//        this.addMouseOverHandler(new MouseO());
-//    }
 
     ELineDialog(final IResLocator pLi) {
         this.pLi = pLi;

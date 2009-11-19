@@ -12,12 +12,16 @@
  */
 package com.javahotel.client.dialog.user.booking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.DictData.SpecE;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.DictData.SpecE;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.auxabstract.ABillsCustomer;
 import com.javahotel.client.mvc.auxabstract.BillsCustomer;
 import com.javahotel.client.mvc.auxabstract.NumAbstractTo;
@@ -44,8 +48,6 @@ import com.javahotel.common.toobject.AddPaymentP;
 import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -53,145 +55,145 @@ import java.util.List;
  */
 public class AddPayment {
 
-	private final IResLocator rI;
-	private BookingP p;
-	private final RoomInfoData rInfo;
-	private IPersistResult pe;
-	private SS sync;
-	private final ICrudControlerDialog iD;
-	private DialogBox dBox;
+    private final IResLocator rI;
+    private BookingP p;
+    private final RoomInfoData rInfo;
+    private IPersistResult pe;
+    private SS sync;
+    private final ICrudControlerDialog iD;
+    private DialogBox dBox;
 
-	private class PE implements ICrudPersistSignal {
+    private class PE implements ICrudPersistSignal {
 
-		public void signal(PersistResultContext re) {
-			if (pe != null) {
-				pe.success(re);
-			}
-		}
-	}
+        public void signal(PersistResultContext re) {
+            if (pe != null) {
+                pe.success(re);
+            }
+        }
+    }
 
-	private class SS extends SynchronizeList {
+    private class SS extends SynchronizeList {
 
-		private final ArrayList<BillsCustomer> aList;
+        private final List<BillsCustomer> aList;
 
-		SS(int no) {
-			super(no);
-			aList = new ArrayList<BillsCustomer>();
-		}
+        SS(int no) {
+            super(no);
+            aList = new ArrayList<BillsCustomer>();
+        }
 
-		@Override
-		protected void doTask() {
-			ArrayList<ABillsCustomer> aCol = new ArrayList<ABillsCustomer>();
-			for (BillsCustomer bi : aList) {
-				ABillsCustomer a = new ABillsCustomer(bi);
-				aCol.add(a);
-			}
-			iD.getI().getTableView().getModel().setList(aCol);
-			iD.show();
-		}
-	}
+        @Override
+        protected void doTask() {
+            List<ABillsCustomer> aCol = new ArrayList<ABillsCustomer>();
+            for (BillsCustomer bi : aList) {
+                ABillsCustomer a = new ABillsCustomer(bi);
+                aCol.add(a);
+            }
+            iD.getI().getTableView().getModel().setList(aCol);
+            iD.show();
+        }
+    }
 
-	private class BackC implements RData.IOneList {
+    private class BackC implements RData.IOneList {
 
-		private final BillP be;
+        private final BillP be;
 
-		BackC(BillP be) {
-			this.be = be;
-		}
+        BackC(BillP be) {
+            this.be = be;
+        }
 
-		public void doOne(AbstractTo val) {
-			CustomerP cu = (CustomerP) val;
-			BillsCustomer bi = new BillsCustomer(be, cu);
-			bi.setBillType(be.getBillType());
-			bi.setId(be.getId());
-			bi.setAP(be.getAddpayments());
-			sync.aList.add(bi);
-			sync.signalDone();
-		}
-	}
+        public void doOne(AbstractTo val) {
+            CustomerP cu = (CustomerP) val;
+            BillsCustomer bi = new BillsCustomer(be, cu);
+            bi.setBillType(be.getBillType());
+            bi.setId(be.getId());
+            bi.setAP(be.getAddpayments());
+            sync.aList.add(bi);
+            sync.signalDone();
+        }
+    }
 
-	private class ServiceAux extends AbstractAuxRecordPanel {
+    private class ServiceAux extends AbstractAuxRecordPanel {
 
-		private ICrudControler iC;
+        private ICrudControler iC;
 
-		private ServiceAux() {
-			RecordAuxParam aux = new RecordAuxParam();
-			iC = DictCrudControlerFactory.getCrud(rI, new DictData(
-					SpecE.AddPaymentList), aux, null);
-		}
+        private ServiceAux() {
+            RecordAuxParam aux = new RecordAuxParam();
+            iC = HInjector.getI().getDictCrudControlerFactory().getCrud(new DictData(
+                    SpecE.AddPaymentList), aux, null);
+        }
 
-		IGetAddPaymentList getP() {
+        IGetAddPaymentList getP() {
 
-			return new IGetAddPaymentList() {
+            return new IGetAddPaymentList() {
 
-				public ArrayList<NumAddPaymentP> getList() {
-					ArrayList<NumAddPaymentP> aList = (ArrayList<NumAddPaymentP>) iC
-							.getTableView().getModel().getList();
-					return aList;
-				}
+                public List<NumAddPaymentP> getList() {
+                    List<NumAddPaymentP> aList = (List<NumAddPaymentP>) iC
+                            .getTableView().getModel().getList();
+                    return aList;
+                }
 
-				public String getResName() {
-					return p.getName();
-				}
-			};
-		}
+                public String getResName() {
+                    return p.getName();
+                }
+            };
+        }
 
-		@Override
-		public void setFields(RecordModel mo) {
-			ABillsCustomer a;
-			a = (ABillsCustomer) mo.getA();
-			BillsCustomer bi = (BillsCustomer) a.getO();
-			List<AddPaymentP> col = bi.getAP();
-			ArrayList<NumAbstractTo> an = new ArrayList<NumAbstractTo>();
-			if (col != null) {
-				for (AddPaymentP pa : col) {
-					NumAddPaymentP au = new NumAddPaymentP(pa);
-					an.add(au);
-				}
-			}
-			iC.getTableView().getModel().setList(an);
-			iC.drawTable();
-		}
+        @Override
+        public void setFields(RecordModel mo) {
+            ABillsCustomer a;
+            a = (ABillsCustomer) mo.getA();
+            BillsCustomer bi = (BillsCustomer) a.getO();
+            List<AddPaymentP> col = bi.getAP();
+            List<NumAbstractTo> an = new ArrayList<NumAbstractTo>();
+            if (col != null) {
+                for (AddPaymentP pa : col) {
+                    NumAddPaymentP au = new NumAddPaymentP(pa);
+                    an.add(au);
+                }
+            }
+            iC.getTableView().getModel().setList(an);
+            iC.drawTable();
+        }
 
-		public IMvcWidget getMWidget() {
-			return iC.getMWidget();
-		}
-	}
+        public IMvcWidget getMWidget() {
+            return iC.getMWidget();
+        }
+    }
 
-	AddPayment(IResLocator rI) {
-		this.rI = rI;
-		this.rInfo = new RoomInfoData(rI);
-		RecordAuxParam aux = new RecordAuxParam();
-		ServiceAux auxS = new ServiceAux();
-		ListenerCustomer lC = new ListenerCustomer(rI);
-		aux.setAuxV(auxS);
-		aux.setAuxO1(auxS.getP());
-		lC.modifAux(aux);
+    AddPayment(IResLocator rI) {
+        this.rI = rI;
+        this.rInfo = new RoomInfoData(rI);
+        RecordAuxParam aux = new RecordAuxParam();
+        ServiceAux auxS = new ServiceAux();
+        ListenerCustomer lC = new ListenerCustomer(rI);
+        aux.setAuxV(auxS);
+        aux.setAuxO1(auxS.getP());
+        lC.modifAux(aux);
 
-		aux.setPSignal(new PE());
-		iD = DictCrudControlerFactory.getCrudD(rI,
-				new DictData(SpecE.BillsList), aux, null, null);
-	}
+        aux.setPSignal(new PE());
+        iD = HInjector.getI().getDictCrudControlerFactory().getCrudD(
+                new DictData(SpecE.BillsList), aux, null, null);
+    }
 
-	void setPe(IPersistResult pe) {
-		this.pe = pe;
-	}
+    void setPe(IPersistResult pe) {
+        this.pe = pe;
+    }
 
-	void drawBill(BookingP book) {
-		this.p = book;
-		List<BillP> a = p.getBill();
-		sync = new SS(a.size());
+    void drawBill(BookingP book) {
+        this.p = book;
+        List<BillP> a = p.getBill();
+        sync = new SS(a.size());
 
-		for (BillP bu : a) {
-			CommandParam pa = rI.getR().getHotelDictId(DictType.CustomerList,
-					bu.getCustomer());
-			rI.getR().getOne(RType.ListDict, pa, new BackC(bu));
-		}
-	}
+        for (BillP bu : a) {
+            CommandParam pa = rI.getR().getHotelDictId(DictType.CustomerList,
+                    bu.getCustomer());
+            rI.getR().getOne(RType.ListDict, pa, new BackC(bu));
+        }
+    }
 
-	void showDialog(Widget w) {
-		dBox = (DialogBox) iD.getMWidget().getWidget();
-		PopupUtil.setPos(dBox, w);
+    void showDialog(Widget w) {
+        dBox = (DialogBox) iD.getMWidget().getWidget();
+        PopupUtil.setPos(dBox, w);
 
-	}
+    }
 }

@@ -13,8 +13,9 @@
 
 package com.javahotel.client.mvc.dictcrud.controler;
 
+import java.util.List;
+
 import com.javahotel.client.mvc.record.model.RecordField;
-import java.util.ArrayList;
 
 /**
  *
@@ -22,6 +23,6 @@ import java.util.ArrayList;
  */
 public interface IModifRecordDef {
 
-    void modifRecordDef(ArrayList<RecordField> dict);
+    void modifRecordDef(List<RecordField> dict);
 
 }

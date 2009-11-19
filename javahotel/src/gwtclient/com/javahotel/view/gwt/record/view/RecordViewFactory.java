@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.mvc.apanel.GwtPanel;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
@@ -32,7 +33,12 @@ import com.javahotel.client.mvc.record.view.helper.IInitDialog;
  */
 class RecordViewFactory implements IRecordViewFactory {
 
-    private static IInitDialog getIDialog(final IResLocator rI,
+    private static IPanel panelInstance() {
+        IPanel custV = new GwtPanel(new VerticalPanel());
+        return custV;
+    }
+
+    private static IInitDialog getIDialog(final IResLocator rI, IPanel ip,
             ISetGwtWidget iSet, final DictData da, final IRecordDef model,
             final IContrPanel contr, final IControlClick co,
             final IAuxRecordPanel auxV) {
@@ -40,7 +46,7 @@ class RecordViewFactory implements IRecordViewFactory {
             switch (da.getRt()) {
             case AllPersons:
             case AllHotels:
-                return new RecordView(rI, iSet, da, model, contr, co, auxV);
+                return new RecordView(rI, ip, iSet, da, model, contr, co, auxV);
             default:
                 break;
             }
@@ -50,13 +56,15 @@ class RecordViewFactory implements IRecordViewFactory {
             case LoginUser:
             case LoginAdmin:
             case SpecialPeriod:
-                return new RecordView(rI, iSet, da, model, contr, co, auxV);
+                return new RecordView(rI, ip, iSet, da, model, contr, co, auxV);
             default:
                 break;
             }
         }
         if (da.isDa()) {
             switch (da.getD()) {
+            case BookingList:
+
             case RoomFacility:
             case RoomStandard:
             case RoomObjects:
@@ -64,32 +72,28 @@ class RecordViewFactory implements IRecordViewFactory {
             case ServiceDict:
             case OffSeasonDict:
             case PriceListDict:
-                return new RecordView(rI, iSet, da, model, contr, co, auxV);
+                return new RecordView(rI, ip, iSet, da, model, contr, co, auxV);
             case CustomerList:
-                return new CustomerView(rI, iSet, da, model, contr, co, auxV);
+                return new CustomerView(rI, ip, iSet, da, model, contr, co, auxV);
             default:
                 break;
             }
         }
-        return new RecordView(rI, iSet, da, model, contr, co, auxV);
+        return new RecordView(rI, ip, iSet, da, model, contr, co, auxV);
 
     }
 
     public IRecordView getRecordView(final IResLocator rI, ISetGwtWidget iSet,
             final DictData da, final IRecordDef model,
             final IAuxRecordPanel auxV, final IPanel vp) {
-        IInitDialog i = getIDialog(rI, iSet, da, model, null, null, auxV);
-        i.initW(vp, null);
+        IInitDialog i = getIDialog(rI, vp, iSet, da, model, null, null, auxV);
         return i;
     }
 
     public IRecordView getRecordView(final IResLocator rI, ISetGwtWidget iSet,
             final DictData da, final IRecordDef model, final IContrPanel contr,
             final IControlClick co, final IAuxRecordPanel auxV) {
-        IInitDialog i = getIDialog(rI, iSet, da, model, contr, co, auxV);
-//        IPanel pa;
-//        pa = PanelFactory.getGwtPanel(new VerticalPanel());
-//        i.initW(pa, null);
+        IInitDialog i = getIDialog(rI, panelInstance(), iSet, da, model, contr, co, auxV);
         i.addEmptyList();
         return i;
     }
@@ -98,7 +102,7 @@ class RecordViewFactory implements IRecordViewFactory {
             ISetGwtWidget iSet, final DictData da, final IRecordDef model,
             final IContrPanel contr, final IControlClick co,
             final IAuxRecordPanel auxV) {
-        IInitDialog i = getIDialog(rI, iSet, da, model, contr, co, auxV);
+        IInitDialog i = getIDialog(rI, panelInstance(), iSet, da, model, contr, co, auxV);
         return new RecordVDialog(rI, i);
     }
 
@@ -109,7 +113,7 @@ class RecordViewFactory implements IRecordViewFactory {
         if (auxW == null) {
             return getRecordViewDialog(rI, iSet, da, model, contr, co, auxV);
         }
-        IInitDialog i = getIDialog(rI, iSet, da, model, contr, co, auxV);
+        IInitDialog i = getIDialog(rI, panelInstance(), iSet, da, model, contr, co, auxV);
         return new RecordVDialog(rI, i, auxW);
     }
 

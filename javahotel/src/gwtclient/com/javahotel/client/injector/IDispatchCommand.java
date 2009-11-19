@@ -10,15 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dispatcher;
+package com.javahotel.client.injector;
 
-public class DispatchFactory {
+import com.javahotel.client.dispatcher.UICommand;
 
-    private DispatchFactory() {
-    }
+public interface IDispatchCommand {
+    
+    UICommand getLoginCommand();
+    
+    UICommand getUserPanelCommand();
+    
+    UICommand getAdminPanelCommand();
+    
 
-    public static IDispatch createDispatch() {
-        return new Dispatch();
-
-    }
 }

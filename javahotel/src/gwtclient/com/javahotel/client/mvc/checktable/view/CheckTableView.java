@@ -12,36 +12,39 @@
  */
 package com.javahotel.client.mvc.checktable.view;
 
+import java.util.List;
+
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.GridCellType;
-import java.util.ArrayList;
 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
-class CheckTableView extends AbstractCheckTable implements ICheckTableView {
+public class CheckTableView extends AbstractCheckTable implements ICheckTableView {
 
 
-    CheckTableView(IResLocator rI) {
+    @Inject
+    public CheckTableView(IResLocator rI) {
         super(rI,GridCellType.BOOLEAN);
     }
 
 
-    public void setRowVal(int row, ArrayList<Boolean> vals) {
+    public void setRowVal(int row, List<Boolean> vals) {
         iModel.setRowVal(row, vals);
     }
 
-    public void setColVal(int col, ArrayList<Boolean> vals) {
+    public void setColVal(int col, List<Boolean> vals) {
         iModel.setColVal(col, vals);
     }
 
-    public ArrayList<Boolean> getRows(int row) {
-        return (ArrayList<Boolean>) iModel.getRows(row);
+    public List<Boolean> getRows(int row) {
+        return (List<Boolean>) iModel.getRows(row);
     }
 
-    public ArrayList<Boolean> getCols(int col) {
-        return (ArrayList<Boolean>) iModel.getCols(col);
+    public List<Boolean> getCols(int col) {
+        return (List<Boolean>) iModel.getCols(col);
     }
 
 }

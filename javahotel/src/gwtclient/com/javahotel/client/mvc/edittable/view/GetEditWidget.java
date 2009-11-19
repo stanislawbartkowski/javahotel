@@ -12,30 +12,30 @@
  */
 package com.javahotel.client.mvc.edittable.view;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.mvc.table.view.IGetWidgetTableView;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.mvc.table.model.ITableModel;
-import java.util.ArrayList;
-import java.util.Map;
-import com.javahotel.client.mvc.record.model.RecordField;
-import com.javahotel.common.toobject.IField;
-import java.util.HashMap;
 import com.javahotel.client.ifield.ILineField;
-import com.javahotel.client.mvc.crud.controler.ICrudRecordFactory;
-import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
-import com.javahotel.client.mvc.recordviewdef.ColListFactory;
-import java.util.Set;
-import com.javahotel.client.mvc.table.view.ITableView;
-import com.javahotel.client.mvc.record.view.IRecordView;
-import com.javahotel.client.mvc.record.model.RecordDefFactory;
-import com.javahotel.client.mvc.record.view.RecordViewFactory;
-import com.javahotel.client.mvc.record.model.IRecordDef;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
+import com.javahotel.client.mvc.crud.controler.ICrudRecordFactory;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
+import com.javahotel.client.mvc.record.model.IRecordDef;
+import com.javahotel.client.mvc.record.model.RecordDefFactory;
+import com.javahotel.client.mvc.record.model.RecordField;
+import com.javahotel.client.mvc.record.view.IRecordView;
+import com.javahotel.client.mvc.record.view.RecordViewFactory;
+import com.javahotel.client.mvc.table.model.ITableModel;
+import com.javahotel.client.mvc.table.view.IGetWidgetTableView;
+import com.javahotel.client.mvc.table.view.ITableView;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.IField;
 
 /**
  *
@@ -85,7 +85,7 @@ class GetEditWidget implements IGetWidgetTableView {
         this.da = da;
         this.customW = customW;
         ma = new HashMap<Integer, ST>();
-        notEditable = ColListFactory.getNoEditableColList(da);
+        notEditable = HInjector.getI().getColListFactory().getNoEditableColList(da);
     }
 
     public Widget getWidget(final ITableView v, final int row,
@@ -99,9 +99,9 @@ class GetEditWidget implements IGetWidgetTableView {
         ST st = ma.get(row);
         if (st == null) {
             st = new ST();
-            ICrudControler iCrud = DictCrudControlerFactory.getCrud(rI, da);
+            ICrudControler iCrud = HInjector.getI().getDictCrudControlerFactory().getCrud(da);
             st.fa = iCrud.getF();
-            ArrayList<RecordField> li = st.fa.getDef();
+            List<RecordField> li = st.fa.getDef();
             IRecordDef def = RecordDefFactory.getRecordDef(rI, "", li);
             st.iView = RecordViewFactory.getTableViewRecord(rI, null,def);
             ma.put(row, st);

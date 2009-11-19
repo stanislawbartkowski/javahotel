@@ -14,13 +14,13 @@ package com.javahotel.client.start;
 
 import com.javahotel.client.dispatcher.IDispatch;
 
-public class testWebEntryPoint extends AbstractWebEntry {
+public class testWebEntryPoint extends MainWebEntry {
 
     public testWebEntryPoint(IDispatch di) {
-        super(false, di);
+        super(di);
     }
 
     public void testLoad() {
-        load();
+//        load();
     }
 }

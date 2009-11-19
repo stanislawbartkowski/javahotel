@@ -10,25 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.mvc.checktable.view;
+package com.javahotel.client.start;
 
-import com.javahotel.client.IResLocator;
+public interface IWebEntry {
+    
+    void start();
+    
+    void setGoogletable(boolean googletable);
 
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-public class CheckTableViewFactory {
 
-    private CheckTableViewFactory() {
-    }
-
-    public static ICheckTableView getCheckView(IResLocator rI) {
-        return new CheckTableView(rI);
-    }
-
-    public static IDecimalTableView getDevView(IResLocator rI) {
-        return new DecimalTableView(rI);
-
-    }
 }

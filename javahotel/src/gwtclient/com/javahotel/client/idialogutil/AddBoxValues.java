@@ -13,6 +13,7 @@
 package com.javahotel.client.idialogutil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.ifield.ICreatedValue;
@@ -40,8 +41,8 @@ public class AddBoxValues {
 			this.e = e;
 		}
 
-		public void doVList(final ArrayList<? extends AbstractTo> val) {
-			ArrayList<String> li = new ArrayList<String>();
+		public void doVList(final List<? extends AbstractTo> val) {
+			List<String> li = new ArrayList<String>();
 			String firstS = null;
 			for (final AbstractTo a : val) {
 				Object o = a.getF(f);
@@ -76,7 +77,7 @@ public class AddBoxValues {
 
 	public static void addValues(final IResLocator rI, final IField f,
 			final ICreatedValue iV, final IValueLB e,
-			final ArrayList<? extends AbstractTo> col) {
+			final List<? extends AbstractTo> col) {
 		R r = new R(f, iV, e);
 		r.doVList(col);
 	}

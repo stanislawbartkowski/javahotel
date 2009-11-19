@@ -14,6 +14,7 @@ package com.javahotel.view.gwt.table.view;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
@@ -28,10 +29,17 @@ import com.javahotel.client.mvc.table.view.ITableView;
  *
  * @author hotel
  */
-class TableViewFactory implements IGetTableViewFactory {
+public class ViewTableViewFactory implements IGetTableViewFactory {
+    
+    private final IResLocator rI;
+    
+    @Inject
+    public ViewTableViewFactory(IResLocator rI) {
+        this.rI = rI;
+    }
 
 
-    private static class GetLabelWidget implements IGetWidgetTableView {
+    private class GetLabelWidget implements IGetWidgetTableView {
 
         public Widget getWidget(ITableView mo, int row, int col, String val) {
             Label l = new Label(val);
@@ -39,23 +47,23 @@ class TableViewFactory implements IGetTableViewFactory {
         }
     }
     
-    private static IGetWidgetTableView getI(final IGetWidgetTableView iW) {
+    private IGetWidgetTableView getI(final IGetWidgetTableView iW) {
     	if (iW == null) { return new GetLabelWidget(); }
     	return iW;
     }
 
-    public ITableView getView(final IResLocator rI, final DictData da,
+    public ITableView getView(final DictData da,
             final IContrButtonView cView, final ITableModel model,
             final ITableSignalClicked sc, final ITableCallBackSetField iCall,
             final IGetWidgetTableView iW) {
     	if (rI.withGoogleTable()) {
           return new GTableView(rI, cView, model, sc, iCall, getI(iW));
     	}
-    	return getGridView(rI,da,cView,model,sc,iCall,iW);
+    	return getGridView(da,cView,model,sc,iCall,iW);
     }
         
 
-    public ITableView getGridView(final IResLocator rI, final DictData da,
+    public ITableView getGridView(final DictData da,
             final IContrButtonView cView, final ITableModel model,
             final ITableSignalClicked sc, final ITableCallBackSetField iCall,
             final IGetWidgetTableView iW) {

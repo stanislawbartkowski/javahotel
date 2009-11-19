@@ -31,7 +31,7 @@ public class TableViewFactory {
             final ITableSignalClicked sc, final ITableCallBackSetField iCall,
             final IGetWidgetTableView iW) {
         IGetTableViewFactory i = rI.getView().getTableViewFactory(rI);
-        return i.getView(rI, da, cView, model, sc, iCall,iW);
+        return i.getView(da, cView, model, sc, iCall,iW);
     }
 
     public static ITableView getGridView(final IResLocator rI, final DictData da,
@@ -39,6 +39,6 @@ public class TableViewFactory {
             final ITableSignalClicked sc, final ITableCallBackSetField iCall,
             final IGetWidgetTableView iW) {
         IGetTableViewFactory i = rI.getView().getTableViewFactory(rI);
-        return i.getGridView(rI, da, cView, model, sc, iCall, iW);
+        return i.getGridView(da, cView, model, sc, iCall, iW);
     }
 }

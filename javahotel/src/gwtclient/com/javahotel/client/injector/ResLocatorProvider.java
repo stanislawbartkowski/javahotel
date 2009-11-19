@@ -10,17 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.dialog.user;
+package com.javahotel.client.injector;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Provider;
+import com.javahotel.client.IResLocator;
 
-// TODO: remove
+public class ResLocatorProvider implements Provider<IResLocator> {
 
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-interface ISetWidget {
-
-    void setW(Widget w);
+    public IResLocator get() {
+        return ResLocatorHolder.getrI();
+    }
 }

@@ -12,10 +12,13 @@
  */
 package com.javahotel.client.mvc.table.model;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
-import java.util.ArrayList;
 
 /**
  *
@@ -25,15 +28,15 @@ class TableList implements ITableModel {
 
     private final IResLocator rI;
 
-    private ArrayList<? extends AbstractTo> oList;
-    private ArrayList<AbstractTo> aList;
-    private final ArrayList<ColTitle> cTitle;
+    // private List<? extends AbstractTo> oList;
+    private List<AbstractTo> aList;
+    private final List<ColTitle> cTitle;
     private final AbstractTo.IFieldToS iToS;
     private final String header;
     private final ITableFilter iF;
     private final ITableConverter iConv;
 
-    TableList(final IResLocator rI, final ArrayList<ColTitle> cTitle,
+    TableList(final IResLocator rI, final List<ColTitle> cTitle,
             final AbstractTo.IFieldToS iToS, final String header,
             final ITableFilter iF,final ITableConverter iConv) {
         this.rI = rI;
@@ -54,9 +57,9 @@ class TableList implements ITableModel {
         return s;
     }
 
-    public void setList(ArrayList<? extends AbstractTo> tList) {
-        oList = tList;
-        aList = (ArrayList<AbstractTo>) tList;
+    public void setList(List<? extends AbstractTo> tList) {
+        //oList = tList;
+        aList = (List<AbstractTo>) tList;
         if ((iF != null) || (iConv != null)) {
           aList = new ArrayList<AbstractTo>();
           for (AbstractTo a : tList) {
@@ -71,7 +74,7 @@ class TableList implements ITableModel {
         }
     }
 
-    public ArrayList<ColTitle> colList() {
+    public List<ColTitle> colList() {
         return cTitle;
     }
 
@@ -88,7 +91,7 @@ class TableList implements ITableModel {
         return iToS;
     }
 
-    public ArrayList<? extends AbstractTo> getList() {
+    public List<? extends AbstractTo> getList() {
         return aList;
     }
 

@@ -12,10 +12,11 @@
  */
 package com.javahotel.view.gwt.tabpanel;
 
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.view.IDrawTabPanel;
-import java.util.ArrayList;
 
 /**
  *
@@ -27,7 +28,7 @@ public class GwtTabPanelFactory {
     }
 
     public static IDrawTabPanel getPanel(final IResLocator rI,
-            final ArrayList<EPanelCommand> pList) {
+            final List<EPanelCommand> pList) {
         return new NGwtTabPanel(rI, pList);
 //        return new NextGwtTabPanel(rI, pList);
     }

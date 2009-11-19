@@ -12,10 +12,11 @@
  */
 package com.javahotel.client.mvc.checktable.view;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import com.javahotel.client.dialog.IMvcView;
 import com.javahotel.client.mvc.gridmodel.model.IGridBaseModel;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 
 /**
  *
@@ -23,11 +24,11 @@ import java.util.ArrayList;
  */
 public interface IDecimalTableView extends IMvcView, IGridBaseModel {
 
-    void setRowVal(int row, ArrayList<BigDecimal> vals);
+    void setRowVal(int row, List<BigDecimal> vals);
 
-    void setColVal(int col, ArrayList<BigDecimal> vals);
+    void setColVal(int col, List<BigDecimal> vals);
 
-    ArrayList<BigDecimal> getRows(int row);
+    List<BigDecimal> getRows(int row);
 
-    ArrayList<BigDecimal> getCols(int col);
+    List<BigDecimal> getCols(int col);
 }

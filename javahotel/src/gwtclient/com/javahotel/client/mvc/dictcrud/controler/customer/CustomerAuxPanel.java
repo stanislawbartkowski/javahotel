@@ -12,26 +12,30 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler.customer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.customer.model.ICustomerModelView;
 import com.javahotel.client.mvc.dictcrud.controler.DictUtil;
 import com.javahotel.client.mvc.record.view.IAuxRecordPanel;
+import com.javahotel.client.mvc.record.view.ICreateViewContext;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.PhoneNumberP;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class CustomerAuxPanel implements IAuxRecordPanel {
@@ -64,7 +68,6 @@ public class CustomerAuxPanel implements IAuxRecordPanel {
         return i;
     }
 
-
     public void showInvalidate(IErrorMessage col) {
     }
 
@@ -81,8 +84,10 @@ public class CustomerAuxPanel implements IAuxRecordPanel {
     public void setFields(RecordModel mo) {
         // toView
         CustomerP cu = (CustomerP) mo.getA();
-        DictUtil.setList(cBank.getICrud().getTableView().getModel(), cu.getAccounts());
-        DictUtil.setList(cPhone.getICrud().getTableView().getModel(), cu.getPhones());
+        DictUtil.setList(cBank.getICrud().getTableView().getModel(), cu
+                .getAccounts());
+        DictUtil.setList(cPhone.getICrud().getTableView().getModel(), cu
+                .getPhones());
     }
 
     public void changeMode(int actionMode) {
@@ -105,4 +110,10 @@ public class CustomerAuxPanel implements IAuxRecordPanel {
     public IMvcWidget getMWidget() {
         return new DefaultMvcWidget(vP);
     }
+
+    public boolean getCustomView(ISetGwtWidget iSet, ICreateViewContext con,
+            IContrButtonView i) {
+        return false;
+    }
+
 }

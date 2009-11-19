@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,19 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.javahotel.client.injector;
 
-package com.javahotel.view.gwt.table.view;
+import com.google.gwt.core.client.GWT;
 
-import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
+public class HInjector {
 
-/**
- * 
- * @author stanislawbartkowski@gmail.com
- */
-public class GwtGetTableFactory {
-
-	public static IGetTableViewFactory getFa() {
-		return new TableViewFactory();
-	}
+    static private final HotelInjector injector = GWT.create(HotelInjector.class);
+    
+    
+    public static HotelInjector getI() {
+        return injector;
+    }
 
 }

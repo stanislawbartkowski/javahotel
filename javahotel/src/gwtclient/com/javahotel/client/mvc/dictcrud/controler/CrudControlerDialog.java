@@ -27,44 +27,44 @@ import com.javahotel.client.mvc.util.MDialog;
  */
 class CrudControlerDialog implements ICrudControlerDialog {
 
-	private final DialogBox dBox;
-	private final ICrudControler iCrud;
+    private final DialogBox dBox;
+    private final ICrudControler iCrud;
 
-	CrudControlerDialog(final ICrudControler iCrud, final IContrButtonView bView) {
+    CrudControlerDialog(final ICrudControler iCrud, final IContrButtonView bView) {
 
-		this.iCrud = iCrud;
+        this.iCrud = iCrud;
 
-		VerticalPanel vP = new VerticalPanel();
+        VerticalPanel vP = new VerticalPanel();
 
-		MDialog mb = new MDialog(vP, iCrud.getTableView().getModel()
-				.getHeader()) {
+        MDialog mb = new MDialog(vP, iCrud.getTableView().getModel()
+                .getHeader()) {
 
-			@Override
-			protected void addVP(VerticalPanel vp) {
-				if (bView != null) {
-					vp.add(bView.getMWidget().getWidget());
-				}
-				vp.add(iCrud.getMWidget().getWidget());
-			}
-		};
-		dBox = mb.getDBox();
-	}
+            @Override
+            protected void addVP(VerticalPanel vp) {
+                if (bView != null) {
+                    vp.add(bView.getMWidget().getWidget());
+                }
+                vp.add(iCrud.getMWidget().getWidget());
+            }
+        };
+        dBox = mb.getDBox();
+    }
 
-	public ICrudControler getI() {
-		return iCrud;
-	}
+    public ICrudControler getI() {
+        return iCrud;
+    }
 
-	public void show() {
-		dBox.show();
-		iCrud.drawTable();
-	}
+    public void show() {
+        dBox.show();
+        iCrud.drawTable();
+    }
 
-	public void hide() {
-		dBox.hide();
-	}
+    public void hide() {
+        dBox.hide();
+    }
 
-	public IMvcWidget getMWidget() {
-		return new DefaultMvcWidget(dBox);
-	}
+    public IMvcWidget getMWidget() {
+        return new DefaultMvcWidget(dBox);
+    }
 
 }

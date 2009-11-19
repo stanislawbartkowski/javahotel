@@ -12,8 +12,9 @@
  */
 package com.javahotel.client.mvc.gridmodel.model.view;
 
-import com.javahotel.client.IResLocator;
+import com.google.inject.Inject;
 import com.javahotel.client.dialog.GridCellType;
+import com.javahotel.view.gwt.grid.view.GridGwtGetViewFactory;
 
 /**
  *
@@ -21,10 +22,22 @@ import com.javahotel.client.dialog.GridCellType;
  */
 public class GetViewFactory {
 
-    private GetViewFactory() {
+    
+    private final GridGwtGetViewFactory gFactory; 
+    
+    @Inject
+    public GetViewFactory(GridGwtGetViewFactory gFactory) {
+        this.gFactory = gFactory;
     }
 
-    public static IGridView getView(IResLocator rI, GridCellType cType) {
-        return rI.getView().getGridView(rI, cType);
+    public IGridView getView(GridCellType cType) {
+//        public IGridView getGridView(IResLocator rI, GridCellType cType) {
+//            GetViewFactory fa = HInjector.getI().getVFactory();
+//            return fa.getGwtView(cType);
+//            // return GetViewFactory.getGwtView(cType);
+//        }
+
+//        return rI.getView().getGridView(rI, cType);
+        return gFactory.getGwtView(cType);
     }
 }

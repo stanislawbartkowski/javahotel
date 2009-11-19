@@ -12,23 +12,32 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler;
 
+import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.record.view.IAuxRecordPanel;
+import com.javahotel.client.mvc.record.view.ICreateViewContext;
 import com.javahotel.client.mvc.validator.IErrorMessage;
-import com.javahotel.client.mvc.validator.IErrorMessageContext;
 import com.javahotel.client.mvc.validator.IRecordValidator;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 abstract public class AbstractAuxRecordPanel implements IAuxRecordPanel {
+
+    protected IRecordContext iContx;
 
     public void changeMode(int actionMode) {
     }
 
     public IRecordValidator getValidator() {
         return null;
+    }
+
+    public void SetContextParam(IRecordContext iContx) {
+        this.iContx = iContx;
     }
 
     public void showInvalidate(IErrorMessage col) {
@@ -44,6 +53,11 @@ abstract public class AbstractAuxRecordPanel implements IAuxRecordPanel {
     }
 
     public void setFields(RecordModel mo) {
+    }
+
+    public boolean getCustomView(ISetGwtWidget iSet, ICreateViewContext con,
+            IContrButtonView i) {
+        return false;
     }
 
 }

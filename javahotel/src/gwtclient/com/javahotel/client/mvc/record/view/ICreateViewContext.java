@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,23 +10,22 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.view.gwt.grid.view;
+package com.javahotel.client.mvc.record.view;
 
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.GridCellType;
-import com.javahotel.client.mvc.gridmodel.model.view.IGridView;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.javahotel.client.mvc.apanel.IPanel;
+import com.javahotel.client.mvc.record.model.IRecordDef;
 
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-public class GetViewFactory {
+public interface ICreateViewContext {
 
-    private GetViewFactory() {
-    }
+    void createDefaultDialog(VerticalPanel vp);
 
-    public static IGridView getGwtView(IResLocator rI, GridCellType cType) {
-        return new GridGwtView(rI, cType);
+    void createDefaultDialog(VerticalPanel vp, IRecordDef model);
 
-    }
+    IPanel getIPanel();
+
+    IRecordDef getModel();
+    
+    IRecordView getRecordView();
+
 }

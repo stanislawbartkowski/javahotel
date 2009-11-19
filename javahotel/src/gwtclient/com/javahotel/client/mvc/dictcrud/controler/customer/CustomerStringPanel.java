@@ -12,14 +12,13 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler.customer;
 
-import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.DictData.SpecE;
 import com.javahotel.client.dialog.IMvcWidget;
+import com.javahotel.client.dialog.DictData.SpecE;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.dictcrud.controler.AbstractAuxRecordPanel;
-import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 
 /**
  *
@@ -34,8 +33,7 @@ public class CustomerStringPanel extends AbstractAuxRecordPanel {
     public CustomerStringPanel(IResLocator rI, SpecE eE) {
         this.rI = rI;
         this.eE = eE;
-        iCrud = DictCrudControlerFactory.getCrud(rI,
-                new DictData(eE));
+        iCrud = HInjector.getI().getDictCrudControlerFactory().getCrud(new DictData(eE));
     }
 
     ICrudControler getICrud() {

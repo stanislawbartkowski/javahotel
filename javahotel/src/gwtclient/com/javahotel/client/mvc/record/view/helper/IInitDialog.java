@@ -27,6 +27,4 @@ public interface IInitDialog extends IRecordView {
 
    void addEmptyList();
 
-   boolean isExt();
-
 }

@@ -18,34 +18,31 @@ import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.dialog.panel.IUserPanelMenuFactory;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
+import com.google.inject.Inject;
+
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class AdminPanelFactory {
+public class AdminPanelFactory implements IUserPanelMenuFactory {
+    
+    private final IResLocator rI;
 
-    private AdminPanelFactory() {
+    @Inject
+    public AdminPanelFactory(IResLocator rI) {
+        this.rI = rI;
     }
 
-    public static IUserPanelMenuFactory getFactory() {
+    public IGwtWidget getMenuPanel(final IStackMenuClicked iClicked) {
+        return new AdminHotelMenu(rI, iClicked);
+    }
 
-        IUserPanelMenuFactory i = new IUserPanelMenuFactory() {
+    public EPanelCommand getCentreWidget() {
+        return null;
+    }
 
-            public IGwtWidget getMenuPanel(final IResLocator rI,
-                    final IStackMenuClicked iClicked) {
-                return new AdminHotelMenu(rI, iClicked);
-            }
-
-            public EPanelCommand getCentreWidget(IResLocator rI) {
-                return null;
-            }
-
-            public Panel getMenuPanel(IResLocator rI) {
-                return null;
-            }
-        };
-
-        return i;
+    public Panel getMenuPanel() {
+        return null;
     }
 }

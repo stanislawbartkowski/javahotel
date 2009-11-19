@@ -12,8 +12,9 @@
  */
 package com.javahotel.client.mvc.gridmodel.model.view;
 
+import java.util.List;
+
 import com.javahotel.client.dialog.IGwtWidget;
-import java.util.ArrayList;
 
 /**
  *
@@ -21,9 +22,9 @@ import java.util.ArrayList;
  */
 public interface IGridView extends IGwtWidget {
 
-    public void setRowBeginning(ArrayList<String> rows);
+    public void setRowBeginning(List<String> rows);
 
-    public void setCols(ColsHeader rowTitle, ArrayList<ColsHeader> cols);
+    public void setCols(ColsHeader rowTitle, List<ColsHeader> cols);
 
     public void setRowWidget(int row, int colNo);
 

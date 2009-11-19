@@ -17,7 +17,9 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.idialog.GetIEditFactory;
@@ -112,6 +114,21 @@ public class BookingObjects extends Composite {
 
             public void setGwtWidget(IMvcWidget i) {
                 // TODO Auto-generated method stub
+            }
+
+            public Widget getColumnEmpty(Label l) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            public Label getLabel(Widget w) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            public void setColumn(Widget w, int c, Date d, Label l) {
+                // TODO Auto-generated method stub
+                
             }
         };
         pCa = new PanelResCalendar(rI, bO.getG(), seasonC, bO.colS(), drawI,

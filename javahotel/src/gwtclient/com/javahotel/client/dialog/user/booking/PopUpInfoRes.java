@@ -13,11 +13,10 @@
 package com.javahotel.client.dialog.user.booking;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.CallBackHotel;
@@ -199,7 +198,7 @@ class PopUpInfoRes {
 				}
 			}
 		};
-		ArrayList<ContrButton> aButton = new ArrayList<ContrButton>();
+		List<ContrButton> aButton = new ArrayList<ContrButton>();
 		aButton.add(new ContrButton(null, "Zamień na pobyt", CHANGETOSTAY));
 		aButton.add(new ContrButton(null, "Melduj osoby", CHECKINPERSONS));
 		aButton.add(new ContrButton(null, "Dopisz do rachunku", ADDPAYMENT));

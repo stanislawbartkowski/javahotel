@@ -23,12 +23,12 @@ import com.javahotel.client.mvc.table.model.ITableModel;
  */
 public interface IGetTableViewFactory {
 
-    ITableView getView(final IResLocator rI, final DictData da,
+    ITableView getView(final DictData da,
             final IContrButtonView cView, final ITableModel model,
             final ITableSignalClicked sc, final ITableCallBackSetField iCall,
             final IGetWidgetTableView iW);
     
-    ITableView getGridView(final IResLocator rI, final DictData da,
+    ITableView getGridView(final DictData da,
             final IContrButtonView cView, final ITableModel model,
             final ITableSignalClicked sc, final ITableCallBackSetField iCall,
             final IGetWidgetTableView iW);

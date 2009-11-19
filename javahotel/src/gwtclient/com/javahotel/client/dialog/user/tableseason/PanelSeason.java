@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,7 +27,6 @@ import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.WidgetSizeFactory;
 import com.javahotel.client.param.ConfigParam;
 import com.javahotel.client.widgets.popup.PopUpWithClose;
-import com.javahotel.client.widgets.solid.SolidColor;
 import com.javahotel.client.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.widgets.stable.IScrollSeason;
 import com.javahotel.client.widgets.stable.seasonscroll.WidgetScrollSeasonFactory;
@@ -36,7 +34,6 @@ import com.javahotel.common.dateutil.CalendarTable;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.GetPeriods;
-import com.javahotel.common.dateutil.GetPeriodsTemplate;
 import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.seasonutil.CreateTableSeason;
@@ -74,6 +71,34 @@ public class PanelSeason {
         sCr = WidgetScrollSeasonFactory.getScrollSeason(rI, new DrawC(), g,
                 startC, DateUtil.getToday());
     }
+    
+    private void setDayLabel(Label l, int d) {
+        Date da = dLine.get(d);
+        PeriodT p = GetPeriods.findPeriod(da, coP);
+        // PeriodT pType = coP.get(d);
+        OfferSeasonPeriodP pp = (OfferSeasonPeriodP) p.getI();
+        l.addClickListener(new IClick(p));
+        String sTyle = "day_high_season";
+        if (pp != null) {
+            switch (pp.getPeriodT()) {
+            case LOW:
+                sTyle = "day_low_season";
+                break;
+            case SPECIAL:
+                sTyle = "day_special_season";
+                break;
+            case LOWWEEKEND:
+                sTyle = "day_lowweekend_season";
+                break;
+            case HIGHWEEKEND:
+                sTyle = "day_highweekend_season";
+                break;
+            default:
+                break;
+            }
+        }
+        l.setStyleName(sTyle);
+    }
 
     private class DrawC implements IDrawPartSeason {
 
@@ -85,8 +110,32 @@ public class PanelSeason {
         }
 
         public void setGwtWidget(IMvcWidget i) {
-            int no = controlP.getWidgetCount();
+//            int no = controlP.getWidgetCount();
             controlP.add(i.getWidget());
+//            if (drawI != null) {
+//                drawI.setGwtWidget(new DefaultMvcWidget(controlP));
+//            }
+        }
+
+        public Widget getColumnEmpty(Label l) {
+            VerticalPanel hp = new VerticalPanel();
+            hp.add(l);
+            Label la = new Label(".");
+            hp.add(la);
+            return hp;
+        }
+
+        public Label getLabel(Widget w) {
+            VerticalPanel hp = (VerticalPanel) w;
+            Label la = (Label) hp.getWidget(0);
+            return la;
+                
+        }
+
+        public void setColumn(Widget w, int c, Date d, Label l) {
+            VerticalPanel hp = (VerticalPanel) w;
+            Label la = (Label) hp.getWidget(1);
+            setDayLabel(la,c);            
         }
     }
 
@@ -140,103 +189,8 @@ public class PanelSeason {
         }
     }
 
-    private class DrawDC extends GetPeriodsTemplate {
-
-        // private VerticalPanel hP;
-        private HorizontalPanel pH;
-        private int co;
-
-        DrawDC(final Date d1, final List<Date> dLine, final List<PeriodT> coP) {
-            super(d1, dLine, coP);
-            co = 0;
-        }
-
-        @Override
-        protected int startF(final Date dd) {
-            // hP = new VerticalPanel();
-            pH = new HorizontalPanel();
-            // String s = DateFormatUtil.toS(dd);
-            // hP.add(new Label(s));
-            g.setWidget(1, startC + co, pH);
-            Widget w = g.getWidget(0, startC + co);
-            int no = w.getOffsetWidth();
-            return no;
-            // Widget w = g.getWidget(0, startC + co);
-            // int no = w.getOffsetWidth();
-            // return no;
-
-        }
-
-        @Override
-        protected void addElem(final PeriodT pr, final int wi) {
-            String color = "#0000FF";
-            if (pr.getI() != null) {
-                Object o = pr.getI();
-                OfferSeasonPeriodP pp = (OfferSeasonPeriodP) o;
-                switch (pp.getPeriodT()) {
-                case LOW:
-                    color = "#00FF00";
-                    break;
-                case SPECIAL:
-                    color = "#FF0000";
-                    break;
-                case LOWWEEKEND:
-                    color = "#00FFF0";
-                    break;
-                case HIGHWEEKEND:
-                    color = "#00FFFF";
-                    break;
-                default:
-                    break;
-                }
-            }
-            SolidColor d = new SolidColor(color, wi, -1);
-            d.addClickListener(new IClick(pr));
-            pH.add(d);
-        }
-
-        @Override
-        protected void endF() {
-            // hP.add(pH);
-            co++;
-        }
-    }
 
     private void drawD(final int startno, final int endno) {
-        // g.resizeColumns(startC + endno - startno + 1);
-        // DrawDC d = new DrawDC(d1, dLine, coP);
-        // d.drawD(startno, endno);
-        for (int d = startno; d <= endno; d++) {
-            Label l = new Label(".");
-//            l.addClickListener(new IClick());
-            Date da = dLine.get(d);
-            PeriodT p = GetPeriods.findPeriod(da, coP);
-            // PeriodT pType = coP.get(d);
-            OfferSeasonPeriodP pp = (OfferSeasonPeriodP) p.getI();
-            l.addClickListener(new IClick(p));
-            String sTyle = "day_high_season";
-            if (pp != null) {
-                switch (pp.getPeriodT()) {
-                case LOW:
-                    sTyle = "day_low_season";
-                    break;
-                case SPECIAL:
-                    sTyle = "day_special_season";
-                    break;
-                case LOWWEEKEND:
-                    sTyle = "day_lowweekend_season";
-                    break;
-                case HIGHWEEKEND:
-                    sTyle = "day_highweekend_season";
-                    break;
-                default:
-                    break;
-                }
-            }
-            l.setStyleName(sTyle);
-            int co = startC + d - startno;
-            g.setWidget(1, startC + co, l);
-        }
 
     }
 

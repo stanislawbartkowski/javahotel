@@ -89,7 +89,7 @@ class LoginValidator implements IRecordValidator {
 
 		private class HotelUserLogin implements RData.IVectorList {
 
-			public void doVList(final ArrayList<? extends AbstractTo> val) {
+			public void doVList(final List<? extends AbstractTo> val) {
 				if (val.size() == 0) {
 					List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
 					errMess.add(new InvalidateMess(LoginRecord.F.hotel, false,

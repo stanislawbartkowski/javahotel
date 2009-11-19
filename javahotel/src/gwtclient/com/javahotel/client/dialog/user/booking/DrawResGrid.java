@@ -13,15 +13,16 @@
 package com.javahotel.client.dialog.user.booking;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
-import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.SetMouseDownHandler;
 import com.javahotel.client.dialog.WidgetSizeFactory;
 import com.javahotel.client.roominfo.RoomInfoData;
 import com.javahotel.common.command.BookingStateType;
@@ -39,7 +40,6 @@ import com.javahotel.common.toobject.ResObjectP;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-@SuppressWarnings("deprecation")
 class DrawResGrid {
 
     private final IResLocator rI;
@@ -61,7 +61,7 @@ class DrawResGrid {
         this.startC = resList.colS();
         rInfo = new RoomInfoData(rI);
     }
-
+    
     private class SetObjectRowState implements ISignal {
 
         private final List<String> rList;
@@ -72,7 +72,7 @@ class DrawResGrid {
             this.dLine = d;
         }
 
-        private class RClick implements ClickListener {
+        private class RClick implements SetMouseDownHandler.IMouseCommand {
 
             private final String resName;
             private final Date d;
@@ -85,12 +85,21 @@ class DrawResGrid {
                 this.p = p;
             }
 
-            public void onClick(Widget sender) {
+            public void execute(Widget sender) {
                 PopUpInfoRes pRes = new PopUpInfoRes(rI, rList, dLine, pCa, p,
                         d);
                 pRes.showDialog(WidgetSizeFactory.getW(sender), rInfo, resName);
             }
         }
+        
+        private class ShiftClick implements SetMouseDownHandler.IMouseCommand {
+
+            public void execute(Widget w) {
+                Window.alert("shift");
+            }
+            
+        }
+
 
         public void signal() {
             int row = 0;
@@ -114,7 +123,9 @@ class DrawResGrid {
                     int ro = startL + row;
                     int co = startC + col;
                     Label inC = new Label(ss);
-                    inC.addClickListener(new RClick(s, d, p));
+                                        
+//                    inC.addClickListener(new RClick(s, d, p));
+                    SetMouseDownHandler.setMouseDownClick(inC,new RClick(s, d, p),new ShiftClick());
                     g.setWidget(ro, co, inC);
                     CellFormatter fo = g.getCellFormatter();
                     if ((staT == null) || (staT == BookingStateType.Canceled)) {
@@ -132,8 +143,8 @@ class DrawResGrid {
                             case Stay:
                                 fo.setStyleName(ro, co, "reserved-stay");
                                 break;
-                            default:
-                                assert false : "Cannot be here";
+                        default:
+                            assert false : "Cannot be here";
                         }
                     }
                     if (DateUtil.eqDate(today, d)) {

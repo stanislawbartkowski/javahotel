@@ -14,29 +14,59 @@ package com.javahotel.client.mvc.dictcrud.controler.booking;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.dialog.IWidgetSize;
+import com.javahotel.client.dialog.WidgetSizeFactory;
 import com.javahotel.client.dialog.DictData.SpecE;
+import com.javahotel.client.dialog.user.booking.BookingCommunicator;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.mvc.apanel.GwtPanel;
+import com.javahotel.client.mvc.apanel.IPanel;
+import com.javahotel.client.mvc.controller.onearecord.IOneARecord;
+import com.javahotel.client.mvc.controller.onearecord.OneRecordFactory;
 import com.javahotel.client.mvc.controller.onerecord.RecordFa;
 import com.javahotel.client.mvc.controller.onerecord.RecordFaParam;
+import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
+import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.crud.controler.ICrudPersistSignal;
+import com.javahotel.client.mvc.crud.controler.ICrudRecordFactory;
+import com.javahotel.client.mvc.crud.controler.ICrudView;
 import com.javahotel.client.mvc.crud.controler.PersistCrudContext;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.dictcrud.controler.AbstractAuxRecordPanel;
 import com.javahotel.client.mvc.dictcrud.controler.IModifRecordDef;
+import com.javahotel.client.mvc.dictcrud.controler.IRecordContext;
+import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
+import com.javahotel.client.mvc.dictcrud.controler.bookelemlist.BookingElem;
 import com.javahotel.client.mvc.dictdata.model.IBookingModel;
 import com.javahotel.client.mvc.dictdata.model.IOneRecordModel;
 import com.javahotel.client.mvc.persistrecord.IPersistResult.PersistResultContext;
+import com.javahotel.client.mvc.record.model.IRecordDef;
+import com.javahotel.client.mvc.record.model.RecordDefFactory;
+import com.javahotel.client.mvc.record.model.RecordField;
+import com.javahotel.client.mvc.record.view.ICreateViewContext;
+import com.javahotel.client.mvc.record.view.IRecordView;
 import com.javahotel.client.mvc.util.GetFieldModif;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.mvc.validator.IErrorMessageContext;
@@ -45,6 +75,8 @@ import com.javahotel.client.mvc.validator.ISignalValidate;
 import com.javahotel.client.mvc.validator.MultiSignalValidator;
 import com.javahotel.client.param.ConfigParam;
 import com.javahotel.client.rdata.RData;
+import com.javahotel.client.widgets.imgbutton.ImgButtonFactory;
+import com.javahotel.client.widgets.popup.ClickPopUp;
 import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
@@ -56,6 +88,8 @@ import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.CustomerP;
+import com.javahotel.common.toobject.DictionaryP;
+import com.javahotel.common.toobject.IField;
 import com.javahotel.common.util.BillUtil;
 import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.types.LId;
@@ -67,7 +101,6 @@ import com.javahotel.types.LId;
 public class BookResRoom extends AbstractAuxRecordPanel {
 
     private final IResLocator rI;
-    private final VerticalPanel vp = new VerticalPanel();
     private final RecordFa cust;
     private final RecordFa bRec;
     private final RecordFa vRec;
@@ -80,7 +113,8 @@ public class BookResRoom extends AbstractAuxRecordPanel {
     }
 
     public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(vp);
+        // return new DefaultMvcWidget(vp);
+        return null;
     }
 
     private class CountAdvance implements IChangeListener {
@@ -129,8 +163,153 @@ public class BookResRoom extends AbstractAuxRecordPanel {
         }
     }
 
-    public BookResRoom(IResLocator rI) {
+    private boolean isFromReserv() {
+        BookingCommunicator b = (BookingCommunicator) iContx.getI();
+        if (b == null) {
+            return false;
+        }
+        return (b.getvType() == BookingCommunicator.ViewType.RESERV);
+    }
+
+    private List<RecordField> filterF(IRecordDef model, Set<IField> filter) {
+        List<RecordField> l = new ArrayList<RecordField>();
+        for (RecordField f : model.getFields()) {
+            if (filter.contains(f.getFie())) {
+                l.add(f);
+            }
+        }
+        return l;
+    }
+
+    private List<RecordField> filterF(IRecordDef model, final IField... params) {
+        Set<IField> f = new HashSet<IField>();
+        for (IField fie : params) {
+            f.add(fie);
+        }
+        return filterF(model, f);
+    }
+
+    private void createFullPanel(HorizontalPanel hp, ISetGwtWidget iSet,
+            ICreateViewContext con, IContrButtonView i) {
+        VerticalPanel pad = new VerticalPanel();
+        con.createDefaultDialog(pad);
+        hp.add(pad);
+
+        if (i != null) {
+            VerticalPanel pa = new VerticalPanel();
+            pa.add(i.getMWidget().getWidget());
+            pad.add(pa);
+        }
+        VerticalPanel vp = new VerticalPanel();
+        hp.add(vp);
+        vp.add(cust.getWidget());
+        vp.add(bRec.getWidget());
+        vp.add(vRec.getWidget());
+        vp.add(bElem.getMWidget().getWidget());
+    }
+
+    private IOneARecord drawFull(Panel vp, ICreateViewContext con) {
+        ICrudControler cPan;
+        IPanel custV = new GwtPanel(vp);
+
+        RecordAuxParam pa = new RecordAuxParam();
+        cPan = HInjector.getI().getDictCrudControlerFactory().getCrud(new DictData(
+                DictType.BookingList), pa, null);
+        BookingP b = new BookingP();
+        RecordModel mo = cPan.getF().getNew(b, b);
+        con.getRecordView().extractFields(mo);
+        extractFields(mo);
+        ICrudRecordFactory conI;
+        ICrudView cView;
+        conI = cPan.getF();
+        cView = conI.getView(mo, null, 0, custV);
+        IRecordView iView = conI.getRView(cView);
+        IOneARecord oRecord;
+        oRecord = OneRecordFactory.getR(rI, new DictData(DictType.BookingList),
+                conI, iView);
+        return oRecord;
+    }
+
+    private class CloseP implements ICommand {
+
+        private final ICreateViewContext con;
+        private final IOneARecord o;
+
+        CloseP(ICreateViewContext con, IOneARecord o) {
+            this.con = con;
+            this.o = o;
+        }
+
+        public void execute() {
+            RecordModel mo = o.getRModel();
+            AbstractTo a = o.getExtractFields();
+            mo.setA(a);
+            con.getRecordView().setFields(mo);
+            setFields(mo);
+            show();
+        }
+
+    }
+
+    private class Cli implements ClickHandler {
+
+        private final ISetGwtWidget iSet;
+        private final ICreateViewContext con;
+        private final IContrButtonView i;
+
+        Cli(ISetGwtWidget iSet, ICreateViewContext con, IContrButtonView i) {
+            this.iSet = iSet;
+            this.con = con;
+            this.i = i;
+        }
+
+        public void onClick(ClickEvent event) {
+            HorizontalPanel hp = new HorizontalPanel();
+            IOneARecord o = drawFull(hp, con);
+            IWidgetSize m = WidgetSizeFactory.getW(10, 10, 100, 100);
+            ClickPopUp p = new ClickPopUp(m, hp, new CloseP(con, o));
+        }
+
+    }
+
+    @Override
+    public boolean getCustomView(ISetGwtWidget iSet, ICreateViewContext con,
+            IContrButtonView i) {
+        // HorizontalPanel hp = new HorizontalPanel();
+        HorizontalPanel hp = new HorizontalPanel();
+        con.getIPanel().add(hp);
+
+        if (isFromReserv()) {
+
+            Button b = ImgButtonFactory.getButton(null, "DataViewerMax");
+            b.addClickHandler(new Cli(iSet, con, i));
+            hp.add(b);
+
+            List<RecordField> rli = filterF(con.getModel(),
+                    DictionaryP.F.description);
+            IRecordDef iDef = RecordDefFactory.getRecordDef(rI, "", rli);
+            VerticalPanel pad = new VerticalPanel();
+            con.createDefaultDialog(pad, iDef);
+            hp.add(pad);
+            hp.add(bElem.getMWidget().getWidget());
+            rli = filterF(bRec.getModel().getRDef(),
+                    BookRecordP.F.customerPrice);
+            iDef = RecordDefFactory.getRecordDef(rI, "", rli);
+            pad = new VerticalPanel();
+            con.createDefaultDialog(pad, iDef);
+            hp.add(pad);
+        } else {
+            createFullPanel(hp, iSet, con, i);
+        }
+
+        iSet.setGwtWidget(new DefaultMvcWidget(hp));
+        return true;
+    }
+
+    @Inject
+    public BookResRoom(IResLocator rI,BookingElem bElem) {
         this.rI = rI;
+        this.bElem = bElem;
         mod = new GetFieldModif(BookingP.F.season);
         RecordFaParam pa = new RecordFaParam();
         pa.setNewchoosetag(true);
@@ -141,14 +320,10 @@ public class BookResRoom extends AbstractAuxRecordPanel {
         pAmount.setChangeL(new CountAdvance());
         vRec = new RecordFa(rI, new DictData(SpecE.ValidationHeader), null,
                 AdvancePaymentP.F.amount);
-        bElem = new BookingElem(rI, mod.getE(), bRec.getModif(0).getE(),
+        bElem.SetAuxParam(mod.getE(), bRec.getModif(0).getE(),
                 pAmount.getE());
-        vp.add(cust.getWidget());
-        vp.add(bRec.getWidget());
-        vp.add(vRec.getWidget());
-        vp.add(bElem.getMWidget().getWidget());
     }
-
+    
     private class EContext implements IErrorMessageContext {
 
         private final RecordFa fa;

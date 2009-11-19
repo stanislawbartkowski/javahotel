@@ -12,18 +12,16 @@
  */
 package com.javahotel.view.gwt.record.view;
 
-import com.javahotel.client.mvc.record.view.helper.IInitDialog;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.DefaultMvcWidget;
-import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.record.model.IRecordDef;
 import com.javahotel.client.mvc.record.view.IAuxRecordPanel;
 import com.javahotel.client.mvc.record.view.IRecordView;
+import com.javahotel.client.mvc.record.view.helper.IInitDialog;
 import com.javahotel.client.mvc.util.MDialog;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.widgets.popup.PopupUtil;

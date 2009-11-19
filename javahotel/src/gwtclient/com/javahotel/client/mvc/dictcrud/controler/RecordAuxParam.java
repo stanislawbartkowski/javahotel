@@ -43,6 +43,15 @@ public class RecordAuxParam {
     private IContrPanel cPanel;
     private ITableConverter iConv;
     private IControlClick iClick;
+    private ICustomConnector iCon;
+
+    public ICustomConnector getiCon() {
+        return iCon;
+    }
+
+    public void setiCon(ICustomConnector iCon) {
+        this.iCon = iCon;
+    }
 
     public RecordAuxParam() {
         auxV = null;

@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.idialog;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ListBox;
@@ -104,7 +104,7 @@ class GetValueLB extends ELineDialog implements IValueLB {
         return beforeVal;
     }
 
-    public void setList(ArrayList<String> li) {
+    public void setList(List<String> li) {
         lB.clear();
         for (String s : li) {
             lB.addItem(s);

@@ -12,6 +12,9 @@
  */
 package com.javahotel.client.dialog.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
@@ -24,8 +27,6 @@ import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.panelcommand.IPanelCommand;
 import com.javahotel.client.panelcommand.PanelCommandFactory;
 import com.javahotel.client.widgets.popup.PopupCreateMenu;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -55,7 +56,7 @@ class CreateMenuCommand {
     }
 
     static MenuBar createMenu(IResLocator rI, EPanelCommand[] eMenu) {
-        List li = new ArrayList<ContrButton>();
+        List<ContrButton> li = new ArrayList<ContrButton>();
         for (int i = 0; i < eMenu.length; i++) {
             String label = PanelCommandFactory.getPanelCommandLabel(rI,
                     eMenu[i]);

@@ -12,6 +12,9 @@
  */
 package com.javahotel.client.roominfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.client.rdata.RData.IVectorList;
@@ -20,8 +23,6 @@ import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.ResObjectP;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -73,7 +74,7 @@ public class RoomInfoData {
 
     private class R implements IVectorList {
 
-        public void doVList(final ArrayList<? extends AbstractTo> val) {
+        public void doVList(final List<? extends AbstractTo> val) {
             resC = (List<ResObjectP>) val;
             launched = false;
             doInfo();
