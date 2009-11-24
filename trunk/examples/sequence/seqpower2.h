@@ -1,6 +1,5 @@
 /***************************************************************************
  *   Copyright (C) 2009 by sb   *
- *   hotel@sbartkowski.krakow.pl.ibm.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -30,9 +29,8 @@ class SeqPower2 : public SequenceCommand {
    int no;
 
    double getNum() {
-     double k = 0.5;
-     double po = pow(no+1,k);
-     double po1 = pow(no,k);
+     double po = sqrt(no+1);
+     double po1 = sqrt(no);
      return po - po1;
    } 
     
@@ -50,7 +48,6 @@ class SeqPower2 : public SequenceCommand {
    double getLimit() {
      return 0;
    }
-
 
 };
 
