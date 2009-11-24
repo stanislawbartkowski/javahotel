@@ -1,6 +1,5 @@
 /***************************************************************************
  *   Copyright (C) 2009 by sb   *
- *   hotel@sbartkowski.krakow.pl.ibm.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -26,11 +25,11 @@ class SeqAvHarm : public SequenceCommand {
    friend SequenceCommand *createCommand(const std::string commandname,int a,int b);
 
    // Fichtenholz 40
-   const int a,b;
+   const double a,b;
 
    double an1,bn1;
 
-   SeqAvHarm(int parama,int paramb) : a(parama), b(paramb) {
+   SeqAvHarm(double parama,double paramb) : a(parama), b(paramb) {
    }
 
    double getFirst() {
@@ -49,11 +48,9 @@ class SeqAvHarm : public SequenceCommand {
 
    double getNext2()  { return bn1; }
    bool is2Seq() { return true; } 
-
    
    double getLimit() {
-     double k = 0.5;
-     double po = pow(a*b,k);
+     double po = sqrt(a*b);
      return po;
    }
 

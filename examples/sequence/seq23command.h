@@ -1,6 +1,5 @@
 /***************************************************************************
  *   Copyright (C) 2009 by sb   *
- *   hotel@sbartkowski.krakow.pl.ibm.com   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -26,11 +25,11 @@ class Sequence23 : public SequenceCommand {
    friend SequenceCommand *createCommand(const std::string commandname,int a,int b);
 
    // Fichtenholz 40
-   const int a,b;
+   const double a,b;
 
    double an1,an2;
 
-   Sequence23(int parama,int paramb) : a(parama), b(paramb) {
+   Sequence23(const double parama, const double paramb) : a(parama), b(paramb) {
    }
 
    int no;
