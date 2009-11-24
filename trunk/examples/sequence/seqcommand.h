@@ -32,7 +32,8 @@ private:
    
    virtual double getLimit() = 0;
 
-   virtual ~runSequence() { }
+public:
+   virtual ~SequenceCommand() { }
 };
 
 #endif
