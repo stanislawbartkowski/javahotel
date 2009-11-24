@@ -17,32 +17,42 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef _SEQFIH60_
+#define _SEQFIH60_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+// Fih 60
+// xn+1 = xn(2-xn)
+
+class SeqFih60 : public SequenceCommand {
+
+   friend SequenceCommand *createCommand(const std::string commandname,double a);
+
+   // Fichtenholz 40
+   const double a0;
+
+   double xn1;
+
+   SeqFih60(double parama0) : a0(parama0) {
+   }
+
+   double getFirst() {
+      xn1=a0;
+      return getNext();
+   }
+
+   double getNext() {
+      double xn = xn1 * (2-xn1);
+      xn1 = xn;
+      return xn;
+   }
+
+   double getLimit() {
+    if ((a0>0) && (a0<1)) {
+      return 1;
+    }
+    return -1;
+   }
+
+};
+
 #endif
-
-#include <iostream>
-#include <cstdlib>
-
-using namespace std;
-
-#include "seqcommand.h"
-#include "seqcommandfactory.h"
-#include "seqengine.h"
-
-int main(int argc, char *argv[])
-{
-  cout << "Hello, world!" << endl;
-//  SequenceCommand *com = createCommand("SimpleSeq");
-//  SequenceCommand *com = createCommand("23Seq",1,4);
-//  SequenceCommand *com = createCommand("SeqPower2");
-//  SequenceCommand *com = createCommand("SeqGeoAr",1,1000);
-//  SequenceCommand *com = createCommand("Seqc2",.5);
-  SequenceCommand *com = createCommand("SeqFih60",1.99);
-
-
-  runSequence(com,100);
-
-  return EXIT_SUCCESS;
-}
