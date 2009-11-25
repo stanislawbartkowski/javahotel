@@ -20,6 +20,7 @@ import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.dialog.DictData.SpecE;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.auxabstract.LoginRecord;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
@@ -47,6 +48,8 @@ public class ELoginDialog {
     private final ICommand iNext;
     private final IRecordView v;
     private final DictData da;
+    private final DictValidatorFactory dFactory;
+    private final DictButtonFactory bFactory;
 
     private class ValidBack implements ISignalValidate {
 
@@ -67,7 +70,7 @@ public class ELoginDialog {
             mo.setRDef(v.getModel());
             mo.setA(re);
             v.extractFields(mo);
-            IRecordValidator val = DictValidatorFactory.getValidator(rI, da);
+            IRecordValidator val = dFactory.getValidator(da);
             val.validateS(0, mo, new ValidBack());
         }
     }
@@ -76,7 +79,9 @@ public class ELoginDialog {
             final boolean user, final ICommand iNext) {
         this.rI = rI;
         this.iNext = iNext;
-        IContrPanel co = DictButtonFactory.getLoginButt(rI);
+        dFactory = HInjector.getI().getDictValidFactory();
+        bFactory = HInjector.getI().getDictButtonFactory();
+        IContrPanel co = bFactory.getLoginButt();
         da = new DictData(user ? SpecE.LoginUser : SpecE.LoginAdmin);
         List<RecordField> field = GetRecordDefFactory.getDef(rI, da);
         String dTitle = GetRecordDefFactory.getTitle(rI, da);

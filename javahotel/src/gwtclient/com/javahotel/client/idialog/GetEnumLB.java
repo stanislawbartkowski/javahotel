@@ -70,9 +70,10 @@ class GetEnumLB extends ELineDialog {
             String v = lB.getItemText(i);
             if (v.equals(val)) {
                 lB.setSelectedIndex(i);
-                if (lC != null) {
-                    lC.onChange(this);
-                }
+//                if (lC != null) {
+//                    lC.onChange(this);
+//                }
+                runOnChange(this);
                 return;
             }
         }
@@ -92,12 +93,13 @@ class GetEnumLB extends ELineDialog {
     private class L implements ChangeListener {
 
         public void onChange(Widget sender) {
-            lC.onChange(GetEnumLB.this);
+//            lC.onChange(GetEnumLB.this);
+            runOnChange(GetEnumLB.this);
         }
     }
 
     public void setChangeListener(IChangeListener l) {
-        lC = l;
+        super.setChangeListener(l);
         lB.addChangeListener(new L());
 
     }

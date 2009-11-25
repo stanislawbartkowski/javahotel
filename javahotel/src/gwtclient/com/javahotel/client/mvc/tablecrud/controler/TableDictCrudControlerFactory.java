@@ -36,6 +36,7 @@ import com.javahotel.common.toobject.AbstractTo;
  */
 public class TableDictCrudControlerFactory {
 
+    
     public static ICrudTableControler getCrud(final IResLocator rI,
             final DictData da, final Object dmodel,
             final CrudTableControlerParam ic) {
@@ -44,6 +45,7 @@ public class TableDictCrudControlerFactory {
         String header = HInjector.getI().getColListFactory().getHeader(da);
         ITableModel model = HInjector.getI().getTableModelFactory().getModel(
                 cTitle, iS, header);
+        CrudTableControlerFactory cFactory = HInjector.getI().getCrudTableFactory();
         CrudTableControlerParam pa = new CrudTableControlerParam();
         if (ic != null) {
             if (ic.getIB() != null) {
@@ -69,8 +71,7 @@ public class TableDictCrudControlerFactory {
             ICrudReadModel iRead = fa.getRead(da, (ICrudReadDictModel) dmodel);
             pa.setIRead(iRead);
         }
-        ICrudTableControler i = CrudTableControlerFactory.getCrudTable(rI, da,
-                model, pa);
+        ICrudTableControler i = cFactory.getCrudTable(da,model, pa);
         return i;
     }
 

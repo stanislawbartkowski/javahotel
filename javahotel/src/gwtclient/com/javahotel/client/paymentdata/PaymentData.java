@@ -17,12 +17,12 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.param.ConfigParam;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.SynchronizeList;
-import com.javahotel.common.dateutil.GetPeriods.StartWeek;
 import com.javahotel.common.tableprice.TableSeasonPrice;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.OfferPriceP;
@@ -60,7 +60,7 @@ public class PaymentData {
     public PaymentData(final IResLocator rI) {
         initT();
         this.rI = rI;
-        tPrice = new TableSeasonPrice(StartWeek.onFriday);
+        tPrice = new TableSeasonPrice(ConfigParam.getStartWeek());
     }
 
     private class SRows extends SynchronizeList {

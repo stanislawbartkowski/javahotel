@@ -12,6 +12,7 @@
  */
 
 package com.javahotel.client.mvc.controller.onerecordmodif;
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 
@@ -22,17 +23,18 @@ import com.javahotel.client.mvc.contrpanel.view.IControlClick;
  */
 public class OneRecordModifWidgetFactory {
 
-    private OneRecordModifWidgetFactory() {
-
+    private final IResLocator rI;
+    
+    @Inject
+    public OneRecordModifWidgetFactory(IResLocator rI) {
+        this.rI = rI;
     }
 
-    public static IOneRecordModifWidget getWi(final IResLocator rI,
-            final IControlClick cl) {
+    public IOneRecordModifWidget getWi(IControlClick cl) {
         return new ModifRecordWidget(rI,cl);
     }
 
-    public static IOneRecordModifWidget getTableWi(final IResLocator rI,
-            final IControlClick cl) {
+    public IOneRecordModifWidget getTableWi(IControlClick cl) {
         return new TableModifRecordWidget(rI,cl);
     }
 

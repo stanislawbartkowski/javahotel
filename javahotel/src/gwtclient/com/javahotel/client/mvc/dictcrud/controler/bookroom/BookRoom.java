@@ -12,6 +12,9 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler.bookroom;
 
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.inject.Inject;
@@ -19,28 +22,73 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.ifield.IChangeListener;
+import com.javahotel.client.ifield.ILineField;
+import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
 import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
+import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.dictcrud.controler.AbstractAuxRecordPanel;
+import com.javahotel.client.mvc.dictcrud.controler.bookelemlist.BookRowList;
+import com.javahotel.client.mvc.dictcrud.controler.priceoffer.ExtractOfferPriceService;
 import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.ICreateViewContext;
+import com.javahotel.client.mvc.seasonprice.model.MapSpecialToI;
+import com.javahotel.client.param.ConfigParam;
+import com.javahotel.common.tableprice.TableSeasonPrice;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
+import com.javahotel.common.toobject.OfferPriceP;
+import com.javahotel.common.toobject.PaymentRowP;
 
 public class BookRoom extends AbstractAuxRecordPanel {
 
     private final IResLocator rI;
     private HorizontalPanel hp;
     private PriceRecord pri;
+    private final BookRowList bElem;
+    private final ExtractOfferPriceService priceService;
+    private final TableSeasonPrice pa;
 
     @Inject
-    public BookRoom(IResLocator rI) {
+    public BookRoom(IResLocator rI, BookRowList bElem,
+            ExtractOfferPriceService pService) {
         this.rI = rI;
+        this.bElem = bElem;
+        this.priceService = pService;
+        this.pa = new TableSeasonPrice(ConfigParam.getStartWeek());
     }
 
     private class SetP implements ISetGwtWidget {
 
         public void setGwtWidget(IMvcWidget i) {
             hp.add(i.getWidget());
+            hp.add(bElem.getMWidget().getWidget());
+        }
+    }
+
+    private class ChangeListener implements IChangeListener {
+
+        private final RecordField rFrom, rTo, serv;
+
+        ChangeListener(RecordField rFrom, RecordField rTo, RecordField serv) {
+            this.rFrom = rFrom;
+            this.rTo = rTo;
+            this.serv = serv;
+        }
+
+        public void onChange(ILineField i) {
+            OfferPriceP oP = new OfferPriceP();
+            List<MapSpecialToI> col = pri.getCol();
+            IDecimalTableView dView = pri.getDecV();
+            priceService.ExtractOfferPrice(oP, dView, col);
+            Date dFrom = rFrom.getELine().getDate();
+            Date dTo = rTo.getELine().getDate();
+            if ((dFrom == null) || (dTo == null)) {
+                return;
+            }
+            pa.setPriceList(oP);
+            List<PaymentRowP> li = pa.getPriceRows(serv.getELine().getVal(),
+                    dFrom, dTo);
+            bElem.drawTable(li);
         }
 
     }
@@ -55,12 +103,24 @@ public class BookRoom extends AbstractAuxRecordPanel {
         VerticalPanel pad = new VerticalPanel();
         con.createDefaultDialog(pad);
         RecordField serv = null;
+        RecordField rFrom = null;
+        RecordField rTo = null;
         for (RecordField f : con.getModel().getFields()) {
             if (f.getFie() == BookElemP.F.service) {
                 serv = f;
             }
+            if (f.getFie() == BookElemP.F.checkIn) {
+                rFrom = f;
+            }
+            if (f.getFie() == BookElemP.F.checkOut) {
+                rTo = f;
+            }
         }
+        IChangeListener iC = new ChangeListener(rFrom, rTo, serv);
+        rFrom.getELine().setChangeListener(iC);
+        rTo.getELine().setChangeListener(iC);
         hp.add(pad);
+        bElem.show();
         if (i != null) {
             VerticalPanel pa = new VerticalPanel();
             pa.add(i.getMWidget().getWidget());
@@ -72,9 +132,10 @@ public class BookRoom extends AbstractAuxRecordPanel {
         return true;
     }
 
-    public IMvcWidget getMWidget() {
-        // return new DefaultMvcWidget(new Label("aaaaaa"));
-        return null;
+    @Override
+    public void setFields(RecordModel mo) {
+        List<PaymentRowP> li = (List<PaymentRowP>) mo.getAList();
+        bElem.drawTable(li);
     }
 
 }

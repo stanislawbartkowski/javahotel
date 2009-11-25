@@ -73,9 +73,10 @@ class DDateCalendar extends ELineDialog {
     private class VC implements ValueChangeHandler<java.util.Date> {
 
         public void onValueChange(ValueChangeEvent<Date> event) {
-            if (lC != null) {
-                lC.onChange(DDateCalendar.this);
-            }
+//            if (lC != null) {
+//                lC.onChange(DDateCalendar.this);
+//            }
+            runOnChange(DDateCalendar.this);
         }
     }
 }

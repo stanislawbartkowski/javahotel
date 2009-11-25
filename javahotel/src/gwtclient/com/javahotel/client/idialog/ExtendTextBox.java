@@ -106,16 +106,18 @@ abstract class ExtendTextBox extends ELineDialog {
             kLi.delEmptyStyle();
         }
         tBox.setText(v);
-        if (lC != null) {
-            lC.onChange(null);
-        }
+//        if (lC != null) {
+//            lC.onChange(null);
+//        }
+        runOnChange(null);
     }
 
     protected void setValAndFireChange(final String v) {
         setVal(v);
-        if (lC != null) {
-            lC.onChange(this);
-        }
+//        if (lC != null) {
+//            lC.onChange(this);
+//        }
+        runOnChange(this);
     }
 
     public void refresh() {
@@ -144,12 +146,13 @@ abstract class ExtendTextBox extends ELineDialog {
     private class L implements ChangeListener {
 
         public void onChange(Widget sender) {
-            lC.onChange(ExtendTextBox.this);
+//            lC.onChange(ExtendTextBox.this);
+            runOnChange(ExtendTextBox.this);
         }
     }
 
     public void setChangeListener(final IChangeListener l) {
-        lC = l;
+        super.setChangeListener(l);
         tBox.addChangeListener(new L());
     }
 }

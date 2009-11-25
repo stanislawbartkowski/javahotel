@@ -12,11 +12,13 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler.bookroom;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.ISetGwtWidget;
+import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
@@ -25,6 +27,13 @@ import com.javahotel.client.mvc.dictcrud.controler.priceoffer.SetPriceForOffer;
 import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
 import com.javahotel.client.mvc.seasonprice.model.ISpecialMap;
 import com.javahotel.client.mvc.seasonprice.model.MapSpecialToI;
+import com.javahotel.client.rdata.RData.IOneList;
+import com.javahotel.common.command.CommandParam;
+import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.RType;
+import com.javahotel.common.command.SynchronizeList;
+import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.view.gwt.recordviewdef.GetRecordDefFactory;
 
 class PriceRecord {
@@ -34,6 +43,54 @@ class PriceRecord {
     private final IResLocator rI;
     private final GetSeasonSpecial sS;
     private final SetPriceForOffer off;
+
+    private final ILineField serv;
+    private List<MapSpecialToI> col;
+    private OfferPriceP sP;
+
+    List<MapSpecialToI> getCol() {
+        return col;
+    }
+    
+    IDecimalTableView getDecV() {
+        return decV;
+    }
+    
+    private void setNames() {
+        List<String> co = new ArrayList<String>();
+        setTitle(co);
+        for (MapSpecialToI m : col) {
+            co.add(m.getName());
+        }
+        decV.setRows(co);
+    }
+
+    private void drawPrice() {
+        if (col == null) {
+            return;
+        }
+        if (sP == null) {
+            return;
+        }
+        if (serv.getVal() == null) {
+            return;
+        }
+        List<BigDecimal> cols = off.createListPrice(col, sP, serv.getVal());
+        decV.setColVal(0, cols);
+    }
+
+    private class SyncC extends SynchronizeList {
+
+        SyncC() {
+            super(2);
+        }
+
+        @Override
+        protected void doTask() {
+            setNames();
+            drawPrice();
+        }
+    }
 
     private void setTitle(List<String> col) {
         ColsHeader co = new ColsHeader("Cena sugerowana");
@@ -48,19 +105,46 @@ class PriceRecord {
 
     private class SetC implements ISpecialMap {
 
-        public void set(List<MapSpecialToI> col) {
-            List<String> co = new ArrayList<String>();
-            setTitle(co);
-            for (MapSpecialToI m : col) {
-                co.add(m.getName());
-            }
-            decV.setRows(co);
+        private final SyncC sC;
+
+        SetC(SyncC sC) {
+            this.sC = sC;
+        }
+
+        public void set(List<MapSpecialToI> colp) {
+            col = colp;
+            sC.signalDone();
         }
     }
 
-    PriceRecord(IResLocator rI, ISetGwtWidget i, IBookRoomConnector bRom, ILineField serv) {
+    private class CDict implements IOneList {
+
+        private final SyncC sC;
+
+        CDict(SyncC sC) {
+            this.sC = sC;
+        }
+
+        public void doOne(AbstractTo val) {
+            sP = (OfferPriceP) val;
+            sC.signalDone();
+        }
+    }
+
+    PriceRecord(IResLocator rI, ISetGwtWidget i, IBookRoomConnector bRom,
+            ILineField serv) {
         iSet = i;
         this.rI = rI;
+        this.serv = serv;
+        IChangeListener iC = new IChangeListener() {
+
+            public void onChange(ILineField i) {
+                drawPrice();
+            }
+
+        };
+        this.serv.setChangeListener(iC);
+        SyncC sC = new SyncC();
         sS = HInjector.getI().getGetSeasonSpecial();
         decV = HInjector.getI().getDecimaleTableView();
         off = HInjector.getI().getSetPriceForOffer();
@@ -69,7 +153,13 @@ class PriceRecord {
         List<ColsHeader> li = new ArrayList<ColsHeader>();
         li.add(new ColsHeader(""));
         decV.setCols(co, li);
-        sS.runSpecial(bRom.getEseason().getE().getVal(), new SetC());
+        String season = bRom.getEseason().getE().getVal();
+        String sprice = bRom.getEprice().getE().getVal();
+        sS.runSpecial(season, new SetC(sC));
+        CommandParam p = rI.getR().getHotelDictName(DictType.PriceListDict,
+                sprice);
+        p.setSeasonName(season);
+        rI.getR().getOne(RType.ListDict, p, new CDict(sC));
     }
 
 }

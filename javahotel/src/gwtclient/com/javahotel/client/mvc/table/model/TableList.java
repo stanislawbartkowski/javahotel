@@ -48,6 +48,7 @@ class TableList implements ITableModel {
     }
 
     public int rowNum() {
+        if (aList == null) { return 0; }
         return aList.size();
     }
 

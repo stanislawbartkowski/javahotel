@@ -8,14 +8,8 @@
 /* -----------------------*/
 .dialog-empty-field {
 	border: 2px;
-	border-top-style: solid;
-	border-bottom-style: solid;
-	border-left-style: solid;
-	border-right-style: solid;
-	border-top-color: #ff6666;
-	border-bottom-color: #ff6666;
-	border-left-color: #ff6666;
-	border-right-color: #ff6666;
+	border-style: solid;
+	border-color: #ff6666;
 }
 
 /* ---------------------- */

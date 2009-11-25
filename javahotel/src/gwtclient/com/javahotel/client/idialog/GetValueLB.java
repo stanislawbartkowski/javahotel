@@ -65,9 +65,10 @@ class GetValueLB extends ELineDialog implements IValueLB {
 
     public void setVal(final String s) {
         setV(s);
-        if (lC != null) {
-            lC.onChange(this);
-        }
+        runOnChange(this);
+//        if (lC != null) {
+//            lC.onChange(this);
+//        }
     }
 
     public void refresh() {
@@ -87,11 +88,13 @@ class GetValueLB extends ELineDialog implements IValueLB {
     }
 
     public void setChangeListener(final IChangeListener l) {
-        lC = l;
+//        lC = l;
+        super.setChangeListener(l);
         ChangeListener le = new ChangeListener() {
 
             public void onChange(Widget sender) {
-                lC.onChange(GetValueLB.this);
+//                lC.onChange(GetValueLB.this);
+                runOnChange(GetValueLB.this);
             }
         };
         lB.addChangeListener(le);

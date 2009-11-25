@@ -13,6 +13,8 @@
 package com.javahotel.client.idialog;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import com.javahotel.client.CommonUtil;
@@ -33,7 +35,7 @@ abstract class ELineDialog extends PopupTip implements ILineField {
 
     protected final IResLocator pLi;
     protected IKeyboardAction kLi;
-    protected IChangeListener lC;
+    protected Collection<IChangeListener> lC;
     protected final boolean isCheckBox;
     protected final boolean checkBoxVal;
 
@@ -104,7 +106,17 @@ abstract class ELineDialog extends PopupTip implements ILineField {
     }
 
     public void setChangeListener(final IChangeListener l) {
-        lC = l;
+        if (lC == null) {
+            lC = new ArrayList<IChangeListener>();
+        }
+        lC.add(l);
+    }
+    
+    protected void runOnChange(ILineField i) {
+        if (lC == null) { return; }
+        for (IChangeListener c : lC) {
+            c.onChange(i);
+        }
     }
 
     public void setWidget(final ISetWidget i) {

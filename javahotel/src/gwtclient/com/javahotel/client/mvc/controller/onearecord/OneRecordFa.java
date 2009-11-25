@@ -51,6 +51,7 @@ class OneRecordFa implements IOneARecord {
 	private final DictData da;
 	private final RecordModel mo;
 	private IOneRecordModifWidget mWidget;
+	private final DictValidatorFactory dFactory;
 
 	OneRecordFa(IResLocator rI, DictData da, ICrudRecordFactory conI,
 			IRecordView iView) {
@@ -60,6 +61,7 @@ class OneRecordFa implements IOneARecord {
 		this.da = da;
 		mo = conI.getNew(null, null);
 		mo.setRDef(iView.getModel());
+		dFactory = HInjector.getI().getDictValidFactory();
 	}
 
 	public boolean IsModifCustomer() {
@@ -201,7 +203,7 @@ class OneRecordFa implements IOneARecord {
 	}
 
 	public IRecordValidator getValidator() {
-		IRecordValidator va = DictValidatorFactory.getValidator(rI, da);
+		IRecordValidator va = dFactory.getValidator(da);
 		return va;
 	}
 

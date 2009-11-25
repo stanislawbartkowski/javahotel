@@ -12,19 +12,18 @@
  */
 package com.javahotel.client.mvc.persistrecord;
 
+import java.util.List;
+
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
+import com.javahotel.client.mvc.dictcrud.controler.priceoffer.ExtractOfferPriceService;
 import com.javahotel.client.mvc.seasonprice.model.ISeasonPriceModel;
 import com.javahotel.client.mvc.seasonprice.model.ISpecialMap;
 import com.javahotel.client.mvc.seasonprice.model.MapSpecialToI;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.OfferPriceP;
-import com.javahotel.common.toobject.OfferServicePriceP;
-import com.javahotel.common.toobject.OfferSpecialPriceP;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -52,28 +51,30 @@ class PersistRecordPrice extends PersistRecordDict {
         }
 
         public void set(List<MapSpecialToI> col) {
-            List<String> rows = tView.getSRow();
-            List<OfferServicePriceP> off = new ArrayList<OfferServicePriceP>();
-            for (int i = 0; i < rows.size(); i++) {
-                OfferServicePriceP o = new OfferServicePriceP();
-                o.setService(rows.get(i));
-                List<BigDecimal> val = tView.getRows(i);
-                o.setHighseasonprice(val.get(ISeasonPriceModel.HIGHSEASON));
-                o.setHighseasonweekendprice(val.get(ISeasonPriceModel.HIGHSEASONWEEKEND));
-                o.setLowseasonprice(val.get(ISeasonPriceModel.LOWSEASON));
-                o.setLowseasonweekendprice(val.get(ISeasonPriceModel.LOWSEASONWEEKEND));
-                List<OfferSpecialPriceP> se = new ArrayList<OfferSpecialPriceP>();
-                for (int co = 0; co < col.size(); co++) {
-                    OfferSpecialPriceP pp = new OfferSpecialPriceP();
-                    pp.setSpecialperiod(col.get(co).getSpecId());
-                    pp.setPrice(val.get(ISeasonPriceModel.MAXSPECIALNO + co + 1));
-                    se.add(pp);
-                }
-                o.setSpecialprice(se);
-                off.add(o);
-            }
+//            List<String> rows = tView.getSRow();
+//            List<OfferServicePriceP> off = new ArrayList<OfferServicePriceP>();
+//            for (int i = 0; i < rows.size(); i++) {
+//                OfferServicePriceP o = new OfferServicePriceP();
+//                o.setService(rows.get(i));
+//                List<BigDecimal> val = tView.getRows(i);
+//                o.setHighseasonprice(val.get(ISeasonPriceModel.HIGHSEASON));
+//                o.setHighseasonweekendprice(val.get(ISeasonPriceModel.HIGHSEASONWEEKEND));
+//                o.setLowseasonprice(val.get(ISeasonPriceModel.LOWSEASON));
+//                o.setLowseasonweekendprice(val.get(ISeasonPriceModel.LOWSEASONWEEKEND));
+//                List<OfferSpecialPriceP> se = new ArrayList<OfferSpecialPriceP>();
+//                for (int co = 0; co < col.size(); co++) {
+//                    OfferSpecialPriceP pp = new OfferSpecialPriceP();
+//                    pp.setSpecialperiod(col.get(co).getSpecId());
+//                    pp.setPrice(val.get(ISeasonPriceModel.MAXSPECIALNO + co + 1));
+//                    se.add(pp);
+//                }
+//                o.setSpecialprice(se);
+//                off.add(o);
+//            }
             OfferPriceP oP = (OfferPriceP) mo.getA();
-            oP.setServiceprice(off);
+            ExtractOfferPriceService eService = HInjector.getI().getExtractOfferPriceService();
+            eService.ExtractOfferPrice(oP, tView, col);
+//            oP.setServiceprice(off);
             ipersist(action, mo, ires);
         }
     }

@@ -36,90 +36,89 @@ import com.javahotel.common.toobject.IField;
  */
 class ValidUtil {
 
-	private ValidUtil() {
-	}
+    private ValidUtil() {
+    }
 
-	static List<InvalidateMess> checkEmpty(RecordModel mo,
-			List<IField> eF) {
-		AbstractTo a = mo.getA();
-		List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
-		boolean ok = true;
-		List<RecordField> co = mo.getRDef().getFields();
-		for (IField f : eF) {
-			if (a.emptyS(f)) {
-				boolean o = false;
-				for (RecordField re : co) {
-					if (re.getFie() == f) {
-						if (re.getELine().getChooseResult() == ILineField.CHOOSECHECKTRUE) {
-							o = true;
-							break;
-						}
-					}
-				}
-				if (o) {
-					continue;
-				}
-				ok = false;
-				errMess.add(new InvalidateMess(f, true, null));
-			}
-		}
-		if (ok) {
-			return null;
-		}
-		return errMess;
-	}
+    static List<InvalidateMess> checkEmpty(RecordModel mo, List<IField> eF) {
+        AbstractTo a = mo.getA();
+        List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+        boolean ok = true;
+        List<RecordField> co = mo.getRDef().getFields();
+        for (IField f : eF) {
+            if (a.emptyS(f)) {
+                boolean o = false;
+                for (RecordField re : co) {
+                    if (re.getFie() == f) {
+                        if (re.getELine().getChooseResult() == ILineField.CHOOSECHECKTRUE) {
+                            o = true;
+                            break;
+                        }
+                    }
+                }
+                if (o) {
+                    continue;
+                }
+                ok = false;
+                errMess.add(new InvalidateMess(f, true, null));
+            }
+        }
+        if (ok) {
+            return null;
+        }
+        return errMess;
+    }
 
-	static void callSig(List<InvalidateMess> col, ISignalValidate sig,
-			IErrorMessageContext iCo) {
-		if (col == null) {
-			sig.success();
-		} else {
-			sig.failue(new DictErrorMessage(col, iCo));
-		}
-	}
+    static void callSig(List<InvalidateMess> col, ISignalValidate sig,
+            IErrorMessageContext iCo) {
+        if (col == null) {
+            sig.success();
+        } else {
+            sig.failue(new DictErrorMessage(col, iCo));
+        }
+    }
 
-	static List<InvalidateMess> createErr(IField f, String errmess) {
-		List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
-		errMess = new ArrayList<InvalidateMess>();
-		errMess.add(new InvalidateMess(f, errmess));
-		return errMess;
-	}
+    static List<InvalidateMess> createErr(IField f, String errmess) {
+        List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+        errMess = new ArrayList<InvalidateMess>();
+        errMess.add(new InvalidateMess(f, errmess));
+        return errMess;
+    }
 
-	static List<InvalidateMess> validateEmpty(final DictData d,
-			final int action, final RecordModel a) {
-		List<IField> eF = DictEmptyFactory.getNoEmpty(action, d);
-		List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
-		return errMess;
-	}
+    static List<InvalidateMess> validateEmpty(final DictData d,
+            final int action, final RecordModel a) {
+        List<IField> eF = DictEmptyFactory.getNoEmpty(action, d);
+        List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
+        return errMess;
+    }
 
-	static class ValidCallBack extends CallBackHotel<ReturnPersist> {
+    static class ValidCallBack extends CallBackHotel<ReturnPersist> {
 
-		private final ISignalValidate sig;
-		private final IErrorMessageContext iCo;
-		private final AbstractTo a;
+        private final ISignalValidate sig;
+        private final IErrorMessageContext iCo;
+        private final AbstractTo a;
 
-		ValidCallBack(IResLocator rI, ISignalValidate sig,
-				IErrorMessageContext iCo, AbstractTo a) {
-			super(rI);
-			this.sig = sig;
-			this.iCo = iCo;
-			this.a = a;
-		}
+        ValidCallBack(IResLocator rI, ISignalValidate sig,
+                IErrorMessageContext iCo, AbstractTo a) {
+            super(rI);
+            this.sig = sig;
+            this.iCo = iCo;
+            this.a = a;
+        }
 
-		@Override
-		public void onMySuccess(ReturnPersist arg) {
-			List<InvalidateMess> errMess = null;
-			if (arg.getErrorMessage() != null) {
-				IField f1 = ValidUtil.getIField(a, arg.getViewName());
-				errMess = createErr(f1, arg.getErrorMessage());
-			}
-			callSig(errMess, sig, iCo);
-		}
+        @Override
+        public void onMySuccess(ReturnPersist arg) {
+            List<InvalidateMess> errMess = null;
+            if (arg.getErrorMessage() != null) {
+                IField f1 = ValidUtil.getIField(a, arg.getViewName());
+                errMess = createErr(f1, arg.getErrorMessage());
+            }
+            callSig(errMess, sig, iCo);
+        }
 
-	}
+    }
 
-	static IField getIField(AbstractTo a, String name) {
-		IField i = a.getF(name);
-		return i;
-	}
+    static IField getIField(AbstractTo a, String name) {
+        IField i = a.getF(name);
+        return i;
+    }
 }

@@ -28,41 +28,41 @@ import com.javahotel.common.toobject.PaymentRowP;
  */
 class SumPayment {
 
-	private SumPayment() {
-	}
+    private SumPayment() {
+    }
 
-	static class SumRes {
+    static class SumRes {
 
-		BigDecimal sumCustomer;
-		BigDecimal sumOffer;
+        BigDecimal sumCustomer;
+        BigDecimal sumOffer;
 
-		SumRes() {
-			sumCustomer = MathUtil.getO();
-			sumOffer = MathUtil.getO();
-		}
+        SumRes() {
+            sumCustomer = MathUtil.getO();
+            sumOffer = MathUtil.getO();
+        }
 
-		void addBig(BigDecimal bC, BigDecimal bO) {
-			if (bC != null) {
-				sumCustomer = MathUtil.addB(sumCustomer, bC);
-			}
-			if (bO != null) {
-				sumOffer = MathUtil.addB(sumOffer, bO);
-			}
-		}
-	}
+        void addBig(BigDecimal bC, BigDecimal bO) {
+            if (bC != null) {
+                sumCustomer = MathUtil.addB(sumCustomer, bC);
+            }
+            if (bO != null) {
+                sumOffer = MathUtil.addB(sumOffer, bO);
+            }
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	static SumRes sum(final ITableModel model) {
+    @SuppressWarnings("unchecked")
+    static SumRes sum(final ITableModel model) {
 
-		ArrayList<NumAbstractTo> c = (ArrayList<NumAbstractTo>) model.getList();
-		SumRes sumR = new SumRes();
-		for (NumAbstractTo n : c) {
-			BookElemP b = (BookElemP) n.getO();
-			List<PaymentRowP> p = b.getPaymentrows();
-			for (PaymentRowP ro : p) {
-				sumR.addBig(ro.getCustomerPrice(), ro.getOfferPrice());
-			}
-		}
-		return sumR;
-	}
+        ArrayList<NumAbstractTo> c = (ArrayList<NumAbstractTo>) model.getList();
+        SumRes sumR = new SumRes();
+        for (NumAbstractTo n : c) {
+            BookElemP b = (BookElemP) n.getO();
+            List<PaymentRowP> p = b.getPaymentrows();
+            for (PaymentRowP ro : p) {
+                sumR.addBig(ro.getCustomerPrice(), ro.getOfferPrice());
+            }
+        }
+        return sumR;
+    }
 }
