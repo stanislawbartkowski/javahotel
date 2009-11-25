@@ -23,6 +23,7 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
@@ -48,7 +49,7 @@ import com.javahotel.common.command.SynchronizeList;
 import com.javahotel.common.toobject.AbstractTo;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class EditTableDialog implements IEditTableDialog {
@@ -61,6 +62,7 @@ class EditTableDialog implements IEditTableDialog {
     private S sync;
     private List<ResRoomGuest> gList;
     private IPersistResult aP;
+    private final DictButtonFactory bFactory;
 
     public void setPersist(IPersistResult pe) {
         aP = pe;
@@ -164,7 +166,8 @@ class EditTableDialog implements IEditTableDialog {
                 }
             }
             if (ne == 0) {
-                String mess = "Nie ma żadnego checkin (powinno być " + no + ").";
+                String mess = "Nie ma żadnego checkin (powinno być " + no
+                        + ").";
                 OkDialog okD = new OkDialog(rI, mess, null);
                 okD.show(w);
             }
@@ -172,13 +175,13 @@ class EditTableDialog implements IEditTableDialog {
     }
 
     EditTableDialog(IResLocator rI, DictData da,
-            List<? extends AbstractTo> gList,
-            String resName) {
+            List<? extends AbstractTo> gList, String resName) {
         this.rI = rI;
         this.resName = resName;
         this.da = da;
         aP = null;
-        IContrPanel cpanel = DictButtonFactory.getRecordAkcButt(rI);
+        bFactory = HInjector.getI().getDictButtonFactory();
+        IContrPanel cpanel = bFactory.getRecordAkcButt();
         final IContrButtonView i = ContrButtonViewFactory.getView(rI, cpanel,
                 new Accept());
 

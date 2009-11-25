@@ -13,11 +13,10 @@
 
 package com.javahotel.client.mvc.dict.validator.errmess;
 
+import java.util.List;
+
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.mvc.validator.IErrorMessageContext;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -25,28 +24,28 @@ import java.util.List;
  */
 public class DictErrorMessage implements IErrorMessage {
 
-	private final List<InvalidateMess> errmess;
-	private final IErrorMessageContext iCo;
+    private final List<InvalidateMess> errmess;
+    private final IErrorMessageContext iCo;
 
-	public DictErrorMessage(List<InvalidateMess> errmess,
-			IErrorMessageContext iCo) {
-		this.errmess = errmess;
-		this.iCo = iCo;
-	}
+    public DictErrorMessage(List<InvalidateMess> errmess,
+            IErrorMessageContext iCo) {
+        this.errmess = errmess;
+        this.iCo = iCo;
+    }
 
-	public void addMess(InvalidateMess m) {
-		getErrmess().add(m);
-	}
+    public void addMess(InvalidateMess m) {
+        getErrmess().add(m);
+    }
 
-	/**
-	 * @return the errmess
-	 */
-	public List<InvalidateMess> getErrmess() {
-		return errmess;
-	}
+    /**
+     * @return the errmess
+     */
+    public List<InvalidateMess> getErrmess() {
+        return errmess;
+    }
 
-	public IErrorMessageContext getC() {
-		return iCo;
-	}
+    public IErrorMessageContext getC() {
+        return iCo;
+    }
 
 }

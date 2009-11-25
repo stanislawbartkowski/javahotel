@@ -17,6 +17,7 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.apanel.IPanel;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
@@ -51,6 +52,7 @@ class CrudControler implements ICrudControler {
     private final ICrudAuxControler cAux;
     private boolean enabled = true;
     private final ICrudTableControler iTable;
+    private final CrudTableControlerFactory cFactory;
 
     private ICrudView getView(final RecordModel a, final ICrudAccept acc,
             final int actionId, final IPanel vp) {
@@ -256,7 +258,8 @@ class CrudControler implements ICrudControler {
         }
         pa.setCView(cview);
 
-        iTable = CrudTableControlerFactory.getCrudTable(rI, da, model, pa);
+        cFactory = HInjector.getI().getCrudTableFactory();
+        iTable = cFactory.getCrudTable(da, model, pa);
         taP = WidgetTableFactory.getGwtTable();
         Widget up = iTable.getContrWidget();
         Widget add = null;

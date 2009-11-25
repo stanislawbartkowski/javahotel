@@ -59,5 +59,9 @@ abstract public class AbstractAuxRecordPanel implements IAuxRecordPanel {
             IContrButtonView i) {
         return false;
     }
+    
+    public IMvcWidget getMWidget() {
+        return null;
+    }
 
 }

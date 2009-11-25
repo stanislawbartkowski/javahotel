@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.DictData.SpecE;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.ContrButtonViewFactory;
@@ -49,12 +50,14 @@ class ConflictInfo {
 	ConflictInfo(final IResLocator rI, final ReturnPersist res) {
 
 		this.rI = rI;
+		
+		DictButtonFactory bFactory = HInjector.getI().getDictButtonFactory();
 
 		List<ResDayObjectStateP> col = res.getResState();
 
 		RecordAuxParam aux = new RecordAuxParam();
 		aux.setModifPanel(false);
-		IContrPanel pa = DictButtonFactory.getOkButton(rI);
+		IContrPanel pa = bFactory.getOkButton();
 		IControlClick co = new IControlClick() {
 
 			public void click(ContrButton co, Widget w) {

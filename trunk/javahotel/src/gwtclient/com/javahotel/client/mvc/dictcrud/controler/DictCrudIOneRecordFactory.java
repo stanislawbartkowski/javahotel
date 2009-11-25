@@ -15,6 +15,7 @@ package com.javahotel.client.mvc.dictcrud.controler;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.controller.onearecord.IOneARecord;
@@ -37,23 +38,26 @@ import com.javahotel.client.mvc.table.model.ITableFilter;
  */
 public class DictCrudIOneRecordFactory {
 
-    private DictCrudIOneRecordFactory() {
+    private final OneRecordModifWidgetFactory oFactory;
+    private final IResLocator rI;
+    
+    @Inject
+    public DictCrudIOneRecordFactory(IResLocator rI, OneRecordModifWidgetFactory oFactory) {
+        this.rI = rI;
+        this.oFactory = oFactory;
     }
 
-    public static IOneARecord getTableLineR(final IResLocator rI,
-            final DictData da, final IRecordView vTable,
+    public IOneARecord getTableLineR(final DictData da, final IRecordView vTable,
             final  ITableFilter tFilter) {
         ICrudRecordFactory fa = new DictRecordControler(rI, da,
                 new RecordAuxParam());
         IOneARecord aR = OneRecordFactory.getR(rI, da, fa, vTable);
-        IOneRecordModifWidget iM = OneRecordModifWidgetFactory.getTableWi(rI,
-                aR.getClick(tFilter));
+        IOneRecordModifWidget iM = oFactory.getTableWi(aR.getClick(tFilter));
         aR.setMWidget(iM);
         return aR;
     }
 
-    public static IRecordView createNViewCopy(final IResLocator rI,
-            final DictData da, final IRecordView vTable) {
+    public IRecordView createNViewCopy(final DictData da, final IRecordView vTable) {
        List<RecordField> dict = GetRecordDefFactory.getDef(rI, da);
        List<RecordField> newList = new ArrayList<RecordField>();
        List<RecordField> iList = vTable.getModel().getFields();

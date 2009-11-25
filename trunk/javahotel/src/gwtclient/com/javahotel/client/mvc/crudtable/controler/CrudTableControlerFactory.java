@@ -13,6 +13,7 @@
 
 package com.javahotel.client.mvc.crudtable.controler;
 
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.table.model.ITableModel;
@@ -23,12 +24,15 @@ import com.javahotel.client.mvc.table.model.ITableModel;
  */
 public class CrudTableControlerFactory {
 
-    private CrudTableControlerFactory() {
+    private final IResLocator rI;
+    
+    @Inject
+    public CrudTableControlerFactory(final IResLocator rI) {
+        this.rI = rI;
 
     }
 
-    public static ICrudTableControler getCrudTable(final IResLocator rI,
-            final DictData da, final ITableModel mo,
+    public ICrudTableControler getCrudTable(final DictData da, final ITableModel mo,
             final CrudTableControlerParam pa) {
         return new CrudTableControler(rI, da, mo, pa);
     }

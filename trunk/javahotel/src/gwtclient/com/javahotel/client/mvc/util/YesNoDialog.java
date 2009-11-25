@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IClickNextYesNo;
 import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.ContrButtonViewFactory;
@@ -33,6 +34,8 @@ public class YesNoDialog extends AbstractDialog {
 
     public YesNoDialog(final IResLocator rI, final String ask,
             final IClickNextYesNo yes) {
+        
+        DictButtonFactory bFactory = HInjector.getI().getDictButtonFactory();
 
         final VerticalPanel vp = new VerticalPanel();
         MDialog mDial = new MDialog(vp, "Pytanie") {
@@ -42,7 +45,7 @@ public class YesNoDialog extends AbstractDialog {
                 vp.add(new Label(ask));
             }
         };
-        IContrPanel yP = DictButtonFactory.getYesNoButt(rI);
+        IContrPanel yP = bFactory.getYesNoButt();
         IControlClick cli = new IControlClick() {
 
             public void click(ContrButton co, Widget w) {

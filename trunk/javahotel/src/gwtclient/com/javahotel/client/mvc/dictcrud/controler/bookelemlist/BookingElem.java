@@ -26,11 +26,11 @@ import com.javahotel.client.dialog.DictData.SpecE;
 import com.javahotel.client.idialog.GetIEditFactory;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
-import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.listofserv.ListOfServices;
 import com.javahotel.client.mvc.auxabstract.ANumAbstractTo;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
 import com.javahotel.client.mvc.crud.controler.ICrudPersistSignal;
+import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.client.mvc.dictcrud.controler.DictUtil;
 import com.javahotel.client.mvc.dictcrud.controler.IModifRecordDef;
 import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
@@ -149,7 +149,7 @@ public class BookingElem implements IMvcView {
             bList.drawTable(col);
         }
     }
-    
+
     private class BRoomConnector implements IBookRoomConnector {
 
         public IGetELineDialog getEprice() {
@@ -163,30 +163,29 @@ public class BookingElem implements IMvcView {
         public IGetELineDialog getPsum() {
             return psum;
         }
-        
+
     }
 
     @Inject
-    public BookingElem(IResLocator rI,PaymentData pa) {
+    public BookingElem(IResLocator rI, PaymentData pa,
+            DictCrudControlerFactory cFactory, BookRowList bList) {
+        this.bList = bList;
         this.rI = rI;
         this.pa = pa;
         lO = new ListOfServices(rI, new SetList());
-//        pa = new PaymentData(rI);
         RecordAuxParam aux = new RecordAuxParam();
         aux.setModifD(new MO());
         aux.setPSignal(new PersistR());
         aux.setSClicked(new SetSignal());
         aux.setiCon(new BRoomConnector());
-        bList = new BookRowList(rI);
-        cI = HInjector.getI().getDictCrudControlerFactory().getCrud(
-                new DictData(SpecE.BookingElem), aux, bList);
+        cI = cFactory.getCrud(new DictData(SpecE.BookingElem), aux, bList);
     }
-    
-    public void SetAuxParam(IGetELineDialog eseason,
-            IGetELineDialog eprice, IGetELineDialog psum) {
+
+    public void SetAuxParam(IGetELineDialog eseason, IGetELineDialog eprice,
+            IGetELineDialog psum) {
         this.eseason = eseason;
         this.eprice = eprice;
-        this.psum = psum;        
+        this.psum = psum;
     }
 
     public void setFields(BookRecordP b) {

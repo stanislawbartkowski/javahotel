@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.mvc.dict.validator;
 
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.validator.IRecordValidator;
@@ -22,11 +23,14 @@ import com.javahotel.client.mvc.validator.IRecordValidator;
  */
 public class DictValidatorFactory {
 
-	private DictValidatorFactory() {
+    final IResLocator rI;
+    
+    @Inject
+	public DictValidatorFactory(IResLocator rI) {
+        this.rI = rI;
 	}
 
-	public static IRecordValidator getValidator(final IResLocator rI,
-			final DictData da) {
+	public IRecordValidator getValidator(final DictData da) {
 
 		if (da.getRt() != null) {
 			switch (da.getRt()) {

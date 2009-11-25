@@ -15,6 +15,7 @@ package com.javahotel.client.mvc.dictcrud.controler.bookelemlist;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IMvcWidget;
@@ -30,13 +31,14 @@ import com.javahotel.common.util.CollToArray;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-class BookRowList implements ICrudAuxControler {
+public class BookRowList implements ICrudAuxControler {
 
 	@SuppressWarnings("unused")
 	private final IResLocator rI;
 	private final ICrudTableControler iC;
 
-	BookRowList(IResLocator rI) {
+	@Inject
+	public BookRowList(IResLocator rI) {
 		this.rI = rI;
 		RecordAuxParam aux = new RecordAuxParam();
 		aux.setModifPanel(false);
@@ -46,7 +48,7 @@ class BookRowList implements ICrudAuxControler {
 	}
 
 	@SuppressWarnings("unchecked")
-	void drawTable(List<PaymentRowP> col) {
+	public void drawTable(List<PaymentRowP> col) {
 		ArrayList<PaymentRowP> a = (ArrayList<PaymentRowP>) CollToArray
 				.toA(col);
 		iC.getTableView().getModel().setList(a);

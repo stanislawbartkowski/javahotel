@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.mvc.crud.controler;
 
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
@@ -24,16 +25,20 @@ import com.javahotel.client.mvc.table.model.ITableModel;
  */
 public class CrudControlerFactory {
 
-	private CrudControlerFactory() {
+    private final IResLocator rI;
+    
+    @Inject
+	public CrudControlerFactory(IResLocator rI) {
+        this.rI = rI;
 	}
 
-	public static ICrudControler getCrud(final IResLocator rI, DictData da,
+	public ICrudControler getCrud(DictData da,
 			final ITableModel tmodel, final IContrPanel panel,
 			final ICrudRecordFactory fa, IControlClick click) {
 		return new CrudControler(rI, da, tmodel, panel, fa, null, click);
 	}
 
-	public static ICrudControler getCrud(final IResLocator rI, DictData da,
+	public ICrudControler getCrud(DictData da,
 			final ITableModel tmodel, final IContrPanel panel,
 			final ICrudRecordFactory fa, final ICrudAuxControler cAux,
 			IControlClick click) {

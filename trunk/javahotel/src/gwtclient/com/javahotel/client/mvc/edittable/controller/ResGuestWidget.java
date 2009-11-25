@@ -13,6 +13,7 @@
 package com.javahotel.client.mvc.edittable.controller;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
 import com.javahotel.client.mvc.table.view.IGetWidgetTableView;
 import com.javahotel.client.mvc.table.view.ITableView;
@@ -37,51 +38,52 @@ import com.javahotel.common.toobject.CustomerP;
  */
 class ResGuestWidget implements IGetWidgetTableView {
 
-	private final IResLocator rI;
-	private IEditTableView iView;
-	private final Map<Integer, IOneARecord> ma;
-	private final DictData da;
+    private final IResLocator rI;
+    private IEditTableView iView;
+    private final Map<Integer, IOneARecord> ma;
+    private final DictData da;
 
-	ICrudRecordFactory getFactory(int row) {
-		IOneARecord a = ma.get(row);
-		return a.getFactory();
-	}
+    ICrudRecordFactory getFactory(int row) {
+        IOneARecord a = ma.get(row);
+        return a.getFactory();
+    }
 
-	ResGuestWidget(IResLocator rI, DictData da) {
-		this.rI = rI;
-		ma = new HashMap<Integer, IOneARecord>();
-		this.da = da;
-	}
+    ResGuestWidget(IResLocator rI, DictData da) {
+        this.rI = rI;
+        ma = new HashMap<Integer, IOneARecord>();
+        this.da = da;
+    }
 
-	public Widget getWidget(ITableView view, int row, int col, String val) {
-		IField fi = view.getModel().getCol(col);
-		if (fi != ResRoomGuest.F.choosebutt) {
-			return null;
-		}
-		IOneARecord a = ma.get(row);
-		if (a == null) {
-			IRecordView iV = iView.getR(row);
-			IRecordView cView = DictCrudIOneRecordFactory.createNViewCopy(rI,
-					da, iV);
-			a = DictCrudIOneRecordFactory.getTableLineR(rI, da, cView, new F());
-			ma.put(row, a);
-		}
-		return a.getMWidget().getWidget();
-	}
+    public Widget getWidget(ITableView view, int row, int col, String val) {
+        IField fi = view.getModel().getCol(col);
+        if (fi != ResRoomGuest.F.choosebutt) {
+            return null;
+        }
+        IOneARecord a = ma.get(row);
+        if (a == null) {
+            IRecordView iV = iView.getR(row);
+            IRecordView cView = HInjector.getI().getDictCrudIOneRecordFactory()
+                    .createNViewCopy(da, iV);
+            a = HInjector.getI().getDictCrudIOneRecordFactory().getTableLineR(
+                    da, cView, new F());
+            ma.put(row, a);
+        }
+        return a.getMWidget().getWidget();
+    }
 
-	/**
-	 * @param iView
-	 *            the iView to set
-	 */
-	public void setIView(IEditTableView iView) {
-		this.iView = iView;
-	}
+    /**
+     * @param iView
+     *            the iView to set
+     */
+    public void setIView(IEditTableView iView) {
+        this.iView = iView;
+    }
 
-	private class F implements ITableFilter {
+    private class F implements ITableFilter {
 
-		public boolean isOk(AbstractTo a) {
-			CustomerP c = (CustomerP) a;
-			return (c.getCType() == CustomerType.Person);
-		}
-	}
+        public boolean isOk(AbstractTo a) {
+            CustomerP c = (CustomerP) a;
+            return (c.getCType() == CustomerType.Person);
+        }
+    }
 }

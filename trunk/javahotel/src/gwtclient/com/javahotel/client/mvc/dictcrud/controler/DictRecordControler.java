@@ -63,6 +63,8 @@ class DictRecordControler implements ICrudRecordFactory {
     private final IRecordExtractor ex;
     private final DictData da;
     private final RecordAuxParam aParam;
+    private final DictValidatorFactory dFactory;
+    private final DictButtonFactory bFactory;
 
     private CrudRView rView;
     private boolean setW;
@@ -87,6 +89,8 @@ class DictRecordControler implements ICrudRecordFactory {
         this.rI = rI;
         this.da = da;
         this.aParam = aParam;
+        dFactory = HInjector.getI().getDictValidFactory();
+        bFactory = HInjector.getI().getDictButtonFactory();
         ex = RecordExtractorFactory.getExtractor(rI, da);
     }
 
@@ -197,7 +201,7 @@ class DictRecordControler implements ICrudRecordFactory {
     }
 
     public IRecordValidator getValidator() {
-        return DictValidatorFactory.getValidator(rI, da);
+        return dFactory.getValidator(da);
     }
 
     private class ButtonClick implements IControlClick {
@@ -264,10 +268,10 @@ class DictRecordControler implements ICrudRecordFactory {
             IContrPanel aButton;
             switch (actionId) {
             case IPersistAction.DELACTION:
-                aButton = DictButtonFactory.getRecordDelButt(rI);
+                aButton = bFactory.getRecordDelButt();
                 break;
             default:
-                aButton = DictButtonFactory.getRecordAkcButt(rI);
+                aButton = bFactory.getRecordAkcButt();
                 break;
             }
             ButtonClick bu = new ButtonClick(acc, a, actionId);

@@ -43,7 +43,7 @@ public class SeasonOfferAuxPanel implements IMvcView, IAuxInfoPanel {
 
     public SeasonOfferAuxPanel(IResLocator rI) {
         this.rI = rI;
-        pS = new PanelSeason(rI, g, controlC, 0, null,DateUtil.getToday());
+        pS = new PanelSeason(rI, g, controlC, 0, null, DateUtil.getToday());
         sPanel.add(controlC);
     }
 

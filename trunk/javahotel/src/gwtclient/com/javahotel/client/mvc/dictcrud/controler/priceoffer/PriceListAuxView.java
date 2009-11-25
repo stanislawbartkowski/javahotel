@@ -57,7 +57,8 @@ public class PriceListAuxView extends AbstractAuxRecordPanel {
     private final static int HWIDTH = 30;
 
     @Inject
-    public PriceListAuxView(IResLocator rI, IDecimalTableView tView, GetSeasonSpecial sS) {
+    public PriceListAuxView(IResLocator rI, IDecimalTableView tView,
+            GetSeasonSpecial sS) {
         this.rI = rI;
         this.tView = tView;
         this.sS = sS;

@@ -48,13 +48,18 @@ public class DictCrudControlerFactory {
     private final IResLocator rI;
     private final TableModelFactory tFactory;
     private final ColListFactory cFactory;
+    private final DictButtonFactory bFactory;
+    private final CrudControlerFactory cruFactory;
 
     @Inject
     public DictCrudControlerFactory(IResLocator rI, TableModelFactory tFactory,
-            ColListFactory cFactory) {
+            ColListFactory cFactory, DictButtonFactory bFactory,
+            CrudControlerFactory cru) {
         this.rI = rI;
         this.tFactory = tFactory;
         this.cFactory = cFactory;
+        this.bFactory = bFactory;
+        this.cruFactory = cru;
     }
 
     private void setAuxV(RecordAuxParam a, DictType d) {
@@ -111,7 +116,7 @@ public class DictCrudControlerFactory {
                 a.setAuxO(auC.getV());
                 break;
             case BookingList:
-//                BookResRoom bRoom = new BookResRoom(rI, co);
+                // BookResRoom bRoom = new BookResRoom(rI, co);
                 BookResRoom bRoom = HInjector.getI().getBookResRoom();
                 bRoom.SetContextParam(co);
                 a.setAuxV(bRoom);
@@ -172,7 +177,7 @@ public class DictCrudControlerFactory {
         }
         IContrPanel cpanel = null;
         if (aux.isModifPanel()) {
-            cpanel = DictButtonFactory.getDictButt(rI);
+            cpanel = bFactory.getDictButt();
         }
         if (aux.getCPanel() != null) {
             cpanel = aux.getCPanel();
@@ -184,7 +189,7 @@ public class DictCrudControlerFactory {
             auxV.setIChoose(aux.getIChoose());
         }
         if (auxV.getIChoose() != null) {
-            cpanel = DictButtonFactory.getDictChooseButt(rI);
+            cpanel = bFactory.getDictChooseButt();
         }
         auxV.setModifPanel(aux.isModifPanel());
         if (auxV.getBSignal() == null) {
@@ -197,9 +202,8 @@ public class DictCrudControlerFactory {
             auxV.setIConv(aux.getIConv());
         }
 
-        ICrudControler crud = CrudControlerFactory.getCrud(rI, da, model,
-                cpanel, new DictRecordControler(rI, da, auxV), cAux, aux
-                        .getIClick());
+        ICrudControler crud = cruFactory.getCrud(da, model, cpanel,
+                new DictRecordControler(rI, da, auxV), cAux, aux.getIClick());
         return crud;
     }
 

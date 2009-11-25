@@ -29,16 +29,24 @@ import com.javahotel.client.mvc.checktable.view.CheckTableView;
 import com.javahotel.client.mvc.checktable.view.DecimalTableView;
 import com.javahotel.client.mvc.checktable.view.ICheckTableView;
 import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
+import com.javahotel.client.mvc.controller.onerecordmodif.OneRecordModifWidgetFactory;
+import com.javahotel.client.mvc.crud.controler.CrudControlerFactory;
+import com.javahotel.client.mvc.crudtable.controler.CrudTableControlerFactory;
+import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
 import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
+import com.javahotel.client.mvc.dictcrud.controler.DictCrudIOneRecordFactory;
+import com.javahotel.client.mvc.dictcrud.controler.bookelemlist.BookRowList;
 import com.javahotel.client.mvc.dictcrud.controler.bookelemlist.BookingElem;
 import com.javahotel.client.mvc.dictcrud.controler.booking.BookResRoom;
 import com.javahotel.client.mvc.dictcrud.controler.bookroom.BookRoom;
+import com.javahotel.client.mvc.dictcrud.controler.priceoffer.ExtractOfferPriceService;
 import com.javahotel.client.mvc.dictcrud.controler.priceoffer.GetSeasonSpecial;
 import com.javahotel.client.mvc.dictcrud.controler.priceoffer.PriceListAuxView;
 import com.javahotel.client.mvc.dictcrud.controler.priceoffer.SetPriceForOffer;
 import com.javahotel.client.mvc.dictcrud.read.CrudReadModelFactory;
 import com.javahotel.client.mvc.gridmodel.model.GridModelViewFactory;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
+import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
 import com.javahotel.client.mvc.table.model.TableModelFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
 import com.javahotel.client.paymentdata.PaymentData;
@@ -75,5 +83,13 @@ public class GiniClientModule extends AbstractGinModule {
         bind(IDecimalTableView.class).to(DecimalTableView.class);
         bind(GetSeasonSpecial.class);
         bind( SetPriceForOffer.class).in(Singleton.class);
+        bind(DictValidatorFactory.class).in(Singleton.class);
+        bind(DictButtonFactory.class).in(Singleton.class);
+        bind(BookRowList.class);
+        bind(CrudTableControlerFactory.class).in(Singleton.class);
+        bind(CrudControlerFactory.class).in(Singleton.class);
+        bind(OneRecordModifWidgetFactory.class).in(Singleton.class);
+        bind(DictCrudIOneRecordFactory.class).in(Singleton.class);
+        bind(ExtractOfferPriceService.class).in(Singleton.class);
     }
 }

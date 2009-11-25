@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.ICommand;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.ContrButtonViewFactory;
@@ -34,6 +35,7 @@ public class OkDialog extends AbstractDialog {
     public OkDialog(final IResLocator rI, final String message,
             final ICommand ok) {
 
+        DictButtonFactory bFactory = HInjector.getI().getDictButtonFactory();
         final VerticalPanel vp = new VerticalPanel();
         MDialog mDial = new MDialog(vp, "Przeczytaj") {
 
@@ -42,7 +44,7 @@ public class OkDialog extends AbstractDialog {
                 vp.add(new Label(message));
             }
         };
-        IContrPanel yP = DictButtonFactory.getOkButton(rI);
+        IContrPanel yP = bFactory.getOkButton();
         IControlClick cli = new IControlClick() {
 
             public void click(ContrButton co, Widget w) {
