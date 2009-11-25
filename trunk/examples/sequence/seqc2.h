@@ -26,30 +26,29 @@
 
 class SeqC2 : public SequenceCommand {
 
-   friend SequenceCommand *createCommand(const std::string commandname,double a);
+   friend SequenceCommand *SequenceFactory::createCommand(const std::string commandname,const double a);
 
    // Fichtenholz 40
-   const double c;
 
    double an1;
 
-   SeqC2(double paramc) : c(paramc) {
+   SeqC2(const double parama) : SequenceCommand(parama) {
    }
 
    double getFirst() {
-     an1 = (double)c/2;
+     an1 = a/2;
      return an1;
    }
 
    double getNext() {
      double d = an1*an1 /2;
-     d += ((double)c / 2);
+     d += (a / 2);
      an1 = d;
      return an1;
    }
 
    double getLimit() {
-     double d = sqrt(1-c);
+     double d = sqrt(1-a);
      return 1-d;
    }
 

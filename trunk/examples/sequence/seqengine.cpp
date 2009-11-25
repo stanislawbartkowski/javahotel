@@ -23,8 +23,9 @@
 using namespace std;
 
 #include "seqengine.h"
+#include "seqcommand.h"
 
-void runSequence(SequenceCommand *command, int N) {
+void SequenceEngine::runSequence(SequenceCommand *command, int N) {
   double d;
   for (int i = 0; i<N; i++) {
     if (i == 0) { d = command->getFirst(); }

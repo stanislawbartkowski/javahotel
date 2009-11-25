@@ -27,9 +27,9 @@
 
 using namespace std;
 
-#include "seqcommand.h"
 #include "seqcommandfactory.h"
 #include "seqengine.h"
+#include "seqcommand.h"
 
 int main(int argc, char *argv[])
 {
@@ -39,10 +39,10 @@ int main(int argc, char *argv[])
 //  SequenceCommand *com = createCommand("SeqPower2");
 //  SequenceCommand *com = createCommand("SeqGeoAr",1,1000);
 //  SequenceCommand *com = createCommand("Seqc2",.5);
-  SequenceCommand *com = createCommand("SeqFih60",1.99);
+  SequenceCommand *com = SequenceFactory::createCommand("SeqFih60",1.99);
 
 
-  runSequence(com,100);
+  SequenceEngine::runSequence(com,100);
 
   return EXIT_SUCCESS;
 }

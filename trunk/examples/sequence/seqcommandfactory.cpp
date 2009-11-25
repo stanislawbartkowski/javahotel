@@ -25,34 +25,34 @@
 #include "seqc2.h"
 #include "seqfih60.h"
 
-SequenceCommand *createCommand(std::string commandname) {
-  if (commandname == "SimpleSeq") {
-     return new HarmSequence();
-  }
-  if (commandname == "SeqPower2") {
-     return new SeqPower2();
-  }
-  return NULL; 
+SequenceCommand *SequenceFactory::createCommand(const std::string commandname) {
+	if (commandname == "SimpleSeq") {
+		return new HarmSequence();
+	}
+	if (commandname == "SeqPower2") {
+		return new SeqPower2();
+	}
+	return NULL;
 }
 
-SequenceCommand *createCommand(const std::string commandname,int a,int b) {
-  if (commandname == "23Seq") {
-    return new Sequence23(a,b);
-  }
-  if (commandname == "SeqGeoAr") {
-    return new SeqAvHarm(a,b);
-  }
-  return NULL;
+SequenceCommand *SequenceFactory::createCommand(const std::string commandname, const double a,
+		const double b) {
+	if (commandname == "23Seq") {
+		return new Sequence23(a, b);
+	}
+	if (commandname == "SeqGeoAr") {
+		return new SeqAvHarm(a, b);
+	}
+	return NULL;
 }
 
-SequenceCommand *createCommand(const std::string commandname,double a) {
-  if (commandname == "Seqc2") {
-     return new SeqC2(a);
-  }
-  if (commandname == "SeqFih60") {
-     return new SeqFih60(a);
-  }
-  return NULL;
+SequenceCommand *SequenceFactory::createCommand(const std::string commandname, const double a) {
+	if (commandname == "Seqc2") {
+		return new SeqC2(a);
+	}
+	if (commandname == "SeqFih60") {
+		return new SeqFih60(a);
+	}
+	return NULL;
 }
-
 

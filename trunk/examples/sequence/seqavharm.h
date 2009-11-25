@@ -22,14 +22,13 @@
 
 class SeqAvHarm : public SequenceCommand {
 
-   friend SequenceCommand *createCommand(const std::string commandname,int a,int b);
+   friend SequenceCommand *SequenceFactory::createCommand(const std::string commandname,const double a,const double b);
 
    // Fichtenholz 40
-   const double a,b;
 
    double an1,bn1;
 
-   SeqAvHarm(double parama,double paramb) : a(parama), b(paramb) {
+   SeqAvHarm(const double parama,const double paramb) : SequenceCommand(parama,paramb) {
    }
 
    double getFirst() {

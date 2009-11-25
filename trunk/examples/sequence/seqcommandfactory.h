@@ -23,10 +23,12 @@
 #include <iostream>
 #include <cstdlib>
 
-#include "seqcommand.h"
+class SequenceCommand;
 
-SequenceCommand *createCommand(const std::string commandname);
-SequenceCommand *createCommand(const std::string commandname,int a,int b);
-SequenceCommand *createCommand(const std::string commandname,double a);
+namespace SequenceFactory {
+  SequenceCommand *createCommand(const std::string commandname);
+  SequenceCommand *createCommand(const std::string commandname,const double a,const double b);
+  SequenceCommand *createCommand(const std::string commandname,const double a);
+};
 
 #endif

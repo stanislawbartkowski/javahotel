@@ -20,8 +20,10 @@
 #ifndef _SEQENGINE_
 #define _SEQENGINE_
 
-#include "seqcommand.h"
+class SequenceCommand;
 
-extern void runSequence(SequenceCommand *command,int N);
+namespace SequenceEngine {
+  void runSequence(SequenceCommand *command,int N);
+}
 
 #endif
