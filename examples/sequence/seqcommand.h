@@ -17,23 +17,45 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PROJSEQUENCE
-#define PROJSEQUENCE
+#ifndef _SEQCOMMAND_
+#define _SEQCOMMAND_
+
+#include "seqengine.h"
 
 class SequenceCommand {
 
-friend void runSequence(SequenceCommand *command, int N);
+	friend void SequenceEngine::runSequence(SequenceCommand *command, int N);
+
+protected:
+	const double a, b;
+
+	SequenceCommand() :
+		a(0), b(0) {
+	}
+
+	SequenceCommand(const double parama) :
+		a(parama), b(0) {
+	}
+
+	SequenceCommand(const double parama, const double paramb) :
+		a(parama), b(paramb) {
+	}
 
 private:
-   virtual double getFirst() = 0;
-   virtual double getNext() = 0;
-   virtual double getNext2()  { return -1; }
-   virtual bool is2Seq() { return false; } 
-   
-   virtual double getLimit() = 0;
+	virtual double getFirst() = 0;
+	virtual double getNext() = 0;
+	virtual double getNext2() {
+		return -1;
+	}
+	virtual bool is2Seq() {
+		return false;
+	}
+
+	virtual double getLimit() = 0;
 
 public:
-   virtual ~SequenceCommand() { }
+	virtual ~SequenceCommand() {
+	}
 };
 
 #endif

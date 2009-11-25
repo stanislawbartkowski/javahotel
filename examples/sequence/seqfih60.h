@@ -25,18 +25,17 @@
 
 class SeqFih60 : public SequenceCommand {
 
-   friend SequenceCommand *createCommand(const std::string commandname,double a);
+   friend SequenceCommand *SequenceFactory::createCommand(const std::string commandname,const double a);
 
    // Fichtenholz 40
-   const double a0;
 
    double xn1;
 
-   SeqFih60(double parama0) : a0(parama0) {
+   SeqFih60(const double parama0) : SequenceCommand(parama0) {
    }
 
    double getFirst() {
-      xn1=a0;
+      xn1=a;
       return getNext();
    }
 
@@ -47,7 +46,7 @@ class SeqFih60 : public SequenceCommand {
    }
 
    double getLimit() {
-    if ((a0>0) && (a0<1)) {
+    if ((a>0) && (a<1)) {
       return 1;
     }
     return -1;

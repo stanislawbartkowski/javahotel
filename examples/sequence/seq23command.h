@@ -22,14 +22,13 @@
 
 class Sequence23 : public SequenceCommand {
 
-   friend SequenceCommand *createCommand(const std::string commandname,int a,int b);
+   friend SequenceCommand *SequenceFactory::createCommand(const std::string commandname,const double a,const double b);
 
    // Fichtenholz 40
-   const double a,b;
 
    double an1,an2;
 
-   Sequence23(const double parama, const double paramb) : a(parama), b(paramb) {
+   Sequence23(const double parama, const double paramb) : SequenceCommand(parama,paramb) {
    }
 
    int no;
