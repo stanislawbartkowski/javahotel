@@ -20,8 +20,6 @@
 #ifndef _SEQHARMCOMMAND_
 #define _SEQHARMCOMMAND_
 
-#include "seqcommand.h"
-
 class HarmSequence : public SequenceCommand {
 
    int no;
