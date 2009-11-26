@@ -31,16 +31,17 @@ using namespace std;
 #include "seqengine.h"
 #include "seqcommand.h"
 
+using namespace SequenceFactory;
+
 int main(int argc, char *argv[])
 {
   cout << "Hello, world!" << endl;
-//  SequenceCommand *com = createCommand("SimpleSeq");
-//  SequenceCommand *com = createCommand("23Seq",1,4);
-//  SequenceCommand *com = createCommand("SeqPower2");
-//  SequenceCommand *com = createCommand("SeqGeoAr",1,1000);
-//  SequenceCommand *com = createCommand("Seqc2",.5);
-  SequenceCommand *com = SequenceFactory::createCommand("SeqFih60",1.99);
-
+//  SequenceCommand *com = createCommand(SequenceFactory::SIMPLESEQ);
+//  SequenceCommand *com = createCommand(SEQ23SEQ,1,4);
+//  SequenceCommand *com = createCommand(SEQPOWER2);
+//  SequenceCommand *com = createCommand(SEQGEOAR,1,1000);
+//  SequenceCommand *com = createCommand(SEQC2,.5);
+  SequenceCommand *com = SequenceFactory::createCommand(SEQFIH60,1.99);
 
   SequenceEngine::runSequence(com,100);
 

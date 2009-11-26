@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "seqcommandfactory.h"
+#include "seqcommand.h"
 #include "seqharmcommand.h"
 #include "seq23command.h"
 #include "seqpower2.h"
@@ -26,10 +27,10 @@
 #include "seqfih60.h"
 
 SequenceCommand *SequenceFactory::createCommand(const std::string commandname) {
-	if (commandname == "SimpleSeq") {
+	if (commandname == SIMPLESEQ) {
 		return new HarmSequence();
 	}
-	if (commandname == "SeqPower2") {
+	if (commandname == SEQPOWER2) {
 		return new SeqPower2();
 	}
 	return NULL;
@@ -37,20 +38,20 @@ SequenceCommand *SequenceFactory::createCommand(const std::string commandname) {
 
 SequenceCommand *SequenceFactory::createCommand(const std::string commandname, const double a,
 		const double b) {
-	if (commandname == "23Seq") {
+	if (commandname == SEQ23SEQ) {
 		return new Sequence23(a, b);
 	}
-	if (commandname == "SeqGeoAr") {
+	if (commandname == SEQGEOAR) {
 		return new SeqAvHarm(a, b);
 	}
 	return NULL;
 }
 
 SequenceCommand *SequenceFactory::createCommand(const std::string commandname, const double a) {
-	if (commandname == "Seqc2") {
+	if (commandname == SEQC2) {
 		return new SeqC2(a);
 	}
-	if (commandname == "SeqFih60") {
+	if (commandname == SEQFIH60) {
 		return new SeqFih60(a);
 	}
 	return NULL;

@@ -26,6 +26,14 @@
 class SequenceCommand;
 
 namespace SequenceFactory {
+
+#define SIMPLESEQ "SimpleSeq"
+#define SEQPOWER2 "SeqPower2"
+#define SEQ23SEQ "23Seq"
+#define SEQGEOAR "SeqGeoAr"
+#define SEQC2 "Seqc2"
+#define SEQFIH60 "SeqFih60"
+
   SequenceCommand *createCommand(const std::string commandname);
   SequenceCommand *createCommand(const std::string commandname,const double a,const double b);
   SequenceCommand *createCommand(const std::string commandname,const double a);
