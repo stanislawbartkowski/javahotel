@@ -51,7 +51,7 @@ private:
 		return false;
 	}
 
-	virtual double getLimit() = 0;
+	virtual double getLimit() const = 0;
 
 public:
 	virtual ~SequenceCommand() {

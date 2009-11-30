@@ -48,7 +48,7 @@ class SeqAvHarm : public SequenceCommand {
    double getNext2()  { return bn1; }
    bool is2Seq() { return true; } 
    
-   double getLimit() {
+   double getLimit() const {
      double po = sqrt(a*b);
      return po;
    }

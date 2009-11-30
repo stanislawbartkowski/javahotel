@@ -47,7 +47,7 @@ class SeqC2 : public SequenceCommand {
      return an1;
    }
 
-   double getLimit() {
+   double getLimit()  const {
      double d = sqrt(1-a);
      return 1-d;
    }
