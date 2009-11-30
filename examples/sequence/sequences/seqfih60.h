@@ -45,7 +45,7 @@ class SeqFih60 : public SequenceCommand {
       return xn;
    }
 
-   double getLimit() {
+   double getLimit() const {
     if ((a>0) && (a<1)) {
       return 1;
     }

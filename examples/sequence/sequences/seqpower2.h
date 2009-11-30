@@ -45,7 +45,7 @@ class SeqPower2 : public SequenceCommand {
      return getNum();
    }
 
-   double getLimit() {
+   double getLimit() const {
      return 0;
    }
 

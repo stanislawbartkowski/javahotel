@@ -20,23 +20,23 @@
 #ifndef _SEQHARMCOMMAND_
 #define _SEQHARMCOMMAND_
 
-class HarmSequence : public SequenceCommand {
+class HarmSequence: public SequenceCommand {
 
-   int no;
+	int no;
 
-   double getFirst() {
-     no = 1;
-     return 1;
-   }
+	double getFirst() {
+		no = 1;
+		return 1;
+	}
 
-   double getNext() {
-     no++;
-     return 1/(double)no;
-   }
-   
-   double getLimit() {
-     return 0;
-   }
+	double getNext() {
+		no++;
+		return 1 / (double) no;
+	}
+
+	double getLimit() const {
+		return 0;
+	}
 
 };
 

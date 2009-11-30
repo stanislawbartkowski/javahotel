@@ -51,7 +51,7 @@ class Sequence23 : public SequenceCommand {
      return d;
    }
    
-   double getLimit() {
+   double getLimit() const {
      return (a + 2*b) / 3;
    }
 
