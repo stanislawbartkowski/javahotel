@@ -37,5 +37,6 @@ void SequenceEngine::runSequence(SequenceCommand *command, int N) {
         cout << i+1 << " : " << d << endl;
      }
     }
-    cout << "-----" << command->getLimit() << endl;
+    cout << "-----------------------------" << endl;
+    cout << "Limit: " << command->getLimit() << endl;
 }

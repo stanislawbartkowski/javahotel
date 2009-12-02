@@ -36,13 +36,13 @@ using namespace SequenceFactory;
 int main(int argc, char *argv[])
 {
   cout << "Hello, world!" << endl;
-//  SequenceCommand *com = createCommand(SequenceFactory::SIMPLESEQ);
 //  SequenceCommand *com = createCommand(SEQ23SEQ,1,4);
 //  SequenceCommand *com = createCommand(SEQPOWER2);
 //  SequenceCommand *com = createCommand(SEQGEOAR,1,1000);
 //  SequenceCommand *com = createCommand(SEQC2,.5);
-  SequenceCommand *com = SequenceFactory::createCommand(SEQFIH60,1.99);
+//  SequenceCommand *com = SequenceFactory::createCommand(SEQFIH60,0.45);
 
+  SequenceCommand *com = createCommand(SIMPLESEQ);
   SequenceEngine::runSequence(com,100);
 
   return EXIT_SUCCESS;
