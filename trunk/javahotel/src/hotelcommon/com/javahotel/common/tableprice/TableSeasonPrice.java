@@ -104,6 +104,7 @@ public class TableSeasonPrice {
                                 price = speP.getPrice();
                             }
                         }
+                        break;
                     default:
                         assert false : "Cannot be here";
                 }
