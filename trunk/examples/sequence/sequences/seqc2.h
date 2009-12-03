@@ -28,7 +28,7 @@ class SeqC2 : public SequenceCommand {
 
    friend SequenceCommand *SequenceFactory::createCommand(const std::string commandname,const double a);
 
-   // Fichtenholz 40
+   // Fichtenholz 62
 
    double an1;
 
@@ -48,8 +48,15 @@ class SeqC2 : public SequenceCommand {
    }
 
    double getLimit()  const {
-     double d = sqrt(1-a);
-     return 1-d;
+     if ((0 < a ) && ( a <= 1)) {
+        double d = sqrt(1-a);
+       return 1-d;
+     }
+     if ((-3<=a) && (a<0)) {
+        double d = sqrt(1-a);
+        return 1-d;
+     }
+     return -999;
    }
 
 };
