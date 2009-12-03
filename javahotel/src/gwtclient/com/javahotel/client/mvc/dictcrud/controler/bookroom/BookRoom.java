@@ -12,6 +12,8 @@
  */
 package com.javahotel.client.mvc.dictcrud.controler.bookroom;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,9 +36,16 @@ import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.ICreateViewContext;
 import com.javahotel.client.mvc.seasonprice.model.MapSpecialToI;
 import com.javahotel.client.param.ConfigParam;
+import com.javahotel.client.rdata.RData.IOneList;
+import com.javahotel.common.command.CommandParam;
+import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.RType;
 import com.javahotel.common.tableprice.TableSeasonPrice;
+import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.OfferPriceP;
+import com.javahotel.common.toobject.OfferSeasonP;
+import com.javahotel.common.toobject.OfferServicePriceP;
 import com.javahotel.common.toobject.PaymentRowP;
 
 public class BookRoom extends AbstractAuxRecordPanel {
@@ -47,6 +56,7 @@ public class BookRoom extends AbstractAuxRecordPanel {
     private final BookRowList bElem;
     private final ExtractOfferPriceService priceService;
     private final TableSeasonPrice pa;
+    private OfferSeasonP osP;
 
     @Inject
     public BookRoom(IResLocator rI, BookRowList bElem,
@@ -64,6 +74,15 @@ public class BookRoom extends AbstractAuxRecordPanel {
             hp.add(bElem.getMWidget().getWidget());
         }
     }
+    
+    private class ReadSeason implements IOneList {
+
+        public void doOne(AbstractTo val) {
+            osP = (OfferSeasonP) val;            
+        }
+        
+    }
+
 
     private class ChangeListener implements IChangeListener {
 
@@ -76,16 +95,26 @@ public class BookRoom extends AbstractAuxRecordPanel {
         }
 
         public void onChange(ILineField i) {
-            OfferPriceP oP = new OfferPriceP();
             List<MapSpecialToI> col = pri.getCol();
             IDecimalTableView dView = pri.getDecV();
-            priceService.ExtractOfferPrice(oP, dView, col);
+            List<BigDecimal> val = dView.getCols(0);
+            OfferServicePriceP o = new OfferServicePriceP();
+            priceService.ExtractOneLine(o, val, col, serv.getELine().getVal());
+            
+            OfferPriceP oP = new OfferPriceP();
+            List<OfferServicePriceP> off = new ArrayList<OfferServicePriceP>();
+            off.add(o);
+            oP.setServiceprice(off);
+            
+//            priceService.ExtractOfferPrice(oP, dView, col);
             Date dFrom = rFrom.getELine().getDate();
             Date dTo = rTo.getELine().getDate();
             if ((dFrom == null) || (dTo == null)) {
                 return;
             }
             pa.setPriceList(oP);
+            pa.setPeriods(osP);
+            
             List<PaymentRowP> li = pa.getPriceRows(serv.getELine().getVal(),
                     dFrom, dTo);
             bElem.drawTable(li);
@@ -128,6 +157,12 @@ public class BookRoom extends AbstractAuxRecordPanel {
         }
         pri = new PriceRecord(rI, new SetP(), bRom, serv.getELine());
         iSet.setGwtWidget(new DefaultMvcWidget(hp));
+        
+        CommandParam p = rI.getR().getHotelCommandParam();
+        String season = bRom.getEseason().getE().getVal();
+        p.setDict(DictType.OffSeasonDict);
+        p.setRecName(season);
+        rI.getR().getOne(RType.ListDict, p, new ReadSeason());
 
         return true;
     }
