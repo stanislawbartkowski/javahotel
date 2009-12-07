@@ -24,13 +24,18 @@
 
 class SeqPower2 : public SequenceCommand {
 
+   friend SequenceCommand *SequenceFactory::createCommand(const std::string commandname,const double a);
+
    // Fichtenholz 52
+   SeqPower2(const double parama) : SequenceCommand(parama) {
+   }
+
 
    int no;
 
    double getNum() {
-     double po = sqrt(no+1);
-     double po1 = sqrt(no);
+     double po = pow(no+1,a);
+     double po1 = pow(no,a);
      return po - po1;
    } 
     
