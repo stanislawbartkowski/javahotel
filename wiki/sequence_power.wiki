@@ -1,5 +1,9 @@
 #summary Fihtenholz page 52
 
+http://code.google.com/p/javahotel/source/browse/trunk/examples/sequence/sequences/seqpower2.h
+
+Limit for 0<a<1
+
 Launch sequence:
 
 {{{
