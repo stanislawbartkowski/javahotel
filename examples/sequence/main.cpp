@@ -40,9 +40,11 @@ int main(int argc, char *argv[])
 //  SequenceCommand *com = createCommand(SEQFIH60,0.45);
 //  SequenceCommand *com = createCommand(SIMPLESEQ);
 
-//  SequenceCommand *com = createCommand(SEQPOWER2);
 //  SequenceCommand *com = createCommand(SEQGEOAR,1,1000);
-  SequenceCommand *com = createCommand(SEQC2,-3.1);
+//  SequenceCommand *com = createCommand(SEQC2,-3.1);
+//  SequenceCommand *com = createCommand(SEQPOWER2,.5);
+
+  SequenceCommand *com = createCommand(SEQGEOAR,1,98);
 
   SequenceEngine::runSequence(com,100);
 

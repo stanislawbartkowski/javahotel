@@ -30,9 +30,6 @@ SequenceCommand *SequenceFactory::createCommand(const std::string commandname) {
 	if (commandname == SIMPLESEQ) {
 		return new HarmSequence();
 	}
-	if (commandname == SEQPOWER2) {
-		return new SeqPower2();
-	}
 	return NULL;
 }
 
@@ -53,6 +50,9 @@ SequenceCommand *SequenceFactory::createCommand(const std::string commandname, c
 	}
 	if (commandname == SEQFIH60) {
 		return new SeqFih60(a);
+	}
+	if (commandname == SEQPOWER2) {
+		return new SeqPower2(a);
 	}
 	return NULL;
 }

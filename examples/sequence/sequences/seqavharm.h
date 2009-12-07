@@ -24,7 +24,7 @@ class SeqAvHarm : public SequenceCommand {
 
    friend SequenceCommand *SequenceFactory::createCommand(const std::string commandname,const double a,const double b);
 
-   // Fichtenholz 40
+   // Fichtenholz 61
 
    double an1,bn1;
 
