@@ -419,7 +419,7 @@ public class BookResRoom extends AbstractAuxRecordPanel {
         bill.setAdvancePay(vCol);
     }
 
-    private class SetCustomerData implements RData.IOneList {
+    private class SetCustomerData implements RData.IOneList<AbstractTo> {
 
         public void doOne(AbstractTo val) {
             cust.setFields(val);

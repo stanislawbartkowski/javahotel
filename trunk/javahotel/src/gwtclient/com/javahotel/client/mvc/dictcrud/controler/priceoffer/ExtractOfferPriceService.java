@@ -51,22 +51,6 @@ public class ExtractOfferPriceService {
         for (int i = 0; i < rows.size(); i++) {
             OfferServicePriceP o = new OfferServicePriceP();
             ExtractOneLine(o,tView.getRows(i),col,rows.get(i));
-//            o.setService(rows.get(i));
-//            List<BigDecimal> val = tView.getRows(i);
-//            o.setHighseasonprice(val.get(ISeasonPriceModel.HIGHSEASON));
-//            o.setHighseasonweekendprice(val
-//                    .get(ISeasonPriceModel.HIGHSEASONWEEKEND));
-//            o.setLowseasonprice(val.get(ISeasonPriceModel.LOWSEASON));
-//            o.setLowseasonweekendprice(val
-//                    .get(ISeasonPriceModel.LOWSEASONWEEKEND));
-//            List<OfferSpecialPriceP> se = new ArrayList<OfferSpecialPriceP>();
-//            for (int co = 0; co < col.size(); co++) {
-//                OfferSpecialPriceP pp = new OfferSpecialPriceP();
-//                pp.setSpecialperiod(col.get(co).getSpecId());
-//                pp.setPrice(val.get(ISeasonPriceModel.MAXSPECIALNO + co + 1));
-//                se.add(pp);
-//            }
-//            o.setSpecialprice(se);
             off.add(o);
         }
         oP.setServiceprice(off);

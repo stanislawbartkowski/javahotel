@@ -40,18 +40,16 @@ public class ListOfServices {
         this.i = i;
     }
 
-    private class GetS implements IOneList {
+    private class GetS implements IOneList<RoomStandardP> {
 
-        public void doOne(final AbstractTo val) {
-            RoomStandardP p = (RoomStandardP) val;
+        public void doOne(final RoomStandardP p) {
             i.doVList(CollToArray.toA(p.getServices()));
         }
     }
 
-    private class GetR implements IOneList {
+    private class GetR implements IOneList<ResObjectP> {
 
-        public void doOne(final AbstractTo val) {
-            ResObjectP re = (ResObjectP) val;
+        public void doOne(final ResObjectP re) {
             DictionaryP d = re.getRStandard();
             String name = d.getName();
             CommandParam p = rI.getR().getHotelDictName(DictType.RoomStandard,

@@ -33,9 +33,9 @@ public class OfferSeasonPeriodP extends AbstractTo {
     }
 
     @Override
-    public Class getT(IField f) {
+    public Class<?> getT(IField f) {
         F fi = (F) f;
-        Class cla = String.class;
+        Class<?> cla = String.class;
         switch (fi) {
             case startP:
             case endP:

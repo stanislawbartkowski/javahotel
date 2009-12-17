@@ -31,24 +31,26 @@ import com.javahotel.client.mvc.record.view.RecordViewFactory;
 import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.table.model.ITableFilter;
 
-
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class DictCrudIOneRecordFactory {
 
     private final OneRecordModifWidgetFactory oFactory;
     private final IResLocator rI;
-    
+    private final GetRecordDefFactory gFactory;
+
     @Inject
-    public DictCrudIOneRecordFactory(IResLocator rI, OneRecordModifWidgetFactory oFactory) {
+    public DictCrudIOneRecordFactory(IResLocator rI,
+            OneRecordModifWidgetFactory oFactory, GetRecordDefFactory gFactory) {
         this.rI = rI;
         this.oFactory = oFactory;
+        this.gFactory = gFactory;
     }
 
-    public IOneARecord getTableLineR(final DictData da, final IRecordView vTable,
-            final  ITableFilter tFilter) {
+    public IOneARecord getTableLineR(final DictData da,
+            final IRecordView vTable, final ITableFilter tFilter) {
         ICrudRecordFactory fa = new DictRecordControler(rI, da,
                 new RecordAuxParam());
         IOneARecord aR = OneRecordFactory.getR(rI, da, fa, vTable);
@@ -57,19 +59,20 @@ public class DictCrudIOneRecordFactory {
         return aR;
     }
 
-    public IRecordView createNViewCopy(final DictData da, final IRecordView vTable) {
-       List<RecordField> dict = GetRecordDefFactory.getDef(rI, da);
-       List<RecordField> newList = new ArrayList<RecordField>();
-       List<RecordField> iList = vTable.getModel().getFields();
-       for (RecordField r : iList) {
-           for (RecordField rr: dict) {
-               if (r.getFie() == rr.getFie()) {
-                   newList.add(r);
-               }
-           }
-       }
-       IRecordDef newM = RecordDefFactory.getRecordDef(rI, "", newList);
-       IRecordView vi = RecordViewFactory.getTableViewRecord(rI, null, newM);
-       return vi;
+    public IRecordView createNViewCopy(final DictData da,
+            final IRecordView vTable) {
+        List<RecordField> dict = gFactory.getDef(da);
+        List<RecordField> newList = new ArrayList<RecordField>();
+        List<RecordField> iList = vTable.getModel().getFields();
+        for (RecordField r : iList) {
+            for (RecordField rr : dict) {
+                if (r.getFie() == rr.getFie()) {
+                    newList.add(r);
+                }
+            }
+        }
+        IRecordDef newM = RecordDefFactory.getRecordDef(rI, "", newList);
+        IRecordView vi = RecordViewFactory.getTableViewRecord(rI, null, newM);
+        return vi;
     }
 }

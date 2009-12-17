@@ -23,14 +23,19 @@ import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
+import com.javahotel.client.mvc.dict.validator.price.PriceListErrorContext;
+import com.javahotel.client.mvc.dict.validator.price.PriceListValidatorService;
 import com.javahotel.client.mvc.dictcrud.controler.AbstractAuxRecordPanel;
 import com.javahotel.client.mvc.dictcrud.controler.IBeforeViewSignal;
 import com.javahotel.client.mvc.dictcrud.controler.IModifRecordDef;
 import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
+import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.seasonprice.model.ISeasonPriceModel;
 import com.javahotel.client.mvc.seasonprice.model.ISpecialMap;
 import com.javahotel.client.mvc.seasonprice.model.MapSpecialToI;
 import com.javahotel.client.mvc.util.GetFieldModif;
+import com.javahotel.client.mvc.validator.IErrorMessage;
+import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
@@ -40,7 +45,6 @@ import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.util.StringU;
-import com.javahotel.view.gwt.recordviewdef.GetRecordDefFactory;
 
 /**
  * 
@@ -55,15 +59,19 @@ public class PriceListAuxView extends AbstractAuxRecordPanel {
     private boolean valStarted;
     private SyncC sync;
     private final static int HWIDTH = 30;
+    private final GetRecordDefFactory gFactory;
+    private final PriceListValidatorService vService;
 
     @Inject
     public PriceListAuxView(IResLocator rI, IDecimalTableView tView,
-            GetSeasonSpecial sS) {
+            GetSeasonSpecial sS,GetRecordDefFactory gFactory,PriceListValidatorService vService) {
         this.rI = rI;
         this.tView = tView;
         this.sS = sS;
         fModif = new GetFieldModif(OfferPriceP.F.season);
         fModif.setChangeL(new ChangeL());
+        this.gFactory = gFactory;
+        this.vService = vService;
     }
 
     public Object getAuxO() {
@@ -192,7 +200,7 @@ public class PriceListAuxView extends AbstractAuxRecordPanel {
     }
 
     private void setTitle(List<ColsHeader> cols) {
-        List<String> pri = GetRecordDefFactory.getStandPriceNames();
+        List<String> pri = gFactory.getStandPriceNames();
         for (int i = 0; i <= ISeasonPriceModel.MAXSPECIALNO; i++) {
             cols.add(new ColsHeader("", 0));
         }
@@ -230,4 +238,17 @@ public class PriceListAuxView extends AbstractAuxRecordPanel {
             tView.setEnable(true);
         }
     }
+
+    @Override
+    public IRecordValidator getValidator() {
+        vService.setErrContext(new PriceListErrorContext());
+        return vService;
+    }
+
+    @Override
+    public void showInvalidate(IErrorMessage co) {
+        PriceListErrorContext pCon = (PriceListErrorContext) co;
+    }
+
+
 }

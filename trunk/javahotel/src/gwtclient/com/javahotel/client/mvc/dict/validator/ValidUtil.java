@@ -19,11 +19,11 @@ import com.javahotel.client.CallBackHotel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.ifield.ILineField;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.dict.validator.errmess.DictErrorMessage;
 import com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess;
 import com.javahotel.client.mvc.record.model.RecordField;
-import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
 import com.javahotel.client.mvc.validator.IErrorMessageContext;
 import com.javahotel.client.mvc.validator.ISignalValidate;
 import com.javahotel.common.command.ReturnPersist;
@@ -34,12 +34,12 @@ import com.javahotel.common.toobject.IField;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-class ValidUtil {
+public class ValidUtil {
 
     private ValidUtil() {
     }
 
-    static List<InvalidateMess> checkEmpty(RecordModel mo, List<IField> eF) {
+    public static List<InvalidateMess> checkEmpty(RecordModel mo, List<IField> eF) {
         AbstractTo a = mo.getA();
         List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
         boolean ok = true;
@@ -67,7 +67,7 @@ class ValidUtil {
         }
         return errMess;
     }
-
+    
     static void callSig(List<InvalidateMess> col, ISignalValidate sig,
             IErrorMessageContext iCo) {
         if (col == null) {
@@ -86,7 +86,8 @@ class ValidUtil {
 
     static List<InvalidateMess> validateEmpty(final DictData d,
             final int action, final RecordModel a) {
-        List<IField> eF = DictEmptyFactory.getNoEmpty(action, d);
+        List<IField> eF = HInjector.getI().getDictEmptyFactory().getNoEmpty(
+                action, d);
         List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
         return errMess;
     }

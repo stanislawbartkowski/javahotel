@@ -65,6 +65,7 @@ class DictRecordControler implements ICrudRecordFactory {
     private final RecordAuxParam aParam;
     private final DictValidatorFactory dFactory;
     private final DictButtonFactory bFactory;
+    private final GetRecordDefFactory gFactory;
 
     private CrudRView rView;
     private boolean setW;
@@ -91,6 +92,7 @@ class DictRecordControler implements ICrudRecordFactory {
         this.aParam = aParam;
         dFactory = HInjector.getI().getDictValidFactory();
         bFactory = HInjector.getI().getDictButtonFactory();
+        gFactory = HInjector.getI().getGetRecordDefFactory();
         ex = RecordExtractorFactory.getExtractor(rI, da);
     }
 
@@ -140,7 +142,7 @@ class DictRecordControler implements ICrudRecordFactory {
     }
 
     public List<RecordField> getDef() {
-        List<RecordField> dict = GetRecordDefFactory.getDef(rI, da);
+        List<RecordField> dict = gFactory.getDef(da);
         if (aParam.getModifD() != null) {
             aParam.getModifD().modifRecordDef(dict);
         }
@@ -257,9 +259,9 @@ class DictRecordControler implements ICrudRecordFactory {
             aParam.getBSignal().signal(a);
         }
         List<RecordField> dict = getDef();
-        String title = GetRecordDefFactory.getTitle(rI, da);
-        String aName = GetRecordDefFactory.getActionName(rI, actionId);
-        MvcWindowSize mSize = GetRecordDefFactory.getSize(rI, da);
+        String title = gFactory.getTitle(da);
+        String aName = gFactory.getActionName(actionId);
+        MvcWindowSize mSize = gFactory.getSize(da);
         IRecordDef model = RecordDefFactory.getRecordDef(rI, aName + " / "
                 + title, dict, mSize);
 

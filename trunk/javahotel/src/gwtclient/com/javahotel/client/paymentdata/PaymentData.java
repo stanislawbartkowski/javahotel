@@ -85,7 +85,7 @@ public class PaymentData {
         }
     }
 
-    private class CDict implements IOneList {
+    private class CDict implements IOneList<AbstractTo> {
 
         private final boolean season;
         private final SRows s;

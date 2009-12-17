@@ -13,7 +13,6 @@
 package com.javahotel.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Label;
 
 /**
  * 
@@ -29,10 +28,6 @@ public abstract class CallBackHotel<T> implements AsyncCallback<T> {
     public interface onFailureExt {
 
         boolean doSth(Throwable ext);
-    }
-
-    private Label getReply() {
-        return pLocator.getPanel().getReplyL();
     }
 
     public CallBackHotel(final IResLocator p) {
@@ -65,13 +60,6 @@ public abstract class CallBackHotel<T> implements AsyncCallback<T> {
                 return;
             }
         }
-
         pLocator.getPanel().setErrorL(pLocator.getLabels().commError());
-
-        // Label e = pLocator.getPanel().getErrorL();
-        // e.setStyleName("error-reply");
-        // e.setVisible(true);
-        // e.setText(pLocator.getLabels().commError());
-
     }
 }

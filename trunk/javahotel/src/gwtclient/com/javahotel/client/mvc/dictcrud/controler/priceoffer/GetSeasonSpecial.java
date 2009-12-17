@@ -23,7 +23,6 @@ import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.SeasonPeriodT;
@@ -48,7 +47,7 @@ public class GetSeasonSpecial {
 		initSeason();
 	}
 
-	private class ReadSeason implements IOneList {
+	private class ReadSeason implements IOneList<OfferSeasonP> {
 
 		ISpecialMap i;
 
@@ -56,8 +55,7 @@ public class GetSeasonSpecial {
 			this.i = i;
 		}
 
-		public void doOne(AbstractTo val) {
-			OfferSeasonP oP = (OfferSeasonP) val;
+		public void doOne(OfferSeasonP oP) {
 			toI = new ArrayList<MapSpecialToI>();
 			List<OfferSeasonPeriodP> co = oP.getPeriods();
 			if (co != null) {

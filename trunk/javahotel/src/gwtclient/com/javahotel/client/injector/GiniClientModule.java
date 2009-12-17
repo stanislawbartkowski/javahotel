@@ -33,6 +33,7 @@ import com.javahotel.client.mvc.controller.onerecordmodif.OneRecordModifWidgetFa
 import com.javahotel.client.mvc.crud.controler.CrudControlerFactory;
 import com.javahotel.client.mvc.crudtable.controler.CrudTableControlerFactory;
 import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
+import com.javahotel.client.mvc.dict.validator.price.PriceListValidatorService;
 import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.client.mvc.dictcrud.controler.DictCrudIOneRecordFactory;
 import com.javahotel.client.mvc.dictcrud.controler.bookelemlist.BookRowList;
@@ -47,12 +48,15 @@ import com.javahotel.client.mvc.dictcrud.read.CrudReadModelFactory;
 import com.javahotel.client.mvc.gridmodel.model.GridModelViewFactory;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
+import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
+import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.table.model.TableModelFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
 import com.javahotel.client.paymentdata.PaymentData;
 import com.javahotel.client.start.IWebEntry;
 import com.javahotel.client.start.MainWebEntry;
 import com.javahotel.view.gwt.grid.view.GridGwtGetViewFactory;
+import com.javahotel.view.gwt.recordviewdef.GwtGetRecordDefFactory;
 import com.javahotel.view.gwt.table.view.ViewTableViewFactory;
 
 public class GiniClientModule extends AbstractGinModule {
@@ -91,5 +95,9 @@ public class GiniClientModule extends AbstractGinModule {
         bind(OneRecordModifWidgetFactory.class).in(Singleton.class);
         bind(DictCrudIOneRecordFactory.class).in(Singleton.class);
         bind(ExtractOfferPriceService.class).in(Singleton.class);
+        bind(GwtGetRecordDefFactory.class).in(Singleton.class);
+        bind(GetRecordDefFactory.class).in(Singleton.class);
+        bind(DictEmptyFactory.class).in(Singleton.class);
+        bind(PriceListValidatorService.class);
     }
 }

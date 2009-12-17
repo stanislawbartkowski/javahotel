@@ -45,9 +45,9 @@ public interface IViewInterface {
 
     ICheckDictModel getModel(IResLocator rI, DictType d);
 
-    List<RecordField> getDef(IResLocator rI, DictData da);
+//    List<RecordField> getDef(IResLocator rI, DictData da);
 
-    MvcWindowSize getSize(DictData da);
+//    MvcWindowSize getSize(DictData da);
 
     IDrawTabPanel getTabPanel(IResLocator rI, List<EPanelCommand> pList);
 

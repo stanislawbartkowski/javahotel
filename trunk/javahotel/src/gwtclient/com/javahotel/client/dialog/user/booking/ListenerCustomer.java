@@ -45,7 +45,7 @@ class ListenerCustomer {
         this.rI = rI;
     }
 
-    private class BackCC implements RData.IOneList {
+    private class BackCC implements RData.IOneList<CustomerP> {
 
         private final RecordModel a;
         @SuppressWarnings("unused")
@@ -56,8 +56,7 @@ class ListenerCustomer {
             this.dict = dict;
         }
 
-        public void doOne(AbstractTo val) {
-            CustomerP cust = (CustomerP) val;
+        public void doOne(CustomerP cust) {
             ABillsCustomer aB = (ABillsCustomer) a.getA();
             BillsCustomer bb = (BillsCustomer) aB.getO();
             bb.getCust().copyFrom(cust);

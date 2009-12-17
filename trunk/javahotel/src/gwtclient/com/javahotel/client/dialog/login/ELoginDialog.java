@@ -83,8 +83,8 @@ public class ELoginDialog {
         bFactory = HInjector.getI().getDictButtonFactory();
         IContrPanel co = bFactory.getLoginButt();
         da = new DictData(user ? SpecE.LoginUser : SpecE.LoginAdmin);
-        List<RecordField> field = GetRecordDefFactory.getDef(rI, da);
-        String dTitle = GetRecordDefFactory.getTitle(rI, da);
+        List<RecordField> field = HInjector.getI().getGetRecordDefFactory().getDef(da);
+        String dTitle = HInjector.getI().getGetRecordDefFactory().getTitle(da);
         IRecordDef model = RecordDefFactory.getRecordDef(rI, dTitle, field);
         v = RecordViewFactory.getRecordView(rI, iSet, da, model, co,
                 new LoginClick(), null);

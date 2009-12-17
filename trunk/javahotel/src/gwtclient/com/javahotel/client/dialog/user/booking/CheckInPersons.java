@@ -31,7 +31,6 @@ import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.SynchronizeList;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
@@ -80,7 +79,7 @@ class CheckInPersons {
         }
     }
 
-    private class R implements IOneList {
+    private class R implements IOneList<ResObjectP> {
 
         private final BookElemP r;
         private SyncC s;
@@ -102,7 +101,7 @@ class CheckInPersons {
             }
         }
 
-        private class BackC implements RData.IOneList {
+        private class BackC implements RData.IOneList<CustomerP> {
 
             private final ResRoomGuest ge;
 
@@ -110,8 +109,7 @@ class CheckInPersons {
                 this.ge = ge;
             }
 
-            public void doOne(AbstractTo val) {
-                CustomerP cu = (CustomerP) val;
+            public void doOne(CustomerP cu) {
                 ge.setO2(cu);
                 s.signalDone();
             }
@@ -123,8 +121,7 @@ class CheckInPersons {
             return gu;
         }
 
-        public void doOne(AbstractTo val) {
-            ResObjectP re = (ResObjectP) val;
+        public void doOne(ResObjectP re) {
             int ma = re.getNoPerson();
             List<ResRoomGuest> gList = new ArrayList<ResRoomGuest>();
             List<GuestP> ge = r.getGuests();

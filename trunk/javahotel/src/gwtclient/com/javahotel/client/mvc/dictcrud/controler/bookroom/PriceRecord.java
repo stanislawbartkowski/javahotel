@@ -25,16 +25,16 @@ import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
 import com.javahotel.client.mvc.dictcrud.controler.priceoffer.GetSeasonSpecial;
 import com.javahotel.client.mvc.dictcrud.controler.priceoffer.SetPriceForOffer;
 import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
+import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.seasonprice.model.ISpecialMap;
 import com.javahotel.client.mvc.seasonprice.model.MapSpecialToI;
+import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.SynchronizeList;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.OfferPriceP;
-import com.javahotel.view.gwt.recordviewdef.GetRecordDefFactory;
 
 class PriceRecord {
 
@@ -43,6 +43,7 @@ class PriceRecord {
     private final IResLocator rI;
     private final GetSeasonSpecial sS;
     private final SetPriceForOffer off;
+    private final GetRecordDefFactory gFactory;
 
     private final ILineField serv;
     private List<MapSpecialToI> col;
@@ -51,11 +52,11 @@ class PriceRecord {
     List<MapSpecialToI> getCol() {
         return col;
     }
-    
+
     IDecimalTableView getDecV() {
         return decV;
     }
-    
+
     private void setNames() {
         List<String> co = new ArrayList<String>();
         setTitle(co);
@@ -97,7 +98,7 @@ class PriceRecord {
         List<ColsHeader> li = new ArrayList<ColsHeader>();
         li.add(new ColsHeader(""));
         decV.setCols(co, li);
-        List<String> rows = GetRecordDefFactory.getStandPriceNames();
+        List<String> rows = gFactory.getStandPriceNames();
         for (String s : rows) {
             col.add(s);
         }
@@ -117,7 +118,7 @@ class PriceRecord {
         }
     }
 
-    private class CDict implements IOneList {
+    private class CDict implements IOneList<OfferPriceP> {
 
         private final SyncC sC;
 
@@ -125,8 +126,8 @@ class PriceRecord {
             this.sC = sC;
         }
 
-        public void doOne(AbstractTo val) {
-            sP = (OfferPriceP) val;
+        public void doOne(OfferPriceP val) {
+            sP = val;
             sC.signalDone();
         }
     }
@@ -143,6 +144,7 @@ class PriceRecord {
             }
 
         };
+        gFactory = HInjector.getI().getGetRecordDefFactory();
         this.serv.setChangeListener(iC);
         SyncC sC = new SyncC();
         sS = HInjector.getI().getGetSeasonSpecial();
@@ -161,5 +163,7 @@ class PriceRecord {
         p.setSeasonName(season);
         rI.getR().getOne(RType.ListDict, p, new CDict(sC));
     }
+
+
 
 }

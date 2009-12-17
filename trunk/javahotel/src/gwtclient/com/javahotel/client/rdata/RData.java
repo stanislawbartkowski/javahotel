@@ -84,7 +84,7 @@ public class RData {
 
     private class ReadResInfoData implements IReadResData {
 
-        private class setRes extends CallBackHotel {
+        private class setRes extends CallBackHotel<List<ResDayObjectStateP>> {
 
             private final IReadResCallBack ca;
 
@@ -94,8 +94,7 @@ public class RData {
             }
 
             @Override
-            public void onMySuccess(final Object arg) {
-                List<ResDayObjectStateP> a = (List<ResDayObjectStateP>) arg;
+            public void onMySuccess(List<ResDayObjectStateP> a) {
                 ca.setCol(a);
             }
         }
@@ -119,9 +118,9 @@ public class RData {
         void doVList(final List<? extends AbstractTo> val);
     }
 
-    public interface IOneList {
+    public interface IOneList<T> {
 
-        void doOne(final AbstractTo val);
+        void doOne(final T val);
     }
 
     private class CallList extends CallBackHotel {

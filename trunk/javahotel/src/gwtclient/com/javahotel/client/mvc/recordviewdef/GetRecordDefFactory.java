@@ -12,13 +12,17 @@
  */
 package com.javahotel.client.mvc.recordviewdef;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IPersistAction;
 import com.javahotel.client.dialog.MvcWindowSize;
 import com.javahotel.client.mvc.record.model.RecordField;
+import com.javahotel.client.mvc.seasonprice.model.ISeasonPriceModel;
+import com.javahotel.view.gwt.recordviewdef.GwtGetRecordDefFactory;
 
 /**
  * 
@@ -26,15 +30,20 @@ import com.javahotel.client.mvc.record.model.RecordField;
  */
 public class GetRecordDefFactory {
 
-    private GetRecordDefFactory() {
+    private final IResLocator rI;
+    private final GwtGetRecordDefFactory gFactory;
+    
+    @Inject
+    public GetRecordDefFactory(IResLocator rI, GwtGetRecordDefFactory gFactory) {
+        this.rI = rI;
+        this.gFactory = gFactory;
     }
 
-    public static List<RecordField> getDef(final IResLocator rI,
-            final DictData da) {
-        return rI.getView().getDef(rI, da);
+    public List<RecordField> getDef(final DictData da) {
+        return gFactory.getDef(da);
     }
 
-    public static String getTitle(final IResLocator rI, final DictData da) {
+    public String getTitle(final DictData da) {
         if (da.getSE() != null) {
             switch (da.getSE()) {
             case SpecialPeriod:
@@ -105,7 +114,7 @@ public class GetRecordDefFactory {
         return null;
     }
 
-    public static String getActionName(final IResLocator rI, final int action) {
+    public String getActionName(final int action) {
         switch (action) {
         case IPersistAction.ADDACION:
             return "Dodanie";
@@ -116,8 +125,23 @@ public class GetRecordDefFactory {
         }
         return null;
     }
+    
+    public List<String> getStandPriceNames() {
+        List<String> pri = new ArrayList<String>();
+        for (int i = 0; i <= ISeasonPriceModel.MAXSPECIALNO; i++) {
+            pri.add("");
+        }
+        pri.set(ISeasonPriceModel.HIGHSEASON, "W sezonie");
+        pri.set(ISeasonPriceModel.HIGHSEASONWEEKEND, "W sezonie weekend");
+        pri.set(ISeasonPriceModel.LOWSEASON, "Poza sezonem");
+        pri.set(ISeasonPriceModel.LOWSEASONWEEKEND, "Poza sezonem weekend");
+        return pri;
+    }
 
-    public static MvcWindowSize getSize(IResLocator rI, DictData da) {
-        return rI.getView().getSize(da);
+
+    // TODO: remove in  the future
+    public MvcWindowSize getSize(DictData da) {
+        return null;
+
     }
 }
