@@ -15,6 +15,7 @@ package com.javahotel.view.gwt.recordviewdef;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.MvcWindowSize;
@@ -23,7 +24,6 @@ import com.javahotel.client.ifield.ILineField;
 import com.javahotel.client.mvc.auxabstract.BillsCustomer;
 import com.javahotel.client.mvc.auxabstract.LoginRecord;
 import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
-import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
 import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.seasonprice.model.ISeasonPriceModel;
 import com.javahotel.common.command.CommandParam;
@@ -54,13 +54,16 @@ import com.javahotel.common.toobject.VatDictionaryP;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class GetRecordDefFactory {
+public class GwtGetRecordDefFactory {
 
-    private GetRecordDefFactory() {
+    private final IResLocator rI;
+    
+    @Inject
+    public GwtGetRecordDefFactory(final IResLocator rI) {
+        this.rI = rI;
     }
 
-    private static List<RecordField> getStandDict(final IResLocator rI,
-            String symName, boolean enable) {
+    private List<RecordField> getStandDict(String symName, boolean enable) {
         List<RecordField> dict = new ArrayList<RecordField>();
         ILineField name = GetIEditFactory.getTextEditI(rI);
         ILineField descr = GetIEditFactory.getTextEditI(rI);
@@ -74,12 +77,11 @@ public class GetRecordDefFactory {
         return dict;
     }
 
-    private static List<RecordField> getStandDict(final IResLocator rI,
-            String symName) {
-        return getStandDict(rI, symName, true);
+    private List<RecordField> getStandDict(String symName) {
+        return getStandDict(symName, true);
     }
 
-    private static List<RecordField> getDef(final IResLocator rI, final RType rt) {
+    private List<RecordField> getDef(final RType rt) {
         List<RecordField> dict = new ArrayList<RecordField>();
         ILineField name = GetIEditFactory.getTextEditI(rI);
         switch (rt) {
@@ -110,8 +112,7 @@ public class GetRecordDefFactory {
         return dict;
     }
 
-    private static List<RecordField> getDef(final IResLocator rI,
-            final DictData.SpecE e) {
+    private List<RecordField> getDef(final DictData.SpecE e) {
         List<RecordField> dict = null;
         switch (e) {
         case SpecialPeriod:
@@ -198,7 +199,7 @@ public class GetRecordDefFactory {
                     BookingStateP.F.bState, true));
             break;
         case ResGuestList:
-            List<RecordField> cList = getDef(rI, new DictData(
+            List<RecordField> cList = getDef(new DictData(
                     DictType.CustomerList));
             checkIn = GetIEditFactory.getTextCalendard(rI);
             checkOut = GetIEditFactory.getTextCalendard(rI);
@@ -275,29 +276,28 @@ public class GetRecordDefFactory {
                     BookingP.F.noPersons, true));
             return dict;
         case LoginUser:
-            return getLoginDef(rI, true);
+            return getLoginDef(true);
         case LoginAdmin:
-            return getLoginDef(rI, false);
+            return getLoginDef(false);
         }
         return dict;
     }
 
-    public static List<RecordField> getDef(final IResLocator rI,
-            final DictData da) {
+    public List<RecordField> getDef(final DictData da) {
         if (da.getSE() != null) {
-            return getDef(rI, da.getSE());
+            return getDef(da.getSE());
         }
         if (da.getD() == null) {
-            return getDef(rI, da.getRt());
+            return getDef(da.getRt());
         }
         List<RecordField> dict = null;
         switch (da.getD()) {
         case RoomFacility:
         case RoomStandard:
-            dict = getStandDict(rI, "Symbol");
+            dict = getStandDict("Symbol");
             break;
         case RoomObjects:
-            dict = getStandDict(rI, "Symbol");
+            dict = getStandDict("Symbol");
             CommandParam p = rI.getR().getHotelCommandParam();
             p.setDict(DictType.RoomStandard);
             ILineField standardB = GetIEditFactory.getListValuesBox(rI,
@@ -310,13 +310,13 @@ public class GetRecordDefFactory {
                     ResObjectP.F.noperson, true));
             break;
         case VatDict:
-            dict = getStandDict(rI, "Symbol");
+            dict = getStandDict("Symbol");
             ILineField percent = GetIEditFactory.getNumberCalculator(rI);
             dict.add(new RecordField("Procent", percent, VatDictionaryP.F.vat,
                     true));
             break;
         case ServiceDict:
-            dict = getStandDict(rI, "Symbol");
+            dict = getStandDict("Symbol");
             p = rI.getR().getHotelCommandParam();
             p.setDict(DictType.VatDict);
             ILineField vatServ = GetIEditFactory.getListValuesBox(rI,
@@ -329,7 +329,7 @@ public class GetRecordDefFactory {
                     ServiceDictionaryP.F.servtype, true));
             break;
         case OffSeasonDict:
-            dict = getStandDict(rI, "Symbol");
+            dict = getStandDict("Symbol");
             ILineField fromP = GetIEditFactory.getTextCalendard(rI);
             ILineField toP = GetIEditFactory.getTextCalendard(rI);
 
@@ -338,7 +338,7 @@ public class GetRecordDefFactory {
             dict.add(new RecordField("Do", toP, OfferSeasonP.F.endp, true));
             break;
         case PriceListDict:
-            dict = getStandDict(rI, "Symbol");
+            dict = getStandDict("Symbol");
             p = rI.getR().getHotelCommandParam();
             p.setDict(DictType.OffSeasonDict);
             ILineField season = GetIEditFactory.getListValuesBox(rI,
@@ -409,7 +409,7 @@ public class GetRecordDefFactory {
             break;
 
         case BookingList:
-            dict = getStandDict(rI, "Symbol", false);
+            dict = getStandDict("Symbol", false);
             ILineField dFrom = GetIEditFactory.getTextCalendard(rI);
             ILineField dTo = GetIEditFactory.getTextCalendard(rI);
             ILineField noPerson = GetIEditFactory.getNumEditI(rI);
@@ -428,12 +428,11 @@ public class GetRecordDefFactory {
         return dict;
     }
 
-    public static MvcWindowSize getSize(DictData da) {
+    private MvcWindowSize getSize(DictData da) {
         return null;
     }
 
-    private static List<RecordField> getLoginDef(final IResLocator rI,
-            final boolean user) {
+    private List<RecordField> getLoginDef(final boolean user) {
         List<RecordField> dict = new ArrayList<RecordField>();
         ILineField name = GetIEditFactory.getTextEditI(rI);
         ILineField pass = GetIEditFactory.getPasswordEditI(rI);
@@ -449,15 +448,4 @@ public class GetRecordDefFactory {
         return dict;
     }
 
-    public static List<String> getStandPriceNames() {
-        List<String> pri = new ArrayList<String>();
-        for (int i = 0; i <= ISeasonPriceModel.MAXSPECIALNO; i++) {
-            pri.add("");
-        }
-        pri.set(ISeasonPriceModel.HIGHSEASON, "W sezonie");
-        pri.set(ISeasonPriceModel.HIGHSEASONWEEKEND, "W sezonie weekend");
-        pri.set(ISeasonPriceModel.LOWSEASON, "Poza sezonem");
-        pri.set(ISeasonPriceModel.LOWSEASONWEEKEND, "Poza sezonem weekend");
-        return pri;
-    }
 }

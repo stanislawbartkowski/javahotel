@@ -49,162 +49,160 @@ import com.javahotel.common.toobject.ResObjectP;
  */
 class PopUpInfoRes {
 
-	private final static int CHANGETOSTAY = 0;
-	private final static int CHECKINPERSONS = 1;
-	private final static int ADDPAYMENT = 2;
-	private final IResLocator rI;
-	private final List<String> rList;
-	private final List<Date> dLine;
-	private final PanelResCalendar pCa;
-	private final ResDayObjectStateP p;
-	private final Date d;
-	private BookingP book;
-	private PopUpWithMenuClose aPanel;
-	private Widget inW = null;
+    private final static int CHANGETOSTAY = 0;
+    private final static int CHECKINPERSONS = 1;
+    private final static int ADDPAYMENT = 2;
+    private final IResLocator rI;
+    private final List<String> rList;
+    private final List<Date> dLine;
+    private final PanelResCalendar pCa;
+    private final ResDayObjectStateP p;
+    private final Date d;
+    private BookingP book;
+    private PopUpWithMenuClose aPanel;
+    private Widget inW = null;
 
-	PopUpInfoRes(IResLocator rI, final List<String> r,
-			final List<Date> dLine, PanelResCalendar pCa,
-			ResDayObjectStateP p, Date d) {
-		this.rI = rI;
-		this.rList = r;
-		this.dLine = dLine;
-		this.pCa = pCa;
-		this.p = p;
-		this.d = d;
-		book = null;
-	}
+    PopUpInfoRes(IResLocator rI, final List<String> r, final List<Date> dLine,
+            PanelResCalendar pCa, ResDayObjectStateP p, Date d) {
+        this.rI = rI;
+        this.rList = r;
+        this.dLine = dLine;
+        this.pCa = pCa;
+        this.p = p;
+        this.d = d;
+        book = null;
+    }
 
-	private class R implements IOneList {
+    private class R implements IOneList<BookingP> {
 
-		private final AddPayment pa;
+        private final AddPayment pa;
 
-		R(AddPayment pa) {
-			this.pa = pa;
-		}
+        R(AddPayment pa) {
+            this.pa = pa;
+        }
 
-		public void doOne(AbstractTo val) {
-			book = (BookingP) val;
-			Widget w = new BookingInfo(rI, book, p.getPaymentRowId(), p
-					.getLState());
-			VerticalPanel h = aPanel.getVP();
-			if (inW != null) {
-				h.remove(inW);
-			}
-			h.add(w);
-			inW = w;
-			if (pa != null) {
-				pa.drawBill(book);
-			}
-		}
-	}
+        public void doOne(BookingP val) {
+            book = val;
+            Widget w = new BookingInfo(rI, book, p.getPaymentRowId(), p
+                    .getLState());
+            VerticalPanel h = aPanel.getVP();
+            if (inW != null) {
+                h.remove(inW);
+            }
+            h.add(w);
+            inW = w;
+            if (pa != null) {
+                pa.drawBill(book);
+            }
+        }
+    }
 
-	private void setBooking(AddPayment pay) {
-		if (p.getBookName() != null) {
-			CommandParam pa = rI.getR().getHotelDictName(DictType.BookingList,
-					p.getBookName());
-			rI.getR().getOne(RType.ListDict, pa, new R(pay));
-		}
+    private void setBooking(AddPayment pay) {
+        if (p.getBookName() != null) {
+            CommandParam pa = rI.getR().getHotelDictName(DictType.BookingList,
+                    p.getBookName());
+            rI.getR().getOne(RType.ListDict, pa, new R(pay));
+        }
 
-	}
+    }
 
-	private class PE implements IPersistResult {
+    private class PE implements IPersistResult {
 
-		public void success(PersistResultContext re) {
-			setBooking(null);
-		}
-	}
+        public void success(PersistResultContext re) {
+            setBooking(null);
+        }
+    }
 
-	private class PEE implements IPersistResult {
+    private class PEE implements IPersistResult {
 
-		private final AddPayment pa;
+        private final AddPayment pa;
 
-		PEE(AddPayment pa) {
-			this.pa = pa;
-		}
+        PEE(AddPayment pa) {
+            this.pa = pa;
+        }
 
-		public void success(PersistResultContext re) {
-			setBooking(pa);
+        public void success(PersistResultContext re) {
+            setBooking(pa);
 
-		}
-	}
+        }
+    }
 
-	private class RInfo implements IOneList {
+    private class RInfo implements IOneList<ResObjectP> {
 
-		public void doOne(AbstractTo val) {
-			ResObjectP r = (ResObjectP) val;
-			VerticalPanel h = aPanel.getVP();
-			Widget w = pCa.getPPSeason().getDInfo(d);
-			h.add(w);
-			w = new ResRoomInfo(rI, r);
-			h.add(w);
-			setBooking(null);
-		}
-	}
+        public void doOne(ResObjectP r) {
+            VerticalPanel h = aPanel.getVP();
+            Widget w = pCa.getPPSeason().getDInfo(d);
+            h.add(w);
+            w = new ResRoomInfo(rI, r);
+            h.add(w);
+            setBooking(null);
+        }
+    }
 
-	private class YesB implements IClickNextYesNo {
+    private class YesB implements IClickNextYesNo {
 
-		private class RBack extends CallBackHotel<ReturnPersist> {
+        private class RBack extends CallBackHotel<ReturnPersist> {
 
-			RBack() {
-				super(rI);
-			}
+            RBack() {
+                super(rI);
+            }
 
-			@Override
-			public void onMySuccess(ReturnPersist ret) {
-				if (ret.getIdName() != null) {
-					Window.alert(ret.getIdName());
-				} else {
-					Window.alert(ret.getErrorMessage());
-				}
-			}
-		}
+            @Override
+            public void onMySuccess(ReturnPersist ret) {
+                if (ret.getIdName() != null) {
+                    Window.alert(ret.getIdName());
+                } else {
+                    Window.alert(ret.getErrorMessage());
+                }
+            }
+        }
 
-		public void click(boolean yes) {
-			if (!yes) {
-				return;
-			}
-			CommandParam pa = rI.getR().getHotelCommandParam();
-			pa.setReservName(p.getBookName());
-			GWTGetService.getService().hotelOpRet(
-					HotelOpType.ChangeBookingToStay, pa, new RBack());
-		}
-	}
+        public void click(boolean yes) {
+            if (!yes) {
+                return;
+            }
+            CommandParam pa = rI.getR().getHotelCommandParam();
+            pa.setReservName(p.getBookName());
+            GWTGetService.getService().hotelOpRet(
+                    HotelOpType.ChangeBookingToStay, pa, new RBack());
+        }
+    }
 
-	void showDialog(final IWidgetSize arg0, final RoomInfoData rInfo,
-			final String resName) {
-		IControlClick cli = new IControlClick() {
+    void showDialog(final IWidgetSize arg0, final RoomInfoData rInfo,
+            final String resName) {
+        IControlClick cli = new IControlClick() {
 
-			public void click(ContrButton co, Widget w) {
-				if (book == null) {
-					return;
-				}
-				switch (co.getActionId()) {
-				case CHANGETOSTAY:
-					YesNoDialog dial = new YesNoDialog(rI, "Zamieniasz",
-							new YesB());
-					dial.show(w);
-					break;
+            public void click(ContrButton co, Widget w) {
+                if (book == null) {
+                    return;
+                }
+                switch (co.getActionId()) {
+                case CHANGETOSTAY:
+                    YesNoDialog dial = new YesNoDialog(rI, "Zamieniasz",
+                            new YesB());
+                    dial.show(w);
+                    break;
 
-				case CHECKINPERSONS:
-					CheckInPersons pe = new CheckInPersons(rI, book, new PE());
-					pe.showDialog(w);
-					break;
-				case ADDPAYMENT:
-					AddPayment pa = new AddPayment(rI);
-					pa.setPe(new PEE(pa));
-					pa.showDialog(w);
-					pa.drawBill(book);
-					break;
-				}
-			}
-		};
-		List<ContrButton> aButton = new ArrayList<ContrButton>();
-		aButton.add(new ContrButton(null, "Zamień na pobyt", CHANGETOSTAY));
-		aButton.add(new ContrButton(null, "Melduj osoby", CHECKINPERSONS));
-		aButton.add(new ContrButton(null, "Dopisz do rachunku", ADDPAYMENT));
-		IContrPanel cPa = ContrButtonFactory.getContr(rI, aButton);
+                case CHECKINPERSONS:
+                    CheckInPersons pe = new CheckInPersons(rI, book, new PE());
+                    pe.showDialog(w);
+                    break;
+                case ADDPAYMENT:
+                    AddPayment pa = new AddPayment(rI);
+                    pa.setPe(new PEE(pa));
+                    pa.showDialog(w);
+                    pa.drawBill(book);
+                    break;
+                }
+            }
+        };
+        List<ContrButton> aButton = new ArrayList<ContrButton>();
+        aButton.add(new ContrButton(null, "Zamień na pobyt", CHANGETOSTAY));
+        aButton.add(new ContrButton(null, "Melduj osoby", CHECKINPERSONS));
+        aButton.add(new ContrButton(null, "Dopisz do rachunku", ADDPAYMENT));
+        IContrPanel cPa = ContrButtonFactory.getContr(rI, aButton);
 
-		aPanel = new PopUpWithMenuClose(arg0, cPa, cli);
-		rInfo.getInfo(resName, new RInfo());
-	}
+        aPanel = new PopUpWithMenuClose(arg0, cPa, cli);
+        rInfo.getInfo(resName, new RInfo());
+    }
 }

@@ -75,12 +75,11 @@ public class BookRoom extends AbstractAuxRecordPanel {
         }
     }
     
-    private class ReadSeason implements IOneList {
+    private class ReadSeason implements IOneList<OfferSeasonP> {
 
-        public void doOne(AbstractTo val) {
-            osP = (OfferSeasonP) val;            
-        }
-        
+        public void doOne(OfferSeasonP val) {
+            osP = val;            
+        }      
     }
 
 
@@ -106,7 +105,6 @@ public class BookRoom extends AbstractAuxRecordPanel {
             off.add(o);
             oP.setServiceprice(off);
             
-//            priceService.ExtractOfferPrice(oP, dView, col);
             Date dFrom = rFrom.getELine().getDate();
             Date dTo = rTo.getELine().getDate();
             if ((dFrom == null) || (dTo == null)) {

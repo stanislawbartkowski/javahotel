@@ -12,17 +12,19 @@
  */
 package com.javahotel.client.mvc.recordviewdef;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.google.inject.Inject;
+import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.mvc.auxabstract.BillsCustomer;
 import com.javahotel.client.mvc.auxabstract.LoginRecord;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.DictionaryP;
-import com.javahotel.common.toobject.HotelP;
-import com.javahotel.common.toobject.IField;
-import java.util.ArrayList;
-import java.util.List;
-import com.javahotel.client.dialog.IPersistAction;
-import com.javahotel.client.mvc.auxabstract.BillsCustomer;
 import com.javahotel.common.toobject.AddPaymentP;
 import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.BookElemP;
@@ -30,25 +32,31 @@ import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.CustomerP;
+import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.GuestP;
+import com.javahotel.common.toobject.HotelP;
+import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
+import com.javahotel.common.toobject.OfferServicePriceP;
 import com.javahotel.common.toobject.PaymentP;
 import com.javahotel.common.toobject.PhoneNumberP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
 public class DictEmptyFactory {
-
-	private DictEmptyFactory() {
+    
+    private final IResLocator rI;
+    
+    @Inject
+	public DictEmptyFactory(IResLocator rI) {
+        this.rI = rI;
 	}
 
 	private static final List<IField> dictE;
@@ -175,7 +183,7 @@ public class DictEmptyFactory {
 		addE.add(AddPaymentP.F.customerSum);
 	}
 
-	private static List<IField> getNoEmpty(final DictData.SpecE d) {
+	private List<IField> getNoEmpty(final DictData.SpecE d) {
 		switch (d) {
 		case SpecialPeriod:
 			return specE;
@@ -205,7 +213,7 @@ public class DictEmptyFactory {
 		return null;
 	}
 
-	private static List<IField> getNoEmpty(final DictType d) {
+	private List<IField> getNoEmpty(final DictType d) {
 		switch (d) {
 		case RoomObjects:
 			return roomObjectE;
@@ -225,7 +233,7 @@ public class DictEmptyFactory {
 		return dictE;
 	}
 
-	private static List<IField> getNoEmpty(final int action,
+	private List<IField> getNoEmpty(final int action,
 			final RType rt) {
 		switch (rt) {
 		case AllPersons:
@@ -239,7 +247,7 @@ public class DictEmptyFactory {
 		return null;
 	}
 
-	public static List<IField> getNoEmpty(final int action,
+	public List<IField> getNoEmpty(final int action,
 			final DictData d) {
 		List<IField> c = null;
 		if (d.getRt() != null) {
@@ -254,15 +262,26 @@ public class DictEmptyFactory {
 		return getNoEmpty(d.getD());
 	}
 
-	public static List<IField> getNoEmpty(final DictData d) {
+	public List<IField> getNoEmpty(final DictData d) {
 		return getNoEmpty(IPersistAction.MODIFACTION, d);
 	}
 
-	public static Set<IField> getNoEmptyS(final DictData d) {
+	public Set<IField> getNoEmptyS(final DictData d) {
 		List<IField> co = getNoEmpty(d);
 		Set<IField> se = new HashSet<IField>();
 		se.addAll(co);
 		return se;
+	}
+	
+	public List<IField> getEmptyPriceList() {
+	    
+	    List<IField> e = new ArrayList<IField>();
+	    e.add(OfferServicePriceP.F.highseasonprice);
+        e.add(OfferServicePriceP.F.highseasonweekendprice);
+        e.add(OfferServicePriceP.F.lowseasonprice);
+        e.add(OfferServicePriceP.F.lowseasonweekendprice);
+        e.add(OfferServicePriceP.F.service);
+        return e;	    
 	}
 
 }

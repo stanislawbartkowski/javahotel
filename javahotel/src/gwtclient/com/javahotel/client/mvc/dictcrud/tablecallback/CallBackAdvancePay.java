@@ -21,12 +21,11 @@ import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.IField;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class CallBackAdvancePay implements ITableCallBackSetField {
@@ -37,7 +36,7 @@ class CallBackAdvancePay implements ITableCallBackSetField {
         this.rI = rI;
     }
 
-    private class CallBackCustOne implements IOneList {
+    private class CallBackCustOne implements IOneList<CustomerP> {
 
         private final ITableModel a;
         private final int row;
@@ -52,9 +51,9 @@ class CallBackAdvancePay implements ITableCallBackSetField {
             this.iSet = iSet;
         }
 
-        public void doOne(AbstractTo val) {
+        public void doOne(CustomerP val) {
             AdvancePaymentCustomer pa = (AdvancePaymentCustomer) a.getRow(row);
-            pa.setCust((CustomerP) val);
+            pa.setCust(val);
             String s = a.getField(row, f);
             iSet.setField(s);
         }

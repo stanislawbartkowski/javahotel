@@ -24,7 +24,6 @@ import com.javahotel.client.rdata.RData;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
@@ -46,10 +45,9 @@ public class BookingInfo extends Composite {
     private LId resId;
     private final BookingStateP bState;
 
-    private class CC implements RData.IOneList {
+    private class CC implements RData.IOneList<CustomerP> {
 
-        public void doOne(final AbstractTo val) {
-            CustomerP p = (CustomerP) val;
+        public void doOne(CustomerP p) {
             CustomerPopInfo po = new CustomerPopInfo(p);
             vp.add(po);
         }
@@ -95,10 +93,9 @@ public class BookingInfo extends Composite {
         rI.getR().getOne(RType.ListDict, pa, new CC());
     }
 
-    private class R implements RData.IOneList {
+    private class R implements RData.IOneList<BookingP> {
 
-        public void doOne(AbstractTo val) {
-            BookingP p = (BookingP) val;
+        public void doOne(BookingP p) {
             setB(p);
         }
     }

@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.mvc.dict.validator;
 
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
 import com.javahotel.client.CallBackHotel;
 import com.javahotel.client.GWTGetService;
@@ -43,6 +44,7 @@ class LoginValidator implements IRecordValidator {
 	private final boolean user;
 	private final DictData da;
 	private IErrorMessageContext iCo;
+	private final DictEmptyFactory eFactory;
 
 	LoginValidator(IResLocator rI, DictData da) {
 		this.rI = rI;
@@ -53,6 +55,7 @@ class LoginValidator implements IRecordValidator {
 		} else {
 			user = false;
 		}
+		eFactory = HInjector.getI().getDictEmptyFactory();
 	}
 
 	public boolean isEmpty(RecordModel a) {
@@ -125,7 +128,7 @@ class LoginValidator implements IRecordValidator {
 	}
 
 	public void validateS(int action, RecordModel a, ISignalValidate sig) {
-		List<IField> eF = DictEmptyFactory.getNoEmpty(da);
+		List<IField> eF = eFactory.getNoEmpty(da);
 		List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
 		if (errMess != null) {
 			sig.failue(new DictErrorMessage(errMess, iCo));

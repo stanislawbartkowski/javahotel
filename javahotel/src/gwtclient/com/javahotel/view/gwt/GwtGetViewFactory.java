@@ -34,7 +34,6 @@ import com.javahotel.view.IViewInterface;
 import com.javahotel.view.gwt.checkmodel.view.CheckDictModelFactory;
 import com.javahotel.view.gwt.panel.view.WebHotelPanelFactory;
 import com.javahotel.view.gwt.record.view.GwtRecordViewFactory;
-import com.javahotel.view.gwt.recordviewdef.GetRecordDefFactory;
 import com.javahotel.view.gwt.stackmenu.view.StackMenuViewFactory;
 import com.javahotel.view.gwt.tabpanel.GwtTabPanelFactory;
 
@@ -60,14 +59,6 @@ public class GwtGetViewFactory {
 
         public ICheckDictModel getModel(IResLocator rI, DictType d) {
             return CheckDictModelFactory.getModel(rI, d);
-        }
-
-        public List<RecordField> getDef(IResLocator rI, DictData da) {
-            return GetRecordDefFactory.getDef(rI, da);
-        }
-
-        public MvcWindowSize getSize(DictData da) {
-            return GetRecordDefFactory.getSize(da);
         }
 
         public IDrawTabPanel getTabPanel(IResLocator rI,

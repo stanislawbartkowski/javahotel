@@ -63,9 +63,9 @@ public class OfferServicePriceP extends AbstractTo {
     }
 
     @Override
-    public Class getT(IField f) {
+    public Class<?> getT(IField f) {
         F fi = (F) f;
-        Class cla = BigDecimal.class;
+        Class<?> cla = BigDecimal.class;
         switch (fi) {
             case service:
                 cla = String.class;

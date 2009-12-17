@@ -15,6 +15,8 @@ package com.javahotel.client.mvc.dict.validator;
 import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.mvc.dict.validator.price.PriceListValidatorService;
 import com.javahotel.client.mvc.validator.IRecordValidator;
 
 /**
@@ -23,36 +25,42 @@ import com.javahotel.client.mvc.validator.IRecordValidator;
  */
 public class DictValidatorFactory {
 
-    final IResLocator rI;
-    
+    private final IResLocator rI;
+
     @Inject
-	public DictValidatorFactory(IResLocator rI) {
+    public DictValidatorFactory(IResLocator rI) {
         this.rI = rI;
-	}
+    }
 
-	public IRecordValidator getValidator(final DictData da) {
+    public IRecordValidator getValidator(final DictData da) {
 
-		if (da.getRt() != null) {
-			switch (da.getRt()) {
-			case AllPersons:
-				return new PersonValidator(rI, da);
-			case AllHotels:
-				return new HotelValidator(rI, da);
-			}
-		}
+        if (da.getRt() != null) {
+            switch (da.getRt()) {
+            case AllPersons:
+                return new PersonValidator(rI, da);
+            case AllHotels:
+                return new HotelValidator(rI, da);
+            }
+        }
 
-		if (da.isSe()) {
-			switch (da.getSE()) {
-			case ResGuestList:
-				return new ResGuestValidator(rI, da);
-			case LoginUser:
-			case LoginAdmin:
-				return new LoginValidator(rI, da);
-			default:
-				break;
-			}
-		}
+        if (da.isSe()) {
+            switch (da.getSE()) {
+            case ResGuestList:
+                return new ResGuestValidator(rI, da);
+            case LoginUser:
+            case LoginAdmin:
+                return new LoginValidator(rI, da);
+            default:
+                break;
+            }
+        }
 
-		return new DictValidator(rI, da);
-	}
+        return new DictValidator(rI, da);
+    }
+
+    public IRecordValidator getPriceValidator() {
+        PriceListValidatorService p = HInjector.getI()
+                .getPriceListValidatorService();
+        return p;
+    }
 }

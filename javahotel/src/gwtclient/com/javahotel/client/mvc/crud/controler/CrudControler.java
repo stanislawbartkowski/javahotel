@@ -138,7 +138,6 @@ class CrudControler implements ICrudControler {
             public void success(PersistResultContext re) {
                 if (fa.getPersistSignal() != null) {
                     PersistCrudContext pC = new PersistCrudContext();
-//                    pC.setWDialog(fa.getRView(rview).getMWidget().getWidget());
                     re.setAuxContext(pC);
                     fa.getPersistSignal().signal(re);
                     if (pC.isStayDialog()) {

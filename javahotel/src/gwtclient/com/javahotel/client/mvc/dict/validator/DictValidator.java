@@ -30,32 +30,31 @@ import com.javahotel.common.toobject.DictionaryP;
  */
 class DictValidator extends AbstractValidator {
 
-	private final DictData d;
+    private final DictData d;
 
-	DictValidator(final IResLocator rI, final DictData d) {
-		super(rI);
-		this.d = d;
-	}
+    DictValidator(final IResLocator rI, final DictData d) {
+        super(rI);
+        this.d = d;
+    }
 
-	public void validateS(final int action, final RecordModel a,
-			final ISignalValidate sig) {
-		List<InvalidateMess> errMess = ValidUtil.validateEmpty(d, action,
-				a);
-		if (errMess != null) {
-			ValidUtil.callSig(errMess, sig, iCo);
-			return;
-		}
-		AbstractTo to = a.getA();
-		if (d.getD() != null) {
-			DictionaryP dp = (DictionaryP) to;
-			String hotel = rI.getR().getHotel();
-			dp.setHotel(hotel);
-			GWTGetService.getService().testDictPersist(
-					CommonUtil.getPType(action), d.getD(), dp,
-					new ValidUtil.ValidCallBack(rI, sig, iCo, to));
-			return;
-		}
-		ValidUtil.callSig(errMess, sig, iCo);
-	}
+    public void validateS(final int action, final RecordModel a,
+            final ISignalValidate sig) {
+        List<InvalidateMess> errMess = ValidUtil.validateEmpty(d, action, a);
+        if (errMess != null) {
+            ValidUtil.callSig(errMess, sig, iCo);
+            return;
+        }
+        AbstractTo to = a.getA();
+        if (d.getD() != null) {
+            DictionaryP dp = (DictionaryP) to;
+            String hotel = rI.getR().getHotel();
+            dp.setHotel(hotel);
+            GWTGetService.getService().testDictPersist(
+                    CommonUtil.getPType(action), d.getD(), dp,
+                    new ValidUtil.ValidCallBack(rI, sig, iCo, to));
+            return;
+        }
+        ValidUtil.callSig(errMess, sig, iCo);
+    }
 
 }

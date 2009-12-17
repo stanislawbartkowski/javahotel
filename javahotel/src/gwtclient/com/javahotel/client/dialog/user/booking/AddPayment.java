@@ -93,7 +93,7 @@ public class AddPayment {
         }
     }
 
-    private class BackC implements RData.IOneList {
+    private class BackC implements RData.IOneList<CustomerP> {
 
         private final BillP be;
 
@@ -101,8 +101,7 @@ public class AddPayment {
             this.be = be;
         }
 
-        public void doOne(AbstractTo val) {
-            CustomerP cu = (CustomerP) val;
+        public void doOne(CustomerP cu) {
             BillsCustomer bi = new BillsCustomer(be, cu);
             bi.setBillType(be.getBillType());
             bi.setId(be.getId());

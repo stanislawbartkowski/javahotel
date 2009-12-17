@@ -20,6 +20,7 @@ import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
 import com.javahotel.client.mvc.controller.onerecordmodif.OneRecordModifWidgetFactory;
 import com.javahotel.client.mvc.crudtable.controler.CrudTableControlerFactory;
 import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
+import com.javahotel.client.mvc.dict.validator.price.PriceListValidatorService;
 import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.client.mvc.dictcrud.controler.DictCrudIOneRecordFactory;
 import com.javahotel.client.mvc.dictcrud.controler.bookelemlist.BookRowList;
@@ -33,6 +34,8 @@ import com.javahotel.client.mvc.dictcrud.read.CrudReadModelFactory;
 import com.javahotel.client.mvc.gridmodel.model.GridModelViewFactory;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
+import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
+import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.table.model.TableModelFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
 import com.javahotel.client.start.IWebEntry;
@@ -85,4 +88,10 @@ public interface HotelInjector extends Ginjector {
     DictCrudIOneRecordFactory getDictCrudIOneRecordFactory();
     
     ExtractOfferPriceService getExtractOfferPriceService();
+    
+    GetRecordDefFactory getGetRecordDefFactory();
+    
+    DictEmptyFactory getDictEmptyFactory();
+    
+    PriceListValidatorService getPriceListValidatorService();
 }
