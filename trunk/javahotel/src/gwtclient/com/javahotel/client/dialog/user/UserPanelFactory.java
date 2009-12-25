@@ -51,6 +51,7 @@ public class UserPanelFactory implements IUserPanelMenuFactory {
         // return EPanelCommand.CUSTOMERS;
         // return EPanelCommand.BOOKINGPANEL;
         // return EPanelCommand.BOOKING;
+        // return EPanelCommand.PRICES;
         return EPanelCommand.TESTBOOKINGELEM;
     }
 

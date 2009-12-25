@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,28 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.common.util;
+package com.javahotel.nmvc.listheadermodel;
 
-/**
- * 
- * @author stanislawbartkowski@gmail.com
- */
-public class MaxI {
+import com.javahotel.common.toobject.IField;
 
-    private MaxI() {
+public class ListHeaderDesc {
+
+    private final String headerString;
+    private final IField fie;
+
+    public ListHeaderDesc(String headerString, IField fie) {
+        this.headerString = headerString;
+        this.fie = fie;
     }
 
-    public static int min(int m1, int m2) {
-        if (m1 < m2) {
-            return m1;
-        }
-        return m2;
+    public String getHeaderString() {
+        return headerString;
     }
 
-    public static int max(int m1, int m2) {
-        if (m1 > m2) {
-            return m1;
-        }
-        return m2;
+    public IField getFie() {
+        return fie;
     }
+
 }

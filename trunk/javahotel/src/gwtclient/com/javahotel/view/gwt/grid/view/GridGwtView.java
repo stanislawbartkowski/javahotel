@@ -13,7 +13,6 @@
 package com.javahotel.view.gwt.grid.view;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;

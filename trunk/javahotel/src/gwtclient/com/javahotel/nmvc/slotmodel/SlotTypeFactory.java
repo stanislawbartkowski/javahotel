@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,28 +10,22 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.common.util;
+package com.javahotel.nmvc.slotmodel;
 
-/**
- * 
- * @author stanislawbartkowski@gmail.com
- */
-public class MaxI {
+public class SlotTypeFactory {
 
-    private MaxI() {
+    private SlotTypeFactory() {
+
     }
 
-    public static int min(int m1, int m2) {
-        if (m1 < m2) {
-            return m1;
-        }
-        return m2;
+    public static SlotType contruct(ListEventEnum listEvEnum) {
+        return new SlotType(SlotEventEnum.ListEvent, null, null, listEvEnum,
+                null,-1);
     }
 
-    public static int max(int m1, int m2) {
-        if (m1 > m2) {
-            return m1;
-        }
-        return m2;
+    public static SlotType constructCallBackWidget(int cellId) {
+        return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
+                null,cellId);
     }
+
 }

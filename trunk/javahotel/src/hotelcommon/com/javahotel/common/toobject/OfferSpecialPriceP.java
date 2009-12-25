@@ -16,7 +16,7 @@ import com.javahotel.types.DecimalP;
 import java.math.BigDecimal;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class OfferSpecialPriceP extends AbstractTo {
@@ -63,9 +63,9 @@ public class OfferSpecialPriceP extends AbstractTo {
         F fi = (F) f;
         Class<?> cla = BigDecimal.class;
         switch (fi) {
-            case id:
-                cla = Long.class;
-                break;
+        case id:
+            cla = Long.class;
+            break;
         }
         return cla;
     }
@@ -79,10 +79,10 @@ public class OfferSpecialPriceP extends AbstractTo {
     public Object getF(IField f) {
         F fi = (F) f;
         switch (fi) {
-            case id:
-                return getId();
-            case price:
-                return getPrice();
+        case id:
+            return getId();
+        case price:
+            return getPrice();
         }
         return null;
     }
@@ -91,12 +91,12 @@ public class OfferSpecialPriceP extends AbstractTo {
     public void setF(IField f, Object o) {
         F fi = (F) f;
         switch (fi) {
-            case id:
-                setId((Long) o);
-                break;
-            case price:
-                setPrice((BigDecimal) o);
-                break;
+        case id:
+            setId((Long) o);
+            break;
+        case price:
+            setPrice((BigDecimal) o);
+            break;
         }
     }
 }

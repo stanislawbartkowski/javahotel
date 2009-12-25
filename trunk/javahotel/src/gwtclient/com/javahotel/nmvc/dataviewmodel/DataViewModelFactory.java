@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,28 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.common.util;
+package com.javahotel.nmvc.dataviewmodel;
 
-/**
- * 
- * @author stanislawbartkowski@gmail.com
- */
-public class MaxI {
+import com.javahotel.common.toobject.AbstractTo;
 
-    private MaxI() {
-    }
+public class DataViewModelFactory {
 
-    public static int min(int m1, int m2) {
-        if (m1 < m2) {
-            return m1;
+    private class DataViewModel implements IDataViewModel {
+
+        public void pumpValues(AbstractTo aTo) {
+            // TODO Auto-generated method stub
+
         }
-        return m2;
+
+        public void suckValues(AbstractTo aTo) {
+            // TODO Auto-generated method stub
+
+        }
+
     }
 
-    public static int max(int m1, int m2) {
-        if (m1 > m2) {
-            return m1;
-        }
-        return m2;
+    public IDataViewModel construct() {
+        return new DataViewModel();
     }
+
 }
