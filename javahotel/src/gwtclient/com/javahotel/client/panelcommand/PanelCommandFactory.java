@@ -95,7 +95,8 @@ public class PanelCommandFactory {
             i = new TestSeasonScrollPanelWidget(sI);
             break;
         case TESTBOOKINGELEM:
-            i = new TestBookingElem(sI);
+//            i = new TestBookingElem(sI);
+            i = new NewMvcPanel(sI,DictType.PriceListDict);
             break;
         }
         if (i == null) {

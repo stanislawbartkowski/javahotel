@@ -17,7 +17,6 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
-import com.javahotel.client.mvc.dict.validator.ValidUtil;
 import com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess;
 import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
 import com.javahotel.client.mvc.validator.IErrorMessageContext;

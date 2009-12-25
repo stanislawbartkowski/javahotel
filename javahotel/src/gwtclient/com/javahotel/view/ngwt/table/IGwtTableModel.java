@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,28 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.common.util;
+package com.javahotel.view.ngwt.table;
 
-/**
- * 
- * @author stanislawbartkowski@gmail.com
- */
-public class MaxI {
+import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.nmvc.listheadermodel.ListHeaderData;
 
-    private MaxI() {
-    }
+public interface IGwtTableModel {
 
-    public static int min(int m1, int m2) {
-        if (m1 < m2) {
-            return m1;
-        }
-        return m2;
-    }
+    String getTableHeader();
 
-    public static int max(int m1, int m2) {
-        if (m1 > m2) {
-            return m1;
-        }
-        return m2;
-    }
+    AbstractTo getRow(int row);
+
+    int getRowsNum();
+    
+    ListHeaderData getHeaderList();
 }

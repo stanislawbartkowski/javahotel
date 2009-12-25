@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Date;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class OfferSeasonP extends DictionaryP {
@@ -31,6 +31,7 @@ public class OfferSeasonP extends DictionaryP {
         startP = new DateP();
         endP = new DateP();
     }
+
     private List<OfferSeasonPeriodP> periods;
 
     public List<OfferSeasonPeriodP> getPeriods() {
@@ -52,16 +53,16 @@ public class OfferSeasonP extends DictionaryP {
     }
 
     @Override
-    public Class getT(final IField f) {
-        Class cla = super.getT(f);
+    public Class<?> getT(final IField f) {
+        Class<?> cla = super.getT(f);
         if (cla != null) {
             return cla;
         }
         F fie = (F) f;
         switch (fie) {
-            case startp:
-            case endp:
-                return Date.class;
+        case startp:
+        case endp:
+            return Date.class;
         }
         return null;
     }
@@ -76,10 +77,10 @@ public class OfferSeasonP extends DictionaryP {
         F fi = (F) f;
 
         switch (fi) {
-            case startp:
-                return getStartP();
-            case endp:
-                return getEndP();
+        case startp:
+            return getStartP();
+        case endp:
+            return getEndP();
         }
         return null;
     }
@@ -95,12 +96,12 @@ public class OfferSeasonP extends DictionaryP {
         F fi = (F) f;
 
         switch (fi) {
-            case startp:
-                setStartP((Date) o);
-                break;
-            case endp:
-                setEndP((Date) o);
-                break;
+        case startp:
+            setStartP((Date) o);
+            break;
+        case endp:
+            setEndP((Date) o);
+            break;
         }
     }
 

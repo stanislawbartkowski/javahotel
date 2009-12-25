@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,28 +10,25 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.common.util;
+package com.javahotel.nmvc.slotmodel;
 
-/**
- * 
- * @author stanislawbartkowski@gmail.com
- */
-public class MaxI {
+public enum ListEventEnum {
 
-    private MaxI() {
-    }
-
-    public static int min(int m1, int m2) {
-        if (m1 < m2) {
-            return m1;
-        }
-        return m2;
-    }
-
-    public static int max(int m1, int m2) {
-        if (m1 > m2) {
-            return m1;
-        }
-        return m2;
-    }
+    /** After adding new item. */
+    AfterAdd,
+    
+    /** After modifying item. */
+    AfterModify,
+    
+    /** After removing item. */
+    AfterRemove,
+    
+    /** Refresh list. */
+    Refresh,
+    
+    /** Read list. */
+    ReadList,
+    
+    /** List read with success. */
+    ReadListSuccess
 }
