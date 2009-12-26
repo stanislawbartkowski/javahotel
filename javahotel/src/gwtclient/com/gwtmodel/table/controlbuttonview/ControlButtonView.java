@@ -50,5 +50,5 @@ class ControlButtonView extends AbstractSlotContainer implements IControlButtonV
     public void startPublish() {
         publishCallBack(vButton);
     }
-
+ 
 }
