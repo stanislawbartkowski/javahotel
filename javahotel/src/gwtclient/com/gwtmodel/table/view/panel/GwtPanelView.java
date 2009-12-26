@@ -10,14 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.view.ngwt.panel;
+package com.gwtmodel.table.view.panel;
 
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Grid;
-import com.javahotel.client.dialog.DefaultMvcWidget;
-import com.javahotel.client.dialog.IGwtWidget;
-import com.javahotel.client.dialog.IMvcWidget;
+import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.common.util.MaxI;
 
 class GwtPanelView implements IGwtPanelView  {
@@ -33,12 +31,13 @@ class GwtPanelView implements IGwtPanelView  {
         
     }
 
-    public void setWidget(int row, int column, IGwtWidget gwtWidget) {
-        g.setWidget(row, column, gwtWidget.getMWidget().getWidget());        
+    public void setWidget(int row, int col, Widget w) {
+        g.setWidget(row, col, w);        
+        
     }
 
-    public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(g);
+    public Widget getWidget() {
+        return g;
     }
 
 }

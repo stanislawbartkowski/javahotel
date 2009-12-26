@@ -10,18 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.view.ngwt.panel;
+package com.gwtmodel.table.slotmodel;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class GwtPanelViewFactory {
+public class SlotRegisterSubscriber implements ISlotSignaller {
 
-    private GwtPanelViewFactory() {
+    private List<ISlotSignaller> slList = new ArrayList<ISlotSignaller>();
 
+    public void register(ISlotSignaller slSignaller) {
+        slList.add(slSignaller);
     }
 
-    public static IGwtPanelView construct(List<PanelRowDesc> rowDesc) {
-        return new GwtPanelView(rowDesc);
+    public void signal(ISlotSignalContext slContext) {
+        for (ISlotSignaller slSignaller : slList) {
+            slSignaller.signal(slContext);
+        }
     }
 
 }

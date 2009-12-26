@@ -1,32 +1,27 @@
-package com.javahotel.view.ngwt.table;
+package com.gwtmodel.table.view.table;
 
 import java.util.List;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.Selection;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.Table;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.DefaultMvcWidget;
-import com.javahotel.client.dialog.IMvcWidget;
-import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.nmvc.listheadermodel.ListHeaderDesc;
+import com.gwtmodel.table.IVModelData;
 
 class GwtTableView implements IGwtTableView {
 
-    private final IResLocator rI;
     private final IGwtTableModel model;
     private int clickedNo;
     private final Label header = new Label();
     private final Table ta;
     private DataTable data;
 
-    GwtTableView(final IResLocator rI, IGwtTableModel model) {
+    GwtTableView(IGwtTableModel model) {
         this.model = model;
-        this.rI = rI;
         if (model.getTableHeader() != null) {
             header.setText(model.getTableHeader());
         }
@@ -35,10 +30,10 @@ class GwtTableView implements IGwtTableView {
     }
 
     private void drawrow(int row) {
-        AbstractTo ii = model.getRow(row);
-        List<ListHeaderDesc> co = model.getHeaderList().getHeader();
+        IVModelData ii = model.getRow(row);
+        List<VListHeaderDesc> co = model.getHeaderList();
         for (int c = 0; c < co.size(); c++) {
-            ListHeaderDesc cl = co.get(c);
+            VListHeaderDesc cl = co.get(c);
             String val = ii.getS(cl.getFie());
             data.setValue(row, c, val);
         }
@@ -46,8 +41,8 @@ class GwtTableView implements IGwtTableView {
 
     private void getTable() {
         data = DataTable.create();
-        List<ListHeaderDesc> co = model.getHeaderList().getHeader();
-        for (ListHeaderDesc c : co) {
+        List<VListHeaderDesc> co = model.getHeaderList();
+        for (VListHeaderDesc c : co) {
             data.addColumn(ColumnType.STRING, c.getHeaderString());
         }
         data.addRows(model.getRowsNum());
@@ -129,7 +124,7 @@ class GwtTableView implements IGwtTableView {
         return clickedNo;
     }
 
-    public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(ta);
+    public Widget getWidget() {
+        return ta;
     }
 }

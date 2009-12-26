@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.view.ngwt.table;
+package com.gwtmodel.table.view.table;
 
-import com.javahotel.client.dialog.IGwtWidget;
+import com.gwtmodel.table.IGWidget;
 
-public interface IGwtTableView extends IGwtWidget {
+public interface IGwtTableView extends IGWidget {
 
     void refresh();
 

@@ -12,6 +12,7 @@
     <!-- Do not define servlets here, use web.xml -->
 	<stylesheet src='res/style/hotelstyles.css' />
 	<inherits name="com.javahotel.common" />
+	<inherits name="com.gwtmodel.table" />
 	<inherits name="com.javahotel.types" />
 	<inherits name="com.googlecode.gwt.math.Math" />
 	<inherits name='com.google.gwt.visualization.Visualization' />

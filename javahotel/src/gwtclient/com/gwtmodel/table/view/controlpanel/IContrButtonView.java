@@ -10,12 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.view.ngwt.panel;
+package com.gwtmodel.table.view.controlpanel;
 
-import com.javahotel.client.dialog.IGwtWidget;
+import com.gwtmodel.table.IGWidget;
 
-public interface IGwtPanelView extends IGwtWidget {
-    
-    void setWidget(int row,int col, IGwtWidget gwtWidget);
 
+/**
+ * 
+ * @author stanislawbartkowski@gmail.com
+ */
+public interface IContrButtonView extends IGWidget {
+
+	void setEnable(int id, boolean enable);
 }
