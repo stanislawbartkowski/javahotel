@@ -12,6 +12,7 @@
  */
 package com.javahotel.nmvc.persist;
 
+import com.gwtmodel.table.persist.IDataPersistAction;
 import com.javahotel.client.IResLocator;
 
 public class DataPersistActionFactory {

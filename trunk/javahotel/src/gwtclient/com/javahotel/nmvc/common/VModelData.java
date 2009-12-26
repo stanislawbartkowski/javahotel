@@ -10,13 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.slotmediator;
+package com.javahotel.nmvc.common;
 
-import com.javahotel.nmvc.common.ISlotable;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.javahotel.common.toobject.AbstractTo;
 
-public interface ISlotMediator extends  ISlotable {
+public class VModelData implements IVModelData {
     
-    void registerSlotContainer(ISlotable iSLo);
+    private final AbstractTo a;
     
-    
+    public VModelData(AbstractTo a) {
+        this.a = a;
+    }
+
+    public String getS(IVField fie) {
+        VField f = (VField) fie;
+        return a.getS(f.getFie());
+    }
+
 }

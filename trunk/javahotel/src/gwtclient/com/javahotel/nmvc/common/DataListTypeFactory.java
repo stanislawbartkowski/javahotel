@@ -10,13 +10,27 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.slotmediator;
+package com.javahotel.nmvc.common;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class SlotMediatorFactory {
+import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IVModelData;
+import com.javahotel.common.toobject.AbstractTo;
 
-    public static ISlotMediator construct() {
-        return new SlotMediator();
+public class DataListTypeFactory {
+
+    private DataListTypeFactory() {
+
+    }
+
+    public static DataListType construct(List<? extends AbstractTo> dList) {
+        List<IVModelData> dvList = new ArrayList<IVModelData>();
+        for (AbstractTo a : dList) {
+            dvList.add(new VModelData(a));
+        }
+        return new DataListType(dvList);
     }
 
 }

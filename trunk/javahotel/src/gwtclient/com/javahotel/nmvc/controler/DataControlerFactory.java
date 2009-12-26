@@ -12,8 +12,17 @@
  */
 package com.javahotel.nmvc.controler;
 
+import java.util.List;
+
+import com.gwtmodel.table.controler.IDataControler;
+import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.persist.IDataPersistAction;
+import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.IResLocator;
 import com.javahotel.nmvc.common.DataType;
+import com.javahotel.nmvc.common.HeaderModelDataFactory;
+import com.javahotel.nmvc.persist.DataPersistActionFactory;
+import com.javahotel.nmvc.persist.DataPersistEnum;
 
 public class DataControlerFactory {
 
@@ -23,7 +32,12 @@ public class DataControlerFactory {
     public static IDataControler constructDataControler(IResLocator rI,
             DataControlerEnum cEnum, DataType dType, int panelId,
             int cellIdFirst) {
-        return new DisplayListControler(rI, dType, panelId, cellIdFirst);
-    }
+        List<VListHeaderDesc> heList = HeaderModelDataFactory
+                .constructList(dType);
+        IDataPersistAction persistA = DataPersistActionFactory
+                .contructDataPersis(rI, DataPersistEnum.PersistanceLayer);
 
+        return TableDataControlerFactory.constructDataControler(dType, panelId,
+                cellIdFirst, heList, persistA);
+    }
 }
