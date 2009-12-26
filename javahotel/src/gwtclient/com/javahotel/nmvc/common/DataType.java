@@ -13,8 +13,9 @@
 package com.javahotel.nmvc.common;
 
 import com.javahotel.common.command.DictType;
+import com.gwtmodel.table.IDataType;
 
-public class DataType {
+public class DataType implements IDataType {
 
     private final DictDataEnum dcType;
 
@@ -29,8 +30,9 @@ public class DataType {
         return dType;
     }
 
-    public boolean eq(DataType dt) {
-        return dType == dt.getdType();
+    public boolean eq(IDataType dt) {
+        DataType p = (DataType) dt;
+        return dType == p.getdType();
     }
 
 }

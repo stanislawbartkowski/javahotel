@@ -14,21 +14,23 @@ package com.javahotel.nmvc.persist;
 
 import java.util.List;
 
+import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.persist.IDataPersistAction;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ListEventEnum;
+import com.gwtmodel.table.slotmodel.SlotPublisherType;
+import com.gwtmodel.table.slotmodel.SlotSignalContext;
+import com.gwtmodel.table.slotmodel.SlotType;
+import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.nmvc.common.AbstractSlotContainer;
-import com.javahotel.nmvc.common.DataListType;
+import com.javahotel.nmvc.common.DataListTypeFactory;
 import com.javahotel.nmvc.common.DataType;
-import com.javahotel.nmvc.slotmodel.ISlotSignalContext;
-import com.javahotel.nmvc.slotmodel.ISlotSignaller;
-import com.javahotel.nmvc.slotmodel.ListEventEnum;
-import com.javahotel.nmvc.slotmodel.SlotPublisherType;
-import com.javahotel.nmvc.slotmodel.SlotSignalContext;
-import com.javahotel.nmvc.slotmodel.SlotType;
-import com.javahotel.nmvc.slotmodel.SlotTypeFactory;
 
 class DataPersistLayer extends AbstractSlotContainer implements
         IDataPersistAction {
@@ -45,7 +47,7 @@ class DataPersistLayer extends AbstractSlotContainer implements
         }
 
         public void doVList(final List<? extends AbstractTo> val) {
-            DataListType dataList = new DataListType(val);
+            DataListType dataList = DataListTypeFactory.construct(val);
             SlotSignalContext.signal(publishList, slContext.getdType(),
                     dataList);
         }
@@ -55,7 +57,7 @@ class DataPersistLayer extends AbstractSlotContainer implements
 
         public void signal(ISlotSignalContext slContext) {
             CommandParam co = rI.getR().getHotelCommandParam();
-            DataType dType = slContext.getdType();
+            DataType dType = (DataType) slContext.getdType();
             co.setDict(dType.getdType());
             rI.getR().getList(RType.ListDict, co, new ReadListDict(slContext));
         }

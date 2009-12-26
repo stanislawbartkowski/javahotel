@@ -10,30 +10,31 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.modeldatat;
+package com.javahotel.nmvc.common;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.table.model.ColTitle;
 import com.javahotel.nmvc.common.DataType;
-import com.javahotel.nmvc.listheadermodel.ListHeaderDesc;
+import com.javahotel.nmvc.common.VField;
 
 public class HeaderModelDataFactory {
     
     private HeaderModelDataFactory() {       
     }
     
-    public static List<ListHeaderDesc> constructList(DataType dType) {
+    public static List<VListHeaderDesc> constructList(DataType dType) {
         DictData dicData = new DictData(dType.getdType());
         ColListFactory cFactory =  HInjector.getI().getColListFactory();
         List<ColTitle> coList = cFactory.getColList(dicData);
-        List<ListHeaderDesc> heList = new ArrayList<ListHeaderDesc>();
+        List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         for (ColTitle co : coList) {
-            ListHeaderDesc he = new ListHeaderDesc(co.getCTitle(),co.getF());
+            VListHeaderDesc he = new VListHeaderDesc(co.getCTitle(),new VField(co.getF()));
             heList.add(he);
         }
         return heList;

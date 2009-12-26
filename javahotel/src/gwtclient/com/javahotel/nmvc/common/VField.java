@@ -12,12 +12,19 @@
  */
 package com.javahotel.nmvc.common;
 
-import com.javahotel.nmvc.slotmodel.SlotListContainer;
+import com.gwtmodel.table.IVField;
+import com.javahotel.common.toobject.IField;
 
-public interface ISlotable {
+public class VField implements IVField{
     
-    SlotListContainer getSlContainer();
+    private final IField fie;
     
-    void startPublish();
+    public VField(IField fie) {
+        this.fie = fie;
+    }
+
+    public IField getFie() {
+        return fie;
+    }
 
 }
