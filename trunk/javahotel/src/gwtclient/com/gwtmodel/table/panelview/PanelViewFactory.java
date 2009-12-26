@@ -10,17 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.view.ngwt.table;
+package com.gwtmodel.table.panelview;
 
-import com.javahotel.client.IResLocator;
+public class PanelViewFactory {
 
-public class GwtTableFactory {
+    private PanelViewFactory() {
 
-    private GwtTableFactory() {
     }
 
-    public static IGwtTableView construct(final IResLocator rI,
-            IGwtTableModel tModel) {
-        return new GwtTableView(rI, tModel);
+    public static IPanelView construct(int panelCellId, int firstToUse) {
+        return new PanelView(panelCellId, firstToUse);
     }
+
 }

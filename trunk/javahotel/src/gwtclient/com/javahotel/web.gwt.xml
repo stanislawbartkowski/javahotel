@@ -7,6 +7,7 @@
     <entry-point class="com.javahotel.client.start.webEntryPoint1"/>        
     <!-- <entry-point class="com.javahotel.client.start.webEntryPoint2"/> -->    
     <stylesheet src='res/style/hotelstyles.css'/>
+   	<inherits name="com.gwtmodel.table" />    
     <inherits name="com.javahotel.common" /> 
     <inherits name="com.javahotel.types" />
     <inherits name="com.googlecode.gwt.math.Math"/> 

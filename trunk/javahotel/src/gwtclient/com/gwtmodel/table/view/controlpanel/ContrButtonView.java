@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.mvc.contrpanel.view;
+package com.gwtmodel.table.view.controlpanel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,12 +22,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.DefaultMvcWidget;
-import com.javahotel.client.dialog.IMvcWidget;
-import com.javahotel.client.mvc.contrpanel.model.ContrButton;
-import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 
 /**
  * 
@@ -36,17 +33,9 @@ import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 @SuppressWarnings("deprecation")
 class ContrButtonView implements IContrButtonView {
 
-    private final IResLocator rI;
-    private final IContrPanel model;
     private final Panel hP;
     private final IControlClick co;
     private final Map<Integer, Button> iBut = new HashMap<Integer, Button>();
-
-    public void show() {
-    }
-
-    public void hide() {
-    }
 
     public void setEnable(int id, boolean enable) {
         Button b = iBut.get(id);
@@ -56,15 +45,11 @@ class ContrButtonView implements IContrButtonView {
         b.setEnabled(enable);
     }
 
-    public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(hP);
-    }
-
     private class Click implements ClickListener {
 
-        private final ContrButton c;
+        private final ControlButtonDesc c;
 
-        Click(final ContrButton c) {
+        Click(final ControlButtonDesc c) {
             this.c = c;
         }
 
@@ -75,18 +60,16 @@ class ContrButtonView implements IContrButtonView {
         }
     }
 
-    ContrButtonView(final IResLocator rI, final IContrPanel model,
+    ContrButtonView(final ListOfControlDesc model,
             final IControlClick co, final boolean hori) {
-        this.rI = rI;
-        this.model = model;
         this.co = co;
         if (hori) {
             hP = new HorizontalPanel();
         } else {
             hP = new VerticalPanel();
         }
-        List<ContrButton> bu = model.getContr();
-        for (ContrButton b : bu) {
+        List<ControlButtonDesc> bu = model.getcList();
+        for (ControlButtonDesc b : bu) {
             Button but;
             if (b.isTextimage()) {
                 but = ImgButtonFactory.getButtonTextImage(b.getContrName(), b.getImageHtml());
@@ -97,5 +80,9 @@ class ContrButtonView implements IContrButtonView {
             hP.add(but);
             iBut.put(b.getActionId(), but);
         }
+    }
+
+    public Widget getWidget() {
+        return hP;
     }
 }

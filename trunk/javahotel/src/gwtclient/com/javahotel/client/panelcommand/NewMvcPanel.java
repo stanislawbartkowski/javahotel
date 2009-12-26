@@ -12,15 +12,16 @@
  */
 package com.javahotel.client.panelcommand;
 
+import com.gwtmodel.table.controler.IDataControler;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.common.command.DictType;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.controler.DataControlerEnum;
 import com.javahotel.nmvc.controler.DataControlerFactory;
-import com.javahotel.nmvc.controler.IDataControler;
-import com.javahotel.nmvc.slotmodel.ISlotSignalContext;
-import com.javahotel.nmvc.slotmodel.ISlotSignaller;
 
 class NewMvcPanel extends AbstractPanelCommand {
 
@@ -36,7 +37,7 @@ class NewMvcPanel extends AbstractPanelCommand {
     private class SetGwt implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            iS.setGwtWidget(slContext.getGwtWidget().getMWidget());
+            iS.setGwtWidget(new DefaultMvcWidget(slContext.getGwtWidget().getWidget()));
         }
 
     }

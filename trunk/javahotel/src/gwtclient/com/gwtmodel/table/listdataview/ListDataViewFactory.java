@@ -10,18 +10,22 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.view.ngwt.panel;
+package com.gwtmodel.table.listdataview;
 
-public class PanelRowDesc {
-    
-    private final int  noCells;
-    
-    public PanelRowDesc(int noCells) {
-        this.noCells = noCells;
+import java.util.List;
+
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.view.table.VListHeaderDesc;
+
+public class ListDataViewFactory {
+
+    private ListDataViewFactory() {
+
     }
 
-    public int getNoCells() {
-        return noCells;
+    public static IListDataView construct(IDataType dType, int cellId,
+            List<VListHeaderDesc> heList) {
+        return new ListDataView(dType, cellId, heList);
     }
 
 }

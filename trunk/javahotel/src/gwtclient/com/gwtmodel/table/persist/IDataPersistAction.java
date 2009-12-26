@@ -10,18 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.view.ngwt.table;
+package com.gwtmodel.table.persist;
 
-import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.nmvc.listheadermodel.ListHeaderData;
+import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface IGwtTableModel {
+public interface IDataPersistAction extends ISlotable {
 
-    String getTableHeader();
-
-    AbstractTo getRow(int row);
-
-    int getRowsNum();
-    
-    ListHeaderData getHeaderList();
 }
