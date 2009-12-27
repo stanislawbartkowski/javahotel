@@ -12,16 +12,23 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
-
+import com.gwtmodel.table.injector.GwtGiniInjector;
 
 abstract public class AbstractSlotContainer implements ISlotable {
 
     protected final SlotListContainer slContainer;
     protected SlotPublisherType slCallBackWidget;
+    protected final SlotTypeFactory slTypeFactory;
+    protected final SlotSignalContext slSignalContext;
+    private final SlotSignalContextFactory slContextFactory;
 
     protected AbstractSlotContainer() {
-        slContainer = new SlotListContainer();
+        slContainer = GwtGiniInjector.getI().getSlotListContainer();
+        slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
+        slSignalContext = GwtGiniInjector.getI().getSlotSignalContext();
+        slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
     }
 
     public SlotListContainer getSlContainer() {
@@ -29,12 +36,27 @@ abstract public class AbstractSlotContainer implements ISlotable {
     }
 
     protected void createCallBackWidget(int cellId) {
-        slCallBackWidget = slContainer.addPublisher(SlotTypeFactory
+        slCallBackWidget = slContainer.addPublisher(slTypeFactory
                 .constructCallBackWidget(cellId));
     }
 
     protected void publishCallBack(IGWidget gwtWidget) {
-        SlotSignalContext.signal(slCallBackWidget, gwtWidget);
+        slSignalContext.signal(slCallBackWidget, gwtWidget);
     }
 
+    protected void addSubscriber(SlotType slType, ISlotSignaller slSignaller) {
+        slContainer.addSubscriber(slType, slSignaller);
+    }
+
+    protected void addCallerList(ListEventEnum listEvEnum, IDataType dType, ISlotCaller slCaller) {
+        SlotType slType = slTypeFactory.contruct(listEvEnum,dType);
+        slContainer.addCaller(slType, slCaller);
+    }
+    
+    protected ISlotSignalContext callGetterList(IDataType dType) {
+        SlotType slType = slTypeFactory.contruct(ListEventEnum.GetListData,dType);
+        ISlotSignalContext slContext = slContextFactory.construct(slType);
+        return slContainer.call(slContext);
+    }
+    
 }

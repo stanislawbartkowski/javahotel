@@ -12,14 +12,20 @@
  */
 package com.gwtmodel.table.panelview;
 
+import com.google.inject.Inject;
+import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
+
 public class PanelViewFactory {
 
-    private PanelViewFactory() {
+    private final GwtPanelViewFactory gPanelViewFactory;
 
+    @Inject
+    public PanelViewFactory(GwtPanelViewFactory gPanelViewFactory) {
+        this.gPanelViewFactory = gPanelViewFactory;
     }
 
-    public static IPanelView construct(int panelCellId, int firstToUse) {
-        return new PanelView(panelCellId, firstToUse);
+    public IPanelView construct(int panelCellId, int firstToUse) {
+        return new PanelView(gPanelViewFactory, panelCellId, firstToUse);
     }
 
 }

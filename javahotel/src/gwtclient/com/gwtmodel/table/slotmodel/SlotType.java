@@ -14,6 +14,7 @@ package com.gwtmodel.table.slotmodel;
 
 import java.util.List;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 
 public class SlotType {
@@ -55,6 +56,9 @@ public class SlotType {
 
     /** Panel identifier for CallBackWidget. */
     private final int cellId;
+    
+    /** Data identifier for list. */
+    private final IDataType dType;
 
     public boolean eq(SlotType slType) {
         if (slEnum != slType.slEnum) {
@@ -64,22 +68,30 @@ public class SlotType {
         case CallBackWidget:
             return cellId == slType.cellId;
         case ListEvent:
-            return listEvEnum == slType.listEvEnum;
+            if (listEvEnum != slType.listEvEnum) { return false; }
+            return dType.eq(slType.dType);
+        case ClickButton:
+            return buttonClick.eq(slType.buttonClick);
         }
         return true;
     }
 
     SlotType(SlotEventEnum slEnum, IVField fie, ClickButtonType buttonClick,
-            ListEventEnum listEvEnum, List<SlotType> slList, int cellId) {
+            ListEventEnum listEvEnum, List<SlotType> slList, int cellId, IDataType dType) {
         this.slEnum = slEnum;
         this.fie = fie;
         this.buttonClick = buttonClick;
         this.listEvEnum = listEvEnum;
         this.slList = slList;
         this.cellId = cellId;
+        this.dType = dType;
     }
 
     public int getCellId() {
         return cellId;
+    }
+
+    public IDataType getdType() {
+        return dType;
     }
 }

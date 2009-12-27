@@ -15,14 +15,42 @@ package com.gwtmodel.table.slotmodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+
 public class SlotListContainer {
 
     private final List<SlotPublisherType> listOfPublishers;
     private final List<SlotSubscriberType> listOfSubscribers;
+    private final List<SlotCallerType> listOfCallers;
+    private ISlotCaller slCaller;
+    private final SlotTypeFactory slTypeFactory;
+    private final SlotSignalContext slSignalContext;
 
-    public SlotListContainer() {
+    @Inject
+    public SlotListContainer(SlotTypeFactory slTypeFactory,
+            SlotSignalContext slSignalContext) {
+        this.slTypeFactory = slTypeFactory;
+        this.slSignalContext = slSignalContext;
         listOfPublishers = new ArrayList<SlotPublisherType>();
         listOfSubscribers = new ArrayList<SlotSubscriberType>();
+        listOfCallers = new ArrayList<SlotCallerType>();
+    }
+
+    public ISlotSignalContext call(ISlotSignalContext slContext) {
+        if (slCaller == null) {
+            return null;
+        }
+        return slCaller.call(slContext);
+    }
+
+    public void registerSlReceiver(ISlotCaller slCaller) {
+        this.slCaller = slCaller;
+    }
+
+    public List<SlotCallerType> getListOfCallers() {
+        return listOfCallers;
     }
 
     public List<SlotPublisherType> getListOfPublishers() {
@@ -54,6 +82,15 @@ public class SlotListContainer {
         return null;
     }
 
+    public SlotCallerType findCaller(SlotType slType) {
+        for (SlotCallerType slo : listOfCallers) {
+            if (slType.eq(slo.getSlType())) {
+                return slo;
+            }
+        }
+        return null;
+    }
+
     public SlotSubscriberType findSubscriber(SlotType slType) {
         for (SlotSubscriberType slo : listOfSubscribers) {
             if (slType.eq(slo.getSlType())) {
@@ -69,8 +106,18 @@ public class SlotListContainer {
     }
 
     public void registerSubscriberGwt(int cellId, ISlotSignaller slSignaller) {
-        registerSubscriber(SlotTypeFactory.constructCallBackWidget(cellId),
+        registerSubscriber(slTypeFactory.constructCallBackWidget(cellId),
                 slSignaller);
+    }
+
+    public void addCaller(SlotType slType, ISlotCaller slCaller) {
+        listOfCallers.add(new SlotCallerType(slType, slCaller));
+    }
+
+    public ISlotSignalContext callGetterList(IDataType dType) {
+        SlotType slType = slTypeFactory.contruct(ListEventEnum.GetListData,dType);
+        SlotCallerType slo = findCaller(slType);
+        return slSignalContext.callgetter(slo);
     }
 
 }

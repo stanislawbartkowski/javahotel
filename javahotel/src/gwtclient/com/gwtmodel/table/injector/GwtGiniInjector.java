@@ -10,14 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.panel;
+package com.gwtmodel.table.injector;
 
-import java.util.List;
+import com.google.gwt.core.client.GWT;
 
-public class GwtPanelViewFactory {
+public class GwtGiniInjector {
 
-    public IGwtPanelView construct(List<PanelRowDesc> rowDesc) {
-        return new GwtPanelView(rowDesc);
+    static private final GwtTableInjector injector = GWT
+            .create(GwtTableInjector.class);
+
+    public static GwtTableInjector getI() {
+        return injector;
     }
 
 }

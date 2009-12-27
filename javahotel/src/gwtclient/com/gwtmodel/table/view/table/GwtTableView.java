@@ -3,6 +3,7 @@ package com.gwtmodel.table.view.table;
 import java.util.List;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.DataTable;
@@ -11,11 +12,14 @@ import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.WSize;
 
 class GwtTableView implements IGwtTableView {
 
     private final IGwtTableModel model;
     private int clickedNo;
+    private WSize wSize;
     private final Label header = new Label();
     private final Table ta;
     private DataTable data;
@@ -51,42 +55,42 @@ class GwtTableView implements IGwtTableView {
         }
     }
 
-    // private IWidgetSize getS(int row, int col) {
-    // Element etd = ta.getElement(); // TD
-    // // search first TR
-    // while ((etd != null) && (!etd.getTagName().equals("TR"))) {
-    // etd = etd.getFirstChildElement(); // TABLE
-    // }
-    //
-    // int no = 0;
-    // int top = 0;
-    // int left = 0;
-    // int height = 0;
-    // int width = 0;
-    // Element etr = etd;
-    // while (etr != null) {
-    // etr = etr.getNextSiblingElement();
-    // if (no == row) {
-    // break;
-    // }
-    // no++;
-    // }
-    // if (etr != null) {
-    // Element echild = etr.getFirstChildElement();
-    // int cno = 0;
-    // while ((echild != null) && (cno != col)) {
-    // echild = echild.getNextSiblingElement();
-    // cno++;
-    // }
-    // if (echild != null) {
-    // top = echild.getAbsoluteTop();
-    // left = echild.getAbsoluteLeft();
-    // height = echild.getOffsetHeight();
-    // width = echild.getOffsetWidth();
-    // }
-    // }
-    // return WidgetSizeFactory.getW(top, left, height, width);
-    // }
+    private WSize getS(int row, int col) {
+        Element etd = ta.getElement(); // TD
+        // search first TR
+        while ((etd != null) && (!etd.getTagName().equals("TR"))) {
+            etd = etd.getFirstChildElement(); // TABLE
+        }
+
+        int no = 0;
+        int top = 0;
+        int left = 0;
+        int height = 0;
+        int width = 0;
+        Element etr = etd;
+        while (etr != null) {
+            etr = etr.getNextSiblingElement();
+            if (no == row) {
+                break;
+            }
+            no++;
+        }
+        if (etr != null) {
+            Element echild = etr.getFirstChildElement();
+            int cno = 0;
+            while ((echild != null) && (cno != col)) {
+                echild = echild.getNextSiblingElement();
+                cno++;
+            }
+            if (echild != null) {
+                top = echild.getAbsoluteTop();
+                left = echild.getAbsoluteLeft();
+                height = echild.getOffsetHeight();
+                width = echild.getOffsetWidth();
+            }
+        }
+        return new WSize(top, left, height, width);
+    }
 
     private class H extends SelectHandler {
 
@@ -112,6 +116,11 @@ class GwtTableView implements IGwtTableView {
                 row = se.getRow();
                 clickedNo = row;
             }
+            int col = 0;
+            if (se.isColumn() || se.isCell()) {
+                col = se.getColumn();
+            }
+            wSize = getS(row, col);
         }
     }
 
@@ -120,8 +129,8 @@ class GwtTableView implements IGwtTableView {
         ta.draw(data);
     }
 
-    public int getClicked() {
-        return clickedNo;
+    public WChoosedLine getClicked() {
+        return new WChoosedLine(clickedNo, wSize);
     }
 
     public Widget getWidget() {

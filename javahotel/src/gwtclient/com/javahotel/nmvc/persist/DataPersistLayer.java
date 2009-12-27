@@ -15,15 +15,14 @@ package com.javahotel.nmvc.persist;
 import java.util.List;
 
 import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.persist.IDataPersistAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ListEventEnum;
 import com.gwtmodel.table.slotmodel.SlotPublisherType;
-import com.gwtmodel.table.slotmodel.SlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.common.command.CommandParam;
@@ -37,6 +36,7 @@ class DataPersistLayer extends AbstractSlotContainer implements
 
     private final IResLocator rI;
     private final SlotPublisherType publishList;
+    private final DataType dType;
 
     private class ReadListDict implements IVectorList {
 
@@ -48,8 +48,7 @@ class DataPersistLayer extends AbstractSlotContainer implements
 
         public void doVList(final List<? extends AbstractTo> val) {
             DataListType dataList = DataListTypeFactory.construct(val);
-            SlotSignalContext.signal(publishList, slContext.getdType(),
-                    dataList);
+            slSignalContext.signal(publishList, dataList);
         }
     }
 
@@ -57,20 +56,20 @@ class DataPersistLayer extends AbstractSlotContainer implements
 
         public void signal(ISlotSignalContext slContext) {
             CommandParam co = rI.getR().getHotelCommandParam();
-            DataType dType = (DataType) slContext.getdType();
             co.setDict(dType.getdType());
             rI.getR().getList(RType.ListDict, co, new ReadListDict(slContext));
         }
     }
 
-    DataPersistLayer(IResLocator rI) {
+    DataPersistLayer(IResLocator rI, DataType dType) {
         this.rI = rI;
+        this.dType = dType;
         // create subscribers - ReadList
-        SlotType slType = SlotTypeFactory.contruct(ListEventEnum.ReadList);
+        SlotType slType = slTypeFactory.contruct(ListEventEnum.ReadList,dType);
         slContainer.addSubscriber(slType, new ReadList());
         // create publisher - ListRead
-        publishList = slContainer.addPublisher(SlotTypeFactory
-                .contruct(ListEventEnum.ReadListSuccess));
+        publishList = slContainer.addPublisher(slTypeFactory
+                .contruct(ListEventEnum.ReadListSuccess,dType));
     }
 
     public void startPublish() {

@@ -33,5 +33,11 @@ public class ClickButtonType {
     public int getCustomInt() {
         return customInt;
     }
+    
+    public boolean eq(ClickButtonType bType) {
+        if (clickEnum != bType.clickEnum) { return false; }
+        if (clickEnum != StandClickEnum.CUSTOM) { return true; }
+        return customInt == bType.customInt;
+    }
 
 }

@@ -10,14 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.panel;
+package com.gwtmodel.table.slotmodel;
 
-import java.util.List;
+public class SlotCallerType {
 
-public class GwtPanelViewFactory {
+    private final SlotType slType;
+    private final ISlotCaller slCaller;
 
-    public IGwtPanelView construct(List<PanelRowDesc> rowDesc) {
-        return new GwtPanelView(rowDesc);
+    SlotCallerType(SlotType slType, ISlotCaller slCaller) {
+        this.slType = slType;
+        this.slCaller = slCaller;
+    }
+
+    public SlotType getSlType() {
+        return slType;
+    }
+
+    public ISlotCaller getSlCaller() {
+        return slCaller;
     }
 
 }

@@ -10,14 +10,35 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.panel;
+package com.gwtmodel.table;
 
-import java.util.List;
+public class WSize {
 
-public class GwtPanelViewFactory {
+    private final int top;
+    private final int left;
+    private final int height;
+    private final int width;
 
-    public IGwtPanelView construct(List<PanelRowDesc> rowDesc) {
-        return new GwtPanelView(rowDesc);
+    public WSize(int top, int left, int height, int width) {
+        this.top = top;
+        this.left = left;
+        this.height = height;
+        this.width = width;
     }
 
+    public int getTop() {
+        return top;
+    }
+
+    public int getLeft() {
+        return left;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }

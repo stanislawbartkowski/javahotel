@@ -19,7 +19,7 @@ import java.util.Date;
  *
  * @author stanislawbartkowski@gmail.com
  */
-public interface IGetValue {
+interface IGetValue {
 
     String getVal();
 

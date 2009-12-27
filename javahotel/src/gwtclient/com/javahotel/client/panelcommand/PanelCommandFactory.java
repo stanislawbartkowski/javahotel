@@ -96,7 +96,8 @@ public class PanelCommandFactory {
             break;
         case TESTBOOKINGELEM:
 //            i = new TestBookingElem(sI);
-            i = new NewMvcPanel(sI,DictType.PriceListDict);
+//            i = new NewMvcPanel(sI,DictType.PriceListDict);
+            i = new NewMvcPanel(sI,DictType.RoomFacility);
             break;
         }
         if (i == null) {

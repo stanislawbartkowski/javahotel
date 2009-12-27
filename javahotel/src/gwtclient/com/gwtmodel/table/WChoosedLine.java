@@ -10,14 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.panel;
+package com.gwtmodel.table;
 
-import java.util.List;
+public class WChoosedLine {
+    
+    private final int choosedLine;
+    private final WSize wSize;
+    
+    public WChoosedLine(int choosedLine, WSize wSize) {
+        this.choosedLine = choosedLine;
+        this.wSize = wSize;
+    }
 
-public class GwtPanelViewFactory {
+    public int getChoosedLine() {
+        return choosedLine;
+    }
 
-    public IGwtPanelView construct(List<PanelRowDesc> rowDesc) {
-        return new GwtPanelView(rowDesc);
+    public WSize getwSize() {
+        return wSize;
     }
 
 }

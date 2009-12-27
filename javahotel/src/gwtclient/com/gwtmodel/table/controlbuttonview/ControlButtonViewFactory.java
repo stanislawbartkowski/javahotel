@@ -10,14 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.panel;
+package com.gwtmodel.table.controlbuttonview;
 
-import java.util.List;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 
-public class GwtPanelViewFactory {
+public class ControlButtonViewFactory {
 
-    public IGwtPanelView construct(List<PanelRowDesc> rowDesc) {
-        return new GwtPanelView(rowDesc);
+    public IControlButtonView construct(int cellId,
+            ListOfControlDesc listButton) {
+        return new ControlButtonView(cellId, listButton);
     }
 
 }

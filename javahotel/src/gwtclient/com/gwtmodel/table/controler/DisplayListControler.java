@@ -15,6 +15,11 @@ package com.gwtmodel.table.controler;
 import java.util.List;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
+import com.gwtmodel.table.controlbuttonview.IControlButtonView;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
@@ -22,46 +27,58 @@ import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.persist.IDataPersistAction;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.ListEventEnum;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
-import com.gwtmodel.table.slotmodel.SlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSubscriberType;
 import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
 class DisplayListControler implements IDataControler {
 
     private final IDataType dType;
 
-    private int cellTableId;
+    private final int cellTableId;
+    private final int controlId;
     private final ISlotMediator slMediator;
     private final SlotSubscriberType startSl;
+    private final TablesFactories tFactories;
 
-    DisplayListControler(IDataType dType, int panelId,
-            int cellIdFirst, List<VListHeaderDesc> heList, IDataPersistAction persistA) {
+    DisplayListControler(TablesFactories tFactories, IDataType dType,
+            int panelId, int cellIdFirst, List<VListHeaderDesc> heList,
+            ListOfControlDesc listButton, IDataPersistAction persistA,
+            ISlotable cControler) {
         this.dType = dType;
+        this.tFactories = tFactories;
         // create panel View
-        IPanelView pView = PanelViewFactory.construct(panelId, cellIdFirst);
-        cellTableId = pView.addCellPanel(0, 0);
+        PanelViewFactory pViewFactory = tFactories.getpViewFactory();
+        IPanelView pView = pViewFactory.construct(panelId, cellIdFirst);
+        controlId = pView.addCellPanel(0, 0);
+        cellTableId = pView.addCellPanel(1, 0);
         pView.createView();
         // persist layer
         // header list
-        IListDataView daView = ListDataViewFactory.construct(dType,
-                cellTableId, heList);
+        ListDataViewFactory lDataFactory = tFactories.getlDataFactory();
+        IListDataView daView = lDataFactory.construct(dType, cellTableId,
+                heList);
+        ControlButtonViewFactory bFactory = tFactories.getbViewFactory();
+        IControlButtonView bView = bFactory.construct(controlId, listButton);
         slMediator = SlotMediatorFactory.construct();
 
         slMediator.registerSlotContainer(pView);
         slMediator.registerSlotContainer(persistA);
         slMediator.registerSlotContainer(daView);
+        slMediator.registerSlotContainer(bView);
+        slMediator.registerSlotContainer(cControler);
 
-        SlotType slType = SlotTypeFactory.contruct(ListEventEnum.ReadList);
+        SlotType slType = tFactories.getSlTypeFactory().contruct(
+                ListEventEnum.ReadList, dType);
         startSl = persistA.getSlContainer().findSubscriber(slType);
     }
 
     public void startPublish() {
         slMediator.startPublish();
-        SlotSignalContext.signal(startSl, dType);
+        tFactories.getSlSignalContext().signal(startSl);
     }
 
     public SlotListContainer getSlContainer() {
