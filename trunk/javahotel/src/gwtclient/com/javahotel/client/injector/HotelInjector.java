@@ -15,6 +15,7 @@ package com.javahotel.client.injector;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.mvc.checktable.view.ICheckTableView;
 import com.javahotel.client.mvc.checktable.view.IDecimalTableView;
 import com.javahotel.client.mvc.controller.onerecordmodif.OneRecordModifWidgetFactory;
@@ -39,6 +40,7 @@ import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.table.model.TableModelFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
 import com.javahotel.client.start.IWebEntry;
+import com.javahotel.nmvc.factories.RegisterFactories;
 
 @GinModules(GiniClientModule.class)
 public interface HotelInjector extends Ginjector {
@@ -94,4 +96,8 @@ public interface HotelInjector extends Ginjector {
     DictEmptyFactory getDictEmptyFactory();
     
     PriceListValidatorService getPriceListValidatorService();
+    
+    RegisterFactories getRegisterFactories();
+    
+    AbstractToFactory getAbstractToFactory();
 }

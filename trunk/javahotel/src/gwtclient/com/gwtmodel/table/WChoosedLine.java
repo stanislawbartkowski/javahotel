@@ -25,6 +25,10 @@ public class WChoosedLine {
     public int getChoosedLine() {
         return choosedLine;
     }
+    
+    public boolean isChoosed() {
+        return choosedLine != -1;
+    }
 
     public WSize getwSize() {
         return wSize;

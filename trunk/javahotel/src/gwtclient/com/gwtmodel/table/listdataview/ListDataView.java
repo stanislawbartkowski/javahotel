@@ -26,33 +26,28 @@ import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
+import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
-    private final List<VListHeaderDesc> heList;
+    private final VListHeaderContainer heList;
     private DataListType dataList;
     private final IGwtTableView tableView;
-    private final IDataType dType;
 
     private class GwtTableView implements IGwtTableModel {
 
-        public List<VListHeaderDesc> getHeaderList() {
+        public VListHeaderContainer getHeaderList() {
             return heList;
         }
 
         public IVModelData getRow(int row) {
-            return dataList.getdList().get(row);
+            return dataList.getRow(row);
         }
 
         public int getRowsNum() {
             return dataList.getdList().size();
         }
-
-        public String getTableHeader() {
-            return null;
-        }
-
     }
 
     private class DrawList implements ISlotSignaller {
@@ -66,15 +61,14 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private class GetListData implements ISlotCaller {
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            return slSignalContext.returngetter(slContext, dataList,
-                    tableView.getClicked());
+            return slSignalContext.returngetter(slContext, dataList, tableView
+                    .getClicked());
         }
 
     }
 
     ListDataView(GwtTableFactory gFactory, IDataType dType, int cellId,
-            List<VListHeaderDesc> heList) {
-        this.dType = dType;
+            VListHeaderContainer heList) {
         this.heList = heList;
         tableView = gFactory.construct(new GwtTableView());
         // publisher

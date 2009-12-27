@@ -14,11 +14,11 @@
 package com.javahotel.client.widgets.popup;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public interface ICloseAction {
 
-        void setVisible(boolean visible);
+    void setVisible(boolean visible);
 
 }

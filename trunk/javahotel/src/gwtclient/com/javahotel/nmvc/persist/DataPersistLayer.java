@@ -15,7 +15,6 @@ package com.javahotel.nmvc.persist;
 import java.util.List;
 
 import com.gwtmodel.table.DataListType;
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.persist.IDataPersistAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -31,7 +30,7 @@ import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.nmvc.common.DataListTypeFactory;
 import com.javahotel.nmvc.common.DataType;
 
-class DataPersistLayer extends AbstractSlotContainer implements
+public class DataPersistLayer extends AbstractSlotContainer implements
         IDataPersistAction {
 
     private final IResLocator rI;
@@ -61,7 +60,7 @@ class DataPersistLayer extends AbstractSlotContainer implements
         }
     }
 
-    DataPersistLayer(IResLocator rI, DataType dType) {
+    public DataPersistLayer(IResLocator rI, DataType dType) {
         this.rI = rI;
         this.dType = dType;
         // create subscribers - ReadList

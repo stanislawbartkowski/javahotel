@@ -10,12 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.factories;
 
-public interface IVModelData {
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.rdef.FormLineContainer;
+
+public interface IFormDefFactory {
     
-    String getS(IVField fie);
+    FormLineContainer construct(IDataType dType);
     
-    void setS(IVField fie, String s);
 
 }

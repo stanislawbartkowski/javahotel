@@ -15,6 +15,7 @@ package com.gwtmodel.table.injector;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
@@ -34,5 +35,7 @@ public interface GwtTableInjector extends Ginjector {
     TableDataControlerFactory getTableDataControlerFactory();
     
     SlotSignalContextFactory getSlotSignalContextFactory();
+    
+    ITableAbstractFactories getITableAbstractFactories();
 
 }

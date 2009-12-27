@@ -39,10 +39,7 @@ import com.javahotel.common.util.AbstractObjectFactory;
  */
 public class AbstractToFactory {
 
-	private AbstractToFactory() {
-	}
-
-	public static AbstractTo getA(final DictData da) {
+	public AbstractTo getA(final DictData da) {
 		AbstractTo aa = null;
 		if (da.getD() != null) {
 			aa = AbstractObjectFactory.getAbstract(da.getD());

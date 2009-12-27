@@ -10,12 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.view.form;
 
-public interface IVModelData {
-    
-    String getS(IVField fie);
-    
-    void setS(IVField fie, String s);
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.rdef.FormLineContainer;
+
+class GwtFormView implements IGwtFormView {
+
+    private final FormLineContainer fContainer;
+    private final Grid g;
+
+    GwtFormView(final FormLineContainer fContainer) {
+        this.fContainer = fContainer;
+        g = CreateFormView.construct(fContainer);
+    }
+
+    public Widget getWidget() {
+        return g;
+    }
 
 }

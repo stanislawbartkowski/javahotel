@@ -12,30 +12,34 @@
  */
 package com.gwtmodel.table.controler;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
-import com.gwtmodel.table.persist.IDataPersistAction;
-import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
 
 public class TableDataControlerFactory {
 
     private final TablesFactories tFactories;
+    private final TableFactoriesContainer fContainer;
+    private final ControlButtonFactory cButtonFactory;
 
     @Inject
-    public TableDataControlerFactory(TablesFactories tFactories) {
+    public TableDataControlerFactory(TablesFactories tFactories,
+            TableFactoriesContainer fContainer,
+            ControlButtonFactory cButtonFactory) {
         this.tFactories = tFactories;
+        this.fContainer = fContainer;
+        this.cButtonFactory = cButtonFactory;
     }
 
     public IDataControler constructDataControler(IDataType dType, int panelId,
-            int cellIdFirst, List<VListHeaderDesc> heList,
-            ListOfControlDesc cList, IDataPersistAction persistA) {
-        return new DisplayListControler(tFactories, dType, panelId,
-                cellIdFirst, heList, cList, persistA, new DataListCrudControler(dType));
+            int cellIdFirst) {
+        ListOfControlDesc cList = cButtonFactory.constructCrudList();
+        return new DisplayListControler(tFactories, fContainer, dType, panelId,
+                cellIdFirst, cList, new DataListCrudControler(tFactories,
+                        fContainer, dType));
     }
 
 }

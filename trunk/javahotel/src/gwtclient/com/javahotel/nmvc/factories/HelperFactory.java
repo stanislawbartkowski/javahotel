@@ -10,12 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.javahotel.nmvc.factories;
 
-public interface IVModelData {
-    
-    String getS(IVField fie);
-    
-    void setS(IVField fie, String s);
+import com.gwtmodel.table.IDataType;
+import com.javahotel.client.dialog.DictData;
+import com.javahotel.nmvc.common.DataType;
+
+abstract class HelperFactory {
+
+    protected DictData getDa(IDataType dType) {
+        DataType dd = (DataType) dType;
+        DictData da = new DictData(dd.getdType());
+        return da;
+    }
 
 }

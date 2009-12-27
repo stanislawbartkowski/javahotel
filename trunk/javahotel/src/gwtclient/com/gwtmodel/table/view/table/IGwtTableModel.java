@@ -12,17 +12,13 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.List;
-
 import com.gwtmodel.table.IVModelData;
 
 public interface IGwtTableModel {
-
-    String getTableHeader();
 
     IVModelData getRow(int row);
 
     int getRowsNum();
     
-    List<VListHeaderDesc> getHeaderList();
+    VListHeaderContainer getHeaderList();
 }

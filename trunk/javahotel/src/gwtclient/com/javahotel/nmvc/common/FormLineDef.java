@@ -12,30 +12,32 @@
  */
 package com.javahotel.nmvc.common;
 
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.javahotel.common.toobject.AbstractTo;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.rdef.IFormChangeListener;
+import com.gwtmodel.table.rdef.IFormLineView;
+import com.javahotel.client.ifield.ILineField;
 
-public class VModelData implements IVModelData {
+public class FormLineDef implements IFormLineView  {
     
-    private final AbstractTo a;
+    private final ILineField iField;
     
-    public VModelData(AbstractTo a) {
-        this.a = a;
+    public FormLineDef(ILineField f) {
+        iField = f;
     }
 
-    public String getS(IVField fie) {
-        VField f = (VField) fie;
-        return a.getS(f.getFie());
+    public void addChangeListener(IFormChangeListener cListener) {        
     }
 
-    public void setS(IVField fie, String s) {
-        VField f = (VField) fie;
-        a.setF(f.getFie(), s);        
+    public String getVal() {
+        return iField.getVal();
     }
 
-    public AbstractTo getA() {
-        return a;
+    public void setVal(String s) {
+        iField.setVal(s);
+    }
+
+    public Widget getWidget() {
+        return iField.getMWidget().getWidget();
     }
 
 }

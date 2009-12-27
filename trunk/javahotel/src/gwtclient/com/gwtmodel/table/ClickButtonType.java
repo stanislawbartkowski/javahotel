@@ -12,9 +12,9 @@
  */
 package com.gwtmodel.table;
 
-public class ClickButtonType {
+class ClickButtonType {
 
-    public enum StandClickEnum {
+    enum StandClickEnum {
         ADDITEM, REMOVEITEM, MODIFITEM, ACCEPT, RESIGN, CUSTOM
     };
 

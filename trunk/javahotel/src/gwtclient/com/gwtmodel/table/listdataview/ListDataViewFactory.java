@@ -12,12 +12,10 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.view.table.GwtTableFactory;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 public class ListDataViewFactory {
     
@@ -29,7 +27,7 @@ public class ListDataViewFactory {
     }
 
     public IListDataView construct(IDataType dType, int cellId,
-            List<VListHeaderDesc> heList) {
+            VListHeaderContainer heList) {
         return new ListDataView(gFactory,dType, cellId, heList);
     }
 
