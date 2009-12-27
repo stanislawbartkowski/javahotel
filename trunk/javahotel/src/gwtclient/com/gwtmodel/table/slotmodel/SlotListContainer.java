@@ -17,13 +17,13 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 
 public class SlotListContainer {
 
     private final List<SlotPublisherType> listOfPublishers;
     private final List<SlotSubscriberType> listOfSubscribers;
     private final List<SlotCallerType> listOfCallers;
+    private final List<SlotRedirector> listOfRedirectors;
     private ISlotCaller slCaller;
     private final SlotTypeFactory slTypeFactory;
     private final SlotSignalContext slSignalContext;
@@ -36,6 +36,11 @@ public class SlotListContainer {
         listOfPublishers = new ArrayList<SlotPublisherType>();
         listOfSubscribers = new ArrayList<SlotSubscriberType>();
         listOfCallers = new ArrayList<SlotCallerType>();
+        listOfRedirectors = new ArrayList<SlotRedirector>();
+    }
+
+    public List<SlotRedirector> getListOfRedirectors() {
+        return listOfRedirectors;
     }
 
     public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -115,9 +120,14 @@ public class SlotListContainer {
     }
 
     public ISlotSignalContext callGetterList(IDataType dType) {
-        SlotType slType = slTypeFactory.contruct(ListEventEnum.GetListData,dType);
+        SlotType slType = slTypeFactory.construct(ListEventEnum.GetListData,
+                dType);
         SlotCallerType slo = findCaller(slType);
         return slSignalContext.callgetter(slo);
+    }
+
+    public void addRedirector(SlotType from, SlotType to) {
+        listOfRedirectors.add(new SlotRedirector(from, to));
     }
 
 }

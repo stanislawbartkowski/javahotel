@@ -39,10 +39,10 @@ public class FormDefFactory extends HelperFactory implements IFormDefFactory {
         List<FormField> formList = new ArrayList<FormField>();
         for (RecordField re : def) {
             FormField fo = new FormField(re.getPLabel(), new FormLineDef(re
-                    .getELine()), new VField(re.getFie()));
+                    .getELine()), new VField(re.getFie()), !re.isCanChange());
             formList.add(fo);
         }
-        return new FormLineContainer(formList,gFactory.getTitle(da));
+        return new FormLineContainer(formList, gFactory.getTitle(da));
     }
 
 }

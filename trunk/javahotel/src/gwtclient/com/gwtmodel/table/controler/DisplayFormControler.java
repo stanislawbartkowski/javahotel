@@ -14,36 +14,67 @@ package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
+import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.panelview.PanelViewFactory;
+import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 class DisplayFormControler implements ISlotable {
 
     private final int formId;
+    private final int coId;
     private final ISlotMediator slMediator;
 
     DisplayFormControler(TablesFactories tFactories,
             TableFactoriesContainer fContainer, FormLineContainer lContainer,
-            IDataType dType, int panelId, int cellIdFirst, IVModelData vData) {
+            ListOfControlDesc listButton, IDataType dType, int panelId,
+            int cellIdFirst, IVModelData vData,
+            ClickButtonType.StandClickEnum eAction) {
         PanelViewFactory pViewFactory = tFactories.getpViewFactory();
         IPanelView pView = pViewFactory.construct(panelId, cellIdFirst);
         formId = pView.addCellPanel(0, 0);
+        coId = pView.addCellPanel(1, 0);
         pView.createView();
         DataViewModelFactory dFactory = tFactories.getdViewFactory();
         IDataViewModel vModel = dFactory.construct(formId, lContainer);
+        IDataValidateAction vAction = fContainer.getDataValidateFactory()
+                .construct(dType);
+        for (FormField fie : lContainer.getfList()) {
+            IFormLineView vie = fie.getELine();
+            switch (eAction) {
+            case ADDITEM:
+                break;
+            case MODIFITEM:
+                if (fie.isReadOnlyIfModif()) {
+                    vie.setReadOnly(true);
+                }
+                break;
+            case REMOVEITEM:
+                vie.setReadOnly(true);
+                break;
+            }
+        }
+        IControlButtonView cView = tFactories.getbViewFactory().construct(coId,
+                listButton);
         vModel.fromDataToView(vData);
         slMediator = SlotMediatorFactory.construct();
         slMediator.registerSlotContainer(pView);
         slMediator.registerSlotContainer(vModel);
+        slMediator.registerSlotContainer(cView);
+        slMediator.registerSlotContainer(vAction);
     }
 
     public SlotListContainer getSlContainer() {

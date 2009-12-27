@@ -10,12 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.IDataType;
+public class SlotRedirector {
 
-public interface IPersistFactoryAction {
-    
-    IDataPersistAction contruct(IDataType dType);
+    private final SlotType from;
+    private final SlotType to;
+
+    SlotRedirector(SlotType from, SlotType to) {
+        this.from = from;
+        this.to = to;
+    }
+
+    public SlotType getFrom() {
+        return from;
+    }
+
+    public SlotType getTo() {
+        return to;
+    }
 
 }

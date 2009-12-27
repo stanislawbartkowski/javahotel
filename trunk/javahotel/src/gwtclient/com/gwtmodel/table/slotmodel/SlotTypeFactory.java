@@ -16,24 +16,35 @@ import com.gwtmodel.table.IDataType;
 
 public class SlotTypeFactory {
 
-    public SlotType contruct(ListEventEnum listEvEnum, IDataType dType) {
+    public SlotType construct(ListEventEnum listEvEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.ListEvent, null, null, listEvEnum,
-                null, -1,dType);
+                null, -1, dType, null, null);
+    }
+
+    public SlotType construct(ValidateActionEnum vEnum, IDataType dType) {
+        return new SlotType(SlotEventEnum.ValidateAction, null, null, null,
+                null, -1, dType, vEnum, null);
+    }
+
+    public SlotType construct(GetActionEnum gEnum, IDataType dType) {
+        return new SlotType(SlotEventEnum.ValidateAction, null, null, null,
+                null, -1, dType, null, gEnum);
     }
 
     public SlotType constructCallBackWidget(int cellId) {
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
-                null, cellId,null);
+                null, cellId, null, null, null);
     }
 
-    public SlotType contructClickButton(ClickButtonType buttonClick) {
+    public SlotType constructClickButton(ClickButtonType buttonClick) {
         return new SlotType(SlotEventEnum.ClickButton, null, buttonClick, null,
-                null, -1,null);
+                null, -1, null, null, null);
     }
 
-    public SlotType contructClickButton(ClickButtonType.StandClickEnum clickEnum) {
+    public SlotType constructClickButton(ClickButtonType.StandClickEnum clickEnum) {
         return new SlotType(SlotEventEnum.ClickButton, null,
-                new ClickButtonType(clickEnum), null, null, -1,null);
+                new ClickButtonType(clickEnum), null, null, -1, null, null,
+                null);
     }
 
 }

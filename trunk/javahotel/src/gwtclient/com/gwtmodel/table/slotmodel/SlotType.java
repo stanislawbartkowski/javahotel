@@ -56,9 +56,15 @@ public class SlotType {
 
     /** Panel identifier for CallBackWidget. */
     private final int cellId;
-    
+
     /** Data identifier for list. */
     private final IDataType dType;
+
+    /** Validate action. */
+    private final ValidateActionEnum vEnum;
+    
+    /** Getter. */
+    private final GetActionEnum gEnum;
 
     public boolean eq(SlotType slType) {
         if (slEnum != slType.slEnum) {
@@ -68,16 +74,27 @@ public class SlotType {
         case CallBackWidget:
             return cellId == slType.cellId;
         case ListEvent:
-            if (listEvEnum != slType.listEvEnum) { return false; }
+            if (listEvEnum != slType.listEvEnum) {
+                return false;
+            }
             return dType.eq(slType.dType);
         case ClickButton:
             return buttonClick.eq(slType.buttonClick);
+        case ValidateAction:
+            if (vEnum != slType.vEnum) {
+                return false;
+            }
+            return dType.eq(slType.dType);
+        case GetAction:
+            if (gEnum != slType.gEnum) { return false; }
+            return dType.eq(slType.dType);
         }
         return true;
     }
 
     SlotType(SlotEventEnum slEnum, IVField fie, ClickButtonType buttonClick,
-            ListEventEnum listEvEnum, List<SlotType> slList, int cellId, IDataType dType) {
+            ListEventEnum listEvEnum, List<SlotType> slList, int cellId,
+            IDataType dType,ValidateActionEnum vEnum,GetActionEnum gEnum) {
         this.slEnum = slEnum;
         this.fie = fie;
         this.buttonClick = buttonClick;
@@ -85,6 +102,8 @@ public class SlotType {
         this.slList = slList;
         this.cellId = cellId;
         this.dType = dType;
+        this.vEnum = vEnum;
+        this.gEnum = gEnum;
     }
 
     public int getCellId() {

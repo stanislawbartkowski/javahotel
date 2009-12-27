@@ -22,6 +22,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotCallerType;
 import com.gwtmodel.table.slotmodel.SlotPublisherType;
+import com.gwtmodel.table.slotmodel.SlotRedirector;
 import com.gwtmodel.table.slotmodel.SlotSubscriberType;
 import com.gwtmodel.table.slotmodel.SlotType;
 
@@ -31,8 +32,17 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 
     private class GeneralListener implements ISlotSignaller {
 
-        public void signal(ISlotSignalContext slContext) {
-            SlotType sl = slContext.getSlType();
+        public void signal(ISlotSignalContext slContextP) {
+            SlotType sl = slContextP.getSlType();
+            ISlotSignalContext slContext = slContextP;
+            // find redirector
+            for (SlotRedirector re : slContainer.getListOfRedirectors()) {
+                if (re.getFrom().eq(sl)) {
+                    sl = re.getTo();
+                    slContext = contextReplace(sl,slContextP);
+                    break;
+                }
+            }
             for (SlotSubscriberType so : slContainer.getListOfSubscribers()) {
                 if (sl.eq(so.getSlType())) {
                     so.getSlSignaller().signal(slContext);
@@ -61,6 +71,8 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
                 iSlo.getSlContainer().getListOfSubscribers());
         this.slContainer.getListOfCallers().addAll(
                 iSlo.getSlContainer().getListOfCallers());
+        this.slContainer.getListOfRedirectors().addAll(
+                iSlo.getSlContainer().getListOfRedirectors());
     }
 
     public void startPublish() {

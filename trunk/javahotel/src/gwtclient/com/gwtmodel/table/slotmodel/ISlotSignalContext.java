@@ -13,8 +13,8 @@
 package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.DataListType;
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 
 public interface ISlotSignalContext {
@@ -30,4 +30,6 @@ public interface ISlotSignalContext {
     DataListType getDataList();
     
     WChoosedLine getChoosedLine();
+    
+    IVModelData getVData();
 }

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.controler;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
@@ -19,15 +20,19 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotType;
+import com.gwtmodel.table.slotmodel.ValidateActionEnum;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.PopupUtil;
@@ -37,6 +42,44 @@ class DataListCrudControler extends AbstractSlotContainer {
     private final IDataType dType;
     private final TablesFactories tFactories;
     private final TableFactoriesContainer fContainer;
+
+    private abstract class Signaller implements ISlotSignaller {
+
+        private final DrawForm dForm;
+
+        Signaller(DrawForm dForm) {
+            this.dForm = dForm;
+        }
+
+        protected void hide() {
+            dForm.d.hide();
+        }
+
+    }
+
+    private class PersistData extends Signaller {
+
+        PersistData(DrawForm dForm) {
+            super(dForm);
+        }
+
+        public void signal(ISlotSignalContext slContext) {
+            Window.alert("Persist - validate");
+            hide();
+        }
+
+    }
+
+    private class ResignAction extends Signaller {
+
+        ResignAction(DrawForm dForm) {
+            super(dForm);
+        }
+
+        public void signal(ISlotSignalContext slContext) {
+            hide();
+        }
+    }
 
     private class FormDialog extends ModalDialog {
 
@@ -60,8 +103,10 @@ class DataListCrudControler extends AbstractSlotContainer {
         private final WSize wSize;
         private final FormLineContainer lContainer;
         private final ClickButtonType.StandClickEnum action;
+        private FormDialog d;
 
-        DrawForm(WSize wSize, FormLineContainer lContainer,ClickButtonType.StandClickEnum action) {
+        DrawForm(WSize wSize, FormLineContainer lContainer,
+                ClickButtonType.StandClickEnum action) {
             this.wSize = wSize;
             this.lContainer = lContainer;
             this.action = action;
@@ -71,9 +116,23 @@ class DataListCrudControler extends AbstractSlotContainer {
             String addTitle = GetActionName.getActionName(action);
             IGWidget w = slContext.getGwtWidget();
             VerticalPanel vp = new VerticalPanel();
-            FormDialog d = new FormDialog(vp, lContainer.getTitle() + " / " + addTitle, w);
+            d = new FormDialog(vp, lContainer.getTitle() + " / " + addTitle, w);
             PopupUtil.setPos(d.getDBox(), wSize);
             d.show();
+        }
+
+    }
+
+    private class GetterModel implements ISlotCaller {
+
+        private final IVModelData mModel;
+
+        GetterModel(IVModelData mModel) {
+            this.mModel = mModel;
+        }
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            return slSignalContext.returngetter(slContext, mModel);
         }
 
     }
@@ -98,15 +157,44 @@ class DataListCrudControler extends AbstractSlotContainer {
                         mData, mModel);
                 wSize = choosedLine.getwSize();
             } else {
-                wSize = new WSize(0, 0, 0, 0);
+                IGWidget wi = slContext.getGwtWidget();
+                wSize = new WSize(wi.getWidget());
             }
             FormLineContainer lContainer = fContainer.getFormDefFactory()
                     .construct(dType);
+            ListOfControlDesc liControls;
+            if (action != ClickButtonType.StandClickEnum.REMOVEITEM) {
+                liControls = tFactories.getControlButtonFactory()
+                        .constructAcceptResign();
+            } else {
+                liControls = tFactories.getControlButtonFactory()
+                        .constructRemoveDesign();
+            }
             DisplayFormControler fControler = new DisplayFormControler(
-                    tFactories, fContainer, lContainer, dType, 0, 1, mModel);
+                    tFactories, fContainer, lContainer, liControls, dType, 0,
+                    1, mModel, action);
             SlotListContainer slContainer = fControler.getSlContainer();
-            slContainer.registerSubscriberGwt(0,
-                    new DrawForm(wSize, lContainer,action));
+            DrawForm dForm = new DrawForm(wSize, lContainer, action);
+            slContainer.registerSubscriberGwt(0, dForm);
+            SlotType slType;
+            slType = slTypeFactory
+                    .constructClickButton(ClickButtonType.StandClickEnum.RESIGN);
+            slContainer.registerSubscriber(slType, new ResignAction(dForm));
+
+            slType = slTypeFactory.construct(GetActionEnum.ModelVData, dType);
+            slContainer.addCaller(slType, new GetterModel(mModel));
+
+            slType = slTypeFactory.construct(
+                    ValidateActionEnum.ValidationPassed, dType);
+            slContainer.registerSubscriber(slType, new PersistData(dForm));
+
+            slType = slTypeFactory
+                    .construct(ValidateActionEnum.Validate, dType);
+            slContainer
+                    .addRedirector(
+                            slTypeFactory
+                                    .constructClickButton(ClickButtonType.StandClickEnum.ACCEPT),
+                            slType);
             fControler.startPublish();
         }
 
@@ -117,15 +205,11 @@ class DataListCrudControler extends AbstractSlotContainer {
         this.dType = dType;
         this.tFactories = tFactories;
         this.fContainer = fContainer;
-        SlotType slType = slTypeFactory
-                .contructClickButton(ClickButtonType.StandClickEnum.ADDITEM);
-        addSubscriber(slType, new ActionItem());
-        slType = slTypeFactory
-                .contructClickButton(ClickButtonType.StandClickEnum.REMOVEITEM);
-        addSubscriber(slType, new ActionItem());
-        slType = slTypeFactory
-                .contructClickButton(ClickButtonType.StandClickEnum.MODIFITEM);
-        addSubscriber(slType, new ActionItem());
+        addSubscriber(ClickButtonType.StandClickEnum.ADDITEM, new ActionItem());
+        addSubscriber(ClickButtonType.StandClickEnum.REMOVEITEM,
+                new ActionItem());
+        addSubscriber(ClickButtonType.StandClickEnum.MODIFITEM,
+                new ActionItem());
     }
 
     public void startPublish() {

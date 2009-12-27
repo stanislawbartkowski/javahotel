@@ -13,8 +13,8 @@
 package com.javahotel.nmvc.factories;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
-import com.gwtmodel.table.persist.IDataPersistAction;
 import com.javahotel.client.IResLocator;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.persist.DataPersistLayer;

@@ -10,12 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.IDataType;
+public enum ValidateActionEnum {
 
-public interface IPersistFactoryAction {
-    
-    IDataPersistAction contruct(IDataType dType);
+    /** Sent to validate date. */
+    Validate,
+
+    /** Sent if error. */
+    ValidatonFailed,
+
+    /** Sent if success. */
+    ValidationPassed,
 
 }

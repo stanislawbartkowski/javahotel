@@ -19,11 +19,18 @@ public class FormField {
     private final String pLabel;
     private final IFormLineView eLine;
     private final IVField fie;
+    private final boolean readOnlyIfModif;
 
-    public FormField(final String p, final IFormLineView e, final IVField fie) {
+    public FormField(final String p, final IFormLineView e, final IVField fie,
+            boolean readOnlyIfModif) {
         this.pLabel = p;
         this.eLine = e;
         this.fie = fie;
+        this.readOnlyIfModif = readOnlyIfModif;
+    }
+
+    public boolean isReadOnlyIfModif() {
+        return readOnlyIfModif;
     }
 
     /**

@@ -15,7 +15,7 @@ package com.javahotel.nmvc.persist;
 import java.util.List;
 
 import com.gwtmodel.table.DataListType;
-import com.gwtmodel.table.persist.IDataPersistAction;
+import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
@@ -64,11 +64,11 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         this.rI = rI;
         this.dType = dType;
         // create subscribers - ReadList
-        SlotType slType = slTypeFactory.contruct(ListEventEnum.ReadList,dType);
+        SlotType slType = slTypeFactory.construct(ListEventEnum.ReadList,dType);
         slContainer.addSubscriber(slType, new ReadList());
         // create publisher - ListRead
         publishList = slContainer.addPublisher(slTypeFactory
-                .contruct(ListEventEnum.ReadListSuccess,dType));
+                .construct(ListEventEnum.ReadListSuccess,dType));
     }
 
     public void startPublish() {

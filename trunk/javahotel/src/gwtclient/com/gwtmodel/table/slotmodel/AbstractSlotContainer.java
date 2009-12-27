@@ -48,15 +48,32 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.addSubscriber(slType, slSignaller);
     }
 
-    protected void addCallerList(ListEventEnum listEvEnum, IDataType dType, ISlotCaller slCaller) {
-        SlotType slType = slTypeFactory.contruct(listEvEnum,dType);
+    protected void addSubscriber(ClickButtonType.StandClickEnum eClick,
+            ISlotSignaller slSignaller) {
+        SlotType slType = slTypeFactory.constructClickButton(eClick);
+        addSubscriber(slType, slSignaller);
+    }
+
+    protected void addCallerList(ListEventEnum listEvEnum, IDataType dType,
+            ISlotCaller slCaller) {
+        SlotType slType = slTypeFactory.construct(listEvEnum, dType);
         slContainer.addCaller(slType, slCaller);
     }
-    
+
     protected ISlotSignalContext callGetterList(IDataType dType) {
-        SlotType slType = slTypeFactory.contruct(ListEventEnum.GetListData,dType);
+        SlotType slType = slTypeFactory.construct(ListEventEnum.GetListData,
+                dType);
         ISlotSignalContext slContext = slContextFactory.construct(slType);
         return slContainer.call(slContext);
     }
+
+    protected SlotPublisherType addPublisher(SlotType slType) {
+        return slContainer.addPublisher(slType);
+    }
     
+    protected ISlotSignalContext contextReplace(SlotType slType, ISlotSignalContext iSlot) {
+        return slContextFactory.construct(slType, iSlot);
+    }
+    
+
 }

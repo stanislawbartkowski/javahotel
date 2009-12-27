@@ -16,19 +16,17 @@ import com.google.inject.Inject;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 
-
 public class DataViewModelFactory {
-    
+
     private final GwtFormViewFactory gFactory;
-    
+
     @Inject
     public DataViewModelFactory(GwtFormViewFactory gFactory) {
         this.gFactory = gFactory;
     }
 
-
-    public IDataViewModel construct(int cellId,FormLineContainer fContainer) {
-        return new DataViewModel(gFactory,cellId,fContainer);
+    public IDataViewModel construct(int cellId, FormLineContainer fContainer) {
+        return new DataViewModel(gFactory, cellId, fContainer);
     }
 
 }

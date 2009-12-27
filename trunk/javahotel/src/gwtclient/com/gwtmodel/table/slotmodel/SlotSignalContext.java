@@ -14,8 +14,8 @@ package com.gwtmodel.table.slotmodel;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.DataListType;
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 
 public class SlotSignalContext {
@@ -55,6 +55,13 @@ public class SlotSignalContext {
             DataListType dataList, WChoosedLine choosedLine) {
         ISlotSignalContext sl = slContextFactory.construct(slContext
                 .getSlType(), dataList, choosedLine);
+        return sl;
+    }
+    
+    public ISlotSignalContext returngetter(ISlotSignalContext slContext,
+            IVModelData vData) {
+        ISlotSignalContext sl = slContextFactory.construct(slContext
+                .getSlType(), vData);
         return sl;
     }
 

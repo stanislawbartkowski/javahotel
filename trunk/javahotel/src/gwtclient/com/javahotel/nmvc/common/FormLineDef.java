@@ -40,4 +40,9 @@ public class FormLineDef implements IFormLineView  {
         return iField.getMWidget().getWidget();
     }
 
+    public void setReadOnly(boolean readOnly) {
+        iField.setReadOnly(readOnly);
+        
+    }
+
 }
