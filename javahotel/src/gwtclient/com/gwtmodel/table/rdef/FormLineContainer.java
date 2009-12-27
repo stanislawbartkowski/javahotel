@@ -10,12 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.rdef;
 
-public interface IVModelData {
-    
-    String getS(IVField fie);
-    
-    void setS(IVField fie, String s);
+import java.util.List;
+
+public class FormLineContainer {
+
+    private final List<FormField> fList;
+    private final String title;
+
+    public FormLineContainer(List<FormField> fList, String title) {
+        this.fList = fList;
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public List<FormField> getfList() {
+        return fList;
+    }
 
 }

@@ -10,12 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.view.form;
 
-public interface IVModelData {
-    
-    String getS(IVField fie);
-    
-    void setS(IVField fie, String s);
+import com.gwtmodel.table.rdef.FormLineContainer;
+
+public class GwtFormViewFactory {
+
+    public IGwtFormView construct(final FormLineContainer fContainer) {
+        return new GwtFormView(fContainer);
+    }
 
 }

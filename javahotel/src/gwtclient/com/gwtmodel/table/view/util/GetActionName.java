@@ -10,12 +10,25 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.view.util;
 
-public interface IVModelData {
-    
-    String getS(IVField fie);
-    
-    void setS(IVField fie, String s);
+import com.gwtmodel.table.slotmodel.ClickButtonType;
 
+public class GetActionName {
+
+    private GetActionName() {
+
+    }
+
+    public static String getActionName(ClickButtonType.StandClickEnum action) {
+        switch (action) {
+        case ADDITEM:
+            return "Dodanie";
+        case MODIFITEM:
+            return "Zmiana";
+        case REMOVEITEM:
+            return "Usunięcie";
+        }
+        return null;
+    }
 }

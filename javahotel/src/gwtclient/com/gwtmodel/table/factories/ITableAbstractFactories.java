@@ -10,12 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.factories;
 
-public interface IVModelData {
+
+public interface ITableAbstractFactories {
+
+    void registerPersistFactory(IPersistFactoryAction iPersistFactory);
+
+    void registerFormDefFactory(IFormDefFactory iFormDefFactory);
     
-    String getS(IVField fie);
+    void registerHeaderListFactory(IHeaderListFactory iheFactory);
     
-    void setS(IVField fie, String s);
+    void registerDataModelFactory(IDataModelFactory iDataModelFactory);
+
 
 }

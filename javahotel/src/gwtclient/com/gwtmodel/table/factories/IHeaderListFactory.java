@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.factories;
 
-public interface IVModelData {
-    
-    String getS(IVField fie);
-    
-    void setS(IVField fie, String s);
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.view.table.VListHeaderContainer;
+
+public interface IHeaderListFactory {
+
+    VListHeaderContainer getVListHeaderContainer(IDataType dType);
 
 }

@@ -10,11 +10,25 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.persist;
+package com.gwtmodel.table.datamodelview;
 
-public enum DataPersistEnum {
+import com.google.inject.Inject;
+import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.view.form.GwtFormViewFactory;
+
+
+public class DataViewModelFactory {
     
-    InMemory,
-    PersistanceLayer
+    private final GwtFormViewFactory gFactory;
+    
+    @Inject
+    public DataViewModelFactory(GwtFormViewFactory gFactory) {
+        this.gFactory = gFactory;
+    }
+
+
+    public IDataViewModel construct(int cellId,FormLineContainer fContainer) {
+        return new DataViewModel(gFactory,cellId,fContainer);
+    }
 
 }

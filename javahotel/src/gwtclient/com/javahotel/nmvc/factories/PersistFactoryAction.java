@@ -10,26 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.controler;
+package com.javahotel.nmvc.factories;
 
-import com.gwtmodel.table.controler.IDataControler;
-import com.gwtmodel.table.controler.TableDataControlerFactory;
-import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IPersistFactoryAction;
+import com.gwtmodel.table.persist.IDataPersistAction;
 import com.javahotel.client.IResLocator;
 import com.javahotel.nmvc.common.DataType;
+import com.javahotel.nmvc.persist.DataPersistLayer;
 
-public class DataControlerFactory {
 
-    private DataControlerFactory() {
+class PersistFactoryAction implements IPersistFactoryAction {
+
+    private final IResLocator rI;
+    
+    PersistFactoryAction(IResLocator rI) {
+        this.rI = rI;
+    }
+    
+    public IDataPersistAction contruct(IDataType dType) {
+        DataType dd = (DataType) dType;
+        return new DataPersistLayer(rI, dd);
+
     }
 
-    public static IDataControler constructDataControler(IResLocator rI,
-            DataControlerEnum cEnum, DataType dType, int panelId,
-            int cellIdFirst) {
-
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
-                .getTableDataControlerFactory();
-
-        return tFactory.constructDataControler(dType, panelId, cellIdFirst);
-    }
 }

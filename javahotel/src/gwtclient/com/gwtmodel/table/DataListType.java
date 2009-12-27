@@ -24,6 +24,10 @@ public class DataListType {
 
         public List<IVModelData> getdList() {
             return dList;
-        }        
+        }
+        
+        public IVModelData getRow(int row) {
+            return dList.get(row);
+        }
 
 }

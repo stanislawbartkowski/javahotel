@@ -10,12 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.datamodelview;
 
-public interface IVModelData {
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.slotmodel.ISlotable;
+
+public interface IDataViewModel extends  ISlotable {
     
-    String getS(IVField fie);
+    void fromDataToView(IVModelData aTo);
     
-    void setS(IVField fie, String s);
+    void fromViewToData(IVModelData aTo);
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+f * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -12,13 +12,11 @@
  */
 package com.gwtmodel.table.controler;
 
-import java.util.List;
-
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
-import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
@@ -32,11 +30,9 @@ import com.gwtmodel.table.slotmodel.ListEventEnum;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSubscriberType;
 import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 class DisplayListControler implements IDataControler {
-
-    private final IDataType dType;
 
     private final int cellTableId;
     private final int controlId;
@@ -44,12 +40,14 @@ class DisplayListControler implements IDataControler {
     private final SlotSubscriberType startSl;
     private final TablesFactories tFactories;
 
-    DisplayListControler(TablesFactories tFactories, IDataType dType,
-            int panelId, int cellIdFirst, List<VListHeaderDesc> heList,
-            ListOfControlDesc listButton, IDataPersistAction persistA,
+    DisplayListControler(TablesFactories tFactories,
+            TableFactoriesContainer fContainer, IDataType dType, int panelId,
+            int cellIdFirst, ListOfControlDesc listButton,
             ISlotable cControler) {
-        this.dType = dType;
         this.tFactories = tFactories;
+        IDataPersistAction persistA = fContainer.getPersistFactoryAction().contruct(dType);
+        VListHeaderContainer heList = fContainer.getHeaderListFactory()
+                .getVListHeaderContainer(dType);
         // create panel View
         PanelViewFactory pViewFactory = tFactories.getpViewFactory();
         IPanelView pView = pViewFactory.construct(panelId, cellIdFirst);

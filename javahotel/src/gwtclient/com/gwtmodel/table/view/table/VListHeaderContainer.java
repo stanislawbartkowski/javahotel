@@ -10,12 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.view.table;
 
-public interface IVModelData {
+import java.util.List;
+
+public class VListHeaderContainer {
     
-    String getS(IVField fie);
+    private final List<VListHeaderDesc> heList;
+    private final String listTitle;
     
-    void setS(IVField fie, String s);
+    public VListHeaderContainer(List<VListHeaderDesc> heList,String listTitle) {
+        this.heList = heList;
+        this.listTitle = listTitle;
+    }
+
+    public List<VListHeaderDesc> getHeList() {
+        return heList;
+    }
+
+    public String getListTitle() {
+        return listTitle;
+    }
 
 }

@@ -10,23 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.persist;
+package com.gwtmodel.table.factories;
 
-import com.gwtmodel.table.persist.IDataPersistAction;
-import com.javahotel.client.IResLocator;
-import com.javahotel.nmvc.common.DataType;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVModelData;
 
-public class DataPersistActionFactory {
+public interface IDataModelFactory {
 
-    public static IDataPersistAction contructDataPersis(IResLocator rI,
-            DataPersistEnum dpEnum,DataType dType ) {
-        switch (dpEnum) {
-        case InMemory:
-            return null;
-        case PersistanceLayer:
-            return new DataPersistLayer(rI,dType);
-        }
-        return null;
-    }
+    IVModelData construct(IDataType dType);
+
+    void copyFromPersistToModel(IDataType dType, IVModelData from, IVModelData to);
+
+    void fromModelToPersist(IDataType dType, IVModelData from, IVModelData to);
 
 }

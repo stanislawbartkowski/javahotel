@@ -13,7 +13,9 @@
 package com.gwtmodel.table.injector;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
+import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmodel.SlotSignalContext;
@@ -26,6 +28,8 @@ public class TablesFactories {
     private final ListDataViewFactory lDataFactory;
     private final SlotTypeFactory slTypeFactory;
     private final SlotSignalContext slSignalContext;
+    private final DataViewModelFactory dViewFactory;
+    private final ControlButtonFactory cButtonFactory;
 
     public ControlButtonViewFactory getbViewFactory() {
         return bViewFactory;
@@ -38,12 +42,16 @@ public class TablesFactories {
     @Inject
     public TablesFactories(ControlButtonViewFactory bViewFactory,
             PanelViewFactory pViewFactory, ListDataViewFactory lDataFactory,
-            SlotTypeFactory slTypeFactory, SlotSignalContext slSignalContext) {
+            SlotTypeFactory slTypeFactory, SlotSignalContext slSignalContext,
+            DataViewModelFactory dViewFactory,
+            ControlButtonFactory cButtonFactory) {
         this.bViewFactory = bViewFactory;
         this.pViewFactory = pViewFactory;
         this.lDataFactory = lDataFactory;
         this.slTypeFactory = slTypeFactory;
         this.slSignalContext = slSignalContext;
+        this.dViewFactory = dViewFactory;
+        this.cButtonFactory = cButtonFactory;
     }
 
     public SlotSignalContext getSlSignalContext() {
@@ -56,6 +64,14 @@ public class TablesFactories {
 
     public ListDataViewFactory getlDataFactory() {
         return lDataFactory;
+    }
+
+    public DataViewModelFactory getdViewFactory() {
+        return dViewFactory;
+    }
+
+    public ControlButtonFactory getControlButtonFactory() {
+        return cButtonFactory;
     }
 
 }

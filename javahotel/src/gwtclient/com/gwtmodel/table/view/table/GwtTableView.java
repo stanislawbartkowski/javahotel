@@ -18,7 +18,7 @@ import com.gwtmodel.table.WSize;
 class GwtTableView implements IGwtTableView {
 
     private final IGwtTableModel model;
-    private int clickedNo;
+    private int clickedNo = -1;
     private WSize wSize;
     private final Label header = new Label();
     private final Table ta;
@@ -26,8 +26,9 @@ class GwtTableView implements IGwtTableView {
 
     GwtTableView(IGwtTableModel model) {
         this.model = model;
-        if (model.getTableHeader() != null) {
-            header.setText(model.getTableHeader());
+        String title = model.getHeaderList().getListTitle();
+        if (title != null) {
+            header.setText(title);
         }
         ta = new Table(null, Table.Options.create());
         ta.addSelectHandler(new H(ta));
@@ -35,7 +36,7 @@ class GwtTableView implements IGwtTableView {
 
     private void drawrow(int row) {
         IVModelData ii = model.getRow(row);
-        List<VListHeaderDesc> co = model.getHeaderList();
+        List<VListHeaderDesc> co = model.getHeaderList().getHeList();
         for (int c = 0; c < co.size(); c++) {
             VListHeaderDesc cl = co.get(c);
             String val = ii.getS(cl.getFie());
@@ -45,7 +46,7 @@ class GwtTableView implements IGwtTableView {
 
     private void getTable() {
         data = DataTable.create();
-        List<VListHeaderDesc> co = model.getHeaderList();
+        List<VListHeaderDesc> co = model.getHeaderList().getHeList();
         for (VListHeaderDesc c : co) {
             data.addColumn(ColumnType.STRING, c.getHeaderString());
         }
