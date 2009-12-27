@@ -14,8 +14,11 @@ package com.javahotel.nmvc.controler;
 
 import java.util.List;
 
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.persist.IDataPersistAction;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.IResLocator;
@@ -35,9 +38,13 @@ public class DataControlerFactory {
         List<VListHeaderDesc> heList = HeaderModelDataFactory
                 .constructList(dType);
         IDataPersistAction persistA = DataPersistActionFactory
-                .contructDataPersis(rI, DataPersistEnum.PersistanceLayer);
+                .contructDataPersis(rI, DataPersistEnum.PersistanceLayer, dType);
+        ListOfControlDesc listButton = ControlButtonFactory.constructCrudList();
 
-        return TableDataControlerFactory.constructDataControler(dType, panelId,
-                cellIdFirst, heList, persistA);
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
+                .getTableDataControlerFactory();
+
+        return tFactory.constructDataControler(dType, panelId, cellIdFirst,
+                heList, listButton, persistA);
     }
 }

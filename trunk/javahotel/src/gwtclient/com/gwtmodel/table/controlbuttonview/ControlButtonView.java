@@ -17,38 +17,39 @@ import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.SlotPublisherType;
-import com.gwtmodel.table.slotmodel.SlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 
-class ControlButtonView extends AbstractSlotContainer implements IControlButtonView {
-    
+class ControlButtonView extends AbstractSlotContainer implements
+        IControlButtonView {
+
     private final IContrButtonView vButton;
-    
+
     private class Click implements IControlClick {
 
-        public void click(ControlButtonDesc co, Widget w) { 
-            SlotType slType = SlotTypeFactory.contructClickButton(co.getActionId());
+        public void click(ControlButtonDesc co, Widget w) {
+            SlotType slType = slTypeFactory.contructClickButton(co
+                    .getActionId());
             SlotPublisherType slPublisher = slContainer.findPublisher(slType);
-            SlotSignalContext.signal(slPublisher);
-        }        
+            slSignalContext.signal(slPublisher);
+        }
     }
-    
-    ControlButtonView(ListOfControlDesc listButton, int cellId) {
+
+    ControlButtonView(int cellId, ListOfControlDesc listButton) {
         vButton = ContrButtonViewFactory.getView(listButton, new Click());
         // create publishers
         for (ControlButtonDesc bu : listButton.getcList()) {
-            SlotType slType = SlotTypeFactory.contructClickButton(bu.getActionId());
+            SlotType slType = slTypeFactory.contructClickButton(bu
+                    .getActionId());
             slContainer.addPublisher(slType);
         }
-        createCallBackWidget(cellId);        
+        createCallBackWidget(cellId);
     }
 
     public void startPublish() {
         publishCallBack(vButton);
     }
- 
+
 }

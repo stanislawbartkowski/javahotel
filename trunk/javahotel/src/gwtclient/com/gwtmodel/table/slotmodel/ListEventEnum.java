@@ -30,5 +30,8 @@ public enum ListEventEnum {
     ReadList,
     
     /** List read with success. */
-    ReadListSuccess
+    ReadListSuccess,
+    
+    /** Get list data (datalist,choosed,size). */
+    GetListData,
 }

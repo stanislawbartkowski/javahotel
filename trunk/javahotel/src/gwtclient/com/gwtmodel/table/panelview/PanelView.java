@@ -51,9 +51,11 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     private final Map<Integer, PanelRowCell> colM = new HashMap<Integer, PanelRowCell>();
     private int nextToUse;
     private IGwtPanelView pView;
+    private final GwtPanelViewFactory gFactory;
 
-    PanelView(int panelCellId, int firstToUse) {
+    PanelView(GwtPanelViewFactory gFactory, int panelCellId, int firstToUse) {
         this.nextToUse = firstToUse;
+        this.gFactory = gFactory;
         // create publisher
         createCallBackWidget(panelCellId);
     }
@@ -93,11 +95,11 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
                 rowDesc.add(new PanelRowDesc(col+1));
             }
         }
-        pView = GwtPanelViewFactory.construct(rowDesc);
+        pView = gFactory.construct(rowDesc);
         // create subscribers
         for (Integer ii : colM.keySet()) {
             // PanelRowCell ro = colM.get(ii);
-            SlotType slType = SlotTypeFactory.constructCallBackWidget(ii);
+            SlotType slType = slTypeFactory.constructCallBackWidget(ii);
             slContainer.addSubscriber(slType, new SetWidget());
         }
         // create publisher

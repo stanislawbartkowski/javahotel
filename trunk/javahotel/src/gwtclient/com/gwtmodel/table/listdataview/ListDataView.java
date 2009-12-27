@@ -18,11 +18,11 @@ import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ListEventEnum;
 import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
@@ -58,25 +58,33 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private class DrawList implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            if (!dType.eq(slContext.getdType())) {
-                return;
-            }
             dataList = slContext.getDataList();
             tableView.refresh();
         }
     }
 
-    ListDataView(IDataType dType, int cellId,
+    private class GetListData implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            return slSignalContext.returngetter(slContext, dataList,
+                    tableView.getClicked());
+        }
+
+    }
+
+    ListDataView(GwtTableFactory gFactory, IDataType dType, int cellId,
             List<VListHeaderDesc> heList) {
         this.dType = dType;
         this.heList = heList;
-        tableView = GwtTableFactory.construct(new GwtTableView());
+        tableView = gFactory.construct(new GwtTableView());
         // publisher
         createCallBackWidget(cellId);
         // subscriber
-        SlotType slType = SlotTypeFactory
-                .contruct(ListEventEnum.ReadListSuccess);
+        SlotType slType = slTypeFactory.contruct(ListEventEnum.ReadListSuccess,
+                dType);
         slContainer.addSubscriber(slType, new DrawList());
+        // caller
+        addCallerList(ListEventEnum.GetListData, dType, new GetListData());
     }
 
     public void startPublish() {

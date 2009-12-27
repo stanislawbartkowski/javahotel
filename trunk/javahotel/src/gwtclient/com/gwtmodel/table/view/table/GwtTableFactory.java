@@ -14,10 +14,7 @@ package com.gwtmodel.table.view.table;
 
 public class GwtTableFactory {
 
-    private GwtTableFactory() {
-    }
-
-    public static IGwtTableView construct(IGwtTableModel tModel) {
+    public IGwtTableView construct(IGwtTableModel tModel) {
         return new GwtTableView(tModel);
     }
 }

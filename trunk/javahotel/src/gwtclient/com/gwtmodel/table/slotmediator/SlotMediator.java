@@ -16,9 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlotCallerType;
 import com.gwtmodel.table.slotmodel.SlotPublisherType;
 import com.gwtmodel.table.slotmodel.SlotSubscriberType;
 import com.gwtmodel.table.slotmodel.SlotType;
@@ -39,12 +41,26 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
         }
     }
 
+    private class GeneralCaller implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            SlotCallerType slCaller = slContainer.findCaller(slContext
+                    .getSlType());
+            if (slCaller == null) {
+                return null;
+            }
+            return slCaller.getSlCaller().call(slContext);
+        }
+    }
+
     public void registerSlotContainer(ISlotable iSlo) {
         slList.add(iSlo);
         this.slContainer.getListOfPublishers().addAll(
                 iSlo.getSlContainer().getListOfPublishers());
         this.slContainer.getListOfSubscribers().addAll(
                 iSlo.getSlContainer().getListOfSubscribers());
+        this.slContainer.getListOfCallers().addAll(
+                iSlo.getSlContainer().getListOfCallers());
     }
 
     public void startPublish() {
@@ -52,7 +68,9 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
         for (SlotPublisherType reg : slContainer.getListOfPublishers()) {
             reg.getSlRegisterSubscriber().register(sl);
         }
+        ISlotCaller slCaller = new GeneralCaller();
         for (ISlotable iSlo : slList) {
+            iSlo.getSlContainer().registerSlReceiver(slCaller);
             iSlo.startPublish();
         }
     }

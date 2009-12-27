@@ -14,18 +14,23 @@ package com.gwtmodel.table.listdataview;
 
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
 public class ListDataViewFactory {
-
-    private ListDataViewFactory() {
-
+    
+    private final GwtTableFactory gFactory;
+    
+    @Inject
+    public ListDataViewFactory(GwtTableFactory gFactory) {
+        this.gFactory = gFactory;
     }
 
-    public static IListDataView construct(IDataType dType, int cellId,
+    public IListDataView construct(IDataType dType, int cellId,
             List<VListHeaderDesc> heList) {
-        return new ListDataView(dType, cellId, heList);
+        return new ListDataView(gFactory,dType, cellId, heList);
     }
 
 }

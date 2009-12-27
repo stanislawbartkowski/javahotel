@@ -14,7 +14,7 @@ package com.javahotel.client.injector;
 
 import com.google.gwt.core.client.GWT;
 
-public class GiniInjector {
+class GiniInjector {
 
     private final HotelInjector injector = GWT.create(HotelInjector.class);
 

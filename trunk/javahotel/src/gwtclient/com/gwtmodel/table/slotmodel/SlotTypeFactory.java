@@ -12,25 +12,28 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.IDataType;
+
 public class SlotTypeFactory {
 
-    private SlotTypeFactory() {
-
-    }
-
-    public static SlotType contruct(ListEventEnum listEvEnum) {
+    public SlotType contruct(ListEventEnum listEvEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.ListEvent, null, null, listEvEnum,
-                null, -1);
+                null, -1,dType);
     }
 
-    public static SlotType constructCallBackWidget(int cellId) {
+    public SlotType constructCallBackWidget(int cellId) {
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
-                null, cellId);
+                null, cellId,null);
     }
 
-    public static SlotType contructClickButton(ClickButtonType buttonClick) {
+    public SlotType contructClickButton(ClickButtonType buttonClick) {
         return new SlotType(SlotEventEnum.ClickButton, null, buttonClick, null,
-                null, -1);
+                null, -1,null);
+    }
+
+    public SlotType contructClickButton(ClickButtonType.StandClickEnum clickEnum) {
+        return new SlotType(SlotEventEnum.ClickButton, null,
+                new ClickButtonType(clickEnum), null, null, -1,null);
     }
 
 }

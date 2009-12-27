@@ -17,7 +17,7 @@ public class SlotSubscriberType {
     private final SlotType slType;
     private final ISlotSignaller slSignaller;
 
-    public SlotSubscriberType(SlotType slType, ISlotSignaller slSignaller) {
+    SlotSubscriberType(SlotType slType, ISlotSignaller slSignaller) {
         this.slType = slType;
         this.slSignaller = slSignaller;
     }

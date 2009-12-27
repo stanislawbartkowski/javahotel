@@ -10,29 +10,41 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.slotmodel;
+package com.gwtmodel.table.rdef;
 
-public class SlotPublisherType {
+import com.gwtmodel.table.IVField;
 
-    private final SlotType slType;
-    private final SlotRegisterSubscriber slRegisterSubscriber;
+public class FormField {
 
-    SlotPublisherType(SlotType slType,
-            SlotRegisterSubscriber slRegisterSubscriber) {
-        this.slType = slType;
-        this.slRegisterSubscriber = slRegisterSubscriber;
+    private final String pLabel;
+    private final IFormLineView eLine;
+    private final IVField fie;
+
+    public FormField(final String p, final IFormLineView e, final IVField fie) {
+        this.pLabel = p;
+        this.eLine = e;
+        this.fie = fie;
     }
 
-    public SlotType getSlType() {
-        return slType;
+    /**
+     * @return the pLabel
+     */
+    public String getPLabel() {
+        return pLabel;
     }
 
-    public SlotRegisterSubscriber getSlRegisterSubscriber() {
-        return slRegisterSubscriber;
+    /**
+     * @return the eLine
+     */
+    public IFormLineView getELine() {
+        return eLine;
     }
-    
-    public void signal(ISlotSignalContext slContext) {
-        slRegisterSubscriber.signal(slContext);
+
+    /**
+     * @return the fie
+     */
+    public IVField getFie() {
+        return fie;
     }
 
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.htmlview.HtmlElemDesc;
 import com.javahotel.client.htmlview.HtmlPanelFactory;
@@ -28,7 +29,6 @@ import com.javahotel.client.htmlview.IHtmlPanelCallBack;
 import com.javahotel.client.idialog.GetIEditFactory;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
-import com.javahotel.client.widgets.imgbutton.ImgButtonFactory;
 import com.javahotel.common.scrollseason.model.MoveSkip;
 import com.javahotel.common.scrollseason.model.PanelDesc;
 

@@ -32,7 +32,7 @@ public class ControlButtonFactory {
         dButton
                 .add(new ControlButtonDesc("DataViewerMin", "Popraw",
                         new ClickButtonType(
-                                ClickButtonType.StandClickEnum.REMOVEITEM)));
+                                ClickButtonType.StandClickEnum.MODIFITEM)));
     }
 
     public static ListOfControlDesc constructCrudList() {

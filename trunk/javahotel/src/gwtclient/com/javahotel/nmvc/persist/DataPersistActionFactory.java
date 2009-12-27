@@ -14,16 +14,17 @@ package com.javahotel.nmvc.persist;
 
 import com.gwtmodel.table.persist.IDataPersistAction;
 import com.javahotel.client.IResLocator;
+import com.javahotel.nmvc.common.DataType;
 
 public class DataPersistActionFactory {
 
     public static IDataPersistAction contructDataPersis(IResLocator rI,
-            DataPersistEnum dpEnum) {
+            DataPersistEnum dpEnum,DataType dType ) {
         switch (dpEnum) {
         case InMemory:
             return null;
         case PersistanceLayer:
-            return new DataPersistLayer(rI);
+            return new DataPersistLayer(rI,dType);
         }
         return null;
     }

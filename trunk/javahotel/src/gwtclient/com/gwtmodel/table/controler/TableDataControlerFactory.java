@@ -14,19 +14,28 @@ package com.gwtmodel.table.controler;
 
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.persist.IDataPersistAction;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
-
 
 public class TableDataControlerFactory {
 
-    private TableDataControlerFactory() {
+    private final TablesFactories tFactories;
+
+    @Inject
+    public TableDataControlerFactory(TablesFactories tFactories) {
+        this.tFactories = tFactories;
     }
 
-    public static IDataControler constructDataControler(IDataType dType, int panelId,
-            int cellIdFirst,List<VListHeaderDesc> heList, IDataPersistAction persistA) {
-        return new DisplayListControler(dType, panelId, cellIdFirst,heList,persistA);
+    public IDataControler constructDataControler(IDataType dType, int panelId,
+            int cellIdFirst, List<VListHeaderDesc> heList,
+            ListOfControlDesc cList, IDataPersistAction persistA) {
+        return new DisplayListControler(tFactories, dType, panelId,
+                cellIdFirst, heList, cList, persistA, new DataListCrudControler(dType));
     }
 
 }

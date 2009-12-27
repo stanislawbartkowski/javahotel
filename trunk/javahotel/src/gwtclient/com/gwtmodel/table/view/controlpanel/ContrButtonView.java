@@ -12,9 +12,7 @@
  */
 package com.gwtmodel.table.view.controlpanel;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -35,14 +33,14 @@ class ContrButtonView implements IContrButtonView {
 
     private final Panel hP;
     private final IControlClick co;
-    private final Map<Integer, Button> iBut = new HashMap<Integer, Button>();
+//    private final Map<Integer, Button> iBut = new HashMap<Integer, Button>();
 
     public void setEnable(int id, boolean enable) {
-        Button b = iBut.get(id);
-        if (b == null) {
-            return;
-        }
-        b.setEnabled(enable);
+//        Button b = iBut.get(id);
+//        if (b == null) {
+//            return;
+//        }
+//        b.setEnabled(enable);
     }
 
     private class Click implements ClickListener {
@@ -78,7 +76,7 @@ class ContrButtonView implements IContrButtonView {
             }
             but.addClickListener(new Click(b));
             hP.add(but);
-            iBut.put(b.getActionId(), but);
+//            iBut.put(b.getActionId(), but);            
         }
     }
 

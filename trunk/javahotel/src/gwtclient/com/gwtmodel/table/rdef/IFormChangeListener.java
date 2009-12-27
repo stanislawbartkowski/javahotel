@@ -10,14 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.panel;
+package com.gwtmodel.table.rdef;
 
-import java.util.List;
 
-public class GwtPanelViewFactory {
-
-    public IGwtPanelView construct(List<PanelRowDesc> rowDesc) {
-        return new GwtPanelView(rowDesc);
-    }
+public interface IFormChangeListener {
+    
+    void onChange(IFormLineView i);
 
 }
