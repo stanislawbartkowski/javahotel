@@ -74,7 +74,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         // publisher
         createCallBackWidget(cellId);
         // subscriber
-        SlotType slType = slTypeFactory.contruct(ListEventEnum.ReadListSuccess,
+        SlotType slType = slTypeFactory.construct(ListEventEnum.ReadListSuccess,
                 dType);
         slContainer.addSubscriber(slType, new DrawList());
         // caller

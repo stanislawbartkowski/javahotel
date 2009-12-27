@@ -10,15 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.factories;
 
-class ClickButtonType {
+import com.gwtmodel.table.slotmodel.ISlotable;
 
-    enum StandClickEnum {
-        ADDITEM, REMOVEITEM, MODIFITEM, ACCEPT, RESIGN, CUSTOM
-    };
-
-    StandClickEnum clickEnum;
-    int customInt;
+public interface IDataPersistAction extends ISlotable {
 
 }

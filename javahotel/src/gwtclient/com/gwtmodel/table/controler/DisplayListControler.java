@@ -16,13 +16,13 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
+import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.panelview.PanelViewFactory;
-import com.gwtmodel.table.persist.IDataPersistAction;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.ISlotable;
@@ -69,7 +69,7 @@ class DisplayListControler implements IDataControler {
         slMediator.registerSlotContainer(bView);
         slMediator.registerSlotContainer(cControler);
 
-        SlotType slType = tFactories.getSlTypeFactory().contruct(
+        SlotType slType = tFactories.getSlTypeFactory().construct(
                 ListEventEnum.ReadList, dType);
         startSl = persistA.getSlContainer().findSubscriber(slType);
     }

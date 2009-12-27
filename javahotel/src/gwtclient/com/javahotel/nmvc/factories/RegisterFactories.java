@@ -45,6 +45,8 @@ public class RegisterFactories {
         tFactories.registerHeaderListFactory(new HeaderListFactory(cFactory));
         tFactories.registerPersistFactory(new PersistFactoryAction(rI));
         tFactories.registerDataModelFactory(new DataModelFactory(aFactory));
+        tFactories
+                .registerDataValidateActionFactory(new ValidateActionFactory());
     }
 
 }

@@ -12,16 +12,17 @@
  */
 package com.gwtmodel.table.factories;
 
-
 public interface ITableAbstractFactories {
 
-    void registerPersistFactory(IPersistFactoryAction iPersistFactory);
-
-    void registerFormDefFactory(IFormDefFactory iFormDefFactory);
-    
-    void registerHeaderListFactory(IHeaderListFactory iheFactory);
-    
     void registerDataModelFactory(IDataModelFactory iDataModelFactory);
 
+    void registerDataValidateActionFactory(
+            IDataValidateActionFactory iDataValidateFactory);
 
+    void registerFormDefFactory(IFormDefFactory iFormDefFactory);
+
+    void registerHeaderListFactory(IHeaderListFactory iheFactory);
+
+    void registerPersistFactory(IPersistFactoryAction iPersistFactory);
+    
 }

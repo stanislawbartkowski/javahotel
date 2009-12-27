@@ -13,6 +13,7 @@
 package com.gwtmodel.table.controlbuttonview;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -30,10 +31,10 @@ class ControlButtonView extends AbstractSlotContainer implements
     private class Click implements IControlClick {
 
         public void click(ControlButtonDesc co, Widget w) {
-            SlotType slType = slTypeFactory.contructClickButton(co
+            SlotType slType = slTypeFactory.constructClickButton(co
                     .getActionId());
             SlotPublisherType slPublisher = slContainer.findPublisher(slType);
-            slSignalContext.signal(slPublisher);
+            slSignalContext.signal(slPublisher,new GWidget(w));
         }
     }
 
@@ -41,7 +42,7 @@ class ControlButtonView extends AbstractSlotContainer implements
         vButton = ContrButtonViewFactory.getView(listButton, new Click());
         // create publishers
         for (ControlButtonDesc bu : listButton.getcList()) {
-            SlotType slType = slTypeFactory.contructClickButton(bu
+            SlotType slType = slTypeFactory.constructClickButton(bu
                     .getActionId());
             slContainer.addPublisher(slType);
         }

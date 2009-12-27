@@ -13,8 +13,8 @@
 package com.gwtmodel.table.slotmodel;
 
 public enum SlotEventEnum {
-    /** Raised to visualize validation error. */
-    SignalError,
+    /** Validate action. */
+    ValidateAction,
 
     /** Published after observed value has changed. */
     ChangeValue,
@@ -30,7 +30,7 @@ public enum SlotEventEnum {
 
     /** List of slots, composite slot. */
     CompositeSlot,
-
-    /** Start sending. */
-    StartSending,
+    
+    /** Getter. */
+    GetAction,
 }

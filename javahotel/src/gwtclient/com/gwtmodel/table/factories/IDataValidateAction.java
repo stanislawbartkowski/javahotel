@@ -12,10 +12,8 @@
  */
 package com.gwtmodel.table.factories;
 
-import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface IPersistFactoryAction {
-    
-    IDataPersistAction contruct(IDataType dType);
+public interface IDataValidateAction extends ISlotable {
 
 }

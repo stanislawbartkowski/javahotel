@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.persist;
+package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.slotmodel.ISlotable;
-
-public interface IDataPersistAction extends ISlotable {
+public enum GetActionEnum {
+    
+    ModelVData,
 
 }

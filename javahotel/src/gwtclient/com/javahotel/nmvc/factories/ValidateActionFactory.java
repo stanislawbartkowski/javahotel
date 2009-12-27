@@ -10,12 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+package com.javahotel.nmvc.factories;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IDataValidateAction;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
 
-public interface IPersistFactoryAction {
-    
-    IDataPersistAction contruct(IDataType dType);
+public class ValidateActionFactory extends HelperFactory implements
+        IDataValidateActionFactory {
+
+    public IDataValidateAction construct(IDataType dType) {
+        return new ValidateAction(dType);
+    }
 
 }

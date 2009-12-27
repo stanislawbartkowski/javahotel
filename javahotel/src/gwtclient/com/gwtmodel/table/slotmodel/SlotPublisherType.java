@@ -12,15 +12,19 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.injector.GwtGiniInjector;
+
 public class SlotPublisherType {
 
     private final SlotType slType;
     private final SlotRegisterSubscriber slRegisterSubscriber;
+    private final SlotSignalContextFactory slContextFactory;
 
     SlotPublisherType(SlotType slType,
             SlotRegisterSubscriber slRegisterSubscriber) {
         this.slType = slType;
         this.slRegisterSubscriber = slRegisterSubscriber;
+        slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
     }
 
     public SlotType getSlType() {
@@ -31,7 +35,8 @@ public class SlotPublisherType {
         return slRegisterSubscriber;
     }
     
-    public void signal(ISlotSignalContext slContext) {
+    public void signal(ISlotSignalContext slContextP) {
+        ISlotSignalContext slContext = slContextFactory.construct(slType, slContextP); 
         slRegisterSubscriber.signal(slContext);
     }
 

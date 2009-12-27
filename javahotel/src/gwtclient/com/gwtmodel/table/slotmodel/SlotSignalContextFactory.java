@@ -13,8 +13,8 @@
 package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.DataListType;
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 
 public class SlotSignalContextFactory {
@@ -27,16 +27,23 @@ public class SlotSignalContextFactory {
         private final IGWidget gwtWidget;
         private final DataListType dataList;
         private final WChoosedLine choosedLine;
+        private final IVModelData vData;
 
         SlotSignalContext(SlotType slType, String changedValue,
                 IValidateError validateError, IGWidget gwtWidget,
-                DataListType dataList, WChoosedLine choosedLine) {
+                DataListType dataList, WChoosedLine choosedLine,
+                IVModelData vData) {
             this.slType = slType;
             this.changedValue = changedValue;
             this.validateError = validateError;
             this.gwtWidget = gwtWidget;
             this.dataList = dataList;
             this.choosedLine = choosedLine;
+            this.vData = vData;
+        }
+
+        public IVModelData getVData() {
+            return vData;
         }
 
         public WChoosedLine getChoosedLine() {
@@ -66,21 +73,34 @@ public class SlotSignalContextFactory {
     }
 
     public ISlotSignalContext construct(SlotType slType, DataListType dataList) {
-        return new SlotSignalContext(slType, null, null, null, dataList, null);
+        return new SlotSignalContext(slType, null, null, null, dataList, null,
+                null);
     }
 
     public ISlotSignalContext construct(SlotType slType, DataListType dataList,
             WChoosedLine choosedLine) {
         return new SlotSignalContext(slType, null, null, null, dataList,
-                choosedLine);
+                choosedLine, null);
     }
 
     public ISlotSignalContext construct(SlotType slType) {
-        return new SlotSignalContext(slType, null, null, null, null, null);
+        return new SlotSignalContext(slType, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IGWidget gwtWidget) {
-        return new SlotSignalContext(slType, null, null, gwtWidget, null, null);
+        return new SlotSignalContext(slType, null, null, gwtWidget, null, null,
+                null);
     }
 
+    public ISlotSignalContext construct(SlotType slType, IVModelData vData) {
+        return new SlotSignalContext(slType, null, null, null, null, null,
+                vData);
+    }
+
+    public ISlotSignalContext construct(SlotType slType,
+            ISlotSignalContext iSlot) {
+        return new SlotSignalContext(slType, iSlot.getChangedValue(), iSlot
+                .getValidateError(), iSlot.getGwtWidget(), iSlot.getDataList(),
+                iSlot.getChoosedLine(), iSlot.getVData());
+    }
 }
