@@ -17,6 +17,8 @@ import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.abstractto.AbstractToFactory;
+import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
+import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 
@@ -27,15 +29,20 @@ public class RegisterFactories {
     private final ColListFactory cFactory;
     private final IResLocator rI;
     private final AbstractToFactory aFactory;
+    private final DictValidatorFactory valFactory;
+    private final PersistRecordFactory pFactory;
 
     @Inject
     public RegisterFactories(IResLocator rI, GetRecordDefFactory gFactory,
-            ColListFactory cFactory, AbstractToFactory aFactory) {
+            ColListFactory cFactory, AbstractToFactory aFactory,
+            DictValidatorFactory valFactory, PersistRecordFactory pFactory) {
         this.rI = rI;
         this.gFactory = gFactory;
         this.tFactories = GwtGiniInjector.getI().getITableAbstractFactories();
         this.cFactory = cFactory;
         this.aFactory = aFactory;
+        this.valFactory = valFactory;
+        this.pFactory = pFactory;
 
     }
 
@@ -43,10 +50,11 @@ public class RegisterFactories {
         FormDefFactory fa = new FormDefFactory(gFactory);
         tFactories.registerFormDefFactory(fa);
         tFactories.registerHeaderListFactory(new HeaderListFactory(cFactory));
-        tFactories.registerPersistFactory(new PersistFactoryAction(rI));
-        tFactories.registerDataModelFactory(new DataModelFactory(aFactory));
         tFactories
-                .registerDataValidateActionFactory(new ValidateActionFactory());
+                .registerPersistFactory(new PersistFactoryAction(rI, pFactory));
+        tFactories.registerDataModelFactory(new DataModelFactory(aFactory));
+        tFactories.registerDataValidateActionFactory(new ValidateActionFactory(
+                valFactory));
     }
 
 }

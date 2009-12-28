@@ -84,7 +84,8 @@ class EditTableDialog implements IEditTableDialog {
     }
 
     private void saveGuest(List<? extends AbstractTo> prevL) {
-        IPersistRecord li = PersistRecordFactory.getPersistList(rI, da);
+        PersistRecordFactory pFactory = HInjector.getI().getPersistRecordFactory();
+        IPersistRecord li = pFactory.getPersistList(da);
         IGetBooking ge = new IGetBooking() {
 
             public String getBookName() {

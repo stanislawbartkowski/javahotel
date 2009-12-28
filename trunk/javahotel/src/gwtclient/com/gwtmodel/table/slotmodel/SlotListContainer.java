@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVModelData;
 
 public class SlotListContainer {
 
@@ -66,16 +67,124 @@ public class SlotListContainer {
         return listOfSubscribers;
     }
 
-    public void addSubscriber(SlotType slType, ISlotSignaller slSignaller) {
+    public void registerSubscriber(SlotType slType, ISlotSignaller slSignaller) {
         listOfSubscribers.add(new SlotSubscriberType(slType, slSignaller));
     }
 
-    public SlotPublisherType addPublisher(SlotType slType) {
+    public void registerSubscriber(PersistEventEnum pEnum, IDataType dType,
+            ISlotSignaller slSignaller) {
+        SlotType slType = slTypeFactory.construct(pEnum, dType);
+        registerSubscriber(slType, slSignaller);
+    }
+
+    public void registerSubscriber(int cellId, ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(cellId), slSignaller);
+    }
+
+    public void registerSubscriber(ClickButtonType.StandClickEnum eClick,
+            ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(eClick), slSignaller);
+    }
+
+    public void registerSubscriber(ValidateActionType vEnum, IDataType dType,
+            ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(vEnum, dType), slSignaller);
+    }
+
+    public void registerSubscriber(ValidateActionType.ValidateActionEnum vEnum,
+            ValidateActionType.ValidateType vType, IDataType dType,
+            ISlotSignaller slSignaller) {
+        SlotType slType = slTypeFactory.construct(new ValidateActionType(vEnum,
+                vType), dType);
+        registerSubscriber(slType, slSignaller);
+    }
+
+    public void registerSubscriber(ValidateActionType.ValidateActionEnum vEnum,
+            IDataType dType, ISlotSignaller slSignaller) {
+        SlotType slType = slTypeFactory.construct(
+                new ValidateActionType(vEnum), dType);
+        registerSubscriber(slType, slSignaller);
+    }
+
+    // public void registerSubscriber(PersistEventEnum pEnum, IDataType dType,
+    // ISlotSignaller slSignaller) {
+
+    // }
+
+    // / SlotType slType =
+    // slTypeFactory.construct(PersistEventEnum.ReadListSuccess,
+    // dType);
+    // registerSubscriber(PersistEventEnum.ReadListSuccess, new DrawList());
+
+    // SlotType slType =
+    // slTypeFactory.construct(PersistEventEnum.ReadListSuccess,
+    // dType);
+
+    public SlotPublisherType registerPublisher(SlotType slType) {
         SlotRegisterSubscriber slRegister = new SlotRegisterSubscriber();
         SlotPublisherType slPublisher = new SlotPublisherType(slType,
                 slRegister);
         listOfPublishers.add(slPublisher);
         return slPublisher;
+    }
+
+    public SlotPublisherType registerPublisher(int cellId) {
+        return registerPublisher(slTypeFactory.construct(cellId));
+    }
+    
+    public SlotPublisherType registerPublisher(ClickButtonType bType) {
+        return registerPublisher(slTypeFactory.construct(bType));
+    }
+    
+    public SlotPublisherType registerPublisher(PersistEventEnum pEnum, IDataType dType) {
+        return registerPublisher(slTypeFactory.construct(pEnum,dType));        
+    }
+
+
+    public SlotPublisherType registerPublisher(
+            ValidateActionType.ValidateActionEnum vEnum, IDataType dType) {
+        SlotType slType = slTypeFactory.construct(
+                new ValidateActionType(vEnum), dType);
+        return registerPublisher(slType);
+    }
+
+    protected SlotPublisherType registerPublisher(
+            ValidateActionType.ValidateActionEnum vEnum,
+            ValidateActionType.ValidateType vType, IDataType dType) {
+        SlotType slType = slTypeFactory.construct(new ValidateActionType(vEnum,
+                vType), dType);
+        return registerPublisher(slType);
+    }
+
+    public void registerCaller(SlotType slType, ISlotCaller slCaller) {
+        listOfCallers.add(new SlotCallerType(slType, slCaller));
+    }
+
+    public void registerCaller(GetActionEnum gEnum, IDataType dType,
+            ISlotCaller slCaller) {
+        SlotType slType = slTypeFactory.construct(gEnum, dType);
+        registerCaller(slType, slCaller);
+    }
+
+    public void registerRedirector(SlotType from, SlotType to) {
+        listOfRedirectors.add(new SlotRedirector(from, to));
+    }
+
+    private ISlotSignalContext call(SlotType slType) {
+        SlotCallerType slo = findCaller(slType);
+        return slSignalContext.returngetter(slo);
+    }
+
+    public ISlotSignalContext callGetterList(IDataType dType) {
+        SlotType slType = slTypeFactory.construct(GetActionEnum.GetListData,
+                dType);
+        return call(slType);
+    }
+
+    public IVModelData callGetterModelData(GetActionEnum eNum, IDataType dType) {
+        SlotType slType = slTypeFactory.construct(eNum, dType);
+        ISlotSignalContext slContext = call(slType);
+        return slContext.getVData();
     }
 
     public SlotPublisherType findPublisher(SlotType slType) {
@@ -103,31 +212,6 @@ public class SlotListContainer {
             }
         }
         return null;
-    }
-
-    public void registerSubscriber(SlotType slType, ISlotSignaller slSignaller) {
-        SlotPublisherType slPublisher = findPublisher(slType);
-        slPublisher.getSlRegisterSubscriber().register(slSignaller);
-    }
-
-    public void registerSubscriberGwt(int cellId, ISlotSignaller slSignaller) {
-        registerSubscriber(slTypeFactory.constructCallBackWidget(cellId),
-                slSignaller);
-    }
-
-    public void addCaller(SlotType slType, ISlotCaller slCaller) {
-        listOfCallers.add(new SlotCallerType(slType, slCaller));
-    }
-
-    public ISlotSignalContext callGetterList(IDataType dType) {
-        SlotType slType = slTypeFactory.construct(ListEventEnum.GetListData,
-                dType);
-        SlotCallerType slo = findCaller(slType);
-        return slSignalContext.callgetter(slo);
-    }
-
-    public void addRedirector(SlotType from, SlotType to) {
-        listOfRedirectors.add(new SlotRedirector(from, to));
     }
 
 }

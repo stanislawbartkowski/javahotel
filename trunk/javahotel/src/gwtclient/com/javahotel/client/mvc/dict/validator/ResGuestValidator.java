@@ -29,20 +29,20 @@ import com.javahotel.common.toobject.IField;
  */
 class ResGuestValidator extends DictValidator {
 
-	ResGuestValidator(final IResLocator rI, final DictData d) {
-		super(rI, d);
-	}
+    ResGuestValidator(final IResLocator rI, final DictData d) {
+        super(rI, d, false);
+    }
 
-	@Override
-	public boolean isEmpty(RecordModel a) {
-		List<IField> emptyC = new ArrayList<IField>();
-		emptyC.add(CustomerP.F.firstName);
-		emptyC.add(CustomerP.F.lastName);
-		List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, emptyC);
-		if (errMess == null) {
-			return false;
-		}
-		return (emptyC.size() == errMess.size());
-	}
+    @Override
+    public boolean isEmpty(RecordModel a) {
+        List<IField> emptyC = new ArrayList<IField>();
+        emptyC.add(CustomerP.F.firstName);
+        emptyC.add(CustomerP.F.lastName);
+        List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, emptyC);
+        if (errMess == null) {
+            return false;
+        }
+        return (emptyC.size() == errMess.size());
+    }
 
 }

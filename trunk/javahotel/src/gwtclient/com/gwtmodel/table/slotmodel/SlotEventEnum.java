@@ -25,12 +25,12 @@ public enum SlotEventEnum {
     /** Published after widget has been created. */
     CallBackWidget,
 
-    /** raised to refresh list after some event. */
-    ListEvent,
+    /** To do persist action */
+    PersistSignal,
 
     /** List of slots, composite slot. */
     CompositeSlot,
     
     /** Getter. */
-    GetAction,
+    GetterCaller,
 }

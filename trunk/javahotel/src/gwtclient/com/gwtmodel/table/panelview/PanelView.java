@@ -57,7 +57,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         this.nextToUse = firstToUse;
         this.gFactory = gFactory;
         // create publisher
-        createCallBackWidget(panelCellId);
+        registerPublisher(panelCellId);
     }
 
     public int addCellPanel(int row, int col) {
@@ -92,21 +92,21 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
                 if (ro.getRowNo() == i) {
                     col = MaxI.max(col, ro.getCellNo());
                 }
-                rowDesc.add(new PanelRowDesc(col+1));
+                rowDesc.add(new PanelRowDesc(col + 1));
             }
         }
         pView = gFactory.construct(rowDesc);
         // create subscribers
         for (Integer ii : colM.keySet()) {
             // PanelRowCell ro = colM.get(ii);
-            SlotType slType = slTypeFactory.constructCallBackWidget(ii);
-            slContainer.addSubscriber(slType, new SetWidget());
+            // SlotType slType = slTypeFactory.constructCallBackWidget(ii);
+            registerSubscriber(ii.intValue(), new SetWidget());
         }
         // create publisher
     }
 
     public void startPublish() {
-        publishCallBack(pView);
+        publish(pView);
     }
 
 }

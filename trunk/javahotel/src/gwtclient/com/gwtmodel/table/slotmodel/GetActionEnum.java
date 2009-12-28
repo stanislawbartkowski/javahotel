@@ -13,7 +13,14 @@
 package com.gwtmodel.table.slotmodel;
 
 public enum GetActionEnum {
-    
+
+    /** Get data model (not persisted). */
     ModelVData,
+    
+    /** Get data mode (to persist) */
+    ModelVDataPersist,
+
+    /** Get list data (datalist,choosed,size). */
+    GetListData,
 
 }

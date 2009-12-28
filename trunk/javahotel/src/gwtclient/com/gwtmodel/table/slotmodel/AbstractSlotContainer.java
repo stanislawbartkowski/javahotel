@@ -14,6 +14,7 @@ package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 
 abstract public class AbstractSlotContainer implements ISlotable {
@@ -35,12 +36,43 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContainer;
     }
 
-    protected void createCallBackWidget(int cellId) {
-        slCallBackWidget = slContainer.addPublisher(slTypeFactory
-                .constructCallBackWidget(cellId));
+    protected void registerPublisher(int cellId) {
+        slCallBackWidget = slContainer.registerPublisher(cellId);
     }
 
-    protected void publishCallBack(IGWidget gwtWidget) {
+    protected SlotPublisherType registerPublisher(SlotType slType) {
+        return slContainer.registerPublisher(slType);
+    }
+
+    protected SlotPublisherType registerPublisher(
+            ValidateActionType.ValidateActionEnum vEnum, IDataType dType) {
+        return slContainer.registerPublisher(vEnum, dType);
+    }
+    
+    protected SlotPublisherType registerPublisher(ClickButtonType bType) {
+        return slContainer.registerPublisher(bType);
+    }
+    
+    protected SlotPublisherType registerPublisher(PersistEventEnum pEnum, IDataType dType) {
+        return slContainer.registerPublisher(pEnum, dType);
+    }
+
+    
+//     void registerSubscriber(PersistEventEnum pEnum, IDataType dType,
+
+
+
+    protected SlotPublisherType registerPublisher(
+            ValidateActionType.ValidateActionEnum vEnum,
+            ValidateActionType.ValidateType vType, IDataType dType) {
+        // SlotType slType = slTypeFactory.construct(new
+        // ValidateActionType(vEnum,
+        // vType), dType);
+        // return addPublisher(slType);
+        return slContainer.registerPublisher(vEnum, vType, dType);
+    }
+
+    protected void publish(IGWidget gwtWidget) {
         slSignalContext.signal(slCallBackWidget, gwtWidget);
     }
 
@@ -52,63 +84,67 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slSignalContext.signal(slPublisher, vError);
     }
 
-    protected void addSubscriber(SlotType slType, ISlotSignaller slSignaller) {
-        slContainer.addSubscriber(slType, slSignaller);
-    }
-
-    protected void addSubscriber(ClickButtonType.StandClickEnum eClick,
+    protected void registerSubscriber(SlotType slType,
             ISlotSignaller slSignaller) {
-        SlotType slType = slTypeFactory.constructClickButton(eClick);
-        addSubscriber(slType, slSignaller);
+        slContainer.registerSubscriber(slType, slSignaller);
     }
 
-    protected void addSubscriber(ValidateActionEnum vEnum, IDataType dType,
+    protected void registerSubscriber(ClickButtonType.StandClickEnum eClick,
             ISlotSignaller slSignaller) {
-        SlotType slType = slTypeFactory.construct(vEnum, dType);
-        addSubscriber(slType, slSignaller);
+        slContainer.registerSubscriber(eClick, slSignaller);
     }
 
-    protected void addCallerGetter(GetActionEnum gEnum, IDataType dType,
-            ISlotCaller slCaller) {
-        SlotType slType = slTypeFactory.construct(gEnum, dType);
-        slContainer.addCaller(slType, slCaller);
+    protected void registerSubscriber(ValidateActionType vEnum,
+            IDataType dType, ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(vEnum, dType, slSignaller);
+    }
+
+    protected void registerSubscriber(
+            ValidateActionType.ValidateActionEnum vEnum,
+            ValidateActionType.ValidateType vType, IDataType dType,
+            ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(vEnum, vType, dType, slSignaller);
     }
     
-    protected void addCallerList(ListEventEnum listEvEnum, IDataType dType,
+    protected void registerSubscriber(ValidateActionType.ValidateActionEnum vEnum,
+            IDataType dType, ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(vEnum, dType, slSignaller);        
+    }
+    
+    protected void registerSubscriber(int cellId, ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(cellId, slSignaller);        
+    }
+
+
+    protected void registerSubscriber(PersistEventEnum pEnum, IDataType dType,
+            ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(pEnum, dType, slSignaller);
+    }
+
+    protected void registerCaller(GetActionEnum gEnum, IDataType dType,
             ISlotCaller slCaller) {
-        SlotType slType = slTypeFactory.construct(listEvEnum, dType);
-        slContainer.addCaller(slType, slCaller);
+        slContainer.registerCaller(gEnum, dType, slCaller);
     }
 
     protected ISlotSignalContext callGetterList(IDataType dType) {
-        SlotType slType = slTypeFactory.construct(ListEventEnum.GetListData,
-                dType);
-        ISlotSignalContext slContext = slContextFactory.construct(slType);
-        return slContainer.call(slContext);
-    }
-    
-    
-
-    protected ISlotSignalContext callGetterModelData(IDataType dType) {
-        SlotType slType = slTypeFactory.construct(GetActionEnum.ModelVData,
-                dType);
-        ISlotSignalContext slContext = slContextFactory.construct(slType);
-        return slContainer.call(slContext);
+        return slContainer.callGetterList(dType);
     }
 
-    protected SlotPublisherType addPublisher(SlotType slType) {
-        return slContainer.addPublisher(slType);
+    // protected IVModelData callGetterModelData(GetActionEnum eNum,
+    // IDataType dType) {
+    // SlotType slType = slTypeFactory.construct(eNum, dType);
+    // ISlotSignalContext slContext = slContextFactory.construct(slType);
+    // return slContainer.call(slContext).getVData();
+    // }
+
+    protected IVModelData callGetterModelData(GetActionEnum eNum,
+            IDataType dType) {
+        return slContainer.callGetterModelData(eNum, dType);
     }
 
     protected ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
         return slContextFactory.construct(slType, iSlot);
-    }
-
-    protected SlotPublisherType addPublisher(ValidateActionEnum vEnum,
-            IDataType dType) {
-        SlotType slType = slTypeFactory.construct(vEnum, dType);
-        return addPublisher(slType);
     }
 
 }

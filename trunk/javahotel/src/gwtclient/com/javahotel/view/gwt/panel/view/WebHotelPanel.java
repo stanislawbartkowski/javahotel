@@ -106,7 +106,10 @@ class WebHotelPanel implements IWebHotelPanel {
 
     private class ErrorL extends PopupTip {
 
+        
+        
         ErrorL(String errmess) {
+            initWidget(new Label(""));
             setMessage(errmess);
             setStyleName("error-reply");
         }

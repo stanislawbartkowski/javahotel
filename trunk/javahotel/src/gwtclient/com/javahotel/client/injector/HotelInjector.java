@@ -33,6 +33,7 @@ import com.javahotel.client.mvc.dictcrud.controler.priceoffer.PriceListAuxView;
 import com.javahotel.client.mvc.dictcrud.controler.priceoffer.SetPriceForOffer;
 import com.javahotel.client.mvc.dictcrud.read.CrudReadModelFactory;
 import com.javahotel.client.mvc.gridmodel.model.GridModelViewFactory;
+import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
 import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
@@ -100,4 +101,6 @@ public interface HotelInjector extends Ginjector {
     RegisterFactories getRegisterFactories();
     
     AbstractToFactory getAbstractToFactory();
+    
+    PersistRecordFactory getPersistRecordFactory();
 }

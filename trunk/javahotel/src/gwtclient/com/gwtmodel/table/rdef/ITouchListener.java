@@ -10,17 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.slotmodel;
+package com.gwtmodel.table.rdef;
 
-public enum ValidateActionEnum {
+public interface ITouchListener {
 
-    /** Sent to validate date. */
-    Validate,
-
-    /** Sent if error. */
-    ValidatonFailed,
-
-    /** Sent if success. */
-    ValidationPassed,
+    void onTouch();
 
 }

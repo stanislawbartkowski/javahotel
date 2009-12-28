@@ -34,7 +34,7 @@ public class SlotType {
         return buttonClick;
     }
 
-    public ListEventEnum getListEvEnum() {
+    public PersistEventEnum getListEvEnum() {
         return listEvEnum;
     }
 
@@ -49,7 +49,7 @@ public class SlotType {
     private final ClickButtonType buttonClick;
 
     /** List event (ListRefreshAftgerEvent). */
-    private final ListEventEnum listEvEnum;
+    private final PersistEventEnum listEvEnum;
 
     /** Composite slot */
     private final List<SlotType> slList;
@@ -61,8 +61,8 @@ public class SlotType {
     private final IDataType dType;
 
     /** Validate action. */
-    private final ValidateActionEnum vEnum;
-    
+    private final ValidateActionType vEnum;
+
     /** Getter. */
     private final GetActionEnum gEnum;
 
@@ -73,7 +73,7 @@ public class SlotType {
         switch (slEnum) {
         case CallBackWidget:
             return cellId == slType.cellId;
-        case ListEvent:
+        case PersistSignal:
             if (listEvEnum != slType.listEvEnum) {
                 return false;
             }
@@ -81,20 +81,30 @@ public class SlotType {
         case ClickButton:
             return buttonClick.eq(slType.buttonClick);
         case ValidateAction:
-            if (vEnum != slType.vEnum) {
+            if (!vEnum.eq(slType.vEnum)) {
                 return false;
             }
             return dType.eq(slType.dType);
-        case GetAction:
-            if (gEnum != slType.gEnum) { return false; }
+        case GetterCaller:
+            if (gEnum != slType.gEnum) {
+                return false;
+            }
             return dType.eq(slType.dType);
         }
         return true;
     }
 
+    public ValidateActionType getvEnum() {
+        return vEnum;
+    }
+
+    public GetActionEnum getgEnum() {
+        return gEnum;
+    }
+
     SlotType(SlotEventEnum slEnum, IVField fie, ClickButtonType buttonClick,
-            ListEventEnum listEvEnum, List<SlotType> slList, int cellId,
-            IDataType dType,ValidateActionEnum vEnum,GetActionEnum gEnum) {
+            PersistEventEnum listEvEnum, List<SlotType> slList, int cellId,
+            IDataType dType, ValidateActionType vEnum, GetActionEnum gEnum) {
         this.slEnum = slEnum;
         this.fie = fie;
         this.buttonClick = buttonClick;

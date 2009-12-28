@@ -300,7 +300,9 @@ class DictRecordControler implements ICrudRecordFactory {
     }
 
     public IPersistRecord getPersist() {
-        return PersistRecordFactory.getPersistDict(rI, da);
+        PersistRecordFactory pFactory = HInjector.getI()
+                .getPersistRecordFactory();
+        return pFactory.getPersistDict(da);
     }
 
     public ICrudRecordControler getControler() {

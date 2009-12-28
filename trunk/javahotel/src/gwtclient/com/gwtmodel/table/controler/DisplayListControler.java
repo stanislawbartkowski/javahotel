@@ -26,7 +26,7 @@ import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.slotmodel.ListEventEnum;
+import com.gwtmodel.table.slotmodel.PersistEventEnum;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSubscriberType;
 import com.gwtmodel.table.slotmodel.SlotType;
@@ -70,7 +70,7 @@ class DisplayListControler implements IDataControler {
         slMediator.registerSlotContainer(cControler);
 
         SlotType slType = tFactories.getSlTypeFactory().construct(
-                ListEventEnum.ReadList, dType);
+                PersistEventEnum.ReadList, dType);
         startSl = persistA.getSlContainer().findSubscriber(slType);
     }
 

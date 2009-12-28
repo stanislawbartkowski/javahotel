@@ -31,18 +31,24 @@ import com.javahotel.common.toobject.DictionaryP;
 class DictValidator extends AbstractValidator {
 
     private final DictData d;
+    private final boolean omitEmpty;
 
-    DictValidator(final IResLocator rI, final DictData d) {
+    DictValidator(final IResLocator rI, final DictData d, boolean omitEmpty) {
         super(rI);
         this.d = d;
+        this.omitEmpty = omitEmpty;
     }
 
     public void validateS(final int action, final RecordModel a,
             final ISignalValidate sig) {
-        List<InvalidateMess> errMess = ValidUtil.validateEmpty(d, action, a);
-        if (errMess != null) {
-            ValidUtil.callSig(errMess, sig, iCo);
-            return;
+        List<InvalidateMess> errMess = null;
+        if (!omitEmpty) {
+            errMess = ValidUtil
+                    .validateEmpty(d, action, a);
+            if (errMess != null) {
+                ValidUtil.callSig(errMess, sig, iCo);
+                return;
+            }
         }
         AbstractTo to = a.getA();
         if (d.getD() != null) {

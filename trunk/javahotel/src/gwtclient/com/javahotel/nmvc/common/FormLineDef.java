@@ -12,14 +12,52 @@
  */
 package com.javahotel.nmvc.common;
 
+import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.rdef.ITouchListener;
+import com.javahotel.client.idialog.IKeyboardAction;
 import com.javahotel.client.ifield.ILineField;
 
 public class FormLineDef implements IFormLineView {
 
     private final ILineField iField;
+    
+    private class DefaultListener implements IKeyboardAction {
+        
+        private final ITouchListener lTouch;
+        
+        DefaultListener(ITouchListener lTouch) {
+            this.lTouch = lTouch;
+        }
+
+        public KeyboardListener getListener() {
+            return new KeyboardListener() {
+
+                public void onKeyDown(final Widget arg0, final char arg1,
+                        final int arg2) {
+                    delEmptyStyle();
+                }
+
+                public void onKeyPress(final Widget arg0, final char arg1,
+                        final int arg2) {
+                    delEmptyStyle();
+                }
+
+                public void onKeyUp(final Widget arg0, final char arg1,
+                        final int arg2) {
+                    delEmptyStyle();
+                }
+            };
+        }
+
+        public void delEmptyStyle() {
+            lTouch.onTouch();            
+        }
+
+    }
+
 
     public FormLineDef(ILineField f) {
         iField = f;
@@ -53,6 +91,10 @@ public class FormLineDef implements IFormLineView {
     public void setStyleName(String styleMess, boolean set) {
         iField.setStyleName(styleMess, set);
         
+    }
+
+    public void setOnTouch(ITouchListener lTouch) {
+        iField.setKLi(new DefaultListener(lTouch));        
     }
 
 }

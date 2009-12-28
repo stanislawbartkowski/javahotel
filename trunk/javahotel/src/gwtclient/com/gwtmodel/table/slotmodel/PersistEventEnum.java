@@ -12,26 +12,29 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-public enum ListEventEnum {
+public enum PersistEventEnum {
 
-    /** After adding new item. */
-    AfterAdd,
+    /** Add item. */
+    AddItem,
     
-    /** After modifying item. */
-    AfterModify,
+    /** Add item success. */
+    AddItemSuccess,
     
-    /** After removing item. */
-    AfterRemove,
+    /** Remove item. */
+    RemoveItem,
     
-    /** Refresh list. */
-    Refresh,
+    /** Remove item success .*/
+    RemoveItemSuccess,
     
+    /** Change item. */
+    ChangeItem,
+    
+    /** Change item successfully. */
+    ChangeItemSuccess,
+        
     /** Read list. */
     ReadList,
     
     /** List read with success. */
-    ReadListSuccess,
-    
-    /** Get list data (datalist,choosed,size). */
-    GetListData,
+    ReadListSuccess,    
 }

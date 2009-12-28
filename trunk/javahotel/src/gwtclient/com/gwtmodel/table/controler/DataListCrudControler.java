@@ -32,7 +32,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.slotmodel.ValidateActionEnum;
+import com.gwtmodel.table.slotmodel.ValidateActionType;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.PopupUtil;
@@ -60,6 +60,19 @@ class DataListCrudControler extends AbstractSlotContainer {
     private class PersistData extends Signaller {
 
         PersistData(DrawForm dForm) {
+            super(dForm);
+        }
+
+        public void signal(ISlotSignalContext slContext) {
+            Window.alert("Persist - validate");
+            hide();
+        }
+
+    }
+
+    private class AfterPersistData extends Signaller {
+
+        AfterPersistData(DrawForm dForm) {
             super(dForm);
         }
 
@@ -123,7 +136,31 @@ class DataListCrudControler extends AbstractSlotContainer {
 
     }
 
+    private class GetterModel implements ISlotCaller {
+
+        private final IVModelData peData;
+
+        GetterModel(IVModelData peData) {
+            this.peData = peData;
+        }
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVModelData mData = callGetterModelData(GetActionEnum.ModelVData,
+                    dType);
+            fContainer.getDataModelFactory().fromModelToPersist(dType, mData,
+                    peData);
+            return slSignalContext.returngetter(slContext, peData);
+        }
+
+    }
+
     private class ActionItem implements ISlotSignaller {
+
+        private final ValidateActionType.ValidateType vType;
+
+        ActionItem(ValidateActionType.ValidateType vType) {
+            this.vType = vType;
+        }
 
         public void signal(ISlotSignalContext slContext) {
             ClickButtonType.StandClickEnum action = slContext.getSlType()
@@ -132,15 +169,16 @@ class DataListCrudControler extends AbstractSlotContainer {
             DataListType dList = ret.getDataList();
             IVModelData mModel = fContainer.getDataModelFactory().construct(
                     dType);
+            IVModelData peData = null;
             WSize wSize;
             if (action != ClickButtonType.StandClickEnum.ADDITEM) {
                 WChoosedLine choosedLine = ret.getChoosedLine();
                 if (!choosedLine.isChoosed()) {
                     return;
                 }
-                IVModelData mData = dList.getRow(choosedLine.getChoosedLine());
+                peData = dList.getRow(choosedLine.getChoosedLine());
                 fContainer.getDataModelFactory().copyFromPersistToModel(dType,
-                        mData, mModel);
+                        peData, mModel);
                 wSize = choosedLine.getwSize();
             } else {
                 IGWidget wi = slContext.getGwtWidget();
@@ -161,23 +199,25 @@ class DataListCrudControler extends AbstractSlotContainer {
                     1, mModel, action);
             SlotListContainer slContainer = fControler.getSlContainer();
             DrawForm dForm = new DrawForm(wSize, lContainer, action);
-            slContainer.registerSubscriberGwt(0, dForm);
+            slContainer.registerSubscriber(0, dForm);
             SlotType slType;
             slType = slTypeFactory
-                    .constructClickButton(ClickButtonType.StandClickEnum.RESIGN);
+                    .construct(ClickButtonType.StandClickEnum.RESIGN);
             slContainer.registerSubscriber(slType, new ResignAction(dForm));
 
-            slType = slTypeFactory.construct(
-                    ValidateActionEnum.ValidationPassed, dType);
+            slContainer.registerCaller(GetActionEnum.GetListData, dType,
+                    new GetterModel(peData));
+
+            slType = slTypeFactory.construct(new ValidateActionType(
+                    ValidateActionType.ValidateActionEnum.ValidationPassed),
+                    dType);
             slContainer.registerSubscriber(slType, new PersistData(dForm));
 
-            slType = slTypeFactory
-                    .construct(ValidateActionEnum.Validate, dType);
-            slContainer
-                    .addRedirector(
-                            slTypeFactory
-                                    .constructClickButton(ClickButtonType.StandClickEnum.ACCEPT),
-                            slType);
+            slType = slTypeFactory.construct(new ValidateActionType(
+                    ValidateActionType.ValidateActionEnum.Validate, vType),
+                    dType);
+            slContainer.registerRedirector(slTypeFactory
+                    .construct(ClickButtonType.StandClickEnum.ACCEPT), slType);
             fControler.startPublish();
         }
 
@@ -188,12 +228,16 @@ class DataListCrudControler extends AbstractSlotContainer {
         this.dType = dType;
         this.tFactories = tFactories;
         this.fContainer = fContainer;
-        addSubscriber(ClickButtonType.StandClickEnum.ADDITEM, new ActionItem());
-        addSubscriber(ClickButtonType.StandClickEnum.REMOVEITEM,
-                new ActionItem());
-        addSubscriber(ClickButtonType.StandClickEnum.MODIFITEM,
-                new ActionItem());
+        registerSubscriber(ClickButtonType.StandClickEnum.ADDITEM,
+                new ActionItem(ValidateActionType.ValidateType.ADD));
+        registerSubscriber(ClickButtonType.StandClickEnum.REMOVEITEM,
+                new ActionItem(ValidateActionType.ValidateType.REMOVE));
+        registerSubscriber(ClickButtonType.StandClickEnum.MODIFITEM,
+                new ActionItem(ValidateActionType.ValidateType.MODIF));
     }
+
+    // ISlotSignalContext ret = callGetterModelData(dType);
+    // IVModelData mData = ret.getVData();
 
     public void startPublish() {
     }

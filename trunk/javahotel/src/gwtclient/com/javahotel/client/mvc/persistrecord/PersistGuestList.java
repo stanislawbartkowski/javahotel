@@ -22,6 +22,7 @@ import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IPersistAction;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.dictdata.model.IGetBooking;
@@ -35,7 +36,7 @@ import com.javahotel.common.toobject.GuestP;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class PersistGuestList implements IPersistRecord {
@@ -45,10 +46,11 @@ class PersistGuestList implements IPersistRecord {
     PersistGuestList(IResLocator rI) {
         this.rI = rI;
     }
+
     private SS syncs;
     private Map<String, List<GuestP>> ma;
 
-    private class B extends CallBackHotel {
+    private class B extends CallBackHotel<ReturnPersist> {
 
         private final IPersistResult iRes;
 
@@ -58,9 +60,8 @@ class PersistGuestList implements IPersistRecord {
         }
 
         @Override
-        public void onMySuccess(Object arg) {
-            ReturnPersist pe = (ReturnPersist) arg;
-            CallSuccess.callI(iRes, IPersistAction.ADDACION, null, arg);
+        public void onMySuccess(ReturnPersist pe) {
+            CallSuccess.callI(iRes, IPersistAction.ADDACION, null, pe);
         }
     }
 
@@ -114,8 +115,8 @@ class PersistGuestList implements IPersistRecord {
         List<? extends AbstractTo> a = mod.getAList();
         List<? extends AbstractTo> prevA = mod.getBeforeaList();
         IGetBooking get = (IGetBooking) mod.getAuxData1();
-        List<ResRoomGuest> gList = (ArrayList<ResRoomGuest>) a;
-        List<ResRoomGuest> prevList = (ArrayList<ResRoomGuest>) prevA;
+        List<ResRoomGuest> gList = (List<ResRoomGuest>) a;
+        List<ResRoomGuest> prevList = (List<ResRoomGuest>) prevA;
         syncs = new SS(gList.size());
         syncs.ires = ires;
         syncs.ge = get;
@@ -125,11 +126,13 @@ class PersistGuestList implements IPersistRecord {
             ResRoomGuest pge = prevList.get(i);
             LId id = pge.getO2().getId();
             if (id != null) {
-                setC(ge,id);
+                setC(ge, id);
                 continue;
             }
-            IPersistRecord pe = PersistRecordFactory.getPersistDict(rI,
-                    new DictData(DictType.CustomerList));
+            PersistRecordFactory pFactory = HInjector.getI()
+                    .getPersistRecordFactory();
+            IPersistRecord pe = pFactory.getPersistDict(new DictData(
+                    DictType.CustomerList));
             RecordModel mo = new RecordModel(null, null);
             mo.setA(ge.getO2());
             pe.persist(IPersistAction.ADDACION, mo, new PE(ge));
