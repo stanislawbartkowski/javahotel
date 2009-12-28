@@ -23,6 +23,9 @@ public interface IFormLineView extends IGWidget {
     void addChangeListener(IFormChangeListener cListener);
     
     void setReadOnly(boolean readOnly);
-
+    
+    void setInvalidMess(String errmess);
+    
+    void setStyleName(String styleMess, boolean set);
 
 }

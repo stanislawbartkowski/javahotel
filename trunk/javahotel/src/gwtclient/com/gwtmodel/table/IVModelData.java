@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table;
 
+
 public interface IVModelData {
     
     String getS(IVField fie);
@@ -19,5 +20,5 @@ public interface IVModelData {
     void setS(IVField fie, String s);
     
     boolean isEmpty(IVField fie);
-
+    
 }

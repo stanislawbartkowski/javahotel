@@ -123,20 +123,6 @@ class DataListCrudControler extends AbstractSlotContainer {
 
     }
 
-    private class GetterModel implements ISlotCaller {
-
-        private final IVModelData mModel;
-
-        GetterModel(IVModelData mModel) {
-            this.mModel = mModel;
-        }
-
-        public ISlotSignalContext call(ISlotSignalContext slContext) {
-            return slSignalContext.returngetter(slContext, mModel);
-        }
-
-    }
-
     private class ActionItem implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
@@ -180,9 +166,6 @@ class DataListCrudControler extends AbstractSlotContainer {
             slType = slTypeFactory
                     .constructClickButton(ClickButtonType.StandClickEnum.RESIGN);
             slContainer.registerSubscriber(slType, new ResignAction(dForm));
-
-            slType = slTypeFactory.construct(GetActionEnum.ModelVData, dType);
-            slContainer.addCaller(slType, new GetterModel(mModel));
 
             slType = slTypeFactory.construct(
                     ValidateActionEnum.ValidationPassed, dType);

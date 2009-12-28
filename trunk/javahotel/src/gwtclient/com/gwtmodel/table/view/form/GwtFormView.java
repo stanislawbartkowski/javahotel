@@ -12,14 +12,21 @@
  */
 package com.gwtmodel.table.view.form;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 
 class GwtFormView implements IGwtFormView {
 
     private final FormLineContainer fContainer;
     private final Grid g;
+    final ErrorLineContainer eStore = new ErrorLineContainer();
 
     GwtFormView(final FormLineContainer fContainer) {
         this.fContainer = fContainer;
@@ -30,4 +37,16 @@ class GwtFormView implements IGwtFormView {
         return g;
     }
 
+    public void showInvalidate(InvalidateFormContainer errContainer) {
+        List<InvalidateMess> col = errContainer.getErrMess();
+
+        for (InvalidateMess m : col) {
+            IVField mFie = m.getFie();
+            for (FormField re : fContainer.getfList()) {
+                if (re.getFie().eq(mFie)) {
+                    eStore.setEMess(re, m);
+                }
+            }
+        }
+    }
 }

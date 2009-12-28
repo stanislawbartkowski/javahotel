@@ -10,14 +10,22 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.form;
+package com.gwtmodel.table;
 
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.InvalidateFormContainer;
+import java.util.List;
 
-public interface IGwtFormView extends IGWidget {
-    
-    void showInvalidate(InvalidateFormContainer errContainer);
+import com.gwtmodel.table.slotmodel.IValidateError;
 
+public class InvalidateFormContainer implements IValidateError {
+
+    private final List<InvalidateMess> errMess;
+
+    public InvalidateFormContainer(List<InvalidateMess> errMess) {
+        this.errMess = errMess;
+    }
+
+    public List<InvalidateMess> getErrMess() {
+        return errMess;
+    }
 
 }
