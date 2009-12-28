@@ -10,18 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories;
+package com.gwtmodel.table.validatemodel;
 
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.factories.IDataValidateAction;
-import com.gwtmodel.table.factories.IDataValidateActionFactory;
-import com.javahotel.nmvc.validate.ValidateAction;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ValidateActionFactory extends HelperFactory implements
-        IDataValidateActionFactory {
+import com.gwtmodel.table.slotmodel.IValidateError;
 
-    public IDataValidateAction construct(IDataType dType) {
-        return new ValidateAction(dType);
+public class InvalidateFormContainer implements IValidateError {
+
+    private final List<InvalidateMess> errMess;
+
+    public InvalidateFormContainer(List<InvalidateMess> errMess) {
+        this.errMess = errMess;
+    }
+
+    public List<InvalidateMess> getErrMess() {
+        return errMess;
     }
 
 }
