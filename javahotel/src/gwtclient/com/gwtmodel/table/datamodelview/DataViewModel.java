@@ -23,7 +23,7 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ValidateActionEnum;
+import com.gwtmodel.table.slotmodel.ValidateActionType;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
 
@@ -64,10 +64,10 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         this.fContainer = fContainer;
         this.dType = dType;
         gView = gFactory.construct(fContainer);
-        createCallBackWidget(cellId);
-        addSubscriber(ValidateActionEnum.ValidatonFailed, dType,
+        registerPublisher(cellId);
+        registerSubscriber(ValidateActionType.ValidateActionEnum.ValidatonFailed, dType,
                 new InvalidateMess());
-        addCallerGetter(GetActionEnum.ModelVData, dType, new GetterModel());
+        registerCaller(GetActionEnum.ModelVData, dType, new GetterModel());
     }
 
     public void fromViewToData(IVModelData aTo) {
@@ -85,7 +85,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     public void startPublish() {
-        publishCallBack(gView);
+        publish(gView);
     }
 
 }

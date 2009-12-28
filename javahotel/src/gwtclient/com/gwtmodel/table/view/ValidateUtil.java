@@ -10,27 +10,34 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.common;
+package com.gwtmodel.table.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.javahotel.common.toobject.AbstractTo;
+import com.gwtmodel.table.InvalidateMess;
 
-public class DataListTypeFactory {
+public class ValidateUtil {
 
-    private DataListTypeFactory() {
-
+    public static List<InvalidateMess> checkEmpty(IVModelData mData,
+            List<IVField> listMFie) {
+        List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+        boolean ok = true;
+        for (IVField f : listMFie) {
+            if (mData.isEmpty(f)) {
+                ok = false;
+                errMess.add(new InvalidateMess(f, true, null));
+            }
+        }
+        if (ok) {
+            return null;
+        }
+        return errMess;
     }
 
-    public static DataListType construct(List<? extends AbstractTo> dList) {
-        List<IVModelData> dvList = new ArrayList<IVModelData>();
-        for (AbstractTo a : dList) {
-            dvList.add(new VModelData(a));
-        }
-        return new DataListType(dvList);
+    private ValidateUtil() {
     }
 
 }

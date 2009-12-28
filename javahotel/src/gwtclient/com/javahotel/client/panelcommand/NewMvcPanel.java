@@ -52,7 +52,7 @@ class NewMvcPanel extends AbstractPanelCommand {
         IDataControler iControler = DataControlerFactory
                 .constructDataControler(rI, DataControlerEnum.DisplayList,
                         new DataType(da), 0, 1);
-        iControler.getSlContainer().registerSubscriberGwt(0, new SetGwt());
+        iControler.getSlContainer().registerSubscriber(0, new SetGwt());
         iControler.startPublish();
 
     }

@@ -12,22 +12,20 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import java.util.List;
-
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ListEventEnum;
+import com.gwtmodel.table.slotmodel.PersistEventEnum;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
@@ -72,17 +70,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         this.heList = heList;
         tableView = gFactory.construct(new GwtTableView());
         // publisher
-        createCallBackWidget(cellId);
+        registerPublisher(cellId);
         // subscriber
-        SlotType slType = slTypeFactory.construct(ListEventEnum.ReadListSuccess,
-                dType);
-        slContainer.addSubscriber(slType, new DrawList());
+//        SlotType slType = slTypeFactory.construct(PersistEventEnum.ReadListSuccess,
+//                dType);
+        registerSubscriber(PersistEventEnum.ReadListSuccess, dType, new DrawList());
         // caller
-        addCallerList(ListEventEnum.GetListData, dType, new GetListData());
+        registerCaller(GetActionEnum.GetListData, dType, new GetListData());
     }
 
     public void startPublish() {
-        publishCallBack(tableView);
+        publish(tableView);
     }
 
 }

@@ -21,6 +21,7 @@ import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.ITouchListener;
 
 class GwtFormView implements IGwtFormView {
 
@@ -28,9 +29,23 @@ class GwtFormView implements IGwtFormView {
     private final Grid g;
     final ErrorLineContainer eStore = new ErrorLineContainer();
 
+    private void setListener() {
+
+        ITouchListener ii = new ITouchListener() {
+
+            public void onTouch() {
+                eStore.clearE();
+            }
+        };
+        for (FormField e : fContainer.getfList()) {
+            e.getELine().setOnTouch(ii);
+        }
+    }
+
     GwtFormView(final FormLineContainer fContainer) {
         this.fContainer = fContainer;
         g = CreateFormView.construct(fContainer);
+        setListener();
     }
 
     public Widget getWidget() {
@@ -49,4 +64,5 @@ class GwtFormView implements IGwtFormView {
             }
         }
     }
+
 }

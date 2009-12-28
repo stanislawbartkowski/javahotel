@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.mvc.persistrecord;
 
+import com.google.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 
@@ -21,11 +22,14 @@ import com.javahotel.client.dialog.DictData;
  */
 public class PersistRecordFactory {
 
-    private PersistRecordFactory() {
+    private final IResLocator rI;
+    
+    @Inject
+    public PersistRecordFactory(IResLocator rI) {
+        this.rI = rI;
     }
-
-    public static IPersistRecord getPersistDict(final IResLocator rI,
-            final DictData da) {
+    
+    public IPersistRecord getPersistDict(final DictData da) {
         if (da.isSe()) {
             switch (da.getSE()) {
               case SpecialPeriod:
@@ -62,8 +66,7 @@ public class PersistRecordFactory {
         return new PersistHotelOsoba(rI, da.getRt());
     }
 
-    public static IPersistRecord getPersistList(final IResLocator rI,
-            final DictData da) {
+    public IPersistRecord getPersistList(final DictData da) {
         return new PersistGuestList(rI);
     }
 }

@@ -32,7 +32,8 @@ public class DictValidatorFactory {
         this.rI = rI;
     }
 
-    public IRecordValidator getValidator(final DictData da) {
+    public IRecordValidator getValidator(final DictData da,
+            boolean omitTestEmpty) {
 
         if (da.getRt() != null) {
             switch (da.getRt()) {
@@ -55,7 +56,11 @@ public class DictValidatorFactory {
             }
         }
 
-        return new DictValidator(rI, da);
+        return new DictValidator(rI, da, omitTestEmpty);
+    }
+
+    public IRecordValidator getValidator(final DictData da) {
+        return getValidator(da, false);
     }
 
     public IRecordValidator getPriceValidator() {
