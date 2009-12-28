@@ -27,4 +27,9 @@ public class VField implements IVField{
         return fie;
     }
 
+    public boolean eq(IVField mFie) {
+        VField de = (VField) mFie;
+        return fie.equals(de.fie);
+    }
+
 }

@@ -17,15 +17,15 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.javahotel.client.ifield.ILineField;
 
-public class FormLineDef implements IFormLineView  {
-    
+public class FormLineDef implements IFormLineView {
+
     private final ILineField iField;
-    
+
     public FormLineDef(ILineField f) {
         iField = f;
     }
 
-    public void addChangeListener(IFormChangeListener cListener) {        
+    public void addChangeListener(IFormChangeListener cListener) {
     }
 
     public String getVal() {
@@ -42,6 +42,16 @@ public class FormLineDef implements IFormLineView  {
 
     public void setReadOnly(boolean readOnly) {
         iField.setReadOnly(readOnly);
+
+    }
+
+    public void setInvalidMess(String errmess) {
+        iField.setErrMess(errmess);
+
+    }
+
+    public void setStyleName(String styleMess, boolean set) {
+        iField.setStyleName(styleMess, set);
         
     }
 

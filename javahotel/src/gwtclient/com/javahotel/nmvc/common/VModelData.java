@@ -17,9 +17,9 @@ import com.gwtmodel.table.IVModelData;
 import com.javahotel.common.toobject.AbstractTo;
 
 public class VModelData implements IVModelData {
-    
+
     private final AbstractTo a;
-    
+
     public VModelData(AbstractTo a) {
         this.a = a;
     }
@@ -31,11 +31,16 @@ public class VModelData implements IVModelData {
 
     public void setS(IVField fie, String s) {
         VField f = (VField) fie;
-        a.setF(f.getFie(), s);        
+        a.setF(f.getFie(), s);
     }
 
     public AbstractTo getA() {
         return a;
+    }
+
+    public boolean isEmpty(IVField fie) {
+        VField f = (VField) fie;
+        return a.emptyS(f.getFie());
     }
 
 }
