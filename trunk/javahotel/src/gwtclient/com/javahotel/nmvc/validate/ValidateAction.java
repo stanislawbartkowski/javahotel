@@ -17,6 +17,8 @@ import java.util.List;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -24,9 +26,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotPublisherType;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.slotmodel.ValidateActionEnum;
-import com.gwtmodel.table.validatemodel.InvalidateFormContainer;
-import com.gwtmodel.table.validatemodel.InvalidateMess;
-import com.gwtmodel.table.validatemodel.ValidateUtil;
+import com.gwtmodel.table.util.ValidateUtil;
 import com.javahotel.nmvc.common.EmptyListFactory;
 
 public class ValidateAction extends AbstractSlotContainer implements
