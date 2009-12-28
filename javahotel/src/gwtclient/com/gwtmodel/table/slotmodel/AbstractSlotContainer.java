@@ -44,6 +44,14 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slSignalContext.signal(slCallBackWidget, gwtWidget);
     }
 
+    protected void publish(SlotPublisherType slPublisher) {
+        slSignalContext.signal(slPublisher);
+    }
+
+    protected void publish(SlotPublisherType slPublisher, IValidateError vError) {
+        slSignalContext.signal(slPublisher, vError);
+    }
+
     protected void addSubscriber(SlotType slType, ISlotSignaller slSignaller) {
         slContainer.addSubscriber(slType, slSignaller);
     }
@@ -67,13 +75,27 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContainer.call(slContext);
     }
 
+    protected ISlotSignalContext callGetterModelData(IDataType dType) {
+        SlotType slType = slTypeFactory.construct(GetActionEnum.ModelVData,
+                dType);
+        ISlotSignalContext slContext = slContextFactory.construct(slType);
+        return slContainer.call(slContext);
+    }
+
     protected SlotPublisherType addPublisher(SlotType slType) {
         return slContainer.addPublisher(slType);
     }
-    
-    protected ISlotSignalContext contextReplace(SlotType slType, ISlotSignalContext iSlot) {
+
+    protected ISlotSignalContext contextReplace(SlotType slType,
+            ISlotSignalContext iSlot) {
         return slContextFactory.construct(slType, iSlot);
     }
-    
+
+    protected SlotPublisherType addPublisher(ValidateActionEnum vENum,
+            IDataType dType) {
+        SlotType slType = slTypeFactory.construct(
+                ValidateActionEnum.ValidationPassed, dType);
+        return addPublisher(slType);
+    }
 
 }

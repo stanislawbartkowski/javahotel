@@ -96,6 +96,11 @@ public class SlotSignalContextFactory {
         return new SlotSignalContext(slType, null, null, null, null, null,
                 vData);
     }
+    
+    public ISlotSignalContext construct(SlotType slType, IValidateError vError) {
+        return new SlotSignalContext(slType, null, vError, null, null, null,
+                null);
+    }
 
     public ISlotSignalContext construct(SlotType slType,
             ISlotSignalContext iSlot) {

@@ -39,6 +39,12 @@ public class SlotSignalContext {
         slPublisher.getSlRegisterSubscriber().signal(slContext);
     }
 
+    public void signal(SlotPublisherType slPublisher, IValidateError vError) {
+        ISlotSignalContext slContext = slContextFactory.construct(slPublisher
+                .getSlType(), vError);
+        slPublisher.getSlRegisterSubscriber().signal(slContext);
+    }
+
     public void signal(SlotPublisherType slPublisher) {
         ISlotSignalContext slContext = slContextFactory.construct(slPublisher
                 .getSlType());
@@ -57,7 +63,7 @@ public class SlotSignalContext {
                 .getSlType(), dataList, choosedLine);
         return sl;
     }
-    
+
     public ISlotSignalContext returngetter(ISlotSignalContext slContext,
             IVModelData vData) {
         ISlotSignalContext sl = slContextFactory.construct(slContext

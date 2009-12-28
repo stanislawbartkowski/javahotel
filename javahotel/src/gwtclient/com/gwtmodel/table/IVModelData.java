@@ -17,5 +17,7 @@ public interface IVModelData {
     String getS(IVField fie);
     
     void setS(IVField fie, String s);
+    
+    boolean isEmpty(IVField fie);
 
 }
