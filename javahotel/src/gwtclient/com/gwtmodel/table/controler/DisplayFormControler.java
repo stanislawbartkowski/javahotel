@@ -49,7 +49,7 @@ class DisplayFormControler implements ISlotable {
         coId = pView.addCellPanel(1, 0);
         pView.createView();
         DataViewModelFactory dFactory = tFactories.getdViewFactory();
-        IDataViewModel vModel = dFactory.construct(formId, lContainer);
+        IDataViewModel vModel = dFactory.construct(dType, formId, lContainer);
         IDataValidateAction vAction = fContainer.getDataValidateFactory()
                 .construct(dType);
         for (FormField fie : lContainer.getfList()) {

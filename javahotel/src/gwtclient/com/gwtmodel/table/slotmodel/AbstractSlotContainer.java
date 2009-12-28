@@ -62,6 +62,18 @@ abstract public class AbstractSlotContainer implements ISlotable {
         addSubscriber(slType, slSignaller);
     }
 
+    protected void addSubscriber(ValidateActionEnum vEnum, IDataType dType,
+            ISlotSignaller slSignaller) {
+        SlotType slType = slTypeFactory.construct(vEnum, dType);
+        addSubscriber(slType, slSignaller);
+    }
+
+    protected void addCallerGetter(GetActionEnum gEnum, IDataType dType,
+            ISlotCaller slCaller) {
+        SlotType slType = slTypeFactory.construct(gEnum, dType);
+        slContainer.addCaller(slType, slCaller);
+    }
+    
     protected void addCallerList(ListEventEnum listEvEnum, IDataType dType,
             ISlotCaller slCaller) {
         SlotType slType = slTypeFactory.construct(listEvEnum, dType);
@@ -74,6 +86,8 @@ abstract public class AbstractSlotContainer implements ISlotable {
         ISlotSignalContext slContext = slContextFactory.construct(slType);
         return slContainer.call(slContext);
     }
+    
+    
 
     protected ISlotSignalContext callGetterModelData(IDataType dType) {
         SlotType slType = slTypeFactory.construct(GetActionEnum.ModelVData,
@@ -91,10 +105,9 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContextFactory.construct(slType, iSlot);
     }
 
-    protected SlotPublisherType addPublisher(ValidateActionEnum vENum,
+    protected SlotPublisherType addPublisher(ValidateActionEnum vEnum,
             IDataType dType) {
-        SlotType slType = slTypeFactory.construct(
-                ValidateActionEnum.ValidationPassed, dType);
+        SlotType slType = slTypeFactory.construct(vEnum, dType);
         return addPublisher(slType);
     }
 

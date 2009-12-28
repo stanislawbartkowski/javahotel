@@ -12,10 +12,18 @@
  */
 package com.gwtmodel.table.datamodelview;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ValidateActionEnum;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
 
@@ -23,11 +31,43 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private final FormLineContainer fContainer;
     private final IGwtFormView gView;
+    private final IDataType dType;
+    private final TableFactoriesContainer tContainer;
 
-    DataViewModel(GwtFormViewFactory gFactory,int cellId, FormLineContainer fContainer) {
+    private class GetterModel implements ISlotCaller {
+
+        GetterModel() {
+        }
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVModelData mData = tContainer.getDataModelFactory().construct(dType);
+            fromViewToData(mData);
+            return slSignalContext.returngetter(slContext, mData);
+        }
+
+    }
+
+    private class InvalidateMess implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext
+                    .getValidateError();
+            gView.showInvalidate(errContainer);
+        }
+
+    }
+
+    DataViewModel(TableFactoriesContainer tContainer,
+            GwtFormViewFactory gFactory, IDataType dType, int cellId,
+            FormLineContainer fContainer) {
+        this.tContainer = tContainer;
         this.fContainer = fContainer;
+        this.dType = dType;
         gView = gFactory.construct(fContainer);
-        createCallBackWidget(cellId);        
+        createCallBackWidget(cellId);
+        addSubscriber(ValidateActionEnum.ValidatonFailed, dType,
+                new InvalidateMess());
+        addCallerGetter(GetActionEnum.ModelVData, dType, new GetterModel());
     }
 
     public void fromViewToData(IVModelData aTo) {

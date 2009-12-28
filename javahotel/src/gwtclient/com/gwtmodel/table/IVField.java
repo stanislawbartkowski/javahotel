@@ -13,5 +13,7 @@
 package com.gwtmodel.table;
 
 public interface IVField {
+    
+    boolean eq(IVField mFie);
 
 }

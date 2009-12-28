@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
-import com.javahotel.client.mvc.record.model.RecordField;
 
 class CreateFormView {
 
