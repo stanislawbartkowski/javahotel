@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.validatemodel;
+package com.gwtmodel.table.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.InvalidateMess;
 
 public class ValidateUtil {
 
