@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
@@ -212,4 +213,9 @@ public class SlotListContainer {
     public void publish(SlotPublisherType slPublisher, IGWidget gwtWidget) {
         slSignalContext.signal(slPublisher, gwtWidget);
     }
+    
+    public void publish(SlotPublisherType slPublisher, DataListType dataList) {
+        slSignalContext.signal(slPublisher, dataList);
+    }
+    
 }

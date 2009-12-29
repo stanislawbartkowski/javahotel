@@ -33,7 +33,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.PersistEventEnum;
 import com.gwtmodel.table.slotmodel.SlotCallerType;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
-import com.gwtmodel.table.slotmodel.SlotPublisherType;
+import com.gwtmodel.table.slotmodel.SlotSubscriberType;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.slotmodel.ValidateActionType;
 import com.gwtmodel.table.view.util.GetActionName;
@@ -69,23 +69,24 @@ class DataListCrudControler extends AbstractSlotContainer {
         }
 
         public void signal(ISlotSignalContext slContext) {
-            Window.alert("Persist - validate - now persis");
             findAndPublish(puSlType);
-//            slContainer.publish(slPublisher);
-            hide();
         }
 
     }
 
-    private class AfterPersistData extends Signaller {
+    private class AfterPersistData implements ISlotSignaller {
+        
+        private DrawForm dForm;
 
-        AfterPersistData(DrawForm dForm) {
-            super(dForm);
+
+        public void setdForm(DrawForm dForm) {
+            this.dForm = dForm;
         }
 
+
         public void signal(ISlotSignalContext slContext) {
-            Window.alert("Persist - afer persist - success");
-            hide();
+            dForm.d.hide();
+            findAndPublish(PersistEventEnum.ReadList, dType);            
         }
 
     }
@@ -224,18 +225,23 @@ class DataListCrudControler extends AbstractSlotContainer {
             GetterModel ge = (GetterModel) slCaller.getSlCaller();
             ge.setPeData(peData);
             ge.setSlControlerContainer(slControlerContainer);
-
+            
             PersistEventEnum eType = PersistEventEnum.AddItem;
+            PersistEventEnum aftereType = PersistEventEnum.AddItemSuccess;
             switch (vType) {
             case MODIF:
                 eType = PersistEventEnum.ChangeItem;
+                aftereType = PersistEventEnum.ChangeItemSuccess;
                 break;
             case REMOVE:
                 eType = PersistEventEnum.RemoveItem;
+                aftereType = PersistEventEnum.RemoveItemSuccess;
                 break;
             }
             
-            
+            SlotSubscriberType slSubscriber = slContainer.findSubscriber(slTypeFactory.construct(aftereType, dType));
+            AfterPersistData aftData = (AfterPersistData) slSubscriber.getSlSignaller();
+            aftData.setdForm(dForm);
 
             slType = slTypeFactory.construct(new ValidateActionType(
                     ValidateActionType.ValidateActionEnum.ValidationPassed),
@@ -265,9 +271,16 @@ class DataListCrudControler extends AbstractSlotContainer {
                 new ActionItem(ValidateActionType.ValidateType.REMOVE));
         registerSubscriber(ClickButtonType.StandClickEnum.MODIFITEM,
                 new ActionItem(ValidateActionType.ValidateType.MODIF));
+        registerSubscriber(PersistEventEnum.AddItemSuccess, dType,
+                new AfterPersistData());
+        registerSubscriber(PersistEventEnum.ChangeItemSuccess, dType,
+                new AfterPersistData());
+        registerSubscriber(PersistEventEnum.RemoveItemSuccess, dType,
+                new AfterPersistData());
         registerPublisher(PersistEventEnum.AddItem, dType);
         registerPublisher(PersistEventEnum.ChangeItem, dType);
         registerPublisher(PersistEventEnum.RemoveItem, dType);
+        registerPublisher(PersistEventEnum.ReadList, dType);
         registerCaller(GetActionEnum.ModelVDataPersist, dType,
                 new GetterModel());
     }

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
@@ -67,6 +68,19 @@ abstract public class AbstractSlotContainer implements ISlotable {
     protected void findAndPublish(SlotType slType) {
         SlotPublisherType slPublisher = slContainer.findPublisher(slType);
         publish(slPublisher);        
+    }
+    
+    protected void findAndPublish(SlotType slType,DataListType dataList) {
+        SlotPublisherType slPublisher = slContainer.findPublisher(slType);
+        slContainer.publish(slPublisher,dataList);        
+    }
+    
+    protected void findAndPublish(PersistEventEnum eNum, IDataType dType) {
+        findAndPublish(slTypeFactory.construct(eNum,dType));
+    }
+    
+    protected void findAndPublish(PersistEventEnum eNum, IDataType dType, DataListType dataList) {
+        findAndPublish(slTypeFactory.construct(eNum,dType),dataList);
     }
     
     protected void publish(IGWidget gwtWidget) {
