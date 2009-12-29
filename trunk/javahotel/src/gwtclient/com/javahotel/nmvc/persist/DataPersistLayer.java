@@ -82,7 +82,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             this.vType = vType;
         }
 
-        public void signal(ISlotSignalContext slContext) {
+        public void signal(ISlotSignalContext slContext) {            
             IVModelData mData = callGetterModelData(GetActionEnum.ModelVDataPersist,dType);
             IPersistRecord persist = pFactory.getPersistDict(new DictData(dType.getdType()));
             int action = DataUtil.vTypetoAction(vType);

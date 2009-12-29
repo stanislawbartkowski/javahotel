@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
 
 public class SlotListContainer {
@@ -106,20 +107,6 @@ public class SlotListContainer {
         registerSubscriber(slType, slSignaller);
     }
 
-    // public void registerSubscriber(PersistEventEnum pEnum, IDataType dType,
-    // ISlotSignaller slSignaller) {
-
-    // }
-
-    // / SlotType slType =
-    // slTypeFactory.construct(PersistEventEnum.ReadListSuccess,
-    // dType);
-    // registerSubscriber(PersistEventEnum.ReadListSuccess, new DrawList());
-
-    // SlotType slType =
-    // slTypeFactory.construct(PersistEventEnum.ReadListSuccess,
-    // dType);
-
     public SlotPublisherType registerPublisher(SlotType slType) {
         SlotRegisterSubscriber slRegister = new SlotRegisterSubscriber();
         SlotPublisherType slPublisher = new SlotPublisherType(slType,
@@ -131,15 +118,15 @@ public class SlotListContainer {
     public SlotPublisherType registerPublisher(int cellId) {
         return registerPublisher(slTypeFactory.construct(cellId));
     }
-    
+
     public SlotPublisherType registerPublisher(ClickButtonType bType) {
         return registerPublisher(slTypeFactory.construct(bType));
     }
-    
-    public SlotPublisherType registerPublisher(PersistEventEnum pEnum, IDataType dType) {
-        return registerPublisher(slTypeFactory.construct(pEnum,dType));        
-    }
 
+    public SlotPublisherType registerPublisher(PersistEventEnum pEnum,
+            IDataType dType) {
+        return registerPublisher(slTypeFactory.construct(pEnum, dType));
+    }
 
     public SlotPublisherType registerPublisher(
             ValidateActionType.ValidateActionEnum vEnum, IDataType dType) {
@@ -171,8 +158,8 @@ public class SlotListContainer {
     }
 
     private ISlotSignalContext call(SlotType slType) {
-        SlotCallerType slo = findCaller(slType);
-        return slSignalContext.returngetter(slo);
+        ISlotSignalContext slContext = slSignalContext.constructContext(slType);
+        return call(slContext);
     }
 
     public ISlotSignalContext callGetterList(IDataType dType) {
@@ -214,4 +201,15 @@ public class SlotListContainer {
         return null;
     }
 
+    public void publish(SlotPublisherType slPublisher) {
+        slSignalContext.signal(slPublisher);
+    }
+
+    public void publish(SlotPublisherType slPublisher, IValidateError vError) {
+        slSignalContext.signal(slPublisher, vError);
+    }
+
+    public void publish(SlotPublisherType slPublisher, IGWidget gwtWidget) {
+        slSignalContext.signal(slPublisher, gwtWidget);
+    }
 }

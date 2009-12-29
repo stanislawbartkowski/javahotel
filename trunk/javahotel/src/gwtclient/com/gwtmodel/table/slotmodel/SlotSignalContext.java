@@ -71,9 +71,9 @@ public class SlotSignalContext {
         return sl;
     }
 
-    public ISlotSignalContext returngetter(SlotCallerType slCaller) {
+    public ISlotSignalContext constructContext(SlotType slType) {
         ISlotSignalContext sl = slContextFactory
-                .construct(slCaller.getSlType());
-        return slCaller.getSlCaller().call(sl);
+                .construct(slType);
+        return sl;
     }
 }

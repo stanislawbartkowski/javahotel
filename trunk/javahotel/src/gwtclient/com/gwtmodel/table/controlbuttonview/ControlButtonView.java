@@ -34,7 +34,8 @@ class ControlButtonView extends AbstractSlotContainer implements
             SlotType slType = slTypeFactory.construct(co
                     .getActionId());
             SlotPublisherType slPublisher = slContainer.findPublisher(slType);
-            slSignalContext.signal(slPublisher,new GWidget(w));
+//            slSignalContext.signal(slPublisher,new GWidget(w));
+            publish(slPublisher,new GWidget(w));
         }
     }
 
@@ -43,9 +44,6 @@ class ControlButtonView extends AbstractSlotContainer implements
         // create publishers
         for (ControlButtonDesc bu : listButton.getcList()) {
             registerPublisher(bu.getActionId());
-//            SlotType slType = slTypeFactory.constructClickButton(bu
-//                    .getActionId());
-//            slContainer.addPublisher(slType);
         }
         registerPublisher(cellId);
     }

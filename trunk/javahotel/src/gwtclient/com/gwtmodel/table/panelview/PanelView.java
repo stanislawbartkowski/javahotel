@@ -98,8 +98,6 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         pView = gFactory.construct(rowDesc);
         // create subscribers
         for (Integer ii : colM.keySet()) {
-            // PanelRowCell ro = colM.get(ii);
-            // SlotType slType = slTypeFactory.constructCallBackWidget(ii);
             registerSubscriber(ii.intValue(), new SetWidget());
         }
         // create publisher

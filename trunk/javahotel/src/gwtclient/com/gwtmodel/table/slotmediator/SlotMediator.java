@@ -85,6 +85,7 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
             iSlo.getSlContainer().registerSlReceiver(slCaller);
             iSlo.startPublish();
         }
+        this.slContainer.registerSlReceiver(slCaller);
     }
 
 }
