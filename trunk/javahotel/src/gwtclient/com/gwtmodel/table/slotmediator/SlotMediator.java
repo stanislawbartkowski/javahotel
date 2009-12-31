@@ -21,14 +21,23 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotCallerType;
-import com.gwtmodel.table.slotmodel.SlotPublisherType;
 import com.gwtmodel.table.slotmodel.SlotRedirector;
 import com.gwtmodel.table.slotmodel.SlotSubscriberType;
 import com.gwtmodel.table.slotmodel.SlotType;
 
 class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 
-    private final List<ISlotable> slList = new ArrayList<ISlotable>();
+    private final List<C> slList = new ArrayList<C>();
+
+    private class C {
+        private final int cellId;
+        private final ISlotable iSlo;
+
+        C(int cellId, ISlotable iSlo) {
+            this.cellId = cellId;
+            this.iSlo = iSlo;
+        }
+    }
 
     private class GeneralListener implements ISlotSignaller {
 
@@ -39,7 +48,7 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
             for (SlotRedirector re : slContainer.getListOfRedirectors()) {
                 if (re.getFrom().eq(sl)) {
                     sl = re.getTo();
-                    slContext = contextReplace(sl,slContextP);
+                    slContext = contextReplace(sl, slContextP);
                     break;
                 }
             }
@@ -63,10 +72,10 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
         }
     }
 
-    public void registerSlotContainer(ISlotable iSlo) {
-        slList.add(iSlo);
-        this.slContainer.getListOfPublishers().addAll(
-                iSlo.getSlContainer().getListOfPublishers());
+    public void registerSlotContainer(int cellId, ISlotable iSlo) {
+        slList.add(new C(cellId,iSlo));
+        // this.slContainer.getListOfPublishers().addAll(
+        // iSlo.getSlContainer().getListOfPublishers());
         this.slContainer.getListOfSubscribers().addAll(
                 iSlo.getSlContainer().getListOfSubscribers());
         this.slContainer.getListOfCallers().addAll(
@@ -75,17 +84,19 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
                 iSlo.getSlContainer().getListOfRedirectors());
     }
 
-    public void startPublish() {
+    public void startPublish(int nullId) {
         ISlotSignaller sl = new GeneralListener();
-        for (SlotPublisherType reg : slContainer.getListOfPublishers()) {
-            reg.getSlRegisterSubscriber().register(sl);
-        }
+        // for (SlotPublisherType reg : slContainer.getListOfPublishers()) {
+        // reg.getSlRegisterSubscriber().register(sl);
+        // }
         ISlotCaller slCaller = new GeneralCaller();
-        for (ISlotable iSlo : slList) {
-            iSlo.getSlContainer().registerSlReceiver(slCaller);
-            iSlo.startPublish();
+        for (C c : slList) {
+            c.iSlo.getSlContainer().registerSlReceiver(slCaller);
+            c.iSlo.getSlContainer().registerSlPublisher(sl);
+            c.iSlo.startPublish(c.cellId);
         }
         this.slContainer.registerSlReceiver(slCaller);
+        this.slContainer.registerSlPublisher(sl);
     }
 
 }

@@ -16,6 +16,6 @@ public interface ISlotable {
     
     SlotListContainer getSlContainer();
     
-    void startPublish();
+    void startPublish(int cellId);
 
 }

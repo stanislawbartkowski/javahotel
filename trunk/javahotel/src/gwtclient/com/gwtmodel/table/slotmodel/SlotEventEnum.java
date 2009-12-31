@@ -13,8 +13,9 @@
 package com.gwtmodel.table.slotmodel;
 
 public enum SlotEventEnum {
-    /** Validate action. */
-    ValidateAction,
+    
+    /** General action connected with IDataType */
+    DataAction,
 
     /** Published after observed value has changed. */
     ChangeValue,
@@ -24,9 +25,6 @@ public enum SlotEventEnum {
 
     /** Published after widget has been created. */
     CallBackWidget,
-
-    /** To do persist action */
-    PersistSignal,
 
     /** List of slots, composite slot. */
     CompositeSlot,

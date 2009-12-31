@@ -26,9 +26,8 @@ public class ListDataViewFactory {
         this.gFactory = gFactory;
     }
 
-    public IListDataView construct(IDataType dType, int cellId,
-            VListHeaderContainer heList) {
-        return new ListDataView(gFactory,dType, cellId, heList);
+    public IListDataView construct(IDataType dType,VListHeaderContainer heList) {
+        return new ListDataView(gFactory,dType, heList);
     }
 
 }

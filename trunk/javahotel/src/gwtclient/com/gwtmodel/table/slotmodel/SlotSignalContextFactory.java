@@ -15,7 +15,9 @@ package com.gwtmodel.table.slotmodel;
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.WSize;
 
 public class SlotSignalContextFactory {
 
@@ -26,29 +28,31 @@ public class SlotSignalContextFactory {
         private final IValidateError validateError;
         private final IGWidget gwtWidget;
         private final DataListType dataList;
-        private final WChoosedLine choosedLine;
+        private final WSize wSize;
         private final IVModelData vData;
+        private final PersistTypeEnum persistTypeEnum;
 
         SlotSignalContext(SlotType slType, String changedValue,
                 IValidateError validateError, IGWidget gwtWidget,
-                DataListType dataList, WChoosedLine choosedLine,
-                IVModelData vData) {
+                DataListType dataList, WSize wSize, IVModelData vData,
+                PersistTypeEnum persistTypeEnum) {
             this.slType = slType;
             this.changedValue = changedValue;
             this.validateError = validateError;
             this.gwtWidget = gwtWidget;
             this.dataList = dataList;
-            this.choosedLine = choosedLine;
+            this.wSize = wSize;
             this.vData = vData;
+            this.persistTypeEnum = persistTypeEnum;
         }
 
         public IVModelData getVData() {
             return vData;
         }
 
-        public WChoosedLine getChoosedLine() {
-            return choosedLine;
-        }
+        // public WChoosedLine getChoosedLine() {
+        // return choosedLine;
+        // }
 
         public SlotType getSlType() {
             return slType;
@@ -70,42 +74,58 @@ public class SlotSignalContextFactory {
             return dataList;
         }
 
+        public WSize getWSize() {
+            return wSize;
+        }
+
+        public PersistTypeEnum getPersistType() {
+            return persistTypeEnum;
+
+        }
+
     }
 
     public ISlotSignalContext construct(SlotType slType, DataListType dataList) {
         return new SlotSignalContext(slType, null, null, null, dataList, null,
-                null);
+                null, null);
     }
 
-    public ISlotSignalContext construct(SlotType slType, DataListType dataList,
-            WChoosedLine choosedLine) {
-        return new SlotSignalContext(slType, null, null, null, dataList,
-                choosedLine, null);
+    public ISlotSignalContext construct(SlotType slType, IVModelData vData,
+            WSize wSize) {
+        return new SlotSignalContext(slType, null, null, null, null, wSize,
+                vData, null);
     }
 
     public ISlotSignalContext construct(SlotType slType) {
-        return new SlotSignalContext(slType, null, null, null, null, null, null);
+        return new SlotSignalContext(slType, null, null, null, null, null,
+                null, null);
+    }
+
+    public ISlotSignalContext construct(SlotType slType,
+            PersistTypeEnum persistTypeEnum) {
+        return new SlotSignalContext(slType, null, null, null, null, null,
+                null, persistTypeEnum);
     }
 
     public ISlotSignalContext construct(SlotType slType, IGWidget gwtWidget) {
         return new SlotSignalContext(slType, null, null, gwtWidget, null, null,
-                null);
+                null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IVModelData vData) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                vData);
+                vData, null);
     }
-    
+
     public ISlotSignalContext construct(SlotType slType, IValidateError vError) {
         return new SlotSignalContext(slType, null, vError, null, null, null,
-                null);
+                null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             ISlotSignalContext iSlot) {
         return new SlotSignalContext(slType, iSlot.getChangedValue(), iSlot
                 .getValidateError(), iSlot.getGwtWidget(), iSlot.getDataList(),
-                iSlot.getChoosedLine(), iSlot.getVData());
+                iSlot.getWSize(), iSlot.getVData(), iSlot.getPersistType());
     }
 }

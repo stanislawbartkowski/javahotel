@@ -15,7 +15,8 @@ package com.gwtmodel.table.slotmodel;
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.WSize;
 
 public interface ISlotSignalContext {
 
@@ -29,7 +30,9 @@ public interface ISlotSignalContext {
 
     DataListType getDataList();
     
-    WChoosedLine getChoosedLine();
+    WSize getWSize();
     
     IVModelData getVData();
+    
+    PersistTypeEnum getPersistType();
 }

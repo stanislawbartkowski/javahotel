@@ -17,7 +17,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 
 public interface ISlotMediator extends  ISlotable {
     
-    void registerSlotContainer(ISlotable iSLo);
+    void registerSlotContainer(int cellId, ISlotable iSLo);
     
     
 }
