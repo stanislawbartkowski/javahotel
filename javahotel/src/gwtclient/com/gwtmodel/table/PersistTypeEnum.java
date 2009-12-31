@@ -10,24 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.datamodelview;
+package com.gwtmodel.table;
 
-import com.google.inject.Inject;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.view.form.GwtFormViewFactory;
-
-public class DataViewModelFactory {
-
-    private final GwtFormViewFactory gFactory;
-
-    @Inject
-    public DataViewModelFactory(GwtFormViewFactory gFactory) {
-        this.gFactory = gFactory;
-    }
-
-    public IDataViewModel construct(IDataType dType, FormLineContainer fContainer) {
-        return new DataViewModel(gFactory, dType, fContainer);
-    }
+public enum PersistTypeEnum {
+    
+    ADD, MODIF, REMOVE
 
 }

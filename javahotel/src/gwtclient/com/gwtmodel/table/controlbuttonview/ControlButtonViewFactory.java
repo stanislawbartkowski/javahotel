@@ -16,9 +16,8 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 
 public class ControlButtonViewFactory {
 
-    public IControlButtonView construct(int cellId,
-            ListOfControlDesc listButton) {
-        return new ControlButtonView(cellId, listButton);
+    public IControlButtonView construct(ListOfControlDesc listButton) {
+        return new ControlButtonView(listButton);
     }
 
 }

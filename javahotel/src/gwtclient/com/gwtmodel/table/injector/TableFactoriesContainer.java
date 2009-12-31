@@ -15,6 +15,7 @@ package com.gwtmodel.table.injector;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
@@ -26,6 +27,7 @@ public class TableFactoriesContainer implements ITableAbstractFactories {
     private IHeaderListFactory iheFactory;
     private IDataModelFactory iDataModelFactory;
     private IDataValidateActionFactory iDataValidateFactory;
+    private IGetViewControllerFactory iViewFactory;
 
     public IFormDefFactory getFormDefFactory() {
         return iFormDefFactory;
@@ -67,7 +69,15 @@ public class TableFactoriesContainer implements ITableAbstractFactories {
     public void registerDataValidateActionFactory(
             IDataValidateActionFactory iDataValidateFactory) {
         this.iDataValidateFactory = iDataValidateFactory;
+    }
 
+    public void registerGetViewControllerFactory(
+            IGetViewControllerFactory iViewFactory) {
+        this.iViewFactory = iViewFactory;
+    }
+
+    public IGetViewControllerFactory getGetViewControllerFactory() {
+        return iViewFactory;
     }
 
 }

@@ -17,7 +17,6 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
-import com.gwtmodel.table.slotmodel.SlotPublisherType;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
@@ -31,25 +30,26 @@ class ControlButtonView extends AbstractSlotContainer implements
     private class Click implements IControlClick {
 
         public void click(ControlButtonDesc co, Widget w) {
-            SlotType slType = slTypeFactory.construct(co
-                    .getActionId());
-            SlotPublisherType slPublisher = slContainer.findPublisher(slType);
-//            slSignalContext.signal(slPublisher,new GWidget(w));
-            publish(slPublisher,new GWidget(w));
+            // SlotType slType = slTypeFactory.construct(co
+            // .getActionId());
+            // SlotPublisherType slPublisher =
+            // slContainer.findPublisher(slType);
+            // slSignalContext.signal(slPublisher,new GWidget(w));
+            publish(co.getActionId(), new GWidget(w));
         }
     }
 
-    ControlButtonView(int cellId, ListOfControlDesc listButton) {
+    ControlButtonView(ListOfControlDesc listButton) {
         vButton = ContrButtonViewFactory.getView(listButton, new Click());
         // create publishers
-        for (ControlButtonDesc bu : listButton.getcList()) {
-            registerPublisher(bu.getActionId());
-        }
-        registerPublisher(cellId);
+        // for (ControlButtonDesc bu : listButton.getcList()) {
+        // registerPublisher(bu.getActionId());
+        // }
+        // registerPublisher(cellId);
     }
 
-    public void startPublish() {
-        publish(vButton);
+    public void startPublish(int cellId) {
+        publish(cellId, vButton);
     }
 
 }

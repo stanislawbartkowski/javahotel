@@ -14,13 +14,10 @@ package com.gwtmodel.table.slotmodel;
 
 public enum GetActionEnum {
 
-    /** Get data model (not persisted). */
-    ModelVData,
+    /** returns IVModelData + WSIze . */ 
+    GetListLineChecked,
     
-    /** Get data mode (to persist) */
-    ModelVDataPersist,
-
-    /** Get list data (datalist,choosed,size). */
-    GetListData,
-
+    /** return IVModelData. */
+    GetViewModelEdited,
+        
 }

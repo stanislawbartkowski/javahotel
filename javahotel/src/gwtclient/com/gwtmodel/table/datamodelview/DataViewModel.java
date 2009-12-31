@@ -15,15 +15,14 @@ package com.gwtmodel.table.datamodelview;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ValidateActionType;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
 
@@ -31,18 +30,25 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private final FormLineContainer fContainer;
     private final IGwtFormView gView;
-    private final IDataType dType;
-    private final TableFactoriesContainer tContainer;
+ //   private final IDataType dType;
+//    private final TableFactoriesContainer tContainer;
+//    private final int cellId;
+
+    private class DrawModel implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            IVModelData mData = slContext.getVData();
+            fromDataToView(mData);
+        }
+
+    }
 
     private class GetterModel implements ISlotCaller {
 
-        GetterModel() {
-        }
-
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            IVModelData mData = tContainer.getDataModelFactory().construct(dType);
+            IVModelData mData = slContext.getVData();
             fromViewToData(mData);
-            return slSignalContext.returngetter(slContext, mData);
+            return slContext;
         }
 
     }
@@ -57,35 +63,37 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     }
 
-    DataViewModel(TableFactoriesContainer tContainer,
-            GwtFormViewFactory gFactory, IDataType dType, int cellId,
-            FormLineContainer fContainer) {
-        this.tContainer = tContainer;
+    DataViewModel(GwtFormViewFactory gFactory, IDataType dType, FormLineContainer fContainer) {
+ //       this.tContainer = tContainer;
         this.fContainer = fContainer;
-        this.dType = dType;
+//        this.dType = dType;
+//        this.cellId = cellId;
         gView = gFactory.construct(fContainer);
-        registerPublisher(cellId);
-        registerSubscriber(ValidateActionType.ValidateActionEnum.ValidatonFailed, dType,
+        // registerPublisher(cellId);
+        registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
                 new InvalidateMess());
-        registerCaller(GetActionEnum.ModelVData, dType, new GetterModel());
+        registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
+                new DrawModel());
+        registerCaller(GetActionEnum.GetViewModelEdited, dType,
+                new GetterModel());
     }
 
-    public void fromViewToData(IVModelData aTo) {
+    private void fromViewToData(IVModelData aTo) {
         for (FormField d : fContainer.getfList()) {
             String s = d.getELine().getVal();
             aTo.setS(d.getFie(), s);
         }
     }
 
-    public void fromDataToView(IVModelData aFrom) {
+    private void fromDataToView(IVModelData aFrom) {
         for (FormField d : fContainer.getfList()) {
             String s = aFrom.getS(d.getFie());
             d.getELine().setVal(s);
         }
     }
 
-    public void startPublish() {
-        publish(gView);
+    public void startPublish(int cellId) {
+        publish(cellId, gView);
     }
 
 }

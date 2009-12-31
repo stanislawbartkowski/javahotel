@@ -24,8 +24,8 @@ public class PanelViewFactory {
         this.gPanelViewFactory = gPanelViewFactory;
     }
 
-    public IPanelView construct(int panelCellId, int firstToUse) {
-        return new PanelView(gPanelViewFactory, panelCellId, firstToUse);
+    public IPanelView construct(int firstToUse) {
+        return new PanelView(gPanelViewFactory, firstToUse);
     }
 
 }

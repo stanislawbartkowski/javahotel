@@ -16,14 +16,17 @@ import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+//import com.gwtmodel.table.slotmodel.SlotSignalContextFactory.SlotSignalContext;
 
 abstract public class AbstractSlotContainer implements ISlotable {
 
     protected final SlotListContainer slContainer;
     protected SlotPublisherType slCallBackWidget;
     protected final SlotTypeFactory slTypeFactory;
-    protected final SlotSignalContext slSignalContext;
+    private final SlotSignalContext slSignalContext;
     private final SlotSignalContextFactory slContextFactory;
 
     protected AbstractSlotContainer() {
@@ -37,67 +40,89 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContainer;
     }
 
-    protected void registerPublisher(int cellId) {
-        slCallBackWidget = slContainer.registerPublisher(cellId);
-    }
+    // protected void registerPublisher(int cellId) {
+    // slCallBackWidget = slContainer.registerPublisher(cellId);
+    // }
 
-    protected SlotPublisherType registerPublisher(SlotType slType) {
-        return slContainer.registerPublisher(slType);
-    }
-
-    protected SlotPublisherType registerPublisher(
-            ValidateActionType.ValidateActionEnum vEnum, IDataType dType) {
-        return slContainer.registerPublisher(vEnum, dType);
-    }
-
-    protected SlotPublisherType registerPublisher(ClickButtonType bType) {
-        return slContainer.registerPublisher(bType);
-    }
-
-    protected SlotPublisherType registerPublisher(PersistEventEnum pEnum,
-            IDataType dType) {
-        return slContainer.registerPublisher(pEnum, dType);
-    }
-
-    protected SlotPublisherType registerPublisher(
-            ValidateActionType.ValidateActionEnum vEnum,
-            ValidateActionType.ValidateType vType, IDataType dType) {
-        return slContainer.registerPublisher(vEnum, vType, dType);
-    }
-
-    protected void findAndPublish(SlotType slType) {
-        SlotPublisherType slPublisher = slContainer.findPublisher(slType);
-        publish(slPublisher);        
+    // protected SlotPublisherType registerPublisher(SlotType slType) {
+    // return slContainer.registerPublisher(slType);
+    // }
+    //
+    // protected SlotPublisherType registerPublisher(
+    // ValidateActionType.ValidateActionEnum vEnum, IDataType dType) {
+    // return slContainer.registerPublisher(vEnum, dType);
+    // }
+    //
+    // protected SlotPublisherType registerPublisher(ClickButtonType bType) {
+    // return slContainer.registerPublisher(bType);
+    // }
+    //
+    // protected SlotPublisherType registerPublisher(PersistEventEnum pEnum,
+    // IDataType dType) {
+    // return slContainer.registerPublisher(pEnum, dType);
+    // }
+    //
+    // protected SlotPublisherType registerPublisher(
+    // ValidateActionType.ValidateActionEnum vEnum,
+    // ValidateActionType.ValidateType vType, IDataType dType) {
+    // return slContainer.registerPublisher(vEnum, vType, dType);
+    // }
+    //
+    // protected void findAndPublish(SlotType slType) {
+    // SlotPublisherType slPublisher = slContainer.findPublisher(slType);
+    // publish(slPublisher);
+    // }
+    //    
+    // protected void findAndPublish(SlotType slType,DataListType dataList) {
+    // SlotPublisherType slPublisher = slContainer.findPublisher(slType);
+    // slContainer.publish(slPublisher,dataList);
+    // }
+    //    
+    // protected void findAndPublish(PersistEventEnum eNum, IDataType dType) {
+    // findAndPublish(slTypeFactory.construct(eNum,dType));
+    // }
+    //    
+    // protected void findAndPublish(PersistEventEnum eNum, IDataType dType,
+    // DataListType dataList) {
+    // findAndPublish(slTypeFactory.construct(eNum,dType),dataList);
+    // }
+    //    
+    
+    protected void publish(ISlotSignalContext slContext) {
+        slContainer.publish(slContext);
     }
     
-    protected void findAndPublish(SlotType slType,DataListType dataList) {
-        SlotPublisherType slPublisher = slContainer.findPublisher(slType);
-        slContainer.publish(slPublisher,dataList);        
+    protected void publish(int cellId, IGWidget gwtWidget) {
+        slContainer.publish(cellId, gwtWidget);
     }
     
-    protected void findAndPublish(PersistEventEnum eNum, IDataType dType) {
-        findAndPublish(slTypeFactory.construct(eNum,dType));
+    protected void publish(DataActionEnum dataActionEnum,IDataType dType, PersistTypeEnum persistTypeEnum) {
+        slContainer.publish(dataActionEnum, dType, persistTypeEnum);        
     }
     
-    protected void findAndPublish(PersistEventEnum eNum, IDataType dType, DataListType dataList) {
-        findAndPublish(slTypeFactory.construct(eNum,dType),dataList);
+    protected void publish(ClickButtonType bType,IGWidget gwtWidget) {
+        slContainer.publish(bType, gwtWidget);
     }
     
-    protected void publish(IGWidget gwtWidget) {
-        slContainer.publish(slCallBackWidget, gwtWidget);
+    public void publish(DataActionEnum dataActionEnum,IDataType dType) {
+        slContainer.publish(dataActionEnum,dType);
     }
 
-    protected void publish(SlotPublisherType slPublisher) {
-        slContainer.publish(slPublisher);
-    }
 
-    protected void publish(SlotPublisherType slPublisher, IGWidget gwtWidget) {
-        slContainer.publish(slPublisher, gwtWidget);
-    }
 
-    protected void publish(SlotPublisherType slPublisher, IValidateError vError) {
-        slContainer.publish(slPublisher, vError);
-    }
+    // protected void publish(SlotPublisherType slPublisher) {
+    // slContainer.publish(slPublisher);
+    // }
+    //
+    // protected void publish(SlotPublisherType slPublisher, IGWidget gwtWidget)
+    // {
+    // slContainer.publish(slPublisher, gwtWidget);
+    // }
+    //
+    // protected void publish(SlotPublisherType slPublisher, IValidateError
+    // vError) {
+    // slContainer.publish(slPublisher, vError);
+    // }
 
     protected void registerSubscriber(SlotType slType,
             ISlotSignaller slSignaller) {
@@ -109,50 +134,63 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerSubscriber(eClick, slSignaller);
     }
 
-    protected void registerSubscriber(ValidateActionType vEnum,
+    protected void registerSubscriber(DataActionEnum dataActionEnum,
             IDataType dType, ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(vEnum, dType, slSignaller);
+        slContainer.registerSubscriber(dataActionEnum, dType, slSignaller);
     }
 
-    protected void registerSubscriber(
-            ValidateActionType.ValidateActionEnum vEnum,
-            ValidateActionType.ValidateType vType, IDataType dType,
-            ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(vEnum, vType, dType, slSignaller);
-    }
-
-    protected void registerSubscriber(
-            ValidateActionType.ValidateActionEnum vEnum, IDataType dType,
-            ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(vEnum, dType, slSignaller);
-    }
+    //
+    // protected void registerSubscriber(
+    // ValidateActionType.ValidateActionEnum vEnum,
+    // ValidateActionType.ValidateType vType, IDataType dType,
+    // ISlotSignaller slSignaller) {
+    // slContainer.registerSubscriber(vEnum, vType, dType, slSignaller);
+    // }
+    //
+    // protected void registerSubscriber(
+    // ValidateActionType.ValidateActionEnum vEnum, IDataType dType,
+    // ISlotSignaller slSignaller) {
+    // slContainer.registerSubscriber(vEnum, dType, slSignaller);
+    // }
 
     protected void registerSubscriber(int cellId, ISlotSignaller slSignaller) {
         slContainer.registerSubscriber(cellId, slSignaller);
     }
 
-    protected void registerSubscriber(PersistEventEnum pEnum, IDataType dType,
-            ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(pEnum, dType, slSignaller);
-    }
+    // protected void registerSubscriber(PersistEventEnum pEnum, IDataType
+    // dType,
+    // ISlotSignaller slSignaller) {
+    // slContainer.registerSubscriber(pEnum, dType, slSignaller);
+    // }
 
     protected void registerCaller(GetActionEnum gEnum, IDataType dType,
             ISlotCaller slCaller) {
         slContainer.registerCaller(gEnum, dType, slCaller);
     }
 
-    protected ISlotSignalContext callGetterList(IDataType dType) {
-        return slContainer.callGetterList(dType);
+    // protected ISlotSignalContext callGetterList(IDataType dType) {
+    // return slContainer.callGetterList(dType);
+    // }
+
+    //protected IVModelData callGetterModelData(GetActionEnum eNum,
+//            IDataType dType) {
+//        return slContainer.callGetterModelData(eNum, dType);
+//    }
+    
+    protected ISlotSignalContext construct(GetActionEnum getActionEnum, IDataType dType,
+            IVModelData vData, WSize wSize) {
+        return slContainer.setGetter(getActionEnum, dType, vData, wSize);
     }
 
-    protected IVModelData callGetterModelData(GetActionEnum eNum,
-            IDataType dType) {
-        return slContainer.callGetterModelData(eNum, dType);
-    }
 
     protected ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
         return slContextFactory.construct(slType, iSlot);
     }
+    
+    public ISlotSignalContext getGetterContext(GetActionEnum getActionEnum, IDataType dType) {
+        return slContainer.getGetterContext(getActionEnum, dType);
+    }
+
 
 }

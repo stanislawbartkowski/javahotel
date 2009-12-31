@@ -21,8 +21,6 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.panel.IGwtPanelView;
 import com.gwtmodel.table.view.panel.PanelRowDesc;
@@ -53,11 +51,11 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     private IGwtPanelView pView;
     private final GwtPanelViewFactory gFactory;
 
-    PanelView(GwtPanelViewFactory gFactory, int panelCellId, int firstToUse) {
+    PanelView(GwtPanelViewFactory gFactory, int firstToUse) {
         this.nextToUse = firstToUse;
         this.gFactory = gFactory;
         // create publisher
-        registerPublisher(panelCellId);
+//        registerPublisher(panelCellId);
     }
 
     public int addCellPanel(int row, int col) {
@@ -103,8 +101,8 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         // create publisher
     }
 
-    public void startPublish() {
-        publish(pView);
+    public void startPublish(int cellId) {
+        publish(cellId, pView);
     }
 
 }

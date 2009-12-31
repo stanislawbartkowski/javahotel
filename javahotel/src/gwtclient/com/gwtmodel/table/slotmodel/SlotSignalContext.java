@@ -27,29 +27,29 @@ public class SlotSignalContext {
         this.slContextFactory = slContextFactory;
     }
 
-    public void signal(SlotPublisherType slPublisher, DataListType dataList) {
-        ISlotSignalContext slContext = slContextFactory.construct(slPublisher
-                .getSlType(), dataList);
-        slPublisher.getSlRegisterSubscriber().signal(slContext);
-    }
-
-    public void signal(SlotPublisherType slPublisher, IGWidget gwtWidget) {
-        ISlotSignalContext slContext = slContextFactory.construct(slPublisher
-                .getSlType(), gwtWidget);
-        slPublisher.getSlRegisterSubscriber().signal(slContext);
-    }
-
-    public void signal(SlotPublisherType slPublisher, IValidateError vError) {
-        ISlotSignalContext slContext = slContextFactory.construct(slPublisher
-                .getSlType(), vError);
-        slPublisher.getSlRegisterSubscriber().signal(slContext);
-    }
-
-    public void signal(SlotPublisherType slPublisher) {
-        ISlotSignalContext slContext = slContextFactory.construct(slPublisher
-                .getSlType());
-        slPublisher.getSlRegisterSubscriber().signal(slContext);
-    }
+//    public void signal(ISlotSignaller slPublisher, DataListType dataList) {
+//        ISlotSignalContext slContext = slContextFactory.construct(slPublisher
+//                .getSlType(), dataList);
+//        slPublisher.getSlRegisterSubscriber().signal(slContext);
+//    }
+//
+//    public void signal(SlotPublisherType slPublisher, IGWidget gwtWidget) {
+//        ISlotSignalContext slContext = slContextFactory.construct(slPublisher
+//                .getSlType(), gwtWidget);
+//        slPublisher.getSlRegisterSubscriber().signal(slContext);
+//    }
+//
+//    public void signal(SlotPublisherType slPublisher, IValidateError vError) {
+//        ISlotSignalContext slContext = slContextFactory.construct(slPublisher
+//                .getSlType(), vError);
+//        slPublisher.getSlRegisterSubscriber().signal(slContext);
+//    }
+//
+//    public void signal(SlotPublisherType slPublisher) {
+//        ISlotSignalContext slContext = slContextFactory.construct(slPublisher
+//                .getSlType());
+//        slPublisher.getSlRegisterSubscriber().signal(slContext);
+//    }
 
     public void signal(SlotSubscriberType slPublisher) {
         ISlotSignalContext slContext = slContextFactory.construct(slPublisher
@@ -57,12 +57,12 @@ public class SlotSignalContext {
         slPublisher.getSlSignaller().signal(slContext);
     }
 
-    public ISlotSignalContext returngetter(ISlotSignalContext slContext,
-            DataListType dataList, WChoosedLine choosedLine) {
-        ISlotSignalContext sl = slContextFactory.construct(slContext
-                .getSlType(), dataList, choosedLine);
-        return sl;
-    }
+//    public ISlotSignalContext returngetter(ISlotSignalContext slContext,
+//            DataListType dataList, WChoosedLine choosedLine) {
+//        ISlotSignalContext sl = slContextFactory.construct(slContext
+//                .getSlType(), dataList, choosedLine);
+//        return sl;
+//    }
 
     public ISlotSignalContext returngetter(ISlotSignalContext slContext,
             IVModelData vData) {

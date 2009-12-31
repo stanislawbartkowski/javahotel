@@ -15,13 +15,14 @@ package com.gwtmodel.table.listdataview;
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.PersistEventEnum;
-import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
@@ -32,6 +33,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private final VListHeaderContainer heList;
     private DataListType dataList;
     private final IGwtTableView tableView;
+  //  private final int cellId;
+    private final IDataType dType;
 
     private class GwtTableView implements IGwtTableModel {
 
@@ -59,28 +62,33 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private class GetListData implements ISlotCaller {
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            return slSignalContext.returngetter(slContext, dataList, tableView
-                    .getClicked());
+            WChoosedLine w = tableView.getClicked();
+            WSize wSize = null;
+            IVModelData vData = null;
+            if (w.isChoosed()) {
+                wSize = w.getwSize();
+                vData = dataList.getRow(w.getChoosedLine());
+            }
+            return construct(GetActionEnum.GetListLineChecked, dType, vData,
+                    wSize);
         }
 
     }
 
-    ListDataView(GwtTableFactory gFactory, IDataType dType, int cellId,
-            VListHeaderContainer heList) {
+    ListDataView(GwtTableFactory gFactory, IDataType dType, VListHeaderContainer heList) {
         this.heList = heList;
+//        this.cellId = cellId;
+        this.dType = dType;
         tableView = gFactory.construct(new GwtTableView());
-        // publisher
-        registerPublisher(cellId);
         // subscriber
-//        SlotType slType = slTypeFactory.construct(PersistEventEnum.ReadListSuccess,
-//                dType);
-        registerSubscriber(PersistEventEnum.ReadListSuccess, dType, new DrawList());
+        registerSubscriber(DataActionEnum.DrawListAction, dType, new DrawList());
         // caller
-        registerCaller(GetActionEnum.GetListData, dType, new GetListData());
+        registerCaller(GetActionEnum.GetListLineChecked, dType,
+                new GetListData());
     }
 
-    public void startPublish() {
-        publish(tableView);
+    public void startPublish(int cellId) {
+        publish(cellId, tableView);
     }
 
 }

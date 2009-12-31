@@ -25,10 +25,9 @@ import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.slotmodel.PersistEventEnum;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
-import com.gwtmodel.table.slotmodel.SlotSubscriberType;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 
@@ -37,46 +36,50 @@ class DisplayListControler implements IDataControler {
     private final int cellTableId;
     private final int controlId;
     private final ISlotMediator slMediator;
-    private final SlotSubscriberType startSl;
     private final TablesFactories tFactories;
+    private final IDataType dType;
 
     DisplayListControler(TablesFactories tFactories,
             TableFactoriesContainer fContainer, IDataType dType, int panelId,
-            int cellIdFirst, ListOfControlDesc listButton,
-            ISlotable cControler) {
+            int cellIdFirst, ListOfControlDesc listButton, ISlotable cControler) {
         this.tFactories = tFactories;
-        IDataPersistAction persistA = fContainer.getPersistFactoryAction().contruct(dType);
+        this.dType = dType;
+        IDataPersistAction persistA = fContainer.getPersistFactoryAction()
+                .contruct(dType);
         VListHeaderContainer heList = fContainer.getHeaderListFactory()
                 .getVListHeaderContainer(dType);
         // create panel View
         PanelViewFactory pViewFactory = tFactories.getpViewFactory();
-        IPanelView pView = pViewFactory.construct(panelId, cellIdFirst);
+        IPanelView pView = pViewFactory.construct(cellIdFirst);
         controlId = pView.addCellPanel(0, 0);
         cellTableId = pView.addCellPanel(1, 0);
         pView.createView();
         // persist layer
         // header list
         ListDataViewFactory lDataFactory = tFactories.getlDataFactory();
-        IListDataView daView = lDataFactory.construct(dType, cellTableId,
-                heList);
+        IListDataView daView = lDataFactory.construct(dType, heList);
         ControlButtonViewFactory bFactory = tFactories.getbViewFactory();
-        IControlButtonView bView = bFactory.construct(controlId, listButton);
+        IControlButtonView bView = bFactory.construct(listButton);
         slMediator = SlotMediatorFactory.construct();
 
-        slMediator.registerSlotContainer(pView);
-        slMediator.registerSlotContainer(persistA);
-        slMediator.registerSlotContainer(daView);
-        slMediator.registerSlotContainer(bView);
-        slMediator.registerSlotContainer(cControler);
+        slMediator.registerSlotContainer(panelId, pView);
+        slMediator.registerSlotContainer(-1, persistA);
+        slMediator.registerSlotContainer(cellTableId, daView);
+        slMediator.registerSlotContainer(controlId, bView);
+        slMediator.registerSlotContainer(-1, cControler);
 
-        SlotType slType = tFactories.getSlTypeFactory().construct(
-                PersistEventEnum.ReadList, dType);
-        startSl = persistA.getSlContainer().findSubscriber(slType);
+        // SlotType slType = tFactories.getSlTypeFactory().construct(
+        // PersistEventEnum.ReadList, dType);
+        // startSl = persistA.getSlContainer().findSubscriber(slType);
     }
 
-    public void startPublish() {
-        slMediator.startPublish();
-        tFactories.getSlSignalContext().signal(startSl);
+    public void startPublish(int cellId) {
+        slMediator.startPublish(cellId);
+        SlotType slType = tFactories.getSlTypeFactory().construct(DataActionEnum.ReadListAction,
+                dType);
+        slMediator.getSlContainer().publish(slType);
+        slMediator.getSlContainer().registerRedirector(slType,tFactories.getSlTypeFactory().construct(DataActionEnum.DrawListAction,dType));
+        // tFactories.getSlSignalContext().signal(startSl);
     }
 
     public SlotListContainer getSlContainer() {

@@ -14,28 +14,28 @@ package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.injector.GwtGiniInjector;
 
-public class SlotPublisherType {
+class SlotPublisherType {
 
     private final SlotType slType;
     private final SlotRegisterSubscriber slRegisterSubscriber;
     private final SlotSignalContextFactory slContextFactory;
 
-    SlotPublisherType(SlotType slType,
+    private SlotPublisherType(SlotType slType,
             SlotRegisterSubscriber slRegisterSubscriber) {
         this.slType = slType;
         this.slRegisterSubscriber = slRegisterSubscriber;
         slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
     }
 
-    public SlotType getSlType() {
+    private SlotType getSlType() {
         return slType;
     }
 
-    public SlotRegisterSubscriber getSlRegisterSubscriber() {
+    private SlotRegisterSubscriber getSlRegisterSubscriber() {
         return slRegisterSubscriber;
     }
     
-    public void signal(ISlotSignalContext slContextP) {
+    private void signal(ISlotSignalContext slContextP) {
         ISlotSignalContext slContext = slContextFactory.construct(slType, slContextP); 
         slRegisterSubscriber.signal(slContext);
     }

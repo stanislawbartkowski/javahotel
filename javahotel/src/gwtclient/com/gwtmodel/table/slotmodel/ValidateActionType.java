@@ -12,9 +12,9 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-public class ValidateActionType {
+class ValidateActionType {
 
-    public enum ValidateActionEnum {
+    private enum ValidateActionEnum {
 
         /** Sent to validate date. */
         Validate,
@@ -27,32 +27,32 @@ public class ValidateActionType {
 
     };
 
-    public enum ValidateType {
+    private enum ValidateType {
         ADD, MODIF, REMOVE, NOTHING
     };
 
     private final ValidateActionEnum vAction;
     private final ValidateType vType;
 
-    public ValidateActionType(ValidateActionEnum vAction) {
+    private ValidateActionType(ValidateActionEnum vAction) {
         this.vAction = vAction;
         this.vType = ValidateType.NOTHING;
     }
 
-    public ValidateActionType(ValidateActionEnum vAction, ValidateType vType) {
+    private ValidateActionType(ValidateActionEnum vAction, ValidateType vType) {
         this.vAction = vAction;
         this.vType = vType;
     }
 
-    public ValidateActionEnum getvAction() {
+    private ValidateActionEnum getvAction() {
         return vAction;
     }
 
-    public ValidateType getvType() {
+    private ValidateType getvType() {
         return vType;
     }
 
-    boolean eq(ValidateActionType v) {
+    private boolean eq(ValidateActionType v) {
         if (vAction != v.vAction) {
             return false;
         }

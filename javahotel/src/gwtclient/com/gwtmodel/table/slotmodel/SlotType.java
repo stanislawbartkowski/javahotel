@@ -21,6 +21,12 @@ public class SlotType {
 
     /** Slot event type. */
     private final SlotEventEnum slEnum;
+    
+    private final DataActionEnum dataActionEnum;
+
+    public DataActionEnum getDataActionEnum() {
+        return dataActionEnum;
+    }
 
     public SlotEventEnum getSlEnum() {
         return slEnum;
@@ -34,9 +40,9 @@ public class SlotType {
         return buttonClick;
     }
 
-    public PersistEventEnum getListEvEnum() {
-        return listEvEnum;
-    }
+//    public PersistEventEnum getListEvEnum() {
+//        return listEvEnum;
+//    }
 
     public List<SlotType> getSlList() {
         return slList;
@@ -49,7 +55,7 @@ public class SlotType {
     private final ClickButtonType buttonClick;
 
     /** List event (ListRefreshAftgerEvent). */
-    private final PersistEventEnum listEvEnum;
+  //  private final PersistEventEnum listEvEnum;
 
     /** Composite slot */
     private final List<SlotType> slList;
@@ -61,7 +67,7 @@ public class SlotType {
     private final IDataType dType;
 
     /** Validate action. */
-    private final ValidateActionType vEnum;
+//    private final ValidateActionType vEnum;
 
     /** Getter. */
     private final GetActionEnum gEnum;
@@ -73,18 +79,25 @@ public class SlotType {
         switch (slEnum) {
         case CallBackWidget:
             return cellId == slType.cellId;
-        case PersistSignal:
-            if (listEvEnum != slType.listEvEnum) {
-                return false;
-            }
-            return dType.eq(slType.dType);
+//        case PersistSignal:
+//            if (listEvEnum != slType.listEvEnum) {
+//                return false;
+//            }
+//            return dType.eq(slType.dType);
         case ClickButton:
             return buttonClick.eq(slType.buttonClick);
-        case ValidateAction:
-            if (!vEnum.eq(slType.vEnum)) {
-                return false;
+        case DataAction:
+            if (dataActionEnum != slType.dataActionEnum) { return false; }
+            if (dType == null) {
+                return slType.dType == null;
             }
+            if (slType.dType == null) { return false; }
             return dType.eq(slType.dType);
+//        case ValidateAction:
+//            if (!vEnum.eq(slType.vEnum)) {
+//                return false;
+//            }
+//            return dType.eq(slType.dType);
         case GetterCaller:
             if (gEnum != slType.gEnum) {
                 return false;
@@ -94,25 +107,24 @@ public class SlotType {
         return true;
     }
 
-    public ValidateActionType getvEnum() {
-        return vEnum;
-    }
+//    public ValidateActionType getvEnum() {
+//        return vEnum;
+//    }
 
     public GetActionEnum getgEnum() {
         return gEnum;
     }
 
     SlotType(SlotEventEnum slEnum, IVField fie, ClickButtonType buttonClick,
-            PersistEventEnum listEvEnum, List<SlotType> slList, int cellId,
-            IDataType dType, ValidateActionType vEnum, GetActionEnum gEnum) {
+            DataActionEnum dataActionEnum, List<SlotType> slList, int cellId,
+            IDataType dType, GetActionEnum gEnum) {
         this.slEnum = slEnum;
         this.fie = fie;
         this.buttonClick = buttonClick;
-        this.listEvEnum = listEvEnum;
+        this.dataActionEnum = dataActionEnum;
         this.slList = slList;
         this.cellId = cellId;
         this.dType = dType;
-        this.vEnum = vEnum;
         this.gEnum = gEnum;
     }
 

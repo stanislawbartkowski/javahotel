@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-public enum PersistEventEnum {
+enum PersistEventEnum {
 
     /** Add item. */
     AddItem,

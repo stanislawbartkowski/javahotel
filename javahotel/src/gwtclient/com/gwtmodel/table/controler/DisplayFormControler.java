@@ -34,55 +34,65 @@ import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 class DisplayFormControler implements ISlotable {
 
-    private final int formId;
-    private final int coId;
-    private final ISlotMediator slMediator;
-
-    DisplayFormControler(TablesFactories tFactories,
-            TableFactoriesContainer fContainer, FormLineContainer lContainer,
-            ListOfControlDesc listButton, IDataType dType, int panelId,
-            int cellIdFirst, IVModelData vData,
-            ClickButtonType.StandClickEnum eAction) {
-        PanelViewFactory pViewFactory = tFactories.getpViewFactory();
-        IPanelView pView = pViewFactory.construct(panelId, cellIdFirst);
-        formId = pView.addCellPanel(0, 0);
-        coId = pView.addCellPanel(1, 0);
-        pView.createView();
-        DataViewModelFactory dFactory = tFactories.getdViewFactory();
-        IDataViewModel vModel = dFactory.construct(dType, formId, lContainer);
-        IDataValidateAction vAction = fContainer.getDataValidateFactory()
-                .construct(dType);
-        for (FormField fie : lContainer.getfList()) {
-            IFormLineView vie = fie.getELine();
-            switch (eAction) {
-            case ADDITEM:
-                break;
-            case MODIFITEM:
-                if (fie.isReadOnlyIfModif()) {
-                    vie.setReadOnly(true);
-                }
-                break;
-            case REMOVEITEM:
-                vie.setReadOnly(true);
-                break;
-            }
-        }
-        IControlButtonView cView = tFactories.getbViewFactory().construct(coId,
-                listButton);
-        vModel.fromDataToView(vData);
-        slMediator = SlotMediatorFactory.construct();
-        slMediator.registerSlotContainer(pView);
-        slMediator.registerSlotContainer(vModel);
-        slMediator.registerSlotContainer(cView);
-        slMediator.registerSlotContainer(vAction);
-    }
-
     public SlotListContainer getSlContainer() {
-        return slMediator.getSlContainer();
+        // TODO Auto-generated method stub
+        return null;
     }
 
-    public void startPublish() {
-        slMediator.startPublish();
+    public void startPublish(int cellId) {
+        // TODO Auto-generated method stub
+        
     }
+
+//    private final int formId;
+//    private final int coId;
+//    private final ISlotMediator slMediator;
+//
+//    DisplayFormControler(TablesFactories tFactories,
+//            TableFactoriesContainer fContainer, FormLineContainer lContainer,
+//            ListOfControlDesc listButton, IDataType dType, int panelId,
+//            int cellIdFirst, IVModelData vData,
+//            ClickButtonType.StandClickEnum eAction) {
+//        PanelViewFactory pViewFactory = tFactories.getpViewFactory();
+//        IPanelView pView = pViewFactory.construct(cellIdFirst);
+//        formId = pView.addCellPanel(0, 0);
+//        coId = pView.addCellPanel(1, 0);
+//        pView.createView();
+//        DataViewModelFactory dFactory = tFactories.getdViewFactory();
+//        IDataViewModel vModel = dFactory.construct(dType, formId, lContainer);
+//        IDataValidateAction vAction = fContainer.getDataValidateFactory()
+//                .construct(dType);
+//        for (FormField fie : lContainer.getfList()) {
+//            IFormLineView vie = fie.getELine();
+//            switch (eAction) {
+//            case ADDITEM:
+//                break;
+//            case MODIFITEM:
+//                if (fie.isReadOnlyIfModif()) {
+//                    vie.setReadOnly(true);
+//                }
+//                break;
+//            case REMOVEITEM:
+//                vie.setReadOnly(true);
+//                break;
+//            }
+//        }
+//        IControlButtonView cView = tFactories.getbViewFactory().construct(coId,
+//                listButton);
+//        vModel.fromDataToView(vData);
+//        slMediator = SlotMediatorFactory.construct();
+//        slMediator.registerSlotContainer(pView);
+//        slMediator.registerSlotContainer(vModel);
+//        slMediator.registerSlotContainer(cView);
+//        slMediator.registerSlotContainer(vAction);
+//    }
+//
+//    public SlotListContainer getSlContainer() {
+//        return slMediator.getSlContainer();
+//    }
+//
+//    public void startPublish() {
+//        slMediator.startPublish();
+//    }
 
 }
