@@ -16,25 +16,33 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 public class ComposeControllerType {
-    
+
     private final ISlotable iSlot;
     private final IDataType dType;
-    private final int row,cell;
-    
-    public ComposeControllerType(ISlotable iSlot, IDataType dType, int row, int cell) {
+    private final int row, cell;
+
+    public ComposeControllerType(ISlotable iSlot, IDataType dType, int row,
+            int cell) {
         this.iSlot = iSlot;
         this.dType = dType;
         this.row = row;
         this.cell = cell;
     }
-    
+
     public ComposeControllerType(ISlotable iSlot) {
         this.iSlot = iSlot;
         this.dType = null;
         this.row = -1;
         this.cell = -1;
     }
-    
+
+    public ComposeControllerType(ISlotable iSlot, IDataType dType) {
+        this.iSlot = iSlot;
+        this.dType = dType;
+        this.row = -1;
+        this.cell = -1;
+    }
+
     public boolean isPanelElem() {
         return row != -1;
     }

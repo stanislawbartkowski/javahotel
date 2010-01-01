@@ -16,16 +16,6 @@ import com.gwtmodel.table.IDataType;
 
 public class SlotTypeFactory {
 
-    // public SlotType construct(PersistEventEnum listEvEnum, IDataType dType) {
-    // return new SlotType(SlotEventEnum.PersistSignal, null, null, listEvEnum,
-    // null, -1, dType, null, null);
-    // }
-
-    // public SlotType construct(ValidateActionType vEnum, IDataType dType) {
-    // return new SlotType(SlotEventEnum.ValidateAction, null, null, null,
-    // null, -1, dType, vEnum, null);
-    // }
-
     public SlotType construct(DataActionEnum dataActionEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.DataAction, null, null,
                 dataActionEnum, null, -1, dType, null);

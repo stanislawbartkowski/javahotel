@@ -28,7 +28,6 @@ import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
-import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 class DisplayListControler implements IDataControler {
@@ -67,19 +66,22 @@ class DisplayListControler implements IDataControler {
         slMediator.registerSlotContainer(cellTableId, daView);
         slMediator.registerSlotContainer(controlId, bView);
         slMediator.registerSlotContainer(-1, cControler);
-
-        // SlotType slType = tFactories.getSlTypeFactory().construct(
-        // PersistEventEnum.ReadList, dType);
-        // startSl = persistA.getSlContainer().findSubscriber(slType);
     }
 
     public void startPublish(int cellId) {
         slMediator.startPublish(cellId);
-        SlotType slType = tFactories.getSlTypeFactory().construct(DataActionEnum.ReadListAction,
+        slMediator.getSlContainer().publish(DataActionEnum.ReadListAction,
                 dType);
-        slMediator.getSlContainer().publish(slType);
-        slMediator.getSlContainer().registerRedirector(slType,tFactories.getSlTypeFactory().construct(DataActionEnum.DrawListAction,dType));
-        // tFactories.getSlSignalContext().signal(startSl);
+        slMediator.getSlContainer().registerRedirector(
+                tFactories.getSlTypeFactory().construct(
+                        DataActionEnum.ListReadSuccessSignal, dType),
+                tFactories.getSlTypeFactory().construct(
+                        DataActionEnum.DrawListAction, dType));
+        slMediator.getSlContainer().registerRedirector(
+                tFactories.getSlTypeFactory().construct( 
+                        DataActionEnum.RefreshAfterPersistActionSignal, dType),
+                tFactories.getSlTypeFactory().construct(
+                        DataActionEnum.ReadListAction, dType));
     }
 
     public SlotListContainer getSlContainer() {

@@ -16,7 +16,6 @@ import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 
 public class SlotSignalContextFactory {
@@ -49,10 +48,6 @@ public class SlotSignalContextFactory {
         public IVModelData getVData() {
             return vData;
         }
-
-        // public WChoosedLine getChoosedLine() {
-        // return choosedLine;
-        // }
 
         public SlotType getSlType() {
             return slType;

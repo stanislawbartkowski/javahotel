@@ -15,10 +15,6 @@ package com.gwtmodel.table.datamodelview;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface IDataViewModel extends  ISlotable {
-    
-//    void fromDataToView(IVModelData aTo);
-//    
-//    void fromViewToData(IVModelData aTo);
+public interface IDataViewModel extends ISlotable {
 
 }

@@ -13,6 +13,8 @@
 package com.javahotel.nmvc.factories;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.javahotel.client.IResLocator;
@@ -43,18 +45,22 @@ public class RegisterFactories {
         this.aFactory = aFactory;
         this.valFactory = valFactory;
         this.pFactory = pFactory;
-
     }
 
     public void register() {
         FormDefFactory fa = new FormDefFactory(gFactory);
+        IDataModelFactory daFactory = new DataModelFactory(aFactory);
+        PersistFactoryAction peFactory = new PersistFactoryAction(rI,
+                pFactory, daFactory); 
+        IDataValidateActionFactory vFactory = new ValidateActionFactory(
+                valFactory, daFactory);
+        GetViewFactory getViewFactory = new GetViewFactory(fa,vFactory,peFactory);
         tFactories.registerFormDefFactory(fa);
         tFactories.registerHeaderListFactory(new HeaderListFactory(cFactory));
-        tFactories
-                .registerPersistFactory(new PersistFactoryAction(rI, pFactory));
-        tFactories.registerDataModelFactory(new DataModelFactory(aFactory));
-        tFactories.registerDataValidateActionFactory(new ValidateActionFactory(
-                valFactory));
+        tFactories.registerPersistFactory(peFactory);
+        tFactories.registerDataModelFactory(daFactory);
+        tFactories.registerDataValidateActionFactory(vFactory);
+        tFactories.registerGetViewControllerFactory(getViewFactory);
     }
 
 }

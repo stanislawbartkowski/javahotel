@@ -21,7 +21,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.slotmodel.ValidateActionType.ValidateType;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IPersistAction;
@@ -40,9 +40,9 @@ public class DataUtil {
     private DataUtil() {
     }
 
-    public static int vTypetoAction(ValidateType vType) {
+    public static int vTypetoAction(PersistTypeEnum persisEnumType) {
         int action = -1;
-        switch (vType) {
+        switch (persisEnumType) {
         case ADD:
             action = IPersistAction.ADDACION;
             break;

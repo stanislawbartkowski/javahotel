@@ -14,10 +14,11 @@ package com.gwtmodel.table.injector;
 
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
+import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
-import com.gwtmodel.table.slotmodel.SlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
@@ -28,8 +29,6 @@ public interface GwtTableInjector extends Ginjector {
 
     SlotTypeFactory getSlotTypeFactory();
 
-    SlotSignalContext getSlotSignalContext();
-
     SlotListContainer getSlotListContainer();
 
     TableDataControlerFactory getTableDataControlerFactory();
@@ -37,5 +36,9 @@ public interface GwtTableInjector extends Ginjector {
     SlotSignalContextFactory getSlotSignalContextFactory();
     
     ITableAbstractFactories getITableAbstractFactories();
+    
+    ComposeControllerFactory getComposeControllerFactory();
+    
+    DataViewModelFactory getDataViewModelFactory();
 
 }

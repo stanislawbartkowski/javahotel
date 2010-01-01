@@ -15,8 +15,10 @@ package com.gwtmodel.table.datamodelview;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -30,9 +32,29 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private final FormLineContainer fContainer;
     private final IGwtFormView gView;
- //   private final IDataType dType;
-//    private final TableFactoriesContainer tContainer;
-//    private final int cellId;
+
+    private class ChangeMode implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            PersistTypeEnum persistTypeEnum = slContext.getPersistType();
+            for (FormField fie : fContainer.getfList()) {
+                IFormLineView vie = fie.getELine();
+                switch (persistTypeEnum) {
+                case ADD:
+                    break;
+                case MODIF:
+                    if (fie.isReadOnlyIfModif()) {
+                        vie.setReadOnly(true);
+                    }
+                    break;
+                case REMOVE:
+                    vie.setReadOnly(true);
+                    break;
+                }
+            }
+        }
+
+    }
 
     private class DrawModel implements ISlotSignaller {
 
@@ -63,15 +85,14 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     }
 
-    DataViewModel(GwtFormViewFactory gFactory, IDataType dType, FormLineContainer fContainer) {
- //       this.tContainer = tContainer;
+    DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
+            FormLineContainer fContainer) {
         this.fContainer = fContainer;
-//        this.dType = dType;
-//        this.cellId = cellId;
         gView = gFactory.construct(fContainer);
-        // registerPublisher(cellId);
         registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
                 new InvalidateMess());
+        registerSubscriber(DataActionEnum.ChangeViewFormModeAction, dType,
+                new ChangeMode());
         registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
                 new DrawModel());
         registerCaller(GetActionEnum.GetViewModelEdited, dType,

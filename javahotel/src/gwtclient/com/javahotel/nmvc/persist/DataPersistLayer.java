@@ -14,16 +14,16 @@ package com.javahotel.nmvc.persist;
 
 import java.util.List;
 
-import com.google.gwt.user.client.Window;
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.PersistEventEnum;
-import com.gwtmodel.table.slotmodel.ValidateActionType;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
@@ -43,47 +43,47 @@ public class DataPersistLayer extends AbstractSlotContainer implements
     private final IResLocator rI;
     private final DataType dType;
     private final PersistRecordFactory pFactory;
+    private final IDataModelFactory dFactory;
 
     private class ReadListDict implements IVectorList {
 
         public void doVList(final List<? extends AbstractTo> val) {
             DataListType dataList = DataUtil.construct(val);
-            findAndPublish(PersistEventEnum.ReadListSuccess,dType, dataList);
+            publish(DataActionEnum.ListReadSuccessSignal, dType, dataList);
         }
     }
-    
+
     private class AfterPersist implements IPersistResult {
-        
-        private final PersistEventEnum eType;
-        
-        AfterPersist(PersistEventEnum eType) {
-            this.eType = eType;
+
+        private final PersistTypeEnum persistTypeEnum;
+
+        AfterPersist(PersistTypeEnum persistTypeEnum) {
+            this.persistTypeEnum = persistTypeEnum;
         }
 
         public void success(PersistResultContext re) {
-            findAndPublish(eType,dType);
-        }
-        
-    }
-    
-    private class PersistRecord implements ISlotSignaller {
-        
-        private final ValidateActionType.ValidateType vType;
-        private final PersistEventEnum eType;
-        
-        PersistRecord(ValidateActionType.ValidateType vType,PersistEventEnum eType) {
-            this.vType = vType;
-            this.eType = eType;
+            publish(DataActionEnum.PersistDataSuccessSignal, dType,
+                    persistTypeEnum);
         }
 
-        public void signal(ISlotSignalContext slContext) {            
-            IVModelData mData = callGetterModelData(GetActionEnum.ModelVDataPersist,dType);
-            IPersistRecord persist = pFactory.getPersistDict(new DictData(dType.getdType()));
-            int action = DataUtil.vTypetoAction(vType);
-            RecordModel mo = DataUtil.toRecordModel(mData);
-            persist.persist(action, mo, new AfterPersist(eType));
+    }
+
+    private class PersistRecord implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            IVModelData mData = dFactory.construct(dType);
+            IVModelData pData = getGetterIVModelData(
+                    GetActionEnum.GetModelToPersist, dType, mData);
+            // IVModelData mData = callGetterModelData(
+            // GetActionEnum.ModelVDataPersist, dType);
+            IPersistRecord persist = pFactory.getPersistDict(new DictData(dType
+                    .getdType()));
+            int action = DataUtil.vTypetoAction(slContext.getPersistType());
+            RecordModel mo = DataUtil.toRecordModel(pData);
+            persist.persist(action, mo, new AfterPersist(slContext
+                    .getPersistType()));
         }
-        
+
     }
 
     private class ReadList implements ISlotSignaller {
@@ -94,28 +94,37 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             rI.getR().getList(RType.ListDict, co, new ReadListDict());
         }
     }
-            
 
-    public DataPersistLayer(IResLocator rI, PersistRecordFactory pFactory, DataType dType) {
+    public DataPersistLayer(IResLocator rI, PersistRecordFactory pFactory,
+            IDataModelFactory dFactory, DataType dType) {
         this.pFactory = pFactory;
+        this.dFactory = dFactory;
         this.rI = rI;
         this.dType = dType;
         // create subscribers - ReadList
-        registerSubscriber(PersistEventEnum.ReadList,dType,new ReadList());
+        registerSubscriber(DataActionEnum.ReadListAction, dType, new ReadList());
+        registerSubscriber(DataActionEnum.PersistDataAction, dType,
+                new PersistRecord());
         // persist subscriber
-        registerSubscriber(PersistEventEnum.AddItem,dType,new PersistRecord(ValidateActionType.ValidateType.ADD,PersistEventEnum.AddItemSuccess));
-        registerSubscriber(PersistEventEnum.RemoveItem,dType,new PersistRecord(ValidateActionType.ValidateType.REMOVE,PersistEventEnum.RemoveItemSuccess));
-        registerSubscriber(PersistEventEnum.ChangeItem,dType,new PersistRecord(ValidateActionType.ValidateType.MODIF,PersistEventEnum.ChangeItemSuccess));
-        
-        // create publisher - ListRead
-        registerPublisher(PersistEventEnum.ReadListSuccess,dType);
-        registerPublisher(PersistEventEnum.AddItemSuccess,dType);
-        registerPublisher(PersistEventEnum.ChangeItemSuccess,dType);
-        registerPublisher(PersistEventEnum.RemoveItemSuccess,dType);
-    }
-    
+        // registerSubscriber(PersistEventEnum.AddItem, dType, new
+        // PersistRecord(
+        // ValidateActionType.ValidateType.ADD,
+        // PersistEventEnum.AddItemSuccess));
+        // registerSubscriber(PersistEventEnum.RemoveItem, dType,
+        // new PersistRecord(ValidateActionType.ValidateType.REMOVE,
+        // PersistEventEnum.RemoveItemSuccess));
+        // registerSubscriber(PersistEventEnum.ChangeItem, dType,
+        // new PersistRecord(ValidateActionType.ValidateType.MODIF,
+        // PersistEventEnum.ChangeItemSuccess));
 
-    public void startPublish() {
+        // create publisher - ListRead
+        // registerPublisher(PersistEventEnum.ReadListSuccess, dType);
+        // registerPublisher(PersistEventEnum.AddItemSuccess, dType);
+        // registerPublisher(PersistEventEnum.ChangeItemSuccess, dType);
+        // registerPublisher(PersistEventEnum.RemoveItemSuccess, dType);
+    }
+
+    public void startPublish(int cellId) {
     }
 
 }

@@ -33,7 +33,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private final VListHeaderContainer heList;
     private DataListType dataList;
     private final IGwtTableView tableView;
-  //  private final int cellId;
     private final IDataType dType;
 
     private class GwtTableView implements IGwtTableModel {
@@ -77,7 +76,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     ListDataView(GwtTableFactory gFactory, IDataType dType, VListHeaderContainer heList) {
         this.heList = heList;
-//        this.cellId = cellId;
         this.dType = dType;
         tableView = gFactory.construct(new GwtTableView());
         // subscriber
