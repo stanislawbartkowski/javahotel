@@ -15,6 +15,7 @@ package com.gwtmodel.table.injector;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
+import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
@@ -22,7 +23,6 @@ import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
-import com.gwtmodel.table.slotmodel.SlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
@@ -40,7 +40,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(GwtTableFactory.class).in(Singleton.class);
         bind(SlotTypeFactory.class).in(Singleton.class);
         bind(SlotSignalContextFactory.class).in(Singleton.class);
-        bind(SlotSignalContext.class).in(Singleton.class);
         bind(SlotListContainer.class);
         bind(TableDataControlerFactory.class).in(Singleton.class);
         bind(GwtFormViewFactory.class).in(Singleton.class);
@@ -48,6 +47,7 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(ITableAbstractFactories.class).to(TableFactoriesContainer.class).in(Singleton.class);
         bind(DataViewModelFactory.class).in(Singleton.class);     
         bind(ControlButtonFactory.class).in(Singleton.class);
+        bind(ComposeControllerFactory.class).in(Singleton.class);
     }
 
 }

@@ -17,7 +17,12 @@ import java.util.List;
 
 public class SlotRegisterSubscriber implements ISlotSignaller {
 
-    private List<ISlotSignaller> slList = new ArrayList<ISlotSignaller>();
+    private final List<ISlotSignaller> slList;
+
+    SlotRegisterSubscriber() {
+        slList = new ArrayList<ISlotSignaller>();
+
+    }
 
     public void register(ISlotSignaller slSignaller) {
         slList.add(slSignaller);

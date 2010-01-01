@@ -25,4 +25,6 @@ public interface ITableAbstractFactories {
 
     void registerPersistFactory(IPersistFactoryAction iPersistFactory);
     
+    void registerGetViewControllerFactory(IGetViewControllerFactory iFactory);
+    
 }

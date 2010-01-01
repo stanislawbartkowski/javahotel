@@ -54,8 +54,6 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     PanelView(GwtPanelViewFactory gFactory, int firstToUse) {
         this.nextToUse = firstToUse;
         this.gFactory = gFactory;
-        // create publisher
-//        registerPublisher(panelCellId);
     }
 
     public int addCellPanel(int row, int col) {

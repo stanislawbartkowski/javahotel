@@ -14,10 +14,13 @@ package com.gwtmodel.table.slotmodel;
 
 public enum GetActionEnum {
 
-    /** returns IVModelData + WSIze . */ 
+    /** returns out: IVModelData + WSIze . */ 
     GetListLineChecked,
     
-    /** return IVModelData. */
+    /** return out: IVModelData. */
     GetViewModelEdited,
+    
+    /** return IVModelToPersist in/out IVModelData. */
+    GetModelToPersist,
         
 }

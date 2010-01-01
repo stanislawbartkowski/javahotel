@@ -13,9 +13,9 @@
 package com.gwtmodel.table.slotmodel;
 
 public interface ISlotable {
-    
+
     SlotListContainer getSlContainer();
-    
+
     void startPublish(int cellId);
 
 }

@@ -45,13 +45,19 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
             SlotType sl = slContextP.getSlType();
             ISlotSignalContext slContext = slContextP;
             // find redirector
-            for (SlotRedirector re : slContainer.getListOfRedirectors()) {
-                if (re.getFrom().eq(sl)) {
-                    sl = re.getTo();
-                    slContext = contextReplace(sl, slContextP);
-                    break;
+            boolean notReplaced = true;
+            while (notReplaced) {
+                notReplaced = false;
+                for (SlotRedirector re : slContainer.getListOfRedirectors()) {
+                    if (re.getFrom().eq(sl)) {
+                        sl = re.getTo();
+                        slContext = contextReplace(sl, slContextP);
+                        notReplaced = true;
+                        break;
+                    }
                 }
             }
+            
             for (SlotSubscriberType so : slContainer.getListOfSubscribers()) {
                 if (sl.eq(so.getSlType())) {
                     so.getSlSignaller().signal(slContext);
@@ -73,9 +79,7 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
     }
 
     public void registerSlotContainer(int cellId, ISlotable iSlo) {
-        slList.add(new C(cellId,iSlo));
-        // this.slContainer.getListOfPublishers().addAll(
-        // iSlo.getSlContainer().getListOfPublishers());
+        slList.add(new C(cellId, iSlo));
         this.slContainer.getListOfSubscribers().addAll(
                 iSlo.getSlContainer().getListOfSubscribers());
         this.slContainer.getListOfCallers().addAll(
@@ -86,17 +90,16 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 
     public void startPublish(int nullId) {
         ISlotSignaller sl = new GeneralListener();
-        // for (SlotPublisherType reg : slContainer.getListOfPublishers()) {
-        // reg.getSlRegisterSubscriber().register(sl);
-        // }
         ISlotCaller slCaller = new GeneralCaller();
         for (C c : slList) {
             c.iSlo.getSlContainer().registerSlReceiver(slCaller);
             c.iSlo.getSlContainer().registerSlPublisher(sl);
-            c.iSlo.startPublish(c.cellId);
         }
         this.slContainer.registerSlReceiver(slCaller);
         this.slContainer.registerSlPublisher(sl);
+        for (C c : slList) {
+            c.iSlo.startPublish(c.cellId);
+        }
     }
 
 }

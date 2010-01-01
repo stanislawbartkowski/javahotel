@@ -19,14 +19,14 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.SlotPublisherType;
-import com.gwtmodel.table.slotmodel.ValidateActionType.ValidateActionEnum;
-import com.gwtmodel.table.slotmodel.ValidateActionType.ValidateType;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
@@ -41,9 +41,8 @@ public class ValidateAction extends AbstractSlotContainer implements
         IDataValidateAction {
 
     private final IDataType dType;
-    private final SlotPublisherType slPassed;
-    private final SlotPublisherType slFailed;
     private final DictValidatorFactory valFactory;
+    private final IDataModelFactory dFactory;
 
     private class Validate implements ISignalValidate {
 
@@ -59,14 +58,14 @@ public class ValidateAction extends AbstractSlotContainer implements
 
     private void publishValidSignal(InvalidateFormContainer errContainer) {
         if (errContainer == null) {
-            publish(slPassed);
+            publish(DataActionEnum.ValidSignal, dType);
         } else {
-            publish(slFailed, errContainer);
+            publish(DataActionEnum.InvalidSignal, dType, errContainer);
         }
     }
 
-    private void validateE(ValidateType vType, IVModelData mData) {
-        int action = DataUtil.vTypetoAction(vType);
+    private void validateE(PersistTypeEnum persistTypeEnum, IVModelData mData) {
+        int action = DataUtil.vTypetoAction(persistTypeEnum);
         List<IVField> listMFie = DataUtil.constructEmptyList(dType, action);
         List<InvalidateMess> errMess = ValidateUtil.checkEmpty(mData, listMFie);
         if (errMess == null) {
@@ -82,35 +81,24 @@ public class ValidateAction extends AbstractSlotContainer implements
 
     private class ValidateA implements ISlotSignaller {
 
-        private final ValidateType vType;
-
-        ValidateA(ValidateType vType) {
-            this.vType = vType;
-        }
-
         public void signal(ISlotSignalContext slContext) {
-            IVModelData mData = callGetterModelData(GetActionEnum.ModelVData,
-                    dType);
-            validateE(vType, mData);
+            IVModelData mData = dFactory.construct(dType);
+            IVModelData pData = getGetterIVModelData(
+                    GetActionEnum.GetViewModelEdited, dType, mData);
+            validateE(slContext.getPersistType(), pData);
         }
     }
 
-    private void addVSubscriber(ValidateType vType) {
-        registerSubscriber(ValidateActionEnum.Validate, vType, dType, new ValidateA(vType));
-
-    }
-
-    public ValidateAction(DictValidatorFactory valFactory, IDataType dType) {
+    public ValidateAction(DictValidatorFactory valFactory,
+            IDataModelFactory dFactory, IDataType dType) {
         this.valFactory = valFactory;
         this.dType = dType;
-        addVSubscriber(ValidateType.ADD);
-        addVSubscriber(ValidateType.MODIF);
-        addVSubscriber(ValidateType.REMOVE);
-        slPassed = registerPublisher(ValidateActionEnum.ValidationPassed, dType);
-        slFailed = registerPublisher(ValidateActionEnum.ValidatonFailed, dType);
+        this.dFactory = dFactory;
+        registerSubscriber(DataActionEnum.ValidateAction, dType,
+                new ValidateA());
     }
 
-    public void startPublish() {
+    public void startPublish(int cellId) {
     }
 
 }

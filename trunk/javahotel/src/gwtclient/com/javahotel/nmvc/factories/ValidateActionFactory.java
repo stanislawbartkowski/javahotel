@@ -13,6 +13,7 @@
 package com.javahotel.nmvc.factories;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
@@ -22,13 +23,16 @@ class ValidateActionFactory extends HelperFactory implements
         IDataValidateActionFactory {
 
     private final DictValidatorFactory valFactory;
+    private final IDataModelFactory gFactory;
 
-    ValidateActionFactory(DictValidatorFactory valFactory) {
+    ValidateActionFactory(DictValidatorFactory valFactory,
+            IDataModelFactory gFactory) {
         this.valFactory = valFactory;
+        this.gFactory = gFactory;
     }
 
     public IDataValidateAction construct(IDataType dType) {
-        return new ValidateAction(valFactory, dType);
+        return new ValidateAction(valFactory, gFactory, dType);
     }
 
 }

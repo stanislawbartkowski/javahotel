@@ -29,11 +29,10 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
-import com.gwtmodel.table.slotmodel.SlotSubscriberType;
-import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.PopupUtil;
@@ -77,16 +76,17 @@ class DataListCrudControler extends AbstractSlotContainer {
     private class PersistData implements ISlotSignaller {
         private final PersistTypeEnum persistTypeEnum;
         private final IComposeController iController;
+        private final DataActionEnum dataActionEnum;
 
         PersistData(PersistTypeEnum persistTypeEnum,
-                IComposeController iController) {
+                IComposeController iController, DataActionEnum dataActionEnum) {
             this.persistTypeEnum = persistTypeEnum;
             this.iController = iController;
+            this.dataActionEnum = dataActionEnum;
         }
 
         public void signal(ISlotSignalContext slContext) {
-            iController.getSlContainer().publish(
-                    DataActionEnum.PersistComposeFormAction, dType,
+            iController.getSlContainer().publish(dataActionEnum, dType,
                     persistTypeEnum);
         }
 
@@ -145,29 +145,28 @@ class DataListCrudControler extends AbstractSlotContainer {
 
     }
 
-    // private class GetterModel implements ISlotCaller {
-    //
-    // private IVModelData peData;
-    // private SlotListContainer slControlerContainer;
-    //
-    // public void setSlControlerContainer(
-    // SlotListContainer slControlerContainer) {
-    // this.slControlerContainer = slControlerContainer;
-    // }
-    //
-    // public void setPeData(IVModelData peData) {
-    // this.peData = peData;
-    // }
-    //
-    // public ISlotSignalContext call(ISlotSignalContext slContext) {
-    // IVModelData mData = slControlerContainer.callGetterModelData(
-    // GetActionEnum.ModelVData, dType);
-    // fContainer.getDataModelFactory().fromModelToPersist(dType, mData,
-    // peData);
-    // return slSignalContext.returngetter(slContext, peData);
-    // }
-    //
-    // }
+    private class GetterModel implements ISlotCaller {
+
+        private final IVModelData peData;
+        private final SlotListContainer slControlerContainer;
+
+        public GetterModel(SlotListContainer slControlerContainer,
+                IVModelData peData) {
+            this.slControlerContainer = slControlerContainer;
+            this.peData = peData;
+        }
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVModelData perData = slContext.getVData(); // do nothing
+            IVModelData pData = slControlerContainer.getGetterIVModelData(
+                    GetActionEnum.GetViewModelEdited, dType, peData);
+            fContainer.getDataModelFactory().fromModelToPersist(dType, pData,
+                    perData);
+            // result: perData
+            return slContext;
+        }
+
+    }
 
     private class ActionItem implements ISlotSignaller {
 
@@ -180,15 +179,17 @@ class DataListCrudControler extends AbstractSlotContainer {
         public void signal(ISlotSignalContext slContext) {
             ClickButtonType.StandClickEnum action = slContext.getSlType()
                     .getButtonClick().getClickEnum();
-            ISlotSignalContext ret = getGetterContext(GetActionEnum.GetListLineChecked,dType);
-//            DataListType dList = ret.getDataList();
+            ISlotSignalContext ret = getGetterContext(
+                    GetActionEnum.GetListLineChecked, dType);
             IVModelData mModel = fContainer.getDataModelFactory().construct(
                     dType);
             IVModelData peData = null;
             WSize wSize = null;
             if (action != ClickButtonType.StandClickEnum.ADDITEM) {
-//                WChoosedLine choosedLine = ret.getChoosedLine();
                 peData = ret.getVData();
+                if (peData == null) {
+                    return;
+                }
                 wSize = ret.getWSize();
             }
             if (peData != null) {
@@ -210,64 +211,46 @@ class DataListCrudControler extends AbstractSlotContainer {
                 liControls = tFactories.getControlButtonFactory()
                         .constructRemoveDesign();
             }
-//            DisplayFormControler fControler = new DisplayFormControler(
-//                    tFactories, fContainer, lContainer, liControls, dType, 0,
-//                    1, mModel, action);
-            IComposeController fController = fContainer.getGetViewControllerFactory().construct(dType);
-            IControlButtonView cView = tFactories.getbViewFactory().construct(liControls);
-            ComposeControllerType bType = new ComposeControllerType(cView,null,1,0);
+            IComposeController fController = fContainer
+                    .getGetViewControllerFactory().construct(dType);
+            IControlButtonView cView = tFactories.getbViewFactory().construct(
+                    liControls);
+            ComposeControllerType bType = new ComposeControllerType(cView,
+                    null, 1, 0);
             fController.registerController(bType);
-            
-            SlotListContainer slControlerContainer = fController.getSlContainer();
+
+            SlotListContainer slControlerContainer = fController
+                    .getSlContainer();
             DrawForm dForm = new DrawForm(wSize, lContainer, action);
             slControlerContainer.registerSubscriber(0, dForm);
-//            SlotType slType = slTypeFactory
-//                    .construct(ClickButtonType.StandClickEnum.RESIGN);
-            slControlerContainer.registerSubscriber(ClickButtonType.StandClickEnum.RESIGN, new ResignAction(
-                    dForm));
-            PersistData pData = new PersistData(persistTypeEnum,fController);       
-            slControlerContainer.registerSubscriber(ClickButtonType.StandClickEnum.ACCEPT, pData);
-            
+            slControlerContainer.registerSubscriber(
+                    ClickButtonType.StandClickEnum.RESIGN, new ResignAction(
+                            dForm));
+            PersistData pData = new PersistData(persistTypeEnum, fController,
+                    DataActionEnum.ValidateComposeFormAction);
+            slControlerContainer.registerSubscriber(
+                    ClickButtonType.StandClickEnum.ACCEPT, pData);
 
-//            SlotCallerType slCaller = slContainer.findCaller(slTypeFactory
-//                    .construct(GetActionEnum.ModelVDataPersist, dType));
-//            GetterModel ge = (GetterModel) slCaller.getSlCaller();
-//            ge.setPeData(peData);
-//            ge.setSlControlerContainer(slControlerContainer);
+            pData = new PersistData(persistTypeEnum, fController,
+                    DataActionEnum.PersistComposeFormAction);
+            slControlerContainer.registerSubscriber(DataActionEnum.ValidSignal,
+                    dType, pData);
 
-//            PersistEventEnum eType = PersistEventEnum.AddItem;
-//            PersistEventEnum aftereType = PersistEventEnum.AddItemSuccess;
-//            switch (vType) {
-//            case MODIF:
-//                eType = PersistEventEnum.ChangeItem;
-//                aftereType = PersistEventEnum.ChangeItemSuccess;
-//                break;
-//            case REMOVE:
-//                eType = PersistEventEnum.RemoveItem;
-//                aftereType = PersistEventEnum.RemoveItemSuccess;
-//                break;
-//            }
+            slControlerContainer.registerSubscriber(
+                    DataActionEnum.PersistDataSuccessSignal, dType,
+                    new AfterPersistData(dForm, persistTypeEnum));
 
-//            SlotSubscriberType slSubscriber = slContainer
-//                    .findSubscriber(slTypeFactory.construct(aftereType, dType));
-//            AfterPersistData aftData = (AfterPersistData) slSubscriber
-//                    .getSlSignaller();
-//            aftData.setdForm(dForm);
-//
-//            slType = slTypeFactory.construct(new ValidateActionType(
-//                    ValidateActionType.ValidateActionEnum.ValidationPassed),
-//                    dType);
-//            SlotType puSlType = slTypeFactory.construct(eType, dType);
-//            slControlerContainer.registerSubscriber(slType, new PersistData(
-//                    dForm, puSlType));
-//
-//            slType = slTypeFactory.construct(new ValidateActionType(
-//                    ValidateActionType.ValidateActionEnum.Validate, vType),
-//                    dType);
-//            slControlerContainer.registerRedirector(slTypeFactory
-//                    .construct(ClickButtonType.StandClickEnum.ACCEPT), slType);
-//
-//            fControler.startPublish();
+            fController.startPublish(0);
+            slControlerContainer.publish(
+                    DataActionEnum.DrawViewComposeFormAction, dType, peData);
+
+            slControlerContainer.publish(
+                    DataActionEnum.ChangeViewComposeFormModeAction, dType,
+                    persistTypeEnum);
+
+            slControlerContainer.registerCaller(
+                    GetActionEnum.GetModelToPersist, dType, new GetterModel(
+                            slControlerContainer, peData));
         }
     }
 
@@ -282,21 +265,9 @@ class DataListCrudControler extends AbstractSlotContainer {
                 new ActionItem(PersistTypeEnum.REMOVE));
         registerSubscriber(ClickButtonType.StandClickEnum.MODIFITEM,
                 new ActionItem(PersistTypeEnum.MODIF));
-        // registerSubscriber(PersistEventEnum.AddItemSuccess, dType,
-        // new AfterPersistData());
-        // registerSubscriber(PersistEventEnum.ChangeItemSuccess, dType,
-        // new AfterPersistData());
-        // registerSubscriber(PersistEventEnum.RemoveItemSuccess, dType,
-        // new AfterPersistData());
-        // registerPublisher(PersistEventEnum.AddItem, dType);
-        // registerPublisher(PersistEventEnum.ChangeItem, dType);
-        // registerPublisher(PersistEventEnum.RemoveItem, dType);
-        // registerPublisher(PersistEventEnum.ReadList, dType);
-        // registerCaller(GetActionEnum.ModelVDataPersist, dType,
-        // new GetterModel());
     }
 
-    public void startPublish() {
+    public void startPublish(int cellId) {
     }
 
 }
