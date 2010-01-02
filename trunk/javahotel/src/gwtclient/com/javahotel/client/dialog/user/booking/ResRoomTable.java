@@ -12,17 +12,18 @@
  */
 package com.javahotel.client.dialog.user.booking;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Grid;
+import com.gwtmodel.table.SynchronizeList;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.DictData.SpecE;
-import com.javahotel.common.command.SynchronizeList;
-import com.javahotel.common.toobject.AbstractTo;
-import java.util.List;
-import com.javahotel.client.mvc.crudtable.controler.ICrudTableControler;
-import com.javahotel.client.mvc.tablecrud.controler.TableDictCrudControlerFactory;
 import com.javahotel.client.mvc.crud.controler.ITableModelSignalRead;
 import com.javahotel.client.mvc.crudtable.controler.CrudTableControlerParam;
+import com.javahotel.client.mvc.crudtable.controler.ICrudTableControler;
+import com.javahotel.client.mvc.tablecrud.controler.TableDictCrudControlerFactory;
+import com.javahotel.common.toobject.AbstractTo;
 
 /**
  * 

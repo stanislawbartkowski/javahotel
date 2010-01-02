@@ -14,6 +14,7 @@ package com.javahotel.client.dispatcher.command;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.inject.Inject;
+import com.gwtmodel.table.SynchronizeList;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
@@ -21,7 +22,6 @@ import com.javahotel.client.dialog.login.ELoginDialog;
 import com.javahotel.client.dispatcher.EnumAction;
 import com.javahotel.client.dispatcher.EnumDialog;
 import com.javahotel.client.dispatcher.UICommand;
-import com.javahotel.common.command.SynchronizeList;
 
 /**
  * 

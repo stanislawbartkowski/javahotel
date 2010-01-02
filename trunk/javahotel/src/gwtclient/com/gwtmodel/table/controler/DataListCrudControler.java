@@ -115,7 +115,7 @@ class DataListCrudControler extends AbstractSlotContainer {
 
         @Override
         protected void addVP(VerticalPanel vp) {
-            vp.add(w.getWidget());
+            vp.add(w.getGWidget());
         }
 
     }
@@ -197,7 +197,7 @@ class DataListCrudControler extends AbstractSlotContainer {
                         peData, mModel);
             } else {
                 IGWidget wi = slContext.getGwtWidget();
-                wSize = new WSize(wi.getWidget());
+                wSize = new WSize(wi.getGWidget());
                 // create empty
                 peData = fContainer.getDataModelFactory().construct(dType);
             }

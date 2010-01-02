@@ -5,6 +5,9 @@ import java.util.Map;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.inject.Inject;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.readres.IReadRes;
+import com.gwtmodel.table.readres.ReadResFactory;
 import com.javahotel.client.CallBackHotel;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.HoLabel;
@@ -17,8 +20,6 @@ import com.javahotel.client.injector.ResLocatorHolder;
 import com.javahotel.client.panel.IWebHotelPanel;
 import com.javahotel.client.panel.WebHotelPanelFactory;
 import com.javahotel.client.rdata.RData;
-import com.javahotel.client.rhtml.IReadRes;
-import com.javahotel.client.rhtml.ReadResFactory;
 import com.javahotel.view.IViewInterface;
 import com.javahotel.view.gwt.GwtGetViewFactory;
 
@@ -49,7 +50,8 @@ public class MainWebEntry implements IWebEntry {
 
         @Override
         public void onMySuccess(Object arg) {
-            RootPanel.get().remove(0);
+//            RootPanel.get().remove(0);
+            RootPanel.get().clear();
             start();
         }
     }
@@ -143,7 +145,8 @@ public class MainWebEntry implements IWebEntry {
         iView[IViewInterface.GWT] = GwtGetViewFactory.getView();
         IResLocator rI = new ResC();
         ResLocatorHolder.setrI(rI);
-        readRes = ReadResFactory.getReadRes(rI);
+//        readRes = ReadResFactory.getReadRes(rI);
+        readRes = GwtGiniInjector.getI().getReadResFactory().getReadRes();
         cProgress = new CallBackProgress(rI);
         rD = new RData(rI);
         wPan = WebHotelPanelFactory.getPanel(rI, new LogOut(rI));

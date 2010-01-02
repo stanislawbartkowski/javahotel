@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.SynchronizeList;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcWidget;
@@ -25,7 +26,6 @@ import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.panelcommand.IPanelCommand;
 import com.javahotel.client.panelcommand.PanelCommandFactory;
-import com.javahotel.common.command.SynchronizeList;
 import com.javahotel.view.IDrawTabPanel;
 
 /**

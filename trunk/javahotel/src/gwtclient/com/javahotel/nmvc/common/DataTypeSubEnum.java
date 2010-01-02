@@ -10,15 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.rhtml;
+package com.javahotel.nmvc.common;
 
-import com.javahotel.client.IResLocator;
-
-public class ReadResFactory {
-
-    public static IReadRes getReadRes(IResLocator sI) {
-        return new ReadRes(sI);
-
-    }
+public enum DataTypeSubEnum {
+    
+    Sub1
 
 }

@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.SynchronizeList;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.ifield.IChangeListener;
@@ -28,12 +29,10 @@ import com.javahotel.client.mvc.gridmodel.model.view.ColsHeader;
 import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.seasonprice.model.ISpecialMap;
 import com.javahotel.client.mvc.seasonprice.model.MapSpecialToI;
-import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.command.SynchronizeList;
 import com.javahotel.common.toobject.OfferPriceP;
 
 class PriceRecord {

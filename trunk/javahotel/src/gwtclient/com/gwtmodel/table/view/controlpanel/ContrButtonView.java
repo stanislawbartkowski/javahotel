@@ -80,7 +80,7 @@ class ContrButtonView implements IContrButtonView {
         }
     }
 
-    public Widget getWidget() {
+    public Widget getGWidget() {
         return hP;
     }
 }

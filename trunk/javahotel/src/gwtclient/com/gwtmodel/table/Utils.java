@@ -16,7 +16,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTML;
 
 public class Utils {
-    
+
     public static HTML createHTML(final String s) {
         HTML ha = new HTML("<a href='javascript:;'>" + s + "</a>");
         return ha;
@@ -33,6 +33,10 @@ public class Utils {
         String path = getResAdr("img/" + image);
         return path;
     }
+    
+    public static String getEmptytyLabel() {
+        return ".";
+    }
 
     public static String getImageHTML(final String imageUrl, int w, int h) {
         String s = "<td><img src='" + getImageAdr(imageUrl) + "'";
@@ -48,6 +52,16 @@ public class Utils {
 
     public static String getImageHTML(final String imageUrl) {
         return getImageHTML(imageUrl, 0, 0);
+    }
+
+    public static <T> boolean eqE(T t1, T t2) {
+        if (t1 == null) {
+            return (t2 == null);
+        }
+        if (t2 == null) {
+            return false;
+        }
+        return t1 == t2;
     }
 
 }

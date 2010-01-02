@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2009 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,12 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.view.util;
 
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public interface IGWidget {
-    
-    Widget getGWidget();
+/**
+ * 
+ * @author stanislawbartkowski@gmail.com
+ */
+public final class PopUpTip {
 
+    public static PopupPanel getPopupTip(Widget info) {
+        PopupPanel pUp = new PopupPanel(true);
+        pUp.setWidget(info);
+        return pUp;
+    }
+
+    public static void drawPopupTip(int left, int top, Widget info) {
+        PopupPanel pUp = getPopupTip(info);
+        pUp.setPopupPosition(left, top);
+        pUp.show();
+    }
 }

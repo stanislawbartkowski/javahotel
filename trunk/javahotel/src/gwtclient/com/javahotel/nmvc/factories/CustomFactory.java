@@ -10,29 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.rdef;
+package com.javahotel.nmvc.factories;
 
-import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.javahotel.common.toobject.DictionaryP;
+import com.javahotel.nmvc.common.VField;
 
-public interface IFormLineView extends IGWidget {
-    
-    int NOCHOOSECHECK = 0;
-    int CHOOSECHECKTRUE = 1;
-    int CHOOSECHECKFALSE = 2;
+class CustomFactory implements IGetCustomValues {
 
-    
-    String getVal();
-
-    void setVal(String s);
-    
-    void addChangeListener(IFormChangeListener cListener);
-    
-    void setReadOnly(boolean readOnly);
-    
-    void setInvalidMess(String errmess);
-    
-    void setStyleName(String styleMess, boolean set);
-    
-    void setOnTouch(ITouchListener lTouch);
+    public IVField getSymForCombo() {
+        return new VField(DictionaryP.F.name);
+    }
 
 }

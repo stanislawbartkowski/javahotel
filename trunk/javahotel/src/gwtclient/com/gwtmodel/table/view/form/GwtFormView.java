@@ -48,7 +48,7 @@ class GwtFormView implements IGwtFormView {
         setListener();
     }
 
-    public Widget getWidget() {
+    public Widget getGWidget() {
         return g;
     }
 

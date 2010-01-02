@@ -74,7 +74,7 @@ public class FormLineDef implements IFormLineView {
         iField.setVal(s);
     }
 
-    public Widget getWidget() {
+    public Widget getGWidget() {
         return iField.getMWidget().getWidget();
     }
 

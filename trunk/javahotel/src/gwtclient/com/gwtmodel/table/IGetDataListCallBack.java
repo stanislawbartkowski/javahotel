@@ -10,28 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.dataviewmodel;
+package com.gwtmodel.table;
 
-import com.javahotel.common.toobject.AbstractTo;
-
-public class DataViewModelFactory {
-
-    private class DataViewModel implements IDataViewModel {
-
-        public void pumpValues(AbstractTo aTo) {
-            // TODO Auto-generated method stub
-
-        }
-
-        public void suckValues(AbstractTo aTo) {
-            // TODO Auto-generated method stub
-
-        }
-
-    }
-
-    public IDataViewModel construct() {
-        return new DataViewModel();
-    }
+public interface IGetDataListCallBack {
+    
+    void set(DataListType dataList);
 
 }

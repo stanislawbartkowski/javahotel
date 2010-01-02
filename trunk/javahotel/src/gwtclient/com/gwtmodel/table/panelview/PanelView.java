@@ -69,7 +69,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             int cellId = slContext.getSlType().getCellId();
             PanelRowCell pa = colM.get(cellId);
             IGWidget gwtWidget = slContext.getGwtWidget();
-            pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getWidget());
+            pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getGWidget());
         }
 
     }

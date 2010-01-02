@@ -10,21 +10,20 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.rhtml;
+package com.gwtmodel.table.readres;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.javahotel.client.CommonUtil;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.ReadRequestHtml;
-import com.javahotel.client.ReadRequestHtml.ISetRequestText;
+import com.gwtmodel.table.ReadRequestHtml;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.ReadRequestHtml.ISetRequestText;
 
 class ReadRes implements IReadRes {
 
     private Map<String, String> ma;
 
-    ReadRes(IResLocator sI) {
+    ReadRes() {
         ma = new HashMap<String, String>();
     }
 
@@ -52,7 +51,7 @@ class ReadRes implements IReadRes {
             sRes.setResText(h);
             return;
         }
-        String u = CommonUtil.getResAdr(resName, main);
+        String u = Utils.getResAdr(resName);
         ReadRequestHtml.doGet(u, new SetRequest(sRes, resName));
     }
 

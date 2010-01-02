@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gwtmodel.table.SynchronizeList;
 import com.javahotel.client.CallBackHotel;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
@@ -30,7 +31,6 @@ import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.command.SynchronizeList;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.types.LId;

@@ -10,29 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.rdef;
+package com.gwtmodel.table.view.checkstring;
+
+import java.util.List;
 
 import com.gwtmodel.table.IGWidget;
 
-public interface IFormLineView extends IGWidget {
-    
-    int NOCHOOSECHECK = 0;
-    int CHOOSECHECKTRUE = 1;
-    int CHOOSECHECKFALSE = 2;
+/**
+ *
+ * @author stanislawbartkowski@gmail.com
+ */
+public interface ICheckDictModel extends IGWidget {
 
-    
-    String getVal();
+    void setValues(final List<String> val);
 
-    void setVal(String s);
-    
-    void addChangeListener(IFormChangeListener cListener);
-    
-    void setReadOnly(boolean readOnly);
-    
-    void setInvalidMess(String errmess);
-    
-    void setStyleName(String styleMess, boolean set);
-    
-    void setOnTouch(ITouchListener lTouch);
+    List<String> getValues();
 
+    void setReadOnly(boolean readonly);
+
+    void refresh();
+    
 }

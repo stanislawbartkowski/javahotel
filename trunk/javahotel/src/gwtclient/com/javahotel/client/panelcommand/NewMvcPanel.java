@@ -42,7 +42,7 @@ class NewMvcPanel extends AbstractPanelCommand {
     private class SetGwt implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            iS.setGwtWidget(new DefaultMvcWidget(slContext.getGwtWidget().getWidget()));
+            iS.setGwtWidget(new DefaultMvcWidget(slContext.getGwtWidget().getGWidget()));
         }
 
     }
@@ -53,7 +53,7 @@ class NewMvcPanel extends AbstractPanelCommand {
                 .constructDataControler(rI, DataControlerEnum.DisplayList,
                         new DataType(da), 0, 1);
         iControler.getSlContainer().registerSubscriber(0, new SetGwt());
-        iControler.startPublish(0);
+        iControler.startPublish(-1);
 
     }
 

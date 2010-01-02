@@ -36,7 +36,7 @@ class GwtPanelView implements IGwtPanelView  {
         
     }
 
-    public Widget getWidget() {
+    public Widget getGWidget() {
         return g;
     }
 

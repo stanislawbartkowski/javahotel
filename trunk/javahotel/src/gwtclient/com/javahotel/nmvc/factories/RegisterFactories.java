@@ -23,6 +23,7 @@ import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
 import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
+import com.javahotel.nmvc.dataviewmodel.GetViewFactory;
 
 public class RegisterFactories {
 
@@ -61,6 +62,7 @@ public class RegisterFactories {
         tFactories.registerDataModelFactory(daFactory);
         tFactories.registerDataValidateActionFactory(vFactory);
         tFactories.registerGetViewControllerFactory(getViewFactory);
+        tFactories.registerGetCustomValues(new CustomFactory());
     }
 
 }

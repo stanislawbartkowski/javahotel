@@ -15,8 +15,8 @@ package com.javahotel.client.htmlview;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.gwtmodel.table.readres.ISetResText;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.rhtml.ISetResText;
 
 public class HtmlPanelFactory {
 

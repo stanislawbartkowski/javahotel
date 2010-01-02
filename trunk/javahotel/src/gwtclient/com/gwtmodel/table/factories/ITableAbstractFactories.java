@@ -27,4 +27,6 @@ public interface ITableAbstractFactories {
     
     void registerGetViewControllerFactory(IGetViewControllerFactory iFactory);
     
+    void registerGetCustomValues(IGetCustomValues iGetCustomValues);
+    
 }

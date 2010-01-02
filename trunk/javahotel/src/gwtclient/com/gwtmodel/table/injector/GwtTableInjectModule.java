@@ -22,9 +22,12 @@ import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
+import com.gwtmodel.table.readres.ReadResFactory;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
+import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
@@ -44,10 +47,14 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(TableDataControlerFactory.class).in(Singleton.class);
         bind(GwtFormViewFactory.class).in(Singleton.class);
         bind(TableFactoriesContainer.class).in(Singleton.class);
-        bind(ITableAbstractFactories.class).to(TableFactoriesContainer.class).in(Singleton.class);
-        bind(DataViewModelFactory.class).in(Singleton.class);     
+        bind(ITableAbstractFactories.class).to(TableFactoriesContainer.class)
+                .in(Singleton.class);
+        bind(DataViewModelFactory.class).in(Singleton.class);
         bind(ControlButtonFactory.class).in(Singleton.class);
         bind(ComposeControllerFactory.class).in(Singleton.class);
+        bind(EditWidgetFactory.class).in(Singleton.class);
+        bind(CheckDictModelFactory.class).in(Singleton.class);
+        bind(ReadResFactory.class).in(Singleton.class);
     }
 
 }

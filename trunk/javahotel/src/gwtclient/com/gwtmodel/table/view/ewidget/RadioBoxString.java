@@ -10,28 +10,32 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.idialog;
+package com.gwtmodel.table.view.ewidget;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IGetDataListCallBack;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.rdata.RData;
-import com.javahotel.common.command.CommandParam;
-import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.DictionaryP;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class ELineDialogMulChoice extends ELineDialog {
+public class RadioBoxString extends ELineDialog {
 
     private final VerticalPanel vP = new VerticalPanel();
+    private SyncC sync;
+    private final List<CC> aL = new ArrayList<CC>();
+    private final IGetDataList iGet;
 
     private void isetReadOnly(final boolean readOnly) {
         for (CC c : aL) {
@@ -94,8 +98,6 @@ public class ELineDialogMulChoice extends ELineDialog {
             dowaiting();
         }
     }
-    private SyncC sync;
-    private final CommandParam pa;
 
     private class CC {
 
@@ -107,9 +109,21 @@ public class ELineDialogMulChoice extends ELineDialog {
             this.c = c1;
         }
     }
-    private final List<CC> aL = new ArrayList<CC>();
 
-    private class R implements RData.IVectorList {
+    private void setRadio(DataListType dataList, boolean enable) {
+        IVField sym = tFactories.getGetCustomValues().getSymForCombo();
+        for (IVModelData v : dataList.getdList()) {
+            String s = v.getS(sym);
+            CheckBox c = new CheckBox(s);
+            c.setEnabled(enable);
+            CC cc = new CC(s, c);
+            aL.add(cc);
+            vP.add(c);
+        }
+        sync.signalDone();
+    }
+
+    private class R implements IGetDataListCallBack {
 
         private final boolean enable;
 
@@ -117,36 +131,15 @@ public class ELineDialogMulChoice extends ELineDialog {
             this.enable = penable;
         }
 
-        public void doVList(final List<? extends AbstractTo> val) {
-            for (final AbstractTo a : val) {
-                DictionaryP p = (DictionaryP) a;
-                CheckBox c = new CheckBox(p.getName());
-                c.setEnabled(enable);
-                CC cc = new CC(p.getName(), c);
-                aL.add(cc);
-                vP.add(c);
-            }
-            sync.signalDone();
+        public void set(DataListType dataList) {
+            setRadio(dataList, enable);
         }
     }
 
-    ELineDialogMulChoice(final IResLocator rI, final CommandParam p,
-            final boolean enable, final boolean readynow) {
-        super(rI);
-        pa = p;
-        sync = new SyncC();
-        sync.setEnable(enable);
-        if (readynow) {
-            refresh();
-        }
-        initWidget(vP);
-        setMouse();
-    }
-
-    ELineDialogMulChoice(final IResLocator rI, final CommandParam p,
+    RadioBoxString(TableFactoriesContainer tFactories, IGetDataList iGet,
             final boolean enable) {
-        super(rI);
-        pa = p;
+        super(tFactories);
+        this.iGet = iGet;
         sync = new SyncC();
         sync.setEnable(enable);
         refresh();
@@ -165,7 +158,7 @@ public class ELineDialogMulChoice extends ELineDialog {
         sync.reset();
         aL.clear();
         vP.clear();
-        pLi.getR().getList(RType.ListDict, pa, new R(false));
+        iGet.call(new R(false));
     }
 
     public void setReadOnly(final boolean readOnly) {
@@ -189,5 +182,9 @@ public class ELineDialogMulChoice extends ELineDialog {
             }
         }
         return co;
+    }
+
+    public Widget getGWidget() {
+        return this;
     }
 }

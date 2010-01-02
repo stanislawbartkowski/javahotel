@@ -22,6 +22,8 @@ import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
@@ -45,6 +47,30 @@ class ComposeController implements IComposeController {
         cList.add(cType);
     }
 
+    private class DrawAction implements ISlotSignaller {
+        
+        private final DataActionEnum dataActionEnum;
+        
+        DrawAction(DataActionEnum dataActionEnum) {
+            this.dataActionEnum = dataActionEnum;
+        }
+
+        public void signal(ISlotSignalContext slContext) {
+            for (ComposeControllerType cType : cList) {
+                if (cType.getdType() == null) {
+                    continue;
+                }
+                if (!cType.isPanelElem()) {
+                    continue;
+                }
+                slMediator.getSlContainer().publish(
+                        dataActionEnum, cType.getdType(),
+                        slContext);
+            }
+        }
+
+    }
+
     public void startPublish(int cellId) {
         pView = pViewFactory.construct(cellId + 1);
         for (ComposeControllerType c : cList) {
@@ -56,35 +82,38 @@ class ComposeController implements IComposeController {
         }
         pView.createView();
         slMediator.registerSlotContainer(cellId, pView);
-        slMediator.getSlContainer().registerRedirector(
-                slFactory.construct(DataActionEnum.DrawViewComposeFormAction,
-                        dType),
-                slFactory.construct(DataActionEnum.DrawViewFormAction, dType));
+        slMediator.getSlContainer().registerSubscriber(
+                DataActionEnum.DrawViewComposeFormAction, dType,
+                new DrawAction(DataActionEnum.DrawViewFormAction));
+        slMediator.getSlContainer().registerSubscriber(
+                DataActionEnum.ChangeViewComposeFormModeAction, dType,
+                new DrawAction(DataActionEnum.ChangeViewFormModeAction));
+        // slMediator.getSlContainer().registerRedirector(
+        // slFactory.construct(DataActionEnum.DrawViewComposeFormAction,
+        // dType),
+        // slFactory.construct(DataActionEnum.DrawViewFormAction, dType));
+
+//        slMediator.getSlContainer().registerRedirector(
+//                slFactory.construct(
+//                        DataActionEnum.ChangeViewComposeFormModeAction, dType),
+//                slFactory.construct(DataActionEnum.ChangeViewFormModeAction,
+//                        dType));
 
         slMediator.getSlContainer().registerRedirector(
-                slFactory.construct(
-                        DataActionEnum.ChangeViewComposeFormModeAction, dType),
-                slFactory.construct(DataActionEnum.ChangeViewFormModeAction,
-                        dType));
-        
+                slFactory.construct(DataActionEnum.PersistComposeFormAction,
+                        dType),
+                slFactory.construct(DataActionEnum.PersistDataAction, dType));
+
         slMediator.getSlContainer().registerRedirector(
+                slFactory.construct(DataActionEnum.InvalidSignal, dType),
                 slFactory.construct(
-                        DataActionEnum.PersistComposeFormAction, dType),
-                slFactory.construct(DataActionEnum.PersistDataAction,
-                        dType));
-        
+                        DataActionEnum.ChangeViewFormToInvalidAction, dType));
+
         slMediator.getSlContainer().registerRedirector(
-                slFactory.construct(
-                        DataActionEnum.InvalidSignal, dType),
-                slFactory.construct(DataActionEnum.ChangeViewFormToInvalidAction,
-                        dType));
-        
-        slMediator.getSlContainer().registerRedirector(
-                slFactory.construct(
-                        DataActionEnum.ValidateComposeFormAction, dType),
-                slFactory.construct(DataActionEnum.ValidateAction,
-                        dType));                
-       
+                slFactory.construct(DataActionEnum.ValidateComposeFormAction,
+                        dType),
+                slFactory.construct(DataActionEnum.ValidateAction, dType));
+
         slMediator.startPublish(-1);
     }
 

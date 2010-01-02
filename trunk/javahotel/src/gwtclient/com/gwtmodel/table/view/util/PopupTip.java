@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.mvc.util;
+package com.gwtmodel.table.view.util;
 
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
@@ -20,11 +20,9 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.javahotel.client.widgets.popup.PopUpTip;
-import com.javahotel.client.widgets.popup.PopupUtil;
 
 public abstract class PopupTip extends Composite {
-    
+
     private String message = null;
 
     public void setMessage(String message) {
@@ -48,7 +46,7 @@ public abstract class PopupTip extends Composite {
         public void onMouseOver(MouseOverEvent event) {
             if (message != null) {
                 tup = PopUpTip.getPopupTip(new Label(message));
-                PopupUtil.setPos(tup,PopupTip.this);
+                PopupUtil.setPos(tup, PopupTip.this);
                 tup.show();
             }
         }
@@ -65,7 +63,7 @@ public abstract class PopupTip extends Composite {
     public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
         return addDomHandler(handler, MouseOutEvent.getType());
     }
-    
+
     protected void setMouse() {
         this.addMouseOutHandler(new MouseO());
         this.addMouseOverHandler(new MouseO());
