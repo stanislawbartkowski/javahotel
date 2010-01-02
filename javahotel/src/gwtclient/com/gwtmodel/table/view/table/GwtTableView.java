@@ -134,7 +134,7 @@ class GwtTableView implements IGwtTableView {
         return new WChoosedLine(clickedNo, wSize);
     }
 
-    public Widget getWidget() {
+    public Widget getGWidget() {
         return ta;
     }
 }

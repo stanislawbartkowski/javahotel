@@ -10,46 +10,44 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.idialog;
+package com.gwtmodel.table.view.ewidget;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.rdef.IFormChangeListener;
+import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.util.PopupTip;
 import com.javahotel.client.CommonUtil;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.DefaultMvcWidget;
-import com.javahotel.client.dialog.IMvcWidget;
-import com.javahotel.client.ifield.IChangeListener;
-import com.javahotel.client.ifield.ILineField;
-import com.javahotel.client.ifield.ISetWidget;
 import com.javahotel.common.dateutil.DateFormatUtil;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-abstract class ELineDialog extends PopupTip implements ILineField {
+abstract class ELineDialog extends PopupTip implements IFormLineView {
 
-    protected final IResLocator pLi;
-    protected IKeyboardAction kLi;
-    protected Collection<IChangeListener> lC;
+    protected ITouchListener iTouch;
+    protected Collection<IFormChangeListener> lC;
     protected final boolean isCheckBox;
     protected final boolean checkBoxVal;
+    protected final TableFactoriesContainer tFactories;
 
-    ELineDialog(final IResLocator pLi) {
-        this.pLi = pLi;
-        kLi = null;
+    ELineDialog(TableFactoriesContainer tFactories) {
+        this.tFactories = tFactories;
+        iTouch = null;
         lC = null;
         checkBoxVal = false;
         isCheckBox = true;
     }
 
-    ELineDialog(final IResLocator pLi, boolean checkenable) {
-        this.pLi = pLi;
-        kLi = null;
+    ELineDialog(TableFactoriesContainer tFactories,boolean checkenable) {
+        this.tFactories = tFactories;
+        iTouch = null;
         lC = null;
         checkBoxVal = checkenable;
         isCheckBox = true;
@@ -69,14 +67,14 @@ abstract class ELineDialog extends PopupTip implements ILineField {
 
     public void setStyleName(final String sName, final boolean set) {
         if (set) {
-            getMWidget().getWidget().setStyleName(sName);
+            getGWidget().setStyleName(sName);
         } else {
-            getMWidget().getWidget().removeStyleName(sName);
+            getGWidget().removeStyleName(sName);
         }
     }
 
-    public void setKLi(final IKeyboardAction pkLi) {
-        this.kLi = pkLi;
+    public void setOnTouch(final ITouchListener iTouch) {
+        this.iTouch = iTouch;
     }
 
     public int getIntVal() {
@@ -105,29 +103,23 @@ abstract class ELineDialog extends PopupTip implements ILineField {
         setVal(CommonUtil.DecimalToS(b));
     }
 
-    public void setChangeListener(final IChangeListener l) {
+    public void addChangeListener(final IFormChangeListener l) {
         if (lC == null) {
-            lC = new ArrayList<IChangeListener>();
+            lC = new ArrayList<IFormChangeListener>();
         }
         lC.add(l);
     }
-    
-    protected void runOnChange(ILineField i) {
-        if (lC == null) { return; }
-        for (IChangeListener c : lC) {
+
+    protected void runOnChange(IFormLineView i) {
+        if (lC == null) {
+            return;
+        }
+        for (IFormChangeListener c : lC) {
             c.onChange(i);
         }
     }
-
-    public void setWidget(final ISetWidget i) {
-        i.setW(getMWidget().getWidget());
-    }
-
-    public void setErrMess(String errmess) {
+    
+    public void setInvalidMess(String errmess) {
         setMessage(errmess);
-    }
-
-    public IMvcWidget getMWidget() {
-        return new DefaultMvcWidget(this);
     }
 }

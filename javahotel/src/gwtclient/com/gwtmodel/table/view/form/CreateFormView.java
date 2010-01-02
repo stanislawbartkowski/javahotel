@@ -31,7 +31,7 @@ class CreateFormView {
         for (FormField d : model.getfList()) {
             Label la = new Label(d.getPLabel());
             g.setWidget(rows, 0, la);
-            g.setWidget(rows, 1, d.getELine().getWidget());
+            g.setWidget(rows, 1, d.getELine().getGWidget());
             rows++;
         }
         return g;

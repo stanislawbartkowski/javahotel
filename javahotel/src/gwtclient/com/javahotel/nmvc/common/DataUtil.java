@@ -33,6 +33,7 @@ import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
 import com.javahotel.client.mvc.table.model.ColTitle;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
 
 public class DataUtil {
@@ -89,6 +90,17 @@ public class DataUtil {
         return new DataListType(dvList);
     }
 
+    public static <T extends AbstractTo> List<T> construct(
+            DataListType dataListType) {
+        List<T> dList = new ArrayList<T>();
+        for (IVModelData v : dataListType.getdList()) {
+            VModelData vData = (VModelData) v;
+            T t = (T) vData.getA();
+            dList.add(t);
+        }
+        return dList;
+    }
+
     public static InvalidateFormContainer convert(IErrorMessage errmess) {
         List<InvalidateMess> eList = new ArrayList<InvalidateMess>();
         DictErrorMessage dictM = (DictErrorMessage) errmess;
@@ -107,6 +119,30 @@ public class DataUtil {
         RecordModel mo = new RecordModel(null, null);
         mo.setA(va.getA());
         return mo;
+    }
+
+    public static List<String> fromDicttoString(
+            List<? extends DictionaryP> dList) {
+        ArrayList<String> sList = new ArrayList<String>();
+        if (dList == null) {
+            return sList;
+        }
+        for (DictionaryP d : dList) {
+            String s = d.getName();
+            sList.add(s);
+        }
+        return sList;
+    }
+
+    public static <T extends DictionaryP> void fromStringToDict(
+            List<String> sList, List<T> dList, List<T> persistList) {
+        for (String s : sList) {
+            for (T d : dList) {
+                if (s.equals(d.getName())) {
+                    persistList.add(d);
+                }
+            }
+        }
     }
 
 }

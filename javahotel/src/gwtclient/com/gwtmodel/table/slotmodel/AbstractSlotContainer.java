@@ -25,12 +25,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
 
     protected final SlotListContainer slContainer;
     protected final SlotTypeFactory slTypeFactory;
-    private final SlotSignalContextFactory slContextFactory;
 
     protected AbstractSlotContainer() {
         slContainer = GwtGiniInjector.getI().getSlotListContainer();
         slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
-        slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
     }
 
     public SlotListContainer getSlContainer() {
@@ -104,17 +102,22 @@ abstract public class AbstractSlotContainer implements ISlotable {
 
     protected ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
-        return slContextFactory.construct(slType, iSlot);
+        return slContainer.contextReplace(slType, iSlot);
     }
 
-    public ISlotSignalContext getGetterContext(GetActionEnum getActionEnum,
+    protected ISlotSignalContext getGetterContext(GetActionEnum getActionEnum,
             IDataType dType) {
         return slContainer.getGetterContext(getActionEnum, dType);
     }
 
-    public IVModelData getGetterIVModelData(GetActionEnum getActionEnum,
+    protected IVModelData getGetterIVModelData(GetActionEnum getActionEnum,
             IDataType dType, IVModelData mData) {
         return slContainer.getGetterIVModelData(getActionEnum, dType, mData);
+    }
+
+    protected void publish(DataActionEnum dataActionEnum, IDataType dType,
+            ISlotSignalContext slContext) {
+        slContainer.publish(dataActionEnum, dType, slContext);
     }
 
 }

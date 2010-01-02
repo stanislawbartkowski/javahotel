@@ -33,7 +33,7 @@ class CallBackProgress {
 
         public void run() {
             Label l = pLoc.getPanel().getReplyL();
-            l.setVisible(true);
+//            l.setVisible(true);
             l.setStyleName("wait-reply");
         }
     }
@@ -47,7 +47,8 @@ class CallBackProgress {
             coL--;
         }
         if (coL == 0) {
-            lR.setVisible(false);
+  //          lR.setVisible(false);
+            pLoc.getPanel().clearReply();
             tim.cancel();
             tim = null;
         } else {

@@ -15,6 +15,7 @@ package com.gwtmodel.table.injector;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
@@ -28,6 +29,7 @@ public class TableFactoriesContainer implements ITableAbstractFactories {
     private IDataModelFactory iDataModelFactory;
     private IDataValidateActionFactory iDataValidateFactory;
     private IGetViewControllerFactory iViewFactory;
+    private IGetCustomValues iGetCustomValues;
 
     public IFormDefFactory getFormDefFactory() {
         return iFormDefFactory;
@@ -78,6 +80,14 @@ public class TableFactoriesContainer implements ITableAbstractFactories {
 
     public IGetViewControllerFactory getGetViewControllerFactory() {
         return iViewFactory;
+    }
+
+    public void registerGetCustomValues(IGetCustomValues iGetCustomValues) {
+        this.iGetCustomValues = iGetCustomValues;
+    }
+
+    public IGetCustomValues getGetCustomValues() {
+        return iGetCustomValues;
     }
 
 }

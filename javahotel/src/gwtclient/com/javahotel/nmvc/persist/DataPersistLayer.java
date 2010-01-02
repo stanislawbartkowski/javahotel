@@ -32,10 +32,13 @@ import com.javahotel.client.mvc.persistrecord.IPersistResult;
 import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.common.command.CommandParam;
+import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.DataUtil;
+import com.javahotel.nmvc.common.VModelData;
 
 public class DataPersistLayer extends AbstractSlotContainer implements
         IDataPersistAction {
@@ -76,12 +79,13 @@ public class DataPersistLayer extends AbstractSlotContainer implements
                     GetActionEnum.GetModelToPersist, dType, mData);
             // IVModelData mData = callGetterModelData(
             // GetActionEnum.ModelVDataPersist, dType);
-            IPersistRecord persist = pFactory.getPersistDict(new DictData(dType
-                    .getdType()));
+            // IMPORTANT: DictType.RoomFacility - get the basic persist
+            // TODO: change later, extract basic service
+            IPersistRecord persist = pFactory.getPersistDict(new DictData(DictType.RoomFacility));
             int action = DataUtil.vTypetoAction(slContext.getPersistType());
             RecordModel mo = DataUtil.toRecordModel(pData);
             persist.persist(action, mo, new AfterPersist(slContext
-                    .getPersistType()));
+                    .getPersistType()));            
         }
 
     }

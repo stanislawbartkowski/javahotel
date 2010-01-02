@@ -22,7 +22,7 @@ public class GWidget implements IGWidget {
         this.w = w;
     }
 
-    public Widget getWidget() {
+    public Widget getGWidget() {
         return w;
     }
 

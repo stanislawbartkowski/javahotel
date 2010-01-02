@@ -10,29 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.rdef;
+package com.gwtmodel.table.readres;
 
-import com.gwtmodel.table.IGWidget;
+public interface ISetResText {
 
-public interface IFormLineView extends IGWidget {
-    
-    int NOCHOOSECHECK = 0;
-    int CHOOSECHECKTRUE = 1;
-    int CHOOSECHECKFALSE = 2;
-
-    
-    String getVal();
-
-    void setVal(String s);
-    
-    void addChangeListener(IFormChangeListener cListener);
-    
-    void setReadOnly(boolean readOnly);
-    
-    void setInvalidMess(String errmess);
-    
-    void setStyleName(String styleMess, boolean set);
-    
-    void setOnTouch(ITouchListener lTouch);
+    void setResText(String s);
 
 }

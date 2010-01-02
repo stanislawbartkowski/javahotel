@@ -10,29 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.rdef;
+package com.gwtmodel.table.view.checkstring;
 
-import com.gwtmodel.table.IGWidget;
+import com.google.inject.Inject;
+import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
-public interface IFormLineView extends IGWidget {
-    
-    int NOCHOOSECHECK = 0;
-    int CHOOSECHECKTRUE = 1;
-    int CHOOSECHECKFALSE = 2;
+public class CheckDictModelFactory {
 
-    
-    String getVal();
+    private final EditWidgetFactory eFactory;
 
-    void setVal(String s);
-    
-    void addChangeListener(IFormChangeListener cListener);
-    
-    void setReadOnly(boolean readOnly);
-    
-    void setInvalidMess(String errmess);
-    
-    void setStyleName(String styleMess, boolean set);
-    
-    void setOnTouch(ITouchListener lTouch);
+    @Inject
+    public CheckDictModelFactory(EditWidgetFactory eFactory) {
+        this.eFactory = eFactory;
+    }
+
+    public ICheckDictModel construct(IGetDataList iGet) {
+        return new CheckDictModel(eFactory, iGet);
+    }
 
 }

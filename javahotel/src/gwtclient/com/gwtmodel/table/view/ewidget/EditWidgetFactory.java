@@ -10,29 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.rdef;
+package com.gwtmodel.table.view.ewidget;
 
-import com.gwtmodel.table.IGWidget;
+import com.google.inject.Inject;
+import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 
-public interface IFormLineView extends IGWidget {
-    
-    int NOCHOOSECHECK = 0;
-    int CHOOSECHECKTRUE = 1;
-    int CHOOSECHECKFALSE = 2;
+public class EditWidgetFactory {
 
-    
-    String getVal();
+    private final TableFactoriesContainer tFactories;
 
-    void setVal(String s);
-    
-    void addChangeListener(IFormChangeListener cListener);
-    
-    void setReadOnly(boolean readOnly);
-    
-    void setInvalidMess(String errmess);
-    
-    void setStyleName(String styleMess, boolean set);
-    
-    void setOnTouch(ITouchListener lTouch);
+    @Inject
+    public EditWidgetFactory(TableFactoriesContainer tFactories) {
+        this.tFactories = tFactories;
+    }
+
+    public RadioBoxString constructRadioBoxString(IGetDataList iGet,
+            final boolean enable) {
+        return new RadioBoxString(tFactories, iGet, enable);
+    }
 
 }

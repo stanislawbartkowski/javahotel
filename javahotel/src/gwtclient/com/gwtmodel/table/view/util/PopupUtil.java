@@ -44,6 +44,10 @@ public class PopupUtil {
         pUp.setPopupPosition(l, t);
     }
 
+    public static void setPos(final PopupPanel pUp, final Widget w) {
+        setPos(pUp, new WSize(w));
+    }
+
     public static void setMiddlePos(final PopupPanel pUp, WSize w) {
         int t = w.getTop() + (w.getHeight() / 2);
         int l = w.getLeft() + (w.getWidth() / 2);

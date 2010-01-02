@@ -12,10 +12,10 @@
  */
 package com.javahotel.client;
 
+import com.gwtmodel.table.readres.IReadRes;
 import com.javahotel.client.dispatcher.IDispatch;
 import com.javahotel.client.panel.IWebHotelPanel;
 import com.javahotel.client.rdata.RData;
-import com.javahotel.client.rhtml.IReadRes;
 import com.javahotel.view.IViewInterface;
 
 /**

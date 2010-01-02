@@ -25,6 +25,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.view.util.PopupTip;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.IImageGallery;
 import com.javahotel.client.IResLocator;
@@ -34,7 +36,6 @@ import com.javahotel.client.htmlview.HtmlElemDesc;
 import com.javahotel.client.htmlview.HtmlPanelFactory;
 import com.javahotel.client.htmlview.HtmlTypeEnum;
 import com.javahotel.client.htmlview.IHtmlPanelCallBack;
-import com.javahotel.client.mvc.util.PopupTip;
 import com.javahotel.client.mvc.util.YesNoDialog;
 import com.javahotel.client.panel.IWebHotelPanel;
 
@@ -52,8 +53,7 @@ class WebHotelPanel implements IWebHotelPanel {
     };
 
     private StatusE sta = StatusE.NORMAL;
-    private final Label replyL = new Label();
-    private ErrorL errL;
+    private final StatusL status = new StatusL(null);
 
     private Widget wCenter = null;
     private Widget wWest = null;
@@ -73,15 +73,8 @@ class WebHotelPanel implements IWebHotelPanel {
     private final VerticalPanel vp = new VerticalPanel();
     private HTMLPanel uPanel = null;
 
-    private void setStatusW(Widget w) {
-        if (uPanel == null) {
-            return;
-        }
-        uPanel.addAndReplaceElement(w, HOTELHEADER_STATUSBAR);
-    }
-
     private void setStatusNormal() {
-        setStatusW(new Label(""));
+        status.setVisible(false);
         sta = StatusE.NORMAL;
     }
 
@@ -89,29 +82,30 @@ class WebHotelPanel implements IWebHotelPanel {
         if (sta == StatusE.REPLYL) {
             return;
         }
-        replyL.setText("");
-        replyL.setStyleName("wait-reply");
         sta = StatusE.REPLYL;
-        setStatusW(replyL);
+        status.setVisible(true);
+        status.l.setText(null);
+        status.setStyleName("wait-reply");
     }
 
     public Label getReplyL() {
         toReplayL();
-        return replyL;
+        return status.l;
     }
 
     public void clearReply() {
         setStatusNormal();
     }
 
-    private class ErrorL extends PopupTip {
+    private class StatusL extends PopupTip {
 
-        
-        
-        ErrorL(String errmess) {
-            initWidget(new Label(""));
+        final Label l = new Label("");
+
+        StatusL(String errmess) {
+            initWidget(l);
             setMessage(errmess);
             setStyleName("error-reply");
+            setMouse();
         }
 
     }
@@ -121,20 +115,16 @@ class WebHotelPanel implements IWebHotelPanel {
             return;
         }
         sta = StatusE.ERRORL;
-        errL = new ErrorL(errmess);
-        setStatusW(errL);
+        status.setVisible(true);
+        status.l.setText(Utils.getEmptytyLabel());
+        status.setMessage(errmess);
+        status.setStyleName("error-reply");
     }
 
     public void initStatus() {
         switch (sta) {
         case NORMAL:
             setStatusNormal();
-            break;
-        case ERRORL:
-            setStatusW(errL);
-            break;
-        case REPLYL:
-            setStatusW(replyL);
             break;
         }
     }
@@ -235,6 +225,7 @@ class WebHotelPanel implements IWebHotelPanel {
         hList.add(new HtmlElemDesc(hotelName, "hotelheader_hotel"));
         hList.add(new HtmlElemDesc(ha, HOTELHEADER_LOGOUT));
         hList.add(new HtmlElemDesc(logo, HOTELHEADER_LOGO));
+        hList.add(new HtmlElemDesc(status, HOTELHEADER_STATUSBAR));
 
         HtmlPanelFactory.getHtmlPanel(rI, HtmlTypeEnum.MainStatus,
                 new PanelCallback(), hList);

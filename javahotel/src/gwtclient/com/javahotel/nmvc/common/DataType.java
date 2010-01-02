@@ -14,16 +14,26 @@ package com.javahotel.nmvc.common;
 
 import com.javahotel.common.command.DictType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.Utils;
 
 public class DataType implements IDataType {
 
     private final DictDataEnum dcType;
+
+    private final DataTypeSubEnum dSub;
 
     private final DictType dType;
 
     public DataType(DictType dType) {
         this.dType = dType;
         dcType = DictDataEnum.DictType;
+        dSub = null;
+    }
+
+    public DataType(DictType dType, DataTypeSubEnum dSub) {
+        this.dType = dType;
+        dcType = DictDataEnum.DictType;
+        this.dSub = dSub;
     }
 
     public DictType getdType() {
@@ -32,7 +42,10 @@ public class DataType implements IDataType {
 
     public boolean eq(IDataType dt) {
         DataType p = (DataType) dt;
-        return dType == p.getdType();
+        if (dType != p.getdType()) {
+            return false;
+        }
+        return Utils.eqE(dSub, p.dSub);
     }
 
 }

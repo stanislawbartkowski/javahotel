@@ -43,6 +43,52 @@ public class SlotListContainer {
         listOfSubscribers = new ArrayList<SlotSubscriberType>();
         listOfCallers = new ArrayList<SlotCallerType>();
         listOfRedirectors = new ArrayList<SlotRedirector>();
+        registerSlReceiver(new GeneralCaller());
+        registerSlPublisher(new GeneralListener());
+
+    }
+
+    public ISlotSignalContext contextReplace(SlotType slType,
+            ISlotSignalContext iSlot) {
+        return slContextFactory.construct(slType, iSlot);
+    }
+
+    private class GeneralListener implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContextP) {
+            SlotType sl = slContextP.getSlType();
+            ISlotSignalContext slContext = slContextP;
+            // find redirector
+            boolean notReplaced = true;
+            while (notReplaced) {
+                notReplaced = false;
+                for (SlotRedirector re : getListOfRedirectors()) {
+                    if (re.getFrom().eq(sl)) {
+                        sl = re.getTo();
+                        slContext = contextReplace(sl, slContextP);
+                        notReplaced = true;
+                        break;
+                    }
+                }
+            }
+
+            for (SlotSubscriberType so : getListOfSubscribers()) {
+                if (sl.eq(so.getSlType())) {
+                    so.getSlSignaller().signal(slContext);
+                }
+            }
+        }
+    }
+
+    private class GeneralCaller implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            SlotCallerType slCaller = findCaller(slContext.getSlType());
+            if (slCaller == null) {
+                return null;
+            }
+            return slCaller.getSlCaller().call(slContext);
+        }
     }
 
     public List<SlotRedirector> getListOfRedirectors() {
@@ -204,6 +250,12 @@ public class SlotListContainer {
             DataListType dataList) {
         publish(slContextFactory.construct(slTypeFactory.construct(
                 dataActionEnum, dType), dataList));
+    }
+
+    public void publish(DataActionEnum dataActionEnum, IDataType dType,
+            ISlotSignalContext slContext) {
+        publish(slContextFactory.construct(slTypeFactory.construct(
+                dataActionEnum, dType), slContext));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType) {
