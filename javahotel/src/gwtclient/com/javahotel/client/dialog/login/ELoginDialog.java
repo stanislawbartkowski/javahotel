@@ -33,7 +33,6 @@ import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.IRecordView;
 import com.javahotel.client.mvc.record.view.RecordViewFactory;
 import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
-import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.client.mvc.validator.ISignalValidate;

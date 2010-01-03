@@ -13,29 +13,23 @@
 package com.javahotel.nmvc.factories;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.persist.DataPersistLayer;
 
 class PersistFactoryAction implements IPersistFactoryAction {
 
     private final IResLocator rI;
-    private final PersistRecordFactory pFactory;
-    private final IDataModelFactory gFactory;
 
-    PersistFactoryAction(IResLocator rI, PersistRecordFactory pFactory,IDataModelFactory gFactory) {
+    PersistFactoryAction(IResLocator rI) {
         this.rI = rI;
-        this.pFactory = pFactory;
-        this.gFactory = gFactory;
     }
 
     public IDataPersistAction contruct(IDataType dType) {
         DataType dd = (DataType) dType;
-        return new DataPersistLayer(rI,pFactory, gFactory, dd);
+        return new DataPersistLayer(rI, dd);
 
     }
 }

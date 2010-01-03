@@ -10,23 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.slotmodel;
+package com.javahotel.nmvc.persist.dict;
 
-public enum GetActionEnum {
+import com.javahotel.common.command.ReturnPersist;
+import com.javahotel.common.toobject.AbstractTo;
 
-    /** returns out: IVModelData + WSIze . */ 
-    GetListLineChecked,
-    
-    /** return in/out: IVModelData. */
-    GetViewModelEdited,
-    
-    /** return IVModelToPersist in/out IVModelData. */
-    GetModelToPersist,
-    
-    /** Compose get edit model out/IVModelData. */
-    GetViewComposeModelEdited,
-    
-    /** Compose get model to persist out/IVModelData. */
-    GetComposeModelToPersist,
-        
+/**
+ *
+ * @author stanislawbartkowski@gmail.com
+ */
+class CallSuccess {
+
+    private CallSuccess() {
+    }
+
+    static void callI(IPersistResult res, int action, AbstractTo a, Object arg) {
+        IPersistResult.PersistResultContext re =
+                new IPersistResult.PersistResultContext(action, a,
+                (ReturnPersist) arg);
+        res.success(re);
+    }
 }

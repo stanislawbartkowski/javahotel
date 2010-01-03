@@ -16,12 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
@@ -35,12 +40,46 @@ class ComposeController implements IComposeController {
     private final PanelViewFactory pViewFactory;
     private final IDataType dType;
     private final SlotTypeFactory slFactory;
+    private final IDataModelFactory dFactory;
 
-    ComposeController(TablesFactories tFactories, IDataType dType) {
+    ComposeController(TablesFactories tFactories,
+            TableFactoriesContainer cFactories, IDataType dType) {
         slMediator = SlotMediatorFactory.construct();
         pViewFactory = tFactories.getpViewFactory();
         this.dType = dType;
         slFactory = tFactories.getSlTypeFactory();
+        dFactory = cFactories.getDataModelFactory();
+    }
+
+    private class EditCallerGetter implements ISlotCaller {
+
+        private final GetActionEnum getA;
+
+        EditCallerGetter(GetActionEnum getA) {
+            this.getA = getA;
+        }
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVModelData mData = dFactory.construct(dType);
+            IVModelData pData = slMediator.getSlContainer()
+                    .getGetterIVModelData(getA, dType, mData);
+            for (ComposeControllerType cType : cList) {
+                if (cType.getdType() == null) {
+                    continue;
+                }
+                if (cType.getdType().equals(dType)) {
+                    continue;
+                }
+                if (!cType.isPanelElem()) {
+                    continue;
+                }
+                pData = slMediator.getSlContainer().getGetterIVModelData(getA,
+                        cType.getdType(), pData);
+            }
+            return slMediator.getSlContainer().getGetterContext(
+                    slContext.getSlType(), pData);
+        }
+
     }
 
     public void registerController(ComposeControllerType cType) {
@@ -48,9 +87,9 @@ class ComposeController implements IComposeController {
     }
 
     private class DrawAction implements ISlotSignaller {
-        
+
         private final DataActionEnum dataActionEnum;
-        
+
         DrawAction(DataActionEnum dataActionEnum) {
             this.dataActionEnum = dataActionEnum;
         }
@@ -63,9 +102,8 @@ class ComposeController implements IComposeController {
                 if (!cType.isPanelElem()) {
                     continue;
                 }
-                slMediator.getSlContainer().publish(
-                        dataActionEnum, cType.getdType(),
-                        slContext);
+                slMediator.getSlContainer().publish(dataActionEnum,
+                        cType.getdType(), slContext);
             }
         }
 
@@ -88,16 +126,6 @@ class ComposeController implements IComposeController {
         slMediator.getSlContainer().registerSubscriber(
                 DataActionEnum.ChangeViewComposeFormModeAction, dType,
                 new DrawAction(DataActionEnum.ChangeViewFormModeAction));
-        // slMediator.getSlContainer().registerRedirector(
-        // slFactory.construct(DataActionEnum.DrawViewComposeFormAction,
-        // dType),
-        // slFactory.construct(DataActionEnum.DrawViewFormAction, dType));
-
-//        slMediator.getSlContainer().registerRedirector(
-//                slFactory.construct(
-//                        DataActionEnum.ChangeViewComposeFormModeAction, dType),
-//                slFactory.construct(DataActionEnum.ChangeViewFormModeAction,
-//                        dType));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.PersistComposeFormAction,
@@ -113,6 +141,13 @@ class ComposeController implements IComposeController {
                 slFactory.construct(DataActionEnum.ValidateComposeFormAction,
                         dType),
                 slFactory.construct(DataActionEnum.ValidateAction, dType));
+
+        slMediator.getSlContainer().registerCaller(
+                GetActionEnum.GetViewComposeModelEdited, dType,
+                new EditCallerGetter(GetActionEnum.GetViewModelEdited));
+        slMediator.getSlContainer().registerCaller(
+                GetActionEnum.GetComposeModelToPersist, dType,
+                new EditCallerGetter(GetActionEnum.GetModelToPersist));
 
         slMediator.startPublish(-1);
     }

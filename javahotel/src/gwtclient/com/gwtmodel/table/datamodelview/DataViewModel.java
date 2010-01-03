@@ -16,6 +16,8 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -32,6 +34,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private final FormLineContainer fContainer;
     private final IGwtFormView gView;
+    private final IDataModelFactory dFactory;
 
     private class ChangeMode implements ISlotSignaller {
 
@@ -86,9 +89,10 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
-            FormLineContainer fContainer) {
+            FormLineContainer fContainer, TableFactoriesContainer cFactories) {
         this.fContainer = fContainer;
         gView = gFactory.construct(fContainer);
+        dFactory = cFactories.getDataModelFactory();
         registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
                 new InvalidateMess());
         registerSubscriber(DataActionEnum.ChangeViewFormModeAction, dType,
@@ -100,17 +104,19 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     private void fromViewToData(IVModelData aTo) {
-        for (FormField d : fContainer.getfList()) {
-            String s = d.getELine().getVal();
-            aTo.setS(d.getFie(), s);
-        }
+        // for (FormField d : fContainer.getfList()) {
+        // String s = d.getELine().getVal();
+        // aTo.setS(d.getFie(), s);
+        // }
+        dFactory.fromViewToData(fContainer, aTo);
     }
 
     private void fromDataToView(IVModelData aFrom) {
-        for (FormField d : fContainer.getfList()) {
-            String s = aFrom.getS(d.getFie());
-            d.getELine().setVal(s);
-        }
+        // for (FormField d : fContainer.getfList()) {
+        // String s = aFrom.getS(d.getFie());
+        // d.getELine().setVal(s);
+        // }
+        dFactory.fromDataToView(aFrom, fContainer);
     }
 
     public void startPublish(int cellId) {

@@ -14,6 +14,7 @@ package com.gwtmodel.table.factories;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.rdef.FormLineContainer;
 
 public interface IDataModelFactory {
 
@@ -22,5 +23,10 @@ public interface IDataModelFactory {
     void copyFromPersistToModel(IDataType dType, IVModelData from, IVModelData to);
 
     void fromModelToPersist(IDataType dType, IVModelData from, IVModelData to);
+    
+    void fromViewToData(FormLineContainer fContainer, IVModelData aTo);
+    
+    void fromDataToView(IVModelData aFrom, FormLineContainer fContainer);
+
 
 }

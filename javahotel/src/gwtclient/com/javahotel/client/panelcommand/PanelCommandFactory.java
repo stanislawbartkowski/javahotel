@@ -98,7 +98,8 @@ public class PanelCommandFactory {
 //            i = new TestBookingElem(sI);
 //            i = new NewMvcPanel(sI,DictType.PriceListDict);
 //            i = new NewMvcPanel(sI,DictType.RoomFacility);
-            i = new NewMvcPanel(sI,DictType.RoomStandard);
+//            i = new NewMvcPanel(sI,DictType.RoomStandard);
+            i = new NewMvcPanel(sI,DictType.RoomObjects);
             break;
         }
         if (i == null) {

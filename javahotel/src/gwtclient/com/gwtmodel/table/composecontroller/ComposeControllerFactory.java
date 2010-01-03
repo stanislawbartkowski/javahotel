@@ -14,19 +14,23 @@ package com.gwtmodel.table.composecontroller;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 
 public class ComposeControllerFactory {
-    
+
     private final TablesFactories tFactories;
-    
+    private final TableFactoriesContainer cFactories;
+
     @Inject
-    public ComposeControllerFactory(TablesFactories tFactories) {
+    public ComposeControllerFactory(TablesFactories tFactories,
+            TableFactoriesContainer cFactories) {
         this.tFactories = tFactories;
+        this.cFactories = cFactories;
     }
-    
+
     public IComposeController construct(IDataType vType) {
-        return new ComposeController(tFactories,vType);
+        return new ComposeController(tFactories, cFactories, vType);
     }
 
 }

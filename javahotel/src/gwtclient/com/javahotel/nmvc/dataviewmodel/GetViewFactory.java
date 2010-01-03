@@ -71,8 +71,12 @@ public class GetViewFactory implements IGetViewControllerFactory {
 
         public void setStrings(IVModelData mData, List<String> strings,
                 DataListType dataList) {
-            // TODO Auto-generated method stub
-
+            VModelData vModel = (VModelData) mData;
+            ResObjectP roomS = (ResObjectP) vModel.getA();
+            List<DictionaryP> persistList = new ArrayList<DictionaryP>();
+            List<DictionaryP> dList = DataUtil.construct(dataList);
+            DataUtil.fromStringToDict(strings, dList, persistList);
+            roomS.setFacilities(persistList);
         }
 
     }
@@ -119,6 +123,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
                     peFactory, subType, new DataType(DictType.RoomFacility),
                     new InfoExtractRoom()), subType, 0, 1);
             iCon.registerController(cType);
+            break;
         case RoomStandard:
             cType = new ComposeControllerType(new CheckStandardContainer(
                     peFactory, subType, new DataType(DictType.ServiceDict),

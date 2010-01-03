@@ -114,10 +114,15 @@ abstract public class AbstractSlotContainer implements ISlotable {
             IDataType dType, IVModelData mData) {
         return slContainer.getGetterIVModelData(getActionEnum, dType, mData);
     }
+    
+    protected IVModelData getGetterIVModelData(GetActionEnum getActionEnum,
+            IDataType dType) {
+        return slContainer.getGetterIVModelData(getActionEnum, dType);
+    }
 
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
             ISlotSignalContext slContext) {
         slContainer.publish(dataActionEnum, dType, slContext);
     }
-
+    
 }
