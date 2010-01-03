@@ -51,11 +51,11 @@ public class RegisterFactories {
     public void register() {
         FormDefFactory fa = new FormDefFactory(gFactory);
         IDataModelFactory daFactory = new DataModelFactory(aFactory);
-        PersistFactoryAction peFactory = new PersistFactoryAction(rI,
-                pFactory, daFactory); 
+        PersistFactoryAction peFactory = new PersistFactoryAction(rI);
         IDataValidateActionFactory vFactory = new ValidateActionFactory(
                 valFactory, daFactory);
-        GetViewFactory getViewFactory = new GetViewFactory(fa,vFactory,peFactory);
+        GetViewFactory getViewFactory = new GetViewFactory(fa, vFactory,
+                peFactory);
         tFactories.registerFormDefFactory(fa);
         tFactories.registerHeaderListFactory(new HeaderListFactory(cFactory));
         tFactories.registerPersistFactory(peFactory);

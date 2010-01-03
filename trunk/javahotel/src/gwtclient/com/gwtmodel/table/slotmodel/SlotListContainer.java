@@ -160,8 +160,6 @@ public class SlotListContainer {
 
     private ISlotSignalContext callGet(SlotType slType) {
         ISlotSignalContext slContext = slContextFactory.construct(slType);
-        // ISlotSignalContext slContext =
-        // slSignalContext.constructContext(slType);
         return call(slContext);
     }
 
@@ -188,6 +186,13 @@ public class SlotListContainer {
             IDataType dType) {
         SlotType slType = slTypeFactory.construct(getActionEnum, dType);
         ISlotSignalContext slContext = callGet(slType);
+        return slContext;
+    }
+
+    public ISlotSignalContext getGetterContext(SlotType slType,
+            IVModelData mData) {
+        ISlotSignalContext slContext = slContextFactory
+                .construct(slType, mData);
         return slContext;
     }
 

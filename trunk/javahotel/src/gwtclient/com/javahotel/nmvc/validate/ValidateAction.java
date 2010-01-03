@@ -82,9 +82,9 @@ public class ValidateAction extends AbstractSlotContainer implements
     private class ValidateA implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            IVModelData mData = dFactory.construct(dType);
+            // IVModelData mData = dFactory.construct(dType);
             IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetViewModelEdited, dType, mData);
+                    GetActionEnum.GetComposeModelToPersist, dType);
             validateE(slContext.getPersistType(), pData);
         }
     }

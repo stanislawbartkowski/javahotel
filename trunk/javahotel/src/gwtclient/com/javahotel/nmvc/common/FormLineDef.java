@@ -24,6 +24,10 @@ public class FormLineDef implements IFormLineView {
 
     private final ILineField iField;
     
+    public ILineField getiField() {
+        return iField;
+    }
+
     private class DefaultListener implements IKeyboardAction {
         
         private final ITouchListener lTouch;
