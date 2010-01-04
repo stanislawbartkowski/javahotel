@@ -104,18 +104,10 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     private void fromViewToData(IVModelData aTo) {
-        // for (FormField d : fContainer.getfList()) {
-        // String s = d.getELine().getVal();
-        // aTo.setS(d.getFie(), s);
-        // }
         dFactory.fromViewToData(fContainer, aTo);
     }
 
     private void fromDataToView(IVModelData aFrom) {
-        // for (FormField d : fContainer.getfList()) {
-        // String s = aFrom.getS(d.getFie());
-        // d.getELine().setVal(s);
-        // }
         dFactory.fromDataToView(aFrom, fContainer);
     }
 

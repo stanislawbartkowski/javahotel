@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2009 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,33 +10,29 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.rdef;
+package com.gwtmodel.table.view.grid;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 import com.gwtmodel.table.IGWidget;
 
-public interface IFormLineView extends IGWidget {
-    
-    int NOCHOOSECHECK = 0;
-    int CHOOSECHECKTRUE = 1;
-    int CHOOSECHECKFALSE = 2;
+/**
+ *
+ * @author stanislawbartkowski@gmail.com
+ */
+public interface IGridView extends IGWidget {
 
+    void setRowBeginning(List<String> rows);
     
-    String getVal();
+    void setRowNo(int rowNo);
+    
+    void setColNo(int colNo);
 
-    void setVal(String s);
-    
-    void addChangeListener(IFormChangeListener cListener);
-    
-    void setReadOnly(boolean readOnly);
-    
-    void setInvalidMess(String errmess);
-    
-    void setStyleName(String styleMess, boolean set);
-    
-    void setOnTouch(ITouchListener lTouch);
-    
-    BigDecimal getDecimal();
+    void setCols(String rowTitle, List<String> cols);
 
+    void setRowVal(int row, int c, Object o);
+
+    Object getCell(int row, int c);
+
+    void setEnable(int rowno, int colno, boolean enable);
 }

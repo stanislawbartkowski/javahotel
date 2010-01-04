@@ -10,33 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.rdef;
+package com.gwtmodel.table.view.ewidget;
 
-import java.math.BigDecimal;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 
-import com.gwtmodel.table.IGWidget;
+/**
+ *
+ * @author stanislawbartkowski@gmail.com
+ */
+class NumberCalculator extends WidgetWithPopUpTemplate {
 
-public interface IFormLineView extends IGWidget {
-    
-    int NOCHOOSECHECK = 0;
-    int CHOOSECHECKTRUE = 1;
-    int CHOOSECHECKFALSE = 2;
+    NumberCalculator(TableFactoriesContainer tFactories) {
+        super(tFactories);
+    }
 
-    
-    String getVal();
-
-    void setVal(String s);
-    
-    void addChangeListener(IFormChangeListener cListener);
-    
-    void setReadOnly(boolean readOnly);
-    
-    void setInvalidMess(String errmess);
-    
-    void setStyleName(String styleMess, boolean set);
-    
-    void setOnTouch(ITouchListener lTouch);
-    
-    BigDecimal getDecimal();
+	@Override
+	protected Widget getPopUpWidget() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
+    
