@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.ewidget;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.rdef.IFormLineView;
 
 public class EditWidgetFactory {
 
@@ -28,6 +29,10 @@ public class EditWidgetFactory {
     public RadioBoxString constructRadioBoxString(IGetDataList iGet,
             final boolean enable) {
         return new RadioBoxString(tFactories, iGet, enable);
+    }
+
+    public IFormLineView contructCalculatorNumber() {
+        return new NumberCalculator(tFactories);
     }
 
 }
