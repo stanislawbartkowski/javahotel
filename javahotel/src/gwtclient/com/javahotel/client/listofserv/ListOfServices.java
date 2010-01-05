@@ -59,7 +59,6 @@ public class ListOfServices {
     }
 
     public void getServices(final String resRoom) {
-        GetR g = new GetR();
         if (resRoom == null) {
             i.doVList(new ArrayList<ServiceDictionaryP>());
             return;

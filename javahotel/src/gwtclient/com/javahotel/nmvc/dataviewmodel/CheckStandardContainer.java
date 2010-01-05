@@ -33,6 +33,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.checkstring.ICheckDictModel;
+import com.javahotel.nmvc.common.ReadDictList;
 
 class CheckStandardContainer extends AbstractSlotContainer implements ISlotable {
 
@@ -80,7 +81,7 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
         }
     }
 
-    private class R implements ISlotSignaller {
+    private class R implements ReadDictList.IListCallBack {
 
         private final int cellId;
 
@@ -88,10 +89,11 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
             this.cellId = cellId;
         }
 
-        public void signal(ISlotSignalContext slContext) {
-            dataList = slContext.getDataList();
+        public void setList(DataListType dList) {
+            dataList = dList;
             getDataList.setDataList(dataList);
             publish(cellId, iCheck);
+            
         }
     }
 
@@ -140,10 +142,11 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
     }
 
     public void startPublish(int cellId) {
-        IDataPersistAction persistA = persistFactoryA.contruct(dType);
-        persistA.getSlContainer().registerSubscriber(
-                DataActionEnum.ListReadSuccessSignal, dType, new R(cellId));
-        persistA.getSlContainer().publish(DataActionEnum.ReadListAction, dType);
+//        IDataPersistAction persistA = persistFactoryA.contruct(dType);
+//        persistA.getSlContainer().registerSubscriber(
+//                DataActionEnum.ListReadSuccessSignal, dType, new R(cellId));
+//        persistA.getSlContainer().publish(DataActionEnum.ReadListAction, dType);
+        ReadDictList.readList(persistFactoryA, dType, new R(cellId));
     }
 
 }

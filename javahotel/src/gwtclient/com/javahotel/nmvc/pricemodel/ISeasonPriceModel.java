@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,30 +10,22 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.grid;
+package com.javahotel.nmvc.pricemodel;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import com.gwtmodel.table.IGWidget;
-
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
-public interface IGridView extends IGWidget {
+public interface ISeasonPriceModel {
 
-    void setRowBeginning(List<String> rows);
+    int HIGHSEASON = 0;
+    int HIGHSEASONWEEKEND = 1;
+    int LOWSEASON = 2;
+    int LOWSEASONWEEKEND = 3;
+    int MAXSPECIALNO = 3;
     
-    void setRowNo(int rowNo);
-    
-    void setColNo(int colNo);
-
-    void setCols(String rowTitle, List<String> cols);
-
-    void setRowVal(int row, int c, Object o);
-
-    Object getCell(int row, int c);
-
-    void setReadOnly(boolean readOnly);
-    
+    List<String> pricesNames();
 }

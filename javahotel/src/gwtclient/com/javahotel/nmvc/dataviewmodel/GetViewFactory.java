@@ -31,6 +31,7 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResObjectP;
@@ -117,20 +118,23 @@ public class GetViewFactory implements IGetViewControllerFactory {
         iCon.registerController(new ComposeControllerType(persistA, dType));
         DataType dd = (DataType) dType;
         DataType subType = new DataType(dd.getdType(), DataTypeSubEnum.Sub1);
+        ISlotable cContainer = null;
         switch (dd.getdType()) {
+        case PriceListDict:
+            cContainer = new PriceListContainer(peFactory, subType);
+            break;
         case RoomObjects:
-            cType = new ComposeControllerType(new CheckStandardContainer(
-                    peFactory, subType, new DataType(DictType.RoomFacility),
-                    new InfoExtractRoom()), subType, 0, 1);
-            iCon.registerController(cType);
+            cContainer = new CheckStandardContainer(peFactory, subType,
+                    new DataType(DictType.RoomFacility), new InfoExtractRoom());
             break;
         case RoomStandard:
-            cType = new ComposeControllerType(new CheckStandardContainer(
-                    peFactory, subType, new DataType(DictType.ServiceDict),
-                    new InfoExtractStandard()), subType, 0, 1);
-            iCon.registerController(cType);
+            cContainer = new CheckStandardContainer(peFactory, subType,
+                    new DataType(DictType.ServiceDict),
+                    new InfoExtractStandard());
             break;
         }
+        cType = new ComposeControllerType(cContainer, subType, 0, 1);
+        iCon.registerController(cType);
         return iCon;
     }
 

@@ -12,6 +12,8 @@
  */
 package com.javahotel.nmvc.common;
 
+import java.math.BigDecimal;
+
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -99,6 +101,14 @@ public class FormLineDef implements IFormLineView {
 
     public void setOnTouch(ITouchListener lTouch) {
         iField.setKLi(new DefaultListener(lTouch));        
+    }
+
+    public BigDecimal getDecimal() {
+        return iField.getDecimal();
+    }
+
+    public void setDecimal(BigDecimal b) {
+        iField.setDecimal(b);        
     }
 
 }

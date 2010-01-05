@@ -47,7 +47,6 @@ import com.javahotel.client.mvc.dictcrud.controler.priceoffer.PriceListAuxView;
 import com.javahotel.client.mvc.dictcrud.controler.priceoffer.SetPriceForOffer;
 import com.javahotel.client.mvc.dictcrud.read.CrudReadModelFactory;
 import com.javahotel.client.mvc.gridmodel.model.GridModelViewFactory;
-import com.javahotel.client.mvc.gridmodel.model.view.GetViewFactory;
 import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.recordviewdef.DictButtonFactory;
@@ -59,6 +58,7 @@ import com.javahotel.client.paymentdata.PaymentData;
 import com.javahotel.client.start.IWebEntry;
 import com.javahotel.client.start.MainWebEntry;
 import com.javahotel.nmvc.factories.RegisterFactories;
+import com.javahotel.nmvc.pricemodel.PriceSeasonModelFactory;
 import com.javahotel.view.gwt.grid.view.GridGwtGetViewFactory;
 import com.javahotel.view.gwt.recordviewdef.GwtGetRecordDefFactory;
 import com.javahotel.view.gwt.table.view.ViewTableViewFactory;
@@ -106,5 +106,6 @@ public class GiniClientModule extends AbstractGinModule {
         bind(RegisterFactories.class).in(Singleton.class);
         bind(AbstractToFactory.class).in(Singleton.class);
         bind(PersistRecordFactory.class).in(Singleton.class);
+        bind(PriceSeasonModelFactory.class).in(Singleton.class);
     }
 }
