@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -12,28 +12,13 @@
  */
 package com.gwtmodel.table.view.grid;
 
-import java.util.List;
+import java.math.BigDecimal;
 
-import com.gwtmodel.table.IGWidget;
-
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-public interface IGridView extends IGWidget {
-
-    void setRowBeginning(List<String> rows);
+public interface IGridViewDecimal extends IGridView {
     
-    void setRowNo(int rowNo);
-    
-    void setColNo(int colNo);
+    void setRowDecimal(int row, int c, BigDecimal b);
 
-    void setCols(String rowTitle, List<String> cols);
+    BigDecimal getCellDecimal(int row, int c);
 
-    void setRowVal(int row, int c, Object o);
 
-    Object getCell(int row, int c);
-
-    void setReadOnly(boolean readOnly);
-    
 }

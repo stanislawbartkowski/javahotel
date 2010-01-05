@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2008 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,30 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.grid;
+package com.javahotel.nmvc.pricemodel;
 
-import java.util.List;
+import com.google.inject.Inject;
+import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
+import com.javahotel.common.toobject.OfferSeasonP;
 
-import com.gwtmodel.table.IGWidget;
+public class PriceSeasonModelFactory {
 
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-public interface IGridView extends IGWidget {
-
-    void setRowBeginning(List<String> rows);
+    private final GetRecordDefFactory gFactory;
     
-    void setRowNo(int rowNo);
-    
-    void setColNo(int colNo);
+    @Inject
+    public PriceSeasonModelFactory(GetRecordDefFactory gFactory) {
+        this.gFactory = gFactory;
+    }
 
-    void setCols(String rowTitle, List<String> cols);
+    public ISeasonPriceModel construct(OfferSeasonP seasonP) {
+        return new SeasonPriceModel(gFactory,seasonP);
 
-    void setRowVal(int row, int c, Object o);
+    }
 
-    Object getCell(int row, int c);
-
-    void setReadOnly(boolean readOnly);
-    
 }

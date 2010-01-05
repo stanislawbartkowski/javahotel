@@ -24,7 +24,7 @@ import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 class GridView implements IGridView {
-    
+
     private final GridViewType gType;
     private final EditWidgetFactory wFactory;
     private final Grid g;
@@ -34,53 +34,63 @@ class GridView implements IGridView {
     private List<String> rowTitles = null;
     private String rowTitle = null;
     private S synch = new S();
-    
+
     private void drawCols() {
-        if (colTitles == null) { return; }
-        if (!gType.isColHeaders()) { return; }
-        for (int i=0; i<colNo; i++) {
-            C c = getC(-1,i);
-            g.setText(c.row,c.col,colTitles.get(i));           
+        if (colTitles == null) {
+            return;
+        }
+        if (!gType.isColHeaders()) {
+            return;
+        }
+        for (int i = 0; i < colNo; i++) {
+            C c = getC(-1, i);
+            g.setText(c.row, c.col, colTitles.get(i));
         }
     }
-    
+
     private void drawRows() {
-        if (rowTitles == null) { return; }
-        if (!gType.isRowBeginning()) { return; }
-        for (int i=0; i<rowNo; i++) {
-            C c = getC(i,-1);
-            g.setText(c.row,c.col,rowTitles.get(i));           
+        if (rowTitles == null) {
+            return;
+        }
+        if (!gType.isRowBeginning()) {
+            return;
+        }
+        for (int i = 0; i < rowNo; i++) {
+            C c = getC(i, -1);
+            g.setText(c.row, c.col, rowTitles.get(i));
         }
     }
-    
+
     private void drawTitle() {
-        if (rowTitle == null) { return; }
-        g.setText(0,0,rowTitle);
+        if (rowTitle == null) {
+            return;
+        }
+        g.setText(0, 0, rowTitle);
     }
-    
+
     private class S extends SynchronizeList {
 
         S() {
             super(2);
         }
-        
+
         @Override
         protected void doTask() {
-            C c = getC(rowNo,colNo);
+            C c = getC(rowNo, colNo);
             g.resize(c.row, c.col);
             drawCols();
             drawRows();
             drawTitle();
         }
-        
+
     }
-    
-    GridView(EditWidgetFactory wFactory,GridViewType gType) {
+
+    GridView(EditWidgetFactory wFactory, GridViewType gType) {
         this.gType = gType;
         this.wFactory = wFactory;
         this.g = new Grid();
     }
-    
+
     private class NumerW extends Composite {
 
         final IFormLineView iF;
@@ -91,78 +101,90 @@ class GridView implements IGridView {
         }
     }
 
-    
     private class C {
-        
+
         int row;
         int col;
     }
-    
+
     private C getC(int row, int col) {
         C c = new C();
         if (gType.isHorizontal()) {
             c.row = gType.isColHeaders() ? row + 1 : row;
             c.col = gType.isRowBeginning() ? col + 1 : col;
-        }
-        else {
-            c.row = gType.isColHeaders() ? col + 1 : col;            
+        } else {
+            c.row = gType.isColHeaders() ? col + 1 : col;
             c.col = gType.isRowBeginning() ? row + 1 : row;
         }
         return c;
     }
 
     private Widget getW(int r, int c) {
-        C co = getC(r,c);
+        C co = getC(r, c);
         Widget w = g.getWidget(co.row, co.col);
         if (w == null) {
             w = null;
             switch (gType.getgType()) {
-                case BOOLEAN:
-                    CheckBox ce = new CheckBox();
-                    w = ce;
-                    break;
-                case DECIMAL:
-                    IFormLineView nView = wFactory.contructCalculatorNumber();
-                    NumerW nu = new NumerW(nView);
-                    w = nu;
-                    break;
+            case BOOLEAN:
+                CheckBox ce = new CheckBox();
+                w = ce;
+                break;
+            case DECIMAL:
+                IFormLineView nView = wFactory.contructCalculatorNumber();
+                NumerW nu = new NumerW(nView);
+                w = nu;
+                break;
             }
             g.setWidget(co.row, co.col, w);
         }
         return w;
     }
-    
+
     public Object getCell(int row, int c) {
         Widget w = getW(row, c);
         switch (gType.getgType()) {
-            case BOOLEAN:
-                CheckBox ce = (CheckBox) w;
-                boolean b = ce.isChecked();
-                return new Boolean(b);
-            case DECIMAL:
-                NumerW nw = (NumerW) w;
-                IFormLineView i = nw.iF;
-                BigDecimal bi = i.getDecimal();
-                return bi;
+        case BOOLEAN:
+            CheckBox ce = (CheckBox) w;
+            boolean b = ce.isChecked();
+            return new Boolean(b);
+        case DECIMAL:
+            NumerW nw = (NumerW) w;
+            IFormLineView i = nw.iF;
+            BigDecimal bi = i.getDecimal();
+            return bi;
         }
         return null;
     }
-    
+
     public void setColNo(int colNo) {
         this.colNo = colNo;
-        synch.signalDone();        
+        synch.signalDone();
     }
 
     public void setCols(String rowTitle, List<String> cols) {
         this.colTitles = cols;
         if (this.colNo == -1) {
             setColNo(colTitles.size());
-        }        
+        }
     }
 
-    public void setEnable(int rowno, int colno, boolean enable) {
-        // TODO Auto-generated method stub
-        
+    public void setReadOnly(boolean readOnly) {
+        for (int r = 0; r < rowNo; r++) {
+            for (int c = 0; c < colNo ; c++) {
+                Widget w = getW(r, c);
+                switch (gType.getgType()) {
+                    case BOOLEAN:
+                        CheckBox ce = (CheckBox) w;
+                        ce.setEnabled(!readOnly);
+                        break;
+                    case DECIMAL:
+                        NumerW nw = (NumerW) w;
+                        IFormLineView i = nw.iF;
+                        i.setReadOnly(readOnly);
+                        break;
+                }
+            }
+        }
     }
 
     public void setRowBeginning(List<String> rows) {
@@ -174,12 +196,24 @@ class GridView implements IGridView {
 
     public void setRowNo(int rowNo) {
         this.rowNo = rowNo;
-        synch.signalDone();        
+        synch.signalDone();
     }
 
     public void setRowVal(int row, int c, Object o) {
-        // TODO Auto-generated method stub
-        
+        Widget w = getW(row, c);
+        switch (gType.getgType()) {
+        case BOOLEAN:
+            Boolean b = (Boolean) o;
+            CheckBox ce = (CheckBox) w;
+            ce.setChecked(b.booleanValue());
+            break;
+        case DECIMAL:
+            NumerW nw = (NumerW) w;
+            IFormLineView i = nw.iF;
+            BigDecimal bi = (BigDecimal) o;
+            i.setDecimal(bi);
+            break;
+        }
     }
 
     public Widget getGWidget() {

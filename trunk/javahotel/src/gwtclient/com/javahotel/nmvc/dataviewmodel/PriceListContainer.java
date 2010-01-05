@@ -1,0 +1,127 @@
+/*
+ * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
+package com.javahotel.nmvc.dataviewmodel;
+
+import java.util.List;
+
+import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.factories.IPersistFactoryAction;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.view.grid.GridViewFactory;
+import com.gwtmodel.table.view.grid.GridViewType;
+import com.gwtmodel.table.view.grid.IGridViewDecimal;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.rdata.RData.IOneList;
+import com.javahotel.common.command.CommandParam;
+import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.RType;
+import com.javahotel.common.toobject.DictionaryP;
+import com.javahotel.common.toobject.OfferPriceP;
+import com.javahotel.common.toobject.OfferSeasonP;
+import com.javahotel.nmvc.common.DataType;
+import com.javahotel.nmvc.common.DataUtil;
+import com.javahotel.nmvc.common.ReadDictList;
+import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.nmvc.pricemodel.ISeasonPriceModel;
+import com.javahotel.nmvc.pricemodel.PriceSeasonModelFactory;
+
+class PriceListContainer extends AbstractSlotContainer implements ISlotable {
+
+    private final IPersistFactoryAction persistFactory;
+    private final IDataType cType;
+    private final GridViewFactory gFactory;
+    private final IGridViewDecimal iView;
+    private final PriceSeasonModelFactory prFactory;
+    private final IResLocator rI;
+    
+    private class R implements ReadDictList.IListCallBack {
+
+        public void setList(DataListType dList) {
+            List<DictionaryP> servList = DataUtil.construct(dList);
+            List<String> servNames = DataUtil.fromDicttoString(servList);
+            iView.setRowBeginning(servNames);            
+        }        
+    }
+    
+    private class ReadSeason implements IOneList<OfferSeasonP> {
+
+        public void doOne(OfferSeasonP val) {
+            ISeasonPriceModel iModel = prFactory.construct(val);
+            List<String> cols = iModel.pricesNames();
+            iView.setCols("ceny", cols);            
+        }
+        
+    }
+    
+
+    private void setSeason(String season) {
+        CommandParam p = rI.getR().getHotelCommandParam();
+        p.setDict(DictType.OffSeasonDict);
+        p.setRecName(season);
+        rI.getR().getOne(RType.ListDict, p, new ReadSeason());        
+    }
+    
+    private class DrawModel implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            IVModelData mData = slContext.getVData();
+            VModelData vData = (VModelData) mData;
+            OfferPriceP priceP = (OfferPriceP) vData.getA();
+            String season = priceP.getSeason();
+            setSeason(season);
+        }        
+    }
+    
+    private class SetGetter implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVModelData mData = slContext.getVData();
+            VModelData vData = (VModelData) mData;
+            OfferPriceP priceP = (OfferPriceP) vData.getA();
+            return slContext;
+        }
+        
+    }
+
+    PriceListContainer(IPersistFactoryAction persistFactory, IDataType cType) {
+        this.persistFactory = persistFactory;
+        this.cType = cType;
+        gFactory = GwtGiniInjector.getI().getGridViewFactory();
+        prFactory = HInjector.getI().getPriceSeasonModelFactory();
+        rI = HInjector.getI().getI();
+        GridViewType gType = new GridViewType(GridViewType.GridType.DECIMAL,
+                true, true, true);
+        iView = gFactory.constructDecimal(gType);
+        DataType daType = new DataType(DictType.ServiceDict);
+        ReadDictList.readList(persistFactory, daType,new R());
+        registerCaller(GetActionEnum.GetViewModelEdited, cType, new SetGetter());
+        registerSubscriber(DataActionEnum.DrawViewFormAction, cType,
+                new DrawModel());
+    }
+
+    public void startPublish(int cellId) {
+        publish(cellId, iView);
+
+    }
+
+}

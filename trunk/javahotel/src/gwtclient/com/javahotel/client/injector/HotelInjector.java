@@ -42,6 +42,7 @@ import com.javahotel.client.mvc.table.model.TableModelFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
 import com.javahotel.client.start.IWebEntry;
 import com.javahotel.nmvc.factories.RegisterFactories;
+import com.javahotel.nmvc.pricemodel.PriceSeasonModelFactory;
 
 @GinModules(GiniClientModule.class)
 public interface HotelInjector extends Ginjector {
@@ -103,4 +104,6 @@ public interface HotelInjector extends Ginjector {
     AbstractToFactory getAbstractToFactory();
     
     PersistRecordFactory getPersistRecordFactory();
+    
+    PriceSeasonModelFactory getPriceSeasonModelFactory();
 }

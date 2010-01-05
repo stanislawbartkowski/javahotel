@@ -29,6 +29,7 @@ import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
+import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 
@@ -55,6 +56,7 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(EditWidgetFactory.class).in(Singleton.class);
         bind(CheckDictModelFactory.class).in(Singleton.class);
         bind(ReadResFactory.class).in(Singleton.class);
+        bind(GridViewFactory.class).in(Singleton.class);
     }
 
 }

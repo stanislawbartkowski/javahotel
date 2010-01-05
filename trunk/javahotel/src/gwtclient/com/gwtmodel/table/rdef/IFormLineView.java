@@ -38,5 +38,7 @@ public interface IFormLineView extends IGWidget {
     void setOnTouch(ITouchListener lTouch);
     
     BigDecimal getDecimal();
+    
+    void setDecimal(BigDecimal b);
 
 }
