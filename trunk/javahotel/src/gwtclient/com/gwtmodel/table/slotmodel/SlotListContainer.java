@@ -19,10 +19,12 @@ import com.google.inject.Inject;
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.rdef.IFormLineView;
 
 public class SlotListContainer {
 
@@ -144,6 +146,11 @@ public class SlotListContainer {
                 slSignaller);
     }
 
+    public void registerSubscriber(IDataType dType, IVField fie,
+            ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(dType, fie), slSignaller);
+    }
+
     public void registerCaller(SlotType slType, ISlotCaller slCaller) {
         listOfCallers.add(new SlotCallerType(slType, slCaller));
     }
@@ -237,6 +244,11 @@ public class SlotListContainer {
     public void publish(ClickButtonType bType, IGWidget gwtWidget) {
         publish(slContextFactory.construct(slTypeFactory.construct(bType),
                 gwtWidget));
+    }
+
+    public void publish(IDataType dType, IVField fie, IFormLineView formLine) {
+        publish(slContextFactory.construct(slTypeFactory.construct(dType, fie),
+                formLine));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,

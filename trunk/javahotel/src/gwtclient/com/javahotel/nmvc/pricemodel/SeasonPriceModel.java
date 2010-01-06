@@ -40,5 +40,7 @@ class SeasonPriceModel implements ISeasonPriceModel {
         }
         return names;
     }
+    
+    public List<BigDecimal> getPrices()
 
 }

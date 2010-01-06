@@ -13,6 +13,7 @@
 package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 
 public class SlotTypeFactory {
 
@@ -24,6 +25,11 @@ public class SlotTypeFactory {
     public SlotType construct(GetActionEnum gEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
                 -1, dType, gEnum);
+    }
+
+    public SlotType construct(IDataType dType, IVField fie) {
+        return new SlotType(SlotEventEnum.ChangeValue, fie, null, null, null,
+                -1, dType, null);
     }
 
     public SlotType construct(int cellId) {

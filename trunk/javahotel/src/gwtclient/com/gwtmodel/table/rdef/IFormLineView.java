@@ -15,6 +15,7 @@ package com.gwtmodel.table.rdef;
 import java.math.BigDecimal;
 
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
 
 public interface IFormLineView extends IGWidget {
     
@@ -22,7 +23,6 @@ public interface IFormLineView extends IGWidget {
     int CHOOSECHECKTRUE = 1;
     int CHOOSECHECKFALSE = 2;
 
-    
     String getVal();
 
     void setVal(String s);
