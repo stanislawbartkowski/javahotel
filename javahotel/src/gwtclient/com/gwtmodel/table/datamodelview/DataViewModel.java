@@ -13,6 +13,7 @@
 package com.gwtmodel.table.datamodelview;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
@@ -20,6 +21,7 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -35,6 +37,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private final FormLineContainer fContainer;
     private final IGwtFormView gView;
     private final IDataModelFactory dFactory;
+    private final IDataType dType;
 
     private class ChangeMode implements ISlotSignaller {
 
@@ -88,9 +91,23 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     }
 
+    private class FormChangeListener implements IFormChangeListener {
+
+        private final IVField fie;
+        
+        public FormChangeListener(IVField fie) {
+            this.fie = fie;
+        }
+        
+        public void onChange(IFormLineView i) {
+            publish(dType, fie, i);
+        }
+    }
+
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
             FormLineContainer fContainer, TableFactoriesContainer cFactories) {
         this.fContainer = fContainer;
+        this.dType = dType;
         gView = gFactory.construct(fContainer);
         dFactory = cFactories.getDataModelFactory();
         registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
@@ -101,6 +118,10 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 new DrawModel());
         registerCaller(GetActionEnum.GetViewModelEdited, dType,
                 new GetterModel());
+        for (FormField fie : fContainer.getfList()) {
+            IFormLineView vie = fie.getELine();
+            vie.addChangeListener(new FormChangeListener(fie.getFie()));
+        }
     }
 
     private void fromViewToData(IVModelData aTo) {

@@ -15,11 +15,13 @@ package com.gwtmodel.table.slotmodel;
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.rdef.IFormLineView;
 
 abstract public class AbstractSlotContainer implements ISlotable {
 
@@ -71,6 +73,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(dataActionEnum, dType, vData);
     }
 
+    protected void publish(IDataType dType, IVField fie, IFormLineView formLine) {
+        slContainer.publish(dType, fie, formLine);
+    }
+
     protected void registerSubscriber(SlotType slType,
             ISlotSignaller slSignaller) {
         slContainer.registerSubscriber(slType, slSignaller);
@@ -79,6 +85,11 @@ abstract public class AbstractSlotContainer implements ISlotable {
     protected void registerSubscriber(ClickButtonType.StandClickEnum eClick,
             ISlotSignaller slSignaller) {
         slContainer.registerSubscriber(eClick, slSignaller);
+    }
+
+    protected void registerSubscriber(IDataType dType, IVField fie,
+            ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(dType, fie, slSignaller);
     }
 
     protected void registerSubscriber(DataActionEnum dataActionEnum,
@@ -114,7 +125,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
             IDataType dType, IVModelData mData) {
         return slContainer.getGetterIVModelData(getActionEnum, dType, mData);
     }
-    
+
     protected IVModelData getGetterIVModelData(GetActionEnum getActionEnum,
             IDataType dType) {
         return slContainer.getGetterIVModelData(getActionEnum, dType);
@@ -124,5 +135,5 @@ abstract public class AbstractSlotContainer implements ISlotable {
             ISlotSignalContext slContext) {
         slContainer.publish(dataActionEnum, dType, slContext);
     }
-    
+
 }

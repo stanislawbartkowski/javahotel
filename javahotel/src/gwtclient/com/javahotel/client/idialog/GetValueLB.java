@@ -98,6 +98,8 @@ class GetValueLB extends ELineDialog implements IValueLB {
             }
         };
         lB.addChangeListener(le);
+        //
+//        runOnChange(this);
     }
 
     /**

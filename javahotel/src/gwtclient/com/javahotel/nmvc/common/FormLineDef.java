@@ -20,20 +20,21 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.javahotel.client.idialog.IKeyboardAction;
+import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
 
 public class FormLineDef implements IFormLineView {
 
     private final ILineField iField;
-    
+
     public ILineField getiField() {
         return iField;
     }
 
     private class DefaultListener implements IKeyboardAction {
-        
+
         private final ITouchListener lTouch;
-        
+
         DefaultListener(ITouchListener lTouch) {
             this.lTouch = lTouch;
         }
@@ -59,17 +60,31 @@ public class FormLineDef implements IFormLineView {
         }
 
         public void delEmptyStyle() {
-            lTouch.onTouch();            
+            lTouch.onTouch();
         }
 
     }
-
 
     public FormLineDef(ILineField f) {
         iField = f;
     }
 
+    private class ChangeL implements IChangeListener {
+
+        private final IFormChangeListener cListener;
+
+        ChangeL(IFormChangeListener cListener) {
+            this.cListener = cListener;
+        }
+
+        public void onChange(ILineField i) {
+            cListener.onChange(FormLineDef.this);
+        }
+
+    }
+
     public void addChangeListener(IFormChangeListener cListener) {
+        iField.setChangeListener(new ChangeL(cListener));
     }
 
     public String getVal() {
@@ -96,11 +111,11 @@ public class FormLineDef implements IFormLineView {
 
     public void setStyleName(String styleMess, boolean set) {
         iField.setStyleName(styleMess, set);
-        
+
     }
 
     public void setOnTouch(ITouchListener lTouch) {
-        iField.setKLi(new DefaultListener(lTouch));        
+        iField.setKLi(new DefaultListener(lTouch));
     }
 
     public BigDecimal getDecimal() {
@@ -108,7 +123,7 @@ public class FormLineDef implements IFormLineView {
     }
 
     public void setDecimal(BigDecimal b) {
-        iField.setDecimal(b);        
+        iField.setDecimal(b);
     }
 
 }

@@ -121,7 +121,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
         ISlotable cContainer = null;
         switch (dd.getdType()) {
         case PriceListDict:
-            cContainer = new PriceListContainer(peFactory, subType);
+            cContainer = new PriceListContainer(peFactory, dType, subType);
             break;
         case RoomObjects:
             cContainer = new CheckStandardContainer(peFactory, subType,

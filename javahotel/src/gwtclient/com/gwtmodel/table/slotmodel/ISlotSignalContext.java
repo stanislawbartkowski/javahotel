@@ -17,22 +17,23 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.rdef.IFormLineView;
 
 public interface ISlotSignalContext {
 
     SlotType getSlType();
 
-    String getChangedValue();
+    IFormLineView getChangedValue();
 
     IValidateError getValidateError();
 
     IGWidget getGwtWidget();
 
     DataListType getDataList();
-    
+
     WSize getWSize();
-    
+
     IVModelData getVData();
-    
+
     PersistTypeEnum getPersistType();
 }
