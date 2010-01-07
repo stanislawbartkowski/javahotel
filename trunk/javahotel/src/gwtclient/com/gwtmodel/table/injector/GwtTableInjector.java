@@ -49,5 +49,7 @@ public interface GwtTableInjector extends Ginjector {
     ReadResFactory getReadResFactory();
     
     GridViewFactory getGridViewFactory();
+    
+    TableFactoriesContainer getTableFactoriesContainer();
 
 }

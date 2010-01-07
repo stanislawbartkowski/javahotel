@@ -20,8 +20,8 @@ import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.ReadDictList;
 import com.gwtmodel.table.SynchronizeList;
-import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -33,14 +33,12 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.checkstring.ICheckDictModel;
-import com.javahotel.nmvc.common.ReadDictList;
 
 class CheckStandardContainer extends AbstractSlotContainer implements ISlotable {
 
     private final ICheckDictModel iCheck;
     private final IDataType dType;
     private final IDataType cType;
-    private final IPersistFactoryAction persistFactoryA;
     private DataListType dataList;
     private final InfoExtract infoExtract;
     private final GetDataList getDataList;
@@ -93,7 +91,7 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
             dataList = dList;
             getDataList.setDataList(dataList);
             publish(cellId, iCheck);
-            
+
         }
     }
 
@@ -122,9 +120,8 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
         }
     }
 
-    CheckStandardContainer(IPersistFactoryAction persistA, IDataType cType,
-            IDataType dType, InfoExtract infoExtract) {
-        this.persistFactoryA = persistA;
+    CheckStandardContainer(IDataType cType, IDataType dType,
+            InfoExtract infoExtract) {
         this.dType = dType;
         this.cType = cType;
         this.infoExtract = infoExtract;
@@ -142,11 +139,7 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
     }
 
     public void startPublish(int cellId) {
-//        IDataPersistAction persistA = persistFactoryA.contruct(dType);
-//        persistA.getSlContainer().registerSubscriber(
-//                DataActionEnum.ListReadSuccessSignal, dType, new R(cellId));
-//        persistA.getSlContainer().publish(DataActionEnum.ReadListAction, dType);
-        ReadDictList.readList(persistFactoryA, dType, new R(cellId));
+        ReadDictList.readList(dType, new R(cellId));
     }
 
 }

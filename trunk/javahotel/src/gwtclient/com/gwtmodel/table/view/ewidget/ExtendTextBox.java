@@ -169,7 +169,7 @@ abstract class ExtendTextBox extends ELineDialog {
     }
     
     public Widget getGWidget() {
-        return hPanel;
+        return this;
     }
 
 }

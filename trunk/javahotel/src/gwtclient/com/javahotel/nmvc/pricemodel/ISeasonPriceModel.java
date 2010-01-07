@@ -15,6 +15,8 @@ package com.javahotel.nmvc.pricemodel;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.javahotel.common.toobject.OfferPriceP;
+
 /**
  * 
  * @author stanislawbartkowski@gmail.com
@@ -26,6 +28,11 @@ public interface ISeasonPriceModel {
     int LOWSEASON = 2;
     int LOWSEASONWEEKEND = 3;
     int MAXSPECIALNO = 3;
-    
+
     List<String> pricesNames();
+
+    List<BigDecimal> getPrices(OfferPriceP priceP, String service);
+
+    void setPrices(OfferPriceP priceP, String service, List<BigDecimal> prices);
+
 }

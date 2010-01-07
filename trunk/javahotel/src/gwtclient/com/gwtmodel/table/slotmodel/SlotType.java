@@ -67,6 +67,11 @@ public class SlotType {
             return false;
         }
         switch (slEnum) {
+        case ChangeValue:
+            if (!fie.eq(slType.getFie())) {
+                return false;
+            }
+            return dType.eq(slType.dType);
         case CallBackWidget:
             return cellId == slType.cellId;
         case ClickButton:

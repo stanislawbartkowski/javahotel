@@ -50,12 +50,17 @@
 }
 
 /* ------------------------- */ 
-/* additional style for date */
+/* additional style for date and number */
 /* ------------------------- */
 
 .gwt-DateBox {
 	width:6em;
 }
+
+.Number .gwt-TextBox {
+	width:6em;		
+}	
+
 
 /* ---------------------- */
 /* month scroll           */

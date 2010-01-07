@@ -23,6 +23,7 @@ class NumberCalculator extends WidgetWithPopUpTemplate {
 
     NumberCalculator(TableFactoriesContainer tFactories) {
         super(tFactories);
+        hPanel.addStyleName("Number");
     }
 
 	@Override

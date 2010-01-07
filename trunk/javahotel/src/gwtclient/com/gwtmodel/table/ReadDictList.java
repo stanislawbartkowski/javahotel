@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.common;
+package com.gwtmodel.table;
 
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
@@ -40,13 +41,13 @@ public class ReadDictList {
         }
     }
 
-    public static void readList(IPersistFactoryAction persistFactoryA, IDataType dType,
-            IListCallBack iList) {
+    public static void readList(IDataType dType, IListCallBack iList) {
+        IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getPersistFactoryAction();
         IDataPersistAction persistA = persistFactoryA.contruct(dType);
         persistA.getSlContainer().registerSubscriber(
                 DataActionEnum.ListReadSuccessSignal, dType, new R(iList));
-        persistA.getSlContainer()
-                .publish(DataActionEnum.ReadListAction, dType);
+        persistA.getSlContainer().publish(DataActionEnum.ReadListAction, dType);
     }
 
 }
