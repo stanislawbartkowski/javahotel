@@ -12,21 +12,32 @@
  */
 package com.javahotel.nmvc.pricemodel;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
+import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
+import com.javahotel.common.toobject.OfferServicePriceP;
+import com.javahotel.common.toobject.OfferSpecialPriceP;
 import com.javahotel.common.toobject.SeasonPeriodT;
 
 class SeasonPriceModel implements ISeasonPriceModel {
 
     private final OfferSeasonP seasonP;
     private final GetRecordDefFactory gFactory;
+    private final List<Long> pId;
 
     SeasonPriceModel(GetRecordDefFactory gFactory, OfferSeasonP seasonP) {
         this.seasonP = seasonP;
         this.gFactory = gFactory;
+        pId = new ArrayList<Long>();
+    }
+
+    private void setWid(int i, List<BigDecimal> val, BigDecimal b) {
+        val.set(i, b);
     }
 
     public List<String> pricesNames() {
@@ -36,11 +47,48 @@ class SeasonPriceModel implements ISeasonPriceModel {
         for (OfferSeasonPeriodP p : seasonP.getPeriods()) {
             if (p.getPeriodT() == SeasonPeriodT.SPECIAL) {
                 names.add(p.getDescription());
+                pId.add(p.getPId());
             }
         }
         return names;
     }
-    
-    public List<BigDecimal> getPrices()
+
+    public List<BigDecimal> getPrices(OfferPriceP priceP, String service) {
+        List<BigDecimal> va = new ArrayList<BigDecimal>();
+        for (int i = 0; i <= ISeasonPriceModel.MAXSPECIALNO + pId.size(); i++) {
+            va.add(null);
+        }
+        List<OfferServicePriceP> colO = priceP.getServiceprice();
+        if (colO == null) {
+            return va;
+        }
+        for (OfferServicePriceP pe : colO) {
+            if (!pe.getService().equals(service)) {
+                continue;
+            }
+            setWid(ISeasonPriceModel.HIGHSEASON, va, pe.getHighseasonprice());
+            setWid(ISeasonPriceModel.HIGHSEASONWEEKEND, va, pe
+                    .getHighseasonweekendprice());
+            setWid(ISeasonPriceModel.LOWSEASON, va, pe.getLowseasonprice());
+            setWid(ISeasonPriceModel.LOWSEASONWEEKEND, va, pe
+                    .getLowseasonweekendprice());
+            for (int ii = 0; ii < pId.size(); ii++) {
+                Long pid = pId.get(ii);
+                for (OfferSpecialPriceP oo : pe.getSpecialprice()) {
+                    if (!pid.equals(oo.getSpecialperiod())) {
+                        continue;
+                    }
+                    setWid(ISeasonPriceModel.MAXSPECIALNO + ii + 1, va, oo
+                            .getPrice());
+                }
+            }
+        }
+        return va;
+    }
+
+    public void setPrices(OfferPriceP priceP, String service,
+            List<BigDecimal> prices) {
+
+    }
 
 }

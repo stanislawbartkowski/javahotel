@@ -12,11 +12,13 @@
  */
 package com.javahotel.nmvc.dataviewmodel;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.gwtmodel.table.DataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.ReadDictList;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -42,7 +44,6 @@ import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.DataUtil;
-import com.javahotel.nmvc.common.ReadDictList;
 import com.javahotel.nmvc.common.VField;
 import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.pricemodel.ISeasonPriceModel;
@@ -56,29 +57,36 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
     private final IGridViewDecimal iView;
     private final PriceSeasonModelFactory prFactory;
     private final IResLocator rI;
-    
+
     private String aSeason = null;
-    
+
     private final DrawP synch = new DrawP();
-    
+
     private class DrawP extends SynchronizeList {
 
         ISeasonPriceModel iModel;
-        List<String> servNames;        
+        List<String> servNames;
         OfferPriceP priceP;
-        
-        DrawP(){
-            super(2);
+
+        DrawP() {
+            super(3);
         }
-        
+
         @Override
         protected void doTask() {
-            // TODO Auto-generated method stub
-            
+            int row = 0;
+            for (String service : servNames) {
+                List<BigDecimal> pList = iModel.getPrices(priceP, service);
+                int col = 0;
+                for (BigDecimal b : pList) {
+                    iView.setRowDecimal(row, col, b);
+                    col++;
+                }
+                row++;
+            }
         }
-        
     }
-    
+
     private class R implements ReadDictList.IListCallBack {
 
         public void setList(DataListType dList) {
@@ -86,9 +94,9 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
             synch.servNames = DataUtil.fromDicttoString(servList);
             iView.setRowBeginning(synch.servNames);
             synch.signalDone();
-        }        
+        }
     }
-    
+
     private class ReadSeason implements IOneList<OfferSeasonP> {
 
         public void doOne(OfferSeasonP val) {
@@ -97,23 +105,28 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
             iView.setCols("ceny", cols);
             synch.signalDone();
         }
-        
+
     }
-    
 
     private void setSeason(String season) {
-        if (season == null) { return; }
+        if (season == null) {
+            return;
+        }
         if (aSeason != null) {
-            if (aSeason.equals(season)) { return; }
+            if (aSeason.equals(season)) {
+                return;
+            }
         }
         aSeason = season;
-        if (aSeason.equals("")) { return; }
+        if (aSeason.equals("")) {
+            return;
+        }
         CommandParam p = rI.getR().getHotelCommandParam();
         p.setDict(DictType.OffSeasonDict);
         p.setRecName(season);
-        rI.getR().getOne(RType.ListDict, p, new ReadSeason());        
+        rI.getR().getOne(RType.ListDict, p, new ReadSeason());
     }
-    
+
     private class DrawModel implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
@@ -122,32 +135,36 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
             synch.priceP = (OfferPriceP) vData.getA();
             String season = synch.priceP.getSeason();
             setSeason(season);
-        }        
+            synch.signalDone();
+        }
     }
-    
+
     private class ChangeSeason implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
             IFormLineView formLine = slContext.getChangedValue();
             String season = formLine.getVal();
-            setSeason(season);            
+            setSeason(season);
         }
-        
+
     }
 
-    
     private class SetGetter implements ISlotCaller {
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             VModelData vData = (VModelData) mData;
             OfferPriceP priceP = (OfferPriceP) vData.getA();
+            for (String season : synch.servNames) {
+                
+            }
             return slContext;
         }
-        
+
     }
 
-    PriceListContainer(IPersistFactoryAction persistFactory, IDataType dType, IDataType cType) {
+    PriceListContainer(IPersistFactoryAction persistFactory, IDataType dType,
+            IDataType cType) {
         this.persistFactory = persistFactory;
         this.cType = cType;
         gFactory = GwtGiniInjector.getI().getGridViewFactory();
@@ -157,11 +174,13 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
                 true, true, true);
         iView = gFactory.constructDecimal(gType);
         DataType daType = new DataType(DictType.ServiceDict);
-        ReadDictList.readList(persistFactory, daType,new R());
+        ReadDictList.readList(daType, new R());
         registerCaller(GetActionEnum.GetViewModelEdited, cType, new SetGetter());
+        registerCaller(GetActionEnum.GetModelToPersist, cType, new SetGetter());
         registerSubscriber(DataActionEnum.DrawViewFormAction, cType,
                 new DrawModel());
-        registerSubscriber(dType, new VField(OfferPriceP.F.season), new ChangeSeason());
+        registerSubscriber(dType, new VField(OfferPriceP.F.season),
+                new ChangeSeason());
     }
 
     public void startPublish(int cellId) {
