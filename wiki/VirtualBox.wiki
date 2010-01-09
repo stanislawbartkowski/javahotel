@@ -1,0 +1,22 @@
+Some information how to set up networking for guest system in Virtual Box
+
+= Prerequisites =
+
+http://www.virtualbox.org/
+
+brctl : http://www.linuxfoundation.org/collaborate/workgroups/networking/bridge
+
+dhcp
+
+
+
+= Introduction =
+
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
