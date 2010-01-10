@@ -18,16 +18,15 @@ import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 public class ListDataViewFactory {
-    
+
     private final GwtTableFactory gFactory;
-    
+
     @Inject
     public ListDataViewFactory(GwtTableFactory gFactory) {
         this.gFactory = gFactory;
     }
 
-    public IListDataView construct(IDataType dType,VListHeaderContainer heList) {
-        return new ListDataView(gFactory,dType, heList);
+    public IListDataView construct(IDataType dType, VListHeaderContainer heList) {
+        return new ListDataView(gFactory, dType, heList);
     }
-
 }

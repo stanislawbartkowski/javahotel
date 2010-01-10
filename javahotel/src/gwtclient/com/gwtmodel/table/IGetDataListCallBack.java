@@ -14,6 +14,6 @@ package com.gwtmodel.table;
 
 public interface IGetDataListCallBack {
     
-    void set(DataListType dataList);
+    void set(IDataListType dataList);
 
 }

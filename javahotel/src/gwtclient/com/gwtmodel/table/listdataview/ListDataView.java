@@ -12,11 +12,12 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.rdef.DataListModelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -24,36 +25,20 @@ import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.table.GwtTableFactory;
-import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
-    private final VListHeaderContainer heList;
-    private DataListType dataList;
     private final IGwtTableView tableView;
     private final IDataType dType;
-
-    private class GwtTableView implements IGwtTableModel {
-
-        public VListHeaderContainer getHeaderList() {
-            return heList;
-        }
-
-        public IVModelData getRow(int row) {
-            return dataList.getRow(row);
-        }
-
-        public int getRowsNum() {
-            return dataList.getdList().size();
-        }
-    }
+    private final DataListModelView listView;
 
     private class DrawList implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            dataList = slContext.getDataList();
+            IDataListType dataList = slContext.getDataList();
+            listView.setDataList(dataList);
             tableView.refresh();
         }
     }
@@ -66,7 +51,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             IVModelData vData = null;
             if (w.isChoosed()) {
                 wSize = w.getwSize();
-                vData = dataList.getRow(w.getChoosedLine());
+                vData = tableView.getViewModel().getRow(w.getChoosedLine());
             }
             return construct(GetActionEnum.GetListLineChecked, dType, vData,
                     wSize);
@@ -75,9 +60,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     }
 
     ListDataView(GwtTableFactory gFactory, IDataType dType, VListHeaderContainer heList) {
-        this.heList = heList;
+        listView = new DataListModelView(heList);
         this.dType = dType;
-        tableView = gFactory.construct(new GwtTableView());
+        tableView = gFactory.construct(listView);
         // subscriber
         registerSubscriber(DataActionEnum.DrawListAction, dType, new DrawList());
         // caller

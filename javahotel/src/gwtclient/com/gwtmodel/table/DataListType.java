@@ -14,20 +14,19 @@ package com.gwtmodel.table;
 
 import java.util.List;
 
-public class DataListType {
-            
-        private final List<IVModelData> dList;
-        
-        public DataListType(List<IVModelData> dList) {
-            this.dList = dList;
-        }
+class DataListType implements IDataListType {
 
-        public List<IVModelData> getdList() {
-            return dList;
-        }
-        
-        public IVModelData getRow(int row) {
-            return dList.get(row);
-        }
+    private final List<IVModelData> dList;
 
+    DataListType(List<IVModelData> dList) {
+        this.dList = dList;
+    }
+
+    public IVModelData getRow(int row) {
+        return dList.get(row);
+    }
+
+    public int rowNo() {
+        return dList.size();
+    }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IVField;
@@ -110,9 +110,10 @@ public class RadioBoxString extends ELineDialog {
         }
     }
 
-    private void setRadio(DataListType dataList, boolean enable) {
+    private void setRadio(IDataListType dataList, boolean enable) {
         IVField sym = tFactories.getGetCustomValues().getSymForCombo();
-        for (IVModelData v : dataList.getdList()) {
+        for (int i = 0; i<dataList.rowNo(); i++) {
+            IVModelData v = dataList.getRow(i);
             String s = v.getS(sym);
             CheckBox c = new CheckBox(s);
             c.setEnabled(enable);
@@ -131,7 +132,7 @@ public class RadioBoxString extends ELineDialog {
             this.enable = penable;
         }
 
-        public void set(DataListType dataList) {
+        public void set(IDataListType dataList) {
             setRadio(dataList, enable);
         }
     }

@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.panel.IGwtPanelView;
 import com.gwtmodel.table.view.panel.PanelRowDesc;
-import com.javahotel.common.util.MaxI;
 
 class PanelView extends AbstractSlotContainer implements IPanelView {
 

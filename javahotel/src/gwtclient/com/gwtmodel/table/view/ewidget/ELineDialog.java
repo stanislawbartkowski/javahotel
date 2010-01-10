@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.common.DateFormatUtil;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +24,6 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.util.PopupTip;
-import com.javahotel.client.CommonUtil;
-import com.javahotel.common.dateutil.DateFormatUtil;
 
 /**
  * 
@@ -79,12 +79,12 @@ abstract class ELineDialog extends PopupTip implements IFormLineView {
 
     public int getIntVal() {
         String n = getVal();
-        int no = CommonUtil.getNum(n);
+        int no = Utils.getNum(n);
         return no;
     }
 
     public BigDecimal getDecimal() {
-        return CommonUtil.toBig(getVal());
+        return Utils.toBig(getVal());
     }
 
     public Date getDate() {
@@ -100,7 +100,7 @@ abstract class ELineDialog extends PopupTip implements IFormLineView {
             setVal("");
             return;
         }
-        setVal(CommonUtil.DecimalToS(b));
+        setVal(Utils.DecimalToS(b));
     }
 
     public void addChangeListener(final IFormChangeListener l) {

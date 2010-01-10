@@ -93,6 +93,10 @@ class GwtTableView implements IGwtTableView {
         return new WSize(top, left, height, width);
     }
 
+    public IGwtTableModel getViewModel() {
+        return model;
+    }
+
     private class H extends SelectHandler {
 
         private final Table ta;
@@ -122,6 +126,9 @@ class GwtTableView implements IGwtTableView {
                 col = se.getColumn();
             }
             wSize = getS(row, col);
+            if (model.getIClicked() != null) {
+                model.getIClicked().clicked(getClicked());
+            }
         }
     }
 

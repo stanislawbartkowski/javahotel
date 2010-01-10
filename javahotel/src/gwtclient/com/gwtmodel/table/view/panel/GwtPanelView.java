@@ -16,7 +16,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.common.util.MaxI;
+import com.gwtmodel.table.common.MaxI;
 
 class GwtPanelView implements IGwtPanelView  {
     

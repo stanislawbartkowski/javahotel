@@ -21,4 +21,6 @@ public interface IGwtTableView extends IGWidget {
 
     WChoosedLine getClicked();
 
+    IGwtTableModel getViewModel();
+
 }
