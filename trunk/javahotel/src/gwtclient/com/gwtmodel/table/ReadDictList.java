@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table;
 
-import com.gwtmodel.table.DataListType;
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -24,7 +22,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 public class ReadDictList {
 
     public interface IListCallBack {
-        void setList(DataListType dList);
+        void setList(IDataListType dList);
     }
 
     private static class R implements ISlotSignaller {
@@ -36,7 +34,7 @@ public class ReadDictList {
         }
 
         public void signal(ISlotSignalContext slContext) {
-            DataListType dataList = slContext.getDataList();
+            IDataListType dataList = slContext.getDataList();
             iList.setList(dataList);
         }
     }

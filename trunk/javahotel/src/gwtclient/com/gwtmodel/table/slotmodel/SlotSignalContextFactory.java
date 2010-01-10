@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
@@ -27,14 +27,14 @@ public class SlotSignalContextFactory {
         private final IFormLineView changedValue;
         private final IValidateError validateError;
         private final IGWidget gwtWidget;
-        private final DataListType dataList;
+        private final IDataListType dataList;
         private final WSize wSize;
         private final IVModelData vData;
         private final PersistTypeEnum persistTypeEnum;
 
         SlotSignalContext(SlotType slType, IFormLineView changedValue,
                 IValidateError validateError, IGWidget gwtWidget,
-                DataListType dataList, WSize wSize, IVModelData vData,
+                IDataListType dataList, WSize wSize, IVModelData vData,
                 PersistTypeEnum persistTypeEnum) {
             this.slType = slType;
             this.changedValue = changedValue;
@@ -66,7 +66,7 @@ public class SlotSignalContextFactory {
             return gwtWidget;
         }
 
-        public DataListType getDataList() {
+        public IDataListType getDataList() {
             return dataList;
         }
 
@@ -81,7 +81,7 @@ public class SlotSignalContextFactory {
 
     }
 
-    public ISlotSignalContext construct(SlotType slType, DataListType dataList) {
+    public ISlotSignalContext construct(SlotType slType, IDataListType dataList) {
         return new SlotSignalContext(slType, null, null, null, dataList, null,
                 null, null);
     }

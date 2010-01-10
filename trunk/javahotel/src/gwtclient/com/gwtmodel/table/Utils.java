@@ -14,6 +14,8 @@ package com.gwtmodel.table;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTML;
+import com.gwtmodel.table.common.DateFormatUtil;
+import java.math.BigDecimal;
 
 public class Utils {
 
@@ -33,7 +35,7 @@ public class Utils {
         String path = getResAdr("img/" + image);
         return path;
     }
-    
+
     public static String getEmptytyLabel() {
         return ".";
     }
@@ -63,5 +65,65 @@ public class Utils {
         }
         return t1 == t2;
     }
+    
+    public static final int BADNUMBER = -1;
 
+    public static int getNum(final String s) {
+        if ((s == null) || s.equals("")) {
+            return BADNUMBER;
+        }
+        int i;
+        try {
+            i = Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return BADNUMBER;
+        }
+        return i;
+    }
+
+    public static BigDecimal toBig(final String s) {
+        if (s == null) {
+            return null;
+        }
+        if (s.equals("")) {
+            return null;
+        }
+        return new BigDecimal(s);
+    }
+
+    public static BigDecimal toBig(final Double d) {
+        if (d == null) {
+            return null;
+        }
+        String s = Double.toString(d);
+        return new BigDecimal(s);
+    }
+
+    public static Double toDouble(final BigDecimal b) {
+        if (b == null) {
+            return null;
+        }
+        String s = DecimalToS(b);
+        return new Double(s);
+    }
+
+    public static String DecimalToS(final BigDecimal c) {
+        int l = c.intValue();
+        String sl = Integer.toString(l);
+        BigDecimal re = new BigDecimal(sl);
+        int rest = c.subtract(re).intValue();
+        String sr = DateFormatUtil.toNS(rest, 2);
+        String st = sl + "." + sr;
+        return st;
+    }
+
+    public static BigDecimal percent0(final BigDecimal c,
+            final BigDecimal percent) {
+        BigDecimal res = c.multiply(percent);
+        BigDecimal l100 = new BigDecimal("100");
+        BigDecimal res1 = res.divide(l100, 2, 0);
+        // int l = res1.intValue();
+        // return new BigDecimal(Integer.toString(l));
+        return res1;
+    }
 }

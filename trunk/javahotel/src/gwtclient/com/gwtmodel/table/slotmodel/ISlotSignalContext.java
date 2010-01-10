@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
@@ -29,7 +29,7 @@ public interface ISlotSignalContext {
 
     IGWidget getGwtWidget();
 
-    DataListType getDataList();
+    IDataListType getDataList();
 
     WSize getWSize();
 

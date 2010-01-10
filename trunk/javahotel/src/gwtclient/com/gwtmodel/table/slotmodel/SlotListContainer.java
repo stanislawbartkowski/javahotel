@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
@@ -264,7 +264,7 @@ public class SlotListContainer {
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
-            DataListType dataList) {
+            IDataListType dataList) {
         publish(slContextFactory.construct(slTypeFactory.construct(
                 dataActionEnum, dType), dataList));
     }

@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
@@ -64,7 +64,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
     }
 
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
-            DataListType dataList) {
+            IDataListType dataList) {
         slContainer.publish(dataActionEnum, dType, dataList);
     }
 
