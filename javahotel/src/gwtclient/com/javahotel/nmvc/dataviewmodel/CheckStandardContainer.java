@@ -14,7 +14,7 @@ package com.javahotel.nmvc.dataviewmodel;
 
 import java.util.List;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IGetDataListCallBack;
@@ -22,7 +22,6 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.ReadDictList;
 import com.gwtmodel.table.SynchronizeList;
-import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -39,7 +38,7 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
     private final ICheckDictModel iCheck;
     private final IDataType dType;
     private final IDataType cType;
-    private DataListType dataList;
+    private IDataListType dataList;
     private final InfoExtract infoExtract;
     private final GetDataList getDataList;
 
@@ -47,7 +46,7 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
         List<String> getString(IVModelData mData);
 
         void setStrings(IVModelData mData, List<String> strings,
-                DataListType dataList);
+                IDataListType dataList);
 
     }
 
@@ -87,7 +86,7 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
             this.cellId = cellId;
         }
 
-        public void setList(DataListType dList) {
+        public void setList(IDataListType dList) {
             dataList = dList;
             getDataList.setDataList(dataList);
             publish(cellId, iCheck);
@@ -101,10 +100,10 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
             super(2);
         }
 
-        private DataListType dataListType;
+        private IDataListType dataListType;
         private IGetDataListCallBack iCallBack;
 
-        void setDataList(DataListType dList) {
+        void setDataList(IDataListType dList) {
             dataListType = dList;
             signalDone();
         }

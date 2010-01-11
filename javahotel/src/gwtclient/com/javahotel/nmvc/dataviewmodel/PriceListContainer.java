@@ -13,9 +13,10 @@
 package com.javahotel.nmvc.dataviewmodel;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.ReadDictList;
@@ -89,7 +90,7 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
 
     private class R implements ReadDictList.IListCallBack {
 
-        public void setList(DataListType dList) {
+        public void setList(IDataListType dList) {
             List<DictionaryP> servList = DataUtil.construct(dList);
             synch.servNames = DataUtil.fromDicttoString(servList);
             iView.setRowBeginning(synch.servNames);
@@ -155,8 +156,13 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
             IVModelData mData = slContext.getVData();
             VModelData vData = (VModelData) mData;
             OfferPriceP priceP = (OfferPriceP) vData.getA();
-            for (String season : synch.servNames) {
-                
+            int row = 0;
+            for (String service : synch.servNames) {
+                List<BigDecimal> priceList = new ArrayList<BigDecimal>();
+                for (int col = 0; col < synch.iModel.noPrices(); col++) {
+                    priceList.add(iView.getCellDecimal(row, col));
+                }
+                synch.iModel.setPrices(priceP, service, priceList);
             }
             return slContext;
         }

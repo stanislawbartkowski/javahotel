@@ -94,11 +94,11 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private class FormChangeListener implements IFormChangeListener {
 
         private final IVField fie;
-        
+
         public FormChangeListener(IVField fie) {
             this.fie = fie;
         }
-        
+
         public void onChange(IFormLineView i) {
             publish(dType, fie, i);
         }
@@ -108,7 +108,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             FormLineContainer fContainer, TableFactoriesContainer cFactories) {
         this.fContainer = fContainer;
         this.dType = dType;
-        gView = gFactory.construct(fContainer);
+        gView = gFactory.construct(fContainer, cFactories
+                .getDataFormConstructorAbstractFactory().construct(dType));
         dFactory = cFactories.getDataModelFactory();
         registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
                 new InvalidateMess());

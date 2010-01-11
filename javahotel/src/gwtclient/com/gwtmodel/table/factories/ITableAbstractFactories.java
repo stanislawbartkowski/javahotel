@@ -29,4 +29,6 @@ public interface ITableAbstractFactories {
     
     void registerGetCustomValues(IGetCustomValues iGetCustomValues);
     
+    void registerDataFormConstructorAbstractFactory(IDataFormConstructorAbstractFactory cFactory);
+    
 }

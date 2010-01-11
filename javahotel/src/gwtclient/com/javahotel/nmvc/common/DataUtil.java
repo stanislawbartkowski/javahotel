@@ -15,7 +15,8 @@ package com.javahotel.nmvc.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.DataListTypeFactory;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -82,18 +83,20 @@ public class DataUtil {
         return list;
     }
 
-    public static DataListType construct(List<? extends AbstractTo> dList) {
+    public static IDataListType construct(List<? extends AbstractTo> dList) {
         List<IVModelData> dvList = new ArrayList<IVModelData>();
         for (AbstractTo a : dList) {
             dvList.add(new VModelData(a));
         }
-        return new DataListType(dvList);
+        return DataListTypeFactory.construct(dvList);
     }
 
     public static <T extends AbstractTo> List<T> construct(
-            DataListType dataListType) {
+            IDataListType dataListType) {
         List<T> dList = new ArrayList<T>();
-        for (IVModelData v : dataListType.getdList()) {
+        
+        for (int i=0 ; i< dataListType.rowNo(); i++) {
+            IVModelData v = dataListType.getRow(i);
             VModelData vData = (VModelData) v;
             T t = (T) vData.getA();
             dList.add(t);

@@ -39,44 +39,42 @@ public class CommonUtil {
     }
 
     public static String getImageAdr(final String image) {
-//        String path;
-//        path = "com.javahotel.web";
-//        return path + "/res/img/" + image;
+        // String path;
+        // path = "com.javahotel.web";
+        // return path + "/res/img/" + image;
         String path = getResAdr("img/" + image);
         return path;
     }
 
-    
-    public static String getResAdr(final String res,boolean main) {
+    public static String getResAdr(final String res, boolean main) {
         String path;
-//        if (!IsScript()) {
-//            path = "com.javahotel.web/";
-//        } else {
-//            path = "";
-//        }
+        // if (!IsScript()) {
+        // path = "com.javahotel.web/";
+        // } else {
+        // path = "";
+        // }
         main = false;
         if (main) {
-            path="";
+            path = "";
+        } else {
+            path = "com.javahotel.web/";
         }
-        else {
-          path = "com.javahotel.web/";
-        }
-//        path="";
+        // path="";
         path = GWT.getModuleBaseURL();
         return path + "/res/" + res;
     }
-    
+
     public static String getResAdr(final String res) {
-        return getResAdr(res,false);
-//        String path;
-//        if (!IsScript()) {
-//            path = "com.javahotel.web/";
-//        } else {
-//            path = "";
-//        }
-//        path = "com.javahotel.web/";
-////        path="";
-//        return path + "res/" + res;
+        return getResAdr(res, false);
+        // String path;
+        // if (!IsScript()) {
+        // path = "com.javahotel.web/";
+        // } else {
+        // path = "";
+        // }
+        // path = "com.javahotel.web/";
+        // // path="";
+        // return path + "res/" + res;
     }
 
     public static boolean IsScript() {
@@ -86,7 +84,7 @@ public class CommonUtil {
     public static String getImageHTML(final String imageUrl) {
         return getImageHTML(imageUrl, 0, 0);
     }
-    
+
     // TODO: remove
     public static String getImageHTMLStyle(final String imageUrl) {
         String h = "<span style='background: url(";
@@ -152,7 +150,11 @@ public class CommonUtil {
         if (s.equals("")) {
             return null;
         }
-        return new BigDecimal(s);
+        try {
+            return new BigDecimal(s);
+        } finally {
+            return null;
+        }
     }
 
     public static BigDecimal toBig(final Double d) {

@@ -12,8 +12,8 @@
  */
 package com.javahotel.nmvc.slotmodel;
 
+import com.gwtmodel.table.IDataListType;
 import com.javahotel.client.dialog.IGwtWidget;
-import com.javahotel.nmvc.common.DataListType;
 import com.javahotel.nmvc.common.DataType;
 
 public class SlotSignalContextFactory {
@@ -28,11 +28,11 @@ public class SlotSignalContextFactory {
         private final IValidateError validateError;
         private final IGwtWidget gwtWidget;
         private final DataType dType;
-        DataListType dataList;
+        IDataListType dataList;
 
         SlotSignalContext(SlotType slType, String changedValue,
                 IValidateError validateError, IGwtWidget gwtWidget,
-                DataType dType, DataListType dataList) {
+                DataType dType, IDataListType dataList) {
             this.slType = slType;
             this.changedValue = changedValue;
             this.validateError = validateError;
@@ -61,14 +61,14 @@ public class SlotSignalContextFactory {
             return dType;
         }
 
-        public DataListType getDataList() {
+        public IDataListType getDataList() {
             return dataList;
         }
 
     }
 
     public static ISlotSignalContext construct(SlotType slType, DataType dType,
-            DataListType dataList) {
+            IDataListType dataList) {
         return new SlotSignalContext(slType, null, null, null, dType, dataList);
     }
 

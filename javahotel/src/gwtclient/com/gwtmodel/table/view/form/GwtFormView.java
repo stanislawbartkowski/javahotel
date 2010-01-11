@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.ITouchListener;
@@ -26,7 +27,7 @@ import com.gwtmodel.table.rdef.ITouchListener;
 class GwtFormView implements IGwtFormView {
 
     private final FormLineContainer fContainer;
-    private final Grid g;
+    private final Widget g;
     final ErrorLineContainer eStore = new ErrorLineContainer();
 
     private void setListener() {
@@ -42,9 +43,15 @@ class GwtFormView implements IGwtFormView {
         }
     }
 
-    GwtFormView(final FormLineContainer fContainer) {
+    GwtFormView(final FormLineContainer fContainer,
+            IDataFormConstructorAbstractFactory.CType cType) {
         this.fContainer = fContainer;
-        g = CreateFormView.construct(fContainer);
+        if (cType.getfConstructor() == null) {
+          g = CreateFormView.construct(fContainer);
+        }
+        else {
+          g = cType.getfConstructor().construct(fContainer);
+        }        
         setListener();
     }
 
