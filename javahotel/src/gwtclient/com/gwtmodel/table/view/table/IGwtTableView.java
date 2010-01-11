@@ -14,10 +14,11 @@ package com.gwtmodel.table.view.table;
 
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.WSize;
 
 public interface IGwtTableView extends IGWidget {
 
-    void refresh();
+    void refresh(WSize w);
 
     WChoosedLine getClicked();
 

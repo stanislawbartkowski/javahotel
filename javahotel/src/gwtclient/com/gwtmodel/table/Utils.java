@@ -13,7 +13,9 @@
 package com.gwtmodel.table;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.DateFormatUtil;
 import java.math.BigDecimal;
 
@@ -65,7 +67,6 @@ public class Utils {
         }
         return t1 == t2;
     }
-    
     public static final int BADNUMBER = -1;
 
     public static int getNum(final String s) {
@@ -122,8 +123,14 @@ public class Utils {
         BigDecimal res = c.multiply(percent);
         BigDecimal l100 = new BigDecimal("100");
         BigDecimal res1 = res.divide(l100, 2, 0);
-        // int l = res1.intValue();
-        // return new BigDecimal(Integer.toString(l));
         return res1;
+    }
+
+    public static int CalculateNOfRows(WSize w) {
+        int up = w.getTop();
+        int he = Window.getClientHeight();
+
+        int size = (he - up - 10) / 30;
+        return size;
     }
 }
