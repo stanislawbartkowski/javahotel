@@ -10,31 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.pricemodel;
+package com.gwtmodel.table.factories;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.rdef.FormLineContainer;
 
-import com.javahotel.common.toobject.OfferPriceP;
-
-/**
- * 
- * @author stanislawbartkowski@gmail.com
- */
-public interface ISeasonPriceModel {
-
-    int HIGHSEASON = 0;
-    int HIGHSEASONWEEKEND = 1;
-    int LOWSEASON = 2;
-    int LOWSEASONWEEKEND = 3;
-    int MAXSPECIALNO = 3;
-
-    List<String> pricesNames();
+public interface IDataFormConstructor {
     
-    int noPrices();
-
-    List<BigDecimal> getPrices(OfferPriceP priceP, String service);
-
-    void setPrices(OfferPriceP priceP, String service, List<BigDecimal> prices);
+    Widget construct(final FormLineContainer model);
 
 }

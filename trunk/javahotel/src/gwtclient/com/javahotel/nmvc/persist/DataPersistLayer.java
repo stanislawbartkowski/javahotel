@@ -14,7 +14,7 @@ package com.javahotel.nmvc.persist;
 
 import java.util.List;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataPersistAction;
@@ -44,7 +44,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
     private class ReadListDict implements IVectorList {
 
         public void doVList(final List<? extends AbstractTo> val) {
-            DataListType dataList = DataUtil.construct(val);
+            IDataListType dataList = DataUtil.construct(val);
             publish(DataActionEnum.ListReadSuccessSignal, dType, dataList);
         }
     }

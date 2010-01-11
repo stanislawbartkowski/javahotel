@@ -12,8 +12,8 @@
  */
 package com.javahotel.nmvc.slotmodel;
 
+import com.gwtmodel.table.IDataListType;
 import com.javahotel.client.dialog.IGwtWidget;
-import com.javahotel.nmvc.common.DataListType;
 import com.javahotel.nmvc.common.DataType;
 
 public interface ISlotSignalContext {
@@ -28,6 +28,6 @@ public interface ISlotSignalContext {
 
     DataType getdType();
 
-    DataListType getDataList();
+    IDataListType getDataList();
 
 }

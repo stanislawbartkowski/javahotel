@@ -16,7 +16,7 @@ package com.javahotel.nmvc.dataviewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.DataListType;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
@@ -71,7 +71,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
         }
 
         public void setStrings(IVModelData mData, List<String> strings,
-                DataListType dataList) {
+                IDataListType dataList) {
             VModelData vModel = (VModelData) mData;
             ResObjectP roomS = (ResObjectP) vModel.getA();
             List<DictionaryP> persistList = new ArrayList<DictionaryP>();
@@ -93,7 +93,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
         }
 
         public void setStrings(IVModelData mData, List<String> strings,
-                DataListType dataList) {
+                IDataListType dataList) {
             VModelData vModel = (VModelData) mData;
             RoomStandardP roomS = (RoomStandardP) vModel.getA();
             List<ServiceDictionaryP> persistList = new ArrayList<ServiceDictionaryP>();
@@ -124,17 +124,18 @@ public class GetViewFactory implements IGetViewControllerFactory {
             cContainer = new PriceListContainer(peFactory, dType, subType);
             break;
         case RoomObjects:
-            cContainer = new CheckStandardContainer(subType,
-                    new DataType(DictType.RoomFacility), new InfoExtractRoom());
+            cContainer = new CheckStandardContainer(subType, new DataType(
+                    DictType.RoomFacility), new InfoExtractRoom());
             break;
         case RoomStandard:
-            cContainer = new CheckStandardContainer(subType,
-                    new DataType(DictType.ServiceDict),
-                    new InfoExtractStandard());
+            cContainer = new CheckStandardContainer(subType, new DataType(
+                    DictType.ServiceDict), new InfoExtractStandard());
             break;
         }
-        cType = new ComposeControllerType(cContainer, subType, 0, 1);
-        iCon.registerController(cType);
+        if (cContainer != null) {
+            cType = new ComposeControllerType(cContainer, subType, 0, 1);
+            iCon.registerController(cType);
+        }
         return iCon;
     }
 

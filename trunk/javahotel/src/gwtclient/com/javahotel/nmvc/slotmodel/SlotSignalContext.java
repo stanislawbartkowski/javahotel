@@ -12,8 +12,9 @@
  */
 package com.javahotel.nmvc.slotmodel;
 
+import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IDataType;
 import com.javahotel.client.dialog.IGwtWidget;
-import com.javahotel.nmvc.common.DataListType;
 import com.javahotel.nmvc.common.DataType;
 
 public class SlotSignalContext {
@@ -22,7 +23,7 @@ public class SlotSignalContext {
     }
 
     public static void signal(SlotPublisherType slPublisher, DataType dType,
-            DataListType dataList) {
+            IDataListType dataList) {
         ISlotSignalContext slContext = SlotSignalContextFactory.construct(
                 slPublisher.getSlType(), dType, dataList);
         slPublisher.getSlRegisterSubscriber().signal(slContext);

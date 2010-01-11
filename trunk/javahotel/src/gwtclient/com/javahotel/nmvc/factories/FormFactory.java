@@ -10,31 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.pricemodel;
+package com.javahotel.nmvc.factories;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 
-import com.javahotel.common.toobject.OfferPriceP;
+public  class FormFactory implements IDataFormConstructorAbstractFactory {
 
-/**
- * 
- * @author stanislawbartkowski@gmail.com
- */
-public interface ISeasonPriceModel {
-
-    int HIGHSEASON = 0;
-    int HIGHSEASONWEEKEND = 1;
-    int LOWSEASON = 2;
-    int LOWSEASONWEEKEND = 3;
-    int MAXSPECIALNO = 3;
-
-    List<String> pricesNames();
-    
-    int noPrices();
-
-    List<BigDecimal> getPrices(OfferPriceP priceP, String service);
-
-    void setPrices(OfferPriceP priceP, String service, List<BigDecimal> prices);
+    public CType construct(IDataType dType) {
+        return new IDataFormConstructorAbstractFactory.CType();
+    }    
 
 }
