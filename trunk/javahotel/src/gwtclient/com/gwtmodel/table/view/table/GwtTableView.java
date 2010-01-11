@@ -12,6 +12,7 @@ import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 
@@ -132,9 +133,17 @@ class GwtTableView implements IGwtTableView {
         }
     }
 
-    public void refresh() {
+    public void refresh(WSize startW) {
         getTable();
-        ta.draw(data);
+        Table.Options tao = Table.Options.create();
+        if (startW != null) {
+            int size = Utils.CalculateNOfRows(startW);
+            if (size > 0) {
+                tao.setPageSize(size);
+                tao.setPage(Table.Options.Policy.ENABLE);
+            }
+        }
+        ta.draw(data, tao);
     }
 
     public WChoosedLine getClicked() {
