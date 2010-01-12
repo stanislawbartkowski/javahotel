@@ -22,6 +22,7 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> dButton;
     private final List<ControlButtonDesc> akcButton;
     private final List<ControlButtonDesc> removeButton;
+    private final List<ControlButtonDesc> chooseButton;
 
     public ControlButtonFactory() {
         dButton = new ArrayList<ControlButtonDesc>();
@@ -46,6 +47,12 @@ public class ControlButtonFactory {
         removeButton.add(new ControlButtonDesc(null, "Rezygnujesz",
                 new ClickButtonType(ClickButtonType.StandClickEnum.RESIGN)));
 
+        chooseButton = new ArrayList<ControlButtonDesc>();
+        chooseButton.add(new ControlButtonDesc(null, "Wybierasz",
+                new ClickButtonType(ClickButtonType.StandClickEnum.CHOOSELIST)));
+        chooseButton.add(new ControlButtonDesc(null, "Rezygnujesz",
+                new ClickButtonType(ClickButtonType.StandClickEnum.RESIGNLIST)));
+
     }
 
     public ListOfControlDesc constructCrudList() {
@@ -58,6 +65,10 @@ public class ControlButtonFactory {
 
     public ListOfControlDesc constructRemoveDesign() {
         return new ListOfControlDesc(removeButton);
+    }
+
+    public ListOfControlDesc constructChooseList() {
+        return new ListOfControlDesc(chooseButton);
     }
 
 }

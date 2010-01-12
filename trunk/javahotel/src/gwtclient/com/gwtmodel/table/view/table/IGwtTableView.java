@@ -24,4 +24,5 @@ public interface IGwtTableView extends IGWidget {
 
     IGwtTableModel getViewModel();
 
+    void setModel(IGwtTableModel model);
 }

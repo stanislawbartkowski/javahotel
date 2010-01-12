@@ -18,21 +18,19 @@ import com.gwtmodel.table.WSize;
 
 class GwtTableView implements IGwtTableView {
 
-    private final IGwtTableModel model;
+    private IGwtTableModel model;
     private int clickedNo = -1;
     private WSize wSize;
     private final Label header = new Label();
     private final Table ta;
     private DataTable data;
+    private WSize startW;
 
-    GwtTableView(IGwtTableModel model) {
-        this.model = model;
-        String title = model.getHeaderList().getListTitle();
-        if (title != null) {
-            header.setText(title);
-        }
+    GwtTableView() {
         ta = new Table(null, Table.Options.create());
         ta.addSelectHandler(new H(ta));
+        model = null;
+        startW = null;
     }
 
     private void drawrow(int row) {
@@ -98,6 +96,35 @@ class GwtTableView implements IGwtTableView {
         return model;
     }
 
+    private void draw() {
+        if (model == null) {
+            return;
+        }
+        if (!model.containsData()) {
+            return;
+        }
+        getTable();
+        Table.Options tao = Table.Options.create();
+        if (startW != null) {
+            int size = Utils.CalculateNOfRows(startW);
+            if (size > 0) {
+                tao.setPageSize(size);
+                tao.setPage(Table.Options.Policy.ENABLE);
+            }
+        }
+        ta.draw(data, tao);
+
+    }
+
+    public void setModel(IGwtTableModel model) {
+        this.model = model;
+        String title = model.getHeaderList().getListTitle();
+        if (title != null) {
+            header.setText(title);
+        }
+        draw();
+    }
+
     private class H extends SelectHandler {
 
         private final Table ta;
@@ -134,16 +161,8 @@ class GwtTableView implements IGwtTableView {
     }
 
     public void refresh(WSize startW) {
-        getTable();
-        Table.Options tao = Table.Options.create();
-        if (startW != null) {
-            int size = Utils.CalculateNOfRows(startW);
-            if (size > 0) {
-                tao.setPageSize(size);
-                tao.setPage(Table.Options.Policy.ENABLE);
-            }
-        }
-        ta.draw(data, tao);
+        this.startW = startW;
+        draw();
     }
 
     public WChoosedLine getClicked() {

@@ -15,7 +15,8 @@ package com.gwtmodel.table.slotmodel;
 public class ClickButtonType {
 
     public enum StandClickEnum {
-        ADDITEM, REMOVEITEM, MODIFITEM, ACCEPT, RESIGN, CUSTOM
+        ADDITEM, REMOVEITEM, MODIFITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
+        CUSTOM
     };
 
     private StandClickEnum clickEnum;

@@ -14,7 +14,7 @@ package com.gwtmodel.table.view.table;
 
 public class GwtTableFactory {
 
-    public IGwtTableView construct(IGwtTableModel tModel) {
-        return new GwtTableView(tModel);
+    public IGwtTableView construct() {
+        return new GwtTableView();
     }
 }

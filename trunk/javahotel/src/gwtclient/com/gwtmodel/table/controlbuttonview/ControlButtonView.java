@@ -29,22 +29,12 @@ class ControlButtonView extends AbstractSlotContainer implements
     private class Click implements IControlClick {
 
         public void click(ControlButtonDesc co, Widget w) {
-            // SlotType slType = slTypeFactory.construct(co
-            // .getActionId());
-            // SlotPublisherType slPublisher =
-            // slContainer.findPublisher(slType);
-            // slSignalContext.signal(slPublisher,new GWidget(w));
             publish(co.getActionId(), new GWidget(w));
         }
     }
 
     ControlButtonView(ListOfControlDesc listButton) {
         vButton = ContrButtonViewFactory.getView(listButton, new Click());
-        // create publishers
-        // for (ControlButtonDesc bu : listButton.getcList()) {
-        // registerPublisher(bu.getActionId());
-        // }
-        // registerPublisher(cellId);
     }
 
     public void startPublish(int cellId) {
