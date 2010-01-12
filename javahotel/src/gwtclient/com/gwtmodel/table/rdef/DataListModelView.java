@@ -52,4 +52,8 @@ public class DataListModelView implements IGwtTableModel {
     public IListClicked getIClicked() {
         return lClicked;
     }
+
+    public boolean containsData() {
+        return dataList != null;
+    }
 }

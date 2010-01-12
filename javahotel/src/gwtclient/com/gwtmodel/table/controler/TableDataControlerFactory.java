@@ -42,4 +42,12 @@ public class TableDataControlerFactory {
                         fContainer, dType));
     }
 
+    public IDataControler constructListChooseControler(IDataType dType, int panelId,
+            int cellIdFirst) {
+        ListOfControlDesc cList = cButtonFactory.constructChooseList();
+        return new DisplayListControler(tFactories, fContainer, dType, panelId,
+                cellIdFirst, cList, new DataListCrudControler(tFactories,
+                        fContainer, dType));
+    }
+
 }

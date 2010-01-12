@@ -56,13 +56,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             return construct(GetActionEnum.GetListLineChecked, dType, vData,
                     wSize);
         }
-
     }
 
     ListDataView(GwtTableFactory gFactory, IDataType dType, VListHeaderContainer heList) {
         listView = new DataListModelView(heList);
         this.dType = dType;
-        tableView = gFactory.construct(listView);
+        tableView = gFactory.construct();
+        tableView.setModel(listView);
         // subscriber
         registerSubscriber(DataActionEnum.DrawListAction, dType, new DrawList());
         // caller
@@ -73,5 +73,4 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     public void startPublish(int cellId) {
         publish(cellId, tableView);
     }
-
 }

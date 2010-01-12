@@ -23,4 +23,6 @@ public interface IGwtTableModel {
     VListHeaderContainer getHeaderList();
 
     IListClicked getIClicked();
+
+    boolean containsData();
 }
