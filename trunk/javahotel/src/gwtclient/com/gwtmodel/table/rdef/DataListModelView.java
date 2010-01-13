@@ -16,18 +16,20 @@ import com.gwtmodel.table.view.table.VListHeaderContainer;
  */
 public class DataListModelView implements IGwtTableModel {
 
-    private final VListHeaderContainer heList;
+    private VListHeaderContainer heList;
     private IDataListType dataList;
     private final IListClicked lClicked;
 
-    public DataListModelView(VListHeaderContainer heList) {
-        this.heList = heList;
+    public DataListModelView() {
         this.lClicked = null;
     }
 
-    public DataListModelView(VListHeaderContainer heList, IListClicked lClicked) {
-        this.heList = heList;
+    public DataListModelView(IListClicked lClicked) {
         this.lClicked = lClicked;
+    }
+
+    public void setHeaderList(VListHeaderContainer heList) {
+        this.heList = heList;
     }
 
     public VListHeaderContainer getHeaderList() {

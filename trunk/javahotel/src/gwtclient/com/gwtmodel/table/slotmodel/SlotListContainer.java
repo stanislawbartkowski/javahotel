@@ -25,10 +25,10 @@ import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 public class SlotListContainer {
 
-    // private final List<SlotPublisherType> listOfPublishers;
     private final List<SlotSubscriberType> listOfSubscribers;
     private final List<SlotCallerType> listOfCallers;
     private final List<SlotRedirector> listOfRedirectors;
@@ -284,6 +284,11 @@ public class SlotListContainer {
             InvalidateFormContainer errContainer) {
         publish(slContextFactory.construct(slTypeFactory.construct(
                 dataActionEnum, dType), errContainer));
+    }
+
+    public void publish(IDataType dType, VListHeaderContainer vHeader) {
+        publish(slContextFactory.construct(slTypeFactory.construct(
+                DataActionEnum.ReadHeaderContainer, dType), vHeader));
     }
 
     public void publish(SlotType slType) {

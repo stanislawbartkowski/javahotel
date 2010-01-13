@@ -17,6 +17,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.IListDataView;
@@ -28,7 +29,6 @@ import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 class DisplayListControler implements IDataControler {
 
@@ -45,8 +45,8 @@ class DisplayListControler implements IDataControler {
         this.dType = dType;
         IDataPersistAction persistA = fContainer.getPersistFactoryAction()
                 .contruct(dType);
-        VListHeaderContainer heList = fContainer.getHeaderListFactory()
-                .getVListHeaderContainer(dType);
+        IHeaderListContainer  heList = fContainer.getHeaderListFactory()
+                .construct(dType);
         // create panel View
         PanelViewFactory pViewFactory = tFactories.getpViewFactory();
         IPanelView pView = pViewFactory.construct(cellIdFirst);
@@ -56,7 +56,7 @@ class DisplayListControler implements IDataControler {
         // persist layer
         // header list
         ListDataViewFactory lDataFactory = tFactories.getlDataFactory();
-        IListDataView daView = lDataFactory.construct(dType, heList);
+        IListDataView daView = lDataFactory.construct(dType);
         ControlButtonViewFactory bFactory = tFactories.getbViewFactory();
         IControlButtonView bView = bFactory.construct(listButton);
         slMediator = SlotMediatorFactory.construct();
@@ -66,6 +66,7 @@ class DisplayListControler implements IDataControler {
         slMediator.registerSlotContainer(cellTableId, daView);
         slMediator.registerSlotContainer(controlId, bView);
         slMediator.registerSlotContainer(-1, cControler);
+        slMediator.registerSlotContainer(-1, heList);
     }
 
     public void startPublish(int cellId) {

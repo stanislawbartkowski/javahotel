@@ -10,22 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.listdataview;
+package com.gwtmodel.table.factories;
 
-import com.google.inject.Inject;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.slotmodel.ISlotable;
 
-public class ListDataViewFactory {
+public interface IHeaderListContainer extends ISlotable {
 
-    private final GwtTableFactory gFactory;
-
-    @Inject
-    public ListDataViewFactory(GwtTableFactory gFactory) {
-        this.gFactory = gFactory;
-    }
-
-    public IListDataView construct(IDataType dType) {
-        return new ListDataView(gFactory, dType);
-    }
 }

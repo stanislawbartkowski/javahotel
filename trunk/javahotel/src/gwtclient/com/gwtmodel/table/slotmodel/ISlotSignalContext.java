@@ -18,6 +18,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 public interface ISlotSignalContext {
 
@@ -36,4 +37,6 @@ public interface ISlotSignalContext {
     IVModelData getVData();
 
     PersistTypeEnum getPersistType();
+
+    VListHeaderContainer getListHeader();
 }
