@@ -12,37 +12,21 @@
  */
 package com.javahotel.nmvc.factories;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.factories.IHeaderListFactory;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
-import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
-import com.javahotel.client.mvc.table.model.ColTitle;
-import com.javahotel.nmvc.common.VField;
 
 class HeaderListFactory extends HelperFactory implements IHeaderListFactory {
 
-    private ColListFactory cFactory;
+    private final ColListFactory cFactory;
     
     HeaderListFactory(ColListFactory cFactory) {
         this.cFactory = cFactory;
     }
     
-    public VListHeaderContainer getVListHeaderContainer(IDataType dType) {
-        DictData dicData = getDa(dType);
-        List<ColTitle> coList = cFactory.getColList(dicData);
-        String title = cFactory.getHeader(dicData);
-        List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        for (ColTitle co : coList) {
-            VListHeaderDesc he = new VListHeaderDesc(co.getCTitle(),
-                    new VField(co.getF()));
-            heList.add(he);
-        }
-        return new VListHeaderContainer(heList, title);
+    public IHeaderListContainer construct(IDataType dType) {
+        return new HeaderListContainer(cFactory, dType);
     }
 
 }

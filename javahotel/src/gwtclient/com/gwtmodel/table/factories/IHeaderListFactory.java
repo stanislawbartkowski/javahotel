@@ -13,10 +13,9 @@
 package com.gwtmodel.table.factories;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 public interface IHeaderListFactory {
 
-    VListHeaderContainer getVListHeaderContainer(IDataType dType);
+    IHeaderListContainer construct(IDataType dType);
 
 }

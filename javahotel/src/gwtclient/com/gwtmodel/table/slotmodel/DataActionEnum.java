@@ -41,8 +41,11 @@ public enum DataActionEnum {
     /** ValidSignal / PersistEnumType . */
     ValidSignal,
 
-    /** Read list / DataListType. */
+    /** Read list / IDataListType. */
     ReadListAction,
+
+    /** Read header / VListHeaderContainer . */
+    ReadHeaderContainer,
 
     /** List read successfully. */
     ReadListPersistedSignal,

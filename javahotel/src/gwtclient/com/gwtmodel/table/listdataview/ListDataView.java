@@ -34,6 +34,16 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private final IDataType dType;
     private final DataListModelView listView;
 
+    private class DrawHeader implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            VListHeaderContainer listHeader = slContext.getListHeader();
+            listView.setHeaderList(listHeader);
+            tableView.setModel(listView);
+        }
+
+    }
+
     private class DrawList implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
@@ -58,13 +68,14 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    ListDataView(GwtTableFactory gFactory, IDataType dType, VListHeaderContainer heList) {
-        listView = new DataListModelView(heList);
+    ListDataView(GwtTableFactory gFactory, IDataType dType) {
+        listView = new DataListModelView();
         this.dType = dType;
         tableView = gFactory.construct();
-        tableView.setModel(listView);
         // subscriber
         registerSubscriber(DataActionEnum.DrawListAction, dType, new DrawList());
+        registerSubscriber(DataActionEnum.ReadHeaderContainer, dType,
+                new DrawHeader());
         // caller
         registerCaller(GetActionEnum.GetListLineChecked, dType,
                 new GetListData());

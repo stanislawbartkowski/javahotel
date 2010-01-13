@@ -22,6 +22,7 @@ import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 abstract public class AbstractSlotContainer implements ISlotable {
 
@@ -75,6 +76,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
 
     protected void publish(IDataType dType, IVField fie, IFormLineView formLine) {
         slContainer.publish(dType, fie, formLine);
+    }
+
+    public void publish(IDataType dType, VListHeaderContainer vHeader) {
+        slContainer.publish(dType, vHeader);
     }
 
     protected void registerSubscriber(SlotType slType,
