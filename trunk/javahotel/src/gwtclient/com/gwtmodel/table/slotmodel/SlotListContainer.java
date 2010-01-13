@@ -288,7 +288,7 @@ public class SlotListContainer {
 
     public void publish(IDataType dType, VListHeaderContainer vHeader) {
         publish(slContextFactory.construct(slTypeFactory.construct(
-                DataActionEnum.ReadHeaderContainer, dType), vHeader));
+                DataActionEnum.ReadHeaderContainerSignal, dType), vHeader));
     }
 
     public void publish(SlotType slType) {
