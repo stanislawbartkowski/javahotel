@@ -74,7 +74,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         tableView = gFactory.construct();
         // subscriber
         registerSubscriber(DataActionEnum.DrawListAction, dType, new DrawList());
-        registerSubscriber(DataActionEnum.ReadHeaderContainer, dType,
+        registerSubscriber(DataActionEnum.ReadHeaderContainerSignal, dType,
                 new DrawHeader());
         // caller
         registerCaller(GetActionEnum.GetListLineChecked, dType,

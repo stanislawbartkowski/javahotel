@@ -44,12 +44,16 @@ public enum DataActionEnum {
     /** Read list / IDataListType. */
     ReadListAction,
 
-    /** Read header / VListHeaderContainer . */
-    ReadHeaderContainer,
-
     /** List read successfully. */
     ReadListPersistedSignal,
 
+    /** Read header / VListHeaderContainer . */
+    ReadHeaderContainer,
+
+    /** Header read successfully. */
+    ReadHeaderContainerSignal,
+
+    
     /** Persist data / IVModelData / PersistEnumType. */
     PersistDataAction,
 
