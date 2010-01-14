@@ -18,6 +18,7 @@ import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IHeaderListContainer;
+import com.gwtmodel.table.factories.IHeaderListFactory;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.IListDataView;
@@ -43,10 +44,12 @@ class DisplayListControler implements IDataControler {
             int cellIdFirst, ListOfControlDesc listButton, ISlotable cControler) {
         this.tFactories = tFactories;
         this.dType = dType;
-        IDataPersistAction persistA = fContainer.getPersistFactoryAction()
-                .contruct(dType);
-        IHeaderListContainer  heList = fContainer.getHeaderListFactory()
-                .construct(dType);
+        IDataPersistAction persistA = fContainer.getPersistFactoryAction().contruct(dType);
+        IHeaderListContainer heList = null;
+        IHeaderListFactory hFa = fContainer.getHeaderListFactory();
+        if (hFa != null) {
+            heList = fContainer.getHeaderListFactory().construct(dType);
+        }
         // create panel View
         PanelViewFactory pViewFactory = tFactories.getpViewFactory();
         IPanelView pView = pViewFactory.construct(cellIdFirst);
@@ -66,7 +69,9 @@ class DisplayListControler implements IDataControler {
         slMediator.registerSlotContainer(cellTableId, daView);
         slMediator.registerSlotContainer(controlId, bView);
         slMediator.registerSlotContainer(-1, cControler);
-        slMediator.registerSlotContainer(-1, heList);
+        if (heList != null) {
+          slMediator.registerSlotContainer(-1, heList);
+        }
     }
 
     public void startPublish(int cellId) {
@@ -75,14 +80,14 @@ class DisplayListControler implements IDataControler {
                 dType);
         slMediator.getSlContainer().registerRedirector(
                 tFactories.getSlTypeFactory().construct(
-                        DataActionEnum.ListReadSuccessSignal, dType),
+                DataActionEnum.ListReadSuccessSignal, dType),
                 tFactories.getSlTypeFactory().construct(
-                        DataActionEnum.DrawListAction, dType));
+                DataActionEnum.DrawListAction, dType));
         slMediator.getSlContainer().registerRedirector(
-                tFactories.getSlTypeFactory().construct( 
-                        DataActionEnum.RefreshAfterPersistActionSignal, dType),
                 tFactories.getSlTypeFactory().construct(
-                        DataActionEnum.ReadListAction, dType));
+                DataActionEnum.RefreshAfterPersistActionSignal, dType),
+                tFactories.getSlTypeFactory().construct(
+                DataActionEnum.ReadListAction, dType));
     }
 
     public SlotListContainer getSlContainer() {
