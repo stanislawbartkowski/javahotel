@@ -15,15 +15,14 @@ package com.gwtmodel.table.view.ewidget;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
-class NumberCalculator extends WidgetWithPopUpTemplate {
+class NumberCalculator extends ExtendTextBox {
 
     NumberCalculator(TableFactoriesContainer tFactories) {
-        super(tFactories,"calendar",null);
+        super(tFactories, false);
         hPanel.addStyleName("Number");
     }
 
 }
-    

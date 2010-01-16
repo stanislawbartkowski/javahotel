@@ -13,7 +13,9 @@
 package com.gwtmodel.table.view.ewidget;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 
@@ -33,6 +35,25 @@ public class EditWidgetFactory {
 
     public IFormLineView contructCalculatorNumber() {
         return new NumberCalculator(tFactories);
+    }
+
+    public IFormLineView constructListValuesBox(IDataType dType,
+            final IVField fie) {
+        GetValueLB lB = new GetValueLB(tFactories);
+        AddBoxValues.addValues(dType, fie, lB);
+        return lB;
+    }
+
+    public IFormLineView constructListValuesHelp(IDataType dType,
+            final IVField fie) {
+        return new ListFieldWithHelp(tFactories, dType, fie);
+    }
+
+    public IFormLineView constructListBoxValuesHelp(IDataType dType,
+            final IVField fie) {
+        GetValueLB lB = new ListBoxWithHelp(tFactories, dType, fie);
+        AddBoxValues.addValues(dType, fie, lB);
+        return lB;
     }
 
 }

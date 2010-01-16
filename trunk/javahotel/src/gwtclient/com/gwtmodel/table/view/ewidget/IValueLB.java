@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2009 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,27 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.slotmodel;
 
-public enum SlotEventEnum {
-    /** Raised to visualize validation error. */
-    SignalError,
+package com.gwtmodel.table.view.ewidget;
 
-    /** Published after observed value has changed. */
-    ChangeValue,
+import java.util.List;
 
-    /** Published after control button was clicked. */
-    ClickButton,
+import com.gwtmodel.table.rdef.IFormLineView;
 
-    /** Published after widget has been created. */
-    CallBackWidget,
 
-    /** raised to refresh list after some event. */
-    ListEvent,
+/**
+ *
+ * @author stanislawbartkowski@gmail.com
+ */
+interface IValueLB extends IFormLineView {
 
-    /** List of slots, composite slot. */
-    CompositeSlot,
+    void setList(List<String> li);
+    String getBeforeVal();
 
-    /** Start sending. */
-    StartSending,
 }

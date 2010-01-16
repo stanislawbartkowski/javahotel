@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Utils;
@@ -25,7 +26,7 @@ import com.gwtmodel.table.view.util.PopupUtil;
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
-abstract class WidgetWithPopUpTemplate extends ExtendTextBox {
+class WidgetWithPopUpTemplate  {
 
     interface ISetWidget {
 
@@ -36,6 +37,7 @@ abstract class WidgetWithPopUpTemplate extends ExtendTextBox {
 
         void getPopUp(Widget startW, ISetWidget iSet);
     }
+
     final private ISetWidget is = new ISetWidget() {
 
         public void setWidget(Widget w) {
@@ -46,9 +48,9 @@ abstract class WidgetWithPopUpTemplate extends ExtendTextBox {
         }
     };
 
+    private final HorizontalPanel hPanel;
     private PopupPanel pUp = null;
     private final IGetP iGet;
-
 
     final private ClickListener cL = new ClickListener() {
 
@@ -60,13 +62,17 @@ abstract class WidgetWithPopUpTemplate extends ExtendTextBox {
             }
         }
     };
+    
+    void hide() {
+        pUp.hide();
+    }
 
-    protected WidgetWithPopUpTemplate(TableFactoriesContainer tFactories, String image, IGetP i) {
-        super(tFactories, false);
+    WidgetWithPopUpTemplate(TableFactoriesContainer tFactories, HorizontalPanel hPanel,
+            String image, IGetP i) {
         this.iGet = i;
+        this.hPanel = hPanel;
         String iPath = Utils.getImageHTML(image + ".gif");
         HTML dB = new HTML(iPath);
-        dB.addStyleName("calendar-image");
         hPanel.add(dB);
         dB.addClickListener(cL);
     }
