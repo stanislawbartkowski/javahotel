@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 
 /**
@@ -22,15 +21,9 @@ import com.gwtmodel.table.injector.TableFactoriesContainer;
 class NumberCalculator extends WidgetWithPopUpTemplate {
 
     NumberCalculator(TableFactoriesContainer tFactories) {
-        super(tFactories);
+        super(tFactories,"calendar",null);
         hPanel.addStyleName("Number");
     }
-
-	@Override
-	protected Widget getPopUpWidget() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
     

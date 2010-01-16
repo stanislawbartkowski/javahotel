@@ -14,6 +14,7 @@ package com.gwtmodel.table.controler;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
@@ -37,15 +38,15 @@ public class TableDataControlerFactory {
     public IDataControler constructDataControler(IDataType dType, int panelId,
             int cellIdFirst) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
-        return new DisplayListControler(tFactories, fContainer, dType, panelId,
+        return new DisplayListControler(tFactories, fContainer, dType, null, panelId,
                 cellIdFirst, cList, new DataListCrudControler(tFactories,
                         fContainer, dType));
     }
 
-    public IDataControler constructListChooseControler(IDataType dType, int panelId,
+    public IDataControler constructListChooseControler(IDataType dType, WSize wSize, int panelId,
             int cellIdFirst) {
         ListOfControlDesc cList = cButtonFactory.constructChooseList();
-        return new DisplayListControler(tFactories, fContainer, dType, panelId,
+        return new DisplayListControler(tFactories, fContainer, dType, wSize, panelId,
                 cellIdFirst, cList, new DataListCrudControler(tFactories,
                         fContainer, dType));
     }

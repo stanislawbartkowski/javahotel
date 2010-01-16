@@ -48,8 +48,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         public void signal(ISlotSignalContext slContext) {
             IDataListType dataList = slContext.getDataList();
+            WSize wSize = slContext.getWSize();
             listView.setDataList(dataList);
-            tableView.refresh(null);
+            tableView.refresh(wSize);
         }
     }
 

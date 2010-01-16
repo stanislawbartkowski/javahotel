@@ -85,7 +85,6 @@ public class SlotSignalContextFactory {
             return persistTypeEnum;
 
         }
-
     }
 
     public ISlotSignalContext construct(SlotType slType, IDataListType dataList) {
@@ -93,10 +92,21 @@ public class SlotSignalContextFactory {
                 null, null, null);
     }
 
+    public ISlotSignalContext construct(SlotType slType, IDataListType dataList, WSize wSize) {
+        return new SlotSignalContext(slType, null, null, null, dataList, wSize,
+                null, null, null);
+    }
+
     public ISlotSignalContext construct(SlotType slType, IVModelData vData,
             WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, null, wSize,
                 vData, null, null);
+    }
+
+    public ISlotSignalContext construct(SlotType slType,
+            WSize wSize) {
+        return new SlotSignalContext(slType, null, null, null, null, wSize,
+                null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType) {
@@ -138,8 +148,7 @@ public class SlotSignalContextFactory {
 
     public ISlotSignalContext construct(SlotType slType,
             ISlotSignalContext iSlot) {
-        return new SlotSignalContext(slType, iSlot.getChangedValue(), iSlot
-                .getValidateError(), iSlot.getGwtWidget(), iSlot.getDataList(),
+        return new SlotSignalContext(slType, iSlot.getChangedValue(), iSlot.getValidateError(), iSlot.getGwtWidget(), iSlot.getDataList(),
                 iSlot.getWSize(), iSlot.getVData(), iSlot.getPersistType(),
                 iSlot.getListHeader());
     }

@@ -69,6 +69,11 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(dataActionEnum, dType, dataList);
     }
 
+    public void publish(DataActionEnum dataActionEnum, IDataType dType,
+            WSize wSize) {
+        slContainer.publish(dataActionEnum, dType, wSize);
+    }
+
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
             IVModelData vData) {
         slContainer.publish(dataActionEnum, dType, vData);
@@ -140,5 +145,4 @@ abstract public class AbstractSlotContainer implements ISlotable {
             ISlotSignalContext slContext) {
         slContainer.publish(dataActionEnum, dType, slContext);
     }
-
 }

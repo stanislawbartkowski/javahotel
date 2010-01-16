@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.view.util.PopupUtil;
 
 /**
  * 
@@ -26,26 +27,44 @@ import com.gwtmodel.table.injector.TableFactoriesContainer;
 @SuppressWarnings("deprecation")
 abstract class WidgetWithPopUpTemplate extends ExtendTextBox {
 
-    abstract protected Widget getPopUpWidget();
-    private PopupPanel pUp = null;
-    final private ClickListener cL = new ClickListener() {
+    interface ISetWidget {
 
-        public void onClick(final Widget arg0) {
-            if (pUp == null) {
-                Widget w = getPopUpWidget();
-                int le = hPanel.getAbsoluteLeft() + hPanel.getOffsetWidth();
-                int to = hPanel.getAbsoluteTop() + hPanel.getOffsetHeight();
-                pUp = new PopupPanel(true);
-                pUp.setPopupPosition(le, to);
-                pUp.add(w);
-            }
+        void setWidget(Widget w);
+    }
+
+    interface IGetP {
+
+        void getPopUp(Widget startW, ISetWidget iSet);
+    }
+    final private ISetWidget is = new ISetWidget() {
+
+        public void setWidget(Widget w) {
+            pUp = new PopupPanel(true);
+            PopupUtil.setPos(pUp, hPanel);
+            pUp.add(w);
             pUp.show();
         }
     };
 
-    protected WidgetWithPopUpTemplate(TableFactoriesContainer tFactories) {
+    private PopupPanel pUp = null;
+    private final IGetP iGet;
+
+
+    final private ClickListener cL = new ClickListener() {
+
+        public void onClick(final Widget arg0) {
+            if (pUp == null) {
+                iGet.getPopUp(arg0, is);
+            } else {
+                pUp.show();
+            }
+        }
+    };
+
+    protected WidgetWithPopUpTemplate(TableFactoriesContainer tFactories, String image, IGetP i) {
         super(tFactories, false);
-        String iPath = Utils.getImageHTML("calendar.gif");
+        this.iGet = i;
+        String iPath = Utils.getImageHTML(image + ".gif");
         HTML dB = new HTML(iPath);
         dB.addStyleName("calendar-image");
         hPanel.add(dB);
