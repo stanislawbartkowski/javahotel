@@ -27,9 +27,9 @@ public class ReadDictList<T extends IDataListType> {
 
     private class R implements ISlotSignaller {
 
-        private final IListCallBack iList;
+        private final IListCallBack<T> iList;
 
-        R(IListCallBack iList) {
+        R(IListCallBack<T> iList) {
             this.iList = iList;
         }
 

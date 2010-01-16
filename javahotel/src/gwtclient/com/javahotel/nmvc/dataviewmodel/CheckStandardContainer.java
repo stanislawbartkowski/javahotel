@@ -78,7 +78,7 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
         }
     }
 
-    private class R implements ReadDictList.IListCallBack {
+    private class R implements ReadDictList.IListCallBack<IDataListType> {
 
         private final int cellId;
 
@@ -138,7 +138,7 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
     }
 
     public void startPublish(int cellId) {
-        ReadDictList.readList(dType, new R(cellId));
+        new ReadDictList<IDataListType>().readList(dType, new R(cellId));
     }
 
 }

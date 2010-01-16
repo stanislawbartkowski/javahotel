@@ -88,7 +88,7 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
         }
     }
 
-    private class R implements ReadDictList.IListCallBack {
+    private class R implements ReadDictList.IListCallBack<IDataListType> {
 
         public void setList(IDataListType dList) {
             List<DictionaryP> servList = DataUtil.construct(dList);
@@ -180,7 +180,7 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
                 true, true, true);
         iView = gFactory.constructDecimal(gType);
         DataType daType = new DataType(DictType.ServiceDict);
-        ReadDictList.readList(daType, new R());
+        new ReadDictList<IDataListType>().readList(daType, new R());
         registerCaller(GetActionEnum.GetViewModelEdited, cType, new SetGetter());
         registerCaller(GetActionEnum.GetModelToPersist, cType, new SetGetter());
         registerSubscriber(DataActionEnum.DrawViewFormAction, cType,

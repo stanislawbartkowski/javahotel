@@ -33,7 +33,7 @@ abstract class ExtendTextBox extends ELineDialog {
 
     protected final TextBox tBox;
     protected final HorizontalPanel hPanel = new HorizontalPanel();
-    protected final CheckBox check;
+    protected final CheckBox check;    
 
     protected ExtendTextBox(TableFactoriesContainer tFactories,final boolean password) {
         super(tFactories);
@@ -138,8 +138,8 @@ abstract class ExtendTextBox extends ELineDialog {
         runOnChange(this);
     }
 
-    public void refresh() {
-    }
+//    public void refresh() {
+//    }
 
     public String getVal() {
         return tBox.getText();
