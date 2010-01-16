@@ -264,9 +264,21 @@ public class SlotListContainer {
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
+            WSize wSize) {
+        publish(slContextFactory.construct(slTypeFactory.construct(
+                dataActionEnum, dType), wSize));
+    }
+
+    public void publish(DataActionEnum dataActionEnum, IDataType dType,
             IDataListType dataList) {
         publish(slContextFactory.construct(slTypeFactory.construct(
                 dataActionEnum, dType), dataList));
+    }
+
+    public void publish(DataActionEnum dataActionEnum, IDataType dType,
+            IDataListType dataList, WSize wSize) {
+        publish(slContextFactory.construct(slTypeFactory.construct(
+                dataActionEnum, dType), dataList, wSize));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,

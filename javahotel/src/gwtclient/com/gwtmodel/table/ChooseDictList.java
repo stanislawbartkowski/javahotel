@@ -67,11 +67,11 @@ public class ChooseDictList<T extends IVModelData> {
         }
     }
 
-    public ChooseDictList(IDataType dType, ICallBackWidget<T> i) {
+    public ChooseDictList(IDataType dType,  WSize wSize, ICallBackWidget<T> i) {
         this.i = i;
         this.dType = dType;
         TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
-        IDataControler iData = tFactory.constructListChooseControler(dType, 0, 1);
+        IDataControler iData = tFactory.constructListChooseControler(dType, wSize, 0, 1);
         sl = iData.getSlContainer();
         sl.registerSubscriber(ClickButtonType.StandClickEnum.CHOOSELIST, new GetChoosed());
         sl.registerSubscriber(ClickButtonType.StandClickEnum.RESIGNLIST, new GetResign());
