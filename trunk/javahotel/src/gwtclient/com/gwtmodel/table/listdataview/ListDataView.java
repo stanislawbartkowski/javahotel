@@ -14,6 +14,7 @@ package com.gwtmodel.table.listdataview;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
@@ -41,7 +42,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             listView.setHeaderList(listHeader);
             tableView.setModel(listView);
         }
-
     }
 
     private class DrawList implements ISlotSignaller {
@@ -51,6 +51,14 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             WSize wSize = slContext.getWSize();
             listView.setDataList(dataList);
             tableView.refresh(wSize);
+        }
+    }
+
+    private class GetComboField implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVField comboF = listView.getComboField();
+            return construct(dType, comboF);
         }
     }
 
@@ -80,6 +88,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         // caller
         registerCaller(GetActionEnum.GetListLineChecked, dType,
                 new GetListData());
+        registerCaller(GetActionEnum.GetListComboField, dType, new GetComboField());
     }
 
     public void startPublish(int cellId) {

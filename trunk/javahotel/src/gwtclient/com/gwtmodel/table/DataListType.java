@@ -17,9 +17,11 @@ import java.util.List;
 class DataListType implements IDataListType {
 
     private final List<IVModelData> dList;
+    private final IVField comboFie;
 
-    DataListType(List<IVModelData> dList) {
+    DataListType(List<IVModelData> dList,IVField comboFie) {
         this.dList = dList;
+        this.comboFie = comboFie;
     }
 
     public IVModelData getRow(int row) {
@@ -28,5 +30,9 @@ class DataListType implements IDataListType {
 
     public int rowNo() {
         return dList.size();
+    }
+
+    public IVField comboField() {
+        return comboFie;
     }
 }

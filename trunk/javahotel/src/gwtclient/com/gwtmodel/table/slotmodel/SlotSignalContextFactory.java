@@ -14,6 +14,7 @@ package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
@@ -33,6 +34,7 @@ public class SlotSignalContextFactory {
         private final IVModelData vData;
         private final PersistTypeEnum persistTypeEnum;
         private final VListHeaderContainer listHeader;
+        private final IVField vField;
 
         public VListHeaderContainer getListHeader() {
             return listHeader;
@@ -41,7 +43,7 @@ public class SlotSignalContextFactory {
         SlotSignalContext(SlotType slType, IFormLineView changedValue,
                 IValidateError validateError, IGWidget gwtWidget,
                 IDataListType dataList, WSize wSize, IVModelData vData,
-                PersistTypeEnum persistTypeEnum, VListHeaderContainer listHeader) {
+                PersistTypeEnum persistTypeEnum, VListHeaderContainer listHeader, IVField vField) {
             this.slType = slType;
             this.changedValue = changedValue;
             this.validateError = validateError;
@@ -51,6 +53,7 @@ public class SlotSignalContextFactory {
             this.vData = vData;
             this.persistTypeEnum = persistTypeEnum;
             this.listHeader = listHeader;
+            this.vField = vField;
         }
 
         public IVModelData getVData() {
@@ -85,71 +88,80 @@ public class SlotSignalContextFactory {
             return persistTypeEnum;
 
         }
+
+        public IVField getVField() {
+            return vField;
+        }
     }
 
     public ISlotSignalContext construct(SlotType slType, IDataListType dataList) {
         return new SlotSignalContext(slType, null, null, null, dataList, null,
-                null, null, null);
+                null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IDataListType dataList, WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, dataList, wSize,
-                null, null, null);
+                null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IVModelData vData,
             WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, null, wSize,
-                vData, null, null);
+                vData, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, null, wSize,
-                null, null, null);
+                null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, null);
+                null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IFormLineView formLine) {
         return new SlotSignalContext(slType, formLine, null, null, null, null,
-                null, null, null);
+                null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             PersistTypeEnum persistTypeEnum) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, persistTypeEnum, null);
+                null, persistTypeEnum, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             VListHeaderContainer listHeader) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, listHeader);
+                null, null, listHeader, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IGWidget gwtWidget) {
         return new SlotSignalContext(slType, null, null, gwtWidget, null, null,
-                null, null, null);
+                null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IVModelData vData) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                vData, null, null);
+                vData, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IValidateError vError) {
         return new SlotSignalContext(slType, null, vError, null, null, null,
-                null, null, null);
+                null, null, null, null);
+    }
+
+    public ISlotSignalContext construct(SlotType slType, IVField vField) {
+        return new SlotSignalContext(slType, null, null, null, null, null,
+                null, null, null, vField);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             ISlotSignalContext iSlot) {
         return new SlotSignalContext(slType, iSlot.getChangedValue(), iSlot.getValidateError(), iSlot.getGwtWidget(), iSlot.getDataList(),
                 iSlot.getWSize(), iSlot.getVData(), iSlot.getPersistType(),
-                iSlot.getListHeader());
+                iSlot.getListHeader(), iSlot.getVField());
     }
 }

@@ -12,6 +12,11 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.ChangeListener;
+import com.google.gwt.user.client.ui.KeyboardListener;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.DateFormatUtil;
 import java.math.BigDecimal;
@@ -29,7 +34,7 @@ import com.gwtmodel.table.view.util.PopupTip;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-abstract class ELineDialog extends PopupTip implements IFormLineView {
+abstract class AbstractField extends PopupTip implements IFormLineView {
 
     protected ITouchListener iTouch;
     protected Collection<IFormChangeListener> lC;
@@ -37,7 +42,7 @@ abstract class ELineDialog extends PopupTip implements IFormLineView {
     protected final boolean checkBoxVal;
     protected final TableFactoriesContainer tFactories;
 
-    ELineDialog(TableFactoriesContainer tFactories) {
+    AbstractField(TableFactoriesContainer tFactories) {
         this.tFactories = tFactories;
         iTouch = null;
         lC = null;
@@ -45,7 +50,7 @@ abstract class ELineDialog extends PopupTip implements IFormLineView {
         isCheckBox = true;
     }
 
-    ELineDialog(TableFactoriesContainer tFactories,boolean checkenable) {
+    AbstractField(TableFactoriesContainer tFactories, boolean checkenable) {
         this.tFactories = tFactories;
         iTouch = null;
         lC = null;
@@ -70,6 +75,42 @@ abstract class ELineDialog extends PopupTip implements IFormLineView {
             getGWidget().setStyleName(sName);
         } else {
             getGWidget().removeStyleName(sName);
+        }
+    }
+
+    protected class L implements ChangeListener {
+
+        public void onChange(Widget sender) {
+            runOnChange(AbstractField.this);
+        }
+    }
+
+    protected class ValueChange implements ValueChangeHandler {
+
+        public void onValueChange(ValueChangeEvent event) {
+            runOnChange(AbstractField.this);
+        }
+    }
+
+    protected class Touch implements KeyboardListener {
+
+        private final ITouchListener iTouch;
+
+        Touch(final ITouchListener iTouch) {
+            this.iTouch = iTouch;
+        }
+
+        public void onKeyDown(Widget sender, char keyCode, int modifiers) {
+            iTouch.onTouch();
+
+        }
+
+        public void onKeyPress(Widget sender, char keyCode, int modifiers) {
+            iTouch.onTouch();
+        }
+
+        public void onKeyUp(Widget sender, char keyCode, int modifiers) {
+            iTouch.onTouch();
         }
     }
 
@@ -118,8 +159,13 @@ abstract class ELineDialog extends PopupTip implements IFormLineView {
             c.onChange(i);
         }
     }
-    
+
     public void setInvalidMess(String errmess) {
         setMessage(errmess);
     }
+
+    public Widget getGWidget() {
+        return this;
+    }
+
 }

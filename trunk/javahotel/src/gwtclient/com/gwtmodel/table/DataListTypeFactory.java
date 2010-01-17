@@ -13,7 +13,12 @@ import java.util.List;
 public class DataListTypeFactory {
 
     public static IDataListType construct(List<IVModelData> dList) {
-        return new DataListType(dList);
+        return new DataListType(dList, null);
+
+    }
+
+    public static IDataListType construct(List<IVModelData> dList, IVField comboFie) {
+        return new DataListType(dList, comboFie);
 
     }
 }

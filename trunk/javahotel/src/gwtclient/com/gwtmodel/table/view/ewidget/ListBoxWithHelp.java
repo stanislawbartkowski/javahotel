@@ -15,7 +15,8 @@ package com.gwtmodel.table.view.ewidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 
 class ListBoxWithHelp extends GetValueLB {
@@ -26,8 +27,8 @@ class ListBoxWithHelp extends GetValueLB {
 
     private class RHelp extends ChooseListHelper {
 
-        RHelp(IDataType dType, IVField fie) {
-            super(dType, fie);
+        RHelp(IDataType dType) {
+            super(dType);
         }
 
         @Override
@@ -42,12 +43,12 @@ class ListBoxWithHelp extends GetValueLB {
 
     }
 
-    ListBoxWithHelp(TableFactoriesContainer tFactories, IDataType dType,
-            IVField fie) {
+    ListBoxWithHelp(TableFactoriesContainer tFactories, IDataType dType) {
         super(tFactories);
-        cHelper = new RHelp(dType, fie);
-        hP.add(lB);
-        wHelp = new WidgetWithPopUpTemplate(tFactories, hP, "image", cHelper
+        cHelper = new RHelp(dType);
+        hP.add(super.getGWidget());
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        wHelp = new WidgetWithPopUpTemplate(tFactories, hP, c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), cHelper
                 .getI());
     }
 

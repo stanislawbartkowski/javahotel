@@ -15,7 +15,15 @@ package com.gwtmodel.table.factories;
 import com.gwtmodel.table.IVField;
 
 public interface IGetCustomValues {
-    
-    IVField getSymForCombo();
 
+    IVField getSymForCombo();
+    String IMAGEFORLISTHELP = "IMAGEFORLISTHEP";
+    String IMAGEFOLDER = "IMAGEFOLDER";
+    String RESOURCEFOLDER = "RESOURCEFOLDER";
+    String YESVALUE = "YESVALUE";
+    String NOVALUE = "NOVALUE";
+
+    String getCustomValue(String key);
+
+    boolean compareComboByInt();
 }

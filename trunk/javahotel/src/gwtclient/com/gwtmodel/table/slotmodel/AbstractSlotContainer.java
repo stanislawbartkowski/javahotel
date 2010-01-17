@@ -121,6 +121,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContainer.setGetter(getActionEnum, dType, vData, wSize);
     }
 
+    protected ISlotSignalContext construct(IDataType dType, IVField comboFie) {
+        return slContainer.setGetter(dType, comboFie);
+    }
+
     protected ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
         return slContainer.contextReplace(slType, iSlot);

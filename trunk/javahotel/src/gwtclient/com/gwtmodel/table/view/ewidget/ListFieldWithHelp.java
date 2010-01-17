@@ -13,7 +13,8 @@
 package com.gwtmodel.table.view.ewidget;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 
 class ListFieldWithHelp extends ExtendTextBox {
@@ -23,8 +24,8 @@ class ListFieldWithHelp extends ExtendTextBox {
 
     private class RHelp extends ChooseListHelper {
 
-        RHelp(IDataType dType, IVField fie) {
-            super(dType, fie);
+        RHelp(IDataType dType) {
+            super(dType);
         }
 
         @Override
@@ -36,15 +37,14 @@ class ListFieldWithHelp extends ExtendTextBox {
         void hide() {
             wHelp.hide();
         }
-
     }
 
-    ListFieldWithHelp(TableFactoriesContainer tFactories, IDataType dType,
-            IVField fie) {
+    ListFieldWithHelp(TableFactoriesContainer tFactories, IDataType dType) {
         super(tFactories, false);
-        cHelper = new RHelp(dType, fie);
-        wHelp = new WidgetWithPopUpTemplate(tFactories, hPanel, "image",
+        cHelper = new RHelp(dType);
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+
+        wHelp = new WidgetWithPopUpTemplate(tFactories, hPanel, c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
                 cHelper.getI());
     }
-
 }

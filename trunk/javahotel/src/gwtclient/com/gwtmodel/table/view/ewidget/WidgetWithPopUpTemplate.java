@@ -26,7 +26,7 @@ import com.gwtmodel.table.view.util.PopupUtil;
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
-class WidgetWithPopUpTemplate  {
+class WidgetWithPopUpTemplate {
 
     interface ISetWidget {
 
@@ -37,7 +37,6 @@ class WidgetWithPopUpTemplate  {
 
         void getPopUp(Widget startW, ISetWidget iSet);
     }
-
     final private ISetWidget is = new ISetWidget() {
 
         public void setWidget(Widget w) {
@@ -47,11 +46,9 @@ class WidgetWithPopUpTemplate  {
             pUp.show();
         }
     };
-
     private final HorizontalPanel hPanel;
     private PopupPanel pUp = null;
     private final IGetP iGet;
-
     final private ClickListener cL = new ClickListener() {
 
         public void onClick(final Widget arg0) {
@@ -62,7 +59,7 @@ class WidgetWithPopUpTemplate  {
             }
         }
     };
-    
+
     void hide() {
         pUp.hide();
     }

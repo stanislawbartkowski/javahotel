@@ -28,5 +28,8 @@ public enum GetActionEnum {
     
     /** Compose get model to persist out/IVModelData. */
     GetComposeModelToPersist,
+
+    /** Get combo fiels. */
+    GetListComboField,
         
 }

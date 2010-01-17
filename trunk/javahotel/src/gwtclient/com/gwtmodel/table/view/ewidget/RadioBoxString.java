@@ -30,7 +30,7 @@ import com.gwtmodel.table.injector.TableFactoriesContainer;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class RadioBoxString extends ELineDialog {
+public class RadioBoxString extends AbstractField {
 
     private final VerticalPanel vP = new VerticalPanel();
     private SyncC sync;
