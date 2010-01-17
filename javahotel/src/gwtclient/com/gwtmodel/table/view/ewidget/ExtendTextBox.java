@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,7 +28,7 @@ import com.gwtmodel.table.rdef.ITouchListener;
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
-abstract class ExtendTextBox extends ELineDialog {
+abstract class ExtendTextBox extends AbstractField {
 
     protected final TextBox tBox;
     protected final HorizontalPanel hPanel = new HorizontalPanel();
@@ -96,29 +95,7 @@ abstract class ExtendTextBox extends ELineDialog {
         }
     }
     
-    private class Touch implements KeyboardListener {
-        
-        private final ITouchListener iTouch;
-        
-        Touch(final ITouchListener iTouch) {
-            this.iTouch = iTouch;
-        }
-
-        public void onKeyDown(Widget sender, char keyCode, int modifiers) {
-            iTouch.onTouch();
-            
-        }
-
-        public void onKeyPress(Widget sender, char keyCode, int modifiers) {
-            iTouch.onTouch();            
-        }
-
-        public void onKeyUp(Widget sender, char keyCode, int modifiers) {
-            iTouch.onTouch();            
-        }
-        
-    }
-
+ 
     @Override
     public void setOnTouch(final ITouchListener iTouch) {
         super.setOnTouch(iTouch);
@@ -138,8 +115,6 @@ abstract class ExtendTextBox extends ELineDialog {
         runOnChange(this);
     }
 
-//    public void refresh() {
-//    }
 
     public String getVal() {
         return tBox.getText();
@@ -163,6 +138,7 @@ abstract class ExtendTextBox extends ELineDialog {
         }
     }
 
+    @Override
     public void addChangeListener(final IFormChangeListener l) {
         super.addChangeListener(l);
         tBox.addChangeListener(new L());

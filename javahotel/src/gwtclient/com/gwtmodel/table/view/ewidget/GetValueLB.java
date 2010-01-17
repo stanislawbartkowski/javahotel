@@ -25,7 +25,7 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
-class GetValueLB extends ELineDialog implements IValueLB {
+class GetValueLB extends AbstractField implements IValueLB {
 
     final protected ListBox lB = new ListBox();
     private String beforeVal = null;
@@ -80,6 +80,7 @@ class GetValueLB extends ELineDialog implements IValueLB {
         return -1;
     }
 
+    @Override
     public void addChangeListener(final IFormChangeListener l) {
         super.addChangeListener(l);
         ChangeListener le = new ChangeListener() {
@@ -107,6 +108,6 @@ class GetValueLB extends ELineDialog implements IValueLB {
     }
 
     public Widget getGWidget() {
-        return lB;
+        return this;
     }
 }

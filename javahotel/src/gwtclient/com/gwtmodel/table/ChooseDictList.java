@@ -35,7 +35,7 @@ public class ChooseDictList<T extends IVModelData> {
 
         void setWidget(IGWidget w);
 
-        void setChoosed(T vData);
+        void setChoosed(T vData, IVField comboFie);
 
         void setResign();
     }
@@ -48,7 +48,8 @@ public class ChooseDictList<T extends IVModelData> {
                 return;
             }
             T t = (T) vData;
-            i.setChoosed(t);
+            IVField comboFie = sl.getGetterComboField(dType);
+            i.setChoosed(t, comboFie);
         }
     }
 
@@ -67,7 +68,7 @@ public class ChooseDictList<T extends IVModelData> {
         }
     }
 
-    public ChooseDictList(IDataType dType,  WSize wSize, ICallBackWidget<T> i) {
+    public ChooseDictList(IDataType dType, WSize wSize, ICallBackWidget<T> i) {
         this.i = i;
         this.dType = dType;
         TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();

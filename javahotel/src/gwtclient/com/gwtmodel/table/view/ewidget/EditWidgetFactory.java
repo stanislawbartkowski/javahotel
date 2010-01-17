@@ -15,9 +15,9 @@ package com.gwtmodel.table.view.ewidget;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import java.util.List;
 
 public class EditWidgetFactory {
 
@@ -34,26 +34,50 @@ public class EditWidgetFactory {
     }
 
     public IFormLineView contructCalculatorNumber() {
-        return new NumberCalculator(tFactories);
+        return new NumberCalculator(tFactories, 2);
     }
 
-    public IFormLineView constructListValuesBox(IDataType dType,
-            final IVField fie) {
+    public IFormLineView contructCalculatorNumber(int afterdot) {
+        return new NumberCalculator(tFactories, afterdot);
+    }
+
+    public IFormLineView constructCheckField() {
+        return new FieldCheckField(tFactories);
+    }
+
+    public IFormLineView constructListValuesCombo(IDataType dType) {
         GetValueLB lB = new GetValueLB(tFactories);
-        AddBoxValues.addValues(dType, fie, lB);
+        AddBoxValues.addValues(dType, lB);
         return lB;
     }
 
-    public IFormLineView constructListValuesHelp(IDataType dType,
-            final IVField fie) {
-        return new ListFieldWithHelp(tFactories, dType, fie);
+    public IFormLineView constructPasswordField() {
+        return new FieldTextField(tFactories, true);
     }
 
-    public IFormLineView constructListBoxValuesHelp(IDataType dType,
-            final IVField fie) {
-        GetValueLB lB = new ListBoxWithHelp(tFactories, dType, fie);
-        AddBoxValues.addValues(dType, fie, lB);
+    public IFormLineView constructTextField() {
+        return new FieldTextField(tFactories, false);
+    }
+
+    public IFormLineView construcDateBoxCalendar() {
+        return new DateBoxCalendar(tFactories);
+    }
+
+    public IFormLineView constructBoxSelectField(List<ComboVal> wy) {
+        return new ComboBoxField(tFactories, wy);
+    }
+
+    public IFormLineView constructRadioSelectField(String zName, List<ComboVal> wy) {
+        return new RadioBoxField(tFactories, zName, wy);
+    }
+
+    public IFormLineView constructListValuesHelp(IDataType dType) {
+        return new ListFieldWithHelp(tFactories, dType);
+    }
+
+    public IFormLineView constructListComboValuesHelp(IDataType dType) {
+        GetValueLB lB = new ListBoxWithHelp(tFactories, dType);
+        AddBoxValues.addValues(dType, lB);
         return lB;
     }
-
 }

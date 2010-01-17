@@ -17,7 +17,6 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.ReadDictList;
 import com.gwtmodel.table.ReadDictList.IListCallBack;
@@ -28,12 +27,12 @@ import com.gwtmodel.table.ReadDictList.IListCallBack;
  */
 class AddBoxValues {
 
-    private static void setValue(IDataListType dList, IVField fie, IValueLB e) {
+    private static void setValue(IDataListType dList, IValueLB e) {
         String firstS = null;
         List<String> li = new ArrayList<String>();
         for (int i = 0; i < dList.rowNo(); i++) {
             IVModelData vData = dList.getRow(i);
-            String s = vData.getS(fie);
+            String s = vData.getS(dList.comboField());
             li.add(s);
             if (firstS == null) {
                 firstS = s;
@@ -54,22 +53,20 @@ class AddBoxValues {
 
     private static class R implements IListCallBack<IDataListType> {
 
-        private final IVField fie;
         private final IValueLB e;
 
-        R(final IVField fie, final IValueLB e) {
-            this.fie = fie;
+        R(final IValueLB e) {
             this.e = e;
         }
 
         public void setList(IDataListType dList) {
-            setValue(dList, fie, e);
+            setValue(dList, e);
         }
 
     }
 
-    static void addValues(IDataType dType, final IVField fie, final IValueLB e) {
-        new ReadDictList<IDataListType>().readList(dType, new R(fie, e));
+    static void addValues(IDataType dType, final IValueLB e) {
+        new ReadDictList<IDataListType>().readList(dType, new R(e));
     }
 
 }

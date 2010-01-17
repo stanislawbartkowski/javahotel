@@ -23,6 +23,7 @@ import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 
@@ -54,5 +55,7 @@ public interface GwtTableInjector extends Ginjector {
     TableFactoriesContainer getTableFactoriesContainer();
 
     GwtTableFactory getGwtTableFactory();
+
+    EditWidgetFactory getEditWidgetFactory();
 
 }

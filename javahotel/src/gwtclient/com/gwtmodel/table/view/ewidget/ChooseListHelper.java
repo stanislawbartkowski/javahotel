@@ -21,12 +21,10 @@ import com.gwtmodel.table.WSize;
  */
 abstract class ChooseListHelper {
 
-    private final IVField wybId;
     private final IDataType dType;
 
-    ChooseListHelper(IDataType dType, IVField wybId) {
+    ChooseListHelper(IDataType dType) {
         this.dType = dType;
-        this.wybId = wybId;
     }
 
     abstract void asetValue(String sy);
@@ -46,8 +44,8 @@ abstract class ChooseListHelper {
             iSet.setWidget(w.getGWidget());
         }
 
-        public void setChoosed(IVModelData vData) {
-            String sy = vData.getS(wybId);
+        public void setChoosed(IVModelData vData, IVField comboFie) {
+            String sy = vData.getS(comboFie);
             asetValue(sy);
             hide();
         }
@@ -55,7 +53,6 @@ abstract class ChooseListHelper {
         public void setResign() {
             hide();
         }
-
     }
 
     private class PopU implements WidgetWithPopUpTemplate.IGetP {
@@ -75,5 +72,4 @@ abstract class ChooseListHelper {
             WidgetWithPopUpTemplate.ISetWidget iSet) {
         return new ChooseD(iSet);
     }
-
 }

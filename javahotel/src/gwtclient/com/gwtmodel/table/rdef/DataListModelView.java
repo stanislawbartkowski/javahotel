@@ -5,6 +5,7 @@
 package com.gwtmodel.table.rdef;
 
 import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IListClicked;
@@ -57,5 +58,9 @@ public class DataListModelView implements IGwtTableModel {
 
     public boolean containsData() {
         return dataList != null;
+    }
+
+    public IVField getComboField() {
+        return dataList.comboField();
     }
 }

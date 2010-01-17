@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 
 /**
@@ -20,9 +21,29 @@ import com.gwtmodel.table.injector.TableFactoriesContainer;
  */
 class NumberCalculator extends ExtendTextBox {
 
-    NumberCalculator(TableFactoriesContainer tFactories) {
+    private final int afterdot;
+
+    NumberCalculator(TableFactoriesContainer tFactories, int afterdot) {
         super(tFactories, false);
+        this.afterdot = afterdot;
         hPanel.addStyleName("Number");
     }
 
+    @Override
+    public void setVal(String v) {
+        if (!CUtil.OkNumber(v)) {
+            return;
+        }
+        String s = CUtil.toAfterS(v, afterdot);
+        super.setVal(s);
+    }
+
+    @Override
+    public String getVal() {
+        String s = super.getVal();
+        if (!CUtil.OkNumber(s)) {
+            return null;
+        }
+        return CUtil.toAfterS(s, afterdot);
+    }
 }

@@ -15,8 +15,10 @@ package com.gwtmodel.table;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DateFormatUtil;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import java.math.BigDecimal;
 
 public class Utils {
@@ -28,13 +30,26 @@ public class Utils {
 
     public static String getResAdr(final String res) {
         String path;
-        path = "com.javahotel.web/";
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        String resF = c.getCustomValue(IGetCustomValues.RESOURCEFOLDER);
+//        path = "com.javahotel.web/";
         path = GWT.getModuleBaseURL();
-        return path + "/res/" + res;
+        if (resF == null) {
+            return path + "/" + res;
+        }
+        return path + "/" + resF + "/" + res;
     }
 
     public static String getImageAdr(final String image) {
-        String path = getResAdr("img/" + image);
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        String folder = c.getCustomValue(IGetCustomValues.IMAGEFOLDER);
+        String img;
+        if (folder == null) {
+            img = image;
+        } else {
+            img = folder + "/" + image;
+        }
+        String path = getResAdr(img);
         return path;
     }
 
@@ -132,5 +147,19 @@ public class Utils {
 
         int size = (he - up - 10) / 30;
         return size;
+    }
+
+    public static boolean TrueL(String s) {
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        String yesv = c.getCustomValue(IGetCustomValues.YESVALUE);
+        return CUtil.EqNS(s, yesv);
+    }
+
+    public static String LToS(boolean l) {
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        if (l) {
+            return c.getCustomValue(IGetCustomValues.YESVALUE);
+        }
+        return c.getCustomValue(IGetCustomValues.NOVALUE);
     }
 }
