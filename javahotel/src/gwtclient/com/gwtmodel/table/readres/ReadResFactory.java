@@ -15,7 +15,7 @@ package com.gwtmodel.table.readres;
 
 public class ReadResFactory {
 
-    public static IReadRes getReadRes() {
+    public IReadRes getReadRes() {
         return new ReadRes();
 
     }

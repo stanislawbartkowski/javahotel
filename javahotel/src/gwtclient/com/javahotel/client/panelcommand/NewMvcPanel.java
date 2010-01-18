@@ -18,25 +18,20 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
-import com.javahotel.client.injector.HInjector;
 import com.javahotel.common.command.DictType;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.controler.DataControlerEnum;
 import com.javahotel.nmvc.controler.DataControlerFactory;
-import com.javahotel.nmvc.factories.RegisterFactories;
 
 class NewMvcPanel extends AbstractPanelCommand {
 
     private ISetGwtWidget iS;
     private final IResLocator rI;
     private final DictType da;
-    private final RegisterFactories rFactories;
 
     NewMvcPanel(IResLocator rI, DictType da) {
         this.rI = rI;
         this.da = da;
-        rFactories = HInjector.getI().getRegisterFactories();
-        rFactories.register();
     }
 
     private class SetGwt implements ISlotSignaller {

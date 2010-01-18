@@ -24,16 +24,21 @@ import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.nmvc.common.FormLineDef;
 import com.javahotel.nmvc.common.VField;
+import com.javahotel.nmvc.factories.impl.RecordFormDefFactory;
 
 public class FormDefFactory extends HelperFactory implements IFormDefFactory {
 
     private final GetRecordDefFactory gFactory;
+    private final RecordFormDefFactory dFactory;
 
-    FormDefFactory(GetRecordDefFactory gFactory) {
+    FormDefFactory(GetRecordDefFactory gFactory,RecordFormDefFactory dFactory) {
         this.gFactory = gFactory;
+        this.dFactory = dFactory;
     }
 
     public FormLineContainer construct(IDataType dType) {
+        FormLineContainer fe = dFactory.construct(dType);
+        if (fe != null) { return fe; }
         DictData da = getDa(dType);
         List<RecordField> def = gFactory.getDef(da);
         List<FormField> formList = new ArrayList<FormField>();

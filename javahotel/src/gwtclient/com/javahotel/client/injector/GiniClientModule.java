@@ -15,6 +15,7 @@ package com.javahotel.client.injector;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
+import com.gwtmodel.table.injector.GwtTableInjectModule;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.dialog.eadmin.AdminPanelFactory;
@@ -58,6 +59,7 @@ import com.javahotel.client.paymentdata.PaymentData;
 import com.javahotel.client.start.IWebEntry;
 import com.javahotel.client.start.MainWebEntry;
 import com.javahotel.nmvc.factories.RegisterFactories;
+import com.javahotel.nmvc.factories.impl.RecordFormDefFactory;
 import com.javahotel.nmvc.pricemodel.PriceSeasonModelFactory;
 import com.javahotel.view.gwt.grid.view.GridGwtGetViewFactory;
 import com.javahotel.view.gwt.recordviewdef.GwtGetRecordDefFactory;
@@ -107,5 +109,7 @@ public class GiniClientModule extends AbstractGinModule {
         bind(AbstractToFactory.class).in(Singleton.class);
         bind(PersistRecordFactory.class).in(Singleton.class);
         bind(PriceSeasonModelFactory.class).in(Singleton.class);
+        bind(RecordFormDefFactory.class).in(Singleton.class);
+        bind(GwtTableInjectModule.class);
     }
 }

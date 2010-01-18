@@ -12,15 +12,34 @@
  */
 package com.javahotel.nmvc.factories;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.VField;
 
 class CustomFactory implements IGetCustomValues {
+    
+    private Map<String,String> ma = new HashMap<String,String>();
+    
+    CustomFactory() {
+        ma.put(IGetCustomValues.IMAGEFOLDER,"img");
+        ma.put(IGetCustomValues.RESOURCEFOLDER,"res");
+        
+    }
 
     public IVField getSymForCombo() {
         return new VField(DictionaryP.F.name);
+    }
+
+    public boolean compareComboByInt() {
+        return false;
+    }
+
+    public String getCustomValue(String key) {
+        return ma.get(key);
     }
 
 }

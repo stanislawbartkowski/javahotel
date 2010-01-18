@@ -16,10 +16,13 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.URights;
 import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.dispatcher.IDispatch;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.injector.HotelInjector;
 import com.javahotel.client.injector.ResLocatorHolder;
 import com.javahotel.client.panel.IWebHotelPanel;
 import com.javahotel.client.panel.WebHotelPanelFactory;
 import com.javahotel.client.rdata.RData;
+import com.javahotel.nmvc.factories.RegisterFactories;
 import com.javahotel.view.IViewInterface;
 import com.javahotel.view.gwt.GwtGetViewFactory;
 
@@ -140,12 +143,11 @@ public class MainWebEntry implements IWebEntry {
     }
 
     public void start() {
-        // String ba = GWT.getModuleBaseURL();
-        // String ba1 = GWT.getHostPageBaseURL();
         iView[IViewInterface.GWT] = GwtGetViewFactory.getView();
         IResLocator rI = new ResC();
-        ResLocatorHolder.setrI(rI);
-//        readRes = ReadResFactory.getReadRes(rI);
+        ResLocatorHolder.setrI(rI);        
+        RegisterFactories rFactories = HInjector.getI().getRegisterFactories();
+        rFactories.register();
         readRes = GwtGiniInjector.getI().getReadResFactory().getReadRes();
         cProgress = new CallBackProgress(rI);
         rD = new RData(rI);

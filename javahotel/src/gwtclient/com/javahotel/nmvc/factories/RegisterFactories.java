@@ -24,6 +24,7 @@ import com.javahotel.client.mvc.persistrecord.PersistRecordFactory;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.nmvc.dataviewmodel.GetViewFactory;
+import com.javahotel.nmvc.factories.impl.RecordFormDefFactory;
 
 public class RegisterFactories {
 
@@ -33,23 +34,23 @@ public class RegisterFactories {
     private final IResLocator rI;
     private final AbstractToFactory aFactory;
     private final DictValidatorFactory valFactory;
-    private final PersistRecordFactory pFactory;
+    private final RecordFormDefFactory dFactory;
 
     @Inject
     public RegisterFactories(IResLocator rI, GetRecordDefFactory gFactory,
             ColListFactory cFactory, AbstractToFactory aFactory,
-            DictValidatorFactory valFactory, PersistRecordFactory pFactory) {
+            DictValidatorFactory valFactory, RecordFormDefFactory dFactory) {
         this.rI = rI;
         this.gFactory = gFactory;
         this.tFactories = GwtGiniInjector.getI().getITableAbstractFactories();
         this.cFactory = cFactory;
         this.aFactory = aFactory;
         this.valFactory = valFactory;
-        this.pFactory = pFactory;
+        this.dFactory = dFactory;
     }
 
     public void register() {
-        FormDefFactory fa = new FormDefFactory(gFactory);
+        FormDefFactory fa = new FormDefFactory(gFactory, dFactory);
         IDataModelFactory daFactory = new DataModelFactory(aFactory);
         PersistFactoryAction peFactory = new PersistFactoryAction(rI);
         IDataValidateActionFactory vFactory = new ValidateActionFactory(
@@ -63,7 +64,8 @@ public class RegisterFactories {
         tFactories.registerDataValidateActionFactory(vFactory);
         tFactories.registerGetViewControllerFactory(getViewFactory);
         tFactories.registerGetCustomValues(new CustomFactory());
-        tFactories.registerDataFormConstructorAbstractFactory(new FormFactory());
+        tFactories
+                .registerDataFormConstructorAbstractFactory(new FormFactory());
     }
 
 }
