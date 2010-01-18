@@ -32,7 +32,6 @@ public class Utils {
         String path;
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         String resF = c.getCustomValue(IGetCustomValues.RESOURCEFOLDER);
-//        path = "com.javahotel.web/";
         path = GWT.getModuleBaseURL();
         if (resF == null) {
             return path + "/" + res;

@@ -100,9 +100,6 @@ public class GetIEditFactory {
         return getListValuesBox(pLoc, r, p, f, null);
     }
 
-//    public static ILineField getTextCalendard(final IResLocator pLoc) {
-//        return new DateCalendar(pLoc);
-//    }
     
     public static ILineField getTextCalendard(final IResLocator pLoc) {
         return new DDateCalendar(pLoc);

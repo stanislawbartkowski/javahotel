@@ -28,6 +28,13 @@ public class FormField {
         this.fie = fie;
         this.readOnlyIfModif = readOnlyIfModif;
     }
+    
+    public FormField(final String p, final IFormLineView e, final IVField fie) {
+        this.pLabel = p;
+        this.eLine = e;
+        this.fie = fie;
+        this.readOnlyIfModif = false;
+    }
 
     public boolean isReadOnlyIfModif() {
         return readOnlyIfModif;
