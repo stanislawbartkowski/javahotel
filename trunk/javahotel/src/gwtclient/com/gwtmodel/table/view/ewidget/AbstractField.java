@@ -12,6 +12,11 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.ChangeListener;
@@ -19,11 +24,6 @@ import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.DateFormatUtil;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;

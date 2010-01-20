@@ -21,6 +21,7 @@ import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 
@@ -125,6 +126,11 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContainer.setGetter(dType, comboFie);
     }
 
+    protected ISlotSignalContext construct(IDataType dType,
+            FormLineContainer lContainer) {
+        return slContainer.getGetterContext(dType, lContainer);
+    }
+
     protected ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
         return slContainer.contextReplace(slType, iSlot);
@@ -143,6 +149,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
     protected IVModelData getGetterIVModelData(GetActionEnum getActionEnum,
             IDataType dType) {
         return slContainer.getGetterIVModelData(getActionEnum, dType);
+    }
+
+    protected FormLineContainer getGetterContainer(IDataType dType) {
+        return slContainer.getGetterContainer(dType);
     }
 
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,

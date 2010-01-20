@@ -32,7 +32,7 @@ class ValidateActionFactory extends HelperFactory implements
     }
 
     public IDataValidateAction construct(IDataType dType) {
-        return new ValidateAction(valFactory, gFactory, dType);
+        return new ValidateAction(valFactory, dType);
     }
 
 }

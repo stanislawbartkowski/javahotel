@@ -28,13 +28,9 @@ import com.javahotel.client.idialog.GetIEditFactory;
  */
 class CheckDictModel implements ICheckDictModel {
 
-    private final IResLocator rI;
-    private final DictType d;
     private final ELineDialogMulChoice serv;
 
     CheckDictModel(final IResLocator rI, final DictType d) {
-        this.rI = rI;
-        this.d = d;
         CommandParam p = rI.getR().getHotelCommandParam();
         p.setDict(d);
         serv = GetIEditFactory.getMChoice(rI, p, false, false);

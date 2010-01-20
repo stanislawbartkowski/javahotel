@@ -13,6 +13,7 @@
 package com.gwtmodel.table.rdef;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import com.gwtmodel.table.IGWidget;
 
@@ -39,5 +40,12 @@ public interface IFormLineView extends IGWidget {
     BigDecimal getDecimal();
     
     void setDecimal(BigDecimal b);
+    
+    int getIntVal();
+    
+    Date getDate();
+    
+    int getChooseResult();
+
 
 }

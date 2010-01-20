@@ -22,10 +22,10 @@ import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.record.view.helper.ExtractFields;
 import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.IField;
 import com.javahotel.nmvc.common.FormLineDef;
 import com.javahotel.nmvc.common.VField;
 import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.nmvc.factories.impl.DataModelFields;
 
 class DataModelFactory extends HelperFactory implements IDataModelFactory {
 
@@ -69,10 +69,12 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
         for (FormField d : fContainer.getfList()) {
             VField vFie = (VField) d.getFie();
             IFormLineView vView = d.getELine();
-            FormLineDef vDef = (FormLineDef) vView;
-            ExtractFields.fromViewToA(vFie.getFie(),vDef.getiField(),a);
-//            String s = d.getELine().getVal();
-//            aTo.setS(d.getFie(), s);
+            if (vView instanceof FormLineDef) {
+                FormLineDef vDef = (FormLineDef) vView;
+                ExtractFields.fromViewToA(vFie.getFie(), vDef.getiField(), a);
+            } else {
+                DataModelFields.fromViewToA(vFie.getFie(), vView, a);
+            }
         }
 
     }
