@@ -18,6 +18,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 
@@ -42,4 +43,6 @@ public interface ISlotSignalContext {
     VListHeaderContainer getListHeader();
 
     IVField getVField();
+
+    FormLineContainer getEditContainer();
 }

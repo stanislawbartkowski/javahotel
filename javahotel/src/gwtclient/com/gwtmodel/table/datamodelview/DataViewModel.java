@@ -80,6 +80,14 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
 
     }
+    
+    private class GetterContainer implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            return construct(dType,fContainer);
+        }
+
+    }
 
     private class InvalidateMess implements ISlotSignaller {
 
@@ -119,6 +127,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 new DrawModel());
         registerCaller(GetActionEnum.GetViewModelEdited, dType,
                 new GetterModel());
+        registerCaller(GetActionEnum.GetEditContainer, dType,
+                new GetterContainer());
         for (FormField fie : fContainer.getfList()) {
             IFormLineView vie = fie.getELine();
             vie.addChangeListener(new FormChangeListener(fie.getFie()));

@@ -18,6 +18,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 
@@ -35,6 +36,7 @@ public class SlotSignalContextFactory {
         private final PersistTypeEnum persistTypeEnum;
         private final VListHeaderContainer listHeader;
         private final IVField vField;
+        private final FormLineContainer lContainer;
 
         public VListHeaderContainer getListHeader() {
             return listHeader;
@@ -43,7 +45,9 @@ public class SlotSignalContextFactory {
         SlotSignalContext(SlotType slType, IFormLineView changedValue,
                 IValidateError validateError, IGWidget gwtWidget,
                 IDataListType dataList, WSize wSize, IVModelData vData,
-                PersistTypeEnum persistTypeEnum, VListHeaderContainer listHeader, IVField vField) {
+                PersistTypeEnum persistTypeEnum,
+                VListHeaderContainer listHeader, IVField vField,
+                FormLineContainer lContainer) {
             this.slType = slType;
             this.changedValue = changedValue;
             this.validateError = validateError;
@@ -54,6 +58,7 @@ public class SlotSignalContextFactory {
             this.persistTypeEnum = persistTypeEnum;
             this.listHeader = listHeader;
             this.vField = vField;
+            this.lContainer = lContainer;
         }
 
         public IVModelData getVData() {
@@ -92,76 +97,88 @@ public class SlotSignalContextFactory {
         public IVField getVField() {
             return vField;
         }
+
+        public FormLineContainer getEditContainer() {
+            return lContainer;
+        }
     }
 
     public ISlotSignalContext construct(SlotType slType, IDataListType dataList) {
         return new SlotSignalContext(slType, null, null, null, dataList, null,
-                null, null, null, null);
+                null, null, null, null, null);
     }
 
-    public ISlotSignalContext construct(SlotType slType, IDataListType dataList, WSize wSize) {
+    public ISlotSignalContext construct(SlotType slType,
+            IDataListType dataList, WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, dataList, wSize,
-                null, null, null, null);
+                null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IVModelData vData,
             WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, null, wSize,
-                vData, null, null, null);
+                vData, null, null, null, null);
     }
 
-    public ISlotSignalContext construct(SlotType slType,
-            WSize wSize) {
+    public ISlotSignalContext construct(SlotType slType, WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, null, wSize,
-                null, null, null, null);
+                null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, null, null);
+                null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IFormLineView formLine) {
         return new SlotSignalContext(slType, formLine, null, null, null, null,
-                null, null, null, null);
+                null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             PersistTypeEnum persistTypeEnum) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, persistTypeEnum, null, null);
+                null, persistTypeEnum, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             VListHeaderContainer listHeader) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, listHeader, null);
+                null, null, listHeader, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IGWidget gwtWidget) {
         return new SlotSignalContext(slType, null, null, gwtWidget, null, null,
-                null, null, null, null);
+                null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IVModelData vData) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                vData, null, null, null);
+                vData, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IValidateError vError) {
         return new SlotSignalContext(slType, null, vError, null, null, null,
-                null, null, null, null);
+                null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IVField vField) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, null, vField);
+                null, null, null, vField, null);
+    }
+
+    public ISlotSignalContext construct(SlotType slType,
+            FormLineContainer lContainer) {
+        return new SlotSignalContext(slType, null, null, null, null, null,
+                null, null, null, null, lContainer);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             ISlotSignalContext iSlot) {
-        return new SlotSignalContext(slType, iSlot.getChangedValue(), iSlot.getValidateError(), iSlot.getGwtWidget(), iSlot.getDataList(),
+        return new SlotSignalContext(slType, iSlot.getChangedValue(), iSlot
+                .getValidateError(), iSlot.getGwtWidget(), iSlot.getDataList(),
                 iSlot.getWSize(), iSlot.getVData(), iSlot.getPersistType(),
-                iSlot.getListHeader(), iSlot.getVField());
+                iSlot.getListHeader(), iSlot.getVField(), iSlot
+                        .getEditContainer());
     }
 }

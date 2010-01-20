@@ -24,6 +24,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 
@@ -171,7 +172,8 @@ public class SlotListContainer {
     }
 
     private ISlotSignalContext callGet(SlotType slType, IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory
+                .construct(slType, mData);
         return call(slContext);
     }
 
@@ -182,9 +184,15 @@ public class SlotListContainer {
     }
 
     public IVField getGetterComboField(IDataType dType) {
-        ISlotSignalContext slContext = getGetterContext(GetActionEnum.GetListComboField, dType);
+        ISlotSignalContext slContext = getGetterContext(
+                GetActionEnum.GetListComboField, dType);
         return slContext.getVField();
+    }
 
+    public FormLineContainer getGetterContainer(IDataType dType) {
+        ISlotSignalContext slContext = getGetterContext(
+                GetActionEnum.GetEditContainer, dType);
+        return slContext.getEditContainer();
     }
 
     public IVModelData getGetterIVModelData(GetActionEnum getActionEnum,
@@ -192,6 +200,15 @@ public class SlotListContainer {
         ISlotSignalContext slContext = getGetterContext(getActionEnum, dType,
                 mData);
         return slContext.getVData();
+    }
+
+    public ISlotSignalContext getGetterContext(IDataType dType,
+            FormLineContainer lContainer) {
+        SlotType slType = slTypeFactory.construct(
+                GetActionEnum.GetEditContainer, dType);
+        ISlotSignalContext slContext = slContextFactory.construct(slType,
+                lContainer);
+        return slContext;
     }
 
     public ISlotSignalContext getGetterContext(GetActionEnum getActionEnum,
@@ -203,7 +220,8 @@ public class SlotListContainer {
 
     public ISlotSignalContext getGetterContext(SlotType slType,
             IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory
+                .construct(slType, mData);
         return slContext;
     }
 
@@ -217,12 +235,14 @@ public class SlotListContainer {
     public ISlotSignalContext setGetter(GetActionEnum getActionEnum,
             IDataType dType, IVModelData vData, WSize wSize) {
         SlotType slType = slTypeFactory.construct(getActionEnum, dType);
-        ISlotSignalContext sl = slContextFactory.construct(slType, vData, wSize);
+        ISlotSignalContext sl = slContextFactory
+                .construct(slType, vData, wSize);
         return sl;
     }
 
     public ISlotSignalContext setGetter(IDataType dType, IVField comboFie) {
-        SlotType slType = slTypeFactory.construct(GetActionEnum.GetListComboField, dType);
+        SlotType slType = slTypeFactory.construct(
+                GetActionEnum.GetListComboField, dType);
         ISlotSignalContext sl = slContextFactory.construct(slType, comboFie);
         return sl;
     }

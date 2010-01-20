@@ -12,7 +12,9 @@
  */
 package com.javahotel.nmvc.validate;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
@@ -20,8 +22,10 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
+import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -34,15 +38,18 @@ import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.client.mvc.validator.ISignalValidate;
+import com.javahotel.common.command.DictType;
+import com.javahotel.common.toobject.CustomerP;
+import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.DataUtil;
+import com.javahotel.nmvc.common.VField;
 
 public class ValidateAction extends AbstractSlotContainer implements
         IDataValidateAction {
 
     private final IDataType dType;
     private final DictValidatorFactory valFactory;
-    private final IDataModelFactory dFactory;
 
     private class Validate implements ISignalValidate {
 
@@ -64,12 +71,31 @@ public class ValidateAction extends AbstractSlotContainer implements
         }
     }
 
-    private void validateE(PersistTypeEnum persistTypeEnum, IVModelData mData) {
+    private void validateE(PersistTypeEnum persistTypeEnum, IVModelData mData,
+            FormLineContainer fContainer) {
         int action = DataUtil.vTypetoAction(persistTypeEnum);
         List<IVField> listMFie = DataUtil.constructEmptyList(dType, action);
-        List<InvalidateMess> errMess = ValidateUtil.checkEmpty(mData, listMFie);
+        Set<IVField> ignoreV = new HashSet<IVField>();
+
+        DataType da = (DataType) dType;
+        if (da.getdType() == DictType.CustomerList) {
+            for (FormField f : fContainer.getfList()) {
+                IFormLineView i = f.getELine();
+                VField v = (VField) f.getFie();
+                if (v.getFie() == DictionaryP.F.name) {
+                    if (i.getChooseResult() == IFormLineView.CHOOSECHECKTRUE) {
+                        for (IVField vv : listMFie) {
+                            if (vv.eq(v)) {
+                                ignoreV.add(vv);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        List<InvalidateMess> errMess = ValidateUtil.checkEmpty(mData, listMFie,
+                ignoreV);
         if (errMess == null) {
-            DataType da = (DataType) dType;
             IRecordValidator val = valFactory.getValidator(new DictData(da
                     .getdType()), true);
             RecordModel mo = DataUtil.toRecordModel(mData);
@@ -82,18 +108,16 @@ public class ValidateAction extends AbstractSlotContainer implements
     private class ValidateA implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            // IVModelData mData = dFactory.construct(dType);
             IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetComposeModelToPersist, dType);
-            validateE(slContext.getPersistType(), pData);
+                    GetActionEnum.GetViewComposeModelEdited, dType);
+            FormLineContainer fContainer = getGetterContainer(dType);
+            validateE(slContext.getPersistType(), pData, fContainer);
         }
     }
 
-    public ValidateAction(DictValidatorFactory valFactory,
-            IDataModelFactory dFactory, IDataType dType) {
+    public ValidateAction(DictValidatorFactory valFactory, IDataType dType) {
         this.valFactory = valFactory;
         this.dType = dType;
-        this.dFactory = dFactory;
         registerSubscriber(DataActionEnum.ValidateAction, dType,
                 new ValidateA());
     }

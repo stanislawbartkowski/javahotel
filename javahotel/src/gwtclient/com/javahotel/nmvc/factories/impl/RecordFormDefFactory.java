@@ -36,7 +36,7 @@ public class RecordFormDefFactory implements IFormDefFactory {
         this.eFactory = eFactory;
     }
 
-    public String getTitle(IDataType dType) {
+    private String getTitle(IDataType dType) {
         DataType dd = (DataType) dType;
         DictType d = dd.getdType();
         switch (d) {
@@ -53,10 +53,10 @@ public class RecordFormDefFactory implements IFormDefFactory {
         List<FormField> fList = new ArrayList<FormField>();
         switch (d) {
         case CustomerList:
-            IFormLineView name = eFactory.constructTextField();
+            IFormLineView name = eFactory.constructTextCheckEdit(true);
             IFormLineView descr = eFactory.constructTextField();
             fList.add(new FormField("Symbol", name, new VField(
-                    DictionaryP.F.name), false));
+                    DictionaryP.F.name), true));
             fList.add(new FormField("Nazwa", descr, new VField(
                     DictionaryP.F.description)));
             break;

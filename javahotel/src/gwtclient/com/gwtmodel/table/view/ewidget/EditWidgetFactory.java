@@ -17,6 +17,8 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.javahotel.client.IResLocator;
+
 import java.util.List;
 
 public class EditWidgetFactory {
@@ -67,7 +69,8 @@ public class EditWidgetFactory {
         return new ComboBoxField(tFactories, wy);
     }
 
-    public IFormLineView constructRadioSelectField(String zName, List<ComboVal> wy) {
+    public IFormLineView constructRadioSelectField(String zName,
+            List<ComboVal> wy) {
         return new RadioBoxField(tFactories, zName, wy);
     }
 
@@ -79,5 +82,16 @@ public class EditWidgetFactory {
         GetValueLB lB = new ListBoxWithHelp(tFactories, dType);
         AddBoxValues.addValues(dType, lB);
         return lB;
+    }
+
+    private class GetValueCheck extends ExtendTextBox {
+
+        GetValueCheck(TableFactoriesContainer tFactories, boolean checkenable) {
+            super(tFactories, false, checkenable);
+        }
+    }
+
+    public IFormLineView constructTextCheckEdit(boolean checkenable) {
+        return new GetValueCheck(tFactories, checkenable);
     }
 }

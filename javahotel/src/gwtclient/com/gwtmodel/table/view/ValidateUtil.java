@@ -14,6 +14,7 @@ package com.gwtmodel.table.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -22,11 +23,11 @@ import com.gwtmodel.table.InvalidateMess;
 public class ValidateUtil {
 
     public static List<InvalidateMess> checkEmpty(IVModelData mData,
-            List<IVField> listMFie) {
+            List<IVField> listMFie, Set<IVField> ignoreV) {
         List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
         boolean ok = true;
         for (IVField f : listMFie) {
-            if (mData.isEmpty(f)) {
+            if (!ignoreV.contains(f) && mData.isEmpty(f)) {
                 ok = false;
                 errMess.add(new InvalidateMess(f, true, null));
             }

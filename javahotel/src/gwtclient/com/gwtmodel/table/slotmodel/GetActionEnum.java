@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.rdef.FormLineContainer;
+
 public enum GetActionEnum {
 
     /** returns out: IVModelData + WSIze . */ 
@@ -29,7 +31,9 @@ public enum GetActionEnum {
     /** Compose get model to persist out/IVModelData. */
     GetComposeModelToPersist,
 
-    /** Get combo fiels. */
+    /** Get combo fields. */
     GetListComboField,
-        
+    
+    /** Get edit container / FormLineContainer lContainer. */
+    GetEditContainer,        
 }
