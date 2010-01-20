@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.javahotel.client.ifield.ILineField;
 import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.IdentDocType;

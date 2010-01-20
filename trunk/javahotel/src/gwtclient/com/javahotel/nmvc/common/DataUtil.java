@@ -14,6 +14,7 @@ package com.javahotel.nmvc.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
@@ -23,6 +24,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IPersistAction;
@@ -94,8 +96,8 @@ public class DataUtil {
     public static <T extends AbstractTo> List<T> construct(
             IDataListType dataListType) {
         List<T> dList = new ArrayList<T>();
-        
-        for (int i=0 ; i< dataListType.rowNo(); i++) {
+
+        for (int i = 0; i < dataListType.rowNo(); i++) {
             IVModelData v = dataListType.getRow(i);
             VModelData vData = (VModelData) v;
             T t = (T) vData.getA();
@@ -147,5 +149,16 @@ public class DataUtil {
             }
         }
     }
-    
+
+    public static void addToSet(Set<IVField> set, List<FormField> fList,
+            IField fi) {
+        VField vi = new VField(fi);
+        for (FormField f : fList) {
+            IVField v = f.getFie();
+            if (v.eq(vi)) {
+                set.add(v);
+            }
+        }
+    }
+
 }
