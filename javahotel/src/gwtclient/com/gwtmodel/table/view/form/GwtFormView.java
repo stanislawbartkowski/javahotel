@@ -14,7 +14,6 @@ package com.gwtmodel.table.view.form;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.InvalidateFormContainer;
@@ -23,6 +22,7 @@ import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.ITouchListener;
+import com.gwtmodel.table.view.util.CreateFormView;
 
 class GwtFormView implements IGwtFormView {
 
@@ -47,7 +47,7 @@ class GwtFormView implements IGwtFormView {
             IDataFormConstructorAbstractFactory.CType cType) {
         this.fContainer = fContainer;
         if (cType.getfConstructor() == null) {
-          g = CreateFormView.construct(fContainer);
+          g = CreateFormView.construct(fContainer.getfList());
         }
         else {
           g = cType.getfConstructor().construct(fContainer);

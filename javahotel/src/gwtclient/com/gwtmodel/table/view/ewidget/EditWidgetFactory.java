@@ -12,14 +12,15 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.javahotel.client.IResLocator;
-
-import java.util.List;
 
 public class EditWidgetFactory {
 
@@ -93,5 +94,14 @@ public class EditWidgetFactory {
 
     public IFormLineView constructTextCheckEdit(boolean checkenable) {
         return new GetValueCheck(tFactories, checkenable);
+    }
+
+    public IFormLineView constructListCombo(Map<String, String> ma) {
+        List<ComboVal> vals = new ArrayList<ComboVal>();
+        for (String s : ma.keySet()) {
+            String val = ma.get(s);
+            vals.add(new ComboVal(s,val));
+        }
+        return new ComboBoxField(tFactories,vals);
     }
 }

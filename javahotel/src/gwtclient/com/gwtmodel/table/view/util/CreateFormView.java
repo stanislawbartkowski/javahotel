@@ -10,25 +10,42 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.form;
+package com.gwtmodel.table.view.util;
+
+import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.rdef.FormLineContainer;
 
-class CreateFormView {
+public class CreateFormView {
 
     private CreateFormView() {
-
     }
 
-    static Grid construct(final FormLineContainer model) {
+    public static Grid construct(final List<FormField> fList, Set<IVField> add) {
 
-        int rows = model.getfList().size();
+        int rows = 0;
+        for (FormField d : fList) {
+            IVField v = d.getFie();
+            if (add != null) {
+                if (!add.contains(v)) {
+                    continue;
+                }
+            }
+            rows++;
+        }
         Grid g = new Grid(rows, 2);
         rows = 0;
-        for (FormField d : model.getfList()) {
+        for (FormField d : fList) {
+            IVField v = d.getFie();
+            if (add != null) {
+                if (!add.contains(v)) {
+                    continue;
+                }
+            }
             Label la = new Label(d.getPLabel());
             g.setWidget(rows, 0, la);
             g.setWidget(rows, 1, d.getELine().getGWidget());
@@ -36,4 +53,9 @@ class CreateFormView {
         }
         return g;
     }
+
+    public static Grid construct(final List<FormField> fList) {
+        return construct(fList, null);
+    }
+
 }
