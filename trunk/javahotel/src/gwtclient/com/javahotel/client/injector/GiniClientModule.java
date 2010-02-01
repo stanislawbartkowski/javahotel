@@ -110,6 +110,6 @@ public class GiniClientModule extends AbstractGinModule {
         bind(PersistRecordFactory.class).in(Singleton.class);
         bind(PriceSeasonModelFactory.class).in(Singleton.class);
         bind(RecordFormDefFactory.class).in(Singleton.class);
-        bind(GwtTableInjectModule.class);
+        bind(GwtTableInjectModule.class);        
     }
 }

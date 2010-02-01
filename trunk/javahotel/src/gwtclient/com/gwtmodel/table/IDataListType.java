@@ -15,4 +15,8 @@ public interface IDataListType {
     IVModelData getRow(int row);
 
     IVField comboField();
+    
+    void append(IVModelData vData);
+    
+    void remove(int row);
 }

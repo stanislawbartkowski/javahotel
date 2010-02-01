@@ -42,6 +42,7 @@ class DataListCrudControler extends AbstractSlotContainer {
     private final IDataType dType;
     private final TablesFactories tFactories;
     private final TableFactoriesContainer fContainer;
+    private final DataListParam listParam;
 
     private abstract class Signaller implements ISlotSignaller {
 
@@ -181,8 +182,9 @@ class DataListCrudControler extends AbstractSlotContainer {
                     .getButtonClick().getClickEnum();
             ISlotSignalContext ret = getGetterContext(
                     GetActionEnum.GetListLineChecked, dType);
-            IVModelData mModel = fContainer.getDataModelFactory().construct(
-                    dType);
+            // IVModelData mModel = fContainer.getDataModelFactory().construct(
+            // dType);
+            IVModelData mModel = listParam.getDataFactory().construct(dType);
             IVModelData peData = null;
             WSize wSize = null;
             if (action != ClickButtonType.StandClickEnum.ADDITEM) {
@@ -199,9 +201,9 @@ class DataListCrudControler extends AbstractSlotContainer {
                 IGWidget wi = slContext.getGwtWidget();
                 wSize = new WSize(wi.getGWidget());
                 // create empty
-                peData = fContainer.getDataModelFactory().construct(dType);
+                peData = listParam.getDataFactory().construct(dType);
             }
-            FormLineContainer lContainer = fContainer.getFormDefFactory()
+            FormLineContainer lContainer = listParam.getFormFactory()
                     .construct(dType);
             ListOfControlDesc liControls;
             if (action != ClickButtonType.StandClickEnum.REMOVEITEM) {
@@ -211,8 +213,8 @@ class DataListCrudControler extends AbstractSlotContainer {
                 liControls = tFactories.getControlButtonFactory()
                         .constructRemoveDesign();
             }
-            IComposeController fController = fContainer
-                    .getGetViewControllerFactory().construct(dType);
+            IComposeController fController = listParam.getfControler()
+                    .construct(dType);
             IControlButtonView cView = tFactories.getbViewFactory().construct(
                     liControls);
             ComposeControllerType bType = new ComposeControllerType(cView,
@@ -255,10 +257,12 @@ class DataListCrudControler extends AbstractSlotContainer {
     }
 
     DataListCrudControler(TablesFactories tFactories,
-            TableFactoriesContainer fContainer, IDataType dType) {
+            TableFactoriesContainer fContainer, DataListParam listParam,
+            IDataType dType) {
         this.dType = dType;
         this.tFactories = tFactories;
         this.fContainer = fContainer;
+        this.listParam = listParam;
         registerSubscriber(ClickButtonType.StandClickEnum.ADDITEM,
                 new ActionItem(PersistTypeEnum.ADD));
         registerSubscriber(ClickButtonType.StandClickEnum.REMOVEITEM,

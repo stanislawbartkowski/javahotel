@@ -18,7 +18,9 @@ import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
+import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.readres.ReadResFactory;
+import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
@@ -37,25 +39,28 @@ public interface GwtTableInjector extends Ginjector {
     SlotListContainer getSlotListContainer();
 
     TableDataControlerFactory getTableDataControlerFactory();
-    
+
     SlotSignalContextFactory getSlotSignalContextFactory();
-    
+
     ITableAbstractFactories getITableAbstractFactories();
-    
+
     ComposeControllerFactory getComposeControllerFactory();
-    
+
     DataViewModelFactory getDataViewModelFactory();
-    
+
     CheckDictModelFactory getCheckDictModelFactory();
-    
+
     ReadResFactory getReadResFactory();
-    
+
     GridViewFactory getGridViewFactory();
-    
+
     TableFactoriesContainer getTableFactoriesContainer();
 
     GwtTableFactory getGwtTableFactory();
 
     EditWidgetFactory getEditWidgetFactory();
 
+    SlotMediatorFactory getSlotMediatorFactory();
+
+    PanelViewFactory getPanelViewFactory();
 }

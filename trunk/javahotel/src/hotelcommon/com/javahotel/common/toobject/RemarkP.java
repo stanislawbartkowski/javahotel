@@ -21,16 +21,16 @@ import com.javahotel.types.INumerable;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
-public class RemarkP implements Serializable,INumerable,ILd {
+public class RemarkP implements Serializable, INumerable, ILd {
 
     private LId id;
     private String remark;
     private DateP addDate;
     private Integer lp;
-    
+
     public RemarkP() {
         addDate = new DateP();
     }

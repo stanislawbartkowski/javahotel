@@ -10,26 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.common;
+package com.gwtmodel.table.persist;
 
-import com.gwtmodel.table.IVField;
-import com.javahotel.common.toobject.IField;
+import com.gwtmodel.table.IEquatable;
+import com.gwtmodel.table.IVModelData;
 
-public class VField implements IVField {
-
-    private final IField fie;
-
-    public VField(IField fie) {
-        this.fie = fie;
-    }
-
-    public IField getFie() {
-        return fie;
-    }
-
-    public boolean eq(IVField mFie) {
-        VField de = (VField) mFie;
-        return fie.equals(de.fie);
-    }
-
+public interface IVModelDataEquable extends IVModelData,IEquatable<IVModelDataEquable> {
+        
 }
