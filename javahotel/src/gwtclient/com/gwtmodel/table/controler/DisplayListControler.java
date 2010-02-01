@@ -43,19 +43,17 @@ class DisplayListControler implements IDataControler {
     private final IDataType dType;
     private final WSize wSize;
     private final SlotListContainer slContainer;
+    private final DataListParam listParam;
 
     DisplayListControler(TablesFactories tFactories,
             TableFactoriesContainer fContainer, IDataType dType, WSize wSize, int panelId,
-            int cellIdFirst, ListOfControlDesc listButton, ISlotable cControler) {
+            int cellIdFirst, ListOfControlDesc listButton, ISlotable cControler,DataListParam listParam) {
         this.tFactories = tFactories;
         this.dType = dType;
         this.wSize = wSize;
-        IDataPersistAction persistA = fContainer.getPersistFactoryAction().contruct(dType);
-        IHeaderListContainer heList = null;
-        IHeaderListFactory hFa = fContainer.getHeaderListFactory();
-        if (hFa != null) {
-            heList = fContainer.getHeaderListFactory().construct(dType);
-        }
+        this.listParam = listParam;
+        IDataPersistAction persistA = listParam.getPersistA();
+        IHeaderListContainer heList = listParam.getHeList();
         // create panel View
         PanelViewFactory pViewFactory = tFactories.getpViewFactory();
         IPanelView pView = pViewFactory.construct(cellIdFirst);

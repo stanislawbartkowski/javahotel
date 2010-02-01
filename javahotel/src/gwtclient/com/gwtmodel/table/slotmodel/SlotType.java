@@ -15,9 +15,10 @@ package com.gwtmodel.table.slotmodel;
 import java.util.List;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IVField;
 
-public class SlotType {
+public class SlotType implements IEquatable<SlotType> {
 
     /** Slot event type. */
     private final SlotEventEnum slEnum;

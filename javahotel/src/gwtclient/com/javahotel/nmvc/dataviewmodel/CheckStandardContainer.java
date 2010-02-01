@@ -37,7 +37,6 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
 
     private final ICheckDictModel iCheck;
     private final IDataType dType;
-    private final IDataType cType;
     private IDataListType dataList;
     private final InfoExtract infoExtract;
     private final GetDataList getDataList;
@@ -122,7 +121,6 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
     CheckStandardContainer(IDataType cType, IDataType dType,
             InfoExtract infoExtract) {
         this.dType = dType;
-        this.cType = cType;
         this.infoExtract = infoExtract;
         CheckDictModelFactory cFactory = GwtGiniInjector.getI()
                 .getCheckDictModelFactory();

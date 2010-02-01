@@ -42,6 +42,7 @@ import com.javahotel.nmvc.common.DataTypeSubEnum;
 import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.factories.FormDefFactory;
+import com.javahotel.nmvc.factories.impl.CustomerAddInfo;
 
 public class GetViewFactory implements IGetViewControllerFactory {
 
@@ -120,6 +121,9 @@ public class GetViewFactory implements IGetViewControllerFactory {
         DataType subType = new DataType(dd.getdType(), DataTypeSubEnum.Sub1);
         ISlotable cContainer = null;
         switch (dd.getdType()) {
+        case CustomerList:
+            cContainer = new CustomerAddInfo(subType);
+            break;
         case PriceListDict:
             cContainer = new PriceListContainer(peFactory, dType, subType);
             break;

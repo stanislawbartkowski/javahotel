@@ -19,7 +19,7 @@ class DataListType implements IDataListType {
     private final List<IVModelData> dList;
     private final IVField comboFie;
 
-    DataListType(List<IVModelData> dList,IVField comboFie) {
+    DataListType(List<IVModelData> dList, IVField comboFie) {
         this.dList = dList;
         this.comboFie = comboFie;
     }
@@ -35,4 +35,14 @@ class DataListType implements IDataListType {
     public IVField comboField() {
         return comboFie;
     }
+
+    public void append(IVModelData vData) {
+        dList.add(vData);
+    }
+
+    public void remove(int row) {
+        dList.remove(row);
+    }
+    
+
 }

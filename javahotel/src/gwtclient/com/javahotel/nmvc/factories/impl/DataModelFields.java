@@ -28,12 +28,13 @@ import com.javahotel.common.toobject.ServiceType;
 import com.javahotel.common.toobject.VatDictionaryP;
 
 public class DataModelFields {
-    
+
     private DataModelFields() {
-        
+
     }
-    
-    public static void fromViewToA(IField fie, IFormLineView eField, AbstractTo a) {
+
+    public static void fromViewToA(IField fie, IFormLineView eField,
+            AbstractTo a) {
         Class<?> cla = a.getT(fie);
         Object val = null;
         if (cla == String.class) {

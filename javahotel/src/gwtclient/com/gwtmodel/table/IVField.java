@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table;
 
-public interface IVField {
+public interface IVField extends IEquatable<IVField> {
     
-    boolean eq(IVField mFie);
-
 }
