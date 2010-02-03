@@ -39,7 +39,6 @@ import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.client.mvc.validator.ISignalValidate;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.DataUtil;

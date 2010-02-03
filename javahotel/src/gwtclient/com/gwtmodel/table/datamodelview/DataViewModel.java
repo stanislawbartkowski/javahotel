@@ -113,12 +113,13 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
-            FormLineContainer fContainer, TableFactoriesContainer cFactories) {
+            FormLineContainer fContainer, TableFactoriesContainer cFactories,IDataModelFactory dFactory) {
         this.fContainer = fContainer;
         this.dType = dType;
         gView = gFactory.construct(fContainer, cFactories
                 .getDataFormConstructorAbstractFactory().construct(dType));
-        dFactory = cFactories.getDataModelFactory();
+//        dFactory = cFactories.getDataModelFactory();
+        this.dFactory = dFactory;
         registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
                 new InvalidateMess());
         registerSubscriber(DataActionEnum.ChangeViewFormModeAction, dType,

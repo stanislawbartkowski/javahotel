@@ -42,13 +42,13 @@ class ComposeController implements IComposeController {
     private final SlotTypeFactory slFactory;
     private final IDataModelFactory dFactory;
 
-    ComposeController(TablesFactories tFactories,
-            TableFactoriesContainer cFactories, IDataType dType) {
+    ComposeController(TablesFactories tFactories, IDataType dType,
+            IDataModelFactory dFactory) {
         slMediator = SlotMediatorFactory.construct();
         pViewFactory = tFactories.getpViewFactory();
         this.dType = dType;
         slFactory = tFactories.getSlTypeFactory();
-        dFactory = cFactories.getDataModelFactory();
+        this.dFactory = dFactory;
     }
 
     private class EditCallerGetter implements ISlotCaller {

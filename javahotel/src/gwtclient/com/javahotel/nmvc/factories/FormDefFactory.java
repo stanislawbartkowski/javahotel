@@ -47,7 +47,12 @@ public class FormDefFactory extends HelperFactory implements IFormDefFactory {
                     .getELine()), new VField(re.getFie()), !re.isCanChange());
             formList.add(fo);
         }
-        return new FormLineContainer(formList, gFactory.getTitle(da));
+        return new FormLineContainer(formList);
     }
+
+    public String getFormTitle(IDataType dType) {
+        DictData da = getDa(dType);
+        return gFactory.getTitle(da);
+   }
 
 }

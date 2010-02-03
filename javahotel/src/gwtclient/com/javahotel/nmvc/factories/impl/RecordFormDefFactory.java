@@ -40,7 +40,7 @@ public class RecordFormDefFactory implements IFormDefFactory {
         this.eFactory = eFactory;
     }
 
-    private String getTitle(IDataType dType) {
+    public String getFormTitle(IDataType dType) {
         DataType dd = (DataType) dType;
         DictType d = dd.getdType();
         switch (d) {
@@ -109,7 +109,7 @@ public class RecordFormDefFactory implements IFormDefFactory {
             return null;
         }
 
-        return new FormLineContainer(fList, getTitle(dType));
+        return new FormLineContainer(fList);
     }
 
 }

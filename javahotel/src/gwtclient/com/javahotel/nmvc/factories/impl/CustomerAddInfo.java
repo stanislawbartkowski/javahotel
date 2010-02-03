@@ -23,13 +23,19 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
+import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.datamodelview.DataViewModelFactory;
+import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -47,6 +53,7 @@ import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.nmvc.common.VModelData;
@@ -57,6 +64,44 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
     private final IMemoryListModel lPhone;
     private final IDataControler dControler;
     private final VerticalPanel vPanel = new VerticalPanel();
+    private final DataViewModelFactory daFactory;
+
+    private class ValidateS extends AbstractSlotContainer implements
+            IDataValidateAction {
+
+        private final IDataType stringType;
+
+        private class ValidateA implements ISlotSignaller {
+
+            public void signal(ISlotSignalContext slContext) {
+                IVModelData pData = getGetterIVModelData(
+                        GetActionEnum.GetViewComposeModelEdited, stringType);
+                // FormLineContainer fContainer =
+                // getGetterContainer(stringType);
+                List<IVField> listMFie = new ArrayList<IVField>();
+                listMFie.add(new StringF());
+                List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,
+                        listMFie);
+                if (errMess != null) {
+                    publish(DataActionEnum.InvalidSignal, stringType,
+                            new InvalidateFormContainer(errMess));
+                    return;
+                }
+                publish(DataActionEnum.ValidSignal, stringType);
+            }
+        }
+
+        ValidateS(IDataType stringType) {
+            this.stringType = stringType;
+            registerSubscriber(DataActionEnum.ValidateAction, dType,
+                    new ValidateA());
+
+        }
+
+        public void startPublish(int cellId) {
+        }
+
+    }
 
     private class SetGetter implements ISlotCaller {
 
@@ -152,19 +197,34 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
             List<FormField> di = new ArrayList<FormField>();
             IFormLineView textLine = eFactory.constructTextField();
             di.add(new FormField("Text", textLine, new StringF()));
-            return new FormLineContainer(di, "Telefony");
+            return new FormLineContainer(di);
+        }
+
+        public String getFormTitle(IDataType dType) {
+            return "Telefony";
         }
 
     }
-    
-//    IGetViewControllerFactory fControler
+
     private class GetControler implements IGetViewControllerFactory {
 
         public IComposeController construct(IDataType dType) {
-            ComposeControllerFactory coFactory = GwtGiniInjector.getI().getComposeControllerFactory();
-            return coFactory.construct(dType);            
+            ComposeControllerFactory coFactory = GwtGiniInjector.getI()
+                    .getComposeControllerFactory();
+            FormLineContainer fContainer = new StringFactory().construct(dType);
+            IDataModelFactory dFactory = new DataFactory();
+            IComposeController iCon = coFactory.construct(dType, dFactory);
+            IDataViewModel daModel = daFactory.construct(dType, fContainer,
+                    dFactory);
+            ComposeControllerType cType = new ComposeControllerType(daModel,
+                    dType, 0, 0);
+            iCon.registerController(cType);
+            iCon.registerController(new ComposeControllerType(lPhone, dType));
+            iCon.registerController(new ComposeControllerType(new ValidateS(
+                    dType), dType));
+            return iCon;
         }
-        
+
     }
 
     public CustomerAddInfo(IDataType dType) {
@@ -172,6 +232,7 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
 
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
+        daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
         IDataType sType = new StringV();
         lPhone = new MemoryListPersist(sType);
 
