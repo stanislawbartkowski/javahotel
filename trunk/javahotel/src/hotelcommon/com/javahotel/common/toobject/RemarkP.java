@@ -24,12 +24,17 @@ import com.javahotel.types.LId;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class RemarkP implements Serializable, INumerable, ILd {
+public class RemarkP extends AbstractTo implements INumerable, ILd {
 
     private LId id;
     private String remark;
     private DateP addDate;
     private Integer lp;
+
+    public enum F implements IField {
+
+        id, remark, addDate, lp
+    };
 
     public RemarkP() {
         addDate = new DateP();
@@ -65,5 +70,61 @@ public class RemarkP implements Serializable, INumerable, ILd {
 
     public void setLp(Integer lp) {
         this.lp = lp;
+    }
+
+    @Override
+    public Object getF(IField f) {
+        F fi = (F) f;
+        switch (fi) {
+        case id:
+            return id;
+        case remark:
+            return remark;
+        case addDate:
+            return addDate;
+        case lp:
+            return lp;
+        }
+        return null;
+    }
+
+    @Override
+    public Class<?> getT(IField f) {
+        F fi = (F) f;
+        switch (fi) {
+        case id:
+            return Long.class;
+        case remark:
+            return String.class;
+        case addDate:
+            return DateP.class;
+        case lp:
+            return Integer.class;
+        }
+        return null;
+    }
+
+    @Override
+    public IField[] getT() {
+        return F.values();
+    }
+
+    @Override
+    public void setF(IField f, Object o) {
+        F fi = (F) f;
+        switch (fi) {
+        case id:
+            setId((LId) o);
+            break;
+        case remark:
+            setRemark((String) o);
+            break;
+        case addDate:
+            setAddDate((Timestamp) o);
+            break;
+        case lp:
+            setLp((Integer) o);
+            break;
+        }
     }
 }

@@ -17,15 +17,9 @@ import java.util.List;
 public class FormLineContainer {
 
     private final List<FormField> fList;
-    private final String title;
 
-    public FormLineContainer(List<FormField> fList, String title) {
+    public FormLineContainer(List<FormField> fList) {
         this.fList = fList;
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public List<FormField> getfList() {

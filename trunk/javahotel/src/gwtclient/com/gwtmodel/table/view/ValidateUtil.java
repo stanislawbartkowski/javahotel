@@ -13,6 +13,7 @@
 package com.gwtmodel.table.view;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +37,11 @@ public class ValidateUtil {
             return null;
         }
         return errMess;
+    }
+
+    public static List<InvalidateMess> checkEmpty(IVModelData mData,
+            List<IVField> listMFie) {
+        return checkEmpty(mData, listMFie, new HashSet<IVField>());
     }
 
     private ValidateUtil() {

@@ -124,14 +124,14 @@ class DataListCrudControler extends AbstractSlotContainer {
     private class DrawForm implements ISlotSignaller {
 
         private final WSize wSize;
-        private final FormLineContainer lContainer;
+        private final String title;
         private final ClickButtonType.StandClickEnum action;
         private FormDialog d;
 
-        DrawForm(WSize wSize, FormLineContainer lContainer,
+        DrawForm(WSize wSize, String title,
                 ClickButtonType.StandClickEnum action) {
             this.wSize = wSize;
-            this.lContainer = lContainer;
+            this.title = title;
             this.action = action;
         }
 
@@ -139,7 +139,7 @@ class DataListCrudControler extends AbstractSlotContainer {
             String addTitle = GetActionName.getActionName(action);
             IGWidget w = slContext.getGwtWidget();
             VerticalPanel vp = new VerticalPanel();
-            d = new FormDialog(vp, lContainer.getTitle() + " / " + addTitle, w);
+            d = new FormDialog(vp, title + " / " + addTitle, w);
             PopupUtil.setPos(d.getDBox(), wSize);
             d.show();
         }
@@ -182,8 +182,6 @@ class DataListCrudControler extends AbstractSlotContainer {
                     .getButtonClick().getClickEnum();
             ISlotSignalContext ret = getGetterContext(
                     GetActionEnum.GetListLineChecked, dType);
-            // IVModelData mModel = fContainer.getDataModelFactory().construct(
-            // dType);
             IVModelData mModel = listParam.getDataFactory().construct(dType);
             IVModelData peData = null;
             WSize wSize = null;
@@ -203,8 +201,7 @@ class DataListCrudControler extends AbstractSlotContainer {
                 // create empty
                 peData = listParam.getDataFactory().construct(dType);
             }
-            FormLineContainer lContainer = listParam.getFormFactory()
-                    .construct(dType);
+            String title = listParam.getFormFactory().getFormTitle(dType);
             ListOfControlDesc liControls;
             if (action != ClickButtonType.StandClickEnum.REMOVEITEM) {
                 liControls = tFactories.getControlButtonFactory()
@@ -223,7 +220,7 @@ class DataListCrudControler extends AbstractSlotContainer {
 
             SlotListContainer slControlerContainer = fController
                     .getSlContainer();
-            DrawForm dForm = new DrawForm(wSize, lContainer, action);
+            DrawForm dForm = new DrawForm(wSize, title, action);
             slControlerContainer.registerSubscriber(0, dForm);
             slControlerContainer.registerSubscriber(
                     ClickButtonType.StandClickEnum.RESIGN, new ResignAction(

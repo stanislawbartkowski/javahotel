@@ -17,7 +17,7 @@ import com.javahotel.types.ILd;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class BankAccountP extends AbstractTo implements ILd {
@@ -27,17 +27,19 @@ public class BankAccountP extends AbstractTo implements ILd {
         F fi = (F) f;
         Class<?> cla = String.class;
         switch (fi) {
-            case id: cla = LId.class; break;
+        case id:
+            cla = LId.class;
+            break;
         }
         return cla;
     }
-    
+
     public enum F implements IField {
-        id,accountNumber
+        id, accountNumber
     };
 
     private LId id;
-    
+
     private String accountNumber;
 
     public String getAccountNumber() {
@@ -60,8 +62,10 @@ public class BankAccountP extends AbstractTo implements ILd {
     public Object getF(IField f) {
         F fi = (F) f;
         switch (fi) {
-            case id: return id;
-            case accountNumber: return getAccountNumber();
+        case id:
+            return id;
+        case accountNumber:
+            return getAccountNumber();
         }
         return null;
     }
@@ -70,8 +74,11 @@ public class BankAccountP extends AbstractTo implements ILd {
     public void setF(IField f, Object o) {
         F fi = (F) f;
         switch (fi) {
-            case id: this.id = (LId)o; break;
-            case accountNumber: setAccountNumber((String)o);
+        case id:
+            this.id = (LId) o;
+            break;
+        case accountNumber:
+            setAccountNumber((String) o);
         }
     }
 

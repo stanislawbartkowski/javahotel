@@ -19,5 +19,7 @@ public interface IFormDefFactory {
     
     FormLineContainer construct(IDataType dType);
     
+    String getFormTitle(IDataType dType);
+    
 
 }

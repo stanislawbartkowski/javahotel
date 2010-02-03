@@ -15,17 +15,20 @@ package com.javahotel.nmvc.factories;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.factories.impl.CustomerForm;
 
 public class FormFactory extends HelperFactory implements
         IDataFormConstructorAbstractFactory {
 
     public CType construct(IDataType dType) {
-        DictData da = getDa(dType);
-        switch (da.getD()) {
-        case CustomerList:
-            return new IDataFormConstructorAbstractFactory.CType(
-                    new CustomerForm());
+        if (dType instanceof DataType) {
+            DictData da = getDa(dType);
+            switch (da.getD()) {
+            case CustomerList:
+                return new IDataFormConstructorAbstractFactory.CType(
+                        new CustomerForm());
+            }
         }
         return new IDataFormConstructorAbstractFactory.CType();
     }
