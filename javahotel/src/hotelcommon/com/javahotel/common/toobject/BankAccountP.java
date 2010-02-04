@@ -13,14 +13,13 @@
 
 package com.javahotel.common.toobject;
 
-import com.javahotel.types.ILd;
 import com.javahotel.types.LId;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class BankAccountP extends AbstractTo implements ILd {
+public class BankAccountP extends AbstractToILd {
 
     @Override
     public Class<?> getT(IField f) {

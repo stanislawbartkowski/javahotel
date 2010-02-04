@@ -12,14 +12,13 @@
  */
 package com.javahotel.common.toobject;
 
-import com.javahotel.types.ILd;
 import com.javahotel.types.LId;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class PhoneNumberP extends AbstractTo implements ILd {
+public class PhoneNumberP extends AbstractToILd {
 
 	private LId id;
 	private String phoneNumber;

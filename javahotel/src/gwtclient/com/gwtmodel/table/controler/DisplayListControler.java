@@ -46,8 +46,9 @@ class DisplayListControler implements IDataControler {
     private final DataListParam listParam;
 
     DisplayListControler(TablesFactories tFactories,
-            TableFactoriesContainer fContainer, IDataType dType, WSize wSize, int panelId,
-            int cellIdFirst, ListOfControlDesc listButton, ISlotable cControler,DataListParam listParam) {
+            TableFactoriesContainer fContainer, IDataType dType, WSize wSize,
+            int panelId, int cellIdFirst, ListOfControlDesc listButton,
+            ISlotable cControler, DataListParam listParam) {
         this.tFactories = tFactories;
         this.dType = dType;
         this.wSize = wSize;
@@ -82,23 +83,22 @@ class DisplayListControler implements IDataControler {
     private class DrawListAction implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            slContainer.publish(DataActionEnum.DrawListAction,
-                    dType, slContext.getDataList(), wSize);
+            slContainer.publish(DataActionEnum.DrawListAction, dType, slContext
+                    .getDataList(), wSize);
         }
     }
 
     public void startPublish(int cellId) {
         slMediator.startPublish(cellId);
-        slContainer.publish(DataActionEnum.ReadListAction,
-                dType, wSize);
-        slContainer.publish(DataActionEnum.ReadHeaderContainer,
-                dType);
-        slContainer.registerSubscriber(DataActionEnum.ListReadSuccessSignal, dType, new DrawListAction());
-        slContainer.registerRedirector(
-                tFactories.getSlTypeFactory().construct(
+        slContainer.registerSubscriber(DataActionEnum.ListReadSuccessSignal,
+                dType, new DrawListAction());
+        slContainer.registerRedirector(tFactories.getSlTypeFactory().construct(
                 DataActionEnum.RefreshAfterPersistActionSignal, dType),
                 tFactories.getSlTypeFactory().construct(
-                DataActionEnum.ReadListAction, dType));
+                        DataActionEnum.ReadListAction, dType));
+        // secondly publish
+        slContainer.publish(DataActionEnum.ReadListAction, dType, wSize);
+        slContainer.publish(DataActionEnum.ReadHeaderContainer, dType);
     }
 
     public SlotListContainer getSlContainer() {

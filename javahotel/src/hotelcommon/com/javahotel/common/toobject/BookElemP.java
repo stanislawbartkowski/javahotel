@@ -12,18 +12,17 @@
  */
 package com.javahotel.common.toobject;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import com.javahotel.types.DateP;
-import com.javahotel.types.ILd;
 import com.javahotel.types.LId;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class BookElemP extends AbstractTo implements ILd {
+public class BookElemP extends AbstractToILd {
 
 	private LId id;
 	private DateP checkIn;
