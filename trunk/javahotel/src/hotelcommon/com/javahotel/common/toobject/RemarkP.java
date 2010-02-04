@@ -12,11 +12,9 @@
  */
 package com.javahotel.common.toobject;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 import com.javahotel.types.DateP;
-import com.javahotel.types.ILd;
 import com.javahotel.types.INumerable;
 import com.javahotel.types.LId;
 
@@ -24,7 +22,7 @@ import com.javahotel.types.LId;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class RemarkP extends AbstractTo implements INumerable, ILd {
+public class RemarkP extends AbstractToILd implements INumerable {
 
     private LId id;
     private String remark;

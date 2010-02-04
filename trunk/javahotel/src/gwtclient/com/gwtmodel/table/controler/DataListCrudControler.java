@@ -24,7 +24,6 @@ import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
-import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -161,7 +160,7 @@ class DataListCrudControler extends AbstractSlotContainer {
             IVModelData perData = slContext.getVData(); // do nothing
             IVModelData pData = slControlerContainer.getGetterIVModelData(
                     GetActionEnum.GetViewModelEdited, dType, peData);
-            fContainer.getDataModelFactory().fromModelToPersist(dType, pData,
+            listParam.getDataFactory().fromModelToPersist(dType, pData,
                     perData);
             // result: perData
             return slContext;
@@ -193,7 +192,7 @@ class DataListCrudControler extends AbstractSlotContainer {
                 wSize = ret.getWSize();
             }
             if (peData != null) {
-                fContainer.getDataModelFactory().copyFromPersistToModel(dType,
+                listParam.getDataFactory().copyFromPersistToModel(dType,
                         peData, mModel);
             } else {
                 IGWidget wi = slContext.getGwtWidget();

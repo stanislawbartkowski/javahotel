@@ -55,13 +55,20 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.gwtmodel.table.view.table.VListHeaderContainer;
+import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.javahotel.client.mvc.table.model.ColTitle;
 import com.javahotel.common.toobject.CustomerP;
+import com.javahotel.nmvc.common.VField;
 import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.types.LId;
 
 public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable {
 
-    private final IDataType dType;
-    private final IMemoryListModel lPhone;
+    // private final IDataType dType;
+    private final IMemoryListModel lPhonelist;
+    private final IMemoryListModel lPhonedata;
+    
     private final IDataControler dControler;
     private final VerticalPanel vPanel = new VerticalPanel();
     private final DataViewModelFactory daFactory;
@@ -76,8 +83,6 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
             public void signal(ISlotSignalContext slContext) {
                 IVModelData pData = getGetterIVModelData(
                         GetActionEnum.GetViewComposeModelEdited, stringType);
-                // FormLineContainer fContainer =
-                // getGetterContainer(stringType);
                 List<IVField> listMFie = new ArrayList<IVField>();
                 listMFie.add(new StringF());
                 List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,
@@ -93,7 +98,7 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
 
         ValidateS(IDataType stringType) {
             this.stringType = stringType;
-            registerSubscriber(DataActionEnum.ValidateAction, dType,
+            registerSubscriber(DataActionEnum.ValidateAction, stringType,
                     new ValidateA());
 
         }
@@ -106,19 +111,26 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
     private class SetGetter implements ISlotCaller {
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            // TODO Auto-generated method stub
             return null;
         }
     }
 
     public class StringE implements IVModelDataEquable {
 
-        private Long id;
+        private final LId id;
         private String s;
+
+        StringE() {
+            id = new LId();
+        }
+
+        StringE(LId id) {
+            this.id = id;
+        }
 
         public boolean eq(IVModelDataEquable o) {
             StringE e = (StringE) o;
-            return id == e.id;
+            return id.equals(e.id);
         }
 
         public String getS(IVField fie) {
@@ -137,6 +149,12 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
 
     private class DrawModel implements ISlotSignaller {
 
+        private final IDataType sType;
+
+        DrawModel(IDataType sType) {
+            this.sType = sType;
+        }
+
         public void signal(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             VModelData vData = (VModelData) mData;
@@ -144,7 +162,16 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
 
             List eList = new ArrayList<StringE>();
             IDataListType dList = DataListTypeFactory.construct(eList);
-            lPhone.setDataList(dList);
+            lPhonelist.setDataList(dList);
+            lPhonedata.setDataList(dList);
+            dControler.startPublish(0);
+            List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
+            VListHeaderDesc he = new VListHeaderDesc("Telefon", new StringF());
+            heList.add(he);
+            VListHeaderContainer vHeader;
+            vHeader = new VListHeaderContainer(heList, "Telefony");
+            dControler.getSlContainer().publish(sType, vHeader);
+
         }
     }
 
@@ -164,19 +191,32 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
 
         public void copyFromPersistToModel(IDataType dType, IVModelData from,
                 IVModelData to) {
+            StringE efrom = (StringE) from;
+            StringE eto = (StringE) to;
+            eto.s = efrom.s;
+        }
+
+        private IFormLineView getI(FormLineContainer fContainer) {
+            FormField i = fContainer.getfList().get(0);
+            return i.getELine();
         }
 
         public void fromDataToView(IVModelData aFrom,
                 FormLineContainer fContainer) {
+            StringE efrom = (StringE) aFrom;
+            IFormLineView e = getI(fContainer);
+            e.setVal(efrom.s);
         }
 
         public void fromModelToPersist(IDataType dType, IVModelData from,
                 IVModelData to) {
+            copyFromPersistToModel(dType, from, to);
         }
 
         public void fromViewToData(FormLineContainer fContainer, IVModelData aTo) {
-            // TODO Auto-generated method stub
-
+            StringE eto = (StringE) aTo;
+            IFormLineView e = getI(fContainer);
+            eto.s = e.getVal();
         }
 
     }
@@ -219,7 +259,7 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
             ComposeControllerType cType = new ComposeControllerType(daModel,
                     dType, 0, 0);
             iCon.registerController(cType);
-            iCon.registerController(new ComposeControllerType(lPhone, dType));
+            iCon.registerController(new ComposeControllerType(lPhonedata, dType));
             iCon.registerController(new ComposeControllerType(new ValidateS(
                     dType), dType));
             return iCon;
@@ -228,24 +268,25 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
     }
 
     public CustomerAddInfo(IDataType dType) {
-        this.dType = dType;
+        // this.dType = dType;
 
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
         daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
         IDataType sType = new StringV();
-        lPhone = new MemoryListPersist(sType);
+        lPhonelist = new MemoryListPersist(sType);
+        lPhonedata = new MemoryListPersist(sType);
 
         dControler = tFactory.constructDataControler(sType, 0, 1,
-                new DataListParam(lPhone, null, new DataFactory(),
+                new DataListParam(lPhonelist, null, new DataFactory(),
                         new StringFactory(), new GetControler()));
 
         registerCaller(GetActionEnum.GetViewModelEdited, dType, new SetGetter());
         registerCaller(GetActionEnum.GetModelToPersist, dType, new SetGetter());
         registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
-                new DrawModel());
+                new DrawModel(sType));
         dControler.getSlContainer().registerSubscriber(0, new SetGwt());
-        dControler.startPublish(0);
+        // dControler.startPublish(0);
     }
 
     public void startPublish(int cellId) {
