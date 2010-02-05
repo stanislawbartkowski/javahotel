@@ -10,15 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.persist;
+package com.gwtmodel.table.stringlist;
 
-import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.common.GetMaxUtil;
+import com.gwtmodel.table.common.GetMaxUtil.IGetLp;
 
-public class StringV implements IDataType {
+public class AddStringNext {
 
-    public boolean eq(IDataType dType) {
-        return true;
+    private AddStringNext() {
+
     }
 
+    static void addNext(MemoryStringTable dList, AbstractStringE e) {
+
+        IGetLp<AbstractStringE> iget = new IGetLp<AbstractStringE>() {
+
+            public Long getLp(AbstractStringE t) {
+                return t.getLp();
+            }
+        };
+        Long ma = GetMaxUtil.getNextMax(dList.getLi(), iget, new Long(1));
+        e.setLp(ma);
+        dList.getLi().add(e); // not dList.append !
+    }
+    
+    
 
 }

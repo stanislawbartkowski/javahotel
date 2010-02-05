@@ -30,7 +30,8 @@ public class Utils {
 
     public static String getResAdr(final String res) {
         String path;
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         String resF = c.getCustomValue(IGetCustomValues.RESOURCEFOLDER);
         path = GWT.getModuleBaseURL();
         if (resF == null) {
@@ -40,7 +41,8 @@ public class Utils {
     }
 
     public static String getImageAdr(final String image) {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         String folder = c.getCustomValue(IGetCustomValues.IMAGEFOLDER);
         String img;
         if (folder == null) {
@@ -81,6 +83,7 @@ public class Utils {
         }
         return t1 == t2;
     }
+
     public static final int BADNUMBER = -1;
 
     public static int getNum(final String s) {
@@ -149,13 +152,15 @@ public class Utils {
     }
 
     public static boolean TrueL(String s) {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         String yesv = c.getCustomValue(IGetCustomValues.YESVALUE);
         return CUtil.EqNS(s, yesv);
     }
 
     public static String LToS(boolean l) {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         if (l) {
             return c.getCustomValue(IGetCustomValues.YESVALUE);
         }

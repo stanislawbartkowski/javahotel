@@ -27,6 +27,7 @@ import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
+import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
@@ -59,6 +60,7 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(ReadResFactory.class).in(Singleton.class);
         bind(GridViewFactory.class).in(Singleton.class);
         bind(SlotMediatorFactory.class).in(Singleton.class);
+        bind(MemoryStringTableFactory.class).in(Singleton.class);
     }
 
 }

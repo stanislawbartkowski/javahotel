@@ -17,35 +17,11 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.InvalidateFormContainer;
-import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
-import com.gwtmodel.table.composecontroller.ComposeControllerType;
-import com.gwtmodel.table.composecontroller.IComposeController;
-import com.gwtmodel.table.controler.DataListParam;
-import com.gwtmodel.table.controler.IDataControler;
-import com.gwtmodel.table.controler.TableDataControlerFactory;
-import com.gwtmodel.table.datamodelview.DataViewModelFactory;
-import com.gwtmodel.table.datamodelview.IDataViewModel;
-import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IDataValidateAction;
-import com.gwtmodel.table.factories.IFormDefFactory;
-import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.persist.IMemoryListModel;
-import com.gwtmodel.table.persist.IVModelDataEquable;
-import com.gwtmodel.table.persist.MemoryListPersist;
-import com.gwtmodel.table.persist.StringV;
-import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -53,57 +29,44 @@ import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.view.ValidateUtil;
-import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
-import com.javahotel.client.mvc.table.model.ColTitle;
+import com.gwtmodel.table.stringlist.AbstractStringE;
+import com.gwtmodel.table.stringlist.IMemoryStringList;
+import com.gwtmodel.table.stringlist.IStringEFactory;
+import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
+import com.javahotel.common.toobject.AbstractToILd;
+import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.CustomerP;
-import com.javahotel.nmvc.common.VField;
+import com.javahotel.common.toobject.IField;
+import com.javahotel.common.toobject.PhoneNumberP;
 import com.javahotel.nmvc.common.VModelData;
-import com.javahotel.types.LId;
 
 public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable {
 
-    // private final IDataType dType;
-    private final IMemoryListModel lPhonelist;
-    private final IMemoryListModel lPhonedata;
-    
-    private final IDataControler dControler;
     private final VerticalPanel vPanel = new VerticalPanel();
-    private final DataViewModelFactory daFactory;
+    private final IMemoryStringList mList;
+    private final IMemoryStringList aList;
+    private final MemoryStringTableFactory maFactory;
 
-    private class ValidateS extends AbstractSlotContainer implements
-            IDataValidateAction {
+    private class StringE extends AbstractStringE {
 
-        private final IDataType stringType;
+        private final AbstractToILd a;
 
-        private class ValidateA implements ISlotSignaller {
-
-            public void signal(ISlotSignalContext slContext) {
-                IVModelData pData = getGetterIVModelData(
-                        GetActionEnum.GetViewComposeModelEdited, stringType);
-                List<IVField> listMFie = new ArrayList<IVField>();
-                listMFie.add(new StringF());
-                List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,
-                        listMFie);
-                if (errMess != null) {
-                    publish(DataActionEnum.InvalidSignal, stringType,
-                            new InvalidateFormContainer(errMess));
-                    return;
-                }
-                publish(DataActionEnum.ValidSignal, stringType);
-            }
+        StringE(AbstractToILd a, IField fie) {
+            this.a = a;
+            String s = a.getS(fie);
+            this.setS(null, s);
         }
 
-        ValidateS(IDataType stringType) {
-            this.stringType = stringType;
-            registerSubscriber(DataActionEnum.ValidateAction, stringType,
-                    new ValidateA());
-
+        StringE() {
+            a = null;
         }
 
-        public void startPublish(int cellId) {
+    }
+
+    private class SFactory implements IStringEFactory {
+
+        public AbstractStringE construct(IDataType d) {
+            return new StringE();
         }
 
     }
@@ -111,67 +74,27 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
     private class SetGetter implements ISlotCaller {
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            return null;
-        }
-    }
+            CustomerP cust = getCust(slContext);
+            IFactory<PhoneNumberP> iP = new IFactory<PhoneNumberP>() {
 
-    public class StringE implements IVModelDataEquable {
+                public PhoneNumberP construct() {
+                    return new PhoneNumberP();
+                }
+            };
+            List<PhoneNumberP> li = getMList(mList, PhoneNumberP.F.phoneNumber,
+                    iP);
+            cust.setPhones(li);
 
-        private final LId id;
-        private String s;
+            IFactory<BankAccountP> iB = new IFactory<BankAccountP>() {
 
-        StringE() {
-            id = new LId();
-        }
-
-        StringE(LId id) {
-            this.id = id;
-        }
-
-        public boolean eq(IVModelDataEquable o) {
-            StringE e = (StringE) o;
-            return id.equals(e.id);
-        }
-
-        public String getS(IVField fie) {
-            return s;
-        }
-
-        public boolean isEmpty(IVField fie) {
-            return CUtil.EmptyS(s);
-        }
-
-        public void setS(IVField fie, String s) {
-            this.s = s;
-        }
-
-    }
-
-    private class DrawModel implements ISlotSignaller {
-
-        private final IDataType sType;
-
-        DrawModel(IDataType sType) {
-            this.sType = sType;
-        }
-
-        public void signal(ISlotSignalContext slContext) {
-            IVModelData mData = slContext.getVData();
-            VModelData vData = (VModelData) mData;
-            CustomerP cust = (CustomerP) vData.getA();
-
-            List eList = new ArrayList<StringE>();
-            IDataListType dList = DataListTypeFactory.construct(eList);
-            lPhonelist.setDataList(dList);
-            lPhonedata.setDataList(dList);
-            dControler.startPublish(0);
-            List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-            VListHeaderDesc he = new VListHeaderDesc("Telefon", new StringF());
-            heList.add(he);
-            VListHeaderContainer vHeader;
-            vHeader = new VListHeaderContainer(heList, "Telefony");
-            dControler.getSlContainer().publish(sType, vHeader);
-
+                public BankAccountP construct() {
+                    return new BankAccountP();
+                }
+            };
+            List<BankAccountP> lib = getMList(aList,
+                    BankAccountP.F.accountNumber, iB);
+            cust.setAccounts(lib);
+            return slContext;
         }
     }
 
@@ -183,110 +106,67 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
         }
     }
 
-    private class DataFactory implements IDataModelFactory {
+    private CustomerP getCust(ISlotSignalContext slContext) {
+        IVModelData mData = slContext.getVData();
+        VModelData vData = (VModelData) mData;
+        CustomerP cust = (CustomerP) vData.getA();
+        return cust;
+    }
 
-        public IVModelData construct(IDataType dType) {
-            return new StringE();
+    private void setMList(IMemoryStringList mList,
+            List<? extends AbstractToILd> li, IField fie) {
+        IDataListType dList = maFactory.construct();
+        if (li != null) {
+            for (AbstractToILd a : li) {
+                StringE e = new StringE(a, fie);
+                dList.append(e);
+            }
         }
+        mList.setMemTable(dList);
+    }
 
-        public void copyFromPersistToModel(IDataType dType, IVModelData from,
-                IVModelData to) {
-            StringE efrom = (StringE) from;
-            StringE eto = (StringE) to;
-            eto.s = efrom.s;
-        }
+    private interface IFactory<T extends AbstractToILd> {
+        T construct();
+    }
 
-        private IFormLineView getI(FormLineContainer fContainer) {
-            FormField i = fContainer.getfList().get(0);
-            return i.getELine();
+    private <T extends AbstractToILd> List<T> getMList(IMemoryStringList mList,
+            IField fie, IFactory<T> fa) {
+        List<T> li = new ArrayList<T>();
+        IDataListType dList = mList.getMemTable();
+        for (int i = 0; i < dList.rowNo(); i++) {
+            IVModelData mo = dList.getRow(i);
+            StringE e = (StringE) mo;
+            AbstractToILd a = e.a;
+            if (a == null) {
+                a = fa.construct();
+            }
+            String s = e.getS(null);
+            a.setF(fie, s);
+            li.add((T) a);
         }
-
-        public void fromDataToView(IVModelData aFrom,
-                FormLineContainer fContainer) {
-            StringE efrom = (StringE) aFrom;
-            IFormLineView e = getI(fContainer);
-            e.setVal(efrom.s);
-        }
-
-        public void fromModelToPersist(IDataType dType, IVModelData from,
-                IVModelData to) {
-            copyFromPersistToModel(dType, from, to);
-        }
-
-        public void fromViewToData(FormLineContainer fContainer, IVModelData aTo) {
-            StringE eto = (StringE) aTo;
-            IFormLineView e = getI(fContainer);
-            eto.s = e.getVal();
-        }
+        return li;
 
     }
 
-    private class StringF implements IVField {
+    private class DrawModel implements ISlotSignaller {
 
-        public boolean eq(IVField o) {
-            return true;
+        public void signal(ISlotSignalContext slContext) {
+            CustomerP cust = getCust(slContext);
+            setMList(mList, cust.getPhones(), PhoneNumberP.F.phoneNumber);
+            setMList(aList, cust.getAccounts(), BankAccountP.F.accountNumber);
         }
-
-    }
-
-    private class StringFactory implements IFormDefFactory {
-
-        public FormLineContainer construct(IDataType dType) {
-            EditWidgetFactory eFactory = GwtGiniInjector.getI()
-                    .getEditWidgetFactory();
-            List<FormField> di = new ArrayList<FormField>();
-            IFormLineView textLine = eFactory.constructTextField();
-            di.add(new FormField("Text", textLine, new StringF()));
-            return new FormLineContainer(di);
-        }
-
-        public String getFormTitle(IDataType dType) {
-            return "Telefony";
-        }
-
-    }
-
-    private class GetControler implements IGetViewControllerFactory {
-
-        public IComposeController construct(IDataType dType) {
-            ComposeControllerFactory coFactory = GwtGiniInjector.getI()
-                    .getComposeControllerFactory();
-            FormLineContainer fContainer = new StringFactory().construct(dType);
-            IDataModelFactory dFactory = new DataFactory();
-            IComposeController iCon = coFactory.construct(dType, dFactory);
-            IDataViewModel daModel = daFactory.construct(dType, fContainer,
-                    dFactory);
-            ComposeControllerType cType = new ComposeControllerType(daModel,
-                    dType, 0, 0);
-            iCon.registerController(cType);
-            iCon.registerController(new ComposeControllerType(lPhonedata, dType));
-            iCon.registerController(new ComposeControllerType(new ValidateS(
-                    dType), dType));
-            return iCon;
-        }
-
     }
 
     public CustomerAddInfo(IDataType dType) {
-        // this.dType = dType;
-
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
-                .getTableDataControlerFactory();
-        daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
-        IDataType sType = new StringV();
-        lPhonelist = new MemoryListPersist(sType);
-        lPhonedata = new MemoryListPersist(sType);
-
-        dControler = tFactory.constructDataControler(sType, 0, 1,
-                new DataListParam(lPhonelist, null, new DataFactory(),
-                        new StringFactory(), new GetControler()));
-
+        maFactory = GwtGiniInjector.getI().getMemoryStringTableFactory();
+        mList = maFactory.construct("Telefon", "Telefony", new SFactory(),
+                new SetGwt());
+        aList = maFactory.construct("Konto", "Konta", new SFactory(),
+                new SetGwt());
         registerCaller(GetActionEnum.GetViewModelEdited, dType, new SetGetter());
         registerCaller(GetActionEnum.GetModelToPersist, dType, new SetGetter());
         registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
-                new DrawModel(sType));
-        dControler.getSlContainer().registerSubscriber(0, new SetGwt());
-        // dControler.startPublish(0);
+                new DrawModel());
     }
 
     public void startPublish(int cellId) {

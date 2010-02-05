@@ -10,22 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+package com.gwtmodel.table.stringlist;
 
-import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface IGetCustomValues {
+public interface IMemoryStringList extends ISlotable {
 
-    IVField getSymForCombo();
-    String IMAGEFORLISTHELP = "IMAGEFORLISTHEP";
-    String IMAGEFOLDER = "IMAGEFOLDER";
-    String RESOURCEFOLDER = "RESOURCEFOLDER";
-    String YESVALUE = "YESVALUE";
-    String NOVALUE = "NOVALUE";
+    void setMemTable(IDataListType dList);
 
-    String getCustomValue(String key);
-    
-    boolean googleTable();
+    IDataListType getMemTable();
 
-    boolean compareComboByInt();
 }

@@ -62,7 +62,7 @@ public class RegisterFactories {
         tFactories.registerDataModelFactory(daFactory);
         tFactories.registerDataValidateActionFactory(vFactory);
         tFactories.registerGetViewControllerFactory(getViewFactory);
-        tFactories.registerGetCustomValues(new CustomFactory());
+        tFactories.registerGetCustomValues(new CustomFactory(rI));
         tFactories
                 .registerDataFormConstructorAbstractFactory(new FormFactory());
     }
