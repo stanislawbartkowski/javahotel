@@ -12,9 +12,24 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.google.inject.Inject;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
+
 public class GwtTableFactory {
 
+    private final TableFactoriesContainer cFactory;
+
+    @Inject
+    public GwtTableFactory(TableFactoriesContainer cFactory) {
+        this.cFactory = cFactory;
+    }
+
     public IGwtTableView construct() {
-        return new GwtTableView();
+        if (cFactory.getGetCustomValues().googleTable()) {
+            return new GwtTableView();
+        }
+        return new TableView();
+
     }
 }

@@ -17,14 +17,17 @@ import java.util.Map;
 
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
+import com.javahotel.client.IResLocator;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.VField;
 
 class CustomFactory implements IGetCustomValues {
     
     private Map<String,String> ma = new HashMap<String,String>();
+    private final IResLocator sI;
     
-    CustomFactory() {
+    CustomFactory(IResLocator sI) {
+        this.sI = sI;
         ma.put(IGetCustomValues.IMAGEFOLDER,"img");
         ma.put(IGetCustomValues.RESOURCEFOLDER,"res");
         
@@ -40,6 +43,10 @@ class CustomFactory implements IGetCustomValues {
 
     public String getCustomValue(String key) {
         return ma.get(key);
+    }
+
+    public boolean googleTable() {
+        return sI.withGoogleTable();
     }
 
 }

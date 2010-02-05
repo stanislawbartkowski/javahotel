@@ -10,22 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+package com.gwtmodel.table.stringlist;
 
-import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IDataType;
 
-public interface IGetCustomValues {
+public class StringV implements IDataType {
 
-    IVField getSymForCombo();
-    String IMAGEFORLISTHELP = "IMAGEFORLISTHEP";
-    String IMAGEFOLDER = "IMAGEFOLDER";
-    String RESOURCEFOLDER = "RESOURCEFOLDER";
-    String YESVALUE = "YESVALUE";
-    String NOVALUE = "NOVALUE";
+    public boolean eq(IDataType dType) {
+        return true;
+    }
 
-    String getCustomValue(String key);
-    
-    boolean googleTable();
 
-    boolean compareComboByInt();
 }
