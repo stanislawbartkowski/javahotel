@@ -12,12 +12,21 @@
  */
 package com.gwtmodel.table.controlbuttonview;
 
+import com.google.inject.Inject;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 
 public class ControlButtonViewFactory {
+    
+    private final ContrButtonViewFactory vFactory;
+
+    @Inject
+    public ControlButtonViewFactory(ContrButtonViewFactory vFactory) {
+        this.vFactory = vFactory;
+    }
 
     public IControlButtonView construct(ListOfControlDesc listButton) {
-        return new ControlButtonView(listButton);
+        return new ControlButtonView(vFactory,listButton);
     }
 
 }

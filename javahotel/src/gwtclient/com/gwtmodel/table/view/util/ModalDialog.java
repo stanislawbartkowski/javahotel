@@ -12,13 +12,17 @@
  */
 package com.gwtmodel.table.view.util;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.MaxI;
 
 abstract public class ModalDialog {
 
     private final DialogBox dBox;
-    private final VerticalPanel vP;
+    protected final VerticalPanel vP;
     private final String title;
 
     private class CloseClick implements ICloseAction {
@@ -56,5 +60,22 @@ abstract public class ModalDialog {
 
     public void hide() {
         dBox.hide();
+    }
+
+    public void show(final WSize w) {
+
+        dBox.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
+
+            public void setPosition(int offsetWidth, int offsetHeight) {
+                int maxwi = Window.getClientWidth();
+                int maxhei = Window.getClientHeight();
+                int t = w.getTop() + w.getHeight();
+                int l = w.getLeft();
+
+                int left = MaxI.min(maxwi - offsetWidth, l);
+                int top = MaxI.min(maxhei - offsetHeight, t);
+                dBox.setPopupPosition(left, top);
+            }
+        });
     }
 }

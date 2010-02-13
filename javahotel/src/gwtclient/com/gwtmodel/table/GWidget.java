@@ -14,6 +14,12 @@ package com.gwtmodel.table;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ *
+ * @author stanislaw.bartkowski@gmail.com
+ */
+
+
 public class GWidget implements IGWidget {
     
     private final Widget w;

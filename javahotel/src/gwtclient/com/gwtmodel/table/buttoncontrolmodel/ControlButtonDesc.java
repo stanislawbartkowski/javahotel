@@ -15,6 +15,7 @@ package com.gwtmodel.table.buttoncontrolmodel;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 
 public class ControlButtonDesc {
+
     private final String imageHtml;
     private final String contrName;
     private final ClickButtonType actionId;

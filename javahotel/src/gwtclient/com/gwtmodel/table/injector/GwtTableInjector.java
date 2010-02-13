@@ -14,10 +14,12 @@ package com.gwtmodel.table.injector;
 
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
+import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.readres.ReadResFactory;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
@@ -26,9 +28,11 @@ import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
+import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.webpanel.WebPanelFactory;
 
 @GinModules(GwtTableInjectModule.class)
 public interface GwtTableInjector extends Ginjector {
@@ -64,6 +68,14 @@ public interface GwtTableInjector extends Ginjector {
     SlotMediatorFactory getSlotMediatorFactory();
 
     PanelViewFactory getPanelViewFactory();
-    
+
     MemoryStringTableFactory getMemoryStringTableFactory();
+
+    HtmlPanelFactory getHtmlPanelFactory();
+
+    ControlButtonFactory getControlButtonFactory();
+
+    ContrButtonViewFactory getContrButtonViewFactory();
+
+    WebPanelFactory getWebPanelFactory();
 }
