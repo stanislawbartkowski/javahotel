@@ -14,6 +14,10 @@ package com.gwtmodel.table;
 
 import java.util.List;
 
+/**
+ *
+ * @author stanislaw.bartkowski@gmail.com
+ */
 class DataListType implements IDataListType {
 
     private final List<IVModelData> dList;

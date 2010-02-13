@@ -12,6 +12,10 @@
  */
 package com.gwtmodel.table;
 
+/**
+ *
+ * @author stanislaw.bartkowski@gmail.com
+ */
 public class WChoosedLine {
     
     private final int choosedLine;

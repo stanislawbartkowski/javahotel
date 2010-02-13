@@ -20,10 +20,10 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
  */
 public class ContrButtonViewFactory {
 
-    private ContrButtonViewFactory() {
+    public ContrButtonViewFactory() {
     }
 
-    public static IContrButtonView getView(final ListOfControlDesc model,
+    public IContrButtonView getView(final ListOfControlDesc model,
             final IControlClick co) {
         return new ContrButtonView(model, co, true);
     }

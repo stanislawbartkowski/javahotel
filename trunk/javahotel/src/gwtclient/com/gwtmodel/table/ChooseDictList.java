@@ -23,7 +23,7 @@ import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 /**
  *
- * @author perseus
+ * @author stanislaw.bartkowski@gmail.com
  */
 public class ChooseDictList<T extends IVModelData> {
 
