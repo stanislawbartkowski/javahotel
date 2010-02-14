@@ -22,6 +22,8 @@ public interface IGetCustomValues {
     String RESOURCEFOLDER = "RESOURCEFOLDER";
     String YESVALUE = "YESVALUE";
     String NOVALUE = "NOVALUE";
+    String COMMERROR = "COMMERROR";
+    String COUNTCALLBACK = "COUNTCALLBACK";
 
     String getCustomValue(String key);
     
