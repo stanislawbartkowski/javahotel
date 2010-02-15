@@ -35,8 +35,8 @@ public abstract class CommonCallBack<T> implements AsyncCallback<T> {
         boolean doSth(Throwable ext);
     }
 
-    public CommonCallBack(final IWebPanel iWeb) {
-        this.iWeb = iWeb;
+    public CommonCallBack() {
+        iWeb = GwtGiniInjector.getI().getWebPanel();
         iWeb.IncDecCounter(true);
         ext = null;
     }
@@ -47,8 +47,8 @@ public abstract class CommonCallBack<T> implements AsyncCallback<T> {
         }
     }
 
-    public CommonCallBack(final IWebPanel iWeb, final onFailureExt e) {
-        this.iWeb = iWeb;
+    public CommonCallBack(final onFailureExt e) {
+        iWeb = GwtGiniInjector.getI().getWebPanel();
         iWeb.IncDecCounter(true);
         ext = e;
     }

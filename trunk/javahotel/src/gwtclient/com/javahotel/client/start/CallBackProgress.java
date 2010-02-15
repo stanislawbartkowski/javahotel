@@ -22,42 +22,42 @@ import com.javahotel.client.IResLocator;
  */
 class CallBackProgress {
 
-    final private IResLocator pLoc;
-    private int coL = 0;
-
-    CallBackProgress(final IResLocator p) {
-        this.pLoc = p;
-    }
-
-    private class TimerT extends Timer {
-
-        public void run() {
-            Label l = pLoc.getPanel().getReplyL();
-//            l.setVisible(true);
-            l.setStyleName("wait-reply");
-        }
-    }
-    private Timer tim = null;
-
-    void IncDecL(final boolean inc) {
-        Label lR = pLoc.getPanel().getReplyL();
-        if (inc) {
-            coL++;
-        } else {
-            coL--;
-        }
-        if (coL == 0) {
-  //          lR.setVisible(false);
-            pLoc.getPanel().clearReply();
-            tim.cancel();
-            tim = null;
-        } else {
-            String ss = pLoc.getMessages().countNum(coL);
-            lR.setText(ss);
-            if (tim == null) {
-                tim = new TimerT();
-                tim.schedule(100);
-            }
-        }
-    }
+//    final private IResLocator pLoc;
+//    private int coL = 0;
+//
+//    CallBackProgress(final IResLocator p) {
+//        this.pLoc = p;
+//    }
+//
+//    private class TimerT extends Timer {
+//
+//        public void run() {
+//            Label l = pLoc.getPanel().getReplyL();
+////            l.setVisible(true);
+//            l.setStyleName("wait-reply");
+//        }
+//    }
+//    private Timer tim = null;
+//
+//    void IncDecL(final boolean inc) {
+//        Label lR = pLoc.getPanel().getReplyL();
+//        if (inc) {
+//            coL++;
+//        } else {
+//            coL--;
+//        }
+//        if (coL == 0) {
+//  //          lR.setVisible(false);
+//            pLoc.getPanel().clearReply();
+//            tim.cancel();
+//            tim = null;
+//        } else {
+//            String ss = pLoc.getMessages().countNum(coL);
+//            lR.setText(ss);
+//            if (tim == null) {
+//                tim = new TimerT();
+//                tim.schedule(100);
+//            }
+//        }
+//    }
 }

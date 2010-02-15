@@ -14,7 +14,6 @@ package com.javahotel.client;
 
 import com.gwtmodel.table.readres.IReadRes;
 import com.javahotel.client.dispatcher.IDispatch;
-import com.javahotel.client.panel.IWebHotelPanel;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.view.IViewInterface;
 
@@ -26,9 +25,9 @@ public interface IResLocator {
 	
 	boolean withGoogleTable();
 
-    IWebHotelPanel getPanel();
+//    IWebPanel getPanel();
 
-    void IncDecCounter(boolean inc);
+//    void IncDecCounter(boolean inc);
 
     HoLabel getLabels();
 

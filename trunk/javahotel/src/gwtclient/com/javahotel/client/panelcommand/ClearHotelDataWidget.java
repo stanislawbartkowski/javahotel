@@ -16,11 +16,12 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.IClickNextYesNo;
+import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.IClickNextYesNo;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.IPersistAction;
 import com.javahotel.client.injector.HInjector;
@@ -29,10 +30,8 @@ import com.javahotel.client.mvc.contrpanel.model.ContrButtonFactory;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
-import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.client.mvc.dictcrud.controler.RecordAuxParam;
 import com.javahotel.client.mvc.table.view.ITableView;
-import com.javahotel.client.mvc.util.YesNoDialog;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.HotelP;
 
@@ -42,11 +41,7 @@ class ClearHotelDataWidget {
     private final IResLocator rI;
     private static int CLEANACTION = IPersistAction.CUSTOMACTION;
 
-    private class DelC extends CallBackHotel {
-
-        DelC() {
-            super(rI);
-        }
+    private class DelC extends CommonCallBack<Object> {
 
         @Override
         public void onMySuccess(Object arg) {
@@ -81,8 +76,8 @@ class ClearHotelDataWidget {
                 return;
             }
             String ho = hot.getName();
-            YesNoDialog y = new YesNoDialog(rI, ho
-                    + " - usunąć dane z hotelu ?", new ConfDelete(ho));
+            YesNoDialog y = new YesNoDialog(ho + " - usunąć dane z hotelu ?",
+                    new ConfDelete(ho));
             y.show(w);
         }
     }
@@ -97,7 +92,8 @@ class ClearHotelDataWidget {
         IContrPanel iC = ContrButtonFactory.getContr(rI, rButton);
         param.setCPanel(iC);
         param.setIClick(new CClick());
-        iCrud = HInjector.getI().getDictCrudControlerFactory().getCrud(d, param, null);
+        iCrud = HInjector.getI().getDictCrudControlerFactory().getCrud(d,
+                param, null);
     }
 
     void drawData() {

@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.MaxI;
 
@@ -78,4 +79,9 @@ abstract public class ModalDialog {
             }
         });
     }
+
+    public void show(final Widget w) {
+        show(new WSize(w));
+    }
+
 }

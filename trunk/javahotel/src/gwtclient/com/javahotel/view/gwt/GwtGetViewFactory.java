@@ -14,16 +14,14 @@ package com.javahotel.view.gwt;
 
 import java.util.List;
 
+import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.ICommand;
-import com.javahotel.client.dialog.MvcWindowSize;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.checkmodel.ICheckDictModel;
-import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.IRecordViewFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
-import com.javahotel.client.panel.IWebHotelPanel;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.stackmenu.model.IStackMenuModel;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
@@ -32,7 +30,6 @@ import com.javahotel.common.command.DictType;
 import com.javahotel.view.IDrawTabPanel;
 import com.javahotel.view.IViewInterface;
 import com.javahotel.view.gwt.checkmodel.view.CheckDictModelFactory;
-import com.javahotel.view.gwt.panel.view.WebHotelPanelFactory;
 import com.javahotel.view.gwt.record.view.GwtRecordViewFactory;
 import com.javahotel.view.gwt.stackmenu.view.StackMenuViewFactory;
 import com.javahotel.view.gwt.tabpanel.GwtTabPanelFactory;
@@ -47,14 +44,15 @@ public class GwtGetViewFactory {
     }
 
     private static class Vie implements IViewInterface {
+        
 
         public IStackMenuView getStackView(IStackMenuModel sMode,
                 IStackMenuClicked iClicked) {
             return StackMenuViewFactory.getStackView(sMode, iClicked);
         }
 
-        public IWebHotelPanel getPanel(IResLocator rI, ICommand logOut) {
-            return WebHotelPanelFactory.getPanel(rI, logOut);
+        public IWebPanel getPanel(IResLocator rI, ICommand logOut) {
+            return GwtGiniInjector.getI().getWebPanel();
         }
 
         public ICheckDictModel getModel(IResLocator rI, DictType d) {

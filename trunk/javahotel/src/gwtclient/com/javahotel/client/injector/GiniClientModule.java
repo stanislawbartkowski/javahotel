@@ -68,7 +68,7 @@ import com.javahotel.view.gwt.table.view.ViewTableViewFactory;
 public class GiniClientModule extends AbstractGinModule {
 
     protected void configure() {
-        bind(IResLocator.class).toProvider(ResLocatorProvider.class).asEagerSingleton();
+        bind(IResLocator.class).toProvider(ResLocatorProvider.class);
         bind(IDispatch.class).to(Dispatch.class);
         bind(IWebEntry.class).to(MainWebEntry.class);
         bind(UICommand.class).annotatedWith(Names.named("UserLoginCommand")).to(LoginCommand.class);

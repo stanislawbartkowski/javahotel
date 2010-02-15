@@ -36,6 +36,7 @@ import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.WebPanelFactory;
 
 public class GwtTableInjectModule extends AbstractGinModule {
@@ -66,5 +67,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(HtmlPanelFactory.class).in(Singleton.class);
         bind(ContrButtonViewFactory.class).in(Singleton.class);
         bind(WebPanelFactory.class).in(Singleton.class);
+        bind(IWebPanel.class).toProvider(WebPanelProvider.class);
     }
 }

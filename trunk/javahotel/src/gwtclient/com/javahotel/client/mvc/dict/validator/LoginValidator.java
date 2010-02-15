@@ -12,27 +12,28 @@
  */
 package com.javahotel.client.mvc.dict.validator;
 
-import com.javahotel.client.injector.HInjector;
-import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
-import com.javahotel.client.CallBackHotel;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.DictData.SpecE;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.auxabstract.LoginRecord;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.dict.validator.errmess.DictErrorMessage;
+import com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess;
+import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
 import com.javahotel.client.mvc.validator.IErrorMessageContext;
 import com.javahotel.client.mvc.validator.IRecordValidator;
 import com.javahotel.client.mvc.validator.ISignalValidate;
-import com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -40,111 +41,111 @@ import java.util.List;
  */
 class LoginValidator implements IRecordValidator {
 
-	private final IResLocator rI;
-	private final boolean user;
-	private final DictData da;
-	private IErrorMessageContext iCo;
-	private final DictEmptyFactory eFactory;
+    private final IResLocator rI;
+    private final boolean user;
+    private final DictData da;
+    private IErrorMessageContext iCo;
+    private final DictEmptyFactory eFactory;
 
-	LoginValidator(IResLocator rI, DictData da) {
-		this.rI = rI;
-		this.da = da;
-		this.iCo = null;
-		if (da.getSE() == SpecE.LoginUser) {
-			user = true;
-		} else {
-			user = false;
-		}
-		eFactory = HInjector.getI().getDictEmptyFactory();
-	}
+    LoginValidator(IResLocator rI, DictData da) {
+        this.rI = rI;
+        this.da = da;
+        this.iCo = null;
+        if (da.getSE() == SpecE.LoginUser) {
+            user = true;
+        } else {
+            user = false;
+        }
+        eFactory = HInjector.getI().getDictEmptyFactory();
+    }
 
-	public boolean isEmpty(RecordModel a) {
-		return false;
-	}
+    public boolean isEmpty(RecordModel a) {
+        return false;
+    }
 
-	private class FailureBack implements CallBackHotel.onFailureExt {
+    private class FailureBack implements CommonCallBack.onFailureExt {
 
-		private final ISignalValidate sig;
+        private final ISignalValidate sig;
 
-		FailureBack(final ISignalValidate sig) {
-			this.sig = sig;
-		}
+        FailureBack(final ISignalValidate sig) {
+            this.sig = sig;
+        }
 
-		public boolean doSth(final Throwable ext) {
-			List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
-			errMess.add(new InvalidateMess(LoginRecord.F.password, false,
-					"User lub Hasło niepoprawne"));
-			sig.failue(new DictErrorMessage(errMess, iCo));
-			return true;
-		}
-	}
+        public boolean doSth(final Throwable ext) {
+            List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+            errMess.add(new InvalidateMess(LoginRecord.F.password, false,
+                    "User lub Hasło niepoprawne"));
+            sig.failue(new DictErrorMessage(errMess, iCo));
+            return true;
+        }
+    }
 
-	private class BackLogin extends CallBackHotel<Object> {
+    private class BackLogin extends CommonCallBack<Object> {
 
-		private final ISignalValidate sig;
-		private final LoginRecord re;
-		
-		private void setUserHotel(String hotel) {
-			rI.getR().setHotel(hotel);
-			String user = re.getLogin();
-			rI.getR().setUserName(user);			
-		}
+        private final ISignalValidate sig;
+        private final LoginRecord re;
 
-		private class HotelUserLogin implements RData.IVectorList {
+        private void setUserHotel(String hotel) {
+            rI.getR().setHotel(hotel);
+            String user = re.getLogin();
+            rI.getR().setUserName(user);
+        }
 
-			public void doVList(final List<? extends AbstractTo> val) {
-				if (val.size() == 0) {
-					List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
-					errMess.add(new InvalidateMess(LoginRecord.F.hotel, false,
-							"Nie masz uprawnień w tym hotelu"));
-					sig.failue(new DictErrorMessage(errMess, iCo));
-					return;
-				}
-				rI.getUR().setColl(val);
-				String ho = re.getHotel();
-				setUserHotel(ho);
-				sig.success();
-			}
-		}
+        private class HotelUserLogin implements RData.IVectorList {
 
-		BackLogin(final ISignalValidate sig, final LoginRecord re) {
-			super(rI, new FailureBack(sig));
-			this.sig = sig;
-			this.re = re;
-		}
+            public void doVList(final List<? extends AbstractTo> val) {
+                if (val.size() == 0) {
+                    List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+                    errMess.add(new InvalidateMess(LoginRecord.F.hotel, false,
+                            "Nie masz uprawnień w tym hotelu"));
+                    sig.failue(new DictErrorMessage(errMess, iCo));
+                    return;
+                }
+                rI.getUR().setColl(val);
+                String ho = re.getHotel();
+                setUserHotel(ho);
+                sig.success();
+            }
+        }
 
-		@Override
-		public void onMySuccess(final Object arg) {
-			if (!user) {
-				setUserHotel("");
-				sig.success();
-				return;
-			}
-			CommandParam p = new CommandParam();
-			p.setHotel(re.getHotel());
-			p.setPerson(re.getLogin());
-			rI.getR().getList(RType.PersonHotelRoles, p, new HotelUserLogin());
-		}
-	}
+        BackLogin(final ISignalValidate sig, final LoginRecord re) {
+            super(new FailureBack(sig));
+            this.sig = sig;
+            this.re = re;
+        }
 
-	public void validateS(int action, RecordModel a, ISignalValidate sig) {
-		List<IField> eF = eFactory.getNoEmpty(da);
-		List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
-		if (errMess != null) {
-			sig.failue(new DictErrorMessage(errMess, iCo));
-			return;
-		}
-		LoginRecord re = (LoginRecord) a.getA();
-		if (user) {
-			GWTGetService.getService().loginUser(re.getLogin(),
-					re.getPassword(), new BackLogin(sig, re));
-		} else {
-			GWTGetService.getService().loginAdmin(re.getLogin(),
-					re.getPassword(), new BackLogin(sig, re));
-		}
-	}
+        @Override
+        public void onMySuccess(final Object arg) {
+            if (!user) {
+                setUserHotel("");
+                sig.success();
+                return;
+            }
+            CommandParam p = new CommandParam();
+            p.setHotel(re.getHotel());
+            p.setPerson(re.getLogin());
+            rI.getR().getList(RType.PersonHotelRoles, p, new HotelUserLogin());
+        }
+    }
 
-	public void setErrContext(IErrorMessageContext co) {
-		this.iCo = co;
-	}
+    public void validateS(int action, RecordModel a, ISignalValidate sig) {
+        List<IField> eF = eFactory.getNoEmpty(da);
+        List<InvalidateMess> errMess = ValidUtil.checkEmpty(a, eF);
+        if (errMess != null) {
+            sig.failue(new DictErrorMessage(errMess, iCo));
+            return;
+        }
+        LoginRecord re = (LoginRecord) a.getA();
+        if (user) {
+            GWTGetService.getService().loginUser(re.getLogin(),
+                    re.getPassword(), new BackLogin(sig, re));
+        } else {
+            GWTGetService.getService().loginAdmin(re.getLogin(),
+                    re.getPassword(), new BackLogin(sig, re));
+        }
+    }
+
+    public void setErrContext(IErrorMessageContext co) {
+        this.iCo = co;
+    }
 }

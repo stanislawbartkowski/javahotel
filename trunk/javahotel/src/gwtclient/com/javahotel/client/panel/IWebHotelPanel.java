@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public interface IWebHotelPanel {
+interface IWebHotelPanel {
 
     void setErrorL(String errmess);
 

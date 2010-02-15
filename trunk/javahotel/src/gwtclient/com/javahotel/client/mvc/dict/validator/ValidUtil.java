@@ -15,7 +15,7 @@ package com.javahotel.client.mvc.dict.validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.ifield.ILineField;
@@ -39,7 +39,8 @@ public class ValidUtil {
     private ValidUtil() {
     }
 
-    public static List<InvalidateMess> checkEmpty(RecordModel mo, List<IField> eF) {
+    public static List<InvalidateMess> checkEmpty(RecordModel mo,
+            List<IField> eF) {
         AbstractTo a = mo.getA();
         List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
         boolean ok = true;
@@ -67,7 +68,7 @@ public class ValidUtil {
         }
         return errMess;
     }
-    
+
     static void callSig(List<InvalidateMess> col, ISignalValidate sig,
             IErrorMessageContext iCo) {
         if (col == null) {
@@ -92,7 +93,7 @@ public class ValidUtil {
         return errMess;
     }
 
-    static class ValidCallBack extends CallBackHotel<ReturnPersist> {
+    static class ValidCallBack extends CommonCallBack<ReturnPersist> {
 
         private final ISignalValidate sig;
         private final IErrorMessageContext iCo;
@@ -100,7 +101,6 @@ public class ValidUtil {
 
         ValidCallBack(IResLocator rI, ISignalValidate sig,
                 IErrorMessageContext iCo, AbstractTo a) {
-            super(rI);
             this.sig = sig;
             this.iCo = iCo;
             this.a = a;

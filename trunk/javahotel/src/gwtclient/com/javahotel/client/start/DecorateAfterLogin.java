@@ -12,8 +12,10 @@
  */
 package com.javahotel.client.start;
 
+import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.ICommand;
 
 class DecorateAfterLogin implements ICommand {
 
@@ -24,8 +26,9 @@ class DecorateAfterLogin implements ICommand {
     }
 
     public void execute() {
+        IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
         String user = rI.getR().getUserName();
         String hotel = rI.getR().getHotel();
-        rI.getPanel().setUserHotel(user, hotel);
+        iW.setUserData(user, hotel);
     }
 }

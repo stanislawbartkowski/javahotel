@@ -18,7 +18,6 @@ import com.javahotel.client.injector.HotelInjector;
 abstract class AbstractWebEntry {
     
     protected void starte(boolean googletable) {
-//        final HotelInjector injector = GWT.create(HotelInjector.class);
         HotelInjector injector = HInjector.getI();
         IWebEntry i = injector.getW();
         i.setGoogletable(googletable);

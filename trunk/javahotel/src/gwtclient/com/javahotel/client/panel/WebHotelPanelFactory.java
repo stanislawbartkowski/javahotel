@@ -12,19 +12,20 @@
  */
 package com.javahotel.client.panel;
 
+import com.gwtmodel.table.ICommand;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.ICommand;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class WebHotelPanelFactory {
+class WebHotelPanelFactory {
 
     private WebHotelPanelFactory() {
     }
 
-    public static IWebHotelPanel getPanel(IResLocator rI, ICommand logOut) {
-        return rI.getView().getPanel(rI, logOut);
+    static IWebHotelPanel getPanel(IResLocator rI, ICommand logOut) {
+//        return rI.getView().getPanel(rI, logOut);
+        return null;
     }
 }

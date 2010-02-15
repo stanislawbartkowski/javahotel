@@ -35,7 +35,6 @@ class CallBackProgress {
 
         public void run() {
             Label l = pLoc.getReplyL();
-//            l.setVisible(true);
             l.setStyleName("wait-reply");
         }
     }
@@ -49,7 +48,6 @@ class CallBackProgress {
             coL--;
         }
         if (coL == 0) {
-  //          lR.setVisible(false);
             pLoc.clearReply();
             tim.cancel();
             tim = null;

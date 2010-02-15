@@ -13,6 +13,8 @@
 package com.javahotel.client.dialog.panel;
 
 import com.google.gwt.user.client.ui.Panel;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
 import com.javahotel.client.panelcommand.CommandDrawPanel;
@@ -31,17 +33,18 @@ public class UserPanel {
 
     public UserPanel(final IResLocator rI, IUserPanelMenuFactory fPanel) {
         this.rI = rI;
+        IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
         IStackMenuClicked iClicked = new IStackMenuClicked() {
 
             public void ClickedView(IPanelCommand clicked) {
                 CommandDrawPanel.setC(rI, clicked);
             }
         };
-        rI.getPanel().setDCenter(null);
+        iW.setDCenter(null);
         IGwtWidget wPanel = fPanel.getMenuPanel(iClicked);
         EPanelCommand e = fPanel.getCentreWidget();
         if (wPanel != null) {
-            rI.getPanel().setWest(wPanel.getMWidget().getWidget());
+            iW.setWest(wPanel.getMWidget().getWidget());
         }
         if (e != null) {
             IPanelCommand i = PanelCommandFactory.getPanelCommand(rI, e);
@@ -49,7 +52,7 @@ public class UserPanel {
         }
         Panel pa = fPanel.getMenuPanel();
         if (pa != null) {
-            rI.getPanel().setMenuPanel(pa);
+            iW.setMenuPanel(pa);
         }
     }
 }

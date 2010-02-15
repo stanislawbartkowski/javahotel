@@ -15,8 +15,8 @@ package com.javahotel.client.dispatcher;
 import java.util.List;
 import java.util.Vector;
 
+import com.gwtmodel.table.ICommand;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.injector.IDispatchCommand;
 
