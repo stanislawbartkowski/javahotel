@@ -16,7 +16,7 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.dialog.ICommand;
+import com.gwtmodel.table.ICommand;
 import com.javahotel.client.dialog.IWidgetSize;
 
 /**

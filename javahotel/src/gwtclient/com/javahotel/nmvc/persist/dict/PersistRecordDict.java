@@ -12,7 +12,7 @@
  */
 package com.javahotel.nmvc.persist.dict;
 
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
@@ -29,7 +29,7 @@ public class PersistRecordDict extends APersistRecordDict {
     }
 
     @Override
-    protected void persistDict(DictType d, DictionaryP dP, CallBackHotel b) {
+    protected void persistDict(DictType d, DictionaryP dP, CommonCallBack b) {
         GWTGetService.getService().persistDictRet(d, dP, b);
     }
 

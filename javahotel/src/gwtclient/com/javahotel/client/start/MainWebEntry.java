@@ -5,22 +5,21 @@ import java.util.Map;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.inject.Inject;
+import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.WebPanelHolder;
 import com.gwtmodel.table.readres.IReadRes;
-import com.gwtmodel.table.readres.ReadResFactory;
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
+import com.gwtmodel.table.view.webpanel.WebPanelFactory;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.HoLabel;
 import com.javahotel.client.HoMessages;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.URights;
-import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.dispatcher.IDispatch;
 import com.javahotel.client.injector.HInjector;
-import com.javahotel.client.injector.HotelInjector;
 import com.javahotel.client.injector.ResLocatorHolder;
-import com.javahotel.client.panel.IWebHotelPanel;
-import com.javahotel.client.panel.WebHotelPanelFactory;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.nmvc.factories.RegisterFactories;
 import com.javahotel.view.IViewInterface;
@@ -28,8 +27,8 @@ import com.javahotel.view.gwt.GwtGetViewFactory;
 
 public class MainWebEntry implements IWebEntry {
 
-    private IWebHotelPanel wPan;
-    private CallBackProgress cProgress;
+    // private IWebPanel wPan;
+    // private CallBackProgress cProgress;
     private final HoLabel sLab = (HoLabel) GWT.create(HoLabel.class);
     private final HoMessages sMess = (HoMessages) GWT.create(HoMessages.class);
     private RData rD;
@@ -45,15 +44,11 @@ public class MainWebEntry implements IWebEntry {
 
     private IReadRes readRes;
 
-    private class BackLogOut extends CallBackHotel<Object> {
-
-        BackLogOut(IResLocator rI) {
-            super(rI);
-        }
+    private class BackLogOut extends CommonCallBack<Object> {
 
         @Override
         public void onMySuccess(Object arg) {
-//            RootPanel.get().remove(0);
+            // RootPanel.get().remove(0);
             RootPanel.get().clear();
             start();
         }
@@ -61,14 +56,8 @@ public class MainWebEntry implements IWebEntry {
 
     private class LogOut implements ICommand {
 
-        private final IResLocator rI;
-
-        LogOut(IResLocator rI) {
-            this.rI = rI;
-        }
-
         public void execute() {
-            GWTGetService.getService().logout(new BackLogOut(rI));
+            GWTGetService.getService().logout(new BackLogOut());
         }
     }
 
@@ -80,13 +69,13 @@ public class MainWebEntry implements IWebEntry {
 
     private class ResC implements IResLocator {
 
-        public IWebHotelPanel getPanel() {
-            return wPan;
-        }
+        // public IWebPanel getPanel() {
+        // return wPan;
+        // }
 
-        public void IncDecCounter(final boolean inc) {
-            cProgress.IncDecL(inc);
-        }
+        // public void IncDecCounter(final boolean inc) {
+        // cProgress.IncDecL(inc);
+        // }
 
         public HoLabel getLabels() {
             return sLab;
@@ -130,11 +119,7 @@ public class MainWebEntry implements IWebEntry {
         }
     }
 
-    private class readP extends CallBackHotel<Map<String, String>> {
-
-        readP(IResLocator rI) {
-            super(rI);
-        }
+    private class readP extends CommonCallBack<Map<String, String>> {
 
         @Override
         public void onMySuccess(Map<String, String> arg) {
@@ -145,16 +130,20 @@ public class MainWebEntry implements IWebEntry {
     public void start() {
         iView[IViewInterface.GWT] = GwtGetViewFactory.getView();
         IResLocator rI = new ResC();
-        ResLocatorHolder.setrI(rI);        
+        ResLocatorHolder.setrI(rI);
         RegisterFactories rFactories = HInjector.getI().getRegisterFactories();
         rFactories.register();
         readRes = GwtGiniInjector.getI().getReadResFactory().getReadRes();
-        cProgress = new CallBackProgress(rI);
+        // cProgress = new CallBackProgress(rI);
         rD = new RData(rI);
-        wPan = WebHotelPanelFactory.getPanel(rI, new LogOut(rI));
+        // wPan = WebHotelPanelFactory.getPanel(rI, new LogOut(rI));
+        WebPanelFactory wFactory = GwtGiniInjector.getI().getWebPanelFactory();
+        IWebPanel wPan = wFactory.construct(new WebPanelResources(rI),
+                new LogOut());
+        WebPanelHolder.setWebPanel(wPan);
         RootPanel.get().add(wPan.getWidget());
         di.start(rI, new DecorateAfterLogin(rI));
-        GWTGetService.getService().getParam(new readP(rI));
+        GWTGetService.getService().getParam(new readP());
     }
 
 }

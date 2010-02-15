@@ -13,10 +13,10 @@
 package com.javahotel.client.rdata;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.CacheData.RetData;
@@ -44,7 +44,7 @@ public class RData {
     private String hotel;
     private String userName;
 
-    public String getUserName() { 
+    public String getUserName() {
         return userName;
     }
 
@@ -84,12 +84,11 @@ public class RData {
 
     private class ReadResInfoData implements IReadResData {
 
-        private class setRes extends CallBackHotel<List<ResDayObjectStateP>> {
+        private class setRes extends CommonCallBack<List<ResDayObjectStateP>> {
 
             private final IReadResCallBack ca;
 
             setRes(final IReadResCallBack ca) {
-                super(lI);
                 this.ca = ca;
             }
 
@@ -123,38 +122,34 @@ public class RData {
         void doOne(final T val);
     }
 
-    private class CallList extends CallBackHotel {
+    private class CallList extends CommonCallBack<List<AbstractTo>> {
 
         private final RetData re;
         private final IVectorList i;
 
         CallList(final RetData re, final IVectorList i) {
-            super(lI);
             this.re = re;
             this.i = i;
         }
 
-        public void onMySuccess(final Object arg) {
-            List<AbstractTo> v = (List<AbstractTo>) arg;
+        public void onMySuccess(List<AbstractTo> v) {
             re.col = v;
             ca.putData(re);
             i.doVList(v);
         }
     }
 
-    private class CallOne extends CallBackHotel {
+    private class CallOne extends CommonCallBack<AbstractTo> {
 
         private final IOneList i;
         private final RetData re;
 
         CallOne(final RetData re, final IOneList i) {
-            super(lI);
             this.re = re;
             this.i = i;
         }
 
-        public void onMySuccess(final Object arg) {
-            AbstractTo a = (AbstractTo) arg;
+        public void onMySuccess(AbstractTo a) {
             List<AbstractTo> v = new ArrayList<AbstractTo>();
             v.add(a);
             re.col = v;

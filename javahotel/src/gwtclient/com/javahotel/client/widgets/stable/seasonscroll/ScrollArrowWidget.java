@@ -12,7 +12,6 @@
  */
 package com.javahotel.client.widgets.stable.seasonscroll;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,12 +19,13 @@ import java.util.List;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.gwtmodel.table.htmlview.HtmlElemDesc;
+import com.gwtmodel.table.htmlview.HtmlPanelFactory;
+import com.gwtmodel.table.htmlview.HtmlTypeEnum;
+import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.htmlview.HtmlElemDesc;
-import com.javahotel.client.htmlview.HtmlPanelFactory;
-import com.javahotel.client.htmlview.HtmlTypeEnum;
-import com.javahotel.client.htmlview.IHtmlPanelCallBack;
 import com.javahotel.client.idialog.GetIEditFactory;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
@@ -38,7 +38,7 @@ import com.javahotel.common.scrollseason.model.PanelDesc;
  */
 class ScrollArrowWidget {
 
-//    private final HorizontalPanel hp = new HorizontalPanel();
+    // private final HorizontalPanel hp = new HorizontalPanel();
     private final Button begP = ImgButtonFactory.getButton(null,
             "arrow-left-end-default");
     private final Button leftP = ImgButtonFactory.getButton(null,
@@ -50,7 +50,7 @@ class ScrollArrowWidget {
     private final ILineField dDate;
     private final IsignalP iP;
     private final IResLocator rI;
-    
+
     private final static String scrollBegId = "scrollpanel_Beg";
     private final static String scrollEndId = "scrollpanel_End";
     private final static String scrollLeftId = "scrollpanel_Left";
@@ -95,21 +95,23 @@ class ScrollArrowWidget {
         dDate = GetIEditFactory.getTextCalendard(rI);
         dDate.setChangeListener(new ChangeD());
         List<HtmlElemDesc> li = new ArrayList<HtmlElemDesc>();
-        li.add(new HtmlElemDesc(begP,scrollBegId));
-        li.add(new HtmlElemDesc(endP,scrollEndId));
-        li.add(new HtmlElemDesc(leftP,scrollLeftId));
-        li.add(new HtmlElemDesc(rightP,scrollRightId));
+        li.add(new HtmlElemDesc(begP, scrollBegId));
+        li.add(new HtmlElemDesc(endP, scrollEndId));
+        li.add(new HtmlElemDesc(leftP, scrollLeftId));
+        li.add(new HtmlElemDesc(rightP, scrollRightId));
         begP.addMouseDownHandler(new ClickEvent(MoveSkip.BEG));
         leftP.addMouseDownHandler(new ClickEvent(MoveSkip.LEFT));
         rightP.addMouseDownHandler(new ClickEvent(MoveSkip.RIGHT));
         endP.addMouseDownHandler(new ClickEvent(MoveSkip.END));
+        HtmlPanelFactory hFactory = GwtGiniInjector.getI()
+                .getHtmlPanelFactory();
         this.iP = i;
         if (withDate) {
-            li.add(new HtmlElemDesc(dDate.getMWidget().getWidget(),scrollDateId));
-            HtmlPanelFactory.getHtmlPanel(rI, HtmlTypeEnum.scrollWithDate, cBack, li);
-        }
-        else {
-            HtmlPanelFactory.getHtmlPanel(rI, HtmlTypeEnum.scrollWithoutDate, cBack, li);            
+            li.add(new HtmlElemDesc(dDate.getMWidget().getWidget(),
+                    scrollDateId));
+            hFactory.getHtmlPanel(HtmlTypeEnum.scrollWithDate, cBack, li);
+        } else {
+            hFactory.getHtmlPanel(HtmlTypeEnum.scrollWithoutDate, cBack, li);
         }
     }
 

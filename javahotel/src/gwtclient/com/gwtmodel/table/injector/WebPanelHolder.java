@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,31 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client;
+package com.gwtmodel.table.injector;
 
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-public abstract class CallBackHotelNumb extends CallBackHotel {
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 
-    private final int no;
-    private int ano;
-
-    public CallBackHotelNumb(final IResLocator p, final int no) {
-        super(p);
-        this.no = no;
-        ano = 0;
-        incC(no - 1);
+public class WebPanelHolder {
+    
+    private static IWebPanel iWeb;
+    
+    private WebPanelHolder() {
+        
+    }
+    
+    public static void setWebPanel(IWebPanel i) {
+        iWeb = i;
+    }
+    
+    static IWebPanel getWebPanel() {
+        return iWeb;
     }
 
-    abstract protected void go();
-
-    @Override
-    public void onMySuccess(final Object arg) {
-        ano++;
-        if (ano == no) {
-            go();
-        }
-    }
 }

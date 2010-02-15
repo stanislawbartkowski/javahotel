@@ -15,9 +15,9 @@ package com.javahotel.client.dialog.login;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.ICommand;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.dialog.DictData.SpecE;
 import com.javahotel.client.injector.HInjector;

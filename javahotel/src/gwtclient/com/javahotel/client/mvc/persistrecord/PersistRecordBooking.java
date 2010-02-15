@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.mvc.persistrecord;
 
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IPersistAction;
@@ -27,7 +27,7 @@ import com.javahotel.common.util.BillUtil;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class PersistRecordBooking extends APersistRecordDict {
@@ -38,7 +38,7 @@ class PersistRecordBooking extends APersistRecordDict {
     }
 
     @Override
-    protected void persistDict(DictType d, DictionaryP dP, CallBackHotel b) {
+    protected void persistDict(DictType d, DictionaryP dP, CommonCallBack b) {
         GWTGetService.getService().persistResBookingReturn((BookingP) dP, b);
     }
 
@@ -57,16 +57,16 @@ class PersistRecordBooking extends APersistRecordDict {
         public void success(PersistResultContext re) {
             LId id = re.getRet().getId();
             BookingP p = (BookingP) mo.getA();
-            setCustId(p,id);
+            setCustId(p, id);
             ipersist(action, mo, ires);
             rI.getR().invalidateResCache();
         }
     }
 
-    private void setCustId(BookingP p,LId custId) {
-            p.setCustomer(custId);
-            BillP bill = BillUtil.getBill(p);
-            bill.setCustomer(custId);
+    private void setCustId(BookingP p, LId custId) {
+        p.setCustomer(custId);
+        BillP bill = BillUtil.getBill(p);
+        bill.setCustomer(custId);
     }
 
     @Override
@@ -79,7 +79,7 @@ class PersistRecordBooking extends APersistRecordDict {
             runNow = true;
         }
         if ((p.getId() != null) && !mo.getCustomerModel().IsModifCustomer()) {
-            setCustId(bp,p.getId());
+            setCustId(bp, p.getId());
             runNow = true;
         }
         if (runNow) {

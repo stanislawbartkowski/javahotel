@@ -13,12 +13,14 @@
 package com.javahotel.client.panelcommand;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class CommandDrawPanel {
@@ -26,30 +28,31 @@ public class CommandDrawPanel {
     private CommandDrawPanel() {
     }
 
-    private static void psetW(IResLocator rI, final Widget w) {
-        rI.getPanel().setDCenter(w);
+    private static void psetW(IWebPanel iW, final Widget w) {
+        iW.setDCenter(w);
     }
 
     public static void setC(final IResLocator rI, final IPanelCommand ic,
             boolean setWest) {
 
+        final IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
         if (setWest) {
             IMvcWidget iw = ic.getWestWidget();
             Widget w = null;
             if (iw != null) {
                 w = iw.getWidget();
             }
-            rI.getPanel().setWest1(w);
+            iW.setWest1(w);
         }
 
         ISetGwtWidget i = new ISetGwtWidget() {
 
             public void setGwtWidget(IMvcWidget i) {
                 if (i == null) {
-                    psetW(rI, null);
+                    psetW(iW, null);
                     return;
                 }
-                psetW(rI, i.getWidget());
+                psetW(iW, i.getWidget());
                 ic.drawAction();
             }
         };

@@ -12,6 +12,9 @@
  */
 package com.javahotel.client.mvc.persistrecord;
 
+import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.javahotel.client.GWTGetService;
+import com.javahotel.client.IResLocator;
 import com.javahotel.client.mvc.auxabstract.PaymentStateModel;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.mvc.dictdata.model.IPaymentModel;
@@ -19,9 +22,6 @@ import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.PaymentP;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.CallBackHotel;
-import com.javahotel.client.GWTGetService;
 
 /**
  *
@@ -35,12 +35,11 @@ class PaymentPersist implements IPersistRecord {
         this.rI = rI;
     }
 
-    private class CallB extends CallBackHotel {
+    private class CallB extends CommonCallBack<Object> {
 
         private final IPersistResult ires;
 
         CallB(final IPersistResult iRes) {
-            super(rI);
             this.ires = iRes;
         }
 

@@ -13,7 +13,7 @@
 
 package com.javahotel.nmvc.persist.dict;
 
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IPersistAction;
@@ -24,7 +24,7 @@ import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 abstract class APersistRecordDict implements IPersistRecord {
@@ -33,26 +33,24 @@ abstract class APersistRecordDict implements IPersistRecord {
     private final DictType d;
 
     abstract protected void persistDict(final DictType d, final DictionaryP dP,
-            final CallBackHotel b);
+            final CommonCallBack b);
 
-    private class CallB extends CallBackHotel {
+    private class CallB extends CommonCallBack<ReturnPersist> {
 
         private final IPersistResult res;
         private final int action;
         private final AbstractTo a;
 
         CallB(final IPersistResult res, int action, AbstractTo a) {
-            super(rI);
             this.res = res;
             this.action = action;
             this.a = a;
         }
 
         @Override
-        public void onMySuccess(Object arg) {
-            ReturnPersist pe = (ReturnPersist) arg;
+        public void onMySuccess(ReturnPersist pe) {
             rI.getR().invalidateCacheList();
-            CallSuccess.callI(res, action, a, arg);
+            CallSuccess.callI(res, action, a, pe);
         }
     }
 
@@ -70,17 +68,17 @@ abstract class APersistRecordDict implements IPersistRecord {
         String ho = rI.getR().getHotel();
         di.setHotel(ho);
         switch (action) {
-            case IPersistAction.ADDACION:
-            case IPersistAction.MODIFACTION:
-                persistDict(d,di,new CallB(ires, action, di));
-                break;
-            case IPersistAction.DELACTION:
-                GWTGetService.getService().removeDict(d, di,
-                        new CallB(ires, action, di));
-                break;
-            default:
-                assert false : action + " invalid action code";
-                break;
+        case IPersistAction.ADDACION:
+        case IPersistAction.MODIFACTION:
+            persistDict(d, di, new CallB(ires, action, di));
+            break;
+        case IPersistAction.DELACTION:
+            GWTGetService.getService().removeDict(d, di,
+                    new CallB(ires, action, di));
+            break;
+        default:
+            assert false : action + " invalid action code";
+            break;
         }
     }
 }

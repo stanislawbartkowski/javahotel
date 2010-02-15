@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.readres.ISetResText;
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
@@ -65,11 +65,7 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
         
     }
 
-   class BackHo extends CallBackHotel<List<ReturnPersist>> {
-
-        BackHo() {
-            super(sI);
-        }
+   class BackHo extends CommonCallBack<List<ReturnPersist>> {
 
         @Override
         public void onMySuccess(List<ReturnPersist> li) {

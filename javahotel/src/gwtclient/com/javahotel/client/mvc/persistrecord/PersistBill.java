@@ -16,7 +16,7 @@ package com.javahotel.client.mvc.persistrecord;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IPersistAction;
@@ -33,7 +33,7 @@ import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.CustomerP;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class PersistBill implements IPersistRecord {
@@ -44,13 +44,12 @@ public class PersistBill implements IPersistRecord {
         this.rI = rI;
     }
 
-    private class CC extends CallBackHotel {
+    private class CC extends CommonCallBack<Object> {
 
-       private final IPersistResult pR;
-       private final int action;
+        private final IPersistResult pR;
+        private final int action;
 
-        CC(IPersistResult p,int action) {
-            super(rI);
+        CC(IPersistResult p, int action) {
             this.pR = p;
             this.action = action;
         }
@@ -63,12 +62,11 @@ public class PersistBill implements IPersistRecord {
 
     }
 
-
     public void persist(int action, RecordModel a, IPersistResult ires) {
         if (action == IPersistAction.DELACTION) {
             return;
         }
-        IGetAddPaymentList iG =  (IGetAddPaymentList) a.getAuxData1();
+        IGetAddPaymentList iG = (IGetAddPaymentList) a.getAuxData1();
         String resName = iG.getResName();
         List<NumAddPaymentP> aList = iG.getList();
         ABillsCustomer aB = (ABillsCustomer) a.getA();
@@ -81,7 +79,7 @@ public class PersistBill implements IPersistRecord {
         BillP bi = new BillP();
         bi.setBillType(BillEnumTypes.IndividualBill);
         bi.setCustomer(cu.getId());
-//        a.getBeforea();
+        // a.getBeforea();
         bi.setName(bb.getName());
         bi.setDescription(bb.getDesc());
         bi.setOPrice(bb.getOPrice());
@@ -93,8 +91,8 @@ public class PersistBill implements IPersistRecord {
         pa.setAddpayment(aL);
         pa.setReservName(resName);
         pa.setBill(bi);
-        GWTGetService.getService().hotelOp(HotelOpType.PersistAddPayment,
-                pa, new CC(ires,action));
+        GWTGetService.getService().hotelOp(HotelOpType.PersistAddPayment, pa,
+                new CC(ires, action));
     }
 
 }

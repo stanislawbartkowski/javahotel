@@ -14,15 +14,12 @@ package com.javahotel.view;
 
 import java.util.List;
 
+import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.DictData;
-import com.javahotel.client.dialog.ICommand;
-import com.javahotel.client.dialog.MvcWindowSize;
 import com.javahotel.client.mvc.checkmodel.ICheckDictModel;
-import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.client.mvc.record.view.IRecordViewFactory;
 import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
-import com.javahotel.client.panel.IWebHotelPanel;
 import com.javahotel.client.panelcommand.EPanelCommand;
 import com.javahotel.client.stackmenu.model.IStackMenuModel;
 import com.javahotel.client.stackmenu.view.IStackMenuClicked;
@@ -41,7 +38,7 @@ public interface IViewInterface {
     IStackMenuView getStackView(IStackMenuModel sMode,
             IStackMenuClicked iClicked);
 
-    IWebHotelPanel getPanel(IResLocator rI, ICommand logOut);
+    IWebPanel getPanel(IResLocator rI, ICommand logOut);
 
     ICheckDictModel getModel(IResLocator rI, DictType d);
 

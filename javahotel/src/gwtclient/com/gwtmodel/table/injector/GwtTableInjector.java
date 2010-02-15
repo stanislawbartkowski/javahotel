@@ -32,6 +32,7 @@ import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.WebPanelFactory;
 
 @GinModules(GwtTableInjectModule.class)
@@ -78,4 +79,6 @@ public interface GwtTableInjector extends Ginjector {
     ContrButtonViewFactory getContrButtonViewFactory();
 
     WebPanelFactory getWebPanelFactory();
+    
+    IWebPanel getWebPanel();
 }

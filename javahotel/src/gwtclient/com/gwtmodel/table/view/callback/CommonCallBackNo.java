@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,25 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.gwtmodel.table.view.callback;
 
-package com.javahotel.view.gwt.panel.view;
+public abstract class CommonCallBackNo<T> extends CommonCallBack<T> {
 
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.ICommand;
-import com.javahotel.client.panel.IWebHotelPanel;
+    private final int no;
+    private int ano;
 
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-public class WebHotelPanelFactory {
-    
-    private WebHotelPanelFactory() {
-        
+    public CommonCallBackNo(final int no) {
+        this.no = no;
+        ano = 0;
+        incC(no - 1);
     }
 
-    public static IWebHotelPanel getPanel(IResLocator  rI, ICommand logOut) {
-        return new WebHotelPanel(rI, logOut);
-    }
+    abstract protected void go();
 
+    @Override
+    public void onMySuccess(final T arg) {
+        ano++;
+        if (ano == no) {
+            go();
+        }
+    }
 }

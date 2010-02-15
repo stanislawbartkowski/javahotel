@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.gwtmodel.table.SynchronizeList;
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
@@ -50,12 +50,11 @@ class PersistGuestList implements IPersistRecord {
     private SS syncs;
     private Map<String, List<GuestP>> ma;
 
-    private class B extends CallBackHotel<ReturnPersist> {
+    private class B extends CommonCallBack<ReturnPersist> {
 
         private final IPersistResult iRes;
 
         B(IPersistResult res) {
-            super(rI);
             this.iRes = res;
         }
 

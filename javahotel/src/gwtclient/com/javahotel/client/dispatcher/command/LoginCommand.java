@@ -15,6 +15,8 @@ package com.javahotel.client.dispatcher.command;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.inject.Inject;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
@@ -43,14 +45,17 @@ public class LoginCommand extends UICommand {
             ho.setSpacing(15);
             ho.add(loguser.getWidget());
             ho.add(logadmin.getWidget());
-            rI.getPanel().setDCenter(ho);
+            iW.setDCenter(ho);
         }
 
     }
+    
+    private final IWebPanel iW;
 
     @Inject
     public LoginCommand(final IResLocator i) {
         super(i, EnumDialog.STARTLOGIN);
+        this.iW = GwtGiniInjector.getI().getWebPanel();
     }
 
     private class LogUserAdmin implements ISetGwtWidget {

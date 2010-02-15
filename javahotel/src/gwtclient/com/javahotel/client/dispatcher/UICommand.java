@@ -13,8 +13,8 @@
 package com.javahotel.client.dispatcher;
 
 import com.google.gwt.user.client.Command;
+import com.gwtmodel.table.ICommand;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.ICommand;
 
 /**
  * 

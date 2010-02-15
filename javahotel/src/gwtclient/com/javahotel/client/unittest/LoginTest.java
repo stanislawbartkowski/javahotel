@@ -13,8 +13,8 @@
 package com.javahotel.client.unittest;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.gwtmodel.table.ICommand;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.ICommand;
 import com.javahotel.client.dispatcher.EnumAction;
 import com.javahotel.client.dispatcher.EnumDialog;
 import com.javahotel.client.dispatcher.IDispatch;

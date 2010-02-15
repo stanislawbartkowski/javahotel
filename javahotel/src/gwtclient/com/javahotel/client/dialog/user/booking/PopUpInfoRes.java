@@ -19,17 +19,17 @@ import java.util.List;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.CallBackHotel;
+import com.gwtmodel.table.IClickNextYesNo;
+import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.dialog.IClickNextYesNo;
 import com.javahotel.client.dialog.IWidgetSize;
 import com.javahotel.client.mvc.contrpanel.model.ContrButton;
 import com.javahotel.client.mvc.contrpanel.model.ContrButtonFactory;
 import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
 import com.javahotel.client.mvc.contrpanel.view.IControlClick;
 import com.javahotel.client.mvc.persistrecord.IPersistResult;
-import com.javahotel.client.mvc.util.YesNoDialog;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.client.roominfo.RoomInfoData;
 import com.javahotel.client.widgets.popup.PopUpWithMenuClose;
@@ -38,7 +38,6 @@ import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.common.toobject.ResObjectP;
@@ -141,11 +140,7 @@ class PopUpInfoRes {
 
     private class YesB implements IClickNextYesNo {
 
-        private class RBack extends CallBackHotel<ReturnPersist> {
-
-            RBack() {
-                super(rI);
-            }
+        private class RBack extends CommonCallBack<ReturnPersist> {
 
             @Override
             public void onMySuccess(ReturnPersist ret) {
@@ -178,7 +173,7 @@ class PopUpInfoRes {
                 }
                 switch (co.getActionId()) {
                 case CHANGETOSTAY:
-                    YesNoDialog dial = new YesNoDialog(rI, "Zamieniasz",
+                    YesNoDialog dial = new YesNoDialog("Zamieniasz",
                             new YesB());
                     dial.show(w);
                     break;
