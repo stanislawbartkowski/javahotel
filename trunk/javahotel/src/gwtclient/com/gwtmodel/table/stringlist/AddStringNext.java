@@ -33,7 +33,5 @@ public class AddStringNext {
         e.setLp(ma);
         dList.getLi().add(e); // not dList.append !
     }
-    
-    
 
 }

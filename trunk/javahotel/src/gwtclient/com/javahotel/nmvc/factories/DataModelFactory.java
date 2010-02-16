@@ -18,6 +18,7 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.view.util.FormUtil;
 import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.record.view.helper.ExtractFields;
@@ -56,10 +57,11 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
     }
 
     public void fromDataToView(IVModelData aFrom, FormLineContainer fContainer) {
-        for (FormField d : fContainer.getfList()) {
-            String s = aFrom.getS(d.getFie());
-            d.getELine().setVal(s);
-        }
+//        for (FormField d : fContainer.getfList()) {
+//            String s = aFrom.getS(d.getFie());
+//            d.getELine().setVal(s);
+//        }
+        FormUtil.copyFromDataToView(aFrom, fContainer);
 
     }
 

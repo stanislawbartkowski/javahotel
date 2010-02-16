@@ -15,7 +15,10 @@ package com.gwtmodel.table.view.util;
 import java.util.List;
 
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormLineView;
 
 public class FormUtil {
 
@@ -32,4 +35,19 @@ public class FormUtil {
         return null;
     }
 
+    public static void copyFromDataToView(IVModelData aFrom,
+            FormLineContainer fContainer) {
+        for (FormField d : fContainer.getfList()) {
+            String s = aFrom.getS(d.getFie());
+            d.getELine().setVal(s);
+        }
+    }
+
+    public static void copyFromViewToData(FormLineContainer fContainer, IVModelData aTo) {
+        for (FormField d : fContainer.getfList()) {
+            IVField vFie = d.getFie();
+            IFormLineView vView = d.getELine();
+            aTo.setS(vFie, vView.getVal());
+        }
+    }
 }

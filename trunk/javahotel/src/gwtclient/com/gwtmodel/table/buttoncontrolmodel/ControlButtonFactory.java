@@ -24,6 +24,7 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> removeButton;
     private final List<ControlButtonDesc> chooseButton;
     private final List<ControlButtonDesc> yesnoButton;
+    private final List<ControlButtonDesc> loginButton;
 
     public ControlButtonFactory() {
         dButton = new ArrayList<ControlButtonDesc>();
@@ -49,16 +50,24 @@ public class ControlButtonFactory {
                 new ClickButtonType(ClickButtonType.StandClickEnum.RESIGN)));
 
         chooseButton = new ArrayList<ControlButtonDesc>();
-        chooseButton.add(new ControlButtonDesc(null, "Wybierasz",
-                new ClickButtonType(ClickButtonType.StandClickEnum.CHOOSELIST)));
-        chooseButton.add(new ControlButtonDesc(null, "Rezygnujesz",
-                new ClickButtonType(ClickButtonType.StandClickEnum.RESIGNLIST)));
+        chooseButton
+                .add(new ControlButtonDesc(null, "Wybierasz",
+                        new ClickButtonType(
+                                ClickButtonType.StandClickEnum.CHOOSELIST)));
+        chooseButton
+                .add(new ControlButtonDesc(null, "Rezygnujesz",
+                        new ClickButtonType(
+                                ClickButtonType.StandClickEnum.RESIGNLIST)));
 
         yesnoButton = new ArrayList<ControlButtonDesc>();
-        yesnoButton.add(new ControlButtonDesc(null, "Tak",
+        yesnoButton.add(new ControlButtonDesc(null, "Tak", new ClickButtonType(
+                ClickButtonType.StandClickEnum.ACCEPT)));
+        yesnoButton.add(new ControlButtonDesc(null, "Nie", new ClickButtonType(
+                ClickButtonType.StandClickEnum.RESIGN)));
+
+        loginButton = new ArrayList<ControlButtonDesc>();
+        loginButton.add(new ControlButtonDesc(null, "Login",
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
-        yesnoButton.add(new ControlButtonDesc(null, "Nie",
-                new ClickButtonType(ClickButtonType.StandClickEnum.RESIGN)));
     }
 
     public ListOfControlDesc constructCrudList() {
@@ -79,6 +88,10 @@ public class ControlButtonFactory {
 
     public ListOfControlDesc constructYesNoButton() {
         return new ListOfControlDesc(yesnoButton);
+    }
+
+    public ListOfControlDesc constructLoginButton() {
+        return new ListOfControlDesc(loginButton);
     }
 
 }

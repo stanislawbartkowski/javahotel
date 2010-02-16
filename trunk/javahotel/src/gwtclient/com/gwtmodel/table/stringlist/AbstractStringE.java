@@ -17,9 +17,9 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.persist.IVModelDataEquable;
 
 public abstract class AbstractStringE implements IVModelDataEquable {
-    
+
     private long lp;
-    
+
     public long getLp() {
         return lp;
     }
@@ -29,12 +29,12 @@ public abstract class AbstractStringE implements IVModelDataEquable {
     }
 
     private String s;
-    
+
     public boolean eq(IVModelDataEquable o) {
         AbstractStringE e = (AbstractStringE) o;
-        return lp == e.lp;        
+        return lp == e.lp;
     }
-    
+
     public String getS(IVField fie) {
         return s;
     }
