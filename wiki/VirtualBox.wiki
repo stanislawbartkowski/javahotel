@@ -1,4 +1,4 @@
-Some information how to set up networking for guest system in Virtual Box
+#Sumary Some information how to set up networking for guest system in Virtual Box
 
 <wiki:toc max_depth="2" />
 
