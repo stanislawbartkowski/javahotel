@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,24 +10,37 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.rdef;
+package com.gwtmodel.table.login;
 
-import java.util.List;
+import com.gwtmodel.table.IVField;
 
-public class FormLineContainer {
+public class LoginField implements IVField {
 
-    private final List<FormField> fList;
+    public enum F {
+        LOGINNAME, PASSWORD, OTHER
+    };
 
-    public FormLineContainer(List<FormField> fList) {
-        this.fList = fList;
+    public F getF() {
+        return f;
     }
 
-    public List<FormField> getfList() {
-        return fList;
+    private final F f;
+
+    public LoginField(F f) {
+        this.f = f;
     }
 
-    public void addFormField(FormField f) {
-        fList.add(f);
+    public boolean eq(IVField o) {
+        LoginField l = (LoginField) o;
+        return f == l.f;
+    }
+
+    public boolean isLogin() {
+        return f == F.LOGINNAME;
+    }
+
+    public boolean isPassword() {
+        return f == F.PASSWORD;
     }
 
 }

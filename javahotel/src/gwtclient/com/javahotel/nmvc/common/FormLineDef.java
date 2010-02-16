@@ -20,11 +20,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
-import com.javahotel.client.CommonUtil;
 import com.javahotel.client.idialog.IKeyboardAction;
 import com.javahotel.client.ifield.IChangeListener;
 import com.javahotel.client.ifield.ILineField;
-import com.javahotel.common.dateutil.DateFormatUtil;
 
 public class FormLineDef implements IFormLineView {
 

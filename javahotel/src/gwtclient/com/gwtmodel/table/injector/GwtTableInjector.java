@@ -16,6 +16,7 @@ import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
+import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
@@ -79,6 +80,8 @@ public interface GwtTableInjector extends Ginjector {
     ContrButtonViewFactory getContrButtonViewFactory();
 
     WebPanelFactory getWebPanelFactory();
-    
+
     IWebPanel getWebPanel();
+
+    ControlButtonViewFactory getControlButtonViewFactory();
 }

@@ -80,11 +80,11 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
 
     }
-    
+
     private class GetterContainer implements ISlotCaller {
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            return construct(dType,fContainer);
+            return construct(dType, fContainer);
         }
 
     }
@@ -113,12 +113,12 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
-            FormLineContainer fContainer, TableFactoriesContainer cFactories,IDataModelFactory dFactory) {
+            FormLineContainer fContainer, TableFactoriesContainer cFactories,
+            IDataModelFactory dFactory) {
         this.fContainer = fContainer;
         this.dType = dType;
         gView = gFactory.construct(fContainer, cFactories
                 .getDataFormConstructorAbstractFactory().construct(dType));
-//        dFactory = cFactories.getDataModelFactory();
         this.dFactory = dFactory;
         registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
                 new InvalidateMess());

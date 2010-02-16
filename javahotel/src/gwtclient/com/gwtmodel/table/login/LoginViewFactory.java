@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,40 +10,40 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.stringlist;
+package com.gwtmodel.table.login;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
-class StringFactory implements IFormDefFactory {
+public class LoginViewFactory {
 
-    private final String fieldName;
-    private final String title;
-
-    StringFactory(String fieldName, String title) {
-        this.fieldName = fieldName;
-        this.title = title;
+    private LoginViewFactory() {
     }
 
-    public FormLineContainer construct(IDataType dType) {
+    public static FormLineContainer construct() {
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
-        IFormLineView textLine = eFactory.constructTextField();
-        di.add(new FormField(fieldName, textLine, new StringF()));
+        IFormLineView loginName = eFactory.constructTextField();
+        di.add(new FormField("Symbol", loginName, new LoginField(
+                LoginField.F.LOGINNAME)));
+        IFormLineView password = eFactory.constructPasswordField();
+        di.add(new FormField("Hasło", password, new LoginField(
+                LoginField.F.PASSWORD)));
         return new FormLineContainer(di);
     }
 
-    public String getFormTitle(IDataType dType) {
-        return title;
+    public static ILoginDataView contructView(int cellId, int firstId, IDataType dType,
+            FormLineContainer lContainer, IDataModelFactory dFactory) {
+        return new LoginDataView(cellId, firstId, dType, lContainer, dFactory);
     }
 
 }

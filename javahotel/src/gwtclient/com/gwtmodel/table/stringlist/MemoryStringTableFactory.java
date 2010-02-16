@@ -19,10 +19,10 @@ public class MemoryStringTableFactory {
     public MemoryStringTable construct() {
         return new MemoryStringTable();
     }
-    
+
     public IMemoryStringList construct(String fieldName, String title,
             IStringEFactory eFactory, ISlotSignaller setGwt) {
-        return new MemoryStringList(fieldName,title,eFactory,setGwt);
+        return new MemoryStringList(fieldName, title, eFactory, setGwt);
     }
 
 }
