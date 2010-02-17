@@ -58,6 +58,7 @@ import com.javahotel.client.mvc.table.view.IGetTableViewFactory;
 import com.javahotel.client.paymentdata.PaymentData;
 import com.javahotel.client.start.IWebEntry;
 import com.javahotel.client.start.MainWebEntry;
+import com.javahotel.nmvc.ewidget.EWidgetFactory;
 import com.javahotel.nmvc.factories.RegisterFactories;
 import com.javahotel.nmvc.factories.impl.RecordFormDefFactory;
 import com.javahotel.nmvc.pricemodel.PriceSeasonModelFactory;
@@ -110,6 +111,7 @@ public class GiniClientModule extends AbstractGinModule {
         bind(PersistRecordFactory.class).in(Singleton.class);
         bind(PriceSeasonModelFactory.class).in(Singleton.class);
         bind(RecordFormDefFactory.class).in(Singleton.class);
+        bind(EWidgetFactory.class).in(Singleton.class);
         bind(GwtTableInjectModule.class);        
     }
 }

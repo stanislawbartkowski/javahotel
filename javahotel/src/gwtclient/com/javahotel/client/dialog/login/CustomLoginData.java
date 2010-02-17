@@ -10,56 +10,46 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.login;
+package com.javahotel.client.dialog.login;
 
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.login.LoginData;
+import com.gwtmodel.table.login.LoginField;
+import com.javahotel.common.util.StringU;
 
-public class LoginData implements IVModelData {
+class CustomLoginData extends LoginData {
 
-    public String getLoginName() {
-        return loginName;
+    public String getHotel() {
+        return hotel;
     }
 
-    public String getPassword() {
-        return password;
-    }
+    private String hotel;
 
-    private String loginName;
-    private String password;
-
+    @Override
     public String getS(IVField fie) {
         LoginField f = (LoginField) fie;
-        if (f.isPassword()) {
-            return password;
+        if (f.getF() == LoginField.F.OTHER) {
+            return hotel;
         }
-        if (f.isLogin()) {
-            return loginName;
-        }
-        return null;
+        return super.getS(fie);
     }
 
+    @Override
     public boolean isEmpty(IVField fie) {
         LoginField f = (LoginField) fie;
-        if (f.isLogin()) {
-            return CUtil.EmptyS(loginName);
+        if (f.getF() == LoginField.F.OTHER) {
+            return StringU.isEmpty(hotel);
         }
-        if (f.isPassword()) {
-            return CUtil.EmptyS(password);
-        }
-        return false;
+        return super.isEmpty(fie);
     }
 
+    @Override
     public void setS(IVField fie, String s) {
         LoginField f = (LoginField) fie;
-        if (f.isLogin()) {
-            loginName = s;
+        if (f.getF() == LoginField.F.OTHER) {
+            hotel = s;
             return;
         }
-        if (f.isPassword()) {
-            password = s;
-        }
+        super.setS(fie, s);
     }
-
 }

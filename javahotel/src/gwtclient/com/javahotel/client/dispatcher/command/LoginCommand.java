@@ -20,7 +20,6 @@ import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
-import com.javahotel.client.dialog.login.ELoginDialog;
 import com.javahotel.client.dialog.login.ETableLoginDialog;
 import com.javahotel.client.dispatcher.EnumAction;
 import com.javahotel.client.dispatcher.EnumDialog;
@@ -50,7 +49,7 @@ public class LoginCommand extends UICommand {
         }
 
     }
-    
+
     private final IWebPanel iW;
 
     @Inject
@@ -82,9 +81,9 @@ public class LoginCommand extends UICommand {
 
     public void execute() {
         SynchList sList = new SynchList();
-        ETableLoginDialog loguser = new ETableLoginDialog(rI, new LogUserAdmin(sList,
-                true), true, createCLick(EnumAction.LOGINUSER));
-        ELoginDialog logadmin = new ELoginDialog(rI, new LogUserAdmin(sList,
-                false), false, createCLick(EnumAction.LOGINADMIN));
+        ETableLoginDialog loguser = new ETableLoginDialog(new LogUserAdmin(
+                sList, true), true, createCLick(EnumAction.LOGINUSER));
+        ETableLoginDialog logadmin = new ETableLoginDialog(new LogUserAdmin(
+                sList, false), false, createCLick(EnumAction.LOGINADMIN));
     }
 }

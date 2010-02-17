@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.slotmediator;
+package com.gwtmodel.table;
 
-public class SlotMediatorFactory {
+public interface IBackValidate {
 
-    public ISlotMediator construct() {
-        return new SlotMediator();
-    }
+    void invalid(InvalidateFormContainer errMess);
+
+    void valid();
 
 }

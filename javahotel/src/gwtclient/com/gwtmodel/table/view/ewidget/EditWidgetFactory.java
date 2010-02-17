@@ -54,6 +54,12 @@ public class EditWidgetFactory {
         return lB;
     }
 
+    public IFormLineView constructListValuesCombo(IGetDataList iGet) {
+        GetValueLB lB = new GetValueLB(tFactories);
+        AddBoxValues.addValues(iGet, lB);
+        return lB;
+    }
+
     public IFormLineView constructPasswordField() {
         return new FieldTextField(tFactories, true);
     }
@@ -100,8 +106,8 @@ public class EditWidgetFactory {
         List<ComboVal> vals = new ArrayList<ComboVal>();
         for (String s : ma.keySet()) {
             String val = ma.get(s);
-            vals.add(new ComboVal(s,val));
+            vals.add(new ComboVal(s, val));
         }
-        return new ComboBoxField(tFactories,vals);
+        return new ComboBoxField(tFactories, vals);
     }
 }

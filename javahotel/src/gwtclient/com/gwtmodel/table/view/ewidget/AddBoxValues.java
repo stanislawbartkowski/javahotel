@@ -17,6 +17,8 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.ReadDictList;
 import com.gwtmodel.table.ReadDictList.IListCallBack;
@@ -67,6 +69,24 @@ class AddBoxValues {
 
     static void addValues(IDataType dType, final IValueLB e) {
         new ReadDictList<IDataListType>().readList(dType, new R(e));
+    }
+
+    private static class RR implements IGetDataListCallBack {
+
+        private final IValueLB e;
+
+        RR(final IValueLB e) {
+            this.e = e;
+        }
+
+        public void set(IDataListType dataList) {
+            setValue(dataList, e);
+        }
+
+    }
+
+    static void addValues(IGetDataList iGet, final IValueLB e) {
+        iGet.call(new RR(e));
     }
 
 }

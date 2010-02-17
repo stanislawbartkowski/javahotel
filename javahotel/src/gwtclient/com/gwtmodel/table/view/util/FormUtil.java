@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IVField;
@@ -43,11 +44,21 @@ public class FormUtil {
         }
     }
 
-    public static void copyFromViewToData(FormLineContainer fContainer, IVModelData aTo) {
+    public static void copyFromViewToData(FormLineContainer fContainer,
+            IVModelData aTo) {
         for (FormField d : fContainer.getfList()) {
             IVField vFie = d.getFie();
             IFormLineView vView = d.getELine();
             aTo.setS(vFie, vView.getVal());
         }
+    }
+
+    public static List<IVField> getVList(FormLineContainer fContainer) {
+        List<IVField> fList = new ArrayList<IVField>();
+        for (FormField d : fContainer.getfList()) {
+            IVField vFie = d.getFie();
+            fList.add(vFie);
+        }
+        return fList;
     }
 }
