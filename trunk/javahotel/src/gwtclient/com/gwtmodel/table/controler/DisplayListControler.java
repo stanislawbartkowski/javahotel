@@ -66,7 +66,7 @@ class DisplayListControler implements IDataControler {
         IListDataView daView = lDataFactory.construct(dType);
         ControlButtonViewFactory bFactory = tFactories.getbViewFactory();
         IControlButtonView bView = bFactory.construct(listButton);
-        slMediator = SlotMediatorFactory.construct();
+        slMediator = tFactories.getSlotMediatorFactory().construct();
         slContainer = slMediator.getSlContainer();
 
         slMediator.registerSlotContainer(panelId, pView);

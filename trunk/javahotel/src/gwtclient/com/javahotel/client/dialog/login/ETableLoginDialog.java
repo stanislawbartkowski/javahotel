@@ -15,27 +15,23 @@ package com.javahotel.client.dialog.login;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.login.ILoginDataView;
-import com.gwtmodel.table.login.LoginData;
-import com.gwtmodel.table.login.LoginDataModelFactory;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
-import com.javahotel.client.idialog.GetIEditFactory;
-import com.javahotel.client.ifield.ILineField;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.HotelP;
-import com.javahotel.common.util.StringU;
-import com.javahotel.nmvc.common.FormLineDef;
+import com.javahotel.nmvc.ewidget.EWidgetFactory;
 
 public class ETableLoginDialog {
 
@@ -60,79 +56,37 @@ public class ETableLoginDialog {
         }
     }
 
-    private class CustomLoginData extends LoginData {
+    private class Valid implements ISlotSignaller {
 
-        private String hotel;
+        final ICommand iNext;
 
-        @Override
-        public String getS(IVField fie) {
-            LoginField f = (LoginField) fie;
-            if (f.getF() == LoginField.F.OTHER) {
-                return hotel;
-            }
-            return super.getS(fie);
+        Valid(final ICommand iNext) {
+            this.iNext = iNext;
         }
 
-        @Override
-        public boolean isEmpty(IVField fie) {
-            LoginField f = (LoginField) fie;
-            if (f.getF() == LoginField.F.OTHER) {
-                return StringU.isEmpty(hotel);
-            }
-            return super.isEmpty(fie);
+        public void signal(ISlotSignalContext slContext) {
+            iNext.execute();
         }
 
-        @Override
-        public void setS(IVField fie, String s) {
-            LoginField f = (LoginField) fie;
-            if (f.getF() == LoginField.F.OTHER) {
-                hotel = s;
-                return;
-            }
-            super.setS(fie, s);
-        }
     }
 
-    private class CustomLoginDataModelFactory extends LoginDataModelFactory {
-
-        @Override
-        public IVModelData construct(IDataType dType) {
-            return new CustomLoginData();
-        }
-
-        private LoginField[] getLi() {
-            LoginField[] li = { new LoginField(LoginField.F.LOGINNAME),
-                    new LoginField(LoginField.F.PASSWORD),
-                    new LoginField(LoginField.F.OTHER) };
-            return li;
-        }
-
-        @Override
-        public void copyFromPersistToModel(IDataType dType, IVModelData from,
-                IVModelData to) {
-            copyData(getLi(), from, to);
-        }
-
-        @Override
-        public void fromModelToPersist(IDataType dType, IVModelData from,
-                IVModelData to) {
-            copyData(getLi(), from, to);
-        }
-    }
-
-    public ETableLoginDialog(final IResLocator rI, ISetGwtWidget iSet,
+    public ETableLoginDialog(ISetGwtWidget iSet,
             final boolean user, final ICommand iNext) {
         FormLineContainer lContainer = LoginViewFactory.construct();
+        IDataType dType = new LoginType();
         if (user) {
-            ILineField hotel = GetIEditFactory.getListValuesBox(rI,
-                    RType.AllHotels, new CommandParam(), HotelP.F.name);
-            FormField f = new FormField("Hotel", new FormLineDef(hotel), new LoginField(
-                    LoginField.F.OTHER));
+            EWidgetFactory eFactory = HInjector.getI().getEWidgetFactory();
+            IFormLineView hotel = eFactory.getListValuesBox(RType.AllHotels, new CommandParam(), HotelP.F.name);
+            FormField f = new FormField("Hotel", hotel, new LoginField(LoginField.F.OTHER));            
             lContainer.addFormField(f);
         }
-        ILoginDataView dView = LoginViewFactory.contructView(0, 1,
-                new LoginType(), lContainer, new CustomLoginDataModelFactory());
+
+        IDataValidateAction vAction = new ValidateLogin(dType, user, lContainer);
+        ILoginDataView dView = LoginViewFactory.contructView(0, 1, dType,
+                lContainer, new CustomLoginDataModelFactory(), vAction);
         dView.getSlContainer().registerSubscriber(0, new SetGwt(iSet));
+        dView.getSlContainer().registerSubscriber(DataActionEnum.ValidSignal,
+                dType, new Valid(iNext));
         dView.startPublish(0);
     }
 }

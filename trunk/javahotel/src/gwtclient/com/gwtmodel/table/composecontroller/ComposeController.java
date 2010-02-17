@@ -18,12 +18,10 @@ import java.util.List;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
-import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
@@ -44,7 +42,7 @@ class ComposeController implements IComposeController {
 
     ComposeController(TablesFactories tFactories, IDataType dType,
             IDataModelFactory dFactory) {
-        slMediator = SlotMediatorFactory.construct();
+        slMediator = tFactories.getSlotMediatorFactory().construct();
         pViewFactory = tFactories.getpViewFactory();
         this.dType = dType;
         slFactory = tFactories.getSlTypeFactory();

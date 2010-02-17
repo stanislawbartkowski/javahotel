@@ -41,7 +41,7 @@ import com.javahotel.client.mvc.validator.ISignalValidate;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class ELoginDialog {
+class ELoginDialog {
 
     private final IResLocator rI;
     private final ICommand iNext;

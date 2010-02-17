@@ -14,10 +14,10 @@ package com.gwtmodel.table.slotmediator;
 
 import com.gwtmodel.table.slotmodel.ISlotable;
 
+public interface ISlotMediator extends ISlotable {
 
-public interface ISlotMediator extends  ISlotable {
-    
     void registerSlotContainer(int cellId, ISlotable iSLo);
-    
-    
+
+    void registerSlotContainer(ISlotable iSlo);
+
 }

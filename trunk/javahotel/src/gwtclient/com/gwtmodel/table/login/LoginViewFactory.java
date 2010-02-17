@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -41,9 +42,11 @@ public class LoginViewFactory {
         return new FormLineContainer(di);
     }
 
-    public static ILoginDataView contructView(int cellId, int firstId, IDataType dType,
-            FormLineContainer lContainer, IDataModelFactory dFactory) {
-        return new LoginDataView(cellId, firstId, dType, lContainer, dFactory);
+    public static ILoginDataView contructView(int cellId, int firstId,
+            IDataType dType, FormLineContainer lContainer,
+            IDataModelFactory dFactory, IDataValidateAction vAction) {
+        return new LoginDataView(cellId, firstId, dType, lContainer, dFactory,
+                vAction);
     }
 
 }

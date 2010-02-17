@@ -57,7 +57,7 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
                     }
                 }
             }
-            
+
             for (SlotSubscriberType so : slContainer.getListOfSubscribers()) {
                 if (sl.eq(so.getSlType())) {
                     so.getSlSignaller().signal(slContext);
@@ -101,5 +101,9 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
             c.iSlo.startPublish(c.cellId);
         }
     }
-    
+
+    public void registerSlotContainer(ISlotable iSlo) {
+        registerSlotContainer(-1, iSlo);
+    }
+
 }
