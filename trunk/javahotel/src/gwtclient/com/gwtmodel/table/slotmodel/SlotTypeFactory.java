@@ -19,32 +19,36 @@ public class SlotTypeFactory {
 
     public SlotType construct(DataActionEnum dataActionEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.DataAction, null, null,
-                dataActionEnum, null, -1, dType, null);
+                dataActionEnum, null, -1, dType, null, null);
     }
 
     public SlotType construct(GetActionEnum gEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
-                -1, dType, gEnum);
+                -1, dType, gEnum, null);
     }
 
     public SlotType construct(IDataType dType, IVField fie) {
         return new SlotType(SlotEventEnum.ChangeValue, fie, null, null, null,
-                -1, dType, null);
+                -1, dType, null, null);
     }
 
     public SlotType construct(int cellId) {
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
-                null, cellId, null, null);
+                null, cellId, null, null, null);
     }
 
     public SlotType construct(ClickButtonType buttonClick) {
         return new SlotType(SlotEventEnum.ClickButton, null, buttonClick, null,
-                null, -1, null, null);
+                null, -1, null, null, null);
     }
 
     public SlotType construct(ClickButtonType.StandClickEnum clickEnum) {
         return new SlotType(SlotEventEnum.ClickButton, null,
-                new ClickButtonType(clickEnum), null, null, -1, null, null);
+                new ClickButtonType(clickEnum), null, null, -1, null, null, null);
     }
 
+    public SlotType construct(String stringButton) {
+        return new SlotType(SlotEventEnum.ClickString, null,
+                null, null, null, -1, null, null, stringButton);
+    }
 }

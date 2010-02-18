@@ -31,4 +31,7 @@ public enum SlotEventEnum {
     
     /** Getter. */
     GetterCaller,
+
+    /** ClickString. */
+    ClickString
 }

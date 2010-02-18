@@ -17,7 +17,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 
 public class ControlButtonViewFactory {
-    
+
     private final ContrButtonViewFactory vFactory;
 
     @Inject
@@ -26,7 +26,6 @@ public class ControlButtonViewFactory {
     }
 
     public IControlButtonView construct(ListOfControlDesc listButton) {
-        return new ControlButtonView(vFactory,listButton);
+        return new ControlButtonView(vFactory, listButton);
     }
-
 }
