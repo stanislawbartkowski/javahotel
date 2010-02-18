@@ -56,6 +56,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(bType, gwtWidget);
     }
 
+    protected void publish(String stringButton, IGWidget gwtWidget) {
+        slContainer.publish(stringButton, gwtWidget);
+    }
+
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
             InvalidateFormContainer errContainer) {
         slContainer.publish(dataActionEnum, dType, errContainer);

@@ -22,7 +22,6 @@ public class SlotType implements IEquatable<SlotType> {
 
     /** Slot event type. */
     private final SlotEventEnum slEnum;
-
     private final DataActionEnum dataActionEnum;
 
     public DataActionEnum getDataActionEnum() {
@@ -44,55 +43,53 @@ public class SlotType implements IEquatable<SlotType> {
     public List<SlotType> getSlList() {
         return slList;
     }
-
     /** Field type (ChangeValue) . */
     private final IVField fie;
-
     /** Button click number (ClickButton). */
     private final ClickButtonType buttonClick;
-
     /** Composite slot */
     private final List<SlotType> slList;
-
     /** Panel identifier for CallBackWidget. */
     private final int cellId;
-
     /** Data identifier for list. */
     private final IDataType dType;
-
     /** Getter. */
     private final GetActionEnum gEnum;
+    /** ClockString. */
+    private final String buttonString;
 
     public boolean eq(SlotType slType) {
         if (slEnum != slType.slEnum) {
             return false;
         }
         switch (slEnum) {
-        case ChangeValue:
-            if (!fie.eq(slType.getFie())) {
-                return false;
-            }
-            return dType.eq(slType.dType);
-        case CallBackWidget:
-            return cellId == slType.cellId;
-        case ClickButton:
-            return buttonClick.eq(slType.buttonClick);
-        case DataAction:
-            if (dataActionEnum != slType.dataActionEnum) {
-                return false;
-            }
-            if (dType == null) {
-                return slType.dType == null;
-            }
-            if (slType.dType == null) {
-                return false;
-            }
-            return dType.eq(slType.dType);
-        case GetterCaller:
-            if (gEnum != slType.gEnum) {
-                return false;
-            }
-            return dType.eq(slType.dType);
+            case ClickString:
+                return buttonString.equals(slType.buttonString);
+            case ChangeValue:
+                if (!fie.eq(slType.getFie())) {
+                    return false;
+                }
+                return dType.eq(slType.dType);
+            case CallBackWidget:
+                return cellId == slType.cellId;
+            case ClickButton:
+                return buttonClick.eq(slType.buttonClick);
+            case DataAction:
+                if (dataActionEnum != slType.dataActionEnum) {
+                    return false;
+                }
+                if (dType == null) {
+                    return slType.dType == null;
+                }
+                if (slType.dType == null) {
+                    return false;
+                }
+                return dType.eq(slType.dType);
+            case GetterCaller:
+                if (gEnum != slType.gEnum) {
+                    return false;
+                }
+                return dType.eq(slType.dType);
         }
         return true;
     }
@@ -103,7 +100,7 @@ public class SlotType implements IEquatable<SlotType> {
 
     SlotType(SlotEventEnum slEnum, IVField fie, ClickButtonType buttonClick,
             DataActionEnum dataActionEnum, List<SlotType> slList, int cellId,
-            IDataType dType, GetActionEnum gEnum) {
+            IDataType dType, GetActionEnum gEnum, String buttonString) {
         this.slEnum = slEnum;
         this.fie = fie;
         this.buttonClick = buttonClick;
@@ -112,6 +109,7 @@ public class SlotType implements IEquatable<SlotType> {
         this.cellId = cellId;
         this.dType = dType;
         this.gEnum = gEnum;
+        this.buttonString = buttonString;
     }
 
     public int getCellId() {

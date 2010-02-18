@@ -275,6 +275,11 @@ public class SlotListContainer {
                 gwtWidget));
     }
 
+    public void publish(String stringButton, IGWidget gwtWidget) {
+        publish(slContextFactory.construct(slTypeFactory.construct(stringButton),
+                gwtWidget));
+    }
+
     public void publish(IDataType dType, IVField fie, IFormLineView formLine) {
         publish(slContextFactory.construct(slTypeFactory.construct(dType, fie),
                 formLine));

@@ -20,6 +20,7 @@ import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
+import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 
 public class TablesFactories {
 
@@ -30,6 +31,7 @@ public class TablesFactories {
     private final DataViewModelFactory dViewFactory;
     private final ControlButtonFactory cButtonFactory;
     private final SlotMediatorFactory meFactory;
+    private final StackPanelControllerFactory stFactory;
 
     public ControlButtonViewFactory getbViewFactory() {
         return bViewFactory;
@@ -43,7 +45,8 @@ public class TablesFactories {
     public TablesFactories(ControlButtonViewFactory bViewFactory,
             PanelViewFactory pViewFactory, ListDataViewFactory lDataFactory,
             SlotTypeFactory slTypeFactory, DataViewModelFactory dViewFactory,
-            ControlButtonFactory cButtonFactory, SlotMediatorFactory meFactory) {
+            ControlButtonFactory cButtonFactory, SlotMediatorFactory meFactory,
+            StackPanelControllerFactory stFactory) {
         this.bViewFactory = bViewFactory;
         this.pViewFactory = pViewFactory;
         this.lDataFactory = lDataFactory;
@@ -51,6 +54,7 @@ public class TablesFactories {
         this.dViewFactory = dViewFactory;
         this.cButtonFactory = cButtonFactory;
         this.meFactory = meFactory;
+        this.stFactory = stFactory;
     }
 
     public SlotTypeFactory getSlTypeFactory() {
@@ -73,4 +77,7 @@ public class TablesFactories {
         return meFactory;
     }
 
+    public StackPanelControllerFactory getStackPanelControllerFactory() {
+        return stFactory;
+    }
 }
