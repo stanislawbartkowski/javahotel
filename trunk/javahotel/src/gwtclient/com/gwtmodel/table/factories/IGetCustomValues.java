@@ -27,7 +27,5 @@ public interface IGetCustomValues {
 
     String getCustomValue(String key);
     
-    boolean googleTable();
-
     boolean compareComboByInt();
 }

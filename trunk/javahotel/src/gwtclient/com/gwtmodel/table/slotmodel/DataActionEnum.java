@@ -79,6 +79,9 @@ public enum DataActionEnum {
     PersistComposeFormAction,
 
     /** Persist action successful / PersistEnumType */
-    PersistComposeFormSuccessSignal
+    PersistComposeFormSuccessSignal,
+
+    /** Line clicked / IVModelData + WSIze */
+    TableLineClicked,
 
 }

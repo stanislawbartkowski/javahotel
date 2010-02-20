@@ -20,6 +20,8 @@ public class FormField {
     private final IFormLineView eLine;
     private final IVField fie;
     private final boolean readOnlyIfModif;
+    private final IVField fRange;
+    private String htmlId;
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
             boolean readOnlyIfModif) {
@@ -27,13 +29,23 @@ public class FormField {
         this.eLine = e;
         this.fie = fie;
         this.readOnlyIfModif = readOnlyIfModif;
+        this.fRange = null;
     }
-    
+
     public FormField(final String p, final IFormLineView e, final IVField fie) {
         this.pLabel = p;
         this.eLine = e;
         this.fie = fie;
         this.readOnlyIfModif = false;
+        this.fRange = null;
+    }
+
+    public FormField(final String p, final IFormLineView e, final IVField fie, IVField fRange) {
+        this.pLabel = p;
+        this.eLine = e;
+        this.fie = fie;
+        this.readOnlyIfModif = false;
+        this.fRange = fRange;
     }
 
     public boolean isReadOnlyIfModif() {
@@ -61,4 +73,26 @@ public class FormField {
         return fie;
     }
 
+    public boolean isRange() {
+        return fRange != null;
+    }
+
+    public IVField getFRange() {
+        return fRange;
+
+    }
+
+    /**
+     * @return the htmlId
+     */
+    public String getHtmlId() {
+        return htmlId;
+    }
+
+    /**
+     * @param htmlId the htmlId to set
+     */
+    public void setHtmlId(String htmlId) {
+        this.htmlId = htmlId;
+    }
 }

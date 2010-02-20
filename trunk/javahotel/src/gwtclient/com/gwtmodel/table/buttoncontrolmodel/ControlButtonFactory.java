@@ -25,15 +25,15 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> chooseButton;
     private final List<ControlButtonDesc> yesnoButton;
     private final List<ControlButtonDesc> loginButton;
+    private final List<ControlButtonDesc> printButton;
 
     public ControlButtonFactory() {
         dButton = new ArrayList<ControlButtonDesc>();
         dButton.add(new ControlButtonDesc("New", "Dodaj", new ClickButtonType(
                 ClickButtonType.StandClickEnum.ADDITEM)));
-        dButton
-                .add(new ControlButtonDesc("DeleteRed", "Usuń",
-                        new ClickButtonType(
-                                ClickButtonType.StandClickEnum.REMOVEITEM)));
+        dButton.add(new ControlButtonDesc("DeleteRed", "Usuń",
+                new ClickButtonType(
+                ClickButtonType.StandClickEnum.REMOVEITEM)));
         dButton.add(new ControlButtonDesc("DataViewerMin", "Popraw",
                 new ClickButtonType(ClickButtonType.StandClickEnum.MODIFITEM)));
 
@@ -50,14 +50,12 @@ public class ControlButtonFactory {
                 new ClickButtonType(ClickButtonType.StandClickEnum.RESIGN)));
 
         chooseButton = new ArrayList<ControlButtonDesc>();
-        chooseButton
-                .add(new ControlButtonDesc(null, "Wybierasz",
-                        new ClickButtonType(
-                                ClickButtonType.StandClickEnum.CHOOSELIST)));
-        chooseButton
-                .add(new ControlButtonDesc(null, "Rezygnujesz",
-                        new ClickButtonType(
-                                ClickButtonType.StandClickEnum.RESIGNLIST)));
+        chooseButton.add(new ControlButtonDesc(null, "Wybierasz",
+                new ClickButtonType(
+                ClickButtonType.StandClickEnum.CHOOSELIST)));
+        chooseButton.add(new ControlButtonDesc(null, "Rezygnujesz",
+                new ClickButtonType(
+                ClickButtonType.StandClickEnum.RESIGNLIST)));
 
         yesnoButton = new ArrayList<ControlButtonDesc>();
         yesnoButton.add(new ControlButtonDesc(null, "Tak", new ClickButtonType(
@@ -68,6 +66,12 @@ public class ControlButtonFactory {
         loginButton = new ArrayList<ControlButtonDesc>();
         loginButton.add(new ControlButtonDesc(null, "Login",
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
+
+        printButton = new ArrayList<ControlButtonDesc>();
+        printButton.add(new ControlButtonDesc(null, "Drukujesz",
+                new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
+        printButton.add(new ControlButtonDesc(null, "Rezygnujesz",
+                new ClickButtonType(ClickButtonType.StandClickEnum.RESIGN)));
     }
 
     public ListOfControlDesc constructCrudList() {
@@ -94,4 +98,7 @@ public class ControlButtonFactory {
         return new ListOfControlDesc(loginButton);
     }
 
+    public ListOfControlDesc constructPrintButton() {
+        return new ListOfControlDesc(printButton);
+    }
 }

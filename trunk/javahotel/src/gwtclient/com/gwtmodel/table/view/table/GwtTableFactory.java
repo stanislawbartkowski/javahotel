@@ -12,24 +12,15 @@
  */
 package com.gwtmodel.table.view.table;
 
-import com.google.inject.Inject;
-import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.injector.WebPanelHolder;
 
 public class GwtTableFactory {
 
-    private final TableFactoriesContainer cFactory;
-
-    @Inject
-    public GwtTableFactory(TableFactoriesContainer cFactory) {
-        this.cFactory = cFactory;
-    }
-
-    public IGwtTableView construct() {
-        if (cFactory.getGetCustomValues().googleTable()) {
-            return new GwtTableView();
+    public IGwtTableView construct(ICommand click) {
+        if (WebPanelHolder.isGoogletable()) {
+            return new GwtTableView(click);
         }
-        return new TableView();
-
+        return new TableView(click);
     }
 }

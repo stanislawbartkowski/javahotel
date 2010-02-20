@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
@@ -37,6 +38,7 @@ class TableView implements IGwtTableView {
     private WSize startW;
     private int clickedNo = -1;
     private WSize wSize;
+    private final ICommand iClick;
 
     private class ClickRowC implements TableListener {
 
@@ -48,10 +50,17 @@ class TableView implements IGwtTableView {
             clickedNo = arg1 - 1;
             Widget w = g.getWidget(arg1, arg2);
             wSize = new WSize(w);
+            if (model.getIClicked() != null) {
+                model.getIClicked().clicked(getClicked());
+            }
+            if (iClick != null) {
+                iClick.execute();
+            }
         }
     }
 
-    TableView() {
+    TableView(ICommand iClick) {
+        this.iClick = iClick;
         vp.add(header);
         vp.add(g);
         g.addTableListener(new ClickRowC());
@@ -113,5 +122,4 @@ class TableView implements IGwtTableView {
     public Widget getGWidget() {
         return vp;
     }
-
 }

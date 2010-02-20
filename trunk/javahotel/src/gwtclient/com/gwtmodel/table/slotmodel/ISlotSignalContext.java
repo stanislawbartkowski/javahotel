@@ -45,4 +45,6 @@ public interface ISlotSignalContext {
     IVField getVField();
 
     FormLineContainer getEditContainer();
+
+    String getStringButton();
 }

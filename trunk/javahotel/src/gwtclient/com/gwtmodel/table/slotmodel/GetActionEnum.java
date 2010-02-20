@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.rdef.FormLineContainer;
-
 public enum GetActionEnum {
 
     /** returns out: IVModelData + WSIze . */ 
