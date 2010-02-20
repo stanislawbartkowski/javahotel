@@ -17,9 +17,16 @@ import java.util.List;
 public class FormLineContainer {
 
     private final List<FormField> fList;
+    private final String html;
 
     public FormLineContainer(List<FormField> fList) {
         this.fList = fList;
+        this.html = null;
+    }
+
+    public FormLineContainer(List<FormField> fList, String html) {
+        this.fList = fList;
+        this.html = html;
     }
 
     public List<FormField> getfList() {
@@ -28,6 +35,13 @@ public class FormLineContainer {
 
     public void addFormField(FormField f) {
         fList.add(f);
+    }
+
+    /**
+     * @return the html
+     */
+    public String getHtml() {
+        return html;
     }
 
 }

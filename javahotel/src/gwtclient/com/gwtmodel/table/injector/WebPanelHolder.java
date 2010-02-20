@@ -17,6 +17,21 @@ import com.gwtmodel.table.view.webpanel.IWebPanel;
 public class WebPanelHolder {
     
     private static IWebPanel iWeb;
+    private static boolean googletable;
+
+    /**
+     * @return the googletable
+     */
+    public static boolean isGoogletable() {
+        return googletable;
+    }
+
+    /**
+     * @param aGoogletable the googletable to set
+     */
+    public static void setGoogletable(boolean aGoogletable) {
+        googletable = aGoogletable;
+    }
     
     private WebPanelHolder() {
         

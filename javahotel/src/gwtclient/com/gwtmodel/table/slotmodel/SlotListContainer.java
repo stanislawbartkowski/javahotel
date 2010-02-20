@@ -141,6 +141,15 @@ public class SlotListContainer {
         registerSubscriber(slTypeFactory.construct(eClick), slSignaller);
     }
 
+    public void registerSubscriber(String stringButton,
+            ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(stringButton), slSignaller);
+    }
+
+    public void registerSubscriber(ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(), slSignaller);
+    }
+
     public void registerSubscriber(DataActionEnum dataActionEnum,
             IDataType dType, ISlotSignaller slSignaller) {
         registerSubscriber(slTypeFactory.construct(dataActionEnum, dType),
@@ -172,8 +181,7 @@ public class SlotListContainer {
     }
 
     private ISlotSignalContext callGet(SlotType slType, IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory
-                .construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
         return call(slContext);
     }
 
@@ -220,8 +228,7 @@ public class SlotListContainer {
 
     public ISlotSignalContext getGetterContext(SlotType slType,
             IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory
-                .construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
         return slContext;
     }
 
@@ -235,8 +242,7 @@ public class SlotListContainer {
     public ISlotSignalContext setGetter(GetActionEnum getActionEnum,
             IDataType dType, IVModelData vData, WSize wSize) {
         SlotType slType = slTypeFactory.construct(getActionEnum, dType);
-        ISlotSignalContext sl = slContextFactory
-                .construct(slType, vData, wSize);
+        ISlotSignalContext sl = slContextFactory.construct(slType, vData, wSize);
         return sl;
     }
 
@@ -277,8 +283,11 @@ public class SlotListContainer {
 
     public void publish(String stringButton, IGWidget gwtWidget) {
         publish(slContextFactory.construct(slTypeFactory.construct(stringButton),
-                gwtWidget));
+                gwtWidget, stringButton));
+        publish(slContextFactory.construct(slTypeFactory.construct(),
+                gwtWidget,stringButton));
     }
+
 
     public void publish(IDataType dType, IVField fie, IFormLineView formLine) {
         publish(slContextFactory.construct(slTypeFactory.construct(dType, fie),

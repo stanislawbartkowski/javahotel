@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
@@ -62,25 +63,36 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private ISlotSignalContext constructChoosedContext() {
+        WChoosedLine w = tableView.getClicked();
+        WSize wSize = null;
+        IVModelData vData = null;
+        if (w.isChoosed()) {
+            wSize = w.getwSize();
+            vData = tableView.getViewModel().getRow(w.getChoosedLine());
+        }
+        return construct(GetActionEnum.GetListLineChecked, dType, vData,
+                wSize);
+    }
+
     private class GetListData implements ISlotCaller {
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            WChoosedLine w = tableView.getClicked();
-            WSize wSize = null;
-            IVModelData vData = null;
-            if (w.isChoosed()) {
-                wSize = w.getwSize();
-                vData = tableView.getViewModel().getRow(w.getChoosedLine());
-            }
-            return construct(GetActionEnum.GetListLineChecked, dType, vData,
-                    wSize);
+            return constructChoosedContext();
+        }
+    }
+
+    private class ClickList implements ICommand {
+
+        public void execute() {
+            publish(DataActionEnum.TableLineClicked, dType, constructChoosedContext());
         }
     }
 
     ListDataView(GwtTableFactory gFactory, IDataType dType) {
         listView = new DataListModelView();
         this.dType = dType;
-        tableView = gFactory.construct();
+        tableView = gFactory.construct(new ClickList());
         // subscriber
         registerSubscriber(DataActionEnum.DrawListAction, dType, new DrawList());
         registerSubscriber(DataActionEnum.ReadHeaderContainerSignal, dType,

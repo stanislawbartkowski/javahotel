@@ -47,11 +47,14 @@ class GwtFormView implements IGwtFormView {
             IDataFormConstructorAbstractFactory.CType cType) {
         this.fContainer = fContainer;
         if (cType.getfConstructor() == null) {
-          g = CreateFormView.construct(fContainer.getfList());
+            if (fContainer.getHtml() == null) {
+                g = CreateFormView.construct(fContainer.getfList());
+            } else {
+                g = CreateFormView.setHtml(fContainer.getHtml(), fContainer.getfList());
+            }
+        } else {
+            g = cType.getfConstructor().construct(fContainer);
         }
-        else {
-          g = cType.getfConstructor().construct(fContainer);
-        }        
         setListener();
     }
 
@@ -71,5 +74,4 @@ class GwtFormView implements IGwtFormView {
             }
         }
     }
-
 }

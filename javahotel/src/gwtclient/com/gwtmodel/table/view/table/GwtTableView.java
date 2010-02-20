@@ -11,6 +11,7 @@ import com.google.gwt.visualization.client.Selection;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.visualizations.Table;
+import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
@@ -25,10 +26,12 @@ class GwtTableView implements IGwtTableView {
     private final Table ta;
     private DataTable data;
     private WSize startW;
+    private final ICommand iClick;
 
-    GwtTableView() {
+    GwtTableView(ICommand iClick) {
         ta = new Table(null, Table.Options.create());
         ta.addSelectHandler(new H(ta));
+        this.iClick = iClick;
         model = null;
         startW = null;
     }
@@ -157,6 +160,10 @@ class GwtTableView implements IGwtTableView {
             if (model.getIClicked() != null) {
                 model.getIClicked().clicked(getClicked());
             }
+            if (iClick != null) {
+                iClick.execute();
+            }
+
         }
     }
 

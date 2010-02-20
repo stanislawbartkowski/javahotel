@@ -64,6 +64,9 @@ public class SlotType implements IEquatable<SlotType> {
         }
         switch (slEnum) {
             case ClickString:
+                if (buttonString == null) {
+                    return slType.buttonString == null;
+                }
                 return buttonString.equals(slType.buttonString);
             case ChangeValue:
                 if (!fie.eq(slType.getFie())) {

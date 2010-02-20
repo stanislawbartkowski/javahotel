@@ -112,6 +112,15 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerSubscriber(dataActionEnum, dType, slSignaller);
     }
 
+    protected void registerSubscriber(String stringButton,
+            ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(stringButton, slSignaller);
+    }
+
+    protected void registerSubscriber(ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(slSignaller);
+    }
+
     protected void registerSubscriber(int cellId, ISlotSignaller slSignaller) {
         slContainer.registerSubscriber(cellId, slSignaller);
     }
