@@ -28,6 +28,7 @@ public class LoginData implements IVModelData {
 
     private String loginName;
     private String password;
+    private String repassword;
 
     public String getS(IVField fie) {
         LoginField f = (LoginField) fie;
@@ -36,6 +37,9 @@ public class LoginData implements IVModelData {
         }
         if (f.isLogin()) {
             return loginName;
+        }
+        if (f.isRePassword()) {
+            return repassword;
         }
         return null;
     }
@@ -47,6 +51,9 @@ public class LoginData implements IVModelData {
         }
         if (f.isPassword()) {
             return CUtil.EmptyS(password);
+        }
+        if (f.isRePassword()) {
+            return CUtil.EmptyS(repassword);
         }
         return false;
     }
@@ -60,6 +67,17 @@ public class LoginData implements IVModelData {
         if (f.isPassword()) {
             password = s;
         }
+        if (f.isRePassword()) {
+            repassword = s;
+        }
+    }
+
+    public IVField[] getF() {
+        IVField[] e = { new LoginField(LoginField.F.LOGINNAME),
+                new LoginField(LoginField.F.PASSWORD),
+                new LoginField(LoginField.F.REPASSWORD),
+                new LoginField(LoginField.F.OTHER) };
+        return e;
     }
 
 }

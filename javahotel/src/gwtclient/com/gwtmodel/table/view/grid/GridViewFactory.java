@@ -46,8 +46,31 @@ public class GridViewFactory {
 
     }
 
-    public IGridViewDecimal constructDecimal(GridViewType gType) {
-        return new Decimal(gType);
+    private class GBoolean extends GridView implements IGridViewBoolean {
+
+        GBoolean(GridViewType gType) {
+            super(eFactory, gType);
+        }
+
+        public Boolean getCellBoolean(int row, int c) {
+            return (Boolean) getCell(row, c);
+        }
+
+        public void setRowBoolean(int row, int c, Boolean b) {
+            setRowVal(row, c, b);
+        }
+
     }
 
+    public IGridViewDecimal constructDecimal(boolean horizontal,
+            boolean rowBeginning, boolean colHeaders) {
+        return new Decimal(new GridViewType(GridViewType.GridType.DECIMAL,
+                horizontal, rowBeginning, colHeaders));
+    }
+
+    public IGridViewBoolean constructBoolean(boolean horizontal,
+            boolean rowBeginning, boolean colHeaders) {
+        return new GBoolean(new GridViewType(GridViewType.GridType.BOOLEAN,
+                horizontal, rowBeginning, colHeaders));
+    }
 }

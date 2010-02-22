@@ -15,6 +15,7 @@ package com.gwtmodel.table.stringlist;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
@@ -45,7 +46,7 @@ public class MemoryStringList extends AbstractSlotContainer implements
         lPhonedata.setDataList(dList);
         dControler.startPublish(0);
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        VListHeaderDesc he = new VListHeaderDesc(fieldName, new StringF());
+        VListHeaderDesc he = new VListHeaderDesc(fieldName, Empty.getFieldType());
         heList.add(he);
         VListHeaderContainer vHeader;
         vHeader = new VListHeaderContainer(heList, title);
@@ -58,13 +59,13 @@ public class MemoryStringList extends AbstractSlotContainer implements
                 .getTableDataControlerFactory();
         DataViewModelFactory daFactory = GwtGiniInjector.getI()
                 .getDataViewModelFactory();
-        sType = new StringV();
+        sType = Empty.getDataType();
         this.fieldName = fieldName;
         this.title = title;
         lPhonelist = new MemoryListPersist(sType);
         lPhonedata = new MemoryListPersist(sType);
 
-        IVField sField = new StringF();
+        IVField sField = Empty.getFieldType();
 
         dControler = tFactory.constructDataControler(sType, 0, 1,
                 new DataListParam(lPhonelist, null, new DataFactory(eFactory,

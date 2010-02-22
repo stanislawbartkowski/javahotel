@@ -15,6 +15,7 @@ package com.gwtmodel.table.stringlist;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -38,7 +39,7 @@ class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
             IVModelData pData = getGetterIVModelData(
                     GetActionEnum.GetViewComposeModelEdited, stringType);
             List<IVField> listMFie = new ArrayList<IVField>();
-            listMFie.add(new StringF());
+            listMFie.add(Empty.getFieldType());
             List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,
                     listMFie);
             if (errMess != null) {

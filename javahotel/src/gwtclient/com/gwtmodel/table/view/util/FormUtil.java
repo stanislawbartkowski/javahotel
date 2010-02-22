@@ -61,4 +61,11 @@ public class FormUtil {
         }
         return fList;
     }
+
+    public static void copyData(IVModelData aFrom, IVModelData aTo) {
+        for (IVField v : aFrom.getF()) {
+            String val = aFrom.getS(v);
+            aTo.setS(v, val);
+        }
+    }
 }
