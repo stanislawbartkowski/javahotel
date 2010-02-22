@@ -15,6 +15,7 @@ package com.javahotel.nmvc.common;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.IField;
 
 public class VModelData implements IVModelData {
 
@@ -24,14 +25,18 @@ public class VModelData implements IVModelData {
         this.a = a;
     }
 
-    public String getS(IVField fie) {
+    private IField toF(IVField fie) {
         VField f = (VField) fie;
-        return a.getS(f.getFie());
+        IField fi = f.getFie();
+        return fi;
+    }
+
+    public String getS(IVField fie) {
+        return a.getS(toF(fie));
     }
 
     public void setS(IVField fie, String s) {
-        VField f = (VField) fie;
-        a.setF(f.getFie(), s);
+        a.setF(toF(fie), s);
     }
 
     public AbstractTo getA() {
@@ -39,8 +44,15 @@ public class VModelData implements IVModelData {
     }
 
     public boolean isEmpty(IVField fie) {
-        VField f = (VField) fie;
-        return a.emptyS(f.getFie());
+        return a.emptyS(toF(fie));
+    }
+
+    public IVField[] getF() {
+        IVField[] e = new IVField[a.getT().length];
+        for (int i = 0; i < e.length; i++) {
+            e[i] = new VField(a.getT()[i]);
+        }
+        return e;
     }
 
 }

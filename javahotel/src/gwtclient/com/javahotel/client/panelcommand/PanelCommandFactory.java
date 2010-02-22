@@ -101,7 +101,8 @@ public class PanelCommandFactory {
 //            i = new NewMvcPanel(sI,DictType.RoomStandard);
 //            i = new NewMvcPanel(sI,DictType.RoomObjects);
 //            i = new NewMvcPanel(sI,DictType.PriceListDict);     
-              i = new NewMvcPanel(sI,DictType.CustomerList);     
+//              i = new NewMvcPanel(sI,DictType.CustomerList);
+          i = new NewMvcPanel(sI,RType.AllPersons);
             break;
         }
         if (i == null) {

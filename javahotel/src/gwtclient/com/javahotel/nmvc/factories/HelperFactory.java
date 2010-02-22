@@ -14,14 +14,12 @@ package com.javahotel.nmvc.factories;
 
 import com.gwtmodel.table.IDataType;
 import com.javahotel.client.dialog.DictData;
-import com.javahotel.nmvc.common.DataType;
+import com.javahotel.nmvc.common.DataUtil;
 
 abstract class HelperFactory {
 
     protected DictData getDa(IDataType dType) {
-        DataType dd = (DataType) dType;
-        DictData da = new DictData(dd.getdType());
-        return da;
+        return DataUtil.constructDictData(dType);
     }
 
 }

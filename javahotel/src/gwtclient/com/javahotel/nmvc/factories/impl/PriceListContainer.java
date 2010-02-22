@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.dataviewmodel;
+package com.javahotel.nmvc.factories.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,7 +32,6 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.grid.GridViewFactory;
-import com.gwtmodel.table.view.grid.GridViewType;
 import com.gwtmodel.table.view.grid.IGridViewDecimal;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
@@ -50,10 +49,9 @@ import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.pricemodel.ISeasonPriceModel;
 import com.javahotel.nmvc.pricemodel.PriceSeasonModelFactory;
 
-class PriceListContainer extends AbstractSlotContainer implements ISlotable {
+public class PriceListContainer extends AbstractSlotContainer implements
+        ISlotable {
 
-    private final IPersistFactoryAction persistFactory;
-    private final IDataType cType;
     private final GridViewFactory gFactory;
     private final IGridViewDecimal iView;
     private final PriceSeasonModelFactory prFactory;
@@ -169,16 +167,12 @@ class PriceListContainer extends AbstractSlotContainer implements ISlotable {
 
     }
 
-    PriceListContainer(IPersistFactoryAction persistFactory, IDataType dType,
-            IDataType cType) {
-        this.persistFactory = persistFactory;
-        this.cType = cType;
+    public PriceListContainer(IPersistFactoryAction persistFactory,
+            IDataType dType, IDataType cType) {
         gFactory = GwtGiniInjector.getI().getGridViewFactory();
         prFactory = HInjector.getI().getPriceSeasonModelFactory();
         rI = HInjector.getI().getI();
-        GridViewType gType = new GridViewType(GridViewType.GridType.DECIMAL,
-                true, true, true);
-        iView = gFactory.constructDecimal(gType);
+        iView = gFactory.constructDecimal(true, true, true);
         DataType daType = new DataType(DictType.ServiceDict);
         new ReadDictList<IDataListType>().readList(daType, new R());
         registerCaller(GetActionEnum.GetViewModelEdited, cType, new SetGetter());

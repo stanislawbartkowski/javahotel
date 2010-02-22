@@ -70,14 +70,16 @@ public class ETableLoginDialog {
 
     }
 
-    public ETableLoginDialog(ISetGwtWidget iSet,
-            final boolean user, final ICommand iNext) {
+    public ETableLoginDialog(ISetGwtWidget iSet, final boolean user,
+            final ICommand iNext) {
         FormLineContainer lContainer = LoginViewFactory.construct();
         IDataType dType = new LoginType();
         if (user) {
             EWidgetFactory eFactory = HInjector.getI().getEWidgetFactory();
-            IFormLineView hotel = eFactory.getListValuesBox(RType.AllHotels, new CommandParam(), HotelP.F.name);
-            FormField f = new FormField("Hotel", hotel, new LoginField(LoginField.F.OTHER));            
+            IFormLineView hotel = eFactory.getListValuesBox(RType.AllHotels,
+                    new CommandParam(), HotelP.F.name);
+            FormField f = new FormField("Hotel", hotel, new LoginField(
+                    LoginField.F.OTHER));
             lContainer.addFormField(f);
         }
 

@@ -43,6 +43,8 @@ import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.factories.FormDefFactory;
 import com.javahotel.nmvc.factories.impl.CustomerAddInfo;
+import com.javahotel.nmvc.factories.impl.HotelPersonRightsContainer;
+import com.javahotel.nmvc.factories.impl.PriceListContainer;
 
 public class GetViewFactory implements IGetViewControllerFactory {
 
@@ -120,21 +122,30 @@ public class GetViewFactory implements IGetViewControllerFactory {
         DataType dd = (DataType) dType;
         DataType subType = new DataType(dd.getdType(), DataTypeSubEnum.Sub1);
         ISlotable cContainer = null;
-        switch (dd.getdType()) {
-        case CustomerList:
-            cContainer = new CustomerAddInfo(subType);
-            break;
-        case PriceListDict:
-            cContainer = new PriceListContainer(peFactory, dType, subType);
-            break;
-        case RoomObjects:
-            cContainer = new CheckStandardContainer(subType, new DataType(
-                    DictType.RoomFacility), new InfoExtractRoom());
-            break;
-        case RoomStandard:
-            cContainer = new CheckStandardContainer(subType, new DataType(
-                    DictType.ServiceDict), new InfoExtractStandard());
-            break;
+        if (dd.isRType()) {
+            switch (dd.getrType()) {
+            case AllPersons:
+                cContainer = new HotelPersonRightsContainer(dd,subType);
+                break;
+            }
+        }
+        if (dd.isDictType()) {
+            switch (dd.getdType()) {
+            case CustomerList:
+                cContainer = new CustomerAddInfo(subType);
+                break;
+            case PriceListDict:
+                cContainer = new PriceListContainer(peFactory, dType, subType);
+                break;
+            case RoomObjects:
+                cContainer = new CheckStandardContainer(subType, new DataType(
+                        DictType.RoomFacility), new InfoExtractRoom());
+                break;
+            case RoomStandard:
+                cContainer = new CheckStandardContainer(subType, new DataType(
+                        DictType.ServiceDict), new InfoExtractStandard());
+                break;
+            }
         }
         if (cContainer != null) {
             cType = new ComposeControllerType(cContainer, subType, 0, 1);

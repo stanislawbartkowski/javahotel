@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.start;
 
+import com.gwtmodel.table.injector.WebPanelHolder;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.injector.HotelInjector;
 
@@ -20,7 +21,7 @@ abstract class AbstractWebEntry {
     protected void starte(boolean googletable) {
         HotelInjector injector = HInjector.getI();
         IWebEntry i = injector.getW();
-        i.setGoogletable(googletable);
+        WebPanelHolder.setGoogletable(googletable);
         i.start();
     }
 

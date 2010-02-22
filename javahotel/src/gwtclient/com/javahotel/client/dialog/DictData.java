@@ -38,9 +38,7 @@ public class DictData {
 
     public enum SpecE {
 
-        SpecialPeriod, CustomerPhone, CustomerAccount, BookingHeader, ValidationHeader, 
-        BookingElem, RowPaymentElem, ObjectResConflict, AddPayment, ResTablePanel, 
-        ResGuestList, BillsList, AddPaymentList, LoginAdmin, LoginUser, FromReservHeader
+        SpecialPeriod, CustomerPhone, CustomerAccount, BookingHeader, ValidationHeader, BookingElem, RowPaymentElem, ObjectResConflict, AddPayment, ResTablePanel, ResGuestList, BillsList, AddPaymentList, LoginAdmin, LoginUser, FromReservHeader
 
     }
 
@@ -83,6 +81,10 @@ public class DictData {
 
     public boolean isDa() {
         return d != null;
+    }
+
+    public boolean isRt() {
+        return rt != null;
     }
 
     /**

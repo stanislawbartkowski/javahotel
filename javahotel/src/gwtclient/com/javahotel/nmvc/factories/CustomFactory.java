@@ -45,8 +45,4 @@ class CustomFactory implements IGetCustomValues {
         return ma.get(key);
     }
 
-    public boolean googleTable() {
-        return sI.withGoogleTable();
-    }
-
 }

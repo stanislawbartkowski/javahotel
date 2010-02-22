@@ -36,11 +36,6 @@ public class MainWebEntry implements IWebEntry {
     private final URights ur = new URights();
     private final IViewInterface[] iView = new IViewInterface[2];
     private Map<String, String> param;
-    private boolean googletable;
-
-    public void setGoogletable(boolean googletable) {
-        this.googletable = googletable;
-    }
 
     private IReadRes readRes;
 
@@ -108,10 +103,6 @@ public class MainWebEntry implements IWebEntry {
 
         public String getParam(String key) {
             return param.get(key);
-        }
-
-        public boolean withGoogleTable() {
-            return googletable;
         }
 
         public IReadRes readRes() {

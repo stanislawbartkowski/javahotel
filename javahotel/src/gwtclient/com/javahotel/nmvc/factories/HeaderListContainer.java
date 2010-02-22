@@ -17,13 +17,15 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IHeaderListContainer;
+import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.table.model.ColTitle;
-import com.javahotel.nmvc.common.DataType;
+import com.javahotel.common.command.RType;
+import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.VField;
 
 class HeaderListContainer extends AbstractSlotContainer implements
@@ -37,15 +39,24 @@ class HeaderListContainer extends AbstractSlotContainer implements
     }
 
     HeaderListContainer(ColListFactory cFactory, IDataType dType) {
-        DataType da = (DataType) dType;
-        DictData dt = new DictData(da.getdType());
-        List<ColTitle> coList = cFactory.getColList(dt);
-        String title = cFactory.getHeader(dt);
+        DictData dt = DataUtil.constructDictData(dType);
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        for (ColTitle co : coList) {
-            VListHeaderDesc he = new VListHeaderDesc(co.getCTitle(),
-                    new VField(co.getF()));
-            heList.add(he);
+        if (dt.isRt()) {
+            if (dt.getRt() == RType.AllPersons) {
+                VListHeaderDesc v = new VListHeaderDesc("Nazwa",
+                        new LoginField(LoginField.F.LOGINNAME));
+                heList.add(v);
+            }
+
+        }
+        String title = cFactory.getHeader(dt);
+        if (heList.isEmpty()) {
+            List<ColTitle> coList = cFactory.getColList(dt);
+            for (ColTitle co : coList) {
+                VListHeaderDesc he = new VListHeaderDesc(co.getCTitle(),
+                        new VField(co.getF()));
+                heList.add(he);
+            }
         }
         vHeader = new VListHeaderContainer(heList, title);
         this.dType = dType;

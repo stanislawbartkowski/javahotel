@@ -23,8 +23,6 @@ import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
-import com.javahotel.client.mvc.auxabstract.LoginRecord;
-import com.javahotel.client.mvc.dict.validator.errmess.DictErrorMessage;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
