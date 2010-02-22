@@ -12,9 +12,10 @@
  */
 package com.javahotel.nmvc.common;
 
-import com.javahotel.common.command.DictType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.Utils;
+import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.RType;
 
 public class DataType implements IDataType {
 
@@ -23,29 +24,56 @@ public class DataType implements IDataType {
     private final DataTypeSubEnum dSub;
 
     private final DictType dType;
+    private final RType rType;
 
     public DataType(DictType dType) {
         this.dType = dType;
         dcType = DictDataEnum.DictType;
         dSub = null;
+        rType = null;
     }
 
     public DataType(DictType dType, DataTypeSubEnum dSub) {
         this.dType = dType;
         dcType = DictDataEnum.DictType;
         this.dSub = dSub;
+        rType = null;
+    }
+
+    public DataType(RType rType) {
+        dType = null;
+        dcType = null;
+        dSub = null;
+        this.rType = rType;
     }
 
     public DictType getdType() {
         return dType;
     }
+    
+    public boolean isDictType() {
+        return dType != null;
+    }
+    
+    public boolean isRType() {
+        return rType != null;
+    }
 
     public boolean eq(IDataType dt) {
         DataType p = (DataType) dt;
+        if (isRType()) {
+            if (!p.isRType()) { return false; }
+            return rType == p.rType;
+        }
+        if (p.isRType()) { return false; }
         if (dType != p.getdType()) {
             return false;
         }
         return Utils.eqE(dSub, p.dSub);
+    }
+
+    public RType getrType() {
+        return rType;
     }
 
 }

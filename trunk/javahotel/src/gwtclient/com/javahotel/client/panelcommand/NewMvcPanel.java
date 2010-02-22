@@ -19,6 +19,7 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.RType;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.controler.DataControlerEnum;
 import com.javahotel.nmvc.controler.DataControlerFactory;
@@ -27,11 +28,16 @@ class NewMvcPanel extends AbstractPanelCommand {
 
     private ISetGwtWidget iS;
     private final IResLocator rI;
-    private final DictType da;
+    private final DataType da;
 
     NewMvcPanel(IResLocator rI, DictType da) {
         this.rI = rI;
-        this.da = da;
+        this.da = new DataType(da);
+    }
+    
+    NewMvcPanel(IResLocator rI, RType rType) {
+        this.rI = rI;
+        this.da = new DataType(rType);
     }
 
     private class SetGwt implements ISlotSignaller {
@@ -46,7 +52,7 @@ class NewMvcPanel extends AbstractPanelCommand {
         iS = iSet;
         IDataControler iControler = DataControlerFactory
                 .constructDataControler(rI, DataControlerEnum.DisplayList,
-                        new DataType(da), 0, 1);
+                        da, 0, 1);
         iControler.getSlContainer().registerSubscriber(0, new SetGwt());
         iControler.startPublish(-1);
 

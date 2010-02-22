@@ -160,5 +160,13 @@ public class DataUtil {
             }
         }
     }
+    
+    public static DictData constructDictData(IDataType dType) {
+        DataType dd = (DataType) dType;
+        DictData da;
+        if (dd.isDictType()) { da = new DictData(dd.getdType()); }
+        else { da = new DictData(dd.getrType()); }
+        return da;
+    }
 
 }

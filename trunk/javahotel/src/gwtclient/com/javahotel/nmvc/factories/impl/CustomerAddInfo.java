@@ -17,9 +17,11 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -59,6 +61,12 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
 
         StringE() {
             a = null;
+        }
+
+        public IVField[] getF() {
+            IVField[] e = { Empty.getFieldType() };
+            return e;
+
         }
 
     }

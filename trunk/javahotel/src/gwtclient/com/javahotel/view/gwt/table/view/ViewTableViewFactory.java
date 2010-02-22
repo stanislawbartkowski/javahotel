@@ -15,6 +15,7 @@ package com.javahotel.view.gwt.table.view;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.gwtmodel.table.injector.WebPanelHolder;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.contrpanel.view.IContrButtonView;
@@ -56,7 +57,7 @@ public class ViewTableViewFactory implements IGetTableViewFactory {
             final IContrButtonView cView, final ITableModel model,
             final ITableSignalClicked sc, final ITableCallBackSetField iCall,
             final IGetWidgetTableView iW) {
-    	if (rI.withGoogleTable()) {
+    	if (WebPanelHolder.isGoogletable()) {
           return new GTableView(rI, cView, model, sc, iCall, getI(iW));
     	}
     	return getGridView(da,cView,model,sc,iCall,iW);

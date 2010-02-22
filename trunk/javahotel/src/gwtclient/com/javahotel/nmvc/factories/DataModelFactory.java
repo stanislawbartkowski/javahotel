@@ -15,6 +15,7 @@ package com.javahotel.nmvc.factories;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -38,17 +39,21 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
 
     public IVModelData construct(IDataType dType) {
         DictData da = getDa(dType);
+        if (da.getRt() != null) {
+            switch (da.getRt()) {
+            case AllPersons:
+                return new LoginData();
+            default:
+                break;
+            }
+        }
         AbstractTo a = aFactory.getA(da);
         return new VModelData(a);
     }
 
     public void copyFromPersistToModel(IDataType dType, IVModelData from,
             IVModelData to) {
-        VModelData vFrom = (VModelData) from;
-        VModelData vTo = (VModelData) to;
-        AbstractTo aFrom = vFrom.getA();
-        AbstractTo aTo = vTo.getA();
-        aTo.copyFrom(aFrom);
+        FormUtil.copyData(from, to);
     }
 
     public void fromModelToPersist(IDataType dType, IVModelData from,
@@ -57,12 +62,7 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
     }
 
     public void fromDataToView(IVModelData aFrom, FormLineContainer fContainer) {
-//        for (FormField d : fContainer.getfList()) {
-//            String s = aFrom.getS(d.getFie());
-//            d.getELine().setVal(s);
-//        }
         FormUtil.copyFromDataToView(aFrom, fContainer);
-
     }
 
     public void fromViewToData(FormLineContainer fContainer, IVModelData aTo) {

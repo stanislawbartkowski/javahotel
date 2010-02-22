@@ -23,12 +23,6 @@ import com.javahotel.view.IViewInterface;
  */
 public interface IResLocator {
 	
-	boolean withGoogleTable();
-
-//    IWebPanel getPanel();
-
-//    void IncDecCounter(boolean inc);
-
     HoLabel getLabels();
 
     HoMessages getMessages();

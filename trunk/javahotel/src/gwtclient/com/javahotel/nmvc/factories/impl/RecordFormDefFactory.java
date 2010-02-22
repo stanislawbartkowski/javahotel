@@ -18,12 +18,14 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.DataType;
@@ -53,8 +55,27 @@ public class RecordFormDefFactory implements IFormDefFactory {
 
     public FormLineContainer construct(IDataType dType) {
         DataType dd = (DataType) dType;
-        DictType d = dd.getdType();
         List<FormField> fList = new ArrayList<FormField>();
+        if (!dd.isDictType()) {
+            if (dd.isRType()) {
+                switch (dd.getrType()) {
+                case AllPersons:
+                    IFormLineView loginname = eFactory.constructTextField();
+                    IFormLineView password = eFactory.constructPasswordField();
+                    IFormLineView repassword = eFactory
+                            .constructPasswordField();
+                    fList.add(new FormField("Symbol", loginname,
+                            new LoginField(LoginField.F.LOGINNAME), true));
+                    fList.add(new FormField("Hasło", password, new LoginField(
+                            LoginField.F.PASSWORD)));
+                    fList.add(new FormField("Hasło do sprawdzenia", repassword,
+                            new LoginField(LoginField.F.REPASSWORD)));
+                    return new FormLineContainer(fList);
+                }
+            }
+            return null;
+        }
+        DictType d = dd.getdType();
         switch (d) {
         case CustomerList:
             IFormLineView name = eFactory.constructTextCheckEdit(true);
@@ -84,31 +105,41 @@ public class RecordFormDefFactory implements IFormDefFactory {
             IFormLineView city = eFactory.constructTextField();
             IFormLineView cType = eFactory.constructListCombo(rI.getLabels()
                     .CustomerType());
-            fList
-                    .add(new FormField("Nazwa 1", name1, new VField(CustomerP.F.name1)));
-            fList
-                    .add(new FormField("Nazwa 2", name2, new VField(CustomerP.F.name2)));
-            fList
-                    .add(new FormField("Rodzaj", cType, new VField(CustomerP.F.cType)));
+            fList.add(new FormField("Nazwa 1", name1, new VField(
+                    CustomerP.F.name1)));
+            fList.add(new FormField("Nazwa 2", name2, new VField(
+                    CustomerP.F.name2)));
+            fList.add(new FormField("Rodzaj", cType, new VField(
+                    CustomerP.F.cType)));
 
-            fList.add(new FormField("Pan/Pani", pType, new VField(CustomerP.F.pTitle)));
-            fList.add(new FormField("Imię", fname, new VField(CustomerP.F.firstName)));
-            fList.add(new FormField("Nazwisko", lname, new VField(CustomerP.F.lastName)));
-            fList.add(new FormField("PESEL", pesel, new VField(CustomerP.F.PESEL)));
-            fList.add(new FormField("Rodzaj dokumentu", docType,new VField(CustomerP.F.docType)));
-            fList.add(new FormField("Numer dokument", docNumber,new VField(CustomerP.F.docNumber)));
+            fList.add(new FormField("Pan/Pani", pType, new VField(
+                    CustomerP.F.pTitle)));
+            fList.add(new FormField("Imię", fname, new VField(
+                    CustomerP.F.firstName)));
+            fList.add(new FormField("Nazwisko", lname, new VField(
+                    CustomerP.F.lastName)));
+            fList.add(new FormField("PESEL", pesel, new VField(
+                    CustomerP.F.PESEL)));
+            fList.add(new FormField("Rodzaj dokumentu", docType, new VField(
+                    CustomerP.F.docType)));
+            fList.add(new FormField("Numer dokument", docNumber, new VField(
+                    CustomerP.F.docNumber)));
 
-            fList.add(new FormField("Kraj", country, new VField(CustomerP.F.country)));
-            fList.add(new FormField("Kod pocztowy", zipCode,new VField(CustomerP.F.zipCode)));
-            fList.add(new FormField("Miasto", city, new VField(CustomerP.F.city)));
-            fList.add(new FormField("Adres 1", address1,new VField(CustomerP.F.address1)));
-            fList.add(new FormField("Adres 2", address2,new VField(CustomerP.F.address2)));
+            fList.add(new FormField("Kraj", country, new VField(
+                    CustomerP.F.country)));
+            fList.add(new FormField("Kod pocztowy", zipCode, new VField(
+                    CustomerP.F.zipCode)));
+            fList.add(new FormField("Miasto", city,
+                    new VField(CustomerP.F.city)));
+            fList.add(new FormField("Adres 1", address1, new VField(
+                    CustomerP.F.address1)));
+            fList.add(new FormField("Adres 2", address2, new VField(
+                    CustomerP.F.address2)));
 
             break;
         default:
             return null;
         }
-
         return new FormLineContainer(fList);
     }
 

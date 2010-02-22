@@ -12,12 +12,16 @@
  */
 package com.javahotel.nmvc.persist;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.login.LoginData;
+import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -29,8 +33,10 @@ import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.PersonP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.DataUtil;
+import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.persist.dict.IPersistRecord;
 import com.javahotel.nmvc.persist.dict.IPersistResult;
 import com.javahotel.nmvc.persist.dict.PersistRecordDict;
@@ -41,10 +47,26 @@ public class DataPersistLayer extends AbstractSlotContainer implements
     private final IResLocator rI;
     private final DataType dType;
 
+    private final IDataListType convertToLogin(IDataListType dataList) {
+        List<IVModelData> li = new ArrayList<IVModelData>();
+        for (int i = 0; i < dataList.rowNo(); i++) {
+            VModelData vda = (VModelData) dataList.getRow(i);
+            PersonP pe = (PersonP) vda.getA();
+            LoginData lo = new LoginData();
+            String name = pe.getName();
+            lo.setS(new LoginField(LoginField.F.LOGINNAME),name);
+            li.add(lo);
+        }
+        return DataListTypeFactory.construct(li);
+    }
+
     private class ReadListDict implements IVectorList {
 
         public void doVList(final List<? extends AbstractTo> val) {
             IDataListType dataList = DataUtil.construct(val);
+            if (dType.isRType() && dType.getrType() == RType.AllPersons) {
+                dataList = convertToLogin(dataList);
+            }
             publish(DataActionEnum.ListReadSuccessSignal, dType, dataList);
         }
     }
@@ -82,8 +104,12 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
         public void signal(ISlotSignalContext slContext) {
             CommandParam co = rI.getR().getHotelCommandParam();
-            co.setDict(dType.getdType());
-            rI.getR().getList(RType.ListDict, co, new ReadListDict());
+            if (dType.isDictType()) {
+                co.setDict(dType.getdType());
+                rI.getR().getList(RType.ListDict, co, new ReadListDict());
+            } else {
+                rI.getR().getList(dType.getrType(), co, new ReadListDict());
+            }
         }
     }
 

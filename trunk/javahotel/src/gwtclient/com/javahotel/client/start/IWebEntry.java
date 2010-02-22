@@ -16,7 +16,4 @@ public interface IWebEntry {
     
     void start();
     
-    void setGoogletable(boolean googletable);
-
-
 }
