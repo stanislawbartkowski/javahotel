@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,20 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.javahotel.nmvc.common;
 
-public interface IVModelData {
+import java.util.List;
+import java.util.Map;
 
-    String getS(IVField fie);
+public class AccessRoles {
 
-    void setS(IVField fie, String s);
+    public Map<String, List<String>> getRoles() {
+        return roles;
+    }
 
-    boolean isEmpty(IVField fie);
+    public void setRoles(Map<String, List<String>> roles) {
+        this.roles = roles;
+    }
 
-    IVField[] getF();
-
-    Object getCustomData();
-
-    void setCustomData(Object o);
+    private Map<String, List<String>> roles;
 
 }

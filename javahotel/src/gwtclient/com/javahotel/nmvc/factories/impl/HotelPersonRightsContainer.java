@@ -13,6 +13,7 @@
 package com.javahotel.nmvc.factories.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,8 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
@@ -167,6 +170,27 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         }
     }
 
+    private class SetGetter implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVModelData mData = slContext.getVData();
+            Map<String, List<String>> ma = new HashMap<String, List<String>>();
+            for (int col = 0; col < cols.size(); col++) {
+                List<String> roles = new ArrayList<String>();
+                for (int i = 0; i < rNames.size(); i++) {
+                    Boolean b = iView.getCellBoolean(i, col);
+                    if (b.booleanValue()) {
+                        roles.add(rNames.get(i));
+                    }
+                }
+                ma.put(cols.get(col), roles);
+            }
+            mData.setCustomData(ma);
+            return slContext;
+        }
+
+    }
+
     public HotelPersonRightsContainer(IDataType dType, IDataType cType) {
         this.daType = (DataType) dType;
         dList = new DrawList();
@@ -192,6 +216,8 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
             fie = PersonP.F.name;
         }
         rI.getR().getList(rr, null, new SetCols(fie));
+        registerCaller(GetActionEnum.GetViewModelEdited, cType, new SetGetter());
+        registerCaller(GetActionEnum.GetModelToPersist, cType, new SetGetter());
     }
 
     public void startPublish(int cellId) {

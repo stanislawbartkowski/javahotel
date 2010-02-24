@@ -12,11 +12,11 @@
  */
 package com.gwtmodel.table.login;
 
+import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.CUtil;
 
-public class LoginData implements IVModelData {
+public class LoginData extends AVModelData {
 
     public String getLoginName() {
         return loginName;

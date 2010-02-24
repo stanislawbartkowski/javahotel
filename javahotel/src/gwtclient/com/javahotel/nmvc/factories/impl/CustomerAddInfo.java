@@ -69,6 +69,13 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
 
         }
 
+        public Object getCustomData() {
+            return null;
+        }
+
+        public void setCustomData(Object o) {
+        }
+
     }
 
     private class SFactory implements IStringEFactory {

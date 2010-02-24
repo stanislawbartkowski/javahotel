@@ -24,6 +24,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
@@ -35,6 +36,7 @@ import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.recordviewdef.DictEmptyFactory;
 import com.javahotel.client.mvc.table.model.ColTitle;
 import com.javahotel.client.mvc.validator.IErrorMessage;
+import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
@@ -75,6 +77,11 @@ public class DataUtil {
 
     public static List<IVField> constructEmptyList(IDataType dType, int action) {
         DataType dd = (DataType) dType;
+        if (dd.isRType() && dd.getrType() == RType.AllPersons) {
+            List<IVField> eList = new ArrayList<IVField>();
+            eList.add(new LoginField(LoginField.F.LOGINNAME));
+            return eList;
+        }
         DictData dicData = new DictData(dd.getdType());
         List<IVField> list = new ArrayList<IVField>();
         DictEmptyFactory eFactory = HInjector.getI().getDictEmptyFactory();
@@ -160,12 +167,15 @@ public class DataUtil {
             }
         }
     }
-    
+
     public static DictData constructDictData(IDataType dType) {
         DataType dd = (DataType) dType;
         DictData da;
-        if (dd.isDictType()) { da = new DictData(dd.getdType()); }
-        else { da = new DictData(dd.getrType()); }
+        if (dd.isDictType()) {
+            da = new DictData(dd.getdType());
+        } else {
+            da = new DictData(dd.getrType());
+        }
         return da;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -12,18 +12,16 @@
  */
 package com.gwtmodel.table;
 
-public interface IVModelData {
+public abstract class AVModelData implements IVModelData {
 
-    String getS(IVField fie);
+    private Object customData;
 
-    void setS(IVField fie, String s);
+    public Object getCustomData() {
+        return customData;
+    }
 
-    boolean isEmpty(IVField fie);
-
-    IVField[] getF();
-
-    Object getCustomData();
-
-    void setCustomData(Object o);
+    public void setCustomData(Object o) {
+        customData = o;
+    }
 
 }

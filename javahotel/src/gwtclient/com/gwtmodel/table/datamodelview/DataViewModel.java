@@ -137,11 +137,11 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     private void fromViewToData(IVModelData aTo) {
-        dFactory.fromViewToData(fContainer, aTo);
+        dFactory.fromViewToData(dType, fContainer, aTo);
     }
 
     private void fromDataToView(IVModelData aFrom) {
-        dFactory.fromDataToView(aFrom, fContainer);
+        dFactory.fromDataToView(dType, aFrom, fContainer);
     }
 
     public void startPublish(int cellId) {

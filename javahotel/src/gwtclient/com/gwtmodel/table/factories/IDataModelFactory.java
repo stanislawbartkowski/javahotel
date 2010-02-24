@@ -20,13 +20,15 @@ public interface IDataModelFactory {
 
     IVModelData construct(IDataType dType);
 
-    void copyFromPersistToModel(IDataType dType, IVModelData from, IVModelData to);
+    void copyFromPersistToModel(IDataType dType, IVModelData from,
+            IVModelData to);
 
     void fromModelToPersist(IDataType dType, IVModelData from, IVModelData to);
-    
-    void fromViewToData(FormLineContainer fContainer, IVModelData aTo);
-    
-    void fromDataToView(IVModelData aFrom, FormLineContainer fContainer);
 
+    void fromViewToData(IDataType dType, FormLineContainer fContainer,
+            IVModelData aTo);
+
+    void fromDataToView(IDataType dType, IVModelData aFrom,
+            FormLineContainer fContainer);
 
 }
