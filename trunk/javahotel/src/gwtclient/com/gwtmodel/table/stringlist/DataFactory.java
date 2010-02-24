@@ -21,10 +21,10 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 
 class DataFactory implements IDataModelFactory {
-    
+
     private final IStringEFactory eFactory;
     private final IVField fie;
-    
+
     DataFactory(IStringEFactory eFactory, IVField fie) {
         this.eFactory = eFactory;
         this.fie = fie;
@@ -46,7 +46,7 @@ class DataFactory implements IDataModelFactory {
         return i.getELine();
     }
 
-    public void fromDataToView(IVModelData aFrom,
+    public void fromDataToView(IDataType dType, IVModelData aFrom,
             FormLineContainer fContainer) {
         AbstractStringE efrom = (AbstractStringE) aFrom;
         IFormLineView e = getI(fContainer);
@@ -58,10 +58,11 @@ class DataFactory implements IDataModelFactory {
         copyFromPersistToModel(dType, from, to);
     }
 
-    public void fromViewToData(FormLineContainer fContainer, IVModelData aTo) {
+    public void fromViewToData(IDataType dType, FormLineContainer fContainer,
+            IVModelData aTo) {
         AbstractStringE eto = (AbstractStringE) aTo;
         IFormLineView e = getI(fContainer);
-        eto.setS(fie,e.getVal());
+        eto.setS(fie, e.getVal());
     }
 
 }

@@ -43,7 +43,8 @@ public class LoginDataModelFactory implements IDataModelFactory {
         copyData(getLi(), from, to);
     }
 
-    public void fromDataToView(IVModelData aFrom, FormLineContainer fContainer) {
+    public void fromDataToView(IDataType dType, IVModelData aFrom,
+            FormLineContainer fContainer) {
         FormUtil.copyFromDataToView(aFrom, fContainer);
     }
 
@@ -52,7 +53,8 @@ public class LoginDataModelFactory implements IDataModelFactory {
         copyData(getLi(), from, to);
     }
 
-    public void fromViewToData(FormLineContainer fContainer, IVModelData aTo) {
+    public void fromViewToData(IDataType dType, FormLineContainer fContainer,
+            IVModelData aTo) {
         FormUtil.copyFromViewToData(fContainer, aTo);
     }
 

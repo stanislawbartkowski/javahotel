@@ -12,12 +12,12 @@
  */
 package com.javahotel.nmvc.common;
 
+import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
 
-public class VModelData implements IVModelData {
+public class VModelData extends AVModelData {
 
     private final AbstractTo a;
 

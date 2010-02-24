@@ -61,11 +61,11 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
         copyFromPersistToModel(dType, from, to);
     }
 
-    public void fromDataToView(IVModelData aFrom, FormLineContainer fContainer) {
+    public void fromDataToView(IDataType dType, IVModelData aFrom, FormLineContainer fContainer) {
         FormUtil.copyFromDataToView(aFrom, fContainer);
     }
 
-    public void fromViewToData(FormLineContainer fContainer, IVModelData aTo) {
+    public void fromViewToData(IDataType dType, FormLineContainer fContainer, IVModelData aTo) {
         VModelData vData = (VModelData) aTo;
         AbstractTo a = vData.getA();
         for (FormField d : fContainer.getfList()) {
