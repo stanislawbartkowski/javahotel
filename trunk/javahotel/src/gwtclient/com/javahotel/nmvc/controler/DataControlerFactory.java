@@ -12,24 +12,30 @@
  */
 package com.javahotel.nmvc.controler;
 
-import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.IResLocator;
 import com.javahotel.nmvc.common.DataType;
+import com.javahotel.nmvc.controler.impl.ClearHotelData;
 
 public class DataControlerFactory {
 
     private DataControlerFactory() {
     }
 
-    public static IDataControler constructDataControler(IResLocator rI,
+    public static ISlotable constructDataControler(IResLocator rI,
             DataControlerEnum cEnum, DataType dType, int panelId,
             int cellIdFirst) {
+        switch (cEnum) {
+        case DisplayList:
+            TableDataControlerFactory tFactory = GwtGiniInjector.getI()
+                    .getTableDataControlerFactory();
 
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
-                .getTableDataControlerFactory();
-
-        return tFactory.constructDataControler(dType, panelId, cellIdFirst);
+            return tFactory.constructDataControler(dType, panelId, cellIdFirst);
+        case ClearDataHotel:
+            return new ClearHotelData(rI, panelId, cellIdFirst);
+        }
+        return null;
     }
 }

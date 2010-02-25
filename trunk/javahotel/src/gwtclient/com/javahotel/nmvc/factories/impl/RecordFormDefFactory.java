@@ -25,7 +25,6 @@ import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.DataType;

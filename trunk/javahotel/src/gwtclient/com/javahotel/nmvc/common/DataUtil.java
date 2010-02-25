@@ -80,9 +80,13 @@ public class DataUtil {
         if (dd.isRType() && dd.getrType() == RType.AllPersons) {
             List<IVField> eList = new ArrayList<IVField>();
             eList.add(new LoginField(LoginField.F.LOGINNAME));
+            if (action == IPersistAction.ADDACION) {
+                eList.add(new LoginField(LoginField.F.PASSWORD));
+                eList.add(new LoginField(LoginField.F.REPASSWORD));
+            }
             return eList;
         }
-        DictData dicData = new DictData(dd.getdType());
+        DictData dicData = constructDictData(dType);
         List<IVField> list = new ArrayList<IVField>();
         DictEmptyFactory eFactory = HInjector.getI().getDictEmptyFactory();
         List<IField> eList = eFactory.getNoEmpty(action, dicData);

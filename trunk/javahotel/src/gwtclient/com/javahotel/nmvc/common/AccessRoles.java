@@ -12,19 +12,69 @@
  */
 package com.javahotel.nmvc.common;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.gwtmodel.table.common.CUtil;
+
 public class AccessRoles {
 
-    public Map<String, List<String>> getRoles() {
-        return roles;
+    public class PersonHotelRoles {
+        private final String person;
+        private final String hotel;
+        private final List<String> roles;
+
+        boolean eq(String person, String hotel) {
+            if (!CUtil.EqNS(this.person, person)) {
+                return false;
+            }
+            if (!CUtil.EqNS(this.hotel, hotel)) {
+                return false;
+            }
+            return true;
+        }
+
+        public List<String> getRoles() {
+            return roles;
+        }
+
+        public String getPerson() {
+            return person;
+        }
+
+        public String getHotel() {
+            return hotel;
+        }
+
+        PersonHotelRoles(String person, String hotel) {
+            this.person = person;
+            this.hotel = hotel;
+            roles = new ArrayList<String>();
+        }
+
     }
 
-    public void setRoles(Map<String, List<String>> roles) {
-        this.roles = roles;
+    private final List<PersonHotelRoles> li = new ArrayList<PersonHotelRoles>();
+
+    public void addRole(String person, String hotel, String role) {
+
+        PersonHotelRoles pe = null;
+        for (PersonHotelRoles p : li) {
+            if (p.eq(person, hotel)) {
+                pe = p;
+                break;
+            }
+        }
+        if (pe == null) {
+            pe = new PersonHotelRoles(person, hotel);
+            li.add(pe);
+        }
+        pe.roles.add(role);
     }
 
-    private Map<String, List<String>> roles;
+    public List<PersonHotelRoles> getLi() {
+        return li;
+    }
 
 }

@@ -18,32 +18,26 @@ import java.util.List;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.panelview.PanelViewFactory;
-import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.SlotListContainer;
+import com.gwtmodel.table.slotmodel.PanelSlotContainer;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
-class ComposeController implements IComposeController {
+class ComposeController extends PanelSlotContainer implements
+        IComposeController {
 
-    private final ISlotMediator slMediator;
     private final List<ComposeControllerType> cList = new ArrayList<ComposeControllerType>();
     private IPanelView pView;
-    private final PanelViewFactory pViewFactory;
     private final IDataType dType;
     private final SlotTypeFactory slFactory;
     private final IDataModelFactory dFactory;
 
-    ComposeController(TablesFactories tFactories, IDataType dType,
-            IDataModelFactory dFactory) {
-        slMediator = tFactories.getSlotMediatorFactory().construct();
-        pViewFactory = tFactories.getpViewFactory();
+    ComposeController(IDataType dType, IDataModelFactory dFactory) {
+        super();
         this.dType = dType;
         slFactory = tFactories.getSlTypeFactory();
         this.dFactory = dFactory;
@@ -148,10 +142,6 @@ class ComposeController implements IComposeController {
                 new EditCallerGetter(GetActionEnum.GetModelToPersist));
 
         slMediator.startPublish(-1);
-    }
-
-    public SlotListContainer getSlContainer() {
-        return slMediator.getSlContainer();
     }
 
 }

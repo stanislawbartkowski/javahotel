@@ -125,6 +125,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
         if (dd.isRType()) {
             switch (dd.getrType()) {
             case AllPersons:
+            case AllHotels:
                 cContainer = new HotelPersonRightsContainer(dd,subType);
                 break;
             }

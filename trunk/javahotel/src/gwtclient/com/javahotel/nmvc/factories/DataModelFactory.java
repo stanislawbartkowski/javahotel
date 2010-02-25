@@ -28,6 +28,7 @@ import com.javahotel.nmvc.common.FormLineDef;
 import com.javahotel.nmvc.common.VField;
 import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.factories.impl.DataModelFields;
+import com.javahotel.nmvc.common.DataType;
 
 class DataModelFactory extends HelperFactory implements IDataModelFactory {
 
@@ -66,6 +67,11 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
     }
 
     public void fromViewToData(IDataType dType, FormLineContainer fContainer, IVModelData aTo) {
+        DataType daType = (DataType) dType;
+        if (daType.isAllPersons()) {
+            FormUtil.copyFromViewToData(fContainer, aTo);
+            return;
+        }
         VModelData vData = (VModelData) aTo;
         AbstractTo a = vData.getA();
         for (FormField d : fContainer.getfList()) {

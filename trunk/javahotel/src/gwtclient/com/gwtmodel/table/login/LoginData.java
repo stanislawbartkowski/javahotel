@@ -18,6 +18,10 @@ import com.gwtmodel.table.common.CUtil;
 
 public class LoginData extends AVModelData {
 
+    public String getRepassword() {
+        return repassword;
+    }
+
     public String getLoginName() {
         return loginName;
     }

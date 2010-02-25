@@ -77,5 +77,13 @@ public class TableDataControlerFactory {
                 panelId, cellIdFirst, cList, new DataListCrudControler(
                         tFactories, fContainer, listParam, dType), listParam);
     }
+    
+    public IDataControler constructDataControler(IDataType dType, ListOfControlDesc cList,
+            int panelId, int cellIdFirst) {
+        DataListParam listParam = getParam(dType);
+        return new DisplayListControler(tFactories, fContainer, dType, null,
+                panelId, cellIdFirst, cList, new DataListCrudControler(
+                        tFactories, fContainer, listParam, dType), listParam);
+    }
 
 }

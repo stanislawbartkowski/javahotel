@@ -14,12 +14,10 @@ package com.gwtmodel.table.buttoncontrolmodel;
 
 import java.util.List;
 
-
-
 public class ListOfControlDesc {
-    
+
     private final List<ControlButtonDesc> cList;
-    
+
     public ListOfControlDesc(List<ControlButtonDesc> cList) {
         this.cList = cList;
     }

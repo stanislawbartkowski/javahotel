@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.ISuccess;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataPersistAction;
@@ -27,6 +28,8 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.view.callback.CommonCallBackNo;
+import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.mvc.crud.controler.RecordModel;
 import com.javahotel.client.rdata.RData.IVectorList;
@@ -34,11 +37,15 @@ import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.PersonP;
+import com.javahotel.nmvc.common.AccessRoles;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.nmvc.persist.dict.IPersistHotelPerson;
 import com.javahotel.nmvc.persist.dict.IPersistRecord;
 import com.javahotel.nmvc.persist.dict.IPersistResult;
+import com.javahotel.nmvc.persist.dict.PersistHotel;
+import com.javahotel.nmvc.persist.dict.PersistPerson;
 import com.javahotel.nmvc.persist.dict.PersistRecordDict;
 
 public class DataPersistLayer extends AbstractSlotContainer implements
@@ -54,7 +61,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             PersonP pe = (PersonP) vda.getA();
             LoginData lo = new LoginData();
             String name = pe.getName();
-            lo.setS(new LoginField(LoginField.F.LOGINNAME),name);
+            lo.setS(new LoginField(LoginField.F.LOGINNAME), name);
             li.add(lo);
         }
         return DataListTypeFactory.construct(li);
@@ -100,6 +107,64 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
     }
 
+    private class PersisRoles extends CommonCallBackNo {
+
+        private final PersistTypeEnum persistTypeEnum;
+
+        PersisRoles(int no, PersistTypeEnum persistTypeEnum) {
+            super(no);
+            this.persistTypeEnum = persistTypeEnum;
+        }
+
+        @Override
+        protected void go() {
+            rI.getR().invalidateCache(RType.AllHotels, RType.AllPersons,
+                    RType.PersonHotelRoles);
+            publish(DataActionEnum.PersistDataSuccessSignal, dType,
+                    persistTypeEnum);
+        }
+
+    }
+
+    private class PeSuccess implements ISuccess {
+
+        private final PersistTypeEnum persistTypeEnum;
+        private final AccessRoles roles;
+
+        PeSuccess(PersistTypeEnum persistTypeEnum, AccessRoles roles) {
+            this.persistTypeEnum = persistTypeEnum;
+            this.roles = roles;
+        }
+
+        public void success() {
+            PersisRoles rol = new PersisRoles(roles.getLi().size(),
+                    persistTypeEnum);
+            for (AccessRoles.PersonHotelRoles pe : roles.getLi()) {
+                GWTGetService.getService().setRoles(pe.getPerson(),
+                        pe.getHotel(), pe.getRoles(), rol);
+            }
+        }
+
+    }
+
+    private class SignalPersistPerson implements ISlotSignaller {
+
+        private final IPersistHotelPerson iPersist;
+
+        SignalPersistPerson(IPersistHotelPerson iPersist) {
+            this.iPersist = iPersist;
+        }
+
+        public void signal(ISlotSignalContext slContext) {
+            IVModelData pData = getGetterIVModelData(
+                    GetActionEnum.GetComposeModelToPersist, dType);
+            AccessRoles roles = (AccessRoles) pData.getCustomData();
+            iPersist.persist(slContext.getPersistType(), pData, new PeSuccess(
+                    slContext.getPersistType(), roles));
+        }
+
+    }
+
     private class ReadList implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
@@ -118,8 +183,16 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         this.dType = dType;
         // create subscribers - ReadList
         registerSubscriber(DataActionEnum.ReadListAction, dType, new ReadList());
-        registerSubscriber(DataActionEnum.PersistDataAction, dType,
-                new PersistRecord());
+        if (dType.isAllPersons()) {
+            registerSubscriber(DataActionEnum.PersistDataAction, dType,
+                    new SignalPersistPerson(new PersistPerson()));
+        } else if (dType.isAllHotels()) {
+            registerSubscriber(DataActionEnum.PersistDataAction, dType,
+                    new SignalPersistPerson(new PersistHotel()));
+        } else {
+            registerSubscriber(DataActionEnum.PersistDataAction, dType,
+                    new PersistRecord());
+        }
         // persist subscriber
     }
 

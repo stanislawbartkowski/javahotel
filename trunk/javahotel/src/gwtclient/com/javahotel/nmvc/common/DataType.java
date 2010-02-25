@@ -50,11 +50,11 @@ public class DataType implements IDataType {
     public DictType getdType() {
         return dType;
     }
-    
+
     public boolean isDictType() {
         return dType != null;
     }
-    
+
     public boolean isRType() {
         return rType != null;
     }
@@ -62,10 +62,14 @@ public class DataType implements IDataType {
     public boolean eq(IDataType dt) {
         DataType p = (DataType) dt;
         if (isRType()) {
-            if (!p.isRType()) { return false; }
+            if (!p.isRType()) {
+                return false;
+            }
             return rType == p.rType;
         }
-        if (p.isRType()) { return false; }
+        if (p.isRType()) {
+            return false;
+        }
         if (dType != p.getdType()) {
             return false;
         }
@@ -74,6 +78,14 @@ public class DataType implements IDataType {
 
     public RType getrType() {
         return rType;
+    }
+
+    public boolean isAllPersons() {
+        return isRType() && (rType == RType.AllPersons);
+    }
+
+    public boolean isAllHotels() {
+        return isRType() && (rType == RType.AllHotels);
     }
 
 }

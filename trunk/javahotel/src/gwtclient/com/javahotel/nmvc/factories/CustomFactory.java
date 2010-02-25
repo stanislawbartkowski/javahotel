@@ -30,6 +30,7 @@ class CustomFactory implements IGetCustomValues {
         this.sI = sI;
         ma.put(IGetCustomValues.IMAGEFOLDER,"img");
         ma.put(IGetCustomValues.RESOURCEFOLDER,"res");
+        ma.put(IGetCustomValues.COMMERROR, sI.getLabels().commError());
         
     }
 

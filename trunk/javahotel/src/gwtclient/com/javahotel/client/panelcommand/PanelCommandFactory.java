@@ -15,6 +15,7 @@ package com.javahotel.client.panelcommand;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
+import com.javahotel.nmvc.controler.DataControlerEnum;
 
 /**
  * 
@@ -43,13 +44,16 @@ public class PanelCommandFactory {
         IPanelCommand i = null;
         switch (command) {
         case PERSON:
-            i = new HotelPersonCommand(sI, RType.AllPersons);
+            // i = new HotelPersonCommand(sI, RType.AllPersons);
+            i = new NewMvcPanel(sI, RType.AllPersons);
             break;
         case HOTEL:
-            i = new HotelPersonCommand(sI, RType.AllHotels);
+            // i = new HotelPersonCommand(sI, RType.AllHotels);
+            i = new NewMvcPanel(sI, RType.AllHotels);
             break;
         case REMOVEDATA:
-            i = new ClearHotelDataCommand(sI);
+            // i = new ClearHotelDataCommand(sI);
+            i = new NewMvcPanel(sI, DataControlerEnum.ClearDataHotel);
             break;
         case ROOMSADMIN:
             // i = new RoomsAdmin(sI);
@@ -95,14 +99,15 @@ public class PanelCommandFactory {
             i = new TestSeasonScrollPanelWidget(sI);
             break;
         case TESTBOOKINGELEM:
-//            i = new TestBookingElem(sI);
-//            i = new NewMvcPanel(sI,DictType.PriceListDict);
-//            i = new NewMvcPanel(sI,DictType.RoomFacility);
-//            i = new NewMvcPanel(sI,DictType.RoomStandard);
-//            i = new NewMvcPanel(sI,DictType.RoomObjects);
-//            i = new NewMvcPanel(sI,DictType.PriceListDict);     
-//              i = new NewMvcPanel(sI,DictType.CustomerList);
-          i = new NewMvcPanel(sI,RType.AllPersons);
+            // i = new TestBookingElem(sI);
+            // i = new NewMvcPanel(sI,DictType.PriceListDict);
+            // i = new NewMvcPanel(sI,DictType.RoomFacility);
+            // i = new NewMvcPanel(sI,DictType.RoomStandard);
+            // i = new NewMvcPanel(sI,DictType.RoomObjects);
+            // i = new NewMvcPanel(sI,DictType.PriceListDict);
+            // i = new NewMvcPanel(sI,DictType.CustomerList);
+            // i = new NewMvcPanel(sI,RType.AllPersons);
+            i = new NewMvcPanel(sI, RType.AllHotels);
             break;
         }
         if (i == null) {
