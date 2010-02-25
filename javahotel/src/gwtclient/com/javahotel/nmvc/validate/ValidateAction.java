@@ -12,6 +12,7 @@
  */
 package com.javahotel.nmvc.validate;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,10 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IDataValidateAction;
+import com.gwtmodel.table.login.LoginData;
+import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -95,6 +99,24 @@ public class ValidateAction extends AbstractSlotContainer implements
         List<InvalidateMess> errMess = ValidateUtil.checkEmpty(mData, listMFie,
                 ignoreV);
         if (errMess == null) {
+            if (da.isAllPersons()) {
+                LoginData lo = (LoginData) mData;
+                String password = lo.getPassword();
+                String repassword = lo.getS(new LoginField(
+                        LoginField.F.REPASSWORD));
+                if (!CUtil.EmptyS(password)) {
+                    if (!CUtil.EqNS(password, repassword)) {
+                        errMess = new ArrayList<InvalidateMess>();
+                        errMess.add(new InvalidateMess(new LoginField(
+                                LoginField.F.PASSWORD),
+                                "Hasła się nie zgadzają"));
+                        publishValidSignal(new InvalidateFormContainer(errMess));
+                        return;
+                    }
+                }
+                publishValidSignal(null);
+                return;
+            }
             IRecordValidator val = valFactory.getValidator(new DictData(da
                     .getdType()), true);
             RecordModel mo = DataUtil.toRecordModel(mData);

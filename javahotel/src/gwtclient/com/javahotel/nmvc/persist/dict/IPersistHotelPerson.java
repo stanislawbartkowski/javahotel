@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,12 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.slotmodel;
+package com.javahotel.nmvc.persist.dict;
 
-public interface ISlotable {
+import com.gwtmodel.table.ISuccess;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
 
-    SlotListContainer getSlContainer();
+public interface IPersistHotelPerson {
 
-    void startPublish(int cellId);
-    
+    void persist(PersistTypeEnum persistTypeEnum, IVModelData mData,
+            ISuccess iRes);
+
 }

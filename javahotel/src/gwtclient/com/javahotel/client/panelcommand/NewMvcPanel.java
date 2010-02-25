@@ -12,9 +12,9 @@
  */
 package com.javahotel.client.panelcommand;
 
-import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
@@ -29,30 +29,39 @@ class NewMvcPanel extends AbstractPanelCommand {
     private ISetGwtWidget iS;
     private final IResLocator rI;
     private final DataType da;
+    private final DataControlerEnum eNum;
 
     NewMvcPanel(IResLocator rI, DictType da) {
         this.rI = rI;
         this.da = new DataType(da);
+        eNum = DataControlerEnum.DisplayList;
     }
-    
+
     NewMvcPanel(IResLocator rI, RType rType) {
         this.rI = rI;
         this.da = new DataType(rType);
+        eNum = DataControlerEnum.DisplayList;
+    }
+    
+    NewMvcPanel(IResLocator rI, DataControlerEnum eNum) {
+        this.rI = rI;
+        this.da = null;
+        this.eNum = eNum;
     }
 
     private class SetGwt implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            iS.setGwtWidget(new DefaultMvcWidget(slContext.getGwtWidget().getGWidget()));
+            iS.setGwtWidget(new DefaultMvcWidget(slContext.getGwtWidget()
+                    .getGWidget()));
         }
 
     }
 
     public void beforeDrawAction(ISetGwtWidget iSet) {
         iS = iSet;
-        IDataControler iControler = DataControlerFactory
-                .constructDataControler(rI, DataControlerEnum.DisplayList,
-                        da, 0, 1);
+        ISlotable iControler = DataControlerFactory.constructDataControler(rI,
+                eNum, da, 0, 1);
         iControler.getSlContainer().registerSubscriber(0, new SetGwt());
         iControler.startPublish(-1);
 

@@ -67,6 +67,10 @@ public abstract class CommonCallBack<T> implements AsyncCallback<T> {
         }
         TableFactoriesContainer fa = GwtGiniInjector.getI().getTableFactoriesContainer();
         IGetCustomValues va = fa.getGetCustomValues();
-        iWeb.setErrorL(va.getCustomValue(IGetCustomValues.COMMERROR));
+        String cMessage = va.getCustomValue(IGetCustomValues.COMMERROR);
+        if (caught.getMessage() != null) {
+            cMessage += " " + caught.getMessage();
+        }
+        iWeb.setErrorL(cMessage);
     }
 }

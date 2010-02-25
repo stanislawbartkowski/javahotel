@@ -46,7 +46,7 @@ public class SlotTypeFactory {
         return new SlotType(SlotEventEnum.ClickButton, null,
                 new ClickButtonType(clickEnum), null, null, -1, null, null, null);
     }
-
+    
     public SlotType construct(String stringButton) {
         return new SlotType(SlotEventEnum.ClickString, null,
                 null, null, null, -1, null, null, stringButton);

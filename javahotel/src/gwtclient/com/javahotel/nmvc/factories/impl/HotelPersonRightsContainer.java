@@ -13,7 +13,6 @@
 package com.javahotel.nmvc.factories.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +42,9 @@ import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.PersonP;
 import com.javahotel.common.toobject.StringP;
+import com.javahotel.nmvc.common.AccessRoles;
 import com.javahotel.nmvc.common.DataType;
+import com.javahotel.nmvc.common.VModelData;
 
 public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         ISlotable {
@@ -60,8 +61,12 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         for (int row = 0; row < roles.size(); row++) {
             Boolean b = null;
             for (String s : ro) {
-                HotelRoles hro = HotelRoles.valueOf(s);
-                if (hro.equals(roles.get(row))) {
+                HotelRoles hro = null;
+                try {
+                    hro = HotelRoles.valueOf(s);
+                } catch (IllegalArgumentException e) {
+                }
+                if ((hro != null) && hro.equals(roles.get(row))) {
                     b = new Boolean(true);
                     break;
                 }
@@ -138,7 +143,8 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
                 LoginData lo = (LoginData) mData;
                 dList.name = lo.getLoginName();
             } else {
-                HotelP ho = (HotelP) mData;
+                VModelData mDa = (VModelData) mData;
+                HotelP ho = (HotelP) mDa.getA();
                 dList.name = ho.getName();
             }
             dList.signalDone();
@@ -174,18 +180,36 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
-            Map<String, List<String>> ma = new HashMap<String, List<String>>();
+            AccessRoles aroles = new AccessRoles();
+            String s;
+            if (daType.isAllPersons()) {
+                LoginData lo = (LoginData) mData;
+                s = lo.getLoginName();
+            } else {
+                VModelData mo = (VModelData) mData;
+                HotelP ho = (HotelP) mo.getA();
+                s = ho.getName();
+            }
+            if (CUtil.EmptyS(s)) {
+                return slContext;
+            }
             for (int col = 0; col < cols.size(); col++) {
-                List<String> roles = new ArrayList<String>();
-                for (int i = 0; i < rNames.size(); i++) {
+                for (int i = 0; i < roles.size(); i++) {
+                    String osoba, hotel;
+                    if (daType.isAllPersons()) {
+                        osoba = s;
+                        hotel = cols.get(col);
+                    } else {
+                        osoba = cols.get(col);
+                        hotel = s;
+                    }
                     Boolean b = iView.getCellBoolean(i, col);
                     if (b.booleanValue()) {
-                        roles.add(rNames.get(i));
+                        aroles.addRole(osoba, hotel, roles.get(i).toString());
                     }
                 }
-                ma.put(cols.get(col), roles);
             }
-            mData.setCustomData(ma);
+            mData.setCustomData(aroles);
             return slContext;
         }
 
