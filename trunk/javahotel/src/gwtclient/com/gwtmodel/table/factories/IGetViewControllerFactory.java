@@ -17,6 +17,10 @@ import com.gwtmodel.table.composecontroller.IComposeController;
 
 public interface IGetViewControllerFactory {
     
+    /**
+     * @param dType
+     * @return
+     */
     public IComposeController construct(IDataType dType);
 
 }

@@ -55,6 +55,14 @@ public class ComposeControllerType {
         this.cell = -1;
         this.cellId = cellId;
     }
+    
+    public ComposeControllerType(ISlotable iSlot, IDataType dType, CellId cellId) {
+        this.iSlot = iSlot;
+        this.dType = dType;
+        this.row = -1;
+        this.cell = -1;
+        this.cellId = cellId;
+    }
 
     public boolean isPanelElem() {
         return row != -1;

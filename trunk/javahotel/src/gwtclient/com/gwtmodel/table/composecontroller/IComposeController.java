@@ -12,10 +12,13 @@
  */
 package com.gwtmodel.table.composecontroller;
 
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 public interface IComposeController extends ISlotable {
 
-    void registerController(ComposeControllerType cType);
+    void registerControler(ComposeControllerType cType);
+    
+    void createComposeControle(CellId cellId);
 
 }

@@ -75,7 +75,7 @@ class ComposeController extends PanelSlotContainer implements
 
     }
 
-    public void registerController(ComposeControllerType cType) {
+    public void registerControler(ComposeControllerType cType) {
         cList.add(cType);
     }
 
@@ -88,10 +88,17 @@ class ComposeController extends PanelSlotContainer implements
         }
 
         public void signal(ISlotSignalContext slContext) {
+//            DataActionEnum calledDataAction = slContext.getSlType().getDataActionEnum();
             for (ComposeControllerType cType : cList) {
                 if (cType.getdType() == null) {
                     continue;
                 }
+//                if (cType.getiSlot() instanceof IComposeController) {
+//                    if (calledDataAction == DataActionEnum.DrawViewComposeFormAction) {
+//                        slMediator.getSlContainer().publish(calledDataAction,cType.getdType(), slContext);
+//                        return;                        
+//                    }
+//                }
                 if (!cType.isPanelElem() && !cType.isCellId()) {
                     continue;
                 }
@@ -103,6 +110,10 @@ class ComposeController extends PanelSlotContainer implements
     }
 
     public void startPublish(CellId cellId) {
+        slMediator.startPublish(null);
+    }
+
+    public void createComposeControle(CellId cellId) {
         pView = pViewFactory.construct(cellId);
         for (ComposeControllerType c : cList) {
             CellId cId = null;
@@ -143,9 +154,7 @@ class ComposeController extends PanelSlotContainer implements
                 new EditCallerGetter(GetActionEnum.GetViewModelEdited));
         slMediator.getSlContainer().registerCaller(
                 GetActionEnum.GetComposeModelToPersist, dType,
-                new EditCallerGetter(GetActionEnum.GetModelToPersist));
-
-        slMediator.startPublish(null);
+                new EditCallerGetter(GetActionEnum.GetModelToPersist));        
     }
 
 }
