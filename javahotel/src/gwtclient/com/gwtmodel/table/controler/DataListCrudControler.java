@@ -210,13 +210,15 @@ class DataListCrudControler extends AbstractSlotContainer {
                 liControls = tFactories.getControlButtonFactory()
                         .constructRemoveDesign();
             }
+            CellId cId = new CellId(0);
             IComposeController fController = listParam.getfControler()
                     .construct(dType);
             IControlButtonView cView = tFactories.getbViewFactory().construct(
                     liControls);
             ComposeControllerType bType = new ComposeControllerType(cView,
                     null, 1, 0);
-            fController.registerController(bType);
+            fController.registerControler(bType);
+            fController.createComposeControle(cId);
 
             SlotListContainer slControlerContainer = fController
                     .getSlContainer();
@@ -239,7 +241,7 @@ class DataListCrudControler extends AbstractSlotContainer {
                     DataActionEnum.PersistDataSuccessSignal, dType,
                     new AfterPersistData(dForm, persistTypeEnum));
 
-            fController.startPublish(new CellId(0));
+            fController.startPublish(cId);
             slControlerContainer.publish(
                     DataActionEnum.DrawViewComposeFormAction, dType, peData);
 

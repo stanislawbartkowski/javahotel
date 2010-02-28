@@ -31,6 +31,7 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.DictionaryP;
@@ -117,9 +118,9 @@ public class GetViewFactory implements IGetViewControllerFactory {
 
         ComposeControllerType cType = new ComposeControllerType(daModel, dType,
                 0, 0);
-        iCon.registerController(cType);
-        iCon.registerController(new ComposeControllerType(vAction, dType));
-        iCon.registerController(new ComposeControllerType(persistA, dType));
+        iCon.registerControler(cType);
+        iCon.registerControler(new ComposeControllerType(vAction, dType));
+        iCon.registerControler(new ComposeControllerType(persistA, dType));
         DataType dd = (DataType) dType;
         DataType subType = new DataType(dd.getdType(), DataTypeSubEnum.Sub1);
         ISlotable cContainer = null;
@@ -148,13 +149,13 @@ public class GetViewFactory implements IGetViewControllerFactory {
                         DictType.ServiceDict), new InfoExtractStandard());
                 break;
             case BookingList:
-                BookingRegisterContainer.register(iCon);
+                cContainer = new BookingRegisterContainer(subType);
                 break;                
             }
         }
         if (cContainer != null) {
             cType = new ComposeControllerType(cContainer, subType, 0, 1);
-            iCon.registerController(cType);
+            iCon.registerControler(cType);
         }
         return iCon;
     }

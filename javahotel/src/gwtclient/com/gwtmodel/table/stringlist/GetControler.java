@@ -24,6 +24,7 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.persist.IMemoryListModel;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 
 class GetControler implements IGetViewControllerFactory {
 
@@ -50,9 +51,9 @@ class GetControler implements IGetViewControllerFactory {
                 dFactory);
         ComposeControllerType cType = new ComposeControllerType(daModel, dType,
                 0, 0);
-        iCon.registerController(cType);
-        iCon.registerController(new ComposeControllerType(lPhonedata, dType));
-        iCon.registerController(new ComposeControllerType(new ValidateS(dType),
+        iCon.registerControler(cType);
+        iCon.registerControler(new ComposeControllerType(lPhonedata, dType));
+        iCon.registerControler(new ComposeControllerType(new ValidateS(dType),
                 dType));
         return iCon;
     }

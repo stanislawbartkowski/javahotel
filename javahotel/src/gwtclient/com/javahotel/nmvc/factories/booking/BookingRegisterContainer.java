@@ -25,29 +25,27 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
+import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.common.command.DictType;
 import com.javahotel.nmvc.common.DataType;
-import com.javahotel.nmvc.common.DataTypeSubEnum;
 
-public class BookingRegisterContainer {
+public class BookingRegisterContainer extends AbstractSlotContainer {
 
-    private BookingRegisterContainer() {
-    }
-
-    private static class CheckButt extends Composite {
+    private class CheckButt extends Composite {
 
         private final VerticalPanel hp = new VerticalPanel();
         private final CheckBox addNew = new CheckBox("Dodaj nowego");
@@ -61,68 +59,74 @@ public class BookingRegisterContainer {
 
     }
 
-    private static class ComposeV extends AbstractSlotContainer {
+    private final VerticalPanel vp = new VerticalPanel();
+    private final Sych sy = new Sych();
+    private final ISlotMediator slMediator;
+    private final DataType custType;
+    
 
-        private final VerticalPanel vp = new VerticalPanel();
-        private final Sych sy = new Sych();
+    private class Sych extends SynchronizeList {
 
-        private class Sych extends SynchronizeList {
+        CellId cellId;
+        Widget but;
+        Widget cust;
 
-            CellId cellId;
-            Widget but;
-            Widget cust;
-
-            Sych() {
-                super(3);
-            }
-
-            @Override
-            protected void doTask() {
-                HorizontalPanel hp = new HorizontalPanel();
-                hp.add(new CheckButt());
-                hp.add(but);
-                vp.add(hp);
-                vp.add(cust);
-                publish(cellId, new GWidget(vp));
-            }
-
+        Sych() {
+            super(3);
         }
 
-        private class SetWidget implements ISlotSignaller {
-
-            public void signal(ISlotSignalContext slContext) {
-                IGWidget gwtWidget = slContext.getGwtWidget();
-                sy.but = gwtWidget.getGWidget();
-                sy.signalDone();
-            }
-
+        @Override
+        protected void doTask() {
+            HorizontalPanel hp = new HorizontalPanel();
+            hp.add(new CheckButt());
+            hp.add(but);
+            vp.add(hp);
+            vp.add(cust);
+            publish(cellId, new GWidget(vp));
         }
 
-        private class SetWidgetCust implements ISlotSignaller {
+    }
 
-            public void signal(ISlotSignalContext slContext) {
-                IGWidget gwtWidget = slContext.getGwtWidget();
-                sy.cust = gwtWidget.getGWidget();
-                sy.signalDone();
-            }
+    private class SetWidget implements ISlotSignaller {
 
-        }
-
-        ComposeV(ISlotable pView, ISlotable cust) {
-            pView.getSlContainer().registerSubscriber(IPanelView.CUSTOMID,
-                    new SetWidget());
-            cust.getSlContainer().registerSubscriber(IPanelView.CUSTOMID + 1,
-                    new SetWidgetCust());
-        }
-
-        public void startPublish(CellId cellId) {
-            sy.cellId = cellId;
+        public void signal(ISlotSignalContext slContext) {
+            IGWidget gwtWidget = slContext.getGwtWidget();
+            sy.but = gwtWidget.getGWidget();
             sy.signalDone();
         }
 
     }
 
-    static void registerButtons(IComposeController iCon) {
+    private class SetWidgetCust implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            IGWidget gwtWidget = slContext.getGwtWidget();
+            sy.cust = gwtWidget.getGWidget();
+            sy.signalDone();
+        }
+
+    }
+    
+    private class DrawModel implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            slMediator.getSlContainer().publish(DataActionEnum.DrawViewComposeFormAction,custType);
+        }
+
+        
+    }
+
+    private void register(ISlotable pView, ISlotable cust) {
+        pView.getSlContainer().registerSubscriber(IPanelView.CUSTOMID,
+                new SetWidget());
+        cust.getSlContainer().registerSubscriber(IPanelView.CUSTOMID + 1,
+                new SetWidgetCust());
+    }
+
+    public BookingRegisterContainer(DataType subType) {
+        TablesFactories tFactories = GwtGiniInjector.getI().getTablesFactories();
+        slMediator = tFactories.getSlotMediatorFactory().construct();
+
         ClickButtonType sChange = new ClickButtonType(0);
         ClickButtonType sChoose = new ClickButtonType(1);
         ControlButtonDesc bChange = new ControlButtonDesc("Zmień dane", sChange);
@@ -137,26 +141,25 @@ public class BookingRegisterContainer {
         IControlButtonView bView = bFactory.construct(cList);
         IGetViewControllerFactory fa = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getGetViewControllerFactory();
-        IComposeController cust = fa.construct(new DataType(
-                DictType.CustomerList));
+        custType = new DataType(DictType.CustomerList);
+        CellId bId = new CellId(IPanelView.CUSTOMID);
+        CellId cId = new CellId(IPanelView.CUSTOMID + 1);
+        IComposeController cust = fa.construct(custType);
+        cust.createComposeControle(cId);
 
-        DataType subType = new DataType(DictType.BookingList,
-                DataTypeSubEnum.Sub1);
-        ComposeV v = new ComposeV(bView, cust);
-        ComposeControllerType cType = new ComposeControllerType(v, subType, 0,
-                1);
-        ComposeControllerType c1Type = new ComposeControllerType(bView,
-                new CellId(IPanelView.CUSTOMID));
-        ComposeControllerType c2Type = new ComposeControllerType(cust,
-                new CellId(IPanelView.CUSTOMID + 1));
-        iCon.registerController(cType);
-        iCon.registerController(c1Type);
-        iCon.registerController(c2Type);
+        register(bView, cust);
+        slMediator.registerSlotContainer(cId, cust);
+        slMediator.registerSlotContainer(bId, bView);
+        
+        registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
+                new DrawModel());
+
     }
 
-    public static void register(IComposeController iCon) {
-        registerButtons(iCon);
-
+    public void startPublish(CellId cellId) {
+        sy.cellId = cellId;
+        sy.signalDone();
+        slMediator.startPublish(null);
     }
 
 }
