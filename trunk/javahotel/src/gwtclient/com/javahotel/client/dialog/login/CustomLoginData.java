@@ -44,12 +44,12 @@ class CustomLoginData extends LoginData {
     }
 
     @Override
-    public void setS(IVField fie, String s) {
+    public void setF(IVField fie, Object val) {
         LoginField f = (LoginField) fie;
         if (f.getF() == LoginField.F.OTHER) {
-            hotel = s;
+            hotel = (String) val;
             return;
         }
-        super.setS(fie, s);
+        super.setF(fie, val);
     }
 }

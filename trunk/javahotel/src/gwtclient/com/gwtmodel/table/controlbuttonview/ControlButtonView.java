@@ -17,6 +17,7 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
@@ -37,7 +38,7 @@ class ControlButtonView extends AbstractSlotContainer implements
         vButton = vFactory.getView(listButton, new Click());
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         publish(cellId, vButton);
     }
 }

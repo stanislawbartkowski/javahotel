@@ -24,6 +24,7 @@ import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -53,7 +54,7 @@ class LoginDataView implements ILoginDataView {
         }
     }
 
-    LoginDataView(int cellId, int firstId, IDataType dType,
+    LoginDataView(CellId panelId, IDataType dType,
             FormLineContainer lContainer, IDataModelFactory dFactory,
             IDataValidateAction vAction) {
         this.dFactory = dFactory;
@@ -64,14 +65,14 @@ class LoginDataView implements ILoginDataView {
                 .constructLoginButton();
         IControlButtonView bView = tFactories.getbViewFactory().construct(
                 bControl);
-        IPanelView pView = tFactories.getpViewFactory().construct(firstId);
+        IPanelView pView = tFactories.getpViewFactory().construct(panelId);
         slMediator = tFactories.getSlotMediatorFactory().construct();
-        int controlId = pView.addCellPanel(1, 0);
-        int cellTableId = pView.addCellPanel(0, 0);
+        CellId controlId = pView.addCellPanel(1, 0);
+        CellId cellTableId = pView.addCellPanel(0, 0);
         pView.createView();
         IDataViewModel daView = tFactories.getdViewFactory().construct(dType,
                 lContainer, dFactory);
-        slMediator.registerSlotContainer(cellId, pView);
+        slMediator.registerSlotContainer(panelId, pView);
         slMediator.registerSlotContainer(cellTableId, daView);
         slMediator.registerSlotContainer(controlId, bView);
         slMediator.registerSlotContainer(vAction);
@@ -88,7 +89,7 @@ class LoginDataView implements ILoginDataView {
         return slMediator.getSlContainer();
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         slMediator.startPublish(cellId);
     }
 

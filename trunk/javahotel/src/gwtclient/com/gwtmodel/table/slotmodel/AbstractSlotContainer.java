@@ -47,6 +47,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(cellId, gwtWidget);
     }
 
+    protected void publish(CellId cellId, IGWidget gwtWidget) {
+        slContainer.publish(cellId, gwtWidget);
+    }
+
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
             PersistTypeEnum persistTypeEnum) {
         slContainer.publish(dataActionEnum, dType, persistTypeEnum);
@@ -125,6 +129,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerSubscriber(cellId, slSignaller);
     }
 
+    protected void registerSubscriber(CellId cellId, ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(cellId, slSignaller);
+    }
+
     protected void registerCaller(GetActionEnum gEnum, IDataType dType,
             ISlotCaller slCaller) {
         slContainer.registerCaller(gEnum, dType, slCaller);
@@ -172,4 +180,8 @@ abstract public class AbstractSlotContainer implements ISlotable {
             ISlotSignalContext slContext) {
         slContainer.publish(dataActionEnum, dType, slContext);
     }
+    
+    public void startPublish(CellId cellId) {
+    }
+
 }

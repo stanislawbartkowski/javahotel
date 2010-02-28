@@ -27,6 +27,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.persist.IMemoryListModel;
 import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
@@ -44,7 +45,7 @@ public class MemoryStringList extends AbstractSlotContainer implements
     public void setMemTable(IDataListType dList) {
         lPhonelist.setDataList(dList);
         lPhonedata.setDataList(dList);
-        dControler.startPublish(0);
+        dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         VListHeaderDesc he = new VListHeaderDesc(fieldName, Empty.getFieldType());
         heList.add(he);
@@ -67,7 +68,7 @@ public class MemoryStringList extends AbstractSlotContainer implements
 
         IVField sField = Empty.getFieldType();
 
-        dControler = tFactory.constructDataControler(sType, 0, 1,
+        dControler = tFactory.constructDataControler(sType, new CellId(0),
                 new DataListParam(lPhonelist, null, new DataFactory(eFactory,
                         sField), new StringFactory(fieldName, title),
                         new GetControler(fieldName, title, eFactory, sField,
@@ -75,7 +76,7 @@ public class MemoryStringList extends AbstractSlotContainer implements
         dControler.getSlContainer().registerSubscriber(0, setGwt);
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
     }
 
     public IDataListType getMemTable() {

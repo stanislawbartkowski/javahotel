@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
@@ -30,10 +31,10 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
     private final List<C> slList = new ArrayList<C>();
 
     private class C {
-        private final int cellId;
+        private final CellId cellId;
         private final ISlotable iSlo;
 
-        C(int cellId, ISlotable iSlo) {
+        C(CellId cellId, ISlotable iSlo) {
             this.cellId = cellId;
             this.iSlo = iSlo;
         }
@@ -78,7 +79,7 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
         }
     }
 
-    public void registerSlotContainer(int cellId, ISlotable iSlo) {
+    public void registerSlotContainer(CellId cellId, ISlotable iSlo) {
         slList.add(new C(cellId, iSlo));
         this.slContainer.getListOfSubscribers().addAll(
                 iSlo.getSlContainer().getListOfSubscribers());
@@ -88,7 +89,7 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
                 iSlo.getSlContainer().getListOfRedirectors());
     }
 
-    public void startPublish(int nullId) {
+    public void startPublish(CellId nullId) {
         ISlotSignaller sl = new GeneralListener();
         ISlotCaller slCaller = new GeneralCaller();
         for (C c : slList) {
@@ -103,7 +104,11 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
     }
 
     public void registerSlotContainer(ISlotable iSlo) {
-        registerSlotContainer(-1, iSlo);
+        registerSlotContainer(null, iSlo);
+    }
+
+    public void registerSlotContainer(int cellId, ISlotable iSlo) {
+        registerSlotContainer(new CellId(cellId),iSlo);
     }
 
 }

@@ -23,6 +23,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
@@ -99,7 +100,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
     private class DrawList extends SynchronizeList {
 
         String name;
-        int cellId;
+        CellId cellId;
 
         DrawList() {
             super(3);
@@ -244,7 +245,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         registerCaller(GetActionEnum.GetModelToPersist, cType, new SetGetter());
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         dList.cellId = cellId;
         dList.signalDone();
     }

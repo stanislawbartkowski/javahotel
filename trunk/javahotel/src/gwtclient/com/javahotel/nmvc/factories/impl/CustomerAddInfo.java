@@ -25,12 +25,12 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.stringlist.AbstractStringE;
 import com.gwtmodel.table.stringlist.IMemoryStringList;
 import com.gwtmodel.table.stringlist.IStringEFactory;
@@ -42,7 +42,7 @@ import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.PhoneNumberP;
 import com.javahotel.nmvc.common.VModelData;
 
-public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable {
+public class CustomerAddInfo extends AbstractSlotContainer  {
 
     private final VerticalPanel vPanel = new VerticalPanel();
     private final IMemoryStringList mList;
@@ -56,7 +56,7 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
         StringE(AbstractToILd a, IField fie) {
             this.a = a;
             String s = a.getS(fie);
-            this.setS(null, s);
+            this.setF(null, s);
         }
 
         StringE() {
@@ -184,7 +184,7 @@ public class CustomerAddInfo extends AbstractSlotContainer implements ISlotable 
                 new DrawModel());
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         publish(cellId, new GWidget(vPanel));
     }
 

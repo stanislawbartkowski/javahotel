@@ -35,8 +35,12 @@ public class VModelData extends AVModelData {
         return a.getS(toF(fie));
     }
 
-    public void setS(IVField fie, String s) {
-        a.setF(toF(fie), s);
+    public Object getF(IVField fie) {
+        return a.getF(toF(fie));
+    }
+    
+    public void setF(IVField fie, Object val) {
+        a.setF(toF(fie), val);
     }
 
     public AbstractTo getA() {

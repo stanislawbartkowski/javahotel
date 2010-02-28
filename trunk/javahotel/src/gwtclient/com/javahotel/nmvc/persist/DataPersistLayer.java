@@ -24,6 +24,7 @@ import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -61,7 +62,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             PersonP pe = (PersonP) vda.getA();
             LoginData lo = new LoginData();
             String name = pe.getName();
-            lo.setS(new LoginField(LoginField.F.LOGINNAME), name);
+            lo.setF(new LoginField(LoginField.F.LOGINNAME), name);
             li.add(lo);
         }
         return DataListTypeFactory.construct(li);
@@ -194,9 +195,6 @@ public class DataPersistLayer extends AbstractSlotContainer implements
                     new PersistRecord());
         }
         // persist subscriber
-    }
-
-    public void startPublish(int cellId) {
     }
 
 }

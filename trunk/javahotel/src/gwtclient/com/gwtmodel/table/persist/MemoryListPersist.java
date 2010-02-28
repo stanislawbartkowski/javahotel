@@ -17,6 +17,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -82,7 +83,7 @@ public class MemoryListPersist extends AbstractSlotContainer implements
         // persist subscriber
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
     }
 
 }

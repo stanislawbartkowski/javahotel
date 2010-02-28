@@ -38,7 +38,7 @@ class DataFactory implements IDataModelFactory {
             IVModelData to) {
         AbstractStringE efrom = (AbstractStringE) from;
         AbstractStringE eto = (AbstractStringE) to;
-        eto.setS(fie, efrom.getS(fie));
+        eto.setF(fie, efrom.getF(fie));
     }
 
     private IFormLineView getI(FormLineContainer fContainer) {
@@ -62,7 +62,7 @@ class DataFactory implements IDataModelFactory {
             IVModelData aTo) {
         AbstractStringE eto = (AbstractStringE) aTo;
         IFormLineView e = getI(fContainer);
-        eto.setS(fie, e.getVal());
+        eto.setF(fie, e.getVal());
     }
 
 }

@@ -14,9 +14,11 @@ package com.gwtmodel.table;
 
 public interface IVModelData {
 
-    String getS(IVField fie);
+    Object getF(IVField fie);
 
-    void setS(IVField fie, String s);
+    void setF(IVField fie, Object o);
+    
+    String getS(IVField fie);
 
     boolean isEmpty(IVField fie);
 

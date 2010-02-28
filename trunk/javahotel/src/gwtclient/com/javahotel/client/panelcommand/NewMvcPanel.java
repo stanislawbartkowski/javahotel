@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.panelcommand;
 
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
@@ -42,7 +43,7 @@ class NewMvcPanel extends AbstractPanelCommand {
         this.da = new DataType(rType);
         eNum = DataControlerEnum.DisplayList;
     }
-    
+
     NewMvcPanel(IResLocator rI, DataControlerEnum eNum) {
         this.rI = rI;
         this.da = null;
@@ -61,9 +62,9 @@ class NewMvcPanel extends AbstractPanelCommand {
     public void beforeDrawAction(ISetGwtWidget iSet) {
         iS = iSet;
         ISlotable iControler = DataControlerFactory.constructDataControler(rI,
-                eNum, da, 0, 1);
+                eNum, da, new CellId(0));
         iControler.getSlContainer().registerSubscriber(0, new SetGwt());
-        iControler.startPublish(-1);
+        iControler.startPublish(null);
 
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,17 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.slotmediator;
+package com.javahotel.nmvc.factories.booking;
 
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface ISlotMediator extends ISlotable {
 
-    void registerSlotContainer(int cellId, ISlotable iSlo);
-
-    void registerSlotContainer(CellId cellId, ISlotable iSlo);
-
-    void registerSlotContainer(ISlotable iSlo);
+class ClientControlPanel extends AbstractSlotContainer {
+    
+    public void startPublish(CellId cellId) {
+        
+    }
 
 }

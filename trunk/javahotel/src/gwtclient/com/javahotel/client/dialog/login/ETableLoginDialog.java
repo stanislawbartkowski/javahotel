@@ -22,6 +22,7 @@ import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
@@ -84,11 +85,11 @@ public class ETableLoginDialog {
         }
 
         IDataValidateAction vAction = new ValidateLogin(dType, user, lContainer);
-        ILoginDataView dView = LoginViewFactory.contructView(0, 1, dType,
+        ILoginDataView dView = LoginViewFactory.contructView(new CellId(0), dType,
                 lContainer, new CustomLoginDataModelFactory(), vAction);
         dView.getSlContainer().registerSubscriber(0, new SetGwt(iSet));
         dView.getSlContainer().registerSubscriber(DataActionEnum.ValidSignal,
                 dType, new Valid(iNext));
-        dView.startPublish(0);
+        dView.startPublish(new CellId(0));
     }
 }

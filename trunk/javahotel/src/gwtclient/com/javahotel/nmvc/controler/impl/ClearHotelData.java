@@ -24,7 +24,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.TablesFactories;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -86,9 +86,7 @@ public class ClearHotelData implements ISlotable {
         }
     }
 
-    public ClearHotelData(IResLocator rI, int panelId, int cellIdFirst) {
-        TablesFactories tFactories = GwtGiniInjector.getI()
-                .getTablesFactories();
+    public ClearHotelData(IResLocator rI, CellId panelId) {
         cClear = new ClickButtonType(ClickButtonType.StandClickEnum.CUSTOM);
         ControlButtonDesc bDesc = new ControlButtonDesc("MessageError32",
                 "Usuń dane z hotelu", cClear);
@@ -98,8 +96,7 @@ public class ClearHotelData implements ISlotable {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
         daType = new DataType(RType.AllHotels);
-        iData = tFactory.constructDataControler(daType, cList, panelId,
-                cellIdFirst);
+        iData = tFactory.constructDataControler(daType, cList, panelId);
         getSlContainer().registerSubscriber(cClear, new ClearData());
     }
 
@@ -107,8 +104,8 @@ public class ClearHotelData implements ISlotable {
         return iData.getSlContainer();
     }
 
-    public void startPublish(int cellId) {
-        iData.startPublish(-1);
+    public void startPublish(CellId cellId) {
+        iData.startPublish(null);
     }
 
 }

@@ -4,7 +4,7 @@
     <source path="nmvc" />
     <source path="client" excludes="**/unittest/*.java" />
     <inherits name="com.google.gwt.user.User"/>
-    <entry-point class="com.javahotel.client.start.webEntryPoint1"/>       
+    <entry-point class="com.javahotel.client.start.webEntryPoint1"/>        
     <!-- <entry-point class="com.javahotel.client.start.webEntryPoint2"/> -->      
     <stylesheet src='res/style/hotelstyles.css'/>
     <inherits name="com.javahotel.common" /> 

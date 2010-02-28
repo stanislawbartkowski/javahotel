@@ -20,6 +20,7 @@ import java.util.Map;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
@@ -46,27 +47,28 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
     }
 
-    private final Map<Integer, PanelRowCell> colM = new HashMap<Integer, PanelRowCell>();
-    private int nextToUse;
+    private final Map<CellId, PanelRowCell> colM = new HashMap<CellId, PanelRowCell>();
+    private CellId panelId ;
     private IGwtPanelView pView;
     private final GwtPanelViewFactory gFactory;
 
-    PanelView(GwtPanelViewFactory gFactory, int firstToUse) {
-        this.nextToUse = firstToUse;
+    PanelView(GwtPanelViewFactory gFactory, CellId panelId) {
+        this.panelId = panelId;
         this.gFactory = gFactory;
     }
 
-    public int addCellPanel(int row, int col) {
+    public CellId addCellPanel(int row, int col) {
         PanelRowCell pa = new PanelRowCell(row, col);
-        int r = nextToUse;
-        colM.put(nextToUse++, pa);
-        return r;
+        CellId nextId = panelId.constructNext();
+        panelId = nextId;
+        colM.put(nextId, pa);
+        return nextId;
     }
 
     private class SetWidget implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            int cellId = slContext.getSlType().getCellId();
+            CellId cellId = slContext.getSlType().getCellId();
             PanelRowCell pa = colM.get(cellId);
             IGWidget gwtWidget = slContext.getGwtWidget();
             pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getGWidget());
@@ -77,13 +79,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     public void createView() {
         List<PanelRowDesc> rowDesc = new ArrayList<PanelRowDesc>();
         int maxR = 0;
-        for (Integer i : colM.keySet()) {
+        for (CellId i : colM.keySet()) {
             PanelRowCell ro = colM.get(i);
             maxR = MaxI.max(maxR, ro.getRowNo());
         }
         for (int i = 0; i <= maxR; i++) {
             int col = 0;
-            for (Integer ii : colM.keySet()) {
+            for (CellId ii : colM.keySet()) {
                 PanelRowCell ro = colM.get(ii);
                 if (ro.getRowNo() == i) {
                     col = MaxI.max(col, ro.getCellNo());
@@ -93,13 +95,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         }
         pView = gFactory.construct(rowDesc);
         // create subscribers
-        for (Integer ii : colM.keySet()) {
-            registerSubscriber(ii.intValue(), new SetWidget());
+        for (CellId ii : colM.keySet()) {
+            registerSubscriber(ii, new SetWidget());
         }
         // create publisher
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         publish(cellId, pView);
     }
 

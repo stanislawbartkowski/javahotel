@@ -49,7 +49,7 @@ public class FormUtil {
         for (FormField d : fContainer.getfList()) {
             IVField vFie = d.getFie();
             IFormLineView vView = d.getELine();
-            aTo.setS(vFie, vView.getVal());
+            aTo.setF(vFie, vView.getVal());
         }
     }
 
@@ -64,8 +64,8 @@ public class FormUtil {
 
     public static void copyData(IVModelData aFrom, IVModelData aTo) {
         for (IVField v : aFrom.getF()) {
-            String val = aFrom.getS(v);
-            aTo.setS(v, val);
+            Object val = aFrom.getF(v);
+            aTo.setF(v, val);
         }
     }
 }

@@ -25,6 +25,7 @@ import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -238,7 +239,7 @@ class DataListCrudControler extends AbstractSlotContainer {
                     DataActionEnum.PersistDataSuccessSignal, dType,
                     new AfterPersistData(dForm, persistTypeEnum));
 
-            fController.startPublish(0);
+            fController.startPublish(new CellId(0));
             slControlerContainer.publish(
                     DataActionEnum.DrawViewComposeFormAction, dType, peData);
 
@@ -265,9 +266,6 @@ class DataListCrudControler extends AbstractSlotContainer {
                 new ActionItem(PersistTypeEnum.REMOVE));
         registerSubscriber(ClickButtonType.StandClickEnum.MODIFITEM,
                 new ActionItem(PersistTypeEnum.MODIF));
-    }
-
-    public void startPublish(int cellId) {
     }
 
 }

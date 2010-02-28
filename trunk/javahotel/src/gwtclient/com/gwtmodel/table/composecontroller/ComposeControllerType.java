@@ -13,6 +13,7 @@
 package com.gwtmodel.table.composecontroller;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 public class ComposeControllerType {
@@ -20,6 +21,7 @@ public class ComposeControllerType {
     private final ISlotable iSlot;
     private final IDataType dType;
     private final int row, cell;
+    private final CellId cellId;
 
     public ComposeControllerType(ISlotable iSlot, IDataType dType, int row,
             int cell) {
@@ -27,6 +29,7 @@ public class ComposeControllerType {
         this.dType = dType;
         this.row = row;
         this.cell = cell;
+        this.cellId = null;
     }
 
     public ComposeControllerType(ISlotable iSlot) {
@@ -34,17 +37,35 @@ public class ComposeControllerType {
         this.dType = null;
         this.row = -1;
         this.cell = -1;
+        this.cellId = null;
     }
-
+    
     public ComposeControllerType(ISlotable iSlot, IDataType dType) {
         this.iSlot = iSlot;
         this.dType = dType;
         this.row = -1;
         this.cell = -1;
+        this.cellId = null;
+    }
+    
+    public ComposeControllerType(ISlotable iSlot, CellId cellId) {
+        this.iSlot = iSlot;
+        this.dType = null;
+        this.row = -1;
+        this.cell = -1;
+        this.cellId = cellId;
     }
 
     public boolean isPanelElem() {
         return row != -1;
+    }
+
+    public boolean isCellId() {
+        return cellId != null;
+    }
+
+    public CellId getCellId() {
+        return cellId;
     }
 
     public ISlotable getiSlot() {
