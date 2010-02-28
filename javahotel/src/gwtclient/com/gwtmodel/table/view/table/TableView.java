@@ -98,6 +98,9 @@ class TableView implements IGwtTableView {
     }
 
     public WChoosedLine getClicked() {
+        if (clickedNo >=  model.getRowsNum()) {
+            clickedNo = -1;
+        }
         return new WChoosedLine(clickedNo, wSize);
     }
 

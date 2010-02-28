@@ -19,6 +19,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.panelview.IPanelView;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
@@ -91,7 +92,7 @@ class ComposeController extends PanelSlotContainer implements
                 if (cType.getdType() == null) {
                     continue;
                 }
-                if (!cType.isPanelElem()) {
+                if (!cType.isPanelElem() && !cType.isCellId()) {
                     continue;
                 }
                 slMediator.getSlContainer().publish(dataActionEnum,
@@ -101,12 +102,15 @@ class ComposeController extends PanelSlotContainer implements
 
     }
 
-    public void startPublish(int cellId) {
-        pView = pViewFactory.construct(cellId + 1);
+    public void startPublish(CellId cellId) {
+        pView = pViewFactory.construct(cellId);
         for (ComposeControllerType c : cList) {
-            int cId = -1;
+            CellId cId = null;
             if (c.isPanelElem()) {
                 cId = pView.addCellPanel(c.getRow(), c.getCell());
+            }
+            if (c.isCellId()) {
+                cId = c.getCellId();
             }
             slMediator.registerSlotContainer(cId, c.getiSlot());
         }
@@ -141,7 +145,7 @@ class ComposeController extends PanelSlotContainer implements
                 GetActionEnum.GetComposeModelToPersist, dType,
                 new EditCallerGetter(GetActionEnum.GetModelToPersist));
 
-        slMediator.startPublish(-1);
+        slMediator.startPublish(null);
     }
 
 }

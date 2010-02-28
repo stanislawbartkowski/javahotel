@@ -38,13 +38,17 @@ public abstract class AbstractStringE implements IVModelDataEquable {
     public String getS(IVField fie) {
         return s;
     }
+    
+    public Object getF(IVField fie) {
+        return s;
+    }
 
     public boolean isEmpty(IVField fie) {
         return CUtil.EmptyS(s);
     }
 
-    public void setS(IVField fie, String s) {
-        this.s = s;
+    public void setF(IVField fie, Object val) {
+        this.s = (String) val;
     }
 
 }

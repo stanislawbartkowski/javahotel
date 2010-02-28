@@ -26,7 +26,7 @@ import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
-import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
@@ -35,8 +35,8 @@ import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 class DisplayListControler implements IDataControler {
 
-    private final int cellTableId;
-    private final int controlId;
+    private final CellId cellTableId;
+    private final CellId controlId;
     private final ISlotMediator slMediator;
     private final TablesFactories tFactories;
     private final IDataType dType;
@@ -46,7 +46,7 @@ class DisplayListControler implements IDataControler {
 
     DisplayListControler(TablesFactories tFactories,
             TableFactoriesContainer fContainer, IDataType dType, WSize wSize,
-            int panelId, int cellIdFirst, ListOfControlDesc listButton,
+            CellId panelId, ListOfControlDesc listButton,
             ISlotable cControler, DataListParam listParam) {
         this.tFactories = tFactories;
         this.dType = dType;
@@ -56,7 +56,7 @@ class DisplayListControler implements IDataControler {
         IHeaderListContainer heList = listParam.getHeList();
         // create panel View
         PanelViewFactory pViewFactory = tFactories.getpViewFactory();
-        IPanelView pView = pViewFactory.construct(cellIdFirst);
+        IPanelView pView = pViewFactory.construct(panelId);
         controlId = pView.addCellPanel(0, 0);
         cellTableId = pView.addCellPanel(1, 0);
         pView.createView();
@@ -87,7 +87,7 @@ class DisplayListControler implements IDataControler {
         }
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         slMediator.startPublish(cellId);
         slContainer.registerSubscriber(DataActionEnum.ListReadSuccessSignal,
                 dType, new DrawListAction());

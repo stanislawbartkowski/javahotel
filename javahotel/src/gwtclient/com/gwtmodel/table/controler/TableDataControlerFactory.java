@@ -25,6 +25,7 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.factories.IHeaderListFactory;
 import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
+import com.gwtmodel.table.slotmodel.CellId;
 
 public class TableDataControlerFactory {
 
@@ -55,34 +56,32 @@ public class TableDataControlerFactory {
         return new DataListParam(persistA, heList, dataFactory,formFactory,fControler);
     }
 
-    public IDataControler constructDataControler(IDataType dType, int panelId,
-            int cellIdFirst) {
-        return constructDataControler(dType, panelId, cellIdFirst,
-                getParam(dType));
+    public IDataControler constructDataControler(IDataType dType, CellId panelId) {
+        return constructDataControler(dType, panelId, getParam(dType));
     }
 
-    public IDataControler constructDataControler(IDataType dType, int panelId,
-            int cellIdFirst, DataListParam listParam) {
+    public IDataControler constructDataControler(IDataType dType, CellId panelId,
+            DataListParam listParam) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControler(tFactories, fContainer, dType, null,
-                panelId, cellIdFirst, cList, new DataListCrudControler(
+                panelId, cList, new DataListCrudControler(
                         tFactories, fContainer, listParam, dType), listParam);
     }
 
     public IDataControler constructListChooseControler(IDataType dType,
-            WSize wSize, int panelId, int cellIdFirst) {
+            WSize wSize, CellId panelId) {
         DataListParam listParam = getParam(dType);
         ListOfControlDesc cList = cButtonFactory.constructChooseList();
         return new DisplayListControler(tFactories, fContainer, dType, wSize,
-                panelId, cellIdFirst, cList, new DataListCrudControler(
+                panelId, cList, new DataListCrudControler(
                         tFactories, fContainer, listParam, dType), listParam);
     }
     
     public IDataControler constructDataControler(IDataType dType, ListOfControlDesc cList,
-            int panelId, int cellIdFirst) {
+            CellId panelId) {
         DataListParam listParam = getParam(dType);
         return new DisplayListControler(tFactories, fContainer, dType, null,
-                panelId, cellIdFirst, cList, new DataListCrudControler(
+                panelId, cList, new DataListCrudControler(
                         tFactories, fContainer, listParam, dType), listParam);
     }
 

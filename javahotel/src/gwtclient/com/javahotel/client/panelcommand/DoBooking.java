@@ -17,7 +17,6 @@ import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.ISetGwtWidget;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.mvc.crud.controler.ICrudControler;
-import com.javahotel.client.mvc.dictcrud.controler.DictCrudControlerFactory;
 import com.javahotel.common.command.DictType;
 
 /**

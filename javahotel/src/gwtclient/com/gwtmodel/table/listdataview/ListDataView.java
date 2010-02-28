@@ -21,6 +21,7 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.rdef.DataListModelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
@@ -103,7 +104,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerCaller(GetActionEnum.GetListComboField, dType, new GetComboField());
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         publish(cellId, tableView);
     }
 }

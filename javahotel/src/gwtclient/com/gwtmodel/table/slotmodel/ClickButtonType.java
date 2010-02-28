@@ -26,6 +26,11 @@ public class ClickButtonType {
         this.clickEnum = clickEnum;
         customInt = -1;
     }
+    
+    public ClickButtonType(int customInt) {
+        this.clickEnum = StandClickEnum.CUSTOM;
+        this.customInt = customInt;
+    }
 
     public StandClickEnum getClickEnum() {
         return clickEnum;

@@ -31,6 +31,7 @@ import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -141,9 +142,6 @@ public class ValidateAction extends AbstractSlotContainer implements
         this.dType = dType;
         registerSubscriber(DataActionEnum.ValidateAction, dType,
                 new ValidateA());
-    }
-
-    public void startPublish(int cellId) {
     }
 
 }

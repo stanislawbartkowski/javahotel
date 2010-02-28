@@ -25,12 +25,12 @@ import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.grid.IGridViewDecimal;
 import com.javahotel.client.IResLocator;
@@ -49,8 +49,7 @@ import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.pricemodel.ISeasonPriceModel;
 import com.javahotel.nmvc.pricemodel.PriceSeasonModelFactory;
 
-public class PriceListContainer extends AbstractSlotContainer implements
-        ISlotable {
+public class PriceListContainer extends AbstractSlotContainer {
 
     private final GridViewFactory gFactory;
     private final IGridViewDecimal iView;
@@ -183,7 +182,7 @@ public class PriceListContainer extends AbstractSlotContainer implements
                 new ChangeSeason());
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         publish(cellId, iView);
 
     }

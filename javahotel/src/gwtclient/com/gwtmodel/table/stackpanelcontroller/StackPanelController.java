@@ -12,14 +12,16 @@
  */
 package com.gwtmodel.table.stackpanelcontroller;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.stack.IClickStackButton;
 import com.gwtmodel.table.view.stack.IStackPanelView;
 import com.gwtmodel.table.view.stack.StackButton;
 import com.gwtmodel.table.view.stack.StackPanelFactory;
-import java.util.List;
 
 /**
  *
@@ -40,7 +42,7 @@ class StackPanelController extends AbstractSlotContainer implements IStackPanelC
         sView = paFactory.construct(bList, new CallBack());
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         publish(cellId, sView);
     }
 }

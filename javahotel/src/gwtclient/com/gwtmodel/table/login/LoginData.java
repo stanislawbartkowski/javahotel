@@ -34,7 +34,7 @@ public class LoginData extends AVModelData {
     private String password;
     private String repassword;
 
-    public String getS(IVField fie) {
+    public Object getF(IVField fie) {
         LoginField f = (LoginField) fie;
         if (f.isPassword()) {
             return password;
@@ -46,6 +46,10 @@ public class LoginData extends AVModelData {
             return repassword;
         }
         return null;
+    }
+    
+    public String getS(IVField fie) {
+        return (String) getF(fie);
     }
 
     public boolean isEmpty(IVField fie) {
@@ -62,7 +66,8 @@ public class LoginData extends AVModelData {
         return false;
     }
 
-    public void setS(IVField fie, String s) {
+    public void setF(IVField fie, Object val) {
+        String s = (String) val;
         LoginField f = (LoginField) fie;
         if (f.isLogin()) {
             loginName = s;

@@ -33,8 +33,8 @@ public class LoginDataModelFactory implements IDataModelFactory {
     protected void copyData(LoginField[] li, IVModelData from, IVModelData to) {
         for (int i = 0; i < li.length; i++) {
             LoginField f = li[i];
-            String s = from.getS(f);
-            to.setS(f, s);
+            Object val = from.getF(f);
+            to.setF(f, val);
         }
     }
 

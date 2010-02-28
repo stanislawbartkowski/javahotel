@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,23 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.panelview;
+package com.gwtmodel.table.slotmodel;
 
-import com.google.inject.Inject;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
+public class CellId {
 
-public class PanelViewFactory {
+    private final int mainId;
+    private final int subId;
 
-    private final GwtPanelViewFactory gPanelViewFactory;
-
-    @Inject
-    public PanelViewFactory(GwtPanelViewFactory gPanelViewFactory) {
-        this.gPanelViewFactory = gPanelViewFactory;
+    public CellId(int mainId, int subId) {
+        this.mainId = mainId;
+        this.subId = subId;
+    }
+    
+    public CellId(int mainId) {
+        this.mainId = mainId;
+        this.subId = 0;
     }
 
-    public IPanelView construct(CellId pId) {
-        return new PanelView(gPanelViewFactory, pId);
+    boolean eq(CellId s) {
+        return (mainId == s.mainId) && (subId == s.subId);
+    }
+    
+    public CellId constructNext() {
+        int nId = subId + 1;
+        return new CellId(mainId,nId);
     }
 
 }

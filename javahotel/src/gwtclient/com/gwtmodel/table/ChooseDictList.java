@@ -15,6 +15,7 @@ package com.gwtmodel.table;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -22,7 +23,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public class ChooseDictList<T extends IVModelData> {
@@ -43,7 +44,8 @@ public class ChooseDictList<T extends IVModelData> {
     private class GetChoosed implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            IVModelData vData = sl.getGetterIVModelData(GetActionEnum.GetListLineChecked, dType);
+            IVModelData vData = sl.getGetterIVModelData(
+                    GetActionEnum.GetListLineChecked, dType);
             if (vData == null) {
                 return;
             }
@@ -71,12 +73,16 @@ public class ChooseDictList<T extends IVModelData> {
     public ChooseDictList(IDataType dType, WSize wSize, ICallBackWidget<T> i) {
         this.i = i;
         this.dType = dType;
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
-        IDataControler iData = tFactory.constructListChooseControler(dType, wSize, 0, 1);
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
+                .getTableDataControlerFactory();
+        IDataControler iData = tFactory.constructListChooseControler(dType,
+                wSize, new CellId(0));
         sl = iData.getSlContainer();
-        sl.registerSubscriber(ClickButtonType.StandClickEnum.CHOOSELIST, new GetChoosed());
-        sl.registerSubscriber(ClickButtonType.StandClickEnum.RESIGNLIST, new GetResign());
+        sl.registerSubscriber(ClickButtonType.StandClickEnum.CHOOSELIST,
+                new GetChoosed());
+        sl.registerSubscriber(ClickButtonType.StandClickEnum.RESIGNLIST,
+                new GetResign());
         sl.registerSubscriber(0, new GetWidget());
-        iData.startPublish(0);
+        iData.startPublish(new CellId(0));
     }
 }

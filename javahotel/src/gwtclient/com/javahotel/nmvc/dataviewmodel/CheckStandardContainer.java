@@ -24,16 +24,16 @@ import com.gwtmodel.table.ReadDictList;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.checkstring.ICheckDictModel;
 
-class CheckStandardContainer extends AbstractSlotContainer implements ISlotable {
+class CheckStandardContainer extends AbstractSlotContainer {
 
     private final ICheckDictModel iCheck;
     private final IDataType dType;
@@ -79,9 +79,9 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
 
     private class R implements ReadDictList.IListCallBack<IDataListType> {
 
-        private final int cellId;
+        private final CellId cellId;
 
-        R(int cellId) {
+        R(CellId cellId) {
             this.cellId = cellId;
         }
 
@@ -135,7 +135,7 @@ class CheckStandardContainer extends AbstractSlotContainer implements ISlotable 
         registerCaller(GetActionEnum.GetViewModelEdited, cType, new SetGetter());
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         new ReadDictList<IDataListType>().readList(dType, new R(cellId));
     }
 

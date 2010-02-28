@@ -19,6 +19,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
@@ -34,7 +35,7 @@ class HeaderListContainer extends AbstractSlotContainer implements
     private final VListHeaderContainer vHeader;
     private final IDataType dType;
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
         publish(dType, vHeader);
     }
 

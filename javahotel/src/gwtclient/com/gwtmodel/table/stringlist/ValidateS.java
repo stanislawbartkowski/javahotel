@@ -23,6 +23,7 @@ import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -58,7 +59,7 @@ class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
 
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
     }
 
 }

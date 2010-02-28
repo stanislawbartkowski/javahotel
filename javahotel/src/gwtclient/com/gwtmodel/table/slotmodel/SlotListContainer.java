@@ -132,6 +132,10 @@ public class SlotListContainer {
         listOfSubscribers.add(new SlotSubscriberType(slType, slSignaller));
     }
 
+    public void registerSubscriber(CellId cellId, ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(cellId), slSignaller);
+    }
+    
     public void registerSubscriber(int cellId, ISlotSignaller slSignaller) {
         registerSubscriber(slTypeFactory.construct(cellId), slSignaller);
     }
@@ -279,6 +283,11 @@ public class SlotListContainer {
         return null;
     }
 
+    public void publish(CellId cellId, IGWidget gwtWidget) {
+        publish(slContextFactory.construct(slTypeFactory.construct(cellId),
+                gwtWidget));
+    }
+    
     public void publish(int cellId, IGWidget gwtWidget) {
         publish(slContextFactory.construct(slTypeFactory.construct(cellId),
                 gwtWidget));

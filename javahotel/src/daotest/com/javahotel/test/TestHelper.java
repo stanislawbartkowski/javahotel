@@ -54,7 +54,7 @@ import com.javahotel.common.toobject.ServiceType;
 import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.common.util.BillUtil;
 import com.javahotel.dbutil.log.GetLogger;
-import com.javahotel.javatest.exttest.ExtTestHelper;
+//import com.javahotel.javatest.exttest.ExtTestHelper;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.IAuthentication;
 import com.javahotel.remoteinterfaces.IHotelData;
@@ -70,7 +70,7 @@ import com.javahotel.types.LId;
  *
  * @author stanislawbartkowski@gmail.com
  */
-abstract public class TestHelper extends ExtTestHelper {
+abstract public class TestHelper {
 
     protected ISecurity sec;
     protected SessionT se;
@@ -96,7 +96,7 @@ abstract public class TestHelper extends ExtTestHelper {
 //        if (iSetup != null) {
 //            iSetup.setUp();
 //        }
-        beforeTest();
+//        beforeTest();
         sec = TestUtil.getSe();
         aut = TestUtil.getAu();
         list = TestUtil.getList();
@@ -110,7 +110,7 @@ abstract public class TestHelper extends ExtTestHelper {
 //        if (iSetup != null) {
 //            iSetup.tearDown();
 //        }
-        afterTest();
+//        afterTest();
     }
 
     @After

@@ -28,6 +28,14 @@ public class ControlButtonDesc {
         this.actionId = actionId;
         textimage = false;
     }
+    
+    public ControlButtonDesc(final String contrName,
+            final ClickButtonType actionId) {
+        this.imageHtml = null;
+        this.contrName = contrName;
+        this.actionId = actionId;
+        textimage = false;
+    }
 
     public boolean isTextimage() {
         return textimage;

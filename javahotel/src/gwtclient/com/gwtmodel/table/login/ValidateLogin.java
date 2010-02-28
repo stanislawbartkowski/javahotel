@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.login;
 
+import java.util.List;
+
 import com.gwtmodel.table.IBackValidate;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
@@ -21,13 +23,13 @@ import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.util.FormUtil;
-import java.util.List;
 
 /**
  *
@@ -80,6 +82,6 @@ public class ValidateLogin extends AbstractSlotContainer implements
         }
     }
 
-    public void startPublish(int cellId) {
+    public void startPublish(CellId cellId) {
     }
 }

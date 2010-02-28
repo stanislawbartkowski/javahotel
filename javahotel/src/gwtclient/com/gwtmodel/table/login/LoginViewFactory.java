@@ -22,6 +22,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 public class LoginViewFactory {
@@ -42,10 +43,9 @@ public class LoginViewFactory {
         return new FormLineContainer(di);
     }
 
-    public static ILoginDataView contructView(int cellId, int firstId,
-            IDataType dType, FormLineContainer lContainer,
+    public static ILoginDataView contructView(CellId cellId,IDataType dType, FormLineContainer lContainer,
             IDataModelFactory dFactory, IDataValidateAction vAction) {
-        return new LoginDataView(cellId, firstId, dType, lContainer, dFactory,
+        return new LoginDataView(cellId, dType, lContainer, dFactory,
                 vAction);
     }
 
