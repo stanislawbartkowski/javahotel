@@ -31,7 +31,6 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.DictionaryP;
@@ -44,6 +43,7 @@ import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.factories.FormDefFactory;
 import com.javahotel.nmvc.factories.booking.BookingCustomerContainer;
+import com.javahotel.nmvc.factories.booking.BookingElemContainer;
 import com.javahotel.nmvc.factories.impl.CustomerAddInfo;
 import com.javahotel.nmvc.factories.impl.HotelPersonRightsContainer;
 import com.javahotel.nmvc.factories.impl.PriceListContainer;
@@ -123,12 +123,14 @@ public class GetViewFactory implements IGetViewControllerFactory {
         iCon.registerControler(new ComposeControllerType(persistA, dType));
         DataType dd = (DataType) dType;
         DataType subType = new DataType(dd.getdType(), DataTypeSubEnum.Sub1);
+        DataType sub1Type = new DataType(dd.getdType(), DataTypeSubEnum.Sub2);
         ISlotable cContainer = null;
+        ISlotable cContainer1 = null;
         if (dd.isRType()) {
             switch (dd.getrType()) {
             case AllPersons:
             case AllHotels:
-                cContainer = new HotelPersonRightsContainer(dd,subType);
+                cContainer = new HotelPersonRightsContainer(dd, subType);
                 break;
             }
         }
@@ -150,12 +152,17 @@ public class GetViewFactory implements IGetViewControllerFactory {
                 break;
             case BookingList:
                 cContainer = new BookingCustomerContainer(subType);
-                break;                
+                cContainer1 = new BookingElemContainer(subType);
+                break;
             }
         }
         if (cContainer != null) {
             cType = new ComposeControllerType(cContainer, subType, 0, 1);
             iCon.registerControler(cType);
+            if (cContainer1 != null) {
+                cType = new ComposeControllerType(cContainer1, sub1Type, 0, 2);
+                iCon.registerControler(cType);
+            }
         }
         return iCon;
     }

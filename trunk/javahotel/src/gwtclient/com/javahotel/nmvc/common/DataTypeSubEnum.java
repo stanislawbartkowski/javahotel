@@ -14,6 +14,6 @@ package com.javahotel.nmvc.common;
 
 public enum DataTypeSubEnum {
     
-    Sub1
+    Sub1, Sub2
 
 }

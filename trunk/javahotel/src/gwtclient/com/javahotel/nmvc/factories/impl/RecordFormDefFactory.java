@@ -24,21 +24,43 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.idialog.GetIEditFactory;
+import com.javahotel.client.ifield.ILineField;
+import com.javahotel.client.mvc.record.model.RecordField;
+import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.RType;
+import com.javahotel.common.toobject.AdvancePaymentP;
+import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.VField;
+import com.javahotel.nmvc.ewidget.EWidgetFactory;
 
 public class RecordFormDefFactory implements IFormDefFactory {
 
     private final EditWidgetFactory eFactory;
+    private final EWidgetFactory heFactory;
     private final IResLocator rI;
 
     @Inject
-    public RecordFormDefFactory(IResLocator rI, EditWidgetFactory eFactory) {
+    public RecordFormDefFactory(IResLocator rI, EditWidgetFactory eFactory,
+            EWidgetFactory heFactory) {
         this.rI = rI;
         this.eFactory = eFactory;
+        this.heFactory = heFactory;
+    }
+
+    private List<FormField> getDict() {
+        List<FormField> fList = new ArrayList<FormField>();
+        IFormLineView name = eFactory.constructTextCheckEdit(true);
+        IFormLineView descr = eFactory.constructTextField();
+        fList.add(new FormField("Symbol", name, new VField(DictionaryP.F.name),
+                true));
+        fList.add(new FormField("Nazwa", descr, new VField(
+                DictionaryP.F.description)));
+        return fList;
     }
 
     public String getFormTitle(IDataType dType) {
@@ -74,72 +96,85 @@ public class RecordFormDefFactory implements IFormDefFactory {
         if (dd.isAddType()) {
             switch (dd.getAddType()) {
             case BookRecord:
+                CommandParam p = rI.getR().getHotelCommandParam();
+                p.setDict(DictType.PriceListDict);
+                IFormLineView oPrice = heFactory.getListValuesBox(p);
+                IFormLineView cAmount = eFactory.contructCalculatorNumber(2);
+                fList.add(new FormField("Suma", cAmount, new VField(
+                        BookRecordP.F.customerPrice)));
+                fList.add(new FormField("Cennik", oPrice, new VField(
+                        BookRecordP.F.oPrice)));
+                break;
+            case AdvanceHeader:
+                cAmount = eFactory.contructCalculatorNumber(2);
+                IFormLineView dateTo = eFactory.construcDateBoxCalendar();
+                fList.add(new FormField("Zaliczka", cAmount,
+                        new VField(AdvancePaymentP.F.amount)));
+                fList.add(new FormField("Zapłacić do", dateTo,
+                        new VField(AdvancePaymentP.F.validationDate)));
+                break;
             }
         }
-        DictType d = dd.getdType();
-        switch (d) {
-        case CustomerList:
-            IFormLineView name = eFactory.constructTextCheckEdit(true);
-            IFormLineView descr = eFactory.constructTextField();
-            fList.add(new FormField("Symbol", name, new VField(
-                    DictionaryP.F.name), true));
-            fList.add(new FormField("Nazwa", descr, new VField(
-                    DictionaryP.F.description)));
+        if (dd.isDictType()) {
+            DictType d = dd.getdType();
+            switch (d) {
+            case CustomerList:
+                fList = getDict();
+                IFormLineView name1 = eFactory.constructTextField();
+                IFormLineView name2 = eFactory.constructTextField();
+                IFormLineView fname = eFactory.constructTextField();
+                IFormLineView lname = eFactory.constructTextField();
+                IFormLineView country = eFactory.constructTextField();
+                IFormLineView zipCode = eFactory.constructTextField();
+                IFormLineView address1 = eFactory.constructTextField();
+                IFormLineView address2 = eFactory.constructTextField();
 
-            IFormLineView name1 = eFactory.constructTextField();
-            IFormLineView name2 = eFactory.constructTextField();
-            IFormLineView fname = eFactory.constructTextField();
-            IFormLineView lname = eFactory.constructTextField();
-            IFormLineView country = eFactory.constructTextField();
-            IFormLineView zipCode = eFactory.constructTextField();
-            IFormLineView address1 = eFactory.constructTextField();
-            IFormLineView address2 = eFactory.constructTextField();
+                IFormLineView pesel = eFactory.constructTextField();
+                // constructListCombo
+                IFormLineView pType = eFactory.constructListCombo(rI
+                        .getLabels().PTitles());
+                IFormLineView docType = eFactory.constructListCombo(rI
+                        .getLabels().DocTypes());
+                IFormLineView docNumber = eFactory.constructTextField();
 
-            IFormLineView pesel = eFactory.constructTextField();
-            // constructListCombo
-            IFormLineView pType = eFactory.constructListCombo(rI.getLabels()
-                    .PTitles());
-            IFormLineView docType = eFactory.constructListCombo(rI.getLabels()
-                    .DocTypes());
-            IFormLineView docNumber = eFactory.constructTextField();
+                IFormLineView city = eFactory.constructTextField();
+                IFormLineView cType = eFactory.constructListCombo(rI
+                        .getLabels().CustomerType());
+                fList.add(new FormField("Nazwa 1", name1, new VField(
+                        CustomerP.F.name1)));
+                fList.add(new FormField("Nazwa 2", name2, new VField(
+                        CustomerP.F.name2)));
+                fList.add(new FormField("Rodzaj", cType, new VField(
+                        CustomerP.F.cType)));
 
-            IFormLineView city = eFactory.constructTextField();
-            IFormLineView cType = eFactory.constructListCombo(rI.getLabels()
-                    .CustomerType());
-            fList.add(new FormField("Nazwa 1", name1, new VField(
-                    CustomerP.F.name1)));
-            fList.add(new FormField("Nazwa 2", name2, new VField(
-                    CustomerP.F.name2)));
-            fList.add(new FormField("Rodzaj", cType, new VField(
-                    CustomerP.F.cType)));
+                fList.add(new FormField("Pan/Pani", pType, new VField(
+                        CustomerP.F.pTitle)));
+                fList.add(new FormField("Imię", fname, new VField(
+                        CustomerP.F.firstName)));
+                fList.add(new FormField("Nazwisko", lname, new VField(
+                        CustomerP.F.lastName)));
+                fList.add(new FormField("PESEL", pesel, new VField(
+                        CustomerP.F.PESEL)));
+                fList.add(new FormField("Rodzaj dokumentu", docType,
+                        new VField(CustomerP.F.docType)));
+                fList.add(new FormField("Numer dokument", docNumber,
+                        new VField(CustomerP.F.docNumber)));
 
-            fList.add(new FormField("Pan/Pani", pType, new VField(
-                    CustomerP.F.pTitle)));
-            fList.add(new FormField("Imię", fname, new VField(
-                    CustomerP.F.firstName)));
-            fList.add(new FormField("Nazwisko", lname, new VField(
-                    CustomerP.F.lastName)));
-            fList.add(new FormField("PESEL", pesel, new VField(
-                    CustomerP.F.PESEL)));
-            fList.add(new FormField("Rodzaj dokumentu", docType, new VField(
-                    CustomerP.F.docType)));
-            fList.add(new FormField("Numer dokument", docNumber, new VField(
-                    CustomerP.F.docNumber)));
+                fList.add(new FormField("Kraj", country, new VField(
+                        CustomerP.F.country)));
+                fList.add(new FormField("Kod pocztowy", zipCode, new VField(
+                        CustomerP.F.zipCode)));
+                fList.add(new FormField("Miasto", city, new VField(
+                        CustomerP.F.city)));
+                fList.add(new FormField("Adres 1", address1, new VField(
+                        CustomerP.F.address1)));
+                fList.add(new FormField("Adres 2", address2, new VField(
+                        CustomerP.F.address2)));
 
-            fList.add(new FormField("Kraj", country, new VField(
-                    CustomerP.F.country)));
-            fList.add(new FormField("Kod pocztowy", zipCode, new VField(
-                    CustomerP.F.zipCode)));
-            fList.add(new FormField("Miasto", city,
-                    new VField(CustomerP.F.city)));
-            fList.add(new FormField("Adres 1", address1, new VField(
-                    CustomerP.F.address1)));
-            fList.add(new FormField("Adres 2", address2, new VField(
-                    CustomerP.F.address2)));
-
-            break;
-        default:
-            return null;
+                break;
+            default:
+                return null;
+            }
         }
         return new FormLineContainer(fList);
     }
