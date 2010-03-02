@@ -56,7 +56,7 @@ namespace {
  }
 }
 
-int Xmain(int argc, char *argv[])
+int x_main(int argc, char *argv[])
 {
   std::cout << "List of all drivers" << std::endl;
   std::vector<ODBCInfo> dList = getODBCDrivers();
@@ -73,9 +73,15 @@ int Xmain(int argc, char *argv[])
     std::cout << no << ": " << ids->getName() << "  " << ids->getDescr() << std::endl;
   }
 
-  std::cout << std::endl << "Open rybka" << std::endl;
+  std::cout << std::endl << "OracleODBC-11g" << std::endl;
   ODBCConnection conn;
-  if (!conn.open("rybka","postgres","postgres123")) { 
+  
+//  if (!conn.open("OracleODBC-11g","sys","oracle123")) {
+//  std::string dsn = "DSN=rybka;UID=postgres;PWD=postgres123";
+//  std::string dsn = "DSN=OracleODBC-11g;DBQ=orlc;UID=sys;PWD=oracle123";
+  std::string dsn = "DSN=easyRybka;UID=test;PWD=test";
+  if (!conn.open(dsn)) { 
+//  if (!conn.open("rybka","postgres","postgres123")) { 
 //  if (!conn.open("rybka","db2admin","db2admin")) { 
       std::cout << " Failed: " << conn.getError() << std::endl;
       return 4;
