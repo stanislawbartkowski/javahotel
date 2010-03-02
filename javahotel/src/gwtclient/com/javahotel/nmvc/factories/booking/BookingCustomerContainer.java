@@ -15,21 +15,22 @@ package com.javahotel.nmvc.factories.booking;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
+import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
@@ -40,30 +41,28 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.rdata.RData;
+import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.RType;
+import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.nmvc.common.DataType;
+import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.types.LId;
 
-public class BookingRegisterContainer extends AbstractSlotContainer {
+public class BookingCustomerContainer extends AbstractSlotContainer {
 
-    private class CheckButt extends Composite {
-
-        private final VerticalPanel hp = new VerticalPanel();
-        private final CheckBox addNew = new CheckBox("Dodaj nowego");
-        private final CheckBox changeD = new CheckBox("Zmień dane");
-
-        CheckButt() {
-            initWidget(hp);
-            hp.add(addNew);
-            hp.add(changeD);
-        }
-
-    }
-
+  
     private final VerticalPanel vp = new VerticalPanel();
     private final Sych sy = new Sych();
     private final ISlotMediator slMediator;
     private final DataType custType;
-    
+    private final IDataModelFactory daFactory;
+    private final IResLocator rI;
+    private final AddChangeBox cBox = new AddChangeBox();
 
     private class Sych extends SynchronizeList {
 
@@ -78,7 +77,7 @@ public class BookingRegisterContainer extends AbstractSlotContainer {
         @Override
         protected void doTask() {
             HorizontalPanel hp = new HorizontalPanel();
-            hp.add(new CheckButt());
+            hp.add(cBox);
             hp.add(but);
             vp.add(hp);
             vp.add(cust);
@@ -106,14 +105,38 @@ public class BookingRegisterContainer extends AbstractSlotContainer {
         }
 
     }
-    
+
+    private void drawCust(IVModelData cust) {
+        slMediator.getSlContainer().publish(
+                DataActionEnum.DrawViewComposeFormAction, custType, cust);
+    }
+
+    private class SetCustomerData implements RData.IOneList<AbstractTo> {
+
+        public void doOne(AbstractTo val) {
+            IVModelData cData = new VModelData(val);
+            drawCust(cData);
+        }
+    }
+
     private class DrawModel implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            slMediator.getSlContainer().publish(DataActionEnum.DrawViewComposeFormAction,custType);
+            IVModelData mData = slContext.getVData();
+            VModelData vData = (VModelData) mData;
+            BookingP b = (BookingP) vData.getA();
+            LId custI = b.getCustomer();
+            if (custI == null) {
+                IVModelData cust = daFactory.construct(custType);
+                drawCust(cust);
+                cBox.setChangeCheck(true);
+                cBox.setNewCheck(true);
+                return;
+            }
+            CommandParam pa = rI.getR().getHotelDictId(DictType.CustomerList,
+                    custI);
+            rI.getR().getOne(RType.ListDict, pa, new SetCustomerData());
         }
-
-        
     }
 
     private void register(ISlotable pView, ISlotable cust) {
@@ -123,9 +146,14 @@ public class BookingRegisterContainer extends AbstractSlotContainer {
                 new SetWidgetCust());
     }
 
-    public BookingRegisterContainer(DataType subType) {
-        TablesFactories tFactories = GwtGiniInjector.getI().getTablesFactories();
+    public BookingCustomerContainer(DataType subType) {
+        TablesFactories tFactories = GwtGiniInjector.getI()
+                .getTablesFactories();
+        TableFactoriesContainer fContainer = GwtGiniInjector.getI()
+                .getTableFactoriesContainer();
+        daFactory = fContainer.getDataModelFactory();
         slMediator = tFactories.getSlotMediatorFactory().construct();
+        rI = HInjector.getI().getI();
 
         ClickButtonType sChange = new ClickButtonType(0);
         ClickButtonType sChoose = new ClickButtonType(1);
@@ -150,7 +178,7 @@ public class BookingRegisterContainer extends AbstractSlotContainer {
         register(bView, cust);
         slMediator.registerSlotContainer(cId, cust);
         slMediator.registerSlotContainer(bId, bView);
-        
+
         registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
                 new DrawModel());
 

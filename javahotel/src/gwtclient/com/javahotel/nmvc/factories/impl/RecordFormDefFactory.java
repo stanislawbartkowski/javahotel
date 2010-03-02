@@ -55,24 +55,26 @@ public class RecordFormDefFactory implements IFormDefFactory {
     public FormLineContainer construct(IDataType dType) {
         DataType dd = (DataType) dType;
         List<FormField> fList = new ArrayList<FormField>();
-        if (!dd.isDictType()) {
-            if (dd.isRType()) {
-                switch (dd.getrType()) {
-                case AllPersons:
-                    IFormLineView loginname = eFactory.constructTextField();
-                    IFormLineView password = eFactory.constructPasswordField();
-                    IFormLineView repassword = eFactory
-                            .constructPasswordField();
-                    fList.add(new FormField("Symbol", loginname,
-                            new LoginField(LoginField.F.LOGINNAME), true));
-                    fList.add(new FormField("Hasło", password, new LoginField(
-                            LoginField.F.PASSWORD)));
-                    fList.add(new FormField("Hasło do sprawdzenia", repassword,
-                            new LoginField(LoginField.F.REPASSWORD)));
-                    return new FormLineContainer(fList);
-                }
+        if (dd.isRType()) {
+            switch (dd.getrType()) {
+            case AllPersons:
+                IFormLineView loginname = eFactory.constructTextField();
+                IFormLineView password = eFactory.constructPasswordField();
+                IFormLineView repassword = eFactory.constructPasswordField();
+                fList.add(new FormField("Symbol", loginname, new LoginField(
+                        LoginField.F.LOGINNAME), true));
+                fList.add(new FormField("Hasło", password, new LoginField(
+                        LoginField.F.PASSWORD)));
+                fList.add(new FormField("Hasło do sprawdzenia", repassword,
+                        new LoginField(LoginField.F.REPASSWORD)));
+                return new FormLineContainer(fList);
             }
             return null;
+        }
+        if (dd.isAddType()) {
+            switch (dd.getAddType()) {
+            case BookRecord:
+            }
         }
         DictType d = dd.getdType();
         switch (d) {

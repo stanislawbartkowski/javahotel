@@ -21,14 +21,15 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.util.FormUtil;
 import com.javahotel.client.abstractto.AbstractToFactory;
-import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.record.view.helper.ExtractFields;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.BookRecordP;
+import com.javahotel.nmvc.common.DataType;
+import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.FormLineDef;
 import com.javahotel.nmvc.common.VField;
 import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.factories.impl.DataModelFields;
-import com.javahotel.nmvc.common.DataType;
 
 class DataModelFactory extends HelperFactory implements IDataModelFactory {
 
@@ -39,16 +40,17 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
     }
 
     public IVModelData construct(IDataType dType) {
-        DictData da = getDa(dType);
-        if (da.getRt() != null) {
-            switch (da.getRt()) {
-            case AllPersons:
-                return new LoginData();
-            default:
-                break;
+        DataType daType = (DataType) dType;
+        if (daType.isAllPersons()) {
+            return new LoginData();
+        }
+        if (daType.isAddType()) {
+            switch (daType.getAddType()) {
+            case BookRecord:
+                return new VModelData(new BookRecordP());
             }
         }
-        AbstractTo a = aFactory.getA(da);
+        AbstractTo a = aFactory.getA(DataUtil.constructDictData(dType));
         return new VModelData(a);
     }
 
@@ -62,11 +64,13 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
         copyFromPersistToModel(dType, from, to);
     }
 
-    public void fromDataToView(IDataType dType, IVModelData aFrom, FormLineContainer fContainer) {
+    public void fromDataToView(IDataType dType, IVModelData aFrom,
+            FormLineContainer fContainer) {
         FormUtil.copyFromDataToView(aFrom, fContainer);
     }
 
-    public void fromViewToData(IDataType dType, FormLineContainer fContainer, IVModelData aTo) {
+    public void fromViewToData(IDataType dType, FormLineContainer fContainer,
+            IVModelData aTo) {
         DataType daType = (DataType) dType;
         if (daType.isAllPersons()) {
             FormUtil.copyFromViewToData(fContainer, aTo);

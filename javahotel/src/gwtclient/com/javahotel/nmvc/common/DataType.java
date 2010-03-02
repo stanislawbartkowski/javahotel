@@ -19,32 +19,38 @@ import com.javahotel.common.command.RType;
 
 public class DataType implements IDataType {
 
-    private final DictDataEnum dcType;
-
     private final DataTypeSubEnum dSub;
 
     private final DictType dType;
     private final RType rType;
+    private final AddType aType;
 
     public DataType(DictType dType) {
         this.dType = dType;
-        dcType = DictDataEnum.DictType;
         dSub = null;
         rType = null;
+        aType = null;
     }
 
     public DataType(DictType dType, DataTypeSubEnum dSub) {
         this.dType = dType;
-        dcType = DictDataEnum.DictType;
         this.dSub = dSub;
         rType = null;
+        aType = null;
     }
 
     public DataType(RType rType) {
         dType = null;
-        dcType = null;
         dSub = null;
         this.rType = rType;
+        aType = null;
+    }
+
+    public DataType(AddType aType) {
+        dType = null;
+        dSub = null;
+        this.rType = null;
+        this.aType = aType;
     }
 
     public DictType getdType() {
@@ -55,8 +61,16 @@ public class DataType implements IDataType {
         return dType != null;
     }
 
+    public boolean isAddType() {
+        return aType != null;
+    }
+
     public boolean isRType() {
         return rType != null;
+    }
+
+    public AddType getAddType() {
+        return aType;
     }
 
     public boolean eq(IDataType dt) {
@@ -70,10 +84,16 @@ public class DataType implements IDataType {
         if (p.isRType()) {
             return false;
         }
-        if (dType != p.getdType()) {
-            return false;
+        if (isDictType()) {
+            if (!p.isDictType()) {
+                return false;
+            }
+            if (dType != p.getdType()) {
+                return false;
+            }
+            return Utils.eqE(dSub, p.dSub);
         }
-        return Utils.eqE(dSub, p.dSub);
+        return aType == p.aType;
     }
 
     public RType getrType() {

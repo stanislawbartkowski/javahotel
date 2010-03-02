@@ -43,7 +43,7 @@ import com.javahotel.nmvc.common.DataTypeSubEnum;
 import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.factories.FormDefFactory;
-import com.javahotel.nmvc.factories.booking.BookingRegisterContainer;
+import com.javahotel.nmvc.factories.booking.BookingCustomerContainer;
 import com.javahotel.nmvc.factories.impl.CustomerAddInfo;
 import com.javahotel.nmvc.factories.impl.HotelPersonRightsContainer;
 import com.javahotel.nmvc.factories.impl.PriceListContainer;
@@ -149,7 +149,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
                         DictType.ServiceDict), new InfoExtractStandard());
                 break;
             case BookingList:
-                cContainer = new BookingRegisterContainer(subType);
+                cContainer = new BookingCustomerContainer(subType);
                 break;                
             }
         }
