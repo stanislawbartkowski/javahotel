@@ -32,9 +32,9 @@ public class AdvancePaymentP extends AbstractTo implements INumerable {
     private Integer lp;
 
     @Override
-    public Class getT(IField f) {
+    public Class<?> getT(IField f) {
         F fi = (F) f;
-        Class cla = String.class;
+        Class<?> cla = String.class;
         switch (fi) {
             case id:
                 cla = Long.class;

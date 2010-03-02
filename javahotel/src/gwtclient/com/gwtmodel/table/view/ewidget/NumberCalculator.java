@@ -31,6 +31,9 @@ class NumberCalculator extends ExtendTextBox {
 
     @Override
     public void setVal(String v) {
+        if (CUtil.EmptyS(v)) {
+            return;
+        }
         if (!CUtil.OkNumber(v)) {
             return;
         }

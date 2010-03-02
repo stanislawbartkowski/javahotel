@@ -18,21 +18,28 @@ import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
+import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
 
 public class EWidgetFactory {
-    
+
     private final IResLocator pLoc;
     private final EditWidgetFactory eFactory;
-    
+
     @Inject
-    public EWidgetFactory(IResLocator pLoc,EditWidgetFactory eFactory) {
+    public EWidgetFactory(IResLocator pLoc, EditWidgetFactory eFactory) {
         this.eFactory = eFactory;
         this.pLoc = pLoc;
     }
-        
-    public  IFormLineView  getListValuesBox(final RType r, final CommandParam p, final IField f) {
-        return eFactory.constructListValuesCombo(new GetCommandList(pLoc,r,p,f));
+
+    public IFormLineView getListValuesBox(final RType r, final CommandParam p,
+            final IField f) {
+        return eFactory.constructListValuesCombo(new GetCommandList(pLoc, r, p,
+                f));
+    }
+
+    public IFormLineView getListValuesBox(final CommandParam p) {
+        return getListValuesBox(RType.ListDict, p, DictionaryP.F.name);
     }
 
 }

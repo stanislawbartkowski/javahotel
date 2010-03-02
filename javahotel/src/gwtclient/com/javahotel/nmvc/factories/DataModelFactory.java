@@ -23,6 +23,7 @@ import com.gwtmodel.table.view.util.FormUtil;
 import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.mvc.record.view.helper.ExtractFields;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.DataUtil;
@@ -48,6 +49,9 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
             switch (daType.getAddType()) {
             case BookRecord:
                 return new VModelData(new BookRecordP());
+            case AdvanceHeader:
+                return new VModelData(new AdvancePaymentP());
+                
             }
         }
         AbstractTo a = aFactory.getA(DataUtil.constructDictData(dType));

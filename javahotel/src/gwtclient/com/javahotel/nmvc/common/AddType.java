@@ -14,6 +14,6 @@ package com.javahotel.nmvc.common;
 
 public enum AddType {
     
-    BookRecord,
+    BookRecord, AdvanceHeader
 
 }
