@@ -146,11 +146,10 @@ std::vector<ODBCInfo> getODBCDataSources() throw() {
 
 
 void ODBCConnection::retrieveError(std::string pwhere,SQLSMALLINT type,SQLHANDLE handle) {
-
 	errs = readSqlError(pwhere,type,handle);
 }
 
-bool ODBCConnection::open(const std::string dsnname,const std::string user,const std::string password) {
+bool ODBCConnection::open(const char *connectionString) {
   SQLRETURN ret; /* ODBC API return status */
   MYSQLCHAR outstr[TEXT_SIZE];
   SQLSMALLINT outstrlen;
@@ -176,10 +175,7 @@ bool ODBCConnection::open(const std::string dsnname,const std::string user,const
   }
   /* Connect to the DSN mydsn */
   MYSQLCHAR dname[1024];
-  char dsnstring[1024];
-
-  sprintf(dsnstring,"DSN=%s;UID=%s;PWD=%s",dsnname.c_str(),user.c_str(),password.c_str());
-  copystring(dname,dsnstring);
+  copystring(dname,connectionString);
   ret = SQLDriverConnect(dbc, NULL, dname, SQL_NTS,
 			 outstr, sizeof(outstr), &outstrlen,
 			 SQL_DRIVER_COMPLETE);
@@ -209,7 +205,6 @@ void ODBCConnection::close() {
     release();
 }
 
-
 bool ODBCConnection::executeSelect(std::string sqlstatement,std::vector<SelectValue> &res) {
    SQLHSTMT stmt;
    SQLRETURN ret = SQLAllocHandle(SQL_HANDLE_STMT, dbc, &stmt);
@@ -229,7 +224,8 @@ bool ODBCConnection::executeSelect(std::string sqlstatement,std::vector<SelectVa
    MYSQLCHAR colname[TEXT_SIZE];
    SQLSMALLINT colnamelen;
    SQLSMALLINT coltype;
-   SQLUINTEGER  precision;
+//   SQLUINTEGER  precision;
+   SQLULEN  precision;
    SQLSMALLINT scale;
 
    ret = SQLNumResultCols(stmt, &columns);
@@ -253,7 +249,8 @@ bool ODBCConnection::executeSelect(std::string sqlstatement,std::vector<SelectVa
         return false; 
        }
 
-        SQLINTEGER indicator;
+//        SQLINTEGER indicator;
+        SQLLEN indicator;
         char buf[TEXT_SIZE];
         /* retrieve column data as a string */
 	    ret = SQLGetData(stmt, i, SQL_C_CHAR, buf, sizeof(buf), &indicator);

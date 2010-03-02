@@ -25,7 +25,20 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  cout << "Hello, world!" << endl;
+  std::cout << "Start tester\n" << std::endl;
+  // analize parameters
+  int noDrivers = -1;
+  int noDataSource = -1;
+  bool runSqlTest = false;
+  std::string dsnName;
+  std::string userName;
+  std::string password;
+
+  for (int i=1; i<argc; i++) {
+    int testN = -1;
+    // 0 - noDrivers, 1 - noDataSources 
+    const char *par = argv[i];
+    if (strcmp    
 
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

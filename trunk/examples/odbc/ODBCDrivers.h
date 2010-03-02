@@ -55,6 +55,8 @@ class ODBCConnection {
  void release();
  
  void retrieveError(std::string where, SQLSMALLINT type, SQLHANDLE handle);
+ bool open(const char *connectionstring);
+
 
 public:
  
@@ -69,7 +71,16 @@ public:
      }
  };
 
-  bool open(const std::string dsnname,const std::string user,const std::string password);
+  bool open(const std::string dsnname,const std::string user,const std::string password) {
+     char dsnstring[1024];
+
+    sprintf(dsnstring,"DSN=%s;UID=%s;PWD=%s",dsnname.c_str(),user.c_str(),password.c_str());
+    return open(dsnstring);
+  }
+
+  bool open(const std::string connectionstring) {
+    return open(connectionstring.c_str());
+  }
 
   void close();
 
