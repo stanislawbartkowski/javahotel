@@ -21,6 +21,9 @@
 #ifndef _ODBC_Drivers_
 #define _ODBC_Drivers_
 
+#ifdef WIN32
+#include <windows.h>
+#endif
 #include <sql.h>
 #include <sqlext.h>
 #include <string>
