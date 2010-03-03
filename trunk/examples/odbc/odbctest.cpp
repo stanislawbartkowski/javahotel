@@ -56,7 +56,7 @@ namespace {
  }
 }
 
-int x_main(int argc, char *argv[])
+int xmain(int argc, char *argv[])
 {
   std::cout << "List of all drivers" << std::endl;
   std::vector<ODBCInfo> dList = getODBCDrivers();
@@ -111,5 +111,7 @@ int x_main(int argc, char *argv[])
     }
 
     conn.close();
+
+	return 0;
  }
  
