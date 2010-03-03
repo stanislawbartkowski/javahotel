@@ -19,60 +19,23 @@
  ***************************************************************************/
 
 #include <gtest/gtest.h>
-#include <iostream>
+#include "ODBCDrivers.h"
 
-#include "odbctest.h"
+namespace {
+;
+int noDrivers;
 
-using namespace std;
-
-#define EXIT_ERROR 4
-
-int main(int argc, char *argv[])
-{
-  std::cout << "Start tester\n" << std::endl;
-  // analize parameters
-  bool runSqlTest = false;
-  std::string dsnName;
-  std::string userName;
-  std::string password;
-
-  for (int i=1; i<argc; i++) {
-    int testN = -1;
-    // 0 - noDrivers, 1 - noDataSources 
-    const char *par = argv[i];
-    if (strcmp(par,"-testDrivers") == 0) { 
-      testN = 0;
-    }
-    if (strcmp(par,"-testDataSources") == 0) {
-      testN = 1;
-    }
-    if (strcmp(par,"-testDSNVals") == 0) {
-      if (i >= argc-3) {
-        std::cout << "ERROR 1: invalid parameters" << std::endl;
-        return EXIT_ERROR;
-      }
-      dsnName = argv[i+1];
-      userName = argv[i+2];
-      password = argv[i+3];
-      setDSNConnection(dsnName,userName,password);
-      i+= 3;
-    } 
-    if (testN != -1) {
-      if (i == argc-1) {
-        std::cout << "ERROR 0: invalid parameters" << std::endl;
-        return EXIT_ERROR;
-      }
-      std::istringstream buffer(argv[++i]);
-      int no;
-      buffer >> no;
-      switch (testN) {
-       case 0: setDriverNumberTested(no); break;
-       case 1: setDataSourcesNumberTested(no); break;
-      }
-      testN = -1;
-    }
+TEST(getODBCDrivers, TestNumberOfDrivers) {
+  std::cout << "List of all drivers" << std::endl;
+  std::vector<ODBCInfo> dList = getODBCDrivers();
+  std::vector<ODBCInfo>::iterator i;
+  for (i = dList.begin(); i != dList.end(); i++) {
+    std::cout << i->getName() << "  " << i->getDescr() << std::endl;
   }
+  EXPECT_EQ(noDrivers,dList.size());
+}
+}
 
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+void setDriverNumberTested(int no) {
+  noDrivers = no;
 }
