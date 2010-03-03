@@ -25,6 +25,7 @@
 #include <sql.h>
 #include <sqlext.h>
 #include <locale>
+#include <iostream>
 
 #include "ODBCDrivers.h"
 
@@ -147,6 +148,9 @@ std::vector<ODBCInfo> getODBCDataSources() throw() {
 
 void ODBCConnection::retrieveError(std::string pwhere,SQLSMALLINT type,SQLHANDLE handle) {
 	errs = readSqlError(pwhere,type,handle);
+        if (errorverbose) {
+           std::cout << errs << std::endl;
+        }
 }
 
 bool ODBCConnection::open(const char *connectionString) {
@@ -207,6 +211,9 @@ void ODBCConnection::close() {
 
 bool ODBCConnection::executeSelect(std::string sqlstatement,std::vector<SelectValue> &res) {
    SQLHSTMT stmt;
+   if (errorverbose) {
+     std::cout << sqlstatement << std::endl;
+   }
    SQLRETURN ret = SQLAllocHandle(SQL_HANDLE_STMT, dbc, &stmt);
    if (!SQL_SUCCEEDED(ret)) {
      errs = "Error while AllocHandle";

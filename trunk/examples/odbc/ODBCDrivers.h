@@ -21,6 +21,8 @@
 #ifndef _ODBC_Drivers_
 #define _ODBC_Drivers_
 
+#include <sql.h>
+#include <sqlext.h>
 #include <string>
 #include <vector>
 #include <exception>
@@ -51,6 +53,7 @@ class ODBCConnection {
  std::string errs;
  SQLHENV env;
  SQLHDBC dbc;
+ bool errorverbose;
 
  void release();
  
@@ -60,7 +63,7 @@ class ODBCConnection {
 
 public:
  
- class SelectValue : public std::map<std::string,std::string> {
+ class SelectValue : public std::map<std::string,std::string> {   
    public:
      const std::string getCol(const char *colName) const {
        std::string col(colName);
@@ -70,6 +73,14 @@ public:
 	   return val;
      }
  };
+
+  ODBCConnection() {
+    errorverbose = false;
+  }
+ 
+  void setErrorVerbose() {
+    errorverbose = true;
+  }
 
   bool open(const std::string dsnname,const std::string user,const std::string password) {
      char dsnstring[1024];
