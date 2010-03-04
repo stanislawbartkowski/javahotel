@@ -15,11 +15,16 @@ package com.gwtmodel.table;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DateFormatUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import java.math.BigDecimal;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.DOM;
 
 public class Utils {
 
@@ -30,8 +35,7 @@ public class Utils {
 
     public static String getResAdr(final String res) {
         String path;
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         String resF = c.getCustomValue(IGetCustomValues.RESOURCEFOLDER);
         path = GWT.getModuleBaseURL();
         if (resF == null) {
@@ -41,8 +45,7 @@ public class Utils {
     }
 
     public static String getImageAdr(final String image) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         String folder = c.getCustomValue(IGetCustomValues.IMAGEFOLDER);
         String img;
         if (folder == null) {
@@ -83,7 +86,6 @@ public class Utils {
         }
         return t1 == t2;
     }
-
     public static final int BADNUMBER = -1;
 
     public static int getNum(final String s) {
@@ -152,18 +154,31 @@ public class Utils {
     }
 
     public static boolean TrueL(String s) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         String yesv = c.getCustomValue(IGetCustomValues.YESVALUE);
         return CUtil.EqNS(s, yesv);
     }
 
     public static String LToS(boolean l) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         if (l) {
             return c.getCustomValue(IGetCustomValues.YESVALUE);
         }
         return c.getCustomValue(IGetCustomValues.NOVALUE);
+    }
+
+    public static String getURLParam(String key) {
+        return Window.Location.getParameter(key);
+    }
+
+    public static void setCaption(Widget w, String title, String attr) {
+        Element e = DOM.createCaption();
+        e.setInnerText(title);
+        if (attr != null) {
+            e.setAttribute("class", attr);
+        }
+        NodeList<Node> li = w.getElement().getChildNodes();
+        li.getItem(0);
+        w.getElement().insertBefore(e, li.getItem(0));
     }
 }
