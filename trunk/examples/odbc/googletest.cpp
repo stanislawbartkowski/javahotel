@@ -48,15 +48,18 @@ int main(int argc, char *argv[])
       testN = 1;
     }
     if (strcmp(par,"-testDSNVals") == 0) {
-      if (i >= argc-3) {
+      if (i >= argc-1) {
         std::cout << "ERROR 1: invalid parameters" << std::endl;
         return EXIT_ERROR;
       }
-      dsnName = argv[i+1];
-      userName = argv[i+2];
-      password = argv[i+3];
+      dsnName = argv[++i];
+	  if (i < argc-1) {
+        userName = argv[++i];
+		if (i < argc - 1) {
+			  password = argv[++i];
+		}
+	  }
       setDSNConnection(dsnName,userName,password);
-      i+= 3;
     } 
     if (testN != -1) {
       if (i == argc-1) {
