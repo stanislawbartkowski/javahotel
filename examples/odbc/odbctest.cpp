@@ -79,7 +79,8 @@ int xmain(int argc, char *argv[])
 //  if (!conn.open("OracleODBC-11g","sys","oracle123")) {
 //  std::string dsn = "DSN=rybka;UID=postgres;PWD=postgres123";
 //  std::string dsn = "DSN=OracleODBC-11g;DBQ=orlc;UID=sys;PWD=oracle123";
-  std::string dsn = "DSN=easyRybka;UID=test;PWD=test";
+//  std::string dsn = "DSN=easyRybka;UID=test;PWD=test";
+  std::string dsn = "DSN=rybka";
   if (!conn.open(dsn)) { 
 //  if (!conn.open("rybka","postgres","postgres123")) { 
 //  if (!conn.open("rybka","db2admin","db2admin")) { 
