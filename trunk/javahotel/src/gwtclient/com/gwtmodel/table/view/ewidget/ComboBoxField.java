@@ -13,7 +13,7 @@
 package com.gwtmodel.table.view.ewidget;
 
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +25,7 @@ class ComboBoxField extends GetValueLB {
 
     private final List<ComboVal> wy;
 
-    ComboBoxField(TableFactoriesContainer tFactories, List<ComboVal> wy) {
+    ComboBoxField(ITableCustomFactories tFactories, List<ComboVal> wy) {
         super(tFactories);
         this.wy = wy;
         List<String> val = new ArrayList<String>();

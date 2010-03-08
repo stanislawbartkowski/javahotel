@@ -13,7 +13,7 @@
 package com.gwtmodel.table.view.ewidget;
 
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 
 /**
  * 
@@ -23,7 +23,7 @@ class NumberCalculator extends ExtendTextBox {
 
     private final int afterdot;
 
-    NumberCalculator(TableFactoriesContainer tFactories, int afterdot) {
+    NumberCalculator(ITableCustomFactories tFactories, int afterdot) {
         super(tFactories, false);
         this.afterdot = afterdot;
         hPanel.addStyleName("Number");

@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.DateFormatUtil;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
@@ -40,9 +40,9 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     protected Collection<IFormChangeListener> lC;
     protected final boolean isCheckBox;
     protected final boolean checkBoxVal;
-    protected final TableFactoriesContainer tFactories;
+    protected final ITableCustomFactories tFactories;
 
-    AbstractField(TableFactoriesContainer tFactories) {
+    AbstractField(ITableCustomFactories tFactories) {
         this.tFactories = tFactories;
         iTouch = null;
         lC = null;
@@ -50,7 +50,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         isCheckBox = true;
     }
 
-    AbstractField(TableFactoriesContainer tFactories, boolean checkenable) {
+    AbstractField(ITableCustomFactories tFactories, boolean checkenable) {
         this.tFactories = tFactories;
         iTouch = null;
         lC = null;
@@ -167,5 +167,4 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     public Widget getGWidget() {
         return this;
     }
-
 }

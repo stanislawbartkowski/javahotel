@@ -23,19 +23,19 @@ import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.factories.IHeaderListFactory;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.CellId;
 
 public class TableDataControlerFactory {
 
     private final TablesFactories tFactories;
-    private final TableFactoriesContainer fContainer;
+    private final ITableCustomFactories fContainer;
     private final ControlButtonFactory cButtonFactory;
 
     @Inject
     public TableDataControlerFactory(TablesFactories tFactories,
-            TableFactoriesContainer fContainer,
+            ITableCustomFactories fContainer,
             ControlButtonFactory cButtonFactory) {
         this.tFactories = tFactories;
         this.fContainer = fContainer;
@@ -43,8 +43,7 @@ public class TableDataControlerFactory {
     }
 
     private DataListParam getParam(IDataType dType) {
-        IDataPersistAction persistA = fContainer.getPersistFactoryAction()
-                .contruct(dType);
+        IDataPersistAction persistA = fContainer.getPersistFactoryAction().contruct(dType);
         IHeaderListContainer heList = null;
         IHeaderListFactory hFa = fContainer.getHeaderListFactory();
         if (hFa != null) {
@@ -53,7 +52,7 @@ public class TableDataControlerFactory {
         IDataModelFactory dataFactory = fContainer.getDataModelFactory();
         IFormDefFactory formFactory = fContainer.getFormDefFactory();
         IGetViewControllerFactory fControler = fContainer.getGetViewControllerFactory();
-        return new DataListParam(persistA, heList, dataFactory,formFactory,fControler);
+        return new DataListParam(persistA, heList, dataFactory, formFactory, fControler);
     }
 
     public IDataControler constructDataControler(IDataType dType, CellId panelId) {
@@ -65,7 +64,7 @@ public class TableDataControlerFactory {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControler(tFactories, fContainer, dType, null,
                 panelId, cList, new DataListCrudControler(
-                        tFactories, fContainer, listParam, dType), listParam);
+                tFactories, fContainer, listParam, dType), listParam);
     }
 
     public IDataControler constructListChooseControler(IDataType dType,
@@ -74,15 +73,14 @@ public class TableDataControlerFactory {
         ListOfControlDesc cList = cButtonFactory.constructChooseList();
         return new DisplayListControler(tFactories, fContainer, dType, wSize,
                 panelId, cList, new DataListCrudControler(
-                        tFactories, fContainer, listParam, dType), listParam);
+                tFactories, fContainer, listParam, dType), listParam);
     }
-    
+
     public IDataControler constructDataControler(IDataType dType, ListOfControlDesc cList,
             CellId panelId) {
         DataListParam listParam = getParam(dType);
         return new DisplayListControler(tFactories, fContainer, dType, null,
                 panelId, cList, new DataListCrudControler(
-                        tFactories, fContainer, listParam, dType), listParam);
+                tFactories, fContainer, listParam, dType), listParam);
     }
-
 }

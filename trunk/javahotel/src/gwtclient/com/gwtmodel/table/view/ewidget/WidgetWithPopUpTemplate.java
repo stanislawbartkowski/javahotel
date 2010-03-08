@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.view.util.PopupUtil;
 
 /**
@@ -64,7 +64,7 @@ class WidgetWithPopUpTemplate {
         pUp.hide();
     }
 
-    WidgetWithPopUpTemplate(TableFactoriesContainer tFactories, HorizontalPanel hPanel,
+    WidgetWithPopUpTemplate(ITableCustomFactories tFactories, HorizontalPanel hPanel,
             String image, IGetP i) {
         this.iGet = i;
         this.hPanel = hPanel;

@@ -41,10 +41,9 @@ class ReadRes implements IReadRes {
             ma.put(resName, s);
             sRes.setResText(s);
         }
-
     }
 
-    private void preadRes(ISetResText sRes, String resName, boolean main) {
+    private void preadRes(ISetResText sRes, String resName) {
 
         String h = ma.get(resName);
         if (h != null) {
@@ -56,11 +55,7 @@ class ReadRes implements IReadRes {
     }
 
     public void readRes(ISetResText sRes, String resName) {
-        preadRes(sRes, resName, false);
+        preadRes(sRes, resName);
 
-    }
-
-    public void readResMain(ISetResText sRes, String resName) {
-        preadRes(sRes, resName, true);
     }
 }

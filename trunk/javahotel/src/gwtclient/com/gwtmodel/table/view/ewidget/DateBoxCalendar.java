@@ -15,7 +15,7 @@ package com.gwtmodel.table.view.ewidget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DateFormatUtil;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import java.util.Date;
 
@@ -48,7 +48,7 @@ class DateBoxCalendar extends AbstractField {
         }
     }
 
-    DateBoxCalendar(TableFactoriesContainer tFactories) {
+    DateBoxCalendar(ITableCustomFactories tFactories) {
         super(tFactories);
         db = new DateBox();
         db.setFormat(new DFormat());

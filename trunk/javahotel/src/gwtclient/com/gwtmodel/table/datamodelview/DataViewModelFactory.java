@@ -15,18 +15,18 @@ package com.gwtmodel.table.datamodelview;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 
 public class DataViewModelFactory {
 
     private final GwtFormViewFactory gFactory;
-    private final TableFactoriesContainer cFactories;
+    private final ITableCustomFactories cFactories;
 
     @Inject
     public DataViewModelFactory(GwtFormViewFactory gFactory,
-            TableFactoriesContainer cFactories) {
+            ITableCustomFactories cFactories) {
         this.gFactory = gFactory;
         this.cFactories = cFactories;
     }

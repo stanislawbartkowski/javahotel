@@ -20,6 +20,7 @@ import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
@@ -55,8 +56,8 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(SlotListContainer.class);
         bind(TableDataControlerFactory.class).in(Singleton.class);
         bind(GwtFormViewFactory.class).in(Singleton.class);
-        bind(TableFactoriesContainer.class).in(Singleton.class);
-        bind(ITableAbstractFactories.class).to(TableFactoriesContainer.class).in(Singleton.class);
+        bind(ITableAbstractFactories.class).toProvider(TableAbstractFactoriesProvider.class);
+        bind(ITableCustomFactories.class).toProvider(TablesFactoriesContainerProvider.class);
         bind(DataViewModelFactory.class).in(Singleton.class);
         bind(ControlButtonFactory.class).in(Singleton.class);
         bind(ComposeControllerFactory.class).in(Singleton.class);

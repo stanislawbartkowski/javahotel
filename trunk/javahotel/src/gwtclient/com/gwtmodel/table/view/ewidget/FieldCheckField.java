@@ -14,7 +14,7 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 
 /**
  *
@@ -24,7 +24,7 @@ class FieldCheckField extends AbstractField {
 
     private final CheckBox ch;
 
-    FieldCheckField(TableFactoriesContainer tFactories) {
+    FieldCheckField(ITableCustomFactories tFactories) {
         super(tFactories);
         ch = new CheckBox();
         ch.setChecked(true);

@@ -12,7 +12,8 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
+
 
 /**
  *
@@ -20,7 +21,7 @@ import com.gwtmodel.table.injector.TableFactoriesContainer;
  */
 class FieldTextField extends ExtendTextBox {
 
-    FieldTextField(TableFactoriesContainer tFactories, boolean password) {
+    FieldTextField(ITableCustomFactories tFactories, boolean password) {
         super(tFactories, password);
     }
 }

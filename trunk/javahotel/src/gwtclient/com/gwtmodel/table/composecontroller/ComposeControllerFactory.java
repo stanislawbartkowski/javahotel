@@ -15,14 +15,14 @@ package com.gwtmodel.table.composecontroller;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 
 public class ComposeControllerFactory {
 
-    private final TableFactoriesContainer cFactories;
+    private final ITableCustomFactories cFactories;
 
     @Inject
-    public ComposeControllerFactory(TableFactoriesContainer cFactories) {
+    public ComposeControllerFactory(ITableCustomFactories cFactories) {
         this.cFactories = cFactories;
     }
 
