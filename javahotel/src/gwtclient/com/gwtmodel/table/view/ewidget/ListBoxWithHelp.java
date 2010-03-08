@@ -16,8 +16,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
 
 class ListBoxWithHelp extends GetValueLB {
 
@@ -43,7 +43,7 @@ class ListBoxWithHelp extends GetValueLB {
 
     }
 
-    ListBoxWithHelp(TableFactoriesContainer tFactories, IDataType dType) {
+    ListBoxWithHelp(ITableCustomFactories tFactories, IDataType dType) {
         super(tFactories);
         cHelper = new RHelp(dType);
         hP.add(super.getGWidget());

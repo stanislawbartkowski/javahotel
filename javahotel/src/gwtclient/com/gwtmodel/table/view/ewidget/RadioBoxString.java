@@ -24,7 +24,7 @@ import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 
 /**
  * 
@@ -137,7 +137,7 @@ public class RadioBoxString extends AbstractField {
         }
     }
 
-    RadioBoxString(TableFactoriesContainer tFactories, IGetDataList iGet,
+    RadioBoxString(ITableCustomFactories tFactories, IGetDataList iGet,
             final boolean enable) {
         super(tFactories);
         this.iGet = iGet;

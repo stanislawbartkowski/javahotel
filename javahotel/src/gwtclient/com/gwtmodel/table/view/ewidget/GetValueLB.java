@@ -17,7 +17,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 
 /**
@@ -30,7 +30,7 @@ class GetValueLB extends AbstractField implements IValueLB {
     final protected ListBox lB = new ListBox();
     private String beforeVal = null;
 
-    GetValueLB(TableFactoriesContainer tFactories) {
+    GetValueLB(ITableCustomFactories tFactories) {
         super(tFactories);
         initWidget(lB);
         setMouse();

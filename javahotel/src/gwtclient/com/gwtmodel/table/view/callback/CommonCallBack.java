@@ -10,13 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.gwtmodel.table.view.callback;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
 /**
@@ -26,7 +25,6 @@ import com.gwtmodel.table.view.webpanel.IWebPanel;
 public abstract class CommonCallBack<T> implements AsyncCallback<T> {
 
     abstract public void onMySuccess(final T arg);
-
     final private IWebPanel iWeb;
     final private onFailureExt ext;
 
@@ -65,7 +63,7 @@ public abstract class CommonCallBack<T> implements AsyncCallback<T> {
                 return;
             }
         }
-        TableFactoriesContainer fa = GwtGiniInjector.getI().getTableFactoriesContainer();
+        ITableCustomFactories fa = GwtGiniInjector.getI().getTableFactoriesContainer();
         IGetCustomValues va = fa.getGetCustomValues();
         String cMessage = va.getCustomValue(IGetCustomValues.COMMERROR);
         if (caught.getMessage() != null) {

@@ -14,8 +14,8 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
 
 class ListFieldWithHelp extends ExtendTextBox {
 
@@ -39,7 +39,7 @@ class ListFieldWithHelp extends ExtendTextBox {
         }
     }
 
-    ListFieldWithHelp(TableFactoriesContainer tFactories, IDataType dType) {
+    ListFieldWithHelp(ITableCustomFactories tFactories, IDataType dType) {
         super(tFactories, false);
         cHelper = new RHelp(dType);
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();

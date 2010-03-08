@@ -22,7 +22,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -41,7 +41,7 @@ class DataListCrudControler extends AbstractSlotContainer {
 
     private final IDataType dType;
     private final TablesFactories tFactories;
-    private final TableFactoriesContainer fContainer;
+    private final ITableCustomFactories fContainer;
     private final DataListParam listParam;
 
     private abstract class Signaller implements ISlotSignaller {
@@ -256,7 +256,7 @@ class DataListCrudControler extends AbstractSlotContainer {
     }
 
     DataListCrudControler(TablesFactories tFactories,
-            TableFactoriesContainer fContainer, DataListParam listParam,
+            ITableCustomFactories fContainer, DataListParam listParam,
             IDataType dType) {
         this.dType = dType;
         this.tFactories = tFactories;

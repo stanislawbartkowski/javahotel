@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
 
@@ -32,9 +32,9 @@ abstract class ExtendTextBox extends AbstractField {
 
     protected final TextBox tBox;
     protected final HorizontalPanel hPanel = new HorizontalPanel();
-    protected final CheckBox check;    
+    protected final CheckBox check;
 
-    protected ExtendTextBox(TableFactoriesContainer tFactories,final boolean password) {
+    protected ExtendTextBox(ITableCustomFactories tFactories, final boolean password) {
         super(tFactories);
         if (password) {
             tBox = new PasswordTextBox();
@@ -47,7 +47,7 @@ abstract class ExtendTextBox extends AbstractField {
         setMouse();
     }
 
-    protected ExtendTextBox(TableFactoriesContainer tFactories,final boolean password,
+    protected ExtendTextBox(ITableCustomFactories tFactories, final boolean password,
             boolean checkEnable) {
         super(tFactories, checkEnable);
         if (password) {
@@ -94,8 +94,7 @@ abstract class ExtendTextBox extends AbstractField {
             return CHOOSECHECKFALSE;
         }
     }
-    
- 
+
     @Override
     public void setOnTouch(final ITouchListener iTouch) {
         super.setOnTouch(iTouch);
@@ -114,7 +113,6 @@ abstract class ExtendTextBox extends AbstractField {
         setVal(v);
         runOnChange(this);
     }
-
 
     public String getVal() {
         return tBox.getText();
@@ -143,9 +141,8 @@ abstract class ExtendTextBox extends AbstractField {
         super.addChangeListener(l);
         tBox.addChangeListener(new L());
     }
-    
+
     public Widget getGWidget() {
         return this;
     }
-
 }

@@ -19,15 +19,15 @@ import java.util.Map;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormLineView;
 
 public class EditWidgetFactory {
 
-    private final TableFactoriesContainer tFactories;
+    private final ITableCustomFactories tFactories;
 
     @Inject
-    public EditWidgetFactory(TableFactoriesContainer tFactories) {
+    public EditWidgetFactory(ITableCustomFactories tFactories) {
         this.tFactories = tFactories;
     }
 
@@ -93,7 +93,7 @@ public class EditWidgetFactory {
 
     private class GetValueCheck extends ExtendTextBox {
 
-        GetValueCheck(TableFactoriesContainer tFactories, boolean checkenable) {
+        GetValueCheck(ITableCustomFactories tFactories, boolean checkenable) {
             super(tFactories, false, checkenable);
         }
     }

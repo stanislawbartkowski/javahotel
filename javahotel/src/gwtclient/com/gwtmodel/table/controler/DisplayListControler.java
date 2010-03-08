@@ -19,7 +19,7 @@ import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IHeaderListContainer;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
@@ -42,16 +42,14 @@ class DisplayListControler implements IDataControler {
     private final IDataType dType;
     private final WSize wSize;
     private final SlotListContainer slContainer;
-    private final DataListParam listParam;
 
     DisplayListControler(TablesFactories tFactories,
-            TableFactoriesContainer fContainer, IDataType dType, WSize wSize,
+            ITableCustomFactories fContainer, IDataType dType, WSize wSize,
             CellId panelId, ListOfControlDesc listButton,
             ISlotable cControler, DataListParam listParam) {
         this.tFactories = tFactories;
         this.dType = dType;
         this.wSize = wSize;
-        this.listParam = listParam;
         IDataPersistAction persistA = listParam.getPersistA();
         IHeaderListContainer heList = listParam.getHeList();
         // create panel View

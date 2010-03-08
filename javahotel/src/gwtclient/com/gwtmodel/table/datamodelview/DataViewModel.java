@@ -18,7 +18,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -114,7 +114,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
-            FormLineContainer fContainer, TableFactoriesContainer cFactories,
+            FormLineContainer fContainer, ITableCustomFactories cFactories,
             IDataModelFactory dFactory) {
         this.fContainer = fContainer;
         this.dType = dType;
@@ -145,6 +145,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         dFactory.fromDataToView(dType, aFrom, fContainer);
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         publish(cellId, gView);
     }

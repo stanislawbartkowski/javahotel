@@ -20,6 +20,7 @@ import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.readres.ReadResFactory;
@@ -61,7 +62,7 @@ public interface GwtTableInjector extends Ginjector {
 
     GridViewFactory getGridViewFactory();
 
-    TableFactoriesContainer getTableFactoriesContainer();
+    ITableCustomFactories getTableFactoriesContainer();
 
     GwtTableFactory getGwtTableFactory();
 

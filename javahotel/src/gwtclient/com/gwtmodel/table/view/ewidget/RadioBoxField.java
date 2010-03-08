@@ -14,7 +14,7 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,7 @@ class RadioBoxField extends AbstractField {
     private final VerticalPanel vP;
     private final List<RadioButton> ra;
 
-    RadioBoxField(TableFactoriesContainer tFactories,String zName, List<ComboVal> wy) {
+    RadioBoxField(ITableCustomFactories tFactories,String zName, List<ComboVal> wy) {
         super(tFactories);
         this.wy = wy;
         vP = new VerticalPanel();
