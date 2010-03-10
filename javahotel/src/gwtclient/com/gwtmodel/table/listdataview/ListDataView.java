@@ -104,6 +104,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerCaller(GetActionEnum.GetListComboField, dType, new GetComboField());
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         publish(cellId, tableView);
     }
