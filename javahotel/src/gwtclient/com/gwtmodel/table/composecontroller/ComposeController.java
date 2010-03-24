@@ -88,17 +88,10 @@ class ComposeController extends PanelSlotContainer implements
         }
 
         public void signal(ISlotSignalContext slContext) {
-//            DataActionEnum calledDataAction = slContext.getSlType().getDataActionEnum();
             for (ComposeControllerType cType : cList) {
                 if (cType.getdType() == null) {
                     continue;
                 }
-//                if (cType.getiSlot() instanceof IComposeController) {
-//                    if (calledDataAction == DataActionEnum.DrawViewComposeFormAction) {
-//                        slMediator.getSlContainer().publish(calledDataAction,cType.getdType(), slContext);
-//                        return;                        
-//                    }
-//                }
                 if (!cType.isPanelElem() && !cType.isCellId()) {
                     continue;
                 }

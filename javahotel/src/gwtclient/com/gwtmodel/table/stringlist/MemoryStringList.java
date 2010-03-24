@@ -56,10 +56,8 @@ public class MemoryStringList extends AbstractSlotContainer implements
 
     MemoryStringList(String fieldName, String title,
             IStringEFactory eFactory, ISlotSignaller setGwt) {
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
-                .getTableDataControlerFactory();
-        DataViewModelFactory daFactory = GwtGiniInjector.getI()
-                .getDataViewModelFactory();
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
+        DataViewModelFactory daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
         sType = Empty.getDataType();
         this.fieldName = fieldName;
         this.title = title;
@@ -70,9 +68,9 @@ public class MemoryStringList extends AbstractSlotContainer implements
 
         dControler = tFactory.constructDataControler(sType, new CellId(0),
                 new DataListParam(lPhonelist, null, new DataFactory(eFactory,
-                        sField), new StringFactory(fieldName, title),
-                        new GetControler(fieldName, title, eFactory, sField,
-                                daFactory, lPhonedata)));
+                sField), new StringFactory(fieldName, title),
+                new GetControler(fieldName, title, eFactory, sField,
+                daFactory, lPhonedata)), null);
         dControler.getSlContainer().registerSubscriber(0, setGwt);
     }
 
@@ -82,5 +80,4 @@ public class MemoryStringList extends AbstractSlotContainer implements
     public IDataListType getMemTable() {
         return lPhonelist.getDataList();
     }
-
 }

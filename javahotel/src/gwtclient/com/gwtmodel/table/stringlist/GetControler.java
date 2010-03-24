@@ -24,7 +24,6 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.persist.IMemoryListModel;
 import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.slotmodel.CellId;
 
 class GetControler implements IGetViewControllerFactory {
 

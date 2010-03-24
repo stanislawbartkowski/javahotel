@@ -38,6 +38,7 @@ class ControlButtonView extends AbstractSlotContainer implements
         vButton = vFactory.getView(listButton, new Click());
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         publish(cellId, vButton);
     }

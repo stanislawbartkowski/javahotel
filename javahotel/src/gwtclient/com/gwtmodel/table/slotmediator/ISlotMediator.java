@@ -21,6 +21,8 @@ public interface ISlotMediator extends ISlotable {
 
     void registerSlotContainer(CellId cellId, ISlotable iSlo);
 
+    void addSlotContainer(CellId cellId, ISlotable iSlo);
+
     void registerSlotContainer(ISlotable iSlo);
 
 }
