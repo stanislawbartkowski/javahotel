@@ -25,6 +25,7 @@ import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.readres.ReadResFactory;
+import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
@@ -73,5 +74,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(IWebPanel.class).toProvider(WebPanelProvider.class);
         bind(StackPanelFactory.class).in(Singleton.class);
         bind(StackPanelControllerFactory.class).in(Singleton.class);
+        bind(ISlotMediator.class).toProvider(SlotMediatorFactory.class);
     }
 }

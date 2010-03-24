@@ -42,11 +42,12 @@ class DisplayListControler implements IDataControler {
     private final IDataType dType;
     private final WSize wSize;
     private final SlotListContainer slContainer;
+    private final boolean startM;
 
     DisplayListControler(TablesFactories tFactories,
             ITableCustomFactories fContainer, IDataType dType, WSize wSize,
             CellId panelId, ListOfControlDesc listButton,
-            ISlotable cControler, DataListParam listParam) {
+            ISlotable cControler, DataListParam listParam,ISlotMediator me) {
         this.tFactories = tFactories;
         this.dType = dType;
         this.wSize = wSize;
@@ -64,7 +65,14 @@ class DisplayListControler implements IDataControler {
         IListDataView daView = lDataFactory.construct(dType);
         ControlButtonViewFactory bFactory = tFactories.getbViewFactory();
         IControlButtonView bView = bFactory.construct(listButton);
-        slMediator = tFactories.getSlotMediatorFactory().construct();
+        if (me == null) {
+          slMediator = tFactories.getSlotMediatorFactory().construct();
+          startM = true;
+        }
+        else {
+            slMediator = me;
+            startM = false;
+        }
         slContainer = slMediator.getSlContainer();
 
         slMediator.registerSlotContainer(panelId, pView);
@@ -86,7 +94,9 @@ class DisplayListControler implements IDataControler {
     }
 
     public void startPublish(CellId cellId) {
-        slMediator.startPublish(cellId);
+        if (startM) {
+           slMediator.startPublish(cellId);
+        }
         slContainer.registerSubscriber(DataActionEnum.ListReadSuccessSignal,
                 dType, new DrawListAction());
         slContainer.registerRedirector(tFactories.getSlTypeFactory().construct(

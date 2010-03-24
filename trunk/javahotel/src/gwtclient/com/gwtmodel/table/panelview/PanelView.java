@@ -101,6 +101,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         // create publisher
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         publish(cellId, pView);
     }

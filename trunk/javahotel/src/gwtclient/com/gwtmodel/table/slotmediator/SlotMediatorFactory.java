@@ -12,10 +12,16 @@
  */
 package com.gwtmodel.table.slotmediator;
 
-public class SlotMediatorFactory {
+import com.google.inject.Provider;
+
+public class SlotMediatorFactory implements Provider<ISlotMediator> {
 
     public ISlotMediator construct() {
         return new SlotMediator();
+    }
+
+    public ISlotMediator get() {
+        return construct();
     }
 
 }

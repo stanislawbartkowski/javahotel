@@ -30,6 +30,13 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 
     private final List<C> slList = new ArrayList<C>();
 
+    private final ISlotSignaller slSig = new GeneralListener();
+    private final ISlotCaller slCaller = new GeneralCaller();
+
+    public void addSlotContainer(CellId cellId, ISlotable iSlo) {
+        slList.add(new C(cellId, iSlo));
+    }
+
     private class C {
         private final CellId cellId;
         private final ISlotable iSlo;
@@ -80,7 +87,8 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
     }
 
     public void registerSlotContainer(CellId cellId, ISlotable iSlo) {
-        slList.add(new C(cellId, iSlo));
+//        slList.add(new C(cellId, iSlo));
+        addSlotContainer(cellId,iSlo);
         this.slContainer.getListOfSubscribers().addAll(
                 iSlo.getSlContainer().getListOfSubscribers());
         this.slContainer.getListOfCallers().addAll(
@@ -89,15 +97,14 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
                 iSlo.getSlContainer().getListOfRedirectors());
     }
 
+    @Override
     public void startPublish(CellId nullId) {
-        ISlotSignaller sl = new GeneralListener();
-        ISlotCaller slCaller = new GeneralCaller();
         for (C c : slList) {
             c.iSlo.getSlContainer().registerSlReceiver(slCaller);
-            c.iSlo.getSlContainer().registerSlPublisher(sl);
+            c.iSlo.getSlContainer().registerSlPublisher(slSig);
         }
         this.slContainer.registerSlReceiver(slCaller);
-        this.slContainer.registerSlPublisher(sl);
+        this.slContainer.registerSlPublisher(slSig);
         for (C c : slList) {
             c.iSlo.startPublish(c.cellId);
         }
