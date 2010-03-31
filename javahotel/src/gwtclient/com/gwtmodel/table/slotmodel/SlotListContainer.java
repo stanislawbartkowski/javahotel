@@ -323,6 +323,12 @@ public class SlotListContainer {
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
+            IVModelData vData,PersistTypeEnum persistTypeEnum) {
+        publish(slContextFactory.construct(slTypeFactory.construct(
+                dataActionEnum, dType), vData, persistTypeEnum));
+    }
+
+    public void publish(DataActionEnum dataActionEnum, IDataType dType,
             WSize wSize) {
         publish(slContextFactory.construct(slTypeFactory.construct(
                 dataActionEnum, dType), wSize));

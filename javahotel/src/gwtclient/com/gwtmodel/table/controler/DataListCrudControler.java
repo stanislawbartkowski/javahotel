@@ -55,7 +55,6 @@ class DataListCrudControler extends AbstractSlotContainer {
         protected void hide() {
             dForm.d.hide();
         }
-
     }
 
     private class AfterPersistData extends Signaller {
@@ -75,6 +74,7 @@ class DataListCrudControler extends AbstractSlotContainer {
     }
 
     private class PersistData implements ISlotSignaller {
+
         private final PersistTypeEnum persistTypeEnum;
         private final IComposeController iController;
         private final DataActionEnum dataActionEnum;
@@ -90,7 +90,6 @@ class DataListCrudControler extends AbstractSlotContainer {
             iController.getSlContainer().publish(dataActionEnum, dType,
                     persistTypeEnum);
         }
-
     }
 
     private class ResignAction extends Signaller {
@@ -118,7 +117,6 @@ class DataListCrudControler extends AbstractSlotContainer {
         protected void addVP(VerticalPanel vp) {
             vp.add(w.getGWidget());
         }
-
     }
 
     private class DrawForm implements ISlotSignaller {
@@ -143,7 +141,6 @@ class DataListCrudControler extends AbstractSlotContainer {
             PopupUtil.setPos(d.getDBox(), wSize);
             d.show();
         }
-
     }
 
     private class GetterModel implements ISlotCaller {
@@ -166,7 +163,6 @@ class DataListCrudControler extends AbstractSlotContainer {
             // result: perData
             return slContext;
         }
-
     }
 
     private class ActionItem implements ISlotSignaller {
@@ -178,8 +174,7 @@ class DataListCrudControler extends AbstractSlotContainer {
         }
 
         public void signal(ISlotSignalContext slContext) {
-            ClickButtonType.StandClickEnum action = slContext.getSlType()
-                    .getButtonClick().getClickEnum();
+            ClickButtonType.StandClickEnum action = slContext.getSlType().getButtonClick().getClickEnum();
             ISlotSignalContext ret = getGetterContext(
                     GetActionEnum.GetListLineChecked, dType);
             IVModelData mModel = listParam.getDataFactory().construct(dType);
@@ -204,15 +199,12 @@ class DataListCrudControler extends AbstractSlotContainer {
             String title = listParam.getFormFactory().getFormTitle(dType);
             ListOfControlDesc liControls;
             if (action != ClickButtonType.StandClickEnum.REMOVEITEM) {
-                liControls = tFactories.getControlButtonFactory()
-                        .constructAcceptResign();
+                liControls = tFactories.getControlButtonFactory().constructAcceptResign();
             } else {
-                liControls = tFactories.getControlButtonFactory()
-                        .constructRemoveDesign();
+                liControls = tFactories.getControlButtonFactory().constructRemoveDesign();
             }
             CellId cId = new CellId(0);
-            IComposeController fController = listParam.getfControler()
-                    .construct(dType);
+            IComposeController fController = listParam.getfControler().construct(dType);
             IControlButtonView cView = tFactories.getbViewFactory().construct(
                     liControls);
             ComposeControllerType bType = new ComposeControllerType(cView,
@@ -220,13 +212,12 @@ class DataListCrudControler extends AbstractSlotContainer {
             fController.registerControler(bType);
             fController.createComposeControle(cId);
 
-            SlotListContainer slControlerContainer = fController
-                    .getSlContainer();
+            SlotListContainer slControlerContainer = fController.getSlContainer();
             DrawForm dForm = new DrawForm(wSize, title, action);
-            slControlerContainer.registerSubscriber(0, dForm);
+            slControlerContainer.registerSubscriber(cId, dForm);
             slControlerContainer.registerSubscriber(
                     ClickButtonType.StandClickEnum.RESIGN, new ResignAction(
-                            dForm));
+                    dForm));
             PersistData pData = new PersistData(persistTypeEnum, fController,
                     DataActionEnum.ValidateComposeFormAction);
             slControlerContainer.registerSubscriber(
@@ -243,7 +234,7 @@ class DataListCrudControler extends AbstractSlotContainer {
 
             fController.startPublish(cId);
             slControlerContainer.publish(
-                    DataActionEnum.DrawViewComposeFormAction, dType, peData);
+                    DataActionEnum.DrawViewComposeFormAction, dType, peData, persistTypeEnum);
 
             slControlerContainer.publish(
                     DataActionEnum.ChangeViewComposeFormModeAction, dType,
@@ -251,7 +242,7 @@ class DataListCrudControler extends AbstractSlotContainer {
 
             slControlerContainer.registerCaller(
                     GetActionEnum.GetModelToPersist, dType, new GetterModel(
-                            slControlerContainer, peData));
+                    slControlerContainer, peData));
         }
     }
 
@@ -269,5 +260,4 @@ class DataListCrudControler extends AbstractSlotContainer {
         registerSubscriber(ClickButtonType.StandClickEnum.MODIFITEM,
                 new ActionItem(PersistTypeEnum.MODIF));
     }
-
 }

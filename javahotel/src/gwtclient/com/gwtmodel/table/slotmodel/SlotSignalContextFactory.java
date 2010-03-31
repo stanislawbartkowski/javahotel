@@ -171,6 +171,11 @@ public class SlotSignalContextFactory {
                 vData, null, null, null, null, null);
     }
 
+    public ISlotSignalContext construct(SlotType slType, IVModelData vData, PersistTypeEnum persistTypeEnum) {
+        return new SlotSignalContext(slType, null, null, null, null, null,
+                vData, persistTypeEnum, null, null, null, null);
+    }
+
     public ISlotSignalContext construct(SlotType slType, IValidateError vError) {
         return new SlotSignalContext(slType, null, vError, null, null, null,
                 null, null, null, null, null, null);

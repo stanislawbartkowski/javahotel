@@ -59,7 +59,9 @@ public class CUtil {
 
     public static boolean EqNS(String p1, String p2) {
         // important: if both null that not equal
-        if ((p1 == null) || (p2 == null)) { return false; }
+        if ((p1 == null) || (p2 == null)) {
+            return false;
+        }
         return p1.equalsIgnoreCase(p2);
     }
 
@@ -68,5 +70,7 @@ public class CUtil {
         return i.intValue();
     }
 
-
+    public static String NumbToS(int i) {
+        return Integer.toString(i);
+    }
 }
