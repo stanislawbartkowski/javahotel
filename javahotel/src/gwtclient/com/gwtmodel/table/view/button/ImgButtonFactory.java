@@ -21,9 +21,8 @@ import com.gwtmodel.table.Utils;
  * @author stanislawbartkowski@gmail.com
  */
 public class ImgButtonFactory {
-    
+
     private ImgButtonFactory() {
-        
     }
 
     public static Button getButton(String bName, String img) {

@@ -24,7 +24,7 @@ class NumberCalculator extends ExtendTextBox {
     private final int afterdot;
 
     NumberCalculator(ITableCustomFactories tFactories, int afterdot) {
-        super(tFactories, false);
+        super(tFactories, false, false);
         this.afterdot = afterdot;
         hPanel.addStyleName("Number");
     }

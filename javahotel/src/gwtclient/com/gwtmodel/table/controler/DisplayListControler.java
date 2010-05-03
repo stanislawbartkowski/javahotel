@@ -12,15 +12,10 @@ f * Copyright 2008 stanislawbartkowski@gmail.com
  */
 package com.gwtmodel.table.controler;
 
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.WSize;
-import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IHeaderListContainer;
-import com.gwtmodel.table.factories.ITableCustomFactories;
-import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
@@ -30,7 +25,6 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 class DisplayListControler implements IDataControler {
@@ -38,48 +32,41 @@ class DisplayListControler implements IDataControler {
     private final CellId cellTableId;
     private final CellId controlId;
     private final ISlotMediator slMediator;
-    private final TablesFactories tFactories;
-    private final IDataType dType;
-    private final WSize wSize;
     private final SlotListContainer slContainer;
     private final boolean startM;
+    private final DisplayListControlerParam cParam;
 
-    DisplayListControler(TablesFactories tFactories,
-            ITableCustomFactories fContainer, IDataType dType, WSize wSize,
-            CellId panelId, ListOfControlDesc listButton,
-            ISlotable cControler, DataListParam listParam,ISlotMediator me) {
-        this.tFactories = tFactories;
-        this.dType = dType;
-        this.wSize = wSize;
-        IDataPersistAction persistA = listParam.getPersistA();
-        IHeaderListContainer heList = listParam.getHeList();
+    DisplayListControler(DisplayListControlerParam cParam) {
+        this.cParam = cParam;
+        IDataPersistAction persistA = cParam.getListParam().getPersistA();
+        IHeaderListContainer heList = cParam.getListParam().getHeList();
         // create panel View
-        PanelViewFactory pViewFactory = tFactories.getpViewFactory();
-        IPanelView pView = pViewFactory.construct(panelId);
+        PanelViewFactory pViewFactory = cParam.gettFactories().getpViewFactory();
+        IPanelView pView = pViewFactory.construct(cParam.getPanelId());
         controlId = pView.addCellPanel(0, 0);
         cellTableId = pView.addCellPanel(1, 0);
         pView.createView();
         // persist layer
         // header list
-        ListDataViewFactory lDataFactory = tFactories.getlDataFactory();
-        IListDataView daView = lDataFactory.construct(dType);
-        ControlButtonViewFactory bFactory = tFactories.getbViewFactory();
-        IControlButtonView bView = bFactory.construct(listButton);
-        if (me == null) {
-          slMediator = tFactories.getSlotMediatorFactory().construct();
+        ListDataViewFactory lDataFactory = cParam.gettFactories().getlDataFactory();
+        IListDataView daView = lDataFactory.construct(cParam.getdType());
+        ControlButtonViewFactory bFactory = cParam.gettFactories().getbViewFactory();
+        IControlButtonView bView = bFactory.construct(cParam.getListButton());
+        if (cParam.getMe() == null) {
+          slMediator = cParam.gettFactories().getSlotMediatorFactory().construct();
           startM = true;
         }
         else {
-            slMediator = me;
+            slMediator = cParam.getMe();
             startM = false;
         }
         slContainer = slMediator.getSlContainer();
 
-        slMediator.registerSlotContainer(panelId, pView);
+        slMediator.registerSlotContainer(cParam.getPanelId(), pView);
         slMediator.registerSlotContainer(-1, persistA);
         slMediator.registerSlotContainer(cellTableId, daView);
         slMediator.registerSlotContainer(controlId, bView);
-        slMediator.registerSlotContainer(-1, cControler);
+        slMediator.registerSlotContainer(-1, cParam.getcControler());
         if (heList != null) {
             slMediator.registerSlotContainer(-1, heList);
         }
@@ -88,8 +75,8 @@ class DisplayListControler implements IDataControler {
     private class DrawListAction implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            slContainer.publish(DataActionEnum.DrawListAction, dType, slContext
-                    .getDataList(), wSize);
+            slContainer.publish(DataActionEnum.DrawListAction, cParam.getdType(), slContext
+                    .getDataList(), cParam.getwSize());
         }
     }
 
@@ -98,14 +85,14 @@ class DisplayListControler implements IDataControler {
            slMediator.startPublish(cellId);
         }
         slContainer.registerSubscriber(DataActionEnum.ListReadSuccessSignal,
-                dType, new DrawListAction());
-        slContainer.registerRedirector(tFactories.getSlTypeFactory().construct(
-                DataActionEnum.RefreshAfterPersistActionSignal, dType),
-                tFactories.getSlTypeFactory().construct(
-                        DataActionEnum.ReadListAction, dType));
+                cParam.getdType(), new DrawListAction());
+        slContainer.registerRedirector(cParam.gettFactories().getSlTypeFactory().construct(
+                DataActionEnum.RefreshAfterPersistActionSignal, cParam.getdType()),
+                cParam.gettFactories().getSlTypeFactory().construct(
+                        DataActionEnum.ReadListAction, cParam.getdType()));
         // secondly publish
-        slContainer.publish(DataActionEnum.ReadListAction, dType, wSize);
-        slContainer.publish(DataActionEnum.ReadHeaderContainer, dType);
+        slContainer.publish(DataActionEnum.ReadListAction, cParam.getdType(), cParam.getwSize());
+        slContainer.publish(DataActionEnum.ReadHeaderContainer, cParam.getdType());
     }
 
     public SlotListContainer getSlContainer() {

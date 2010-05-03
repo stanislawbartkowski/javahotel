@@ -40,7 +40,7 @@ class ListFieldWithHelp extends ExtendTextBox {
     }
 
     ListFieldWithHelp(ITableCustomFactories tFactories, IDataType dType) {
-        super(tFactories, false);
+        super(tFactories, false,false);
         cHelper = new RHelp(dType);
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
 

@@ -17,7 +17,9 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -30,16 +32,18 @@ import com.gwtmodel.table.rdef.ITouchListener;
 @SuppressWarnings("deprecation")
 abstract class ExtendTextBox extends AbstractField {
 
-    protected final TextBox tBox;
+    protected final TextBoxBase tBox;
     protected final HorizontalPanel hPanel = new HorizontalPanel();
     protected final CheckBox check;
+    protected final boolean isArea;
 
-    protected ExtendTextBox(ITableCustomFactories tFactories, final boolean password) {
+    protected ExtendTextBox(ITableCustomFactories tFactories, final boolean password,boolean isArea) {
         super(tFactories);
+        this.isArea = isArea;
         if (password) {
             tBox = new PasswordTextBox();
         } else {
-            tBox = new TextBox();
+            tBox = isArea ? new TextArea() : new TextBox();
         }
         check = null;
         hPanel.add(tBox);
@@ -48,12 +52,14 @@ abstract class ExtendTextBox extends AbstractField {
     }
 
     protected ExtendTextBox(ITableCustomFactories tFactories, final boolean password,
-            boolean checkEnable) {
+            boolean checkEnable,boolean isArea) {
         super(tFactories, checkEnable);
+        this.isArea = isArea;
         if (password) {
             tBox = new PasswordTextBox();
         } else {
-            tBox = new TextBox();
+//            tBox = new TextBox();
+            tBox = isArea ? new TextArea() : new TextBox();
         }
         check = new CheckBox("Auto");
         check.setChecked(checkEnable);
@@ -142,6 +148,7 @@ abstract class ExtendTextBox extends AbstractField {
         tBox.addChangeListener(new L());
     }
 
+    @Override
     public Widget getGWidget() {
         return this;
     }

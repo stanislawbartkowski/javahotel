@@ -14,14 +14,13 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.gwtmodel.table.factories.ITableCustomFactories;
 
-
 /**
  *
  * @author perseus
  */
 class FieldTextField extends ExtendTextBox {
 
-    FieldTextField(ITableCustomFactories tFactories, boolean password) {
-        super(tFactories, password);
+    FieldTextField(ITableCustomFactories tFactories, boolean password, boolean isArea) {
+        super(tFactories, password, isArea);
     }
 }
