@@ -20,6 +20,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.controler.DataListParam;
+import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
@@ -66,11 +67,17 @@ public class MemoryStringList extends AbstractSlotContainer implements
 
         IVField sField = Empty.getFieldType();
 
-        dControler = tFactory.constructDataControler(sType, new CellId(0),
+//        dControler = tFactory.constructDataControler(sType, new CellId(0),
+//                new DataListParam(lPhonelist, null, new DataFactory(eFactory,
+//                sField), new StringFactory(fieldName, title),
+//                new GetControler(fieldName, title, eFactory, sField,
+//                daFactory, lPhonedata)), null);
+        DisplayListControlerParam cParam = tFactory.constructParam(sType, new CellId(0),
                 new DataListParam(lPhonelist, null, new DataFactory(eFactory,
                 sField), new StringFactory(fieldName, title),
                 new GetControler(fieldName, title, eFactory, sField,
                 daFactory, lPhonedata)), null);
+        dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(0, setGwt);
     }
 

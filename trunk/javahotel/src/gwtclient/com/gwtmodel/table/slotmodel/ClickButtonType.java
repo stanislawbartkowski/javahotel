@@ -12,42 +12,46 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.common.CUtil;
+
 public class ClickButtonType {
 
     public enum StandClickEnum {
         ADDITEM, REMOVEITEM, MODIFITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
-        CUSTOM
+        CUSTOM,ALL
     };
 
     private StandClickEnum clickEnum;
-    private int customInt;
+    private String customButt;
 
     public ClickButtonType(StandClickEnum clickEnum) {
         this.clickEnum = clickEnum;
-        customInt = -1;
+        customButt = null;
     }
     
-    public ClickButtonType(int customInt) {
+    public ClickButtonType(String customButt) {
         this.clickEnum = StandClickEnum.CUSTOM;
-        this.customInt = customInt;
+        this.customButt = customButt;
     }
 
     public StandClickEnum getClickEnum() {
         return clickEnum;
     }
 
-    public int getCustomInt() {
-        return customInt;
+    public String getCustomButt() {
+        return customButt;
     }
 
     public boolean eq(ClickButtonType bType) {
+        if (clickEnum == StandClickEnum.ALL) { return true; }
+        if (bType.clickEnum == StandClickEnum.ALL) { return true; }
         if (clickEnum != bType.clickEnum) {
             return false;
         }
         if (clickEnum != StandClickEnum.CUSTOM) {
             return true;
         }
-        return customInt == bType.customInt;
+        return CUtil.EqNS(customButt, bType.customButt);
     }
 
 }

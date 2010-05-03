@@ -22,6 +22,7 @@ public class FormField {
     private final boolean readOnlyIfModif;
     private final IVField fRange;
     private String htmlId;
+    private boolean disabled;
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
             boolean readOnlyIfModif) {
@@ -94,5 +95,19 @@ public class FormField {
      */
     public void setHtmlId(String htmlId) {
         this.htmlId = htmlId;
+    }
+
+    /**
+     * @return the disabled
+     */
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    /**
+     * @param disabled the disabled to set
+     */
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 }

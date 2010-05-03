@@ -47,5 +47,4 @@ public interface IFormLineView extends IGWidget {
     
     int getChooseResult();
 
-
 }

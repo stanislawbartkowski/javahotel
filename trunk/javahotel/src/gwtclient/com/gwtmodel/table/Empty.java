@@ -17,9 +17,8 @@ package com.gwtmodel.table;
  * @author stanislaw.bartkowski@gmail.com
  */
 public class Empty {
-    
+
     private Empty() {
-        
     }
 
     private static class EmptyDataType implements IDataType {

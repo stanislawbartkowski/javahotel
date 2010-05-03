@@ -61,11 +61,15 @@ public class EditWidgetFactory {
     }
 
     public IFormLineView constructPasswordField() {
-        return new FieldTextField(tFactories, true);
+        return new FieldTextField(tFactories, true, false);
     }
 
     public IFormLineView constructTextField() {
-        return new FieldTextField(tFactories, false);
+        return new FieldTextField(tFactories, false, false);
+    }
+
+    public IFormLineView constructTextArea() {
+        return new FieldTextField(tFactories, false, true);
     }
 
     public IFormLineView construcDateBoxCalendar() {

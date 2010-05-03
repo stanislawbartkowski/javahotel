@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 
 public class ControlButtonFactory {
 
@@ -27,15 +28,37 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> loginButton;
     private final List<ControlButtonDesc> printButton;
 
+    private ControlButtonDesc constructButt(StandClickEnum bType) {
+        switch (bType) {
+            case ADDITEM:
+                return new ControlButtonDesc("New", "Dodaj", new ClickButtonType(
+                        ClickButtonType.StandClickEnum.ADDITEM));
+            case REMOVEITEM:
+                return new ControlButtonDesc("DeleteRed", "Usuń",
+                        new ClickButtonType(
+                        ClickButtonType.StandClickEnum.REMOVEITEM));
+            case MODIFITEM:
+                return new ControlButtonDesc("DataViewerMin", "Popraw",
+                        new ClickButtonType(ClickButtonType.StandClickEnum.MODIFITEM));
+
+            default:
+                break;
+        }
+        return null;
+    }
+
     public ControlButtonFactory() {
         dButton = new ArrayList<ControlButtonDesc>();
-        dButton.add(new ControlButtonDesc("New", "Dodaj", new ClickButtonType(
-                ClickButtonType.StandClickEnum.ADDITEM)));
-        dButton.add(new ControlButtonDesc("DeleteRed", "Usuń",
-                new ClickButtonType(
-                ClickButtonType.StandClickEnum.REMOVEITEM)));
-        dButton.add(new ControlButtonDesc("DataViewerMin", "Popraw",
-                new ClickButtonType(ClickButtonType.StandClickEnum.MODIFITEM)));
+//        dButton.add(new ControlButtonDesc("New", "Dodaj", new ClickButtonType(
+//                ClickButtonType.StandClickEnum.ADDITEM)));
+//        dButton.add(new ControlButtonDesc("DeleteRed", "Usuń",
+//                new ClickButtonType(
+//                ClickButtonType.StandClickEnum.REMOVEITEM)));
+//        dButton.add(new ControlButtonDesc("DataViewerMin", "Popraw",
+//                new ClickButtonType(ClickButtonType.StandClickEnum.MODIFITEM)));
+        dButton.add(constructButt(StandClickEnum.ADDITEM));
+        dButton.add(constructButt(StandClickEnum.REMOVEITEM));
+        dButton.add(constructButt(StandClickEnum.MODIFITEM));
 
         akcButton = new ArrayList<ControlButtonDesc>();
         akcButton.add(new ControlButtonDesc(null, "Akceptujesz",
@@ -100,5 +123,16 @@ public class ControlButtonFactory {
 
     public ListOfControlDesc constructPrintButton() {
         return new ListOfControlDesc(printButton);
+    }
+
+    public ListOfControlDesc constructList(List<StandClickEnum> cList) {
+        List<ControlButtonDesc> lButton = new ArrayList<ControlButtonDesc>();
+        for (StandClickEnum de : cList) {
+            ControlButtonDesc bu = constructButt(de);
+            if (bu != null) {
+                lButton.add(bu);
+            }
+        }
+        return new ListOfControlDesc(lButton);
     }
 }

@@ -217,6 +217,7 @@ public class SlotListContainer {
             IDataType dType, IVModelData mData) {
         ISlotSignalContext slContext = getGetterContext(getActionEnum, dType,
                 mData);
+        if (slContext == null) { return null; }
         return slContext.getVData();
     }
 
