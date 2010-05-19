@@ -16,10 +16,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IClickNextYesNo;
-import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
@@ -39,10 +40,17 @@ public class YesNoDialog extends ModalDialog {
         vp.add(new Label(ask));
     }
 
-    public YesNoDialog(final String ask,
+    public YesNoDialog(String ask, String title,
             final IClickNextYesNo yes) {
-        super(new VerticalPanel(), "Pytanie");
+        super(new VerticalPanel(), null);
         this.ask = ask;
+        if (title == null) {
+            ITableCustomFactories fa = GwtGiniInjector.getI().getTableFactoriesContainer();
+            IGetCustomValues va = fa.getGetCustomValues();
+            title = va.getCustomValue(IGetCustomValues.QUESTION);
+        }
+        setTitle(title);
+
         create();
 
         ControlButtonFactory fa = GwtGiniInjector.getI().getControlButtonFactory();

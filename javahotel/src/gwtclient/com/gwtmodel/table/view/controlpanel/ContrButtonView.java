@@ -12,17 +12,25 @@
  */
 package com.gwtmodel.table.view.controlpanel;
 
+import com.gwtmodel.table.IGWidget;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
+import com.gwtmodel.table.view.util.CreateFormView;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 
@@ -33,14 +41,27 @@ class ContrButtonView implements IContrButtonView {
 
     private final Panel hP;
     private final IControlClick co;
-//    private final Map<Integer, Button> iBut = new HashMap<Integer, Button>();
+    private final Map<ClickButtonType, Button> iBut =
+            new HashMap<ClickButtonType, Button>();
 
-    public void setEnable(int id, boolean enable) {
-//        Button b = iBut.get(id);
-//        if (b == null) {
-//            return;
-//        }
-//        b.setEnabled(enable);
+    public void setEnable(ClickButtonType id, boolean enable) {
+        Button b = iBut.get(id);
+        if (b == null) {
+            return;
+        }
+        b.setEnabled(enable);
+    }
+
+    public void fillHtml(IGWidget gw) {
+        List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
+        List<Button> bList = new ArrayList<Button>();
+        for (Entry<ClickButtonType, Button> e : iBut.entrySet()) {
+            cList.add(e.getKey());
+            bList.add(e.getValue());
+        }
+        Widget w = gw.getGWidget();
+        HTMLPanel pa = (HTMLPanel) w;
+        CreateFormView.setHtml(pa, cList, bList);
     }
 
     private class Click implements ClickListener {
@@ -76,7 +97,7 @@ class ContrButtonView implements IContrButtonView {
             }
             but.addClickListener(new Click(b));
             hP.add(but);
-//            iBut.put(b.getActionId(), but);            
+            iBut.put(b.getActionId(), but);
         }
     }
 

@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.view.form;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.gwtmodel.table.IGWidget;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -27,8 +29,9 @@ import com.gwtmodel.table.view.util.CreateFormView;
 class GwtFormView implements IGwtFormView {
 
     private final FormLineContainer fContainer;
-    private final Widget g;
+    private final Widget gg;
     final ErrorLineContainer eStore = new ErrorLineContainer();
+    private HTMLPanel hp;
 
     private void setListener() {
 
@@ -48,18 +51,22 @@ class GwtFormView implements IGwtFormView {
         this.fContainer = fContainer;
         if (cType.getfConstructor() == null) {
             if (fContainer.getHtml() == null) {
-                g = CreateFormView.construct(fContainer.getfList());
+                gg = CreateFormView.construct(fContainer.getfList());
             } else {
-                g = CreateFormView.setHtml(fContainer.getHtml(), fContainer.getfList());
+                gg = CreateFormView.setHtml(fContainer.getHtml(), fContainer.getfList());
             }
         } else {
-            g = cType.getfConstructor().construct(fContainer);
+            gg = cType.getfConstructor().construct(fContainer);
         }
+        hp = null;
         setListener();
     }
 
     public Widget getGWidget() {
-        return g;
+        if (hp == null) {
+            return gg;
+        }
+        return hp;
     }
 
     public void showInvalidate(InvalidateFormContainer errContainer) {
@@ -73,5 +80,11 @@ class GwtFormView implements IGwtFormView {
                 }
             }
         }
+    }
+
+    public void fillHtml(IGWidget gw) {
+        Widget w = gw.getGWidget();
+        HTMLPanel pa = (HTMLPanel) w;
+        hp = CreateFormView.setHtml(pa, fContainer.getfList());
     }
 }

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.util;
 
+import com.google.gwt.user.client.ui.Button;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
 import java.util.NoSuchElementException;
 
 public class CreateFormView {
@@ -30,22 +32,41 @@ public class CreateFormView {
     private CreateFormView() {
     }
 
-    public static HTMLPanel setHtml(String html, List<FormField> fList) {
-        HTMLPanel pa = new HTMLPanel(html);
+    private static void replace(HTMLPanel ha, String htmlId, Widget w) {
+        try {
+            w.getElement().setId(htmlId);
+            ha.addAndReplaceElement(w, htmlId);
+        } catch (NoSuchElementException e) {
+            // expected
+        }
+
+    }
+
+    public static void setHtml(HTMLPanel pa, List<ClickButtonType> dList,
+            List<Button> bList) {
+        int i = 0;
+        for (ClickButtonType c : dList) {
+            Button b = bList.get(i++);
+            String htmlId = c.getCustomButt();
+            replace(pa, htmlId, b);
+        }
+    }
+
+    public static HTMLPanel setHtml(HTMLPanel pa, List<FormField> fList) {
         for (FormField d : fList) {
             String htmlId = d.getHtmlId();
             if (CUtil.EmptyS(htmlId)) {
                 continue;
             }
-            try {
-                Widget w = d.getELine().getGWidget();
-                w.getElement().setId(htmlId);
-                pa.addAndReplaceElement(w, htmlId);
-            } catch (NoSuchElementException e) {
-                // expected
-            }
+            Widget w = d.getELine().getGWidget();
+            replace(pa, htmlId, w);
         }
         return pa;
+    }
+
+    public static HTMLPanel setHtml(String html, List<FormField> fList) {
+        HTMLPanel pa = new HTMLPanel(html);
+        return setHtml(pa, fList);
     }
 
     public static Grid construct(final List<FormField> fList, Set<IVField> add) {

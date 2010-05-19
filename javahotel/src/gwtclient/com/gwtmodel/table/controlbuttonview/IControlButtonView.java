@@ -15,5 +15,4 @@ package com.gwtmodel.table.controlbuttonview;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 public interface IControlButtonView extends ISlotable {
-
 }

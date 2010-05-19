@@ -13,6 +13,7 @@
 package com.gwtmodel.table.datamodelview;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
@@ -47,20 +48,22 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             for (FormField fie : fContainer.getfList()) {
                 IFormLineView vie = fie.getELine();
                 switch (persistTypeEnum) {
-                case ADD:
-                    break;
-                case MODIF:
-                    if (fie.isReadOnlyIfModif()) {
+                    case ADD:
+                        break;
+                    case MODIF:
+                        if (fie.isReadOnlyIfModif()) {
+                            vie.setReadOnly(true);
+                        }
+                        break;
+                    case REMOVE:
                         vie.setReadOnly(true);
-                    }
-                    break;
-                case REMOVE:
-                    vie.setReadOnly(true);
-                    break;
+                        break;
+                    case SHOWONLY:
+                        vie.setReadOnly(true);
+                        break;
                 }
             }
         }
-
     }
 
     private class DrawModel implements ISlotSignaller {
@@ -69,7 +72,6 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             IVModelData mData = slContext.getVData();
             fromDataToView(mData);
         }
-
     }
 
     private class GetterModel implements ISlotCaller {
@@ -79,7 +81,6 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             fromViewToData(mData);
             return slContext;
         }
-
     }
 
     private class GetterContainer implements ISlotCaller {
@@ -87,17 +88,14 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             return construct(dType, fContainer);
         }
-
     }
 
     private class InvalidateMess implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext
-                    .getValidateError();
+            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext.getValidateError();
             gView.showInvalidate(errContainer);
         }
-
     }
 
     private class FormChangeListener implements IFormChangeListener {
@@ -118,8 +116,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             IDataModelFactory dFactory) {
         this.fContainer = fContainer;
         this.dType = dType;
-        gView = gFactory.construct(fContainer, cFactories
-                .getDataFormConstructorAbstractFactory().construct(dType));
+        gView = gFactory.construct(fContainer, cFactories.getDataFormConstructorAbstractFactory().construct(dType));
         this.dFactory = dFactory;
         registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
                 new InvalidateMess());
@@ -147,7 +144,11 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(cellId, gView);
+        IGWidget w = getHtmlWidget(cellId);
+        if (w == null) {
+            publish(cellId, gView);
+            return;
+        }
+        gView.fillHtml(w);
     }
-
 }

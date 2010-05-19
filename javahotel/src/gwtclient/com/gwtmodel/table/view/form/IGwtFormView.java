@@ -16,8 +16,8 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.InvalidateFormContainer;
 
 public interface IGwtFormView extends IGWidget {
-    
+
     void showInvalidate(InvalidateFormContainer errContainer);
 
-
+    void fillHtml(IGWidget g);
 }

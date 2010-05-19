@@ -37,6 +37,11 @@ public class SlotTypeFactory {
                 null, cellId, null, null, null);
     }
 
+    public SlotType constructH(CellId cellId) {
+        return new SlotType(SlotEventEnum.GetterCaller, null, null, null,
+                null, cellId, null, GetActionEnum.GetHtmlForm, null);
+    }
+
     public SlotType construct(int cellId) {
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
                 null, new CellId(cellId), null, null, null);

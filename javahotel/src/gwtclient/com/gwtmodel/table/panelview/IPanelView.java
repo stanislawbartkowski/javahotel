@@ -22,6 +22,8 @@ public interface IPanelView extends ISlotable {
     
     void createView();
     
+    void createView(String html);
+    
     int CUSTOMID = 1000;
 
 }

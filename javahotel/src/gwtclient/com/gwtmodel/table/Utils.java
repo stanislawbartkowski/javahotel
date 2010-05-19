@@ -181,4 +181,16 @@ public class Utils {
         li.getItem(0);
         w.getElement().insertBefore(e, li.getItem(0));
     }
+
+    public static void errAlert(String s) {
+        Window.alert(s);
+    }
+
+    public static void errAlert(String s1, String s2) {
+        errAlert(s1 + " " + s2);
+    }
+
+    public static void errAlert(String err, Exception e) {
+        errAlert(err,e.getMessage());
+    }
 }

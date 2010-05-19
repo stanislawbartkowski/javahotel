@@ -25,8 +25,8 @@ public class LoginDataModelFactory implements IDataModelFactory {
     }
 
     private LoginField[] getLi() {
-        LoginField[] li = { new LoginField(LoginField.F.LOGINNAME),
-                new LoginField(LoginField.F.PASSWORD) };
+        LoginField[] li = {new LoginField(LoginField.F.LOGINNAME),
+            new LoginField(LoginField.F.PASSWORD)};
         return li;
     }
 
@@ -57,5 +57,4 @@ public class LoginDataModelFactory implements IDataModelFactory {
             IVModelData aTo) {
         FormUtil.copyFromViewToData(fContainer, aTo);
     }
-
 }

@@ -92,8 +92,12 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(dType, fie, formLine);
     }
 
-    public void publish(IDataType dType, VListHeaderContainer vHeader) {
+    protected void publish(IDataType dType, VListHeaderContainer vHeader) {
         slContainer.publish(dType, vHeader);
+    }
+
+    protected void publish(String stringButton) {
+        slContainer.publish(stringButton);
     }
 
     protected void registerSubscriber(SlotType slType,
@@ -138,6 +142,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerCaller(gEnum, dType, slCaller);
     }
 
+    public void registerCaller(SlotType slType, ISlotCaller slCaller) {
+        slContainer.registerCaller(slType, slCaller);
+    }
+
     protected ISlotSignalContext construct(GetActionEnum getActionEnum,
             IDataType dType, IVModelData vData, WSize wSize) {
         return slContainer.setGetter(getActionEnum, dType, vData, wSize);
@@ -172,6 +180,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContainer.getGetterIVModelData(getActionEnum, dType);
     }
 
+    protected IGWidget getHtmlWidget(CellId c) {
+        return slContainer.getHtmlWidget(c);
+    }
+
     protected FormLineContainer getGetterContainer(IDataType dType) {
         return slContainer.getGetterContainer(dType);
     }
@@ -180,8 +192,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
             ISlotSignalContext slContext) {
         slContainer.publish(dataActionEnum, dType, slContext);
     }
-    
+
     public void startPublish(CellId cellId) {
     }
-
 }

@@ -14,24 +14,20 @@ package com.gwtmodel.table.slotmodel;
 
 public enum GetActionEnum {
 
-    /** returns out: IVModelData + WSIze . */ 
+    /** returns out: IVModelData + WSIze . */
     GetListLineChecked,
-    
     /** return in/out: IVModelData. */
     GetViewModelEdited,
-    
     /** return IVModelToPersist in/out IVModelData. */
     GetModelToPersist,
-    
     /** Compose get edit model out/IVModelData. */
     GetViewComposeModelEdited,
-    
     /** Compose get model to persist out/IVModelData. */
     GetComposeModelToPersist,
-
     /** Get combo fields. */
     GetListComboField,
-    
     /** Get edit container / FormLineContainer lContainer. */
-    GetEditContainer,        
+    GetEditContainer,
+    /** GetHtmlForm. */
+    GetHtmlForm,
 }

@@ -135,7 +135,7 @@ public class SlotListContainer {
     public void registerSubscriber(CellId cellId, ISlotSignaller slSignaller) {
         registerSubscriber(slTypeFactory.construct(cellId), slSignaller);
     }
-    
+
     public void registerSubscriber(int cellId, ISlotSignaller slSignaller) {
         registerSubscriber(slTypeFactory.construct(cellId), slSignaller);
     }
@@ -190,8 +190,7 @@ public class SlotListContainer {
     }
 
     private ISlotSignalContext callGet(SlotType slType, IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory
-                .construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
         return call(slContext);
     }
 
@@ -199,6 +198,16 @@ public class SlotListContainer {
             IDataType dType) {
         ISlotSignalContext slContext = getGetterContext(getActionEnum, dType);
         return slContext.getVData();
+    }
+
+    public IGWidget getHtmlWidget(CellId c) {
+        SlotType slType = slTypeFactory.constructH(c);
+        ISlotSignalContext co = slContextFactory.construct(slType);
+        ISlotSignalContext slContext = call(co);
+        if (slContext == null) {
+            return null;
+        }
+        return slContext.getHtmlWidget();
     }
 
     public IVField getGetterComboField(IDataType dType) {
@@ -217,7 +226,9 @@ public class SlotListContainer {
             IDataType dType, IVModelData mData) {
         ISlotSignalContext slContext = getGetterContext(getActionEnum, dType,
                 mData);
-        if (slContext == null) { return null; }
+        if (slContext == null) {
+            return null;
+        }
         return slContext.getVData();
     }
 
@@ -239,8 +250,7 @@ public class SlotListContainer {
 
     public ISlotSignalContext getGetterContext(SlotType slType,
             IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory
-                .construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
         return slContext;
     }
 
@@ -254,8 +264,7 @@ public class SlotListContainer {
     public ISlotSignalContext setGetter(GetActionEnum getActionEnum,
             IDataType dType, IVModelData vData, WSize wSize) {
         SlotType slType = slTypeFactory.construct(getActionEnum, dType);
-        ISlotSignalContext sl = slContextFactory
-                .construct(slType, vData, wSize);
+        ISlotSignalContext sl = slContextFactory.construct(slType, vData, wSize);
         return sl;
     }
 
@@ -288,7 +297,7 @@ public class SlotListContainer {
         publish(slContextFactory.construct(slTypeFactory.construct(cellId),
                 gwtWidget));
     }
-    
+
     public void publish(int cellId, IGWidget gwtWidget) {
         publish(slContextFactory.construct(slTypeFactory.construct(cellId),
                 gwtWidget));
@@ -300,8 +309,7 @@ public class SlotListContainer {
     }
 
     public void publish(String stringButton, IGWidget gwtWidget) {
-        publish(slContextFactory.construct(slTypeFactory
-                .construct(stringButton), gwtWidget, stringButton));
+        publish(slContextFactory.construct(slTypeFactory.construct(stringButton), gwtWidget, stringButton));
         publish(slContextFactory.construct(slTypeFactory.construct(),
                 gwtWidget, stringButton));
     }
@@ -324,7 +332,7 @@ public class SlotListContainer {
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
-            IVModelData vData,PersistTypeEnum persistTypeEnum) {
+            IVModelData vData, PersistTypeEnum persistTypeEnum) {
         publish(slContextFactory.construct(slTypeFactory.construct(
                 dataActionEnum, dType), vData, persistTypeEnum));
     }
@@ -371,5 +379,9 @@ public class SlotListContainer {
 
     public void publish(SlotType slType) {
         publish(slContextFactory.construct(slType));
+    }
+
+    public void publish(String buttonString) {
+        publish(slContextFactory.construct(slTypeFactory.construct(buttonString)));
     }
 }

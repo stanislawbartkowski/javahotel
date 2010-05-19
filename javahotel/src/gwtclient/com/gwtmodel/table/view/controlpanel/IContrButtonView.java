@@ -13,7 +13,7 @@
 package com.gwtmodel.table.view.controlpanel;
 
 import com.gwtmodel.table.IGWidget;
-
+import com.gwtmodel.table.slotmodel.ClickButtonType;
 
 /**
  * 
@@ -21,5 +21,7 @@ import com.gwtmodel.table.IGWidget;
  */
 public interface IContrButtonView extends IGWidget {
 
-	void setEnable(int id, boolean enable);
+    void setEnable(ClickButtonType actionId, boolean enable);
+
+    void fillHtml(IGWidget g);
 }

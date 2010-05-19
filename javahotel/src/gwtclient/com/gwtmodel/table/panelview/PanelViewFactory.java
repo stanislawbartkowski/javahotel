@@ -14,19 +14,22 @@ package com.gwtmodel.table.panelview;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 
 public class PanelViewFactory {
 
     private final GwtPanelViewFactory gPanelViewFactory;
+    private final SlotSignalContextFactory slFactory;
 
     @Inject
-    public PanelViewFactory(GwtPanelViewFactory gPanelViewFactory) {
+    public PanelViewFactory(GwtPanelViewFactory gPanelViewFactory,
+            SlotSignalContextFactory slFactory) {
         this.gPanelViewFactory = gPanelViewFactory;
+        this.slFactory = slFactory;
     }
 
     public IPanelView construct(CellId pId) {
-        return new PanelView(gPanelViewFactory, pId);
+        return new PanelView(gPanelViewFactory, slFactory, pId);
     }
-
 }

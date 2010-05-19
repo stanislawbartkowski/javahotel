@@ -14,6 +14,7 @@ package com.gwtmodel.table.controlbuttonview;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -40,6 +41,11 @@ class ControlButtonView extends AbstractSlotContainer implements
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(cellId, vButton);
+        IGWidget w = getHtmlWidget(cellId);
+        if (w == null) {
+            publish(cellId, vButton);
+        } else {
+            vButton.fillHtml(w);
+        }
     }
 }

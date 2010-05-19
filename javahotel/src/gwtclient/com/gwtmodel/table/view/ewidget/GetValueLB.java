@@ -45,8 +45,15 @@ class GetValueLB extends AbstractField implements IValueLB {
         return lB.getItemText(i);
     }
 
+    private void setEmpty() {
+        lB.setItemSelected(0,true);
+//        int i = lB.getSelectedIndex();
+//        lB.setItemSelected(i,false);
+    }
+
     private void setV(final String s) {
         if (s == null) {
+            setEmpty();
             return;
         }
         if (lB.getItemCount() == 0) {
@@ -60,6 +67,7 @@ class GetValueLB extends AbstractField implements IValueLB {
                 return;
             }
         }
+        setEmpty();
     }
 
     public void setVal(final String s) {
@@ -107,6 +115,7 @@ class GetValueLB extends AbstractField implements IValueLB {
         }
     }
 
+    @Override
     public Widget getGWidget() {
         return this;
     }
