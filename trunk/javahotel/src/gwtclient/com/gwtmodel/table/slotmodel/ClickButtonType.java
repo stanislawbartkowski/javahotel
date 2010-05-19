@@ -17,7 +17,7 @@ import com.gwtmodel.table.common.CUtil;
 public class ClickButtonType {
 
     public enum StandClickEnum {
-        ADDITEM, REMOVEITEM, MODIFITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
+        ADDITEM, REMOVEITEM, MODIFITEM, SHOWITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
         CUSTOM,ALL
     };
 

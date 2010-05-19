@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.panelview;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.gwtmodel.table.GWidget;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +23,11 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.panel.IGwtPanelView;
 import com.gwtmodel.table.view.panel.PanelRowDesc;
@@ -30,6 +35,7 @@ import com.gwtmodel.table.view.panel.PanelRowDesc;
 class PanelView extends AbstractSlotContainer implements IPanelView {
 
     private class PanelRowCell {
+
         private final int rowNo, cellNo;
 
         PanelRowCell(int rowNo, int cellNo) {
@@ -44,17 +50,21 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         public int getCellNo() {
             return cellNo;
         }
-
     }
-
     private final Map<CellId, PanelRowCell> colM = new HashMap<CellId, PanelRowCell>();
-    private CellId panelId ;
+    private CellId panelId;
     private IGwtPanelView pView;
     private final GwtPanelViewFactory gFactory;
+    private HTMLPanel paHtml;
+    private final SlotSignalContextFactory slFactory;
 
-    PanelView(GwtPanelViewFactory gFactory, CellId panelId) {
+    PanelView(GwtPanelViewFactory gFactory, SlotSignalContextFactory slFactory,
+            CellId panelId) {
         this.panelId = panelId;
         this.gFactory = gFactory;
+        this.slFactory = slFactory;
+        paHtml = null;
+        pView = null;
     }
 
     public CellId addCellPanel(int row, int col) {
@@ -73,7 +83,27 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             IGWidget gwtWidget = slContext.getGwtWidget();
             pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getGWidget());
         }
+    }
 
+    private IGWidget getHWidget() {
+        return new GWidget(paHtml);
+    }
+
+    private class GetHtml implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            ISlotSignalContext sl = slFactory.construct(slContext.getSlType(), getHWidget());
+            return sl;
+        }
+    }
+
+    public void createView(String html) {
+        paHtml = new HTMLPanel(html);
+        ISlotCaller c = new GetHtml();
+        for (CellId i : colM.keySet()) {
+            SlotType sl = slTypeFactory.constructH(i);
+            registerCaller(sl, c);
+        }
     }
 
     public void createView() {
@@ -103,7 +133,10 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(cellId, pView);
+        if (paHtml != null) {
+            publish(cellId, getHWidget());
+        } else {
+            publish(cellId, pView);
+        }
     }
-
 }

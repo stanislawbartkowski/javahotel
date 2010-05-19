@@ -13,7 +13,6 @@
 package com.gwtmodel.table;
 
 public enum PersistTypeEnum {
-    
-    ADD, MODIF, REMOVE
 
+    ADD, MODIF, REMOVE, SHOWONLY
 }

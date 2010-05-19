@@ -24,7 +24,7 @@ abstract public class ModalDialog {
 
     private final DialogBox dBox;
     protected final VerticalPanel vP;
-    private final String title;
+    private String title;
 
     private class CloseClick implements ICloseAction {
 
@@ -34,11 +34,21 @@ abstract public class ModalDialog {
     }
 
     protected abstract void addVP(VerticalPanel vp);
-
+    
     public ModalDialog(VerticalPanel vP, String title) {
         this.vP = vP;
         this.title = title;
         dBox = new DialogBox(false, true);
+    }
+
+    public ModalDialog(VerticalPanel vP) {
+        this.vP = vP;
+        this.title = null;
+        dBox = new DialogBox(false, true);
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     protected void create() {
@@ -83,5 +93,4 @@ abstract public class ModalDialog {
     public void show(final Widget w) {
         show(new WSize(w));
     }
-
 }

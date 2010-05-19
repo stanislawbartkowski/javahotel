@@ -47,4 +47,6 @@ public interface ISlotSignalContext {
     FormLineContainer getEditContainer();
 
     String getStringButton();
+
+    IGWidget getHtmlWidget();
 }

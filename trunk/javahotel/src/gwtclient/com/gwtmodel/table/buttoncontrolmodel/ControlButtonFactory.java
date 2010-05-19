@@ -23,6 +23,7 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> dButton;
     private final List<ControlButtonDesc> akcButton;
     private final List<ControlButtonDesc> removeButton;
+    private final List<ControlButtonDesc> okButton;
     private final List<ControlButtonDesc> chooseButton;
     private final List<ControlButtonDesc> yesnoButton;
     private final List<ControlButtonDesc> loginButton;
@@ -40,7 +41,9 @@ public class ControlButtonFactory {
             case MODIFITEM:
                 return new ControlButtonDesc("DataViewerMin", "Popraw",
                         new ClickButtonType(ClickButtonType.StandClickEnum.MODIFITEM));
-
+            case SHOWITEM:
+                return new ControlButtonDesc("DataViewerMin", "Zobacz",
+                        new ClickButtonType(ClickButtonType.StandClickEnum.SHOWITEM));
             default:
                 break;
         }
@@ -49,13 +52,6 @@ public class ControlButtonFactory {
 
     public ControlButtonFactory() {
         dButton = new ArrayList<ControlButtonDesc>();
-//        dButton.add(new ControlButtonDesc("New", "Dodaj", new ClickButtonType(
-//                ClickButtonType.StandClickEnum.ADDITEM)));
-//        dButton.add(new ControlButtonDesc("DeleteRed", "Usuń",
-//                new ClickButtonType(
-//                ClickButtonType.StandClickEnum.REMOVEITEM)));
-//        dButton.add(new ControlButtonDesc("DataViewerMin", "Popraw",
-//                new ClickButtonType(ClickButtonType.StandClickEnum.MODIFITEM)));
         dButton.add(constructButt(StandClickEnum.ADDITEM));
         dButton.add(constructButt(StandClickEnum.REMOVEITEM));
         dButton.add(constructButt(StandClickEnum.MODIFITEM));
@@ -65,6 +61,10 @@ public class ControlButtonFactory {
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
         akcButton.add(new ControlButtonDesc(null, "Rezygnujesz",
                 new ClickButtonType(ClickButtonType.StandClickEnum.RESIGN)));
+
+        okButton = new ArrayList<ControlButtonDesc>();
+        okButton.add(new ControlButtonDesc(null, "OK",
+                new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
 
         removeButton = new ArrayList<ControlButtonDesc>();
         removeButton.add(new ControlButtonDesc(null, "Usuwasz",
@@ -123,6 +123,10 @@ public class ControlButtonFactory {
 
     public ListOfControlDesc constructPrintButton() {
         return new ListOfControlDesc(printButton);
+    }
+
+    public ListOfControlDesc constructOkButton() {
+        return new ListOfControlDesc(okButton);
     }
 
     public ListOfControlDesc constructList(List<StandClickEnum> cList) {

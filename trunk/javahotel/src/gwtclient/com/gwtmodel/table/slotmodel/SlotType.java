@@ -43,7 +43,6 @@ public class SlotType implements IEquatable<SlotType> {
     public List<SlotType> getSlList() {
         return slList;
     }
-
     /** Field type (ChangeValue) . */
     private final IVField fie;
     /** Button click number (ClickButton). */
@@ -64,36 +63,39 @@ public class SlotType implements IEquatable<SlotType> {
             return false;
         }
         switch (slEnum) {
-        case ClickString:
-            if (buttonString == null) {
-                return slType.buttonString == null;
-            }
-            return buttonString.equals(slType.buttonString);
-        case ChangeValue:
-            if (!fie.eq(slType.getFie())) {
-                return false;
-            }
-            return dType.eq(slType.dType);
-        case CallBackWidget:
-            return cellId.eq(slType.cellId);
-        case ClickButton:
-            return buttonClick.eq(slType.buttonClick);
-        case DataAction:
-            if (dataActionEnum != slType.dataActionEnum) {
-                return false;
-            }
-            if (dType == null) {
-                return slType.dType == null;
-            }
-            if (slType.dType == null) {
-                return false;
-            }
-            return dType.eq(slType.dType);
-        case GetterCaller:
-            if (gEnum != slType.gEnum) {
-                return false;
-            }
-            return dType.eq(slType.dType);
+            case ClickString:
+                if (buttonString == null) {
+                    return slType.buttonString == null;
+                }
+                return buttonString.equals(slType.buttonString);
+            case ChangeValue:
+                if (!fie.eq(slType.getFie())) {
+                    return false;
+                }
+                return dType.eq(slType.dType);
+            case CallBackWidget:
+                return cellId.eq(slType.cellId);
+            case ClickButton:
+                return buttonClick.eq(slType.buttonClick);
+            case DataAction:
+                if (dataActionEnum != slType.dataActionEnum) {
+                    return false;
+                }
+                if (dType == null) {
+                    return slType.dType == null;
+                }
+                if (slType.dType == null) {
+                    return false;
+                }
+                return dType.eq(slType.dType);
+            case GetterCaller:
+                if (gEnum != slType.gEnum) {
+                    return false;
+                }
+                if (gEnum == GetActionEnum.GetHtmlForm) {
+                    return cellId.eq(slType.cellId);
+                }
+                return dType.eq(slType.dType);
         }
         return true;
     }

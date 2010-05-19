@@ -110,6 +110,10 @@ public class SlotSignalContextFactory {
         public String getStringButton() {
             return stringButton;
         }
+
+        public IGWidget getHtmlWidget() {
+            return getGwtWidget();
+        }
     }
 
     public ISlotSignalContext construct(SlotType slType, IDataListType dataList) {

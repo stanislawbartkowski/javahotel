@@ -17,13 +17,13 @@ import com.gwtmodel.table.IVField;
 public class LoginField implements IVField {
 
     public enum F {
+
         LOGINNAME, PASSWORD, REPASSWORD, OTHER
     };
 
     public F getF() {
         return f;
     }
-
     private final F f;
 
     public LoginField(F f) {
@@ -46,5 +46,4 @@ public class LoginField implements IVField {
     public boolean isRePassword() {
         return f == F.REPASSWORD;
     }
-
 }

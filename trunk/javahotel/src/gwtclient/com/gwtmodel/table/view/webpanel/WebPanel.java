@@ -179,7 +179,7 @@ class WebPanel implements IWebPanel {
                     logOut.execute();
                 }
             };
-            YesNoDialog yesD = new YesNoDialog(pResources.getRes(IWebPanelResources.LOGOUTQUESTION), yes);
+            YesNoDialog yesD = new YesNoDialog(pResources.getRes(IWebPanelResources.LOGOUTQUESTION), null, yes);
             yesD.show(new WSize(ha));
         }
     }

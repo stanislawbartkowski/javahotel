@@ -198,10 +198,17 @@ class DataListCrudControler extends AbstractSlotContainer {
             }
             String title = listParam.getFormFactory().getFormTitle(dType);
             ListOfControlDesc liControls;
-            if (action != ClickButtonType.StandClickEnum.REMOVEITEM) {
-                liControls = tFactories.getControlButtonFactory().constructAcceptResign();
-            } else {
-                liControls = tFactories.getControlButtonFactory().constructRemoveDesign();
+            switch (action) {
+                case REMOVEITEM:
+                    liControls = tFactories.getControlButtonFactory().constructRemoveDesign();
+                    break;
+                case SHOWITEM:
+                    liControls = tFactories.getControlButtonFactory().constructOkButton();
+                    break;
+                default:
+                    liControls = tFactories.getControlButtonFactory().constructAcceptResign();
+                    break;
+
             }
             CellId cId = new CellId(0);
             IComposeController fController = listParam.getfControler().construct(dType);
@@ -215,13 +222,18 @@ class DataListCrudControler extends AbstractSlotContainer {
             SlotListContainer slControlerContainer = fController.getSlContainer();
             DrawForm dForm = new DrawForm(wSize, title, action);
             slControlerContainer.registerSubscriber(cId, dForm);
+            ResignAction aRes = new ResignAction(dForm);
             slControlerContainer.registerSubscriber(
-                    ClickButtonType.StandClickEnum.RESIGN, new ResignAction(
-                    dForm));
+                    ClickButtonType.StandClickEnum.RESIGN, aRes);
             PersistData pData = new PersistData(persistTypeEnum, fController,
                     DataActionEnum.ValidateComposeFormAction);
-            slControlerContainer.registerSubscriber(
-                    ClickButtonType.StandClickEnum.ACCEPT, pData);
+            if (action == ClickButtonType.StandClickEnum.SHOWITEM) {
+                slControlerContainer.registerSubscriber(
+                        ClickButtonType.StandClickEnum.ACCEPT, aRes);
+            } else {
+                slControlerContainer.registerSubscriber(
+                        ClickButtonType.StandClickEnum.ACCEPT, pData);
+            }
 
             pData = new PersistData(persistTypeEnum, fController,
                     DataActionEnum.PersistComposeFormAction);
@@ -259,5 +271,7 @@ class DataListCrudControler extends AbstractSlotContainer {
                 new ActionItem(PersistTypeEnum.REMOVE));
         registerSubscriber(ClickButtonType.StandClickEnum.MODIFITEM,
                 new ActionItem(PersistTypeEnum.MODIF));
+        registerSubscriber(ClickButtonType.StandClickEnum.SHOWITEM,
+                new ActionItem(PersistTypeEnum.SHOWONLY));
     }
 }

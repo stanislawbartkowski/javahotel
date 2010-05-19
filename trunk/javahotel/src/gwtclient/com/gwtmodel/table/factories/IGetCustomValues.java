@@ -24,8 +24,9 @@ public interface IGetCustomValues {
     String NOVALUE = "NOVALUE";
     String COMMERROR = "COMMERROR";
     String COUNTCALLBACK = "COUNTCALLBACK";
+    String QUESTION = "QUESTION";
 
     String getCustomValue(String key);
-    
+
     boolean compareComboByInt();
 }
