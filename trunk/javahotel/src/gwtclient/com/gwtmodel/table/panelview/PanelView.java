@@ -98,6 +98,10 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     }
 
     public void createView(String html) {
+        if (html == null) {
+            createView();
+            return;
+        }
         paHtml = new HTMLPanel(html);
         ISlotCaller c = new GetHtml();
         for (CellId i : colM.keySet()) {

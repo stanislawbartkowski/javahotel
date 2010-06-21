@@ -13,5 +13,4 @@
 package com.gwtmodel.table.slotmodel;
 
 public interface IValidateError {
-
 }

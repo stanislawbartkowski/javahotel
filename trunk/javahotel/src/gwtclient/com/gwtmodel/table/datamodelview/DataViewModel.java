@@ -69,8 +69,9 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private class DrawModel implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
+            PersistTypeEnum persistTypeEnum = slContext.getPersistType();
             IVModelData mData = slContext.getVData();
-            fromDataToView(mData);
+            fromDataToView(mData, persistTypeEnum);
         }
     }
 
@@ -138,8 +139,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         dFactory.fromViewToData(dType, fContainer, aTo);
     }
 
-    private void fromDataToView(IVModelData aFrom) {
-        dFactory.fromDataToView(dType, aFrom, fContainer);
+    private void fromDataToView(IVModelData aFrom, PersistTypeEnum persistTypeEnum) {
+        dFactory.fromDataToView(dType, persistTypeEnum, aFrom, fContainer);
     }
 
     @Override

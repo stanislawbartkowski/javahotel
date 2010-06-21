@@ -12,24 +12,35 @@
  */
 package com.gwtmodel.table.view.table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VListHeaderContainer {
-    
+
     private final List<VListHeaderDesc> heList;
     private final String listTitle;
-    
-    public VListHeaderContainer(List<VListHeaderDesc> heList,String listTitle) {
+
+    public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
         this.heList = heList;
         this.listTitle = listTitle;
     }
 
-    public List<VListHeaderDesc> getHeList() {
+    public List<VListHeaderDesc> getVisHeList() {
+        List<VListHeaderDesc> h = new ArrayList<VListHeaderDesc>();
+        for (VListHeaderDesc v : heList) {
+            if (v.isHidden()) {
+                continue;
+            }
+            h.add(v);
+        }
+        return h;
+    }
+
+    public List<VListHeaderDesc> getAllHeList() {
         return heList;
     }
 
     public String getListTitle() {
         return listTitle;
     }
-
 }

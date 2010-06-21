@@ -27,7 +27,6 @@ import com.gwtmodel.table.WSize;
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-
 public class PopupUtil {
 
     @SuppressWarnings("deprecation")

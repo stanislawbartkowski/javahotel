@@ -14,6 +14,7 @@ package com.gwtmodel.table.login;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.view.util.FormUtil;
@@ -43,10 +44,6 @@ public class LoginDataModelFactory implements IDataModelFactory {
         copyData(getLi(), from, to);
     }
 
-    public void fromDataToView(IDataType dType, IVModelData aFrom,
-            FormLineContainer fContainer) {
-        FormUtil.copyFromDataToView(aFrom, fContainer);
-    }
 
     public void fromModelToPersist(IDataType dType, IVModelData from,
             IVModelData to) {
@@ -56,5 +53,9 @@ public class LoginDataModelFactory implements IDataModelFactory {
     public void fromViewToData(IDataType dType, FormLineContainer fContainer,
             IVModelData aTo) {
         FormUtil.copyFromViewToData(fContainer, aTo);
+    }
+
+    public void fromDataToView(IDataType dType, PersistTypeEnum persistTypeEnum, IVModelData aFrom, FormLineContainer fContainer) {
+        FormUtil.copyFromDataToView(aFrom, fContainer);
     }
 }

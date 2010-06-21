@@ -14,6 +14,7 @@ package com.gwtmodel.table.factories;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.rdef.FormLineContainer;
 
 public interface IDataModelFactory {
@@ -28,7 +29,6 @@ public interface IDataModelFactory {
     void fromViewToData(IDataType dType, FormLineContainer fContainer,
             IVModelData aTo);
 
-    void fromDataToView(IDataType dType, IVModelData aFrom,
-            FormLineContainer fContainer);
-
+    void fromDataToView(IDataType dType, PersistTypeEnum persistTypeEnum,
+            IVModelData aFrom, FormLineContainer fContainer);
 }

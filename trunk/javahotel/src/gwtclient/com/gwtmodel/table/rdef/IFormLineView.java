@@ -30,6 +30,10 @@ public interface IFormLineView extends IGWidget {
     void addChangeListener(IFormChangeListener cListener);
     
     void setReadOnly(boolean readOnly);
+
+    void setHidden(boolean hidden);
+
+    boolean isHidden();
     
     void setInvalidMess(String errmess);
     
