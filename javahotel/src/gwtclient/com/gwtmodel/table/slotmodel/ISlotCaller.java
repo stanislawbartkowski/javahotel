@@ -15,5 +15,4 @@ package com.gwtmodel.table.slotmodel;
 public interface ISlotCaller {
 
     ISlotSignalContext call(ISlotSignalContext slContext);
-
 }

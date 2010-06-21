@@ -25,6 +25,7 @@ public interface IGetCustomValues {
     String COMMERROR = "COMMERROR";
     String COUNTCALLBACK = "COUNTCALLBACK";
     String QUESTION = "QUESTION";
+    String INFO = "INFO";
 
     String getCustomValue(String key);
 

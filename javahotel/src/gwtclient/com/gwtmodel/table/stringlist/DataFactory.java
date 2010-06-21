@@ -15,6 +15,7 @@ package com.gwtmodel.table.stringlist;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -46,13 +47,6 @@ class DataFactory implements IDataModelFactory {
         return i.getELine();
     }
 
-    public void fromDataToView(IDataType dType, IVModelData aFrom,
-            FormLineContainer fContainer) {
-        AbstractStringE efrom = (AbstractStringE) aFrom;
-        IFormLineView e = getI(fContainer);
-        e.setVal(efrom.getS(fie));
-    }
-
     public void fromModelToPersist(IDataType dType, IVModelData from,
             IVModelData to) {
         copyFromPersistToModel(dType, from, to);
@@ -63,6 +57,12 @@ class DataFactory implements IDataModelFactory {
         AbstractStringE eto = (AbstractStringE) aTo;
         IFormLineView e = getI(fContainer);
         eto.setF(fie, e.getVal());
+    }
+
+    public void fromDataToView(IDataType dType, PersistTypeEnum persistTypeEnum, IVModelData aFrom, FormLineContainer fContainer) {
+        AbstractStringE efrom = (AbstractStringE) aFrom;
+        IFormLineView e = getI(fContainer);
+        e.setVal(efrom.getS(fie));
     }
 
 }

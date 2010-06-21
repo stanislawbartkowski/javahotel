@@ -18,10 +18,18 @@ public class VListHeaderDesc {
 
     private final String headerString;
     private final IVField fie;
+    private final boolean hidden;
 
     public VListHeaderDesc(String headerString, IVField fie) {
         this.headerString = headerString;
         this.fie = fie;
+        this.hidden = false;
+    }
+
+    public VListHeaderDesc(String headerString, IVField fie,boolean hidden) {
+        this.headerString = headerString;
+        this.fie = fie;
+        this.hidden = hidden;
     }
 
     public String getHeaderString() {
@@ -30,6 +38,13 @@ public class VListHeaderDesc {
 
     public IVField getFie() {
         return fie;
+    }
+
+    /**
+     * @return the hidden
+     */
+    public boolean isHidden() {
+        return hidden;
     }
 
 }

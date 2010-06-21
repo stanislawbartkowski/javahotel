@@ -38,7 +38,7 @@ class GwtTableView implements IGwtTableView {
 
     private void drawrow(int row) {
         IVModelData ii = model.getRow(row);
-        List<VListHeaderDesc> co = model.getHeaderList().getHeList();
+        List<VListHeaderDesc> co = model.getHeaderList().getVisHeList();
         for (int c = 0; c < co.size(); c++) {
             VListHeaderDesc cl = co.get(c);
             String val = ii.getS(cl.getFie());
@@ -48,7 +48,7 @@ class GwtTableView implements IGwtTableView {
 
     private void getTable() {
         data = DataTable.create();
-        List<VListHeaderDesc> co = model.getHeaderList().getHeList();
+        List<VListHeaderDesc> co = model.getHeaderList().getVisHeList();
         for (VListHeaderDesc c : co) {
             data.addColumn(ColumnType.STRING, c.getHeaderString());
         }

@@ -45,7 +45,7 @@ class NumberCalculator extends ExtendTextBox {
     public String getVal() {
         String s = super.getVal();
         if (!CUtil.OkNumber(s)) {
-            return null;
+            return "";
         }
         return CUtil.toAfterS(s, afterdot);
     }

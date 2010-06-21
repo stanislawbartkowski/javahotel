@@ -17,17 +17,18 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 public class GetActionName {
 
     private GetActionName() {
-
     }
 
     public static String getActionName(ClickButtonType.StandClickEnum action) {
         switch (action) {
-        case ADDITEM:
-            return "Dodanie";
-        case MODIFITEM:
-            return "Zmiana";
-        case REMOVEITEM:
-            return "Usunięcie";
+            case ADDITEM:
+                return "Dodanie";
+            case MODIFITEM:
+                return "Zmiana";
+            case REMOVEITEM:
+                return "Usunięcie";
+            case SHOWITEM:
+                return "Zobacz";
         }
         return null;
     }

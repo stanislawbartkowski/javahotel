@@ -104,6 +104,9 @@ public class CreateFormView {
                 }
             }
             Label la = new Label(d.getPLabel());
+            if (d.getELine().isHidden()) {
+                la.setVisible(false);
+            }
             Widget w1;
             Widget w2;
             if (fRange == null) {

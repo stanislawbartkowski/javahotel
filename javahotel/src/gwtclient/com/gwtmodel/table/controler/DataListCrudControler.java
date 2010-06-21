@@ -23,6 +23,7 @@ import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -33,6 +34,7 @@ import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
+import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.PopupUtil;
@@ -43,6 +45,7 @@ class DataListCrudControler extends AbstractSlotContainer {
     private final TablesFactories tFactories;
     private final ITableCustomFactories fContainer;
     private final DataListParam listParam;
+    private final SlotSignalContextFactory slFactory;
 
     private abstract class Signaller implements ISlotSignaller {
 
@@ -140,6 +143,20 @@ class DataListCrudControler extends AbstractSlotContainer {
             d = new FormDialog(vp, title + " / " + addTitle, w);
             PopupUtil.setPos(d.getDBox(), wSize);
             d.show();
+        }
+    }
+
+    private class GetterGWidget implements ISlotCaller {
+
+        private final DrawForm d;
+
+        GetterGWidget(DrawForm d) {
+            this.d = d;
+        }
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IGWidget i = d.d.w;
+            return slFactory.construct(slContext.getSlType(), i);
         }
     }
 
@@ -255,6 +272,8 @@ class DataListCrudControler extends AbstractSlotContainer {
             slControlerContainer.registerCaller(
                     GetActionEnum.GetModelToPersist, dType, new GetterModel(
                     slControlerContainer, peData));
+            slControlerContainer.registerCaller(
+                    GetActionEnum.GetGWidget, dType, new GetterGWidget(dForm));
         }
     }
 
@@ -265,6 +284,7 @@ class DataListCrudControler extends AbstractSlotContainer {
         this.tFactories = tFactories;
         this.fContainer = fContainer;
         this.listParam = listParam;
+        this.slFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         registerSubscriber(ClickButtonType.StandClickEnum.ADDITEM,
                 new ActionItem(PersistTypeEnum.ADD));
         registerSubscriber(ClickButtonType.StandClickEnum.REMOVEITEM,

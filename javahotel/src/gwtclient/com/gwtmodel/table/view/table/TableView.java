@@ -73,7 +73,7 @@ class TableView implements IGwtTableView {
         if (!model.containsData()) {
             return;
         }
-        List<VListHeaderDesc> co = model.getHeaderList().getHeList();
+        List<VListHeaderDesc> co = model.getHeaderList().getVisHeList();
         int cols = co.size();
         int rows = model.getRowsNum();
         g.resize(rows + 1, cols);
@@ -98,7 +98,7 @@ class TableView implements IGwtTableView {
     }
 
     public WChoosedLine getClicked() {
-        if (clickedNo >=  model.getRowsNum()) {
+        if (clickedNo >= model.getRowsNum()) {
             clickedNo = -1;
         }
         return new WChoosedLine(clickedNo, wSize);
@@ -109,7 +109,7 @@ class TableView implements IGwtTableView {
     }
 
     public void refresh(WSize w) {
-        this.startW = startW;
+        this.startW = w;
         draw();
     }
 
