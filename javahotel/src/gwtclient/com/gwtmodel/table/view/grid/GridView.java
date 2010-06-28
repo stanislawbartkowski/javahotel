@@ -130,7 +130,7 @@ class GridView implements IGridView {
                 w = ce;
                 break;
             case DECIMAL:
-                IFormLineView nView = wFactory.contructCalculatorNumber();
+                IFormLineView nView = wFactory.contructCalculatorNumber(null);
                 NumerW nu = new NumerW(nView);
                 w = nu;
                 break;

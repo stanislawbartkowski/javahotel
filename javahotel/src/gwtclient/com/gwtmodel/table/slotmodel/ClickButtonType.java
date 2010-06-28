@@ -17,10 +17,10 @@ import com.gwtmodel.table.common.CUtil;
 public class ClickButtonType {
 
     public enum StandClickEnum {
-        ADDITEM, REMOVEITEM, MODIFITEM, SHOWITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
-        CUSTOM,ALL
-    };
 
+        ADDITEM, REMOVEITEM, MODIFITEM, SHOWITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
+        CUSTOM, ALL
+    };
     private StandClickEnum clickEnum;
     private String customButt;
 
@@ -28,7 +28,7 @@ public class ClickButtonType {
         this.clickEnum = clickEnum;
         customButt = null;
     }
-    
+
     public ClickButtonType(String customButt) {
         this.clickEnum = StandClickEnum.CUSTOM;
         this.customButt = customButt;
@@ -43,8 +43,12 @@ public class ClickButtonType {
     }
 
     public boolean eq(ClickButtonType bType) {
-        if (clickEnum == StandClickEnum.ALL) { return true; }
-        if (bType.clickEnum == StandClickEnum.ALL) { return true; }
+        if (clickEnum == StandClickEnum.ALL) {
+            return true;
+        }
+        if (bType.clickEnum == StandClickEnum.ALL) {
+            return true;
+        }
         if (clickEnum != bType.clickEnum) {
             return false;
         }
@@ -53,5 +57,4 @@ public class ClickButtonType {
         }
         return CUtil.EqNS(customButt, bType.customButt);
     }
-
 }

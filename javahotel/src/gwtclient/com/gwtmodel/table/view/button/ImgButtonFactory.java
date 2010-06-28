@@ -25,7 +25,7 @@ public class ImgButtonFactory {
     private ImgButtonFactory() {
     }
 
-    public static Button getButton(String bName, String img) {
+    public static Button getButton(String bId,String bName, String img) {
         Button but;
         if (img != null) {
             String h = Utils.getImageHTML(img + ".gif");
@@ -34,10 +34,11 @@ public class ImgButtonFactory {
         } else {
             but = new Button(bName);
         }
+        but.getElement().setId(bId);
         return but;
     }
 
-    public static Button getButtonTextImage(String bName, String img) {
+    public static Button getButtonTextImage(String bId, String bName, String img) {
         String ht = "<table><tr>";
         String h = Utils.getImageHTML(img + ".gif");
         ht += h;
@@ -46,6 +47,7 @@ public class ImgButtonFactory {
         ht += "</tr></table>";
         Button b = new Button();
         b.setHTML(ht);
+        b.getElement().setId(bId);
         return b;
     }
 }

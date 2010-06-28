@@ -30,46 +30,128 @@ import com.gwtmodel.table.rdef.ITouchListener;
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
-abstract class ExtendTextBox extends AbstractField {
+class ExtendTextBox extends AbstractField {
 
+    static class EParam {
+
+        private final boolean password;
+        private final boolean area;
+        private final boolean panel;
+        private final boolean checkBox;
+        private final String fName;
+        private final boolean enable;
+
+        EParam(boolean password, boolean area, boolean panel,
+                boolean checkBox, boolean enable, String fName) {
+            this.password = password;
+            this.panel = panel;
+            this.checkBox = checkBox;
+            this.area = area;
+            this.fName = fName;
+            this.enable = enable;
+        }
+
+        /**
+         * @return the password
+         */
+        public boolean isPassword() {
+            return password;
+        }
+
+        /**
+         * @return the area
+         */
+        public boolean isArea() {
+            return area;
+        }
+
+        /**
+         * @return the panel
+         */
+        public boolean isPanel() {
+            return panel || checkBox;
+        }
+
+        /**
+         * @return the checkBox
+         */
+        public boolean isCheckBox() {
+            return checkBox;
+        }
+
+        /**
+         * @return the fName
+         */
+        public String getfName() {
+            return fName;
+        }
+
+        /**
+         * @return the enable
+         */
+        public boolean isEnable() {
+            return enable;
+        }
+    }
+    protected final Widget wW;
     protected final TextBoxBase tBox;
-    protected final HorizontalPanel hPanel = new HorizontalPanel();
+    protected final HorizontalPanel hPanel;
     protected final CheckBox check;
     protected final boolean isArea;
 
-    protected ExtendTextBox(ITableCustomFactories tFactories, final boolean password,boolean isArea) {
+    protected ExtendTextBox(ITableCustomFactories tFactories, EParam param) {
         super(tFactories);
-        this.isArea = isArea;
-        if (password) {
+        this.isArea = param.isArea();
+        if (param.isPassword()) {
             tBox = new PasswordTextBox();
         } else {
             tBox = isArea ? new TextArea() : new TextBox();
         }
-        check = null;
-        hPanel.add(tBox);
-        initWidget(hPanel);
+        if (param.getfName() != null) {
+            tBox.setName(param.getfName());
+        }
+        if (param.isPanel()) {
+            hPanel = new HorizontalPanel();
+            hPanel.add(tBox);
+            wW = hPanel;
+        } else {
+            hPanel = null;
+            wW = tBox;
+        }
+        if (param.isCheckBox()) {
+            check = new CheckBox("Auto");
+            check.setChecked(param.isEnable());
+            check.addClickListener(new ChangeC());
+            changeS();
+
+        } else {
+            check = null;
+        }
+        initWidget(wW);
         setMouse();
     }
 
-    protected ExtendTextBox(ITableCustomFactories tFactories, final boolean password,
-            boolean checkEnable,boolean isArea) {
-        super(tFactories, checkEnable);
-        this.isArea = isArea;
-        if (password) {
-            tBox = new PasswordTextBox();
-        } else {
-//            tBox = new TextBox();
-            tBox = isArea ? new TextArea() : new TextBox();
-        }
-        check = new CheckBox("Auto");
-        check.setChecked(checkEnable);
-        check.addClickListener(new ChangeC());
-        hPanel.add(check);
-        hPanel.add(tBox);
-        changeS();
-        initWidget(hPanel);
-        setMouse();
-    }
+//    protected ExtendTextBox(ITableCustomFactories tFactories, final boolean password,
+//            boolean checkEnable, boolean isArea, String fName) {
+//        super(tFactories, checkEnable);
+//        this.isArea = isArea;
+//        if (password) {
+//            tBox = new PasswordTextBox();
+//        } else {
+//            tBox = isArea ? new TextArea() : new TextBox();
+//        }
+//        if (fName != null) {
+//            tBox.setName(fName);
+//        }
+//        check = new CheckBox("Auto");
+//        check.setChecked(checkEnable);
+//        check.addClickListener(new ChangeC());
+//        hPanel.add(check);
+//        hPanel.add(tBox);
+//        changeS();
+//        initWidget(hPanel);
+//        setMouse();
+//    }
 
     private void changeS() {
         if (check.isChecked()) {

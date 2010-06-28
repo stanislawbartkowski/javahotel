@@ -39,8 +39,8 @@ class ListFieldWithHelp extends ExtendTextBox {
         }
     }
 
-    ListFieldWithHelp(ITableCustomFactories tFactories, IDataType dType) {
-        super(tFactories, false,false);
+    ListFieldWithHelp(ITableCustomFactories tFactories, IDataType dType, ExtendTextBox.EParam p) {
+        super(tFactories, p);
         cHelper = new RHelp(dType);
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
 

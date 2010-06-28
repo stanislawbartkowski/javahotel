@@ -31,22 +31,22 @@ public class LoginViewFactory {
     }
 
     public static FormLineContainer construct() {
-        EditWidgetFactory eFactory = GwtGiniInjector.getI()
-                .getEditWidgetFactory();
+        EditWidgetFactory eFactory = GwtGiniInjector.getI().
+                getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
-        IFormLineView loginName = eFactory.constructTextField();
+        IFormLineView loginName = eFactory.constructTextField(LoginField.F.LOGINNAME.toString());
         di.add(new FormField("Symbol", loginName, new LoginField(
                 LoginField.F.LOGINNAME)));
-        IFormLineView password = eFactory.constructPasswordField();
+        IFormLineView password = eFactory.constructPasswordField(LoginField.F.PASSWORD.toString());
         di.add(new FormField("Hasło", password, new LoginField(
                 LoginField.F.PASSWORD)));
         return new FormLineContainer(di);
     }
 
-    public static ILoginDataView contructView(CellId cellId,IDataType dType, FormLineContainer lContainer,
+    public static ILoginDataView contructView(CellId cellId, IDataType dType,
+            FormLineContainer lContainer,
             IDataModelFactory dFactory, IDataValidateAction vAction) {
         return new LoginDataView(cellId, dType, lContainer, dFactory,
                 vAction);
     }
-
 }

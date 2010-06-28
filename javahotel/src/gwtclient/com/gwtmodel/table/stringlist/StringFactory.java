@@ -38,7 +38,7 @@ class StringFactory implements IFormDefFactory {
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
-        IFormLineView textLine = eFactory.constructTextField();
+        IFormLineView textLine = eFactory.constructTextField(null);
         di.add(new FormField(fieldName, textLine, Empty.getFieldType()));
         return new FormLineContainer(di);
     }
