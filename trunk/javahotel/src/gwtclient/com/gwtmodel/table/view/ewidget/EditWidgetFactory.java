@@ -36,12 +36,14 @@ public class EditWidgetFactory {
         return new RadioBoxString(tFactories, iGet, enable);
     }
 
-    public IFormLineView contructCalculatorNumber() {
-        return new NumberCalculator(tFactories, 2);
+    public IFormLineView contructCalculatorNumber(String fName) {
+        return contructCalculatorNumber(2, fName);
     }
 
-    public IFormLineView contructCalculatorNumber(int afterdot) {
-        return new NumberCalculator(tFactories, afterdot);
+    public IFormLineView contructCalculatorNumber(int afterdot, String fName) {
+        return new NumberCalculator(tFactories,
+                new ExtendTextBox.EParam(false, false, false, false, false, fName),
+                afterdot);
     }
 
     public IFormLineView constructCheckField() {
@@ -60,16 +62,23 @@ public class EditWidgetFactory {
         return lB;
     }
 
-    public IFormLineView constructPasswordField() {
-        return new FieldTextField(tFactories, true, false);
+    private ExtendTextBox.EParam newE(boolean password, boolean area, String fName) {
+        return new ExtendTextBox.EParam(password, area, false, false, false, fName);
     }
 
-    public IFormLineView constructTextField() {
-        return new FieldTextField(tFactories, false, false);
+    public IFormLineView constructPasswordField(String fName) {
+//        return new FieldTextField(tFactories, true, false, fName);
+        return new ExtendTextBox(tFactories, newE(true, false, fName));
     }
 
-    public IFormLineView constructTextArea() {
-        return new FieldTextField(tFactories, false, true);
+    public IFormLineView constructTextField(String fName) {
+//        return new FieldTextField(tFactories, false, false, fName);
+        return new ExtendTextBox(tFactories, newE(false, false, fName));
+    }
+
+    public IFormLineView constructTextArea(String fName) {
+        return new ExtendTextBox(tFactories, newE(false, true, fName));
+//        return new FieldTextField(tFactories, false, true, fName);
     }
 
     public IFormLineView construcDateBoxCalendar() {
@@ -85,8 +94,9 @@ public class EditWidgetFactory {
         return new RadioBoxField(tFactories, zName, wy);
     }
 
-    public IFormLineView constructListValuesHelp(IDataType dType) {
-        return new ListFieldWithHelp(tFactories, dType);
+    public IFormLineView constructListValuesHelp(IDataType dType, String fName) {
+//        return new ListFieldWithHelp(tFactories, dType, fName);
+        return new ListFieldWithHelp(tFactories, dType, new ExtendTextBox.EParam(false, false, true, false, false, fName));
     }
 
     public IFormLineView constructListComboValuesHelp(IDataType dType) {
@@ -95,15 +105,21 @@ public class EditWidgetFactory {
         return lB;
     }
 
-    private class GetValueCheck extends ExtendTextBox {
-
-        GetValueCheck(ITableCustomFactories tFactories, boolean checkenable) {
-            super(tFactories, false, checkenable);
-        }
+    private ExtendTextBox.EParam newC(boolean cEnable, String fName) {
+        return new ExtendTextBox.EParam(false, false, false, true, cEnable, fName);
     }
 
-    public IFormLineView constructTextCheckEdit(boolean checkenable) {
-        return new GetValueCheck(tFactories, checkenable);
+//    private class GetValueCheck extends ExtendTextBox {
+//
+//        GetValueCheck(ITableCustomFactories tFactories, boolean checkenable,
+//                String fName) {
+//            super(tFactories, false, checkenable, fName);
+//        }
+//    }
+    public IFormLineView constructTextCheckEdit(boolean checkenable,
+            String fName) {
+//        return new GetValueCheck(tFactories, checkenable, fName);
+        return new ExtendTextBox(tFactories, newC(checkenable, fName));
     }
 
     public IFormLineView constructListCombo(Map<String, String> ma) {

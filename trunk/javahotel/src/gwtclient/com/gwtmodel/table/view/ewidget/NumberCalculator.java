@@ -23,10 +23,10 @@ class NumberCalculator extends ExtendTextBox {
 
     private final int afterdot;
 
-    NumberCalculator(ITableCustomFactories tFactories, int afterdot) {
-        super(tFactories, false, false);
+    NumberCalculator(ITableCustomFactories tFactories, ExtendTextBox.EParam p, int afterdot) {
+        super(tFactories, p);
         this.afterdot = afterdot;
-        hPanel.addStyleName("Number");
+        wW.addStyleName("Number");
     }
 
     @Override

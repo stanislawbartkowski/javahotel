@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table;
 
-import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
@@ -75,8 +74,7 @@ public class ChooseDictList<T extends IVModelData> {
     public ChooseDictList(IDataType dType, WSize wSize, ICallBackWidget<T> i) {
         this.i = i;
         this.dType = dType;
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
-                .getTableDataControlerFactory();
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
         DisplayListControlerParam cParam = tFactory.constructChooseParam(dType,
                 wSize, new CellId(0));
 //        IDataControler iData = tFactory.constructListChooseControler(dType,

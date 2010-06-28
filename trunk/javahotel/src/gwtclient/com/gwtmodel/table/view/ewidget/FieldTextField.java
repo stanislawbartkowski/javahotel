@@ -18,9 +18,10 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
  *
  * @author perseus
  */
-class FieldTextField extends ExtendTextBox {
+class FieldTextField {
 
-    FieldTextField(ITableCustomFactories tFactories, boolean password, boolean isArea) {
-        super(tFactories, password, isArea);
+    FieldTextField(ITableCustomFactories tFactories, boolean password, 
+            boolean isArea, String fName,int x) {
+//        super(tFactories, password, isArea, fName);
     }
 }

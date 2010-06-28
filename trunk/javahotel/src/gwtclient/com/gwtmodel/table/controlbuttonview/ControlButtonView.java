@@ -35,7 +35,8 @@ class ControlButtonView extends AbstractSlotContainer implements
         }
     }
 
-    ControlButtonView(ContrButtonViewFactory vFactory, ListOfControlDesc listButton) {
+    ControlButtonView(ContrButtonViewFactory vFactory,
+            ListOfControlDesc listButton) {
         vButton = vFactory.getView(listButton, new Click());
     }
 

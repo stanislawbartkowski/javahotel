@@ -90,10 +90,16 @@ class ContrButtonView implements IContrButtonView {
         List<ControlButtonDesc> bu = model.getcList();
         for (ControlButtonDesc b : bu) {
             Button but;
+            String bName = b.getActionId().getCustomButt();
+            if (bName == null) {
+                bName = b.getActionId().getClickEnum().toString();
+            }
             if (b.isTextimage()) {
-                but = ImgButtonFactory.getButtonTextImage(b.getContrName(), b.getImageHtml());
+                but = ImgButtonFactory.getButtonTextImage(bName,
+                        b.getContrName(), b.getImageHtml());
             } else {
-                but = ImgButtonFactory.getButton(b.getContrName(), b.getImageHtml());
+                but = ImgButtonFactory.getButton(bName, b.getContrName(),
+                        b.getImageHtml());
             }
             but.addClickListener(new Click(b));
             hP.add(but);
