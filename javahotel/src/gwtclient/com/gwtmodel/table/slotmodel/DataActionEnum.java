@@ -16,72 +16,48 @@ public enum DataActionEnum {
 
     /** Draw list / DataListType. */
     DrawListAction,
-
     /** Change view mode / PersistTypeEnum . */
     ChangeViewFormModeAction,
-
     /** Change view mode / PersistTypeEnum . */
     ChangeViewComposeFormModeAction,
-
     /** Change view mode to invalid state / InvalidateFormContainer. */
     ChangeViewFormToInvalidAction,
-
     /** Draw form. / IVModeData. */
     DrawViewFormAction,
-
     /** Draw form. / IVModeData. */
     DrawViewComposeFormAction,
-
     /** ValidateActionSignal / IVModelData / PersistTypeEnum. */
     ValidateAction,
-
     /** InvalidSignal / InvalidateFormContainer / PersistEnumType. */
     InvalidSignal,
-
     /** ValidSignal / PersistEnumType . */
     ValidSignal,
-
     /** Read list / IDataListType. */
     ReadListAction,
-
     /** List read successfully. */
     ReadListPersistedSignal,
-
     /** Read header / VListHeaderContainer . */
     ReadHeaderContainer,
-
     /** Header read successfully. */
     ReadHeaderContainerSignal,
-
-    
     /** Persist data / IVModelData / PersistEnumType. */
     PersistDataAction,
-
     /** Persist data successful. */
     PersistDataSuccessSignal,
-
     /** List read successfully. / DataListType */
     ListReadSuccessSignal,
-
     /** Data persisted successfully / PersisEnumType . */
     DataPersistedSuccessSignal,
-
     /** RefreshAfterPersistSignal / PersistEnumType. */
     RefreshAfterPersistActionSignal,
-
     /** Validate compose form / PersistEnumType . */
     ValidateComposeFormAction,
-
     /** Compose form valid . */
     ValidComposeFormSuccessSignal,
-
     /** Persist compose form / PersistEnumType. */
     PersistComposeFormAction,
-
     /** Persist action successful / PersistEnumType */
     PersistComposeFormSuccessSignal,
-
     /** Line clicked / IVModelData + WSIze */
     TableLineClicked,
-
 }

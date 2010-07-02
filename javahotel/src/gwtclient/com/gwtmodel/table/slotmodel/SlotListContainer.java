@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -170,6 +172,10 @@ public class SlotListContainer {
         registerSubscriber(slTypeFactory.construct(dType, fie), slSignaller);
     }
 
+    public void registerSubscriber(IEquatable eQ, ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(eQ), slSignaller);
+    }
+
     public void registerCaller(SlotType slType, ISlotCaller slCaller) {
         listOfCallers.add(new SlotCallerType(slType, slCaller));
     }
@@ -248,6 +254,16 @@ public class SlotListContainer {
         return slContext;
     }
 
+    public IFormLineView getGetterFormLine(IDataType d, IVField v) {
+        SlotType slType = slTypeFactory.constructI(d);
+        ISlotSignalContext slContext = slContextFactory.construct(slType, v);
+        ISlotSignalContext slContext1 = call(slContext);
+        if (slContext1 == null) {
+            return null;
+        }
+        return slContext1.getChangedValue();
+    }
+
     public ISlotSignalContext getGetterContext(SlotType slType,
             IVModelData mData) {
         ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
@@ -272,6 +288,11 @@ public class SlotListContainer {
         SlotType slType = slTypeFactory.construct(
                 GetActionEnum.GetListComboField, dType);
         ISlotSignalContext sl = slContextFactory.construct(slType, comboFie);
+        return sl;
+    }
+
+    public ISlotSignalContext setGetter(SlotType slType, IFormLineView v) {
+        ISlotSignalContext sl = slContextFactory.construct(slType, v);
         return sl;
     }
 
@@ -306,6 +327,11 @@ public class SlotListContainer {
     public void publish(ClickButtonType bType, IGWidget gwtWidget) {
         publish(slContextFactory.construct(slTypeFactory.construct(bType),
                 gwtWidget));
+    }
+
+    public void publish(IEquatable eQ, ICustomObject customO) {
+        publish(slContextFactory.construct(slTypeFactory.construct(eQ),
+                customO));
     }
 
     public void publish(String stringButton, IGWidget gwtWidget) {

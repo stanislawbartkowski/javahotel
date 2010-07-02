@@ -57,12 +57,16 @@ public class SlotType implements IEquatable<SlotType> {
     private final GetActionEnum gEnum;
     /** ClockString. */
     private final String buttonString;
+    /** Custom */
+    private final IEquatable iEq;
 
     public boolean eq(SlotType slType) {
         if (slEnum != slType.slEnum) {
             return false;
         }
         switch (slEnum) {
+            case Custom:
+                return slType.iEq.eq(iEq);
             case ClickString:
                 if (buttonString == null) {
                     return slType.buttonString == null;
@@ -107,7 +111,7 @@ public class SlotType implements IEquatable<SlotType> {
     SlotType(SlotEventEnum slEnum, IVField fie, ClickButtonType buttonClick,
             DataActionEnum dataActionEnum, List<SlotType> slList,
             CellId cellId, IDataType dType, GetActionEnum gEnum,
-            String buttonString) {
+            String buttonString, IEquatable iEq) {
         this.slEnum = slEnum;
         this.fie = fie;
         this.buttonClick = buttonClick;
@@ -117,6 +121,7 @@ public class SlotType implements IEquatable<SlotType> {
         this.dType = dType;
         this.gEnum = gEnum;
         this.buttonString = buttonString;
+        this.iEq = iEq;
     }
 
     public CellId getCellId() {
