@@ -13,25 +13,19 @@
 package com.gwtmodel.table.slotmodel;
 
 public enum SlotEventEnum {
-    
+
     /** General action connected with IDataType */
     DataAction,
-
     /** Published after observed value has changed. */
     ChangeValue,
-
     /** Published after control button was clicked. */
     ClickButton,
-
     /** Published after widget has been created. */
     CallBackWidget,
-
-    /** List of slots, composite slot. */
-    CompositeSlot,
-    
     /** Getter. */
     GetterCaller,
-
     /** ClickString. */
-    ClickString
+    ClickString,
+    /** Custom */
+    Custom
 }

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
@@ -49,4 +50,6 @@ public interface ISlotSignalContext {
     String getStringButton();
 
     IGWidget getHtmlWidget();
+
+    ICustomObject getCustom();
 }

@@ -31,5 +31,7 @@ public enum GetActionEnum {
     /** GetHtmlForm. */
     GetHtmlForm,
     /** GetGWidget. */
-    GetGWidget;
+    GetGWidget,
+    /** GetFormFieldWidget */
+    GetFormFieldWidget
 }

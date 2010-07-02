@@ -33,6 +33,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
+import java.util.List;
 
 class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
@@ -91,6 +92,20 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
+    private class GetterWidget implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVField v = slContext.getVField();
+            List<FormField> l = fContainer.getfList();
+            for (FormField f : l) {
+                if (f.getFie().eq(v)) {
+                    return construct(slContext.getSlType(), f.getELine());
+                }
+            }
+            return null;
+        }
+    }
+
     private class InvalidateMess implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
@@ -127,6 +142,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 new DrawModel());
         registerCaller(GetActionEnum.GetViewModelEdited, dType,
                 new GetterModel());
+        registerCaller(GetActionEnum.GetFormFieldWidget, dType,
+                new GetterWidget());
         registerCaller(GetActionEnum.GetEditContainer, dType,
                 new GetterContainer());
         for (FormField fie : fContainer.getfList()) {

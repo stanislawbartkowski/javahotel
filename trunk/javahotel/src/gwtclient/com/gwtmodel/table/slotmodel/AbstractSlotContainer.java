@@ -12,8 +12,10 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -81,6 +83,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             WSize wSize) {
         slContainer.publish(dataActionEnum, dType, wSize);
+    }
+
+    public void publish(IEquatable eQ, ICustomObject customO) {
+        slContainer.publish(eQ, customO);
     }
 
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
@@ -153,6 +159,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
 
     protected ISlotSignalContext construct(IDataType dType, IVField comboFie) {
         return slContainer.setGetter(dType, comboFie);
+    }
+
+    protected ISlotSignalContext construct(SlotType slType, IFormLineView v) {
+        return slContainer.setGetter(slType, v);
     }
 
     protected ISlotSignalContext construct(IDataType dType,

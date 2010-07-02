@@ -13,58 +13,69 @@
 package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IVField;
 
 public class SlotTypeFactory {
 
     public SlotType construct(DataActionEnum dataActionEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.DataAction, null, null,
-                dataActionEnum, null, null, dType, null, null);
+                dataActionEnum, null, null, dType, null, null, null);
     }
 
     public SlotType construct(GetActionEnum gEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
-                null, dType, gEnum, null);
+                null, dType, gEnum, null, null);
     }
 
     public SlotType construct(IDataType dType, IVField fie) {
         return new SlotType(SlotEventEnum.ChangeValue, fie, null, null, null,
-                null, dType, null, null);
+                null, dType, null, null, null);
+    }
+
+    public SlotType constructI(IDataType dType) {
+        return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
+                null, dType, GetActionEnum.GetFormFieldWidget, null, null);
     }
 
     public SlotType construct(CellId cellId) {
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
-                null, cellId, null, null, null);
+                null, cellId, null, null, null, null);
     }
 
     public SlotType constructH(CellId cellId) {
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null,
-                null, cellId, null, GetActionEnum.GetHtmlForm, null);
+                null, cellId, null, GetActionEnum.GetHtmlForm, null, null);
     }
 
     public SlotType construct(int cellId) {
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
-                null, new CellId(cellId), null, null, null);
+                null, new CellId(cellId), null, null, null, null);
     }
 
     public SlotType construct(ClickButtonType buttonClick) {
         return new SlotType(SlotEventEnum.ClickButton, null, buttonClick, null,
-                null, null, null, null, null);
+                null, null, null, null, null, null);
     }
 
     public SlotType construct(ClickButtonType.StandClickEnum clickEnum) {
         return new SlotType(SlotEventEnum.ClickButton, null,
                 new ClickButtonType(clickEnum), null, null, null, null, null,
-                null);
+                null, null);
     }
 
     public SlotType construct(String stringButton) {
         return new SlotType(SlotEventEnum.ClickString, null, null, null, null,
-                null, null, null, stringButton);
+                null, null, null, stringButton, null);
+    }
+
+    public SlotType construct(IEquatable iEq) {
+        return new SlotType(SlotEventEnum.Custom, null, null, null, null,
+                null, null, null, null, iEq);
     }
 
     public SlotType construct() {
         return new SlotType(SlotEventEnum.ClickString, null, null, null, null,
-                null, null, null, null);
+                null, null, null, null, null);
     }
 }
