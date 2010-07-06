@@ -25,7 +25,7 @@ public class ImgButtonFactory {
     private ImgButtonFactory() {
     }
 
-    public static Button getButton(String bId,String bName, String img) {
+    public static Button getButton(String bId, String bName, String img) {
         Button but;
         if (img != null) {
             String h = Utils.getImageHTML(img + ".gif");

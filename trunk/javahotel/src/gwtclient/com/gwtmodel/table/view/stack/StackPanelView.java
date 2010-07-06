@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.view.button.ImgButtonFactory;
 import java.util.List;
 
 /**
@@ -47,7 +48,9 @@ class StackPanelView implements IStackPanelView {
             IClickStackButton click) {
         this.click = click;
         for (StackButton bu : bList) {
-            Button bt = new Button(bu.getDisplayName());
+//            Button bt = new Button(bu.getDisplayName());
+            Button bt = ImgButtonFactory.getButton(bu.getId(),
+                    bu.getDisplayName(), null);
             bt.setWidth("100%");
             bt.addClickHandler(new Click(bu, bt));
             vp.add(bt);
