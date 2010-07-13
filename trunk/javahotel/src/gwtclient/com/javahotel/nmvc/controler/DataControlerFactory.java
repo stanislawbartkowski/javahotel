@@ -12,6 +12,7 @@
  */
 package com.javahotel.nmvc.controler;
 
+import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -31,7 +32,9 @@ public class DataControlerFactory {
         case DisplayList:
             TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                     .getTableDataControlerFactory();
-            return tFactory.constructDataControler(dType, panelId);
+            DisplayListControlerParam dList = tFactory.constructParam(dType,
+                    null, panelId);
+            return tFactory.constructDataControler(dList);
         case ClearDataHotel:
             return new ClearHotelData(rI, panelId);
         }

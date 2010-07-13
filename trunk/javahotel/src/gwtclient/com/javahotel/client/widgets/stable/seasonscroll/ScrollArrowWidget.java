@@ -38,15 +38,20 @@ import com.javahotel.common.scrollseason.model.PanelDesc;
  */
 class ScrollArrowWidget {
 
+    private final static String C_BUTTON_LEFT_END = "BUTTON-LEFT-END";
+    private final static String C_BUTTON_LEFT = "BUTTON-LEFT";
+    private final static String C_BUTTON_RIGHT = "BUTTON-LRIGHT";
+    private final static String C_BUTTON_RIGHT_END = "BUTTON-RIGHT-END";
+
     // private final HorizontalPanel hp = new HorizontalPanel();
-    private final Button begP = ImgButtonFactory.getButton(null,
-            "arrow-left-end-default");
-    private final Button leftP = ImgButtonFactory.getButton(null,
-            "arrow-left-default");
-    private final Button rightP = ImgButtonFactory.getButton(null,
-            "arrow-right-default");
-    private final Button endP = ImgButtonFactory.getButton(null,
-            "arrow-right-end-default");
+    private final Button begP = ImgButtonFactory.getButton(C_BUTTON_LEFT_END,
+            null, "arrow-left-end-default");
+    private final Button leftP = ImgButtonFactory.getButton(C_BUTTON_LEFT,
+            null, "arrow-left-default");
+    private final Button rightP = ImgButtonFactory.getButton(C_BUTTON_RIGHT,
+            null, "arrow-right-default");
+    private final Button endP = ImgButtonFactory.getButton(C_BUTTON_RIGHT_END,
+            null, "arrow-right-end-default");
     private final ILineField dDate;
     private final IsignalP iP;
     private final IResLocator rI;

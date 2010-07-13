@@ -173,7 +173,7 @@ class PopUpInfoRes {
                 }
                 switch (co.getActionId()) {
                 case CHANGETOSTAY:
-                    YesNoDialog dial = new YesNoDialog("Zamieniasz",
+                    YesNoDialog dial = new YesNoDialog("Zamieniasz", null,
                             new YesB());
                     dial.show(w);
                     break;

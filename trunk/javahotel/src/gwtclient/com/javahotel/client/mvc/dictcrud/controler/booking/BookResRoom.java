@@ -106,6 +106,7 @@ public class BookResRoom extends AbstractAuxRecordPanel {
     private final BookingElem bElem;
     private final GetFieldModif mod;
     private final GetFieldModif pAmount;
+    private final static String CUST_BUTTON_ID = "HOTEL-CUSTOM-BUTT-ID";
 
     public IModifRecordDef getModif() {
         return mod.getModif();
@@ -212,8 +213,8 @@ public class BookResRoom extends AbstractAuxRecordPanel {
         IPanel custV = new GwtPanel(vp);
 
         RecordAuxParam pa = new RecordAuxParam();
-        cPan = HInjector.getI().getDictCrudControlerFactory().getCrud(new DictData(
-                DictType.BookingList), pa, null);
+        cPan = HInjector.getI().getDictCrudControlerFactory().getCrud(
+                new DictData(DictType.BookingList), pa, null);
         BookingP b = new BookingP();
         RecordModel mo = cPan.getF().getNew(b, b);
         con.getRecordView().extractFields(mo);
@@ -280,7 +281,8 @@ public class BookResRoom extends AbstractAuxRecordPanel {
 
         if (isFromReserv()) {
 
-            Button b = ImgButtonFactory.getButton(null, "DataViewerMax");
+            Button b = ImgButtonFactory.getButton(CUST_BUTTON_ID, null,
+                    "DataViewerMax");
             b.addClickHandler(new Cli(iSet, con, i));
             hp.add(b);
 
@@ -306,7 +308,7 @@ public class BookResRoom extends AbstractAuxRecordPanel {
     }
 
     @Inject
-    public BookResRoom(IResLocator rI,BookingElem bElem) {
+    public BookResRoom(IResLocator rI, BookingElem bElem) {
         this.rI = rI;
         this.bElem = bElem;
         mod = new GetFieldModif(BookingP.F.season);
@@ -319,10 +321,9 @@ public class BookResRoom extends AbstractAuxRecordPanel {
         pAmount.setChangeL(new CountAdvance());
         vRec = new RecordFa(rI, new DictData(SpecE.ValidationHeader), null,
                 AdvancePaymentP.F.amount);
-        bElem.SetAuxParam(mod.getE(), bRec.getModif(0).getE(),
-                pAmount.getE());
+        bElem.SetAuxParam(mod.getE(), bRec.getModif(0).getE(), pAmount.getE());
     }
-    
+
     private class EContext implements IErrorMessageContext {
 
         private final RecordFa fa;
