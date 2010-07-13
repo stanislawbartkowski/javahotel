@@ -41,6 +41,7 @@ class ContrButtonView implements IContrButtonView {
     private final Panel hP;
     private final IControlClick co;
     private final Map<Integer, Button> iBut = new HashMap<Integer, Button>();
+    private final static String BUTTON_CUST = "CUSTOM-BUTTON";
 
     public void show() {
     }
@@ -89,9 +90,11 @@ class ContrButtonView implements IContrButtonView {
         for (ContrButton b : bu) {
             Button but;
             if (b.isTextimage()) {
-                but = ImgButtonFactory.getButtonTextImage(b.getContrName(), b.getImageHtml());
+                but = ImgButtonFactory.getButtonTextImage(BUTTON_CUST, b
+                        .getContrName(), b.getImageHtml());
             } else {
-                but = ImgButtonFactory.getButton(b.getContrName(), b.getImageHtml());
+                but = ImgButtonFactory.getButton(BUTTON_CUST, b.getContrName(),
+                        b.getImageHtml());
             }
             but.addClickListener(new Click(b));
             hP.add(but);

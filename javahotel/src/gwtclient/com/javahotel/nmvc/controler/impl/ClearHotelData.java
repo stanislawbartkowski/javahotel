@@ -21,6 +21,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -81,7 +82,7 @@ public class ClearHotelData implements ISlotable {
             HotelP ho = (HotelP) m.getA();
             String hName = ho.getName();
             YesNoDialog yes = new YesNoDialog("Usunąć wszystkie dane z hotelu "
-                    + hName + "?", new ConfDelete(ho));
+                    + hName + "?", null, new ConfDelete(ho));
             yes.show(wSize);
         }
     }
@@ -96,7 +97,12 @@ public class ClearHotelData implements ISlotable {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
         daType = new DataType(RType.AllHotels);
-        iData = tFactory.constructDataControler(daType, cList, panelId);
+        // iData = tFactory.constructDataControler(daType, null, cList,
+        // panelId);
+        DisplayListControlerParam dList = tFactory.constructParam(daType, null,
+                cList, panelId);
+        iData = tFactory.constructDataControler(dList);
+        // iData = dList.getListParam().
         getSlContainer().registerSubscriber(cClear, new ClearData());
     }
 

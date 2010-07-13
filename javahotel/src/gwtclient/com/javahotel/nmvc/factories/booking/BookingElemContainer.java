@@ -21,8 +21,8 @@ import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
@@ -35,10 +35,8 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.common.toobject.AdvancePaymentP;
-import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.util.BillUtil;
 import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.nmvc.common.AddType;
 import com.javahotel.nmvc.common.DataType;
@@ -141,7 +139,7 @@ public class BookingElemContainer extends AbstractSlotContainer {
     public BookingElemContainer(DataType subType) {
         TablesFactories tFactories = GwtGiniInjector.getI()
                 .getTablesFactories();
-        TableFactoriesContainer fContainer = GwtGiniInjector.getI()
+        ITableCustomFactories fContainer = GwtGiniInjector.getI()
                 .getTableFactoriesContainer();
         daFactory = fContainer.getDataModelFactory();
         slMediator = tFactories.getSlotMediatorFactory().construct();

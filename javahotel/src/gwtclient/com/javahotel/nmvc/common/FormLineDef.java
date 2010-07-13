@@ -139,4 +139,14 @@ public class FormLineDef implements IFormLineView {
         return iField.getChooseResult();
     }
 
+    public boolean isHidden() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    public void setHidden(boolean hidden) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

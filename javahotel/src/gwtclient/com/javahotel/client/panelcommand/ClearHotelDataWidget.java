@@ -77,7 +77,7 @@ class ClearHotelDataWidget {
             }
             String ho = hot.getName();
             YesNoDialog y = new YesNoDialog(ho + " - usunąć dane z hotelu ?",
-                    new ConfDelete(ho));
+                    null, new ConfDelete(ho));
             y.show(w);
         }
     }

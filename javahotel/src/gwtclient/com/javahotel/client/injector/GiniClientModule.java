@@ -15,7 +15,9 @@ package com.javahotel.client.injector;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtTableInjectModule;
+import com.gwtmodel.table.injector.TablesFactoriesContainerProvider;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.dialog.eadmin.AdminPanelFactory;
@@ -69,6 +71,7 @@ import com.javahotel.view.gwt.table.view.ViewTableViewFactory;
 public class GiniClientModule extends AbstractGinModule {
 
     protected void configure() {
+        bind(ITableCustomFactories.class).toProvider(TablesFactoriesContainerProvider.class);
         bind(IResLocator.class).toProvider(ResLocatorProvider.class);
         bind(IDispatch.class).to(Dispatch.class);
         bind(IWebEntry.class).to(MainWebEntry.class);

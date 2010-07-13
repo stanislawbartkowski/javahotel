@@ -14,6 +14,7 @@ package com.javahotel.nmvc.factories;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.rdef.FormField;
@@ -51,7 +52,7 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
                 return new VModelData(new BookRecordP());
             case AdvanceHeader:
                 return new VModelData(new AdvancePaymentP());
-                
+
             }
         }
         AbstractTo a = aFactory.getA(DataUtil.constructDictData(dType));
@@ -93,6 +94,12 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
             }
         }
 
+    }
+
+    public void fromDataToView(IDataType dType,
+            PersistTypeEnum persistTypeEnum, IVModelData aFrom,
+            FormLineContainer fContainer) {
+        // TODO Auto-generated method stub
     }
 
 }

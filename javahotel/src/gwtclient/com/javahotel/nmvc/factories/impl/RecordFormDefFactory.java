@@ -54,8 +54,10 @@ public class RecordFormDefFactory implements IFormDefFactory {
 
     private List<FormField> getDict() {
         List<FormField> fList = new ArrayList<FormField>();
-        IFormLineView name = eFactory.constructTextCheckEdit(true);
-        IFormLineView descr = eFactory.constructTextField();
+        IFormLineView name = eFactory.constructTextCheckEdit(true,
+                DictionaryP.F.name.toString());
+        IFormLineView descr = eFactory
+                .constructTextField(DictionaryP.F.description.toString());
         fList.add(new FormField("Symbol", name, new VField(DictionaryP.F.name),
                 true));
         fList.add(new FormField("Nazwa", descr, new VField(
@@ -80,9 +82,14 @@ public class RecordFormDefFactory implements IFormDefFactory {
         if (dd.isRType()) {
             switch (dd.getrType()) {
             case AllPersons:
-                IFormLineView loginname = eFactory.constructTextField();
-                IFormLineView password = eFactory.constructPasswordField();
-                IFormLineView repassword = eFactory.constructPasswordField();
+                IFormLineView loginname = eFactory
+                        .constructTextField(LoginField.F.LOGINNAME.toString());
+                IFormLineView password = eFactory
+                        .constructPasswordField(LoginField.F.PASSWORD
+                                .toString());
+                IFormLineView repassword = eFactory
+                        .constructPasswordField(LoginField.F.REPASSWORD
+                                .toString());
                 fList.add(new FormField("Symbol", loginname, new LoginField(
                         LoginField.F.LOGINNAME), true));
                 fList.add(new FormField("Hasło", password, new LoginField(
@@ -99,19 +106,21 @@ public class RecordFormDefFactory implements IFormDefFactory {
                 CommandParam p = rI.getR().getHotelCommandParam();
                 p.setDict(DictType.PriceListDict);
                 IFormLineView oPrice = heFactory.getListValuesBox(p);
-                IFormLineView cAmount = eFactory.contructCalculatorNumber(2);
+                IFormLineView cAmount = eFactory.contructCalculatorNumber(2,
+                        BookRecordP.F.customerPrice.toString());
                 fList.add(new FormField("Suma", cAmount, new VField(
                         BookRecordP.F.customerPrice)));
                 fList.add(new FormField("Cennik", oPrice, new VField(
                         BookRecordP.F.oPrice)));
                 break;
             case AdvanceHeader:
-                cAmount = eFactory.contructCalculatorNumber(2);
+                cAmount = eFactory.contructCalculatorNumber(2,
+                        AdvancePaymentP.F.amount.toString());
                 IFormLineView dateTo = eFactory.construcDateBoxCalendar();
-                fList.add(new FormField("Zaliczka", cAmount,
-                        new VField(AdvancePaymentP.F.amount)));
-                fList.add(new FormField("Zapłacić do", dateTo,
-                        new VField(AdvancePaymentP.F.validationDate)));
+                fList.add(new FormField("Zaliczka", cAmount, new VField(
+                        AdvancePaymentP.F.amount)));
+                fList.add(new FormField("Zapłacić do", dateTo, new VField(
+                        AdvancePaymentP.F.validationDate)));
                 break;
             }
         }
@@ -120,24 +129,35 @@ public class RecordFormDefFactory implements IFormDefFactory {
             switch (d) {
             case CustomerList:
                 fList = getDict();
-                IFormLineView name1 = eFactory.constructTextField();
-                IFormLineView name2 = eFactory.constructTextField();
-                IFormLineView fname = eFactory.constructTextField();
-                IFormLineView lname = eFactory.constructTextField();
-                IFormLineView country = eFactory.constructTextField();
-                IFormLineView zipCode = eFactory.constructTextField();
-                IFormLineView address1 = eFactory.constructTextField();
-                IFormLineView address2 = eFactory.constructTextField();
+                IFormLineView name1 = eFactory
+                        .constructTextField(CustomerP.F.name1.toString());
+                IFormLineView name2 = eFactory
+                        .constructTextField(CustomerP.F.name2.toString());
+                IFormLineView fname = eFactory
+                        .constructTextField(CustomerP.F.firstName.toString());
+                IFormLineView lname = eFactory
+                        .constructTextField(CustomerP.F.lastName.toString());
+                IFormLineView country = eFactory
+                        .constructTextField(CustomerP.F.country.toString());
+                IFormLineView zipCode = eFactory
+                        .constructTextField(CustomerP.F.zipCode.toString());
+                IFormLineView address1 = eFactory
+                        .constructTextField(CustomerP.F.address1.toString());
+                IFormLineView address2 = eFactory
+                        .constructTextField(CustomerP.F.address2.toString());
 
-                IFormLineView pesel = eFactory.constructTextField();
+                IFormLineView pesel = eFactory
+                        .constructTextField(CustomerP.F.PESEL.toString());
                 // constructListCombo
                 IFormLineView pType = eFactory.constructListCombo(rI
                         .getLabels().PTitles());
                 IFormLineView docType = eFactory.constructListCombo(rI
                         .getLabels().DocTypes());
-                IFormLineView docNumber = eFactory.constructTextField();
+                IFormLineView docNumber = eFactory
+                        .constructTextField(CustomerP.F.docType.toString());
 
-                IFormLineView city = eFactory.constructTextField();
+                IFormLineView city = eFactory
+                        .constructTextField(CustomerP.F.city.toString());
                 IFormLineView cType = eFactory.constructListCombo(rI
                         .getLabels().CustomerType());
                 fList.add(new FormField("Nazwa 1", name1, new VField(

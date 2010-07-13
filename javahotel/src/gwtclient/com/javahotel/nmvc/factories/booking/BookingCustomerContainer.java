@@ -29,8 +29,8 @@ import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.TableFactoriesContainer;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
@@ -55,7 +55,6 @@ import com.javahotel.types.LId;
 
 public class BookingCustomerContainer extends AbstractSlotContainer {
 
-  
     private final VerticalPanel vp = new VerticalPanel();
     private final Sych sy = new Sych();
     private final ISlotMediator slMediator;
@@ -63,6 +62,8 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     private final IDataModelFactory daFactory;
     private final IResLocator rI;
     private final AddChangeBox cBox = new AddChangeBox();
+    private final static String CHANGE_BUTTON = "HOTEL-CHANGE-BUTTON";
+    private final static String LIST_BUTTON = "HOTEL-LIST-BUTTON";
 
     private class Sych extends SynchronizeList {
 
@@ -149,14 +150,14 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     public BookingCustomerContainer(DataType subType) {
         TablesFactories tFactories = GwtGiniInjector.getI()
                 .getTablesFactories();
-        TableFactoriesContainer fContainer = GwtGiniInjector.getI()
+        ITableCustomFactories fContainer = GwtGiniInjector.getI()
                 .getTableFactoriesContainer();
         daFactory = fContainer.getDataModelFactory();
         slMediator = tFactories.getSlotMediatorFactory().construct();
         rI = HInjector.getI().getI();
 
-        ClickButtonType sChange = new ClickButtonType(0);
-        ClickButtonType sChoose = new ClickButtonType(1);
+        ClickButtonType sChange = new ClickButtonType(CHANGE_BUTTON);
+        ClickButtonType sChoose = new ClickButtonType(LIST_BUTTON);
         ControlButtonDesc bChange = new ControlButtonDesc("Zmień dane", sChange);
         ControlButtonDesc bChoose = new ControlButtonDesc("Wybierz z listy",
                 sChoose);
