@@ -69,7 +69,8 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
         copyFromPersistToModel(dType, from, to);
     }
 
-    public void fromDataToView(IDataType dType, IVModelData aFrom,
+    public void fromDataToView(IDataType dType,
+            PersistTypeEnum persistTypeEnum, IVModelData aFrom,
             FormLineContainer fContainer) {
         FormUtil.copyFromDataToView(aFrom, fContainer);
     }
@@ -94,12 +95,6 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
             }
         }
 
-    }
-
-    public void fromDataToView(IDataType dType,
-            PersistTypeEnum persistTypeEnum, IVModelData aFrom,
-            FormLineContainer fContainer) {
-        // TODO Auto-generated method stub
     }
 
 }
