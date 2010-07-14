@@ -12,19 +12,19 @@
  */
 package com.javahotel.client.listofserv;
 
+import java.util.ArrayList;
+
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.util.CollToArray;
-import java.util.ArrayList;
 
 /**
  * 

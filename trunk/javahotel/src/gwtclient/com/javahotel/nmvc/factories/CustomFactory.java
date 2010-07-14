@@ -31,7 +31,7 @@ class CustomFactory implements IGetCustomValues {
         ma.put(IGetCustomValues.IMAGEFOLDER,"img");
         ma.put(IGetCustomValues.RESOURCEFOLDER,"res");
         ma.put(IGetCustomValues.COMMERROR, sI.getLabels().commError());
-        
+        ma.put(IGetCustomValues.QUESTION, "Pytanie ?");        
     }
 
     public IVField getSymForCombo() {

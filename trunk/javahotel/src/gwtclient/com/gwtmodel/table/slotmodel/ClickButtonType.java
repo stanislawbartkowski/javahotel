@@ -25,6 +25,7 @@ public class ClickButtonType {
     private String customButt;
 
     public ClickButtonType(StandClickEnum clickEnum) {
+        assert clickEnum != StandClickEnum.CUSTOM : "Must be connected to custom string";
         this.clickEnum = clickEnum;
         customButt = null;
     }

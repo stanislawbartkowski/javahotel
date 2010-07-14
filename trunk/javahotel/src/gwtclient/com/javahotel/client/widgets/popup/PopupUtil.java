@@ -12,7 +12,6 @@
  */
 package com.javahotel.client.widgets.popup;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -24,7 +23,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.dialog.IWidgetSize;
 import com.javahotel.client.dialog.WidgetSizeFactory;
-import com.javahotel.common.util.MaxI;
 
 /**
  *

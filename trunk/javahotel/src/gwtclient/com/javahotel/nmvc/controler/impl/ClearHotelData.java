@@ -46,6 +46,7 @@ public class ClearHotelData implements ISlotable {
     private final IDataControler iData;
     private final ClickButtonType cClear;
     private final DataType daType;
+    private final static String CUSTOM = "CUSTOM-BUTTOM";
 
     private class DelC extends CommonCallBack<Object> {
 
@@ -88,7 +89,7 @@ public class ClearHotelData implements ISlotable {
     }
 
     public ClearHotelData(IResLocator rI, CellId panelId) {
-        cClear = new ClickButtonType(ClickButtonType.StandClickEnum.CUSTOM);
+        cClear = new ClickButtonType(CUSTOM);
         ControlButtonDesc bDesc = new ControlButtonDesc("MessageError32",
                 "Usuń dane z hotelu", cClear);
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
