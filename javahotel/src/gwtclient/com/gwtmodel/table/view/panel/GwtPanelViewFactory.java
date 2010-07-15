@@ -12,12 +12,11 @@
  */
 package com.gwtmodel.table.view.panel;
 
-import java.util.List;
 
 public class GwtPanelViewFactory {
 
-    public IGwtPanelView construct(List<PanelRowDesc> rowDesc) {
-        return new GwtPanelView(rowDesc);
+    public IGwtPanelView construct(int rowNo, int colNo) {
+        return new GwtPanelView(rowNo, colNo);
     }
 
 }

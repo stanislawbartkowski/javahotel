@@ -20,12 +20,17 @@ import com.javahotel.client.dialog.ISetGwtWidget;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+
+// =====================================
+// TODO: REMOVE
+// =====================================
+
 class RoomsAdmin extends AbstractPanelCommand {
 
     private PokojePanel pa;
     private final IResLocator rI;
 
-    RoomsAdmin(IResLocator rI) {
+    private RoomsAdmin(IResLocator rI) {
         this.rI = rI;
     }
 

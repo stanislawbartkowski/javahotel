@@ -18,22 +18,18 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.MaxI;
 
-class GwtPanelView implements IGwtPanelView  {
-    
+class GwtPanelView implements IGwtPanelView {
+
     private final Grid g;
-    
-    GwtPanelView(List<PanelRowDesc> rowDesc) {
-        int colNo = 0;
-        for (PanelRowDesc ro : rowDesc) {
-            colNo = MaxI.max(colNo,ro.getNoCells());                    
-        }
-        g = new Grid(rowDesc.size(),colNo);
-        
+
+    GwtPanelView(int rowNo, int colNo) {
+        g = new Grid(rowNo, colNo);
+
     }
 
     public void setWidget(int row, int col, Widget w) {
-        g.setWidget(row, col, w);        
-        
+        g.setWidget(row, col, w);
+
     }
 
     public Widget getGWidget() {

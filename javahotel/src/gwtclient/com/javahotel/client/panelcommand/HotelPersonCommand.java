@@ -24,6 +24,10 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.PersonP;
 
+// ================================
+// TODO: REMOVE
+// ================================
+
 /**
  * 
  * @author stanislawbartkowski@gmail.com
@@ -44,7 +48,7 @@ class HotelPersonCommand extends AbstractPanelCommand {
         }
     }
 
-    HotelPersonCommand(final IResLocator rI, final RType r) {
+    private HotelPersonCommand(final IResLocator rI, final RType r) {
         this.rI = rI;
         this.r = r;
     }
