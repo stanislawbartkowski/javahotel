@@ -21,7 +21,7 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
@@ -46,9 +46,12 @@ class GetValueLB extends AbstractField implements IValueLB {
     }
 
     private void setEmpty() {
-        lB.setItemSelected(0,true);
-//        int i = lB.getSelectedIndex();
-//        lB.setItemSelected(i,false);
+        if (lB.getItemCount() == 0) {
+            return;
+        }
+        lB.setItemSelected(0, true);
+        // int i = lB.getSelectedIndex();
+        // lB.setItemSelected(i,false);
     }
 
     private void setV(final String s) {

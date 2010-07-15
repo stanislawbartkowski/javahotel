@@ -12,13 +12,11 @@
  */
 package com.gwtmodel.table.panelview;
 
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.gwtmodel.table.GWidget;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -30,7 +28,6 @@ import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.panel.IGwtPanelView;
-import com.gwtmodel.table.view.panel.PanelRowDesc;
 
 class PanelView extends AbstractSlotContainer implements IPanelView {
 
@@ -51,6 +48,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             return cellNo;
         }
     }
+
     private final Map<CellId, PanelRowCell> colM = new HashMap<CellId, PanelRowCell>();
     private CellId panelId;
     private IGwtPanelView pView;
@@ -92,7 +90,8 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     private class GetHtml implements ISlotCaller {
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            ISlotSignalContext sl = slFactory.construct(slContext.getSlType(), getHWidget());
+            ISlotSignalContext sl = slFactory.construct(slContext.getSlType(),
+                    getHWidget());
             return sl;
         }
     }
@@ -111,23 +110,15 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     }
 
     public void createView() {
-        List<PanelRowDesc> rowDesc = new ArrayList<PanelRowDesc>();
+        // List<PanelRowDesc> rowDesc = new ArrayList<PanelRowDesc>();
         int maxR = 0;
+        int maxC = 0;
         for (CellId i : colM.keySet()) {
             PanelRowCell ro = colM.get(i);
             maxR = MaxI.max(maxR, ro.getRowNo());
+            maxC = MaxI.max(maxC, ro.getCellNo());
         }
-        for (int i = 0; i <= maxR; i++) {
-            int col = 0;
-            for (CellId ii : colM.keySet()) {
-                PanelRowCell ro = colM.get(ii);
-                if (ro.getRowNo() == i) {
-                    col = MaxI.max(col, ro.getCellNo());
-                }
-                rowDesc.add(new PanelRowDesc(col + 1));
-            }
-        }
-        pView = gFactory.construct(rowDesc);
+        pView = gFactory.construct(maxR + 1, maxC + 1);
         // create subscribers
         for (CellId ii : colM.keySet()) {
             registerSubscriber(ii, new SetWidget());

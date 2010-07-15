@@ -13,6 +13,11 @@
 package com.javahotel.client.panelcommand;
 
 import com.javahotel.client.IResLocator;
+
+// --------------------------------------------------------
+// TODO REMOVE !!!!
+// ---------------------------------------------------------
+
 import com.javahotel.client.dialog.ISetGwtWidget;
 
 /**
@@ -24,7 +29,7 @@ class ClearHotelDataCommand extends AbstractPanelCommand {
     private final IResLocator rI;
     private ClearHotelDataWidget ha;
 
-    ClearHotelDataCommand(IResLocator rI) {
+    private ClearHotelDataCommand(IResLocator rI) {
         this.rI = rI;
     }
 
