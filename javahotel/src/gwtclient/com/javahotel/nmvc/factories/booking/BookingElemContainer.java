@@ -12,6 +12,9 @@
  */
 package com.javahotel.nmvc.factories.booking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
@@ -29,14 +32,18 @@ import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.common.toobject.AdvancePaymentP;
+import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.util.BillUtil;
 import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.nmvc.common.AddType;
 import com.javahotel.nmvc.common.DataType;
@@ -135,7 +142,43 @@ public class BookingElemContainer extends AbstractSlotContainer {
         aHeader.getSlContainer().registerSubscriber(IPanelView.CUSTOMID + 1,
                 new SetWidgetHeader());
     }
+    
+    private class SetGetter implements ISlotCaller {
 
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            BookingP b = getBook(slContext);
+            
+            IVModelData vData = daFactory.construct(dType);
+            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(GetActionEnum.GetViewModelEdited, dType, vData);
+            VModelData vv = (VModelData) pData;
+            BookRecordP p = (BookRecordP) vv.getA();
+            List<BookRecordP> l = new ArrayList<BookRecordP>();
+            l.add(p);
+            b.setBookrecords(l);
+
+            vData = daFactory.construct(aType);
+            pData = slMediator.getSlContainer().getGetterIVModelData(GetActionEnum.GetViewModelEdited, aType, vData);
+            vv = (VModelData) pData;
+            AdvancePaymentP a = (AdvancePaymentP) vv.getA();
+            List<AdvancePaymentP> ll = new ArrayList<AdvancePaymentP>();
+            ll.add(a);
+            
+            List<BillP> bL = new ArrayList<BillP>();
+            BillP bb = BillUtil.createPaymentBill();
+            bb.setAdvancePay(ll);
+            bL.add(bb);
+            b.setBill(bL);
+            return slContext;           
+        }        
+    }
+    
+    private BookingP getBook(ISlotSignalContext slContext) {
+        IVModelData mData = slContext.getVData();
+        VModelData vData = (VModelData) mData;
+        BookingP b = (BookingP) vData.getA();
+        return b;
+    }
+    
     public BookingElemContainer(DataType subType) {
         TablesFactories tFactories = GwtGiniInjector.getI()
                 .getTablesFactories();
@@ -161,7 +204,8 @@ public class BookingElemContainer extends AbstractSlotContainer {
         slMediator.registerSlotContainer(aId, aHeader);
         registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
                 new DrawModel());
-
+        registerCaller(GetActionEnum.GetViewModelEdited, subType,
+                new SetGetter());
     }
 
     public void startPublish(CellId cellId) {

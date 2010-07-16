@@ -61,7 +61,7 @@ public class Utils {
         if (folder == null) {
             img = image;
         } else {
-            img = folder + "/" + image;
+            img = addPath(folder, image);
         }
         String path = getResAdr(img);
         return path;

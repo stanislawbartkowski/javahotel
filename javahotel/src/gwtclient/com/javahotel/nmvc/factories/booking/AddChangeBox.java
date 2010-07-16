@@ -36,4 +36,12 @@ class AddChangeBox extends Composite {
         changeD.setValue(set);
     }
 
+    boolean getNewCheck() {
+        return addNew.isChecked();
+    }
+
+    boolean getChangeCheck() {
+        return changeD.isChecked();
+    }
+
 }

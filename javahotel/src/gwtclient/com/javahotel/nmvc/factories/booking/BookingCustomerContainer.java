@@ -38,6 +38,8 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
@@ -49,6 +51,7 @@ import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.types.LId;
@@ -123,9 +126,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     private class DrawModel implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
-            IVModelData mData = slContext.getVData();
-            VModelData vData = (VModelData) mData;
-            BookingP b = (BookingP) vData.getA();
+            BookingP b = getBook(slContext);
             LId custI = b.getCustomer();
             if (custI == null) {
                 IVModelData cust = daFactory.construct(custType);
@@ -145,6 +146,32 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
                 new SetWidget());
         cust.getSlContainer().registerSubscriber(IPanelView.CUSTOMID + 1,
                 new SetWidgetCust());
+    }
+    
+    private BookingP getBook(ISlotSignalContext slContext) {
+        IVModelData mData = slContext.getVData();
+        VModelData vData = (VModelData) mData;
+        BookingP b = (BookingP) vData.getA();
+        return b;
+    }
+    
+    
+    private class SetGetter implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVModelData mData = slContext.getVData();
+            VModelData vData = (VModelData) mData;
+            
+            IVModelData cust = daFactory.construct(custType);
+            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(GetActionEnum.GetViewModelEdited, custType, cust);
+            boolean addCust = cBox.getNewCheck();
+            boolean changeCust = cBox.getChangeCheck();
+            VModelData vvData = (VModelData) pData;
+            BookingCustInfo bInfo = new BookingCustInfo(addCust,changeCust,(CustomerP)vvData.getA());
+            vData.setCustomData(bInfo);            
+            return slContext;
+        }
+
     }
 
     public BookingCustomerContainer(DataType subType) {
@@ -182,7 +209,9 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
 
         registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
                 new DrawModel());
-
+        
+        registerCaller(GetActionEnum.GetViewModelEdited, subType,
+                new SetGetter());
     }
 
     public void startPublish(CellId cellId) {
