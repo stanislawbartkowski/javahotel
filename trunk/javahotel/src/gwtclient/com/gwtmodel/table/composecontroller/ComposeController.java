@@ -68,6 +68,7 @@ class ComposeController extends PanelSlotContainer implements
                 }
                 pData = slMediator.getSlContainer().getGetterIVModelData(getA,
                         cType.getdType(), pData);
+                assert pData != null : "Cannot be null";
             }
             return slMediator.getSlContainer().getGetterContext(
                     slContext.getSlType(), pData);

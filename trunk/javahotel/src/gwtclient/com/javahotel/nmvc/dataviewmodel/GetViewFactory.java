@@ -152,7 +152,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
                 break;
             case BookingList:
                 cContainer = new BookingCustomerContainer(subType);
-                cContainer1 = new BookingElemContainer(subType);
+                cContainer1 = new BookingElemContainer(sub1Type);
                 break;
             }
         }
