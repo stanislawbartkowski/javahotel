@@ -14,6 +14,8 @@ package com.gwtmodel.table;
 
 public interface IVModelData {
 
+
+
     Object getF(IVField fie);
 
     void setF(IVField fie, Object o);
