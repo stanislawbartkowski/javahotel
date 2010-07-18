@@ -30,6 +30,7 @@ import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.view.table.ColumnDataType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
@@ -48,7 +49,8 @@ public class MemoryStringList extends AbstractSlotContainer implements
         lPhonedata.setDataList(dList);
         dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        VListHeaderDesc he = new VListHeaderDesc(fieldName, Empty.getFieldType());
+        VListHeaderDesc he = new VListHeaderDesc(fieldName,
+                Empty.getFieldType(), ColumnDataType.STRING);
         heList.add(he);
         VListHeaderContainer vHeader;
         vHeader = new VListHeaderContainer(heList, title);
@@ -67,11 +69,6 @@ public class MemoryStringList extends AbstractSlotContainer implements
 
         IVField sField = Empty.getFieldType();
 
-//        dControler = tFactory.constructDataControler(sType, new CellId(0),
-//                new DataListParam(lPhonelist, null, new DataFactory(eFactory,
-//                sField), new StringFactory(fieldName, title),
-//                new GetControler(fieldName, title, eFactory, sField,
-//                daFactory, lPhonedata)), null);
         DisplayListControlerParam cParam = tFactory.constructParam(sType, new CellId(0),
                 new DataListParam(lPhonelist, null, new DataFactory(eFactory,
                 sField), new StringFactory(fieldName, title),

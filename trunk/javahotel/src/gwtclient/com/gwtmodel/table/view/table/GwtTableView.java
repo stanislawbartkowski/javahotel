@@ -1,3 +1,15 @@
+/*
+ * Copyright 2008 stanislawbartkowski@gmail.com
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.gwtmodel.table.view.table;
 
 import java.util.List;
@@ -6,16 +18,21 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.Selection;
-import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.events.SelectHandler;
+import com.google.gwt.visualization.client.formatters.DateFormat;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.DateFormatUtil;
+import java.math.BigDecimal;
+import java.util.Date;
 
 class GwtTableView implements IGwtTableView {
 
@@ -27,6 +44,7 @@ class GwtTableView implements IGwtTableView {
     private DataTable data;
     private WSize startW;
     private final ICommand iClick;
+    private final DateFormat df;
 
     GwtTableView(ICommand iClick) {
         ta = new Table(null, Table.Options.create());
@@ -34,6 +52,9 @@ class GwtTableView implements IGwtTableView {
         this.iClick = iClick;
         model = null;
         startW = null;
+        DateFormat.Options o = DateFormat.Options.create();
+        o.setPattern("yyyy'.'MM'.'dd");
+        df = DateFormat.create(o);
     }
 
     private void drawrow(int row) {
@@ -41,16 +62,91 @@ class GwtTableView implements IGwtTableView {
         List<VListHeaderDesc> co = model.getHeaderList().getVisHeList();
         for (int c = 0; c < co.size(); c++) {
             VListHeaderDesc cl = co.get(c);
-            String val = ii.getS(cl.getFie());
-            data.setValue(row, c, val);
+            Object val = ii.getF(cl.getFie());
+            String sval = ii.getS(cl.getFie());
+            switch (cl.getColType()) {
+                case NUMBER:
+                    BigDecimal b;
+                    if (val == null) {
+                        b = Utils.toBig(sval);
+                    } else {
+                        b = (BigDecimal) val;
+                    }
+                    Double d = Utils.toDouble(b);
+                    data.setValue(row, c, d.doubleValue());
+                    break;
+                case INTEGER:
+                    int ival;
+                    if (val == null) {
+                        ival = CUtil.getNumb(sval);
+                    } else {
+                        Integer i = (Integer) val;
+                        ival = i.intValue();
+                    }
+                    data.setValue(row, c, ival);
+                    break;
+                case DATE:
+                    Date dd;
+                    if (val == null) {
+                        dd = DateFormatUtil.toD(sval);
+                    } else {
+                        dd = (Date) val;
+                    }
+                    data.setValue(row, c, dd);
+                    break;
+                case BOOLEAN:
+                    boolean log;
+                    if (val == null) {
+                        log = Utils.TrueL(sval);
+                    } else {
+                        Boolean bl = (Boolean) val;
+                        log = bl.booleanValue();
+                    }
+                    data.setValue(row, c, log);
+                    break;
+                default:
+                case STRING:
+                    if (val == null) {
+                        val = sval;
+                    }
+                    data.setValue(row, c, (String) val);
+                    break;
+            }
         }
+    }
+
+    private ColumnType getCType(VListHeaderDesc c) {
+        switch (c.getColType()) {
+            case BOOLEAN:
+                return ColumnType.BOOLEAN;
+            case STRING:
+                return ColumnType.STRING;
+            case NUMBER:
+            case INTEGER:
+                return ColumnType.NUMBER;
+            case DATE:
+                return ColumnType.DATE;
+            case DATETIME:
+                return ColumnType.DATETIME;
+            case TIMEOFDAY:
+                return ColumnType.TIMEOFDAY;
+        }
+        assert false : "Unrecognized column type";
+        return null;
     }
 
     private void getTable() {
         data = DataTable.create();
         List<VListHeaderDesc> co = model.getHeaderList().getVisHeList();
         for (VListHeaderDesc c : co) {
-            data.addColumn(ColumnType.STRING, c.getHeaderString());
+            data.addColumn(getCType(c), c.getHeaderString());
+        }
+        int colNo = 1;
+        for (VListHeaderDesc c : co) {
+            if (c.getColType() == ColumnDataType.DATE) {
+                df.format(data, colNo);
+            }
+            colNo++;
         }
         data.addRows(model.getRowsNum());
         for (int i = 0; i < model.getRowsNum(); i++) {
@@ -64,13 +160,13 @@ class GwtTableView implements IGwtTableView {
         while ((etd != null) && (!etd.getTagName().equals("TR"))) {
             etd = etd.getFirstChildElement(); // TABLE
         }
-
         int no = 0;
         int top = 0;
         int left = 0;
         int height = 0;
         int width = 0;
         Element etr = etd;
+
         while (etr != null) {
             etr = etr.getNextSiblingElement();
             if (no == row) {
@@ -116,7 +212,6 @@ class GwtTableView implements IGwtTableView {
             }
         }
         ta.draw(data, tao);
-
     }
 
     public void setModel(IGwtTableModel model) {
@@ -178,5 +273,6 @@ class GwtTableView implements IGwtTableView {
 
     public Widget getGWidget() {
         return ta;
+
     }
 }
