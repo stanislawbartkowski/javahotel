@@ -32,7 +32,7 @@ import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.util.FormUtil;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public class ValidateLogin extends AbstractSlotContainer implements
@@ -42,11 +42,13 @@ public class ValidateLogin extends AbstractSlotContainer implements
 
         void validate(IVModelData vData, IBackValidate backValidate);
     }
+
     private final IDataType dType;
     private final FormLineContainer fContainer;
     private final IValidateLogin iValidate;
 
-    public ValidateLogin(IDataType dType, FormLineContainer fContainer, IValidateLogin iValidate) {
+    public ValidateLogin(IDataType dType, FormLineContainer fContainer,
+            IValidateLogin iValidate) {
         this.dType = dType;
         this.fContainer = fContainer;
         this.iValidate = iValidate;
@@ -57,7 +59,8 @@ public class ValidateLogin extends AbstractSlotContainer implements
     private class Validate implements IBackValidate {
 
         public void invalid(InvalidateFormContainer errMess) {
-            publish(DataActionEnum.ChangeViewFormToInvalidAction, dType, errMess);
+            publish(DataActionEnum.ChangeViewFormToInvalidAction, dType,
+                    errMess);
         }
 
         public void valid() {
