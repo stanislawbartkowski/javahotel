@@ -27,8 +27,6 @@ import com.javahotel.view.gwt.GwtGetViewFactory;
 
 public class MainWebEntry implements IWebEntry {
 
-    // private IWebPanel wPan;
-    // private CallBackProgress cProgress;
     private final HoLabel sLab = (HoLabel) GWT.create(HoLabel.class);
     private final HoMessages sMess = (HoMessages) GWT.create(HoMessages.class);
     private RData rD;
@@ -64,14 +62,6 @@ public class MainWebEntry implements IWebEntry {
 
     private class ResC implements IResLocator {
 
-        // public IWebPanel getPanel() {
-        // return wPan;
-        // }
-
-        // public void IncDecCounter(final boolean inc) {
-        // cProgress.IncDecL(inc);
-        // }
-
         public HoLabel getLabels() {
             return sLab;
         }
@@ -97,7 +87,6 @@ public class MainWebEntry implements IWebEntry {
         }
 
         public IViewInterface getView() {
-            // return getView(IViewInterface.EXT);
             return getView(IViewInterface.GWT);
         }
 
@@ -125,9 +114,7 @@ public class MainWebEntry implements IWebEntry {
         RegisterFactories rFactories = HInjector.getI().getRegisterFactories();
         rFactories.register();
         readRes = GwtGiniInjector.getI().getReadResFactory().getReadRes();
-        // cProgress = new CallBackProgress(rI);
         rD = new RData(rI);
-        // wPan = WebHotelPanelFactory.getPanel(rI, new LogOut(rI));
         WebPanelFactory wFactory = GwtGiniInjector.getI().getWebPanelFactory();
         IWebPanel wPan = wFactory.construct(new WebPanelResources(rI),
                 new LogOut());

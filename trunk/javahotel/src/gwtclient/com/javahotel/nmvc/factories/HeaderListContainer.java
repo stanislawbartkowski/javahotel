@@ -20,6 +20,7 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.view.table.ColumnDataType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
@@ -45,7 +46,8 @@ class HeaderListContainer extends AbstractSlotContainer implements
         if (dt.isRt()) {
             if (dt.getRt() == RType.AllPersons) {
                 VListHeaderDesc v = new VListHeaderDesc("Nazwa",
-                        new LoginField(LoginField.F.LOGINNAME));
+                        new LoginField(LoginField.F.LOGINNAME),
+                        ColumnDataType.STRING);
                 heList.add(v);
             }
 
@@ -55,7 +57,7 @@ class HeaderListContainer extends AbstractSlotContainer implements
             List<ColTitle> coList = cFactory.getColList(dt);
             for (ColTitle co : coList) {
                 VListHeaderDesc he = new VListHeaderDesc(co.getCTitle(),
-                        new VField(co.getF()));
+                        new VField(co.getF()), ColumnDataType.STRING);
                 heList.add(he);
             }
         }

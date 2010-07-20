@@ -26,6 +26,7 @@ import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.view.table.ColumnDataType;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IPersistAction;
@@ -69,7 +70,7 @@ public class DataUtil {
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         for (ColTitle co : coList) {
             VListHeaderDesc he = new VListHeaderDesc(co.getCTitle(),
-                    new VField(co.getF()));
+                    new VField(co.getF()), ColumnDataType.STRING);
             heList.add(he);
         }
         return heList;

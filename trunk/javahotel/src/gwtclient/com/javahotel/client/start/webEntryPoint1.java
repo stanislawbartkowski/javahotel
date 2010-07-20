@@ -15,13 +15,14 @@ package com.javahotel.client.start;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.Table;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.common.CUtil;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
 public class webEntryPoint1 extends AbstractWebEntry implements EntryPoint {
-
 
     public void onModuleLoad() {
         Runnable onLoadCallback = new Runnable() {
@@ -30,6 +31,13 @@ public class webEntryPoint1 extends AbstractWebEntry implements EntryPoint {
                 starte(true);
             }
         };
-        VisualizationUtils.loadVisualizationApi(onLoadCallback, Table.PACKAGE);
+        String gTable = Utils.getURLParam("NOGOOGLETABLE");
+        boolean nogtable = CUtil.EqNS("T", gTable);
+        if (!nogtable) {
+            VisualizationUtils.loadVisualizationApi(onLoadCallback,
+                    Table.PACKAGE);
+        } else {
+            starte(false);
+        }
     }
 }
