@@ -15,6 +15,7 @@ package com.javahotel.client.widgets.disclosure;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.DisclosurePanelImages;
 import com.google.gwt.user.client.ui.Image;
+import com.gwtmodel.table.Utils;
 import com.javahotel.client.CommonUtil;
 
 /**
@@ -29,7 +30,8 @@ public class DisclosureImages implements DisclosurePanelImages {
         private Image a = null;
 
         IOpen(String ima) {
-            hI = CommonUtil.getImageAdr(ima);
+            hI = Utils.getImageAdr(ima);
+//            hI = CommonUti.getImageAdr(ima);
             a = new Image(hI);
         }
 

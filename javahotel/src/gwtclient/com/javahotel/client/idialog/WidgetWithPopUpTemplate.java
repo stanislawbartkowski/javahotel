@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.CommonUtil;
+import com.gwtmodel.table.Utils;
 import com.javahotel.client.IResLocator;
 
 /**
@@ -45,7 +45,7 @@ abstract class WidgetWithPopUpTemplate extends ExtendTextBox {
 
     protected WidgetWithPopUpTemplate(final IResLocator pLoc) {
         super(pLoc, false);
-        String iPath = CommonUtil.getImageHTML("calendar.gif");
+        String iPath = Utils.getImageHTML("calendar.gif");
         HTML dB = new HTML(iPath);
         dB.addStyleName("calendar-image");
         hPanel.add(dB);

@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.inject.Inject;
-import com.javahotel.client.CommonUtil;
+import com.gwtmodel.table.Utils;
 import com.javahotel.client.IImageGallery;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.IGwtWidget;
@@ -62,7 +62,7 @@ public class UserPanelFactory implements IUserPanelMenuFactory {
         MenuBar menu = CreateMenuCommand.createMenu(rI, new EPanelCommand[] {
                 EPanelCommand.BOOKINGPANEL, EPanelCommand.BOOKING,
                 EPanelCommand.PREPAID, EPanelCommand.ROOMSADMIN });
-        mp.addItem(CommonUtil.getImageHTML(IImageGallery.DOWNMENU), true, menu);
+        mp.addItem(Utils.getImageHTML(IImageGallery.DOWNMENU), true, menu);
         return hp;
     }
 }
