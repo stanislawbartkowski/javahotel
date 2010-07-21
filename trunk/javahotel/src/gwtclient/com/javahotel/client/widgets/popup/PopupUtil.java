@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.CommonUtil;
+import com.gwtmodel.table.Utils;
 import com.javahotel.client.dialog.IWidgetSize;
 import com.javahotel.client.dialog.WidgetSizeFactory;
 
@@ -36,9 +36,9 @@ public class PopupUtil {
         HorizontalPanel hC = new HorizontalPanel();
         hC.setWidth("100%");
         HorizontalPanel hG = new HorizontalPanel();
-        HTML w = new HTML(CommonUtil.getImageHTML("DataViewerClose.gif"));
+        HTML w = new HTML(Utils.getImageHTML("DataViewerClose.gif"));
         if (menu != null) {
-            bmenu.addItem(CommonUtil.getImageHTML("DataViewerMax.gif"), true, menu);
+            bmenu.addItem(Utils.getImageHTML("DataViewerMax.gif"), true, menu);
             hG.add(bmenu);
         }
         hG.add(w);

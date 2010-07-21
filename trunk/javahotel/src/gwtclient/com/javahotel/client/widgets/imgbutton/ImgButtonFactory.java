@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.gwtmodel.table.Utils;
 import com.javahotel.client.CommonUtil;
 
 /**
@@ -30,7 +31,8 @@ class ImgButtonFactory {
     public static Button getButton(String bName, String img) {
         Button but;
         if (img != null) {
-            String h = CommonUtil.getImageHTML(img + ".gif");
+//            String h = CommonUtil.getImageHTML(img + ".gif");
+            String h = Utils.getImageHTML(img + ".gif");
             but = new Button();
             but.setHTML(h);
         } else {
@@ -50,7 +52,7 @@ class ImgButtonFactory {
     //        String s = "<td><img src='" + getImageAdr(imageUrl) + "'></td>";
     static Button getButtonTextImage(String bName, String img) {
         String ht = "<table><tr>";
-        String h = CommonUtil.getImageHTML(img + ".gif");
+        String h = Utils.getImageHTML(img + ".gif");
         ht += h;
         Label la = new Label(bName);
         ht += "<td>" + la.getElement().getInnerHTML() + "</td>";

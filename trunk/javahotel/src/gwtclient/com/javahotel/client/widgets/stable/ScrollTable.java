@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.Utils;
 import com.javahotel.client.CommonUtil;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
@@ -105,29 +106,29 @@ class ScrollTable implements IScrollSeason {
         HasHorizontalAlignment.HorizontalAlignmentConstant al = HasHorizontalAlignment.ALIGN_CENTER;
         switch (id) {
             case 0:
-                im = CommonUtil.getImageHTML(A_MAX_LEFT);
+                im = Utils.getImageHTML(A_MAX_LEFT);
                 al = HasHorizontalAlignment.ALIGN_LEFT;
                 sno = 0;
                 newP = 0;
                 break;
             case 1:
-                im = CommonUtil.getImageHTML(A_MAX_RIGHT);
+                im = Utils.getImageHTML(A_MAX_RIGHT);
                 al = HasHorizontalAlignment.ALIGN_RIGHT;
                 sno = lNo - lastR;
                 newP = pNo - 1;
                 break;
             case 2:
-                im = CommonUtil.getImageHTML(A_RIGHT);
+                im = Utils.getImageHTML(A_RIGHT);
                 sno = (ap + 1) * mNo;
                 newP = ap + 1;
                 break;
             case 3:
-                im = CommonUtil.getImageHTML(A_LEFT);
+                im = Utils.getImageHTML(A_LEFT);
                 sno = (ap - 1) * mNo;
                 newP = ap - 1;
                 break;
             case 4:
-                im = CommonUtil.getImageHTML(A_DOWN);
+                im = Utils.getImageHTML(A_DOWN);
                 sno = ap * mNo;
                 newP = ap;
                 break;

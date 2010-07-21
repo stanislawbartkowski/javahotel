@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.CommonUtil;
+import com.gwtmodel.table.Utils;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.IMvcWidget;
 import com.javahotel.client.panelcommand.IPanelCommand;
@@ -39,7 +39,7 @@ class StackMenuView implements IStackMenuView {
     private final StackPanel stackPanel = new StackPanel();
 
     private String createHeaderHTML(final String imageUrl, final String caption) {
-        String iPath = CommonUtil.getImageHTML(imageUrl);
+        String iPath = Utils.getImageHTML(imageUrl);
 
         return "<table align='left'><tr>" + iPath + "<td style='vertical-align:middle'><b style='white-space:nowrap'>" + caption + "</b></td>" + "</tr></table>";
     }

@@ -38,7 +38,7 @@ public class CommonUtil {
         return ha;
     }
 
-    public static String getImageAdr(final String image) {
+    private static String getImageAdr(final String image) {
         // String path;
         // path = "com.javahotel.web";
         // return path + "/res/img/" + image;
@@ -46,7 +46,7 @@ public class CommonUtil {
         return path;
     }
 
-    public static String getResAdr(final String res, boolean main) {
+    private static String getResAdr(final String res, boolean main) {
         String path;
         // if (!IsScript()) {
         // path = "com.javahotel.web/";
@@ -64,7 +64,7 @@ public class CommonUtil {
         return path + "/res/" + res;
     }
 
-    public static String getResAdr(final String res) {
+    private static String getResAdr(final String res) {
         return getResAdr(res, false);
         // String path;
         // if (!IsScript()) {
@@ -81,19 +81,19 @@ public class CommonUtil {
         return GWT.isScript();
     }
 
-    public static String getImageHTML(final String imageUrl) {
+    private static String getImageHTML(final String imageUrl) {
         return getImageHTML(imageUrl, 0, 0);
     }
 
     // TODO: remove
-    public static String getImageHTMLStyle(final String imageUrl) {
+    private static String getImageHTMLStyle(final String imageUrl) {
         String h = "<span style='background: url(";
         h += imageUrl;
         h += ") 50% 100% no-repeat' </span>";
         return h;
     }
 
-    public static String getImageHTML(final String imageUrl, int w, int h) {
+    private static String getImageHTML(final String imageUrl, int w, int h) {
         String s = "<td><img src='" + getImageAdr(imageUrl) + "'";
         if (w != 0) {
             s += " width='" + w + "px'";
