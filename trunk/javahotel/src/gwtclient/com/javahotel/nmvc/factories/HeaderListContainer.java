@@ -57,7 +57,7 @@ class HeaderListContainer extends AbstractSlotContainer implements
             List<ColTitle> coList = cFactory.getColList(dt);
             for (ColTitle co : coList) {
                 VListHeaderDesc he = new VListHeaderDesc(co.getCTitle(),
-                        new VField(co.getF()), ColumnDataType.STRING);
+                        new VField(co.getF()), co.getcType());
                 heList.add(he);
             }
         }

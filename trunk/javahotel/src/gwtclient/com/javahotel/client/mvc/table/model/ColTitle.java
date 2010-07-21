@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.mvc.table.model;
 
+import com.gwtmodel.table.view.table.ColumnDataType;
 import com.javahotel.common.toobject.IField;
 
 /**
@@ -22,18 +23,22 @@ public class ColTitle {
 
     private final IField f;
     private final String cTitle;
-    private final int width;
+    private final ColumnDataType cType;
 
     public ColTitle(final IField f, final String cTitle) {
         this.f = f;
         this.cTitle = cTitle;
-        this.width = 100;
+        cType = ColumnDataType.STRING;
     }
-
-    public ColTitle(final IField f, final String cTitle, final int width) {
+    
+    public ColTitle(final IField f, final String cTitle,ColumnDataType cType) {
         this.f = f;
         this.cTitle = cTitle;
-        this.width = width;
+        this.cType = cType;
+    }
+
+    public ColumnDataType getcType() {
+        return cType;
     }
 
     /**
@@ -50,10 +55,4 @@ public class ColTitle {
         return cTitle;
     }
 
-    /**
-     * @return the width
-     */
-    public int getWidth() {
-        return width;
-    }
 }
