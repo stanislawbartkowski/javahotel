@@ -65,6 +65,9 @@ public class FormUtil {
     public static void copyData(IVModelData aFrom, IVModelData aTo) {
         for (IVField v : aFrom.getF()) {
             Object val = aFrom.getF(v);
+            if (val == null) {
+                val = aFrom.getS(v);
+            }
             aTo.setF(v, val);
         }
     }
