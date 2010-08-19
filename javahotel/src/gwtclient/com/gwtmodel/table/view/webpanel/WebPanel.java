@@ -63,10 +63,10 @@ class WebPanel implements IWebPanel {
     private Widget wCenter = null;
     private Widget wWest = null;
     private Widget wWest1 = null;
-    private final static String HOTELHEADER_LOGOUT = "hotelheader_logout";
-    private final static String HOTELHEADER_LOGO = "hotelheader_logo";
-    private final static String HOTELHEADER_DOWNMENU = "hotelheader_downmenu";
-    private final static String HOTELHEADER_STATUSBAR = "hotelheader_statusbar";
+    private final static String HOTELHEADER_LOGOUT = "header_logout";
+    private final static String HOTELHEADER_LOGO = "header_logo";
+    private final static String HOTELHEADER_DOWNMENU = "header_downmenu";
+    private final static String HOTELHEADER_STATUSBAR = "header_statusbar";
     private final HTML ha;
     private final LogoH logo;
     private final ICommand logOut;
@@ -213,7 +213,7 @@ class WebPanel implements IWebPanel {
 
     WebPanel(IWebPanelResources pResources, ICommand logOut) {
         this.pResources = pResources;
-        bCounter = new CallBackProgress(this,pResources);
+        bCounter = new CallBackProgress(this, pResources);
         Window.setTitle(pResources.getRes(IWebPanelResources.TITLE));
         this.logOut = logOut;
         tL = new Label(pResources.getRes(IWebPanelResources.PRODUCTNAME));
@@ -231,10 +231,10 @@ class WebPanel implements IWebPanel {
         vp.setHeight("25px");
 
         List<HtmlElemDesc> hList = new ArrayList<HtmlElemDesc>();
-        hList.add(new HtmlElemDesc(tL, "hotelheader_appname"));
-        hList.add(new HtmlElemDesc(ownerName, "hotelheader_ownername"));
-        hList.add(new HtmlElemDesc(userName, "hotelheader_user"));
-        hList.add(new HtmlElemDesc(hotelName, "hotelheader_hotel"));
+        hList.add(new HtmlElemDesc(tL, "header_appname"));
+        hList.add(new HtmlElemDesc(ownerName, "header_ownername"));
+        hList.add(new HtmlElemDesc(userName, "header_user"));
+        hList.add(new HtmlElemDesc(hotelName, "header_ename"));
         hList.add(new HtmlElemDesc(ha, HOTELHEADER_LOGOUT));
         hList.add(new HtmlElemDesc(logo, HOTELHEADER_LOGO));
         hList.add(new HtmlElemDesc(status, HOTELHEADER_STATUSBAR));
