@@ -30,28 +30,29 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> printButton;
 
     private ControlButtonDesc constructButt(StandClickEnum bType) {
+        String imageName = ControlButtonImages.getImageName(bType);
         switch (bType) {
             case ADDITEM:
-                return new ControlButtonDesc("New", "Dodaj", new ClickButtonType(
+                return new ControlButtonDesc(imageName, "Dodaj", new ClickButtonType(
                         ClickButtonType.StandClickEnum.ADDITEM));
             case REMOVEITEM:
-                return new ControlButtonDesc("DeleteRed", "Usuń",
+                return new ControlButtonDesc(imageName, "Usuń",
                         new ClickButtonType(
                         ClickButtonType.StandClickEnum.REMOVEITEM));
             case MODIFITEM:
-                return new ControlButtonDesc("DataViewerMin", "Popraw",
+                return new ControlButtonDesc(imageName, "Popraw",
                         new ClickButtonType(ClickButtonType.StandClickEnum.MODIFITEM));
             case SHOWITEM:
-                return new ControlButtonDesc("DataViewerMin", "Zobacz",
+                return new ControlButtonDesc(imageName, "Zobacz",
                         new ClickButtonType(ClickButtonType.StandClickEnum.SHOWITEM));
             case ACCEPT:
-                return new ControlButtonDesc(null, "Akceptujesz",
+                return new ControlButtonDesc(imageName, "Akceptujesz",
                         new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT));
             case RESIGN:
             case RESIGNLIST:
-                return new ControlButtonDesc(null, "Rezygnujesz", new ClickButtonType(bType));
+                return new ControlButtonDesc(imageName, "Rezygnujesz", new ClickButtonType(bType));
             case CHOOSELIST:
-                return new ControlButtonDesc(null, "Wybierasz",
+                return new ControlButtonDesc(imageName, "Wybierasz",
                         new ClickButtonType(
                         ClickButtonType.StandClickEnum.CHOOSELIST));
 

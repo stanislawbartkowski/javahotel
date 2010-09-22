@@ -125,6 +125,9 @@ class ComposeController extends PanelSlotContainer implements
                 DataActionEnum.DrawViewComposeFormAction, dType,
                 new DrawAction(DataActionEnum.DrawViewFormAction));
         slMediator.getSlContainer().registerSubscriber(
+                DataActionEnum.DefaultViewComposeFormAction, dType,
+                new DrawAction(DataActionEnum.DefaultViewFormAction));
+        slMediator.getSlContainer().registerSubscriber(
                 DataActionEnum.ChangeViewComposeFormModeAction, dType,
                 new DrawAction(DataActionEnum.ChangeViewFormModeAction));
 

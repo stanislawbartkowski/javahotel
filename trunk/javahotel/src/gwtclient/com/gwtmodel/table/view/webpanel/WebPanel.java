@@ -153,8 +153,8 @@ class WebPanel implements IWebPanel {
         }
     }
 
-    public void setMenuPanel(Panel pa) {
-        uPanel.addAndReplaceElement(pa, HOTELHEADER_DOWNMENU);
+    public void setMenuPanel(Widget w) {
+        uPanel.addAndReplaceElement(w, HOTELHEADER_DOWNMENU);
     }
 
     public void setWest1(Widget w) {
