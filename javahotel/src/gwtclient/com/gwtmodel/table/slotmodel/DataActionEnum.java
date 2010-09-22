@@ -26,6 +26,10 @@ public enum DataActionEnum {
     DrawViewFormAction,
     /** Draw form. / IVModeData. */
     DrawViewComposeFormAction,
+    /** Draw form. / IVModeData. */
+    DefaultViewFormAction,
+    /** Draw form. / IVModeData. */
+    DefaultViewComposeFormAction,
     /** ValidateActionSignal / IVModelData / PersistTypeEnum. */
     ValidateAction,
     /** InvalidSignal / InvalidateFormContainer / PersistEnumType. */

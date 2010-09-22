@@ -264,6 +264,8 @@ class DataListCrudControler extends AbstractSlotContainer {
             fController.startPublish(cId);
             slControlerContainer.publish(
                     DataActionEnum.DrawViewComposeFormAction, dType, peData, persistTypeEnum);
+            slControlerContainer.publish(
+                    DataActionEnum.DefaultViewComposeFormAction, dType, peData, persistTypeEnum);
 
             slControlerContainer.publish(
                     DataActionEnum.ChangeViewComposeFormModeAction, dType,

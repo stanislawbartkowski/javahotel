@@ -10,11 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gwtmodel.table.view.webpanel;
 
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -39,10 +37,9 @@ public interface IWebPanel {
 
     Widget getWidget();
 
-    void setMenuPanel(Panel pa);
+    void setMenuPanel(Widget pa);
 
     void setOwnerName(String owner);
 
     void IncDecCounter(boolean inc);
-
 }

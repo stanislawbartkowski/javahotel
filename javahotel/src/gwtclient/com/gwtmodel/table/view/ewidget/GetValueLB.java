@@ -40,7 +40,9 @@ class GetValueLB extends AbstractField implements IValueLB {
     public String getVal() {
         int i = lB.getSelectedIndex();
         if (i == -1) {
-            return null;
+// CHANGE: 2010/09/22
+//            return null;
+            return beforeVal;
         }
         return lB.getItemText(i);
     }
