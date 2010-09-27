@@ -110,7 +110,6 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     }
 
     public void createView() {
-        // List<PanelRowDesc> rowDesc = new ArrayList<PanelRowDesc>();
         int maxR = 0;
         int maxC = 0;
         for (CellId i : colM.keySet()) {
