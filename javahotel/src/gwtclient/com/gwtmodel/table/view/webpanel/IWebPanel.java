@@ -42,4 +42,6 @@ public interface IWebPanel {
     void setOwnerName(String owner);
 
     void IncDecCounter(boolean inc);
+
+    void setCenterSize(String size);
 }

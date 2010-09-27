@@ -24,7 +24,10 @@ public class StackPanelFactory {
     }
 
     public IStackPanelView construct(List<StackButton> bList,
-            IClickStackButton click) {
-        return new StackPanelView(bList, click);
+            IClickStackButton click, String html) {
+        if (html == null) {
+            return new StackPanelView(bList, click);
+        }
+        return new StackPanelHtmlView(bList, click, html);
     }
 }

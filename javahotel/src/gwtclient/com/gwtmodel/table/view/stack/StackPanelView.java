@@ -12,47 +12,45 @@
  */
 package com.gwtmodel.table.view.stack;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.view.button.ImgButtonFactory;
 import java.util.List;
 
 /**
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-class StackPanelView implements IStackPanelView {
+class StackPanelView extends AbstractPanelView {
 
     private final VerticalPanel vp = new VerticalPanel();
-    private final IClickStackButton click;
-
-    private class Click implements ClickHandler {
-
-        private final StackButton bu;
-        private final Button bt;
-
-        Click(StackButton bu, Button bt) {
-            this.bu = bu;
-            this.bt = bt;
-        }
-
-        public void onClick(ClickEvent event) {
-            click.click(bu, bt);
-        }
-    }
+//    private final IClickStackButton click;
+//
+//    private class Click implements ClickHandler {
+//
+//        private final StackButton bu;
+//        private final Button bt;
+//
+//        Click(StackButton bu, Button bt) {
+//            this.bu = bu;
+//            this.bt = bt;
+//        }
+//
+//        public void onClick(ClickEvent event) {
+//            click.click(bu, bt);
+//        }
+//    }
 
     StackPanelView(List<StackButton> bList,
             IClickStackButton click) {
-        this.click = click;
+        super(click);
         for (StackButton bu : bList) {
-//            Button bt = new Button(bu.getDisplayName());
-            Button bt = ImgButtonFactory.getButton(bu.getId(),
-                    bu.getDisplayName(), null);
+//            Button bt = ImgButtonFactory.getButton(bu.getId(),
+//                    bu.getDisplayName(), null);
+//            bt.setWidth("100%");
+//            bt.addClickHandler(new Click(bu, bt));
+            Button bt = constructButton(bu);
             bt.setWidth("100%");
-            bt.addClickHandler(new Click(bu, bt));
             vp.add(bt);
         }
         vp.setStyleName("stack-panel");

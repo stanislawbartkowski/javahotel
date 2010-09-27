@@ -26,6 +26,12 @@ public interface IGetCustomValues {
     String COUNTCALLBACK = "COUNTCALLBACK";
     String QUESTION = "QUESTION";
     String INFO = "INFO";
+    String ACCEPT = "ACCEPT";
+    String RESIGN = "RESIGN";
+    String MODIFITEM = "MODIFITEM";
+    String ADDITEM = "ADDITEM";
+    String SHOWITEM = "SHOWITEM";
+    String REMOVEITEM = "REMOVEITEM";
 
     String getCustomValue(String key);
 

@@ -30,7 +30,7 @@ public class StackPanelControllerFactory {
         this.paFactory = paFactory;
     }
 
-    public IStackPanelController construct(List<StackButton> bList) {
-        return new StackPanelController(paFactory, bList);
+    public IStackPanelController construct(List<StackButton> bList, String html) {
+        return new StackPanelController(paFactory, bList, html);
     }
 }

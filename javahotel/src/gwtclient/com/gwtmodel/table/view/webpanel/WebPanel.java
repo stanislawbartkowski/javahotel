@@ -45,6 +45,7 @@ class WebPanel implements IWebPanel {
     private final DockPanel dPanel = new DockPanel();
     private final IWebPanelResources pResources;
     private final CallBackProgress bCounter;
+    private String centerSize = "90%";
 
     public void setOwnerName(String owner) {
         ownerName.setText(owner);
@@ -52,6 +53,11 @@ class WebPanel implements IWebPanel {
 
     public void IncDecCounter(boolean inc) {
         bCounter.IncDecL(inc);
+    }
+
+    public void setCenterSize(String size) {
+        this.centerSize = size;
+        setWidth();
     }
 
     private enum StatusE {
@@ -135,7 +141,9 @@ class WebPanel implements IWebPanel {
     private void setWidth() {
         if (wCenter != null) {
             if (wWest != null) {
-                dPanel.setCellWidth(wCenter, "90%");
+//                dPanel.setCellWidth(wCenter, "90%");
+//                dPanel.setCellWidth(wCenter, "70%");
+                dPanel.setCellWidth(wCenter, centerSize);
             } else {
                 dPanel.setCellWidth(wCenter, "100%");
             }

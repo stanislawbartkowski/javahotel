@@ -38,10 +38,12 @@ class StackPanelController extends AbstractSlotContainer implements IStackPanelC
         }
     }
 
-    StackPanelController(StackPanelFactory paFactory, List<StackButton> bList) {
-        sView = paFactory.construct(bList, new CallBack());
+    StackPanelController(StackPanelFactory paFactory, List<StackButton> bList,
+            String html) {
+        sView = paFactory.construct(bList, new CallBack(), html);
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         publish(cellId, sView);
     }
