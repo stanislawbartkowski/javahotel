@@ -206,4 +206,8 @@ public class Utils {
     public static void errAlert(String err, Exception e) {
         errAlert(err, e.getMessage());
     }
+
+    public static native void callJs(String js) /*-{
+        $wnd.eval(js);
+     }-*/;
 }

@@ -32,6 +32,9 @@ public interface IGetCustomValues {
     String ADDITEM = "ADDITEM";
     String SHOWITEM = "SHOWITEM";
     String REMOVEITEM = "REMOVEITEM";
+    String LOGINMAME = "LOGINNAME";
+    String PASSWORD = "PASSWORD";
+    String LOGINBUTTON = "LOGINBUTTON";
 
     String getCustomValue(String key);
 

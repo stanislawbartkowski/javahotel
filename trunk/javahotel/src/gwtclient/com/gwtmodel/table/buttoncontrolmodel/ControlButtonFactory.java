@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.buttoncontrolmodel;
 
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +63,10 @@ public class ControlButtonFactory {
         }
         return null;
     }
+    private final IGetCustomValues c;
 
     public ControlButtonFactory() {
+        c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         dButton = new ArrayList<ControlButtonDesc>();
         dButton.add(constructButt(StandClickEnum.ADDITEM));
         dButton.add(constructButt(StandClickEnum.REMOVEITEM));
@@ -92,7 +96,7 @@ public class ControlButtonFactory {
                 ClickButtonType.StandClickEnum.RESIGN)));
 
         loginButton = new ArrayList<ControlButtonDesc>();
-        loginButton.add(new ControlButtonDesc(null, "Login",
+        loginButton.add(new ControlButtonDesc(null, c.getCustomValue(c.LOGINBUTTON),
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
 
         printButton = new ArrayList<ControlButtonDesc>();

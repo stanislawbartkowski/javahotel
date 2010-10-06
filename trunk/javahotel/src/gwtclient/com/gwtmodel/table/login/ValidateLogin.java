@@ -85,6 +85,7 @@ public class ValidateLogin extends AbstractSlotContainer implements
         }
     }
 
+    @Override
     public void startPublish(CellId cellId) {
     }
 }
