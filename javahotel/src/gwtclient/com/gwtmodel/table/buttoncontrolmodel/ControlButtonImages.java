@@ -14,10 +14,6 @@ package com.gwtmodel.table.buttoncontrolmodel;
 
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 
-/**
- *
- * @author perseus
- */
 class ControlButtonImages {
 
     static String getImageName(ClickButtonType.StandClickEnum actionId) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -96,7 +96,7 @@ public class ControlButtonFactory {
                 ClickButtonType.StandClickEnum.RESIGN)));
 
         loginButton = new ArrayList<ControlButtonDesc>();
-        loginButton.add(new ControlButtonDesc(null, c.getCustomValue(c.LOGINBUTTON),
+        loginButton.add(new ControlButtonDesc(null, c.getCustomValue(IGetCustomValues.LOGINBUTTON),
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
 
         printButton = new ArrayList<ControlButtonDesc>();
