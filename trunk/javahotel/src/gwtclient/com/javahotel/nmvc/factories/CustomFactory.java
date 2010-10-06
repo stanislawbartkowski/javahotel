@@ -24,14 +24,15 @@ import com.javahotel.nmvc.common.VField;
 class CustomFactory implements IGetCustomValues {
     
     private Map<String,String> ma = new HashMap<String,String>();
-    private final IResLocator sI;
     
     CustomFactory(IResLocator sI) {
-        this.sI = sI;
         ma.put(IGetCustomValues.IMAGEFOLDER,"img");
         ma.put(IGetCustomValues.RESOURCEFOLDER,"res");
         ma.put(IGetCustomValues.COMMERROR, sI.getLabels().commError());
-        ma.put(IGetCustomValues.QUESTION, "Pytanie ?");        
+        ma.put(IGetCustomValues.QUESTION, sI.getLabels().Question());
+        ma.put(IGetCustomValues.LOGINBUTTON, sI.getLabels().LoginButton());
+        ma.put(IGetCustomValues.LOGINMAME, sI.getLabels().LoginName());
+        ma.put(IGetCustomValues.PASSWORD, sI.getLabels().Password());        
     }
 
     public IVField getSymForCombo() {

@@ -56,4 +56,12 @@ public interface HoLabel extends Constants {
     Map<String, String> DictList();
     
     String Wersja();
+    
+    String Question();
+    
+    String LoginButton();
+    
+    String LoginName();
+    
+    String Password();
 }
