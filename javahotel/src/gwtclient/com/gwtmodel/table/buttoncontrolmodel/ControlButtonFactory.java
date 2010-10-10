@@ -45,13 +45,13 @@ public class ControlButtonFactory {
                     new ClickButtonType(
                             ClickButtonType.StandClickEnum.REMOVEITEM));
         case MODIFITEM:
-            return new ControlButtonDesc(imageName, "Popraw",
+            return new ControlButtonDesc(imageName, c.getCustomValue(IGetCustomValues.MODIFITEM),
                     new ClickButtonType(
                             ClickButtonType.StandClickEnum.MODIFITEM));
         case SHOWITEM:
             return new ControlButtonDesc(
                     imageName,
-                    "Zobacz",
+                    c.getCustomValue(IGetCustomValues.SHOWITEM),
                     new ClickButtonType(ClickButtonType.StandClickEnum.SHOWITEM));
         case ACCEPT:
             return new ControlButtonDesc(imageName, "Akceptujesz",

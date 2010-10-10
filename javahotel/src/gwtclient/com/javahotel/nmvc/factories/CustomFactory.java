@@ -35,7 +35,10 @@ class CustomFactory implements IGetCustomValues {
         ma.put(IGetCustomValues.PASSWORD, sI.getLabels().Password());
         ma.put(IGetCustomValues.ADDBUTTON, sI.getLabels().DodajButton());
         ma.put(IGetCustomValues.REMOVEBUTTON, sI.getLabels().UsunButton());
-        ma.put(IGetCustomValues.EMPTYFIELDERRORDEFAULT, sI.getLabels().EmptyField());
+        ma.put(IGetCustomValues.EMPTYFIELDERRORDEFAULT, sI.getLabels()
+                .EmptyField());
+        ma.put(IGetCustomValues.MODIFITEM, sI.getLabels().ModifItem());
+        ma.put(IGetCustomValues.SHOWITEM, sI.getLabels().ShowItem());
     }
 
     public IVField getSymForCombo() {

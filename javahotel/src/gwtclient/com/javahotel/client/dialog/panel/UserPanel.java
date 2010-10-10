@@ -29,10 +29,7 @@ import com.javahotel.client.stackmenu.view.IStackMenuClicked;
  */
 public class UserPanel {
 
-    private final IResLocator rI;
-
     public UserPanel(final IResLocator rI, IUserPanelMenuFactory fPanel) {
-        this.rI = rI;
         IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
         IStackMenuClicked iClicked = new IStackMenuClicked() {
 

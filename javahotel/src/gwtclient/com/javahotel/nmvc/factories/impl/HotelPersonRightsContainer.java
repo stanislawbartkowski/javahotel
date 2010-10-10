@@ -57,6 +57,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
     private final IGridViewBoolean iView;
     private final GridViewFactory gFactory;
     private final List<String> cols;
+    private final DrawList dList;
 
     private void setColVal(int i, List<String> ro) {
         for (int row = 0; row < roles.size(); row++) {
@@ -130,7 +131,6 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         }
     }
 
-    private final DrawList dList;
 
     private boolean isPersons() {
         return daType.getrType() == RType.AllPersons;

@@ -52,7 +52,7 @@ public class UserPanelFactory implements IUserPanelMenuFactory {
         // return EPanelCommand.BOOKINGPANEL;
         // return EPanelCommand.BOOKING;
         // return EPanelCommand.PRICES;
-        return EPanelCommand.TESTBOOKINGELEM;
+        return EPanelCommand.TESTPANEL;
     }
 
     public Panel getMenuPanel() {
@@ -61,7 +61,9 @@ public class UserPanelFactory implements IUserPanelMenuFactory {
         hp.add(mp);
         MenuBar menu = CreateMenuCommand.createMenu(rI, new EPanelCommand[] {
                 EPanelCommand.BOOKINGPANEL, EPanelCommand.BOOKING,
-                EPanelCommand.PREPAID, EPanelCommand.ROOMSADMIN });
+                EPanelCommand.PREPAID, EPanelCommand.ROOMSADMIN, EPanelCommand.TESTBOOKING,
+                EPanelCommand.TESTBOOKINGELEM,EPanelCommand.TESTBOOKINGNEWELEM});
+        
         mp.addItem(Utils.getImageHTML(IImageGallery.DOWNMENU), true, menu);
         return hp;
     }
