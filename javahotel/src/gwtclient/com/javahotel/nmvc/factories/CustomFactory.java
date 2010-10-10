@@ -22,17 +22,20 @@ import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.VField;
 
 class CustomFactory implements IGetCustomValues {
-    
-    private Map<String,String> ma = new HashMap<String,String>();
-    
+
+    private Map<String, String> ma = new HashMap<String, String>();
+
     CustomFactory(IResLocator sI) {
-        ma.put(IGetCustomValues.IMAGEFOLDER,"img");
-        ma.put(IGetCustomValues.RESOURCEFOLDER,"res");
+        ma.put(IGetCustomValues.IMAGEFOLDER, "img");
+        ma.put(IGetCustomValues.RESOURCEFOLDER, "res");
         ma.put(IGetCustomValues.COMMERROR, sI.getLabels().commError());
         ma.put(IGetCustomValues.QUESTION, sI.getLabels().Question());
         ma.put(IGetCustomValues.LOGINBUTTON, sI.getLabels().LoginButton());
         ma.put(IGetCustomValues.LOGINMAME, sI.getLabels().LoginName());
-        ma.put(IGetCustomValues.PASSWORD, sI.getLabels().Password());        
+        ma.put(IGetCustomValues.PASSWORD, sI.getLabels().Password());
+        ma.put(IGetCustomValues.ADDBUTTON, sI.getLabels().DodajButton());
+        ma.put(IGetCustomValues.REMOVEBUTTON, sI.getLabels().UsunButton());
+        ma.put(IGetCustomValues.EMPTYFIELDERRORDEFAULT, sI.getLabels().EmptyField());
     }
 
     public IVField getSymForCombo() {

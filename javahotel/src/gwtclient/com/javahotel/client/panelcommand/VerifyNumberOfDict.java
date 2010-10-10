@@ -53,7 +53,7 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
         public void setResText(String s) {
             VerticalPanel hp = new VerticalPanel();
             for (int i = 0; i < dList.length; i++) {
-                String sl = sI.getLabels().DictList().get(dList[i].toString());
+                String sl = (String) sI.getLabels().DictList().get(dList[i]);
                 String fo = sI.getMessages().noDict(sl, numb[i]);
                 hp.add(new Label(fo));
             }
