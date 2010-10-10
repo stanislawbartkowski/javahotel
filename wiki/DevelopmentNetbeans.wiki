@@ -59,7 +59,8 @@ JavaBeans and install gwt4nb plugin.
 
 For all project create links to source as described in table above.
 
-== HotelCommon ==
+==HotelCommon==
+
 "Java class library" project.
 
 Type: Subproject
@@ -71,7 +72,7 @@ Type: deployable
 
 Subprojects: HotelCommon,  HotelEJBLogin
 
-Additional: should contain in 'claspath' appserv-rt.jar (jar taken from glassfish), as it uses specific glassfish security login option.
+Additional: should contain in 'classpath' appserv-rt.jar (jar taken from glassfish), as it uses specific glassfish security login option.
 
 == HotelEJBLogin ==
 
