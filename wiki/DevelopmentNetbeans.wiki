@@ -51,7 +51,7 @@ Package list:
 
 = Prerequisites =
 
-JavaBeans and install gwt4nb plugin.
+!JavaBeans and install *gwt4nb* plugin.
 
 
 = Projects =
@@ -63,6 +63,8 @@ For all project create links to source as described in table above.
 "Java class library" project.
 
 Type: Subproject
+
+Libraries: Java EE 6 Api Library
 
 == HotelEJB ==
 "JavaEE EJB Module" project
