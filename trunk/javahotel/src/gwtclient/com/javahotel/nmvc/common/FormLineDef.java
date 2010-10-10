@@ -110,7 +110,7 @@ public class FormLineDef implements IFormLineView {
 
     }
 
-    public void setStyleName(String styleMess, boolean set) {
+    public void setGStyleName(String styleMess, boolean set) {
         iField.setStyleName(styleMess, set);
 
     }

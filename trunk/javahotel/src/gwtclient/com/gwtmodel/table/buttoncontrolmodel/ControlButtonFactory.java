@@ -35,38 +35,45 @@ public class ControlButtonFactory {
     private ControlButtonDesc constructButt(StandClickEnum bType) {
         String imageName = ControlButtonImages.getImageName(bType);
         switch (bType) {
-            case ADDITEM:
-                return new ControlButtonDesc(imageName, "Dodaj", new ClickButtonType(
-                        ClickButtonType.StandClickEnum.ADDITEM));
-            case REMOVEITEM:
-                return new ControlButtonDesc(imageName, "Usuń",
-                        new ClickButtonType(
-                        ClickButtonType.StandClickEnum.REMOVEITEM));
-            case MODIFITEM:
-                return new ControlButtonDesc(imageName, "Popraw",
-                        new ClickButtonType(ClickButtonType.StandClickEnum.MODIFITEM));
-            case SHOWITEM:
-                return new ControlButtonDesc(imageName, "Zobacz",
-                        new ClickButtonType(ClickButtonType.StandClickEnum.SHOWITEM));
-            case ACCEPT:
-                return new ControlButtonDesc(imageName, "Akceptujesz",
-                        new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT));
-            case RESIGN:
-            case RESIGNLIST:
-                return new ControlButtonDesc(imageName, "Rezygnujesz", new ClickButtonType(bType));
-            case CHOOSELIST:
-                return new ControlButtonDesc(imageName, "Wybierasz",
-                        new ClickButtonType(
-                        ClickButtonType.StandClickEnum.CHOOSELIST));
+        case ADDITEM:
+            return new ControlButtonDesc(imageName,
+                    c.getCustomValue(IGetCustomValues.ADDBUTTON),
+                    new ClickButtonType(ClickButtonType.StandClickEnum.ADDITEM));
+        case REMOVEITEM:
+            return new ControlButtonDesc(imageName,
+                    c.getCustomValue(IGetCustomValues.REMOVEBUTTON),
+                    new ClickButtonType(
+                            ClickButtonType.StandClickEnum.REMOVEITEM));
+        case MODIFITEM:
+            return new ControlButtonDesc(imageName, "Popraw",
+                    new ClickButtonType(
+                            ClickButtonType.StandClickEnum.MODIFITEM));
+        case SHOWITEM:
+            return new ControlButtonDesc(
+                    imageName,
+                    "Zobacz",
+                    new ClickButtonType(ClickButtonType.StandClickEnum.SHOWITEM));
+        case ACCEPT:
+            return new ControlButtonDesc(imageName, "Akceptujesz",
+                    new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT));
+        case RESIGN:
+        case RESIGNLIST:
+            return new ControlButtonDesc(imageName, "Rezygnujesz",
+                    new ClickButtonType(bType));
+        case CHOOSELIST:
+            return new ControlButtonDesc(imageName, "Wybierasz",
+                    new ClickButtonType(
+                            ClickButtonType.StandClickEnum.CHOOSELIST));
 
-            default:
-                break;
+        default:
+            break;
         }
         return null;
     }
 
     public ControlButtonFactory() {
-        c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        c = GwtGiniInjector.getI().getTableFactoriesContainer()
+                .getGetCustomValues();
         dButton = new ArrayList<ControlButtonDesc>();
         dButton.add(constructButt(StandClickEnum.ADDITEM));
         dButton.add(constructButt(StandClickEnum.REMOVEITEM));
@@ -77,8 +84,8 @@ public class ControlButtonFactory {
         akcButton.add(constructButt(ClickButtonType.StandClickEnum.RESIGN));
 
         okButton = new ArrayList<ControlButtonDesc>();
-        okButton.add(new ControlButtonDesc(null, "OK",
-                new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
+        okButton.add(new ControlButtonDesc(null, "OK", new ClickButtonType(
+                ClickButtonType.StandClickEnum.ACCEPT)));
 
         removeButton = new ArrayList<ControlButtonDesc>();
         removeButton.add(new ControlButtonDesc(null, "Usuwasz",
@@ -86,7 +93,8 @@ public class ControlButtonFactory {
         removeButton.add(constructButt(ClickButtonType.StandClickEnum.RESIGN));
 
         chooseButton = new ArrayList<ControlButtonDesc>();
-        chooseButton.add(constructButt(ClickButtonType.StandClickEnum.CHOOSELIST));
+        chooseButton
+                .add(constructButt(ClickButtonType.StandClickEnum.CHOOSELIST));
         chooseButton.add(constructButt(StandClickEnum.RESIGNLIST));
 
         yesnoButton = new ArrayList<ControlButtonDesc>();
@@ -96,7 +104,8 @@ public class ControlButtonFactory {
                 ClickButtonType.StandClickEnum.RESIGN)));
 
         loginButton = new ArrayList<ControlButtonDesc>();
-        loginButton.add(new ControlButtonDesc(null, c.getCustomValue(IGetCustomValues.LOGINBUTTON),
+        loginButton.add(new ControlButtonDesc(null, c
+                .getCustomValue(IGetCustomValues.LOGINBUTTON),
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
 
         printButton = new ArrayList<ControlButtonDesc>();

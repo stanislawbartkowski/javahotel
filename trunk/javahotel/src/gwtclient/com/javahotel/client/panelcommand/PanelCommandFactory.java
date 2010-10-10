@@ -29,7 +29,7 @@ public class PanelCommandFactory {
     public static String getPanelCommandLabel(IResLocator sI,
             EPanelCommand command) {
         String key = "PANEL" + command.toString();
-        String val = sI.getLabels().PanelLabelNames().get(key);
+        String val = (String) sI.getLabels().PanelLabelNames().get(key);
         if (val == null) {
             return "???";
         }
@@ -106,7 +106,7 @@ public class PanelCommandFactory {
             i = new TestSeasonScrollPanelWidget(sI);
             break;
         case TESTBOOKINGELEM:
-            // i = new TestBookingElem(sI);
+            i = new TestBookingElem(sI);
             // i = new NewMvcPanel(sI,DictType.PriceListDict);
             // i = new NewMvcPanel(sI,DictType.RoomFacility);
             // i = new NewMvcPanel(sI,DictType.RoomStandard);
@@ -115,7 +115,7 @@ public class PanelCommandFactory {
             // i = new NewMvcPanel(sI,DictType.CustomerList);
             // i = new NewMvcPanel(sI,RType.AllPersons);
             // i = new NewMvcPanel(sI, RType.AllHotels);
-            i = new NewMvcPanel(sI, DictType.BookingList);
+            // i = new NewMvcPanel(sI, DictType.BookingList);
             break;
         }
         if (i == null) {

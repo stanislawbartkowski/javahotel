@@ -16,7 +16,7 @@ import com.google.gwt.i18n.client.Constants;
 import java.util.Map;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public interface HoLabel extends Constants {
@@ -54,14 +54,20 @@ public interface HoLabel extends Constants {
     String LogoutQuestion();
 
     Map<String, String> DictList();
-    
+
     String Wersja();
-    
+
     String Question();
-    
+
     String LoginButton();
-    
+
     String LoginName();
-    
+
     String Password();
+
+    String DodajButton();
+
+    String UsunButton();
+    
+    String EmptyField();
 }

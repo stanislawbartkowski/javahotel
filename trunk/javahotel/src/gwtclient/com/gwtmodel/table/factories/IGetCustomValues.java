@@ -17,6 +17,7 @@ import com.gwtmodel.table.IVField;
 public interface IGetCustomValues {
 
     IVField getSymForCombo();
+
     String IMAGEFORLISTHELP = "IMAGEFORLISTHEP";
     String IMAGEFOLDER = "IMAGEFOLDER";
     String RESOURCEFOLDER = "RESOURCEFOLDER";
@@ -35,6 +36,8 @@ public interface IGetCustomValues {
     String LOGINMAME = "LOGINNAME";
     String PASSWORD = "PASSWORD";
     String LOGINBUTTON = "LOGINBUTTON";
+    String ADDBUTTON = "ADDBUTTON";
+    String REMOVEBUTTON = "REMOVEBUTTON";
     String EMPTYFIELDERRORDEFAULT = "EMPTYFIELDERRORDEFAULT";
 
     String getCustomValue(String key);
