@@ -15,6 +15,7 @@ package com.javahotel.client.panelcommand;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
+import com.javahotel.nmvc.common.AddType;
 import com.javahotel.nmvc.controler.DataControlerEnum;
 
 /**
@@ -69,35 +70,35 @@ public class PanelCommandFactory {
             i = new PrePaid(sI);
             break;
         case ROOMS:
-            i = new NewMvcPanel(sI,DictType.RoomObjects);
+            i = new NewMvcPanel(sI, DictType.RoomObjects);
             // i = new DictPanelCommand(sI, DictType.RoomObjects);
             break;
         case SERVICES:
-            i = new NewMvcPanel(sI,DictType.ServiceDict);
+            i = new NewMvcPanel(sI, DictType.ServiceDict);
             // i = new DictPanelCommand(sI, DictType.ServiceDict);
             break;
         case VAT:
-            i = new NewMvcPanel(sI,DictType.VatDict);
+            i = new NewMvcPanel(sI, DictType.VatDict);
             // i = new DictPanelCommand(sI, DictType.VatDict);
             break;
         case CUSTOMERS:
             // i = new DictPanelCommand(sI, DictType.CustomerList);
-            i = new NewMvcPanel(sI,DictType.CustomerList);
+            i = new NewMvcPanel(sI, DictType.CustomerList);
             break;
         case SEASON:
             i = new DictPanelCommand(sI, DictType.OffSeasonDict);
             break;
         case PRICES:
             // i = new DictPanelCommand(sI, DictType.PriceListDict);
-            i= new NewMvcPanel(sI,DictType.PriceListDict);
+            i = new NewMvcPanel(sI, DictType.PriceListDict);
             break;
         case STANDARD:
-            i = new NewMvcPanel(sI,DictType.RoomStandard);
-            //i = new DictPanelCommand(sI, DictType.RoomStandard);
+            i = new NewMvcPanel(sI, DictType.RoomStandard);
+            // i = new DictPanelCommand(sI, DictType.RoomStandard);
             break;
         case FACILITY:
-            i = new NewMvcPanel(sI,DictType.RoomFacility);
-            //i = new DictPanelCommand(sI, DictType.RoomFacility);
+            i = new NewMvcPanel(sI, DictType.RoomFacility);
+            // i = new DictPanelCommand(sI, DictType.RoomFacility);
             break;
         case TESTSCROLLSEASON:
             i = new TestSeasonScrollPanel(sI);
@@ -117,7 +118,20 @@ public class PanelCommandFactory {
             // i = new NewMvcPanel(sI, RType.AllHotels);
             // i = new NewMvcPanel(sI, DictType.BookingList);
             break;
+        case TESTBOOKING:
+            i = new NewMvcPanel(sI, DictType.BookingList);
+            break;
+
+        case TESTBOOKINGNEWELEM:
+            i = new NewTestBookingElem(sI);
+            break;
+
+        case TESTPANEL:
+            i = new TestBookingElem(sI);
+            break;
+
         }
+
         if (i == null) {
             return null;
         }

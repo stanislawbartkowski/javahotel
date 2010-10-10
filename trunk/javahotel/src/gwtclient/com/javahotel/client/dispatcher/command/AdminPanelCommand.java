@@ -25,19 +25,18 @@ import com.javahotel.client.dispatcher.UICommand;
  * @author stanislawbartkowski@gmail.com
  */
 public class AdminPanelCommand extends UICommand {
-    
+
     private final IUserPanelMenuFactory iFactory;
-    
+
     @Inject
-	public AdminPanelCommand(final IResLocator i,
-	        @Named("AdminPanelFactory") IUserPanelMenuFactory iFactory) {
-		super(i, EnumDialog.ADMINPANEL);
-		this.iFactory = iFactory;
-	}
+    public AdminPanelCommand(final IResLocator i,
+            @Named("AdminPanelFactory") IUserPanelMenuFactory iFactory) {
+        super(i, EnumDialog.ADMINPANEL);
+        this.iFactory = iFactory;
+    }
 
-	public void execute() {
-//		IUserPanelMenuFactory iFa = AdminPanelFactory.getFactory();
-		new UserPanel(rI, iFactory);
+    public void execute() {
+        new UserPanel(rI, iFactory);
 
-	}
+    }
 }

@@ -126,7 +126,6 @@ class CheckStandardContainer extends AbstractSlotContainer {
                 .getCheckDictModelFactory();
         getDataList = new GetDataList();
         iCheck = cFactory.construct(getDataList);
-        // dType = new DataType(DictType.RoomFacility);
         registerSubscriber(DataActionEnum.DrawViewFormAction, cType,
                 new DrawModel());
         registerSubscriber(DataActionEnum.ChangeViewFormModeAction, cType,

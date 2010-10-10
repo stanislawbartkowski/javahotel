@@ -44,6 +44,7 @@ import com.javahotel.nmvc.common.VModelData;
 import com.javahotel.nmvc.factories.FormDefFactory;
 import com.javahotel.nmvc.factories.booking.BookingCustomerContainer;
 import com.javahotel.nmvc.factories.booking.BookingElemContainer;
+import com.javahotel.nmvc.factories.booking.BookingHeaderContainer;
 import com.javahotel.nmvc.factories.impl.CustomerAddInfo;
 import com.javahotel.nmvc.factories.impl.HotelPersonRightsContainer;
 import com.javahotel.nmvc.factories.impl.PriceListContainer;
@@ -134,6 +135,13 @@ public class GetViewFactory implements IGetViewControllerFactory {
                 break;
             }
         }
+        if (dd.isAddType()) {
+            switch (dd.getAddType()) {
+                case BookElem:
+                    cContainer = new BookingElemContainer(dd);
+                    break;
+            }
+        }
         if (dd.isDictType()) {
             switch (dd.getdType()) {
             case CustomerList:
@@ -152,7 +160,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
                 break;
             case BookingList:
                 cContainer = new BookingCustomerContainer(subType);
-                cContainer1 = new BookingElemContainer(sub1Type);
+                cContainer1 = new BookingHeaderContainer(sub1Type);
                 break;
             }
         }

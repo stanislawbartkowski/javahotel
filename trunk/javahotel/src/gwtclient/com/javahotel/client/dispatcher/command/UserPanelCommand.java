@@ -36,8 +36,6 @@ public class UserPanelCommand extends UICommand {
     }
 
     public void execute() {
-
-        // IUserPanelMenuFactory iFa = UserPanelFactory.getFactory();
         new UserPanel(rI, iFactory);
     }
 }

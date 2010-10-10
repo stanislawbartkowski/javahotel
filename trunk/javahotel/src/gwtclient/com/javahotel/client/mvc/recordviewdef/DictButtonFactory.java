@@ -41,10 +41,10 @@ public class DictButtonFactory {
         this.rI = rI;
 
         dButton = new ArrayList<ContrButton>();
-        dButton.add(new ContrButton("New", "Dodaj", IPersistAction.ADDACION));
-        dButton.add(new ContrButton("DeleteRed", "Usuń",
+        dButton.add(new ContrButton("AddItem", "Dodaj", IPersistAction.ADDACION));
+        dButton.add(new ContrButton("RemoveItem", "Usuń",
                 IPersistAction.DELACTION));
-        dButton.add(new ContrButton("DataViewerMin", "Popraw",
+        dButton.add(new ContrButton("ModifItem", "Popraw",
                 IPersistAction.MODIFACTION));
 
         akcButton = new ArrayList<ContrButton>();

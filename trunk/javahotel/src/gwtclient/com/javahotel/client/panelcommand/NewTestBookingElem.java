@@ -19,42 +19,18 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
 import com.javahotel.client.dialog.ISetGwtWidget;
-import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.RType;
 import com.javahotel.nmvc.common.AddType;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.controler.DataControlerEnum;
 import com.javahotel.nmvc.controler.DataControlerFactory;
 
-class NewMvcPanel extends AbstractPanelCommand {
+class NewTestBookingElem extends AbstractPanelCommand {
 
-    private ISetGwtWidget iS;
     private final IResLocator rI;
-    private final DataType da;
-    private final DataControlerEnum eNum;
+    private ISetGwtWidget iS;
 
-    NewMvcPanel(IResLocator rI, DictType da) {
+    NewTestBookingElem(IResLocator rI) {
         this.rI = rI;
-        this.da = new DataType(da);
-        eNum = DataControlerEnum.DisplayList;
-    }
-    
-    NewMvcPanel(IResLocator rI, AddType da) {
-        this.rI = rI;
-        this.da = new DataType(da);
-        eNum = DataControlerEnum.DisplayList;
-    }
-
-    NewMvcPanel(IResLocator rI, RType rType) {
-        this.rI = rI;
-        this.da = new DataType(rType);
-        eNum = DataControlerEnum.DisplayList;
-    }
-
-    NewMvcPanel(IResLocator rI, DataControlerEnum eNum) {
-        this.rI = rI;
-        this.da = null;
-        this.eNum = eNum;
     }
 
     private class SetGwt implements ISlotSignaller {
@@ -67,15 +43,18 @@ class NewMvcPanel extends AbstractPanelCommand {
     }
 
     public void beforeDrawAction(ISetGwtWidget iSet) {
-        iS = iSet;
+        this.iS = iSet;
         ISlotable iControler = DataControlerFactory.constructDataControler(rI,
-                eNum, da, new CellId(0));
+                DataControlerEnum.DisplayList, new DataType(AddType.BookElem),
+                new CellId(0));
         iControler.getSlContainer().registerSubscriber(0, new SetGwt());
         iControler.startPublish(null);
 
     }
 
     public void drawAction() {
+        // TODO Auto-generated method stub
+
     }
 
 }

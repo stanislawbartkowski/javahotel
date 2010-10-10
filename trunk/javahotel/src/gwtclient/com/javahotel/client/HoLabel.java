@@ -68,6 +68,10 @@ public interface HoLabel extends Constants {
     String DodajButton();
 
     String UsunButton();
-    
+
     String EmptyField();
+
+    String ModifItem();
+
+    String ShowItem();
 }
