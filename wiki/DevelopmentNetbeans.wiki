@@ -7,7 +7,6 @@ NetBeans (unlike Eclipse) does not allow the same source directory to be used in
 <wiki:toc max_depth="4" />
 
 
-
 = Projects description =
 Below is a short package description and relation matrix between packages and different software deployment units.
 
@@ -59,7 +58,7 @@ JavaBeans and install gwt4nb plugin.
 
 For all project create links to source as described in table above.
 
-==HotelCommon==
+==!HotelCommon==
 
 "Java class library" project.
 
@@ -91,7 +90,7 @@ Subproject: HotelCommon, HotelEJBLogin, HotelLoginHelper (package column checked
 
 Additonal: JUnit4
 
-== HotelLoginHelper ==
+== !HotelLoginHelper ==
 
 "Java class library" project
 
@@ -99,7 +98,7 @@ Type: subproject
 
 Subproject: HotelCommon
 
-== HotelWeb ==
+== !HotelWeb ==
 
 "Java Web" - "WebApplication"
 
@@ -113,7 +112,7 @@ Add two jars from javahotel/resource/gwtwar/modules (package column unchecked)
 
 Add also Junit3 (package column unchecked)
 
-== WebHotelHelper ==
+== !WebHotelHelper ==
 
 "Java class library" project
 
