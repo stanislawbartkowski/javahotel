@@ -131,28 +131,6 @@ class ExtendTextBox extends AbstractField {
         setMouse();
     }
 
-//    protected ExtendTextBox(ITableCustomFactories tFactories, final boolean password,
-//            boolean checkEnable, boolean isArea, String fName) {
-//        super(tFactories, checkEnable);
-//        this.isArea = isArea;
-//        if (password) {
-//            tBox = new PasswordTextBox();
-//        } else {
-//            tBox = isArea ? new TextArea() : new TextBox();
-//        }
-//        if (fName != null) {
-//            tBox.setName(fName);
-//        }
-//        check = new CheckBox("Auto");
-//        check.setChecked(checkEnable);
-//        check.addClickListener(new ChangeC());
-//        hPanel.add(check);
-//        hPanel.add(tBox);
-//        changeS();
-//        initWidget(hPanel);
-//        setMouse();
-//    }
-
     private void changeS() {
         if (check.isChecked()) {
             tBox.setEnabled(false);

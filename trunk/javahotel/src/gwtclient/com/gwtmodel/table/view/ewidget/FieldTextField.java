@@ -22,6 +22,5 @@ class FieldTextField {
 
     FieldTextField(ITableCustomFactories tFactories, boolean password, 
             boolean isArea, String fName,int x) {
-//        super(tFactories, password, isArea, fName);
     }
 }

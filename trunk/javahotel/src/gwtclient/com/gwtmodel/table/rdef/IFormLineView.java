@@ -37,7 +37,7 @@ public interface IFormLineView extends IGWidget {
     
     void setInvalidMess(String errmess);
     
-    void setStyleName(String styleMess, boolean set);
+    void setGStyleName(String styleMess, boolean set);
     
     void setOnTouch(ITouchListener lTouch);
     

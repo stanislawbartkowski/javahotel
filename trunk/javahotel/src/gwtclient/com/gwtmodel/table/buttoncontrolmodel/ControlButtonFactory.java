@@ -30,6 +30,7 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> yesnoButton;
     private final List<ControlButtonDesc> loginButton;
     private final List<ControlButtonDesc> printButton;
+    private final IGetCustomValues c;
 
     private ControlButtonDesc constructButt(StandClickEnum bType) {
         String imageName = ControlButtonImages.getImageName(bType);
@@ -63,7 +64,6 @@ public class ControlButtonFactory {
         }
         return null;
     }
-    private final IGetCustomValues c;
 
     public ControlButtonFactory() {
         c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();

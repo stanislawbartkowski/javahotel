@@ -70,7 +70,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         return ((val == null) || val.equals(""));
     }
 
-    public void setStyleName(final String sName, final boolean set) {
+    public void setGStyleName(final String sName, final boolean set) {
         if (set) {
             getGWidget().setStyleName(sName);
         } else {

@@ -16,21 +16,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
 
 class ErrorLineContainer {
 
+    private final IGetCustomValues c;
     private List<FormField> el = new ArrayList<FormField>();
+
+    ErrorLineContainer() {
+        c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+    }
 
     void initErr() {
         el.clear();
     }
 
     void setEMess(FormField re, InvalidateMess m) {
-        re.getELine().setStyleName("dialog-empty-field", true);
+        re.getELine().setGStyleName("dialog-empty-field", true);
         String e;
         if (m.isEmpty()) {
-            e = "Pole nie może być puste !";
+            e = c.getCustomValue(IGetCustomValues.EMPTYFIELDERRORDEFAULT);
         } else {
             e = m.getErrmess();
         }
@@ -40,7 +47,7 @@ class ErrorLineContainer {
 
     void clearE() {
         for (FormField re : el) {
-            re.getELine().setStyleName("dialog-empty-field", false);
+            re.getELine().setGStyleName("dialog-empty-field", false);
             re.getELine().setInvalidMess(null);
         }
         initErr();
