@@ -4,7 +4,7 @@ Package description, instruction how to create development environment in NetBea
 
 NetBeans (unlike Eclipse) does not allow the same source directory to be used in different projects. So some addtional project should be created and being shared between main projects.
 
-<wiki:toc max_depth="3*" />
+<wiki:toc max_depth="4" />
 
 
 
