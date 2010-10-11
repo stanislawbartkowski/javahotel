@@ -75,7 +75,7 @@ Subprojects: HotelCommon,  HotelEJBLogin
 
 Additional: should contain in 'classpath' appserv-rt.jar (jar taken from glassfish), as it uses specific glassfish security login option.
 
-hotelglassfish login should be included only if deploying to glassfish server is planned
+Warning: hotelglassfish login should be included only if deploying to glassfish server is planned
 
 == HotelEJBLogin ==
 
