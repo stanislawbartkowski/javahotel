@@ -37,7 +37,7 @@ Package list:
 ||hoteldbutil||com.javahotel.dbutil||Some common util for db (DAO) beans||X|| || || || || || ||
 ||hoteldbjpa||com.javahotel.dbjpa||Some common classes and packages for JPA handling, also facade for JPA interface|| ||X|| || || || || ||
 ||hoteltomcatlogin||com.javahotel.security.tomcat.login||Implementation of admin log-in, user and password taken from xml file|| ||X|| || || || || ||
-||hotelglassfishlogin||com.javahotel.security.glassfish.login||Implementation of admin login using glassfish JAAS|| ||X (only if deploying to glassfish server is planned)|| || || || || ||
+||hotelglassfishlogin||com.javahotel.security.glassfish.login||Implementation of admin login using glassfish JAAS|| ||X || || || || || ||
 ||hoteljpa||com.javahotel.db||"Business rules", main DAO (server part) implementation|| ||X|| || || || || ||
 ||resources/gwtwar|| ||Some files to copy to eclipse gae war project|| || || || || || || ||
 ||resources/gwtwartest|| ||Some files to copy to eclipse gaetest war project|| || || || || || || ||
@@ -74,6 +74,8 @@ Type: deployable
 Subprojects: HotelCommon,  HotelEJBLogin
 
 Additional: should contain in 'classpath' appserv-rt.jar (jar taken from glassfish), as it uses specific glassfish security login option.
+
+hotelglassfish login should be included only if deploying to glassfish server is planned
 
 == HotelEJBLogin ==
 
