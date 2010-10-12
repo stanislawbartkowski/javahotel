@@ -85,7 +85,7 @@ Type: subproject
 
 Subproject: HotelCommon
 
-== HotelEJBTest ==
+== !HotelEJBTest ==
 "Java class library" project
 
 Type: runnable
@@ -95,6 +95,8 @@ Subproject: HotelCommon, HotelEJBLogin, HotelLoginHelper (package column checked
 Additonal: JUnit4
 
 Important: source file add as test package.
+
+Also you have to add {home glassfish}/glassfish/modules/gf-client.jar jar to the library jar path.
 
 == !HotelLoginHelper ==
 
