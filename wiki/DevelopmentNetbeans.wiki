@@ -94,6 +94,8 @@ Subproject: HotelCommon, HotelEJBLogin, HotelLoginHelper (package column checked
 
 Additonal: JUnit4
 
+Important: source file add as test package.
+
 == !HotelLoginHelper ==
 
 "Java class library" project
