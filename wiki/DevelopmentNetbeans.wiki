@@ -73,7 +73,9 @@ Type: deployable
 
 Subprojects: HotelCommon,  HotelEJBLogin
 
-Additional: should contain in 'classpath' appserv-rt.jar (jar taken from glassfish), as it uses specific glassfish security login option.
+Important: directory to compiled class should be linked because of well known problem with classloader - does not read interfaces from WEB-INF/lib libraries.
+
+Additional: should contain in 'classpath' security.jar (jar taken from glassfish), as it uses specific glassfish security login option.
 
 Warning: hotelglassfishlogin source path should be included only if deploying to glassfish server is planned
 
