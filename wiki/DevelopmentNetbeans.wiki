@@ -167,6 +167,8 @@ Following field mapping should be created:
   
  * Group Name Column: GROUPNAME
 
+ * Digest Algorithm: none  (will be changed later)
+
 
 == Database ==
 
