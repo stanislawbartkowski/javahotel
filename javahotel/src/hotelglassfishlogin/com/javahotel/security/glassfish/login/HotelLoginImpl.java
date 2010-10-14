@@ -17,7 +17,8 @@ import com.javahotel.security.login.HotelLoginConsts;
 import com.javahotel.security.login.IHotelLoginJDBC;
 import com.javahotel.security.login.HotelLoginP;
 import com.javahotel.security.login.IHotelLogin;
-import com.sun.enterprise.security.auth.login.PasswordCredential;
+//import com.sun.enterprise.security.auth.login.PasswordCredential;
+import com.sun.enterprise.security.auth.login.common.PasswordCredential;
 import java.util.Map;
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
@@ -34,6 +35,7 @@ public class HotelLoginImpl implements IHotelLogin {
         try {
             LoginContext lc;
             Subject su = new Subject();
+//            AppservPasswordLoginModule pa = null;
             PasswordCredential pa = new PasswordCredential(puser,
                     ppassword.getPassword(), rea);
             su.getPrivateCredentials().add(pa);

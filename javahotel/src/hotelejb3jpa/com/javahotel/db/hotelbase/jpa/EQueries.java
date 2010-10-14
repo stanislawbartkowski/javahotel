@@ -46,6 +46,7 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name = "getVatDict", query = "SELECT Object(o) FROM VatDictionary o WHERE o.hotel.name = :hotel"),
 @NamedQuery(name = "getListFacilities", query = "SELECT Object(o) FROM RoomFacilities o WHERE o.hotel.name = :hotel"),
 @NamedQuery(name = "getListServices", query = "SELECT Object(o) FROM ServiceDictionary o WHERE o.hotel.name = :hotel"),
+@NamedQuery(name = "getRegistryParams", query = "SELECT Object(o) FROM ParamRegistry o WHERE o.hotel.name = :hotel"),
 @NamedQuery(name = "getRoomObjects", query = "SELECT Object(o) FROM ResObject o WHERE o.hotel.name = :hotel")
 })
 @Entity

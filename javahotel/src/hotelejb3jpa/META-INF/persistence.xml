@@ -49,6 +49,7 @@
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="openjpa.MetaDataFactory" value="jpa(ClasspathScan=build;lib.jar)"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>
