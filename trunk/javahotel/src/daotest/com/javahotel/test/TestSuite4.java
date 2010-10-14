@@ -111,7 +111,7 @@ public class TestSuite4 extends TestHelper {
         }
     }
 
-   @Test
+    @Test
     public void Test4() throws Exception {
         System.out.println("Simple login");
         clearAll();
