@@ -69,7 +69,12 @@ public class GetQueries {
             case BookingList:
                 qName = "getBookingList";
                 break;
+            case RegistryParam:
+                qName = "getRegistryParams";
+                break;
+
         }
+        assert qName != null : d.toString() + " unrecognized for that registry type";
         List<IId> c = iC.getJpa().getNamedQuery(qName, "hotel",
                 iC.getHotel());
         return c;
