@@ -191,6 +191,9 @@ Two JDBC datasource should be created:
 
  * jdbc/securityhotel : contains users and password
  * jdbc/datahoteldb2 : database (if DB2 is used)
+ * jdbc/datadbtest : database (if derby is used)
+
+Warning: it is not good idea to utilize existing derbypools. While creating new derby database, data pool and data resource remember to remove 'SecurityMechanism" from 'AdvancedProperty'.
 
 ==Derby database - run as client ==
 
