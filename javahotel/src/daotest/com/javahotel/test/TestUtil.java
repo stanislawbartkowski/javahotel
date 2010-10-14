@@ -31,12 +31,12 @@ import com.javahotel.remoteinterfaces.SessionT;
  * @author stanislawbartkowski@gmail.com
  */
 class TestUtil {
-	// private static final HotelServerType t = HotelServerType.GLASSFISH;
-	private static final HotelServerType t = HotelServerType.APPENGINE;
+        private static final HotelServerType t = HotelServerType.GLASSFISH;
+//	private static final HotelServerType t = HotelServerType.APPENGINE;
 //	private static final HotelServerType t = HotelServerType.JBOSS;
 //	private static final HotelServerType t = HotelServerType.TOMCAT;
 	private static final boolean remote = true;
-	private static String LOCALBEANGLASS = "securityTestEJB";
+//	private static String LOCALBEANGLASS = "securityTestEJB";
 
 	private static String getPort() {
 		switch (t) {
@@ -45,7 +45,7 @@ class TestUtil {
 			// return "8080";
 			// case GLASSFISH: return "13385";
 		case GLASSFISH:
-			return "3763";
+			return "3700";
 		case JBOSS:
 			return "1099";
 		}

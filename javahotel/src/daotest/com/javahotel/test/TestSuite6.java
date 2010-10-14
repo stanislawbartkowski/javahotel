@@ -180,7 +180,7 @@ public class TestSuite6 extends TestHelper {
         }
     }
 
-    @Test
+   @Test
     public void Test5() throws Exception {
         System.out.println("Service dictionary");
         loginuser();

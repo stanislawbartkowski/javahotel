@@ -55,7 +55,7 @@ import org.junit.runners.Suite;
         TestSuite31.class,
         TestSuite32.class
 })
-//)
-//@Suite.SuiteClasses({TestSuite6.class})
+
+//@Suite.SuiteClasses({TestSuite7.class})
 public class RunSuite {
 }
