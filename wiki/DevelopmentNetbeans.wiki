@@ -53,6 +53,15 @@ Package list:
 
 !JavaBeans and install *gwt4nb* plugin.
 
+GWT application also uses two additional packages:
+
+http://code.google.com/p/google-gin/
+
+and
+
+Google Chart Tools (aka Visualization) Library 1.1
+[http://code.google.com/intl/pl-PL/webtoolkit/googleapilibraries.html]
+
 
 = Projects =
 
@@ -121,6 +130,8 @@ Subprojects: HotelCommon, HotelLoginHelper, WebHotelHelper (package column check
 Add two jars from javahotel/resource/gwtwar/modules (package column unchecked)
 
 Add also Junit3 (package column unchecked)
+
+Add also as subprojects: gwt-gin and gwt-visualization. Package column unchecked, they are used only during compilation.
 
 == !WebHotelHelper ==
 
