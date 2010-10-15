@@ -144,6 +144,8 @@ Type: subproject
 
 Subprojects: HotelLoginHelper, HotelCommon
 
+Warning: left source in destination jar (look HotelCommon project)
+
 = Set up Glassfish application server =
 
 == Admin and users for EJB unit tests ==
