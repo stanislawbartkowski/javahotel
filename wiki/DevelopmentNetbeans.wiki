@@ -75,6 +75,9 @@ Type: Subproject
 
 Libraries: Java EE 6 Api Library
 
+Important: it is necessary to keep in jar java sources only. Sources are shared between server and client (GWT) application.
+Properties - Build - Packaging - Exclude from jar file (remove *.java filter)
+
 == HotelEJB ==
 "JavaEE EJB Module" project
 
