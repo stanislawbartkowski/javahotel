@@ -169,7 +169,7 @@ Two realms should be created: *HotelAdmin* and *HotelUsers*
 *HotelAdmin* could be defined "FileRealm" (or any other) and should contain (mandatory) user: *admindb* (with password *passworddb*) belonging to the group *admin*. This user is used at the beginning to set up database and is not allowed to do anything else.
 Also at least one additional user should be added (belonging to the group *admin*). This user can login to the system as 'Administrator'
 
-*HotelUsers* should be define as JDBCRealsm and have JNDI name: jdbc/datahotel
+*HotelUsers* should be define as JDBCRealsm and have JNDI name: jdbc/securityhotel
 
 Following field mapping should be created:
 
