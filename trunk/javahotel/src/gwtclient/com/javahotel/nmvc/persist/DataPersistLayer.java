@@ -107,6 +107,13 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
     }
 
+    private void sendSignal(PersistTypeEnum persistTypeEnum) {
+            rI.getR().invalidateCache(RType.AllHotels, RType.AllPersons,
+                    RType.PersonHotelRoles);
+            publish(DataActionEnum.PersistDataSuccessSignal, dType,
+                    persistTypeEnum);
+    }
+
     private class PersisRoles extends CommonCallBackNo {
 
         private final PersistTypeEnum persistTypeEnum;
@@ -118,10 +125,11 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
         @Override
         protected void go() {
-            rI.getR().invalidateCache(RType.AllHotels, RType.AllPersons,
-                    RType.PersonHotelRoles);
-            publish(DataActionEnum.PersistDataSuccessSignal, dType,
-                    persistTypeEnum);
+//            rI.getR().invalidateCache(RType.AllHotels, RType.AllPersons,
+//                    RType.PersonHotelRoles);
+//            publish(DataActionEnum.PersistDataSuccessSignal, dType,
+//                    persistTypeEnum);
+            sendSignal(persistTypeEnum);
         }
 
     }
@@ -136,7 +144,13 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             this.roles = roles;
         }
 
+        @Override
         public void success() {
+            if (roles.getLi().isEmpty()) {
+//                rol.go();
+                sendSignal(persistTypeEnum);
+                return;
+            }
             PersisRoles rol = new PersisRoles(roles.getLi().size(),
                     persistTypeEnum);
             for (AccessRoles.PersonHotelRoles pe : roles.getLi()) {

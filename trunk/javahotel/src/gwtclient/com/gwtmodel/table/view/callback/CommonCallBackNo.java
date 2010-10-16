@@ -28,7 +28,7 @@ public abstract class CommonCallBackNo<T> extends CommonCallBack<T> {
     @Override
     public void onMySuccess(final T arg) {
         ano++;
-        if (ano == no) {
+        if (ano >= no) {
             go();
         }
     }

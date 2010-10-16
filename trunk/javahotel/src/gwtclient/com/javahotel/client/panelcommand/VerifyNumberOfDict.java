@@ -44,28 +44,29 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
     private final int numb[];
     private final String pageName;
 
+    @Override
     public IMvcWidget getWestWidget() {
         return null;
     }
-    
+
     private class SetRes implements ISetResText {
 
+        @Override
         public void setResText(String s) {
             VerticalPanel hp = new VerticalPanel();
             for (int i = 0; i < dList.length; i++) {
-                String sl = (String) sI.getLabels().DictList().get(dList[i]);
+                String d = dList[i].toString();
+                String sl = sI.getLabels().DictList().get(d);
                 String fo = sI.getMessages().noDict(sl, numb[i]);
                 hp.add(new Label(fo));
             }
             HTML ha = new HTML(s);
             hp.add(ha);
             iSet.setGwtWidget(new DefaultMvcWidget(hp));
-            
         }
-        
     }
 
-   class BackHo extends CommonCallBack<List<ReturnPersist>> {
+    class BackHo extends CommonCallBack<List<ReturnPersist>> {
 
         @Override
         public void onMySuccess(List<ReturnPersist> li) {
@@ -95,10 +96,12 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
         this.pageName = pageName;
     }
 
+    @Override
     public void setIPanelCommand(IPanelCommand i) {
         iPanel = i;
     }
 
+    @Override
     public void beforeDrawAction(ISetGwtWidget iSet) {
         this.iSet = iSet;
         List<CommandParam> co = new ArrayList<CommandParam>();
@@ -112,6 +115,7 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
         GWTGetService.getService().hotelOpRet(co, new BackHo());
     }
 
+    @Override
     public void drawAction() {
         if (!errorTe) {
             iPanel.drawAction();

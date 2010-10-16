@@ -13,11 +13,12 @@
         <servlet-name>GWTService</servlet-name>
         <url-pattern>/com.javahotel.web/gwtservice</url-pattern>
     </servlet-mapping>
-    
+
+<!--
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/classes/logging.properties" />
     </system-properties>
-    
+-->
     
     <welcome-file-list>
         <welcome-file>welcomeGWT.html</welcome-file>

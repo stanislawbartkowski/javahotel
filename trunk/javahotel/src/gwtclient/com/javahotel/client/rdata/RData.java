@@ -98,6 +98,7 @@ public class RData {
             }
         }
 
+        @Override
         public void getResData(final ReadResParam pa, final IReadResCallBack col) {
             CommandParam co = getHotelCommandParam();
             co.setDateFrom(pa.getPe().getFrom());
@@ -132,6 +133,7 @@ public class RData {
             this.i = i;
         }
 
+        @Override
         public void onMySuccess(List<AbstractTo> v) {
             re.col = v;
             ca.putData(re);
@@ -149,6 +151,7 @@ public class RData {
             this.i = i;
         }
 
+        @Override
         public void onMySuccess(AbstractTo a) {
             List<AbstractTo> v = new ArrayList<AbstractTo>();
             v.add(a);

@@ -22,6 +22,7 @@ import com.javahotel.common.toobject.PersonP;
 
 public class PersistPerson extends APersonHotelPersist {
 
+    @Override
     public void persist(PersistTypeEnum persistTypeEnum, IVModelData mData,
              ISuccess iRes) {
         LoginData lo = (LoginData) mData;

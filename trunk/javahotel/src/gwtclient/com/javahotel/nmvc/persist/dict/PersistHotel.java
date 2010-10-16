@@ -21,6 +21,7 @@ import com.javahotel.nmvc.common.VModelData;
 
 public class PersistHotel extends APersonHotelPersist {
     
+    @Override
     public void persist(PersistTypeEnum persistTypeEnum, IVModelData mData,
             ISuccess iRes) {
         VModelData m = (VModelData) mData;

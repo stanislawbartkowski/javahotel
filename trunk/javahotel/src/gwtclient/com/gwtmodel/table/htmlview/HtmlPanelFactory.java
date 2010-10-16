@@ -55,6 +55,7 @@ public class HtmlPanelFactory {
             this.hList = hList;
         }
 
+        @Override
         public void setResText(String s) {
             HTMLPanel ha = new HTMLPanel(s);
             if (hList != null) {

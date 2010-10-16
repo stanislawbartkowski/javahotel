@@ -42,6 +42,7 @@ public class ListOfServices {
 
     private class GetS implements IOneList<RoomStandardP> {
 
+        @Override
         public void doOne(final RoomStandardP p) {
             i.doVList(CollToArray.toA(p.getServices()));
         }
