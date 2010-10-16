@@ -46,9 +46,9 @@ import com.javahotel.remoteinterfaces.SessionT;
 public class HotelHelper {
 
 	private static final IList iL;
-	// private static final HotelServerType t = HotelServerType.GLASSFISH;
+	private static final HotelServerType t = HotelServerType.GLASSFISH;
 	// private static final HotelServerType t = HotelServerType.JBOSS;
-	private static final HotelServerType t = HotelServerType.APPENGINE;
+	// private static final HotelServerType t = HotelServerType.APPENGINE;
 	// private static final HotelServerType t = HotelServerType.TOMCAT;
 	private static ISecurity sec;
 	private static IAuthentication aut;
@@ -65,7 +65,8 @@ public class HotelHelper {
 			return "8084";
 			// return "8080";
 		case GLASSFISH:
-			return "3763";
+//			return "3763";
+			return "3700";
 		case JBOSS:
 			return "1099";
 

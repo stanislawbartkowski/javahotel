@@ -52,120 +52,128 @@ import com.javahotel.security.login.IHotelLoginJDBC;
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class SecurityImpl implements ISecurity, ISecurityLocal {
 
-	@EJB
-	private IStart w;
-	private IHotelLogin lo;
-	
-	public void setIStart(IStart w) {
-		this.w = w;
-	}
+    @EJB
+    private IStart w;
+    private IHotelLogin lo;
 
-	@PostConstruct
-	public void init() {
-		w.start();
-		IHotelLoginJDBC i = new AuthLoginUser();
-		lo = HotelLoginFactory.getHotelLogin();
-		lo.setLoginJDBC(i);
-	}
+    public void setIStart(IStart w) {
+        this.w = w;
+    }
 
-	public SecurityImpl() {
-	}
+    @PostConstruct
+    public void init() {
+        w.start();
+        IHotelLoginJDBC i = new AuthLoginUser();
+        lo = HotelLoginFactory.getHotelLogin();
+        lo.setLoginJDBC(i);
+    }
 
-	public void logoutSession(final SessionT sessionId) {
-		try {
-			HotelLoginP p = SecurityFilter.isLogged(sessionId, false);
-			p.logout();
-			LoginSession.removeLogin(sessionId.getName());
-			String logs =  ELog.logoutS(sessionId.getName(), p.getUser());
-			HLog.getLo().warning(logs);
-		} catch (LoginException ex) {
-			HLog.getLo().log(Level.SEVERE,"",ex);
-			throw new HotelException(ex);
-		}
-	}
+    public SecurityImpl() {
+    }
 
-	public SessionT loginSession(final String sessionId, final String name,
-			final PasswordT password) {
-		try {
-			HotelLoginP hp = lo.loginuser(name, password, GetProp.getConfP());
-			LoginSession.addLogin(sessionId, hp);
-		} catch (HotelException e) {
-			ELog.loginAdminFailure(sessionId, name, e);
-			throw e;
-		}
-		String logs = ELog.loginAdminSuccessS(sessionId, name);
-		HLog.getLo().info(logs);
-		return new SessionT(sessionId);
-	}
+    @Override
+    public void logoutSession(final SessionT sessionId) {
+        try {
+            HotelLoginP p = SecurityFilter.isLogged(sessionId, false);
+            p.logout();
+            LoginSession.removeLogin(sessionId.getName());
+            String logs = ELog.logoutS(sessionId.getName(), p.getUser());
+            HLog.getLo().warning(logs);
+        } catch (LoginException ex) {
+            HLog.getLo().log(Level.SEVERE, "", ex);
+            throw new HotelException(ex);
+        }
+    }
 
-	public SessionT loginadminSession(final String sessionId,
-			final String name, final PasswordT password) {
+    @Override
+    public SessionT loginSession(final String sessionId, final String name,
+            final PasswordT password) {
+        try {
+            HotelLoginP hp = lo.loginuser(name, password, GetProp.getConfP());
+            LoginSession.addLogin(sessionId, hp);
+        } catch (HotelException e) {
+            ELog.loginAdminFailure(sessionId, name, e);
+            throw e;
+        }
+        String logs = ELog.loginAdminSuccessS(sessionId, name);
+        HLog.getLo().info(logs);
+        return new SessionT(sessionId);
+    }
 
-		try {
-			HotelLoginP hp = lo.loginadmin(name, password, GetProp.getConfP());
-			LoginSession.addLogin(sessionId, hp);
-		} catch (HotelException e) {
-			ELog.loginAdminFailure(sessionId, name, e);
-			throw e;
-		}
-		String logs = ELog.loginAdminSuccessS(sessionId, name);
-		HLog.getLo().warning(logs);
-		return new SessionT(sessionId);
-	}
+    public SessionT loginadminSession(final String sessionId,
+            final String name, final PasswordT password) {
 
-	public boolean isValidSession(final SessionT sessionId) {
-		HotelLoginP h = LoginSession.getLogin(sessionId.getName());
-		return h != null;
-	}
+        try {
+            HotelLoginP hp = lo.loginadmin(name, password, GetProp.getConfP());
+            LoginSession.addLogin(sessionId, hp);
+        } catch (HotelException e) {
+            ELog.loginAdminFailure(sessionId, name, e);
+            throw e;
+        }
+        String logs = ELog.loginAdminSuccessS(sessionId, name);
+        HLog.getLo().warning(logs);
+        return new SessionT(sessionId);
+    }
 
-	public boolean isAdminSession(final SessionT sessionId) {
-		HotelLoginP p = SecurityFilter.isLogged(sessionId, false);
-		return p.isAdmin();
-	}
+    @Override
+    public boolean isValidSession(final SessionT sessionId) {
+        HotelLoginP h = LoginSession.getLogin(sessionId.getName());
+        return h != null;
+    }
 
-	public void setDatabaseDefinition(final SessionT sessionT,
-			final Map<String, String> prop) {
-		// initialize
-		String na = GetProp.getConfP().get(IMess.PUPREFIX);
-		JpaManagerData.setPuName(na);
-		JpaManagerData.setLog(HLog.getL());
-		JpaManagerData.setDataBaseMapping(GetProp.getSeID(), IMess.PUSECURITY);
+    @Override
+    public boolean isAdminSession(final SessionT sessionId) {
+        HotelLoginP p = SecurityFilter.isLogged(sessionId, false);
+        return p.isAdmin();
+    }
 
-		HotelLoginP hp = SecurityFilter.isLogged(sessionT, true);
-		String logs = ELog.cleardefS(sessionT.getName(), hp.getUser());
-		HLog.getLo().info(logs);
-		JpaManagerData.clearAll();
-		HotelStore.invalidateCache();
-		GetPropertiesFactoryI pa = new GetPropertiesFactoryI() {
+    @Override
+    public void setDatabaseDefinition(final SessionT sessionT,
+            final Map<String, String> prop) {
+        // initialize
+        String na = GetProp.getConfP().get(IMess.PUPREFIX);
+        JpaManagerData.setPuName(na);
+        JpaManagerData.setLog(HLog.getL());
+        JpaManagerData.setDataBaseMapping(GetProp.getSeID(), IMess.PUSECURITY);
 
-			public Map<String, String> getPersistProperties(GetLogger log) {
-				return prop;
-			}
+        HotelLoginP hp = SecurityFilter.isLogged(sessionT, true);
+        String logs = ELog.cleardefS(sessionT.getName(), hp.getUser());
+        HLog.getLo().info(logs);
+        JpaManagerData.clearAll();
+        HotelStore.invalidateCache();
+        GetPropertiesFactoryI pa = new GetPropertiesFactoryI() {
 
-		};
+            @Override
+            public Map<String, String> getPersistProperties(GetLogger log) {
+                return prop;
+            }
+        };
         HotelServerType hType = ContainerInfo.getContainerType();
-		JpaManagerData.setGetPropFactory(pa,hType == HotelServerType.APPENGINE);
-		IAfterBeforeLoadAction ia = AfterLoadActionFactory.getAction();
-		JpaManagerData.setIA(ia);		
-	}
+        JpaManagerData.setGetPropFactory(pa, hType == HotelServerType.APPENGINE);
+        IAfterBeforeLoadAction ia = AfterLoadActionFactory.getAction();
+        JpaManagerData.setIA(ia);
+    }
 
-	public List<HotelT> getListHotels(final SessionT sessionT) {
-		HotelLoginP hp = SecurityFilter.isLogged(sessionT, false);
-		return hp.getHotels();
-	}
+    @Override
+    public List<HotelT> getListHotels(final SessionT sessionT) {
+        HotelLoginP hp = SecurityFilter.isLogged(sessionT, false);
+        return hp.getHotels();
+    }
 
-	public List<String> getListRoles(final SessionT sessionT,
-			final HotelT ho) {
-		HotelLoginP hp = SecurityFilter.isLogged(sessionT, false);
-		return hp.getRoles(ho);
-	}
+    @Override
+    public List<String> getListRoles(final SessionT sessionT,
+            final HotelT ho) {
+        HotelLoginP hp = SecurityFilter.isLogged(sessionT, false);
+        return hp.getRoles(ho);
+    }
 
-	public void setNewProperties(final SessionT sessionT,
-			final Map<String, String> prop) {
-		GetProp.setNewProp(prop);
-	}
-	// @PreDestroy
-	// public void destroy() {
-	// HLog.getL().info("Destroy secutity bean");
-	// }
+    @Override
+    public void setNewProperties(final SessionT sessionT,
+            final Map<String, String> prop) {
+        GetProp.setNewProp(prop);
+    }
+    // @PreDestroy
+    // public void destroy() {
+    // HLog.getL().info("Destroy secutity bean");
+    // }
 }

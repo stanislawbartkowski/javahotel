@@ -52,6 +52,7 @@ class ComposeController extends PanelSlotContainer implements
             this.getA = getA;
         }
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = dFactory.construct(dType);
             IVModelData pData = slMediator.getSlContainer()
@@ -76,6 +77,7 @@ class ComposeController extends PanelSlotContainer implements
 
     }
 
+    @Override
     public void registerControler(ComposeControllerType cType) {
         cList.add(cType);
     }
@@ -88,6 +90,7 @@ class ComposeController extends PanelSlotContainer implements
             this.dataActionEnum = dataActionEnum;
         }
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             for (ComposeControllerType cType : cList) {
                 if (cType.getdType() == null) {
@@ -103,10 +106,12 @@ class ComposeController extends PanelSlotContainer implements
 
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         slMediator.startPublish(null);
     }
 
+    @Override
     public void createComposeControle(CellId cellId) {
         pView = pViewFactory.construct(cellId);
         for (ComposeControllerType c : cList) {
