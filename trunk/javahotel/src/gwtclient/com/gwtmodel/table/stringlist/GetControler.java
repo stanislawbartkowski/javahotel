@@ -41,6 +41,7 @@ class GetControler implements IGetViewControllerFactory {
         this.lPhonedata = lPhonedata;
     }
 
+    @Override
     public IComposeController construct(IDataType dType) {
         ComposeControllerFactory coFactory = GwtGiniInjector.getI()
                 .getComposeControllerFactory();

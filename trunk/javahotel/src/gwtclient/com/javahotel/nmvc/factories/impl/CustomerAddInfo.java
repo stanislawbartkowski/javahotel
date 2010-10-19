@@ -63,16 +63,19 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
             a = null;
         }
 
+        @Override
         public IVField[] getF() {
             IVField[] e = { Empty.getFieldType() };
             return e;
 
         }
 
+        @Override
         public Object getCustomData() {
             return null;
         }
 
+        @Override
         public void setCustomData(Object o) {
         }
 
@@ -80,6 +83,7 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
 
     private class SFactory implements IStringEFactory {
 
+        @Override
         public AbstractStringE construct(IDataType d) {
             return new StringE();
         }
@@ -88,10 +92,12 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
 
     private class SetGetter implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             CustomerP cust = getCust(slContext);
             IFactory<PhoneNumberP> iP = new IFactory<PhoneNumberP>() {
 
+                @Override
                 public PhoneNumberP construct() {
                     return new PhoneNumberP();
                 }
@@ -102,6 +108,7 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
 
             IFactory<BankAccountP> iB = new IFactory<BankAccountP>() {
 
+                @Override
                 public BankAccountP construct() {
                     return new BankAccountP();
                 }
@@ -115,6 +122,7 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
 
     private class SetGwt implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             Widget w = slContext.getGwtWidget().getGWidget();
             vPanel.add(w);
@@ -165,6 +173,7 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
 
     private class DrawModel implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             CustomerP cust = getCust(slContext);
             setMList(mList, cust.getPhones(), PhoneNumberP.F.phoneNumber);
@@ -184,6 +193,7 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
                 new DrawModel());
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         publish(cellId, new GWidget(vPanel));
     }

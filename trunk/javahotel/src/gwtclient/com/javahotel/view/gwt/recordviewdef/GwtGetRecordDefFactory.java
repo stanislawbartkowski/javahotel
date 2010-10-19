@@ -25,7 +25,6 @@ import com.javahotel.client.mvc.auxabstract.BillsCustomer;
 import com.javahotel.client.mvc.auxabstract.LoginRecord;
 import com.javahotel.client.mvc.auxabstract.ResRoomGuest;
 import com.javahotel.client.mvc.record.model.RecordField;
-import com.javahotel.client.mvc.seasonprice.model.ISeasonPriceModel;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;

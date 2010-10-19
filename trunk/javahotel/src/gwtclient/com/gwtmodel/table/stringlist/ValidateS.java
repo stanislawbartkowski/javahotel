@@ -36,6 +36,7 @@ class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
 
     private class ValidateA implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData pData = getGetterIVModelData(
                     GetActionEnum.GetViewComposeModelEdited, stringType);
@@ -59,6 +60,7 @@ class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
 
     }
 
+    @Override
     public void startPublish(CellId cellId) {
     }
 

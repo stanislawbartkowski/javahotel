@@ -30,6 +30,7 @@ public class LoginField implements IVField {
         this.f = f;
     }
 
+    @Override
     public boolean eq(IVField o) {
         LoginField l = (LoginField) o;
         return f == l.f;

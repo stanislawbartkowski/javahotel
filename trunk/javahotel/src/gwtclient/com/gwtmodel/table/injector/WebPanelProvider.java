@@ -17,6 +17,7 @@ import com.gwtmodel.table.view.webpanel.IWebPanel;
 
 public class WebPanelProvider implements Provider<IWebPanel> {
 
+    @Override
     public IWebPanel get() {
         return WebPanelHolder.getWebPanel();
     }

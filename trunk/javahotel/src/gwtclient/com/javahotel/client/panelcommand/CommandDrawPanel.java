@@ -47,6 +47,7 @@ public class CommandDrawPanel {
 
         ISetGwtWidget i = new ISetGwtWidget() {
 
+            @Override
             public void setGwtWidget(IMvcWidget i) {
                 if (i == null) {
                     psetW(iW, null);

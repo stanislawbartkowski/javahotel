@@ -30,23 +30,28 @@ public abstract class AbstractStringE implements IVModelDataEquable {
 
     private String s;
 
+    @Override
     public boolean eq(IVModelDataEquable o) {
         AbstractStringE e = (AbstractStringE) o;
         return lp == e.lp;
     }
 
+    @Override
     public String getS(IVField fie) {
         return s;
     }
     
+    @Override
     public Object getF(IVField fie) {
         return s;
     }
 
+    @Override
     public boolean isEmpty(IVField fie) {
         return CUtil.EmptyS(s);
     }
 
+    @Override
     public void setF(IVField fie, Object val) {
         this.s = (String) val;
     }

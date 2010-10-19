@@ -39,6 +39,7 @@ class RoomsAdminSt implements IPanelCommand {
         this.rI = rI;
     }
 
+    @Override
     public IMvcWidget getWestWidget() {
         EPanelCommand[] et = {
             EPanelCommand.STANDARD, EPanelCommand.FACILITY, EPanelCommand.ROOMS,
@@ -52,6 +53,7 @@ class RoomsAdminSt implements IPanelCommand {
 
         IStackMenuClicked iClicked = new IStackMenuClicked() {
 
+            @Override
             public void ClickedView(IPanelCommand clicked) {
                 CommandDrawPanel.setC(rI, clicked, false);
             }
@@ -61,10 +63,12 @@ class RoomsAdminSt implements IPanelCommand {
         return iView.getMWidget();
     }
 
+    @Override
     public void beforeDrawAction(ISetGwtWidget iSet) {
         iSet.setGwtWidget(null);
     }
 
+    @Override
     public void drawAction() {
     }
 }

@@ -45,6 +45,7 @@ import com.gwtmodel.table.view.webpanel.WebPanelFactory;
 
 public class GwtTableInjectModule extends AbstractGinModule {
 
+    @Override
     protected void configure() {
         bind(ControlButtonViewFactory.class).in(Singleton.class);
         bind(TablesFactories.class).in(Singleton.class);

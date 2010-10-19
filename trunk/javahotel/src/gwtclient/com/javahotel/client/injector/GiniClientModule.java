@@ -70,6 +70,7 @@ import com.javahotel.view.gwt.table.view.ViewTableViewFactory;
 
 public class GiniClientModule extends AbstractGinModule {
 
+    @Override
     protected void configure() {
         bind(ITableCustomFactories.class).toProvider(TablesFactoriesContainerProvider.class);
         bind(IResLocator.class).toProvider(ResLocatorProvider.class);

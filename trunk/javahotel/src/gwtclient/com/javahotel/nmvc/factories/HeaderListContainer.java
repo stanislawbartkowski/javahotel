@@ -36,6 +36,7 @@ class HeaderListContainer extends AbstractSlotContainer implements
     private final VListHeaderContainer vHeader;
     private final IDataType dType;
 
+    @Override
     public void startPublish(CellId cellId) {
         publish(dType, vHeader);
     }

@@ -16,10 +16,12 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.factories.impl.CustomerForm;
+import com.javahotel.nmvc.factories.impl.SeasonForm;
 
 public class FormFactory extends HelperFactory implements
         IDataFormConstructorAbstractFactory {
 
+    @Override
     public CType construct(IDataType dType) {
         if (dType instanceof DataType) {
             DataType da = (DataType) dType;
@@ -28,6 +30,9 @@ public class FormFactory extends HelperFactory implements
                 case CustomerList:
                     return new IDataFormConstructorAbstractFactory.CType(
                             new CustomerForm());
+                    case OffSeasonDict:
+                    return new IDataFormConstructorAbstractFactory.CType(
+                            new SeasonForm());
                 }
             }
         }
