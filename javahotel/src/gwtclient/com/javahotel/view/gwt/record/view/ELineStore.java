@@ -32,7 +32,7 @@ class ELineStore {
 	}
 
 	void setEMess(RecordField re, InvalidateMess m) {
-		re.getELine().setStyleName("dialog-empty-field", true);
+		re.getELine().setGStyleName("dialog-empty-field", true);
 		String e;
 		if (m.isEmpty()) {
 			e = "Pole nie może być puste !";
@@ -45,7 +45,7 @@ class ELineStore {
 
 	void clearE() {
 		for (RecordField re : el) {
-			re.getELine().setStyleName("dialog-empty-field", false);
+			re.getELine().setGStyleName("dialog-empty-field", false);
 			re.getELine().setErrMess(null);
 		}
 		initErr();

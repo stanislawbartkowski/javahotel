@@ -67,7 +67,7 @@ abstract class ELineDialog extends PopupTip implements ILineField {
         return ((val == null) || val.equals(""));
     }
 
-    public void setStyleName(final String sName, final boolean set) {
+    public void setGStyleName(final String sName, final boolean set) {
         if (set) {
             getMWidget().getWidget().setStyleName(sName);
         } else {

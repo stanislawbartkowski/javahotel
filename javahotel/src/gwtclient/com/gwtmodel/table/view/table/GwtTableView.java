@@ -53,7 +53,7 @@ class GwtTableView implements IGwtTableView {
         model = null;
         startW = null;
         DateFormat.Options o = DateFormat.Options.create();
-        o.setPattern("yyyy'.'MM'.'dd");
+        o.setPattern("yyyy.MM.dd");
         df = DateFormat.create(o);
     }
 
@@ -140,16 +140,17 @@ class GwtTableView implements IGwtTableView {
         for (VListHeaderDesc c : co) {
             data.addColumn(getCType(c), c.getHeaderString());
         }
-        int colNo = 1;
+        data.addRows(model.getRowsNum());
+        for (int i = 0; i < model.getRowsNum(); i++) {
+            drawrow(i);
+        }
+        // important: should be set after drawing rows, not before
+        int colNo = 0;
         for (VListHeaderDesc c : co) {
             if (c.getColType() == ColumnDataType.DATE) {
                 df.format(data, colNo);
             }
             colNo++;
-        }
-        data.addRows(model.getRowsNum());
-        for (int i = 0; i < model.getRowsNum(); i++) {
-            drawrow(i);
         }
     }
 
@@ -190,6 +191,7 @@ class GwtTableView implements IGwtTableView {
         return new WSize(top, left, height, width);
     }
 
+    @Override
     public IGwtTableModel getViewModel() {
         return model;
     }
@@ -213,6 +215,7 @@ class GwtTableView implements IGwtTableView {
         ta.draw(data, tao);
     }
 
+    @Override
     public void setModel(IGwtTableModel model) {
         this.model = model;
         String title = model.getHeaderList().getListTitle();
@@ -261,15 +264,18 @@ class GwtTableView implements IGwtTableView {
         }
     }
 
+    @Override
     public void refresh(WSize startW) {
         this.startW = startW;
         draw();
     }
 
+    @Override
     public WChoosedLine getClicked() {
         return new WChoosedLine(clickedNo, wSize);
     }
 
+    @Override
     public Widget getGWidget() {
         return ta;
 

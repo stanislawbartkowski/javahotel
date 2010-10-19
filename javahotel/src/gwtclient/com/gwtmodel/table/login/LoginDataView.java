@@ -42,6 +42,7 @@ class LoginDataView implements ILoginDataView {
 
     private class GetCompose implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData perData = dFactory.construct(dType);
             IVModelData pData = slMediator.getSlContainer()
@@ -85,10 +86,12 @@ class LoginDataView implements ILoginDataView {
                 slFactory.construct(DataActionEnum.ValidateAction, dType));
     }
 
+    @Override
     public SlotListContainer getSlContainer() {
         return slMediator.getSlContainer();
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         slMediator.startPublish(cellId);
     }

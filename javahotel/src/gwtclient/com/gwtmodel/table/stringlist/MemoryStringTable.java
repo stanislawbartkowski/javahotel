@@ -31,23 +31,28 @@ class MemoryStringTable implements IDataListType {
         li = new ArrayList<AbstractStringE>();
     }
 
+    @Override
     public void append(IVModelData vData) {
         AbstractStringE e = (AbstractStringE) vData;
         AddStringNext.addNext(this, e);
     }
 
+    @Override
     public IVField comboField() {
         return null;
     }
 
+    @Override
     public IVModelData getRow(int row) {
         return li.get(row);
     }
 
+    @Override
     public void remove(int row) {
         li.remove(row);
     }
 
+    @Override
     public int rowNo() {
         return li.size();
     }

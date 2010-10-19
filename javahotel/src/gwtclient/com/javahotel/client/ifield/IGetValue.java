@@ -31,7 +31,7 @@ interface IGetValue {
 
     void setVal(String s);
 
-    void setStyleName(String sName, boolean set);
+    void setGStyleName(String sName, boolean set);
 
     void refresh();
 

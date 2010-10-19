@@ -58,11 +58,13 @@ public class ValidateLogin extends AbstractSlotContainer implements
 
     private class Validate implements IBackValidate {
 
+        @Override
         public void invalid(InvalidateFormContainer errMess) {
             publish(DataActionEnum.ChangeViewFormToInvalidAction, dType,
                     errMess);
         }
 
+        @Override
         public void valid() {
             publish(DataActionEnum.ValidSignal, dType);
         }
@@ -70,6 +72,7 @@ public class ValidateLogin extends AbstractSlotContainer implements
 
     private class ValidateA implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData pData = getGetterIVModelData(
                     GetActionEnum.GetViewComposeModelEdited, dType);

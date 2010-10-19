@@ -44,6 +44,7 @@ public class MemoryStringList extends AbstractSlotContainer implements
     private final String fieldName;
     private final String title;
 
+    @Override
     public void setMemTable(IDataListType dList) {
         lPhonelist.setDataList(dList);
         lPhonedata.setDataList(dList);
@@ -78,9 +79,11 @@ public class MemoryStringList extends AbstractSlotContainer implements
         dControler.getSlContainer().registerSubscriber(0, setGwt);
     }
 
+    @Override
     public void startPublish(CellId cellId) {
     }
 
+    @Override
     public IDataListType getMemTable() {
         return lPhonelist.getDataList();
     }

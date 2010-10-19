@@ -22,6 +22,7 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
  */
 public class TablesFactoriesContainerProvider implements Provider<ITableCustomFactories> {
 
+    @Override
     public ITableCustomFactories get() {
         return WebPanelHolder.getFactoriesContainer();
     }

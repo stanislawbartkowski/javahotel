@@ -25,6 +25,7 @@ class DecorateAfterLogin implements ICommand {
         this.rI = rI;
     }
 
+    @Override
     public void execute() {
         IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
         String user = rI.getR().getUserName();

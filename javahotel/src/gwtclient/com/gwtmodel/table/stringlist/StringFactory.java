@@ -34,6 +34,7 @@ class StringFactory implements IFormDefFactory {
         this.title = title;
     }
 
+    @Override
     public FormLineContainer construct(IDataType dType) {
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
@@ -43,6 +44,7 @@ class StringFactory implements IFormDefFactory {
         return new FormLineContainer(di);
     }
 
+    @Override
     public String getFormTitle(IDataType dType) {
         return title;
     }

@@ -57,7 +57,7 @@ public class PanelCommandFactory {
             i = new NewMvcPanel(sI, DataControlerEnum.ClearDataHotel);
             break;
         case ROOMSADMIN:
-            // i = new RoomsAdmin(sI);
+//            i = new RoomsAdmin(sI);
             i = new RoomsAdminSt(sI);
             break;
         case BOOKINGPANEL:
@@ -86,7 +86,8 @@ public class PanelCommandFactory {
             i = new NewMvcPanel(sI, DictType.CustomerList);
             break;
         case SEASON:
-            i = new DictPanelCommand(sI, DictType.OffSeasonDict);
+//            i = new DictPanelCommand(sI, DictType.OffSeasonDict);
+            i = new NewMvcPanel(sI, DictType.OffSeasonDict);
             break;
         case PRICES:
             // i = new DictPanelCommand(sI, DictType.PriceListDict);

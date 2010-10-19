@@ -40,70 +40,86 @@ public class WebPanelHolder {
         private TableFactoriesContainer() {
         }
 
+        @Override
         public IFormDefFactory getFormDefFactory() {
             return iFormDefFactory;
         }
 
+        @Override
         public IPersistFactoryAction getPersistFactoryAction() {
             return iPersistFactory;
         }
 
+        @Override
         public IHeaderListFactory getHeaderListFactory() {
             return iheFactory;
         }
 
+        @Override
         public void registerFormDefFactory(IFormDefFactory iFormDefFactory) {
             this.iFormDefFactory = iFormDefFactory;
 
         }
 
+        @Override
         public void registerPersistFactory(IPersistFactoryAction iPersistFactory) {
             this.iPersistFactory = iPersistFactory;
         }
 
+        @Override
         public void registerHeaderListFactory(IHeaderListFactory iheFactory) {
             this.iheFactory = iheFactory;
         }
 
+        @Override
         public void registerDataModelFactory(IDataModelFactory iDataModelFactory) {
             this.iDataModelFactory = iDataModelFactory;
         }
 
+        @Override
         public IDataModelFactory getDataModelFactory() {
             return iDataModelFactory;
         }
 
+        @Override
         public IDataValidateActionFactory getDataValidateFactory() {
             return iDataValidateFactory;
         }
 
+        @Override
         public void registerDataValidateActionFactory(
                 IDataValidateActionFactory iDataValidateFactory) {
             this.iDataValidateFactory = iDataValidateFactory;
         }
 
+        @Override
         public void registerGetViewControllerFactory(
                 IGetViewControllerFactory iViewFactory) {
             this.iViewFactory = iViewFactory;
         }
 
+        @Override
         public IGetViewControllerFactory getGetViewControllerFactory() {
             return iViewFactory;
         }
 
+        @Override
         public void registerGetCustomValues(IGetCustomValues iGetCustomValues) {
             this.iGetCustomValues = iGetCustomValues;
         }
 
+        @Override
         public IGetCustomValues getGetCustomValues() {
             return iGetCustomValues;
         }
 
+        @Override
         public void registerDataFormConstructorAbstractFactory(
                 IDataFormConstructorAbstractFactory cFactory) {
             formFactory = cFactory;
         }
 
+        @Override
         public IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory() {
             return formFactory;
         }

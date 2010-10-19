@@ -59,11 +59,13 @@ public class CustomerForm implements IDataFormConstructor {
             this.tab = tab;
         }
 
+        @Override
         public void onChange(IFormLineView i) {
             changeC(tab, i);
         }
     }
 
+    @Override
     public Widget construct(FormLineContainer model) {
         FormField eC = FormUtil.findI(model.getfList(), new VField(
                 CustomerP.F.cType));

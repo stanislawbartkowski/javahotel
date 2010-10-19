@@ -41,14 +41,17 @@ class CustomFactory implements IGetCustomValues {
         ma.put(IGetCustomValues.SHOWITEM, sI.getLabels().ShowItem());
     }
 
+    @Override
     public IVField getSymForCombo() {
         return new VField(DictionaryP.F.name);
     }
 
+    @Override
     public boolean compareComboByInt() {
         return false;
     }
 
+    @Override
     public String getCustomValue(String key) {
         return ma.get(key);
     }

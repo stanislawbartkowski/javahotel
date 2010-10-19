@@ -21,6 +21,7 @@ import com.gwtmodel.table.factories.ITableAbstractFactories;
  */
 public class TableAbstractFactoriesProvider implements Provider<ITableAbstractFactories> {
 
+    @Override
     public ITableAbstractFactories get() {
         return WebPanelHolder.getAbstractFactoriesContainer();
     }
