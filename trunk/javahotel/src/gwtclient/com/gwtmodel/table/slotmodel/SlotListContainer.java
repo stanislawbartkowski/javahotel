@@ -30,7 +30,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 
-public class SlotListContainer {
+public final class SlotListContainer {
 
     private final List<SlotSubscriberType> listOfSubscribers;
     private final List<SlotCallerType> listOfCallers;
@@ -50,8 +50,20 @@ public class SlotListContainer {
         listOfRedirectors = new ArrayList<SlotRedirector>();
         registerSlReceiver(new GeneralCaller());
         registerSlPublisher(new GeneralListener());
-
     }
+
+    public List<SlotCallerType> getListOfCallers() {
+        return listOfCallers;
+    }
+
+    public List<SlotSubscriberType> getListOfSubscribers() {
+        return listOfSubscribers;
+    }
+
+    public List<SlotRedirector> getListOfRedirectors() {
+        return listOfRedirectors;
+    }
+
 
     public ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
@@ -60,6 +72,7 @@ public class SlotListContainer {
 
     private class GeneralListener implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContextP) {
             SlotType sl = slContextP.getSlType();
             ISlotSignalContext slContext = slContextP;
@@ -67,7 +80,7 @@ public class SlotListContainer {
             boolean notReplaced = true;
             while (notReplaced) {
                 notReplaced = false;
-                for (SlotRedirector re : getListOfRedirectors()) {
+                for (SlotRedirector re : listOfRedirectors) {
                     if (re.getFrom().eq(sl)) {
                         sl = re.getTo();
                         slContext = contextReplace(sl, slContextP);
@@ -77,7 +90,7 @@ public class SlotListContainer {
                 }
             }
 
-            for (SlotSubscriberType so : getListOfSubscribers()) {
+            for (SlotSubscriberType so : listOfSubscribers) {
                 if (sl.eq(so.getSlType())) {
                     so.getSlSignaller().signal(slContext);
                 }
@@ -85,8 +98,17 @@ public class SlotListContainer {
         }
     }
 
+    public ISlotSignaller constructListener() {
+        return new GeneralListener();
+    }
+
+    public ISlotCaller constructCaller() {
+        return new GeneralCaller();
+    }
+
     private class GeneralCaller implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             SlotCallerType slCaller = findCaller(slContext.getSlType());
             if (slCaller == null) {
@@ -94,10 +116,6 @@ public class SlotListContainer {
             }
             return slCaller.getSlCaller().call(slContext);
         }
-    }
-
-    public List<SlotRedirector> getListOfRedirectors() {
-        return listOfRedirectors;
     }
 
     public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -114,20 +132,12 @@ public class SlotListContainer {
         slSignaller.signal(slContext);
     }
 
-    public void registerSlReceiver(ISlotCaller slCaller) {
+    public final void registerSlReceiver(ISlotCaller slCaller) {
         this.slCaller = slCaller;
     }
 
     public void registerSlPublisher(ISlotSignaller slSignaller) {
         this.slSignaller = slSignaller;
-    }
-
-    public List<SlotCallerType> getListOfCallers() {
-        return listOfCallers;
-    }
-
-    public List<SlotSubscriberType> getListOfSubscribers() {
-        return listOfSubscribers;
     }
 
     public void registerSubscriber(SlotType slType, ISlotSignaller slSignaller) {

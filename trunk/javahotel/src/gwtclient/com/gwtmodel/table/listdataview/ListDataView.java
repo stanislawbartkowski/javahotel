@@ -39,6 +39,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     private class DrawHeader implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             VListHeaderContainer listHeader = slContext.getListHeader();
             listView.setHeaderList(listHeader);
@@ -48,6 +49,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     private class DrawList implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IDataListType dataList = slContext.getDataList();
             WSize wSize = slContext.getWSize();
@@ -58,6 +60,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     private class GetComboField implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVField comboF = listView.getComboField();
             return construct(dType, comboF);
@@ -78,6 +81,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     private class GetListData implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             return constructChoosedContext();
         }
@@ -85,6 +89,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     private class ClickList implements ICommand {
 
+        @Override
         public void execute() {
             publish(DataActionEnum.TableLineClicked, dType, constructChoosedContext());
         }

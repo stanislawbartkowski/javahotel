@@ -44,6 +44,7 @@ class ContrButtonView implements IContrButtonView {
     private final Map<ClickButtonType, Button> iBut =
             new HashMap<ClickButtonType, Button>();
 
+    @Override
     public void setEnable(ClickButtonType id, boolean enable) {
         Button b = iBut.get(id);
         if (b == null) {
@@ -52,6 +53,7 @@ class ContrButtonView implements IContrButtonView {
         b.setEnabled(enable);
     }
 
+    @Override
     public void fillHtml(IGWidget gw) {
         List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
         List<Button> bList = new ArrayList<Button>();
@@ -72,6 +74,7 @@ class ContrButtonView implements IContrButtonView {
             this.c = c;
         }
 
+        @Override
         public void onClick(Widget sender) {
             if (co != null) {
                 co.click(c, sender);
@@ -107,6 +110,7 @@ class ContrButtonView implements IContrButtonView {
         }
     }
 
+    @Override
     public Widget getGWidget() {
         return hP;
     }

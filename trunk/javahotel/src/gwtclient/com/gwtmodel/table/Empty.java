@@ -23,6 +23,7 @@ public class Empty {
 
     private static class EmptyDataType implements IDataType {
 
+        @Override
         public boolean eq(IDataType dType) {
             return true;
         }
@@ -30,6 +31,7 @@ public class Empty {
 
     private static class EmptyFieldType implements IVField {
 
+        @Override
         public boolean eq(IVField o) {
             return true;
         }

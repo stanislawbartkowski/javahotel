@@ -15,7 +15,6 @@ package com.javahotel.client.dialog.login;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.login.LoginDataModelFactory;
-import com.gwtmodel.table.login.LoginField;
 
 class CustomLoginDataModelFactory extends LoginDataModelFactory {
 
@@ -24,22 +23,4 @@ class CustomLoginDataModelFactory extends LoginDataModelFactory {
         return new CustomLoginData();
     }
 
-    private LoginField[] getLi() {
-        LoginField[] li = { new LoginField(LoginField.F.LOGINNAME),
-                new LoginField(LoginField.F.PASSWORD),
-                new LoginField(LoginField.F.OTHER) };
-        return li;
-    }
-
-    @Override
-    public void copyFromPersistToModel(IDataType dType, IVModelData from,
-            IVModelData to) {
-        copyData(getLi(), from, to);
-    }
-
-    @Override
-    public void fromModelToPersist(IDataType dType, IVModelData from,
-            IVModelData to) {
-        copyData(getLi(), from, to);
-    }
 }

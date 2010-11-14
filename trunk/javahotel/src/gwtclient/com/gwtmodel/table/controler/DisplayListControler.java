@@ -21,17 +21,18 @@ import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 
-class DisplayListControler implements IDataControler {
+class DisplayListControler extends AbstractSlotMediatorContainer implements IDataControler {
 
     private final CellId cellTableId;
     private final CellId controlId;
-    private final ISlotMediator slMediator;
+//    private final ISlotMediator slMediator;
     private final SlotListContainer slContainer;
     private final boolean startM;
     private final DisplayListControlerParam cParam;
@@ -53,7 +54,7 @@ class DisplayListControler implements IDataControler {
         ControlButtonViewFactory bFactory = cParam.gettFactories().getbViewFactory();
         IControlButtonView bView = bFactory.construct(cParam.getListButton());
         if (cParam.getMe() == null) {
-          slMediator = cParam.gettFactories().getSlotMediatorFactory().construct();
+//          slMediator = cParam.gettFactories().getSlotMediatorFactory().construct();
           startM = true;
         }
         else {
@@ -74,12 +75,14 @@ class DisplayListControler implements IDataControler {
 
     private class DrawListAction implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             slContainer.publish(DataActionEnum.DrawListAction, cParam.getdType(), slContext
                     .getDataList(), cParam.getwSize());
         }
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         if (startM) {
            slMediator.startPublish(cellId);
@@ -95,7 +98,8 @@ class DisplayListControler implements IDataControler {
         slContainer.publish(DataActionEnum.ReadHeaderContainer, cParam.getdType());
     }
 
-    public SlotListContainer getSlContainer() {
-        return slContainer;
-    }
+//    @Override
+//    public SlotListContainer getSlContainer() {
+//        return slContainer;
+//    }
 }

@@ -12,37 +12,36 @@
  */
 package com.gwtmodel.table.stringlist;
 
+import com.gwtmodel.table.AbstractLpVModelData;
+import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.persist.IVModelDataEquable;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class AbstractStringE implements IVModelDataEquable {
-
-    private long lp;
-
-    public long getLp() {
-        return lp;
-    }
-
-    public void setLp(long lp) {
-        this.lp = lp;
-    }
+public abstract class AbstractStringE extends AbstractLpVModelData {
 
     private String s;
 
-    @Override
-    public boolean eq(IVModelDataEquable o) {
-        AbstractStringE e = (AbstractStringE) o;
-        return lp == e.lp;
+    protected List<IVField> createF(IVField fie) {
+        List<IVField> li = new ArrayList<IVField>();
+        li.add(fie);
+        return addV(li);
     }
 
     @Override
     public String getS(IVField fie) {
+        if (super.isValid(fie)) {
+            return super.getS(fie);
+        }
         return s;
     }
-    
+
     @Override
     public Object getF(IVField fie) {
+        if (super.isValid(fie)) {
+            return super.getF(fie);
+        }
         return s;
     }
 
@@ -53,7 +52,10 @@ public abstract class AbstractStringE implements IVModelDataEquable {
 
     @Override
     public void setF(IVField fie, Object val) {
+        if (super.isValid(fie)) {
+            super.setF(fie, val);
+            return;
+        }
         this.s = (String) val;
     }
-
 }

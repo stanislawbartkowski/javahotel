@@ -15,6 +15,7 @@ package com.gwtmodel.table.persist;
 import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IVModelData;
 
-public interface IVModelDataEquable extends IVModelData,IEquatable<IVModelDataEquable> {
+public interface IVModelDataEquable extends IVModelData,
+        IEquatable<IVModelDataEquable> {
         
 }

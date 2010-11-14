@@ -16,6 +16,8 @@ import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.IVField;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VModelData extends AVModelData {
 
@@ -31,14 +33,17 @@ public class VModelData extends AVModelData {
         return fi;
     }
 
+    @Override
     public String getS(IVField fie) {
         return a.getS(toF(fie));
     }
 
+    @Override
     public Object getF(IVField fie) {
         return a.getF(toF(fie));
     }
-    
+
+    @Override
     public void setF(IVField fie, Object val) {
         a.setF(toF(fie), val);
     }
@@ -47,16 +52,32 @@ public class VModelData extends AVModelData {
         return a;
     }
 
+    @Override
     public boolean isEmpty(IVField fie) {
         return a.emptyS(toF(fie));
     }
 
-    public IVField[] getF() {
-        IVField[] e = new IVField[a.getT().length];
-        for (int i = 0; i < e.length; i++) {
-            e[i] = new VField(a.getT()[i]);
+    @Override
+    public List<IVField> getF() {
+        List<IVField> eList = new ArrayList<IVField>();
+        for (int i = 0; i < a.getT().length; i++) {
+            eList.add(new VField(a.getT()[i]));
         }
-        return e;
+        return eList;
     }
 
+    @Override
+    public boolean isValid(IVField fie) {
+        if (!(fie instanceof VField)) {
+            return false;
+        }
+        VField v = (VField) fie;
+        IField[] aa = a.getT();
+        for (int i = 0; i < aa.length; i++) {
+            if (v.getFie() == aa[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

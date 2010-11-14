@@ -81,6 +81,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
 
     private class SetWidget implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IGWidget gwtWidget = slContext.getGwtWidget();
             Widget w = gwtWidget.getGWidget();
@@ -91,6 +92,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
 
     private class SetWidgetHeader implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IGWidget gwtWidget = slContext.getGwtWidget();
             Widget w = gwtWidget.getGWidget();
@@ -106,6 +108,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
 
     private class DrawModel implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             VModelData vData = (VModelData) mData;
@@ -145,6 +148,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
     
     private class SetGetter implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             BookingP b = getBook(slContext);
             
@@ -208,6 +212,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
                 new SetGetter());
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         sy.cellId = cellId;
         sy.signalDone();

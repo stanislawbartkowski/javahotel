@@ -48,6 +48,7 @@ import com.javahotel.nmvc.factories.booking.BookingHeaderContainer;
 import com.javahotel.nmvc.factories.impl.CustomerAddInfo;
 import com.javahotel.nmvc.factories.impl.HotelPersonRightsContainer;
 import com.javahotel.nmvc.factories.impl.PriceListContainer;
+import com.javahotel.nmvc.factories.impl.SeasonAddInfo;
 
 public class GetViewFactory implements IGetViewControllerFactory {
 
@@ -149,6 +150,9 @@ public class GetViewFactory implements IGetViewControllerFactory {
         }
         if (dd.isDictType()) {
             switch (dd.getdType()) {
+              case OffSeasonDict:
+                cContainer = new SeasonAddInfo(subType);
+                break;
             case CustomerList:
                 cContainer = new CustomerAddInfo(subType);
                 break;

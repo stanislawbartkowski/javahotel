@@ -65,6 +65,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         pView = null;
     }
 
+    @Override
     public CellId addCellPanel(int row, int col) {
         PanelRowCell pa = new PanelRowCell(row, col);
         CellId nextId = panelId.constructNext();
@@ -75,9 +76,12 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
     private class SetWidget implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             CellId cellId = slContext.getSlType().getCellId();
+            assert cellId != null : "Cannot be null, cellId should be sent with signal";
             PanelRowCell pa = colM.get(cellId);
+            assert pa != null : "Cell should be register before";
             IGWidget gwtWidget = slContext.getGwtWidget();
             pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getGWidget());
         }
@@ -89,6 +93,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
     private class GetHtml implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             ISlotSignalContext sl = slFactory.construct(slContext.getSlType(),
                     getHWidget());
@@ -96,6 +101,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         }
     }
 
+    @Override
     public void createView(String html) {
         if (html == null) {
             createView();
@@ -109,6 +115,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         }
     }
 
+    @Override
     public void createView() {
         int maxR = 0;
         int maxC = 0;

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,14 @@ public class DataListTypeFactory {
 
     public static IDataListType construct(List<IVModelData> dList) {
         return new DataListType(dList, null);
+    }
 
+    public static IDataListType constructLp(List<AbstractLpVModelData> dList) {
+        IDataListType d = new DataListTypeLp(new ArrayList<IVModelData>(), null);
+        for (AbstractLpVModelData a : dList) {
+           d.append(a);
+        }
+        return d;
     }
 
     public static IDataListType construct(List<IVModelData> dList, IVField comboFie) {

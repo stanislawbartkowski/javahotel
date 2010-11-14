@@ -15,10 +15,7 @@ package com.javahotel.nmvc.factories.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
-import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
@@ -35,16 +32,17 @@ import com.gwtmodel.table.stringlist.AbstractStringE;
 import com.gwtmodel.table.stringlist.IMemoryStringList;
 import com.gwtmodel.table.stringlist.IStringEFactory;
 import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
+import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.common.toobject.AbstractToILd;
 import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.PhoneNumberP;
-import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.nmvc.common.DataUtil;
 
-public class CustomerAddInfo extends AbstractSlotContainer  {
+public class CustomerAddInfo extends AbstractSlotContainer {
 
-    private final VerticalPanel vPanel = new VerticalPanel();
+    private final SetVPanelGwt sPanel = new SetVPanelGwt();
     private final IMemoryStringList mList;
     private final IMemoryStringList aList;
     private final MemoryStringTableFactory maFactory;
@@ -64,13 +62,6 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
         }
 
         @Override
-        public IVField[] getF() {
-            IVField[] e = { Empty.getFieldType() };
-            return e;
-
-        }
-
-        @Override
         public Object getCustomData() {
             return null;
         }
@@ -79,6 +70,10 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
         public void setCustomData(Object o) {
         }
 
+        @Override
+        public List<IVField> getF() {
+            return super.createF(Empty.getFieldType());
+        }
     }
 
     private class SFactory implements IStringEFactory {
@@ -87,7 +82,6 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
         public AbstractStringE construct(IDataType d) {
             return new StringE();
         }
-
     }
 
     private class SetGetter implements ISlotCaller {
@@ -120,35 +114,26 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
         }
     }
 
-    private class SetGwt implements ISlotSignaller {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            Widget w = slContext.getGwtWidget().getGWidget();
-            vPanel.add(w);
-        }
-    }
-
     private CustomerP getCust(ISlotSignalContext slContext) {
-        IVModelData mData = slContext.getVData();
-        VModelData vData = (VModelData) mData;
-        CustomerP cust = (CustomerP) vData.getA();
+        CustomerP cust = DataUtil.getData(slContext);
         return cust;
     }
 
     private void setMList(IMemoryStringList mList,
             List<? extends AbstractToILd> li, IField fie) {
-        IDataListType dList = maFactory.construct();
+        List<AbstractStringE> sList = new ArrayList<AbstractStringE>();
         if (li != null) {
             for (AbstractToILd a : li) {
                 StringE e = new StringE(a, fie);
-                dList.append(e);
+                sList.add(e);
             }
         }
+        IDataListType dList = maFactory.construct(sList);
         mList.setMemTable(dList);
     }
 
     private interface IFactory<T extends AbstractToILd> {
+
         T construct();
     }
 
@@ -184,9 +169,9 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
     public CustomerAddInfo(IDataType dType) {
         maFactory = GwtGiniInjector.getI().getMemoryStringTableFactory();
         mList = maFactory.construct("Telefon", "Telefony", new SFactory(),
-                new SetGwt());
+                sPanel.constructSetGwt());
         aList = maFactory.construct("Konto", "Konta", new SFactory(),
-                new SetGwt());
+                sPanel.constructSetGwt());
         registerCaller(GetActionEnum.GetViewModelEdited, dType, new SetGetter());
         registerCaller(GetActionEnum.GetModelToPersist, dType, new SetGetter());
         registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
@@ -195,7 +180,6 @@ public class CustomerAddInfo extends AbstractSlotContainer  {
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(cellId, new GWidget(vPanel));
+        publish(cellId, sPanel.constructGWidget());
     }
-
 }

@@ -15,13 +15,9 @@ package com.gwtmodel.table.stringlist;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.view.util.AbstractDataModel;
 
-class DataFactory implements IDataModelFactory {
+class DataFactory extends AbstractDataModel {
 
     private final IStringEFactory eFactory;
     private final IVField fie;
@@ -34,40 +30,6 @@ class DataFactory implements IDataModelFactory {
     @Override
     public IVModelData construct(IDataType dType) {
         return eFactory.construct(dType);
-    }
-
-    @Override
-    public void copyFromPersistToModel(IDataType dType, IVModelData from,
-            IVModelData to) {
-        AbstractStringE efrom = (AbstractStringE) from;
-        AbstractStringE eto = (AbstractStringE) to;
-        eto.setF(fie, efrom.getF(fie));
-    }
-
-    private IFormLineView getI(FormLineContainer fContainer) {
-        FormField i = fContainer.getfList().get(0);
-        return i.getELine();
-    }
-
-    @Override
-    public void fromModelToPersist(IDataType dType, IVModelData from,
-            IVModelData to) {
-        copyFromPersistToModel(dType, from, to);
-    }
-
-    @Override
-    public void fromViewToData(IDataType dType, FormLineContainer fContainer,
-            IVModelData aTo) {
-        AbstractStringE eto = (AbstractStringE) aTo;
-        IFormLineView e = getI(fContainer);
-        eto.setF(fie, e.getVal());
-    }
-
-    @Override
-    public void fromDataToView(IDataType dType, PersistTypeEnum persistTypeEnum, IVModelData aFrom, FormLineContainer fContainer) {
-        AbstractStringE efrom = (AbstractStringE) aFrom;
-        IFormLineView e = getI(fContainer);
-        e.setVal(efrom.getS(fie));
     }
 
 }

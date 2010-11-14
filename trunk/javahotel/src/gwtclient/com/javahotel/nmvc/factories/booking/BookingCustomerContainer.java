@@ -92,6 +92,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
 
     private class SetWidget implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IGWidget gwtWidget = slContext.getGwtWidget();
             sy.but = gwtWidget.getGWidget();
@@ -102,6 +103,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
 
     private class SetWidgetCust implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IGWidget gwtWidget = slContext.getGwtWidget();
             sy.cust = gwtWidget.getGWidget();
@@ -117,6 +119,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
 
     private class SetCustomerData implements RData.IOneList<AbstractTo> {
 
+        @Override
         public void doOne(AbstractTo val) {
             IVModelData cData = new VModelData(val);
             drawCust(cData);
@@ -125,6 +128,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
 
     private class DrawModel implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             BookingP b = getBook(slContext);
             LId custI = b.getCustomer();
@@ -158,6 +162,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     
     private class SetGetter implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             VModelData vData = (VModelData) mData;
@@ -214,6 +219,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
                 new SetGetter());
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         sy.cellId = cellId;
         sy.signalDone();
