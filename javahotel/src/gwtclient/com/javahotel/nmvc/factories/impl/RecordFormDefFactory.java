@@ -18,6 +18,7 @@ import java.util.List;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -35,7 +36,7 @@ import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.VField;
 import com.javahotel.nmvc.ewidget.EWidgetFactory;
 
-public class RecordFormDefFactory implements IFormDefFactory {
+public class RecordFormDefFactory implements IFormTitleFactory,IFormDefFactory {
 
     private final EditWidgetFactory eFactory;
     private final EWidgetFactory heFactory;

@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.panelcommand;
 
+import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
@@ -38,7 +39,7 @@ class NewMvcPanel extends AbstractPanelCommand {
         this.da = new DataType(da);
         eNum = DataControlerEnum.DisplayList;
     }
-    
+
     NewMvcPanel(IResLocator rI, AddType da) {
         this.rI = rI;
         this.da = new DataType(da);
@@ -53,29 +54,29 @@ class NewMvcPanel extends AbstractPanelCommand {
 
     NewMvcPanel(IResLocator rI, DataControlerEnum eNum) {
         this.rI = rI;
-        this.da = null;
+        this.da = new DataType(RType.AllHotels);
         this.eNum = eNum;
     }
 
     private class SetGwt implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
-            iS.setGwtWidget(new DefaultMvcWidget(slContext.getGwtWidget()
-                    .getGWidget()));
+            iS.setGwtWidget(new DefaultMvcWidget(slContext.getGwtWidget().getGWidget()));
         }
-
     }
 
+    @Override
     public void beforeDrawAction(ISetGwtWidget iSet) {
         iS = iSet;
         ISlotable iControler = DataControlerFactory.constructDataControler(rI,
                 eNum, da, new CellId(0));
-        iControler.getSlContainer().registerSubscriber(0, new SetGwt());
+        iControler.getSlContainer().registerSubscriber(da, 0, new SetGwt());
         iControler.startPublish(null);
 
     }
 
+    @Override
     public void drawAction() {
     }
-
 }

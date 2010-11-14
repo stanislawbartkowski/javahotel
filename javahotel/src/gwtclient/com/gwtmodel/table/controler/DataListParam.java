@@ -14,7 +14,7 @@ package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;
-import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 
@@ -23,16 +23,16 @@ public class DataListParam {
     private final IDataPersistAction persistA;
     private final IHeaderListContainer heList;
     private final IDataModelFactory dataFactory;
-    private final IFormDefFactory formFactory;
+    private final IFormTitleFactory formFactory;
     private final IGetViewControllerFactory fControler;
 
-    public IFormDefFactory getFormFactory() {
+    public IFormTitleFactory getFormFactory() {
         return formFactory;
     }
 
     public DataListParam(IDataPersistAction persistA,
             IHeaderListContainer heList, IDataModelFactory dataFactory,
-            IFormDefFactory formFactory,IGetViewControllerFactory fControler) {
+            IFormTitleFactory formFactory,IGetViewControllerFactory fControler) {
         this.persistA = persistA;
         this.heList = heList;
         this.dataFactory = dataFactory;

@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.javahotel.client.dialog.DictData;
@@ -26,12 +27,13 @@ import com.javahotel.nmvc.common.FormLineDef;
 import com.javahotel.nmvc.common.VField;
 import com.javahotel.nmvc.factories.impl.RecordFormDefFactory;
 
-public class FormDefFactory extends HelperFactory implements IFormDefFactory {
+public class FormDefFactory extends HelperFactory implements IFormTitleFactory,
+        IFormDefFactory {
 
     private final GetRecordDefFactory gFactory;
     private final RecordFormDefFactory dFactory;
 
-    FormDefFactory(GetRecordDefFactory gFactory,RecordFormDefFactory dFactory) {
+    FormDefFactory(GetRecordDefFactory gFactory, RecordFormDefFactory dFactory) {
         this.gFactory = gFactory;
         this.dFactory = dFactory;
     }
@@ -39,13 +41,14 @@ public class FormDefFactory extends HelperFactory implements IFormDefFactory {
     @Override
     public FormLineContainer construct(IDataType dType) {
         FormLineContainer fe = dFactory.construct(dType);
-        if (fe != null) { return fe; }
+        if (fe != null) {
+            return fe;
+        }
         DictData da = getDa(dType);
         List<RecordField> def = gFactory.getDef(da);
         List<FormField> formList = new ArrayList<FormField>();
         for (RecordField re : def) {
-            FormField fo = new FormField(re.getPLabel(), new FormLineDef(re
-                    .getELine()), new VField(re.getFie()), !re.isCanChange());
+            FormField fo = new FormField(re.getPLabel(), new FormLineDef(re.getELine()), new VField(re.getFie()), !re.isCanChange());
             formList.add(fo);
         }
         return new FormLineContainer(formList);
@@ -55,6 +58,5 @@ public class FormDefFactory extends HelperFactory implements IFormDefFactory {
     public String getFormTitle(IDataType dType) {
         DictData da = getDa(dType);
         return gFactory.getTitle(da);
-   }
-
+    }
 }

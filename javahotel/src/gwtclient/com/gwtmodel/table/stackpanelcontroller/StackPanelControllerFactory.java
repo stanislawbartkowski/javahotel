@@ -13,6 +13,7 @@
 package com.gwtmodel.table.stackpanelcontroller;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.view.stack.StackButton;
 import com.gwtmodel.table.view.stack.StackPanelFactory;
 import java.util.List;
@@ -30,7 +31,7 @@ public class StackPanelControllerFactory {
         this.paFactory = paFactory;
     }
 
-    public IStackPanelController construct(List<StackButton> bList, String html) {
-        return new StackPanelController(paFactory, bList, html);
+    public IStackPanelController construct(IDataType dType, List<StackButton> bList, String html) {
+        return new StackPanelController(paFactory, bList, html, dType);
     }
 }

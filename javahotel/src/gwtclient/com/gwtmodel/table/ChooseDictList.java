@@ -44,6 +44,7 @@ public class ChooseDictList<T extends IVModelData> {
 
     private class GetChoosed implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData vData = sl.getGetterIVModelData(
                     GetActionEnum.GetListLineChecked, dType);
@@ -58,6 +59,7 @@ public class ChooseDictList<T extends IVModelData> {
 
     private class GetResign implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             i.setResign();
         }
@@ -65,6 +67,7 @@ public class ChooseDictList<T extends IVModelData> {
 
     private class GetWidget implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IGWidget w = slContext.getGwtWidget();
             i.setWidget(w);
@@ -87,7 +90,7 @@ public class ChooseDictList<T extends IVModelData> {
                 new GetChoosed());
         sl.registerSubscriber(ClickButtonType.StandClickEnum.RESIGNLIST,
                 new GetResign());
-        sl.registerSubscriber(0, new GetWidget());
+        sl.registerSubscriber(dType, 0, new GetWidget());
         iData.startPublish(new CellId(0));
     }
 }

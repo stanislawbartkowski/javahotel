@@ -34,7 +34,7 @@ import com.gwtmodel.table.view.table.VListHeaderContainer;
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     private final IGwtTableView tableView;
-    private final IDataType dType;
+//    private final IDataType dType;
     private final DataListModelView listView;
 
     private class DrawHeader implements ISlotSignaller {
@@ -111,6 +111,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(cellId, tableView);
+        publish(dType, cellId, tableView);
     }
 }

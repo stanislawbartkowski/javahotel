@@ -18,6 +18,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
@@ -52,7 +53,7 @@ import com.javahotel.nmvc.common.VModelData;
 public class BookingHeaderContainer extends AbstractSlotContainer {
 
     private final DataType subType;
-    private final DataType dType;
+//    private final DataType dType;
     private final DataType aType;
     private final ISlotMediator slMediator;
     private final IDataModelFactory daFactory;
@@ -74,7 +75,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         protected void doTask() {
             vp.add(hW);
             vp.add(aW);
-            publish(cellId, new GWidget(vp));
+            publish(dType, cellId, new GWidget(vp));
         }
 
     }
@@ -101,7 +102,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         }
     }
 
-    private void drawBook(DataType dType, IVModelData book) {
+    private void drawBook(IDataType dType, IVModelData book) {
         slMediator.getSlContainer().publish(
                 DataActionEnum.DrawViewComposeFormAction, dType, book);
     }
@@ -140,9 +141,9 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
     }
 
     private void register(ISlotable book, ISlotable aHeader) {
-        book.getSlContainer().registerSubscriber(IPanelView.CUSTOMID,
+        book.getSlContainer().registerSubscriber(dType, IPanelView.CUSTOMID,
                 new SetWidget());
-        aHeader.getSlContainer().registerSubscriber(IPanelView.CUSTOMID + 1,
+        aHeader.getSlContainer().registerSubscriber(dType,IPanelView.CUSTOMID + 1,
                 new SetWidgetHeader());
     }
     
@@ -206,9 +207,9 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         register(book, aHeader);
         slMediator.registerSlotContainer(cId, book);
         slMediator.registerSlotContainer(aId, aHeader);
-        registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
+        registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
                 new DrawModel());
-        registerCaller(GetActionEnum.GetViewModelEdited, subType,
+        registerCaller(GetActionEnum.GetViewModelEdited, dType,
                 new SetGetter());
     }
 

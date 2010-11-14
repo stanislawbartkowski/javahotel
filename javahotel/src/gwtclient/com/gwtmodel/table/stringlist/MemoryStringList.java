@@ -17,7 +17,6 @@ import java.util.List;
 
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataListType;
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
@@ -37,15 +36,15 @@ import com.gwtmodel.table.view.table.VListHeaderDesc;
 class MemoryStringList extends AbstractSlotContainer implements
         IMemoryStringList {
 
-    private final IMemoryListModel lStringList;
+    private final IMemoryListModel lPersistList;
     private final IDataControler dControler;
-    private final IDataType sType;
+//    private final IDataType sType;
     private final String fieldName;
     private final String title;
 
     @Override
     public void setMemTable(IDataListType dList) {
-        lStringList.setDataList(dList);
+        lPersistList.setDataList(dList);
         dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         VListHeaderDesc he = new VListHeaderDesc(fieldName,
@@ -53,27 +52,30 @@ class MemoryStringList extends AbstractSlotContainer implements
         heList.add(he);
         VListHeaderContainer vHeader;
         vHeader = new VListHeaderContainer(heList, title);
-        dControler.getSlContainer().publish(sType, vHeader);
+        dControler.getSlContainer().publish(dType, vHeader);
     }
 
     MemoryStringList(String fieldName, String title,
             IStringEFactory eFactory, ISlotSignaller setGwt) {
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
-        DataViewModelFactory daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
-        sType = Empty.getDataType();
+        TableDataControlerFactory tFactory =
+                GwtGiniInjector.getI().getTableDataControlerFactory();
+        DataViewModelFactory daFactory =
+                GwtGiniInjector.getI().getDataViewModelFactory();
+        dType = Empty.getDataType();
         this.fieldName = fieldName;
         this.title = title;
-        lStringList = new MemoryListPersist(sType);
+        lPersistList = new MemoryListPersist(dType);
 
         IVField sField = Empty.getFieldType();
 
-        DisplayListControlerParam cParam = tFactory.constructParam(sType, new CellId(0),
-                new DataListParam(lStringList, null, new DataFactory(eFactory,
-                sField), new StringFactory(fieldName, title),
-                new GetControler(fieldName, title, eFactory, sField,
-                daFactory, lStringList)), null);
+        DisplayListControlerParam cParam = tFactory.constructParam(dType, new CellId(0),
+                new DataListParam(lPersistList, null,
+                new DataFactory(eFactory),
+                new StringFactory(fieldName, title),
+                new GetControler(fieldName, title, eFactory, sField, daFactory, lPersistList)),
+                null);
         dControler = tFactory.constructDataControler(cParam);
-        dControler.getSlContainer().registerSubscriber(0, setGwt);
+        dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
     }
 
     @Override
@@ -82,6 +84,6 @@ class MemoryStringList extends AbstractSlotContainer implements
 
     @Override
     public IDataListType getMemTable() {
-        return lStringList.getDataList();
+        return lPersistList.getDataList();
     }
 }

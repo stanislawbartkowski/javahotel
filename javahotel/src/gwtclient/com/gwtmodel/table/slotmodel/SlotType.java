@@ -60,6 +60,7 @@ public class SlotType implements IEquatable<SlotType> {
     /** Custom */
     private final IEquatable iEq;
 
+    @Override
     public boolean eq(SlotType slType) {
         if (slEnum != slType.slEnum) {
             return false;
@@ -78,6 +79,7 @@ public class SlotType implements IEquatable<SlotType> {
                 }
                 return dType.eq(slType.dType);
             case CallBackWidget:
+                if (!dType.eq(slType.dType)) { return false; }
                 return cellId.eq(slType.cellId);
             case ClickButton:
                 return buttonClick.eq(slType.buttonClick);

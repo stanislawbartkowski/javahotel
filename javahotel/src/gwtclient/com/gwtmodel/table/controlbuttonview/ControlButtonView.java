@@ -14,6 +14,7 @@ package com.gwtmodel.table.controlbuttonview;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
@@ -27,16 +28,19 @@ class ControlButtonView extends AbstractSlotContainer implements
         IControlButtonView {
 
     private final IContrButtonView vButton;
+//    private final IDataType dType;
 
     private class Click implements IControlClick {
 
+        @Override
         public void click(ControlButtonDesc co, Widget w) {
             publish(co.getActionId(), new GWidget(w));
         }
     }
 
     ControlButtonView(ContrButtonViewFactory vFactory,
-            ListOfControlDesc listButton) {
+            ListOfControlDesc listButton, IDataType dType) {
+        this.dType = dType;
         vButton = vFactory.getView(listButton, new Click());
     }
 
@@ -44,7 +48,7 @@ class ControlButtonView extends AbstractSlotContainer implements
     public void startPublish(CellId cellId) {
         IGWidget w = getHtmlWidget(cellId);
         if (w == null) {
-            publish(cellId, vButton);
+            publish(dType, cellId, vButton);
         } else {
             vButton.fillHtml(w);
         }

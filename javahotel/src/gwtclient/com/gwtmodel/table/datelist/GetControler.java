@@ -50,9 +50,11 @@ class GetControler implements IGetViewControllerFactory {
     @Override
     public IComposeController construct(IDataType dType) {
         ComposeControllerFactory coFactory = GwtGiniInjector.getI().getComposeControllerFactory();
-        FormLineContainer fContainer = sFactory.construct(dType);
+//        FormLineContainer fContainer = sFactory.construct(dType);
         IComposeController iCon = coFactory.construct(dType, dFactory);
-        IDataViewModel daModel = daFactory.construct(dType, fContainer,
+ //      IDataViewModel daModel = daFactory.construct(dType, fContainer,
+ //               dFactory);
+        IDataViewModel daModel = daFactory.construct(dType, null,
                 dFactory);
         ComposeControllerType cType = new ComposeControllerType(daModel, dType,
                 0, 0);

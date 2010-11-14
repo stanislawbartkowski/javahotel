@@ -38,9 +38,10 @@ public class SlotTypeFactory {
                 null, dType, GetActionEnum.GetFormFieldWidget, null, null);
     }
 
-    public SlotType construct(CellId cellId) {
+    public SlotType construct(IDataType dType, CellId cellId) {
+        assert dType != null : "dType cannot be null";
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
-                null, cellId, null, null, null, null);
+                null, cellId, dType, null, null, null);
     }
 
     public SlotType constructH(CellId cellId) {
@@ -48,9 +49,10 @@ public class SlotTypeFactory {
                 null, cellId, null, GetActionEnum.GetHtmlForm, null, null);
     }
 
-    public SlotType construct(int cellId) {
+    public SlotType construct(IDataType dType, int cellId) {
+        assert dType != null : "dType cannot be null";
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
-                null, new CellId(cellId), null, null, null, null);
+                null, new CellId(cellId), dType, null, null, null);
     }
 
     public SlotType construct(ClickButtonType buttonClick) {

@@ -15,7 +15,7 @@ package com.gwtmodel.table.injector;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
-import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListFactory;
@@ -28,7 +28,7 @@ public class WebPanelHolder {
 
     private static class TableFactoriesContainer implements ITableAbstractFactories, ITableCustomFactories {
 
-        private IFormDefFactory iFormDefFactory;
+        private IFormTitleFactory iFormDefFactory;
         private IPersistFactoryAction iPersistFactory;
         private IHeaderListFactory iheFactory;
         private IDataModelFactory iDataModelFactory;
@@ -41,7 +41,7 @@ public class WebPanelHolder {
         }
 
         @Override
-        public IFormDefFactory getFormDefFactory() {
+        public IFormTitleFactory getFormDefFactory() {
             return iFormDefFactory;
         }
 
@@ -56,7 +56,7 @@ public class WebPanelHolder {
         }
 
         @Override
-        public void registerFormDefFactory(IFormDefFactory iFormDefFactory) {
+        public void registerFormDefFactory(IFormTitleFactory iFormDefFactory) {
             this.iFormDefFactory = iFormDefFactory;
 
         }

@@ -13,18 +13,15 @@
 package com.gwtmodel.table.stringlist;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 
 class DataFactory extends AbstractDataModel {
 
     private final IStringEFactory eFactory;
-    private final IVField fie;
 
-    DataFactory(IStringEFactory eFactory, IVField fie) {
+    DataFactory(IStringEFactory eFactory) {
         this.eFactory = eFactory;
-        this.fie = fie;
     }
 
     @Override

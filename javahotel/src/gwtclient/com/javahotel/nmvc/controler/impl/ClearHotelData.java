@@ -44,7 +44,7 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
 
 //    private final IDataControler iData;
     private final ClickButtonType cClear;
-    private final DataType daType;
+//    private final DataType daType;
     private final static String CUSTOM = "CUSTOM-BUTTOM";
 
 //    @Override
@@ -81,7 +81,7 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
         @Override
         public void signal(ISlotSignalContext sl) {
             ISlotSignalContext ret = getSlContainer().getGetterContext(
-                    GetActionEnum.GetListLineChecked, daType);
+                    GetActionEnum.GetListLineChecked, dType);
             IVModelData vData = ret.getVData();
             WSize wSize = ret.getWSize();
 
@@ -103,10 +103,10 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
         ListOfControlDesc cList = new ListOfControlDesc(bList);
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
-        daType = new DataType(RType.AllHotels);
+        dType = new DataType(RType.AllHotels);
         // iData = tFactory.constructDataControler(daType, null, cList,
         // panelId);
-        DisplayListControlerParam dList = tFactory.constructParam(daType, null,
+        DisplayListControlerParam dList = tFactory.constructParam(dType, null,
                 cList, panelId);
         iSlot = tFactory.constructDataControler(dList);
         // iData = dList.getListParam().
@@ -117,6 +117,7 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
 //        return iData.getSlContainer();
 //    }
 
+// keep it as overrided
     @Override
     public void startPublish(CellId cellId) {
         iSlot.startPublish(null);

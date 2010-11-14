@@ -40,7 +40,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private final FormLineContainer fContainer;
     private final IGwtFormView gView;
     private final IDataModelFactory dFactory;
-    private final IDataType dType;
+//    private final IDataType dType;
 
     private class ChangeMode implements ISlotSignaller {
 
@@ -171,7 +171,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     public void startPublish(CellId cellId) {
         IGWidget w = getHtmlWidget(cellId);
         if (w == null) {
-            publish(cellId, gView);
+            publish(dType, cellId, gView);
             return;
         }
         gView.fillHtml(w);

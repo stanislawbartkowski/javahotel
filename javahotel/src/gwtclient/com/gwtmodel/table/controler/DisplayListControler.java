@@ -19,8 +19,6 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.panelview.PanelViewFactory;
-import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -42,8 +40,8 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
         IDataPersistAction persistA = cParam.getListParam().getPersistA();
         IHeaderListContainer heList = cParam.getListParam().getHeList();
         // create panel View
-        PanelViewFactory pViewFactory = cParam.gettFactories().getpViewFactory();
-        IPanelView pView = pViewFactory.construct(cParam.getPanelId());
+//        PanelViewFactory pViewFactory = cParam.gettFactories().getpViewFactory();
+        IPanelView pView = pViewFactory.construct(cParam.getdType(), cParam.getPanelId());
         controlId = pView.addCellPanel(0, 0);
         cellTableId = pView.addCellPanel(1, 0);
         pView.createView();
@@ -52,12 +50,12 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
         ListDataViewFactory lDataFactory = cParam.gettFactories().getlDataFactory();
         IListDataView daView = lDataFactory.construct(cParam.getdType());
         ControlButtonViewFactory bFactory = cParam.gettFactories().getbViewFactory();
-        IControlButtonView bView = bFactory.construct(cParam.getListButton());
+        IControlButtonView bView = bFactory.construct(cParam.getdType(),
+                cParam.getListButton());
         if (cParam.getMe() == null) {
 //          slMediator = cParam.gettFactories().getSlotMediatorFactory().construct();
-          startM = true;
-        }
-        else {
+            startM = true;
+        } else {
             slMediator = cParam.getMe();
             startM = false;
         }
@@ -77,27 +75,26 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            slContainer.publish(DataActionEnum.DrawListAction, cParam.getdType(), slContext
-                    .getDataList(), cParam.getwSize());
+            slContainer.publish(DataActionEnum.DrawListAction, cParam.getdType(),
+                    slContext.getDataList(), cParam.getwSize());
         }
     }
 
     @Override
     public void startPublish(CellId cellId) {
         if (startM) {
-           slMediator.startPublish(cellId);
+            slMediator.startPublish(cellId);
         }
         slContainer.registerSubscriber(DataActionEnum.ListReadSuccessSignal,
                 cParam.getdType(), new DrawListAction());
         slContainer.registerRedirector(cParam.gettFactories().getSlTypeFactory().construct(
                 DataActionEnum.RefreshAfterPersistActionSignal, cParam.getdType()),
                 cParam.gettFactories().getSlTypeFactory().construct(
-                        DataActionEnum.ReadListAction, cParam.getdType()));
+                DataActionEnum.ReadListAction, cParam.getdType()));
         // secondly publish
         slContainer.publish(DataActionEnum.ReadListAction, cParam.getdType(), cParam.getwSize());
         slContainer.publish(DataActionEnum.ReadHeaderContainer, cParam.getdType());
     }
-
 //    @Override
 //    public SlotListContainer getSlContainer() {
 //        return slContainer;

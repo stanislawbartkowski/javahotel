@@ -16,6 +16,8 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.IDataType;
+
 /**
  *
  * @author hotel
@@ -23,6 +25,7 @@ package com.gwtmodel.table.slotmodel;
 public class TemplateContainerSlotable<T extends ISlotable> implements ISlotable {
 
     protected T iSlot;
+    protected IDataType dType;
 
     @Override
     public SlotListContainer getSlContainer() {

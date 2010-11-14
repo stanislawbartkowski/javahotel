@@ -45,7 +45,7 @@ class DatePeriodList extends AbstractSlotContainer implements
 
     private final IMemoryListModel mList;
     private final String title;
-    private final IDataType dType;
+//    private final IDataType dType;
     private final IDataControler dControler;
 
     DatePeriodList(String title, IDatePeriodFactory eFactory, ISlotSignaller setGwt) {
@@ -61,7 +61,7 @@ class DatePeriodList extends AbstractSlotContainer implements
                 new DateViewFactory(title),
                 new GetControler(title, eFactory, daFactory, mList)), null);
         dControler = tFactory.constructDataControler(cParam);
-        dControler.getSlContainer().registerSubscriber(0, setGwt);
+        dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
 
 
     }

@@ -61,7 +61,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     private final VerticalPanel vp = new VerticalPanel();
     private final Sych sy = new Sych();
     private final ISlotMediator slMediator;
-    private final DataType custType;
+//    private final DataType custType;
     private final IDataModelFactory daFactory;
     private final IResLocator rI;
     private final AddChangeBox cBox = new AddChangeBox();
@@ -85,7 +85,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
             hp.add(but);
             vp.add(hp);
             vp.add(cust);
-            publish(cellId, new GWidget(vp));
+            publish(dType, cellId, new GWidget(vp));
         }
 
     }
@@ -114,7 +114,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
 
     private void drawCust(IVModelData cust) {
         slMediator.getSlContainer().publish(
-                DataActionEnum.DrawViewComposeFormAction, custType, cust);
+                DataActionEnum.DrawViewComposeFormAction, dType, cust);
     }
 
     private class SetCustomerData implements RData.IOneList<AbstractTo> {
@@ -133,7 +133,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
             BookingP b = getBook(slContext);
             LId custI = b.getCustomer();
             if (custI == null) {
-                IVModelData cust = daFactory.construct(custType);
+                IVModelData cust = daFactory.construct(dType);
                 drawCust(cust);
                 cBox.setChangeCheck(true);
                 cBox.setNewCheck(true);
@@ -146,9 +146,9 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     }
 
     private void register(ISlotable pView, ISlotable cust) {
-        pView.getSlContainer().registerSubscriber(IPanelView.CUSTOMID,
+        pView.getSlContainer().registerSubscriber(dType, IPanelView.CUSTOMID,
                 new SetWidget());
-        cust.getSlContainer().registerSubscriber(IPanelView.CUSTOMID + 1,
+        cust.getSlContainer().registerSubscriber(dType, IPanelView.CUSTOMID + 1,
                 new SetWidgetCust());
     }
     
@@ -167,8 +167,9 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
             IVModelData mData = slContext.getVData();
             VModelData vData = (VModelData) mData;
             
-            IVModelData cust = daFactory.construct(custType);
-            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(GetActionEnum.GetViewModelEdited, custType, cust);
+            IVModelData cust = daFactory.construct(dType);
+            IVModelData pData = slMediator.getSlContainer().
+                    getGetterIVModelData(GetActionEnum.GetViewModelEdited, dType, cust);
             boolean addCust = cBox.getNewCheck();
             boolean changeCust = cBox.getChangeCheck();
             VModelData vvData = (VModelData) pData;
@@ -180,6 +181,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     }
 
     public BookingCustomerContainer(DataType subType) {
+        dType = new DataType(DictType.CustomerList);
         TablesFactories tFactories = GwtGiniInjector.getI()
                 .getTablesFactories();
         ITableCustomFactories fContainer = GwtGiniInjector.getI()
@@ -199,13 +201,12 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         ListOfControlDesc cList = new ListOfControlDesc(bList);
         ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
                 .getControlButtonViewFactory();
-        IControlButtonView bView = bFactory.construct(cList);
+        IControlButtonView bView = bFactory.construct(dType, cList);
         IGetViewControllerFactory fa = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getGetViewControllerFactory();
-        custType = new DataType(DictType.CustomerList);
         CellId bId = new CellId(IPanelView.CUSTOMID);
         CellId cId = new CellId(IPanelView.CUSTOMID + 1);
-        IComposeController cust = fa.construct(custType);
+        IComposeController cust = fa.construct(dType);
         cust.createComposeControle(cId);
 
         register(bView, cust);

@@ -162,6 +162,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
     }
 
     public SeasonAddInfo(IDataType dType) {
+        this.dType = dType;
         daFactory = GwtGiniInjector.getI().getDatePeriodListFactory();
         pFactory = new MyPeriodFactory();
         outsideSeason = daFactory.construct("Poza sezonem", pFactory, sPanel.constructSetGwt());
@@ -175,6 +176,6 @@ public class SeasonAddInfo extends AbstractSlotContainer {
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(cellId, sPanel.constructGWidget());
+        publish(dType, cellId, sPanel.constructGWidget());
     }
 }
