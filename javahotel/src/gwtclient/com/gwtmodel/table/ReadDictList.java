@@ -33,6 +33,7 @@ public class ReadDictList<T extends IDataListType> {
             this.iList = iList;
         }
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IDataListType dataList = slContext.getDataList();
             T t = (T) dataList;

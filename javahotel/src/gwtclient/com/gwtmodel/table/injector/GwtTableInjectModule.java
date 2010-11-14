@@ -19,6 +19,7 @@ import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
+import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
@@ -69,6 +70,7 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(GridViewFactory.class).in(Singleton.class);
         bind(SlotMediatorFactory.class).in(Singleton.class);
         bind(MemoryStringTableFactory.class).in(Singleton.class);
+        bind(DatePeriodListFactory.class).in(Singleton.class);
         bind(HtmlPanelFactory.class).in(Singleton.class);
         bind(ContrButtonViewFactory.class).in(Singleton.class);
         bind(WebPanelFactory.class).in(Singleton.class);

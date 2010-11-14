@@ -12,22 +12,23 @@
  */
 package com.gwtmodel.table;
 
+import java.util.List;
+
 public interface IVModelData {
-
-
 
     Object getF(IVField fie);
 
     void setF(IVField fie, Object o);
-    
+
+    boolean isValid(IVField fie);
+
     String getS(IVField fie);
 
     boolean isEmpty(IVField fie);
 
-    IVField[] getF();
+    List<IVField> getF();
 
     Object getCustomData();
 
     void setCustomData(Object o);
-
 }

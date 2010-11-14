@@ -29,7 +29,7 @@ import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 abstract public class AbstractSlotContainer implements ISlotable {
 
-    protected final SlotListContainer slContainer;
+    protected  SlotListContainer slContainer;
     protected final SlotTypeFactory slTypeFactory;
 
     protected AbstractSlotContainer() {
@@ -37,9 +37,16 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
     }
 
+    @Override
     public SlotListContainer getSlContainer() {
         return slContainer;
     }
+
+    @Override
+    public void replaceSlContainer(SlotListContainer sl) {
+        slContainer = sl;
+    }
+
 
     protected void publish(ISlotSignalContext slContext) {
         slContainer.publish(slContext);
@@ -203,6 +210,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(dataActionEnum, dType, slContext);
     }
 
+    @Override
     public void startPublish(CellId cellId) {
     }
 }

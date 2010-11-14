@@ -24,6 +24,7 @@ import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -34,9 +35,9 @@ import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
-class LoginDataView implements ILoginDataView {
+class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataView {
 
-    private final ISlotMediator slMediator;
+//    private final ISlotMediator slMediator;
     private final IDataModelFactory dFactory;
     private final IDataType dType;
 
@@ -60,14 +61,14 @@ class LoginDataView implements ILoginDataView {
             IDataValidateAction vAction) {
         this.dFactory = dFactory;
         this.dType = dType;
-        TablesFactories tFactories = GwtGiniInjector.getI()
-                .getTablesFactories();
+//        TablesFactories tFactories = GwtGiniInjector.getI()
+//                .getTablesFactories();
         ListOfControlDesc bControl = tFactories.getControlButtonFactory()
                 .constructLoginButton();
         IControlButtonView bView = tFactories.getbViewFactory().construct(
                 bControl);
         IPanelView pView = tFactories.getpViewFactory().construct(panelId);
-        slMediator = tFactories.getSlotMediatorFactory().construct();
+//        slMediator = tFactories.getSlotMediatorFactory().construct();
         CellId controlId = pView.addCellPanel(1, 0);
         CellId cellTableId = pView.addCellPanel(0, 0);
         pView.createView();
@@ -86,14 +87,14 @@ class LoginDataView implements ILoginDataView {
                 slFactory.construct(DataActionEnum.ValidateAction, dType));
     }
 
-    @Override
-    public SlotListContainer getSlContainer() {
-        return slMediator.getSlContainer();
-    }
-
-    @Override
-    public void startPublish(CellId cellId) {
-        slMediator.startPublish(cellId);
-    }
+//    @Override
+//    public SlotListContainer getSlContainer() {
+//        return slMediator.getSlContainer();
+//    }
+//
+//    @Override
+//    public void startPublish(CellId cellId) {
+//        slMediator.startPublish(cellId);
+//    }
 
 }

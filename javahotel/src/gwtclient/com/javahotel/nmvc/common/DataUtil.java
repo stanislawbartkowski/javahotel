@@ -26,6 +26,7 @@ import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.view.table.ColumnDataType;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
@@ -39,6 +40,7 @@ import com.javahotel.client.mvc.table.model.ColTitle;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
 
@@ -50,15 +52,15 @@ public class DataUtil {
     public static int vTypetoAction(PersistTypeEnum persisEnumType) {
         int action = -1;
         switch (persisEnumType) {
-        case ADD:
-            action = IPersistAction.ADDACION;
-            break;
-        case MODIF:
-            action = IPersistAction.MODIFACTION;
-            break;
-        case REMOVE:
-            action = IPersistAction.DELACTION;
-            break;
+            case ADD:
+                action = IPersistAction.ADDACION;
+                break;
+            case MODIF:
+                action = IPersistAction.MODIFACTION;
+                break;
+            case REMOVE:
+                action = IPersistAction.DELACTION;
+                break;
         }
         return action;
     }
@@ -121,8 +123,7 @@ public class DataUtil {
     public static InvalidateFormContainer convert(IErrorMessage errmess) {
         List<InvalidateMess> eList = new ArrayList<InvalidateMess>();
         DictErrorMessage dictM = (DictErrorMessage) errmess;
-        List<com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess> col = dictM
-                .getErrmess();
+        List<com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess> col = dictM.getErrmess();
         for (com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess mess : col) {
             InvalidateMess mm = new InvalidateMess(new VField(mess.getFie()),
                     mess.isEmpty(), mess.getErrmess());
@@ -184,4 +185,10 @@ public class DataUtil {
         return da;
     }
 
+    public static <T extends AbstractTo> T getData(ISlotSignalContext slContext) {
+        IVModelData mData = slContext.getVData();
+        VModelData vData = (VModelData) mData;
+        T cust = (T) vData.getA();
+        return cust;
+    }
 }

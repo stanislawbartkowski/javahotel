@@ -14,52 +14,14 @@ package com.gwtmodel.table.login;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.view.util.FormUtil;
+import com.gwtmodel.table.view.util.AbstractDataModel;
 
-public class LoginDataModelFactory implements IDataModelFactory {
 
+public class LoginDataModelFactory extends AbstractDataModel {
+
+    @Override
     public IVModelData construct(IDataType dType) {
         return new LoginData();
     }
 
-    private LoginField[] getLi() {
-        LoginField[] li = {new LoginField(LoginField.F.LOGINNAME),
-            new LoginField(LoginField.F.PASSWORD)};
-        return li;
-    }
-
-    protected void copyData(LoginField[] li, IVModelData from, IVModelData to) {
-        for (int i = 0; i < li.length; i++) {
-            LoginField f = li[i];
-            Object val = from.getF(f);
-            to.setF(f, val);
-        }
-    }
-
-    @Override
-    public void copyFromPersistToModel(IDataType dType, IVModelData from,
-            IVModelData to) {
-        copyData(getLi(), from, to);
-    }
-
-
-    @Override
-    public void fromModelToPersist(IDataType dType, IVModelData from,
-            IVModelData to) {
-        copyData(getLi(), from, to);
-    }
-
-    @Override
-    public void fromViewToData(IDataType dType, FormLineContainer fContainer,
-            IVModelData aTo) {
-        FormUtil.copyFromViewToData(fContainer, aTo);
-    }
-
-    @Override
-    public void fromDataToView(IDataType dType, PersistTypeEnum persistTypeEnum, IVModelData aFrom, FormLineContainer fContainer) {
-        FormUtil.copyFromDataToView(aFrom, fContainer);
-    }
 }

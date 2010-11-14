@@ -29,16 +29,19 @@ public class MemoryListPersist extends AbstractSlotContainer implements
     private final IDataType dType;
     private IDataListType dataList;
 
+    @Override
     public IDataListType getDataList() {
         return dataList;
     }
 
+    @Override
     public void setDataList(IDataListType dataList) {
         this.dataList = dataList;
     }
 
     private class PersistRecord implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             PersistTypeEnum persistEnumType = slContext.getPersistType();
             IVModelData pData = getGetterIVModelData(
@@ -69,6 +72,7 @@ public class MemoryListPersist extends AbstractSlotContainer implements
 
     private class ReadList implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             publish(DataActionEnum.ListReadSuccessSignal, dType, dataList);
         }
@@ -83,6 +87,7 @@ public class MemoryListPersist extends AbstractSlotContainer implements
         // persist subscriber
     }
 
+    @Override
     public void startPublish(CellId cellId) {
     }
 

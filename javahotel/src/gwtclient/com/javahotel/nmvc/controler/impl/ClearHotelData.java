@@ -30,8 +30,7 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.slotmodel.SlotListContainer;
+import com.gwtmodel.table.slotmodel.TemplateContainerSlotable;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.GWTGetService;
@@ -41,12 +40,17 @@ import com.javahotel.common.toobject.HotelP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.VModelData;
 
-public class ClearHotelData implements ISlotable {
+public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
 
-    private final IDataControler iData;
+//    private final IDataControler iData;
     private final ClickButtonType cClear;
     private final DataType daType;
     private final static String CUSTOM = "CUSTOM-BUTTOM";
+
+//    @Override
+//    public void replaceSlContainer(SlotListContainer sl) {
+//        iData.replaceSlContainer(sl);
+//    }
 
     private class DelC extends CommonCallBack<Object> {
 
@@ -64,6 +68,7 @@ public class ClearHotelData implements ISlotable {
             this.ho = ho;
         }
 
+        @Override
         public void click(boolean yes) {
             if (yes) {
                 GWTGetService.getService().clearHotelData(ho, new DelC());
@@ -73,6 +78,7 @@ public class ClearHotelData implements ISlotable {
 
     private class ClearData implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext sl) {
             ISlotSignalContext ret = getSlContainer().getGetterContext(
                     GetActionEnum.GetListLineChecked, daType);
@@ -102,17 +108,18 @@ public class ClearHotelData implements ISlotable {
         // panelId);
         DisplayListControlerParam dList = tFactory.constructParam(daType, null,
                 cList, panelId);
-        iData = tFactory.constructDataControler(dList);
+        iSlot = tFactory.constructDataControler(dList);
         // iData = dList.getListParam().
         getSlContainer().registerSubscriber(cClear, new ClearData());
     }
 
-    public SlotListContainer getSlContainer() {
-        return iData.getSlContainer();
-    }
+//    public SlotListContainer getSlContainer() {
+//        return iData.getSlContainer();
+//    }
 
+    @Override
     public void startPublish(CellId cellId) {
-        iData.startPublish(null);
+        iSlot.startPublish(null);
     }
 
 }

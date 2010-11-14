@@ -16,10 +16,12 @@ public abstract class AVModelData implements IVModelData {
 
     private Object customData;
 
+    @Override
     public Object getCustomData() {
         return customData;
     }
 
+    @Override
     public void setCustomData(Object o) {
         customData = o;
     }

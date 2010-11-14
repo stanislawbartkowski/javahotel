@@ -20,7 +20,7 @@ import java.util.List;
  */
 class DataListType implements IDataListType {
 
-    private final List<IVModelData> dList;
+    protected final List<IVModelData> dList;
     private final IVField comboFie;
 
     DataListType(List<IVModelData> dList, IVField comboFie) {
@@ -28,22 +28,27 @@ class DataListType implements IDataListType {
         this.comboFie = comboFie;
     }
 
+    @Override
     public IVModelData getRow(int row) {
         return dList.get(row);
     }
 
+    @Override
     public int rowNo() {
         return dList.size();
     }
 
+    @Override
     public IVField comboField() {
         return comboFie;
     }
 
+    @Override
     public void append(IVModelData vData) {
         dList.add(vData);
     }
 
+    @Override
     public void remove(int row) {
         dList.remove(row);
     }

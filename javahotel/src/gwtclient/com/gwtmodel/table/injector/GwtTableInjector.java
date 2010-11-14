@@ -19,6 +19,7 @@ import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
+import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
@@ -74,6 +75,8 @@ public interface GwtTableInjector extends Ginjector {
 
     MemoryStringTableFactory getMemoryStringTableFactory();
 
+    DatePeriodListFactory getDatePeriodListFactory();
+
     HtmlPanelFactory getHtmlPanelFactory();
 
     ControlButtonFactory getControlButtonFactory();
@@ -85,5 +88,4 @@ public interface GwtTableInjector extends Ginjector {
     IWebPanel getWebPanel();
 
     ControlButtonViewFactory getControlButtonViewFactory();
-    
 }

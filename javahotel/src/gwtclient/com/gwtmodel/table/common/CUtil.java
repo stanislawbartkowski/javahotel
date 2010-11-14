@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.common;
 
+import java.util.Date;
+
 /**
  *
  * @author perseus
@@ -63,6 +65,16 @@ public class CUtil {
             return false;
         }
         return p1.equalsIgnoreCase(p2);
+    }
+
+    public static boolean EqDS(Date d1, Date d2) {
+        if ((d1 == null) && (d2 == null)) {
+            return true;
+        }
+        if ((d1 == null) || (d2 == null)) {
+            return false;
+        }
+        return d1.equals(d2);
     }
 
     public static int getNumb(String s) {

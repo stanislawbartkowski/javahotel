@@ -14,7 +14,9 @@ package com.gwtmodel.table.login;
 
 import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
+import java.util.List;
 
 public class LoginData extends AVModelData {
 
@@ -29,7 +31,6 @@ public class LoginData extends AVModelData {
     public String getPassword() {
         return password;
     }
-
     private String loginName;
     private String password;
     private String repassword;
@@ -48,7 +49,7 @@ public class LoginData extends AVModelData {
         }
         return null;
     }
-    
+
     @Override
     public String getS(IVField fie) {
         return (String) getF(fie);
@@ -86,12 +87,16 @@ public class LoginData extends AVModelData {
     }
 
     @Override
-    public IVField[] getF() {
-        IVField[] e = { new LoginField(LoginField.F.LOGINNAME),
-                new LoginField(LoginField.F.PASSWORD),
-                new LoginField(LoginField.F.REPASSWORD),
-                new LoginField(LoginField.F.OTHER) };
-        return e;
+    public List<IVField> getF() {
+        IVField[] e = {new LoginField(LoginField.F.LOGINNAME),
+            new LoginField(LoginField.F.PASSWORD),
+            new LoginField(LoginField.F.REPASSWORD),
+            new LoginField(LoginField.F.OTHER)};
+        return Utils.toList(e);
     }
 
+    @Override
+    public boolean isValid(IVField fie) {
+        return true;
+    }
 }

@@ -44,6 +44,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private class ChangeMode implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             PersistTypeEnum persistTypeEnum = slContext.getPersistType();
             for (FormField fie : fContainer.getfList()) {
@@ -69,6 +70,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private class DrawModel implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             PersistTypeEnum persistTypeEnum = slContext.getPersistType();
             IVModelData mData = slContext.getVData();
@@ -78,6 +80,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private class GetterModel implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             fromViewToData(mData);
@@ -87,6 +90,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private class GetterContainer implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             return construct(dType, fContainer);
         }
@@ -94,6 +98,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private class GetterWidget implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVField v = slContext.getVField();
             List<FormField> l = fContainer.getfList();
@@ -108,6 +113,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private class InvalidateMess implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext.getValidateError();
             gView.showInvalidate(errContainer);
@@ -122,6 +128,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             this.fie = fie;
         }
 
+        @Override
         public void onChange(IFormLineView i) {
             publish(dType, fie, i);
         }

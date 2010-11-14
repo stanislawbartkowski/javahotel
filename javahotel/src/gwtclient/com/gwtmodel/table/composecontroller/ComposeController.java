@@ -19,16 +19,16 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.panelview.IPanelView;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.PanelSlotContainer;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
-class ComposeController extends PanelSlotContainer implements
+class ComposeController extends AbstractSlotMediatorContainer implements
         IComposeController {
 
     private final List<ComposeControllerType> cList = new ArrayList<ComposeControllerType>();

@@ -87,6 +87,7 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     private class R implements ReadDictList.IListCallBack<IDataListType> {
 
+        @Override
         public void setList(IDataListType dList) {
             List<DictionaryP> servList = DataUtil.construct(dList);
             synch.servNames = DataUtil.fromDicttoString(servList);
@@ -97,6 +98,7 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     private class ReadSeason implements IOneList<OfferSeasonP> {
 
+        @Override
         public void doOne(OfferSeasonP val) {
             synch.iModel = prFactory.construct(val);
             List<String> cols = synch.iModel.pricesNames();
@@ -127,6 +129,7 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     private class DrawModel implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             VModelData vData = (VModelData) mData;
@@ -139,6 +142,7 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     private class ChangeSeason implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IFormLineView formLine = slContext.getChangedValue();
             String season = formLine.getVal();
@@ -149,6 +153,7 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     private class SetGetter implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             VModelData vData = (VModelData) mData;
@@ -182,6 +187,7 @@ public class PriceListContainer extends AbstractSlotContainer {
                 new ChangeSeason());
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         publish(cellId, iView);
 

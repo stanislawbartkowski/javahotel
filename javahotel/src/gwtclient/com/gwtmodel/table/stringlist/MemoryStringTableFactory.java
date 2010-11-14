@@ -12,12 +12,21 @@
  */
 package com.gwtmodel.table.stringlist;
 
+import com.gwtmodel.table.AbstractLpVModelData;
+import com.gwtmodel.table.DataListTypeFactory;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MemoryStringTableFactory {
 
-    public MemoryStringTable construct() {
-        return new MemoryStringTable();
+    public IDataListType construct(List<AbstractStringE> mList) {
+        List<AbstractLpVModelData> a = new ArrayList<AbstractLpVModelData>();
+        a.addAll(mList);
+        return DataListTypeFactory.constructLp(a);
+
+
     }
 
     public IMemoryStringList construct(String fieldName, String title,

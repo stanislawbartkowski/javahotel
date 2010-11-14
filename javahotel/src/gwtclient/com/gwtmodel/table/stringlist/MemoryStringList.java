@@ -34,11 +34,10 @@ import com.gwtmodel.table.view.table.ColumnDataType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
-public class MemoryStringList extends AbstractSlotContainer implements
+class MemoryStringList extends AbstractSlotContainer implements
         IMemoryStringList {
 
-    private final IMemoryListModel lPhonelist;
-    private final IMemoryListModel lPhonedata;
+    private final IMemoryListModel lStringList;
     private final IDataControler dControler;
     private final IDataType sType;
     private final String fieldName;
@@ -46,8 +45,7 @@ public class MemoryStringList extends AbstractSlotContainer implements
 
     @Override
     public void setMemTable(IDataListType dList) {
-        lPhonelist.setDataList(dList);
-        lPhonedata.setDataList(dList);
+        lStringList.setDataList(dList);
         dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         VListHeaderDesc he = new VListHeaderDesc(fieldName,
@@ -65,16 +63,15 @@ public class MemoryStringList extends AbstractSlotContainer implements
         sType = Empty.getDataType();
         this.fieldName = fieldName;
         this.title = title;
-        lPhonelist = new MemoryListPersist(sType);
-        lPhonedata = new MemoryListPersist(sType);
+        lStringList = new MemoryListPersist(sType);
 
         IVField sField = Empty.getFieldType();
 
         DisplayListControlerParam cParam = tFactory.constructParam(sType, new CellId(0),
-                new DataListParam(lPhonelist, null, new DataFactory(eFactory,
+                new DataListParam(lStringList, null, new DataFactory(eFactory,
                 sField), new StringFactory(fieldName, title),
                 new GetControler(fieldName, title, eFactory, sField,
-                daFactory, lPhonedata)), null);
+                daFactory, lStringList)), null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(0, setGwt);
     }
@@ -85,6 +82,6 @@ public class MemoryStringList extends AbstractSlotContainer implements
 
     @Override
     public IDataListType getMemTable() {
-        return lPhonelist.getDataList();
+        return lStringList.getDataList();
     }
 }

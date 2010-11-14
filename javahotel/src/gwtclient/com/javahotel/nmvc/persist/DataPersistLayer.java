@@ -54,7 +54,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
     private final IResLocator rI;
     private final DataType dType;
 
-    private final IDataListType convertToLogin(IDataListType dataList) {
+    private IDataListType convertToLogin(IDataListType dataList) {
         List<IVModelData> li = new ArrayList<IVModelData>();
         for (int i = 0; i < dataList.rowNo(); i++) {
             VModelData vda = (VModelData) dataList.getRow(i);
@@ -69,6 +69,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
     private class ReadListDict implements IVectorList {
 
+        @Override
         public void doVList(final List<? extends AbstractTo> val) {
             IDataListType dataList = DataUtil.construct(val);
             if (dType.isRType() && dType.getrType() == RType.AllPersons) {
@@ -86,6 +87,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             this.persistTypeEnum = persistTypeEnum;
         }
 
+        @Override
         public void success(PersistResultContext re) {
             publish(DataActionEnum.PersistDataSuccessSignal, dType,
                     persistTypeEnum);
@@ -95,6 +97,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
     private class PersistRecord implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData pData = getGetterIVModelData(
                     GetActionEnum.GetComposeModelToPersist, dType);
@@ -169,6 +172,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             this.iPersist = iPersist;
         }
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData pData = getGetterIVModelData(
                     GetActionEnum.GetComposeModelToPersist, dType);
@@ -181,6 +185,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
     private class ReadList implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             CommandParam co = rI.getR().getHotelCommandParam();
             if (dType.isDictType()) {
