@@ -17,6 +17,7 @@ import java.util.Map;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -55,12 +56,15 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     private final GwtPanelViewFactory gFactory;
     private HTMLPanel paHtml;
     private final SlotSignalContextFactory slFactory;
+//    private final IDataType dType;
 
     PanelView(GwtPanelViewFactory gFactory, SlotSignalContextFactory slFactory,
-            CellId panelId) {
+            IDataType dType, CellId panelId) {
+        assert dType != null : "dType cannot be null";
         this.panelId = panelId;
         this.gFactory = gFactory;
         this.slFactory = slFactory;
+        this.dType = dType;
         paHtml = null;
         pView = null;
     }
@@ -127,7 +131,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         pView = gFactory.construct(maxR + 1, maxC + 1);
         // create subscribers
         for (CellId ii : colM.keySet()) {
-            registerSubscriber(ii, new SetWidget());
+            registerSubscriber(dType, ii, new SetWidget());
         }
         // create publisher
     }
@@ -135,9 +139,9 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     @Override
     public void startPublish(CellId cellId) {
         if (paHtml != null) {
-            publish(cellId, getHWidget());
+            publish(dType, cellId, getHWidget());
         } else {
-            publish(cellId, pView);
+            publish(dType, cellId, pView);
         }
     }
 }

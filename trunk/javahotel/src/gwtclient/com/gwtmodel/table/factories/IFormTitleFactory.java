@@ -10,23 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.controlbuttonview;
+package com.gwtmodel.table.factories;
 
-import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 
-public class ControlButtonViewFactory {
+public interface IFormTitleFactory {
+       
+    String getFormTitle(IDataType dType);    
 
-    private final ContrButtonViewFactory vFactory;
-
-    @Inject
-    public ControlButtonViewFactory(ContrButtonViewFactory vFactory) {
-        this.vFactory = vFactory;
-    }
-
-    public IControlButtonView construct(IDataType dType, ListOfControlDesc listButton) {
-        return new ControlButtonView(vFactory, listButton,dType);
-    }
 }

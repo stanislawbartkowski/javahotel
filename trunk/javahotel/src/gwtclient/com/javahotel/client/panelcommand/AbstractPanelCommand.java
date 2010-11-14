@@ -21,6 +21,7 @@ import com.javahotel.client.dialog.IMvcWidget;
  */
 abstract public class AbstractPanelCommand implements IPanelCommand {
 
+    @Override
     public IMvcWidget getWestWidget() {
         return null;
     }

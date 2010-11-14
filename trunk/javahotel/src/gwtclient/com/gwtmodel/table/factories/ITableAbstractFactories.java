@@ -19,7 +19,7 @@ public interface ITableAbstractFactories {
     void registerDataValidateActionFactory(
             IDataValidateActionFactory iDataValidateFactory);
 
-    void registerFormDefFactory(IFormDefFactory iFormDefFactory);
+    void registerFormDefFactory(IFormTitleFactory iFormDefFactory);
 
     void registerHeaderListFactory(IHeaderListFactory iheFactory);
 

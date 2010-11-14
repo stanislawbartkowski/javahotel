@@ -173,6 +173,7 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     public PriceListContainer(IPersistFactoryAction persistFactory,
             IDataType dType, IDataType cType) {
+        dType = cType;
         gFactory = GwtGiniInjector.getI().getGridViewFactory();
         prFactory = HInjector.getI().getPriceSeasonModelFactory();
         rI = HInjector.getI().getI();
@@ -189,7 +190,7 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(cellId, iView);
+        publish(dType, cellId, iView);
 
     }
 

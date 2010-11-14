@@ -13,6 +13,7 @@
 package com.gwtmodel.table.panelview;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
@@ -29,7 +30,7 @@ public class PanelViewFactory {
         this.slFactory = slFactory;
     }
 
-    public IPanelView construct(CellId pId) {
-        return new PanelView(gPanelViewFactory, slFactory, pId);
+    public IPanelView construct(IDataType dType, CellId pId) {
+        return new PanelView(gPanelViewFactory, slFactory, dType, pId);
     }
 }

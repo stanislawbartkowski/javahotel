@@ -29,8 +29,9 @@ import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 abstract public class AbstractSlotContainer implements ISlotable {
 
-    protected  SlotListContainer slContainer;
+    protected SlotListContainer slContainer;
     protected final SlotTypeFactory slTypeFactory;
+    protected IDataType dType;
 
     protected AbstractSlotContainer() {
         slContainer = GwtGiniInjector.getI().getSlotListContainer();
@@ -47,17 +48,16 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer = sl;
     }
 
-
     protected void publish(ISlotSignalContext slContext) {
         slContainer.publish(slContext);
     }
 
-    protected void publish(int cellId, IGWidget gwtWidget) {
-        slContainer.publish(cellId, gwtWidget);
+    protected void publish(IDataType dType, int cellId, IGWidget gwtWidget) {
+        slContainer.publish(dType, cellId, gwtWidget);
     }
 
-    protected void publish(CellId cellId, IGWidget gwtWidget) {
-        slContainer.publish(cellId, gwtWidget);
+    protected void publish(IDataType dType, CellId cellId, IGWidget gwtWidget) {
+        slContainer.publish(dType, cellId, gwtWidget);
     }
 
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
@@ -142,12 +142,14 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerSubscriber(slSignaller);
     }
 
-    protected void registerSubscriber(int cellId, ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(cellId, slSignaller);
+    protected void registerSubscriber(IDataType dType, int cellId,
+            ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(dType, cellId, slSignaller);
     }
 
-    protected void registerSubscriber(CellId cellId, ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(cellId, slSignaller);
+    protected void registerSubscriber(IDataType dType, CellId cellId,
+            ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(dType, cellId, slSignaller);
     }
 
     protected void registerCaller(GetActionEnum gEnum, IDataType dType,

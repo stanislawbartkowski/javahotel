@@ -64,7 +64,6 @@ public final class SlotListContainer {
         return listOfRedirectors;
     }
 
-
     public ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
         return slContextFactory.construct(slType, iSlot);
@@ -144,12 +143,12 @@ public final class SlotListContainer {
         listOfSubscribers.add(new SlotSubscriberType(slType, slSignaller));
     }
 
-    public void registerSubscriber(CellId cellId, ISlotSignaller slSignaller) {
-        registerSubscriber(slTypeFactory.construct(cellId), slSignaller);
+    public void registerSubscriber(IDataType dType, CellId cellId, ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(dType, cellId), slSignaller);
     }
 
-    public void registerSubscriber(int cellId, ISlotSignaller slSignaller) {
-        registerSubscriber(slTypeFactory.construct(cellId), slSignaller);
+    public void registerSubscriber(IDataType dType, int cellId, ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(dType, cellId), slSignaller);
     }
 
     public void registerSubscriber(ClickButtonType.StandClickEnum eClick,
@@ -324,13 +323,13 @@ public final class SlotListContainer {
         return null;
     }
 
-    public void publish(CellId cellId, IGWidget gwtWidget) {
-        publish(slContextFactory.construct(slTypeFactory.construct(cellId),
+    public void publish(IDataType dType, CellId cellId, IGWidget gwtWidget) {
+        publish(slContextFactory.construct(slTypeFactory.construct(dType, cellId),
                 gwtWidget));
     }
 
-    public void publish(int cellId, IGWidget gwtWidget) {
-        publish(slContextFactory.construct(slTypeFactory.construct(cellId),
+    public void publish(IDataType dType, int cellId, IGWidget gwtWidget) {
+        publish(slContextFactory.construct(slTypeFactory.construct(dType, cellId),
                 gwtWidget));
     }
 

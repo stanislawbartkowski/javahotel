@@ -46,6 +46,7 @@ public class CustomerAddInfo extends AbstractSlotContainer {
     private final IMemoryStringList mList;
     private final IMemoryStringList aList;
     private final MemoryStringTableFactory maFactory;
+    private final IDataType publishType;
 
     private class StringE extends AbstractStringE {
 
@@ -166,7 +167,9 @@ public class CustomerAddInfo extends AbstractSlotContainer {
         }
     }
 
-    public CustomerAddInfo(IDataType dType) {
+    public CustomerAddInfo(IDataType publishType, IDataType dType) {
+        this.publishType = publishType;
+        this.dType = dType;
         maFactory = GwtGiniInjector.getI().getMemoryStringTableFactory();
         mList = maFactory.construct("Telefon", "Telefony", new SFactory(),
                 sPanel.constructSetGwt());
@@ -180,6 +183,6 @@ public class CustomerAddInfo extends AbstractSlotContainer {
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(cellId, sPanel.constructGWidget());
+        publish(publishType, cellId, sPanel.constructGWidget());
     }
 }

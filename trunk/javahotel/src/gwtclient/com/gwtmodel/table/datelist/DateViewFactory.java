@@ -14,11 +14,11 @@
  *  limitations under the License.
  *  under the License.
  */
-
 package com.gwtmodel.table.datelist;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author hotel
  */
-class DateViewFactory implements IFormDefFactory {
+class DateViewFactory implements IFormTitleFactory, IFormDefFactory {
 
     private final String title;
 
@@ -41,8 +41,7 @@ class DateViewFactory implements IFormDefFactory {
 
     @Override
     public FormLineContainer construct(IDataType dType) {
-        EditWidgetFactory eFactory = GwtGiniInjector.getI()
-                .getEditWidgetFactory();
+        EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
         IFormLineView dFrom = eFactory.construcDateBoxCalendar();
         IFormLineView dTo = eFactory.construcDateBoxCalendar();
@@ -57,5 +56,4 @@ class DateViewFactory implements IFormDefFactory {
     public String getFormTitle(IDataType dType) {
         return title;
     }
-
 }

@@ -14,19 +14,16 @@ package com.gwtmodel.table.persist;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 
 public class MemoryListPersist extends AbstractSlotContainer implements
         IMemoryListModel {
 
-    private final IDataType dType;
+//    private final IDataType dType;
     private IDataListType dataList;
 
     @Override
@@ -39,36 +36,36 @@ public class MemoryListPersist extends AbstractSlotContainer implements
         this.dataList = dataList;
     }
 
-    private class PersistRecord implements ISlotSignaller {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            PersistTypeEnum persistEnumType = slContext.getPersistType();
-            IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetComposeModelToPersist, dType);
-            IVModelDataEquable eData = (IVModelDataEquable) pData;
-            switch (persistEnumType) {
-            case ADD:
-                dataList.append(pData);
-                break;
-            case MODIF:
-                break;
-            case REMOVE:
-                for (int row = 0; row < dataList.rowNo(); row++) {
-                    IVModelDataEquable eeData = (IVModelDataEquable) dataList
-                            .getRow(row);
-                    if (eData.eq(eeData)) {
-                        dataList.remove(row);
-                        break;
-                    }
-                }
-                break;
-            } // switch
-            publish(DataActionEnum.PersistDataSuccessSignal, dType,
-                    persistEnumType);
-        }
-
-    }
+//    private class PersistRecord implements ISlotSignaller {
+//
+//        @Override
+//        public void signal(ISlotSignalContext slContext) {
+//            PersistTypeEnum persistEnumType = slContext.getPersistType();
+//            IVModelData pData = getGetterIVModelData(
+//                    GetActionEnum.GetComposeModelToPersist, dType);
+//            IVModelDataEquable eData = (IVModelDataEquable) pData;
+//            switch (persistEnumType) {
+//            case ADD:
+//                dataList.append(pData);
+//                break;
+//            case MODIF:
+//                break;
+//            case REMOVE:
+//                for (int row = 0; row < dataList.rowNo(); row++) {
+//                    IVModelDataEquable eeData = (IVModelDataEquable) dataList
+//                            .getRow(row);
+//                    if (eData.eq(eeData)) {
+//                        dataList.remove(row);
+//                        break;
+//                    }
+//                }
+//                break;
+//            } // switch
+//            publish(DataActionEnum.PersistDataSuccessSignal, dType,
+//                    persistEnumType);
+//        }
+//
+//    }
 
     private class ReadList implements ISlotSignaller {
 
@@ -82,8 +79,8 @@ public class MemoryListPersist extends AbstractSlotContainer implements
         this.dType = dType;
         // create subscribers - ReadList
         registerSubscriber(DataActionEnum.ReadListAction, dType, new ReadList());
-        registerSubscriber(DataActionEnum.PersistDataAction, dType,
-                new PersistRecord());
+//        registerSubscriber(DataActionEnum.PersistDataAction, dType,
+//                new PersistRecord());
         // persist subscriber
     }
 

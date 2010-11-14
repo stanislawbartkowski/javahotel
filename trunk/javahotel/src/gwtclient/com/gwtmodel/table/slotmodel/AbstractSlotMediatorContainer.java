@@ -30,7 +30,7 @@ public abstract class AbstractSlotMediatorContainer extends TemplateContainerSlo
     protected final TablesFactories tFactories;
     protected ISlotMediator slMediator;
     protected final PanelViewFactory pViewFactory;
-
+//    protected IDataType dType;
 
     protected AbstractSlotMediatorContainer() {
         tFactories = GwtGiniInjector.getI().getTablesFactories();

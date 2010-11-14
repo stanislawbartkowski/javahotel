@@ -154,17 +154,17 @@ public class GetViewFactory implements IGetViewControllerFactory {
                 cContainer = new SeasonAddInfo(subType);
                 break;
             case CustomerList:
-                cContainer = new CustomerAddInfo(subType);
+                cContainer = new CustomerAddInfo(dType, subType);
                 break;
             case PriceListDict:
                 cContainer = new PriceListContainer(peFactory, dType, subType);
                 break;
             case RoomObjects:
-                cContainer = new CheckStandardContainer(subType, new DataType(
+                cContainer = new CheckStandardContainer(dType,subType, new DataType(
                         DictType.RoomFacility), new InfoExtractRoom());
                 break;
             case RoomStandard:
-                cContainer = new CheckStandardContainer(subType, new DataType(
+                cContainer = new CheckStandardContainer(dType, subType, new DataType(
                         DictType.ServiceDict), new InfoExtractStandard());
                 break;
             case BookingList:

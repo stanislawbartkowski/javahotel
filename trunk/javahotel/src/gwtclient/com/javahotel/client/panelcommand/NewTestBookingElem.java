@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.panelcommand;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
@@ -35,6 +36,7 @@ class NewTestBookingElem extends AbstractPanelCommand {
 
     private class SetGwt implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             iS.setGwtWidget(new DefaultMvcWidget(slContext.getGwtWidget()
                     .getGWidget()));
@@ -42,12 +44,14 @@ class NewTestBookingElem extends AbstractPanelCommand {
 
     }
 
+    @Override
     public void beforeDrawAction(ISetGwtWidget iSet) {
         this.iS = iSet;
+        DataType dType = new DataType(AddType.BookElem);
         ISlotable iControler = DataControlerFactory.constructDataControler(rI,
-                DataControlerEnum.DisplayList, new DataType(AddType.BookElem),
+                DataControlerEnum.DisplayList, dType,
                 new CellId(0));
-        iControler.getSlContainer().registerSubscriber(0, new SetGwt());
+        iControler.getSlContainer().registerSubscriber(dType,0, new SetGwt());
         iControler.startPublish(null);
 
     }

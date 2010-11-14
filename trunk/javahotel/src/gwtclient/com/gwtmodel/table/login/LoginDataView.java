@@ -20,10 +20,8 @@ import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -31,7 +29,6 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
@@ -39,19 +36,17 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
 
 //    private final ISlotMediator slMediator;
     private final IDataModelFactory dFactory;
-    private final IDataType dType;
+//    private final IDataType dType;
 
     private class GetCompose implements ISlotCaller {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData perData = dFactory.construct(dType);
-            IVModelData pData = slMediator.getSlContainer()
-                    .getGetterIVModelData(GetActionEnum.GetViewModelEdited,
-                            dType, perData);
+            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(GetActionEnum.GetViewModelEdited,
+                    dType, perData);
             // result: perData
-            SlotSignalContextFactory coFactory = GwtGiniInjector.getI()
-                    .getSlotSignalContextFactory();
+            SlotSignalContextFactory coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
             return coFactory.construct(slContext.getSlType(), pData);
         }
     }
@@ -63,11 +58,10 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
         this.dType = dType;
 //        TablesFactories tFactories = GwtGiniInjector.getI()
 //                .getTablesFactories();
-        ListOfControlDesc bControl = tFactories.getControlButtonFactory()
-                .constructLoginButton();
-        IControlButtonView bView = tFactories.getbViewFactory().construct(
+        ListOfControlDesc bControl = tFactories.getControlButtonFactory().constructLoginButton();
+        IControlButtonView bView = tFactories.getbViewFactory().construct(dType,
                 bControl);
-        IPanelView pView = tFactories.getpViewFactory().construct(panelId);
+        IPanelView pView = tFactories.getpViewFactory().construct(dType, panelId);
 //        slMediator = tFactories.getSlotMediatorFactory().construct();
         CellId controlId = pView.addCellPanel(1, 0);
         CellId cellTableId = pView.addCellPanel(0, 0);
@@ -81,12 +75,11 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
         SlotTypeFactory slFactory = tFactories.getSlTypeFactory();
         slMediator.getSlContainer().registerCaller(
                 slFactory.construct(GetActionEnum.GetViewComposeModelEdited,
-                        dType), new GetCompose());
+                dType), new GetCompose());
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(ClickButtonType.StandClickEnum.ACCEPT),
                 slFactory.construct(DataActionEnum.ValidateAction, dType));
     }
-
 //    @Override
 //    public SlotListContainer getSlContainer() {
 //        return slMediator.getSlContainer();
@@ -96,5 +89,4 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
 //    public void startPublish(CellId cellId) {
 //        slMediator.startPublish(cellId);
 //    }
-
 }

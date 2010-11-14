@@ -36,17 +36,18 @@ import com.gwtmodel.table.view.checkstring.ICheckDictModel;
 class CheckStandardContainer extends AbstractSlotContainer {
 
     private final ICheckDictModel iCheck;
-    private final IDataType dType;
+//    private final IDataType dType;
     private IDataListType dataList;
     private final InfoExtract infoExtract;
     private final GetDataList getDataList;
+    private final IDataType checkType;
 
     interface InfoExtract {
+
         List<String> getString(IVModelData mData);
 
         void setStrings(IVModelData mData, List<String> strings,
                 IDataListType dataList);
-
     }
 
     private class ChangeModeModel implements ISlotSignaller {
@@ -56,7 +57,6 @@ class CheckStandardContainer extends AbstractSlotContainer {
             PersistTypeEnum persistTypeEnum = slContext.getPersistType();
             iCheck.setReadOnly(persistTypeEnum == PersistTypeEnum.REMOVE);
         }
-
     }
 
     private class SetGetter implements ISlotCaller {
@@ -67,7 +67,6 @@ class CheckStandardContainer extends AbstractSlotContainer {
             infoExtract.setStrings(mData, iCheck.getValues(), dataList);
             return slContext;
         }
-
     }
 
     private class DrawModel implements ISlotSignaller {
@@ -92,7 +91,7 @@ class CheckStandardContainer extends AbstractSlotContainer {
         public void setList(IDataListType dList) {
             dataList = dList;
             getDataList.setDataList(dataList);
-            publish(cellId, iCheck);
+            publish(dType, cellId, iCheck);
 
         }
     }
@@ -102,7 +101,6 @@ class CheckStandardContainer extends AbstractSlotContainer {
         GetDataList() {
             super(2);
         }
-
         private IDataListType dataListType;
         private IGetDataListCallBack iCallBack;
 
@@ -123,12 +121,12 @@ class CheckStandardContainer extends AbstractSlotContainer {
         }
     }
 
-    CheckStandardContainer(IDataType cType, IDataType dType,
+    CheckStandardContainer(IDataType publishType, IDataType cType, IDataType checkType,
             InfoExtract infoExtract) {
-        this.dType = dType;
+        this.dType = publishType;
+        this.checkType = checkType;
         this.infoExtract = infoExtract;
-        CheckDictModelFactory cFactory = GwtGiniInjector.getI()
-                .getCheckDictModelFactory();
+        CheckDictModelFactory cFactory = GwtGiniInjector.getI().getCheckDictModelFactory();
         getDataList = new GetDataList();
         iCheck = cFactory.construct(getDataList);
         registerSubscriber(DataActionEnum.DrawViewFormAction, cType,
@@ -141,7 +139,6 @@ class CheckStandardContainer extends AbstractSlotContainer {
 
     @Override
     public void startPublish(CellId cellId) {
-        new ReadDictList<IDataListType>().readList(dType, new R(cellId));
+        new ReadDictList<IDataListType>().readList(checkType, new R(cellId));
     }
-
 }

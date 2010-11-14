@@ -38,6 +38,7 @@ public class ETableLoginDialog {
 
     private class LoginType implements IDataType {
 
+        @Override
         public boolean eq(IDataType dType) {
             return true;
         }
@@ -51,6 +52,7 @@ public class ETableLoginDialog {
             this.iSet = iSet;
         }
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IGWidget w = slContext.getGwtWidget();
             iSet.setGwtWidget(new DefaultMvcWidget(w.getGWidget()));
@@ -65,6 +67,7 @@ public class ETableLoginDialog {
             this.iNext = iNext;
         }
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             iNext.execute();
         }
@@ -87,7 +90,7 @@ public class ETableLoginDialog {
         IDataValidateAction vAction = new ValidateLogin(dType, user, lContainer);
         ILoginDataView dView = LoginViewFactory.contructView(new CellId(0), dType,
                 lContainer, new CustomLoginDataModelFactory(), vAction);
-        dView.getSlContainer().registerSubscriber(0, new SetGwt(iSet));
+        dView.getSlContainer().registerSubscriber(dType, 0, new SetGwt(iSet));
         dView.getSlContainer().registerSubscriber(DataActionEnum.ValidSignal,
                 dType, new Valid(iNext));
         dView.startPublish(new CellId(0));

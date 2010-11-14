@@ -33,7 +33,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
 
     private final List<ComposeControllerType> cList = new ArrayList<ComposeControllerType>();
     private IPanelView pView;
-    private final IDataType dType;
+//    private final IDataType dType;
     private final SlotTypeFactory slFactory;
     private final IDataModelFactory dFactory;
 
@@ -55,8 +55,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = dFactory.construct(dType);
-            IVModelData pData = slMediator.getSlContainer()
-                    .getGetterIVModelData(getA, dType, mData);
+            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(getA, dType, mData);
             for (ComposeControllerType cType : cList) {
                 if (cType.getdType() == null) {
                     continue;
@@ -74,7 +73,6 @@ class ComposeController extends AbstractSlotMediatorContainer implements
             return slMediator.getSlContainer().getGetterContext(
                     slContext.getSlType(), pData);
         }
-
     }
 
     @Override
@@ -103,9 +101,9 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                         cType.getdType(), slContext);
             }
         }
-
     }
 
+// do not remove, it overrides
     @Override
     public void startPublish(CellId cellId) {
         slMediator.startPublish(null);
@@ -113,7 +111,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
 
     @Override
     public void createComposeControle(CellId cellId) {
-        pView = pViewFactory.construct(cellId);
+        pView = pViewFactory.construct(dType, cellId);
         for (ComposeControllerType c : cList) {
             CellId cId = null;
             if (c.isPanelElem()) {
@@ -138,17 +136,17 @@ class ComposeController extends AbstractSlotMediatorContainer implements
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.PersistComposeFormAction,
-                        dType),
+                dType),
                 slFactory.construct(DataActionEnum.PersistDataAction, dType));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.InvalidSignal, dType),
                 slFactory.construct(
-                        DataActionEnum.ChangeViewFormToInvalidAction, dType));
+                DataActionEnum.ChangeViewFormToInvalidAction, dType));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.ValidateComposeFormAction,
-                        dType),
+                dType),
                 slFactory.construct(DataActionEnum.ValidateAction, dType));
 
         slMediator.getSlContainer().registerCaller(
@@ -156,7 +154,6 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                 new EditCallerGetter(GetActionEnum.GetViewModelEdited));
         slMediator.getSlContainer().registerCaller(
                 GetActionEnum.GetComposeModelToPersist, dType,
-                new EditCallerGetter(GetActionEnum.GetModelToPersist));        
+                new EditCallerGetter(GetActionEnum.GetModelToPersist));
     }
-
 }

@@ -88,6 +88,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
             this.c = c;
         }
 
+        @Override
         public void doVList(List<? extends AbstractTo> val) {
             List<String> roles = new ArrayList<String>();
             for (AbstractTo p : val) {
@@ -109,7 +110,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
 
         @Override
         protected void doTask() {
-            publish(cellId, iView);
+            publish(dType, cellId, iView);
             int i = 0;
             for (String s : cols) {
                 if (CUtil.EmptyS(name)) {
@@ -138,6 +139,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
 
     private class DrawModel implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             if (isPersons()) {
@@ -160,6 +162,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
             this.fie = f;
         }
 
+        @Override
         public void doVList(final List<? extends AbstractTo> val) {
 
             for (final AbstractTo a : val) {
@@ -179,6 +182,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
 
     private class SetGetter implements ISlotCaller {
 
+        @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             AccessRoles aroles = new AccessRoles();
@@ -217,6 +221,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
     }
 
     public HotelPersonRightsContainer(IDataType dType, IDataType cType) {
+        this.dType = dType;
         this.daType = (DataType) dType;
         dList = new DrawList();
         gFactory = GwtGiniInjector.getI().getGridViewFactory();
@@ -245,6 +250,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         registerCaller(GetActionEnum.GetModelToPersist, cType, new SetGetter());
     }
 
+    @Override
     public void startPublish(CellId cellId) {
         dList.cellId = cellId;
         dList.signalDone();
