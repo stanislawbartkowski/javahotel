@@ -57,6 +57,7 @@ public class AuthenticationImpl implements IAuthentication,
 		p.run();
 	}
 
+    @Override
 	public void persistPersonHotel(final SessionT sessionId,
 			final String person, final HotelT hotel,
 			final List<String> principals) {
@@ -65,6 +66,7 @@ public class AuthenticationImpl implements IAuthentication,
 		p.run();
 	}
 
+    @Override
 	public void persistPerson(final SessionT sessionId, final String person,
 			final PasswordT password) {
 		PersistPersonCommand p = new PersistPersonCommand(sessionId, person,
@@ -72,11 +74,13 @@ public class AuthenticationImpl implements IAuthentication,
 		p.run();
 	}
 
+    @Override
 	public void clearAuthBase(final SessionT sessionId) {
 		ClearAuthBaseCommand p = new ClearAuthBaseCommand(sessionId);
 		p.run();
 	}
 
+    @Override
 	public List<PersonP> getPersonList(final SessionT sessionId) {
 		return GetList.getPersonList(sessionId);
 	}
