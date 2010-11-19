@@ -13,7 +13,6 @@
 package com.gwtmodel.table.stringlist;
 
 import com.gwtmodel.table.AbstractLpVModelData;
-import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ import java.util.List;
 public abstract class AbstractStringE extends AbstractLpVModelData {
 
     private String s;
+    private Object o;
 
     protected List<IVField> createF(IVField fie) {
         List<IVField> li = new ArrayList<IVField>();
@@ -58,4 +58,15 @@ public abstract class AbstractStringE extends AbstractLpVModelData {
         }
         this.s = (String) val;
     }
+
+    @Override
+    public Object getCustomData() {
+        return o;
+    }
+
+    @Override
+    public void setCustomData(Object o) {
+        this.o = o;
+    }
+
 }

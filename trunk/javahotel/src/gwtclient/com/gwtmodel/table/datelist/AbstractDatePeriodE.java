@@ -21,7 +21,6 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DateFormatUtil;
-import com.gwtmodel.table.persist.IVModelDataEquable;
 import java.util.Date;
 import java.util.List;
 
@@ -97,16 +96,16 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
     @Override
     public void setF(IVField fie, Object val) {
         if (super.isValid(fie)) {
-            super.setF(fie,val);
+            super.setF(fie, val);
             return;
         }
         DatePeriodField d = (DatePeriodField) fie;
         switch (d.getFie()) {
             case DATEFROM:
-                setdFrom((Date) val);
+                setdFrom(DateFormatUtil.DToD(val));
                 break;
             case DATETO:
-                setdTo((Date) val);
+                setdTo(DateFormatUtil.DToD(val));
                 break;
             case COMMENT:
                 setComment((String) val);
@@ -156,12 +155,4 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
         this.comment = comment;
     }
 
-    @Override
-    public Object getCustomData() {
-        return null;
-    }
-
-    @Override
-    public void setCustomData(Object o) {
-    }
 }

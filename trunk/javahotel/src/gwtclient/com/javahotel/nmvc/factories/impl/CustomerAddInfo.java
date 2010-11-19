@@ -63,15 +63,6 @@ public class CustomerAddInfo extends AbstractSlotContainer {
         }
 
         @Override
-        public Object getCustomData() {
-            return null;
-        }
-
-        @Override
-        public void setCustomData(Object o) {
-        }
-
-        @Override
         public List<IVField> getF() {
             return super.createF(Empty.getFieldType());
         }

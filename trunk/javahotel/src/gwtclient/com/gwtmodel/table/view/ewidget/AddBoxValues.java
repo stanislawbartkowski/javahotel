@@ -62,6 +62,7 @@ class AddBoxValues {
             this.e = e;
         }
 
+        @Override
         public void setList(IDataListType dList) {
             setValue(dList, e);
         }
@@ -80,6 +81,7 @@ class AddBoxValues {
             this.e = e;
         }
 
+        @Override
         public void set(IDataListType dataList) {
             setValue(dataList, e);
         }

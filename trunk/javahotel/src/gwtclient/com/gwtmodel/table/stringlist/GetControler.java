@@ -33,7 +33,7 @@ class GetControler implements IGetViewControllerFactory {
     private final DataViewModelFactory daFactory;
     private final IMemoryListModel mList;
 
-    GetControler(String fieldName, String title, IStringEFactory eFactory,
+    private GetControler(String fieldName, String title, IStringEFactory eFactory,
             IVField fie, DataViewModelFactory daFactory, IMemoryListModel mList) {
         sFactory = new StringFactory(fieldName, title);
         dFactory = new DataFactory(eFactory);
@@ -52,7 +52,7 @@ class GetControler implements IGetViewControllerFactory {
         ComposeControllerType cType = new ComposeControllerType(daModel, dType,
                 0, 0);
         iCon.registerControler(cType);
-        MemoryRecordPersist mRecord = new MemoryRecordPersist(dType,mList);
+        MemoryRecordPersist mRecord = new MemoryRecordPersist(dType,mList.getDataList());
         iCon.registerControler(new ComposeControllerType(mRecord, dType));
         iCon.registerControler(new ComposeControllerType(new ValidateS(dType),
                 dType));

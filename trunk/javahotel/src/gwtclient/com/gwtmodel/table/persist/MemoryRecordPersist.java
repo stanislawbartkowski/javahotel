@@ -63,8 +63,9 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
         }
     }
 
-    public MemoryRecordPersist(IDataType dType, IMemoryListModel mList) {
-        dataList = mList.getDataList();
+    public MemoryRecordPersist(IDataType dType, IDataListType dataList) {
+        assert dataList != null : "dataList cannot be null";
+        this.dataList = dataList;
         this.dType = dType;
         registerSubscriber(DataActionEnum.PersistDataAction, dType,
                 new PersistRecord());

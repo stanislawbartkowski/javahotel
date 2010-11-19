@@ -16,6 +16,7 @@
  */
 package com.gwtmodel.table;
 
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.persist.IVModelDataEquable;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import java.util.List;
 abstract public class AbstractLpVModelData implements IVModelDataEquable {
 
     private Long lp;
+    private Object o;
 
     @Override
     public Object getF(IVField fie) {
@@ -34,19 +36,22 @@ abstract public class AbstractLpVModelData implements IVModelDataEquable {
 
     @Override
     public void setF(IVField fie, Object o) {
-        lp = (Long) o;
+        lp = CUtil.LToL(o);
     }
 
     @Override
     public boolean isValid(IVField fie) {
-       if (fie instanceof L) {
-                return true;
-            }
+        if (fie instanceof L) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public String getS(IVField fie) {
+        if (lp == null) {
+            return null;
+        }
         return lp.toString();
     }
 
@@ -68,7 +73,7 @@ abstract public class AbstractLpVModelData implements IVModelDataEquable {
         lp = (Long) o;
     }
 
-    static class L implements IVField {
+    static private class L implements IVField {
 
         @Override
         public boolean eq(IVField o) {
@@ -98,4 +103,15 @@ abstract public class AbstractLpVModelData implements IVModelDataEquable {
         AbstractLpVModelData aa = (AbstractLpVModelData) o;
         return aa.lp.equals(lp);
     }
+
+    @Override
+    public Object getCustomData() {
+        return o;
+    }
+
+    @Override
+    public void setCustomData(Object o) {
+        this.o = o;
+    }
+
 }

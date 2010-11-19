@@ -12,7 +12,6 @@
  */
 package com.javahotel.client.panelcommand;
 
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
@@ -56,6 +55,7 @@ class NewTestBookingElem extends AbstractPanelCommand {
 
     }
 
+    @Override
     public void drawAction() {
         // TODO Auto-generated method stub
 

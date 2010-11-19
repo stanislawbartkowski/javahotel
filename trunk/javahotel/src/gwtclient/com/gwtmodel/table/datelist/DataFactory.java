@@ -17,9 +17,7 @@
 
 package com.gwtmodel.table.datelist;
 
-import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 

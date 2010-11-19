@@ -12,19 +12,23 @@
  */
 package com.gwtmodel.table.stringlist;
 
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IDataValidateAction;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataListType;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.persist.IMemoryListModel;
+import com.gwtmodel.table.persist.MemoryGetController;
 import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -38,7 +42,6 @@ class MemoryStringList extends AbstractSlotContainer implements
 
     private final IMemoryListModel lPersistList;
     private final IDataControler dControler;
-//    private final IDataType sType;
     private final String fieldName;
     private final String title;
 
@@ -66,13 +69,30 @@ class MemoryStringList extends AbstractSlotContainer implements
         this.title = title;
         lPersistList = new MemoryListPersist(dType);
 
-        IVField sField = Empty.getFieldType();
+//        IVField sField = Empty.getFieldType();
+
+        IDataValidateActionFactory vFactory = new IDataValidateActionFactory() {
+
+            @Override
+            public IDataValidateAction construct(IDataType dType) {
+                return new ValidateS(dType);
+            }
+        };
+
+        IGetViewControllerFactory iGetCon = new MemoryGetController(
+                new StringFactory(fieldName, title),
+                new DataFactory(eFactory),
+                daFactory,
+                lPersistList,
+                vFactory);
+
 
         DisplayListControlerParam cParam = tFactory.constructParam(dType, new CellId(0),
                 new DataListParam(lPersistList, null,
                 new DataFactory(eFactory),
                 new StringFactory(fieldName, title),
-                new GetControler(fieldName, title, eFactory, sField, daFactory, lPersistList)),
+                //                new GetControler(fieldName, title, eFactory, sField, daFactory, lPersistList)
+                iGetCon),
                 null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);

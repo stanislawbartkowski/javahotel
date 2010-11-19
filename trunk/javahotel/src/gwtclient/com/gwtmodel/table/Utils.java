@@ -210,6 +210,12 @@ public class Utils {
     }-*/;
 
     public static List<IVField> toList(IVField[] a) {
-        return Arrays.asList(a);
+//        return Arrays.asList(a);
+        // WARNING: do not replace with Arrays.asList !
+        List<IVField> l = new ArrayList<IVField>();
+        for (int i = 0; i<a.length; i++) {
+            l.add(a[i]);
+        }
+        return l;
     }
 }

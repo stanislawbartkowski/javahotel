@@ -58,6 +58,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         isCheckBox = true;
     }
 
+    @Override
     public int getChooseResult() {
         return NOCHOOSECHECK;
     }
@@ -70,6 +71,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         return ((val == null) || val.equals(""));
     }
 
+    @Override
     public void setGStyleName(final String sName, final boolean set) {
         if (set) {
             getGWidget().setStyleName(sName);
@@ -80,6 +82,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 
     protected class L implements ChangeListener {
 
+        @Override
         public void onChange(Widget sender) {
             runOnChange(AbstractField.this);
         }
@@ -87,6 +90,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 
     protected class ValueChange implements ValueChangeHandler {
 
+        @Override
         public void onValueChange(ValueChangeEvent event) {
             runOnChange(AbstractField.this);
         }
@@ -100,34 +104,41 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
             this.iTouch = iTouch;
         }
 
+        @Override
         public void onKeyDown(Widget sender, char keyCode, int modifiers) {
             iTouch.onTouch();
 
         }
 
+        @Override
         public void onKeyPress(Widget sender, char keyCode, int modifiers) {
             iTouch.onTouch();
         }
 
+        @Override
         public void onKeyUp(Widget sender, char keyCode, int modifiers) {
             iTouch.onTouch();
         }
     }
 
+    @Override
     public void setOnTouch(final ITouchListener iTouch) {
         this.iTouch = iTouch;
     }
 
+    @Override
     public int getIntVal() {
         String n = getVal();
         int no = Utils.getNum(n);
         return no;
     }
 
+    @Override
     public BigDecimal getDecimal() {
         return Utils.toBig(getVal());
     }
 
+    @Override
     public Date getDate() {
         String n = getVal();
         if (n == null) {
@@ -136,6 +147,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         return DateFormatUtil.toD(n);
     }
 
+    @Override
     public void setDecimal(BigDecimal b) {
         if (b == null) {
             setVal("");
@@ -144,6 +156,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         setVal(Utils.DecimalToS(b));
     }
 
+    @Override
     public void addChangeListener(final IFormChangeListener l) {
         if (lC == null) {
             lC = new ArrayList<IFormChangeListener>();
@@ -160,20 +173,23 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         }
     }
 
+    @Override
     public void setInvalidMess(String errmess) {
         setMessage(errmess);
     }
 
+    @Override
     public Widget getGWidget() {
         return this;
     }
 
+    @Override
     public void setHidden(boolean hidden) {
         this.getGWidget().setVisible(!hidden);
     }
 
+    @Override
     public boolean isHidden() {
         return !this.getGWidget().isVisible();
     }
-
 }

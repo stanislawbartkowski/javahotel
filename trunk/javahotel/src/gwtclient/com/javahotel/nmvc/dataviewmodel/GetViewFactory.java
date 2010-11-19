@@ -88,7 +88,6 @@ public class GetViewFactory implements IGetViewControllerFactory {
             DataUtil.fromStringToDict(strings, dList, persistList);
             roomS.setFacilities(persistList);
         }
-
     }
 
     private class InfoExtractStandard implements
@@ -112,7 +111,6 @@ public class GetViewFactory implements IGetViewControllerFactory {
             DataUtil.fromStringToDict(strings, dList, persistList);
             roomS.setServices(persistList);
         }
-
     }
 
     @Override
@@ -135,10 +133,10 @@ public class GetViewFactory implements IGetViewControllerFactory {
         ISlotable cContainer1 = null;
         if (dd.isRType()) {
             switch (dd.getrType()) {
-            case AllPersons:
-            case AllHotels:
-                cContainer = new HotelPersonRightsContainer(dd, subType);
-                break;
+                case AllPersons:
+                case AllHotels:
+                    cContainer = new HotelPersonRightsContainer(dd, subType);
+                    break;
             }
         }
         if (dd.isAddType()) {
@@ -150,27 +148,27 @@ public class GetViewFactory implements IGetViewControllerFactory {
         }
         if (dd.isDictType()) {
             switch (dd.getdType()) {
-              case OffSeasonDict:
-                cContainer = new SeasonAddInfo(subType);
-                break;
-            case CustomerList:
-                cContainer = new CustomerAddInfo(dType, subType);
-                break;
-            case PriceListDict:
-                cContainer = new PriceListContainer(peFactory, dType, subType);
-                break;
-            case RoomObjects:
-                cContainer = new CheckStandardContainer(dType,subType, new DataType(
-                        DictType.RoomFacility), new InfoExtractRoom());
-                break;
-            case RoomStandard:
-                cContainer = new CheckStandardContainer(dType, subType, new DataType(
-                        DictType.ServiceDict), new InfoExtractStandard());
-                break;
-            case BookingList:
-                cContainer = new BookingCustomerContainer(subType);
-                cContainer1 = new BookingHeaderContainer(sub1Type);
-                break;
+                case OffSeasonDict:
+                    cContainer = new SeasonAddInfo(dType, subType);
+                    break;
+                case CustomerList:
+                    cContainer = new CustomerAddInfo(dType, subType);
+                    break;
+                case PriceListDict:
+                    cContainer = new PriceListContainer(peFactory, dType, subType);
+                    break;
+                case RoomObjects:
+                    cContainer = new CheckStandardContainer(dType, subType, new DataType(
+                            DictType.RoomFacility), new InfoExtractRoom());
+                    break;
+                case RoomStandard:
+                    cContainer = new CheckStandardContainer(dType, subType, new DataType(
+                            DictType.ServiceDict), new InfoExtractStandard());
+                    break;
+                case BookingList:
+                    cContainer = new BookingCustomerContainer(subType);
+                    cContainer1 = new BookingHeaderContainer(sub1Type);
+                    break;
             }
         }
         if (cContainer != null) {
@@ -183,5 +181,4 @@ public class GetViewFactory implements IGetViewControllerFactory {
         }
         return iCon;
     }
-
 }

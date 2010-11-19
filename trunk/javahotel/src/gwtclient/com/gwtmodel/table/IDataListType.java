@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table;
 
+import java.util.List;
+
 /**
  *
  * @author stanislaw.bartkowski@gmail.com
@@ -21,6 +23,8 @@ public interface IDataListType {
     int rowNo();
 
     IVModelData getRow(int row);
+
+    List<IVModelData> getList();
 
     IVField comboField();
     
