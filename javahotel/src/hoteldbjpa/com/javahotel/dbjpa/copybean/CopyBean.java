@@ -25,79 +25,79 @@ import java.util.logging.Level;
  */
 public class CopyBean {
 
-	private CopyBean() {
-	}
+    private CopyBean() {
+    }
 
-	public static Object createI(final Class<?> cla, final GetLogger log) {
-		try {
-			Constructor<?> c = cla.getConstructor(new Class[] {});
-			Object t = c.newInstance(new Object[] {});
-			return t;
-		} catch (NoSuchMethodException ex) {
-			log.getL().log(Level.SEVERE,"",ex);
-		} catch (SecurityException ex) {
-			log.getL().log(Level.SEVERE,"",ex);
-		} catch (InstantiationException ex) {
-			log.getL().log(Level.SEVERE,"",ex);
-		} catch (IllegalAccessException ex) {
-			log.getL().log(Level.SEVERE,"",ex);
-		} catch (IllegalArgumentException ex) {
-			log.getL().log(Level.SEVERE,"",ex);
-		} catch (InvocationTargetException ex) {
-			log.getL().log(Level.SEVERE,"",ex);
-		}
-		return null;
-	}
+    public static Object createI(final Class<?> cla, final GetLogger log) {
+        try {
+            Constructor<?> c = cla.getConstructor(new Class[]{});
+            Object t = c.newInstance(new Object[]{});
+            return t;
+        } catch (NoSuchMethodException ex) {
+            log.getL().log(Level.SEVERE, "", ex);
+        } catch (SecurityException ex) {
+            log.getL().log(Level.SEVERE, "", ex);
+        } catch (InstantiationException ex) {
+            log.getL().log(Level.SEVERE, "", ex);
+        } catch (IllegalAccessException ex) {
+            log.getL().log(Level.SEVERE, "", ex);
+        } catch (IllegalArgumentException ex) {
+            log.getL().log(Level.SEVERE, "", ex);
+        } catch (InvocationTargetException ex) {
+            log.getL().log(Level.SEVERE, "", ex);
+        }
+        return null;
+    }
 
-	private static class copyGet extends AbstractGetField {
+    private static class copyGet extends AbstractGetField {
 
-		@Override
-		protected Object getVal(final Object sou, final Object dest,
-				final Method m) throws IllegalAccessException,
-				IllegalArgumentException, InvocationTargetException {
-			Object val = m.invoke(sou, new Object[] {});
-			return val;
-		}
-	}
+        @Override
+        protected Object getVal(final Object sou, final Object dest,
+                final Method m) throws IllegalAccessException,
+                IllegalArgumentException, InvocationTargetException {
+            Object val = m.invoke(sou, new Object[]{});
+            return val;
+        }
+    }
 
-	public static void copyBean(final Object sou, final Object dest,
-			final GetLogger log, final String[] fList, final String[] omitFields) {
-		copyGet co = new copyGet();
+    public static void copyBean(final Object sou, final Object dest,
+            final GetLogger log, final String[] fList, final String[] omitFields) {
+        copyGet co = new copyGet();
 
-		for (int i = 0; i < fList.length; i++) {
-			try {
-				String na = fList[i];
-				if (omitFields != null) {
-					boolean onlist = false;
-					for (int ii = 0; ii < omitFields.length; ii++) {
-						if (na.equals(omitFields[ii])) {
-							onlist = true;
-							break;
-						}
-					}
-					if (onlist) {
-						continue;
-					}
+        for (int i = 0; i < fList.length; i++) {
+            try {
+                String na = fList[i];
+                if (omitFields != null) {
+                    boolean onlist = false;
+                    for (int ii = 0; ii < omitFields.length; ii++) {
+                        if (na.equals(omitFields[ii])) {
+                            onlist = true;
+                            break;
+                        }
+                    }
+                    if (onlist) {
+                        continue;
+                    }
 
-				}
-				co.setField(na, sou, dest);
-			} catch (IllegalAccessException ex) {
-				log.getL().log(Level.SEVERE,"",ex);
-			} catch (IllegalArgumentException ex) {
-				log.getL().log(Level.SEVERE,"",ex);
-			} catch (InvocationTargetException ex) {
-				log.getL().log(Level.SEVERE,"",ex);
-			} catch (NoSuchMethodException ex) {
-				log.getL().log(Level.SEVERE,"",ex);
-			} catch (SecurityException ex) {
-				log.getL().log(Level.SEVERE,"",ex);
-			}
+                }
+                co.setField(na, sou, dest);
+            } catch (IllegalAccessException ex) {
+                log.getL().log(Level.SEVERE, "", ex);
+            } catch (IllegalArgumentException ex) {
+                log.getL().log(Level.SEVERE, "", ex);
+            } catch (InvocationTargetException ex) {
+                log.getL().log(Level.SEVERE, "", ex);
+            } catch (NoSuchMethodException ex) {
+                log.getL().log(Level.SEVERE, "", ex);
+            } catch (SecurityException ex) {
+                log.getL().log(Level.SEVERE, "", ex);
+            }
 
-		} // for
-	}
+        } // for
+    }
 
-	public static void copyBean(final Object sou, final Object dest,
-			final GetLogger log, final String[] fList) {
-		copyBean(sou, dest, log, fList, null);
-	}
+    public static void copyBean(final Object sou, final Object dest,
+            final GetLogger log, final String[] fList) {
+        copyBean(sou, dest, log, fList, null);
+    }
 }
