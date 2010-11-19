@@ -15,7 +15,6 @@ package com.javahotel.client.panelcommand;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.nmvc.common.AddType;
 import com.javahotel.nmvc.controler.DataControlerEnum;
 
 /**
@@ -86,8 +85,8 @@ public class PanelCommandFactory {
             i = new NewMvcPanel(sI, DictType.CustomerList);
             break;
         case SEASON:
-            i = new DictPanelCommand(sI, DictType.OffSeasonDict);
-//            i = new NewMvcPanel(sI, DictType.OffSeasonDict);
+//            i = new DictPanelCommand(sI, DictType.OffSeasonDict);
+            i = new NewMvcPanel(sI, DictType.OffSeasonDict);
             break;
         case PRICES:
             // i = new DictPanelCommand(sI, DictType.PriceListDict);

@@ -52,6 +52,11 @@ class DataListType implements IDataListType {
     public void remove(int row) {
         dList.remove(row);
     }
+
+    @Override
+    public List<IVModelData> getList() {
+        return dList;
+    }
     
 
 }

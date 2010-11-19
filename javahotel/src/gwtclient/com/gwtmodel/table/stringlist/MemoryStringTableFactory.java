@@ -25,8 +25,6 @@ public class MemoryStringTableFactory {
         List<AbstractLpVModelData> a = new ArrayList<AbstractLpVModelData>();
         a.addAll(mList);
         return DataListTypeFactory.constructLp(a);
-
-
     }
 
     public IMemoryStringList construct(String fieldName, String title,

@@ -14,8 +14,9 @@
  *  limitations under the License.
  *  under the License.
  */
-package com.gwtmodel.table.datelist;
+package com.gwtmodel.table.persist;
 
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
@@ -23,47 +24,48 @@ import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.persist.IMemoryListModel;
-import com.gwtmodel.table.persist.MemoryRecordPersist;
 import com.gwtmodel.table.rdef.FormLineContainer;
 
 /**
  *
  * @author hotel
  */
-class GetControler implements IGetViewControllerFactory {
+public class MemoryGetController implements IGetViewControllerFactory {
 
-    private final DateViewFactory sFactory;
+    private final IFormDefFactory defFactory;
     private final IDataModelFactory dFactory;
     private final DataViewModelFactory daFactory;
-    private final IMemoryListModel dList;
+    private final IMemoryListModel mList;
+    private final IDataValidateActionFactory vFactory;
 
-    private GetControler(String title, IDatePeriodFactory eFactory,
-            DataViewModelFactory daFactory, IMemoryListModel dList) {
-        sFactory = new DateViewFactory(title);
-        dFactory = new DataFactory(eFactory);
+    public MemoryGetController(IFormDefFactory defFactory,
+            IDataModelFactory dFactory, DataViewModelFactory daFactory,
+            IMemoryListModel mList, IDataValidateActionFactory vFactory) {
+        this.defFactory = defFactory;
+        this.dFactory = dFactory;
         this.daFactory = daFactory;
-        this.dList = dList;
+        this.mList = mList;
+        this.vFactory = vFactory;
     }
 
     @Override
     public IComposeController construct(IDataType dType) {
-
         ComposeControllerFactory coFactory =
                 GwtGiniInjector.getI().getComposeControllerFactory();
-        FormLineContainer fContainer = sFactory.construct(dType);
+        FormLineContainer fContainer = defFactory.construct(dType);
         IComposeController iCon = coFactory.construct(dType, dFactory);
         IDataViewModel daModel = daFactory.construct(dType, fContainer,
                 dFactory);
         ComposeControllerType cType = new ComposeControllerType(daModel, dType,
                 0, 0);
         iCon.registerControler(cType);
-        MemoryRecordPersist mRecord = new MemoryRecordPersist(dType, dList.getDataList());
+        MemoryRecordPersist mRecord = new MemoryRecordPersist(dType, mList.getDataList());
         iCon.registerControler(new ComposeControllerType(mRecord, dType));
-        iCon.registerControler(new ComposeControllerType(new ValidateS(dType),
-                dType));
+        iCon.registerControler(new ComposeControllerType(vFactory.construct(dType), dType));
         return iCon;
     }
 }

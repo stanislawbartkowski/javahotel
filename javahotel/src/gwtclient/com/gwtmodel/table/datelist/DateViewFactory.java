@@ -48,7 +48,7 @@ class DateViewFactory implements IFormTitleFactory, IFormDefFactory {
         IFormLineView comment = eFactory.constructTextField(null);
         di.add(new FormField("Od", dFrom, new DatePeriodField(DatePeriodField.F.DATEFROM)));
         di.add(new FormField("Do", dTo, new DatePeriodField(DatePeriodField.F.DATETO)));
-        di.add(new FormField("Open", comment, new DatePeriodField(DatePeriodField.F.COMMENT)));
+        di.add(new FormField("Opis", comment, new DatePeriodField(DatePeriodField.F.COMMENT)));
         return new FormLineContainer(di);
     }
 

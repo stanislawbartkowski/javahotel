@@ -19,6 +19,8 @@ package com.javahotel.nmvc.factories.impl;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.common.GetMaxUtil;
+import com.gwtmodel.table.common.GetMaxUtil.IGetLp;
 import com.gwtmodel.table.datelist.AbstractDatePeriodE;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.datelist.IDatePeriodFactory;
@@ -60,10 +62,6 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         public AbstractDatePeriodE construct(IDataType d) {
             return new DatePeriodS();
         }
-
-        public AbstractDatePeriodE construct() {
-            return new DatePeriodS();
-        }
     }
 
     private void toDatePeriodS(AbstractDatePeriodE dest, OfferSeasonPeriodP sou) {
@@ -73,8 +71,8 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         dest.setCustomData(sou);
     }
 
-    private void toOfferSeasonPeriodP(OfferSeasonPeriodP dest, AbstractDatePeriodE sou,
-            SeasonPeriodT periodT) {
+    private Long toOfferSeasonPeriodP(OfferSeasonPeriodP dest, AbstractDatePeriodE sou,
+            SeasonPeriodT periodT, Long next) {
         dest.setStartP(sou.getdFrom());
         dest.setEndP(sou.getdTo());
         dest.setDescription(sou.getComment());
@@ -82,8 +80,13 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         Object o = sou.getCustomData();
         if (o != null) {
             OfferSeasonPeriodP s = (OfferSeasonPeriodP) o;
-            dest.setLId(s.getLId());
+//            dest.setLId(s.getLId());
+            dest.setPId(s.getPId());
+            return next;
         }
+        dest.setPId(next);
+        Long l = new Long(next.longValue()+1);
+        return l;
     }
 
     private List<AbstractDatePeriodE> getP(OfferSeasonP sou, SeasonPeriodT periodT) {
@@ -93,7 +96,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
                 if (d.getPeriodT() != periodT) {
                     continue;
                 }
-                AbstractDatePeriodE e = pFactory.construct();
+                AbstractDatePeriodE e = pFactory.construct(null);
                 toDatePeriodS(e, d);
                 li.add(e);
             }
@@ -104,6 +107,24 @@ public class SeasonAddInfo extends AbstractSlotContainer {
     private OfferSeasonP getSeason(ISlotSignalContext slContext) {
         OfferSeasonP cust = DataUtil.getData(slContext);
         return cust;
+    }
+
+    private Long getNext(IDataListType dList) {
+        IGetLp<IVModelData> i = new IGetLp<IVModelData>() {
+
+            @Override
+            public Long getLp(IVModelData t) {
+                Object o = t.getCustomData();
+                if (o == null) {
+                    return new Long(0);
+                }
+                OfferSeasonPeriodP s = (OfferSeasonPeriodP) o;
+                return s.getPId();
+            }
+        };
+
+        Long next = GetMaxUtil.getNextMax(dList.getList(), i, new Long(1));
+        return next;
     }
 
     private void removePeriodE(OfferSeasonP dest, SeasonPeriodT periodT) {
@@ -123,11 +144,12 @@ public class SeasonAddInfo extends AbstractSlotContainer {
     private void setPList(OfferSeasonP dest, IDatePeriodList l, SeasonPeriodT periodT) {
         removePeriodE(dest, periodT);
         IDataListType dList = l.getMemTable();
+        Long next = getNext(dList);
         for (int i = 0; i < dList.rowNo(); i++) {
             IVModelData mo = dList.getRow(i);
             AbstractDatePeriodE e = (AbstractDatePeriodE) mo;
             OfferSeasonPeriodP pe = new OfferSeasonPeriodP();
-            toOfferSeasonPeriodP(pe, e, periodT);
+            next = toOfferSeasonPeriodP(pe, e, periodT, next);
             dest.getPeriods().add(pe);
         }
     }
@@ -145,7 +167,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
 
     private void setMList(OfferSeasonP sou, IDatePeriodList mList,
             SeasonPeriodT periodT) {
-        List<AbstractDatePeriodE> li = getP(sou,periodT);
+        List<AbstractDatePeriodE> li = getP(sou, periodT);
         IDataListType dList = daFactory.construct(li);
         mList.setMemTable(dList);
     }
@@ -161,15 +183,15 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         }
     }
 
-    public SeasonAddInfo(IDataType dType) {
-        this.dType = dType;
+    public SeasonAddInfo(IDataType publishType, IDataType ddType) {
+        this.dType = publishType;
         daFactory = GwtGiniInjector.getI().getDatePeriodListFactory();
         pFactory = new MyPeriodFactory();
         outsideSeason = daFactory.construct("Poza sezonem", pFactory, sPanel.constructSetGwt());
         periodSpecial = daFactory.construct("Okresy specjalne", pFactory, sPanel.constructSetGwt());
-        registerCaller(GetActionEnum.GetViewModelEdited, dType, new SetGetter());
-        registerCaller(GetActionEnum.GetModelToPersist, dType, new SetGetter());
-        registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
+        registerCaller(GetActionEnum.GetViewModelEdited, ddType, new SetGetter());
+        registerCaller(GetActionEnum.GetModelToPersist, ddType, new SetGetter());
+        registerSubscriber(DataActionEnum.DrawViewFormAction, ddType,
                 new DrawModel());
 
     }

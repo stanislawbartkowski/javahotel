@@ -15,7 +15,7 @@ package com.gwtmodel.table.persist;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.factories.IDataPersistAction;
 
-public interface IMemoryListModel extends IDataPersistAction {
+public interface IMemoryListModel extends IDataPersistAction  {
     
     void setDataList(IDataListType dList);
     

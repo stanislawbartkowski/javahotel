@@ -16,9 +16,9 @@
  */
 package com.gwtmodel.table.datelist;
 
+import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
-import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +35,8 @@ public class DatePeriodListFactory {
     }
 
     public IDataListType construct(List<AbstractDatePeriodE> li) {
-        List<IVModelData> a = new ArrayList<IVModelData>();
+        List<AbstractLpVModelData> a = new ArrayList<AbstractLpVModelData>();
         a.addAll(li);
-        return DataListTypeFactory.construct(a);
+        return DataListTypeFactory.constructLp(a);
     }
 }

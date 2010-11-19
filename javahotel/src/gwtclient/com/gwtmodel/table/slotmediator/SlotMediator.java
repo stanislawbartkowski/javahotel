@@ -18,19 +18,14 @@ import java.util.List;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.slotmodel.SlotCallerType;
-import com.gwtmodel.table.slotmodel.SlotRedirector;
-import com.gwtmodel.table.slotmodel.SlotSubscriberType;
-import com.gwtmodel.table.slotmodel.SlotType;
 
 class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 
     private final List<C> slList = new ArrayList<C>();
-    private final ISlotSignaller slSig = new GeneralListener();
-    private final ISlotCaller slCaller = new GeneralCaller();
+//    private final ISlotSignaller slSig = new GeneralListener();
+//    private final ISlotCaller slCaller = new GeneralCaller();
 
     @Override
     public void addSlotContainer(CellId cellId, ISlotable iSlo) {
@@ -52,38 +47,38 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
         }
     }
 
-    private class GeneralListener implements ISlotSignaller {
-
-        private final ISlotSignaller liste = slContainer.constructListener();
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            liste.signal(slContext);
-            for (C c : slList) {
-                c.listener.signal(slContext);
-            }
-        }
-    }
-
-    private class GeneralCaller implements ISlotCaller {
-
-        private final ISlotCaller call = slContainer.constructCaller();
-
-        @Override
-        public ISlotSignalContext call(ISlotSignalContext slContext) {
-            ISlotSignalContext i = call.call(slContext);
-            if (i != null) {
-                return i;
-            }
-            for (C c : slList) {
-                i = c.caller.call(slContext);
-                if (i != null) {
-                    return i;
-                }
-            }
-            return null;
-        }
-    }
+//    private class GeneralListener implements ISlotSignaller {
+//
+//        private final ISlotSignaller liste = slContainer.constructListener();
+//
+//        @Override
+//        public void signal(ISlotSignalContext slContext) {
+//            liste.signal(slContext);
+//            for (C c : slList) {
+//                c.listener.signal(slContext);
+//            }
+//        }
+//    }
+//
+//    private class GeneralCaller implements ISlotCaller {
+//
+//        private final ISlotCaller call = slContainer.constructCaller();
+//
+//        @Override
+//        public ISlotSignalContext call(ISlotSignalContext slContext) {
+//            ISlotSignalContext i = call.call(slContext);
+//            if (i != null) {
+//                return i;
+//            }
+//            for (C c : slList) {
+//                i = c.caller.call(slContext);
+//                if (i != null) {
+//                    return i;
+//                }
+//            }
+//            return null;
+//        }
+//    }
 
 //    private class GeneralListener implements ISlotSignaller {
 //
@@ -129,13 +124,14 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
     public void registerSlotContainer(CellId cellId, ISlotable iSlo) {
 //        slList.add(new C(cellId, iSlo));
         addSlotContainer(cellId, iSlo);
-        this.slContainer.getListOfSubscribers().addAll(
-                iSlo.getSlContainer().getListOfSubscribers());
-        this.slContainer.getListOfCallers().addAll(
-                iSlo.getSlContainer().getListOfCallers());
-        this.slContainer.getListOfRedirectors().addAll(
-                iSlo.getSlContainer().getListOfRedirectors());
-        iSlo.replaceSlContainer(this.slContainer);
+        this.slContainer.replaceContainer(iSlo);
+//        this.slContainer.getListOfSubscribers().addAll(
+//                iSlo.getSlContainer().getListOfSubscribers());
+//        this.slContainer.getListOfCallers().addAll(
+//                iSlo.getSlContainer().getListOfCallers());
+//        this.slContainer.getListOfRedirectors().addAll(
+//                iSlo.getSlContainer().getListOfRedirectors());
+//        iSlo.replaceSlContainer(this.slContainer);
     }
 
     @Override

@@ -132,6 +132,7 @@ public class RadioBoxString extends AbstractField {
             this.enable = penable;
         }
 
+        @Override
         public void set(IDataListType dataList) {
             setRadio(dataList, enable);
         }
@@ -148,10 +149,12 @@ public class RadioBoxString extends AbstractField {
         setMouse();
     }
 
+    @Override
     public String getVal() {
         return null;
     }
 
+    @Override
     public void setVal(final String s) {
     }
 
@@ -162,6 +165,7 @@ public class RadioBoxString extends AbstractField {
         iGet.call(new R(false));
     }
 
+    @Override
     public void setReadOnly(final boolean readOnly) {
         sync.setEnable(!readOnly);
     }
@@ -185,6 +189,7 @@ public class RadioBoxString extends AbstractField {
         return co;
     }
 
+    @Override
     public Widget getGWidget() {
         return this;
     }

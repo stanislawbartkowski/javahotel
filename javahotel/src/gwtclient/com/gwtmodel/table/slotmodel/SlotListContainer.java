@@ -35,8 +35,8 @@ public final class SlotListContainer {
     private final List<SlotSubscriberType> listOfSubscribers;
     private final List<SlotCallerType> listOfCallers;
     private final List<SlotRedirector> listOfRedirectors;
-    private ISlotCaller slCaller;
-    private ISlotSignaller slSignaller;
+    private final ISlotCaller slCaller;
+    private final ISlotSignaller slSignaller;
     private final SlotTypeFactory slTypeFactory;
     private final SlotSignalContextFactory slContextFactory;
 
@@ -48,21 +48,34 @@ public final class SlotListContainer {
         listOfSubscribers = new ArrayList<SlotSubscriberType>();
         listOfCallers = new ArrayList<SlotCallerType>();
         listOfRedirectors = new ArrayList<SlotRedirector>();
-        registerSlReceiver(new GeneralCaller());
-        registerSlPublisher(new GeneralListener());
+        slCaller = new GeneralCaller();
+        slSignaller = new GeneralListener();
     }
 
-    public List<SlotCallerType> getListOfCallers() {
-        return listOfCallers;
+    public void replaceContainer(ISlotable iSlo) {
+        SlotListContainer slo = iSlo.getSlContainer();
+        listOfSubscribers.addAll(slo.listOfSubscribers);
+        listOfCallers.addAll(slo.listOfCallers);
+        listOfRedirectors.addAll(slo.listOfRedirectors);
+        iSlo.replaceSlContainer(this);
+//        this.slContainer.getListOfCallers().addAll(
+//                iSlo.getSlContainer().getListOfCallers());
+//        this.slContainer.getListOfRedirectors().addAll(
+//                iSlo.getSlContainer().getListOfRedirectors());
+
     }
 
-    public List<SlotSubscriberType> getListOfSubscribers() {
-        return listOfSubscribers;
-    }
-
-    public List<SlotRedirector> getListOfRedirectors() {
-        return listOfRedirectors;
-    }
+//    public List<SlotCallerType> getListOfCallers() {
+//        return listOfCallers;
+//    }
+//
+//    public List<SlotSubscriberType> getListOfSubscribers() {
+//        return listOfSubscribers;
+//    }
+//
+//    public List<SlotRedirector> getListOfRedirectors() {
+//        return listOfRedirectors;
+//    }
 
     public ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
@@ -131,13 +144,13 @@ public final class SlotListContainer {
         slSignaller.signal(slContext);
     }
 
-    public final void registerSlReceiver(ISlotCaller slCaller) {
-        this.slCaller = slCaller;
-    }
-
-    public void registerSlPublisher(ISlotSignaller slSignaller) {
-        this.slSignaller = slSignaller;
-    }
+//    public final void registerSlReceiver(ISlotCaller slCaller) {
+//        this.slCaller = slCaller;
+//    }
+//
+//    public void registerSlPublisher(ISlotSignaller slSignaller) {
+//        this.slSignaller = slSignaller;
+//    }
 
     public void registerSubscriber(SlotType slType, ISlotSignaller slSignaller) {
         listOfSubscribers.add(new SlotSubscriberType(slType, slSignaller));

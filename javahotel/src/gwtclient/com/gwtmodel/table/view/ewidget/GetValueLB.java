@@ -37,6 +37,7 @@ class GetValueLB extends AbstractField implements IValueLB {
 
     }
 
+    @Override
     public String getVal() {
         int i = lB.getSelectedIndex();
         if (i == -1) {
@@ -75,11 +76,13 @@ class GetValueLB extends AbstractField implements IValueLB {
         setEmpty();
     }
 
+    @Override
     public void setVal(final String s) {
         setV(s);
         runOnChange(this);
     }
 
+    @Override
     public void setReadOnly(final boolean readOnly) {
         lB.setEnabled(!readOnly);
     }
@@ -98,6 +101,7 @@ class GetValueLB extends AbstractField implements IValueLB {
         super.addChangeListener(l);
         ChangeListener le = new ChangeListener() {
 
+            @Override
             public void onChange(Widget sender) {
                 runOnChange(GetValueLB.this);
             }
@@ -109,10 +113,12 @@ class GetValueLB extends AbstractField implements IValueLB {
     /**
      * @return the beforeVal
      */
+    @Override
     public String getBeforeVal() {
         return beforeVal;
     }
 
+    @Override
     public void setList(List<String> li) {
         lB.clear();
         for (String s : li) {

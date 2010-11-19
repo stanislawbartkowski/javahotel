@@ -24,8 +24,12 @@ import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
+import com.gwtmodel.table.factories.IDataValidateAction;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.persist.IMemoryListModel;
+import com.gwtmodel.table.persist.MemoryGetController;
 import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -45,7 +49,6 @@ class DatePeriodList extends AbstractSlotContainer implements
 
     private final IMemoryListModel mList;
     private final String title;
-//    private final IDataType dType;
     private final IDataControler dControler;
 
     DatePeriodList(String title, IDatePeriodFactory eFactory, ISlotSignaller setGwt) {
@@ -56,14 +59,28 @@ class DatePeriodList extends AbstractSlotContainer implements
                 GwtGiniInjector.getI().getTableDataControlerFactory();
         DataViewModelFactory daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
         mList = new MemoryListPersist(dType);
+        IDataValidateActionFactory vFactory = new IDataValidateActionFactory() {
+
+            @Override
+            public IDataValidateAction construct(IDataType dType) {
+                return new ValidateS(dType);
+            }
+        };
+
+        IGetViewControllerFactory iGetCon = new MemoryGetController(
+                new DateViewFactory(title),
+                new DataFactory(eFactory),
+                daFactory,
+                mList,
+                vFactory);
+
         DisplayListControlerParam cParam = tFactory.constructParam(dType, new CellId(0),
                 new DataListParam(mList, null, new DataFactory(eFactory),
                 new DateViewFactory(title),
-                new GetControler(title, eFactory, daFactory, mList)), null);
+                //              new GetControler(title, eFactory, daFactory, mList)
+                iGetCon), null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
-
-
     }
 
     @Override

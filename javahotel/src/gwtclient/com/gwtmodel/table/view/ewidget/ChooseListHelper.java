@@ -45,16 +45,19 @@ abstract class ChooseListHelper {
             this.iSet = iSet;
         }
 
+        @Override
         public void setWidget(IGWidget w) {
             iSet.setWidget(w.getGWidget());
         }
 
+        @Override
         public void setChoosed(IVModelData vData, IVField comboFie) {
             String sy = vData.getS(comboFie);
             asetValue(sy);
             hide();
         }
 
+        @Override
         public void setResign() {
             hide();
         }
@@ -62,6 +65,7 @@ abstract class ChooseListHelper {
 
     private class PopU implements WidgetWithPopUpTemplate.IGetP {
 
+        @Override
         public void getPopUp(Widget startW,
                 WidgetWithPopUpTemplate.ISetWidget iSet) {
             ChooseDictList cList = new ChooseDictList(dType, new WSize(startW),

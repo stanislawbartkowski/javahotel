@@ -85,4 +85,12 @@ public class CUtil {
     public static String NumbToS(int i) {
         return Integer.toString(i);
     }
+
+    public static Long LToL(Object val) {
+        if (val instanceof String) {
+            String s = (String) val;
+            return new Long(s);
+        }
+        return (Long) val;
+    }
 }

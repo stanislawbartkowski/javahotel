@@ -134,6 +134,7 @@ public class DateFormatUtil {
     }
 
     public static Date toD(final String s) {
+        if (s == null) { return null; }
         Date d = new Date();
         if (!setD(d, s)) {
             return null;
@@ -173,5 +174,12 @@ public class DateFormatUtil {
             return null;
         }
         return new Timestamp(d.getTime());
+    }
+
+    public static Date DToD(Object val) {
+        if (val instanceof String) {
+            return toD((String) val);
+        }
+        return (Date) val;
     }
 }
