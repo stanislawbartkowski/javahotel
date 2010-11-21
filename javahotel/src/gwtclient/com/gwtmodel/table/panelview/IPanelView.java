@@ -12,18 +12,18 @@
  */
 package com.gwtmodel.table.panelview;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
-
 
 public interface IPanelView extends ISlotable {
 
     CellId addCellPanel(int row, int col);
-    
-    void createView();
-    
-    void createView(String html);
-    
-    int CUSTOMID = 1000;
 
+    CellId addCellPanel(IDataType publishType, int row, int col);
+
+    void createView();
+
+    void createView(String html);
+    int CUSTOMID = 1000;
 }

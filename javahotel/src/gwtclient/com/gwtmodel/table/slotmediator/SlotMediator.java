@@ -12,13 +12,12 @@
  */
 package com.gwtmodel.table.slotmediator;
 
+import com.gwtmodel.table.IDataType;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
@@ -27,8 +26,9 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 //    private final ISlotSignaller slSig = new GeneralListener();
 //    private final ISlotCaller slCaller = new GeneralCaller();
 
-    @Override
+//    @Override
     public void addSlotContainer(CellId cellId, ISlotable iSlo) {
+//        throw new UnsupportedOperationException("Not supported yet.");
         slList.add(new C(cellId, iSlo));
     }
 
@@ -36,14 +36,14 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 
         private final CellId cellId;
         private final ISlotable iSlo;
-        private final ISlotSignaller listener;
-        private final ISlotCaller caller;
+//        private final ISlotSignaller listener;
+//        private final ISlotCaller caller;
 
         C(CellId cellId, ISlotable iSlo) {
             this.cellId = cellId;
             this.iSlo = iSlo;
-            listener = iSlo.getSlContainer().constructListener();
-            caller = iSlo.getSlContainer().constructCaller();
+            //           listener = iSlo.getSlContainer().constructListener();
+            //           caller = iSlo.getSlContainer().constructCaller();
         }
     }
 
@@ -79,7 +79,6 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 //            return null;
 //        }
 //    }
-
 //    private class GeneralListener implements ISlotSignaller {
 //
 //        @Override

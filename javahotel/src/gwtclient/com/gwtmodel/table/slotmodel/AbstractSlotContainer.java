@@ -31,7 +31,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
 
     protected SlotListContainer slContainer;
     protected final SlotTypeFactory slTypeFactory;
-    protected IDataType dType;
+    protected IDataType dType = null;
 
     protected AbstractSlotContainer() {
         slContainer = GwtGiniInjector.getI().getSlotListContainer();
@@ -215,4 +215,5 @@ abstract public class AbstractSlotContainer implements ISlotable {
     @Override
     public void startPublish(CellId cellId) {
     }
+    
 }

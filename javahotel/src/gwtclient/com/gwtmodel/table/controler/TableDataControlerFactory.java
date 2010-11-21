@@ -51,7 +51,7 @@ public class TableDataControlerFactory {
             heList = fContainer.getHeaderListFactory().construct(dType);
         }
         IDataModelFactory dataFactory = fContainer.getDataModelFactory();
-        IFormTitleFactory formFactory = fContainer.getFormDefFactory();
+        IFormTitleFactory formFactory = fContainer.getFormTitleFactory();
         IGetViewControllerFactory fControler = fContainer.getGetViewControllerFactory();
         return new DataListParam(persistA, heList, dataFactory, formFactory, fControler);
     }

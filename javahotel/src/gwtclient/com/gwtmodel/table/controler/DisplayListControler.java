@@ -95,8 +95,4 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
         slContainer.publish(DataActionEnum.ReadListAction, cParam.getdType(), cParam.getwSize());
         slContainer.publish(DataActionEnum.ReadHeaderContainer, cParam.getdType());
     }
-//    @Override
-//    public SlotListContainer getSlContainer() {
-//        return slContainer;
-//    }
 }

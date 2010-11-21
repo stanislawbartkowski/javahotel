@@ -18,7 +18,7 @@ package com.gwtmodel.table.factories;
  */
 public interface ITableCustomFactories {
 
-    IFormTitleFactory getFormDefFactory();
+    IFormTitleFactory getFormTitleFactory();
 
     IPersistFactoryAction getPersistFactoryAction();
 

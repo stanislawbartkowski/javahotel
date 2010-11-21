@@ -41,4 +41,5 @@ public class TemplateContainerSlotable<T extends ISlotable> implements ISlotable
     public void startPublish(CellId cellId) {
         iSlot.startPublish(cellId);
     }
+
 }
