@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.common.CUtil;
 
 public class CellId {
@@ -19,29 +20,34 @@ public class CellId {
     private final int mainId;
     private final int subId;
     private final String mainS;
+    private IDataType dType;
 
     public CellId(int mainId, int subId) {
         this.mainId = mainId;
         this.subId = subId;
         mainS = null;
+        dType = null;
     }
 
     public CellId(int mainId) {
         this.mainId = mainId;
         this.subId = 0;
         mainS = null;
+        dType = null;
     }
 
     public CellId(String mainS, int subId) {
         this.mainId = -1;
         this.subId = subId;
         this.mainS = mainS;
+        dType = null;
     }
 
     public CellId(String mainS) {
         this.mainId = -1;
         this.subId = 0;
         this.mainS = mainS;
+        dType = null;
     }
 
     boolean eq(CellId s) {
@@ -54,11 +60,21 @@ public class CellId {
         return (mainId == s.mainId);
     }
 
-    public CellId constructNext() {
+    public CellId constructNext(IDataType publishType) {
         int nId = subId + 1;
+        CellId i;
         if (mainS != null) {
-            return new CellId(mainS, nId);
+            i = new CellId(mainS, nId);
         }
-        return new CellId(mainId, nId);
+        i = new CellId(mainId, nId);
+        i.dType = publishType;
+        return i;
+    }
+
+    /**
+     * @return the dType
+     */
+    public IDataType getdType() {
+        return dType;
     }
 }

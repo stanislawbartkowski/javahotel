@@ -12,11 +12,9 @@
  */
 package com.gwtmodel.table.view.panel;
 
-import java.util.List;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.common.MaxI;
 
 class GwtPanelView implements IGwtPanelView {
 

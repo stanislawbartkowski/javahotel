@@ -18,18 +18,16 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-
-
 public class GWidget implements IGWidget {
-    
+
     private final Widget w;
-    
+
     public GWidget(Widget w) {
+        assert w != null : "Widget cannot be null";
         this.w = w;
     }
 
     public Widget getGWidget() {
         return w;
     }
-
 }

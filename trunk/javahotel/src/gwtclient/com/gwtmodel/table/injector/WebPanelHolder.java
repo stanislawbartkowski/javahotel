@@ -28,7 +28,7 @@ public class WebPanelHolder {
 
     private static class TableFactoriesContainer implements ITableAbstractFactories, ITableCustomFactories {
 
-        private IFormTitleFactory iFormDefFactory;
+        private IFormTitleFactory iFormTitleFactory;
         private IPersistFactoryAction iPersistFactory;
         private IHeaderListFactory iheFactory;
         private IDataModelFactory iDataModelFactory;
@@ -41,8 +41,8 @@ public class WebPanelHolder {
         }
 
         @Override
-        public IFormTitleFactory getFormDefFactory() {
-            return iFormDefFactory;
+        public IFormTitleFactory getFormTitleFactory() {
+            return iFormTitleFactory;
         }
 
         @Override
@@ -56,8 +56,8 @@ public class WebPanelHolder {
         }
 
         @Override
-        public void registerFormDefFactory(IFormTitleFactory iFormDefFactory) {
-            this.iFormDefFactory = iFormDefFactory;
+        public void registerFormTitleFactory(IFormTitleFactory iFormTitleFactory) {
+            this.iFormTitleFactory = iFormTitleFactory;
 
         }
 

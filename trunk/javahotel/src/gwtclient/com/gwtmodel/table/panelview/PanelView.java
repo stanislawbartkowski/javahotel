@@ -49,7 +49,6 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             return cellNo;
         }
     }
-
     private final Map<CellId, PanelRowCell> colM = new HashMap<CellId, PanelRowCell>();
     private CellId panelId;
     private IGwtPanelView pView;
@@ -71,8 +70,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
     @Override
     public CellId addCellPanel(int row, int col) {
+        return addCellPanel(null, row, col);
+    }
+
+    @Override
+    public CellId addCellPanel(IDataType publishType, int row, int col) {
         PanelRowCell pa = new PanelRowCell(row, col);
-        CellId nextId = panelId.constructNext();
+        CellId nextId = panelId.constructNext(publishType);
         panelId = nextId;
         colM.put(nextId, pa);
         return nextId;
@@ -138,10 +142,16 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
     @Override
     public void startPublish(CellId cellId) {
-        if (paHtml != null) {
-            publish(dType, cellId, getHWidget());
+        IDataType publishType;
+        if (cellId.getdType() == null) {
+            publishType = dType;
         } else {
-            publish(dType, cellId, pView);
+            publishType = cellId.getdType();
+        }
+        if (paHtml != null) {
+            publish(publishType, cellId, getHWidget());
+        } else {
+            publish(publishType, cellId, pView);
         }
     }
 }
