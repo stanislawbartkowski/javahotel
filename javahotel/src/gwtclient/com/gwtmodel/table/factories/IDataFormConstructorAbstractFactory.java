@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.factories;
 
-import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.injector.ICallContext;
 
 public interface IDataFormConstructorAbstractFactory {
 
@@ -32,5 +32,5 @@ public interface IDataFormConstructorAbstractFactory {
         }
     }
 
-    CType construct(IDataType dType);
+    CType construct(ICallContext iContext);
 }

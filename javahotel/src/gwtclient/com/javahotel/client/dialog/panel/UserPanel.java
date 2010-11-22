@@ -33,6 +33,7 @@ public class UserPanel {
         IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
         IStackMenuClicked iClicked = new IStackMenuClicked() {
 
+            @Override
             public void ClickedView(IPanelCommand clicked) {
                 CommandDrawPanel.setC(rI, clicked);
             }

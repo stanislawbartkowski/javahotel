@@ -56,7 +56,7 @@ public class RegisterFactories {
                 valFactory, daFactory);
         GetViewFactory getViewFactory = new GetViewFactory(fa, vFactory,
                 peFactory);
-        tFactories.registerFormDefFactory(fa);
+        tFactories.registerFormTitleFactory(fa);
         tFactories.registerHeaderListFactory(new HeaderListFactory(cFactory));
         tFactories.registerPersistFactory(peFactory);
         tFactories.registerDataModelFactory(daFactory);

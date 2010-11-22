@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IDataFormConstructor;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -66,9 +67,7 @@ public class CustomerForm implements IDataFormConstructor {
     }
 
     @Override
-    public Widget construct(FormLineContainer model) {
-        FormField eC = FormUtil.findI(model.getfList(), new VField(
-                CustomerP.F.cType));
+    public Widget construct(ICallContext iContext, FormLineContainer model) {
         Set<IVField> fi = new HashSet<IVField>();
         DataUtil.addToSet(fi, model.getfList(), DictionaryP.F.name);
         DataUtil.addToSet(fi, model.getfList(), DictionaryP.F.description);
@@ -100,10 +99,11 @@ public class CustomerForm implements IDataFormConstructor {
         vpm.add(tab);
         tab.add(w1, "Firma", true);
         tab.add(w2, "Osoba", true);
+        FormField eC = FormUtil.findI(model.getfList(), new VField(
+                CustomerP.F.cType));
         eC.getELine().addChangeListener(new CList(tab));
         changeC(tab, eC.getELine());
 
         return vpm;
     }
-
 }

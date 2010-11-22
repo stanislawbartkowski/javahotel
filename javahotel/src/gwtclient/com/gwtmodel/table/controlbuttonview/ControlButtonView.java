@@ -28,7 +28,6 @@ class ControlButtonView extends AbstractSlotContainer implements
         IControlButtonView {
 
     private final IContrButtonView vButton;
-//    private final IDataType dType;
 
     private class Click implements IControlClick {
 

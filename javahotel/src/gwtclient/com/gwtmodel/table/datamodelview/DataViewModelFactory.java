@@ -22,24 +22,20 @@ import com.gwtmodel.table.view.form.GwtFormViewFactory;
 public class DataViewModelFactory {
 
     private final GwtFormViewFactory gFactory;
-    private final ITableCustomFactories cFactories;
 
     @Inject
     public DataViewModelFactory(GwtFormViewFactory gFactory,
             ITableCustomFactories cFactories) {
         this.gFactory = gFactory;
-        this.cFactories = cFactories;
     }
 
     public IDataViewModel construct(IDataType dType,
             FormLineContainer fContainer, IDataModelFactory dFactory) {
-        return new DataViewModel(gFactory, dType, fContainer, cFactories,
-                dFactory);
+        return new DataViewModel(gFactory, dType, fContainer, dFactory);
     }
 
     public IDataViewModel construct(IDataType dType,
             FormLineContainer fContainer) {
-        return new DataViewModel(gFactory, dType, fContainer, cFactories,
-                cFactories.getDataModelFactory());
+        return new DataViewModel(gFactory, dType, fContainer, null);
     }
 }

@@ -59,6 +59,7 @@ abstract class APersistRecordDict implements IPersistRecord {
         this.d = d;
     }
 
+    @Override
     public void persist(int action, RecordModel a, IPersistResult ires) {
         ipersist(action, a, ires);
     }

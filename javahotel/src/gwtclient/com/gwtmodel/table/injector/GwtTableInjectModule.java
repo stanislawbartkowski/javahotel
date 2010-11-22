@@ -78,5 +78,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(StackPanelFactory.class).in(Singleton.class);
         bind(StackPanelControllerFactory.class).in(Singleton.class);
         bind(ISlotMediator.class).toProvider(SlotMediatorFactory.class);
+        bind(ICallContext.class).to(CallContext.class);
     }
 }

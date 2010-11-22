@@ -12,8 +12,8 @@
  */
 package com.gwtmodel.table.factories;
 
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.composecontroller.IComposeController;
+import com.gwtmodel.table.injector.ICallContext;
 
 public interface IGetViewControllerFactory {
     
@@ -21,6 +21,6 @@ public interface IGetViewControllerFactory {
      * @param dType
      * @return
      */
-    public IComposeController construct(IDataType dType);
+    public IComposeController construct(ICallContext iContext);
 
 }
