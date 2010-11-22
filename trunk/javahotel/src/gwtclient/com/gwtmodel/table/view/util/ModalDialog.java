@@ -28,6 +28,7 @@ abstract public class ModalDialog {
 
     private class CloseClick implements ICloseAction {
 
+        @Override
         public void onClose() {
             hide();
         }
@@ -77,6 +78,7 @@ abstract public class ModalDialog {
 
         dBox.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
 
+            @Override
             public void setPosition(int offsetWidth, int offsetHeight) {
                 int maxwi = Window.getClientWidth();
                 int maxhei = Window.getClientHeight();

@@ -42,15 +42,8 @@ import com.javahotel.nmvc.common.VModelData;
 
 public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
 
-//    private final IDataControler iData;
     private final ClickButtonType cClear;
-//    private final DataType daType;
     private final static String CUSTOM = "CUSTOM-BUTTOM";
-
-//    @Override
-//    public void replaceSlContainer(SlotListContainer sl) {
-//        iData.replaceSlContainer(sl);
-//    }
 
     private class DelC extends CommonCallBack<Object> {
 
@@ -109,13 +102,9 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
         DisplayListControlerParam dList = tFactory.constructParam(dType, null,
                 cList, panelId);
         iSlot = tFactory.constructDataControler(dList);
-        // iData = dList.getListParam().
         getSlContainer().registerSubscriber(cClear, new ClearData());
     }
 
-//    public SlotListContainer getSlContainer() {
-//        return iData.getSlContainer();
-//    }
 
 // keep it as overrided
     @Override

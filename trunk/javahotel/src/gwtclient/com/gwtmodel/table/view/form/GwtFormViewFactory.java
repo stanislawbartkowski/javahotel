@@ -13,13 +13,13 @@
 package com.gwtmodel.table.view.form;
 
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 
 public class GwtFormViewFactory {
 
-    public IGwtFormView construct(final FormLineContainer fContainer,
+    public IGwtFormView construct(ICallContext iContext, FormLineContainer fContainer,
             IDataFormConstructorAbstractFactory.CType cType) {
-        return new GwtFormView(fContainer, cType);
+        return new GwtFormView(iContext, fContainer, cType);
     }
-
 }

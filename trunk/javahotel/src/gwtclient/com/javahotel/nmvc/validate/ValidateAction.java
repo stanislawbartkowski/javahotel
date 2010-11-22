@@ -56,11 +56,13 @@ public class ValidateAction extends AbstractSlotContainer implements
 
     private class Validate implements ISignalValidate {
 
+        @Override
         public void failue(IErrorMessage errmess) {
             InvalidateFormContainer eContainer = DataUtil.convert(errmess);
             publishValidSignal(eContainer);
         }
 
+        @Override
         public void success() {
             publishValidSignal(null);
         }
@@ -128,6 +130,7 @@ public class ValidateAction extends AbstractSlotContainer implements
 
     private class ValidateA implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData pData = getGetterIVModelData(
                     GetActionEnum.GetViewComposeModelEdited, dType);

@@ -24,26 +24,26 @@ public class PersistPerson extends APersonHotelPersist {
 
     @Override
     public void persist(PersistTypeEnum persistTypeEnum, IVModelData mData,
-             ISuccess iRes) {
+            ISuccess iRes) {
         LoginData lo = (LoginData) mData;
         PersonP pe = new PersonP();
         String loginName = lo.getLoginName();
         String password = lo.getPassword();
         pe.setName(loginName);
         switch (persistTypeEnum) {
-        case ADD:
-        case MODIF:
-              if (CUtil.EmptyS(password)) {
-                  iRes.success();
-                  break;
-              }
-              GWTGetService.getService().addPerson(pe, password,
-                      new CallBack(iRes));
-              break;
-        case REMOVE :
-            GWTGetService.getService().removePerson(pe,new CallBack(iRes));
-            break;     
+            case ADD:
+            case MODIF:
+                if (CUtil.EmptyS(password)) {
+                    iRes.success();
+                    break;
+                }
+                GWTGetService.getService().addPerson(pe, password,
+                        new CallBack(iRes));
+                break;
+            case REMOVE:
+                GWTGetService.getService().removePerson(pe, new CallBack(iRes));
+                break;
         }
-        
+
     }
 }

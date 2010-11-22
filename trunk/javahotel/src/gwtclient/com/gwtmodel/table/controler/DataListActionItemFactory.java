@@ -26,6 +26,8 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -251,7 +253,10 @@ class DataListActionItemFactory {
 
             }
             CellId cId = new CellId(0);
-            IComposeController fController = listParam.getfControler().construct(dType);
+            ICallContext iCall = GwtGiniInjector.getI().getCallContext();
+            iCall.setdType(dType);
+            iCall.setiSlo(iSlo);
+            IComposeController fController = listParam.getfControler().construct(iCall);
             IControlButtonView cView = tFactories.getbViewFactory().construct(dType,
                     liControls);
             ComposeControllerType bType = new ComposeControllerType(cView,

@@ -30,6 +30,7 @@ import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.common.command.DictType;
@@ -114,7 +115,8 @@ public class GetViewFactory implements IGetViewControllerFactory {
     }
 
     @Override
-    public IComposeController construct(IDataType dType) {
+    public IComposeController construct(ICallContext iContext) {
+        IDataType dType = iContext.getDType();
         FormLineContainer fContainer = fFactory.construct(dType);
         IComposeController iCon = coFactory.construct(dType);
         IDataViewModel daModel = daFactory.construct(dType, fContainer);
@@ -149,7 +151,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
         if (dd.isDictType()) {
             switch (dd.getdType()) {
                 case OffSeasonDict:
-                    cContainer = new SeasonAddInfo(dType, subType);
+                    cContainer = new SeasonAddInfo(iContext.construct(iCon), subType);
                     break;
                 case CustomerList:
                     cContainer = new CustomerAddInfo(dType, subType);
@@ -166,8 +168,8 @@ public class GetViewFactory implements IGetViewControllerFactory {
                             DictType.ServiceDict), new InfoExtractStandard());
                     break;
                 case BookingList:
-                    cContainer = new BookingCustomerContainer(subType);
-                    cContainer1 = new BookingHeaderContainer(sub1Type);
+                    cContainer = new BookingCustomerContainer(iContext,subType);
+                    cContainer1 = new BookingHeaderContainer(iContext, sub1Type);
                     break;
             }
         }

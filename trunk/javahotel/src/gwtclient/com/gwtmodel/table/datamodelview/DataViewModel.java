@@ -20,6 +20,8 @@ import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -40,7 +42,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private final FormLineContainer fContainer;
     private final IGwtFormView gView;
     private final IDataModelFactory dFactory;
-//    private final IDataType dType;
+    private final ICallContext iContext;
 
     private class ChangeMode implements ISlotSignaller {
 
@@ -135,12 +137,20 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
-            FormLineContainer fContainer, ITableCustomFactories cFactories,
-            IDataModelFactory dFactory) {
+            FormLineContainer fContainer, IDataModelFactory dFactory) {
         this.fContainer = fContainer;
         this.dType = dType;
-        gView = gFactory.construct(fContainer, cFactories.getDataFormConstructorAbstractFactory().construct(dType));
-        this.dFactory = dFactory;
+        this.iContext = GwtGiniInjector.getI().getCallContext();
+        iContext.setdType(dType);
+        // suspicious this in constructor, but as designed
+        iContext.setiSlo(this);
+        gView = gFactory.construct(iContext, fContainer, iContext.getC().getDataFormConstructorAbstractFactory().construct(iContext));
+        if (dFactory == null) {
+            this.dFactory = iContext.getC().getDataModelFactory();
+        } else {
+            this.dFactory = dFactory;
+
+        }
         registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
                 new InvalidateMess());
         registerSubscriber(DataActionEnum.ChangeViewFormModeAction, dType,

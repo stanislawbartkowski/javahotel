@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.stringlist;
 
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
@@ -22,6 +21,7 @@ import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.persist.IMemoryListModel;
 import com.gwtmodel.table.persist.MemoryRecordPersist;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -42,20 +42,20 @@ class GetControler implements IGetViewControllerFactory {
     }
 
     @Override
-    public IComposeController construct(IDataType dType) {
+    public IComposeController construct(ICallContext iContext) {
         ComposeControllerFactory coFactory =
                 GwtGiniInjector.getI().getComposeControllerFactory();
-        FormLineContainer fContainer = sFactory.construct(dType);
-        IComposeController iCon = coFactory.construct(dType, dFactory);
-        IDataViewModel daModel = daFactory.construct(dType, fContainer,
+        FormLineContainer fContainer = sFactory.construct(iContext.getDType());
+        IComposeController iCon = coFactory.construct(iContext.getDType(), dFactory);
+        IDataViewModel daModel = daFactory.construct(iContext.getDType(), fContainer,
                 dFactory);
-        ComposeControllerType cType = new ComposeControllerType(daModel, dType,
+        ComposeControllerType cType = new ComposeControllerType(daModel, iContext.getDType(),
                 0, 0);
         iCon.registerControler(cType);
-        MemoryRecordPersist mRecord = new MemoryRecordPersist(dType,mList.getDataList());
-        iCon.registerControler(new ComposeControllerType(mRecord, dType));
-        iCon.registerControler(new ComposeControllerType(new ValidateS(dType),
-                dType));
+        MemoryRecordPersist mRecord = new MemoryRecordPersist(iContext.getDType(), mList.getDataList());
+        iCon.registerControler(new ComposeControllerType(mRecord, iContext.getDType()));
+        iCon.registerControler(new ComposeControllerType(new ValidateS(iContext.getDType()),
+                iContext.getDType()));
         return iCon;
     }
 }

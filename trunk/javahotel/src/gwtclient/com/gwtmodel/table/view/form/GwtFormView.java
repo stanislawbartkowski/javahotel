@@ -21,6 +21,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.ITouchListener;
@@ -37,6 +38,7 @@ class GwtFormView implements IGwtFormView {
 
         ITouchListener ii = new ITouchListener() {
 
+            @Override
             public void onTouch() {
                 eStore.clearE();
             }
@@ -46,7 +48,7 @@ class GwtFormView implements IGwtFormView {
         }
     }
 
-    GwtFormView(final FormLineContainer fContainer,
+    GwtFormView(ICallContext iContext, final FormLineContainer fContainer,
             IDataFormConstructorAbstractFactory.CType cType) {
         this.fContainer = fContainer;
         if (cType.getfConstructor() == null) {
@@ -56,12 +58,13 @@ class GwtFormView implements IGwtFormView {
                 gg = CreateFormView.setHtml(fContainer.getHtml(), fContainer.getfList());
             }
         } else {
-            gg = cType.getfConstructor().construct(fContainer);
+            gg = cType.getfConstructor().construct(iContext, fContainer);
         }
         hp = null;
         setListener();
     }
 
+    @Override
     public Widget getGWidget() {
         if (hp == null) {
             return gg;
@@ -69,6 +72,7 @@ class GwtFormView implements IGwtFormView {
         return hp;
     }
 
+    @Override
     public void showInvalidate(InvalidateFormContainer errContainer) {
         List<InvalidateMess> col = errContainer.getErrMess();
 
@@ -82,6 +86,7 @@ class GwtFormView implements IGwtFormView {
         }
     }
 
+    @Override
     public void fillHtml(IGWidget gw) {
         Widget w = gw.getGWidget();
         HTMLPanel pa = (HTMLPanel) w;

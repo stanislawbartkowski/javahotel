@@ -16,6 +16,9 @@
  */
 package com.javahotel.nmvc.factories.impl;
 
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
@@ -25,7 +28,9 @@ import com.gwtmodel.table.datelist.AbstractDatePeriodE;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.datelist.IDatePeriodFactory;
 import com.gwtmodel.table.datelist.IDatePeriodList;
+import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -33,11 +38,18 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.dialog.user.tableseason.PanelSeason;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.common.dateutil.CalendarTable.PeriodType;
+import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.SeasonPeriodT;
 import com.javahotel.nmvc.common.DataUtil;
+import com.javahotel.nmvc.common.VModelData;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +64,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
     private final DatePeriodListFactory daFactory;
     private final SetVPanelGwt sPanel = new SetVPanelGwt();
     private final MyPeriodFactory pFactory;
+    static final String SHOWSEASONSTRING = "SHOW SEASON STRING";
 
     private class MyPeriodFactory implements IDatePeriodFactory {
 
@@ -80,12 +93,11 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         Object o = sou.getCustomData();
         if (o != null) {
             OfferSeasonPeriodP s = (OfferSeasonPeriodP) o;
-//            dest.setLId(s.getLId());
             dest.setPId(s.getPId());
             return next;
         }
         dest.setPId(next);
-        Long l = new Long(next.longValue()+1);
+        Long l = new Long(next.longValue() + 1);
         return l;
     }
 
@@ -183,8 +195,56 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         }
     }
 
-    public SeasonAddInfo(IDataType publishType, IDataType ddType) {
-        this.dType = publishType;
+    private class DrawSeason implements ISlotSignaller {
+
+        private final PanelSeason pS;
+        private final Grid g = new Grid(2, 1);
+        private final IResLocator rI;
+        private final HorizontalPanel controlC = new HorizontalPanel();
+        private final ICallContext iContext;
+        private final IDataType ddType;
+        private final IDataModelFactory dFactory;
+
+        private class DrawD extends ModalDialog {
+
+            DrawD(VerticalPanel vp) {
+                super(vp,"Pokaż sezony");
+                create();
+            }
+
+            @Override
+            protected void addVP(VerticalPanel vp) {
+                vp.add(g);
+                vp.add(controlC);
+            }
+        }
+
+        DrawSeason(ICallContext iContext, IDataType ddType) {
+            rI = HInjector.getI().getI();
+            pS = new PanelSeason(rI, g, controlC, 0, null, DateUtil.getToday());
+            this.iContext = iContext;
+            this.ddType = ddType;
+            dFactory = iContext.getC().getDataModelFactory();
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IVModelData mData = dFactory.construct(dType);
+            IVModelData pData = iContext.iSlo().getSlContainer().
+                    getGetterIVModelData(GetActionEnum.GetViewComposeModelEdited,
+                    dType, mData);
+            VModelData v = (VModelData) pData;
+            OfferSeasonP off = (OfferSeasonP) v.getA();
+            pS.drawPa(off, PeriodType.byDay);
+            VerticalPanel vp = new VerticalPanel();
+            ModalDialog m = new DrawD(vp);
+            m.show();
+            m.getDBox().setPopupPosition(100,100);
+        }
+    }
+
+    public SeasonAddInfo(ICallContext iContext, IDataType ddType) {
+        this.dType = iContext.getDType();
         daFactory = GwtGiniInjector.getI().getDatePeriodListFactory();
         pFactory = new MyPeriodFactory();
         outsideSeason = daFactory.construct("Poza sezonem", pFactory, sPanel.constructSetGwt());
@@ -193,6 +253,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         registerCaller(GetActionEnum.GetModelToPersist, ddType, new SetGetter());
         registerSubscriber(DataActionEnum.DrawViewFormAction, ddType,
                 new DrawModel());
+        registerSubscriber(SHOWSEASONSTRING, new DrawSeason(iContext, ddType));
 
     }
 

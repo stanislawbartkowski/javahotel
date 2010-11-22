@@ -36,7 +36,6 @@ import com.gwtmodel.table.view.checkstring.ICheckDictModel;
 class CheckStandardContainer extends AbstractSlotContainer {
 
     private final ICheckDictModel iCheck;
-//    private final IDataType dType;
     private IDataListType dataList;
     private final InfoExtract infoExtract;
     private final GetDataList getDataList;

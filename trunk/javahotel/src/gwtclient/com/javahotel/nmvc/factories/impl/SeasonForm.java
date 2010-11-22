@@ -10,13 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.javahotel.nmvc.factories.impl;
 
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.factories.IDataFormConstructor;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
+import com.gwtmodel.table.view.controlpanel.IContrButtonView;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.util.CreateFormView;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,10 +34,38 @@ import com.gwtmodel.table.view.util.CreateFormView;
  */
 public class SeasonForm implements IDataFormConstructor {
 
-    @Override
-    public Widget construct(FormLineContainer model) {
-         Widget w = CreateFormView.construct(model.getfList());
-         return w;
+    private final ContrButtonViewFactory bFactory;
+
+    public SeasonForm() {
+        bFactory = GwtGiniInjector.getI().getContrButtonViewFactory();
     }
 
+    private class ButtList implements IControlClick {
+
+        private final ICallContext iContext;
+
+        ButtList(ICallContext i) {
+            this.iContext = i;
+        }
+
+        @Override
+        public void click(ControlButtonDesc co, Widget w) {
+            iContext.iSlo().getSlContainer().publish(SeasonAddInfo.SHOWSEASONSTRING);
+        }
+    }
+
+    @Override
+    public Widget construct(ICallContext iContext, FormLineContainer model) {
+        Widget w = CreateFormView.construct(model.getfList());
+        VerticalPanel v = new VerticalPanel();
+        ControlButtonDesc b = new ControlButtonDesc("Pokaz sezony", new ClickButtonType("POKAZ"));
+        List<ControlButtonDesc> li = new ArrayList<ControlButtonDesc>();
+        li.add(b);
+        ListOfControlDesc lo = new ListOfControlDesc(li);
+        IContrButtonView bv = bFactory.getView(lo, new ButtList(iContext));
+        v.add(w);
+        v.add(bv.getGWidget());
+
+        return v;
+    }
 }

@@ -35,6 +35,7 @@ public class AdminPanelCommand extends UICommand {
         this.iFactory = iFactory;
     }
 
+    @Override
     public void execute() {
         new UserPanel(rI, iFactory);
 

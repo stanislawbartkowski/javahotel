@@ -128,10 +128,6 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
         @Override
         protected void go() {
-//            rI.getR().invalidateCache(RType.AllHotels, RType.AllPersons,
-//                    RType.PersonHotelRoles);
-//            publish(DataActionEnum.PersistDataSuccessSignal, dType,
-//                    persistTypeEnum);
             sendSignal(persistTypeEnum);
         }
 
@@ -150,7 +146,6 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         @Override
         public void success() {
             if (roles.getLi().isEmpty()) {
-//                rol.go();
                 sendSignal(persistTypeEnum);
                 return;
             }

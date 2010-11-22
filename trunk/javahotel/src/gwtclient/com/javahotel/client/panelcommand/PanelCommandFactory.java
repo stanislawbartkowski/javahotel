@@ -127,7 +127,8 @@ public class PanelCommandFactory {
             break;
 
         case TESTPANEL:
-            i = new TestBookingElem(sI);
+//            i = new TestBookingElem(sI);
+            i = new NewMvcPanel(sI, DictType.OffSeasonDict);
             break;
 
         }

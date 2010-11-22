@@ -88,4 +88,6 @@ public interface GwtTableInjector extends Ginjector {
     IWebPanel getWebPanel();
 
     ControlButtonViewFactory getControlButtonViewFactory();
+
+    ICallContext getCallContext();
 }

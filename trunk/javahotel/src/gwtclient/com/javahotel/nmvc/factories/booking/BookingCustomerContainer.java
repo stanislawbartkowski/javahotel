@@ -31,6 +31,7 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
@@ -180,7 +181,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
 
     }
 
-    public BookingCustomerContainer(DataType subType) {
+    public BookingCustomerContainer(ICallContext iContext, DataType subType) {
         dType = new DataType(DictType.CustomerList);
         TablesFactories tFactories = GwtGiniInjector.getI()
                 .getTablesFactories();
@@ -206,7 +207,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
                 .getTableFactoriesContainer().getGetViewControllerFactory();
         CellId bId = new CellId(IPanelView.CUSTOMID);
         CellId cId = new CellId(IPanelView.CUSTOMID + 1);
-        IComposeController cust = fa.construct(dType);
+        IComposeController cust = fa.construct(iContext.construct(dType));
         cust.createComposeControle(cId);
 
         register(bView, cust);

@@ -27,6 +27,7 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
@@ -184,7 +185,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         return b;
     }
     
-    public BookingHeaderContainer(DataType subType) {
+    public BookingHeaderContainer(ICallContext iContext, DataType subType) {
         TablesFactories tFactories = GwtGiniInjector.getI()
                 .getTablesFactories();
         ITableCustomFactories fContainer = GwtGiniInjector.getI()
@@ -200,9 +201,9 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         CellId aId = new CellId(IPanelView.CUSTOMID + 1);
         IGetViewControllerFactory fa = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getGetViewControllerFactory();
-        IComposeController book = fa.construct(dType);
+        IComposeController book = fa.construct(iContext.construct(dType));
         book.createComposeControle(cId);
-        IComposeController aHeader = fa.construct(aType);
+        IComposeController aHeader = fa.construct(iContext.construct(aType));
         aHeader.createComposeControle(aId);
         register(book, aHeader);
         slMediator.registerSlotContainer(cId, book);

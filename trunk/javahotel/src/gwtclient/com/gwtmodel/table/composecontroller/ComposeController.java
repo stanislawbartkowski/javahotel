@@ -33,7 +33,6 @@ class ComposeController extends AbstractSlotMediatorContainer implements
 
     private final List<ComposeControllerType> cList = new ArrayList<ComposeControllerType>();
     private IPanelView pView;
-//    private final IDataType dType;
     private final SlotTypeFactory slFactory;
     private final IDataModelFactory dFactory;
 
