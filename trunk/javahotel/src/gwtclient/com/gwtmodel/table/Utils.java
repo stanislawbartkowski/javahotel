@@ -157,7 +157,10 @@ public class Utils {
     }
 
     public static int CalculateNOfRows(WSize w) {
-        int up = w.getTop();
+        int up = 0;
+        if (w != null) {
+            up = w.getTop();
+        }
         int he = Window.getClientHeight();
 
         int size = (he - up - 10) / 30;
@@ -213,7 +216,7 @@ public class Utils {
 //        return Arrays.asList(a);
         // WARNING: do not replace with Arrays.asList !
         List<IVField> l = new ArrayList<IVField>();
-        for (int i = 0; i<a.length; i++) {
+        for (int i = 0; i < a.length; i++) {
             l.add(a[i]);
         }
         return l;

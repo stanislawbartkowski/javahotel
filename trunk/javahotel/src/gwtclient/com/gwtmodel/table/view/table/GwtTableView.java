@@ -65,70 +65,70 @@ class GwtTableView implements IGwtTableView {
             Object val = ii.getF(cl.getFie());
             String sval = ii.getS(cl.getFie());
             switch (cl.getColType()) {
-            case NUMBER:
-                BigDecimal b;
-                if (val == null) {
-                    b = Utils.toBig(sval);
-                } else {
-                    b = (BigDecimal) val;
-                }
-                if (b != null) {
-                    Double d = Utils.toDouble(b);
-                    data.setValue(row, c, d.doubleValue());
-                }
-                break;
-            case INTEGER:
-                int ival;
-                if (val == null) {
-                    ival = CUtil.getNumb(sval);
-                } else {
-                    Integer i = (Integer) val;
-                    ival = i.intValue();
-                }
-                data.setValue(row, c, ival);
-                break;
-            case DATE:
-                Date dd;
-                if (val == null) {
-                    dd = DateFormatUtil.toD(sval);
-                } else {
-                    dd = (Date) val;
-                }
-                data.setValue(row, c, dd);
-                break;
-            case BOOLEAN:
-                boolean log;
-                if (val == null) {
-                    log = Utils.TrueL(sval);
-                } else {
-                    Boolean bl = (Boolean) val;
-                    log = bl.booleanValue();
-                }
-                data.setValue(row, c, log);
-                break;
-            default:
-            case STRING:
-                data.setValue(row, c, sval);
-                break;
+                case NUMBER:
+                    BigDecimal b;
+                    if (val == null) {
+                        b = Utils.toBig(sval);
+                    } else {
+                        b = (BigDecimal) val;
+                    }
+                    if (b != null) {
+                        Double d = Utils.toDouble(b);
+                        data.setValue(row, c, d.doubleValue());
+                    }
+                    break;
+                case INTEGER:
+                    int ival;
+                    if (val == null) {
+                        ival = CUtil.getNumb(sval);
+                    } else {
+                        Integer i = (Integer) val;
+                        ival = i.intValue();
+                    }
+                    data.setValue(row, c, ival);
+                    break;
+                case DATE:
+                    Date dd;
+                    if (val == null) {
+                        dd = DateFormatUtil.toD(sval);
+                    } else {
+                        dd = (Date) val;
+                    }
+                    data.setValue(row, c, dd);
+                    break;
+                case BOOLEAN:
+                    boolean log;
+                    if (val == null) {
+                        log = Utils.TrueL(sval);
+                    } else {
+                        Boolean bl = (Boolean) val;
+                        log = bl.booleanValue();
+                    }
+                    data.setValue(row, c, log);
+                    break;
+                default:
+                case STRING:
+                    data.setValue(row, c, sval);
+                    break;
             }
         }
     }
 
     private ColumnType getCType(VListHeaderDesc c) {
         switch (c.getColType()) {
-        case BOOLEAN:
-            return ColumnType.BOOLEAN;
-        case STRING:
-            return ColumnType.STRING;
-        case NUMBER:
-        case INTEGER:
-            return ColumnType.NUMBER;
-        case DATE:
-            return ColumnType.DATE;
-        case DATETIME:
-            return ColumnType.DATETIME;
-        case TIMEOFDAY:
-            return ColumnType.TIMEOFDAY;
+            case BOOLEAN:
+                return ColumnType.BOOLEAN;
+            case STRING:
+                return ColumnType.STRING;
+            case NUMBER:
+            case INTEGER:
+                return ColumnType.NUMBER;
+            case DATE:
+                return ColumnType.DATE;
+            case DATETIME:
+                return ColumnType.DATETIME;
+            case TIMEOFDAY:
+                return ColumnType.TIMEOFDAY;
         }
         assert false : "Unrecognized column type";
         return null;
@@ -205,12 +205,13 @@ class GwtTableView implements IGwtTableView {
         }
         getTable();
         Table.Options tao = Table.Options.create();
-        if (startW != null) {
-            int size = Utils.CalculateNOfRows(startW);
-            if (size > 0) {
-                tao.setPageSize(size);
-                tao.setPage(Table.Options.Policy.ENABLE);
-            }
+        int size = model.getHeaderList().getPageSize();
+        if (size == 0) {
+            size = Utils.CalculateNOfRows(startW);
+        }
+        if (size > 0) {
+            tao.setPageSize(size);
+            tao.setPage(Table.Options.Policy.ENABLE);
         }
         ta.draw(data, tao);
     }
@@ -278,6 +279,5 @@ class GwtTableView implements IGwtTableView {
     @Override
     public Widget getGWidget() {
         return ta;
-
     }
 }
