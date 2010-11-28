@@ -54,7 +54,7 @@ class MemoryStringList extends AbstractSlotContainer implements
                 Empty.getFieldType(), ColumnDataType.STRING);
         heList.add(he);
         VListHeaderContainer vHeader;
-        vHeader = new VListHeaderContainer(heList, title);
+        vHeader = new VListHeaderContainer(heList, title, 0);
         dControler.getSlContainer().publish(dType, vHeader);
     }
 

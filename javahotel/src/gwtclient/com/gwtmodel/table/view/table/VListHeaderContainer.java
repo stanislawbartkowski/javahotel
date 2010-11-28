@@ -19,10 +19,13 @@ public class VListHeaderContainer {
 
     private final List<VListHeaderDesc> heList;
     private final String listTitle;
+    private final int pageSize;
 
-    public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
+    public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle,
+            int pageSize) {
         this.heList = heList;
         this.listTitle = listTitle;
+        this.pageSize = pageSize;
     }
 
     public List<VListHeaderDesc> getVisHeList() {
@@ -42,5 +45,12 @@ public class VListHeaderContainer {
 
     public String getListTitle() {
         return listTitle;
+    }
+
+    /**
+     * @return the pageSize
+     */
+    public int getPageSize() {
+        return pageSize;
     }
 }

@@ -131,8 +131,8 @@ class DataListActionItemFactory {
             IGWidget w = slContext.getGwtWidget();
             VerticalPanel vp = new VerticalPanel();
             d = new FormDialog(vp, title + " / " + addTitle, w);
-            PopupUtil.setPos(d.getDBox(), wSize);
-            d.show();
+//            PopupUtil.setPos(d.getDBox(), wSize);
+            d.show(wSize);
         }
     }
 
