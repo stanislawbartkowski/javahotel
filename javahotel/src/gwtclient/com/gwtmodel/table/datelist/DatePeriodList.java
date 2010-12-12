@@ -34,7 +34,7 @@ import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.view.table.ColumnDataType;
+import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import java.util.ArrayList;
@@ -89,13 +89,13 @@ class DatePeriodList extends AbstractSlotContainer implements
         dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         VListHeaderDesc he = new VListHeaderDesc("Od",
-                new DatePeriodField(DatePeriodField.F.DATEFROM), ColumnDataType.DATE);
+                new DatePeriodField(DatePeriodField.F.DATEFROM));
         heList.add(he);
         he = new VListHeaderDesc("Do",
-                new DatePeriodField(DatePeriodField.F.DATETO), ColumnDataType.DATE);
+                new DatePeriodField(DatePeriodField.F.DATETO));
         heList.add(he);
         he = new VListHeaderDesc("Opis",
-                new DatePeriodField(DatePeriodField.F.COMMENT), ColumnDataType.STRING);
+                new DatePeriodField(DatePeriodField.F.COMMENT));
         heList.add(he);
         VListHeaderContainer vHeader;
         vHeader = new VListHeaderContainer(heList, title, 0);

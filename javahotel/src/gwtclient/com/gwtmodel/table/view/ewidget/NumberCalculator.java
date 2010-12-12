@@ -49,4 +49,12 @@ class NumberCalculator extends ExtendTextBox {
         }
         return CUtil.toAfterS(s, afterdot);
     }
+
+    @Override
+    public Object getObj() {
+        if (afterdot == 0) {
+            return getLong();
+        }
+        return getDecimal();
+    }
 }

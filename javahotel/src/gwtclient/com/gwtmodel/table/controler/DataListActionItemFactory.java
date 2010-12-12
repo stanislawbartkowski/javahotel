@@ -19,6 +19,7 @@ package com.gwtmodel.table.controler;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.ISignal;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
@@ -41,7 +42,6 @@ import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ModalDialog;
-import com.gwtmodel.table.view.util.PopupUtil;
 
 /**
  *
@@ -82,7 +82,7 @@ class DataListActionItemFactory {
         }
     }
 
-    private abstract class Signaller implements ISlotSignaller {
+    static abstract class Signaller implements ISlotSignaller {
 
         private final DrawForm dForm;
 
@@ -95,12 +95,12 @@ class DataListActionItemFactory {
         }
     }
 
-    private class FormDialog extends ModalDialog {
+    static private class FormDialog extends ModalDialog {
 
         private final IGWidget w;
 
-        FormDialog(VerticalPanel vp, String title, IGWidget w) {
-            super(vp, title);
+        FormDialog(VerticalPanel vp, String title, IGWidget w, boolean modal) {
+            super(vp, title, modal);
             this.w = w;
             create();
         }
@@ -111,18 +111,20 @@ class DataListActionItemFactory {
         }
     }
 
-    private class DrawForm implements ISlotSignaller {
+    static class DrawForm implements ISlotSignaller {
 
         private final WSize wSize;
         private final String title;
         private final ClickButtonType.StandClickEnum action;
         private FormDialog d;
+        private final boolean modal;
 
         DrawForm(WSize wSize, String title,
-                ClickButtonType.StandClickEnum action) {
+                ClickButtonType.StandClickEnum action, boolean modal) {
             this.wSize = wSize;
             this.title = title;
             this.action = action;
+            this.modal = modal;
         }
 
         @Override
@@ -130,21 +132,30 @@ class DataListActionItemFactory {
             String addTitle = GetActionName.getActionName(action);
             IGWidget w = slContext.getGwtWidget();
             VerticalPanel vp = new VerticalPanel();
-            d = new FormDialog(vp, title + " / " + addTitle, w);
-//            PopupUtil.setPos(d.getDBox(), wSize);
+            d = new FormDialog(vp, title + " / " + addTitle, w, modal);
             d.show(wSize);
+        }
+
+        void hide() {
+            d.hide();
         }
     }
 
-    private class ResignAction extends Signaller {
+    static class ResignAction extends Signaller {
 
-        ResignAction(DrawForm dForm) {
+        private final ISignal i;
+
+        ResignAction(DrawForm dForm, ISignal i) {
             super(dForm);
+            this.i = i;
         }
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             hide();
+            if (i != null) {
+                i.signal();
+            }
         }
     }
 
@@ -238,7 +249,6 @@ class DataListActionItemFactory {
                 // create empty
                 peData = listParam.getDataFactory().construct(dType);
             }
-            String title = listParam.getFormFactory().getFormTitle(dType);
             ListOfControlDesc liControls;
             switch (action) {
                 case REMOVEITEM:
@@ -265,9 +275,10 @@ class DataListActionItemFactory {
             fController.createComposeControle(cId);
 
             SlotListContainer slControlerContainer = fController.getSlContainer();
-            DrawForm dForm = new DrawForm(wSize, title, action);
+            String title = listParam.getFormFactory().getFormTitle(dType);
+            DrawForm dForm = new DrawForm(wSize, title, action, true);
             slControlerContainer.registerSubscriber(dType, cId, dForm);
-            ResignAction aRes = new ResignAction(dForm);
+            ResignAction aRes = new ResignAction(dForm, null);
             slControlerContainer.registerSubscriber(
                     ClickButtonType.StandClickEnum.RESIGN, aRes);
             PersistData pData = new PersistData(persistTypeEnum, fController,

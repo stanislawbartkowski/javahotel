@@ -30,54 +30,91 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> yesnoButton;
     private final List<ControlButtonDesc> loginButton;
     private final List<ControlButtonDesc> printButton;
+    private final List<ControlButtonDesc> filtrButton;
+    private final List<ControlButtonDesc> findButton;
     private final IGetCustomValues c;
 
     private ControlButtonDesc constructButt(StandClickEnum bType) {
         String imageName = ControlButtonImages.getImageName(bType);
         switch (bType) {
-        case ADDITEM:
-            return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.ADDBUTTON),
-                    new ClickButtonType(ClickButtonType.StandClickEnum.ADDITEM));
-        case REMOVEITEM:
-            return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.REMOVEBUTTON),
-                    new ClickButtonType(
-                            ClickButtonType.StandClickEnum.REMOVEITEM));
-        case MODIFITEM:
-            return new ControlButtonDesc(imageName, c.getCustomValue(IGetCustomValues.MODIFITEM),
-                    new ClickButtonType(
-                            ClickButtonType.StandClickEnum.MODIFITEM));
-        case SHOWITEM:
-            return new ControlButtonDesc(
-                    imageName,
-                    c.getCustomValue(IGetCustomValues.SHOWITEM),
-                    new ClickButtonType(ClickButtonType.StandClickEnum.SHOWITEM));
-        case ACCEPT:
-            return new ControlButtonDesc(imageName, "Akceptujesz",
-                    new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT));
-        case RESIGN:
-        case RESIGNLIST:
-            return new ControlButtonDesc(imageName, "Rezygnujesz",
-                    new ClickButtonType(bType));
-        case CHOOSELIST:
-            return new ControlButtonDesc(imageName, "Wybierasz",
-                    new ClickButtonType(
-                            ClickButtonType.StandClickEnum.CHOOSELIST));
+            case FIND:
+                return new ControlButtonDesc(imageName,
+                        "Szukaj", new ClickButtonType(bType));
 
-        default:
-            break;
+            case FINDFROMBEGINNING:
+                return new ControlButtonDesc(imageName,
+                        "Szukaj od początku", new ClickButtonType(bType));
+
+            case FINDNOW:
+                return new ControlButtonDesc(imageName,
+                        "Szukaj", new ClickButtonType(bType));
+            case FINDNEXT:
+                return new ControlButtonDesc(imageName,
+                        "Szukaj dalej", new ClickButtonType(bType));
+
+            case SETFILTER:
+                return new ControlButtonDesc(imageName,
+                        "Ustaw filtr", new ClickButtonType(bType));
+
+            case REMOVEFILTER:
+                return new ControlButtonDesc(imageName,
+                        "Usuń filtr", new ClickButtonType(bType));
+
+            case FILTRLIST:
+                return new ControlButtonDesc(imageName,
+                        "Filtr", new ClickButtonType(bType));
+            case ADDITEM:
+                return new ControlButtonDesc(imageName,
+                        c.getCustomValue(IGetCustomValues.ADDBUTTON),
+                        new ClickButtonType(bType));
+            case REMOVEITEM:
+                return new ControlButtonDesc(imageName,
+                        c.getCustomValue(IGetCustomValues.REMOVEBUTTON),
+                        new ClickButtonType(bType));
+            case MODIFITEM:
+                return new ControlButtonDesc(imageName, c.getCustomValue(IGetCustomValues.MODIFITEM),
+                        new ClickButtonType(bType));
+            case SHOWITEM:
+                return new ControlButtonDesc(
+                        imageName,
+                        c.getCustomValue(IGetCustomValues.SHOWITEM),
+                        new ClickButtonType(bType));
+            case ACCEPT:
+                return new ControlButtonDesc(imageName, "Akceptujesz",
+                        new ClickButtonType(bType));
+            case RESIGN:
+            case RESIGNLIST:
+                return new ControlButtonDesc(imageName, "Rezygnujesz",
+                        new ClickButtonType(bType));
+            case CHOOSELIST:
+                return new ControlButtonDesc(imageName, "Wybierasz",
+                        new ClickButtonType(bType));
+
+            default:
+                break;
         }
         return null;
     }
 
     public ControlButtonFactory() {
-        c = GwtGiniInjector.getI().getTableFactoriesContainer()
-                .getGetCustomValues();
+        c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         dButton = new ArrayList<ControlButtonDesc>();
         dButton.add(constructButt(StandClickEnum.ADDITEM));
         dButton.add(constructButt(StandClickEnum.REMOVEITEM));
         dButton.add(constructButt(StandClickEnum.MODIFITEM));
+        dButton.add(constructButt(StandClickEnum.FILTRLIST));
+        dButton.add(constructButt(StandClickEnum.FIND));
+
+        filtrButton = new ArrayList<ControlButtonDesc>();
+        filtrButton.add(constructButt(StandClickEnum.SETFILTER));
+        filtrButton.add(constructButt(StandClickEnum.REMOVEFILTER));
+        filtrButton.add(constructButt(StandClickEnum.RESIGN));
+
+        findButton = new ArrayList<ControlButtonDesc>();
+        findButton.add(constructButt(StandClickEnum.FINDNOW));
+        findButton.add(constructButt(StandClickEnum.FINDFROMBEGINNING));
+        findButton.add(constructButt(StandClickEnum.FINDNEXT));
+        findButton.add(constructButt(StandClickEnum.RESIGN));
 
         akcButton = new ArrayList<ControlButtonDesc>();
         akcButton.add(constructButt(StandClickEnum.ACCEPT));
@@ -93,8 +130,7 @@ public class ControlButtonFactory {
         removeButton.add(constructButt(ClickButtonType.StandClickEnum.RESIGN));
 
         chooseButton = new ArrayList<ControlButtonDesc>();
-        chooseButton
-                .add(constructButt(ClickButtonType.StandClickEnum.CHOOSELIST));
+        chooseButton.add(constructButt(ClickButtonType.StandClickEnum.CHOOSELIST));
         chooseButton.add(constructButt(StandClickEnum.RESIGNLIST));
 
         yesnoButton = new ArrayList<ControlButtonDesc>();
@@ -104,8 +140,7 @@ public class ControlButtonFactory {
                 ClickButtonType.StandClickEnum.RESIGN)));
 
         loginButton = new ArrayList<ControlButtonDesc>();
-        loginButton.add(new ControlButtonDesc(null, c
-                .getCustomValue(IGetCustomValues.LOGINBUTTON),
+        loginButton.add(new ControlButtonDesc(null, c.getCustomValue(IGetCustomValues.LOGINBUTTON),
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
 
         printButton = new ArrayList<ControlButtonDesc>();
@@ -144,6 +179,14 @@ public class ControlButtonFactory {
 
     public ListOfControlDesc constructOkButton() {
         return new ListOfControlDesc(okButton);
+    }
+
+    public ListOfControlDesc constructFilterButton() {
+        return new ListOfControlDesc(filtrButton);
+    }
+
+    public ListOfControlDesc constructFindButton() {
+        return new ListOfControlDesc(findButton);
     }
 
     public ListOfControlDesc constructList(List<StandClickEnum> cList) {

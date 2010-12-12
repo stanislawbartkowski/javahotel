@@ -14,7 +14,6 @@ package com.gwtmodel.table.stringlist;
 
 import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.common.CUtil;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +28,13 @@ public abstract class AbstractStringE extends AbstractLpVModelData {
         return addV(li);
     }
 
-    @Override
-    public String getS(IVField fie) {
-        if (super.isValid(fie)) {
-            return super.getS(fie);
-        }
-        return s;
-    }
+//    @Override
+//    public String getS(IVField fie) {
+//        if (super.isValid(fie)) {
+//            return super.getS(fie);
+//        }
+//        return s;
+//    }
 
     @Override
     public Object getF(IVField fie) {
@@ -45,10 +44,10 @@ public abstract class AbstractStringE extends AbstractLpVModelData {
         return s;
     }
 
-    @Override
-    public boolean isEmpty(IVField fie) {
-        return CUtil.EmptyS(s);
-    }
+//    @Override
+//    public boolean isEmpty(IVField fie) {
+//        return CUtil.EmptyS(s);
+//    }
 
     @Override
     public void setF(IVField fie, Object val) {

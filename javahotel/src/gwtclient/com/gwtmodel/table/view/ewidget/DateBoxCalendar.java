@@ -32,6 +32,11 @@ class DateBoxCalendar extends AbstractField {
         db.setEnabled(!readOnly);
     }
 
+    @Override
+    public Object getObj() {
+        return getDate();
+    }
+
     private class DFormat implements DateBox.Format {
 
         @Override

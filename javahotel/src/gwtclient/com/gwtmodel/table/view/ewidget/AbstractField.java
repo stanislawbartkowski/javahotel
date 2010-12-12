@@ -139,6 +139,11 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     }
 
     @Override
+    public Long getLong() {
+        return Utils.toLong(getVal());
+    }
+
+    @Override
     public Date getDate() {
         String n = getVal();
         if (n == null) {
@@ -191,5 +196,10 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     @Override
     public boolean isHidden() {
         return !this.getGWidget().isVisible();
+    }
+
+    @Override
+    public Object getObj() {
+        return getVal();
     }
 }

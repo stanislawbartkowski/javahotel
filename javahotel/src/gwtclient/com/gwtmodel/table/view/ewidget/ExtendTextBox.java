@@ -212,4 +212,5 @@ class ExtendTextBox extends AbstractField {
     public Widget getGWidget() {
         return this;
     }
+
 }

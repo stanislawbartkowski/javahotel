@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.util;
 
+import com.gwtmodel.table.FUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class FormUtil {
     public static void copyFromDataToView(IVModelData aFrom,
             FormLineContainer fContainer) {
         for (FormField d : fContainer.getfList()) {
-            String s = aFrom.getS(d.getFie());
+            String s = FUtils.getValueS(aFrom, d.getFie());
             d.getELine().setVal(s);
         }
     }
@@ -49,9 +50,18 @@ public class FormUtil {
         for (FormField d : fContainer.getfList()) {
             IVField vFie = d.getFie();
             IFormLineView vView = d.getELine();
-            aTo.setF(vFie, vView.getVal());
+            aTo.setF(vFie, vView.getObj());
         }
     }
+
+//    public static void copyFromViewToDataS(FormLineContainer fContainer,
+//            IVModelData aTo) {
+//        for (FormField d : fContainer.getfList()) {
+//            IVField vFie = d.getFie();
+//            IFormLineView vView = d.getELine();
+//            aTo.setF(vFie, vView.getVal());
+//        }
+//    }
 
     public static List<IVField> getVList(FormLineContainer fContainer) {
         List<IVField> fList = new ArrayList<IVField>();
@@ -65,10 +75,15 @@ public class FormUtil {
     public static void copyData(IVModelData aFrom, IVModelData aTo) {
         for (IVField v : aFrom.getF()) {
             Object val = aFrom.getF(v);
-            if (val == null) {
-                val = aFrom.getS(v);
-            }
             aTo.setF(v, val);
         }
     }
+
+//    public static void copyDataS(IVModelData aFrom, IVModelData aTo) {
+//        for (IVField v : aFrom.getF()) {
+//            String val = aFrom.getS(v);
+//            aTo.setF(v, val);
+//        }
+//    }
+
 }

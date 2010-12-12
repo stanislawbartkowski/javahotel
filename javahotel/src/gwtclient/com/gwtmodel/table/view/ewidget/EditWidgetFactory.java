@@ -67,18 +67,15 @@ public class EditWidgetFactory {
     }
 
     public IFormLineView constructPasswordField(String fName) {
-//        return new FieldTextField(tFactories, true, false, fName);
         return new ExtendTextBox(tFactories, newE(true, false, fName));
     }
 
     public IFormLineView constructTextField(String fName) {
-//        return new FieldTextField(tFactories, false, false, fName);
         return new ExtendTextBox(tFactories, newE(false, false, fName));
     }
 
     public IFormLineView constructTextArea(String fName) {
         return new ExtendTextBox(tFactories, newE(false, true, fName));
-//        return new FieldTextField(tFactories, false, true, fName);
     }
 
     public IFormLineView construcDateBoxCalendar() {
@@ -95,7 +92,6 @@ public class EditWidgetFactory {
     }
 
     public IFormLineView constructListValuesHelp(IDataType dType, String fName) {
-//        return new ListFieldWithHelp(tFactories, dType, fName);
         return new ListFieldWithHelp(tFactories, dType, new ExtendTextBox.EParam(false, false, true, false, false, fName));
     }
 
@@ -109,16 +105,8 @@ public class EditWidgetFactory {
         return new ExtendTextBox.EParam(false, false, false, true, cEnable, fName);
     }
 
-//    private class GetValueCheck extends ExtendTextBox {
-//
-//        GetValueCheck(ITableCustomFactories tFactories, boolean checkenable,
-//                String fName) {
-//            super(tFactories, false, checkenable, fName);
-//        }
-//    }
     public IFormLineView constructTextCheckEdit(boolean checkenable,
             String fName) {
-//        return new GetValueCheck(tFactories, checkenable, fName);
         return new ExtendTextBox(tFactories, newC(checkenable, fName));
     }
 

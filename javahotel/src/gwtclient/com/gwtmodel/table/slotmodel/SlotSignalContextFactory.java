@@ -15,6 +15,7 @@ package com.gwtmodel.table.slotmodel;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
@@ -40,6 +41,7 @@ public class SlotSignalContextFactory {
         private final FormLineContainer lContainer;
         private final String stringButton;
         private final ICustomObject customO;
+        private final IOkModelData iOkModelData;
 
         public VListHeaderContainer getListHeader() {
             return listHeader;
@@ -51,7 +53,7 @@ public class SlotSignalContextFactory {
                 PersistTypeEnum persistTypeEnum,
                 VListHeaderContainer listHeader, IVField vField,
                 FormLineContainer lContainer, String stringButton,
-                ICustomObject customO) {
+                ICustomObject customO, IOkModelData iOkModelData) {
             this.slType = slType;
             this.changedValue = changedValue;
             this.validateError = validateError;
@@ -65,6 +67,7 @@ public class SlotSignalContextFactory {
             this.lContainer = lContainer;
             this.stringButton = stringButton;
             this.customO = customO;
+            this.iOkModelData = iOkModelData;
         }
 
         public IVModelData getVData() {
@@ -122,92 +125,104 @@ public class SlotSignalContextFactory {
         public ICustomObject getCustom() {
             return customO;
         }
+
+        public IOkModelData getIOkModelData() {
+            return iOkModelData;
+        }
     }
 
     public ISlotSignalContext construct(SlotType slType, IDataListType dataList) {
         return new SlotSignalContext(slType, null, null, null, dataList, null,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             IDataListType dataList, WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, dataList, wSize,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IVModelData vData,
             WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, null, wSize,
-                vData, null, null, null, null, null, null);
+                vData, null, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, WSize wSize) {
         return new SlotSignalContext(slType, null, null, null, null, wSize,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IFormLineView formLine) {
         return new SlotSignalContext(slType, formLine, null, null, null, null,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             PersistTypeEnum persistTypeEnum) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, persistTypeEnum, null, null, null, null, null);
+                null, persistTypeEnum, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             VListHeaderContainer listHeader) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, listHeader, null, null, null, null);
+                null, null, listHeader, null, null, null, null, null);
     }
 
-    public ISlotSignalContext construct(SlotType slType, IGWidget gwtWidget, String stringButton) {
+    public ISlotSignalContext construct(SlotType slType, IGWidget gwtWidget,
+            String stringButton) {
         return new SlotSignalContext(slType, null, null, gwtWidget, null, null,
-                null, null, null, null, null, stringButton, null);
+                null, null, null, null, null, stringButton, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IGWidget gwtWidget) {
         return new SlotSignalContext(slType, null, null, gwtWidget, null, null,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IVModelData vData) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                vData, null, null, null, null, null, null);
+                vData, null, null, null, null, null, null, null);
     }
 
-    public ISlotSignalContext construct(SlotType slType, IVModelData vData, PersistTypeEnum persistTypeEnum) {
+    public ISlotSignalContext construct(SlotType slType, IVModelData vData,
+            PersistTypeEnum persistTypeEnum) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                vData, persistTypeEnum, null, null, null, null, null);
+                vData, persistTypeEnum, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IValidateError vError) {
         return new SlotSignalContext(slType, null, vError, null, null, null,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, IVField vField) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, null, vField, null, null, null);
+                null, null, null, vField, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             FormLineContainer lContainer) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, null, null, lContainer, null, null);
+                null, null, null, null, lContainer, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
             ICustomObject customO) {
         return new SlotSignalContext(slType, null, null, null, null, null,
-                null, null, null, null, null, null, customO);
+                null, null, null, null, null, null, customO, null);
+    }
+
+    public ISlotSignalContext construct(SlotType slType,
+            IOkModelData iOkModelData) {
+        return new SlotSignalContext(slType, null, null, null, null, null,
+                null, null, null, null, null, null, null, iOkModelData);
     }
 
     public ISlotSignalContext construct(SlotType slType,
@@ -216,6 +231,7 @@ public class SlotSignalContextFactory {
                 iSlot.getValidateError(), iSlot.getGwtWidget(), iSlot.getDataList(),
                 iSlot.getWSize(), iSlot.getVData(), iSlot.getPersistType(),
                 iSlot.getListHeader(), iSlot.getVField(),
-                iSlot.getEditContainer(), iSlot.getStringButton(), iSlot.getCustom());
+                iSlot.getEditContainer(), iSlot.getStringButton(),
+                iSlot.getCustom(), iSlot.getIOkModelData());
     }
 }

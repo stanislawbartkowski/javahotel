@@ -12,9 +12,11 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import com.google.gwt.user.client.Window;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
@@ -30,12 +32,14 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
+import java.util.ArrayList;
+import java.util.List;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     private final IGwtTableView tableView;
-//    private final IDataType dType;
     private final DataListModelView listView;
+    private IDataListType dataList;
 
     private class DrawHeader implements ISlotSignaller {
 
@@ -47,14 +51,103 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private class FilterDataListType implements IDataListType {
+
+        private final IOkModelData iOk;
+
+        FilterDataListType(IOkModelData iOk) {
+            this.iOk = iOk;
+        }
+
+        public List<IVModelData> getList() {
+            List<IVModelData> li = new ArrayList<IVModelData>();
+            for (IVModelData v : dataList.getList()) {
+                if (iOk.OkData(v)) {
+                    li.add(v);
+                }
+            }
+            return li;
+        }
+
+        public IVField comboField() {
+            return dataList.comboField();
+        }
+
+        public void append(IVModelData vData) {
+            dataList.append(vData);
+        }
+
+        public void remove(int row) {
+            dataList.remove(row);
+        }
+    }
+
     private class DrawList implements ISlotSignaller {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IDataListType dataList = slContext.getDataList();
-            WSize wSize = slContext.getWSize();
+            dataList = slContext.getDataList();
+//            WSize wSize = slContext.getWSize();
             listView.setDataList(dataList);
-            tableView.refresh(wSize);
+            tableView.refresh();
+        }
+    }
+
+    private class SetFilter implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IOkModelData iOk = slContext.getIOkModelData();
+            assert iOk != null : "Filter function cannot be null";
+            IDataListType dList = new FilterDataListType(iOk);
+            listView.setDataList(dList);
+            tableView.refresh();
+        }
+    }
+
+    private class FindRow implements ISlotSignaller {
+
+        private final boolean next;
+        private final boolean begin;
+
+        FindRow(boolean next,boolean begin) {
+            this.next = next;
+            this.begin = begin;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IOkModelData iOk = slContext.getIOkModelData();
+            assert iOk != null : "Filter function cannot be null";
+            WChoosedLine w = tableView.getClicked();
+            int aLine = -1;
+            if (w.isChoosed() && !begin) {
+                aLine = w.getChoosedLine() - 1;
+            }
+            List<IVModelData> li = tableView.getViewModel().getRows();
+            if (next) {
+                aLine++;
+            }
+            boolean found = false;
+            // order in while predicat evaluation is important !
+            while (!found && (++aLine < li.size())) {
+                IVModelData v = li.get(aLine);
+                found = iOk.OkData(v);
+            }
+            if (!found) {
+                publish(DataActionEnum.NotFoundSignal, dType);
+                return;
+            }
+            tableView.setClicked(aLine);
+        }
+    }
+
+    private class RemoveFilter implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            listView.setDataList(dataList);
+            tableView.refresh();
         }
     }
 
@@ -73,7 +166,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         IVModelData vData = null;
         if (w.isChoosed()) {
             wSize = w.getwSize();
-            vData = tableView.getViewModel().getRow(w.getChoosedLine());
+            vData = tableView.getViewModel().getRows().get(w.getChoosedLine());
         }
         return construct(GetActionEnum.GetListLineChecked, dType, vData,
                 wSize);
@@ -101,6 +194,11 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         tableView = gFactory.construct(new ClickList());
         // subscriber
         registerSubscriber(DataActionEnum.DrawListAction, dType, new DrawList());
+        registerSubscriber(DataActionEnum.FindRowList, dType, new FindRow(false,false));
+        registerSubscriber(DataActionEnum.FindRowBeginningList, dType, new FindRow(false,true));
+        registerSubscriber(DataActionEnum.FindRowNextList, dType, new FindRow(true,false));
+        registerSubscriber(DataActionEnum.DrawListSetFilter, dType, new SetFilter());
+        registerSubscriber(DataActionEnum.DrawListRemoveFilter, dType, new RemoveFilter());
         registerSubscriber(DataActionEnum.ReadHeaderContainerSignal, dType,
                 new DrawHeader());
         // caller

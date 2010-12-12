@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view;
 
+import com.gwtmodel.table.FUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ValidateUtil {
         List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
         boolean ok = true;
         for (IVField f : listMFie) {
-            if (!ignoreV.contains(f) && mData.isEmpty(f)) {
+            if (!ignoreV.contains(f) && FUtils.isNullValue(mData, f)) {
                 ok = false;
                 errMess.add(new InvalidateMess(f, true, null));
             }

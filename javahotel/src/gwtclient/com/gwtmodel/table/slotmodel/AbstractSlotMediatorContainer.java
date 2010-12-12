@@ -30,7 +30,6 @@ public abstract class AbstractSlotMediatorContainer extends TemplateContainerSlo
     protected final TablesFactories tFactories;
     protected ISlotMediator slMediator;
     protected final PanelViewFactory pViewFactory;
-//    protected IDataType dType;
 
     protected AbstractSlotMediatorContainer() {
         tFactories = GwtGiniInjector.getI().getTablesFactories();
@@ -40,18 +39,4 @@ public abstract class AbstractSlotMediatorContainer extends TemplateContainerSlo
 
     }
 
-//    @Override
-//    public SlotListContainer getSlContainer() {
-//        return slMediator.getSlContainer();
-//    }
-//
-//    @Override
-//    public void replaceSlContainer(SlotListContainer sl) {
-//        slMediator.replaceSlContainer(sl);
-//    }
-//
-//    @Override
-//    public void startPublish(CellId cellId) {
-//        slMediator.startPublish(cellId);
-//    }
 }

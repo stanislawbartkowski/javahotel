@@ -30,7 +30,6 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
 
     private final CellId cellTableId;
     private final CellId controlId;
-//    private final ISlotMediator slMediator;
     private final SlotListContainer slContainer;
     private final boolean startM;
     private final DisplayListControlerParam cParam;
@@ -40,7 +39,6 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
         IDataPersistAction persistA = cParam.getListParam().getPersistA();
         IHeaderListContainer heList = cParam.getListParam().getHeList();
         // create panel View
-//        PanelViewFactory pViewFactory = cParam.gettFactories().getpViewFactory();
         IPanelView pView = pViewFactory.construct(cParam.getdType(), cParam.getPanelId());
         controlId = pView.addCellPanel(0, 0);
         cellTableId = pView.addCellPanel(1, 0);

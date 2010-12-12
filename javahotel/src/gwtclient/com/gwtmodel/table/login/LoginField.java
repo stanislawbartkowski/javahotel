@@ -13,8 +13,13 @@
 package com.gwtmodel.table.login;
 
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.FieldDataType;
 
 public class LoginField implements IVField {
+
+    public FieldDataType getType() {
+        return FieldDataType.contructString();
+    }
 
     public enum F {
 

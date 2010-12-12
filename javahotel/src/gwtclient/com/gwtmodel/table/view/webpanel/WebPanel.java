@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IClickNextYesNo;
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.ISignal;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.htmlview.HtmlElemDesc;
@@ -46,6 +47,7 @@ class WebPanel implements IWebPanel {
     private final IWebPanelResources pResources;
     private final CallBackProgress bCounter;
     private String centerSize = "90%";
+    private ISignal centreHideSignal = null;
 
     public void setOwnerName(String owner) {
         ownerName.setText(owner);
@@ -58,6 +60,10 @@ class WebPanel implements IWebPanel {
     public void setCenterSize(String size) {
         this.centerSize = size;
         setWidth();
+    }
+
+    public void setCentreHideSignal(ISignal iSig) {
+        centreHideSignal = iSig;
     }
 
     private enum StatusE {
@@ -153,12 +159,16 @@ class WebPanel implements IWebPanel {
     public void setDCenter(final Widget w) {
         if (wCenter != null) {
             dPanel.remove(wCenter);
+            if (centreHideSignal != null) {
+                centreHideSignal.signal();
+            }
         }
         wCenter = w;
         if (w != null) {
             dPanel.add(w, DockPanel.CENTER);
             setWidth();
         }
+        centreHideSignal = null;
     }
 
     public void setMenuPanel(Widget w) {

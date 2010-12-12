@@ -21,6 +21,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
@@ -58,24 +59,7 @@ public final class SlotListContainer {
         listOfCallers.addAll(slo.listOfCallers);
         listOfRedirectors.addAll(slo.listOfRedirectors);
         iSlo.replaceSlContainer(this);
-//        this.slContainer.getListOfCallers().addAll(
-//                iSlo.getSlContainer().getListOfCallers());
-//        this.slContainer.getListOfRedirectors().addAll(
-//                iSlo.getSlContainer().getListOfRedirectors());
-
     }
-
-//    public List<SlotCallerType> getListOfCallers() {
-//        return listOfCallers;
-//    }
-//
-//    public List<SlotSubscriberType> getListOfSubscribers() {
-//        return listOfSubscribers;
-//    }
-//
-//    public List<SlotRedirector> getListOfRedirectors() {
-//        return listOfRedirectors;
-//    }
 
     public ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
@@ -143,14 +127,6 @@ public final class SlotListContainer {
         }
         slSignaller.signal(slContext);
     }
-
-//    public final void registerSlReceiver(ISlotCaller slCaller) {
-//        this.slCaller = slCaller;
-//    }
-//
-//    public void registerSlPublisher(ISlotSignaller slSignaller) {
-//        this.slSignaller = slSignaller;
-//    }
 
     public void registerSubscriber(SlotType slType, ISlotSignaller slSignaller) {
         listOfSubscribers.add(new SlotSubscriberType(slType, slSignaller));
@@ -357,7 +333,8 @@ public final class SlotListContainer {
     }
 
     public void publish(String stringButton, IGWidget gwtWidget) {
-        publish(slContextFactory.construct(slTypeFactory.construct(stringButton), gwtWidget, stringButton));
+        publish(slContextFactory.construct(slTypeFactory.construct(stringButton),
+                gwtWidget, stringButton));
         publish(slContextFactory.construct(slTypeFactory.construct(),
                 gwtWidget, stringButton));
     }
@@ -412,6 +389,12 @@ public final class SlotListContainer {
     public void publish(DataActionEnum dataActionEnum, IDataType dType) {
         publish(slContextFactory.construct(slTypeFactory.construct(
                 dataActionEnum, dType)));
+    }
+
+    public void publish(DataActionEnum dataActionEnum, IDataType dType,
+            IOkModelData iOkModelData) {
+        publish(slContextFactory.construct(slTypeFactory.construct(
+                dataActionEnum, dType), iOkModelData));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,

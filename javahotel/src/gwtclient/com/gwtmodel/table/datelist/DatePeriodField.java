@@ -17,6 +17,7 @@
 package com.gwtmodel.table.datelist;
 
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.FieldDataType;
 
 /**
  *
@@ -29,6 +30,10 @@ public class DatePeriodField implements IVField {
      */
     public F getFie() {
         return fie;
+    }
+
+    public FieldDataType getType() {
+        return FieldDataType.contructDate();
     }
 
     public enum F {
@@ -46,5 +51,4 @@ public class DatePeriodField implements IVField {
     public DatePeriodField(F fie) {
         this.fie = fie;
     }
-
 }

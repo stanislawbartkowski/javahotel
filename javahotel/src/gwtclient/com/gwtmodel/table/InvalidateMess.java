@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table;
 
-
 public class InvalidateMess {
 
     private final IVField fie;
@@ -26,9 +25,7 @@ public class InvalidateMess {
     }
 
     public InvalidateMess(final IVField fie, final String err) {
-        this.fie = fie;
-        this.empty = false;
-        this.errmess = err;
+        this(fie, false, err);
     }
 
     /**
@@ -51,5 +48,4 @@ public class InvalidateMess {
     public String getErrmess() {
         return errmess;
     }
-
 }

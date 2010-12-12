@@ -16,6 +16,18 @@ public enum DataActionEnum {
 
     /** Draw list / DataListType. */
     DrawListAction,
+    /** Set filter */
+    DrawListSetFilter,
+    /** Remove filter */
+    DrawListRemoveFilter,
+    /** find item */
+    FindRowList,
+    /** find next item */
+    FindRowNextList,
+    /** find from beginning */
+    FindRowBeginningList,
+    /** Signal not found */
+    NotFoundSignal,
     /** Change view mode / PersistTypeEnum . */
     ChangeViewFormModeAction,
     /** Change view mode / PersistTypeEnum . */
