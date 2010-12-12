@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.gwtmodel.table.FieldDataType;
 import java.util.List;
 
 import com.google.gwt.core.client.JsArray;
@@ -24,13 +25,12 @@ import com.google.gwt.visualization.client.Selection;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.formatters.DateFormat;
 import com.google.gwt.visualization.client.visualizations.Table;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
-import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.common.DateFormatUtil;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -42,7 +42,6 @@ class GwtTableView implements IGwtTableView {
     private final Label header = new Label();
     private final Table ta;
     private DataTable data;
-    private WSize startW;
     private final ICommand iClick;
     private final DateFormat df;
 
@@ -51,84 +50,66 @@ class GwtTableView implements IGwtTableView {
         ta.addSelectHandler(new H(ta));
         this.iClick = iClick;
         model = null;
-        startW = null;
         DateFormat.Options o = DateFormat.Options.create();
         o.setPattern("yyyy.MM.dd");
         df = DateFormat.create(o);
     }
 
     private void drawrow(int row) {
-        IVModelData ii = model.getRow(row);
+        IVModelData ii = model.getRows().get(row);
         List<VListHeaderDesc> co = model.getHeaderList().getVisHeList();
         for (int c = 0; c < co.size(); c++) {
             VListHeaderDesc cl = co.get(c);
-            Object val = ii.getF(cl.getFie());
-            String sval = ii.getS(cl.getFie());
-            switch (cl.getColType()) {
-                case NUMBER:
-                    BigDecimal b;
-                    if (val == null) {
-                        b = Utils.toBig(sval);
-                    } else {
-                        b = (BigDecimal) val;
-                    }
+//            Object val = ii.getF(cl.getFie());
+//            String sval = ii.getS(cl.getFie());
+            switch (cl.getFie().getType().getType()) {
+                case BIGDECIMAL:
+                    BigDecimal b = FUtils.getValueBigDecimal(ii, cl.getFie());
                     if (b != null) {
                         Double d = Utils.toDouble(b);
                         data.setValue(row, c, d.doubleValue());
                     }
                     break;
-                case INTEGER:
-                    int ival;
-                    if (val == null) {
-                        ival = CUtil.getNumb(sval);
-                    } else {
-                        Integer i = (Integer) val;
-                        ival = i.intValue();
+                case LONG:
+                    Long l = FUtils.getValueLong(ii, cl.getFie());
+                    if (l != null) {
+                        int ival = l.intValue();
+                        data.setValue(row, c, ival);
                     }
-                    data.setValue(row, c, ival);
                     break;
                 case DATE:
-                    Date dd;
-                    if (val == null) {
-                        dd = DateFormatUtil.toD(sval);
-                    } else {
-                        dd = (Date) val;
+                    Date dd = FUtils.getValueDate(ii, cl.getFie());
+                    if (dd != null) {
+                        data.setValue(row, c, dd);
                     }
-                    data.setValue(row, c, dd);
                     break;
                 case BOOLEAN:
-                    boolean log;
-                    if (val == null) {
-                        log = Utils.TrueL(sval);
-                    } else {
-                        Boolean bl = (Boolean) val;
-                        log = bl.booleanValue();
+                    Boolean bb = FUtils.getValueBoolean(ii, cl.getFie());
+                    if (bb != null) {
+                        boolean log = bb.booleanValue();
+                        data.setValue(row, c, log);
                     }
-                    data.setValue(row, c, log);
                     break;
                 default:
-                case STRING:
-                    data.setValue(row, c, sval);
+                    data.setValue(row, c, FUtils.getValueString(ii, cl.getFie()));
                     break;
             }
         }
     }
 
     private ColumnType getCType(VListHeaderDesc c) {
-        switch (c.getColType()) {
+        switch (c.getFie().getType().getType()) {
             case BOOLEAN:
                 return ColumnType.BOOLEAN;
             case STRING:
                 return ColumnType.STRING;
-            case NUMBER:
-            case INTEGER:
+            case BIGDECIMAL:
+            case LONG:
                 return ColumnType.NUMBER;
             case DATE:
                 return ColumnType.DATE;
             case DATETIME:
                 return ColumnType.DATETIME;
-            case TIMEOFDAY:
-                return ColumnType.TIMEOFDAY;
         }
         assert false : "Unrecognized column type";
         return null;
@@ -140,14 +121,15 @@ class GwtTableView implements IGwtTableView {
         for (VListHeaderDesc c : co) {
             data.addColumn(getCType(c), c.getHeaderString());
         }
-        data.addRows(model.getRowsNum());
-        for (int i = 0; i < model.getRowsNum(); i++) {
+        int rowNo = model.getRows().size();
+        data.addRows(rowNo);
+        for (int i = 0; i < rowNo; i++) {
             drawrow(i);
         }
         // important: should be set after drawing rows, not before
         int colNo = 0;
         for (VListHeaderDesc c : co) {
-            if (c.getColType() == ColumnDataType.DATE) {
+            if (c.getFie().getType().getType() == FieldDataType.T.DATE) {
                 df.format(data, colNo);
             }
             colNo++;
@@ -207,7 +189,7 @@ class GwtTableView implements IGwtTableView {
         Table.Options tao = Table.Options.create();
         int size = model.getHeaderList().getPageSize();
         if (size == 0) {
-            size = Utils.CalculateNOfRows(startW);
+            size = Utils.CalculateNOfRows(null);
         }
         if (size > 0) {
             tao.setPageSize(size);
@@ -224,6 +206,10 @@ class GwtTableView implements IGwtTableView {
             header.setText(title);
         }
         draw();
+    }
+
+    @Override
+    public void setClicked(int clickedno) {
     }
 
     private class H extends SelectHandler {
@@ -266,8 +252,7 @@ class GwtTableView implements IGwtTableView {
     }
 
     @Override
-    public void refresh(WSize startW) {
-        this.startW = startW;
+    public void refresh() {
         draw();
     }
 

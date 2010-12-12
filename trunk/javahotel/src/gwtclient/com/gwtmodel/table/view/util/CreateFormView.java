@@ -79,6 +79,7 @@ public class CreateFormView {
                     continue;
                 }
             }
+            if (d.isRange()) { continue; }
             rows++;
         }
         Grid g = new Grid(rows, 2);
@@ -118,7 +119,6 @@ public class CreateFormView {
                 vp1.add(la);
                 vp2.add(d.getELine().getGWidget());
                 w1 = vp1;
-//                Label la2 = new Label(fRange.getPLabel());
                 Label la2 = new Label(" - ");
                 vp2.add(la2);
                 vp2.add(fRange.getELine().getGWidget());

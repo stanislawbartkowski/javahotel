@@ -34,11 +34,7 @@ public class FormField {
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie) {
-        this.pLabel = p;
-        this.eLine = e;
-        this.fie = fie;
-        this.readOnlyIfModif = false;
-        this.fRange = null;
+        this(p, e, fie, false);
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie, IVField fRange) {

@@ -22,9 +22,9 @@ public interface IVModelData {
 
     boolean isValid(IVField fie);
 
-    String getS(IVField fie);
+//    String getS(IVField fie);
 
-    boolean isEmpty(IVField fie);
+//    boolean isEmpty(IVField fie);
 
     List<IVField> getF();
 

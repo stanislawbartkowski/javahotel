@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
@@ -35,7 +36,6 @@ class TableView implements IGwtTableView {
     private IGwtTableModel model;
     private final Label header = new Label();
     private final VerticalPanel vp = new VerticalPanel();
-    private WSize startW;
     private int clickedNo = -1;
     private WSize wSize;
     private final ICommand iClick;
@@ -75,7 +75,7 @@ class TableView implements IGwtTableView {
         }
         List<VListHeaderDesc> co = model.getHeaderList().getVisHeList();
         int cols = co.size();
-        int rows = model.getRowsNum();
+        int rows = model.getRows().size();
         g.resize(rows + 1, cols);
         int col = 0;
         for (VListHeaderDesc c : co) {
@@ -85,9 +85,9 @@ class TableView implements IGwtTableView {
         }
         for (int row = 0; row < rows; row++) {
             col = 0;
-            IVModelData mo = model.getRow(row);
+            IVModelData mo = model.getRows().get(row);
             for (VListHeaderDesc c : co) {
-                String s = mo.getS(c.getFie());
+                String s = FUtils.getValueS(mo, c.getFie());
                 Label l = new Label(s);
                 g.setWidget(row + 1, col, l);
                 col++;
@@ -97,22 +97,25 @@ class TableView implements IGwtTableView {
 
     }
 
+    @Override
     public WChoosedLine getClicked() {
-        if (clickedNo >= model.getRowsNum()) {
+        if (clickedNo >= model.getRows().size()) {
             clickedNo = -1;
         }
         return new WChoosedLine(clickedNo, wSize);
     }
 
+    @Override
     public IGwtTableModel getViewModel() {
         return model;
     }
 
-    public void refresh(WSize w) {
-        this.startW = w;
+    @Override
+    public void refresh() {
         draw();
     }
 
+    @Override
     public void setModel(IGwtTableModel model) {
         this.model = model;
         String title = model.getHeaderList().getListTitle();
@@ -122,7 +125,12 @@ class TableView implements IGwtTableView {
         draw();
     }
 
+    @Override
     public Widget getGWidget() {
         return vp;
+    }
+
+    @Override
+    public void setClicked(int clickedno) {
     }
 }

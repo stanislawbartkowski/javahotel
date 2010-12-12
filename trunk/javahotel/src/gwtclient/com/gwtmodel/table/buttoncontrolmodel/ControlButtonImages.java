@@ -18,6 +18,10 @@ class ControlButtonImages {
 
     static String getImageName(ClickButtonType.StandClickEnum actionId) {
         switch (actionId) {
+            case FIND:
+                return "FindImage";
+            case FILTRLIST:
+                return "FiltrImage";
             case ADDITEM:
                 return "AddImage";
             case MODIFITEM:

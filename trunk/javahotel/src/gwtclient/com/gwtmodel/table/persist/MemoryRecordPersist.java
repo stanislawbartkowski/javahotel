@@ -16,6 +16,7 @@
  */
 package com.gwtmodel.table.persist;
 
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
@@ -49,8 +50,9 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
                 case MODIF:
                     break;
                 case REMOVE:
-                    for (int row = 0; row < dataList.rowNo(); row++) {
-                        IVModelDataEquable eeData = (IVModelDataEquable) dataList.getRow(row);
+                    for (int row = 0; row < FUtils.getRowNumber(dataList); row++) {
+                        IVModelDataEquable eeData =
+                                (IVModelDataEquable) FUtils.getRow(dataList, row);
                         if (eData.eq(eeData)) {
                             dataList.remove(row);
                             break;

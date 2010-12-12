@@ -26,6 +26,20 @@ import com.gwtmodel.table.view.webpanel.IWebPanel;
 
 public class WebPanelHolder {
 
+    /**
+     * @return the tableType
+     */
+    public static TableType getTableType() {
+        return tableType;
+    }
+
+    /**
+     * @param aTableType the tableType to set
+     */
+    public static void setTableType(TableType aTableType) {
+        tableType = aTableType;
+    }
+
     private static class TableFactoriesContainer implements ITableAbstractFactories, ITableCustomFactories {
 
         private IFormTitleFactory iFormTitleFactory;
@@ -124,26 +138,17 @@ public class WebPanelHolder {
             return formFactory;
         }
     }
+
+    public static enum TableType {
+
+        GOOGLETABLE, GRIDTABLE, PRESETABLE;
+    }
     private static IWebPanel iWeb;
-    private static boolean googletable;
+    private static TableType tableType;
     private static final TableFactoriesContainer factoriesContainer;
 
     static {
         factoriesContainer = new TableFactoriesContainer();
-    }
-
-    /**
-     * @return the googletable
-     */
-    public static boolean isGoogletable() {
-        return googletable;
-    }
-
-    /**
-     * @param aGoogletable the googletable to set
-     */
-    public static void setGoogletable(boolean aGoogletable) {
-        googletable = aGoogletable;
     }
 
     /**

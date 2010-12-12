@@ -18,6 +18,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IGetDataListCallBack;
@@ -112,9 +113,9 @@ public class RadioBoxString extends AbstractField {
 
     private void setRadio(IDataListType dataList, boolean enable) {
         IVField sym = tFactories.getGetCustomValues().getSymForCombo();
-        for (int i = 0; i<dataList.rowNo(); i++) {
-            IVModelData v = dataList.getRow(i);
-            String s = v.getS(sym);
+        for (int i = 0; i < FUtils.getRowNumber(dataList); i++) {
+            IVModelData v = FUtils.getRow(dataList, i);
+            String s = FUtils.getValueS(v, sym);
             CheckBox c = new CheckBox(s);
             c.setEnabled(enable);
             CC cc = new CC(s, c);

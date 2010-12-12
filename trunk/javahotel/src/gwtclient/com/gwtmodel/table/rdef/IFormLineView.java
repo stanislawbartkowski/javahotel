@@ -42,12 +42,16 @@ public interface IFormLineView extends IGWidget {
     void setOnTouch(ITouchListener lTouch);
     
     BigDecimal getDecimal();
+
+    Long getLong();
     
     void setDecimal(BigDecimal b);
     
     int getIntVal();
     
     Date getDate();
+
+    Object getObj();
     
     int getChooseResult();
 

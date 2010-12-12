@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ChooseDictList;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
@@ -52,7 +53,7 @@ abstract class ChooseListHelper {
 
         @Override
         public void setChoosed(IVModelData vData, IVField comboFie) {
-            String sy = vData.getS(comboFie);
+            String sy = FUtils.getValueS(vData, comboFie);
             asetValue(sy);
             hide();
         }

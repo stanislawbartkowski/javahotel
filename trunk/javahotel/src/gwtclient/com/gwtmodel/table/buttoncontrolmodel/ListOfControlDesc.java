@@ -25,5 +25,4 @@ public class ListOfControlDesc {
     public List<ControlButtonDesc> getcList() {
         return cList;
     }
-
 }

@@ -17,6 +17,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
@@ -99,6 +100,11 @@ abstract public class AbstractSlotContainer implements ISlotable {
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
             IVModelData vData) {
         slContainer.publish(dataActionEnum, dType, vData);
+    }
+
+    protected void publish(DataActionEnum dataActionEnum, IDataType dType,
+            IOkModelData iOkModelData) {
+        slContainer.publish(dataActionEnum, dType, iOkModelData);
     }
 
     protected void publish(IDataType dType, IVField fie, IFormLineView formLine) {
@@ -215,5 +221,4 @@ abstract public class AbstractSlotContainer implements ISlotable {
     @Override
     public void startPublish(CellId cellId) {
     }
-    
 }

@@ -19,7 +19,8 @@ public class ClickButtonType {
     public enum StandClickEnum {
 
         ADDITEM, REMOVEITEM, MODIFITEM, SHOWITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
-        CUSTOM, ALL
+        CUSTOM, FILTRLIST, SETFILTER, REMOVEFILTER, FIND, FINDNOW, FINDNEXT,FINDFROMBEGINNING,
+        ALL
     };
     private StandClickEnum clickEnum;
     private String customButt;

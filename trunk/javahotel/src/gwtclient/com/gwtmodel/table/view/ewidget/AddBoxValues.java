@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import com.gwtmodel.table.FUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,9 @@ class AddBoxValues {
         String firstS = null;
         List<String> li = new ArrayList<String>();
         li.add(""); // add empty
-        for (int i = 0; i < dList.rowNo(); i++) {
-            IVModelData vData = dList.getRow(i);
-            String s = vData.getS(dList.comboField());
+        for (int i = 0; i < FUtils.getRowNumber(dList); i++) {
+            IVModelData vData = FUtils.getRow(dList, i);
+            String s = FUtils.getValueS(vData, dList.comboField());
             li.add(s);
             if (firstS == null) {
                 firstS = s;
@@ -66,7 +67,6 @@ class AddBoxValues {
         public void setList(IDataListType dList) {
             setValue(dList, e);
         }
-
     }
 
     static void addValues(IDataType dType, final IValueLB e) {
@@ -85,11 +85,9 @@ class AddBoxValues {
         public void set(IDataListType dataList) {
             setValue(dataList, e);
         }
-
     }
 
     static void addValues(IGetDataList iGet, final IValueLB e) {
         iGet.call(new RR(e));
     }
-
 }

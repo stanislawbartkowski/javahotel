@@ -34,9 +34,7 @@ import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
 class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataView {
 
-//    private final ISlotMediator slMediator;
     private final IDataModelFactory dFactory;
-//    private final IDataType dType;
 
     private class GetCompose implements ISlotCaller {
 
@@ -56,13 +54,10 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
             IDataValidateAction vAction) {
         this.dFactory = dFactory;
         this.dType = dType;
-//        TablesFactories tFactories = GwtGiniInjector.getI()
-//                .getTablesFactories();
         ListOfControlDesc bControl = tFactories.getControlButtonFactory().constructLoginButton();
         IControlButtonView bView = tFactories.getbViewFactory().construct(dType,
                 bControl);
         IPanelView pView = tFactories.getpViewFactory().construct(dType, panelId);
-//        slMediator = tFactories.getSlotMediatorFactory().construct();
         CellId controlId = pView.addCellPanel(1, 0);
         CellId cellTableId = pView.addCellPanel(0, 0);
         pView.createView();
@@ -80,13 +75,4 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
                 slFactory.construct(ClickButtonType.StandClickEnum.ACCEPT),
                 slFactory.construct(DataActionEnum.ValidateAction, dType));
     }
-//    @Override
-//    public SlotListContainer getSlContainer() {
-//        return slMediator.getSlContainer();
-//    }
-//
-//    @Override
-//    public void startPublish(CellId cellId) {
-//        slMediator.startPublish(cellId);
-//    }
 }

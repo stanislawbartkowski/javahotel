@@ -19,19 +19,16 @@ public class VListHeaderDesc {
     private final String headerString;
     private final IVField fie;
     private final boolean hidden;
-    private final ColumnDataType colType;
 
-    public VListHeaderDesc(String headerString, IVField fie, ColumnDataType colType) {
+    public VListHeaderDesc(String headerString, IVField fie) {
         this.headerString = headerString;
         this.fie = fie;
-        this.colType = colType;
         this.hidden = false;
     }
 
-    public VListHeaderDesc(String headerString, IVField fie, ColumnDataType colType, boolean hidden) {
+    public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
         this.headerString = headerString;
         this.fie = fie;
-        this.colType = colType;
         this.hidden = hidden;
     }
 
@@ -50,10 +47,4 @@ public class VListHeaderDesc {
         return hidden;
     }
 
-    /**
-     * @return the colType
-     */
-    public ColumnDataType getColType() {
-        return colType;
-    }
 }

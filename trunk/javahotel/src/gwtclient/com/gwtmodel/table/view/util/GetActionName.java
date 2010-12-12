@@ -21,6 +21,10 @@ public class GetActionName {
 
     public static String getActionName(ClickButtonType.StandClickEnum action) {
         switch (action) {
+            case FIND:
+                return "Szukaj";
+            case FILTRLIST:
+                return "Filtr";
             case ADDITEM:
                 return "Dodanie";
             case MODIFITEM:

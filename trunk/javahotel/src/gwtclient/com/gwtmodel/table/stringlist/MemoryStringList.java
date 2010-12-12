@@ -33,7 +33,6 @@ import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.view.table.ColumnDataType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
@@ -51,7 +50,7 @@ class MemoryStringList extends AbstractSlotContainer implements
         dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         VListHeaderDesc he = new VListHeaderDesc(fieldName,
-                Empty.getFieldType(), ColumnDataType.STRING);
+                Empty.getFieldType());
         heList.add(he);
         VListHeaderContainer vHeader;
         vHeader = new VListHeaderContainer(heList, title, 0);
@@ -68,8 +67,6 @@ class MemoryStringList extends AbstractSlotContainer implements
         this.fieldName = fieldName;
         this.title = title;
         lPersistList = new MemoryListPersist(dType);
-
-//        IVField sField = Empty.getFieldType();
 
         IDataValidateActionFactory vFactory = new IDataValidateActionFactory() {
 
@@ -91,7 +88,6 @@ class MemoryStringList extends AbstractSlotContainer implements
                 new DataListParam(lPersistList, null,
                 new DataFactory(eFactory),
                 new StringFactory(fieldName, title),
-                //                new GetControler(fieldName, title, eFactory, sField, daFactory, lPersistList)
                 iGetCon),
                 null);
         dControler = tFactory.constructDataControler(cParam);

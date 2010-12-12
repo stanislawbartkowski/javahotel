@@ -29,16 +29,6 @@ class DataListType implements IDataListType {
     }
 
     @Override
-    public IVModelData getRow(int row) {
-        return dList.get(row);
-    }
-
-    @Override
-    public int rowNo() {
-        return dList.size();
-    }
-
-    @Override
     public IVField comboField() {
         return comboFie;
     }

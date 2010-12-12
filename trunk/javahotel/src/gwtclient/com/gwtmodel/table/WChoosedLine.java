@@ -17,19 +17,24 @@ package com.gwtmodel.table;
  * @author stanislaw.bartkowski@gmail.com
  */
 public class WChoosedLine {
-    
+
     private final int choosedLine;
     private final WSize wSize;
-    
+
     public WChoosedLine(int choosedLine, WSize wSize) {
         this.choosedLine = choosedLine;
         this.wSize = wSize;
     }
 
+    public WChoosedLine() {
+        choosedLine = -1;
+        wSize = null;
+    }
+
     public int getChoosedLine() {
         return choosedLine;
     }
-    
+
     public boolean isChoosed() {
         return choosedLine != -1;
     }
@@ -37,5 +42,4 @@ public class WChoosedLine {
     public WSize getwSize() {
         return wSize;
     }
-
 }

@@ -77,8 +77,22 @@ public class CUtil {
         return d1.equals(d2);
     }
 
-    public static int getNumb(String s) {
+    public static Integer getInteger(String s) {
         Integer i = new Integer(s);
+        return i;
+    }
+
+    public static boolean OkInteger(String s) {
+        try {
+            Long d = Long.parseLong(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static int getNumb(String s) {
+        Integer i = getInteger(s);
         return i.intValue();
     }
 

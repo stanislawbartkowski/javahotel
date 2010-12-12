@@ -25,5 +25,4 @@ public abstract class AVModelData implements IVModelData {
     public void setCustomData(Object o) {
         customData = o;
     }
-
 }

@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.webpanel;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.ISignal;
 
 /**
  *
@@ -30,6 +31,8 @@ public interface IWebPanel {
     void setUserData(String user, String data);
 
     void setDCenter(Widget w);
+
+    void setCentreHideSignal(ISignal iSig);
 
     void setWest(Widget w);
 

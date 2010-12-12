@@ -20,10 +20,6 @@ import java.util.List;
  */
 public interface IDataListType {
 
-    int rowNo();
-
-    IVModelData getRow(int row);
-
     List<IVModelData> getList();
 
     IVField comboField();

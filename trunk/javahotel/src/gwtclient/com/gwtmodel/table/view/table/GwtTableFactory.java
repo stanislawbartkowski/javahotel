@@ -18,9 +18,14 @@ import com.gwtmodel.table.injector.WebPanelHolder;
 public class GwtTableFactory {
 
     public IGwtTableView construct(ICommand click) {
-        if (WebPanelHolder.isGoogletable()) {
-            return new GwtTableView(click);
+        switch (WebPanelHolder.getTableType()) {
+            case GOOGLETABLE:
+                return new GwtTableView(click);
+            case GRIDTABLE:
+                return new TableView(click);
+            case PRESETABLE:
+                return new PresentationTable(click);
         }
-        return new TableView(click);
+        return null;
     }
 }

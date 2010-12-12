@@ -18,9 +18,11 @@ import com.gwtmodel.table.WSize;
 
 public interface IGwtTableView extends IGWidget {
 
-    void refresh(WSize w);
+    void refresh();
 
     WChoosedLine getClicked();
+
+    void setClicked(int clickedno);
 
     IGwtTableModel getViewModel();
 

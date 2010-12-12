@@ -35,6 +35,10 @@ public class Empty {
         public boolean eq(IVField o) {
             return true;
         }
+
+        public FieldDataType getType() {
+            return FieldDataType.contructString();
+        }
     }
     private static IDataType eType;
     private static IVField eField;

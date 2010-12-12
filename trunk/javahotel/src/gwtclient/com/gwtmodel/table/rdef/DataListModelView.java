@@ -10,6 +10,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IListClicked;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
+import java.util.List;
 
 /**
  *
@@ -37,14 +38,6 @@ public class DataListModelView implements IGwtTableModel {
         return heList;
     }
 
-    public IVModelData getRow(int row) {
-        return dataList.getRow(row);
-    }
-
-    public int getRowsNum() {
-        return dataList.rowNo();
-    }
-
     /**
      * @param dataList the dataList to set
      */
@@ -62,5 +55,9 @@ public class DataListModelView implements IGwtTableModel {
 
     public IVField getComboField() {
         return dataList.comboField();
+    }
+
+    public List<IVModelData> getRows() {
+        return dataList.getList();
     }
 }

@@ -59,7 +59,9 @@ public class OkDialog extends ModalDialog {
             @Override
             public void click(ControlButtonDesc co, Widget w) {
                 hide();
-                ok.onClose();
+                if (ok != null) {
+                    ok.onClose();
+                }
             }
         };
 

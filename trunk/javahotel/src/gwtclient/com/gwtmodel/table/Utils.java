@@ -26,7 +26,6 @@ import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
@@ -122,6 +121,13 @@ public class Utils {
         return new BigDecimal(s);
     }
 
+    public static Long toLong(String s) {
+        if (CUtil.EmptyS(s)) {
+            return null;
+        }
+        return new Long(s);
+    }
+
     public static BigDecimal toBig(final Double d) {
         if (d == null) {
             return null;
@@ -138,14 +144,18 @@ public class Utils {
         return new Double(s);
     }
 
-    public static String DecimalToS(final BigDecimal c) {
+    public static String DecimalToS(final BigDecimal c, int afterdot) {
         int l = c.intValue();
         String sl = Integer.toString(l);
         BigDecimal re = new BigDecimal(sl);
-        int rest = c.subtract(re).intValue();
-        String sr = DateFormatUtil.toNS(rest, 2);
+        int rest = c.subtract(re).unscaledValue().intValue();
+        String sr = DateFormatUtil.toNS(rest, afterdot);
         String st = sl + "." + sr;
         return st;
+    }
+
+    public static String DecimalToS(final BigDecimal c) {
+        return DecimalToS(c, 2);
     }
 
     public static BigDecimal percent0(final BigDecimal c,
