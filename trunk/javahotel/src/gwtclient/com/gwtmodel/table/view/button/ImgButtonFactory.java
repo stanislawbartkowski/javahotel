@@ -12,9 +12,14 @@
  */
 package com.gwtmodel.table.view.button;
 
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.GFocusWidgetFactory;
+import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.view.util.PopupTip;
 
 /**
  *
@@ -25,20 +30,49 @@ public class ImgButtonFactory {
     private ImgButtonFactory() {
     }
 
-    public static Button getButton(String bId, String bName, String img) {
+    private static class BImage extends PopupTip implements IGFocusWidget {
+
+        BImage(Button b, String mess) {
+            initWidget(b);
+            setMessage(mess);
+            setMouse();
+        }
+
+        @Override
+        public void addClickHandler(ClickHandler h) {
+            Button b = (Button) this.getWidget();
+            b.addClickHandler(h);
+        }
+
+        @Override
+        public Widget getGWidget() {
+            return this;
+        }
+
+        @Override
+        public void setEnabled(boolean enabled) {
+            Button b = (Button) this.getWidget();
+            b.setEnabled(enabled);
+        }
+    }
+
+    public static IGFocusWidget getButton(String bId, String bName, String img) {
         Button but;
+        IGFocusWidget w;
         if (img != null) {
             String h = Utils.getImageHTML(img + ".gif");
             but = new Button();
             but.setHTML(h);
+            w = new BImage(but, bName);
         } else {
             but = new Button(bName);
+            w = GFocusWidgetFactory.construct(but);
         }
         but.getElement().setId(bId);
-        return but;
+        return w;
     }
 
-    public static Button getButtonTextImage(String bId, String bName, String img) {
+    public static IGFocusWidget getButtonTextImage(String bId, String bName, String img) {
         String ht = "<table><tr>";
         String h = Utils.getImageHTML(img + ".gif");
         ht += h;
@@ -48,6 +82,6 @@ public class ImgButtonFactory {
         Button b = new Button();
         b.setHTML(ht);
         b.getElement().setId(bId);
-        return b;
+        return GFocusWidgetFactory.construct(b);
     }
 }

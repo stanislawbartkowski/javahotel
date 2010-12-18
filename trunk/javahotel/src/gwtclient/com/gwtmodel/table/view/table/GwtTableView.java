@@ -210,6 +210,13 @@ class GwtTableView implements IGwtTableView {
 
     @Override
     public void setClicked(int clickedno) {
+        Selection selr = Selection.createRowSelection(clickedno);
+        JsArray<Selection> sel = ta.getSelections();
+        sel.setLength(0);
+        sel.push(selr);
+        ta.setSelections(sel);
+        this.clickedNo = clickedno;
+        wSize = getS(clickedno, 1);
     }
 
     private class H extends SelectHandler {

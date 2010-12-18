@@ -128,6 +128,20 @@ public final class SlotListContainer {
         slSignaller.signal(slContext);
     }
 
+    public void removeSubscriber(SlotType sl) {
+        boolean exist = true;
+        while (exist) {
+            exist = false;
+            for (SlotSubscriberType so : listOfSubscribers) {
+                if (sl.eq(so.getSlType())) {
+                    listOfSubscribers.remove(so);
+                    exist = true;
+                    break;
+                }
+            }
+        }
+    }
+
     public void registerSubscriber(SlotType slType, ISlotSignaller slSignaller) {
         listOfSubscribers.add(new SlotSubscriberType(slType, slSignaller));
     }
@@ -163,6 +177,11 @@ public final class SlotListContainer {
             IDataType dType, ISlotSignaller slSignaller) {
         registerSubscriber(slTypeFactory.construct(dataActionEnum, dType),
                 slSignaller);
+    }
+
+    public void removeSubscriber(DataActionEnum dataActionEnum,
+            IDataType dType) {
+        removeSubscriber(slTypeFactory.construct(dataActionEnum, dType));
     }
 
     public void registerSubscriber(IDataType dType, IVField fie,

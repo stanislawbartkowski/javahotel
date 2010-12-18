@@ -27,6 +27,7 @@ public class GWidget implements IGWidget {
         this.w = w;
     }
 
+    @Override
     public Widget getGWidget() {
         return w;
     }
