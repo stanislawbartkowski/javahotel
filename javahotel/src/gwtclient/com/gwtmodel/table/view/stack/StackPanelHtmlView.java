@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.stack;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.util.CreateFormView;
 import java.util.ArrayList;
@@ -33,9 +34,9 @@ class StackPanelHtmlView extends AbstractPanelView {
         super(click);
         hPanel = new HTMLPanel(html);
         List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
-        List<Button> buList = new ArrayList<Button>();
+        List<IGFocusWidget> buList = new ArrayList<IGFocusWidget>();
         for (StackButton bu : bList) {
-            Button bt = constructButton(bu);
+            IGFocusWidget bt = constructButton(bu);
             buList.add(bt);
             cList.add(new ClickButtonType(bu.getId()));
         }

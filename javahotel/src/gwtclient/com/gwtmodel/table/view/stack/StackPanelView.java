@@ -12,9 +12,9 @@
  */
 package com.gwtmodel.table.view.stack;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IGFocusWidget;
 import java.util.List;
 
 /**
@@ -24,34 +24,14 @@ import java.util.List;
 class StackPanelView extends AbstractPanelView {
 
     private final VerticalPanel vp = new VerticalPanel();
-//    private final IClickStackButton click;
-//
-//    private class Click implements ClickHandler {
-//
-//        private final StackButton bu;
-//        private final Button bt;
-//
-//        Click(StackButton bu, Button bt) {
-//            this.bu = bu;
-//            this.bt = bt;
-//        }
-//
-//        public void onClick(ClickEvent event) {
-//            click.click(bu, bt);
-//        }
-//    }
 
     StackPanelView(List<StackButton> bList,
             IClickStackButton click) {
         super(click);
         for (StackButton bu : bList) {
-//            Button bt = ImgButtonFactory.getButton(bu.getId(),
-//                    bu.getDisplayName(), null);
-//            bt.setWidth("100%");
-//            bt.addClickHandler(new Click(bu, bt));
-            Button bt = constructButton(bu);
-            bt.setWidth("100%");
-            vp.add(bt);
+            IGFocusWidget bt = constructButton(bu);
+            bt.getGWidget().setWidth("100%");
+            vp.add(bt.getGWidget());
         }
         vp.setStyleName("stack-panel");
 

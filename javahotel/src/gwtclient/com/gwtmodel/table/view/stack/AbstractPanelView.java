@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.stack;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 
 /**
@@ -32,20 +33,20 @@ abstract class AbstractPanelView implements IStackPanelView {
     private class Click implements ClickHandler {
 
         private final StackButton bu;
-        private final Button bt;
+        private final IGFocusWidget bt;
 
-        Click(StackButton bu, Button bt) {
+        Click(StackButton bu, IGFocusWidget bt) {
             this.bu = bu;
             this.bt = bt;
         }
 
         public void onClick(ClickEvent event) {
-            click.click(bu, bt);
+            click.click(bu, bt.getGWidget());
         }
     }
 
-    protected Button constructButton(StackButton bu) {
-        Button bt = ImgButtonFactory.getButton(bu.getId(),
+    protected IGFocusWidget constructButton(StackButton bu) {
+        IGFocusWidget bt = ImgButtonFactory.getButton(bu.getId(),
                 bu.getDisplayName(), null);
 //        bt.setWidth("100%");
         bt.addClickHandler(new Click(bu, bt));

@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.view.util;
 
-import com.google.gwt.user.client.ui.Button;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +20,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.rdef.FormField;
@@ -43,12 +43,12 @@ public class CreateFormView {
     }
 
     public static void setHtml(HTMLPanel pa, List<ClickButtonType> dList,
-            List<Button> bList) {
+            List<IGFocusWidget> bList) {
         int i = 0;
         for (ClickButtonType c : dList) {
-            Button b = bList.get(i++);
+            IGFocusWidget b = bList.get(i++);
             String htmlId = c.getCustomButt();
-            replace(pa, htmlId, b);
+            replace(pa, htmlId, b.getGWidget());
         }
     }
 
@@ -79,7 +79,9 @@ public class CreateFormView {
                     continue;
                 }
             }
-            if (d.isRange()) { continue; }
+            if (d.isRange()) {
+                continue;
+            }
             rows++;
         }
         Grid g = new Grid(rows, 2);
