@@ -14,10 +14,12 @@ public abstract class AbstractIID implements IId {
     @GeneratedValue
     private Long id;
             
+    @Override
     public HId getId() {
         return new HId(id);
     }
 
+    @Override
     public void setId(HId id) {
         this.id = id.getL();
     }

@@ -29,10 +29,12 @@ public abstract class AbstractDictionary extends AbstractPureDictionary implemen
     @JoinColumn(name = "hotel_id", nullable = false)
     private RHotel hotel;
 
+    @Override
     public RHotel getHotel() {
         return hotel;
     }
 
+    @Override
     public void setHotel(RHotel hotel) {
         this.hotel = hotel;
     }
