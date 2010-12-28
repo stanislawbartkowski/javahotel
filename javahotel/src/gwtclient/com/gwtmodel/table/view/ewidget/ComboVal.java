@@ -22,29 +22,11 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
  */
 public class ComboVal {
 
-    private final String val;
     private final String dispVal;
-    private final int no;
-    private final boolean compareByNumb;
 
-    public ComboVal(String val, String dispVal) {
-        this.val = val;
+    public ComboVal(String dispVal) {
         this.dispVal = dispVal;
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
-        compareByNumb = c.compareComboByInt();
-        if (compareByNumb) {
-            no = CUtil.getNumb(val);
-        } else {
-            no = -1;
-        }
-
-    }
-
-    /**
-     * @return the val
-     */
-    public String getVal() {
-        return val;
     }
 
     /**
@@ -55,11 +37,6 @@ public class ComboVal {
     }
 
     boolean eqS(String val) {
-        if (!compareByNumb) {
-            return CUtil.EqNS(this.val, val);
-        }
-        String s = CUtil.toAfterS(val, 0);
-        int n = CUtil.getNumb(s);
-        return n == no;
+       return CUtil.EqNS(this.dispVal, val);
     }
 }

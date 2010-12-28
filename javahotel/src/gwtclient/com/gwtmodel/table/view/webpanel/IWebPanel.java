@@ -15,12 +15,14 @@ package com.gwtmodel.table.view.webpanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ISignal;
+import com.gwtmodel.table.TLogMessages;
 
 /**
  *
  * @author stanislaw.bartkowski@gmail.com
  */
 public interface IWebPanel {
+
 
     void setErrorL(String errmess);
 

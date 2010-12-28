@@ -145,7 +145,7 @@ public class PriceListContainer extends AbstractSlotContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             IFormLineView formLine = slContext.getChangedValue();
-            String season = formLine.getVal();
+            String season = (String) formLine.getValObj();
             setSeason(season);
         }
 
@@ -165,6 +165,7 @@ public class PriceListContainer extends AbstractSlotContainer {
                     priceList.add(iView.getCellDecimal(row, col));
                 }
                 synch.iModel.setPrices(priceP, service, priceList);
+                row++;
             }
             return slContext;
         }

@@ -102,8 +102,6 @@ public interface HotelInjector extends Ginjector {
 
     RegisterFactories getRegisterFactories();
 
-    AbstractToFactory getAbstractToFactory();
-
     PersistRecordFactory getPersistRecordFactory();
 
     PriceSeasonModelFactory getPriceSeasonModelFactory();

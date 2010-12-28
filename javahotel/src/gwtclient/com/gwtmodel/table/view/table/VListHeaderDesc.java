@@ -46,5 +46,4 @@ public class VListHeaderDesc {
     public boolean isHidden() {
         return hidden;
     }
-
 }

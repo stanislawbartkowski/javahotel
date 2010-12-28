@@ -17,8 +17,14 @@ import com.gwtmodel.table.FieldDataType;
 
 public class LoginField implements IVField {
 
+    @Override
     public FieldDataType getType() {
-        return FieldDataType.contructString();
+        return FieldDataType.constructString();
+    }
+
+    @Override
+    public String getId() {
+        return f.toString();
     }
 
     public enum F {

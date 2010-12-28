@@ -47,6 +47,4 @@ class DataListType implements IDataListType {
     public List<IVModelData> getList() {
         return dList;
     }
-    
-
 }

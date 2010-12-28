@@ -42,6 +42,7 @@ class LoginValidator {
             this.cBack = cBack;
         }
 
+        @Override
         public boolean doSth(final Throwable ext) {
             List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
             errMess.add(new InvalidateMess(
@@ -61,14 +62,15 @@ class LoginValidator {
 
         private void setUserHotel(String hotel) {
             rI.getR().setHotel(hotel);
-            String user = lData.getLoginName();
-            rI.getR().setUserName(user);
+            String u = lData.getLoginName();
+            rI.getR().setUserName(u);
         }
 
         private class HotelUserLogin implements RData.IVectorList {
 
+            @Override
             public void doVList(final List<? extends AbstractTo> val) {
-                if (val.size() == 0) {
+                if (val.isEmpty()) {
                     List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
                     errMess.add(new InvalidateMess(
                             new LoginField(LoginField.F.OTHER), false,
@@ -111,11 +113,10 @@ class LoginValidator {
         IResLocator rI = HInjector.getI().getI();
         if (user) {
             GWTGetService.getService().loginUser(lData.getLoginName(),
-                    lData.getPassword(), new BackLogin(rI,lData,user,cBack));
+                    lData.getPassword(), new BackLogin(rI, lData, user, cBack));
         } else {
             GWTGetService.getService().loginAdmin(lData.getLoginName(),
-                    lData.getPassword(), new BackLogin(rI,lData,user,cBack));
+                    lData.getPassword(), new BackLogin(rI, lData, user, cBack));
         }
     }
-
 }

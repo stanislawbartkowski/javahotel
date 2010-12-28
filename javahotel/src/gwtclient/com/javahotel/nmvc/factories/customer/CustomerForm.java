@@ -10,37 +10,51 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.impl;
+package com.javahotel.nmvc.factories.customer;
 
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IDataFormConstructor;
 import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.util.CreateFormView;
 import com.gwtmodel.table.view.util.FormUtil;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.VField;
+import java.util.Map;
 
 public class CustomerForm implements IDataFormConstructor {
 
-    private void setTab(TabPanel tab, String ro) {
-        if (ro == null) {
+    private final IResLocator rI;
+    private final TabPanel tab = new TabPanel();
+
+    public CustomerForm() {
+        rI = HInjector.getI().getI();
+    }
+
+    private void setTab(Object e) {
+        if (e == null) {
             tab.selectTab(0);
             return;
         }
-        CustomerType cType = CustomerType.valueOf(ro);
+        CustomerType cType = (CustomerType) e;
         if (cType == CustomerType.Person) {
             tab.selectTab(1);
         } else {
@@ -48,21 +62,32 @@ public class CustomerForm implements IDataFormConstructor {
         }
     }
 
-    private void changeC(TabPanel tab, IFormLineView i) {
-        setTab(tab, i.getVal());
+    private void changeC(IFormLineView i) {
+        setTab(i.getValObj());
     }
 
     private class CList implements IFormChangeListener {
 
-        private final TabPanel tab;
+        @Override
+        public void onChange(IFormLineView i) {
+            changeC(i);
+        }
+    }
 
-        CList(TabPanel tab) {
-            this.tab = tab;
+    private class GetGWT implements ISlotSignaller {
+
+        private final String tabName;
+
+        GetGWT(String tabName) {
+            this.tabName = tabName;
         }
 
         @Override
-        public void onChange(IFormLineView i) {
-            changeC(tab, i);
+        public void signal(ISlotSignalContext slContext) {
+            LogT.getLS().info(LogT.getT().receivedSignalLog(slContext.getSlType().toString()));
+            IGWidget g = slContext.getGwtWidget();
+            assert g != null : LogT.getT().cannotBeNull();
+            tab.add(g.getGWidget(), tabName);
         }
     }
 
@@ -95,14 +120,17 @@ public class CustomerForm implements IDataFormConstructor {
 
         VerticalPanel vpm = new VerticalPanel();
         vpm.add(w);
-        TabPanel tab = new TabPanel();
         vpm.add(tab);
-        tab.add(w1, "Firma", true);
-        tab.add(w2, "Osoba", true);
+        Map<String, String> ma = rI.getLabels().CustomerType();
+        tab.add(w1, ma.get(CustomerType.Company.toString()), true);
+        tab.add(w2, ma.get(CustomerType.Person.toString()), true);
         FormField eC = FormUtil.findI(model.getfList(), new VField(
                 CustomerP.F.cType));
-        eC.getELine().addChangeListener(new CList(tab));
-        changeC(tab, eC.getELine());
+        eC.getELine().addChangeListener(new CList());
+        changeC(eC.getELine());
+
+        iContext.iSlo().getSlContainer().registerSubscriber(CustomerAddInfo.setAccString, new GetGWT("Konta"));
+        iContext.iSlo().getSlContainer().registerSubscriber(CustomerAddInfo.setTelString, new GetGWT("Telefony"));
 
         return vpm;
     }

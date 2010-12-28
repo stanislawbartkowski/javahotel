@@ -17,6 +17,7 @@ import com.javahotel.client.IResLocator;
 
 public class ResLocatorProvider implements Provider<IResLocator> {
 
+    @Override
     public IResLocator get() {
         return ResLocatorHolder.getrI();
     }

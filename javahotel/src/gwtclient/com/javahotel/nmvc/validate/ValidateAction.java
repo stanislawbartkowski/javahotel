@@ -51,7 +51,7 @@ import com.javahotel.nmvc.common.VField;
 public class ValidateAction extends AbstractSlotContainer implements
         IDataValidateAction {
 
-    private final IDataType dType;
+//    private final IDataType dType;
     private final DictValidatorFactory valFactory;
 
     private class Validate implements ISignalValidate {
@@ -104,7 +104,7 @@ public class ValidateAction extends AbstractSlotContainer implements
             if (da.isAllPersons()) {
                 LoginData lo = (LoginData) mData;
                 String password = lo.getPassword();
-                String repassword = lo.getS(new LoginField(
+                String repassword = (String) lo.getF(new LoginField(
                         LoginField.F.REPASSWORD));
                 if (!CUtil.EmptyS(password)) {
                     if (!CUtil.EqNS(password, repassword)) {
@@ -119,8 +119,7 @@ public class ValidateAction extends AbstractSlotContainer implements
                 publishValidSignal(null);
                 return;
             }
-            IRecordValidator val = valFactory.getValidator(new DictData(da
-                    .getdType()), true);
+            IRecordValidator val = valFactory.getValidator(new DictData(da.getdType()), true);
             RecordModel mo = DataUtil.toRecordModel(mData);
             val.validateS(action, mo, new Validate());
             return;
@@ -145,5 +144,4 @@ public class ValidateAction extends AbstractSlotContainer implements
         registerSubscriber(DataActionEnum.ValidateAction, dType,
                 new ValidateA());
     }
-
 }

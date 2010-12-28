@@ -62,7 +62,13 @@ class FField implements IVField {
         return v;
     }
 
+    @Override
     public FieldDataType getType() {
         return v.getFie().getType();
+    }
+
+    @Override
+    public String getId() {
+        return "AA";
     }
 }

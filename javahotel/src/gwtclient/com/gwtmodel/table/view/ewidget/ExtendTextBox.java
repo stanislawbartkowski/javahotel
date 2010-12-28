@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
@@ -38,16 +39,14 @@ class ExtendTextBox extends AbstractField {
         private final boolean area;
         private final boolean panel;
         private final boolean checkBox;
-        private final String fName;
         private final boolean enable;
 
         EParam(boolean password, boolean area, boolean panel,
-                boolean checkBox, boolean enable, String fName) {
+                boolean checkBox, boolean enable) {
             this.password = password;
             this.panel = panel;
             this.checkBox = checkBox;
             this.area = area;
-            this.fName = fName;
             this.enable = enable;
         }
 
@@ -80,13 +79,6 @@ class ExtendTextBox extends AbstractField {
         }
 
         /**
-         * @return the fName
-         */
-        public String getfName() {
-            return fName;
-        }
-
-        /**
          * @return the enable
          */
         public boolean isEnable() {
@@ -99,17 +91,15 @@ class ExtendTextBox extends AbstractField {
     protected final CheckBox check;
     protected final boolean isArea;
 
-    protected ExtendTextBox(ITableCustomFactories tFactories, EParam param) {
-        super(tFactories);
+    protected ExtendTextBox(ITableCustomFactories tFactories, IVField v, EParam param) {
+        super(tFactories, v);
         this.isArea = param.isArea();
         if (param.isPassword()) {
             tBox = new PasswordTextBox();
         } else {
             tBox = isArea ? new TextArea() : new TextBox();
         }
-        if (param.getfName() != null) {
-            tBox.setName(param.getfName());
-        }
+        tBox.setName(v.getId());
         if (param.isPanel()) {
             hPanel = new HorizontalPanel();
             hPanel.add(tBox);
@@ -141,6 +131,7 @@ class ExtendTextBox extends AbstractField {
 
     private class ChangeC implements ClickListener {
 
+        @Override
         public void onClick(Widget sender) {
             if (check.isChecked()) {
                 tBox.setText("");
@@ -167,7 +158,9 @@ class ExtendTextBox extends AbstractField {
         tBox.addKeyboardListener(new Touch(iTouch));
     }
 
-    public void setVal(final String v) {
+    @Override
+    public void setValObj(Object o) {
+        String v = (String) o;
         if (iTouch != null) {
             iTouch.onTouch();
         }
@@ -176,14 +169,16 @@ class ExtendTextBox extends AbstractField {
     }
 
     protected void setValAndFireChange(final String v) {
-        setVal(v);
+        setValObj(v);
         runOnChange(this);
     }
 
-    public String getVal() {
+    @Override
+    public Object getValObj() {
         return tBox.getText();
     }
 
+    @Override
     public void setReadOnly(final boolean r) {
         tBox.setReadOnly(r);
         if (check != null) {
@@ -197,6 +192,7 @@ class ExtendTextBox extends AbstractField {
 
     private class L implements ChangeListener {
 
+        @Override
         public void onChange(Widget sender) {
             runOnChange(ExtendTextBox.this);
         }
@@ -212,5 +208,4 @@ class ExtendTextBox extends AbstractField {
     public Widget getGWidget() {
         return this;
     }
-
 }

@@ -12,7 +12,8 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,36 +26,29 @@ class ComboBoxField extends GetValueLB {
 
     private final List<ComboVal> wy;
 
-    ComboBoxField(ITableCustomFactories tFactories, List<ComboVal> wy) {
-        super(tFactories);
+    ComboBoxField(ITableCustomFactories tFactories, IVField v, List<ComboVal> wy) {
+        super(tFactories, v);
         this.wy = wy;
         List<String> val = new ArrayList<String>();
-        for (ComboVal v : wy) {
-            val.add(v.getDispVal());
+        for (ComboVal va : wy) {
+            val.add(va.getDispVal());
         }
         setList(val);
     }
 
     @Override
-    public void setVal(String val) {
+    public void setValObj(Object o) {
+        String val = FUtils.getValueOS(o, v);
         String di = null;
-        for (ComboVal v : wy) {
-            if (v.eqS(val)) {
-                di = v.getDispVal();
+        if (val != null) {
+            for (ComboVal vv : wy) {
+                if (vv.eqS(val)) {
+                    di = vv.getDispVal();
+                }
             }
         }
-        super.setVal(di);
+        super.setValObj(di);
 
     }
 
-    @Override
-    public String getVal() {
-        String vv = super.getVal();
-        for (ComboVal v : wy) {
-            if (CUtil.EqNS(vv, v.getDispVal())) {
-                return v.getVal();
-            }
-        }
-        return null;
-    }
 }

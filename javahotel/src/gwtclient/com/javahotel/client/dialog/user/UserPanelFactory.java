@@ -38,13 +38,15 @@ public class UserPanelFactory implements IUserPanelMenuFactory {
         this.rI = rI;
     }
     
+    @Override
     public IGwtWidget getMenuPanel(final IStackMenuClicked iClicked) {
         // return new AdminShortcutMenu(rI, iClicked);
         return null;
     }
 
+    @Override
     public EPanelCommand getCentreWidget() {
-        // return EPanelCommand.BOOKINGPANEL;
+        //return EPanelCommand.BOOKINGPANEL;
         // return EPanelCommand.TESTSCROLLSEASON;
         // return EPanelCommand.TESTSCROLLSEASONWIDGET;
         // return EPanelCommand.SEASON;
@@ -52,9 +54,11 @@ public class UserPanelFactory implements IUserPanelMenuFactory {
         // return EPanelCommand.BOOKINGPANEL;
         // return EPanelCommand.BOOKING;
         // return EPanelCommand.PRICES;
-        return EPanelCommand.TESTPANEL;
+        return EPanelCommand.TESTBOOKING;
+        //return EPanelCommand.TESTBOOKINGNEWELEM;
     }
 
+    @Override
     public Panel getMenuPanel() {
         HorizontalPanel hp = new HorizontalPanel();
         MenuBar mp = new MenuBar();

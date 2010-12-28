@@ -30,66 +30,63 @@ import com.javahotel.common.toobject.VatDictionaryP;
 public class DataModelFields {
 
     private DataModelFields() {
-
     }
 
     public static void fromViewToA(IField fie, IFormLineView eField,
             AbstractTo a) {
         Class<?> cla = a.getT(fie);
-        Object val = null;
+        Object val = eField.getValObj();
         if (cla == String.class) {
-            val = eField.getVal();
+//            val = eField.getValObj();
         } else if (cla == DictionaryP.class) {
-            String sta = eField.getVal();
-            DictionaryP st = new DictionaryP();
-            st.setName(sta);
-            val = st;
+//            String sta = (String) val;
+//            DictionaryP st = new DictionaryP();
+//            st.setName(sta);
+//            val = st;
         } else if (cla == Integer.class) {
-            int no = eField.getIntVal();
-            Integer va = new Integer(no);
-            val = va;
+//            Integer va = val;
+//            val = va;
         } else if (cla == BigDecimal.class) {
-            BigDecimal b = eField.getDecimal();
-            val = b;
+//            BigDecimal b = eField.getDecimal();
+//            val = b;
         } else if (cla == ServiceType.class) {
-            String sVal = eField.getVal();
-            ServiceType se = ServiceType.valueOf(sVal);
-            val = se;
+//            String sVal = eField.getVal();
+//            ServiceType se = ServiceType.valueOf(sVal);
+//            val = se;
         } else if (cla == VatDictionaryP.class) {
-            VatDictionaryP vat = new VatDictionaryP();
-            vat.setName(eField.getVal());
-            val = vat;
+//            VatDictionaryP vat = new VatDictionaryP();
+//            vat.setName(eField.getVal());
+//            val = vat;
         } else if (cla == Date.class) {
-            Date de = eField.getDate();
-            val = de;
+//            Date de = eField.getDate();
+//            val = de;
         } else if (cla == CustomerType.class) {
-            String sVal = eField.getVal();
-            CustomerType cType = CustomerType.valueOf(sVal);
-            val = cType;
+//            String sVal = eField.getVal();
+//            CustomerType cType = CustomerType.valueOf(sVal);
+//            val = cType;
         } else if (cla == IdentDocType.class) {
-            String sVal = eField.getVal();
-            IdentDocType cType = IdentDocType.valueOf(sVal);
-            val = cType;
+//            String sVal = eField.getVal();
+//            IdentDocType cType = IdentDocType.valueOf(sVal);
+//            val = cType;
         } else if (cla == PaymentMethod.class) {
-            String sVal = eField.getVal();
-            PaymentMethod pMet = PaymentMethod.valueOf(sVal);
-            val = pMet;
+//            String sVal = eField.getVal();
+//            PaymentMethod pMet = PaymentMethod.valueOf(sVal);
+//            val = pMet;
         } else if (cla == BookingStateType.class) {
-            String sVal = eField.getVal();
-            BookingStateType pMet = BookingStateType.valueOf(sVal);
-            val = pMet;
+//            String sVal = eField.getVal();
+//            BookingStateType pMet = BookingStateType.valueOf(sVal);
+//            val = pMet;
         } else if (cla == PersonTitle.class) {
-            String sVal = eField.getVal();
-            PersonTitle pMet = PersonTitle.valueOf(sVal);
-            val = pMet;
+//            String sVal = eField.getVal();
+//            PersonTitle pMet = PersonTitle.valueOf(sVal);
+//            val = pMet;
         } else if (cla == IdentDocType.class) {
-            String sVal = eField.getVal();
-            IdentDocType pMet = IdentDocType.valueOf(sVal);
-            val = pMet;
+//            String sVal = eField.getVal();
+//            IdentDocType pMet = IdentDocType.valueOf(sVal);
+//            val = pMet;
         } else {
             assert false : cla.getName() + " not implemented";
         }
         a.setF(fie, val);
     }
-
 }

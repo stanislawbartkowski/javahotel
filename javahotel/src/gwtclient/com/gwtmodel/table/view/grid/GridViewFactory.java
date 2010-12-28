@@ -36,10 +36,12 @@ public class GridViewFactory {
             super(eFactory, gType);
         }
 
+        @Override
         public BigDecimal getCellDecimal(int row, int c) {
             return (BigDecimal) getCell(row, c);
         }
 
+        @Override
         public void setRowDecimal(int row, int c, BigDecimal b) {
             setRowVal(row, c, b);
         }
@@ -52,10 +54,12 @@ public class GridViewFactory {
             super(eFactory, gType);
         }
 
+        @Override
         public Boolean getCellBoolean(int row, int c) {
             return (Boolean) getCell(row, c);
         }
 
+        @Override
         public void setRowBoolean(int row, int c, Boolean b) {
             setRowVal(row, c, b);
         }

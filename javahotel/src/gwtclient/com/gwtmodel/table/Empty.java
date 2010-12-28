@@ -36,16 +36,42 @@ public class Empty {
             return true;
         }
 
+        @Override
         public FieldDataType getType() {
-            return FieldDataType.contructString();
+            return FieldDataType.constructString();
+        }
+
+        @Override
+        public String getId() {
+            return "XX";
+        }
+    }
+
+    private static class EmptyDecimalFieldType implements IVField {
+
+        @Override
+        public boolean eq(IVField o) {
+            return true;
+        }
+
+        @Override
+        public FieldDataType getType() {
+            return FieldDataType.constructBigDecimal();
+        }
+
+        @Override
+        public String getId() {
+            return "XX";
         }
     }
     private static IDataType eType;
     private static IVField eField;
+    private static IVField deField;
 
     static {
         eType = new EmptyDataType();
         eField = new EmptyFieldType();
+        deField = new EmptyDecimalFieldType();
     }
 
     public static IVField getFieldType() {
@@ -54,5 +80,9 @@ public class Empty {
 
     public static IDataType getDataType() {
         return eType;
+    }
+
+    public static IVField getDecimalType() {
+        return deField;
     }
 }

@@ -15,7 +15,7 @@ package com.gwtmodel.table.view.util;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.IClickNextYesNo;
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
@@ -40,8 +40,12 @@ public class YesNoDialog extends ModalDialog {
         vp.add(new Label(ask));
     }
 
+    public YesNoDialog(String ask, final IClickYesNo yes) {
+        this(ask, null, yes);
+    }
+
     public YesNoDialog(String ask, String title,
-            final IClickNextYesNo yes) {
+            final IClickYesNo yes) {
         super(new VerticalPanel(), null);
         this.ask = ask;
         if (title == null) {
@@ -51,13 +55,23 @@ public class YesNoDialog extends ModalDialog {
         }
         setTitle(title);
 
-        create();
+        ICloseAction closeC = new ICloseAction() {
+
+            @Override
+            public void onClose() {
+                hide();
+                yes.click(false);
+            }
+        };
+
+        create(closeC);
 
         ControlButtonFactory fa = GwtGiniInjector.getI().getControlButtonFactory();
         ListOfControlDesc yesB = fa.constructYesNoButton();
 
         IControlClick cli = new IControlClick() {
 
+            @Override
             public void click(ControlButtonDesc co, Widget w) {
                 hide();
                 yes.click(co.getActionId().eq(new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));

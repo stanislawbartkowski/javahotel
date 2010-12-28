@@ -29,7 +29,9 @@ import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.TablesFactories;
+import com.gwtmodel.table.slotmodel.ButtonAction;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -316,6 +318,38 @@ class DataListActionItemFactory {
             slControlerContainer.registerCaller(
                     GetActionEnum.GetGWidget, dType, new GetterGWidget(dForm));
         }
+    }
+
+    private void publishP(ButtonAction b) {
+
+        iSlo.getSlContainer().publish(dType,
+                new ClickButtonType(ClickButtonType.StandClickEnum.ADDITEM), b);
+
+        iSlo.getSlContainer().publish(dType,
+                new ClickButtonType(ClickButtonType.StandClickEnum.REMOVEITEM), b);
+    }
+
+    private class ChangeMode implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            LogT.getLS().info(LogT.getT().receivedSignalLog(slContext.getSlType().toString()));
+            PersistTypeEnum persistTypeEnum = slContext.getPersistType();
+            switch (persistTypeEnum) {
+                case ADD:
+                case MODIF:
+                case REMOVE:
+                    publishP(ButtonAction.EnableButton);
+                    break;
+                case SHOWONLY:
+                    publishP(ButtonAction.DisableButton);
+                    break;
+            }
+        }
+    }
+
+    ISlotSignaller constructChangeMode() {
+        return new ChangeMode();
     }
 
     ISlotSignaller constructActionItem(PersistTypeEnum persistTypeEnum) {

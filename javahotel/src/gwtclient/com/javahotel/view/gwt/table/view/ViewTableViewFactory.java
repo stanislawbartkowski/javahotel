@@ -42,6 +42,7 @@ public class ViewTableViewFactory implements IGetTableViewFactory {
 
     private class GetLabelWidget implements IGetWidgetTableView {
 
+        @Override
         public Widget getWidget(ITableView mo, int row, int col, String val) {
             Label l = new Label(val);
             return l;
@@ -53,6 +54,7 @@ public class ViewTableViewFactory implements IGetTableViewFactory {
     	return iW;
     }
 
+    @Override
     public ITableView getView(final DictData da,
             final IContrButtonView cView, final ITableModel model,
             final ITableSignalClicked sc, final ITableCallBackSetField iCall,
@@ -64,6 +66,7 @@ public class ViewTableViewFactory implements IGetTableViewFactory {
     }
         
 
+    @Override
     public ITableView getGridView(final DictData da,
             final IContrButtonView cView, final ITableModel model,
             final ITableSignalClicked sc, final ITableCallBackSetField iCall,

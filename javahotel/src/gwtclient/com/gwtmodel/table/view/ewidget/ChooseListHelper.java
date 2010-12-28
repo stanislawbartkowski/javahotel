@@ -47,7 +47,7 @@ abstract class ChooseListHelper {
         }
 
         @Override
-        public void setWidget(IGWidget w) {
+        public void setWidget(WSize ws, IGWidget w) {
             iSet.setWidget(w.getGWidget());
         }
 

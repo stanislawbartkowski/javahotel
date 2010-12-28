@@ -27,8 +27,8 @@ import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.view.table.ColumnDataType;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IPersistAction;
 import com.javahotel.client.injector.HInjector;
@@ -40,7 +40,6 @@ import com.javahotel.client.mvc.table.model.ColTitle;
 import com.javahotel.client.mvc.validator.IErrorMessage;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
 
@@ -72,10 +71,19 @@ public class DataUtil {
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         for (ColTitle co : coList) {
             VListHeaderDesc he = new VListHeaderDesc(co.getCTitle(),
-                    new VField(co.getF()), ColumnDataType.STRING);
+                    new VField(co.getF()));
             heList.add(he);
         }
         return heList;
+    }
+
+    private static List<IVField> getV(List<IField> l) {
+        List<IVField> list = new ArrayList<IVField>();
+        for (IField f : l) {
+            AbstractToFactory.T t = AbstractToFactory.getT(f);
+            list.add(new VField(f, t.getT()));
+        }
+        return list;
     }
 
     public static List<IVField> constructEmptyList(IDataType dType, int action) {
@@ -90,13 +98,9 @@ public class DataUtil {
             return eList;
         }
         DictData dicData = constructDictData(dType);
-        List<IVField> list = new ArrayList<IVField>();
         DictEmptyFactory eFactory = HInjector.getI().getDictEmptyFactory();
         List<IField> eList = eFactory.getNoEmpty(action, dicData);
-        for (IField f : eList) {
-            list.add(new VField(f));
-        }
-        return list;
+        return getV(eList);
     }
 
     public static IDataListType construct(List<? extends AbstractTo> dList) {
@@ -111,8 +115,7 @@ public class DataUtil {
             IDataListType dataListType) {
         List<T> dList = new ArrayList<T>();
 
-        for (int i = 0; i < dataListType.rowNo(); i++) {
-            IVModelData v = dataListType.getRow(i);
+        for (IVModelData v : dataListType.getList()) {
             VModelData vData = (VModelData) v;
             T t = (T) vData.getA();
             dList.add(t);

@@ -31,26 +31,23 @@ public class RegisterFactories {
     private final ITableAbstractFactories tFactories;
     private final ColListFactory cFactory;
     private final IResLocator rI;
-    private final AbstractToFactory aFactory;
     private final DictValidatorFactory valFactory;
     private final RecordFormDefFactory dFactory;
 
     @Inject
     public RegisterFactories(IResLocator rI, GetRecordDefFactory gFactory,
-            ColListFactory cFactory, AbstractToFactory aFactory,
-            DictValidatorFactory valFactory, RecordFormDefFactory dFactory) {
+            ColListFactory cFactory, DictValidatorFactory valFactory, RecordFormDefFactory dFactory) {
         this.rI = rI;
         this.gFactory = gFactory;
         this.tFactories = GwtGiniInjector.getI().getITableAbstractFactories();
         this.cFactory = cFactory;
-        this.aFactory = aFactory;
         this.valFactory = valFactory;
         this.dFactory = dFactory;
     }
 
     public void register() {
         FormDefFactory fa = new FormDefFactory(gFactory, dFactory);
-        IDataModelFactory daFactory = new DataModelFactory(aFactory);
+        IDataModelFactory daFactory = new DataModelFactory();
         PersistFactoryAction peFactory = new PersistFactoryAction(rI);
         IDataValidateActionFactory vFactory = new ValidateActionFactory(
                 valFactory, daFactory);

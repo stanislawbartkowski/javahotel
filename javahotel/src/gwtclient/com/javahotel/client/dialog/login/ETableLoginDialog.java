@@ -15,6 +15,7 @@ package com.javahotel.client.dialog.login;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.login.ILoginDataView;
 import com.gwtmodel.table.login.LoginField;
@@ -71,7 +72,6 @@ public class ETableLoginDialog {
         public void signal(ISlotSignalContext slContext) {
             iNext.execute();
         }
-
     }
 
     public ETableLoginDialog(ISetGwtWidget iSet, final boolean user,
@@ -80,10 +80,10 @@ public class ETableLoginDialog {
         IDataType dType = new LoginType();
         if (user) {
             EWidgetFactory eFactory = HInjector.getI().getEWidgetFactory();
-            IFormLineView hotel = eFactory.getListValuesBox(RType.AllHotels,
+            IVField hotelV = new LoginField(LoginField.F.OTHER);
+            IFormLineView hotel = eFactory.getListValuesBox(hotelV, RType.AllHotels,
                     new CommandParam(), HotelP.F.name);
-            FormField f = new FormField("Hotel", hotel, new LoginField(
-                    LoginField.F.OTHER));
+            FormField f = new FormField("Hotel", hotel, hotelV);
             lContainer.addFormField(f);
         }
 

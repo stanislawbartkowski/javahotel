@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import com.google.gwt.user.client.Window;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
@@ -21,6 +20,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.DataListModelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -59,6 +59,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             this.iOk = iOk;
         }
 
+        @Override
         public List<IVModelData> getList() {
             List<IVModelData> li = new ArrayList<IVModelData>();
             for (IVModelData v : dataList.getList()) {
@@ -69,14 +70,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             return li;
         }
 
+        @Override
         public IVField comboField() {
             return dataList.comboField();
         }
 
+        @Override
         public void append(IVModelData vData) {
             dataList.append(vData);
         }
 
+        @Override
         public void remove(int row) {
             dataList.remove(row);
         }
@@ -87,7 +91,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public void signal(ISlotSignalContext slContext) {
             dataList = slContext.getDataList();
-//            WSize wSize = slContext.getWSize();
             listView.setDataList(dataList);
             tableView.refresh();
         }
@@ -98,7 +101,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public void signal(ISlotSignalContext slContext) {
             IOkModelData iOk = slContext.getIOkModelData();
-            assert iOk != null : "Filter function cannot be null";
+            assert iOk != null : LogT.getT().FilterCannotbeNull();
             IDataListType dList = new FilterDataListType(iOk);
             listView.setDataList(dList);
             tableView.refresh();
@@ -110,7 +113,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         private final boolean next;
         private final boolean begin;
 
-        FindRow(boolean next,boolean begin) {
+        FindRow(boolean next, boolean begin) {
             this.next = next;
             this.begin = begin;
         }
@@ -118,7 +121,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public void signal(ISlotSignalContext slContext) {
             IOkModelData iOk = slContext.getIOkModelData();
-            assert iOk != null : "Filter function cannot be null";
+            assert iOk != null : LogT.getT().FilterCannotbeNull();
             WChoosedLine w = tableView.getClicked();
             int aLine = -1;
             if (w.isChoosed() && !begin) {
@@ -194,9 +197,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         tableView = gFactory.construct(new ClickList());
         // subscriber
         registerSubscriber(DataActionEnum.DrawListAction, dType, new DrawList());
-        registerSubscriber(DataActionEnum.FindRowList, dType, new FindRow(false,false));
-        registerSubscriber(DataActionEnum.FindRowBeginningList, dType, new FindRow(false,true));
-        registerSubscriber(DataActionEnum.FindRowNextList, dType, new FindRow(true,false));
+        registerSubscriber(DataActionEnum.FindRowList, dType, new FindRow(false, false));
+        registerSubscriber(DataActionEnum.FindRowBeginningList, dType, new FindRow(false, true));
+        registerSubscriber(DataActionEnum.FindRowNextList, dType, new FindRow(true, false));
         registerSubscriber(DataActionEnum.DrawListSetFilter, dType, new SetFilter());
         registerSubscriber(DataActionEnum.DrawListRemoveFilter, dType, new RemoveFilter());
         registerSubscriber(DataActionEnum.ReadHeaderContainerSignal, dType,

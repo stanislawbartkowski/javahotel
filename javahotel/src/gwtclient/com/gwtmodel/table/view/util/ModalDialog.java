@@ -55,7 +55,11 @@ abstract public class ModalDialog {
     }
 
     protected void create() {
-        PopupUtil.addClose(vP, new CloseClick(), null, null);
+        create(new CloseClick());
+    }
+
+    protected void create(ICloseAction i) {
+        PopupUtil.addClose(vP, i, null, null);
         addVP(vP);
         dBox.setWidget(vP);
         dBox.setText(title);

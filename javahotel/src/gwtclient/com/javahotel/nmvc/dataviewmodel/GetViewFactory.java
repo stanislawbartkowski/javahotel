@@ -46,10 +46,10 @@ import com.javahotel.nmvc.factories.FormDefFactory;
 import com.javahotel.nmvc.factories.booking.BookingCustomerContainer;
 import com.javahotel.nmvc.factories.booking.BookingElemContainer;
 import com.javahotel.nmvc.factories.booking.BookingHeaderContainer;
-import com.javahotel.nmvc.factories.impl.CustomerAddInfo;
+import com.javahotel.nmvc.factories.customer.CustomerAddInfo;
 import com.javahotel.nmvc.factories.impl.HotelPersonRightsContainer;
 import com.javahotel.nmvc.factories.impl.PriceListContainer;
-import com.javahotel.nmvc.factories.impl.SeasonAddInfo;
+import com.javahotel.nmvc.factories.season.SeasonAddInfo;
 
 public class GetViewFactory implements IGetViewControllerFactory {
 
@@ -154,7 +154,7 @@ public class GetViewFactory implements IGetViewControllerFactory {
                     cContainer = new SeasonAddInfo(iContext.construct(iCon), subType);
                     break;
                 case CustomerList:
-                    cContainer = new CustomerAddInfo(dType, subType);
+                    cContainer = new CustomerAddInfo(dType, subType,false);
                     break;
                 case PriceListDict:
                     cContainer = new PriceListContainer(peFactory, dType, subType);

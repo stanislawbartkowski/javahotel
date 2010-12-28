@@ -19,7 +19,6 @@ package com.gwtmodel.table.datelist;
 import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DateFormatUtil;
 import java.util.Date;
 import java.util.List;
@@ -45,23 +44,6 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
         return addV(li);
     }
 
-//    @Override
-//    public String getS(IVField fie) {
-//        if (super.isValid(fie)) {
-//            return super.getS(fie);
-//        }
-//        Object val = getF(fie);
-//        if (val == null) {
-//            return null;
-//        }
-//        DatePeriodField d = (DatePeriodField) fie;
-//        if (d.getFie() == DatePeriodField.F.COMMENT) {
-//            return (String) val;
-//        }
-//        Date de = (Date) val;
-//        return DateFormatUtil.toS(de);
-//    }
-
     @Override
     public Object getF(IVField fie) {
         if (super.isValid(fie)) {
@@ -78,20 +60,6 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
         }
         return null;
     }
-
-//    @Override
-//    public boolean isEmpty(IVField fie) {
-//        DatePeriodField d = (DatePeriodField) fie;
-//        switch (d.getFie()) {
-//            case DATEFROM:
-//                return getdFrom() == null;
-//            case DATETO:
-//                return getdTo() == null;
-//            case COMMENT:
-//                return CUtil.EmptyS(getComment());
-//        }
-//        return true;
-//    }
 
     @Override
     public void setF(IVField fie, Object val) {

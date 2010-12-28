@@ -15,34 +15,40 @@ package com.javahotel.client.dialog.login;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.login.LoginField;
-import com.javahotel.common.util.StringU;
 
 class CustomLoginData extends LoginData {
 
     public String getHotel() {
         return hotel;
     }
-
     private String hotel;
 
     @Override
-    public String getS(IVField fie) {
+    public Object getF(IVField fie) {
         LoginField f = (LoginField) fie;
         if (f.getF() == LoginField.F.OTHER) {
             return hotel;
         }
-        return super.getS(fie);
+        return super.getF(fie);
     }
 
-    @Override
-    public boolean isEmpty(IVField fie) {
-        LoginField f = (LoginField) fie;
-        if (f.getF() == LoginField.F.OTHER) {
-            return StringU.isEmpty(hotel);
-        }
-        return super.isEmpty(fie);
-    }
-
+//    @Override
+//    public String getS(IVField fie) {
+//        LoginField f = (LoginField) fie;
+//        if (f.getF() == LoginField.F.OTHER) {
+//            return hotel;
+//        }
+//        return super.getS(fie);
+//    }
+//
+//    @Override
+//    public boolean isEmpty(IVField fie) {
+//        LoginField f = (LoginField) fie;
+//        if (f.getF() == LoginField.F.OTHER) {
+//            return StringU.isEmpty(hotel);
+//        }
+//        return super.isEmpty(fie);
+//    }
     @Override
     public void setF(IVField fie, Object val) {
         LoginField f = (LoginField) fie;

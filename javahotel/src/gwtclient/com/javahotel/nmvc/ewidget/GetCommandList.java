@@ -46,6 +46,7 @@ class GetCommandList implements IGetDataList {
             this.iCallBack = iCallBack;
         }
 
+        @Override
         public void doVList(final List<? extends AbstractTo> val) {
             List<IVModelData> dList = new ArrayList<IVModelData>();
             for (AbstractTo a : val) {
@@ -65,6 +66,7 @@ class GetCommandList implements IGetDataList {
         this.f = f;
     }
 
+    @Override
     public void call(IGetDataListCallBack iCallBack) {
         rI.getR().getList(r, p, new R(f, iCallBack));
     }

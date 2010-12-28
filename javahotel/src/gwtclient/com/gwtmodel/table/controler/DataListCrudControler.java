@@ -16,6 +16,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -31,7 +32,7 @@ class DataListCrudControler extends AbstractSlotContainer {
     DataListCrudControler(TablesFactories tFactories,
             ITableCustomFactories fContainer, DataListParam listParam,
             IDataType dType) {
-        assert dType != null : "Cannot be null";
+        assert dType != null : LogT.getT().cannotBeNull();
         this.dType = dType;
         this.slFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         aFactory = new DataListActionItemFactory(tFactories, dType, this, listParam,
@@ -54,5 +55,8 @@ class DataListCrudControler extends AbstractSlotContainer {
         registerSubscriber(ClickButtonType.StandClickEnum.FIND,
                 fFactory.constructActionFind(
                 ClickButtonType.StandClickEnum.FIND, this, dType));
+        registerSubscriber(DataActionEnum.ChangeViewFormModeAction, dType,
+                aFactory.constructChangeMode());
+
     }
 }

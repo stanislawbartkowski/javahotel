@@ -12,18 +12,15 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.common.DateFormatUtil;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -41,21 +38,25 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     protected final boolean isCheckBox;
     protected final boolean checkBoxVal;
     protected final ITableCustomFactories tFactories;
+    protected final IVField v;
 
-    AbstractField(ITableCustomFactories tFactories) {
-        this.tFactories = tFactories;
-        iTouch = null;
-        lC = null;
-        checkBoxVal = false;
-        isCheckBox = true;
+    AbstractField(ITableCustomFactories tFactories, IVField v) {
+        this(tFactories, v, true);
     }
 
-    AbstractField(ITableCustomFactories tFactories, boolean checkenable) {
+    @Override
+    public IVField getV() {
+        return v;
+    }
+
+    AbstractField(ITableCustomFactories tFactories, IVField v, boolean checkenable) {
+        assert v != null : "Cannot be null";
         this.tFactories = tFactories;
         iTouch = null;
         lC = null;
         checkBoxVal = checkenable;
         isCheckBox = true;
+        this.v = v;
     }
 
     @Override
@@ -64,11 +65,6 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     }
 
     public void setChooseCheck(boolean enable) {
-    }
-
-    public boolean emptyF() {
-        String val = getVal();
-        return ((val == null) || val.equals(""));
     }
 
     @Override
@@ -127,41 +123,6 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     }
 
     @Override
-    public int getIntVal() {
-        String n = getVal();
-        int no = Utils.getNum(n);
-        return no;
-    }
-
-    @Override
-    public BigDecimal getDecimal() {
-        return Utils.toBig(getVal());
-    }
-
-    @Override
-    public Long getLong() {
-        return Utils.toLong(getVal());
-    }
-
-    @Override
-    public Date getDate() {
-        String n = getVal();
-        if (n == null) {
-            return null;
-        }
-        return DateFormatUtil.toD(n);
-    }
-
-    @Override
-    public void setDecimal(BigDecimal b) {
-        if (b == null) {
-            setVal("");
-            return;
-        }
-        setVal(Utils.DecimalToS(b));
-    }
-
-    @Override
     public void addChangeListener(final IFormChangeListener l) {
         if (lC == null) {
             lC = new ArrayList<IFormChangeListener>();
@@ -196,10 +157,5 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     @Override
     public boolean isHidden() {
         return !this.getGWidget().isVisible();
-    }
-
-    @Override
-    public Object getObj() {
-        return getVal();
     }
 }

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.gwtmodel.table.IConsts;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,10 @@ public class VListHeaderContainer {
         this.heList = heList;
         this.listTitle = listTitle;
         this.pageSize = pageSize;
+    }
+
+    public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
+        this(heList, listTitle, IConsts.defaultPage);
     }
 
     public List<VListHeaderDesc> getVisHeList() {

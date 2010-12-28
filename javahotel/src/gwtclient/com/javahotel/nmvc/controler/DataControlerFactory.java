@@ -29,14 +29,13 @@ public class DataControlerFactory {
     public static ISlotable constructDataControler(IResLocator rI,
             DataControlerEnum cEnum, DataType dType, CellId panelId) {
         switch (cEnum) {
-        case DisplayList:
-            TableDataControlerFactory tFactory = GwtGiniInjector.getI()
-                    .getTableDataControlerFactory();
-            DisplayListControlerParam dList = tFactory.constructParam(dType,
-                    null, panelId);
-            return tFactory.constructDataControler(dList);
-        case ClearDataHotel:
-            return new ClearHotelData(rI, panelId);
+            case DisplayList:
+                TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
+                DisplayListControlerParam dList = tFactory.constructParam(dType,
+                        null, panelId);
+                return tFactory.constructDataControler(dList);
+            case ClearDataHotel:
+                return new ClearHotelData(rI, panelId);
         }
         return null;
     }

@@ -12,38 +12,28 @@
  */
 package com.javahotel.nmvc.factories.booking;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.GWidget;
-import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IClickYesNo;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.SynchronizeList;
-import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
-import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.composecontroller.IComposeController;
-import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
-import com.gwtmodel.table.controlbuttonview.IControlButtonView;
+import com.gwtmodel.table.editc.EditChooseRecordFactory;
+import com.gwtmodel.table.editc.IChangeObject;
+import com.gwtmodel.table.editc.IEditChooseRecordContainer;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.TablesFactories;
-import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.view.util.OkDialog;
+import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData;
@@ -59,59 +49,10 @@ import com.javahotel.types.LId;
 
 public class BookingCustomerContainer extends AbstractSlotContainer {
 
-    private final VerticalPanel vp = new VerticalPanel();
-    private final Sych sy = new Sych();
     private final ISlotMediator slMediator;
-//    private final DataType custType;
     private final IDataModelFactory daFactory;
     private final IResLocator rI;
-    private final AddChangeBox cBox = new AddChangeBox();
-    private final static String CHANGE_BUTTON = "HOTEL-CHANGE-BUTTON";
-    private final static String LIST_BUTTON = "HOTEL-LIST-BUTTON";
-
-    private class Sych extends SynchronizeList {
-
-        CellId cellId;
-        Widget but;
-        Widget cust;
-
-        Sych() {
-            super(3);
-        }
-
-        @Override
-        protected void doTask() {
-            HorizontalPanel hp = new HorizontalPanel();
-            hp.add(cBox);
-            hp.add(but);
-            vp.add(hp);
-            vp.add(cust);
-            publish(dType, cellId, new GWidget(vp));
-        }
-
-    }
-
-    private class SetWidget implements ISlotSignaller {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            IGWidget gwtWidget = slContext.getGwtWidget();
-            sy.but = gwtWidget.getGWidget();
-            sy.signalDone();
-        }
-
-    }
-
-    private class SetWidgetCust implements ISlotSignaller {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            IGWidget gwtWidget = slContext.getGwtWidget();
-            sy.cust = gwtWidget.getGWidget();
-            sy.signalDone();
-        }
-
-    }
+    private final IEditChooseRecordContainer cContainer;
 
     private void drawCust(IVModelData cust) {
         slMediator.getSlContainer().publish(
@@ -136,8 +77,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
             if (custI == null) {
                 IVModelData cust = daFactory.construct(dType);
                 drawCust(cust);
-                cBox.setChangeCheck(true);
-                cBox.setNewCheck(true);
+                cContainer.SetNewChange(true, true);
                 return;
             }
             CommandParam pa = rI.getR().getHotelDictId(DictType.CustomerList,
@@ -146,86 +86,107 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         }
     }
 
-    private void register(ISlotable pView, ISlotable cust) {
-        pView.getSlContainer().registerSubscriber(dType, IPanelView.CUSTOMID,
-                new SetWidget());
-        cust.getSlContainer().registerSubscriber(dType, IPanelView.CUSTOMID + 1,
-                new SetWidgetCust());
-    }
-    
     private BookingP getBook(ISlotSignalContext slContext) {
         IVModelData mData = slContext.getVData();
         VModelData vData = (VModelData) mData;
         BookingP b = (BookingP) vData.getA();
         return b;
     }
-    
-    
+
     private class SetGetter implements ISlotCaller {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             VModelData vData = (VModelData) mData;
-            
+
             IVModelData cust = daFactory.construct(dType);
             IVModelData pData = slMediator.getSlContainer().
                     getGetterIVModelData(GetActionEnum.GetViewModelEdited, dType, cust);
-            boolean addCust = cBox.getNewCheck();
-            boolean changeCust = cBox.getChangeCheck();
+            boolean addCust = cContainer.getNewCheck();
+            boolean changeCust = cContainer.getChangeCheck();
             VModelData vvData = (VModelData) pData;
-            BookingCustInfo bInfo = new BookingCustInfo(addCust,changeCust,(CustomerP)vvData.getA());
-            vData.setCustomData(bInfo);            
+            BookingCustInfo bInfo = new BookingCustInfo(addCust, changeCust,
+                    (CustomerP) vvData.getA());
+            vData.setCustomData(bInfo);
             return slContext;
         }
-
     }
 
-    public BookingCustomerContainer(ICallContext iContext, DataType subType) {
+    private class ReceiveChange implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IChangeObject i = (IChangeObject) slContext.getCustom();
+            LogT.getLS().info(LogT.getT().receivedSignalLogParam(slContext.getSlType().toString(), i.toString()));
+            String mess = null;
+            String ask = null;
+            final boolean newset;
+            final boolean changeset;
+            if (i.getWhat() == IChangeObject.NEW) {
+                newset = !i.getSet();
+                changeset = cContainer.getChangeCheck();
+                if (i.getSet()) {
+                    ask = "Zostanie założony kolejny klient z tymi danymi i nadany nowy symbol.";
+                } else {
+                    mess = "Nie można zamienić na \"nie zakładaj\". Musisz jeszcze raz wybrać klienta z listy";
+                }
+            } else {
+                newset = cContainer.getNewCheck();
+                changeset = !i.getSet();
+                if (i.getSet()) {
+                    ask = "Dane klienta zostaną poprawione po rezerwacji";
+                } else {
+                    mess = "Nie można zamienić na \"nie zmieniaj\". Musisz jeszcze raz wybrać klienta z listy";
+                }
+            }
+
+            if (mess != null) {
+                cContainer.SetNewChange(newset, changeset);
+                OkDialog ok = new OkDialog(mess, null);
+                ok.show(i.getW().getGWidget());
+            }
+            if (ask != null) {
+                IClickYesNo c = new IClickYesNo() {
+
+                    @Override
+                    public void click(boolean yes) {
+                        if (!yes) {
+                            cContainer.SetNewChange(newset, changeset);
+                        }
+                    }
+                };
+                YesNoDialog y = new YesNoDialog(ask + " Czy tak ma być ?", c);
+                y.show(i.getW().getGWidget());
+            }
+        }
+    }
+
+    public BookingCustomerContainer(ICallContext iContext, IDataType subType) {
         dType = new DataType(DictType.CustomerList);
-        TablesFactories tFactories = GwtGiniInjector.getI()
-                .getTablesFactories();
-        ITableCustomFactories fContainer = GwtGiniInjector.getI()
-                .getTableFactoriesContainer();
+        ICallContext ii = iContext.construct(dType);
+        ii.setiSlo(this);
+        cContainer = EditChooseRecordFactory.constructEditChooseRecord(ii,
+                iContext.getDType(), subType);
+        cContainer.getSlContainer().registerSubscriber(IChangeObject.signalString, new ReceiveChange());
+        TablesFactories tFactories = iContext.getT();
+        ITableCustomFactories fContainer =
+                GwtGiniInjector.getI().getTableFactoriesContainer();
         daFactory = fContainer.getDataModelFactory();
         slMediator = tFactories.getSlotMediatorFactory().construct();
         rI = HInjector.getI().getI();
 
-        ClickButtonType sChange = new ClickButtonType(CHANGE_BUTTON);
-        ClickButtonType sChoose = new ClickButtonType(LIST_BUTTON);
-        ControlButtonDesc bChange = new ControlButtonDesc("Zmień dane", sChange);
-        ControlButtonDesc bChoose = new ControlButtonDesc("Wybierz z listy",
-                sChoose);
-        List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
-        bList.add(bChange);
-        bList.add(bChoose);
-        ListOfControlDesc cList = new ListOfControlDesc(bList);
-        ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
-                .getControlButtonViewFactory();
-        IControlButtonView bView = bFactory.construct(dType, cList);
-        IGetViewControllerFactory fa = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetViewControllerFactory();
-        CellId bId = new CellId(IPanelView.CUSTOMID);
-        CellId cId = new CellId(IPanelView.CUSTOMID + 1);
-        IComposeController cust = fa.construct(iContext.construct(dType));
-        cust.createComposeControle(cId);
-
-        register(bView, cust);
-        slMediator.registerSlotContainer(cId, cust);
-        slMediator.registerSlotContainer(bId, bView);
-
+        slMediator.registerSlotContainer(cContainer);
         registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
                 new DrawModel());
-        
+
         registerCaller(GetActionEnum.GetViewModelEdited, subType,
                 new SetGetter());
+
     }
 
     @Override
     public void startPublish(CellId cellId) {
-        sy.cellId = cellId;
-        sy.signalDone();
-        slMediator.startPublish(null);
+        cContainer.startPublish(cellId);
     }
-
 }

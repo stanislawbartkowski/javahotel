@@ -18,8 +18,13 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.ButtonAction;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
@@ -37,10 +42,37 @@ class ControlButtonView extends AbstractSlotContainer implements
         }
     }
 
+    private class EnableButton implements ISlotSignaller {
+
+        private final ButtonAction bAction;
+        private final ClickButtonType actionId;
+
+        EnableButton(ButtonAction bAction, ClickButtonType actionId) {
+            this.actionId = actionId;
+            this.bAction = bAction;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            LogT.getLS().info(LogT.getT().receivedSignalLog(slContext.getSlType().toString()));
+            vButton.setEnable(actionId, bAction == ButtonAction.EnableButton);
+        }
+    }
+
+    private void register(ButtonAction bA, ControlButtonDesc b) {
+        EnableButton e = new EnableButton(bA, b.getActionId());
+        registerSubscriber(dType, b.getActionId(), bA, e);
+    }
+
     ControlButtonView(ContrButtonViewFactory vFactory,
             ListOfControlDesc listButton, IDataType dType) {
         this.dType = dType;
         vButton = vFactory.getView(listButton, new Click());
+        for (ControlButtonDesc b : listButton.getcList()) {
+            register(ButtonAction.EnableButton, b);
+            register(ButtonAction.DisableButton, b);
+        }
+
     }
 
     @Override

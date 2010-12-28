@@ -13,10 +13,30 @@
 package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.injector.LogT;
 
 public class SlotTypeFactory {
+
+    private class CustomString implements ISlotCustom {
+
+        private final String s;
+
+        CustomString(String s) {
+            this.s = s;
+        }
+
+        @Override
+        public String toString() {
+            return s;
+        }
+
+        @Override
+        public boolean eq(ISlotCustom o) {
+            CustomString ss = (CustomString) o;
+            return s.equals(ss.s);
+        }
+    }
 
     public SlotType construct(DataActionEnum dataActionEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.DataAction, null, null,
@@ -39,45 +59,52 @@ public class SlotTypeFactory {
     }
 
     public SlotType construct(IDataType dType, CellId cellId) {
-        assert dType != null : "dType cannot be null";
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
+        assert cellId != null : LogT.getT().cannotBeNull();
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
                 null, cellId, dType, null, null, null);
     }
 
     public SlotType constructH(CellId cellId) {
+        assert cellId != null : LogT.getT().cannotBeNull();
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null,
                 null, cellId, null, GetActionEnum.GetHtmlForm, null, null);
     }
 
     public SlotType construct(IDataType dType, int cellId) {
-        assert dType != null : "dType cannot be null";
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(SlotEventEnum.CallBackWidget, null, null, null,
                 null, new CellId(cellId), dType, null, null, null);
     }
 
-    public SlotType construct(ClickButtonType buttonClick) {
-        return new SlotType(SlotEventEnum.ClickButton, null, buttonClick, null,
-                null, null, null, null, null, null);
+    public SlotType construct(ClickButtonType buttonClick, ButtonAction bAction) {
+        return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick, null,
+                null, null, null, null, null, bAction);
     }
 
-    public SlotType construct(ClickButtonType.StandClickEnum clickEnum) {
-        return new SlotType(SlotEventEnum.ClickButton, null,
-                new ClickButtonType(clickEnum), null, null, null, null, null,
-                null, null);
+    public SlotType construct(IDataType dType, ClickButtonType buttonClick, ButtonAction bAction) {
+        return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick, null,
+                null, null, dType, null, null, bAction);
+    }
+
+    public SlotType construct(ClickButtonType buttonClick) {
+        return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick, null,
+                null, null, null, null, null, ButtonAction.ClickButton);
     }
 
     public SlotType construct(String stringButton) {
-        return new SlotType(SlotEventEnum.ClickString, null, null, null, null,
-                null, null, null, stringButton, null);
+        return construct(new CustomString(stringButton));
     }
 
-    public SlotType construct(IEquatable iEq) {
+    public SlotType construct(ISlotCustom iEq) {
         return new SlotType(SlotEventEnum.Custom, null, null, null, null,
-                null, null, null, null, iEq);
+                null, null, null, iEq, null);
     }
 
-    public SlotType construct() {
-        return new SlotType(SlotEventEnum.ClickString, null, null, null, null,
-                null, null, null, null, null);
+    public SlotType construct(IDataType dType, SlotType sl) {
+        return new SlotType(sl.getSlEnum(), sl.getFie(), sl.getButtonClick(),
+                sl.getDataActionEnum(), sl.getSlList(),
+                sl.getCellId(), dType, sl.getgEnum(),
+                sl.getiEq(), sl.getbAction());
     }
 }

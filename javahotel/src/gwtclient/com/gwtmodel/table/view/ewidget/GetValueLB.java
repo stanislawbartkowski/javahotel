@@ -17,6 +17,8 @@ import java.util.List;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 
@@ -30,22 +32,25 @@ class GetValueLB extends AbstractField implements IValueLB {
     final protected ListBox lB = new ListBox();
     private String beforeVal = null;
 
-    GetValueLB(ITableCustomFactories tFactories) {
-        super(tFactories);
+    GetValueLB(ITableCustomFactories tFactories, IVField v) {
+        super(tFactories,v);
         initWidget(lB);
         setMouse();
 
     }
 
     @Override
-    public String getVal() {
+    public Object getValObj() {
         int i = lB.getSelectedIndex();
+        String s;
         if (i == -1) {
 // CHANGE: 2010/09/22
 //            return null;
-            return beforeVal;
+            s = beforeVal;
+        } else {
+          s = lB.getItemText(i);
         }
-        return lB.getItemText(i);
+        return FUtils.getValue(v, s);
     }
 
     private void setEmpty() {
@@ -53,8 +58,6 @@ class GetValueLB extends AbstractField implements IValueLB {
             return;
         }
         lB.setItemSelected(0, true);
-        // int i = lB.getSelectedIndex();
-        // lB.setItemSelected(i,false);
     }
 
     private void setV(final String s) {
@@ -77,8 +80,8 @@ class GetValueLB extends AbstractField implements IValueLB {
     }
 
     @Override
-    public void setVal(final String s) {
-        setV(s);
+    public void setValObj(Object o) {
+        setV((String) o);
         runOnChange(this);
     }
 
@@ -89,11 +92,6 @@ class GetValueLB extends AbstractField implements IValueLB {
 
     public boolean validateField() {
         return true;
-    }
-
-    @Override
-    public int getIntVal() {
-        return -1;
     }
 
     @Override

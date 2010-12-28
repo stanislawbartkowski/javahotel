@@ -25,6 +25,7 @@ import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormField;
@@ -75,6 +76,7 @@ class FindListActionFactory {
 
         VListHeaderContainer listHeader = null;
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             listHeader = slContext.getListHeader();
         }
@@ -92,6 +94,7 @@ class FindListActionFactory {
             this.publishdType = publishdType;
         }
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             publishSlo.getSlContainer().publish(DataActionEnum.DrawListRemoveFilter,
                     publishdType);
@@ -105,7 +108,7 @@ class FindListActionFactory {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            OkDialog ok = new OkDialog("Nie znaleziono !", null, null);
+            OkDialog ok = new OkDialog(MM.getL().NotFound(), null, null);
             ok.show(new WSize(w.getGWidget()));
         }
     }
@@ -137,6 +140,7 @@ class FindListActionFactory {
             this.nF = nF;
         }
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             FData fa = new FData(liF, li);
             slMediator.getSlContainer().getGetterIVModelData(
@@ -144,7 +148,7 @@ class FindListActionFactory {
             IGWidget w = slContext.getGwtWidget();
             nF.w = w;
             if (fa.isEmpty()) {
-                OkDialog ok = new OkDialog("Nie wprowadzono niczego !", null, null);
+                OkDialog ok = new OkDialog(MM.getL().NothingEntered(), null, null);
                 ok.show(new WSize(w.getGWidget()));
                 return;
             }
@@ -162,28 +166,28 @@ class FindListActionFactory {
         for (VListHeaderDesc he : li) {
             IVField from = new FField(he.getFie(), true, he);
             IVField to = new FField(he.getFie(), false, he);
-            IFormLineView ifrom = null;
-            IFormLineView ito = null;
-            switch (he.getFie().getType().getType()) {
-                case LONG:
-                    ifrom = eFactory.contructCalculatorNumber(0, null);
-                    ito = eFactory.contructCalculatorNumber(0, null);
-                    break;
-                case BIGDECIMAL:
-                    ifrom = eFactory.contructCalculatorNumber(he.getFie().getType().getAfterdot(),
-                            null);
-                    ito = eFactory.contructCalculatorNumber(he.getFie().getType().getAfterdot(),
-                            null);
-                    break;
-                case DATE:
-                    ifrom = eFactory.construcDateBoxCalendar();
-                    ito = eFactory.construcDateBoxCalendar();
-                    break;
-                default:
-                    ifrom = eFactory.constructTextField(null);
-                    ito = eFactory.constructTextField(null);
-                    break;
-            }
+            IFormLineView ifrom = eFactory.constructEditWidget(from);
+            IFormLineView ito = eFactory.constructEditWidget(to);
+//            switch (he.getFie().getType().getType()) {
+//                case LONG:
+//                    ifrom = eFactory.contructCalculatorNumber(0, null);
+//                    ito = eFactory.contructCalculatorNumber(0, null);
+//                    break;
+//                case BIGDECIMAL:
+//                    ifrom = eFactory.contructCalculatorNumber(he.getFie().getType().getAfterdot(),
+//                            null);
+//                    ito = eFactory.contructCalculatorNumber(he.getFie().getType().getAfterdot(),
+//                            null);
+//                    break;
+//                case DATE:
+//                    ifrom = eFactory.construcDateBoxCalendar();
+//                    ito = eFactory.construcDateBoxCalendar();
+//                    break;
+//                default:
+//                    ifrom = eFactory.constructTextField(null);
+//                    ito = eFactory.constructTextField(null);
+//                    break;
+//            }
             liF.add(new FormField(he.getHeaderString(), ifrom, from));
             liF.add(new FormField(he.getHeaderString(), ito, to, from));
         }
@@ -213,6 +217,7 @@ class FindListActionFactory {
 
         private class Re implements ISignal {
 
+            @Override
             public void signal() {
                 publishSlo.getSlContainer().removeSubscriber(DataActionEnum.NotFoundSignal,
                         publishdType);
@@ -220,6 +225,7 @@ class FindListActionFactory {
             }
         }
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             if (gHeader.listHeader == null) {
                 return;
@@ -303,6 +309,7 @@ class FindListActionFactory {
                 IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
                 ISignal iSig = new ISignal() {
 
+                    @Override
                     public void signal() {
                         dForm.hide();
                     }

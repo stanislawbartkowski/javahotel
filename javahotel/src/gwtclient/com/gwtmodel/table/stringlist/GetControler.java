@@ -35,7 +35,7 @@ class GetControler implements IGetViewControllerFactory {
 
     private GetControler(String fieldName, String title, IStringEFactory eFactory,
             IVField fie, DataViewModelFactory daFactory, IMemoryListModel mList) {
-        sFactory = new StringFactory(fieldName, title);
+        sFactory = new StringFactory(fie, fieldName, title);
         dFactory = new DataFactory(eFactory);
         this.daFactory = daFactory;
         this.mList = mList;

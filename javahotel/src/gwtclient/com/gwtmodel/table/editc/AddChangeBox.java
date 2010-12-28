@@ -10,22 +10,47 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.booking;
+package com.gwtmodel.table.editc;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.injector.MM;
 
 class AddChangeBox extends Composite {
 
     private final VerticalPanel hp = new VerticalPanel();
-    private final CheckBox addNew = new CheckBox("Dodaj nowego");
-    private final CheckBox changeD = new CheckBox("Zmień dane");
+    private final CheckBox addNew = new CheckBox(MM.getL().AddNewRecord());
+    private final CheckBox changeD = new CheckBox(MM.getL().ChangeRecord());
 
-    AddChangeBox() {
+    private class Checked implements ClickHandler {
+
+        private final ITransferClick i;
+        private final int what;
+
+        Checked(ITransferClick i, int what) {
+            this.i = i;
+            this.what = what;
+        }
+
+        @Override
+        public void onClick(ClickEvent event) {
+            CheckBox b = (CheckBox) event.getSource();
+            IChangeObject o = EditChooseRecordFactory.constructChangeObject(what, 
+                    b.isChecked(), new GWidget(b));
+            i.signal(o);
+        }
+    }
+
+    AddChangeBox(ITransferClick c) {
         initWidget(hp);
         hp.add(addNew);
         hp.add(changeD);
+        addNew.addClickHandler(new Checked(c, IChangeObject.NEW));
+        changeD.addClickHandler(new Checked(c, IChangeObject.CHANGE));
     }
 
     void setNewCheck(boolean set) {
@@ -43,5 +68,4 @@ class AddChangeBox extends Composite {
     boolean getChangeCheck() {
         return changeD.isChecked();
     }
-
 }

@@ -16,8 +16,8 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.injector.ICallContext;
 import com.javahotel.nmvc.common.DataType;
-import com.javahotel.nmvc.factories.impl.CustomerForm;
-import com.javahotel.nmvc.factories.impl.SeasonForm;
+import com.javahotel.nmvc.factories.customer.CustomerForm;
+import com.javahotel.nmvc.factories.season.SeasonForm;
 
 public class FormFactory extends HelperFactory implements
         IDataFormConstructorAbstractFactory {

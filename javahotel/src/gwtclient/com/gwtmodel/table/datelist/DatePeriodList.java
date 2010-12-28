@@ -34,7 +34,6 @@ import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import java.util.ArrayList;

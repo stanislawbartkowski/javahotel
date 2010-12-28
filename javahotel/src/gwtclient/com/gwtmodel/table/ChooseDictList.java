@@ -35,7 +35,7 @@ public class ChooseDictList<T extends IVModelData> {
 
     public interface ICallBackWidget<T extends IVModelData> {
 
-        void setWidget(IGWidget w);
+        void setWidget(WSize ws, IGWidget w);
 
         void setChoosed(T vData, IVField comboFie);
 
@@ -67,10 +67,16 @@ public class ChooseDictList<T extends IVModelData> {
 
     private class GetWidget implements ISlotSignaller {
 
+        private final WSize ws;
+
+        GetWidget(WSize ws) {
+            this.ws = ws;
+        }
+
         @Override
         public void signal(ISlotSignalContext slContext) {
             IGWidget w = slContext.getGwtWidget();
-            i.setWidget(w);
+            i.setWidget(ws, w);
         }
     }
 
@@ -80,8 +86,6 @@ public class ChooseDictList<T extends IVModelData> {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
         DisplayListControlerParam cParam = tFactory.constructChooseParam(dType,
                 wSize, new CellId(0));
-//        IDataControler iData = tFactory.constructListChooseControler(dType,
-//                wSize, new CellId(0));
 
         IDataControler iData = tFactory.constructDataControler(cParam);
 
@@ -90,7 +94,7 @@ public class ChooseDictList<T extends IVModelData> {
                 new GetChoosed());
         sl.registerSubscriber(ClickButtonType.StandClickEnum.RESIGNLIST,
                 new GetResign());
-        sl.registerSubscriber(dType, 0, new GetWidget());
+        sl.registerSubscriber(dType, 0, new GetWidget(wSize));
         iData.startPublish(new CellId(0));
     }
 }

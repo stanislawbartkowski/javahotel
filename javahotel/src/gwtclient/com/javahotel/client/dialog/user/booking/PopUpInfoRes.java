@@ -19,7 +19,7 @@ import java.util.List;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.IClickNextYesNo;
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.GWTGetService;
@@ -138,7 +138,7 @@ class PopUpInfoRes {
         }
     }
 
-    private class YesB implements IClickNextYesNo {
+    private class YesB implements IClickYesNo {
 
         private class RBack extends CommonCallBack<ReturnPersist> {
 

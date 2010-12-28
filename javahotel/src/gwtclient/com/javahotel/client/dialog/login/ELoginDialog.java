@@ -52,10 +52,12 @@ class ELoginDialog {
 
     private class ValidBack implements ISignalValidate {
 
+        @Override
         public void success() {
             iNext.execute();
         }
 
+        @Override
         public void failue(IErrorMessage errmess) {
             v.showInvalidate(errmess);
         }
@@ -63,6 +65,7 @@ class ELoginDialog {
 
     private class LoginClick implements IControlClick {
 
+        @Override
         public void click(ContrButton co, Widget w) {
             LoginRecord re = new LoginRecord();
             RecordModel mo = new RecordModel(null, null);
