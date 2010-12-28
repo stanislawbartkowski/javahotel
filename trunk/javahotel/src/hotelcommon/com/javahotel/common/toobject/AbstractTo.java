@@ -26,89 +26,89 @@ import com.javahotel.types.LId;
  */
 public abstract class AbstractTo implements Serializable {
 
-	public interface IFieldToS {
+    public interface IFieldToS {
 
-		String toS(IField f, Object va);
-	}
+        String toS(IField f, Object va);
+    }
 
-	public abstract Object getF(IField f);
+    public abstract Object getF(IField f);
 
-	public abstract Class<?> getT(IField f);
+    public abstract Class<?> getT(IField f);
 
-	public abstract void setF(IField f, Object o);
+    public abstract void setF(IField f, Object o);
 
-	public abstract IField[] getT();
+    public abstract IField[] getT();
 
-	public IField getF(String s) {
-		IField[] ft = getT();
-		for (int i = 0; i < ft.length; i++) {
-			if (ft[i].toString().equals(s)) {
-				return ft[i];
-			}
-		}
-		return null;
-	}
+    public IField getF(String s) {
+        IField[] ft = getT();
+        for (int i = 0; i < ft.length; i++) {
+            if (ft[i].toString().equals(s)) {
+                return ft[i];
+            }
+        }
+        return null;
+    }
 
-	protected boolean emptySpecialTrue(final IField f) {
-		return false;
-	}
+    protected boolean emptySpecialTrue(final IField f) {
+        return false;
+    }
 
-	public String getDispS(final IField f, final IFieldToS i) {
-		if (emptySpecialTrue(f)) {
-			return null;
-		}
-		Object va = getF(f);
-		if (va == null) {
-			return null;
-		}
-		if (i != null) {
-			String s = i.toS(f, va);
-			if (s != null) {
-				return s;
-			}
-		}
-		if (va instanceof String) {
-			return (String) va;
-		}
-		if (va instanceof DictionaryP) {
-			DictionaryP p = (DictionaryP) va;
-			return p.getName();
-		}
-		if (va instanceof Date) {
-			String s = DateFormatUtil.toS((Date) va);
-			return s;
+    public String getDispS(final IField f, final IFieldToS i) {
+        if (emptySpecialTrue(f)) {
+            return null;
+        }
+        Object va = getF(f);
+        if (va == null) {
+            return null;
+        }
+        if (i != null) {
+            String s = i.toS(f, va);
+            if (s != null) {
+                return s;
+            }
+        }
+        if (va instanceof String) {
+            return (String) va;
+        }
+        if (va instanceof DictionaryP) {
+            DictionaryP p = (DictionaryP) va;
+            return p.getName();
+        }
+        if (va instanceof Date) {
+            String s = DateFormatUtil.toS((Date) va);
+            return s;
 
-		}
-		return va.toString();
-	}
+        }
+        return va.toString();
+    }
 
-	public String getS(final IField f) {
-		return getDispS(f, null);
-	}
+    public String getS(final IField f) {
+        return getDispS(f, null);
+    }
 
-	public boolean emptyS(final IField f) {
-		String val = getS(f);
-		return StringU.isEmpty(val);
-	}
+    public boolean emptyS(final IField f) {
+        String val = getS(f);
+        return StringU.isEmpty(val);
+    }
 
-	public void copyFrom(final AbstractTo from) {
-		CommandUtil.copyA(from, this, getT());
-	}
+    public void copyFrom(final AbstractTo from) {
+        CommandUtil.copyA(from, this, getT());
+    }
 
-	public boolean isField(final IField f) {
-		for (IField t : getT()) {
-			if (t == f) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public boolean isField(final IField f) {
+        for (IField t : getT()) {
+            if (t == f) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public LId getLId() {
-		return (LId) getF(DictionaryP.F.id);
-	}
+    public LId getLId() {
+        return (LId) getF(DictionaryP.F.id);
+    }
 
-	public void setLId(LId id) {
-		setF(DictionaryP.F.id, id);
-	}
+    public void setLId(LId id) {
+        setF(DictionaryP.F.id, id);
+    }
 }
