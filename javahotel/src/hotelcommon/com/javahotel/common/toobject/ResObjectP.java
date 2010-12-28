@@ -54,22 +54,22 @@ public class ResObjectP extends DictionaryP {
     }
     
     private RRoom rType;
-    private int noPerson;
-    private int maxPerson;
+    private Integer noPerson;
+    private Integer maxPerson;
     private DictionaryP rStandard;
     private List<DictionaryP> facilities;
 
-    @Override
-    protected boolean emptySpecialTrue(final IField f) {
-        if (f instanceof ResObjectP.F) {
-            F fie = (F) f;
-            switch (fie) {
-                case maxperson: return ((maxPerson == 0) || (maxPerson == -1));
-                case noperson: return ((noPerson == 0) || (noPerson == -1));
-            }
-        }
-        return false;
-    }
+//    @Override
+//    protected boolean emptySpecialTrue(final IField f) {
+//        if (f instanceof ResObjectP.F) {
+//            F fie = (F) f;
+//            switch (fie) {
+//                case maxperson: return ((maxPerson == 0) || (maxPerson == -1));
+//                case noperson: return ((noPerson == 0) || (noPerson == -1));
+//            }
+//        }
+//        return false;
+//    }
 
 
     public ResObjectP() {
@@ -84,19 +84,19 @@ public class ResObjectP extends DictionaryP {
         this.rType = rType;
     }
 
-    public int getNoPerson() {
+    public Integer getNoPerson() {
         return noPerson;
     }
 
-    public void setNoPerson(int noPerson) {
+    public void setNoPerson(Integer noPerson) {
         this.noPerson = noPerson;
     }
 
-    public int getMaxPerson() {
+    public Integer getMaxPerson() {
         return maxPerson;
     }
 
-    public void setMaxPerson(int maxPerson) {
+    public void setMaxPerson(Integer maxPerson) {
         this.maxPerson = maxPerson;
     }
 
@@ -155,11 +155,11 @@ public class ResObjectP extends DictionaryP {
                 break;
             case noperson:
                 i = (Integer) o;
-                setNoPerson(i.intValue());
+                setNoPerson(i);
                 break;
             case maxperson:
                 i = (Integer) o;
-                setMaxPerson(i.intValue());
+                setMaxPerson(i);
                 break;
             case standard:
                 setRStandard((DictionaryP) o);
