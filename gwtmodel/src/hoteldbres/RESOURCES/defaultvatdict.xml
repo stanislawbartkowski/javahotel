@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rootvatdict>
+    <vatdict>
+        <name>zw</name>
+        <description>zwolniony z vat</description>
+    </vatdict>
+    <vatdict>
+        <name>0%</name>
+        <description>stawka zerowa</description>
+        <vatPercent>0</vatPercent>
+    </vatdict>    
+    <vatdict>
+        <name>7%</name>
+        <description>stawka 7 procent</description>
+        <vatPercent>7</vatPercent>
+        <defVat>true</defVat>
+    </vatdict>    
+    <vatdict>
+        <name>22%</name>
+        <description>stawka 22 procent</description>
+        <vatPercent>22</vatPercent>
+    </vatdict>    
+</rootvatdict>
