@@ -36,8 +36,6 @@ public interface IGetCustomValues {
     String LOGINMAME = "LOGINNAME";
     String PASSWORD = "PASSWORD";
     String LOGINBUTTON = "LOGINBUTTON";
-//    String ADDBUTTON = "ADDBUTTON";
-//    String REMOVEBUTTON = "REMOVEBUTTON";
     String EMPTYFIELDERRORDEFAULT = "EMPTYFIELDERRORDEFAULT";
 
     String getCustomValue(String key);

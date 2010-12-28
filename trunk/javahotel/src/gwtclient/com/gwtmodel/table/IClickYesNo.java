@@ -17,7 +17,7 @@ package com.gwtmodel.table;
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-public interface IClickNextYesNo {
+public interface IClickYesNo {
 
     void click(boolean yes);
 }

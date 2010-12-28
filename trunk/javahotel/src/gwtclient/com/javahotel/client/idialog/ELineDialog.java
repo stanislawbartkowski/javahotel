@@ -75,10 +75,12 @@ abstract class ELineDialog extends PopupTip implements ILineField {
         }
     }
 
+    @Override
     public void setKLi(final IKeyboardAction pkLi) {
         this.kLi = pkLi;
     }
 
+    @Override
     public int getIntVal() {
         String n = getVal();
         int no = CommonUtil.getNum(n);

@@ -35,12 +35,6 @@ import com.javahotel.nmvc.factories.impl.DataModelFields;
 
 class DataModelFactory extends HelperFactory implements IDataModelFactory {
 
-    private final AbstractToFactory aFactory;
-
-    DataModelFactory(AbstractToFactory aFactory) {
-        this.aFactory = aFactory;
-    }
-
     @Override
     public IVModelData construct(IDataType dType) {
         DataType daType = (DataType) dType;
@@ -49,14 +43,14 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
         }
         if (daType.isAddType()) {
             switch (daType.getAddType()) {
-            case BookRecord:
-                return new VModelData(new BookRecordP());
-            case AdvanceHeader:
-                return new VModelData(new AdvancePaymentP());
+                case BookRecord:
+                    return new VModelData(new BookRecordP());
+                case AdvanceHeader:
+                    return new VModelData(new AdvancePaymentP());
 
             }
         }
-        AbstractTo a = aFactory.getA(DataUtil.constructDictData(dType));
+        AbstractTo a = AbstractToFactory.getA(DataUtil.constructDictData(dType));
         return new VModelData(a);
     }
 
@@ -101,5 +95,4 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
         }
 
     }
-
 }

@@ -115,6 +115,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
             for (String s : cols) {
                 if (CUtil.EmptyS(name)) {
                     setColVal(i, new ArrayList<String>());
+                    i++;
                     continue;
                 }
                 CommandParam p = new CommandParam();
@@ -171,9 +172,9 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
             }
             String rowTitle;
             if (isPersons()) {
-                rowTitle = "Uprawnienia";
+                rowTitle = rI.getLabels().RightsForHotels();
             } else {
-                rowTitle = "Uprawnienia";
+                rowTitle = rI.getLabels().RightsForPersons();
             }
             iView.setCols(rowTitle, cols);
             dList.signalDone();

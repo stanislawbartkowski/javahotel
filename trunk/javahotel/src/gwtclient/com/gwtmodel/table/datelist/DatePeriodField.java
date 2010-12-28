@@ -32,8 +32,17 @@ public class DatePeriodField implements IVField {
         return fie;
     }
 
+    @Override
     public FieldDataType getType() {
-        return FieldDataType.contructDate();
+        if (fie == F.COMMENT) {
+            return FieldDataType.constructString();
+        }
+        return FieldDataType.constructDate();
+    }
+
+    @Override
+    public String getId() {
+        return fie.toString();
     }
 
     public enum F {

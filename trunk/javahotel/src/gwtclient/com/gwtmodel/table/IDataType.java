@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table;
 
-public interface IDataType {
-    
-    boolean eq(IDataType dType);
+public interface IDataType extends IEquatable<IDataType> {
 
 }

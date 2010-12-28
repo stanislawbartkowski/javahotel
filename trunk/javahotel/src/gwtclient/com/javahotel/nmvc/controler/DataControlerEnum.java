@@ -13,5 +13,6 @@
 package com.javahotel.nmvc.controler;
 
 public enum DataControlerEnum {
+
     DisplayList, ClearDataHotel;
 }

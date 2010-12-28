@@ -52,12 +52,12 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         IDataPersistAction {
 
     private final IResLocator rI;
-    private final DataType dType;
+//  private final DataType dType;
 
     private IDataListType convertToLogin(IDataListType dataList) {
         List<IVModelData> li = new ArrayList<IVModelData>();
-        for (int i = 0; i < dataList.rowNo(); i++) {
-            VModelData vda = (VModelData) dataList.getRow(i);
+        for (IVModelData v : dataList.getList()) {
+            VModelData vda = (VModelData) v;
             PersonP pe = (PersonP) vda.getA();
             LoginData lo = new LoginData();
             String name = pe.getName();
@@ -72,7 +72,8 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         @Override
         public void doVList(final List<? extends AbstractTo> val) {
             IDataListType dataList = DataUtil.construct(val);
-            if (dType.isRType() && dType.getrType() == RType.AllPersons) {
+            DataType daType = (DataType) dType;
+            if (daType.isRType() && daType.getrType() == RType.AllPersons) {
                 dataList = convertToLogin(dataList);
             }
             publish(DataActionEnum.ListReadSuccessSignal, dType, dataList);
@@ -92,7 +93,6 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             publish(DataActionEnum.PersistDataSuccessSignal, dType,
                     persistTypeEnum);
         }
-
     }
 
     private class PersistRecord implements ISlotSignaller {
@@ -101,20 +101,19 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         public void signal(ISlotSignalContext slContext) {
             IVModelData pData = getGetterIVModelData(
                     GetActionEnum.GetComposeModelToPersist, dType);
-            IPersistRecord persist = new PersistRecordDict(rI, dType.getdType());
+            DataType daType = (DataType) dType;
+            IPersistRecord persist = new PersistRecordDict(rI, daType.getdType());
             int action = DataUtil.vTypetoAction(slContext.getPersistType());
             RecordModel mo = DataUtil.toRecordModel(pData);
-            persist.persist(action, mo, new AfterPersist(slContext
-                    .getPersistType()));
+            persist.persist(action, mo, new AfterPersist(slContext.getPersistType()));
         }
-
     }
 
     private void sendSignal(PersistTypeEnum persistTypeEnum) {
-            rI.getR().invalidateCache(RType.AllHotels, RType.AllPersons,
-                    RType.PersonHotelRoles);
-            publish(DataActionEnum.PersistDataSuccessSignal, dType,
-                    persistTypeEnum);
+        rI.getR().invalidateCache(RType.AllHotels, RType.AllPersons,
+                RType.PersonHotelRoles);
+        publish(DataActionEnum.PersistDataSuccessSignal, dType,
+                persistTypeEnum);
     }
 
     private class PersisRoles extends CommonCallBackNo {
@@ -130,7 +129,6 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         protected void go() {
             sendSignal(persistTypeEnum);
         }
-
     }
 
     private class PeSuccess implements ISuccess {
@@ -156,7 +154,6 @@ public class DataPersistLayer extends AbstractSlotContainer implements
                         pe.getHotel(), pe.getRoles(), rol);
             }
         }
-
     }
 
     private class SignalPersistPerson implements ISlotSignaller {
@@ -175,7 +172,6 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             iPersist.persist(slContext.getPersistType(), pData, new PeSuccess(
                     slContext.getPersistType(), roles));
         }
-
     }
 
     private class ReadList implements ISlotSignaller {
@@ -183,11 +179,13 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         @Override
         public void signal(ISlotSignalContext slContext) {
             CommandParam co = rI.getR().getHotelCommandParam();
-            if (dType.isDictType()) {
-                co.setDict(dType.getdType());
+            DataType daType = (DataType) dType;
+
+            if (daType.isDictType()) {
+                co.setDict(daType.getdType());
                 rI.getR().getList(RType.ListDict, co, new ReadListDict());
             } else {
-                rI.getR().getList(dType.getrType(), co, new ReadListDict());
+                rI.getR().getList(daType.getrType(), co, new ReadListDict());
             }
         }
     }
@@ -209,5 +207,4 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         }
         // persist subscriber
     }
-
 }

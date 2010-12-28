@@ -16,12 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
@@ -39,6 +35,7 @@ import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.common.toobject.AdvancePaymentP;
@@ -53,55 +50,15 @@ import com.javahotel.nmvc.common.VModelData;
 
 public class BookingHeaderContainer extends AbstractSlotContainer {
 
-    private final DataType subType;
-//    private final DataType dType;
     private final DataType aType;
     private final ISlotMediator slMediator;
     private final IDataModelFactory daFactory;
     private final IResLocator rI;
     private final VerticalPanel vp = new VerticalPanel();
-    private final Sych sy = new Sych();
-
-    private class Sych extends SynchronizeList {
-
-        CellId cellId;
-        Widget hW;
-        Widget aW;
-
-        Sych() {
-            super(3);
-        }
-
-        @Override
-        protected void doTask() {
-            vp.add(hW);
-            vp.add(aW);
-            publish(dType, cellId, new GWidget(vp));
-        }
-
-    }
-
-    private class SetWidget implements ISlotSignaller {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            IGWidget gwtWidget = slContext.getGwtWidget();
-            Widget w = gwtWidget.getGWidget();
-            sy.aW = w;
-            sy.signalDone();
-        }
-    }
-
-    private class SetWidgetHeader implements ISlotSignaller {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            IGWidget gwtWidget = slContext.getGwtWidget();
-            Widget w = gwtWidget.getGWidget();
-            sy.hW = w;
-            sy.signalDone();
-        }
-    }
+    private final IDataType publishdType;
+    private final CellId cId = new CellId(IPanelView.CUSTOMID);
+    private final CellId aId = new CellId(IPanelView.CUSTOMID + 1);
+    private final SetVPanelGwt sPanel = new SetVPanelGwt();
 
     private void drawBook(IDataType dType, IVModelData book) {
         slMediator.getSlContainer().publish(
@@ -142,10 +99,10 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
     }
 
     private void register(ISlotable book, ISlotable aHeader) {
-        book.getSlContainer().registerSubscriber(dType, IPanelView.CUSTOMID,
-                new SetWidget());
-        aHeader.getSlContainer().registerSubscriber(dType,IPanelView.CUSTOMID + 1,
-                new SetWidgetHeader());
+        book.getSlContainer().registerSubscriber(dType, cId,
+                sPanel.constructSetGwt());
+        aHeader.getSlContainer().registerSubscriber(aType,aId,
+                sPanel.constructSetGwt());
     }
     
     private class SetGetter implements ISlotCaller {
@@ -185,7 +142,8 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         return b;
     }
     
-    public BookingHeaderContainer(ICallContext iContext, DataType subType) {
+    public BookingHeaderContainer(ICallContext iContext, IDataType subType) {
+        publishdType = iContext.getDType();
         TablesFactories tFactories = GwtGiniInjector.getI()
                 .getTablesFactories();
         ITableCustomFactories fContainer = GwtGiniInjector.getI()
@@ -196,9 +154,6 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
 
         dType = new DataType(AddType.BookRecord);
         aType = new DataType(AddType.AdvanceHeader);
-        this.subType = subType;
-        CellId cId = new CellId(IPanelView.CUSTOMID);
-        CellId aId = new CellId(IPanelView.CUSTOMID + 1);
         IGetViewControllerFactory fa = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getGetViewControllerFactory();
         IComposeController book = fa.construct(iContext.construct(dType));
@@ -208,16 +163,15 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         register(book, aHeader);
         slMediator.registerSlotContainer(cId, book);
         slMediator.registerSlotContainer(aId, aHeader);
-        registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
+        registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
                 new DrawModel());
-        registerCaller(GetActionEnum.GetViewModelEdited, dType,
+        registerCaller(GetActionEnum.GetViewModelEdited, subType,
                 new SetGetter());
     }
 
     @Override
     public void startPublish(CellId cellId) {
-        sy.cellId = cellId;
-        sy.signalDone();
+        publish(publishdType, cellId, sPanel.constructGWidget());
         slMediator.startPublish(null);
     }
 }

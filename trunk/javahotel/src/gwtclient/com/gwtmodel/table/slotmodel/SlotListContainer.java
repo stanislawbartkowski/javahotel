@@ -27,6 +27,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
@@ -88,18 +89,11 @@ public final class SlotListContainer {
 
             for (SlotSubscriberType so : listOfSubscribers) {
                 if (sl.eq(so.getSlType())) {
+                    LogT.getLS().info(LogT.getT().sendSignalLog(slContext.getSlType().toString()));
                     so.getSlSignaller().signal(slContext);
                 }
             }
         }
-    }
-
-    public ISlotSignaller constructListener() {
-        return new GeneralListener();
-    }
-
-    public ISlotCaller constructCaller() {
-        return new GeneralCaller();
     }
 
     private class GeneralCaller implements ISlotCaller {
@@ -108,14 +102,17 @@ public final class SlotListContainer {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             SlotCallerType slCaller = findCaller(slContext.getSlType());
             if (slCaller == null) {
+                LogT.getLS().info(LogT.getT().slCallerNotFound(slContext.getSlType().toString()));
                 return null;
             }
+            LogT.getLS().info(LogT.getT().slCaller(slContext.getSlType().toString()));
             return slCaller.getSlCaller().call(slContext);
         }
     }
 
     public ISlotSignalContext call(ISlotSignalContext slContext) {
         if (slCaller == null) {
+            LogT.getLS().info(LogT.getT().slCallerNull(slContext.getSlType().toString()));
             return null;
         }
         return slCaller.call(slContext);
@@ -123,8 +120,10 @@ public final class SlotListContainer {
 
     public void publish(ISlotSignalContext slContext) {
         if (slSignaller == null) {
+            LogT.getLS().info(LogT.getT().publishLogNull(slContext.getSlType().toString()));
             return;
         }
+        LogT.getLS().info(LogT.getT().publishLog(slContext.getSlType().toString()));
         slSignaller.signal(slContext);
     }
 
@@ -156,7 +155,7 @@ public final class SlotListContainer {
 
     public void registerSubscriber(ClickButtonType.StandClickEnum eClick,
             ISlotSignaller slSignaller) {
-        registerSubscriber(slTypeFactory.construct(eClick), slSignaller);
+        registerSubscriber(slTypeFactory.construct(new ClickButtonType(eClick)), slSignaller);
     }
 
     public void registerSubscriber(ClickButtonType bClick,
@@ -167,10 +166,6 @@ public final class SlotListContainer {
     public void registerSubscriber(String stringButton,
             ISlotSignaller slSignaller) {
         registerSubscriber(slTypeFactory.construct(stringButton), slSignaller);
-    }
-
-    public void registerSubscriber(ISlotSignaller slSignaller) {
-        registerSubscriber(slTypeFactory.construct(), slSignaller);
     }
 
     public void registerSubscriber(DataActionEnum dataActionEnum,
@@ -189,8 +184,14 @@ public final class SlotListContainer {
         registerSubscriber(slTypeFactory.construct(dType, fie), slSignaller);
     }
 
-    public void registerSubscriber(IEquatable eQ, ISlotSignaller slSignaller) {
-        registerSubscriber(slTypeFactory.construct(eQ), slSignaller);
+    public void registerSubscriber(IDataType dType, ClickButtonType bType,
+            ButtonAction bAction, ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(dType, bType, bAction),
+                slSignaller);
+    }
+
+    public void registerSubscriber(ISlotCustom i, ISlotSignaller slSignaller) {
+        registerSubscriber(slTypeFactory.construct(i), slSignaller);
     }
 
     public void registerCaller(SlotType slType, ISlotCaller slCaller) {
@@ -346,16 +347,21 @@ public final class SlotListContainer {
                 gwtWidget));
     }
 
-    public void publish(IEquatable eQ, ICustomObject customO) {
-        publish(slContextFactory.construct(slTypeFactory.construct(eQ),
+    public void publish(ISlotCustom is, ICustomObject customO) {
+        publish(slContextFactory.construct(slTypeFactory.construct(is),
+                customO));
+    }
+
+    public void publish(String customString, ICustomObject customO) {
+        publish(slContextFactory.construct(slTypeFactory.construct(customString),
                 customO));
     }
 
     public void publish(String stringButton, IGWidget gwtWidget) {
         publish(slContextFactory.construct(slTypeFactory.construct(stringButton),
                 gwtWidget, stringButton));
-        publish(slContextFactory.construct(slTypeFactory.construct(),
-                gwtWidget, stringButton));
+//        publish(slContextFactory.construct(slTypeFactory.construct(),
+//                gwtWidget, stringButton));
     }
 
     public void publish(IDataType dType, IVField fie, IFormLineView formLine) {
@@ -363,10 +369,19 @@ public final class SlotListContainer {
                 formLine));
     }
 
+    public void publish(IDataType dType, ClickButtonType bType, ButtonAction bAction) {
+        publish(slContextFactory.construct(slTypeFactory.construct(dType, bType, bAction)));
+    }
+
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             PersistTypeEnum persistTypeEnum) {
         publish(slContextFactory.construct(slTypeFactory.construct(
                 dataActionEnum, dType), persistTypeEnum));
+    }
+
+    public void publish(IDataType dType, ISlotSignalContext slContext) {
+        SlotType slType = slTypeFactory.construct(dType, slContext.getSlType());
+        publish(slContextFactory.construct(slType, slContext));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,

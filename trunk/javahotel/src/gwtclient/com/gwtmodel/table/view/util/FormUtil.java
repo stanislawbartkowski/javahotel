@@ -25,7 +25,6 @@ import com.gwtmodel.table.rdef.IFormLineView;
 public class FormUtil {
 
     private FormUtil() {
-
     }
 
     public static FormField findI(final List<FormField> fList, IVField f) {
@@ -40,8 +39,8 @@ public class FormUtil {
     public static void copyFromDataToView(IVModelData aFrom,
             FormLineContainer fContainer) {
         for (FormField d : fContainer.getfList()) {
-            String s = FUtils.getValueS(aFrom, d.getFie());
-            d.getELine().setVal(s);
+            Object o = FUtils.getValue(aFrom, d.getFie());
+            d.getELine().setValObj(o);
         }
     }
 
@@ -50,7 +49,7 @@ public class FormUtil {
         for (FormField d : fContainer.getfList()) {
             IVField vFie = d.getFie();
             IFormLineView vView = d.getELine();
-            aTo.setF(vFie, vView.getObj());
+            aTo.setF(vFie, vView.getValObj());
         }
     }
 
@@ -62,7 +61,6 @@ public class FormUtil {
 //            aTo.setF(vFie, vView.getVal());
 //        }
 //    }
-
     public static List<IVField> getVList(FormLineContainer fContainer) {
         List<IVField> fList = new ArrayList<IVField>();
         for (FormField d : fContainer.getfList()) {
@@ -78,12 +76,10 @@ public class FormUtil {
             aTo.setF(v, val);
         }
     }
-
 //    public static void copyDataS(IVModelData aFrom, IVModelData aTo) {
 //        for (IVField v : aFrom.getF()) {
 //            String val = aFrom.getS(v);
 //            aTo.setF(v, val);
 //        }
 //    }
-
 }

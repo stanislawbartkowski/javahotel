@@ -113,9 +113,9 @@ public class RadioBoxString extends AbstractField {
 
     private void setRadio(IDataListType dataList, boolean enable) {
         IVField sym = tFactories.getGetCustomValues().getSymForCombo();
-        for (int i = 0; i < FUtils.getRowNumber(dataList); i++) {
-            IVModelData v = FUtils.getRow(dataList, i);
-            String s = FUtils.getValueS(v, sym);
+        for (IVModelData vv: dataList.getList()) {
+//            IVModelData vv = FUtils.getRow(dataList, i);
+            String s = FUtils.getValueS(vv, sym);
             CheckBox c = new CheckBox(s);
             c.setEnabled(enable);
             CC cc = new CC(s, c);
@@ -139,9 +139,9 @@ public class RadioBoxString extends AbstractField {
         }
     }
 
-    RadioBoxString(ITableCustomFactories tFactories, IGetDataList iGet,
+    RadioBoxString(ITableCustomFactories tFactories, IVField v, IGetDataList iGet,
             final boolean enable) {
-        super(tFactories);
+        super(tFactories, v);
         this.iGet = iGet;
         sync = new SyncC();
         sync.setEnable(enable);
@@ -151,12 +151,12 @@ public class RadioBoxString extends AbstractField {
     }
 
     @Override
-    public String getVal() {
+    public Object getValObj() {
         return null;
     }
 
     @Override
-    public void setVal(final String s) {
+    public void setValObj(Object o) {
     }
 
     public void refresh() {

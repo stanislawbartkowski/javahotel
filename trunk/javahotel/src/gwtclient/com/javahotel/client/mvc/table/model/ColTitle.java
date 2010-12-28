@@ -12,7 +12,8 @@
  */
 package com.javahotel.client.mvc.table.model;
 
-import com.gwtmodel.table.view.table.ColumnDataType;
+import com.gwtmodel.table.FieldDataType;
+import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.common.toobject.IField;
 
 /**
@@ -23,21 +24,21 @@ public class ColTitle {
 
     private final IField f;
     private final String cTitle;
-    private final ColumnDataType cType;
+    private final FieldDataType cType;
 
     public ColTitle(final IField f, final String cTitle) {
         this.f = f;
         this.cTitle = cTitle;
-        cType = ColumnDataType.STRING;
+        cType = AbstractToFactory.getT(f).getT();
     }
-    
-    public ColTitle(final IField f, final String cTitle,ColumnDataType cType) {
+
+    public ColTitle(final IField f, final String cTitle, FieldDataType cType) {
         this.f = f;
         this.cTitle = cTitle;
         this.cType = cType;
     }
 
-    public ColumnDataType getcType() {
+    public FieldDataType getcType() {
         return cType;
     }
 
@@ -54,5 +55,4 @@ public class ColTitle {
     public String getCTitle() {
         return cTitle;
     }
-
 }

@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.ewidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -33,28 +34,25 @@ class ListBoxWithHelp extends GetValueLB {
 
         @Override
         void asetValue(String sy) {
-            setVal(sy);
+            setValObj(sy);
         }
 
         @Override
         void hide() {
             wHelp.hide();
         }
-
     }
 
-    ListBoxWithHelp(ITableCustomFactories tFactories, IDataType dType) {
-        super(tFactories);
+    ListBoxWithHelp(ITableCustomFactories tFactories, IVField v, IDataType dType) {
+        super(tFactories, v);
         cHelper = new RHelp(dType);
         hP.add(super.getGWidget());
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
-        wHelp = new WidgetWithPopUpTemplate(tFactories, hP, c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), cHelper
-                .getI());
+        wHelp = new WidgetWithPopUpTemplate(tFactories, hP, c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), cHelper.getI());
     }
 
     @Override
     public Widget getGWidget() {
         return hP;
     }
-
 }

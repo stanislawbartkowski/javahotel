@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.impl;
+package com.javahotel.nmvc.factories.season;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.factories.IDataFormConstructor;
@@ -25,6 +26,8 @@ import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.util.CreateFormView;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.injector.HInjector;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +38,11 @@ import java.util.List;
 public class SeasonForm implements IDataFormConstructor {
 
     private final ContrButtonViewFactory bFactory;
+    private final IResLocator sI;
 
     public SeasonForm() {
         bFactory = GwtGiniInjector.getI().getContrButtonViewFactory();
+        sI = HInjector.getI().getI();
     }
 
     private class ButtList implements IControlClick {
@@ -50,7 +55,7 @@ public class SeasonForm implements IDataFormConstructor {
 
         @Override
         public void click(ControlButtonDesc co, Widget w) {
-            iContext.iSlo().getSlContainer().publish(SeasonAddInfo.SHOWSEASONSTRING);
+            iContext.iSlo().getSlContainer().publish(SeasonAddInfo.SHOWSEASONSTRING, new GWidget(w));
         }
     }
 
@@ -58,7 +63,8 @@ public class SeasonForm implements IDataFormConstructor {
     public Widget construct(ICallContext iContext, FormLineContainer model) {
         Widget w = CreateFormView.construct(model.getfList());
         VerticalPanel v = new VerticalPanel();
-        ControlButtonDesc b = new ControlButtonDesc("Pokaz sezony", new ClickButtonType("POKAZ"));
+        ControlButtonDesc b = new ControlButtonDesc(sI.getLabels().ShowSeasons(),
+                new ClickButtonType("POKAZ"));
         List<ControlButtonDesc> li = new ArrayList<ControlButtonDesc>();
         li.add(b);
         ListOfControlDesc lo = new ListOfControlDesc(li);

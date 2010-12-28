@@ -43,6 +43,7 @@ public class SlotSignalContextFactory {
         private final ICustomObject customO;
         private final IOkModelData iOkModelData;
 
+        @Override
         public VListHeaderContainer getListHeader() {
             return listHeader;
         }
@@ -70,43 +71,53 @@ public class SlotSignalContextFactory {
             this.iOkModelData = iOkModelData;
         }
 
+        @Override
         public IVModelData getVData() {
             return vData;
         }
 
+        @Override
         public SlotType getSlType() {
             return slType;
         }
 
+        @Override
         public IFormLineView getChangedValue() {
             return changedValue;
         }
 
+        @Override
         public IValidateError getValidateError() {
             return validateError;
         }
 
+        @Override
         public IGWidget getGwtWidget() {
             return gwtWidget;
         }
 
+        @Override
         public IDataListType getDataList() {
             return dataList;
         }
 
+        @Override
         public WSize getWSize() {
             return wSize;
         }
 
+        @Override
         public PersistTypeEnum getPersistType() {
             return persistTypeEnum;
 
         }
 
+        @Override
         public IVField getVField() {
             return vField;
         }
 
+        @Override
         public FormLineContainer getEditContainer() {
             return lContainer;
         }
@@ -114,18 +125,22 @@ public class SlotSignalContextFactory {
         /**
          * @param stringButton the stringButton to set
          */
+        @Override
         public String getStringButton() {
             return stringButton;
         }
 
+        @Override
         public IGWidget getHtmlWidget() {
             return getGwtWidget();
         }
 
+        @Override
         public ICustomObject getCustom() {
             return customO;
         }
 
+        @Override
         public IOkModelData getIOkModelData() {
             return iOkModelData;
         }
@@ -234,4 +249,5 @@ public class SlotSignalContextFactory {
                 iSlot.getEditContainer(), iSlot.getStringButton(),
                 iSlot.getCustom(), iSlot.getIOkModelData());
     }
+
 }

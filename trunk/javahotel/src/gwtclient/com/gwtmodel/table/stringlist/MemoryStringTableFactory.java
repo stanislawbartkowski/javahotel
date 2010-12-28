@@ -14,12 +14,24 @@ package com.gwtmodel.table.stringlist;
 
 import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.DataListTypeFactory;
+import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MemoryStringTableFactory {
+
+    private final IVField strField;
+    private final IDataType strType;
+
+    public MemoryStringTableFactory() {
+        this.strField = Empty.getFieldType();
+        this.strType = Empty.getDataType();
+
+    }
 
     public IDataListType construct(List<AbstractStringE> mList) {
         List<AbstractLpVModelData> a = new ArrayList<AbstractLpVModelData>();
@@ -29,7 +41,19 @@ public class MemoryStringTableFactory {
 
     public IMemoryStringList construct(String fieldName, String title,
             IStringEFactory eFactory, ISlotSignaller setGwt) {
-        return new MemoryStringList(fieldName, title, eFactory, setGwt);
+        return new MemoryStringList(fieldName, title, strType,
+                strField, eFactory, setGwt);
     }
 
+    /**
+     * @return the strField
+     */
+    public IVField getStrField() {
+        return strField;
+    }
+
+    public IDataType getStrType() {
+        return strType;
+
+    }
 }

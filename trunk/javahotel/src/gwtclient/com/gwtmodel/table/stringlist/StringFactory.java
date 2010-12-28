@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -29,10 +30,12 @@ class StringFactory implements IFormTitleFactory,IFormDefFactory {
 
     private final String fieldName;
     private final String title;
+    private final IVField v;
 
-    StringFactory(String fieldName, String title) {
+    StringFactory(IVField v, String fieldName, String title) {
         this.fieldName = fieldName;
         this.title = title;
+        this.v = v;
     }
 
     @Override
@@ -40,8 +43,8 @@ class StringFactory implements IFormTitleFactory,IFormDefFactory {
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
-        IFormLineView textLine = eFactory.constructTextField(null);
-        di.add(new FormField(fieldName, textLine, Empty.getFieldType()));
+        IFormLineView textLine = eFactory.constructTextField(v);
+        di.add(new FormField(fieldName, textLine, v));
         return new FormLineContainer(di);
     }
 

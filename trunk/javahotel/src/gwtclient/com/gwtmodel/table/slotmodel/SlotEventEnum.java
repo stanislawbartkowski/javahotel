@@ -19,13 +19,11 @@ public enum SlotEventEnum {
     /** Published after observed value has changed. */
     ChangeValue,
     /** Published after control button was clicked. */
-    ClickButton,
+    ButtonAction,
     /** Published after widget has been created. */
     CallBackWidget,
     /** Getter. */
     GetterCaller,
-    /** ClickString. */
-    ClickString,
     /** Custom */
     Custom
 }

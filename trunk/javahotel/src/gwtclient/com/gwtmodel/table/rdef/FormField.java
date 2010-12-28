@@ -13,6 +13,8 @@
 package com.gwtmodel.table.rdef;
 
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 public class FormField {
 
@@ -27,7 +29,12 @@ public class FormField {
     public FormField(final String p, final IFormLineView e, final IVField fie,
             boolean readOnlyIfModif) {
         this.pLabel = p;
-        this.eLine = e;
+        if (e == null) {
+            EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+            this.eLine = eFactory.constructEditWidget(fie);
+        } else {
+            this.eLine = e;
+        }
         this.fie = fie;
         this.readOnlyIfModif = readOnlyIfModif;
         this.fRange = null;
@@ -35,6 +42,10 @@ public class FormField {
 
     public FormField(final String p, final IFormLineView e, final IVField fie) {
         this(p, e, fie, false);
+    }
+
+    public FormField(final String p, final IVField fie) {
+        this(p, null, fie);
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie, IVField fRange) {

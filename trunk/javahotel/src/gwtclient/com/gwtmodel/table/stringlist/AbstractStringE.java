@@ -28,14 +28,6 @@ public abstract class AbstractStringE extends AbstractLpVModelData {
         return addV(li);
     }
 
-//    @Override
-//    public String getS(IVField fie) {
-//        if (super.isValid(fie)) {
-//            return super.getS(fie);
-//        }
-//        return s;
-//    }
-
     @Override
     public Object getF(IVField fie) {
         if (super.isValid(fie)) {
@@ -43,11 +35,6 @@ public abstract class AbstractStringE extends AbstractLpVModelData {
         }
         return s;
     }
-
-//    @Override
-//    public boolean isEmpty(IVField fie) {
-//        return CUtil.EmptyS(s);
-//    }
 
     @Override
     public void setF(IVField fie, Object val) {

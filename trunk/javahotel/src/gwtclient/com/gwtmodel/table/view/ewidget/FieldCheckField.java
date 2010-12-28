@@ -13,7 +13,7 @@
 package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.client.ui.CheckBox;
-import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 
 /**
@@ -24,28 +24,30 @@ class FieldCheckField extends AbstractField {
 
     private final CheckBox ch;
 
-    FieldCheckField(ITableCustomFactories tFactories) {
-        super(tFactories);
+    FieldCheckField(ITableCustomFactories tFactories, IVField v) {
+        super(tFactories,v);
         ch = new CheckBox();
         ch.setChecked(true);
         initWidget(ch);
         setMouse();
     }
 
-    public void setVal(String v) {
-        ch.setChecked(Utils.TrueL(v));
+    @Override
+    public void setValObj(Object o) {
+        Boolean b = (Boolean) o;
+        if (b != null) {
+            ch.setChecked(b.booleanValue());
+        }
 
-    }
-
-    public String getVal() {
-        return Utils.LToS(ch.isChecked());
     }
 
     @Override
-    public boolean emptyF() {
-        return false;
+    public Object getValObj() {
+        Boolean b = new Boolean(ch.isChecked());
+        return b;
     }
 
+    @Override
     public void setReadOnly(boolean readOnly) {
         ch.setEnabled(!readOnly);
     }

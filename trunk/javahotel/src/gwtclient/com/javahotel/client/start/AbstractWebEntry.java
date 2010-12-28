@@ -18,10 +18,10 @@ import com.javahotel.client.injector.HotelInjector;
 
 abstract class AbstractWebEntry {
     
-    protected void starte(boolean googletable) {
+    protected void starte(WebPanelHolder.TableType tType) {
         HotelInjector injector = HInjector.getI();
         IWebEntry i = injector.getW();
-        WebPanelHolder.setGoogletable(googletable);
+        WebPanelHolder.setTableType(tType);
         i.start();
     }
 

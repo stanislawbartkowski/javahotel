@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.IClickNextYesNo;
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ISignal;
 import com.gwtmodel.table.Utils;
@@ -49,19 +49,23 @@ class WebPanel implements IWebPanel {
     private String centerSize = "90%";
     private ISignal centreHideSignal = null;
 
+    @Override
     public void setOwnerName(String owner) {
         ownerName.setText(owner);
     }
 
+    @Override
     public void IncDecCounter(boolean inc) {
         bCounter.IncDecL(inc);
     }
 
+    @Override
     public void setCenterSize(String size) {
         this.centerSize = size;
         setWidth();
     }
 
+    @Override
     public void setCentreHideSignal(ISignal iSig) {
         centreHideSignal = iSig;
     }
@@ -89,6 +93,7 @@ class WebPanel implements IWebPanel {
     private final VerticalPanel vp = new VerticalPanel();
     private HTMLPanel uPanel = null;
 
+
     private void setStatusNormal() {
         status.setVisible(false);
         sta = StatusE.NORMAL;
@@ -104,11 +109,13 @@ class WebPanel implements IWebPanel {
         status.setStyleName("wait-reply");
     }
 
+    @Override
     public Label getReplyL() {
         toReplayL();
         return status.l;
     }
 
+    @Override
     public void clearReply() {
         setStatusNormal();
     }
@@ -125,6 +132,7 @@ class WebPanel implements IWebPanel {
         }
     }
 
+    @Override
     public void setErrorL(String errmess) {
         if (sta == StatusE.ERRORL) {
             return;
@@ -156,6 +164,7 @@ class WebPanel implements IWebPanel {
         }
     }
 
+    @Override
     public void setDCenter(final Widget w) {
         if (wCenter != null) {
             dPanel.remove(wCenter);
@@ -171,10 +180,12 @@ class WebPanel implements IWebPanel {
         centreHideSignal = null;
     }
 
+    @Override
     public void setMenuPanel(Widget w) {
         uPanel.addAndReplaceElement(w, HOTELHEADER_DOWNMENU);
     }
 
+    @Override
     public void setWest1(Widget w) {
         if (wWest1 != null) {
             dPanel.remove(wWest1);
@@ -187,9 +198,11 @@ class WebPanel implements IWebPanel {
 
     private class ClickLogOut implements MouseDownHandler {
 
+        @Override
         public void onMouseDown(MouseDownEvent event) {
-            IClickNextYesNo yes = new IClickNextYesNo() {
+            IClickYesNo yes = new IClickYesNo() {
 
+                @Override
                 public void click(boolean yes) {
                     if (!yes) {
                         return;
@@ -208,6 +221,7 @@ class WebPanel implements IWebPanel {
 
     private class PanelCallback implements IHtmlPanelCallBack {
 
+        @Override
         public void setHtmlPanel(Panel ha) {
             uPanel = (HTMLPanel) ha;
             initStatus();
@@ -263,10 +277,12 @@ class WebPanel implements IWebPanel {
 
     }
 
+    @Override
     public Widget getWidget() {
         return dPanel;
     }
 
+    @Override
     public void setWest(Widget w) {
         if (wWest != null) {
             dPanel.remove(wWest);
@@ -278,6 +294,7 @@ class WebPanel implements IWebPanel {
         setWidth();
     }
 
+    @Override
     public void setUserData(String user, String hotel) {
         userName.setText(user);
         if (hotel != null) {

@@ -46,28 +46,34 @@ public class GwtGetViewFactory {
     private static class Vie implements IViewInterface {
         
 
+        @Override
         public IStackMenuView getStackView(IStackMenuModel sMode,
                 IStackMenuClicked iClicked) {
             return StackMenuViewFactory.getStackView(sMode, iClicked);
         }
 
+        @Override
         public IWebPanel getPanel(IResLocator rI, ICommand logOut) {
             return GwtGiniInjector.getI().getWebPanel();
         }
 
+        @Override
         public ICheckDictModel getModel(IResLocator rI, DictType d) {
             return CheckDictModelFactory.getModel(rI, d);
         }
 
+        @Override
         public IDrawTabPanel getTabPanel(IResLocator rI,
                 List<EPanelCommand> pList) {
             return GwtTabPanelFactory.getPanel(rI, pList);
         }
 
+        @Override
         public IRecordViewFactory getViewFactory(IResLocator rI) {
             return GwtRecordViewFactory.getFa();
         }
 
+        @Override
         public IGetTableViewFactory getTableViewFactory(IResLocator rI) {
             return HInjector.getI().getViewTableFactory();
         }

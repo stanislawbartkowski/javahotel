@@ -13,7 +13,7 @@
 package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.DateFormatUtil;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -33,10 +33,19 @@ class DateBoxCalendar extends AbstractField {
     }
 
     @Override
-    public Object getObj() {
-        return getDate();
+    public Object getValObj() {
+        return db.getValue();
     }
 
+    @Override
+    public void setValObj(Object o) {
+        db.setValue((Date) o);
+    }
+
+//    @Override
+//    public Object getObj() {
+//        return getDate();
+//    }
     private class DFormat implements DateBox.Format {
 
         @Override
@@ -57,8 +66,8 @@ class DateBoxCalendar extends AbstractField {
         }
     }
 
-    DateBoxCalendar(ITableCustomFactories tFactories) {
-        super(tFactories);
+    DateBoxCalendar(ITableCustomFactories tFactories, IVField v) {
+        super(tFactories, v);
         db = new DateBox();
         db.setFormat(new DFormat());
         db.addValueChangeHandler(new ValueChange());
@@ -71,25 +80,24 @@ class DateBoxCalendar extends AbstractField {
     public void addChangeListener(final IFormChangeListener l) {
         super.addChangeListener(l);
     }
-
-    @Override
-    public void setVal(String v) {
-        if (CUtil.EmptyS(v)) {
-            return;
-        }
-        Date d = DateFormatUtil.toD(v);
-        db.setValue(d);
-    }
-
-    @Override
-    public String getVal() {
-        Date d = db.getValue();
-        return DateFormatUtil.toS(d);
-    }
-
-    @Override
-    public boolean emptyF() {
-        String s = getVal();
-        return CUtil.EmptyS(s);
-    }
+//    @Override
+//    public void setVal(String v) {
+//        if (CUtil.EmptyS(v)) {
+//            return;
+//        }
+//        Date d = DateFormatUtil.toD(v);
+//        db.setValue(d);
+//    }
+//
+//    @Override
+//    public String getVal() {
+//        Date d = db.getValue();
+//        return DateFormatUtil.toS(d);
+//    }
+//
+//    @Override
+//    public boolean emptyF() {
+//        String s = getVal();
+//        return CUtil.EmptyS(s);
+//    }
 }

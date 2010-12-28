@@ -40,6 +40,10 @@ public class WebPanelHolder {
         tableType = aTableType;
     }
 
+    public static boolean isGoogletable() {
+        return tableType == TableType.GOOGLETABLE;
+    }
+
     private static class TableFactoriesContainer implements ITableAbstractFactories, ITableCustomFactories {
 
         private IFormTitleFactory iFormTitleFactory;

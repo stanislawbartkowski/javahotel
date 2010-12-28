@@ -12,13 +12,12 @@
  */
 package com.javahotel.client.widgets.stable.seasonscroll;
 
+import com.google.gwt.event.dom.client.ClickHandler;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.user.client.ui.Button;
+import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.htmlview.HtmlElemDesc;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.htmlview.HtmlTypeEnum;
@@ -42,20 +41,18 @@ class ScrollArrowWidget {
     private final static String C_BUTTON_LEFT = "BUTTON-LEFT";
     private final static String C_BUTTON_RIGHT = "BUTTON-LRIGHT";
     private final static String C_BUTTON_RIGHT_END = "BUTTON-RIGHT-END";
-
     // private final HorizontalPanel hp = new HorizontalPanel();
-    private final Button begP = ImgButtonFactory.getButton(C_BUTTON_LEFT_END,
+    private final IGFocusWidget begP = ImgButtonFactory.getButton(C_BUTTON_LEFT_END,
             null, "arrow-left-end-default");
-    private final Button leftP = ImgButtonFactory.getButton(C_BUTTON_LEFT,
+    private final IGFocusWidget leftP = ImgButtonFactory.getButton(C_BUTTON_LEFT,
             null, "arrow-left-default");
-    private final Button rightP = ImgButtonFactory.getButton(C_BUTTON_RIGHT,
+    private final IGFocusWidget rightP = ImgButtonFactory.getButton(C_BUTTON_RIGHT,
             null, "arrow-right-default");
-    private final Button endP = ImgButtonFactory.getButton(C_BUTTON_RIGHT_END,
+    private final IGFocusWidget endP = ImgButtonFactory.getButton(C_BUTTON_RIGHT_END,
             null, "arrow-right-end-default");
     private final ILineField dDate;
     private final IsignalP iP;
     private final IResLocator rI;
-
     private final static String scrollBegId = "scrollpanel_Beg";
     private final static String scrollEndId = "scrollpanel_End";
     private final static String scrollLeftId = "scrollpanel_Left";
@@ -69,7 +66,7 @@ class ScrollArrowWidget {
         void clicked(Date d);
     }
 
-    private class ClickEvent implements MouseDownHandler {
+    private class ClickEvent implements ClickHandler {
 
         private final MoveSkip clickType;
 
@@ -77,13 +74,19 @@ class ScrollArrowWidget {
             this.clickType = clickType;
         }
 
-        public void onMouseDown(MouseDownEvent event) {
+//        @Override
+//        public void onMouseDown(MouseDownEvent event) {
+//            iP.clicked(clickType);
+//        }
+        @Override
+        public void onClick(com.google.gwt.event.dom.client.ClickEvent event) {
             iP.clicked(clickType);
         }
     }
 
     private class ChangeD implements IChangeListener {
 
+        @Override
         public void onChange(ILineField i) {
             Date d = i.getDate();
             if (d == null) {
@@ -91,7 +94,6 @@ class ScrollArrowWidget {
             }
             iP.clicked(d);
         }
-
     }
 
     ScrollArrowWidget(IResLocator rI, IsignalP i, boolean withDate,
@@ -100,16 +102,15 @@ class ScrollArrowWidget {
         dDate = GetIEditFactory.getTextCalendard(rI);
         dDate.setChangeListener(new ChangeD());
         List<HtmlElemDesc> li = new ArrayList<HtmlElemDesc>();
-        li.add(new HtmlElemDesc(begP, scrollBegId));
-        li.add(new HtmlElemDesc(endP, scrollEndId));
-        li.add(new HtmlElemDesc(leftP, scrollLeftId));
-        li.add(new HtmlElemDesc(rightP, scrollRightId));
-        begP.addMouseDownHandler(new ClickEvent(MoveSkip.BEG));
-        leftP.addMouseDownHandler(new ClickEvent(MoveSkip.LEFT));
-        rightP.addMouseDownHandler(new ClickEvent(MoveSkip.RIGHT));
-        endP.addMouseDownHandler(new ClickEvent(MoveSkip.END));
-        HtmlPanelFactory hFactory = GwtGiniInjector.getI()
-                .getHtmlPanelFactory();
+        li.add(new HtmlElemDesc(begP.getGWidget(), scrollBegId));
+        li.add(new HtmlElemDesc(endP.getGWidget(), scrollEndId));
+        li.add(new HtmlElemDesc(leftP.getGWidget(), scrollLeftId));
+        li.add(new HtmlElemDesc(rightP.getGWidget(), scrollRightId));
+        begP.addClickHandler(new ClickEvent(MoveSkip.BEG));
+        leftP.addClickHandler(new ClickEvent(MoveSkip.LEFT));
+        rightP.addClickHandler(new ClickEvent(MoveSkip.RIGHT));
+        endP.addClickHandler(new ClickEvent(MoveSkip.END));
+        HtmlPanelFactory hFactory = GwtGiniInjector.getI().getHtmlPanelFactory();
         this.iP = i;
         if (withDate) {
             li.add(new HtmlElemDesc(dDate.getMWidget().getWidget(),
@@ -120,7 +121,7 @@ class ScrollArrowWidget {
         }
     }
 
-    private void setB(Button b1, Button b2, boolean enable) {
+    private void setB(IGFocusWidget b1, IGFocusWidget b2, boolean enable) {
         b1.setEnabled(enable);
         b2.setEnabled(enable);
     }
@@ -129,5 +130,4 @@ class ScrollArrowWidget {
         setB(begP, leftP, pa.isScrollLeftActive());
         setB(endP, rightP, pa.isScrollRightActive());
     }
-
 }

@@ -72,7 +72,7 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
                 slFactory.construct(GetActionEnum.GetViewComposeModelEdited,
                 dType), new GetCompose());
         slMediator.getSlContainer().registerRedirector(
-                slFactory.construct(ClickButtonType.StandClickEnum.ACCEPT),
+                slFactory.construct(new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)),
                 slFactory.construct(DataActionEnum.ValidateAction, dType));
     }
 }

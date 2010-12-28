@@ -32,6 +32,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
@@ -62,6 +63,7 @@ class PresentationTable implements IGwtTableView {
 
     private class SelectionChange implements SelectionChangeEvent.Handler {
 
+        @Override
         public void onSelectionChange(SelectionChangeEvent event) {
             Integer sel = selectionModel.getSelectedObject();
             if (sel == null) {
@@ -257,7 +259,7 @@ class PresentationTable implements IGwtTableView {
 //        table.setPageStart(setSelected().pStart);
         int aNo = vPanel.getWidgetCount();
         int nNo = 1;
-        if (dList.size() > 20) {
+        if (dList.size() > IConsts.minPageScroll) {
             nNo = 2;
         }
         if (nNo != aNo) {

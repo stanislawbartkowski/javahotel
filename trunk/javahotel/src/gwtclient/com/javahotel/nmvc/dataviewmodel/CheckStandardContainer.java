@@ -12,6 +12,7 @@
  */
 package com.javahotel.nmvc.dataviewmodel;
 
+import com.gwtmodel.table.Empty;
 import java.util.List;
 
 import com.gwtmodel.table.IDataListType;
@@ -127,7 +128,7 @@ class CheckStandardContainer extends AbstractSlotContainer {
         this.infoExtract = infoExtract;
         CheckDictModelFactory cFactory = GwtGiniInjector.getI().getCheckDictModelFactory();
         getDataList = new GetDataList();
-        iCheck = cFactory.construct(getDataList);
+        iCheck = cFactory.construct(Empty.getFieldType(), getDataList);
         registerSubscriber(DataActionEnum.DrawViewFormAction, cType,
                 new DrawModel());
         registerSubscriber(DataActionEnum.ChangeViewFormModeAction, cType,

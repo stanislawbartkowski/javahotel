@@ -14,6 +14,8 @@ package com.gwtmodel.table;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DateFormatUtil;
+import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -43,19 +45,43 @@ public class FUtils {
         return tList.getList().get(rowNo);
     }
 
+    /**
+     * Transforms string to proper object
+     * @param f Object type
+     * @param s String to be tranformed (empty or null will be returned as null)
+     * @return Object created
+     */
     public static Object getValue(IVField f, String s) {
         if (CUtil.EmptyS(s)) {
             return null;
         }
+        Object o;
         switch (f.getType().getType()) {
             case BIGDECIMAL:
-                return Utils.toBig(s);
+                o = Utils.toBig(s);
+                break;
             case LONG:
-                return Utils.toLong(s);
+                o = Utils.toLong(s);
+                break;
             case DATE:
-                return DateFormatUtil.toD(s);
+                o = DateFormatUtil.toD(s);
+                break;
+            case INT:
+                o = Utils.toInteger(s);
+                break;
+            case ENUM:
+                o = f.getType().getE().toEnum(s);
+                break;
+            default:
+                o = s;
+                break;
+
         }
-        return s;
+        if (f.getType().getI() != null) {
+            Object oo = f.getType().getI().toCustom(o);
+            o = oo;
+        }
+        return o;
     }
 
     public static BigDecimal getValueBigDecimal(IVModelData ii, IVField f) {
@@ -68,6 +94,12 @@ public class FUtils {
         Object val = ii.getF(f);
         assertType(f, val);
         return (Long) val;
+    }
+
+    public static Integer getValueInteger(IVModelData ii, IVField f) {
+        Object val = ii.getF(f);
+        assertType(f, val);
+        return (Integer) val;
     }
 
     public static Date getValueDate(IVModelData ii, IVField f) {
@@ -88,12 +120,33 @@ public class FUtils {
         return (Boolean) val;
     }
 
+    public static Enum getValueEnum(IVModelData ii, IVField f) {
+        Object val = ii.getF(f);
+        assertType(f, val);
+        return (Enum) val;
+    }
+
+    public static Object getValue(IVModelData ii, IVField f) {
+        Object o = ii.getF(f);
+        if (f.getType().getI() != null) {
+            if (o == null) {
+                return null;
+            }
+            return f.getType().getI().fromCustom(o);
+        }
+        return o;
+    }
+
     private static boolean isNullBigDecimal(IVModelData ii, IVField f) {
         return getValueBigDecimal(ii, f) == null;
     }
 
     private static boolean isNullLong(IVModelData ii, IVField f) {
         return getValueLong(ii, f) == null;
+    }
+
+    private static boolean isNullInt(IVModelData ii, IVField f) {
+        return getValueInteger(ii, f) == null;
     }
 
     private static boolean isNullDate(IVModelData ii, IVField f) {
@@ -104,14 +157,35 @@ public class FUtils {
         return CUtil.EmptyS(getValueString(ii, f));
     }
 
+    private static boolean isNullEnum(IVModelData ii, IVField f) {
+        return f.getType().getE().IsNullEnum(getValueEnum(ii, f));
+    }
+
+    /**
+     * Check is field (object) is empty
+     * @param ii  VModelData container
+     * @param f Field description
+     * @return true or false (empty, not empty)
+     */
     public static boolean isNullValue(IVModelData ii, IVField f) {
+        if (f.getType().getI() != null) {
+            Object o = ii.getF(f);
+            if (o == null) {
+                return true;
+            }
+            return f.getType().getI().isNullCustom(o);
+        }
         switch (f.getType().getType()) {
             case BIGDECIMAL:
                 return isNullBigDecimal(ii, f);
             case LONG:
                 return isNullLong(ii, f);
+            case INT:
+                return isNullInt(ii, f);
             case DATE:
                 return isNullDate(ii, f);
+            case ENUM:
+                return isNullEnum(ii, f);
         }
         return isNullString(ii, f);
     }
@@ -143,6 +217,15 @@ public class FUtils {
         return fB.compareTo(rB);
     }
 
+    /**
+     * Field comparison
+     * @param row  Row (container) to be compared
+     * @param f Field description
+     * @param filter Container with filtr (search) values
+     * @param from Field in filtr container (from value)
+     * @param to Field in filtr container (to value)
+     * @return true (holds true, inside filter) : false : outside
+     */
     public static boolean inRange(IVModelData row, IVField f, IVModelData filter, IVField from, IVField to) {
         if (isNullValue(row, f)) {
             return true;
@@ -210,6 +293,14 @@ public class FUtils {
         return l.toString();
     }
 
+    private static String getIntS(Object o, IVField f) {
+        Integer l = (Integer) o;
+        if (l == null) {
+            return "";
+        }
+        return l.toString();
+    }
+
     private static String getBigDecimalS(Object o, IVField f) {
         BigDecimal b = (BigDecimal) o;
         if (b == null) {
@@ -218,7 +309,33 @@ public class FUtils {
         return Utils.DecimalToS(b, f.getType().getAfterdot());
     }
 
-    public static String getValueOS(Object o, IVField f) {
+    private static String getS(Enum e) {
+        return LogT.getT().errorEnum(e.toString(), e.getClass().getName());
+    }
+
+    private static String getEnum(Object o, IVField f) {
+        if (o == null) {
+            return "";
+        }
+        Enum e = (Enum) o;
+        String va = f.getType().getE().getMap().get(e.toString());
+        assert va != null : getS(e);
+        return va;
+    }
+
+    /**
+     * Transforms object to string value
+     * @param oo Object to be transfored
+     * @param f  Object (field) description
+     * @return String
+     */
+    public static String getValueOS(Object oo, IVField f) {
+        Object o;
+        if (f.getType().getI() != null) {
+            o = f.getType().getI().fromCustom(oo);
+        } else {
+            o = oo;
+        }
         try {
             switch (f.getType().getType()) {
                 case BIGDECIMAL:
@@ -227,15 +344,25 @@ public class FUtils {
                     return getLongS(o, f);
                 case DATE:
                     return getDateS(o, f);
+                case INT:
+                    return getIntS(o, f);
+                case ENUM:
+                    return getEnum(o, f);
                 default:
                     return getStringS(o, f);
             }
         } catch (java.lang.ClassCastException e) {
-            Utils.errAlert("Błąd podczas odczytyania danych", e);
+            Utils.errAlert(MM.getL().errorWhileReading(), e);
             throw e;
         }
     }
 
+    /**
+     * Transforms object from container to string
+     * @param ii Container (row)
+     * @param f Field description
+     * @return String
+     */
     public static String getValueS(IVModelData ii, IVField f) {
         return getValueOS(ii.getF(f), f);
     }
@@ -244,21 +371,21 @@ public class FUtils {
         if (DateFormatUtil.toD(s) != null) {
             return null;
         }
-        return new InvalidateMess(f, "Niepoprawny format daty");
+        return new InvalidateMess(f, MM.getL().DateFormNotValid());
     }
 
     private static InvalidateMess checkLong(IVField f, String s) {
         if (CUtil.OkInteger(s)) {
             return null;
         }
-        return new InvalidateMess(f, "Niepoprawna liczba");
+        return new InvalidateMess(f, MM.getL().NumberNotValid());
     }
 
     private static InvalidateMess checkBigDecimal(IVField f, String s) {
         if (CUtil.OkNumber(s)) {
             return null;
         }
-        return new InvalidateMess(f, "Niepoprawna liczba");
+        return new InvalidateMess(f, MM.getL().NumberNotValid());
     }
 
     public static InvalidateMess checkValue(IVField f, String s) {
@@ -276,8 +403,14 @@ public class FUtils {
         return null;
     }
 
+    public static String constructAssertS(Object o, Class cl) {
+        String s = LogT.getT().assertT(cl.getName(), o.getClass().getName());
+        return s;
+
+    }
+
     private static String assertTypeS(Object o, Class cl) {
-        String s = "Expected : " + cl.getName() + " given: " + o.getClass().getName();
+        String s = constructAssertS(o, cl);
         Utils.errAlert(s);
         return s;
     }
@@ -286,9 +419,17 @@ public class FUtils {
         if (o == null) {
             return;
         }
+        if (f.getType().getI() != null) {
+            String s = f.getType().getI().assertS(o);
+            assert s == null : s;
+            return;
+        }
         switch (f.getType().getType()) {
             case BIGDECIMAL:
                 assert o instanceof BigDecimal : assertTypeS(o, BigDecimal.class);
+                break;
+            case INT:
+                assert o instanceof Integer : assertTypeS(o, Integer.class);
                 break;
             case LONG:
                 assert o instanceof Long : assertTypeS(o, Long.class);
@@ -298,6 +439,10 @@ public class FUtils {
                 break;
             case BOOLEAN:
                 assert o instanceof Boolean : assertTypeS(o, Boolean.class);
+                break;
+            case ENUM:
+                String s = f.getType().getE().assertS(o);
+                assert s == null : s;
                 break;
             default:
                 assert o instanceof String : assertTypeS(o, String.class);

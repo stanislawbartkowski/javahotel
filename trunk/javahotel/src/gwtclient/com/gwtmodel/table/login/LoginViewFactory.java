@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IGetCustomValues;
@@ -36,12 +37,12 @@ public class LoginViewFactory {
                 getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
-        IFormLineView loginName = eFactory.constructTextField(LoginField.F.LOGINNAME.toString());
-        di.add(new FormField(c.getCustomValue(c.LOGINMAME), loginName, new LoginField(
-                LoginField.F.LOGINNAME)));
-        IFormLineView password = eFactory.constructPasswordField(LoginField.F.PASSWORD.toString());
-        di.add(new FormField(c.getCustomValue(c.PASSWORD), password, new LoginField(
-                LoginField.F.PASSWORD)));
+        IVField loginV = new LoginField(LoginField.F.LOGINNAME);
+        IFormLineView loginName = eFactory.constructTextField(loginV);
+        di.add(new FormField(c.getCustomValue(c.LOGINMAME), loginName, loginV));
+        IVField passwordV = new LoginField(LoginField.F.PASSWORD);
+        IFormLineView password = eFactory.constructPasswordField(passwordV);
+        di.add(new FormField(c.getCustomValue(c.PASSWORD), password, passwordV));
         return new FormLineContainer(di);
     }
 

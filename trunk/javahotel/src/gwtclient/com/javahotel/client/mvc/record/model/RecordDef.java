@@ -44,10 +44,12 @@ class RecordDef implements IRecordDef {
         mSize = m;
     }
 
+    @Override
     public List<RecordField> getFields() {
         return rList;
     }
 
+    @Override
     public String getDTitle() {
         return dTitle;
     }
@@ -55,6 +57,7 @@ class RecordDef implements IRecordDef {
     /**
      * @return the mSize
      */
+    @Override
     public MvcWindowSize getMSize() {
         return mSize;
     }

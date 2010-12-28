@@ -12,11 +12,10 @@
  */
 package com.javahotel.nmvc.common;
 
-import java.math.BigDecimal;
-import java.util.Date;
 
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
@@ -32,6 +31,12 @@ public class FormLineDef implements IFormLineView {
         return iField;
     }
 
+    @Override
+    public IVField getV() {
+        return null;
+    }
+
+
     private class DefaultListener implements IKeyboardAction {
 
         private final ITouchListener lTouch;
@@ -40,19 +45,23 @@ public class FormLineDef implements IFormLineView {
             this.lTouch = lTouch;
         }
 
+        @Override
         public KeyboardListener getListener() {
             return new KeyboardListener() {
 
+                @Override
                 public void onKeyDown(final Widget arg0, final char arg1,
                         final int arg2) {
                     delEmptyStyle();
                 }
 
+                @Override
                 public void onKeyPress(final Widget arg0, final char arg1,
                         final int arg2) {
                     delEmptyStyle();
                 }
 
+                @Override
                 public void onKeyUp(final Widget arg0, final char arg1,
                         final int arg2) {
                     delEmptyStyle();
@@ -60,6 +69,7 @@ public class FormLineDef implements IFormLineView {
             };
         }
 
+        @Override
         public void delEmptyStyle() {
             lTouch.onTouch();
         }
@@ -78,72 +88,70 @@ public class FormLineDef implements IFormLineView {
             this.cListener = cListener;
         }
 
+        @Override
         public void onChange(ILineField i) {
             cListener.onChange(FormLineDef.this);
         }
 
     }
 
+    @Override
     public void addChangeListener(IFormChangeListener cListener) {
         iField.setChangeListener(new ChangeL(cListener));
     }
 
-    public String getVal() {
+    @Override
+    public Object getValObj() {
         return iField.getVal();
     }
 
-    public void setVal(String s) {
-        iField.setVal(s);
+    @Override
+    public void setValObj(Object s) {
+        iField.setVal((String) s);
     }
 
+    @Override
     public Widget getGWidget() {
         return iField.getMWidget().getWidget();
     }
 
+    @Override
     public void setReadOnly(boolean readOnly) {
         iField.setReadOnly(readOnly);
 
     }
 
+    @Override
     public void setInvalidMess(String errmess) {
         iField.setErrMess(errmess);
 
     }
 
+    @Override
     public void setGStyleName(String styleMess, boolean set) {
         iField.setGStyleName(styleMess, set);
 
     }
 
+    @Override
     public void setOnTouch(ITouchListener lTouch) {
         iField.setKLi(new DefaultListener(lTouch));
     }
 
-    public BigDecimal getDecimal() {
-        return iField.getDecimal();
-    }
 
-    public void setDecimal(BigDecimal b) {
-        iField.setDecimal(b);
-    }
 
-    public Date getDate() {
-        return iField.getDate();
-    }
-
-    public int getIntVal() {
-        return iField.getIntVal();
-    }
-
+    @Override
     public int getChooseResult() {
         return iField.getChooseResult();
     }
 
+    @Override
     public boolean isHidden() {
         // TODO Auto-generated method stub
         return false;
     }
 
+    @Override
     public void setHidden(boolean hidden) {
         // TODO Auto-generated method stub
         

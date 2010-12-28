@@ -34,7 +34,7 @@ import com.gwtmodel.table.view.util.FormUtil;
 class ValidateLogin extends AbstractSlotContainer implements
         IDataValidateAction {
 
-    private final IDataType dType;
+//    private final IDataType dType;
     private final boolean user;
     private final FormLineContainer fContainer;
 
@@ -48,10 +48,12 @@ class ValidateLogin extends AbstractSlotContainer implements
     
     private class Validate implements IBackValidate {
 
+        @Override
         public void invalid(InvalidateFormContainer errMess) {
             publish(DataActionEnum.ChangeViewFormToInvalidAction, dType, errMess);            
         }
 
+        @Override
         public void valid() {
             publish(DataActionEnum.ValidSignal, dType);            
         }
@@ -60,6 +62,7 @@ class ValidateLogin extends AbstractSlotContainer implements
 
     private class ValidateA implements ISlotSignaller {
 
+        @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData pData = getGetterIVModelData(
                     GetActionEnum.GetViewComposeModelEdited, dType);
@@ -76,8 +79,8 @@ class ValidateLogin extends AbstractSlotContainer implements
         }
     }
 
+    @Override
     public void startPublish(CellId cellId) {
-
     }
 
 }

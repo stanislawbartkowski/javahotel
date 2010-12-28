@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
-import com.gwtmodel.table.IClickNextYesNo;
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
@@ -53,7 +53,7 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
         }
     }
 
-    private class ConfDelete implements IClickNextYesNo {
+    private class ConfDelete implements IClickYesNo {
 
         private final HotelP ho;
 

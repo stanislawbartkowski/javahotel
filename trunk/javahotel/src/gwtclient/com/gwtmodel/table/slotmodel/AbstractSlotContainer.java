@@ -15,7 +15,6 @@ package com.gwtmodel.table.slotmodel;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
@@ -93,8 +92,8 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(dataActionEnum, dType, wSize);
     }
 
-    public void publish(IEquatable eQ, ICustomObject customO) {
-        slContainer.publish(eQ, customO);
+    public void publish(ISlotCustom is, ICustomObject customO) {
+        slContainer.publish(is, customO);
     }
 
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
@@ -117,6 +116,14 @@ abstract public class AbstractSlotContainer implements ISlotable {
 
     protected void publish(String stringButton) {
         slContainer.publish(stringButton);
+    }
+
+    protected void publish(String stringButton,ICustomObject customO) {
+        slContainer.publish(stringButton,customO);
+    }
+
+    public void publish(IDataType dType, ClickButtonType bType, ButtonAction bAction) {
+        slContainer.publish(dType, bType, bAction);
     }
 
     protected void registerSubscriber(SlotType slType,
@@ -144,8 +151,9 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerSubscriber(stringButton, slSignaller);
     }
 
-    protected void registerSubscriber(ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(slSignaller);
+    protected void registerSubscriber(IDataType dType, ClickButtonType bType,
+            ButtonAction bAction, ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(dType, bType, bAction, slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, int cellId,
@@ -216,6 +224,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
     protected void publish(DataActionEnum dataActionEnum, IDataType dType,
             ISlotSignalContext slContext) {
         slContainer.publish(dataActionEnum, dType, slContext);
+    }
+
+    protected void publish(IDataType dType, ISlotSignalContext slContext) {
+        slContainer.publish(dType, slContext);
     }
 
     @Override

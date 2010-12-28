@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.IClickNextYesNo;
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.GWTGetService;
@@ -49,7 +49,7 @@ class ClearHotelDataWidget {
         }
     }
 
-    private class ConfDelete implements IClickNextYesNo {
+    private class ConfDelete implements IClickYesNo {
 
         private final String ho;
 

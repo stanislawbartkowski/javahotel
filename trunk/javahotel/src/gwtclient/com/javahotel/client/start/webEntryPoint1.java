@@ -16,7 +16,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.injector.WebPanelHolder;
 
 /**
  * 
@@ -24,20 +24,21 @@ import com.gwtmodel.table.common.CUtil;
  */
 public class webEntryPoint1 extends AbstractWebEntry implements EntryPoint {
 
+    @Override
     public void onModuleLoad() {
+        final WebPanelHolder.TableType tType = Utils.getParamTable();
         Runnable onLoadCallback = new Runnable() {
 
+            @Override
             public void run() {
-                starte(true);
+                starte(tType);
             }
         };
-        String gTable = Utils.getURLParam("NOGOOGLETABLE");
-        boolean nogtable = CUtil.EqNS("T", gTable);
-        if (!nogtable) {
+        if (tType == WebPanelHolder.TableType.GOOGLETABLE) {
             VisualizationUtils.loadVisualizationApi(onLoadCallback,
                     Table.PACKAGE);
         } else {
-            starte(false);
+            starte(tType);
         }
     }
 }

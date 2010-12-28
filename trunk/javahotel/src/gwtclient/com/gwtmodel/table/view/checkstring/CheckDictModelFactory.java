@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.checkstring;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 public class CheckDictModelFactory {
@@ -25,8 +26,7 @@ public class CheckDictModelFactory {
         this.eFactory = eFactory;
     }
 
-    public ICheckDictModel construct(IGetDataList iGet) {
-        return new CheckDictModel(eFactory, iGet);
+    public ICheckDictModel construct(IVField v, IGetDataList iGet) {
+        return new CheckDictModel(eFactory, v, iGet);
     }
-
 }

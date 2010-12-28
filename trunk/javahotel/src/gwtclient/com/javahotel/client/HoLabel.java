@@ -74,4 +74,14 @@ public interface HoLabel extends Constants {
     String ModifItem();
 
     String ShowItem();
+
+    String RightsForPersons();
+
+    String RightsForHotels();
+
+    String ShowSeasons();
+
+    String Yes();
+
+    String No();
 }

@@ -38,6 +38,21 @@ public class OkDialog extends ModalDialog {
         vp.add(new Label(kom));
     }
 
+    public OkDialog(String kom, String title) {
+        this(kom, title, null);
+    }
+
+    public OkDialog(String kom) {
+        this(kom, null, null);
+    }
+
+    private void close(ICloseAction ok) {
+        hide();
+        if (ok != null) {
+            ok.onClose();
+        }
+    }
+
     public OkDialog(String kom, String title,
             final ICloseAction ok) {
         super(new VerticalPanel(), null);
@@ -49,7 +64,15 @@ public class OkDialog extends ModalDialog {
         }
         setTitle(title);
 
-        create();
+        ICloseAction co = new ICloseAction() {
+
+            @Override
+            public void onClose() {
+                close(ok);
+            }
+        };
+
+        create(co);
 
         ControlButtonFactory fa = GwtGiniInjector.getI().getControlButtonFactory();
         ListOfControlDesc yesB = fa.constructOkButton();
@@ -58,10 +81,7 @@ public class OkDialog extends ModalDialog {
 
             @Override
             public void click(ControlButtonDesc co, Widget w) {
-                hide();
-                if (ok != null) {
-                    ok.onClose();
-                }
+                close(ok);
             }
         };
 

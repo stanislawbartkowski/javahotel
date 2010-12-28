@@ -13,6 +13,7 @@
 package com.javahotel.nmvc.ewidget;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.client.IResLocator;
@@ -32,14 +33,13 @@ public class EWidgetFactory {
         this.pLoc = pLoc;
     }
 
-    public IFormLineView getListValuesBox(final RType r, final CommandParam p,
+    public IFormLineView getListValuesBox(IVField v, final RType r, final CommandParam p,
             final IField f) {
-        return eFactory.constructListValuesCombo(new GetCommandList(pLoc, r, p,
-                f));
+        return eFactory.constructListValuesCombo(v,
+                new GetCommandList(pLoc, r, p, f));
     }
 
-    public IFormLineView getListValuesBox(final CommandParam p) {
-        return getListValuesBox(RType.ListDict, p, DictionaryP.F.name);
+    public IFormLineView getListValuesBox(IVField v, final CommandParam p) {
+        return getListValuesBox(v, RType.ListDict, p, DictionaryP.F.name);
     }
-
 }

@@ -10,13 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.gwtmodel.table.view.ewidget;
 
 import java.util.List;
 
 import com.gwtmodel.table.rdef.IFormLineView;
-
 
 /**
  *
@@ -25,6 +23,6 @@ import com.gwtmodel.table.rdef.IFormLineView;
 interface IValueLB extends IFormLineView {
 
     void setList(List<String> li);
-    String getBeforeVal();
 
+    String getBeforeVal();
 }

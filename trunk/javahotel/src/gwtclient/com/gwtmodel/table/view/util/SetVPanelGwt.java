@@ -23,16 +23,15 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 
 
-// TODO: remove
 /**
  *
  * @author hotel
  */
- class SetVPanelGwt {
+ public class SetVPanelGwt {
 
     private final VerticalPanel vPanel;
 
-    private SetVPanelGwt() {
+    public SetVPanelGwt() {
         vPanel = new VerticalPanel();
     }
 

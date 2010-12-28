@@ -17,9 +17,11 @@
 package com.gwtmodel.table.datelist;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -43,12 +45,15 @@ class DateViewFactory implements IFormTitleFactory, IFormDefFactory {
     public FormLineContainer construct(IDataType dType) {
         EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
-        IFormLineView dFrom = eFactory.construcDateBoxCalendar();
-        IFormLineView dTo = eFactory.construcDateBoxCalendar();
-        IFormLineView comment = eFactory.constructTextField(null);
-        di.add(new FormField("Od", dFrom, new DatePeriodField(DatePeriodField.F.DATEFROM)));
-        di.add(new FormField("Do", dTo, new DatePeriodField(DatePeriodField.F.DATETO)));
-        di.add(new FormField("Opis", comment, new DatePeriodField(DatePeriodField.F.COMMENT)));
+        IVField vfrom = new DatePeriodField(DatePeriodField.F.DATEFROM);
+        IVField vto = new DatePeriodField(DatePeriodField.F.DATETO);
+        IVField vcomment = new DatePeriodField(DatePeriodField.F.COMMENT);
+        IFormLineView dFrom = eFactory.construcDateBoxCalendar(vfrom);
+        IFormLineView dTo = eFactory.construcDateBoxCalendar(vto);
+        IFormLineView comment = eFactory.constructTextField(vcomment);
+        di.add(new FormField(MM.getL().From(), dFrom, vfrom));
+        di.add(new FormField(MM.getL().To(), dTo, vto));
+        di.add(new FormField(MM.getL().Description(), comment, vcomment));
         return new FormLineContainer(di);
     }
 

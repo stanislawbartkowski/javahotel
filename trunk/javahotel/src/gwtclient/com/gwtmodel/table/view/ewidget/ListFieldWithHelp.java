@@ -13,6 +13,7 @@
 package com.gwtmodel.table.view.ewidget;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -30,7 +31,7 @@ class ListFieldWithHelp extends ExtendTextBox {
 
         @Override
         void asetValue(String sy) {
-            setVal(sy);
+            setValObj(sy);
         }
 
         @Override
@@ -39,12 +40,15 @@ class ListFieldWithHelp extends ExtendTextBox {
         }
     }
 
-    ListFieldWithHelp(ITableCustomFactories tFactories, IDataType dType, ExtendTextBox.EParam p) {
-        super(tFactories, p);
+    ListFieldWithHelp(ITableCustomFactories tFactories, IVField v,
+            IDataType dType, ExtendTextBox.EParam p) {
+        super(tFactories, v, p);
         cHelper = new RHelp(dType);
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c =
+                GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
 
-        wHelp = new WidgetWithPopUpTemplate(tFactories, hPanel, c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
+        wHelp = new WidgetWithPopUpTemplate(tFactories, hPanel,
+                c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
                 cHelper.getI());
     }
 }

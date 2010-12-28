@@ -22,12 +22,12 @@ import java.util.Set;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.inject.Inject;
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
@@ -248,7 +248,6 @@ public class BookResRoom extends AbstractAuxRecordPanel {
             setFields(mo);
             show();
         }
-
     }
 
     private class Cli implements ClickHandler {
@@ -269,7 +268,6 @@ public class BookResRoom extends AbstractAuxRecordPanel {
             IWidgetSize m = WidgetSizeFactory.getW(10, 10, 100, 100);
             ClickPopUp p = new ClickPopUp(m, hp, new CloseP(con, o));
         }
-
     }
 
     @Override
@@ -281,10 +279,10 @@ public class BookResRoom extends AbstractAuxRecordPanel {
 
         if (isFromReserv()) {
 
-            Button b = ImgButtonFactory.getButton(CUST_BUTTON_ID, null,
+            IGFocusWidget b = ImgButtonFactory.getButton(CUST_BUTTON_ID, null,
                     "DataViewerMax");
             b.addClickHandler(new Cli(iSet, con, i));
-            hp.add(b);
+            hp.add(b.getGWidget());
 
             List<RecordField> rli = filterF(con.getModel(),
                     DictionaryP.F.description);

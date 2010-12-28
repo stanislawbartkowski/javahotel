@@ -47,19 +47,6 @@ abstract public class AbstractLpVModelData implements IVModelDataEquable {
         return false;
     }
 
-//    @Override
-//    public String getS(IVField fie) {
-//        if (lp == null) {
-//            return null;
-//        }
-//        return lp.toString();
-//    }
-
-//    @Override
-//    public boolean isEmpty(IVField fie) {
-//        return lp == null;
-//    }
-
     protected List<IVField> addV(List<IVField> li) {
         li.add(new L());
         return li;
@@ -85,7 +72,12 @@ abstract public class AbstractLpVModelData implements IVModelDataEquable {
 
         @Override
         public FieldDataType getType() {
-            return FieldDataType.contructDate();
+            return FieldDataType.constructDate();
+        }
+
+        @Override
+        public String getId() {
+            return "XX";
         }
     }
 
@@ -118,5 +110,4 @@ abstract public class AbstractLpVModelData implements IVModelDataEquable {
     public void setCustomData(Object o) {
         this.o = o;
     }
-
 }

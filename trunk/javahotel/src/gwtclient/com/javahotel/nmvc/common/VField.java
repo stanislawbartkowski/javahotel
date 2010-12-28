@@ -12,24 +12,42 @@
  */
 package com.javahotel.nmvc.common;
 
+import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
+import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.common.toobject.IField;
 
 public class VField implements IVField {
 
     private final IField fie;
+    private final FieldDataType fType;
+
+    public VField(IField fie, FieldDataType fType) {
+        this.fie = fie;
+        this.fType = fType;
+    }
 
     public VField(IField fie) {
-        this.fie = fie;
+        this(fie, AbstractToFactory.getT(fie).getT());
     }
 
     public IField getFie() {
         return fie;
     }
 
+    @Override
     public boolean eq(IVField mFie) {
         VField de = (VField) mFie;
         return fie.equals(de.fie);
     }
 
+    @Override
+    public FieldDataType getType() {
+        return fType;
+    }
+
+    @Override
+    public String getId() {
+        return fie.toString();
+    }
 }

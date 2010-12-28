@@ -15,7 +15,6 @@ package com.gwtmodel.table.login;
 import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.common.CUtil;
 import java.util.List;
 
 public class LoginData extends AVModelData {

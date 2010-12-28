@@ -12,33 +12,81 @@
  */
 package com.gwtmodel.table;
 
+import java.util.Map;
+
 /**
  *
  * @author perseus
  */
 public class FieldDataType {
 
+    /**
+     * @return the i
+     */
+    public ICustomType getI() {
+        return i;
+    }
+
+    /**
+     * @return the e
+     */
+    public IEnumType getE() {
+        return e;
+    }
+
+    public interface ICustomType {
+
+        Object fromCustom(Object sou);
+
+        Object toCustom(Object sou);
+
+        String assertS(Object sou);
+
+        boolean isNullCustom(Object sou);
+    }
+
+    public interface IEnumType {
+
+        Map<String, String> getMap();
+
+        boolean IsNullEnum(Enum e);
+
+        Enum toEnum(String e);
+        
+        String assertS(Object sou);
+    }
+
     public enum T {
 
         BOOLEAN, DATE, DATETIME, BIGDECIMAL,
-        LONG, STRING
+        LONG, INT, STRING, ENUM
     };
     private final T type;
     private final int afterdot;
+    private final ICustomType i;
+    private final IEnumType e;
 
-    public static FieldDataType contructDate() {
+    public static FieldDataType constructDate() {
         return new FieldDataType(T.DATE);
     }
 
-    public static FieldDataType contructLong() {
+    public static FieldDataType constructLong() {
         return new FieldDataType(T.LONG);
     }
 
-    public static FieldDataType contructString() {
+    public static FieldDataType constructInt() {
+        return new FieldDataType(T.INT);
+    }
+
+    public static FieldDataType constructString() {
         return new FieldDataType(T.STRING);
     }
 
-    public static FieldDataType contructBoolean() {
+    public static FieldDataType constructString(ICustomType i) {
+        return new FieldDataType(T.STRING, 0, i, null);
+    }
+
+    public static FieldDataType constructBoolean() {
         return new FieldDataType(T.BOOLEAN);
     }
 
@@ -46,14 +94,27 @@ public class FieldDataType {
         return new FieldDataType(T.BIGDECIMAL, afterdot);
     }
 
-    private FieldDataType(T type, int afterdot) {
+    public static FieldDataType constructBigDecimal() {
+        return new FieldDataType(T.BIGDECIMAL, IConsts.defaultDecimal);
+    }
+
+    public static FieldDataType constructEnum(IEnumType e) {
+        return new FieldDataType(T.ENUM, 0, null, e);
+    }
+
+    private FieldDataType(T type, int afterdot, ICustomType i, IEnumType e) {
         this.type = type;
         this.afterdot = afterdot;
+        this.i = i;
+        this.e = e;
     }
 
     private FieldDataType(T type) {
-        this.type = type;
-        this.afterdot = 0;
+        this(type, 0, null, null);
+    }
+
+    private FieldDataType(T type, int afterdot) {
+        this(type, afterdot, null, null);
     }
 
     /**

@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.impl;
+package com.javahotel.nmvc.factories.customer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.Empty;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
@@ -47,6 +47,8 @@ public class CustomerAddInfo extends AbstractSlotContainer {
     private final IMemoryStringList aList;
     private final MemoryStringTableFactory maFactory;
     private final IDataType publishType;
+    public static final String setTelString = "CUSTOM-SET-TEL";
+    public static final String setAccString = "CUSTOM-SET-ACC";
 
     private class StringE extends AbstractStringE {
 
@@ -64,7 +66,7 @@ public class CustomerAddInfo extends AbstractSlotContainer {
 
         @Override
         public List<IVField> getF() {
-            return super.createF(Empty.getFieldType());
+            return super.createF(maFactory.getStrField());
         }
     }
 
@@ -133,14 +135,13 @@ public class CustomerAddInfo extends AbstractSlotContainer {
             IField fie, IFactory<T> fa) {
         List<T> li = new ArrayList<T>();
         IDataListType dList = mList.getMemTable();
-        for (int i = 0; i < dList.rowNo(); i++) {
-            IVModelData mo = dList.getRow(i);
+        for (IVModelData mo : dList.getList()) {
             StringE e = (StringE) mo;
             AbstractToILd a = e.a;
             if (a == null) {
                 a = fa.construct();
             }
-            String s = e.getS(null);
+            String s = FUtils.getValueS(mo, maFactory.getStrField());
             a.setF(fie, s);
             li.add((T) a);
         }
@@ -158,22 +159,61 @@ public class CustomerAddInfo extends AbstractSlotContainer {
         }
     }
 
+    private class ChangeMode implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            mList.getSlContainer().publish(maFactory.getStrType(), slContext);
+            aList.getSlContainer().publish(maFactory.getStrType(), slContext);
+        }
+    }
+
     public CustomerAddInfo(IDataType publishType, IDataType dType) {
+        this(publishType, dType, true);
+    }
+
+    private class SetGWT implements ISlotSignaller {
+
+        private final String stringButt;
+
+        SetGWT(String stringButt) {
+            this.stringButt = stringButt;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            publish(stringButt, slContext.getGwtWidget());
+        }
+    }
+
+    public CustomerAddInfo(IDataType publishType, IDataType dType, boolean setW) {
         this.publishType = publishType;
         this.dType = dType;
         maFactory = GwtGiniInjector.getI().getMemoryStringTableFactory();
-        mList = maFactory.construct("Telefon", "Telefony", new SFactory(),
-                sPanel.constructSetGwt());
-        aList = maFactory.construct("Konto", "Konta", new SFactory(),
-                sPanel.constructSetGwt());
+        if (setW) {
+            mList = maFactory.construct("Telefon", "Telefony", new SFactory(),
+                    sPanel.constructSetGwt());
+            aList = maFactory.construct("Konto", "Konta", new SFactory(),
+                    sPanel.constructSetGwt());
+        } else {
+            mList = maFactory.construct("Telefon", "Telefony", new SFactory(),
+                    new SetGWT(setTelString));
+            aList = maFactory.construct("Konto", "Konta", new SFactory(),
+                    new SetGWT(setAccString));
+        }
         registerCaller(GetActionEnum.GetViewModelEdited, dType, new SetGetter());
         registerCaller(GetActionEnum.GetModelToPersist, dType, new SetGetter());
         registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
                 new DrawModel());
+        registerSubscriber(DataActionEnum.ChangeViewFormModeAction, dType,
+                new ChangeMode());
+
     }
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(publishType, cellId, sPanel.constructGWidget());
+        if (cellId != null) {
+           publish(publishType, cellId, sPanel.constructGWidget());
+        }
     }
 }

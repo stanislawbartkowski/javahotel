@@ -33,11 +33,13 @@ class DoBooking extends AbstractPanelCommand {
 
     }
 
+    @Override
     public void beforeDrawAction(ISetGwtWidget iSet) {
         cPan = HInjector.getI().getDictCrudControlerFactory().getCrud(new DictData(DictType.BookingList));
         iSet.setGwtWidget(cPan.getMWidget());
     }
 
+    @Override
     public void drawAction() {
         cPan.drawTable();
     }

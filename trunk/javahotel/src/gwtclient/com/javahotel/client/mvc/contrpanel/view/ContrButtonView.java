@@ -12,16 +12,17 @@
  */
 package com.javahotel.client.mvc.contrpanel.view;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DefaultMvcWidget;
@@ -33,35 +34,38 @@ import com.javahotel.client.mvc.contrpanel.model.IContrPanel;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-@SuppressWarnings("deprecation")
 class ContrButtonView implements IContrButtonView {
 
     private final IResLocator rI;
     private final IContrPanel model;
     private final Panel hP;
     private final IControlClick co;
-    private final Map<Integer, Button> iBut = new HashMap<Integer, Button>();
+    private final Map<Integer, IGFocusWidget> iBut = new HashMap<Integer, IGFocusWidget>();
     private final static String BUTTON_CUST = "CUSTOM-BUTTON";
 
+    @Override
     public void show() {
     }
 
+    @Override
     public void hide() {
     }
 
+    @Override
     public void setEnable(int id, boolean enable) {
-        Button b = iBut.get(id);
+        IGFocusWidget b = iBut.get(id);
         if (b == null) {
             return;
         }
         b.setEnabled(enable);
     }
 
+    @Override
     public IMvcWidget getMWidget() {
         return new DefaultMvcWidget(hP);
     }
 
-    private class Click implements ClickListener {
+    private class Click implements ClickHandler {
 
         private final ContrButton c;
 
@@ -69,9 +73,10 @@ class ContrButtonView implements IContrButtonView {
             this.c = c;
         }
 
-        public void onClick(Widget sender) {
+        @Override
+        public void onClick(ClickEvent event) {
             if (co != null) {
-                co.click(c, sender);
+                co.click(c, (Widget) event.getSource());
             }
         }
     }
@@ -88,16 +93,15 @@ class ContrButtonView implements IContrButtonView {
         }
         List<ContrButton> bu = model.getContr();
         for (ContrButton b : bu) {
-            Button but;
+            IGFocusWidget but;
             if (b.isTextimage()) {
-                but = ImgButtonFactory.getButtonTextImage(BUTTON_CUST, b
-                        .getContrName(), b.getImageHtml());
+                but = ImgButtonFactory.getButtonTextImage(BUTTON_CUST, b.getContrName(), b.getImageHtml());
             } else {
                 but = ImgButtonFactory.getButton(BUTTON_CUST, b.getContrName(),
                         b.getImageHtml());
             }
-            but.addClickListener(new Click(b));
-            hP.add(but);
+            but.addClickHandler(new Click(b));
+            hP.add(but.getGWidget());
             iBut.put(b.getActionId(), but);
         }
     }

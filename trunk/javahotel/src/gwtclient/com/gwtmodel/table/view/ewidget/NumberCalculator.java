@@ -12,7 +12,8 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 
 /**
@@ -21,40 +22,21 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
  */
 class NumberCalculator extends ExtendTextBox {
 
-    private final int afterdot;
-
-    NumberCalculator(ITableCustomFactories tFactories, ExtendTextBox.EParam p, int afterdot) {
-        super(tFactories, p);
-        this.afterdot = afterdot;
+    NumberCalculator(ITableCustomFactories tFactories, IVField v,
+            ExtendTextBox.EParam p) {
+        super(tFactories, v, p);
         wW.addStyleName("Number");
     }
 
     @Override
-    public void setVal(String v) {
-        if (CUtil.EmptyS(v)) {
-            return;
-        }
-        if (!CUtil.OkNumber(v)) {
-            return;
-        }
-        String s = CUtil.toAfterS(v, afterdot);
-        super.setVal(s);
+    public void setValObj(Object o) {
+        String s = FUtils.getValueOS(o, v);
+        super.setValObj(s);
     }
 
     @Override
-    public String getVal() {
-        String s = super.getVal();
-        if (!CUtil.OkNumber(s)) {
-            return "";
-        }
-        return CUtil.toAfterS(s, afterdot);
-    }
-
-    @Override
-    public Object getObj() {
-        if (afterdot == 0) {
-            return getLong();
-        }
-        return getDecimal();
+    public Object getValObj() {
+        String s = (String) super.getValObj();
+        return FUtils.getValue(v, s);
     }
 }

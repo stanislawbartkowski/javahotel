@@ -43,13 +43,14 @@ class AddBoxValues {
             }
         }
         String be = e.getBeforeVal();
-        String av = e.getVal();
+        Object o = e.getValObj();
+        String av = FUtils.getValueOS(o, e.getV());
         e.setList(li);
         if (be != null) {
-            e.setVal(be);
+            e.setValObj(be);
         } else {
             if ((av == null) && (firstS != null)) {
-                e.setVal(firstS);
+                e.setValObj(firstS);
             }
         }
 

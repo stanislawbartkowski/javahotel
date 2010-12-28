@@ -14,13 +14,14 @@
  *  limitations under the License.
  *  under the License.
  */
-package com.javahotel.nmvc.factories.impl;
+package com.javahotel.nmvc.factories.season;
 
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.GetMaxUtil;
 import com.gwtmodel.table.common.GetMaxUtil.IGetLp;
@@ -39,6 +40,7 @@ import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.util.ModalDialog;
+import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.user.tableseason.PanelSeason;
@@ -51,6 +53,7 @@ import com.javahotel.common.toobject.SeasonPeriodT;
 import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.VModelData;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -157,8 +160,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         removePeriodE(dest, periodT);
         IDataListType dList = l.getMemTable();
         Long next = getNext(dList);
-        for (int i = 0; i < dList.rowNo(); i++) {
-            IVModelData mo = dList.getRow(i);
+        for (IVModelData mo : dList.getList()) {
             AbstractDatePeriodE e = (AbstractDatePeriodE) mo;
             OfferSeasonPeriodP pe = new OfferSeasonPeriodP();
             next = toOfferSeasonPeriodP(pe, e, periodT, next);
@@ -208,7 +210,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         private class DrawD extends ModalDialog {
 
             DrawD(VerticalPanel vp) {
-                super(vp,"Pokaż sezony");
+                super(vp, "Pokaż sezony");
                 create();
             }
 
@@ -235,11 +237,18 @@ public class SeasonAddInfo extends AbstractSlotContainer {
                     dType, mData);
             VModelData v = (VModelData) pData;
             OfferSeasonP off = (OfferSeasonP) v.getA();
+            Date from = off.getStartP();
+            Date to  = off.getEndP();
+            IGWidget w = slContext.getGwtWidget();
+            if ((from == null) || (to == null)) {
+                OkDialog ok = new OkDialog("Wprowadż datę od i do !","Nie można nic wyświetlić",null);
+                ok.show(w.getGWidget());
+                return;
+            }
             pS.drawPa(off, PeriodType.byDay);
             VerticalPanel vp = new VerticalPanel();
             ModalDialog m = new DrawD(vp);
-            m.show();
-            m.getDBox().setPopupPosition(100,100);
+            m.show(w.getGWidget());
         }
     }
 

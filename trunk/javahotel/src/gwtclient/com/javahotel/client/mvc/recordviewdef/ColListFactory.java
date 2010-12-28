@@ -12,11 +12,11 @@
  */
 package com.javahotel.client.mvc.recordviewdef;
 
+import com.gwtmodel.table.FieldDataType;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.gwtmodel.table.view.table.ColumnDataType;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.mvc.auxabstract.BillsCustomer;
 import com.javahotel.client.mvc.auxabstract.LoginRecord;
@@ -88,9 +88,9 @@ public class ColListFactory {
         specPe = new ArrayList<ColTitle>();
         specPe.add(new ColTitle(OfferSeasonPeriodP.F.description, "Opis"));
         specPe.add(new ColTitle(OfferSeasonPeriodP.F.startP, "Od",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         specPe.add(new ColTitle(OfferSeasonPeriodP.F.endP, "Do",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
 
         dictCol = createA();
 
@@ -104,12 +104,13 @@ public class ColListFactory {
 
         resRoomCol = createA("Numer");
         resRoomCol.add(new ColTitle(ResObjectP.F.standard, "Standard"));
-        resRoomCol.add(new ColTitle(ResObjectP.F.noperson, "L osób",
-                ColumnDataType.INTEGER));
+        resRoomCol.add(new ColTitle(ResObjectP.F.noperson, "L osób"));
+//        resRoomCol.add(new ColTitle(ResObjectP.F.noperson, "L osób",
+//                FieldDataType.contructLong()));
 
         vatCol = createA();
-        vatCol.add(new ColTitle(VatDictionaryP.F.vat, "Procent",
-                ColumnDataType.NUMBER));
+        vatCol.add(new ColTitle(VatDictionaryP.F.vat, "Procent"));
+//                FieldDataType.constructBigDecimal()));
 
         servCol = createA();
         servCol.add(new ColTitle(ServiceDictionaryP.F.servtype, "Rodzaj"));
@@ -117,9 +118,9 @@ public class ColListFactory {
 
         seasCol = createA();
         seasCol.add(new ColTitle(OfferSeasonP.F.startp, "Okres od",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         seasCol.add(new ColTitle(OfferSeasonP.F.endp, "Okres do",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
 
         priceCol = createA();
         priceCol.add(new ColTitle(OfferPriceP.F.season, "Sezon"));
@@ -133,67 +134,63 @@ public class ColListFactory {
         editcustCol.add(new ColTitle(ResRoomGuest.F.name, "Numer"));
         editcustCol.add(new ColTitle(ResRoomGuest.F.desc, "Opis"));
         editcustCol.add(new ColTitle(GuestP.F.checkIn, "Od",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         editcustCol.add(new ColTitle(GuestP.F.checkOut, "Do",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         editcustCol.add(new ColTitle(ResRoomGuest.F.choosebutt, "Wybierz"));
         editcustCol.add(new ColTitle(CustomerP.F.pTitle, "Pan/Pani"));
         editcustCol.add(new ColTitle(CustomerP.F.firstName, "Imię"));
         editcustCol.add(new ColTitle(CustomerP.F.lastName, "Nazwisko"));
 
         bankCol = new ArrayList<ColTitle>();
-        bankCol
-                .add(new ColTitle(BankAccountP.F.accountNumber,
-                        "Numer rachunku"));
+        bankCol.add(new ColTitle(BankAccountP.F.accountNumber,
+                "Numer rachunku"));
 
         phoneCol = new ArrayList<ColTitle>();
-        phoneCol
-                .add(new ColTitle(PhoneNumberP.F.phoneNumber, "Numer telefonu"));
+        phoneCol.add(new ColTitle(PhoneNumberP.F.phoneNumber, "Numer telefonu"));
 
         bookCol = createA();
         bookCol.add(new ColTitle(BookingP.F.checkIn, "Rezerwacja od",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         bookCol.add(new ColTitle(BookingP.F.checkOut, "Rezerwacja do",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         bookCol.add(new ColTitle(BookingP.F.noPersons, "Liczba osób",
-                ColumnDataType.INTEGER));
+                FieldDataType.constructLong()));
 
         bookECol = new ArrayList<ColTitle>();
         bookECol.add(new ColTitle(BookElemP.F.checkIn, "Od",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         bookECol.add(new ColTitle(BookElemP.F.checkOut, "Do",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         bookECol.add(new ColTitle(BookElemP.F.resObject, "Pokój"));
         bookECol.add(new ColTitle(BookElemP.F.service, "Usługa"));
 
         rowPCol = new ArrayList<ColTitle>();
         rowPCol.add(new ColTitle(PaymentRowP.F.rowFrom, "Od",
-                ColumnDataType.DATE));
-        rowPCol
-                .add(new ColTitle(PaymentRowP.F.rowTo, "Do",
-                        ColumnDataType.DATE));
+                FieldDataType.constructDate()));
+        rowPCol.add(new ColTitle(PaymentRowP.F.rowTo, "Do",
+                FieldDataType.constructDate()));
         rowPCol.add(new ColTitle(PaymentRowP.F.offerPrice, "Cennik"));
         rowPCol.add(new ColTitle(PaymentRowP.F.customerPrice, "Cena klienta",
-                ColumnDataType.NUMBER));
+                FieldDataType.constructBigDecimal()));
 
         conflictRowCol = new ArrayList<ColTitle>();
         conflictRowCol.add(new ColTitle(ResDayObjectStateP.F.bookName,
                 "Nazwa rezerwacji"));
         conflictRowCol.add(new ColTitle(ResDayObjectStateP.F.d, "Data",
-                ColumnDataType.DATE));
-        conflictRowCol
-                .add(new ColTitle(ResDayObjectStateP.F.resObject, "Pokój"));
+                FieldDataType.constructDate()));
+        conflictRowCol.add(new ColTitle(ResDayObjectStateP.F.resObject, "Pokój"));
 
         advanceCol = new ArrayList<ColTitle>();
         advanceCol.add(new ColTitle(DictionaryP.F.name, "Klient"));
         advanceCol.add(new ColTitle(DictionaryP.F.description, "Opis"));
         advanceCol.add(new ColTitle(DownPaymentP.F.resId, "Rezerwacja"));
         advanceCol.add(new ColTitle(AdvancePaymentP.F.amount, "Kwota zaliczki",
-                ColumnDataType.NUMBER));
+                FieldDataType.constructBigDecimal()));
         advanceCol.add(new ColTitle(AdvancePaymentP.F.validationDate, "Termin",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         advanceCol.add(new ColTitle(DownPaymentP.F.sumPayment, "Zapłata",
-                ColumnDataType.NUMBER));
+                FieldDataType.constructBigDecimal()));
 
         resPanelCol = createA("Numer");
 
@@ -205,78 +202,78 @@ public class ColListFactory {
 
         aPay = new ArrayList<ColTitle>();
         aPay.add(new ColTitle(AddPaymentP.F.payDate, "Data usługi",
-                ColumnDataType.DATE));
+                FieldDataType.constructDate()));
         aPay.add(new ColTitle(AddPaymentP.F.remarks, "Opis"));
         aPay.add(new ColTitle(AddPaymentP.F.seName, "Usługa"));
         aPay.add(new ColTitle(AddPaymentP.F.seDesc, "Opis"));
         aPay.add(new ColTitle(AddPaymentP.F.noSe, "Ilość",
-                ColumnDataType.NUMBER));
+                FieldDataType.constructBigDecimal()));
     }
 
     private ArrayList<ColTitle> getColList(DictData.SpecE e) {
         switch (e) {
-        case SpecialPeriod:
-            return specPe;
-        case CustomerPhone:
-            return phoneCol;
-        case CustomerAccount:
-            return bankCol;
-        case BookingHeader:
-        case ValidationHeader:
-        case AddPayment:
-            // empty, to avoid null
-            return new ArrayList<ColTitle>();
-        case BookingElem:
-            return bookECol;
-        case RowPaymentElem:
-            return rowPCol;
-        case ObjectResConflict:
-            return conflictRowCol;
-        case ResTablePanel:
-            return resPanelCol;
-        case BillsList:
-            return billsCol;
-        case AddPaymentList:
-            return aPay;
+            case SpecialPeriod:
+                return specPe;
+            case CustomerPhone:
+                return phoneCol;
+            case CustomerAccount:
+                return bankCol;
+            case BookingHeader:
+            case ValidationHeader:
+            case AddPayment:
+                // empty, to avoid null
+                return new ArrayList<ColTitle>();
+            case BookingElem:
+                return bookECol;
+            case RowPaymentElem:
+                return rowPCol;
+            case ObjectResConflict:
+                return conflictRowCol;
+            case ResTablePanel:
+                return resPanelCol;
+            case BillsList:
+                return billsCol;
+            case AddPaymentList:
+                return aPay;
         }
         return null;
     }
 
     private static ArrayList<ColTitle> getColList(final DictType dict) {
         switch (dict) {
-        case RoomFacility:
-        case RoomStandard:
-            return dictCol;
-        case RoomObjects:
-            return resRoomCol;
-        case VatDict:
-            return vatCol;
-        case ServiceDict:
-            return servCol;
-        case OffSeasonDict:
-            return seasCol;
-        case PriceListDict:
-            return priceCol;
-        case CustomerList:
-            return custCol;
-        case BookingList:
-            return bookCol;
-        default:
-            break;
+            case RoomFacility:
+            case RoomStandard:
+                return dictCol;
+            case RoomObjects:
+                return resRoomCol;
+            case VatDict:
+                return vatCol;
+            case ServiceDict:
+                return servCol;
+            case OffSeasonDict:
+                return seasCol;
+            case PriceListDict:
+                return priceCol;
+            case CustomerList:
+                return custCol;
+            case BookingList:
+                return bookCol;
+            default:
+                break;
         }
         return null;
     }
 
     private static ArrayList<ColTitle> getColList(final RType r) {
         switch (r) {
-        case AllHotels:
-            return hotelCol;
-        case AllPersons:
-            return personCol;
-        case DownPayments:
-            return advanceCol;
-        default:
-            break;
+            case AllHotels:
+                return hotelCol;
+            case AllPersons:
+                return personCol;
+            case DownPayments:
+                return advanceCol;
+            default:
+                break;
         }
         return null;
     }
@@ -294,33 +291,33 @@ public class ColListFactory {
     public String getHeader(final DictData da) {
         if (da.getD() != null) {
             switch (da.getD()) {
-            case CustomerList:
-                return "Lista klientów";
-            default:
-                break;
+                case CustomerList:
+                    return "Lista klientów";
+                default:
+                    break;
             }
         }
         if (da.getSE() == null) {
             return null;
         }
         switch (da.getSE()) {
-        case SpecialPeriod:
-            switch (da.getSpeT()) {
-            case LOW:
-                return "Poza sezonem";
-            case SPECIAL:
-                return "Okresy specjalne";
+            case SpecialPeriod:
+                switch (da.getSpeT()) {
+                    case LOW:
+                        return "Poza sezonem";
+                    case SPECIAL:
+                        return "Okresy specjalne";
+                    default:
+                        break;
+                }
+            case CustomerAccount:
+                return "Konta bankowe";
+            case CustomerPhone:
+                return "Telefony";
+            case BillsList:
+                return "Lista rachunków do pobytu";
             default:
                 break;
-            }
-        case CustomerAccount:
-            return "Konta bankowe";
-        case CustomerPhone:
-            return "Telefony";
-        case BillsList:
-            return "Lista rachunków do pobytu";
-        default:
-            break;
         }
         return null;
     }
@@ -335,5 +332,4 @@ public class ColListFactory {
         se.add(ResRoomGuest.F.desc);
         return se;
     }
-
 }

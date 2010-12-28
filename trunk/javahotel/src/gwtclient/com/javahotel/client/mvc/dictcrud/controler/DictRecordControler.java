@@ -193,9 +193,9 @@ class DictRecordControler implements ICrudRecordFactory {
 
     public RecordModel getNew(AbstractTo beforea, AbstractTo pa) {
         AbstractTo aa = pa;
-        AbstractToFactory aFactory = HInjector.getI().getAbstractToFactory();
+//        AbstractToFactory aFactory = HInjector.getI().getAbstractToFactory();
         if (aa == null) {
-            aa = aFactory.getA(da);
+            aa = AbstractToFactory.getA(da);
         }
         RecordModel mo = new RecordModel(aParam.getAuxO(), aParam.getAuxO1());
         mo.setA(aa);

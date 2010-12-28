@@ -25,10 +25,25 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
+import com.gwtmodel.table.injector.WebPanelHolder;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
+
+    public static <T> boolean eqI(IEquatable e1, IEquatable e2) {
+
+        if (e1 == null && e2 == null) {
+            return true;
+        }
+        if (e1 == null) {
+            return false;
+        }
+        if (e2 == null) {
+            return false;
+        }
+        return e1.eq(e2);
+    }
 
     public static HTML createHTML(final String s) {
         HTML ha = new HTML("<a href='javascript:;'>" + s + "</a>");
@@ -112,20 +127,36 @@ public class Utils {
     }
 
     public static BigDecimal toBig(final String s) {
-        if (s == null) {
+        if (CUtil.EmptyS(s)) {
             return null;
         }
-        if (s.equals("")) {
+        try {
+            return new BigDecimal(s);
+        } catch (NumberFormatException e) {
             return null;
         }
-        return new BigDecimal(s);
     }
 
     public static Long toLong(String s) {
         if (CUtil.EmptyS(s)) {
             return null;
         }
-        return new Long(s);
+        try {
+            return new Long(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public static Integer toInteger(String s) {
+        if (CUtil.EmptyS(s)) {
+            return null;
+        }
+        try {
+            return new Integer(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     public static BigDecimal toBig(final Double d) {
@@ -230,5 +261,19 @@ public class Utils {
             l.add(a[i]);
         }
         return l;
+    }
+
+    public static WebPanelHolder.TableType getParamTable() {
+        WebPanelHolder.TableType tType = WebPanelHolder.TableType.PRESETABLE;
+
+        String gTable = Utils.getURLParam("NOGOOGLETABLE");
+        if (CUtil.EqNS("T", gTable)) {
+            tType = WebPanelHolder.TableType.GRIDTABLE;
+        }
+        gTable = Utils.getURLParam("GOOGLETABLE");
+        if (CUtil.EqNS("T", gTable)) {
+            tType = WebPanelHolder.TableType.GOOGLETABLE;
+        }
+        return tType;
     }
 }

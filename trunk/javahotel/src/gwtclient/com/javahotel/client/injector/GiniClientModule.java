@@ -111,7 +111,6 @@ public class GiniClientModule extends AbstractGinModule {
         bind(DictEmptyFactory.class).in(Singleton.class);
         bind(PriceListValidatorService.class);
         bind(RegisterFactories.class).in(Singleton.class);
-        bind(AbstractToFactory.class).in(Singleton.class);
         bind(PersistRecordFactory.class).in(Singleton.class);
         bind(PriceSeasonModelFactory.class).in(Singleton.class);
         bind(RecordFormDefFactory.class).in(Singleton.class);
