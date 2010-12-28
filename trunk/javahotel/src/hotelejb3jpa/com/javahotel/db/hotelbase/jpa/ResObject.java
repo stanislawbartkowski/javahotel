@@ -32,10 +32,10 @@ public class ResObject extends AbstractDictionary {
     private RRoom rType;
     
     @Basic
-    private int noPerson;
+    private Integer noPerson;
     
     @Basic
-    private int maxPerson;
+    private Integer maxPerson;
     
     @ManyToOne
     @JoinColumn(name = "standard_id", nullable = false)
@@ -53,19 +53,19 @@ public class ResObject extends AbstractDictionary {
         this.rType = rType;
     }
 
-    public int getNoPerson() {
+    public Integer getNoPerson() {
         return noPerson;
     }
 
-    public void setNoPerson(int noPerson) {
+    public void setNoPerson(Integer noPerson) {
         this.noPerson = noPerson;
     }
 
-    public int getMaxPerson() {
+    public Integer getMaxPerson() {
         return maxPerson;
     }
 
-    public void setMaxPerson(int maxPerson) {
+    public void setMaxPerson(Integer maxPerson) {
         this.maxPerson = maxPerson;
     }
 
