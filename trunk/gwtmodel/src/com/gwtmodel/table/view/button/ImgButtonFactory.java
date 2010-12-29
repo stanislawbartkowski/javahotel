@@ -35,7 +35,7 @@ public class ImgButtonFactory {
         BImage(Button b, String mess) {
             initWidget(b);
             setMessage(mess);
-            setMouse();
+//            setMouse();
         }
 
         @Override
@@ -54,13 +54,26 @@ public class ImgButtonFactory {
             Button b = (Button) this.getWidget();
             b.setEnabled(enabled);
         }
+
+        @Override
+        public boolean isEnabled() {
+            Button b = (Button) this.getWidget();
+            return b.isEnabled();
+        }
     }
 
     public static IGFocusWidget getButton(String bId, String bName, String img) {
         Button but;
         IGFocusWidget w;
         if (img != null) {
-            String h = Utils.getImageHTML(img + ".gif");
+            String imageFile;
+            if (img.indexOf('.') == -1) {
+                imageFile = img + ".gif";
+            }
+            else {
+                imageFile = img;
+            }
+            String h = Utils.getImageHTML(imageFile);
             but = new Button();
             but.setHTML(h);
             w = new BImage(but, bName);
@@ -68,7 +81,9 @@ public class ImgButtonFactory {
             but = new Button(bName);
             w = GFocusWidgetFactory.construct(but);
         }
-        but.getElement().setId(bId);
+        if (bId != null) {
+          but.getElement().setId(bId);
+        }
         return w;
     }
 

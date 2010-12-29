@@ -35,7 +35,7 @@ class GetValueLB extends AbstractField implements IValueLB {
     GetValueLB(ITableCustomFactories tFactories, IVField v) {
         super(tFactories,v);
         initWidget(lB);
-        setMouse();
+//        setMouse();
 
     }
 

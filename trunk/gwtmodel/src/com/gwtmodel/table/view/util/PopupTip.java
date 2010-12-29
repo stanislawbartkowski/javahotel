@@ -23,6 +23,10 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 public abstract class PopupTip extends Composite {
 
+    protected PopupTip() {
+        setMouse();
+    }
+
     private String message = null;
 
     public void setMessage(String message) {
@@ -43,6 +47,7 @@ public abstract class PopupTip extends Composite {
 
     private class MouseO implements MouseOverHandler, MouseOutHandler {
 
+        @Override
         public void onMouseOver(MouseOverEvent event) {
             if (message != null) {
                 tup = PopUpTip.getPopupTip(new Label(message));
@@ -51,6 +56,7 @@ public abstract class PopupTip extends Composite {
             }
         }
 
+        @Override
         public void onMouseOut(MouseOutEvent event) {
             hideUp();
         }
@@ -64,7 +70,7 @@ public abstract class PopupTip extends Composite {
         return addDomHandler(handler, MouseOutEvent.getType());
     }
 
-    protected void setMouse() {
+    private void setMouse() {
         this.addMouseOutHandler(new MouseO());
         this.addMouseOverHandler(new MouseO());
     }
