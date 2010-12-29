@@ -147,7 +147,7 @@ public class RadioBoxString extends AbstractField {
         sync.setEnable(enable);
         refresh();
         initWidget(vP);
-        setMouse();
+//        setMouse();
     }
 
     @Override
@@ -159,7 +159,7 @@ public class RadioBoxString extends AbstractField {
     public void setValObj(Object o) {
     }
 
-    public void refresh() {
+    public final void refresh() {
         sync.reset();
         aL.clear();
         vP.clear();

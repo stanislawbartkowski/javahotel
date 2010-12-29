@@ -73,7 +73,7 @@ class DateBoxCalendar extends AbstractField {
         db.addValueChangeHandler(new ValueChange());
         db.getTextBox().addKeyboardListener(new Touch(iTouch));
         initWidget(db);
-        setMouse();
+//        setMouse();
     }
 
     @Override

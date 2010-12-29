@@ -23,4 +23,6 @@ public interface IGFocusWidget extends IGWidget {
     void addClickHandler(ClickHandler h);
 
     void setEnabled(boolean enabled);
+
+    boolean isEnabled();
 }

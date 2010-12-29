@@ -118,7 +118,7 @@ class ExtendTextBox extends AbstractField {
             check = null;
         }
         initWidget(wW);
-        setMouse();
+//        setMouse();
     }
 
     private void changeS() {

@@ -128,7 +128,7 @@ class WebPanel implements IWebPanel {
             initWidget(l);
             setMessage(errmess);
             setStyleName("error-reply");
-            setMouse();
+//            setMouse();
         }
     }
 
@@ -239,7 +239,7 @@ class WebPanel implements IWebPanel {
             ha = new HTML(h);
             initWidget(ha);
             setMessage(pResources.getRes(IWebPanelResources.WERSJA));
-            setMouse();
+//          setMouse();
         }
     }
 

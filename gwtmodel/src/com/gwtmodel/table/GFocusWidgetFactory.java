@@ -41,6 +41,12 @@ public class GFocusWidgetFactory {
             FocusWidget f = (FocusWidget) getGWidget();
             f.setEnabled(enabled);
         }
+
+        @Override
+        public boolean isEnabled() {
+            FocusWidget f = (FocusWidget) getGWidget();
+            return f.isEnabled();
+        }
     }
 
     public static IGFocusWidget construct(FocusWidget w) {

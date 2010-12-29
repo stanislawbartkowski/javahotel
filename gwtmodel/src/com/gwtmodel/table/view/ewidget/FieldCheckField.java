@@ -29,7 +29,7 @@ class FieldCheckField extends AbstractField {
         ch = new CheckBox();
         ch.setChecked(true);
         initWidget(ch);
-        setMouse();
+//        setMouse();
     }
 
     @Override
