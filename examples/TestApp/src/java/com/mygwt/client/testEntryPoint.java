@@ -17,11 +17,11 @@
 package com.mygwt.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.gwtmodel.table.IGFocusWidget;
@@ -33,12 +33,10 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.WebPanelHolder;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.util.PopupTip;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Main entry point.
- *
+ * 
  * @author hotel
  */
 public class testEntryPoint implements EntryPoint {
@@ -51,8 +49,8 @@ public class testEntryPoint implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        ITableAbstractFactories tFactories =
-                GwtGiniInjector.getI().getITableAbstractFactories();
+        ITableAbstractFactories tFactories = GwtGiniInjector.getI()
+                .getITableAbstractFactories();
         tFactories.registerGetCustomValues(new CustomFactory());
         final WebPanelHolder.TableType tType = Utils.getParamTable();
         Runnable onLoadCallback = new Runnable() {
@@ -71,7 +69,6 @@ public class testEntryPoint implements EntryPoint {
     }
 
     class CustomFactory implements IGetCustomValues {
-
 
         @Override
         public IVField getSymForCombo() {
@@ -95,38 +92,28 @@ public class testEntryPoint implements EntryPoint {
             Label l = new Label("Label");
             initWidget(l);
             setMessage("Help test - look how it looks like !");
-//            setMouse();
         }
     }
 
     /**
-     * The entry point method, called automatically by loading a module
-     * that declares an implementing class as an entry-point
+     * The entry point method, called automatically by loading a module that
+     * declares an implementing class as an entry-point
      */
     private void start(WebPanelHolder.TableType tType) {
-        final Label label = new Label("Hello, GWT!!!");
-        final Button button = new Button("Click me!");
-
-        button.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                label.setVisible(!label.isVisible());
-            }
-        });
-
-        RootPanel.get().add(button);
-        RootPanel.get().add(label);
-        RootPanel.get().add(new LabTip());
-        final IGFocusWidget but = ImgButtonFactory.getButton(null, "Click on me and look who disables !", "gwt.png");
-        final IGFocusWidget but1 = ImgButtonFactory.getButton(null, "Click on me and look who disables !", null);
+        VerticalPanel vp = new VerticalPanel();
+        vp.setSpacing(60);
+        vp.add(new LabTip());
+        final IGFocusWidget but = ImgButtonFactory.getButton(null,
+                "Click on me and look who disables !", "gwt.png");
+        final IGFocusWidget but1 = ImgButtonFactory.getButton(null,
+                "Click on me and look who disables !", null);
         but.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
                 but1.setEnabled(!but1.isEnabled());
             }
-            
+
         });
 
         but1.addClickHandler(new ClickHandler() {
@@ -138,7 +125,8 @@ public class testEntryPoint implements EntryPoint {
 
         });
 
-        RootPanel.get().add(but.getGWidget());
-        RootPanel.get().add(but1.getGWidget());
+        vp.add(but.getGWidget());
+        vp.add(but1.getGWidget());
+        RootPanel.get().add(vp);
     }
 }
