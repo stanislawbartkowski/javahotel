@@ -22,44 +22,12 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.view.util.PopupTip;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class ImgButtonFactory {
 
     private ImgButtonFactory() {
-    }
-
-    private static class BImage extends PopupTip implements IGFocusWidget {
-
-        BImage(Button b, String mess) {
-            initWidget(b);
-            setMessage(mess);
-//            setMouse();
-        }
-
-        @Override
-        public void addClickHandler(ClickHandler h) {
-            Button b = (Button) this.getWidget();
-            b.addClickHandler(h);
-        }
-
-        @Override
-        public Widget getGWidget() {
-            return this;
-        }
-
-        @Override
-        public void setEnabled(boolean enabled) {
-            Button b = (Button) this.getWidget();
-            b.setEnabled(enabled);
-        }
-
-        @Override
-        public boolean isEnabled() {
-            Button b = (Button) this.getWidget();
-            return b.isEnabled();
-        }
     }
 
     public static IGFocusWidget getButton(String bId, String bName, String img) {
@@ -69,25 +37,26 @@ public class ImgButtonFactory {
             String imageFile;
             if (img.indexOf('.') == -1) {
                 imageFile = img + ".gif";
-            }
-            else {
+            } else {
                 imageFile = img;
             }
             String h = Utils.getImageHTML(imageFile);
             but = new Button();
             but.setHTML(h);
-            w = new BImage(but, bName);
+            // w = new BImage(but, bName);
+            w = GFocusWidgetFactory.construct(but, bName);
         } else {
             but = new Button(bName);
             w = GFocusWidgetFactory.construct(but);
         }
         if (bId != null) {
-          but.getElement().setId(bId);
+            but.getElement().setId(bId);
         }
         return w;
     }
 
-    public static IGFocusWidget getButtonTextImage(String bId, String bName, String img) {
+    public static IGFocusWidget getButtonTextImage(String bId, String bName,
+            String img) {
         String ht = "<table><tr>";
         String h = Utils.getImageHTML(img + ".gif");
         ht += h;

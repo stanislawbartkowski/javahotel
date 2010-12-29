@@ -13,10 +13,13 @@
 package com.gwtmodel.table;
 
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.view.util.PopupTip;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class GFocusWidgetFactory {
@@ -47,6 +50,42 @@ public class GFocusWidgetFactory {
             FocusWidget f = (FocusWidget) getGWidget();
             return f.isEnabled();
         }
+    }
+
+    private static class FTip extends PopupTip implements IGFocusWidget {
+
+        FTip(FocusWidget f, String mess) {
+            initWidget(f);
+            setMessage(mess);
+            // setMouse();
+        }
+
+        @Override
+        public void addClickHandler(ClickHandler h) {
+            FocusWidget b = (FocusWidget) this.getWidget();
+            b.addClickHandler(h);
+        }
+
+        @Override
+        public Widget getGWidget() {
+            return this;
+        }
+
+        @Override
+        public void setEnabled(boolean enabled) {
+            FocusWidget b = (FocusWidget) this.getWidget();
+            b.setEnabled(enabled);
+        }
+
+        @Override
+        public boolean isEnabled() {
+            Button b = (Button) this.getWidget();
+            return b.isEnabled();
+        }
+    }
+
+    public static IGFocusWidget construct(FocusWidget w, String mess) {
+        return new FTip(w, mess);
     }
 
     public static IGFocusWidget construct(FocusWidget w) {
