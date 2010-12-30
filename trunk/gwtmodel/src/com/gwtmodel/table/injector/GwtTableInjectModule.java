@@ -17,6 +17,7 @@ import com.google.inject.Singleton;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
+import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
@@ -79,5 +80,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(StackPanelControllerFactory.class).in(Singleton.class);
         bind(ISlotMediator.class).toProvider(SlotMediatorFactory.class);
         bind(ICallContext.class).to(CallContext.class);
+        bind(StackPanelButtonFactory.class).in(Singleton.class);
     }
 }

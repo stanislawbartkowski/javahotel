@@ -25,12 +25,13 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 
 class ControlButtonView extends AbstractSlotContainer implements
-        IControlButtonView {
+        IControlButtonView, IStackPanelController {
 
     private final IContrButtonView vButton;
 
@@ -65,9 +66,9 @@ class ControlButtonView extends AbstractSlotContainer implements
     }
 
     ControlButtonView(ContrButtonViewFactory vFactory,
-            ListOfControlDesc listButton, IDataType dType) {
+            ListOfControlDesc listButton, IDataType dType, boolean hori) {
         this.dType = dType;
-        vButton = vFactory.getView(listButton, new Click());
+        vButton = vFactory.getView(listButton, new Click(),hori);
         for (ControlButtonDesc b : listButton.getcList()) {
             register(ButtonAction.EnableButton, b);
             register(ButtonAction.DisableButton, b);

@@ -28,4 +28,9 @@ public class ContrButtonViewFactory {
         return new ContrButtonView(model, co, true);
     }
 
+    public IContrButtonView getView(final ListOfControlDesc model,
+            final IControlClick co,boolean hori) {
+        return new ContrButtonView(model, co, hori);
+    }
+
 }

@@ -352,7 +352,7 @@ public class FUtils {
                     return getStringS(o, f);
             }
         } catch (java.lang.ClassCastException e) {
-            Utils.errAlert(MM.getL().errorWhileReading(), e);
+            Utils.errAlert(LogT.getT().errorWhileReading(f.toString()), e);
             throw e;
         }
     }

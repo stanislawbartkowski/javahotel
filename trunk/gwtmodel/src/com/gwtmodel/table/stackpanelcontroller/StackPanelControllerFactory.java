@@ -14,6 +14,7 @@ package com.gwtmodel.table.stackpanelcontroller;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.view.stack.StackButton;
 import com.gwtmodel.table.view.stack.StackPanelFactory;
 import java.util.List;
@@ -22,16 +23,23 @@ import java.util.List;
  *
  * @author stanislaw.bartkowski@gmail.com
  */
+
+// TODO: REMOVE
+
 public class StackPanelControllerFactory {
 
     private final StackPanelFactory paFactory;
+    private final StackPanelButtonFactory baFactory;
 
     @Inject
-    public StackPanelControllerFactory(StackPanelFactory paFactory) {
+    public StackPanelControllerFactory(StackPanelFactory paFactory,
+            StackPanelButtonFactory baFactory) {
         this.paFactory = paFactory;
+        this.baFactory = baFactory;
     }
 
     public IStackPanelController construct(IDataType dType, List<StackButton> bList, String html) {
-        return new StackPanelController(paFactory, bList, html, dType);
+        return baFactory.construct(dType, bList, html);
+//        return new StackPanelController(paFactory, bList, html, dType);
     }
 }

@@ -12,13 +12,11 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.IEquatable;
-
 /**
  *
  * @author perseus
  */
-public class CustomStringSlot implements IEquatable {
+public class CustomStringSlot implements ISlotCustom {
 
     private final String stringS;
 
@@ -26,8 +24,9 @@ public class CustomStringSlot implements IEquatable {
         this.stringS = s;
     }
 
-    public boolean eq(IEquatable o) {
+    public boolean eq(ISlotCustom o) {
         CustomStringSlot so = (CustomStringSlot) o;
         return stringS.equals(so.stringS);
     }
+
 }
