@@ -17,7 +17,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.gwtmodel.table.IGWidget;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -89,6 +88,7 @@ class ContrButtonView implements IContrButtonView {
             hP = new HorizontalPanel();
         } else {
             hP = new VerticalPanel();
+            hP.setStyleName("stack-panel");
         }
         List<ControlButtonDesc> bu = model.getcList();
         for (ControlButtonDesc b : bu) {
@@ -104,9 +104,10 @@ class ContrButtonView implements IContrButtonView {
                 but = ImgButtonFactory.getButton(bName, b.getContrName(),
                         b.getImageHtml());
             }
-            Widget w;
+            if (!hori) {
+              but.getGWidget().setWidth("100%");
+            }
             but.addClickHandler(new Click(b));
-//            but.addClickListener(new Click(b));
             hP.add(but.getGWidget());
             iBut.put(b.getActionId(), but);
         }

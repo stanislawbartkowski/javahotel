@@ -17,6 +17,7 @@ import com.google.gwt.inject.client.Ginjector;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
+import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
@@ -90,4 +91,6 @@ public interface GwtTableInjector extends Ginjector {
     ControlButtonViewFactory getControlButtonViewFactory();
 
     ICallContext getCallContext();
+
+    StackPanelButtonFactory getStackPanelButtonFactory();
 }

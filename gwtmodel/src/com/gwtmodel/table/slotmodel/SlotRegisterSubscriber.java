@@ -15,7 +15,7 @@ package com.gwtmodel.table.slotmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlotRegisterSubscriber implements ISlotSignaller {
+class SlotRegisterSubscriber implements ISlotSignaller {
 
     private final List<ISlotSignaller> slList;
 

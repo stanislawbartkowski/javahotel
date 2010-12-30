@@ -13,6 +13,7 @@
 package com.gwtmodel.table;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.injector.LogT;
 
 /**
  *
@@ -23,7 +24,7 @@ public class GWidget implements IGWidget {
     private final Widget w;
 
     public GWidget(Widget w) {
-        assert w != null : "Widget cannot be null";
+        assert w != null : LogT.getT().widgetCanotbeNull();
         this.w = w;
     }
 

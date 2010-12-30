@@ -18,25 +18,6 @@ import com.gwtmodel.table.injector.LogT;
 
 public class SlotTypeFactory {
 
-    private class CustomString implements ISlotCustom {
-
-        private final String s;
-
-        CustomString(String s) {
-            this.s = s;
-        }
-
-        @Override
-        public String toString() {
-            return s;
-        }
-
-        @Override
-        public boolean eq(ISlotCustom o) {
-            CustomString ss = (CustomString) o;
-            return s.equals(ss.s);
-        }
-    }
 
     public SlotType construct(DataActionEnum dataActionEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.DataAction, null, null,
@@ -93,7 +74,7 @@ public class SlotTypeFactory {
     }
 
     public SlotType construct(String stringButton) {
-        return construct(new CustomString(stringButton));
+        return construct(new CustomStringSlot(stringButton));
     }
 
     public SlotType construct(ISlotCustom iEq) {

@@ -24,7 +24,6 @@ import com.google.gwt.i18n.client.Constants;
  */
 public interface TLabels extends Constants {
 
-    String errorWhileReading();
 
     String DateFormNotValid();
 

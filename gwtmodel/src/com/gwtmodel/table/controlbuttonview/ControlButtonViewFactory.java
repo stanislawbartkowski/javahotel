@@ -27,6 +27,6 @@ public class ControlButtonViewFactory {
     }
 
     public IControlButtonView construct(IDataType dType, ListOfControlDesc listButton) {
-        return new ControlButtonView(vFactory, listButton,dType);
+        return new ControlButtonView(vFactory, listButton, dType, true);
     }
 }

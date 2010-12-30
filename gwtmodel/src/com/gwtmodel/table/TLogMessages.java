@@ -65,4 +65,9 @@ public interface TLogMessages extends Messages {
     String filterCannotBeNull();
 
     String clickChangeNewLog(String change, String set);
+
+    String widgetCanotbeNull();
+
+    String errorWhileReading(String zmNamw);
+
 }

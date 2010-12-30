@@ -14,7 +14,6 @@ package com.gwtmodel.table.view.ewidget;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
