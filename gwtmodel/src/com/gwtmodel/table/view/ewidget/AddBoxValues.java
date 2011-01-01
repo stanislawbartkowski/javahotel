@@ -33,7 +33,7 @@ class AddBoxValues {
     private static void setValue(IDataListType dList, IValueLB e) {
         String firstS = null;
         List<String> li = new ArrayList<String>();
-        li.add(""); // add empty
+//        li.add(""); // add empty
         for (int i = 0; i < FUtils.getRowNumber(dList); i++) {
             IVModelData vData = FUtils.getRow(dList, i);
             String s = FUtils.getValueS(vData, dList.comboField());

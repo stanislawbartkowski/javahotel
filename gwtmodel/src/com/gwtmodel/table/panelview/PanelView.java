@@ -20,6 +20,7 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.common.MaxI;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
@@ -53,18 +54,17 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     private CellId panelId;
     private IGwtPanelView pView;
     private final GwtPanelViewFactory gFactory;
-    private HTMLPanel paHtml;
+    private String htmlF;
     private final SlotSignalContextFactory slFactory;
-//    private final IDataType dType;
 
     PanelView(GwtPanelViewFactory gFactory, SlotSignalContextFactory slFactory,
             IDataType dType, CellId panelId) {
-        assert dType != null : "dType cannot be null";
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
         this.panelId = panelId;
         this.gFactory = gFactory;
         this.slFactory = slFactory;
         this.dType = dType;
-        paHtml = null;
+        htmlF = null;
         pView = null;
     }
 
@@ -87,16 +87,16 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         @Override
         public void signal(ISlotSignalContext slContext) {
             CellId cellId = slContext.getSlType().getCellId();
-            assert cellId != null : "Cannot be null, cellId should be sent with signal";
+            assert cellId != null : LogT.getT().CellCannotBeNull();
             PanelRowCell pa = colM.get(cellId);
-            assert pa != null : "Cell should be register before";
+            assert pa != null : LogT.getT().CellShouldBeRegistered();
             IGWidget gwtWidget = slContext.getGwtWidget();
             pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getGWidget());
         }
     }
 
     private IGWidget getHWidget() {
-        return new GWidget(paHtml);
+        return new GWidget(htmlF);
     }
 
     private class GetHtml implements ISlotCaller {
@@ -115,7 +115,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             createView();
             return;
         }
-        paHtml = new HTMLPanel(html);
+        htmlF = html;
         ISlotCaller c = new GetHtml();
         for (CellId i : colM.keySet()) {
             SlotType sl = slTypeFactory.constructH(i);
@@ -148,7 +148,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         } else {
             publishType = cellId.getdType();
         }
-        if (paHtml != null) {
+        if (htmlF != null) {
             publish(publishType, cellId, getHWidget());
         } else {
             publish(publishType, cellId, pView);

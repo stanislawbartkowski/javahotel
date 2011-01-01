@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.injector.LogT;
 
@@ -26,6 +27,11 @@ public class GWidget implements IGWidget {
     public GWidget(Widget w) {
         assert w != null : LogT.getT().widgetCanotbeNull();
         this.w = w;
+    }
+
+    public GWidget(String html) {
+        HTMLPanel ha = new HTMLPanel(html);
+        w = ha;
     }
 
     @Override

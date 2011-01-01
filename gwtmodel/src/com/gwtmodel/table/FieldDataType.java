@@ -34,6 +34,13 @@ public class FieldDataType {
         return e;
     }
 
+    /**
+     * @return the li
+     */
+    public IGetListValues getLi() {
+        return li;
+    }
+
     public interface ICustomType {
 
         Object fromCustom(Object sou);
@@ -45,14 +52,18 @@ public class FieldDataType {
         boolean isNullCustom(Object sou);
     }
 
-    public interface IEnumType {
+    public interface IGetListValues {
 
         Map<String, String> getMap();
+    }
+
+
+    public interface IEnumType extends IGetListValues {
 
         boolean IsNullEnum(Enum e);
 
         Enum toEnum(String e);
-        
+
         String assertS(Object sou);
     }
 
@@ -65,6 +76,7 @@ public class FieldDataType {
     private final int afterdot;
     private final ICustomType i;
     private final IEnumType e;
+    private final IGetListValues li;
 
     public static FieldDataType constructDate() {
         return new FieldDataType(T.DATE);
@@ -83,7 +95,7 @@ public class FieldDataType {
     }
 
     public static FieldDataType constructString(ICustomType i) {
-        return new FieldDataType(T.STRING, 0, i, null);
+        return new FieldDataType(T.STRING, 0, i, null, null);
     }
 
     public static FieldDataType constructBoolean() {
@@ -99,22 +111,28 @@ public class FieldDataType {
     }
 
     public static FieldDataType constructEnum(IEnumType e) {
-        return new FieldDataType(T.ENUM, 0, null, e);
+        return new FieldDataType(T.ENUM, 0, null, e, null);
     }
 
-    private FieldDataType(T type, int afterdot, ICustomType i, IEnumType e) {
+    public static FieldDataType constructStringList(IGetListValues gVal) {
+        return new FieldDataType(T.STRING, 0, null, null, gVal);
+    }
+
+    private FieldDataType(T type, int afterdot, ICustomType i, IEnumType e,
+            IGetListValues li) {
         this.type = type;
         this.afterdot = afterdot;
         this.i = i;
         this.e = e;
+        this.li = li;
     }
 
     private FieldDataType(T type) {
-        this(type, 0, null, null);
+        this(type, 0, null, null, null);
     }
 
     private FieldDataType(T type, int afterdot) {
-        this(type, afterdot, null, null);
+        this(type, afterdot, null, null, null);
     }
 
     /**

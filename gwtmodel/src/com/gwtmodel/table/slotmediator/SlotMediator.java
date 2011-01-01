@@ -23,8 +23,7 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 
     private final List<C> slList = new ArrayList<C>();
 
-//    @Override
-    public void addSlotContainer(CellId cellId, ISlotable iSlo) {
+    private void addSlotContainer(CellId cellId, ISlotable iSlo) {
         slList.add(new C(cellId, iSlo));
     }
 
@@ -38,7 +37,6 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
             this.iSlo = iSlo;
         }
     }
-
 
     @Override
     public void registerSlotContainer(CellId cellId, ISlotable iSlo) {

@@ -114,7 +114,6 @@ public class RadioBoxString extends AbstractField {
     private void setRadio(IDataListType dataList, boolean enable) {
         IVField sym = tFactories.getGetCustomValues().getSymForCombo();
         for (IVModelData vv: dataList.getList()) {
-//            IVModelData vv = FUtils.getRow(dataList, i);
             String s = FUtils.getValueS(vv, sym);
             CheckBox c = new CheckBox(s);
             c.setEnabled(enable);
@@ -147,7 +146,6 @@ public class RadioBoxString extends AbstractField {
         sync.setEnable(enable);
         refresh();
         initWidget(vP);
-//        setMouse();
     }
 
     @Override

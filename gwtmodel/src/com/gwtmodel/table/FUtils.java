@@ -190,11 +190,16 @@ public class FUtils {
         return isNullString(ii, f);
     }
 
-    private static int compString(IVModelData row, IVField f, IVModelData filter, IVField from) {
+    private static int compString(IVModelData row, IVField f, IVModelData filter, IVField from, boolean first) {
         String rS = getValueString(row, f);
         String fS = getValueString(filter, from);
-        if (fS.indexOf('*') != -1) {
-            // regular expression
+        if (first) {
+            if (rS.indexOf(fS) != -1) {
+                return 0;
+            }
+            if (fS.indexOf('*') == 0) {
+                return rS.matches(fS.substring(1)) ? 0 : -1;
+            }
         }
         return fS.compareTo(rS);
     }
@@ -227,11 +232,15 @@ public class FUtils {
      * @return true (holds true, inside filter) : false : outside
      */
     public static boolean inRange(IVModelData row, IVField f, IVModelData filter, IVField from, IVField to) {
-        if (isNullValue(row, f)) {
-            return true;
-        }
+        boolean emptyV = isNullValue(row, f);
         boolean emptyfrom = isNullValue(filter, from);
         boolean emptyto = isNullValue(filter, to);
+        if (emptyfrom && emptyto) {
+            return true;
+        }
+        if (emptyV) {
+            return false;
+        }
         int compfrom = 0;
         int compto = 0;
         if (!emptyfrom) {
@@ -246,7 +255,7 @@ public class FUtils {
                     compfrom = compDate(row, f, filter, from);
                     break;
                 default:
-                    compfrom = compString(row, f, filter, from);
+                    compfrom = compString(row, f, filter, from, true);
                     break;
             }
         }
@@ -262,7 +271,7 @@ public class FUtils {
                     compto = compDate(row, f, filter, to);
                     break;
                 default:
-                    compto = compString(row, f, filter, to);
+                    compto = compString(row, f, filter, to, false);
                     break;
             }
         }
@@ -348,6 +357,7 @@ public class FUtils {
                     return getIntS(o, f);
                 case ENUM:
                     return getEnum(o, f);
+
                 default:
                     return getStringS(o, f);
             }
