@@ -13,8 +13,6 @@
 package com.gwtmodel.table.view.ewidget;
 
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 
 /**
  *
@@ -26,7 +24,7 @@ public class ComboVal {
 
     public ComboVal(String dispVal) {
         this.dispVal = dispVal;
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+//        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
     }
 
     /**

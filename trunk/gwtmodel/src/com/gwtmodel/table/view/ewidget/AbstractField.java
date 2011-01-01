@@ -20,8 +20,10 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
@@ -39,6 +41,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     protected final boolean checkBoxVal;
     protected final ITableCustomFactories tFactories;
     protected final IVField v;
+    protected final AbstractListT listT;
 
     AbstractField(ITableCustomFactories tFactories, IVField v) {
         this(tFactories, v, true);
@@ -50,13 +53,18 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     }
 
     AbstractField(ITableCustomFactories tFactories, IVField v, boolean checkenable) {
-        assert v != null : "Cannot be null";
+        assert v != null : LogT.getT().cannotBeNull();
         this.tFactories = tFactories;
         iTouch = null;
         lC = null;
         checkBoxVal = checkenable;
         isCheckBox = true;
         this.v = v;
+        if (v.getType().getLi() == null) {
+            listT = null;
+        } else {
+            listT = new AbstractListT(v.getType().getLi().getMap()) {};
+        }
     }
 
     @Override

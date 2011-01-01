@@ -33,14 +33,12 @@ class GetValueLB extends AbstractField implements IValueLB {
     private String beforeVal = null;
 
     GetValueLB(ITableCustomFactories tFactories, IVField v) {
-        super(tFactories,v);
+        super(tFactories, v);
         initWidget(lB);
-//        setMouse();
-
+        lB.setName(v.getId());
     }
 
-    @Override
-    public Object getValObj() {
+    protected String getValS() {
         int i = lB.getSelectedIndex();
         String s;
         if (i == -1) {
@@ -48,8 +46,14 @@ class GetValueLB extends AbstractField implements IValueLB {
 //            return null;
             s = beforeVal;
         } else {
-          s = lB.getItemText(i);
+            s = lB.getItemText(i);
         }
+        return s;
+    }
+
+    @Override
+    public Object getValObj() {
+        String s = getValS();
         return FUtils.getValue(v, s);
     }
 
@@ -119,6 +123,7 @@ class GetValueLB extends AbstractField implements IValueLB {
     @Override
     public void setList(List<String> li) {
         lB.clear();
+        lB.addItem(""); // add empty
         for (String s : li) {
             lB.addItem(s);
         }

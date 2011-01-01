@@ -13,13 +13,19 @@
 package com.gwtmodel.table.controlbuttonview;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
-import com.gwtmodel.table.view.stack.IClickStackButton;
 import com.gwtmodel.table.view.stack.StackButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +37,47 @@ import java.util.List;
 public class StackPanelButtonFactory {
 
     private final ContrButtonViewFactory vFactory;
+    private final SlotSignalContextFactory slFactory;
 
     @Inject
-    public StackPanelButtonFactory(ContrButtonViewFactory vFactory) {
+    public StackPanelButtonFactory(ContrButtonViewFactory vFactory,
+            SlotSignalContextFactory slFactory) {
         this.vFactory = vFactory;
+        this.slFactory = slFactory;
+    }
+
+    private class StackButtonPanel extends ControlButtonView {
+
+        private final String html;
+
+        StackButtonPanel(ContrButtonViewFactory vFactory,
+                ListOfControlDesc listButton, IDataType dType, String html) {
+            super(vFactory, listButton, dType, false);
+            this.html = html;
+        }
+
+        private class GetGwt implements ISlotCaller {
+
+            private final IGWidget wg;
+
+            GetGwt(IGWidget wg) {
+                this.wg = wg;
+            }
+
+            public ISlotSignalContext call(ISlotSignalContext slContext) {
+                return slFactory.construct(slContext.getSlType(), wg);
+            }
+        }
+
+        @Override
+        public void startPublish(CellId cellId) {
+            SlotType sl = slTypeFactory.constructH(cellId);
+            IGWidget gw = new GWidget(html);
+
+            getSlContainer().registerCaller(sl, new GetGwt(gw));
+            publish(dType, cellId, gw);
+            super.startPublish(cellId);
+        }
     }
 
     public IStackPanelController construct(IDataType dType, List<StackButton> bList,
@@ -45,6 +88,10 @@ public class StackPanelButtonFactory {
             buList.add(bu);
         }
         ListOfControlDesc listButton = new ListOfControlDesc(buList);
-        return new ControlButtonView(vFactory, listButton, dType, false);
+        if (html == null) {
+            return new ControlButtonView(vFactory, listButton, dType, false);
+        } else {
+            return new StackButtonPanel(vFactory, listButton, dType, html);
+        }
     }
 }

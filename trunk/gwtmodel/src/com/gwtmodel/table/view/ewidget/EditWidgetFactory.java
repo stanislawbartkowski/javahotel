@@ -113,6 +113,10 @@ public class EditWidgetFactory {
         return new ComboBoxField(tFactories, v, vals);
     }
 
+    public IFormLineView constructListCombo(IVField v) {
+        return new ComboListBoxField(tFactories, v);
+    }
+
     public IFormLineView constructListComboEnum(IVField v) {
         List<String> la = new ArrayList<String>();
         la.addAll(v.getType().getE().getMap().values());
@@ -126,12 +130,18 @@ public class EditWidgetFactory {
             case INT:
             case LONG:
             case BIGDECIMAL:
+                if (v.getType().getLi() != null) {
+                    return constructListCombo(v);
+                }
                 return contructCalculatorNumber(v);
             case ENUM:
                 return constructListComboEnum(v);
             case BOOLEAN:
                 return constructCheckField(v);
             default:
+                if (v.getType().getLi() != null) {
+                    return constructListCombo(v);
+                }
                 return constructTextField(v);
         }
 

@@ -58,7 +58,7 @@ public interface TLogMessages extends Messages {
 
     String receivedSignalLog(String slName);
 
-    String receivedSignalLogParam(String slName,String param);
+    String receivedSignalLogParam(String slName, String param);
 
     String dTypeCannotBeNull();
 
@@ -70,4 +70,7 @@ public interface TLogMessages extends Messages {
 
     String errorWhileReading(String zmNamw);
 
+    String CellCannotBeNull();
+
+    String CellShouldBeRegistered();
 }
