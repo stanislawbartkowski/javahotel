@@ -39,10 +39,10 @@ public class LoginViewFactory {
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         IVField loginV = new LoginField(LoginField.F.LOGINNAME);
         IFormLineView loginName = eFactory.constructTextField(loginV);
-        di.add(new FormField(c.getCustomValue(c.LOGINMAME), loginName, loginV));
+        di.add(new FormField(c.getCustomValue(c.LOGINMAME), loginName));
         IVField passwordV = new LoginField(LoginField.F.PASSWORD);
         IFormLineView password = eFactory.constructPasswordField(passwordV);
-        di.add(new FormField(c.getCustomValue(c.PASSWORD), password, passwordV));
+        di.add(new FormField(c.getCustomValue(c.PASSWORD), password));
         return new FormLineContainer(di);
     }
 

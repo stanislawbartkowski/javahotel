@@ -10,29 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+
+package com.gwtmodel.table.factories.mailtest;
+
+import com.gwtmodel.table.slotmodel.ISlotable;
 
 /**
  *
- * @author stanislaw.bartkowski@gmail.com
+ * @author perseus
  */
-public interface ITableCustomFactories {
+public interface IMailTest extends ISlotable {
 
-    IFormTitleFactory getFormTitleFactory();
-
-    IPersistFactoryAction getPersistFactoryAction();
-
-    IHeaderListFactory getHeaderListFactory();
-
-    IDataModelFactory getDataModelFactory();
-
-    IDataValidateActionFactory getDataValidateFactory();
-
-    IGetViewControllerFactory getGetViewControllerFactory();
-
-    IGetCustomValues getGetCustomValues();
-
-    IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory();
-
-    IJavaMailActionFactory getJavaMailActionFactory();
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -67,7 +68,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                 }
                 pData = slMediator.getSlContainer().getGetterIVModelData(getA,
                         cType.getdType(), pData);
-                assert pData != null : "Cannot be null";
+                assert pData != null : LogT.getT().cannotBeNull();
             }
             return slMediator.getSlContainer().getGetterContext(
                     slContext.getSlType(), pData);

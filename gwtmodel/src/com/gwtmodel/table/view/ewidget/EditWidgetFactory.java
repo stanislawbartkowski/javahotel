@@ -73,6 +73,11 @@ public class EditWidgetFactory {
         return new ExtendTextBox(tFactories, v, newE(false, true));
     }
 
+    public IFormLineView constructRichTextArea(IVField v) {
+        return new ExtendTextBox(tFactories, v,
+                new ExtendTextBox.EParam(false, false));
+    }
+
     public IFormLineView construcDateBoxCalendar(IVField v) {
         return new DateBoxCalendar(tFactories, v);
     }
@@ -81,9 +86,8 @@ public class EditWidgetFactory {
         return new ComboBoxField(tFactories, v, wy);
     }
 
-    public IFormLineView constructRadioSelectField(IVField v, String zName,
-            List<ComboVal> wy) {
-        return new RadioBoxField(tFactories, v, zName, wy);
+    public IFormLineView constructRadioSelectField(IVField v) {
+        return new RadioBoxField(tFactories, v);
     }
 
     public IFormLineView constructListValuesHelp(IVField v, IDataType dType) {
@@ -119,7 +123,7 @@ public class EditWidgetFactory {
 
     public IFormLineView constructListComboEnum(IVField v) {
         List<String> la = new ArrayList<String>();
-        la.addAll(v.getType().getE().getMap().values());
+        la.addAll(v.getType().getE().getValues());
         return constructListCombo(v, la);
     }
 

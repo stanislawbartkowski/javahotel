@@ -327,7 +327,7 @@ public class FUtils {
             return "";
         }
         Enum e = (Enum) o;
-        String va = f.getType().getE().getMap().get(e.toString());
+        String va = f.getType().getE().getValueS(e.toString());
         assert va != null : getS(e);
         return va;
     }

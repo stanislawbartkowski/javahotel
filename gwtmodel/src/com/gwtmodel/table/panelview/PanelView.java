@@ -15,7 +15,6 @@ package com.gwtmodel.table.panelview;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;

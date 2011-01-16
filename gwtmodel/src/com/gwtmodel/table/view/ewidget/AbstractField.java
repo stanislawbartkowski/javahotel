@@ -63,7 +63,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         if (v.getType().getLi() == null) {
             listT = null;
         } else {
-            listT = new AbstractListT(v.getType().getLi().getMap()) {};
+            listT = new AbstractListT(v.getType().getLi().getList()) {};
         }
     }
 

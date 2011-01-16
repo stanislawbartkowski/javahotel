@@ -12,14 +12,11 @@
  */
 package com.gwtmodel.table.view.button;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GFocusWidgetFactory;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.view.util.PopupTip;
 
 /**
  * 
@@ -50,7 +47,8 @@ public class ImgButtonFactory {
             w = GFocusWidgetFactory.construct(but);
         }
         if (bId != null) {
-            but.getElement().setId(bId);
+//            but.getElement().setId(bId);
+            Utils.setId(but, bId);
         }
         return w;
     }

@@ -12,12 +12,16 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import com.gwtmodel.table.injector.LogT;
+
 public class SlotCallerType {
 
     private final SlotType slType;
     private final ISlotCaller slCaller;
 
     SlotCallerType(SlotType slType, ISlotCaller slCaller) {
+        assert slType != null : LogT.getT().cannotBeNull();
+        assert slCaller != null : LogT.getT().cannotBeNull();
         this.slType = slType;
         this.slCaller = slCaller;
     }

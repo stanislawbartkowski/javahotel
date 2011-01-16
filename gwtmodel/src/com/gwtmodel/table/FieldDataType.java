@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  *
@@ -54,17 +54,20 @@ public class FieldDataType {
 
     public interface IGetListValues {
 
-        Map<String, String> getMap();
+        List<IMapEntry> getList();
     }
 
-
-    public interface IEnumType extends IGetListValues {
+    public interface IEnumType {
 
         boolean IsNullEnum(Enum e);
 
         Enum toEnum(String e);
 
         String assertS(Object sou);
+
+        String getValueS(String esou);
+
+        List<String> getValues();
     }
 
     public enum T {
@@ -116,6 +119,10 @@ public class FieldDataType {
 
     public static FieldDataType constructStringList(IGetListValues gVal) {
         return new FieldDataType(T.STRING, 0, null, null, gVal);
+    }
+
+    public static FieldDataType constructLongList(IGetListValues gVal) {
+        return new FieldDataType(T.LONG, 0, null, null, gVal);
     }
 
     private FieldDataType(T type, int afterdot, ICustomType i, IEnumType e,

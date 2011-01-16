@@ -23,6 +23,7 @@ import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.mailtest.MailTestFactory;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
@@ -81,5 +82,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(ISlotMediator.class).toProvider(SlotMediatorFactory.class);
         bind(ICallContext.class).to(CallContext.class);
         bind(StackPanelButtonFactory.class).in(Singleton.class);
+        bind(MailTestFactory.class).in(Singleton.class);
     }
 }

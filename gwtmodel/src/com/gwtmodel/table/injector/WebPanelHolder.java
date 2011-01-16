@@ -19,6 +19,7 @@ import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListFactory;
+import com.gwtmodel.table.factories.IJavaMailActionFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
@@ -54,6 +55,7 @@ public class WebPanelHolder {
         private IGetViewControllerFactory iViewFactory;
         private IGetCustomValues iGetCustomValues;
         private IDataFormConstructorAbstractFactory formFactory;
+        private IJavaMailActionFactory maActionFactory;
 
         private TableFactoriesContainer() {
         }
@@ -140,6 +142,14 @@ public class WebPanelHolder {
         @Override
         public IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory() {
             return formFactory;
+        }
+
+        public void registerJavaMailActionFactory(IJavaMailActionFactory mAction) {
+            this.maActionFactory = mAction;
+        }
+
+        public IJavaMailActionFactory getJavaMailActionFactory() {
+            return maActionFactory;
         }
     }
 

@@ -14,25 +14,9 @@ package com.gwtmodel.table.factories;
 
 /**
  *
- * @author stanislaw.bartkowski@gmail.com
+ * @author perseus
  */
-public interface ITableCustomFactories {
+public interface IJavaMailActionFactory {
 
-    IFormTitleFactory getFormTitleFactory();
-
-    IPersistFactoryAction getPersistFactoryAction();
-
-    IHeaderListFactory getHeaderListFactory();
-
-    IDataModelFactory getDataModelFactory();
-
-    IDataValidateActionFactory getDataValidateFactory();
-
-    IGetViewControllerFactory getGetViewControllerFactory();
-
-    IGetCustomValues getGetCustomValues();
-
-    IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory();
-
-    IJavaMailActionFactory getJavaMailActionFactory();
+    IJavaMailAction contruct();
 }
