@@ -51,9 +51,9 @@ class DateViewFactory implements IFormTitleFactory, IFormDefFactory {
         IFormLineView dFrom = eFactory.construcDateBoxCalendar(vfrom);
         IFormLineView dTo = eFactory.construcDateBoxCalendar(vto);
         IFormLineView comment = eFactory.constructTextField(vcomment);
-        di.add(new FormField(MM.getL().From(), dFrom, vfrom));
-        di.add(new FormField(MM.getL().To(), dTo, vto));
-        di.add(new FormField(MM.getL().Description(), comment, vcomment));
+        di.add(new FormField(MM.getL().From(), dFrom));
+        di.add(new FormField(MM.getL().To(), dTo));
+        di.add(new FormField(MM.getL().Description(), comment));
         return new FormLineContainer(di);
     }
 

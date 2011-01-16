@@ -23,6 +23,7 @@ import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.mailtest.MailTestFactory;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.readres.ReadResFactory;
@@ -93,4 +94,6 @@ public interface GwtTableInjector extends Ginjector {
     ICallContext getCallContext();
 
     StackPanelButtonFactory getStackPanelButtonFactory();
+
+    MailTestFactory getMailTestFactory();
 }

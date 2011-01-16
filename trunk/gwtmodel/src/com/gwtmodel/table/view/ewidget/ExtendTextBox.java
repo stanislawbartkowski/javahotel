@@ -16,15 +16,21 @@ import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
+import com.gwtmodel.table.view.ewidget.richtextoolbar.RichTextToolbar;
 
 /**
  * 
@@ -33,6 +39,99 @@ import com.gwtmodel.table.rdef.ITouchListener;
 @SuppressWarnings("deprecation")
 class ExtendTextBox extends AbstractField {
 
+    private class EWidget implements IGWidget {
+
+        private final TextBoxBase tBox;
+        private final RichTextArea rArea;
+        private final VerticalPanel vP;
+
+        EWidget(EParam param) {
+            if (param.isPassword()) {
+                tBox = new PasswordTextBox();
+                rArea = null;
+                vP = null;
+            } else {
+                if (param.isIsRich()) {
+                    vP = new VerticalPanel();
+                    rArea = new RichTextArea();
+                    RichTextToolbar r = new RichTextToolbar(rArea);
+                    rArea.setWidth("100%");
+                    vP.add(r);
+                    vP.add(rArea);
+                    tBox = null;
+                } else {
+                    tBox = param.isArea() ? new TextArea() : new TextBox();
+                    rArea = null;
+                    vP = null;
+                }
+            }
+        }
+
+        public Widget getGWidget() {
+            if (rArea == null) {
+                return tBox;
+            }
+            return vP;
+        }
+
+        void setName(String nameId) {
+            if (rArea == null) {
+                tBox.setName(nameId);
+            } else {
+                Utils.setId(rArea, nameId);
+            }
+        }
+
+        void setEnabled(boolean enabled) {
+            if (rArea == null) {
+                tBox.setEnabled(enabled);
+            } else {
+                rArea.setEnabled(enabled);
+            }
+        }
+
+        void setText(String t) {
+            if (rArea == null) {
+                tBox.setText(t);
+            } else {
+                rArea.setText(t);
+            }
+        }
+
+        void addKeyboardListener(KeyboardListener k) {
+            if (rArea == null) {
+                tBox.addKeyboardListener(k);
+            } else {
+                rArea.addKeyboardListener(k);
+            }
+        }
+
+        String getText() {
+            if (rArea == null) {
+                return tBox.getText();
+            } else {
+                return rArea.getText();
+            }
+        }
+
+        void setReadOnly(boolean r) {
+            if (rArea == null) {
+                tBox.setReadOnly(r);
+            } else {
+                rArea.setEnabled(!r);
+            }
+        }
+
+        void addChangeListener(ChangeListener c) {
+            if (rArea == null) {
+                tBox.addChangeListener(c);
+            } else {
+//                rArea.a
+            }
+
+        }
+    }
+
     static class EParam {
 
         private final boolean password;
@@ -40,6 +139,7 @@ class ExtendTextBox extends AbstractField {
         private final boolean panel;
         private final boolean checkBox;
         private final boolean enable;
+        private final boolean isRich;
 
         EParam(boolean password, boolean area, boolean panel,
                 boolean checkBox, boolean enable) {
@@ -48,6 +148,16 @@ class ExtendTextBox extends AbstractField {
             this.checkBox = checkBox;
             this.area = area;
             this.enable = enable;
+            this.isRich = false;
+        }
+
+        EParam(boolean checkBox, boolean enable) {
+            this.password = false;
+            this.panel = false;
+            this.checkBox = checkBox;
+            this.area = false;
+            this.enable = enable;
+            this.isRich = true;
         }
 
         /**
@@ -84,9 +194,17 @@ class ExtendTextBox extends AbstractField {
         public boolean isEnable() {
             return enable;
         }
+
+        /**
+         * @return the isRich
+         */
+        public boolean isIsRich() {
+            return isRich;
+        }
     }
     protected final Widget wW;
-    protected final TextBoxBase tBox;
+//    protected final TextBoxBase tBox;
+    private final EWidget eW;
     protected final HorizontalPanel hPanel;
     protected final CheckBox check;
     protected final boolean isArea;
@@ -94,19 +212,21 @@ class ExtendTextBox extends AbstractField {
     protected ExtendTextBox(ITableCustomFactories tFactories, IVField v, EParam param) {
         super(tFactories, v);
         this.isArea = param.isArea();
-        if (param.isPassword()) {
-            tBox = new PasswordTextBox();
-        } else {
-            tBox = isArea ? new TextArea() : new TextBox();
-        }
-        tBox.setName(v.getId());
+//      if (param.isPassword()) {
+//            tBox = new PasswordTextBox();
+//        } else {
+//            tBox = isArea ? new TextArea() : new TextBox();
+//        }
+        eW = new EWidget(param);
+//      tBox.setName(v.getId());
+        eW.setName(v.getId());
         if (param.isPanel()) {
             hPanel = new HorizontalPanel();
-            hPanel.add(tBox);
+            hPanel.add(eW.getGWidget());
             wW = hPanel;
         } else {
             hPanel = null;
-            wW = tBox;
+            wW = eW.getGWidget();
         }
         if (param.isCheckBox()) {
             check = new CheckBox("Auto");
@@ -123,9 +243,11 @@ class ExtendTextBox extends AbstractField {
 
     private void changeS() {
         if (check.isChecked()) {
-            tBox.setEnabled(false);
+//            tBox.setEnabled(false);
+            eW.setEnabled(false);
         } else {
-            tBox.setEnabled(true);
+//            tBox.setEnabled(true);
+            eW.setEnabled(true);
         }
     }
 
@@ -134,7 +256,8 @@ class ExtendTextBox extends AbstractField {
         @Override
         public void onClick(Widget sender) {
             if (check.isChecked()) {
-                tBox.setText("");
+//                tBox.setText("");
+                eW.setText("");
             }
             changeS();
         }
@@ -155,16 +278,18 @@ class ExtendTextBox extends AbstractField {
     @Override
     public void setOnTouch(final ITouchListener iTouch) {
         super.setOnTouch(iTouch);
-        tBox.addKeyboardListener(new Touch(iTouch));
+//        tBox.addKeyboardListener(new Touch(iTouch));
+        eW.addKeyboardListener(new Touch(iTouch));
     }
 
     @Override
     public void setValObj(Object o) {
-        String v = (String) o;
+        String va = (String) o;
         if (iTouch != null) {
             iTouch.onTouch();
         }
-        tBox.setText(v);
+//        tBox.setText(va);
+        eW.setText(va);
         runOnChange(null);
     }
 
@@ -175,12 +300,14 @@ class ExtendTextBox extends AbstractField {
 
     @Override
     public Object getValObj() {
-        return tBox.getText();
+//        return tBox.getText();
+        return eW.getText();
     }
 
     @Override
     public void setReadOnly(final boolean r) {
-        tBox.setReadOnly(r);
+//        tBox.setReadOnly(r);
+        eW.setReadOnly(r);
         if (check != null) {
             check.setEnabled(!r);
         }
@@ -201,7 +328,8 @@ class ExtendTextBox extends AbstractField {
     @Override
     public void addChangeListener(final IFormChangeListener l) {
         super.addChangeListener(l);
-        tBox.addChangeListener(new L());
+//        tBox.addChangeListener(new L());
+        eW.addChangeListener(new L());
     }
 
     @Override

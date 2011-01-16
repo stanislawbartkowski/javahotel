@@ -36,6 +36,12 @@ abstract public class ModalDialog {
 
     protected abstract void addVP(VerticalPanel vp);
 
+    public ModalDialog(String title) {
+        vP = new VerticalPanel();
+        this.title = title;
+        dBox = new DialogBox(false, true);
+    }
+
     public ModalDialog(VerticalPanel vP, String title) {
         this(vP, title, true);
     }

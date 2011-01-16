@@ -28,6 +28,10 @@ public class InvalidateMess {
         this(fie, false, err);
     }
 
+    public InvalidateMess(final IVField fie) {
+        this(fie, true, null);
+    }
+
     /**
      * @return the fie
      */

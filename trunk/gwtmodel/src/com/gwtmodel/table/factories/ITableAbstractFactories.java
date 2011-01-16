@@ -24,11 +24,12 @@ public interface ITableAbstractFactories {
     void registerHeaderListFactory(IHeaderListFactory iheFactory);
 
     void registerPersistFactory(IPersistFactoryAction iPersistFactory);
-    
+
     void registerGetViewControllerFactory(IGetViewControllerFactory iFactory);
-    
+
     void registerGetCustomValues(IGetCustomValues iGetCustomValues);
-    
+
     void registerDataFormConstructorAbstractFactory(IDataFormConstructorAbstractFactory cFactory);
-    
+
+    void registerJavaMailActionFactory(IJavaMailActionFactory mAction);
 }

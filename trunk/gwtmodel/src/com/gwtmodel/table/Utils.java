@@ -276,4 +276,8 @@ public class Utils {
         }
         return tType;
     }
+
+    public static void setId(Widget w, String id) {
+        w.getElement().setId(id);
+    }
 }

@@ -12,27 +12,18 @@
  */
 package com.gwtmodel.table.factories;
 
+import com.gwtmodel.table.slotmodel.ISlotable;
+
 /**
  *
- * @author stanislaw.bartkowski@gmail.com
+ * @author perseus
  */
-public interface ITableCustomFactories {
+public interface IJavaMailAction extends ISlotable {
 
-    IFormTitleFactory getFormTitleFactory();
-
-    IPersistFactoryAction getPersistFactoryAction();
-
-    IHeaderListFactory getHeaderListFactory();
-
-    IDataModelFactory getDataModelFactory();
-
-    IDataValidateActionFactory getDataValidateFactory();
-
-    IGetViewControllerFactory getGetViewControllerFactory();
-
-    IGetCustomValues getGetCustomValues();
-
-    IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory();
-
-    IJavaMailActionFactory getJavaMailActionFactory();
+    String ACTIONGETLISTMAILPROPERTIES = "ACTION_GET_MAIL_PROPERTIES";
+    String SENDLISTMAILPROPERTIES = "SEND_ACTION_GET_MAIL_PROPERTIES";
+    String GET_LIST_OF_TEMPLATES = "GET_LIST_OF_TEMPLATES";
+    String GET_MAIL_TEMPLATE = "GET_MAIL_TEMPLAITE";
+    String SEND_MAIL = "SEND_MAIL";
+    String SEND_RESULT = "SEND_RESULT";
 }

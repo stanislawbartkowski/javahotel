@@ -14,13 +14,14 @@ package com.gwtmodel.table.rdef;
 
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 public class FormField {
 
     private final String pLabel;
     private final IFormLineView eLine;
-    private final IVField fie;
+//    private final IVField fie;
     private final boolean readOnlyIfModif;
     private final IVField fRange;
     private String htmlId;
@@ -30,28 +31,29 @@ public class FormField {
             boolean readOnlyIfModif) {
         this.pLabel = p;
         if (e == null) {
+            assert fie != null : LogT.getT().cannotBeNull();
             EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
             this.eLine = eFactory.constructEditWidget(fie);
         } else {
             this.eLine = e;
         }
-        this.fie = fie;
+//        this.fie = fie;
         this.readOnlyIfModif = readOnlyIfModif;
         this.fRange = null;
     }
 
-    public FormField(final String p, final IFormLineView e, final IVField fie) {
-        this(p, e, fie, false);
+    public FormField(final String p, final IFormLineView e) {
+        this(p, e, null, false);
     }
 
     public FormField(final String p, final IVField fie) {
-        this(p, null, fie);
+        this(p, null, fie,false);
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie, IVField fRange) {
         this.pLabel = p;
         this.eLine = e;
-        this.fie = fie;
+//        this.fie = fie;
         this.readOnlyIfModif = false;
         this.fRange = fRange;
     }
@@ -78,7 +80,7 @@ public class FormField {
      * @return the fie
      */
     public IVField getFie() {
-        return fie;
+        return eLine.getV();
     }
 
     public boolean isRange() {

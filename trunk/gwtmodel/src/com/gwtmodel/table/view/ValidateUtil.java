@@ -21,6 +21,7 @@ import java.util.Set;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.rdef.FormLineContainer;
 
 public class ValidateUtil {
 
@@ -42,6 +43,37 @@ public class ValidateUtil {
 
     public static List<InvalidateMess> checkEmpty(IVModelData mData,
             List<IVField> listMFie) {
+        return checkEmpty(mData, listMFie, new HashSet<IVField>());
+    }
+
+    public static List<InvalidateMess> checkEmpty(final FormLineContainer fo,
+            List<IVField> listMFie) {
+        IVModelData mData = new IVModelData() {
+
+            public Object getF(IVField fie) {
+                return fo.findLineView(fie).getValObj();
+            }
+
+            public void setF(IVField fie, Object o) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public boolean isValid(IVField fie) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public List<IVField> getF() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public Object getCustomData() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            public void setCustomData(Object o) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        };
         return checkEmpty(mData, listMFie, new HashSet<IVField>());
     }
 

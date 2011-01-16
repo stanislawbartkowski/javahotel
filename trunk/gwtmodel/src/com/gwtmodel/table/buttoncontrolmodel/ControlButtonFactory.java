@@ -35,7 +35,7 @@ public class ControlButtonFactory {
     private final IGetCustomValues c;
     private boolean wasset = false;
 
-    private ControlButtonDesc constructButt(StandClickEnum bType) {
+    public ControlButtonDesc constructButt(StandClickEnum bType) {
         String imageName = ControlButtonImages.getImageName(bType);
         switch (bType) {
             case FIND:
@@ -147,54 +147,24 @@ public class ControlButtonFactory {
     public ControlButtonFactory() {
         c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         dButton = new ArrayList<ControlButtonDesc>();
-//        dButton.add(constructButt(StandClickEnum.ADDITEM));
-//        dButton.add(constructButt(StandClickEnum.REMOVEITEM));
-//        dButton.add(constructButt(StandClickEnum.MODIFITEM));
-//        dButton.add(constructButt(StandClickEnum.FILTRLIST));
-//        dButton.add(constructButt(StandClickEnum.FIND));
 
         filtrButton = new ArrayList<ControlButtonDesc>();
-//        filtrButton.add(constructButt(StandClickEnum.SETFILTER));
-//        filtrButton.add(constructButt(StandClickEnum.REMOVEFILTER));
-//        filtrButton.add(constructButt(StandClickEnum.RESIGN));
 
         findButton = new ArrayList<ControlButtonDesc>();
-//        findButton.add(constructButt(StandClickEnum.FINDNOW));
-//        findButton.add(constructButt(StandClickEnum.FINDFROMBEGINNING));
-//        findButton.add(constructButt(StandClickEnum.FINDNEXT));
-//        findButton.add(constructButt(StandClickEnum.RESIGN));
 
         akcButton = new ArrayList<ControlButtonDesc>();
-//        akcButton.add(constructButt(StandClickEnum.ACCEPT));
-//        akcButton.add(constructButt(ClickButtonType.StandClickEnum.RESIGN));
 
         okButton = new ArrayList<ControlButtonDesc>();
-//        okButton.add(new ControlButtonDesc(null, "OK", new ClickButtonType(
-//                ClickButtonType.StandClickEnum.ACCEPT)));
 
         removeButton = new ArrayList<ControlButtonDesc>();
-//        removeButton.add(new ControlButtonDesc(null, "Usuwasz",
-//                new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
-//        removeButton.add(constructButt(ClickButtonType.StandClickEnum.RESIGN));
 
         chooseButton = new ArrayList<ControlButtonDesc>();
-//        chooseButton.add(constructButt(ClickButtonType.StandClickEnum.CHOOSELIST));
-//        chooseButton.add(constructButt(StandClickEnum.RESIGNLIST));
 
         yesnoButton = new ArrayList<ControlButtonDesc>();
-//        yesnoButton.add(new ControlButtonDesc(null, "Tak", new ClickButtonType(
-//                ClickButtonType.StandClickEnum.ACCEPT)));
-//        yesnoButton.add(new ControlButtonDesc(null, "Nie", new ClickButtonType(
-//                ClickButtonType.StandClickEnum.RESIGN)));
 
         loginButton = new ArrayList<ControlButtonDesc>();
-//        loginButton.add(new ControlButtonDesc(null, c.getCustomValue(IGetCustomValues.LOGINBUTTON),
-//                new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
 
         printButton = new ArrayList<ControlButtonDesc>();
-//        printButton.add(new ControlButtonDesc(null, "Drukujesz",
-//                new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
-//        printButton.add(constructButt(StandClickEnum.RESIGN));
     }
 
     public ListOfControlDesc constructCrudList() {

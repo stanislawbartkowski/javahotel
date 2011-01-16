@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.rdef;
 
+import com.gwtmodel.table.IVField;
 import java.util.List;
 
 public class FormLineContainer {
@@ -20,8 +21,16 @@ public class FormLineContainer {
     private final String html;
 
     public FormLineContainer(List<FormField> fList) {
-        this.fList = fList;
-        this.html = null;
+        this(fList, null);
+    }
+
+    public IFormLineView findLineView(IVField v) {
+        for (FormField f : fList) {
+            if (f.getFie().eq(v)) {
+                return f.getELine();
+            }
+        }
+        return null;
     }
 
     public FormLineContainer(List<FormField> fList, String html) {
@@ -43,5 +52,4 @@ public class FormLineContainer {
     public String getHtml() {
         return html;
     }
-
 }

@@ -10,29 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+
+package com.gwtmodel.table.mail;
+
+import com.gwtmodel.table.ICustomObject;
 
 /**
  *
- * @author stanislaw.bartkowski@gmail.com
+ * @author perseus
  */
-public interface ITableCustomFactories {
+public class MailResult implements ICustomObject {
+    
+    private final String errMess;
 
-    IFormTitleFactory getFormTitleFactory();
+    public MailResult(String errMess) {
+        this.errMess = errMess;
+    }
 
-    IPersistFactoryAction getPersistFactoryAction();
+    /**
+     * @return the errMess
+     */
+    public String getErrMess() {
+        return errMess;
+    }
 
-    IHeaderListFactory getHeaderListFactory();
-
-    IDataModelFactory getDataModelFactory();
-
-    IDataValidateActionFactory getDataValidateFactory();
-
-    IGetViewControllerFactory getGetViewControllerFactory();
-
-    IGetCustomValues getGetCustomValues();
-
-    IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory();
-
-    IJavaMailActionFactory getJavaMailActionFactory();
 }

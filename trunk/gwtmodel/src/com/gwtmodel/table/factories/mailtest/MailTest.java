@@ -1,0 +1,277 @@
+/*
+ * Copyright 2010 stanislawbartkowski@gmail.com 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
+package com.gwtmodel.table.factories.mailtest;
+
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.IClickYesNo;
+import com.gwtmodel.table.ICustomObject;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.VSField;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
+import com.gwtmodel.table.controlbuttonview.IControlButtonView;
+import com.gwtmodel.table.datamodelview.DataViewModelFactory;
+import com.gwtmodel.table.datamodelview.IDataViewModel;
+import com.gwtmodel.table.factories.IJavaMailAction;
+import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.mail.ListOfMailProperties;
+import com.gwtmodel.table.mail.MailResult;
+import com.gwtmodel.table.mail.MailToSend;
+import com.gwtmodel.table.panelview.IPanelView;
+import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
+import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.view.ValidateUtil;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.gwtmodel.table.view.util.ModalDialog;
+import com.gwtmodel.table.view.util.YesNoDialog;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ *
+ * @author perseus
+ */
+class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
+
+    private final ITableCustomFactories cuFactories;
+    private final CellId fId;
+    private final CellId bId;
+    private final IPanelView pView;
+    private final IControlButtonView bView;
+    private final EditWidgetFactory wFactory;
+    private final DataViewModelFactory dFactory;
+    private final IVField v1 = VSField.createVString("F_BOX");
+    private final IVField v2 = VSField.createVString("F_HEADER");
+    private final IVField v3 = VSField.createVString("F_CONTENT");
+    private final IVField v4 = VSField.createVString("F_TO");
+    private final IVField v5 = VSField.createVString("F_FROM");
+    private FormLineContainer fContainer;
+    private ListOfMailProperties maPr;
+    private final Wait w = new Wait();
+
+    private class Wait extends ModalDialog {
+
+        Wait() {
+            super("Wysyłanie");
+            create();
+        }
+        private Label box = new Label();
+        private Label to = new Label();
+        private Label header = new Label();
+        private Label res = new Label();
+
+        @Override
+        protected void addVP(VerticalPanel vp) {
+            vp.add(box);
+            vp.add(to);
+            vp.add(header);
+            vp.add(res);
+        }
+
+        void setL(String b, String t, String hea) {
+            box.setText(b);
+            to.setText(t);
+            header.setText(hea);
+            res.setText("Wysyłanie....");
+        }
+
+        void setR(String r) {
+            res.setText(r);
+        }
+    }
+
+    private void createMailForm() {
+        if (maPr.getErrMess() != null) {
+            Label la = new Label(maPr.getErrMess());
+            IGWidget g = new GWidget(la);
+
+            slMediator.getSlContainer().publish(dType, fId, g);
+            return;
+
+        }
+        List<String> li = new ArrayList<String>();
+        for (Map<String, String> m : maPr.getmList()) {
+            String na = maPr.getName(m);
+            li.add(na);
+        }
+        IFormLineView dView = wFactory.constructListCombo(v1, li);
+        IFormLineView hView = wFactory.constructTextField(v2);
+        IFormLineView cView = wFactory.constructRichTextArea(v3);
+        IFormLineView tView = wFactory.constructTextField(v4);
+        IFormLineView fromView = wFactory.constructTextField(v5);
+        FormField f1 = new FormField("Skrzynka", dView);
+        FormField f2 = new FormField("Nagłówek", hView);
+        FormField f3 = new FormField("Treść", cView);
+        FormField f4 = new FormField("Do", tView);
+        FormField f5 = new FormField("Od", fromView);
+        List<FormField> fList = new ArrayList<FormField>();
+        fList.add(f1);
+        fList.add(f4);
+        fList.add(f5);
+        fList.add(f2);
+        fList.add(f3);
+        fContainer = new FormLineContainer(fList);
+        IDataViewModel iView = dFactory.construct(dType, fContainer);
+        slMediator.registerSlotContainer(iView);
+        iView.startPublish(fId);
+    }
+
+    private String getS(IVField v) {
+        IFormLineView i = fContainer.findLineView(v);
+        return (String) i.getValObj();
+    }
+
+    private class YesSend implements IClickYesNo {
+
+        private final Widget wi;
+
+        YesSend(Widget wi) {
+            this.wi = wi;
+        }
+
+        public void click(boolean yes) {
+            if (!yes) {
+                return;
+            }
+            String box = getS(v1);
+            String to = getS(v4);
+            String header = getS(v2);
+            String content = getS(v3);
+            String from = getS(v5);
+            Map<String, String> ma = maPr.getM(box);
+            MailToSend mSend = new MailToSend(ma, header, content, to, from, true);
+            w.setL(box, to, header);
+            w.show(wi);
+            slMediator.getSlContainer().publish(IJavaMailAction.SEND_MAIL, mSend);
+        }
+    }
+
+    private class WaitForRes implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            MailResult ma = (MailResult) o;
+            String errMess = ma.getErrMess();
+            if (errMess == null) {
+                errMess = "OK";
+            }
+            w.setR(errMess);
+        }
+    }
+
+    private class ChangeBox implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            String box = getS(v1);
+            if (CUtil.EmptyS(box)) {
+                return;
+            }
+            Map<String, String> ma = maPr.getM(box);
+            String from = maPr.getFrom(ma);
+            if (CUtil.EmptyS(from)) {
+                return;
+            }
+            IFormLineView i = fContainer.findLineView(v5);
+            i.setValObj(from);
+        }
+    }
+
+    private final class Accept implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            IGWidget w = slContext.getGwtWidget();
+            List<IVField> li = new ArrayList<IVField>();
+            li.add(v1);
+            li.add(v2);
+            li.add(v3);
+            li.add(v4);
+            li.add(v5);
+            List<InvalidateMess> lMess = ValidateUtil.checkEmpty(fContainer, li);
+            if (lMess != null) {
+                slMediator.getSlContainer().publish(DataActionEnum.ChangeViewFormToInvalidAction,
+                        dType, new InvalidateFormContainer(lMess));
+                return;
+            }
+            YesNoDialog yes = new YesNoDialog("Czy zacząć wysyłanie ?", new YesSend(w.getGWidget()));
+            yes.show(w.getGWidget());
+
+        }
+    }
+
+    private final class CreateMail implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            maPr = (ListOfMailProperties) o;
+            createMailForm();
+        }
+    }
+
+    MailTest(IDataType dt,ListOfControlDesc ldesc) {
+        this.dType = dt;
+        cuFactories = GwtGiniInjector.getI().getTableFactoriesContainer();
+        wFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+        dFactory = tFactories.getdViewFactory();
+        IJavaMailAction mAction = cuFactories.getJavaMailActionFactory().contruct();
+        slMediator.registerSlotContainer(mAction);
+//        ControlButtonFactory bFactory = tFactories.getControlButtonFactory();
+//        List<ControlButtonDesc> lButton = new ArrayList<ControlButtonDesc>();
+//        ControlButtonDesc dMail = new ControlButtonDesc("Wyślij",
+//                new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT));
+//        lButton.add(dMail);
+//        lButton.add(bFactory.constructButt(ClickButtonType.StandClickEnum.RESIGN));
+//        ListOfControlDesc ldesc = new ListOfControlDesc(lButton);
+
+        CellId cId = new CellId(1);
+        pView = pViewFactory.construct(dType, cId);
+        bId = pView.addCellPanel(0, 0);
+        fId = pView.addCellPanel(1, 0);
+        pView.createView();
+        ControlButtonViewFactory buFactory = tFactories.getbViewFactory();
+        bView = buFactory.construct(dType, ldesc);
+        slMediator.registerSlotContainer(bId, bView);
+    }
+
+    @Override
+    public void startPublish(CellId cellId) {
+        slMediator.registerSlotContainer(cellId, pView);
+
+        slMediator.getSlContainer().registerSubscriber(dType, v1, new ChangeBox());
+        slMediator.getSlContainer().registerSubscriber(
+                IJavaMailAction.SENDLISTMAILPROPERTIES, new CreateMail());
+        slMediator.getSlContainer().registerSubscriber(
+                ClickButtonType.StandClickEnum.ACCEPT, new Accept());
+        slMediator.getSlContainer().registerSubscriber(IJavaMailAction.SEND_RESULT, new WaitForRes());
+        slMediator.startPublish(null);
+        slMediator.getSlContainer().publish(IJavaMailAction.ACTIONGETLISTMAILPROPERTIES);
+    }
+}

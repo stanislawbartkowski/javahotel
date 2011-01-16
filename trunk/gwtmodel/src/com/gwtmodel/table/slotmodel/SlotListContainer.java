@@ -19,7 +19,6 @@ import com.google.inject.Inject;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
@@ -360,8 +359,6 @@ public final class SlotListContainer {
     public void publish(String stringButton, IGWidget gwtWidget) {
         publish(slContextFactory.construct(slTypeFactory.construct(stringButton),
                 gwtWidget, stringButton));
-//        publish(slContextFactory.construct(slTypeFactory.construct(),
-//                gwtWidget, stringButton));
     }
 
     public void publish(IDataType dType, IVField fie, IFormLineView formLine) {

@@ -16,6 +16,8 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +28,16 @@ import java.util.List;
  */
 class RadioBoxField extends AbstractField {
 
-    private final List<ComboVal> wy;
     private final VerticalPanel vP;
     private final List<RadioButton> ra;
 
-    RadioBoxField(ITableCustomFactories tFactories, IVField v, String zName, List<ComboVal> wy) {
+    RadioBoxField(ITableCustomFactories tFactories, IVField v) {
         super(tFactories, v);
-        this.wy = wy;
         vP = new VerticalPanel();
         ra = new ArrayList<RadioButton>();
-        for (ComboVal w : wy) {
-            RadioButton r = new RadioButton(zName, w.getDispVal());
+        for (String s : listT.getListVal()) {
+            RadioButton r = new RadioButton(v.getId(), s);
+            Utils.setId(r, s);
             vP.add(r);
             ra.add(r);
         }
@@ -45,11 +46,12 @@ class RadioBoxField extends AbstractField {
 
     @Override
     public void setValObj(Object o) {
-        String v = (String) o;
+        String ke = FUtils.getValueOS(o, v);
+        String va = listT.getValueS(ke);
         int no = 0;
         boolean found = false;
-        for (ComboVal w : wy) {
-            if (w.eqS(v)) {
+        for (String s : listT.getListVal()) {
+            if (CUtil.EqNS(s, va)) {
                 found = true;
                 break;
             }
@@ -68,13 +70,15 @@ class RadioBoxField extends AbstractField {
         int no = 0;
         for (RadioButton r : ra) {
             if (r.getValue()) {
-                ComboVal w = wy.get(no);
-                s = w.getDispVal();
+                s = listT.getListVal().get(no);
             }
             no++;
         }
-        if ( s == null) { return null; }
-        return FUtils.getValue(v, s);
+        if (s == null) {
+            return null;
+        }
+        String key = listT.getValue(s);
+        return FUtils.getValue(v, key);
     }
 
     @Override

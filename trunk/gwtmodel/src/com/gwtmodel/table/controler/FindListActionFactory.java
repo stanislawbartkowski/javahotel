@@ -168,27 +168,7 @@ class FindListActionFactory {
             IVField to = new FField(he.getFie(), false, he);
             IFormLineView ifrom = eFactory.constructEditWidget(from);
             IFormLineView ito = eFactory.constructEditWidget(to);
-//            switch (he.getFie().getType().getType()) {
-//                case LONG:
-//                    ifrom = eFactory.contructCalculatorNumber(0, null);
-//                    ito = eFactory.contructCalculatorNumber(0, null);
-//                    break;
-//                case BIGDECIMAL:
-//                    ifrom = eFactory.contructCalculatorNumber(he.getFie().getType().getAfterdot(),
-//                            null);
-//                    ito = eFactory.contructCalculatorNumber(he.getFie().getType().getAfterdot(),
-//                            null);
-//                    break;
-//                case DATE:
-//                    ifrom = eFactory.construcDateBoxCalendar();
-//                    ito = eFactory.construcDateBoxCalendar();
-//                    break;
-//                default:
-//                    ifrom = eFactory.constructTextField(null);
-//                    ito = eFactory.constructTextField(null);
-//                    break;
-//            }
-            liF.add(new FormField(he.getHeaderString(), ifrom, from));
+            liF.add(new FormField(he.getHeaderString(), ifrom));
             liF.add(new FormField(he.getHeaderString(), ito, to, from));
         }
         return liF;

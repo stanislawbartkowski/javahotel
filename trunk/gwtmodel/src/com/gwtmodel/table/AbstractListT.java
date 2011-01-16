@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  *
@@ -25,10 +24,11 @@ import java.util.Map.Entry;
 public abstract class AbstractListT {
 
     private Map<String, String> vals = null;
-    private final Map<String, String> keys;
+    private Map<String, String> keys = null;
+    private final List<IMapEntry> eL;
 
-    protected AbstractListT(Map<String,String> keys) {
-        this.keys = keys;
+    protected AbstractListT(List<IMapEntry> eL) {
+        this.eL = eL;
     }
 
     public Map<String, String> getMap() {
@@ -41,8 +41,10 @@ public abstract class AbstractListT {
             return;
         }
         vals = new HashMap<String, String>();
-        for (Entry<String, String> k : keys.entrySet()) {
+        keys = new HashMap<String, String>();
+        for (IMapEntry k : eL) {
             vals.put(k.getValue(), k.getKey());
+            keys.put(k.getKey(), k.getValue());
         }
     }
 
@@ -59,8 +61,8 @@ public abstract class AbstractListT {
     public List<String> getListVal() {
         setMaps();
         List<String> li = new ArrayList<String>();
-        for (String s : keys.values()) {
-            li.add(s);
+        for (IMapEntry e : eL) {
+            li.add(e.getValue());
         }
         return li;
     }
