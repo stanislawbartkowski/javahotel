@@ -24,8 +24,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.VSField;
-import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
-import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
@@ -50,6 +49,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.gwtmodel.table.view.util.ICloseAction;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import java.util.ArrayList;
@@ -77,8 +77,19 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
     private FormLineContainer fContainer;
     private ListOfMailProperties maPr;
     private final Wait w = new Wait();
+    private final MailToSend startM;
+    private final boolean text;
+    private final boolean showPost;
+    private final IGWidget wi;
 
     private class Wait extends ModalDialog {
+
+        private class CloseA implements ICloseAction {
+
+            public void onClose() {
+                slMediator.getSlContainer().publish(IMailTest.MAIL_SEND, mResult);
+            }
+        }
 
         Wait() {
             super("Wysyłanie");
@@ -88,6 +99,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         private Label to = new Label();
         private Label header = new Label();
         private Label res = new Label();
+        private MailResult mResult = null;
 
         @Override
         protected void addVP(VerticalPanel vp) {
@@ -95,6 +107,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
             vp.add(to);
             vp.add(header);
             vp.add(res);
+            this.setOnClose(new CloseA());
         }
 
         void setL(String b, String t, String hea) {
@@ -106,6 +119,10 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
 
         void setR(String r) {
             res.setText(r);
+        }
+
+        void setMailResult(MailResult mResult) {
+            this.mResult = mResult;
         }
     }
 
@@ -125,9 +142,21 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         }
         IFormLineView dView = wFactory.constructListCombo(v1, li);
         IFormLineView hView = wFactory.constructTextField(v2);
-        IFormLineView cView = wFactory.constructRichTextArea(v3);
+        IFormLineView cView;
+        if (text) {
+            cView = wFactory.constructTextArea(v3);
+        } else {
+            cView = wFactory.constructRichTextArea(v3);
+        }
         IFormLineView tView = wFactory.constructTextField(v4);
         IFormLineView fromView = wFactory.constructTextField(v5);
+        if (startM != null) {
+            cView.setValObj(startM.getContent());
+            dView.setValObj(startM.getBoxName());
+            hView.setValObj(startM.getHeader());
+            tView.setValObj(startM.getTo());
+            fromView.setValObj(startM.getFrom());
+        }
         FormField f1 = new FormField("Skrzynka", dView);
         FormField f2 = new FormField("Nagłówek", hView);
         FormField f3 = new FormField("Treść", cView);
@@ -168,7 +197,8 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
             String content = getS(v3);
             String from = getS(v5);
             Map<String, String> ma = maPr.getM(box);
-            MailToSend mSend = new MailToSend(ma, header, content, to, from, true);
+            MailToSend mSend = new MailToSend(null, ma, header, content, to,
+                    from, text);
             w.setL(box, to, header);
             w.show(wi);
             slMediator.getSlContainer().publish(IJavaMailAction.SEND_MAIL, mSend);
@@ -180,6 +210,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         public void signal(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
             MailResult ma = (MailResult) o;
+            w.setMailResult(ma);
             String errMess = ma.getErrMess();
             if (errMess == null) {
                 errMess = "OK";
@@ -227,29 +258,43 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         }
     }
 
+    private void sendMail() {
+        w.setL(startM.getBoxName(), startM.getTo(), startM.getHeader());
+        Map<String, String> ma = maPr.getM(startM.getBoxName());
+        startM.setBox(ma);
+        w.show(wi.getGWidget());
+        slMediator.getSlContainer().publish(IJavaMailAction.SEND_MAIL, startM);
+    }
+
     private final class CreateMail implements ISlotSignaller {
 
         public void signal(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
             maPr = (ListOfMailProperties) o;
-            createMailForm();
+            if (showPost) {
+                createMailForm();
+            } else {
+                sendMail();
+            }
+
         }
     }
 
-    MailTest(IDataType dt,ListOfControlDesc ldesc) {
+    MailTest(IDataType dt, MailToSend startM, ListOfControlDesc ldesc, boolean showPost, IGWidget wi) {
         this.dType = dt;
+        this.startM = startM;
+        this.showPost = showPost;
+        this.wi = wi;
+        if (startM == null) {
+            text = false;
+        } else {
+            text = startM.isText();
+        }
         cuFactories = GwtGiniInjector.getI().getTableFactoriesContainer();
         wFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         dFactory = tFactories.getdViewFactory();
         IJavaMailAction mAction = cuFactories.getJavaMailActionFactory().contruct();
         slMediator.registerSlotContainer(mAction);
-//        ControlButtonFactory bFactory = tFactories.getControlButtonFactory();
-//        List<ControlButtonDesc> lButton = new ArrayList<ControlButtonDesc>();
-//        ControlButtonDesc dMail = new ControlButtonDesc("Wyślij",
-//                new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT));
-//        lButton.add(dMail);
-//        lButton.add(bFactory.constructButt(ClickButtonType.StandClickEnum.RESIGN));
-//        ListOfControlDesc ldesc = new ListOfControlDesc(lButton);
 
         CellId cId = new CellId(1);
         pView = pViewFactory.construct(dType, cId);
@@ -273,5 +318,6 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         slMediator.getSlContainer().registerSubscriber(IJavaMailAction.SEND_RESULT, new WaitForRes());
         slMediator.startPublish(null);
         slMediator.getSlContainer().publish(IJavaMailAction.ACTIONGETLISTMAILPROPERTIES);
+
     }
 }

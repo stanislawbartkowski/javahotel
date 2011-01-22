@@ -13,5 +13,4 @@
 package com.gwtmodel.table;
 
 public interface IDataType extends IEquatable<IDataType> {
-
 }

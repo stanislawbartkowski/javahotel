@@ -21,14 +21,17 @@ import java.util.Map;
  */
 public class MailToSend implements ICustomObject {
 
-    private final Map<String, String> box;
+    private Map<String, String> box;
+    private final String boxName;
     private final String header;
     private final String content;
     private final String to;
     private final String from;
     private final boolean text;
 
-    public MailToSend(Map<String, String> box, String header, String content, String to, String from, boolean text) {
+    public MailToSend(String boxName, Map<String, String> box, String header,
+            String content, String to, String from, boolean text) {
+        this.boxName = boxName;
         this.box = box;
         this.header = header;
         this.content = content;
@@ -79,6 +82,17 @@ public class MailToSend implements ICustomObject {
         return text;
     }
 
+    /**
+     * @return the boxName
+     */
+    public String getBoxName() {
+        return boxName;
+    }
 
-
+    /**
+     * @param box the box to set
+     */
+    public void setBox(Map<String, String> box) {
+        this.box = box;
+    }
 }
