@@ -22,12 +22,11 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 
-
 /**
  *
  * @author hotel
  */
- public class SetVPanelGwt {
+public class SetVPanelGwt {
 
     private final VerticalPanel vPanel;
 
@@ -35,12 +34,19 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
         vPanel = new VerticalPanel();
     }
 
+    /**
+     * @return the vPanel
+     */
+    public VerticalPanel getvPanel() {
+        return vPanel;
+    }
+
     private class SetGwt implements ISlotSignaller {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             Widget w = slContext.getGwtWidget().getGWidget();
-            vPanel.add(w);
+            getvPanel().add(w);
         }
     }
 
@@ -49,6 +55,6 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
     }
 
     public GWidget constructGWidget() {
-        return new GWidget(vPanel);
+        return new GWidget(getvPanel());
     }
 }

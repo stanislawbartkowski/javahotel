@@ -25,16 +25,24 @@ abstract public class ModalDialog {
     private final DialogBox dBox;
     protected final VerticalPanel vP;
     private String title;
+    private ICloseAction iClose = null;
 
     private class CloseClick implements ICloseAction {
 
         @Override
         public void onClose() {
             hide();
+            if (iClose != null) {
+                iClose.onClose();
+            }
         }
     }
 
     protected abstract void addVP(VerticalPanel vp);
+
+    public void setOnClose(ICloseAction iClose) {
+        this.iClose = iClose;
+    }
 
     public ModalDialog(String title) {
         vP = new VerticalPanel();

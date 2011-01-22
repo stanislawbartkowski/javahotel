@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.ewidget;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -30,7 +31,8 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
-import com.gwtmodel.table.view.ewidget.richtextoolbar.RichTextToolbar;
+import com.gwtmodel.table.view.ewidget.richtextoolbar.googlerichbar.RichTextToolbar;
+//import com.gwtmodel.table.view.ewidget.richtextoolbar.RichTextToolbar;
 
 /**
  * 
@@ -43,7 +45,9 @@ class ExtendTextBox extends AbstractField {
 
         private final TextBoxBase tBox;
         private final RichTextArea rArea;
-        private final VerticalPanel vP;
+//        private final VerticalPanel vP;
+        private final Grid vP;
+
 
         EWidget(EParam param) {
             if (param.isPassword()) {
@@ -52,12 +56,14 @@ class ExtendTextBox extends AbstractField {
                 vP = null;
             } else {
                 if (param.isIsRich()) {
-                    vP = new VerticalPanel();
+                    vP = new Grid(2, 1);
+//                    vP = new VerticalPanel();
+                    vP.setStyleName("cw-RichText");
                     rArea = new RichTextArea();
                     RichTextToolbar r = new RichTextToolbar(rArea);
                     rArea.setWidth("100%");
-                    vP.add(r);
-                    vP.add(rArea);
+                    vP.setWidget(0, 0, r);
+                    vP.setWidget(1, 0, rArea);
                     tBox = null;
                 } else {
                     tBox = param.isArea() ? new TextArea() : new TextBox();
@@ -94,7 +100,8 @@ class ExtendTextBox extends AbstractField {
             if (rArea == null) {
                 tBox.setText(t);
             } else {
-                rArea.setText(t);
+                rArea.setHTML(t);
+//                rArea.setText(t);
             }
         }
 
@@ -110,7 +117,8 @@ class ExtendTextBox extends AbstractField {
             if (rArea == null) {
                 return tBox.getText();
             } else {
-                return rArea.getText();
+//                return rArea.getText();
+                return rArea.getHTML();
             }
         }
 

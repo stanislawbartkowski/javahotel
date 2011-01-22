@@ -17,7 +17,6 @@ import com.gwtmodel.table.IVField;
 public interface IGetCustomValues {
 
     IVField getSymForCombo();
-
     String IMAGEFORLISTHELP = "IMAGEFORLISTHEP";
     String IMAGEFOLDER = "IMAGEFOLDER";
     String RESOURCEFOLDER = "RESOURCEFOLDER";

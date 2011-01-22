@@ -25,7 +25,32 @@ import java.util.Date;
  */
 public class FUtils {
 
+    public interface IBooleanConversion {
+
+        String toS(Boolean b);
+
+        Boolean toB(String s);
+    }
+    private static IBooleanConversion iBool;
+
+    public static void setB(IBooleanConversion b) {
+        iBool = b;
+    }
+
+    private static class ConvB implements IBooleanConversion {
+
+        public String toS(Boolean b) {
+            return b.toString();
+        }
+
+        public Boolean toB(String s) {
+            return new Boolean(s);
+        }
+
+    }
+
     private FUtils() {
+        iBool = new ConvB();
     }
 
     public static int getRowNumber(IDataListType tList) {
@@ -71,6 +96,9 @@ public class FUtils {
                 break;
             case ENUM:
                 o = f.getType().getE().toEnum(s);
+                break;
+            case BOOLEAN:
+                o = iBool.toB(s);
                 break;
             default:
                 o = s;
@@ -332,6 +360,14 @@ public class FUtils {
         return va;
     }
 
+    private static String getBoolS(Object o, IVField f) {
+        if (o == null) {
+            return "";
+        }
+        Boolean b = (Boolean) o;
+        return iBool.toS(b);
+    }
+
     /**
      * Transforms object to string value
      * @param oo Object to be transfored
@@ -357,7 +393,8 @@ public class FUtils {
                     return getIntS(o, f);
                 case ENUM:
                     return getEnum(o, f);
-
+                case BOOLEAN:
+                    return getBoolS(o, f);
                 default:
                     return getStringS(o, f);
             }

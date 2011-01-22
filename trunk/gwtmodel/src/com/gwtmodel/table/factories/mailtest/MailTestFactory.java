@@ -12,11 +12,11 @@
  */
 package com.gwtmodel.table.factories.mailtest;
 
-import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.injector.TablesFactories;
+import com.gwtmodel.table.mail.MailToSend;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,26 +27,18 @@ import java.util.List;
  */
 public class MailTestFactory {
 
-    private final TablesFactories tFactories;
-
-    @Inject
-    public MailTestFactory(TablesFactories tFactories) {
-        this.tFactories = tFactories;
-    }
-
     public IMailTest construct(IDataType dt) {
-//        ControlButtonFactory bFactory = tFactories.getControlButtonFactory();
         List<ControlButtonDesc> lButton = new ArrayList<ControlButtonDesc>();
         ControlButtonDesc dMail = new ControlButtonDesc("Wyślij",
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT));
         lButton.add(dMail);
-//        lButton.add(bFactory.constructButt(ClickButtonType.StandClickEnum.RESIGN));
         ListOfControlDesc ldesc = new ListOfControlDesc(lButton);
 
-        return new MailTest(dt, ldesc);
+        return new MailTest(dt, null, ldesc, true, null);
     }
 
-    public IMailTest construct(IDataType dt, ListOfControlDesc ldesc) {
-        return new MailTest(dt, ldesc);
+    public IMailTest construct(IDataType dt, MailToSend mSend,
+            ListOfControlDesc ldesc, boolean showPost, IGWidget wi) {
+        return new MailTest(dt, mSend, ldesc, showPost, wi);
     }
 }

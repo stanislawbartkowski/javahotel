@@ -21,4 +21,6 @@ import com.gwtmodel.table.slotmodel.ISlotable;
  */
 public interface IMailTest extends ISlotable {
 
+    String MAIL_SEND = "JUST_WAS_MAIL_SENT";
+
 }
