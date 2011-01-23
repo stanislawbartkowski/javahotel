@@ -24,7 +24,6 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.VSField;
-import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
@@ -34,6 +33,7 @@ import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IJavaMailAction;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.mail.ListOfMailProperties;
 import com.gwtmodel.table.mail.MailResult;
 import com.gwtmodel.table.mail.MailToSend;
@@ -92,7 +92,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         }
 
         Wait() {
-            super("Wysyłanie");
+            super(MM.getL().SendingHeader());
             create();
         }
         private Label box = new Label();
@@ -114,7 +114,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
             box.setText(b);
             to.setText(t);
             header.setText(hea);
-            res.setText("Wysyłanie....");
+            res.setText(MM.getL().SendingMail());
         }
 
         void setR(String r) {
@@ -161,7 +161,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         FormField f2 = new FormField("Nagłówek", hView);
         FormField f3 = new FormField("Treść", cView);
         FormField f4 = new FormField("Do", tView);
-        FormField f5 = new FormField("Od", fromView);
+        FormField f5 = new FormField(MM.getL().MailFrom(), fromView);
         List<FormField> fList = new ArrayList<FormField>();
         fList.add(f1);
         fList.add(f4);
@@ -197,7 +197,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
             String content = getS(v3);
             String from = getS(v5);
             Map<String, String> ma = maPr.getM(box);
-            MailToSend mSend = new MailToSend(null, ma, header, content, to,
+            MailToSend mSend = new MailToSend(maPr.getName(ma), ma, header, content, to,
                     from, text);
             w.setL(box, to, header);
             w.show(wi);
@@ -252,7 +252,8 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
                         dType, new InvalidateFormContainer(lMess));
                 return;
             }
-            YesNoDialog yes = new YesNoDialog("Czy zacząć wysyłanie ?", new YesSend(w.getGWidget()));
+            YesNoDialog yes = new YesNoDialog(MM.getL().SendingQuestion(),
+                    new YesSend(w.getGWidget()));
             yes.show(w.getGWidget());
 
         }
