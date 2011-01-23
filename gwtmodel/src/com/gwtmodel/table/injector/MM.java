@@ -18,7 +18,6 @@ package com.gwtmodel.table.injector;
 
 import com.google.gwt.core.client.GWT;
 import com.gwtmodel.table.TLabels;
-import com.gwtmodel.table.TLogMessages;
 
 /**
  *
