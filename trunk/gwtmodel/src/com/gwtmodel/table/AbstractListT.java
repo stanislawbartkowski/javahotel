@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -23,12 +24,64 @@ import java.util.Map;
  */
 public abstract class AbstractListT {
 
+    public interface IGetMap {
+
+        Map<String, String> getM();
+    }
+
+    private static class MapToList implements IGetList {
+
+        private class MapE implements IMapEntry {
+
+            private final String key, val;
+
+            MapE(String key, String val) {
+                this.key = key;
+                this.val = val;
+            }
+
+            public String getKey() {
+                return key;
+            }
+
+            public String getValue() {
+                return val;
+            }
+        }
+        private final IGetMap getM;
+
+        private MapToList(IGetMap getM) {
+            this.getM = getM;
+        }
+
+        public List<IMapEntry> getL() {
+
+            List<IMapEntry> li = new ArrayList<IMapEntry>();
+            Map<String, String> ma = getM.getM();
+            for (Entry<String, String> e : ma.entrySet()) {
+                MapE ee = new MapE(e.getKey(), e.getValue());
+                li.add(ee);
+            }
+            return li;
+
+        }
+    }
+
+    public interface IGetList {
+
+        List<IMapEntry> getL();
+    }
     private Map<String, String> vals = null;
     private Map<String, String> keys = null;
-    private final List<IMapEntry> eL;
+    private List<IMapEntry> eL = null;
+    private final IGetList iGet;
 
-    protected AbstractListT(List<IMapEntry> eL) {
-        this.eL = eL;
+    protected AbstractListT(IGetList iGet) {
+        this.iGet = iGet;
+    }
+
+    protected AbstractListT(IGetMap iGet) {
+        this.iGet = new MapToList(iGet);
     }
 
     public Map<String, String> getMap() {
@@ -40,6 +93,7 @@ public abstract class AbstractListT {
         if (vals != null) {
             return;
         }
+        eL = iGet.getL();
         vals = new HashMap<String, String>();
         keys = new HashMap<String, String>();
         for (IMapEntry k : eL) {

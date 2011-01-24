@@ -70,7 +70,7 @@ public abstract class PopupTip extends Composite {
         return addDomHandler(handler, MouseOutEvent.getType());
     }
 
-    private void setMouse() {
+    protected void setMouse() {
         this.addMouseOutHandler(new MouseO());
         this.addMouseOverHandler(new MouseO());
     }
