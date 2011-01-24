@@ -12,6 +12,7 @@
  */
 package com.javahotel.client.abstractto;
 
+import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.common.CUtil;
@@ -51,15 +52,11 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.ServiceType;
 import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.common.util.AbstractObjectFactory;
-import java.lang.String;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * 
@@ -109,7 +106,7 @@ public class AbstractToFactory {
             return rI.getLabels().Services();
         }
     };
-    private static final EnumTypeToS<ServiceType> e = new EnumTypeToS<ServiceType>(ge, ServiceType.DOSTAWKA);
+    private static final EnumTypeToS<ServiceType> e = new EnumTypeToS<ServiceType>(new GetMap(ge), ServiceType.DOSTAWKA);
     private static final T stringServiceT = new T(String.class, FieldDataType.constructEnum(e));
     private static final getMap gec = new getMap() {
 
@@ -118,7 +115,7 @@ public class AbstractToFactory {
             return rI.getLabels().CustomerType();
         }
     };
-    private static final EnumTypeToS<CustomerType> ec = new EnumTypeToS<CustomerType>(gec, CustomerType.Company);
+    private static final EnumTypeToS<CustomerType> ec = new EnumTypeToS<CustomerType>(new GetMap(gec), CustomerType.Company);
     private static final getMap gept = new getMap() {
 
         @Override
@@ -126,7 +123,7 @@ public class AbstractToFactory {
             return rI.getLabels().PTitles();
         }
     };
-    private static final EnumTypeToS<PersonTitle> ept = new EnumTypeToS<PersonTitle>(gept, PersonTitle.Mr);
+    private static final EnumTypeToS<PersonTitle> ept = new EnumTypeToS<PersonTitle>(new GetMap(gept), PersonTitle.Mr);
     private static final getMap gedoct = new getMap() {
 
         @Override
@@ -134,54 +131,55 @@ public class AbstractToFactory {
             return rI.getLabels().DocTypes();
         }
     };
-    private static final EnumTypeToS<IdentDocType> edoct = new EnumTypeToS<IdentDocType>(gedoct, IdentDocType.DriverLicense);
+    private static final EnumTypeToS<IdentDocType> edoct = new EnumTypeToS<IdentDocType>(new GetMap(gedoct), IdentDocType.DriverLicense);
     private static final T stringDocT = new T(String.class, FieldDataType.constructEnum(edoct));
     private static final T stringCustomerT = new T(String.class, FieldDataType.constructEnum(ec));
     private static final T stringPersonT = new T(String.class, FieldDataType.constructEnum(ept));
     private final static FieldDataType.ICustomType iVat = new DictionaryToS<VatDictionaryP>(DictType.VatDict, VatDictionaryP.class);
     private static final T stringVatT = new T(String.class, FieldDataType.constructString(iVat));
 
+    private static class GetMap implements AbstractListT.IGetMap {
+
+        private final getMap g;
+
+        GetMap(getMap g) {
+            this.g = g;
+        }
+
+        @Override
+        public Map<String, String> getM() {
+            IResLocator rI = HInjector.getI().getI();
+            return g.getM(rI);
+        }
+    }
+
     private interface getMap {
 
         Map<String, String> getM(IResLocator rI);
     }
 
-    private static class EnumTypeToS<T extends Enum> implements FieldDataType.IEnumType {
+    private static class EnumTypeToS<T extends Enum> extends AbstractListT implements FieldDataType.IEnumType {
 
-        private final getMap g;
-        private final T t;
         private final Class cl;
-        private Map<String, String> ma;
-        private Map<String, String> reve;
+        private final T t;
 
-        EnumTypeToS(getMap g, T t) {
+        EnumTypeToS(AbstractListT.IGetMap g, T t) {
+            super(g);
             this.cl = t.getClass();
-            this.g = g;
             this.t = t;
-            ma = reve = null;
-        }
-
-        private void checkMa() {
-            if (ma == null) {
-                IResLocator rI = HInjector.getI().getI();
-                ma = g.getM(rI);
-                Set<Entry<String, String>> st = ma.entrySet();
-                Iterator<Entry<String, String>> i = st.iterator();
-                reve = new HashMap<String, String>();
-                while (i.hasNext()) {
-                    Entry<String, String> e = i.next();
-                    reve.put(e.getValue(), e.getKey());
-                }
-            }
         }
 
         @Override
-        public Enum toEnum(String s) {
-            if (CUtil.EmptyS(s)) {
+        public boolean IsNullEnum(Enum e) {
+            return e == null;
+        }
+
+        @Override
+        public Enum toEnum(String e) {
+            if (CUtil.EmptyS(e)) {
                 return null;
             }
-            checkMa();
-            String e = reve.get(s);
+            String val = getValueS(e);
             T se = (T) t.valueOf(cl, e);
             return se;
         }
@@ -195,17 +193,80 @@ public class AbstractToFactory {
         }
 
         @Override
-        public Map<String, String> getMap() {
-            IResLocator rI = HInjector.getI().getI();
-            return g.getM(rI);
-        }
-
-        @Override
-        public boolean IsNullEnum(Enum e) {
-            return e == null;
+        public List<String> getValues() {
+            return getListVal();
         }
     }
 
+//    private static class EnumTypeToS<T extends Enum> implements FieldDataType.IEnumType {
+//
+//        private final getMap g;
+//        private final T t;
+//        private final Class cl;
+//        private Map<String, String> ma;
+//        private Map<String, String> reve;
+//
+//        EnumTypeToS(getMap g, T t) {
+//            this.cl = t.getClass();
+//            this.g = g;
+//            this.t = t;
+//            ma = reve = null;
+//        }
+//
+//        private void checkMa() {
+//            if (ma == null) {
+//                IResLocator rI = HInjector.getI().getI();
+//                ma = g.getM(rI);
+//                Set<Entry<String, String>> st = ma.entrySet();
+//                Iterator<Entry<String, String>> i = st.iterator();
+//                reve = new HashMap<String, String>();
+//                while (i.hasNext()) {
+//                    Entry<String, String> e = i.next();
+//                    reve.put(e.getValue(), e.getKey());
+//                }
+//            }
+//        }
+//
+//        @Override
+//        public Enum toEnum(String s) {
+//            if (CUtil.EmptyS(s)) {
+//                return null;
+//            }
+//            checkMa();
+//            String e = reve.get(s);
+//            T se = (T) t.valueOf(cl, e);
+//            return se;
+//        }
+//
+//        @Override
+//        public String assertS(Object sou) {
+//            if (sou.getClass().equals(cl)) {
+//                return null;
+//            }
+//            return FUtils.constructAssertS(sou, cl);
+//        }
+//
+////        @Override
+////        public Map<String, String> getMap() {
+////            IResLocator rI = HInjector.getI().getI();
+////            return g.getM(rI);
+////        }
+//
+//        @Override
+//        public boolean IsNullEnum(Enum e) {
+//            return e == null;
+//        }
+//
+//        @Override
+//        public String getValueS(String esou) {
+//            throw new UnsupportedOperationException("Not supported yet.");
+//        }
+//
+//        @Override
+//        public List<String> getValues() {
+//            throw new UnsupportedOperationException("Not supported yet.");
+//        }
+//    }
     private static class DictionaryToS<T extends DictionaryP> implements FieldDataType.ICustomType {
 
         private final DictType da;

@@ -16,6 +16,7 @@
     <inherits name="com.google.gwt.http.HTTP"/>
     <inherits name="com.google.gwt.inject.Inject"/>    
    	<inherits name="com.gwtmodel.table" />    
+   	<inherits name="com.gwtmodel.commontable" />
 <!--    <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> --> 
 <!--    <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
 </module>
