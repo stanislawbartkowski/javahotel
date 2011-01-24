@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import com.gwtmodel.table.IMapEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -21,6 +22,7 @@ import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.AbstractListT;
+import com.gwtmodel.table.AbstractListT.IGetList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.LogT;
@@ -28,6 +30,7 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.util.PopupTip;
+import java.util.List;
 
 /**
  * 
@@ -52,7 +55,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         return v;
     }
 
-    AbstractField(ITableCustomFactories tFactories, IVField v, boolean checkenable) {
+    AbstractField(ITableCustomFactories tFactories, final IVField v, boolean checkenable) {
         assert v != null : LogT.getT().cannotBeNull();
         this.tFactories = tFactories;
         iTouch = null;
@@ -63,7 +66,14 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         if (v.getType().getLi() == null) {
             listT = null;
         } else {
-            listT = new AbstractListT(v.getType().getLi().getList()) {};
+            IGetList iGet = new IGetList() {
+
+                public List<IMapEntry> getL() {
+                    return v.getType().getLi().getList();
+                }
+            };
+            listT = new AbstractListT(iGet) {
+            };
         }
     }
 

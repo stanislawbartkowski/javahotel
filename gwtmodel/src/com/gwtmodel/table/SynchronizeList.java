@@ -28,7 +28,7 @@ public abstract class SynchronizeList {
         reset();
     }
 
-    public void reset() {
+    public final void reset() {
         actSync = 0;
     }
 

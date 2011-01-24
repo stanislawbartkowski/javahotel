@@ -21,7 +21,6 @@ public class FormField {
 
     private final String pLabel;
     private final IFormLineView eLine;
-//    private final IVField fie;
     private final boolean readOnlyIfModif;
     private final IVField fRange;
     private String htmlId;
@@ -37,9 +36,12 @@ public class FormField {
         } else {
             this.eLine = e;
         }
-//        this.fie = fie;
         this.readOnlyIfModif = readOnlyIfModif;
         this.fRange = null;
+    }
+
+    public FormField(final String p, final IFormLineView e, final IVField fie) {
+        this(p, e, fie, false);
     }
 
     public FormField(final String p, final IFormLineView e) {
@@ -47,13 +49,12 @@ public class FormField {
     }
 
     public FormField(final String p, final IVField fie) {
-        this(p, null, fie,false);
+        this(p, null, fie, false);
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie, IVField fRange) {
         this.pLabel = p;
         this.eLine = e;
-//        this.fie = fie;
         this.readOnlyIfModif = false;
         this.fRange = fRange;
     }
