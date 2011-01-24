@@ -38,6 +38,7 @@ class GetValueLB extends ELineDialog implements IValueLB {
 
     }
 
+    @Override
     public String getVal() {
         int i = lB.getSelectedIndex();
         if (i == -1) {
@@ -63,6 +64,7 @@ class GetValueLB extends ELineDialog implements IValueLB {
         }
     }
 
+    @Override
     public void setVal(final String s) {
         setV(s);
         runOnChange(this);
@@ -71,13 +73,16 @@ class GetValueLB extends ELineDialog implements IValueLB {
 //        }
     }
 
+    @Override
     public void refresh() {
     }
 
+    @Override
     public void setReadOnly(final boolean readOnly) {
         lB.setEnabled(!readOnly);
     }
 
+    @Override
     public boolean validateField() {
         return true;
     }
@@ -87,6 +92,7 @@ class GetValueLB extends ELineDialog implements IValueLB {
         return -1;
     }
 
+    @Override
     public void setChangeListener(final IChangeListener l) {
 //        lC = l;
         super.setChangeListener(l);
@@ -105,10 +111,12 @@ class GetValueLB extends ELineDialog implements IValueLB {
     /**
      * @return the beforeVal
      */
+    @Override
     public String getBeforeVal() {
         return beforeVal;
     }
 
+    @Override
     public void setList(List<String> li) {
         lB.clear();
         for (String s : li) {
