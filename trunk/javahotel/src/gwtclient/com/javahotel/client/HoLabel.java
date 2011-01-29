@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 stanislawbartkowski@gmail.com 
+ * Copyright 2011 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -68,8 +68,6 @@ public interface HoLabel extends Constants {
     String DodajButton();
 
     String UsunButton();
-
-    String EmptyField();
 
     String ModifItem();
 
