@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 stanislawbartkowski@gmail.com 
+ * Copyright 2011 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -35,7 +35,7 @@ public interface IGetCustomValues {
     String LOGINMAME = "LOGINNAME";
     String PASSWORD = "PASSWORD";
     String LOGINBUTTON = "LOGINBUTTON";
-    String EMPTYFIELDERRORDEFAULT = "EMPTYFIELDERRORDEFAULT";
+//    String EMPTYFIELDERRORDEFAULT = "EMPTYFIELDERRORDEFAULT";
 
     String getCustomValue(String key);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 stanislawbartkowski@gmail.com 
+ * Copyright 2011 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -18,6 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 
 class ErrorLineContainer {
@@ -37,7 +38,8 @@ class ErrorLineContainer {
         re.getELine().setGStyleName("dialog-empty-field", true);
         String e;
         if (m.isEmpty()) {
-            e = c.getCustomValue(IGetCustomValues.EMPTYFIELDERRORDEFAULT);
+//            e = c.getCustomValue(IGetCustomValues.EMPTYFIELDERRORDEFAULT);
+            e = MM.getL().EmptyFieldMessage();
         } else {
             e = m.getErrmess();
         }
