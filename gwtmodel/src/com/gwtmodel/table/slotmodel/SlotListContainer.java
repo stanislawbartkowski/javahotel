@@ -86,7 +86,9 @@ public final class SlotListContainer {
                 }
             }
 
-            for (SlotSubscriberType so : listOfSubscribers) {
+            // to avoid concurrency exception
+            List<SlotSubscriberType> li = (List<SlotSubscriberType>) ((ArrayList)listOfSubscribers).clone();
+            for (SlotSubscriberType so : li) {
                 if (sl.eq(so.getSlType())) {
                     LogT.getLS().info(LogT.getT().sendSignalLog(slContext.getSlType().toString()));
                     so.getSlSignaller().signal(slContext);
