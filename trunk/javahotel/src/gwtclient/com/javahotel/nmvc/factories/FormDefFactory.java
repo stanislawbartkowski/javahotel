@@ -26,6 +26,7 @@ import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;
 import com.javahotel.nmvc.common.FormLineDef;
 import com.javahotel.nmvc.common.VField;
 import com.javahotel.nmvc.factories.impl.RecordFormDefFactory;
+import com.gwtmodel.table.IVField;
 
 public class FormDefFactory extends HelperFactory implements IFormTitleFactory,
         IFormDefFactory {
@@ -48,7 +49,8 @@ public class FormDefFactory extends HelperFactory implements IFormTitleFactory,
         List<RecordField> def = gFactory.getDef(da);
         List<FormField> formList = new ArrayList<FormField>();
         for (RecordField re : def) {
-            FormField fo = new FormField(re.getPLabel(), new FormLineDef(re.getELine()), new VField(re.getFie()), !re.isCanChange());
+        	IVField iV = new VField(re.getFie()); 
+            FormField fo = new FormField(re.getPLabel(), new FormLineDef(re.getELine(),iV), iV, !re.isCanChange());
             formList.add(fo);
         }
         return new FormLineContainer(formList);

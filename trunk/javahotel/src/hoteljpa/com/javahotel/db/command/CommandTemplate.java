@@ -35,176 +35,174 @@ import com.javahotel.remoteinterfaces.SessionT;
 import com.javahotel.security.login.HotelLoginP;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 abstract public class CommandTemplate {
 
-    protected abstract void prevRun();
+	protected abstract void prevRun();
 
-    private class ContextC implements ICommandContext {
+	private class ContextC implements ICommandContext {
 
-        private JpaEntity jpa;
-        private final HotelLoginP hp;
-        private final SessionT sessionId;
-        private RHotel rHotel;
-        private final IPersistCache iCache;
+		private JpaEntity jpa;
+		private final HotelLoginP hp;
+		private final SessionT sessionId;
+		private RHotel rHotel;
+		private final IPersistCache iCache;
 
-        ContextC(final HotelLoginP php, final SessionT se) {
-            this.hp = php;
-            this.sessionId = se;
-            jpa = null;
-            iCache = new PersistCache();
-        }
+		ContextC(final HotelLoginP php, final SessionT se) {
+			this.hp = php;
+			this.sessionId = se;
+			jpa = null;
+			iCache = new PersistCache();
+		}
 
-        public JpaEntity getJpa() {
-            return jpa;
-        }
+		public JpaEntity getJpa() {
+			return jpa;
+		}
 
-        public void setJpa(final JpaEntity jpa) {
-            this.jpa = jpa;
-        }
+		public void setJpa(final JpaEntity jpa) {
+			this.jpa = jpa;
+		}
 
-        public HotelLoginP getHP() {
-            return hp;
-        }
+		public HotelLoginP getHP() {
+			return hp;
+		}
 
-        public SessionT getSession() {
-            return sessionId;
-        }
+		public SessionT getSession() {
+			return sessionId;
+		}
 
-        public void setHotel(final String h) {
-            rHotel = CommonHelper.getH(this, new HotelT(h));
-        }
+		public void setHotel(final String h) {
+			rHotel = CommonHelper.getH(this, new HotelT(h));
+		}
 
-        public String getHotel() {
-            return rHotel.getName();
-        }
+		public String getHotel() {
+			return rHotel.getName();
+		}
 
-        public RHotel getRHotel() {
-            return rHotel;
-        }
+		public RHotel getRHotel() {
+			return rHotel;
+		}
 
-        public String logEvent(String eId, final Object... params) {
-            String se = sessionId.getName();
-            String user = hp.getUser();
-            return ELog.logEventHS(eId, eId, se, user, getHotel(), params);
-        }
+		public String logEvent(String eId, final Object... params) {
+			String se = sessionId.getName();
+			String user = hp.getUser();
+			return ELog.logEventHS(eId, eId, se, user, getHotel(), params);
+		}
 
-        public void logFatal(final String messid, final Object... params) {
-            String se = sessionId.getName();
-            String user = hp.getUser();
-            HLog.logFailureSE(se, user, getHotel(), messid, params);
-        }
+		public void logFatal(final String messid, final Object... params) {
+			String se = sessionId.getName();
+			String user = hp.getUser();
+			HLog.logFailureSE(se, user, getHotel(), messid, params);
+		}
 
-        public void logFatalE(Exception e) {
-            HLog.fatalFailureE(e);
-        }
+		public void logFatalE(Exception e) {
+			HLog.fatalFailureE(e);
+		}
 
-        public GetLogger getLog() {
-            return HLog.getL();
-        }
+		public GetLogger getLog() {
+			return HLog.getL();
+		}
 
-        public IPersistCache getC() {
-            return iCache;
-        }
+		public IPersistCache getC() {
+			return iCache;
+		}
 
-        public boolean isNull(HId id) {
-            if (id == null) {
-                return true;
-            }
-            return id.isNull();
-        }
+		public boolean isNull(HId id) {
+			if (id == null) {
+				return true;
+			}
+			return id.isNull();
+		}
 
-        public String getRecordDescr(DictType d, IPureDictionary o) {
-            HId id = o.getId();
-            String name = o.getName();
-            String descr = o.getDescription();
-            String idS = "(no)";
-            if (!isNull(id)) {
-                idS = id.toString();
-            }
-            String cName = o.getName();
-            if (d != null) {
-                cName = d.toString();
-            }
-            String logs = MessageFormat.format(GetLMess.getM(IMessId.DICTRECORDDESCRIPTION), cName, idS, name,
-                    descr);
-            return logs;
-        }
-    }
-    private final boolean blockP;
-    protected boolean trasuccess;
-    private boolean startedt = false;
-    protected final ICommandContext iC;
-    private final boolean startTraAutom;
+		public String getRecordDescr(DictType d, IPureDictionary o) {
+			HId id = o.getId();
+			String name = o.getName();
+			String descr = o.getDescription();
+			String idS = "(no)";
+			if (!isNull(id)) {
+				idS = id.toString();
+			}
+			String cName = o.getName();
+			if (d != null) {
+				cName = d.toString();
+			}
+			String logs = MessageFormat.format(
+					GetLMess.getM(IMessId.DICTRECORDDESCRIPTION), cName, idS,
+					name, descr);
+			return logs;
+		}
+	}
 
-    protected abstract void command();
+	private final boolean blockP;
+	protected boolean trasuccess;
+	private boolean startedt = false;
+	protected final ICommandContext iC;
+	private final boolean startTraAutom;
 
-    protected void aftercommit() {
-    }
+	protected abstract void command();
 
-    protected boolean startedTra() {
-        return startedt;
-    }
+	protected void aftercommit() {
+	}
 
-    public CommandTemplate(final SessionT sessionId, final boolean admin,
-            final boolean blockP, final boolean startTraAutom) {
-        HotelLoginP hp = SecurityFilter.isLogged(sessionId, admin);
-        this.blockP = blockP;
-        trasuccess = true;
-        SessionT s = sessionId;
-        this.startTraAutom = startTraAutom;
-        iC = new ContextC(hp, s);
-    }
+	protected boolean startedTra() {
+		return startedt;
+	}
 
-    protected void startTra() {
-        if (startedt) {
-            return;
-        }
-        iC.getJpa().startTransaction(blockP);
-        startedt = true;
-    }
+	public CommandTemplate(final SessionT sessionId, final boolean admin,
+			final boolean blockP, final boolean startTraAutom) {
+		HotelLoginP hp = SecurityFilter.isLogged(sessionId, admin);
+		this.blockP = blockP;
+		trasuccess = true;
+		SessionT s = sessionId;
+		this.startTraAutom = startTraAutom;
+		iC = new ContextC(hp, s);
+	}
 
-    protected void closeJpa(final boolean success) {
+	protected void startTra() {
+		if (startedt) {
+			return;
+		}
+		iC.getJpa().startTransaction(blockP);
+		startedt = true;
+	}
 
-        if (iC.getJpa() == null) {
-            return;
-        }
-        if (startedt) {
-            try {
-                iC.getJpa().endTransaction(blockP, success);
-            } catch (Exception e) {
-                iC.getJpa().stopSemTransaction(blockP);
-                iC.getJpa().closeEntity();
-                HLog.getLo().log(Level.SEVERE, "", e);
-                throw new HotelException(e);
-            }
-        } else {
-            iC.getJpa().stopSemTransaction(blockP);
-        }
-        iC.getJpa().closeEntity();
-    }
+	protected void closeJpa(final boolean success) {
 
-    public void run() {
-        try {
-            prevRun(); // before
-            iC.getJpa().startSemTransaction(blockP);
-            if (startTraAutom) {
-                startTra();
-            }
-            command();
-//            GetNextSym.FlushReg(iC);
-            iC.getC().persistRecords(iC);
-        } catch (HotelException e) {
-            closeJpa(false);
-            throw e;
-        } catch (Exception e) {
-            HLog.getLo().log(Level.SEVERE, "", e);
-            closeJpa(false);
-            throw new HotelException(e);
-        }
-        closeJpa(trasuccess);
-        aftercommit();
-    }
+		if (iC.getJpa() == null) {
+			return;
+		}
+		if (startedt) {
+			try {
+				iC.getJpa().endTransaction(blockP, success);
+			} catch (Exception e) {
+				iC.getJpa().closeEntity();
+				HLog.getLo().log(Level.SEVERE, "", e);
+				throw new HotelException(e);
+			}
+		}
+		iC.getJpa().closeEntity();
+	}
+
+	public void run() {
+		try {
+			prevRun(); // before
+			if (startTraAutom) {
+				startTra();
+			}
+			command();
+			// GetNextSym.FlushReg(iC);
+			iC.getC().persistRecords(iC);
+		} catch (HotelException e) {
+			closeJpa(false);
+			throw e;
+		} catch (Exception e) {
+			HLog.getLo().log(Level.SEVERE, "", e);
+			closeJpa(false);
+			throw new HotelException(e);
+		}
+		closeJpa(trasuccess);
+		aftercommit();
+	}
 }

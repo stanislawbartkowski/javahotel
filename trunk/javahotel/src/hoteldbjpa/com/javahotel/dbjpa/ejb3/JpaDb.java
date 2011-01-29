@@ -17,7 +17,6 @@ package com.javahotel.dbjpa.ejb3;
  * @author stanislawbartkowski@gmail.com
  */
 import java.util.List;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -27,7 +26,11 @@ import com.javahotel.db.jpaget.JpaGetByKey;
 import com.javahotel.db.jtypes.HId;
 import com.javahotel.types.LId;
 
-public class JpaDb {
+class JpaDb {
+	
+	private JpaDb() {
+		
+	}
 
     static void paddRecord(final EntityManager em, final Object o) {
         em.persist(o);

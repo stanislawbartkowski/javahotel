@@ -30,206 +30,169 @@ import java.util.List;
  */
 public class JpaEntity {
 
-    private final EntityManager em;
-    private final boolean isDB2;
-    private final SemaphoreTrans semP;
-    private final GetLogger log;
-    private boolean insideTrans;
-    private boolean semTraStarted;
-    private final boolean withFullClassName;
+	private final EntityManager em;
+	private final GetLogger log;
+	private final boolean withFullClassName;
 
-    // default, can be created only from package
-    public JpaEntity(final JpaDataId iD, final GetLogger log) {
-        EntityInfo ei;
-        ei = CreateNamedManager.getManager(iD.getDId());
-        em = ei.em;
-        isDB2 = ei.isDB2;
-        semP = ei.semP;
-        this.log = log;
-        insideTrans = false;
-        semTraStarted = false;
-        this.withFullClassName = ei.withFullClassName;
-    }
+	// default, can be created only from package
+	public JpaEntity(final JpaDataId iD, final GetLogger log) {
+		EntityInfo ei;
+		ei = CreateNamedManager.getManager(iD.getDId());
+		em = ei.em;
+		this.log = log;
+		this.withFullClassName = ei.withFullClassName;
+	}
 
-    private void afterLoad(Object res) {
-        if (res == null) {
-            return;
-        }
-        if (JpaManagerData.getIA() == null) {
-            return;
-        }
-        JpaManagerData.getIA().afterLoadAction(log, this, res);
-    }
+	private void afterLoad(Object res) {
+		if (res == null) {
+			return;
+		}
+		if (JpaManagerData.getIA() == null) {
+			return;
+		}
+		JpaManagerData.getIA().afterLoadAction(log, this, res);
+	}
 
-    private void beforePersist(Object res) {
-        if (res == null) {
-            return;
-        }
-        if (JpaManagerData.getIA() == null) {
-            return;
-        }
-        JpaManagerData.getIA().beforePersistAction(log, this, res);
-    }
+	private void beforePersist(Object res) {
+		if (res == null) {
+			return;
+		}
+		if (JpaManagerData.getIA() == null) {
+			return;
+		}
+		JpaManagerData.getIA().beforePersistAction(log, this, res);
+	}
 
-    private String getClaName(Class<?> cla) {
-        if (withFullClassName) {
-            return cla.getName();
-        }
-        return cla.getSimpleName();
-    }
+	private String getClaName(Class<?> cla) {
+		if (withFullClassName) {
+			return cla.getName();
+		}
+		return cla.getSimpleName();
+	}
 
-    public boolean isDB2() {
-        return isDB2;
-    }
+	public void closeEntity() {
+		em.close();
+	}
 
-    public void closeEntity() {
-        em.close();
-    }
+	public void clearEntity() {
+		em.clear();
+	}
 
-    public void clearEntity() {
-        em.clear();
-    }
+	public void startTransaction(final boolean blockP) {
+		if (blockP) {
+			JpaDb.startTransaction(em);
+		}
+	}
 
-    public void startSemTransaction(final boolean blockP) {
-        if (semTraStarted) {
-            return;
-        }
-        semP.startT(blockP);
-        semTraStarted = true;
-    }
+	public boolean tranIsActive() {
+		return em.getTransaction().isActive();
+	}
 
-    public void stopSemTransaction(final boolean blockP) {
-        if (!semTraStarted) {
-            return;
-        }
-        semP.stopT(blockP);
-        semTraStarted = false;
-    }
+	public void endTransaction(final boolean blockP, final boolean success) {
+		if (blockP) {
+			JpaDb.endTransaction(em, success);
+		}
+	}
 
-    public void startTransaction(final boolean blockP) {
-        startSemTransaction(blockP);
-        if (blockP) {
-            JpaDb.startTransaction(em);
-        }
-    }
+	public void endTransaction(final boolean blockP) {
+		endTransaction(blockP, true);
+	}
 
-    public boolean tranIsActive() {
-        return em.getTransaction().isActive();
-    }
+	public void addRecord(final Object o) {
+		beforePersist(o);
+		JpaDb.paddRecord(em, o);
+		em.flush();
+	}
 
-    public void endTransaction(final boolean blockP, final boolean success) {
-        try {
-            if (blockP) {
-                JpaDb.endTransaction(em, success);
-            }
-        } finally {
-            // Very important: should be finally
-            // Could be blocked otherwise
-            stopSemTransaction(blockP);
-        }
-    }
+	public void changeRecord(final Object o) {
+		addRecord(o);
+	}
 
-    public void endTransaction(final boolean blockP) {
-        endTransaction(blockP, true);
-    }
+	public <T> T getRecord(final Class<?> cla, final HId id) {
+		Object o = JpaDb.pgetRecord(em, cla, id);
+		afterLoad(o);
+		return (T) o;
+	}
 
-    public void addRecord(final Object o) {
-        beforePersist(o);
-        JpaDb.paddRecord(em, o);
-        em.flush();
-    }
+	public <T> T getRecord(final Class<?> cla, final LId id) {
+		Object o = JpaDb.pgetRecord(em, cla, id);
+		afterLoad(o);
+		return (T) o;
+	}
 
-    public void changeRecord(final Object o) {
-        addRecord(o);
-    }
+	public <T> List<T> getAllListOrdered(final Class<?> cla,
+			final String columnId, final boolean desc) {
+		List<?> col = JpaDb.pgetAllListOrdered(em, getClaName(cla), columnId,
+				desc);
+		afterLoadCol(col);
+		return (List<T>) col;
+	}
 
-    public <T> T getRecord(final Class<?> cla, final HId id) {
-        Object o = JpaDb.pgetRecord(em, cla, id);
-        afterLoad(o);
-        return (T) o;
-    }
+	public <T> List<T> getAllList(final Class<?> cla) {
+		List<?> col = JpaDb.pgetAllList(em, getClaName(cla));
+		afterLoadCol(col);
+		return (List<T>) col;
+	}
 
-    public <T> T getRecord(final Class<?> cla, final LId id) {
-        Object o = JpaDb.pgetRecord(em, cla, id);
-        afterLoad(o);
-        return (T) o;
-    }
+	public <T> T getOneWhereRecord(final Class<?> cla, final Object... params) {
+		// if (tranIsActive()) {
+		// int a = 0;
+		// int b = 0;
+		// }
+		Object o = JpaDb.pgetOneWhere(em, getClaName(cla), params);
+		afterLoad(o);
+		return (T) o;
+	}
 
-    public <T> List<T> getAllListOrdered(final Class<?> cla,
-            final String columnId, final boolean desc) {
-        List<?> col = JpaDb.pgetAllListOrdered(em, getClaName(cla),
-                columnId, desc);
-        afterLoadCol(col);
-        return (List<T>) col;
-    }
+	public long getNumber(final Class<?> cla) {
+		return JpaDb.getNumber(em, getClaName(cla));
+	}
 
-    public <T> List<T> getAllList(final Class<?> cla) {
-        List<?> col = JpaDb.pgetAllList(em, getClaName(cla));
-        afterLoadCol(col);
-        return (List<T>) col;
-    }
+	public long getNumberWhereQ(final Class<?> cla, Object... params) {
+		return JpaDb.getNumberWhereQ(em, getClaName(cla), params);
+	}
 
-    public <T> T getOneWhereRecord(final Class<?> cla, final Object... params) {
-//		if (tranIsActive()) {
-//			int a = 0;
-//			int b = 0;
-//		}
-        Object o = JpaDb.pgetOneWhere(em, getClaName(cla), params);
-        afterLoad(o);
-        return (T) o;
-    }
+	@SuppressWarnings("unchecked")
+	public <T> List<T> getNamedQuery(final String queryName, Object... params) {
+		List<?> col = JpaDb.pgetNamedQuery(em, queryName, params);
+		afterLoadCol(col);
+		return (List<T>) col;
+	}
 
-    public long getNumber(final Class<?> cla) {
-        return JpaDb.getNumber(em, getClaName(cla));
-    }
+	@SuppressWarnings("unchecked")
+	public <T> T getNamedOneQuery(final String queryName,
+			final Object... params) {
+		Object o = JpaDb.pgetNamedOneQuery(em, queryName, params);
+		afterLoad(o);
+		return (T) o;
+	}
 
-    public long getNumberWhereQ(final Class<?> cla, Object... params) {
-        return JpaDb.getNumberWhereQ(em, getClaName(cla), params);
-    }
+	private void afterLoadCol(List<?> col) {
+		for (Object o : col) {
+			afterLoad(o);
+		}
+	}
 
-    @SuppressWarnings("unchecked")
-    public <T> List<T> getNamedQuery(final String queryName,
-            Object... params) {
-        List<?> col = JpaDb.pgetNamedQuery(em, queryName, params);
-        afterLoadCol(col);
-        return (List<T>) col;
-    }
+	@SuppressWarnings("unchecked")
+	public <T> List<T> getListQuery(final Class<?> cla, final Object... params) {
+		List<?> col = JpaDb.pgetList(em, getClaName(cla), params);
+		afterLoadCol(col);
+		return (List<T>) col;
+	}
 
-    @SuppressWarnings("unchecked")
-    public <T> T getNamedOneQuery(final String queryName,
-            final Object... params) {
-        Object o = JpaDb.pgetNamedOneQuery(em, queryName, params);
-        afterLoad(o);
-        return (T) o;
-    }
+	public void refreshObject(final Object o) {
+		JpaDb.refreshRecord(em, o);
+	}
 
-    private void afterLoadCol(List<?> col) {
-        for (Object o : col) {
-            afterLoad(o);
-        }
-    }
+	public void removeObject(final Object o) {
+		JpaDb.removeRecord(em, o);
+	}
 
-    @SuppressWarnings("unchecked")
-    public <T> List<T> getListQuery(final Class<?> cla,
-            final Object... params) {
-        List<?> col = JpaDb.pgetList(em, getClaName(cla), params);
-        afterLoadCol(col);
-        return (List<T>) col;
-    }
+	public <T> void removeList(final List<T> col) {
+		JpaDb.premoveList(em, col);
+	}
 
-    public void refreshObject(final Object o) {
-        JpaDb.refreshRecord(em, o);
-    }
-
-    public void removeObject(final Object o) {
-        JpaDb.removeRecord(em, o);
-    }
-
-    public <T> void removeList(final List<T> col) {
-        JpaDb.premoveList(em, col);
-    }
-
-    public void removeAll(final Class<?> cla) {
-        JpaDb.pRemoveAll(em, getClaName(cla));
-    }
+	public void removeAll(final Class<?> cla) {
+		JpaDb.pRemoveAll(em, getClaName(cla));
+	}
 }

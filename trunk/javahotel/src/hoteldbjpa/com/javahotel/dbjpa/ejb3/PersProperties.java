@@ -32,26 +32,22 @@ class PersProperties {
 		return s.substring(l);
 	}
 
-	private static boolean putVal(final Map<String, String> prop,
+	private static void putVal(final Map<String, String> prop,
 			final Properties properties, final String key) {
-		boolean snew = false;
 		for (final String s : prop.keySet()) {
 			String sk = getVal(key, s);
 			if (sk == null) {
 				continue;
 			}
-			snew = true;
 			String val = prop.get(s);
 			properties.put(sk, val);
 		}
-		return snew;
 	}
 
-	boolean getProperties(final String dName) {
+	void getProperties(final String dName) {
 		Map<String, String> prop = CommonData.getProp();
 		putVal(prop, persproperties, DEFAULT);
-		boolean snew = putVal(prop, persproperties, dName + ".");
-		return snew;
+		putVal(prop, persproperties, dName + ".");
 	}
 
 	Properties getMap() {
