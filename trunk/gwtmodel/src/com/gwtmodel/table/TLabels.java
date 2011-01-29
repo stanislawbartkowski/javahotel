@@ -1,5 +1,5 @@
 /*
- *  Copyright 2010 stanislawbartkowski@gmail.com
+ *  Copyright 2011 stanislawbartkowski@gmail.com
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,34 +19,45 @@ package com.gwtmodel.table;
 import com.google.gwt.i18n.client.Constants;
 
 /**
- *
+ * 
  * @author hotel
  */
 public interface TLabels extends Constants {
 
-    String DateFormNotValid();
+	String DateFormNotValid();
 
-    String NumberNotValid();
+	String NumberNotValid();
 
-    String From();
+	String From();
 
-    String To();
+	String To();
 
-    String Description();
+	String Description();
 
-    String NotFound();
+	String NotFound();
 
-    String NothingEntered();
+	String NothingEntered();
 
-    String AddNewRecord();
+	String AddNewRecord();
 
-    String ChangeRecord();
+	String ChangeRecord();
 
-    String SendingMail();
+	String SendingMail();
 
-    String MailFrom();
+	String MailFrom();
 
-    String SendingHeader();
+	String SendingHeader();
 
-    String SendingQuestion();
+	String SendingQuestion();
+
+	String MailBox();
+
+	String MailSubject();
+
+	String MailContent();
+
+	String MailTo();
+	
+	String EmptyFieldMessage();
+
 }
