@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
-  <persistence-unit name="EJBPersonRealmPU" transaction-type="RESOURCE_LOCAL">
-    <provider>org.datanucleus.store.appengine.jpa.DatastorePersistenceProvider</provider>    
-    <non-jta-data-source/>
-    <class>com.javahotel.db.authentication.jpa.Hotel</class>
-    <class>com.javahotel.db.authentication.jpa.Person</class>
-    <class>com.javahotel.db.authentication.jpa.GroupD</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
-  </persistence-unit>
-  <persistence-unit name="HotelPersistance0" transaction-type="RESOURCE_LOCAL">
-    <provider>org.datanucleus.store.appengine.jpa.DatastorePersistenceProvider</provider>   
-    <non-jta-data-source/>
-    <class>com.javahotel.db.hotelbase.jpa.RoomFacilities</class>
-    <class>com.javahotel.db.hotelbase.jpa.RoomStandard</class>
-    <class>com.javahotel.db.hotelbase.jpa.ResObject</class>
-    <class>com.javahotel.db.hotelbase.jpa.RHotel</class>
-    <class>com.javahotel.db.hotelbase.jpa.VatDictionary</class>
-    <class>com.javahotel.db.hotelbase.jpa.ServiceDictionary</class>
-    <class>com.javahotel.db.hotelbase.jpa.OfferSeason</class>
-    <class>com.javahotel.db.hotelbase.jpa.OfferSeasonPeriod</class>
-    <class>com.javahotel.db.hotelbase.jpa.OfferPrice</class>
-    <class>com.javahotel.db.hotelbase.jpa.OfferSpecialPrice</class>
-    <class>com.javahotel.db.hotelbase.jpa.OfferServicePrice</class>
-    <class>com.javahotel.db.hotelbase.jpa.Customer</class>
-    <class>com.javahotel.db.hotelbase.jpa.CustomerBankAccount</class>
-    <class>com.javahotel.db.hotelbase.jpa.CustomerPhoneNumber</class>
-    <class>com.javahotel.db.hotelbase.jpa.CustomerRemark</class>
-    <class>com.javahotel.db.hotelbase.jpa.AddPayment</class>
-    <class>com.javahotel.db.hotelbase.jpa.BookElem</class>
-    <class>com.javahotel.db.hotelbase.jpa.BookRecord</class>
-    <class>com.javahotel.db.hotelbase.jpa.Booking</class>
-    <class>com.javahotel.db.hotelbase.jpa.BookingState</class>
-    <class>com.javahotel.db.hotelbase.jpa.Payment</class>
-    <class>com.javahotel.db.hotelbase.jpa.PaymentRow</class>
-    <class>com.javahotel.db.hotelbase.jpa.ParamRegistry</class>
-    <class>com.javahotel.db.hotelbase.jpa.AdvancePayment</class>
-    <class>com.javahotel.db.hotelbase.jpa.Bill</class>
-    <class>com.javahotel.db.hotelbase.jpa.Guest</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
-    <properties>
-      <property name="openjpa.MetaDataFactory" value="jpa(ClasspathScan=build;lib.jar)"/>
-    </properties>
-  </persistence-unit>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="EJBPersonRealmPU"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.datanucleus.store.appengine.jpa.DatastorePersistenceProvider</provider>
+		<non-jta-data-source />
+		<class>com.javahotel.db.authentication.jpa.Hotel</class>
+		<class>com.javahotel.db.authentication.jpa.Person</class>
+		<class>com.javahotel.db.authentication.jpa.GroupD</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="openjpa.MetaDataFactory" value="jpa(ClasspathScan=build;lib.jar)" />
+		</properties>
+	</persistence-unit>
+	<persistence-unit name="HotelPersistance0"
+		transaction-type="RESOURCE_LOCAL">
+		<provider>org.datanucleus.store.appengine.jpa.DatastorePersistenceProvider</provider>
+		<non-jta-data-source />
+		<class>com.javahotel.db.hotelbase.jpa.RoomFacilities</class>
+		<class>com.javahotel.db.hotelbase.jpa.RoomStandard</class>
+		<class>com.javahotel.db.hotelbase.jpa.ResObject</class>
+		<class>com.javahotel.db.hotelbase.jpa.RHotel</class>
+		<class>com.javahotel.db.hotelbase.jpa.VatDictionary</class>
+		<class>com.javahotel.db.hotelbase.jpa.ServiceDictionary</class>
+		<class>com.javahotel.db.hotelbase.jpa.OfferSeason</class>
+		<class>com.javahotel.db.hotelbase.jpa.OfferSeasonPeriod</class>
+		<class>com.javahotel.db.hotelbase.jpa.OfferPrice</class>
+		<class>com.javahotel.db.hotelbase.jpa.OfferSpecialPrice</class>
+		<class>com.javahotel.db.hotelbase.jpa.OfferServicePrice</class>
+		<class>com.javahotel.db.hotelbase.jpa.Customer</class>
+		<class>com.javahotel.db.hotelbase.jpa.CustomerBankAccount</class>
+		<class>com.javahotel.db.hotelbase.jpa.CustomerPhoneNumber</class>
+		<class>com.javahotel.db.hotelbase.jpa.CustomerRemark</class>
+		<class>com.javahotel.db.hotelbase.jpa.AddPayment</class>
+		<class>com.javahotel.db.hotelbase.jpa.BookElem</class>
+		<class>com.javahotel.db.hotelbase.jpa.BookRecord</class>
+		<class>com.javahotel.db.hotelbase.jpa.Booking</class>
+		<class>com.javahotel.db.hotelbase.jpa.BookingState</class>
+		<class>com.javahotel.db.hotelbase.jpa.Payment</class>
+		<class>com.javahotel.db.hotelbase.jpa.PaymentRow</class>
+		<class>com.javahotel.db.hotelbase.jpa.ParamRegistry</class>
+		<class>com.javahotel.db.hotelbase.jpa.AdvancePayment</class>
+		<class>com.javahotel.db.hotelbase.jpa.Bill</class>
+		<class>com.javahotel.db.hotelbase.jpa.Guest</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="openjpa.MetaDataFactory" value="jpa(ClasspathScan=build;lib.jar)" />
+		</properties>
+	</persistence-unit>
 </persistence>

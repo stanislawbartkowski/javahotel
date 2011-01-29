@@ -26,6 +26,9 @@ import com.javahotel.client.ifield.ILineField;
 public class FormLineDef implements IFormLineView {
 
     private final ILineField iField;
+    private final IVField iV;
+    
+    
 
     public ILineField getiField() {
         return iField;
@@ -33,7 +36,7 @@ public class FormLineDef implements IFormLineView {
 
     @Override
     public IVField getV() {
-        return null;
+    	return iV;        
     }
 
 
@@ -76,8 +79,9 @@ public class FormLineDef implements IFormLineView {
 
     }
 
-    public FormLineDef(ILineField f) {
+    public FormLineDef(ILineField f, IVField iV) {
         iField = f;
+        this.iV = iV;
     }
 
     private class ChangeL implements IChangeListener {
