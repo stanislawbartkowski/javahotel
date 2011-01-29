@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 stanislawbartkowski@gmail.com 
+ * Copyright 2011 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -35,7 +35,7 @@ class CustomFactory implements IGetCustomValues {
         ma.put(IGetCustomValues.PASSWORD, sI.getLabels().Password());
         ma.put(IGetCustomValues.ADDITEM, sI.getLabels().DodajButton());
         ma.put(IGetCustomValues.REMOVEITEM, sI.getLabels().UsunButton());
-        ma.put(IGetCustomValues.EMPTYFIELDERRORDEFAULT, sI.getLabels().EmptyField());
+//        ma.put(IGetCustomValues.EMPTYFIELDERRORDEFAULT, sI.getLabels().EmptyField());
         ma.put(IGetCustomValues.MODIFITEM, sI.getLabels().ModifItem());
         ma.put(IGetCustomValues.SHOWITEM, sI.getLabels().ShowItem());
         ma.put(IGetCustomValues.YESVALUE, sI.getLabels().Yes());
