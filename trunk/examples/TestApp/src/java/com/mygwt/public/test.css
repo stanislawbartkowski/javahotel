@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+/* ------------------ */
+.cw-RichText {
+  border: 1px solid #BBBBBB;
+  border-spacing: 0px;
+}
+
+.dialog-empty-field {
+    border : 2px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-color: #ff6666;
+    border-bottom-color: #ff6666;
+    border-left-color: #ff6666;
+    border-right-color: #ff6666;
+}

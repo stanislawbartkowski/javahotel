@@ -1,5 +1,5 @@
 /*
- *  Copyright 2010 stanislawbartkowski@gmail.com
+ *  Copyright 2011 stanislawbartkowski@gmail.com
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,23 +16,31 @@
  */
 package com.mygwt.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.Table;
-import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
+import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory.CType;
 import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.factories.IJavaMailAction;
+import com.gwtmodel.table.factories.IJavaMailActionFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.WebPanelHolder;
-import com.gwtmodel.table.view.button.ImgButtonFactory;
-import com.gwtmodel.table.view.util.PopupTip;
 
 /**
  * Main entry point.
@@ -41,92 +49,129 @@ import com.gwtmodel.table.view.util.PopupTip;
  */
 public class testEntryPoint implements EntryPoint {
 
-    /**
-     * Creates a new instance of testEntryPoint
-     */
-    public testEntryPoint() {
-    }
+	public interface IGetWidget {
 
-    @Override
-    public void onModuleLoad() {
-        ITableAbstractFactories tFactories = GwtGiniInjector.getI()
-                .getITableAbstractFactories();
-        tFactories.registerGetCustomValues(new CustomFactory());
-        final WebPanelHolder.TableType tType = Utils.getParamTable();
-        Runnable onLoadCallback = new Runnable() {
+		Widget getW();
 
-            @Override
-            public void run() {
-                start(tType);
-            }
-        };
-        if (tType == WebPanelHolder.TableType.GOOGLETABLE) {
-            VisualizationUtils.loadVisualizationApi(onLoadCallback,
-                    Table.PACKAGE);
-        } else {
-            start(tType);
-        }
-    }
+	}
 
-    class CustomFactory implements IGetCustomValues {
+	/**
+	 * Creates a new instance of testEntryPoint
+	 */
+	public testEntryPoint() {
+	}
 
-        @Override
-        public IVField getSymForCombo() {
-            return null;
-        }
+	@Override
+	public void onModuleLoad() {
 
-        @Override
-        public boolean compareComboByInt() {
-            return false;
-        }
+		class FormFactory implements IDataFormConstructorAbstractFactory {
 
-        @Override
-        public String getCustomValue(String key) {
-            return null;
-        }
-    }
+			public CType construct(ICallContext iContext) {
+				return new IDataFormConstructorAbstractFactory.CType();
+			}
+		}
 
-    private class LabTip extends PopupTip {
+		ITableAbstractFactories tFactories = GwtGiniInjector.getI()
+				.getITableAbstractFactories();
+		tFactories.registerGetCustomValues(new CustomFactory());
+		tFactories
+				.registerDataFormConstructorAbstractFactory(new FormFactory());
+		tFactories.registerJavaMailActionFactory(new IJavaMailActionFactory() {
 
-        LabTip() {
-            Label l = new Label("Label");
-            initWidget(l);
-            setMessage("Help test - look how it looks like !");
-        }
-    }
+			public IJavaMailAction contruct() {
+				return (IJavaMailAction) new MailOp();
+			}
+		});
+		final WebPanelHolder.TableType tType = Utils.getParamTable();
+		Runnable onLoadCallback = new Runnable() {
 
-    /**
-     * The entry point method, called automatically by loading a module that
-     * declares an implementing class as an entry-point
-     */
-    private void start(WebPanelHolder.TableType tType) {
-        VerticalPanel vp = new VerticalPanel();
-        vp.setSpacing(60);
-        vp.add(new LabTip());
-        final IGFocusWidget but = ImgButtonFactory.getButton(null,
-                "Click on me and look who disables !", "gwt.png");
-        final IGFocusWidget but1 = ImgButtonFactory.getButton(null,
-                "Click on me and look who disables !", null);
-        but.addClickHandler(new ClickHandler() {
+			@Override
+			public void run() {
+				start(tType);
+			}
+		};
+		if (tType == WebPanelHolder.TableType.GOOGLETABLE) {
+			VisualizationUtils.loadVisualizationApi(onLoadCallback,
+					Table.PACKAGE);
+		} else {
+			start(tType);
+		}
+	}
 
-            @Override
-            public void onClick(ClickEvent event) {
-                but1.setEnabled(!but1.isEnabled());
-            }
+	class CustomFactory implements IGetCustomValues {
 
-        });
+		@Override
+		public IVField getSymForCombo() {
+			return null;
+		}
 
-        but1.addClickHandler(new ClickHandler() {
+		@Override
+		public boolean compareComboByInt() {
+			return false;
+		}
 
-            @Override
-            public void onClick(ClickEvent event) {
-                but.setEnabled(!but.isEnabled());
-            }
+		@Override
+		public String getCustomValue(String key) {
+			return null;
+		}
+	}
 
-        });
+	private class ButtonTest {
+		private final String buttonTest;
+		private final IGetWidget iG;
 
-        vp.add(but.getGWidget());
-        vp.add(but1.getGWidget());
-        RootPanel.get().add(vp);
-    }
+		ButtonTest(String buttonTest, IGetWidget iG) {
+			this.buttonTest = buttonTest;
+			this.iG = iG;
+		}
+
+		public String getButtonTest() {
+			return buttonTest;
+		}
+
+		public IGetWidget getiG() {
+			return iG;
+		}
+
+	}
+
+	private final List<ButtonTest> bList = new ArrayList<ButtonTest>();
+	private final DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
+	private Widget cWidget = null;
+
+	/**
+	 * The entry point method, called automatically by loading a module that
+	 * declares an implementing class as an entry-point
+	 */
+	private void start(WebPanelHolder.TableType tType) {
+
+		IGetWidget g = (IGetWidget) new TooltipTest();
+		bList.add(new ButtonTest("Tooltip", g));
+		g = (IGetWidget) new MailTest();
+		bList.add(new ButtonTest("MailTest", g));
+		VerticalPanel vB = new VerticalPanel();
+
+		for (final ButtonTest bu : bList) {
+			Button b = new Button(bu.getButtonTest());
+			ClickHandler ha = new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					Widget w = bu.getiG().getW();
+					if (cWidget != null) {
+						p.remove(cWidget);
+					}
+					p.add(w);
+					cWidget = w;
+				}
+
+			};
+			b.addClickHandler(ha);
+			vB.add(b);
+		}
+		p.addWest(vB, 10);
+
+		RootLayoutPanel rp = RootLayoutPanel.get();
+		rp.add(p);
+	}
 }

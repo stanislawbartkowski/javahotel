@@ -14,6 +14,7 @@
 
     <entry-point class="com.mygwt.client.testEntryPoint"/>
     <inherits name="com.google.gwt.user.User"/>    
+    <stylesheet src='test.css'/>    
 
     <inherits name="com.google.gwt.logging.Logging"/>
     <set-property name="gwt.logging.popupHandler" value="DISABLED" />
