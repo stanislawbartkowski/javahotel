@@ -54,11 +54,11 @@ public class HotelHelper {
 	private static IAuthentication aut;
 	private static IHotelData hot;
 	private static IHotelOp hop;
-	private static GetLogger lo = new GetLogger("com.javahotel.webgwt");
+	private static GetLogger lo = new GetLogger("com.javahotel.hotelhelper");
 	private static final String ADMINDB = "admindb";
 	private static final String PASSWORDDB = "passworddb";
 	private static final String SESSIONDB = "SESSIONDB-CREATE";
-
+	
 	private static String getPort() {
 		switch (t) {
 		case TOMCAT:

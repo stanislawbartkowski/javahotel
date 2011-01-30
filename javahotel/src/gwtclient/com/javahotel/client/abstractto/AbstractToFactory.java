@@ -1,5 +1,5 @@
 /*
- * Copyright 2009 stanislawbartkowski@gmail.com 
+ * Copyright 2011 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -64,438 +64,462 @@ import java.util.Map;
  */
 public class AbstractToFactory {
 
-    private AbstractToFactory() {
-    }
+	private AbstractToFactory() {
+	}
 
-    public static class T {
+	public static class T {
 
-        private final Class<?> c;
-        private final FieldDataType t;
+		private final Class<?> c;
+		private final FieldDataType t;
 
-        T(Class<?> c, FieldDataType t) {
-            this.c = c;
-            this.t = t;
-        }
+		T(Class<?> c, FieldDataType t) {
+			this.c = c;
+			this.t = t;
+		}
 
-        /**
-         * @return the c
-         */
-        public Class<?> getC() {
-            return c;
-        }
+		/**
+		 * @return the c
+		 */
+		public Class<?> getC() {
+			return c;
+		}
 
-        /**
-         * @return the t
-         */
-        public FieldDataType getT() {
-            return t;
-        }
-    }
-    private static final Map<IField, T> ma = new HashMap<IField, T>();
-    private static final T decimalT = new T(BigDecimal.class, FieldDataType.constructBigDecimal());
-    private static final T dateT = new T(Date.class, FieldDataType.constructDate());
-    private static final T longT = new T(Long.class, FieldDataType.constructLong());
-    private static final T intT = new T(Long.class, FieldDataType.constructInt());
-    private static final T stringT = new T(String.class, FieldDataType.constructString());
-    private final static FieldDataType.ICustomType iDictionary = new DictionaryToS<DictionaryP>(DictType.RoomStandard, DictionaryP.class);
-    private static final T stringDT = new T(String.class, FieldDataType.constructString(iDictionary));
-    private static final getMap ge = new getMap() {
+		/**
+		 * @return the t
+		 */
+		public FieldDataType getT() {
+			return t;
+		}
+	}
 
-        @Override
-        public Map<String, String> getM(IResLocator rI) {
-            return rI.getLabels().Services();
-        }
-    };
-    private static final EnumTypeToS<ServiceType> e = new EnumTypeToS<ServiceType>(new GetMap(ge), ServiceType.DOSTAWKA);
-    private static final T stringServiceT = new T(String.class, FieldDataType.constructEnum(e));
-    private static final getMap gec = new getMap() {
+	private static final Map<IField, T> ma = new HashMap<IField, T>();
+	private static final T decimalT = new T(BigDecimal.class,
+			FieldDataType.constructBigDecimal());
+	private static final T dateT = new T(Date.class,
+			FieldDataType.constructDate());
+	private static final T longT = new T(Long.class,
+			FieldDataType.constructLong());
+	private static final T intT = new T(Long.class,
+			FieldDataType.constructInt());
+	private static final T stringT = new T(String.class,
+			FieldDataType.constructString());
+	private final static FieldDataType.ICustomType iDictionary = new DictionaryToS<DictionaryP>(
+			DictType.RoomStandard, DictionaryP.class);
+	private static final T stringDT = new T(String.class,
+			FieldDataType.constructString(iDictionary));
+	private static final getMap ge = new getMap() {
 
-        @Override
-        public Map<String, String> getM(IResLocator rI) {
-            return rI.getLabels().CustomerType();
-        }
-    };
-    private static final EnumTypeToS<CustomerType> ec = new EnumTypeToS<CustomerType>(new GetMap(gec), CustomerType.Company);
-    private static final getMap gept = new getMap() {
+		@Override
+		public Map<String, String> getM(IResLocator rI) {
+			return rI.getLabels().Services();
+		}
+	};
+	private static final EnumTypeToS<ServiceType> e = new EnumTypeToS<ServiceType>(
+			new GetMap(ge), ServiceType.DOSTAWKA);
+	private static final T stringServiceT = new T(String.class,
+			FieldDataType.constructEnum(e));
+	private static final getMap gec = new getMap() {
 
-        @Override
-        public Map<String, String> getM(IResLocator rI) {
-            return rI.getLabels().PTitles();
-        }
-    };
-    private static final EnumTypeToS<PersonTitle> ept = new EnumTypeToS<PersonTitle>(new GetMap(gept), PersonTitle.Mr);
-    private static final getMap gedoct = new getMap() {
+		@Override
+		public Map<String, String> getM(IResLocator rI) {
+			return rI.getLabels().CustomerType();
+		}
+	};
+	private static final EnumTypeToS<CustomerType> ec = new EnumTypeToS<CustomerType>(
+			new GetMap(gec), CustomerType.Company);
+	private static final getMap gept = new getMap() {
 
-        @Override
-        public Map<String, String> getM(IResLocator rI) {
-            return rI.getLabels().DocTypes();
-        }
-    };
-    private static final EnumTypeToS<IdentDocType> edoct = new EnumTypeToS<IdentDocType>(new GetMap(gedoct), IdentDocType.DriverLicense);
-    private static final T stringDocT = new T(String.class, FieldDataType.constructEnum(edoct));
-    private static final T stringCustomerT = new T(String.class, FieldDataType.constructEnum(ec));
-    private static final T stringPersonT = new T(String.class, FieldDataType.constructEnum(ept));
-    private final static FieldDataType.ICustomType iVat = new DictionaryToS<VatDictionaryP>(DictType.VatDict, VatDictionaryP.class);
-    private static final T stringVatT = new T(String.class, FieldDataType.constructString(iVat));
+		@Override
+		public Map<String, String> getM(IResLocator rI) {
+			return rI.getLabels().PTitles();
+		}
+	};
+	private static final EnumTypeToS<PersonTitle> ept = new EnumTypeToS<PersonTitle>(
+			new GetMap(gept), PersonTitle.Mr);
+	private static final getMap gedoct = new getMap() {
 
-    private static class GetMap implements AbstractListT.IGetMap {
+		@Override
+		public Map<String, String> getM(IResLocator rI) {
+			return rI.getLabels().DocTypes();
+		}
+	};
+	private static final EnumTypeToS<IdentDocType> edoct = new EnumTypeToS<IdentDocType>(
+			new GetMap(gedoct), IdentDocType.DriverLicense);
+	private static final T stringDocT = new T(String.class,
+			FieldDataType.constructEnum(edoct));
+	private static final T stringCustomerT = new T(String.class,
+			FieldDataType.constructEnum(ec));
+	private static final T stringPersonT = new T(String.class,
+			FieldDataType.constructEnum(ept));
+	private final static FieldDataType.ICustomType iVat = new DictionaryToS<VatDictionaryP>(
+			DictType.VatDict, VatDictionaryP.class);
+	private static final T stringVatT = new T(String.class,
+			FieldDataType.constructString(iVat));
 
-        private final getMap g;
+	private static class GetMap implements AbstractListT.IGetMap {
 
-        GetMap(getMap g) {
-            this.g = g;
-        }
+		private final getMap g;
 
-        @Override
-        public Map<String, String> getM() {
-            IResLocator rI = HInjector.getI().getI();
-            return g.getM(rI);
-        }
-    }
+		GetMap(getMap g) {
+			this.g = g;
+		}
 
-    private interface getMap {
+		@Override
+		public Map<String, String> getM() {
+			IResLocator rI = HInjector.getI().getI();
+			return g.getM(rI);
+		}
+	}
 
-        Map<String, String> getM(IResLocator rI);
-    }
+	private interface getMap {
 
-    private static class EnumTypeToS<T extends Enum> extends AbstractListT implements FieldDataType.IEnumType {
+		Map<String, String> getM(IResLocator rI);
+	}
 
-        private final Class cl;
-        private final T t;
+	private static class EnumTypeToS<T extends Enum> extends AbstractListT
+			implements FieldDataType.IEnumType {
 
-        EnumTypeToS(AbstractListT.IGetMap g, T t) {
-            super(g);
-            this.cl = t.getClass();
-            this.t = t;
-        }
+		private final Class cl;
+		private final T t;
 
-        @Override
-        public boolean IsNullEnum(Enum e) {
-            return e == null;
-        }
+		EnumTypeToS(AbstractListT.IGetMap g, T t) {
+			super(g);
+			this.cl = t.getClass();
+			this.t = t;
+		}
 
-        @Override
-        public Enum toEnum(String e) {
-            if (CUtil.EmptyS(e)) {
-                return null;
-            }
-            String val = getValueS(e);
-            T se = (T) t.valueOf(cl, e);
-            return se;
-        }
+		@Override
+		public boolean IsNullEnum(Enum e) {
+			return e == null;
+		}
 
-        @Override
-        public String assertS(Object sou) {
-            if (sou.getClass().equals(cl)) {
-                return null;
-            }
-            return FUtils.constructAssertS(sou, cl);
-        }
+		@Override
+		public Enum toEnum(String e) {
+			if (CUtil.EmptyS(e)) {
+				return null;
+			}
+			String val = getValue(e);
+			T se = (T) t.valueOf(cl, val);
+			return se;
+		}
 
-        @Override
-        public List<String> getValues() {
-            return getListVal();
-        }
-    }
+		@Override
+		public String assertS(Object sou) {
+			if (sou.getClass().equals(cl)) {
+				return null;
+			}
+			return FUtils.constructAssertS(sou, cl);
+		}
 
-//    private static class EnumTypeToS<T extends Enum> implements FieldDataType.IEnumType {
-//
-//        private final getMap g;
-//        private final T t;
-//        private final Class cl;
-//        private Map<String, String> ma;
-//        private Map<String, String> reve;
-//
-//        EnumTypeToS(getMap g, T t) {
-//            this.cl = t.getClass();
-//            this.g = g;
-//            this.t = t;
-//            ma = reve = null;
-//        }
-//
-//        private void checkMa() {
-//            if (ma == null) {
-//                IResLocator rI = HInjector.getI().getI();
-//                ma = g.getM(rI);
-//                Set<Entry<String, String>> st = ma.entrySet();
-//                Iterator<Entry<String, String>> i = st.iterator();
-//                reve = new HashMap<String, String>();
-//                while (i.hasNext()) {
-//                    Entry<String, String> e = i.next();
-//                    reve.put(e.getValue(), e.getKey());
-//                }
-//            }
-//        }
-//
-//        @Override
-//        public Enum toEnum(String s) {
-//            if (CUtil.EmptyS(s)) {
-//                return null;
-//            }
-//            checkMa();
-//            String e = reve.get(s);
-//            T se = (T) t.valueOf(cl, e);
-//            return se;
-//        }
-//
-//        @Override
-//        public String assertS(Object sou) {
-//            if (sou.getClass().equals(cl)) {
-//                return null;
-//            }
-//            return FUtils.constructAssertS(sou, cl);
-//        }
-//
-////        @Override
-////        public Map<String, String> getMap() {
-////            IResLocator rI = HInjector.getI().getI();
-////            return g.getM(rI);
-////        }
-//
-//        @Override
-//        public boolean IsNullEnum(Enum e) {
-//            return e == null;
-//        }
-//
-//        @Override
-//        public String getValueS(String esou) {
-//            throw new UnsupportedOperationException("Not supported yet.");
-//        }
-//
-//        @Override
-//        public List<String> getValues() {
-//            throw new UnsupportedOperationException("Not supported yet.");
-//        }
-//    }
-    private static class DictionaryToS<T extends DictionaryP> implements FieldDataType.ICustomType {
+		@Override
+		public List<String> getValues() {
+			return getListVal();
+		}
+	}
 
-        private final DictType da;
-        private final Class cl;
+	// private static class EnumTypeToS<T extends Enum> implements
+	// FieldDataType.IEnumType {
+	//
+	// private final getMap g;
+	// private final T t;
+	// private final Class cl;
+	// private Map<String, String> ma;
+	// private Map<String, String> reve;
+	//
+	// EnumTypeToS(getMap g, T t) {
+	// this.cl = t.getClass();
+	// this.g = g;
+	// this.t = t;
+	// ma = reve = null;
+	// }
+	//
+	// private void checkMa() {
+	// if (ma == null) {
+	// IResLocator rI = HInjector.getI().getI();
+	// ma = g.getM(rI);
+	// Set<Entry<String, String>> st = ma.entrySet();
+	// Iterator<Entry<String, String>> i = st.iterator();
+	// reve = new HashMap<String, String>();
+	// while (i.hasNext()) {
+	// Entry<String, String> e = i.next();
+	// reve.put(e.getValue(), e.getKey());
+	// }
+	// }
+	// }
+	//
+	// @Override
+	// public Enum toEnum(String s) {
+	// if (CUtil.EmptyS(s)) {
+	// return null;
+	// }
+	// checkMa();
+	// String e = reve.get(s);
+	// T se = (T) t.valueOf(cl, e);
+	// return se;
+	// }
+	//
+	// @Override
+	// public String assertS(Object sou) {
+	// if (sou.getClass().equals(cl)) {
+	// return null;
+	// }
+	// return FUtils.constructAssertS(sou, cl);
+	// }
+	//
+	// // @Override
+	// // public Map<String, String> getMap() {
+	// // IResLocator rI = HInjector.getI().getI();
+	// // return g.getM(rI);
+	// // }
+	//
+	// @Override
+	// public boolean IsNullEnum(Enum e) {
+	// return e == null;
+	// }
+	//
+	// @Override
+	// public String getValueS(String esou) {
+	// throw new UnsupportedOperationException("Not supported yet.");
+	// }
+	//
+	// @Override
+	// public List<String> getValues() {
+	// throw new UnsupportedOperationException("Not supported yet.");
+	// }
+	// }
+	private static class DictionaryToS<T extends DictionaryP> implements
+			FieldDataType.ICustomType {
 
-        DictionaryToS(DictType da, Class cl) {
-            this.da = da;
-            this.cl = cl;
-        }
+		private final DictType da;
+		private final Class cl;
 
-        @Override
-        public Object fromCustom(Object sou) {
-            if (sou == null) {
-                return "";
-            }
-            T va = (T) sou;
-            return va.getName();
-        }
+		DictionaryToS(DictType da, Class cl) {
+			this.da = da;
+			this.cl = cl;
+		}
 
-        @Override
-        public Object toCustom(Object sou) {
-            if (sou == null) {
-                return null;
-            }
-            T t = (T) getA(new DictData(da));
-            String s = (String) sou;
-            t.setName(s);
-            return t;
-        }
+		@Override
+		public Object fromCustom(Object sou) {
+			if (sou == null) {
+				return "";
+			}
+			T va = (T) sou;
+			return va.getName();
+		}
 
-        @Override
-        public String assertS(Object sou) {
-            if (sou.getClass().equals(cl)) {
-                return null;
-            }
-            return FUtils.constructAssertS(sou, cl);
-        }
+		@Override
+		public Object toCustom(Object sou) {
+			if (sou == null) {
+				return null;
+			}
+			T t = (T) getA(new DictData(da));
+			String s = (String) sou;
+			t.setName(s);
+			return t;
+		}
 
-        @Override
-        public boolean isNullCustom(Object sou) {
-            VatDictionaryP d = (VatDictionaryP) sou;
-            return CUtil.EmptyS(d.getName());
-        }
-    }
+		@Override
+		public String assertS(Object sou) {
+			if (sou.getClass().equals(cl)) {
+				return null;
+			}
+			return FUtils.constructAssertS(sou, cl);
+		}
 
-//    private static class VatDictionaryToS implements FieldDataType.ICustomType {
-//
-//        @Override
-//        public Object fromCustom(Object sou) {
-//            if (sou == null) {
-//                return "";
-//            }
-//            VatDictionaryP va = (VatDictionaryP) sou;
-//            return va.getName();
-//        }
-//
-//        @Override
-//        public Object toCustom(Object sou) {
-//
-//            throw new UnsupportedOperationException("Not supported yet.");
-//        }
-//
-//        @Override
-//        public String assertS(Object sou) {
-//            if (sou instanceof VatDictionaryP) {
-//                return null;
-//            }
-//            return WebPanelHolder.getT().assertT(VatDictionaryP.class.getName(), sou.getClass().getName());
-//        }
-//
-//        @Override
-//        public boolean isNullCustom(Object sou) {
-//            VatDictionaryP d = (VatDictionaryP) sou;
-//            return CUtil.EmptyS(d.getName());
-//        }
-//    }
-//    private static class DicToS implements FieldDataType.ICustomType {
-//
-//        @Override
-//        public Object fromCustom(Object o) {
-//            if (o == null) {
-//                return "";
-//            }
-//            DictionaryP d = (DictionaryP) o;
-//            return d.getName();
-//        }
-//
-//        @Override
-//        public Object toCustom(Object sou) {
-//            throw new UnsupportedOperationException("Not supported yet.");
-//        }
-//
-//        @Override
-//        public String assertS(Object sou) {
-//            if (sou instanceof DictionaryP) {
-//                return null;
-//            }
-//            return FUtils.constructAssertS(sou, DictionaryP.class);
-//        }
-//
-//        @Override
-//        public boolean isNullCustom(Object sou) {
-//            DictionaryP d = (DictionaryP) sou;
-//            return CUtil.EmptyS(d.getName());
-//        }
-//    }
-    static {
-        ma.put(OfferServicePriceP.F.highseasonprice, decimalT);
-        ma.put(OfferServicePriceP.F.highseasonweekendprice, decimalT);
-        ma.put(OfferServicePriceP.F.lowseasonprice, decimalT);
-        ma.put(OfferServicePriceP.F.lowseasonweekendprice, decimalT);
+		@Override
+		public boolean isNullCustom(Object sou) {
+			DictionaryP d = (DictionaryP) sou;
+			return CUtil.EmptyS(d.getName());
+		}
+	}
 
-        ma.put(OfferSeasonP.F.startp, dateT);
-        ma.put(OfferSeasonP.F.endp, dateT);
+	// private static class VatDictionaryToS implements
+	// FieldDataType.ICustomType {
+	//
+	// @Override
+	// public Object fromCustom(Object sou) {
+	// if (sou == null) {
+	// return "";
+	// }
+	// VatDictionaryP va = (VatDictionaryP) sou;
+	// return va.getName();
+	// }
+	//
+	// @Override
+	// public Object toCustom(Object sou) {
+	//
+	// throw new UnsupportedOperationException("Not supported yet.");
+	// }
+	//
+	// @Override
+	// public String assertS(Object sou) {
+	// if (sou instanceof VatDictionaryP) {
+	// return null;
+	// }
+	// return WebPanelHolder.getT().assertT(VatDictionaryP.class.getName(),
+	// sou.getClass().getName());
+	// }
+	//
+	// @Override
+	// public boolean isNullCustom(Object sou) {
+	// VatDictionaryP d = (VatDictionaryP) sou;
+	// return CUtil.EmptyS(d.getName());
+	// }
+	// }
+	// private static class DicToS implements FieldDataType.ICustomType {
+	//
+	// @Override
+	// public Object fromCustom(Object o) {
+	// if (o == null) {
+	// return "";
+	// }
+	// DictionaryP d = (DictionaryP) o;
+	// return d.getName();
+	// }
+	//
+	// @Override
+	// public Object toCustom(Object sou) {
+	// throw new UnsupportedOperationException("Not supported yet.");
+	// }
+	//
+	// @Override
+	// public String assertS(Object sou) {
+	// if (sou instanceof DictionaryP) {
+	// return null;
+	// }
+	// return FUtils.constructAssertS(sou, DictionaryP.class);
+	// }
+	//
+	// @Override
+	// public boolean isNullCustom(Object sou) {
+	// DictionaryP d = (DictionaryP) sou;
+	// return CUtil.EmptyS(d.getName());
+	// }
+	// }
+	static {
+		ma.put(OfferServicePriceP.F.highseasonprice, decimalT);
+		ma.put(OfferServicePriceP.F.highseasonweekendprice, decimalT);
+		ma.put(OfferServicePriceP.F.lowseasonprice, decimalT);
+		ma.put(OfferServicePriceP.F.lowseasonweekendprice, decimalT);
 
-        ma.put(BookingP.F.checkIn, dateT);
-        ma.put(BookingP.F.checkOut, dateT);
-        ma.put(BookingP.F.noPersons, longT);
+		ma.put(OfferSeasonP.F.startp, dateT);
+		ma.put(OfferSeasonP.F.endp, dateT);
 
-        ma.put(BookRecordP.F.customerPrice, decimalT);
-        ma.put(BookRecordP.F.oPrice, decimalT);
+		ma.put(BookingP.F.checkIn, dateT);
+		ma.put(BookingP.F.checkOut, dateT);
+		ma.put(BookingP.F.noPersons, longT);
 
-        ma.put(PaymentP.F.amount, decimalT);
-        ma.put(PaymentP.F.datePayment, dateT);
+		ma.put(BookRecordP.F.customerPrice, decimalT);
+		ma.put(BookRecordP.F.oPrice, decimalT);
 
-        ma.put(GuestP.F.checkIn, dateT);
+		ma.put(PaymentP.F.amount, decimalT);
+		ma.put(PaymentP.F.datePayment, dateT);
 
-        ma.put(AddPaymentP.F.payDate, dateT);
-        ma.put(AddPaymentP.F.noSe, longT);
-        ma.put(AddPaymentP.F.customerPrice, decimalT);
-        ma.put(AddPaymentP.F.customerSum, decimalT);
+		ma.put(GuestP.F.checkIn, dateT);
 
-        ma.put(ResObjectP.F.standard, stringDT);
-        ma.put(ResObjectP.F.noperson, intT);
+		ma.put(AddPaymentP.F.payDate, dateT);
+		ma.put(AddPaymentP.F.noSe, longT);
+		ma.put(AddPaymentP.F.customerPrice, decimalT);
+		ma.put(AddPaymentP.F.customerSum, decimalT);
 
-        ma.put(VatDictionaryP.F.vat, decimalT);
+		ma.put(ResObjectP.F.standard, stringDT);
+		ma.put(ResObjectP.F.noperson, intT);
+		ma.put(ResObjectP.F.maxperson, intT);
 
-//        ServiceDictionaryP.F.servtype
+		ma.put(VatDictionaryP.F.vat, decimalT);
 
-        ma.put(ServiceDictionaryP.F.servtype, stringServiceT);
-        ma.put(ServiceDictionaryP.F.vat, stringVatT);
+		// ServiceDictionaryP.F.servtype
 
-        ma.put(CustomerP.F.cType, stringCustomerT);
-        ma.put(CustomerP.F.pTitle, stringPersonT);
-        ma.put(CustomerP.F.docType, stringDocT);
+		ma.put(ServiceDictionaryP.F.servtype, stringServiceT);
+		ma.put(ServiceDictionaryP.F.vat, stringVatT);
 
-        ma.put(AdvancePaymentP.F.validationDate, dateT);
-        ma.put(AdvancePaymentP.F.amount, decimalT);
+		ma.put(CustomerP.F.cType, stringCustomerT);
+		ma.put(CustomerP.F.pTitle, stringPersonT);
+		ma.put(CustomerP.F.docType, stringDocT);
 
-        ma.put(BookRecordP.F.oPrice, decimalT);
-        ma.put(BookRecordP.F.customerPrice, decimalT);
+		ma.put(AdvancePaymentP.F.validationDate, dateT);
+		ma.put(AdvancePaymentP.F.amount, decimalT);
 
-        ma.put(VatDictionaryP.F.vat, decimalT);
-    }
+		ma.put(BookRecordP.F.oPrice, decimalT);
+		ma.put(BookRecordP.F.customerPrice, decimalT);
 
-    public static T getT(IField i) {
-        T t = ma.get(i);
-        if (t == null) {
-            return stringT;
-        }
-        return t;
-    }
+		ma.put(VatDictionaryP.F.vat, decimalT);
+	}
 
-    public static AbstractTo getA(final DictData da) {
-        AbstractTo aa = null;
-        if (da.getD() != null) {
-            aa = AbstractObjectFactory.getAbstract(da.getD());
-        } else if (da.getRt() != null) {
-            switch (da.getRt()) {
-                case AllPersons:
-                    aa = new LoginRecord();
-                    break;
-                case AllHotels:
-                    aa = new HotelP();
-                    break;
-                default:
-                    assert false : "Unknown RType";
-            }
-        } else {
-            switch (da.getSE()) {
-                case SpecialPeriod:
-                    aa = new PeOfferNumTo();
-                    break;
-                case CustomerPhone:
-                    PhoneNumberP ph = new PhoneNumberP();
-                    ANumAbstractTo<?> an = new ANumAbstractTo(ph, ph.getT());
-                    aa = an;
-                    break;
-                case CustomerAccount:
-                    BankAccountP ba = new BankAccountP();
-                    ANumAbstractTo<?> ab = new ANumAbstractTo(ba, ba.getT());
-                    aa = ab;
-                    break;
-                case BookingElem:
-                    BookElemP pe = new BookElemP();
-                    ANumAbstractTo<?> at = new ANumAbstractTo(pe, pe.getT());
-                    aa = at;
-                    break;
-                case BookingHeader:
-                    BookRecordP br = new BookRecordP();
-                    aa = br;
-                    break;
-                case ValidationHeader:
-                    AdvancePaymentP av = new AdvancePaymentP();
-                    aa = av;
-                    break;
-                case AddPayment:
-                    PaymentStateModel ps = new PaymentStateModel();
-                    aa = ps;
-                    break;
-                case ResGuestList:
-                    ResRoomGuest rg = new ResRoomGuest();
-                    aa = rg;
-                    break;
-                case BillsList:
-                    BillsCustomer bi = new BillsCustomer(new DictionaryP(),
-                            new CustomerP());
-                    ABillsCustomer aC = new ABillsCustomer(bi);
-                    aa = aC;
-                    break;
-                case AddPaymentList:
-                    AddPaymentP ap = new AddPaymentP();
-                    NumAddPaymentP att = new NumAddPaymentP(ap);
-                    aa = att;
-                    break;
-                default:
-                    assert false : da.getSE() + " unknown new record type";
-            }
-        }
-        return aa;
-    }
+	public static T getT(IField i) {
+		T t = ma.get(i);
+		if (t == null) {
+			return stringT;
+		}
+		return t;
+	}
+
+	public static AbstractTo getA(final DictData da) {
+		AbstractTo aa = null;
+		if (da.getD() != null) {
+			aa = AbstractObjectFactory.getAbstract(da.getD());
+		} else if (da.getRt() != null) {
+			switch (da.getRt()) {
+			case AllPersons:
+				aa = new LoginRecord();
+				break;
+			case AllHotels:
+				aa = new HotelP();
+				break;
+			default:
+				assert false : "Unknown RType";
+			}
+		} else {
+			switch (da.getSE()) {
+			case SpecialPeriod:
+				aa = new PeOfferNumTo();
+				break;
+			case CustomerPhone:
+				PhoneNumberP ph = new PhoneNumberP();
+				ANumAbstractTo<?> an = new ANumAbstractTo(ph, ph.getT());
+				aa = an;
+				break;
+			case CustomerAccount:
+				BankAccountP ba = new BankAccountP();
+				ANumAbstractTo<?> ab = new ANumAbstractTo(ba, ba.getT());
+				aa = ab;
+				break;
+			case BookingElem:
+				BookElemP pe = new BookElemP();
+				ANumAbstractTo<?> at = new ANumAbstractTo(pe, pe.getT());
+				aa = at;
+				break;
+			case BookingHeader:
+				BookRecordP br = new BookRecordP();
+				aa = br;
+				break;
+			case ValidationHeader:
+				AdvancePaymentP av = new AdvancePaymentP();
+				aa = av;
+				break;
+			case AddPayment:
+				PaymentStateModel ps = new PaymentStateModel();
+				aa = ps;
+				break;
+			case ResGuestList:
+				ResRoomGuest rg = new ResRoomGuest();
+				aa = rg;
+				break;
+			case BillsList:
+				BillsCustomer bi = new BillsCustomer(new DictionaryP(),
+						new CustomerP());
+				ABillsCustomer aC = new ABillsCustomer(bi);
+				aa = aC;
+				break;
+			case AddPaymentList:
+				AddPaymentP ap = new AddPaymentP();
+				NumAddPaymentP att = new NumAddPaymentP(ap);
+				aa = att;
+				break;
+			default:
+				assert false : da.getSE() + " unknown new record type";
+			}
+		}
+		return aa;
+	}
 }

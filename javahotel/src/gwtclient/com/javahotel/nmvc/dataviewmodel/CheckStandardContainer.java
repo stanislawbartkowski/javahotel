@@ -24,6 +24,7 @@ import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.ReadDictList;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -63,6 +64,7 @@ class CheckStandardContainer extends AbstractSlotContainer {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
+            LogT.getLS().info("SETGETTER 1");
             IVModelData mData = slContext.getVData();
             infoExtract.setStrings(mData, iCheck.getValues(), dataList);
             return slContext;

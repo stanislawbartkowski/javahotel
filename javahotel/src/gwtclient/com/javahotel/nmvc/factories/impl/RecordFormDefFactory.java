@@ -42,165 +42,169 @@ import com.javahotel.nmvc.ewidget.EWidgetFactory;
 
 public class RecordFormDefFactory implements IFormTitleFactory, IFormDefFactory {
 
-    private final EditWidgetFactory eFactory;
-    private final EWidgetFactory heFactory;
-    private final IResLocator rI;
+	private final EditWidgetFactory eFactory;
+	private final EWidgetFactory heFactory;
+	private final IResLocator rI;
 
-    @Inject
-    public RecordFormDefFactory(IResLocator rI, EditWidgetFactory eFactory,
-            EWidgetFactory heFactory) {
-        this.rI = rI;
-        this.eFactory = eFactory;
-        this.heFactory = heFactory;
-    }
+	@Inject
+	public RecordFormDefFactory(IResLocator rI, EditWidgetFactory eFactory,
+			EWidgetFactory heFactory) {
+		this.rI = rI;
+		this.eFactory = eFactory;
+		this.heFactory = heFactory;
+	}
 
-    private List<FormField> getDict(boolean symchecked) {
-        List<FormField> fList = new ArrayList<FormField>();
-        IFormLineView name;
-        IVField vSymbol = new VField(DictionaryP.F.name);
-        IVField vNazwa = new VField(DictionaryP.F.description);
-        if (symchecked) {
-            name = eFactory.constructTextCheckEdit(vSymbol, true);
-        } else {
-            name = eFactory.constructTextField(vSymbol);
-        }
-        IFormLineView descr = eFactory.constructTextField(vNazwa);
-        fList.add(new FormField("Symbol", name, vSymbol,
-                true));
-        fList.add(new FormField("Nazwa", descr, vNazwa));
-        return fList;
-    }
+	private List<FormField> getDict(boolean symchecked) {
+		List<FormField> fList = new ArrayList<FormField>();
+		IFormLineView name;
+		IVField vSymbol = new VField(DictionaryP.F.name);
+		IVField vNazwa = new VField(DictionaryP.F.description);
+		if (symchecked) {
+			name = eFactory.constructTextCheckEdit(vSymbol, true);
+		} else {
+			name = eFactory.constructTextField(vSymbol);
+		}
+		IFormLineView descr = eFactory.constructTextField(vNazwa);
+		fList.add(new FormField("Symbol", name, vSymbol, true));
+		fList.add(new FormField("Nazwa", descr, vNazwa));
+		return fList;
+	}
 
-    @Override
-    public String getFormTitle(IDataType dType) {
-        DataType dd = (DataType) dType;
-        DictType d = dd.getdType();
-        switch (d) {
-            case CustomerList:
-                return "Kontrahent";
-            case OffSeasonDict:
-                return "Sezony";
-        }
-        return null;
+	@Override
+	public String getFormTitle(IDataType dType) {
+		DataType dd = (DataType) dType;
+		DictType d = dd.getdType();
+		switch (d) {
+		case CustomerList:
+			return "Kontrahent";
+		case OffSeasonDict:
+			return "Sezony";
+		}
+		return null;
 
-    }
+	}
 
-    @Override
-    public FormLineContainer construct(IDataType dType) {
-        DataType dd = (DataType) dType;
-        List<FormField> fList = new ArrayList<FormField>();
-        if (dd.isRType()) {
-            switch (dd.getrType()) {
-                case AllPersons:
-                    IVField passwordP = new LoginField(LoginField.F.PASSWORD);
-                    IVField repasswordP = new LoginField(LoginField.F.REPASSWORD);
-                    IFormLineView password = eFactory.constructPasswordField(passwordP);
-                    IFormLineView repassword = eFactory.constructPasswordField(repasswordP);
-                    fList.add(new FormField("Symbol", null, new LoginField(
-                            LoginField.F.LOGINNAME), true));
-                    fList.add(new FormField("Hasło", password, passwordP));
-                    fList.add(new FormField("Hasło do sprawdzenia", repassword, repasswordP));
-                    return new FormLineContainer(fList);
-            }
-            return null;
-        }
+	@Override
+	public FormLineContainer construct(IDataType dType) {
+		DataType dd = (DataType) dType;
+		List<FormField> fList = new ArrayList<FormField>();
+		if (dd.isRType()) {
+			switch (dd.getrType()) {
+			case AllPersons:
+				IVField passwordP = new LoginField(LoginField.F.PASSWORD);
+				IVField repasswordP = new LoginField(LoginField.F.REPASSWORD);
+				IFormLineView password = eFactory
+						.constructPasswordField(passwordP);
+				IFormLineView repassword = eFactory
+						.constructPasswordField(repasswordP);
+				fList.add(new FormField("Symbol", null, new LoginField(
+						LoginField.F.LOGINNAME), true));
+				fList.add(new FormField("Hasło", password, passwordP));
+				fList.add(new FormField("Hasło do sprawdzenia", repassword,
+						repasswordP));
+				return new FormLineContainer(fList);
+			}
+			return null;
+		}
 
-        CommandParam p;
+		CommandParam p;
 
-        if (dd.isAddType()) {
-            switch (dd.getAddType()) {
-                case BookRecord:
-                    p = rI.getR().getHotelCommandParam();
-                    fList.add(new FormField("Suma", null, new VField(
-                            BookRecordP.F.customerPrice)));
-                    p.setDict(DictType.PriceListDict);
-                    IVField priceV = new VField(BookRecordP.F.oPrice);
-                    IFormLineView oPrice = heFactory.getListValuesBox(priceV, p);
-                    fList.add(new FormField("Cennik", oPrice, priceV));
-                    break;
-                case AdvanceHeader:
-                    fList.add(new FormField("Zaliczka", null, new VField(
-                            AdvancePaymentP.F.amount)));
-                    fList.add(new FormField("Zapłacić do", null, new VField(
-                            AdvancePaymentP.F.validationDate)));
-                    break;
-            }
-        }
-        if (dd.isDictType()) {
-            DictType d = dd.getdType();
-            switch (d) {
-                case VatDict:
-                    fList = getDict(false);
-                    fList.add(new FormField("Procent", null, new VField(
-                            VatDictionaryP.F.vat)));
-                    break;
+		if (dd.isAddType()) {
+			switch (dd.getAddType()) {
+			case BookRecord:
+				p = rI.getR().getHotelCommandParam();
+				fList.add(new FormField("Suma", null, new VField(
+						BookRecordP.F.customerPrice)));
+				p.setDict(DictType.PriceListDict);
+				IVField priceV = new VField(BookRecordP.F.oPrice);
+				IFormLineView oPrice = heFactory.getListValuesBox(priceV, p);
+				fList.add(new FormField("Cennik", oPrice, priceV));
+				break;
+			case AdvanceHeader:
+				fList.add(new FormField("Zaliczka", null, new VField(
+						AdvancePaymentP.F.amount)));
+				fList.add(new FormField("Zapłacić do", null, new VField(
+						AdvancePaymentP.F.validationDate)));
+				break;
+			}
+		}
+		if (dd.isDictType()) {
+			DictType d = dd.getdType();
+			switch (d) {
+			case VatDict:
+				fList = getDict(false);
+				fList.add(new FormField("Procent", null, new VField(
+						VatDictionaryP.F.vat)));
+				break;
 
-                case ServiceDict:
-                    fList = getDict(false);
-                    p = rI.getR().getHotelCommandParam();
-                    p.setDict(DictType.VatDict);
-                    IVField vatV = new VField(ServiceDictionaryP.F.vat);
-                    IFormLineView vatB = heFactory.getListValuesBox(vatV, p);
-                    fList.add(new FormField("Vat", vatB, vatV));
-                    IVField servT = new VField(ServiceDictionaryP.F.servtype);
-                    fList.add(new FormField("Typ", null, servT));
-                    break;
+			case ServiceDict:
+				fList = getDict(false);
+				p = rI.getR().getHotelCommandParam();
+				p.setDict(DictType.VatDict);
+				IVField vatV = new VField(ServiceDictionaryP.F.vat);
+				IFormLineView vatB = heFactory.getListValuesBox(vatV, p);
+				fList.add(new FormField("Vat", vatB, vatV));
+				IVField servT = new VField(ServiceDictionaryP.F.servtype);
+				fList.add(new FormField("Typ", null, servT));
+				break;
 
-                case RoomObjects:
-                    fList = getDict(false);
-                    p = rI.getR().getHotelCommandParam();
-                    p.setDict(DictType.RoomStandard);
-                    IVField stanV = new VField(ResObjectP.F.standard);
-                    IFormLineView standardB = heFactory.getListValuesBox(stanV, p);
-                    fList.add(new FormField("Standard", standardB, stanV));
-                    fList.add(new FormField("Liczba osób", null, new VField(
-                            ResObjectP.F.noperson)));
-                    break;
+			case RoomObjects:
+				fList = getDict(false);
+				p = rI.getR().getHotelCommandParam();
+				p.setDict(DictType.RoomStandard);
+				IVField stanV = new VField(ResObjectP.F.standard);
+				IFormLineView standardB = heFactory.getListValuesBox(stanV, p);
+				fList.add(new FormField("Standard", standardB, stanV));
+				fList.add(new FormField("Liczba osób", null, new VField(
+						ResObjectP.F.maxperson)));
+				break;
 
-                case OffSeasonDict:
-                    fList = getDict(false);
-                    fList.add(new FormField("Od", null, new VField(OfferSeasonP.F.startp)));
-                    fList.add(new FormField("Do", null, new VField(OfferSeasonP.F.endp)));
-                    break;
+			case OffSeasonDict:
+				fList = getDict(false);
+				fList.add(new FormField("Od", null, new VField(
+						OfferSeasonP.F.startp)));
+				fList.add(new FormField("Do", null, new VField(
+						OfferSeasonP.F.endp)));
+				break;
 
-                case CustomerList:
-                    fList = getDict(true);
-                    fList.add(new FormField("Nazwa 1", null, new VField(
-                            CustomerP.F.name1)));
-                    fList.add(new FormField("Nazwa 2", null, new VField(
-                            CustomerP.F.name2)));
-                    fList.add(new FormField("Rodzaj", null, new VField(
-                            CustomerP.F.cType)));
+			case CustomerList:
+				fList = getDict(true);
+				fList.add(new FormField("Nazwa 1", null, new VField(
+						CustomerP.F.name1)));
+				fList.add(new FormField("Nazwa 2", null, new VField(
+						CustomerP.F.name2)));
+				fList.add(new FormField("Rodzaj", null, new VField(
+						CustomerP.F.cType)));
 
-                    fList.add(new FormField("Pan/Pani", null, new VField(
-                            CustomerP.F.pTitle)));
-                    fList.add(new FormField("Imię", null, new VField(
-                            CustomerP.F.firstName)));
-                    fList.add(new FormField("Nazwisko", null, new VField(
-                            CustomerP.F.lastName)));
-                    fList.add(new FormField("PESEL", null, new VField(
-                            CustomerP.F.PESEL)));
-                    fList.add(new FormField("Rodzaj dokumentu", null,
-                            new VField(CustomerP.F.docType)));
-                    fList.add(new FormField("Numer dokument", null,
-                            new VField(CustomerP.F.docNumber)));
+				fList.add(new FormField("Pan/Pani", null, new VField(
+						CustomerP.F.pTitle)));
+				fList.add(new FormField("Imię", null, new VField(
+						CustomerP.F.firstName)));
+				fList.add(new FormField("Nazwisko", null, new VField(
+						CustomerP.F.lastName)));
+				fList.add(new FormField("PESEL", null, new VField(
+						CustomerP.F.PESEL)));
+				fList.add(new FormField("Rodzaj dokumentu", null, new VField(
+						CustomerP.F.docType)));
+				fList.add(new FormField("Numer dokument", null, new VField(
+						CustomerP.F.docNumber)));
 
-                    fList.add(new FormField("Kraj", null, new VField(
-                            CustomerP.F.country)));
-                    fList.add(new FormField("Kod pocztowy", null, new VField(
-                            CustomerP.F.zipCode)));
-                    fList.add(new FormField("Miasto", null, new VField(
-                            CustomerP.F.city)));
-                    fList.add(new FormField("Adres 1", null, new VField(
-                            CustomerP.F.address1)));
-                    fList.add(new FormField("Adres 2", null, new VField(
-                            CustomerP.F.address2)));
+				fList.add(new FormField("Kraj", null, new VField(
+						CustomerP.F.country)));
+				fList.add(new FormField("Kod pocztowy", null, new VField(
+						CustomerP.F.zipCode)));
+				fList.add(new FormField("Miasto", null, new VField(
+						CustomerP.F.city)));
+				fList.add(new FormField("Adres 1", null, new VField(
+						CustomerP.F.address1)));
+				fList.add(new FormField("Adres 2", null, new VField(
+						CustomerP.F.address2)));
 
-                    break;
-                default:
-                    return null;
-            }
-        }
-        return new FormLineContainer(fList);
-    }
+				break;
+			default:
+				return null;
+			}
+		}
+		return new FormLineContainer(fList);
+	}
 }
