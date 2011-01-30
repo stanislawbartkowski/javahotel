@@ -87,10 +87,13 @@ public final class SlotListContainer {
             }
 
             // to avoid concurrency exception
-            List<SlotSubscriberType> li = (List<SlotSubscriberType>) ((ArrayList)listOfSubscribers).clone();
+            List<SlotSubscriberType> li = (List<SlotSubscriberType>) ((ArrayList) listOfSubscribers)
+                    .clone();
             for (SlotSubscriberType so : li) {
                 if (sl.eq(so.getSlType())) {
-                    LogT.getLS().info(LogT.getT().sendSignalLog(slContext.getSlType().toString()));
+                    LogT.getLS().info(
+                            LogT.getT().sendSignalLog(
+                                    slContext.getSlType().toString()));
                     so.getSlSignaller().signal(slContext);
                 }
             }
@@ -103,17 +106,21 @@ public final class SlotListContainer {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             SlotCallerType slCaller = findCaller(slContext.getSlType());
             if (slCaller == null) {
-                LogT.getLS().info(LogT.getT().slCallerNotFound(slContext.getSlType().toString()));
+                LogT.getLS().info(
+                        LogT.getT().slCallerNotFound(
+                                slContext.getSlType().toString()));
                 return null;
             }
-            LogT.getLS().info(LogT.getT().slCaller(slContext.getSlType().toString()));
+            LogT.getLS().info(
+                    LogT.getT().slCaller(slContext.getSlType().toString()));
             return slCaller.getSlCaller().call(slContext);
         }
     }
 
     public ISlotSignalContext call(ISlotSignalContext slContext) {
         if (slCaller == null) {
-            LogT.getLS().info(LogT.getT().slCallerNull(slContext.getSlType().toString()));
+            LogT.getLS().info(
+                    LogT.getT().slCallerNull(slContext.getSlType().toString()));
             return null;
         }
         return slCaller.call(slContext);
@@ -121,10 +128,13 @@ public final class SlotListContainer {
 
     public void publish(ISlotSignalContext slContext) {
         if (slSignaller == null) {
-            LogT.getLS().info(LogT.getT().publishLogNull(slContext.getSlType().toString()));
+            LogT.getLS().info(
+                    LogT.getT()
+                            .publishLogNull(slContext.getSlType().toString()));
             return;
         }
-        LogT.getLS().info(LogT.getT().publishLog(slContext.getSlType().toString()));
+        LogT.getLS().info(
+                LogT.getT().publishLog(slContext.getSlType().toString()));
         slSignaller.signal(slContext);
     }
 
@@ -146,17 +156,21 @@ public final class SlotListContainer {
         listOfSubscribers.add(new SlotSubscriberType(slType, slSignaller));
     }
 
-    public void registerSubscriber(IDataType dType, CellId cellId, ISlotSignaller slSignaller) {
+    public void registerSubscriber(IDataType dType, CellId cellId,
+            ISlotSignaller slSignaller) {
         registerSubscriber(slTypeFactory.construct(dType, cellId), slSignaller);
     }
 
-    public void registerSubscriber(IDataType dType, int cellId, ISlotSignaller slSignaller) {
+    public void registerSubscriber(IDataType dType, int cellId,
+            ISlotSignaller slSignaller) {
         registerSubscriber(slTypeFactory.construct(dType, cellId), slSignaller);
     }
 
     public void registerSubscriber(ClickButtonType.StandClickEnum eClick,
             ISlotSignaller slSignaller) {
-        registerSubscriber(slTypeFactory.construct(new ClickButtonType(eClick)), slSignaller);
+        registerSubscriber(
+                slTypeFactory.construct(new ClickButtonType(eClick)),
+                slSignaller);
     }
 
     public void registerSubscriber(ClickButtonType bClick,
@@ -175,8 +189,7 @@ public final class SlotListContainer {
                 slSignaller);
     }
 
-    public void removeSubscriber(DataActionEnum dataActionEnum,
-            IDataType dType) {
+    public void removeSubscriber(DataActionEnum dataActionEnum, IDataType dType) {
         removeSubscriber(slTypeFactory.construct(dataActionEnum, dType));
     }
 
@@ -215,7 +228,8 @@ public final class SlotListContainer {
     }
 
     private ISlotSignalContext callGet(SlotType slType, IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory
+                .construct(slType, mData);
         return call(slContext);
     }
 
@@ -285,7 +299,8 @@ public final class SlotListContainer {
 
     public ISlotSignalContext getGetterContext(SlotType slType,
             IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory
+                .construct(slType, mData);
         return slContext;
     }
 
@@ -299,7 +314,8 @@ public final class SlotListContainer {
     public ISlotSignalContext setGetter(GetActionEnum getActionEnum,
             IDataType dType, IVModelData vData, WSize wSize) {
         SlotType slType = slTypeFactory.construct(getActionEnum, dType);
-        ISlotSignalContext sl = slContextFactory.construct(slType, vData, wSize);
+        ISlotSignalContext sl = slContextFactory
+                .construct(slType, vData, wSize);
         return sl;
     }
 
@@ -334,13 +350,13 @@ public final class SlotListContainer {
     }
 
     public void publish(IDataType dType, CellId cellId, IGWidget gwtWidget) {
-        publish(slContextFactory.construct(slTypeFactory.construct(dType, cellId),
-                gwtWidget));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(dType, cellId), gwtWidget));
     }
 
     public void publish(IDataType dType, int cellId, IGWidget gwtWidget) {
-        publish(slContextFactory.construct(slTypeFactory.construct(dType, cellId),
-                gwtWidget));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(dType, cellId), gwtWidget));
     }
 
     public void publish(ClickButtonType bType, IGWidget gwtWidget) {
@@ -349,18 +365,18 @@ public final class SlotListContainer {
     }
 
     public void publish(ISlotCustom is, ICustomObject customO) {
-        publish(slContextFactory.construct(slTypeFactory.construct(is),
-                customO));
+        publish(slContextFactory
+                .construct(slTypeFactory.construct(is), customO));
     }
 
     public void publish(String customString, ICustomObject customO) {
-        publish(slContextFactory.construct(slTypeFactory.construct(customString),
-                customO));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(customString), customO));
     }
 
     public void publish(String stringButton, IGWidget gwtWidget) {
-        publish(slContextFactory.construct(slTypeFactory.construct(stringButton),
-                gwtWidget, stringButton));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(stringButton), gwtWidget, stringButton));
     }
 
     public void publish(IDataType dType, IVField fie, IFormLineView formLine) {
@@ -368,14 +384,17 @@ public final class SlotListContainer {
                 formLine));
     }
 
-    public void publish(IDataType dType, ClickButtonType bType, ButtonAction bAction) {
-        publish(slContextFactory.construct(slTypeFactory.construct(dType, bType, bAction)));
+    public void publish(IDataType dType, ClickButtonType bType,
+            ButtonAction bAction) {
+        publish(slContextFactory.construct(slTypeFactory.construct(dType,
+                bType, bAction)));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             PersistTypeEnum persistTypeEnum) {
-        publish(slContextFactory.construct(slTypeFactory.construct(
-                dataActionEnum, dType), persistTypeEnum));
+        publish(slContextFactory
+                .construct(slTypeFactory.construct(dataActionEnum, dType),
+                        persistTypeEnum));
     }
 
     public void publish(IDataType dType, ISlotSignalContext slContext) {
@@ -385,38 +404,40 @@ public final class SlotListContainer {
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             IVModelData vData) {
-        publish(slContextFactory.construct(slTypeFactory.construct(
-                dataActionEnum, dType), vData));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(dataActionEnum, dType), vData));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             IVModelData vData, PersistTypeEnum persistTypeEnum) {
-        publish(slContextFactory.construct(slTypeFactory.construct(
-                dataActionEnum, dType), vData, persistTypeEnum));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(dataActionEnum, dType), vData,
+                persistTypeEnum));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             WSize wSize) {
-        publish(slContextFactory.construct(slTypeFactory.construct(
-                dataActionEnum, dType), wSize));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(dataActionEnum, dType), wSize));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             IDataListType dataList) {
-        publish(slContextFactory.construct(slTypeFactory.construct(
-                dataActionEnum, dType), dataList));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(dataActionEnum, dType), dataList));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             IDataListType dataList, WSize wSize) {
-        publish(slContextFactory.construct(slTypeFactory.construct(
-                dataActionEnum, dType), dataList, wSize));
+        publish(slContextFactory
+                .construct(slTypeFactory.construct(dataActionEnum, dType),
+                        dataList, wSize));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             ISlotSignalContext slContext) {
-        publish(slContextFactory.construct(slTypeFactory.construct(
-                dataActionEnum, dType), slContext));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(dataActionEnum, dType), slContext));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType) {
@@ -426,14 +447,14 @@ public final class SlotListContainer {
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             IOkModelData iOkModelData) {
-        publish(slContextFactory.construct(slTypeFactory.construct(
-                dataActionEnum, dType), iOkModelData));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(dataActionEnum, dType), iOkModelData));
     }
 
     public void publish(DataActionEnum dataActionEnum, IDataType dType,
             InvalidateFormContainer errContainer) {
-        publish(slContextFactory.construct(slTypeFactory.construct(
-                dataActionEnum, dType), errContainer));
+        publish(slContextFactory.construct(
+                slTypeFactory.construct(dataActionEnum, dType), errContainer));
     }
 
     public void publish(IDataType dType, VListHeaderContainer vHeader) {
@@ -446,6 +467,7 @@ public final class SlotListContainer {
     }
 
     public void publish(String buttonString) {
-        publish(slContextFactory.construct(slTypeFactory.construct(buttonString)));
+        publish(slContextFactory.construct(slTypeFactory
+                .construct(buttonString)));
     }
 }

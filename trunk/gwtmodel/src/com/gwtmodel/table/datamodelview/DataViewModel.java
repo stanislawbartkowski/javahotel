@@ -34,6 +34,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
+import com.gwtmodel.table.injector.LogT;
 import java.util.List;
 
 class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
@@ -83,6 +84,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
+            LogT.getLS().info(LogT.getT().GetterModelDataViewModel());
             IVModelData mData = slContext.getVData();
             fromViewToData(mData);
             return slContext;
@@ -93,6 +95,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
+            LogT.getLS().info(LogT.getT().GetterContainerDataViewModel());
             return construct(dType, fContainer);
         }
     }
@@ -101,6 +104,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
+            LogT.getLS().info(LogT.getT().GetterWidgetDataViewModel());
             IVField v = slContext.getVField();
             List<FormField> l = fContainer.getfList();
             for (FormField f : l) {
