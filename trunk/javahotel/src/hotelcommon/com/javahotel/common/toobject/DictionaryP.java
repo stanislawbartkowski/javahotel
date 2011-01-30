@@ -29,12 +29,17 @@ public class DictionaryP extends AbstractTo implements IDictionary {
 	@Override
 	public Class<?> getT(final IField f) {
 		Class<?> cla = String.class;
-		F fi = null;
-		try {
-			fi = (F) f;
-		} catch (java.lang.ClassCastException e) {
-			return null;
+		if (! (f instanceof F)) {
+		    return null;
 		}
+		F fi = (F) f;
+//		try {
+//			fi = (F) f;
+//		} catch (java.lang.ClassCastException e) {
+//			return null;
+//		} catch (Exception e) {
+//		    return null;
+///		}
 		switch (fi) {
 		case id:
 			cla = LId.class;

@@ -43,14 +43,15 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
         }
         if (daType.isAddType()) {
             switch (daType.getAddType()) {
-                case BookRecord:
-                    return new VModelData(new BookRecordP());
-                case AdvanceHeader:
-                    return new VModelData(new AdvancePaymentP());
+            case BookRecord:
+                return new VModelData(new BookRecordP());
+            case AdvanceHeader:
+                return new VModelData(new AdvancePaymentP());
 
             }
         }
-        AbstractTo a = AbstractToFactory.getA(DataUtil.constructDictData(dType));
+        AbstractTo a = AbstractToFactory
+                .getA(DataUtil.constructDictData(dType));
         return new VModelData(a);
     }
 

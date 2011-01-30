@@ -30,6 +30,7 @@ import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.PersonP;
+import com.javahotel.dbutil.log.GetLogger;
 import com.javahotel.webhelper.HotelHelper;
 
 /**
@@ -38,10 +39,13 @@ import com.javahotel.webhelper.HotelHelper;
  */
 public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
+	private static GetLogger lo = new GetLogger("com.javahotel.gwtserviceimpl");
+	
     private String getSessionId() {
 
         HttpServletRequest a = getThreadLocalRequest();
         String s = a.getSession().getId();
+        lo.getL().info("session:" + s);
         return s;
     }
 

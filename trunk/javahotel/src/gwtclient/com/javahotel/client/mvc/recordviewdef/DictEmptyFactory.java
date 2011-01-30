@@ -17,8 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.inject.Inject;
-import com.javahotel.client.IResLocator;
 import com.javahotel.client.dialog.DictData;
 import com.javahotel.client.dialog.IPersistAction;
 import com.javahotel.client.mvc.auxabstract.BillsCustomer;
@@ -52,234 +50,226 @@ import com.javahotel.common.toobject.VatDictionaryP;
  */
 public class DictEmptyFactory {
 
-    private final IResLocator rI;
+	private static final List<IField> dictE;
+	private static final List<IField> loginE;
+	private static final List<IField> adminE;
+	private static final List<IField> personE;
+	private static final List<IField> hotelE;
+	private static final List<IField> personERemove;
+	private static final List<IField> roomObjectE;
+	private static final List<IField> vatE;
+	private static final List<IField> servE;
+	private static final List<IField> seasonE;
+	private static final List<IField> specE;
+	private static final List<IField> priceE;
+	private static final List<IField> bankE;
+	private static final List<IField> phoneE;
+	private static final List<IField> bookE;
+	private static final List<IField> bookH;
+	private static final List<IField> validH;
+	private static final List<IField> bookEH;
+	private static final List<IField> addPayE;
+	private static final List<IField> roomGuestE;
+	private static final List<IField> billE;
+	private static final List<IField> addE;
 
-    @Inject
-    public DictEmptyFactory(IResLocator rI) {
-        this.rI = rI;
-    }
-    private static final List<IField> dictE;
-    private static final List<IField> loginE;
-    private static final List<IField> adminE;
-    private static final List<IField> personE;
-    private static final List<IField> hotelE;
-    private static final List<IField> personERemove;
-    private static final List<IField> roomObjectE;
-    private static final List<IField> vatE;
-    private static final List<IField> servE;
-    private static final List<IField> seasonE;
-    private static final List<IField> specE;
-    private static final List<IField> priceE;
-    private static final List<IField> bankE;
-    private static final List<IField> phoneE;
-    private static final List<IField> bookE;
-    private static final List<IField> bookH;
-    private static final List<IField> validH;
-    private static final List<IField> bookEH;
-    private static final List<IField> addPayE;
-    private static final List<IField> roomGuestE;
-    private static final List<IField> billE;
-    private static final List<IField> addE;
+	static {
+		roomObjectE = new ArrayList<IField>();
+		roomObjectE.add(DictionaryP.F.name);
+		roomObjectE.add(ResObjectP.F.standard);
+		roomObjectE.add(ResObjectP.F.maxperson);
 
-    static {
-        roomObjectE = new ArrayList<IField>();
-        roomObjectE.add(DictionaryP.F.name);
-        roomObjectE.add(ResObjectP.F.standard);
-        roomObjectE.add(ResObjectP.F.noperson);
+		dictE = new ArrayList<IField>();
+		dictE.add(DictionaryP.F.name);
 
-        dictE = new ArrayList<IField>();
-        dictE.add(DictionaryP.F.name);
+		loginE = new ArrayList<IField>();
+		loginE.add(LoginRecord.F.login);
+		loginE.add(LoginRecord.F.password);
+		loginE.add(LoginRecord.F.hotel);
 
-        loginE = new ArrayList<IField>();
-        loginE.add(LoginRecord.F.login);
-        loginE.add(LoginRecord.F.password);
-        loginE.add(LoginRecord.F.hotel);
+		adminE = new ArrayList<IField>();
+		adminE.add(LoginRecord.F.login);
+		adminE.add(LoginRecord.F.password);
 
-        adminE = new ArrayList<IField>();
-        adminE.add(LoginRecord.F.login);
-        adminE.add(LoginRecord.F.password);
-
-        personE = new ArrayList<IField>();
-        personE.add(LoginRecord.F.login);
-        personE.add(LoginRecord.F.password);
+		personE = new ArrayList<IField>();
+		personE.add(LoginRecord.F.login);
+		personE.add(LoginRecord.F.password);
         personE.add(LoginRecord.F.confpassword);
 
-        personERemove = new ArrayList<IField>();
-        personERemove.add(LoginRecord.F.login);
+		personERemove = new ArrayList<IField>();
+		personERemove.add(LoginRecord.F.login);
 
-        hotelE = new ArrayList<IField>();
-        hotelE.add(HotelP.F.name);
-        hotelE.add(HotelP.F.database);
+		hotelE = new ArrayList<IField>();
+		hotelE.add(HotelP.F.name);
+		hotelE.add(HotelP.F.database);
 
-        vatE = new ArrayList<IField>();
-        vatE.add(DictionaryP.F.name);
-        vatE.add(VatDictionaryP.F.vat);
+		vatE = new ArrayList<IField>();
+		vatE.add(DictionaryP.F.name);
+		vatE.add(VatDictionaryP.F.vat);
 
-        servE = new ArrayList<IField>();
-        servE.add(DictionaryP.F.name);
-        servE.add(ServiceDictionaryP.F.servtype);
-        servE.add(ServiceDictionaryP.F.vat);
+		servE = new ArrayList<IField>();
+		servE.add(DictionaryP.F.name);
+		servE.add(ServiceDictionaryP.F.servtype);
+		servE.add(ServiceDictionaryP.F.vat);
 
-        seasonE = new ArrayList<IField>();
-        seasonE.add(DictionaryP.F.name);
-        seasonE.add(OfferSeasonP.F.startp);
-        seasonE.add(OfferSeasonP.F.endp);
+		seasonE = new ArrayList<IField>();
+		seasonE.add(DictionaryP.F.name);
+		seasonE.add(OfferSeasonP.F.startp);
+		seasonE.add(OfferSeasonP.F.endp);
 
-        specE = new ArrayList<IField>();
-        specE.add(OfferSeasonPeriodP.F.startP);
-        specE.add(OfferSeasonPeriodP.F.endP);
+		specE = new ArrayList<IField>();
+		specE.add(OfferSeasonPeriodP.F.startP);
+		specE.add(OfferSeasonPeriodP.F.endP);
 
-        priceE = new ArrayList<IField>();
-        priceE.add(DictionaryP.F.name);
-        priceE.add(OfferPriceP.F.season);
+		priceE = new ArrayList<IField>();
+		priceE.add(DictionaryP.F.name);
+		priceE.add(OfferPriceP.F.season);
 
-        bankE = new ArrayList<IField>();
-        bankE.add(BankAccountP.F.accountNumber);
+		bankE = new ArrayList<IField>();
+		bankE.add(BankAccountP.F.accountNumber);
 
-        phoneE = new ArrayList<IField>();
-        phoneE.add(PhoneNumberP.F.phoneNumber);
+		phoneE = new ArrayList<IField>();
+		phoneE.add(PhoneNumberP.F.phoneNumber);
 
-        bookE = new ArrayList<IField>();
-        bookE.add(BookingP.F.checkIn);
-        bookE.add(BookingP.F.checkOut);
-        bookE.add(BookingP.F.noPersons);
-        bookE.add(BookingP.F.season);
+		bookE = new ArrayList<IField>();
+		bookE.add(BookingP.F.checkIn);
+		bookE.add(BookingP.F.checkOut);
+		bookE.add(BookingP.F.noPersons);
+		bookE.add(BookingP.F.season);
 
-        bookH = new ArrayList<IField>();
-        bookH.add(BookRecordP.F.customerPrice);
-        bookH.add(BookRecordP.F.oPrice);
+		bookH = new ArrayList<IField>();
+		bookH.add(BookRecordP.F.customerPrice);
+		bookH.add(BookRecordP.F.oPrice);
 
-        validH = new ArrayList<IField>();
+		validH = new ArrayList<IField>();
 
-        bookEH = new ArrayList<IField>();
-        bookEH.add(BookElemP.F.checkIn);
-        bookEH.add(BookElemP.F.checkOut);
-        bookEH.add(BookElemP.F.resObject);
-        bookEH.add(BookElemP.F.service);
+		bookEH = new ArrayList<IField>();
+		bookEH.add(BookElemP.F.checkIn);
+		bookEH.add(BookElemP.F.checkOut);
+		bookEH.add(BookElemP.F.resObject);
+		bookEH.add(BookElemP.F.service);
 
-        addPayE = new ArrayList<IField>();
-        addPayE.add(PaymentP.F.amount);
-        addPayE.add(PaymentP.F.datePayment);
-        addPayE.add(PaymentP.F.payMethod);
-        addPayE.add(BookingStateP.F.bState);
+		addPayE = new ArrayList<IField>();
+		addPayE.add(PaymentP.F.amount);
+		addPayE.add(PaymentP.F.datePayment);
+		addPayE.add(PaymentP.F.payMethod);
+		addPayE.add(BookingStateP.F.bState);
 
-        roomGuestE = new ArrayList<IField>();
-        roomGuestE.add(GuestP.F.checkIn);
-        roomGuestE.add(CustomerP.F.firstName);
-        roomGuestE.add(CustomerP.F.lastName);
-        roomGuestE.add(CustomerP.F.pTitle);
+		roomGuestE = new ArrayList<IField>();
+		roomGuestE.add(GuestP.F.checkIn);
+		roomGuestE.add(CustomerP.F.firstName);
+		roomGuestE.add(CustomerP.F.lastName);
+		roomGuestE.add(CustomerP.F.pTitle);
 
-        billE = new ArrayList<IField>();
-        billE.add(BillsCustomer.F.name);
-        billE.add(DictionaryP.F.name);
-        billE.add(BillsCustomer.F.oPrice);
+		billE = new ArrayList<IField>();
+		billE.add(BillsCustomer.F.name);
+		billE.add(DictionaryP.F.name);
+		billE.add(BillsCustomer.F.oPrice);
 
-        addE = new ArrayList<IField>();
-        addE.add(AddPaymentP.F.payDate);
-        addE.add(AddPaymentP.F.noSe);
-        addE.add(AddPaymentP.F.seName);
-        addE.add(AddPaymentP.F.customerPrice);
-        addE.add(AddPaymentP.F.customerSum);
-    }
+		addE = new ArrayList<IField>();
+		addE.add(AddPaymentP.F.payDate);
+		addE.add(AddPaymentP.F.noSe);
+		addE.add(AddPaymentP.F.seName);
+		addE.add(AddPaymentP.F.customerPrice);
+		addE.add(AddPaymentP.F.customerSum);
+	}
 
-    private List<IField> getNoEmpty(final DictData.SpecE d) {
-        switch (d) {
-            case SpecialPeriod:
-                return specE;
-            case CustomerPhone:
-                return phoneE;
-            case CustomerAccount:
-                return bankE;
-            case BookingHeader:
-                return bookH;
-            case ValidationHeader:
-                return validH;
-            case BookingElem:
-                return bookEH;
-            case AddPayment:
-                return addPayE;
-            case ResGuestList:
-                return roomGuestE;
-            case BillsList:
-                return billE;
-            case AddPaymentList:
-                return addE;
-            case LoginUser:
-                return loginE;
-            case LoginAdmin:
-                return adminE;
-        }
-        return null;
-    }
+	private List<IField> getNoEmpty(final DictData.SpecE d) {
+		switch (d) {
+		case SpecialPeriod:
+			return specE;
+		case CustomerPhone:
+			return phoneE;
+		case CustomerAccount:
+			return bankE;
+		case BookingHeader:
+			return bookH;
+		case ValidationHeader:
+			return validH;
+		case BookingElem:
+			return bookEH;
+		case AddPayment:
+			return addPayE;
+		case ResGuestList:
+			return roomGuestE;
+		case BillsList:
+			return billE;
+		case AddPaymentList:
+			return addE;
+		case LoginUser:
+			return loginE;
+		case LoginAdmin:
+			return adminE;
+		}
+		return null;
+	}
 
-    private List<IField> getNoEmpty(final DictType d) {
-        switch (d) {
-            case RoomObjects:
-                return roomObjectE;
-            case VatDict:
-                return vatE;
-            case ServiceDict:
-                return servE;
-            case OffSeasonDict:
-                return seasonE;
-            case PriceListDict:
-                return priceE;
-            case BookingList:
-                return bookE;
-            default:
-                break;
-        }
-        return dictE;
-    }
+	private List<IField> getNoEmpty(final DictType d) {
+		switch (d) {
+		case RoomObjects:
+			return roomObjectE;
+		case VatDict:
+			return vatE;
+		case ServiceDict:
+			return servE;
+		case OffSeasonDict:
+			return seasonE;
+		case PriceListDict:
+			return priceE;
+		case BookingList:
+			return bookE;
+		default:
+			break;
+		}
+		return dictE;
+	}
 
-    private List<IField> getNoEmpty(final int action,
-            final RType rt) {
-        switch (rt) {
-            case AllPersons:
-                if (action == IPersistAction.DELACTION) {
-                    return personERemove;
-                }
-                return personE;
-            case AllHotels:
-                return hotelE;
-        }
-        return null;
-    }
+	private List<IField> getNoEmpty(final int action, final RType rt) {
+		switch (rt) {
+		case AllPersons:
+			if (action == IPersistAction.DELACTION) {
+				return personERemove;
+			}
+			return personE;
+		case AllHotels:
+			return hotelE;
+		}
+		return null;
+	}
 
-    public List<IField> getNoEmpty(final int action,
-            final DictData d) {
-        List<IField> c = null;
-        if (d.getRt() != null) {
-            c = getNoEmpty(action, d.getRt());
-            if (c != null) {
-                return c;
-            }
-        }
-        if (d.isSe()) {
-            return getNoEmpty(d.getSE());
-        }
-        return getNoEmpty(d.getD());
-    }
+	public List<IField> getNoEmpty(final int action, final DictData d) {
+		List<IField> c = null;
+		if (d.getRt() != null) {
+			c = getNoEmpty(action, d.getRt());
+			if (c != null) {
+				return c;
+			}
+		}
+		if (d.isSe()) {
+			return getNoEmpty(d.getSE());
+		}
+		return getNoEmpty(d.getD());
+	}
 
-    public List<IField> getNoEmpty(final DictData d) {
-        return getNoEmpty(IPersistAction.MODIFACTION, d);
-    }
+	public List<IField> getNoEmpty(final DictData d) {
+		return getNoEmpty(IPersistAction.MODIFACTION, d);
+	}
 
-    public Set<IField> getNoEmptyS(final DictData d) {
-        List<IField> co = getNoEmpty(d);
-        Set<IField> se = new HashSet<IField>();
-        se.addAll(co);
-        return se;
-    }
+	public Set<IField> getNoEmptyS(final DictData d) {
+		List<IField> co = getNoEmpty(d);
+		Set<IField> se = new HashSet<IField>();
+		se.addAll(co);
+		return se;
+	}
 
-    public List<IField> getEmptyPriceList() {
+	public List<IField> getEmptyPriceList() {
 
-        List<IField> e = new ArrayList<IField>();
-        e.add(OfferServicePriceP.F.highseasonprice);
-        e.add(OfferServicePriceP.F.highseasonweekendprice);
-        e.add(OfferServicePriceP.F.lowseasonprice);
-        e.add(OfferServicePriceP.F.lowseasonweekendprice);
-        e.add(OfferServicePriceP.F.service);
-        return e;
-    }
+		List<IField> e = new ArrayList<IField>();
+		e.add(OfferServicePriceP.F.highseasonprice);
+		e.add(OfferServicePriceP.F.highseasonweekendprice);
+		e.add(OfferServicePriceP.F.lowseasonprice);
+		e.add(OfferServicePriceP.F.lowseasonweekendprice);
+		e.add(OfferServicePriceP.F.service);
+		return e;
+	}
 }
