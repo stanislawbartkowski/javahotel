@@ -21,6 +21,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
@@ -38,6 +39,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -54,11 +56,10 @@ class PresentationTable implements IGwtTableView {
     final SingleSelectionModel<Integer> selectionModel = new SingleSelectionModel<Integer>();
     private WChoosedLine wChoosed;
     private final SimplePager sPager = new SimplePager(TextLocation.CENTER, (Resources) GWT.create(SimplePager.Resources.class), false, 1000,
-        true);
+            true);
     private final VerticalPanel vPanel = new VerticalPanel();
     private final ListDataProvider<Integer> dProvider = new ListDataProvider<Integer>();
     private final List<Integer> dList;
-
     private boolean whilefind = false;
 
     private class SelectionChange implements SelectionChangeEvent.Handler {
@@ -87,8 +88,6 @@ class PresentationTable implements IGwtTableView {
         selectionModel.addSelectionChangeHandler(new SelectionChange());
         dList = dProvider.getList();
         table.setSelectionModel(selectionModel);
-//        vPanel.add(table);
-//        vPanel.add(sPager);
         sPager.setDisplay(table);
         dProvider.addDataDisplay(table);
         setEmpty();
@@ -193,6 +192,21 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
+    private class CoComparator implements Comparator<Integer> {
+
+        private final VListHeaderDesc he;
+
+        CoComparator(VListHeaderDesc he) {
+            this.he = he;
+        }
+
+        public int compare(Integer o1, Integer o2) {
+            IVModelData v1 = model.getRows().get(o1);
+            IVModelData v2 = model.getRows().get(o2);
+            return FUtils.compareValue(v1, he.getFie(), v2, he.getFie());
+        }
+    }
+
     private void createHeader() {
         if (model == null) {
             return;
@@ -234,7 +248,13 @@ class PresentationTable implements IGwtTableView {
                     co = new TColumn(he.getFie());
                     break;
             }
+            co.setSortable(true);
             table.addColumn(co, he.getHeaderString());
+
+            ListHandler<Integer> columnSortHandler = new ListHandler<Integer>(
+                    dList);
+            columnSortHandler.setComparator(co, new CoComparator(he));
+            table.addColumnSortHandler(columnSortHandler);
         }
         columnC = true;
     }
@@ -249,14 +269,10 @@ class PresentationTable implements IGwtTableView {
             dList.add(new Integer(i));
         }
         int size = model.getHeaderList().getPageSize();
-//        size = 10;
         if (size != 0) {
             table.setPageSize(size);
         }
-//        table.setPageStart(0);
         table.setPageStart(setSelected().pStart);
-//        table.setRowCount(dList.size(), true);
-//        table.setPageStart(setSelected().pStart);
         int aNo = vPanel.getWidgetCount();
         int nNo = 1;
         if (dList.size() > IConsts.minPageScroll) {
@@ -269,8 +285,6 @@ class PresentationTable implements IGwtTableView {
                 vPanel.add(sPager);
             }
         }
-//        table.setRowData(0, li);
-//        wChoosed = new WChoosedLine();
     }
 
     private void setEmpty() {

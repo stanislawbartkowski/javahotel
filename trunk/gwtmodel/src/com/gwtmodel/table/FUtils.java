@@ -46,7 +46,6 @@ public class FUtils {
         public Boolean toB(String s) {
             return new Boolean(s);
         }
-
     }
 
     private FUtils() {
@@ -248,6 +247,36 @@ public class FUtils {
         BigDecimal rB = getValueBigDecimal(row, f);
         BigDecimal fB = getValueBigDecimal(filter, from);
         return fB.compareTo(rB);
+    }
+
+    public static int compareValue(IVModelData row1, IVField f1, IVModelData row2, IVField f2) {
+        boolean empty1 = isNullValue(row1, f1);
+        boolean empty2 = isNullValue(row2, f2);
+        if (empty1 && empty2) {
+            return 0;
+        }
+        if (empty1) {
+            return 1;
+        }
+        if (empty2) {
+            return -1;
+        }
+        int comp;
+        switch (f1.getType().getType()) {
+            case BIGDECIMAL:
+                comp = compBigDecimal(row1, f1, row2, f2);
+                break;
+            case LONG:
+                comp = compLong(row1, f1, row2, f2);
+                break;
+            case DATE:
+                comp = compDate(row1, f1, row2, f2);
+                break;
+            default:
+                comp = compString(row1, f1, row2, f2, true);
+                break;
+        }
+        return comp;
     }
 
     /**
