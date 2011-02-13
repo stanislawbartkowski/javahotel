@@ -33,7 +33,6 @@ import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IJavaMailAction;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.mail.ListOfMailProperties;
 import com.gwtmodel.table.mail.MailResult;

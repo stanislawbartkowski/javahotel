@@ -53,7 +53,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     private CellId panelId;
     private IGwtPanelView pView;
     private final GwtPanelViewFactory gFactory;
-    private String htmlF;
+    private GWidget htmlWidget;
     private final SlotSignalContextFactory slFactory;
 
     PanelView(GwtPanelViewFactory gFactory, SlotSignalContextFactory slFactory,
@@ -63,7 +63,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         this.gFactory = gFactory;
         this.slFactory = slFactory;
         this.dType = dType;
-        htmlF = null;
+        htmlWidget = null;
         pView = null;
     }
 
@@ -94,16 +94,12 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         }
     }
 
-    private IGWidget getHWidget() {
-        return new GWidget(htmlF);
-    }
-
     private class GetHtml implements ISlotCaller {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             ISlotSignalContext sl = slFactory.construct(slContext.getSlType(),
-                    getHWidget());
+                    htmlWidget);
             return sl;
         }
     }
@@ -114,7 +110,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             createView();
             return;
         }
-        htmlF = html;
+        htmlWidget = new GWidget(html);
         ISlotCaller c = new GetHtml();
         for (CellId i : colM.keySet()) {
             SlotType sl = slTypeFactory.constructH(i);
@@ -147,8 +143,8 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         } else {
             publishType = cellId.getdType();
         }
-        if (htmlF != null) {
-            publish(publishType, cellId, getHWidget());
+        if (htmlWidget != null) {
+            publish(publishType, cellId, htmlWidget);
         } else {
             publish(publishType, cellId, pView);
         }
