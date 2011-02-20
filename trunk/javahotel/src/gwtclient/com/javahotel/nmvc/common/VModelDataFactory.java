@@ -12,15 +12,24 @@
  */
 package com.javahotel.nmvc.common;
 
-import com.gwtmodel.table.IVModelData;
 import com.javahotel.common.toobject.AbstractTo;
 
 /**
  * @author hotel
  *
  */
-public interface VModelData extends IVModelData {
+public class VModelDataFactory {
     
-    AbstractTo getA();
+    private VModelDataFactory() {
+        
+    }
+    
+    public static VModelData construct(AbstractTo a) {
+        return new AModelData(a);
+    }
+    
+    public static VModelDataLp constructLp(AbstractTo a) {
+        return new VModelDataLp(a);
+    }
 
 }

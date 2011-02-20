@@ -57,7 +57,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * 
  * @author hotel
  */
 public class SeasonAddInfo extends AbstractSlotContainer {
@@ -87,8 +87,8 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         dest.setCustomData(sou);
     }
 
-    private Long toOfferSeasonPeriodP(OfferSeasonPeriodP dest, AbstractDatePeriodE sou,
-            SeasonPeriodT periodT, Long next) {
+    private Long toOfferSeasonPeriodP(OfferSeasonPeriodP dest,
+            AbstractDatePeriodE sou, SeasonPeriodT periodT, Long next) {
         dest.setStartP(sou.getdFrom());
         dest.setEndP(sou.getdTo());
         dest.setDescription(sou.getComment());
@@ -104,7 +104,8 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         return l;
     }
 
-    private List<AbstractDatePeriodE> getP(OfferSeasonP sou, SeasonPeriodT periodT) {
+    private List<AbstractDatePeriodE> getP(OfferSeasonP sou,
+            SeasonPeriodT periodT) {
         List<AbstractDatePeriodE> li = new ArrayList<AbstractDatePeriodE>();
         if (sou.getPeriods() != null) {
             for (OfferSeasonPeriodP d : sou.getPeriods()) {
@@ -156,7 +157,8 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         li.removeAll(toRemove);
     }
 
-    private void setPList(OfferSeasonP dest, IDatePeriodList l, SeasonPeriodT periodT) {
+    private void setPList(OfferSeasonP dest, IDatePeriodList l,
+            SeasonPeriodT periodT) {
         removePeriodE(dest, periodT);
         IDataListType dList = l.getMemTable();
         Long next = getNext(dList);
@@ -204,7 +206,6 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         private final IResLocator rI;
         private final HorizontalPanel controlC = new HorizontalPanel();
         private final ICallContext iContext;
-        private final IDataType ddType;
         private final IDataModelFactory dFactory;
 
         private class DrawD extends ModalDialog {
@@ -225,23 +226,26 @@ public class SeasonAddInfo extends AbstractSlotContainer {
             rI = HInjector.getI().getI();
             pS = new PanelSeason(rI, g, controlC, 0, null, DateUtil.getToday());
             this.iContext = iContext;
-            this.ddType = ddType;
             dFactory = iContext.getC().getDataModelFactory();
         }
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData mData = dFactory.construct(dType);
-            IVModelData pData = iContext.iSlo().getSlContainer().
-                    getGetterIVModelData(GetActionEnum.GetViewComposeModelEdited,
-                    dType, mData);
+            IVModelData pData = iContext
+                    .iSlo()
+                    .getSlContainer()
+                    .getGetterIVModelData(
+                            GetActionEnum.GetViewComposeModelEdited, dType,
+                            mData);
             VModelData v = (VModelData) pData;
             OfferSeasonP off = (OfferSeasonP) v.getA();
             Date from = off.getStartP();
-            Date to  = off.getEndP();
+            Date to = off.getEndP();
             IGWidget w = slContext.getGwtWidget();
             if ((from == null) || (to == null)) {
-                OkDialog ok = new OkDialog("Wprowadż datę od i do !","Nie można nic wyświetlić",null);
+                OkDialog ok = new OkDialog("Wprowadż datę od i do !",
+                        "Nie można nic wyświetlić", null);
                 ok.show(w.getGWidget());
                 return;
             }
@@ -256,9 +260,12 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         this.dType = iContext.getDType();
         daFactory = GwtGiniInjector.getI().getDatePeriodListFactory();
         pFactory = new MyPeriodFactory();
-        outsideSeason = daFactory.construct("Poza sezonem", pFactory, sPanel.constructSetGwt());
-        periodSpecial = daFactory.construct("Okresy specjalne", pFactory, sPanel.constructSetGwt());
-        registerCaller(GetActionEnum.GetViewModelEdited, ddType, new SetGetter());
+        outsideSeason = daFactory.construct("Poza sezonem", pFactory,
+                sPanel.constructSetGwt());
+        periodSpecial = daFactory.construct("Okresy specjalne", pFactory,
+                sPanel.constructSetGwt());
+        registerCaller(GetActionEnum.GetViewModelEdited, ddType,
+                new SetGetter());
         registerCaller(GetActionEnum.GetModelToPersist, ddType, new SetGetter());
         registerSubscriber(DataActionEnum.DrawViewFormAction, ddType,
                 new DrawModel());

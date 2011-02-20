@@ -106,7 +106,7 @@ public class DataUtil {
     public static IDataListType construct(List<? extends AbstractTo> dList) {
         List<IVModelData> dvList = new ArrayList<IVModelData>();
         for (AbstractTo a : dList) {
-            dvList.add(new VModelData(a));
+            dvList.add(VModelDataFactory.construct(a));
         }
         return DataListTypeFactory.construct(dvList);
     }

@@ -15,7 +15,7 @@ package com.javahotel.nmvc.factories.booking;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Label;
+import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
@@ -35,7 +35,6 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.persist.IMemoryListModel;
 import com.gwtmodel.table.persist.MemoryGetController;
 import com.gwtmodel.table.persist.MemoryListPersist;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -69,8 +68,9 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             if (b.getBookrecords() != null) {
                 p = GetMaxUtil.getLastBookRecord(b);
             }
-            List<IVModelData> li = new ArrayList<IVModelData>();
-            lPersistList.setDataList(DataListTypeFactory.construct(li));
+            List<AbstractLpVModelData> li = new ArrayList<AbstractLpVModelData>();
+            lPersistList.setDataList(DataListTypeFactory.constructLp(li));
+            dControler.startPublish(new CellId(0));
         }
     }
 
@@ -91,9 +91,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
             @Override
             public IDataValidateAction construct(IDataType dType) {
-                AbstractSlotContainer a = new AbstractSlotContainer() {
-                };
-                return (IDataValidateAction) a;
+                return new BookElemValidate(dType);
             }
         };
 
@@ -116,7 +114,6 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
     @Override
     public void startPublish(CellId cellId) {
         slMediator.startPublish(null);
-        sPanel.getvPanel().add(new Label("aaaaaaaaaaaaa"));
         slMediator.getSlContainer().publish(publishdType, cellId, sPanel.constructGWidget());
     }
 

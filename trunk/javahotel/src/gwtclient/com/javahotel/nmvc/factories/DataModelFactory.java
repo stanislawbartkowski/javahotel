@@ -25,12 +25,14 @@ import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.mvc.record.view.helper.ExtractFields;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.AdvancePaymentP;
+import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.FormLineDef;
 import com.javahotel.nmvc.common.VField;
 import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.nmvc.common.VModelDataFactory;
 import com.javahotel.nmvc.factories.impl.DataModelFields;
 
 class DataModelFactory extends HelperFactory implements IDataModelFactory {
@@ -44,15 +46,16 @@ class DataModelFactory extends HelperFactory implements IDataModelFactory {
         if (daType.isAddType()) {
             switch (daType.getAddType()) {
             case BookRecord:
-                return new VModelData(new BookRecordP());
+                return VModelDataFactory.construct(new BookRecordP());
             case AdvanceHeader:
-                return new VModelData(new AdvancePaymentP());
-
+                return VModelDataFactory.construct(new AdvancePaymentP());
+            case BookElem:
+                return VModelDataFactory.constructLp(new BookElemP());                
             }
         }
         AbstractTo a = AbstractToFactory
                 .getA(DataUtil.constructDictData(dType));
-        return new VModelData(a);
+        return VModelDataFactory.construct(a);
     }
 
     @Override

@@ -27,7 +27,7 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.nmvc.common.VField;
-import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.nmvc.common.VModelDataFactory;
 
 class GetCommandList implements IGetDataList {
 
@@ -50,7 +50,7 @@ class GetCommandList implements IGetDataList {
         public void doVList(final List<? extends AbstractTo> val) {
             List<IVModelData> dList = new ArrayList<IVModelData>();
             for (AbstractTo a : val) {
-                dList.add(new VModelData(a));
+                dList.add(VModelDataFactory.construct(a));
             }
             IDataListType dataList = DataListTypeFactory.construct(dList,
                     new VField(f));
