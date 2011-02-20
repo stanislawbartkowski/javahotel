@@ -35,7 +35,6 @@ class CustomFactory implements IGetCustomValues {
         ma.put(IGetCustomValues.PASSWORD, sI.getLabels().Password());
         ma.put(IGetCustomValues.ADDITEM, sI.getLabels().DodajButton());
         ma.put(IGetCustomValues.REMOVEITEM, sI.getLabels().UsunButton());
-//        ma.put(IGetCustomValues.EMPTYFIELDERRORDEFAULT, sI.getLabels().EmptyField());
         ma.put(IGetCustomValues.MODIFITEM, sI.getLabels().ModifItem());
         ma.put(IGetCustomValues.SHOWITEM, sI.getLabels().ShowItem());
         ma.put(IGetCustomValues.YESVALUE, sI.getLabels().Yes());
@@ -55,5 +54,10 @@ class CustomFactory implements IGetCustomValues {
     @Override
     public String getCustomValue(String key) {
         return ma.get(key);
+    }
+
+    @Override
+    public boolean addEmptyAsDefault() {
+        return false;
     }
 }

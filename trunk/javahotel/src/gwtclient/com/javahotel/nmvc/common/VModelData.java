@@ -35,10 +35,6 @@ public class VModelData extends AVModelData {
         return fi;
     }
 
-//    @Override
-//    public String getS(IVField fie) {
-//        return a.getS(toF(fie));
-//    }
     @Override
     public Object getF(IVField fie) {
         return a.getF(toF(fie));
@@ -53,10 +49,6 @@ public class VModelData extends AVModelData {
         return a;
     }
 
-//    @Override
-//    public boolean isEmpty(IVField fie) {
-//        return a.emptyS(toF(fie));
-//    }
     @Override
     public List<IVField> getF() {
         List<IVField> eList = new ArrayList<IVField>();

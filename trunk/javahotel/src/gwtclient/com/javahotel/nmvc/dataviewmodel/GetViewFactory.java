@@ -131,46 +131,46 @@ public class GetViewFactory implements IGetViewControllerFactory {
         DataType dd = (DataType) dType;
         DataType subType = new DataType(dd.getdType(), DataTypeSubEnum.Sub1);
         DataType sub1Type = new DataType(dd.getdType(), DataTypeSubEnum.Sub2);
+        DataType sub2Type = new DataType(dd.getdType(), DataTypeSubEnum.Sub3);
         ISlotable cContainer = null;
         ISlotable cContainer1 = null;
+        ISlotable cContainer2 = null;
         if (dd.isRType()) {
             switch (dd.getrType()) {
-                case AllPersons:
-                case AllHotels:
-                    cContainer = new HotelPersonRightsContainer(dd, subType);
-                    break;
-            }
-        }
-        if (dd.isAddType()) {
-            switch (dd.getAddType()) {
-                case BookElem:
-                    cContainer = new BookingElemContainer(dd);
-                    break;
+            case AllPersons:
+            case AllHotels:
+                cContainer = new HotelPersonRightsContainer(dd, subType);
+                break;
             }
         }
         if (dd.isDictType()) {
             switch (dd.getdType()) {
-                case OffSeasonDict:
-                    cContainer = new SeasonAddInfo(iContext.construct(iCon), subType);
-                    break;
-                case CustomerList:
-                    cContainer = new CustomerAddInfo(dType, subType,false);
-                    break;
-                case PriceListDict:
-                    cContainer = new PriceListContainer(peFactory, dType, subType);
-                    break;
-                case RoomObjects:
-                    cContainer = new CheckStandardContainer(dType, subType, new DataType(
-                            DictType.RoomFacility), new InfoExtractRoom());
-                    break;
-                case RoomStandard:
-                    cContainer = new CheckStandardContainer(dType, subType, new DataType(
-                            DictType.ServiceDict), new InfoExtractStandard());
-                    break;
-                case BookingList:
-                    cContainer = new BookingCustomerContainer(iContext,subType);
-                    cContainer1 = new BookingHeaderContainer(iContext, sub1Type);
-                    break;
+            case OffSeasonDict:
+                cContainer = new SeasonAddInfo(iContext.construct(iCon),
+                        subType);
+                break;
+            case CustomerList:
+                cContainer = new CustomerAddInfo(dType, subType, false);
+                break;
+            case PriceListDict:
+                cContainer = new PriceListContainer(peFactory, dType, subType);
+                break;
+            case RoomObjects:
+                cContainer = new CheckStandardContainer(dType, subType,
+                        new DataType(DictType.RoomFacility),
+                        new InfoExtractRoom());
+                break;
+            case RoomStandard:
+                cContainer = new CheckStandardContainer(dType, subType,
+                        new DataType(DictType.ServiceDict),
+                        new InfoExtractStandard());
+                break;
+            case BookingList:
+                cContainer = new BookingCustomerContainer(iContext, subType);
+                cContainer1 = new BookingHeaderContainer(iContext, sub1Type);
+                cContainer2 = new BookingElemContainer(iContext, sub2Type,
+                        fFactory);
+                break;
             }
         }
         if (cContainer != null) {
@@ -178,6 +178,10 @@ public class GetViewFactory implements IGetViewControllerFactory {
             iCon.registerControler(cType);
             if (cContainer1 != null) {
                 cType = new ComposeControllerType(cContainer1, sub1Type, 0, 2);
+                iCon.registerControler(cType);
+            }
+            if (cContainer2 != null) {
+                cType = new ComposeControllerType(cContainer2, sub2Type, 1, 2);
                 iCon.registerControler(cType);
             }
         }

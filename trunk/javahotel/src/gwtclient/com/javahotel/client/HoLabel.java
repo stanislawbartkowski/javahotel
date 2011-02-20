@@ -82,4 +82,19 @@ public interface HoLabel extends Constants {
     String Yes();
 
     String No();
+
+    String Phones();
+
+    String Account();
+
+    String NextCustomerSymbol();
+
+    String CannotChangeNoNewCustomer();
+
+    String CustomerDataWillBeChanged();
+
+    String CannotChangeCustomerToNotChange();
+
+    String Confirm();
+
 }

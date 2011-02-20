@@ -12,13 +12,112 @@
  */
 package com.javahotel.nmvc.factories.booking;
 
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
-import com.javahotel.nmvc.common.DataType;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BookingElemContainer extends AbstractSlotContainer {
-    
-    public BookingElemContainer(DataType subType) {
-        
+import com.google.gwt.user.client.ui.Label;
+import com.gwtmodel.table.DataListTypeFactory;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.controler.DataListParam;
+import com.gwtmodel.table.controler.DisplayListControlerParam;
+import com.gwtmodel.table.controler.IDataControler;
+import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.datamodelview.DataViewModelFactory;
+import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.factories.IDataValidateAction;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.gwtmodel.table.factories.IGetViewControllerFactory;
+import com.gwtmodel.table.factories.IHeaderListFactory;
+import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.persist.IMemoryListModel;
+import com.gwtmodel.table.persist.MemoryGetController;
+import com.gwtmodel.table.persist.MemoryListPersist;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
+import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.view.util.SetVPanelGwt;
+import com.javahotel.common.toobject.BookRecordP;
+import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.util.GetMaxUtil;
+import com.javahotel.nmvc.common.AddType;
+import com.javahotel.nmvc.common.DataType;
+import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.nmvc.factories.FormDefFactory;
+
+public class BookingElemContainer extends AbstractSlotMediatorContainer {
+
+    private final SetVPanelGwt sPanel = new SetVPanelGwt();
+    private final IDataType publishdType;
+    private final IMemoryListModel lPersistList;
+    private final IDataControler dControler;
+    private final ITableCustomFactories tFactories;
+
+    private class DrawModel implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IVModelData mData = slContext.getVData();
+            VModelData vData = (VModelData) mData;
+            BookingP b = (BookingP) vData.getA();
+            BookRecordP p = null;
+            if (b.getBookrecords() != null) {
+                p = GetMaxUtil.getLastBookRecord(b);
+            }
+            List<IVModelData> li = new ArrayList<IVModelData>();
+            lPersistList.setDataList(DataListTypeFactory.construct(li));
+        }
+    }
+
+    public BookingElemContainer(ICallContext iContext, DataType subType,
+            FormDefFactory fFactory) {
+        tFactories = iContext.getC();
+        publishdType = iContext.getDType();
+        dType = new DataType(AddType.BookElem);
+        slMediator.getSlContainer().registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
+                new DrawModel());
+        lPersistList = new MemoryListPersist(dType);
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
+                .getTableDataControlerFactory();
+        DataViewModelFactory daFactory = GwtGiniInjector.getI()
+                .getDataViewModelFactory();
+
+        IDataValidateActionFactory vFactory = new IDataValidateActionFactory() {
+
+            @Override
+            public IDataValidateAction construct(IDataType dType) {
+                AbstractSlotContainer a = new AbstractSlotContainer() {
+                };
+                return (IDataValidateAction) a;
+            }
+        };
+
+        CellId cI = new CellId(0);
+        IDataModelFactory iDataModelFactory = tFactories.getDataModelFactory();
+        BookElemDataFactory b = new BookElemDataFactory(fFactory);
+        IGetViewControllerFactory iGetCon = new MemoryGetController(b,
+                iDataModelFactory, daFactory, lPersistList, vFactory);
+
+        DisplayListControlerParam cParam = tFactory.constructParam(dType,
+                cI, new DataListParam(lPersistList, null,
+                        iDataModelFactory, b, iGetCon), null);
+        IHeaderListFactory he = tFactories.getHeaderListFactory();
+        dControler = tFactory.constructDataControler(cParam);
+        slMediator.registerSlotContainer(dControler);
+        slMediator.registerSlotContainer(he.construct(dType));
+        slMediator.getSlContainer().registerSubscriber(dType, cI, sPanel.constructSetGwt());
+    }
+
+    @Override
+    public void startPublish(CellId cellId) {
+        slMediator.startPublish(null);
+        sPanel.getvPanel().add(new Label("aaaaaaaaaaaaa"));
+        slMediator.getSlContainer().publish(publishdType, cellId, sPanel.constructGWidget());
     }
 
 }

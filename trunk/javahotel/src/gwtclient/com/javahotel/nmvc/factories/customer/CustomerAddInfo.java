@@ -33,6 +33,8 @@ import com.gwtmodel.table.stringlist.IMemoryStringList;
 import com.gwtmodel.table.stringlist.IStringEFactory;
 import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.common.toobject.AbstractToILd;
 import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.CustomerP;
@@ -49,6 +51,7 @@ public class CustomerAddInfo extends AbstractSlotContainer {
     private final IDataType publishType;
     public static final String setTelString = "CUSTOM-SET-TEL";
     public static final String setAccString = "CUSTOM-SET-ACC";
+    private final IResLocator rI;
 
     private class StringE extends AbstractStringE {
 
@@ -187,19 +190,20 @@ public class CustomerAddInfo extends AbstractSlotContainer {
     }
 
     public CustomerAddInfo(IDataType publishType, IDataType dType, boolean setW) {
+        rI = HInjector.getI().getI();
         this.publishType = publishType;
         this.dType = dType;
         maFactory = GwtGiniInjector.getI().getMemoryStringTableFactory();
         if (setW) {
-            mList = maFactory.construct("Telefon", "Telefony", new SFactory(),
-                    sPanel.constructSetGwt());
-            aList = maFactory.construct("Konto", "Konta", new SFactory(),
-                    sPanel.constructSetGwt());
+            mList = maFactory.construct("Telefon", rI.getLabels().Phones(),
+                    new SFactory(), sPanel.constructSetGwt());
+            aList = maFactory.construct("Konto", rI.getLabels().Account(),
+                    new SFactory(), sPanel.constructSetGwt());
         } else {
-            mList = maFactory.construct("Telefon", "Telefony", new SFactory(),
-                    new SetGWT(setTelString));
-            aList = maFactory.construct("Konto", "Konta", new SFactory(),
-                    new SetGWT(setAccString));
+            mList = maFactory.construct("Telefon", rI.getLabels().Phones(),
+                    new SFactory(), new SetGWT(setTelString));
+            aList = maFactory.construct("Konto", rI.getLabels().Account(),
+                    new SFactory(), new SetGWT(setAccString));
         }
         registerCaller(GetActionEnum.GetViewModelEdited, dType, new SetGetter());
         registerCaller(GetActionEnum.GetModelToPersist, dType, new SetGetter());
@@ -213,7 +217,7 @@ public class CustomerAddInfo extends AbstractSlotContainer {
     @Override
     public void startPublish(CellId cellId) {
         if (cellId != null) {
-           publish(publishType, cellId, sPanel.constructGWidget());
+            publish(publishType, cellId, sPanel.constructGWidget());
         }
     }
 }

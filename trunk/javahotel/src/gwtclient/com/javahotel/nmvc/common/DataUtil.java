@@ -51,15 +51,15 @@ public class DataUtil {
     public static int vTypetoAction(PersistTypeEnum persisEnumType) {
         int action = -1;
         switch (persisEnumType) {
-            case ADD:
-                action = IPersistAction.ADDACION;
-                break;
-            case MODIF:
-                action = IPersistAction.MODIFACTION;
-                break;
-            case REMOVE:
-                action = IPersistAction.DELACTION;
-                break;
+        case ADD:
+            action = IPersistAction.ADDACION;
+            break;
+        case MODIF:
+            action = IPersistAction.MODIFACTION;
+            break;
+        case REMOVE:
+            action = IPersistAction.DELACTION;
+            break;
         }
         return action;
     }
@@ -126,7 +126,8 @@ public class DataUtil {
     public static InvalidateFormContainer convert(IErrorMessage errmess) {
         List<InvalidateMess> eList = new ArrayList<InvalidateMess>();
         DictErrorMessage dictM = (DictErrorMessage) errmess;
-        List<com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess> col = dictM.getErrmess();
+        List<com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess> col = dictM
+                .getErrmess();
         for (com.javahotel.client.mvc.dict.validator.errmess.InvalidateMess mess : col) {
             InvalidateMess mm = new InvalidateMess(new VField(mess.getFie()),
                     mess.isEmpty(), mess.getErrmess());

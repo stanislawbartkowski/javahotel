@@ -105,12 +105,9 @@ public class ColListFactory {
         resRoomCol = createA("Numer");
         resRoomCol.add(new ColTitle(ResObjectP.F.standard, "Standard"));
         resRoomCol.add(new ColTitle(ResObjectP.F.noperson, "L osób"));
-//        resRoomCol.add(new ColTitle(ResObjectP.F.noperson, "L osób",
-//                FieldDataType.contructLong()));
 
         vatCol = createA();
         vatCol.add(new ColTitle(VatDictionaryP.F.vat, "Procent"));
-//                FieldDataType.constructBigDecimal()));
 
         servCol = createA();
         servCol.add(new ColTitle(ServiceDictionaryP.F.servtype, "Rodzaj"));
