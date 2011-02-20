@@ -55,6 +55,8 @@ public interface TLogMessages extends Messages {
     String FilterCannotbeNull();
 
     String sendSignalLog(String slName);
+    
+    String sendSignalNotFound(String slName);
 
     String receivedSignalLog(String slName);
 

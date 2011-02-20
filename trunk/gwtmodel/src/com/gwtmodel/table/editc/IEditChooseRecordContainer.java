@@ -19,7 +19,7 @@ package com.gwtmodel.table.editc;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 /**
- *
+ * 
  * @author hotel
  */
 public interface IEditChooseRecordContainer extends ISlotable {
@@ -29,4 +29,6 @@ public interface IEditChooseRecordContainer extends ISlotable {
     boolean getNewCheck();
 
     boolean getChangeCheck();
+
+    void ModifForm();
 }

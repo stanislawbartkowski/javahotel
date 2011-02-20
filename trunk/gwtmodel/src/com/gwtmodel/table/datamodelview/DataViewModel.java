@@ -52,19 +52,22 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             for (FormField fie : fContainer.getfList()) {
                 IFormLineView vie = fie.getELine();
                 switch (persistTypeEnum) {
-                    case ADD:
-                        break;
-                    case MODIF:
-                        if (fie.isReadOnlyIfModif()) {
-                            vie.setReadOnly(true);
-                        }
-                        break;
-                    case REMOVE:
+                case ADD:
+                    vie.setReadOnly(false);
+                    break;
+                case MODIF:
+                    if (fie.isReadOnlyIfModif()) {
                         vie.setReadOnly(true);
-                        break;
-                    case SHOWONLY:
-                        vie.setReadOnly(true);
-                        break;
+                    } else {
+                        vie.setReadOnly(false);
+                    }
+                    break;
+                case REMOVE:
+                    vie.setReadOnly(true);
+                    break;
+                case SHOWONLY:
+                    vie.setReadOnly(true);
+                    break;
                 }
             }
         }
@@ -120,7 +123,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext.getValidateError();
+            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext
+                    .getValidateError();
             gView.showInvalidate(errContainer);
         }
     }
@@ -147,7 +151,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         iContext.setdType(dType);
         // suspicious this in constructor, but as designed
         iContext.setiSlo(this);
-        gView = gFactory.construct(iContext, fContainer, iContext.getC().getDataFormConstructorAbstractFactory().construct(iContext));
+        gView = gFactory.construct(iContext, fContainer, iContext.getC()
+                .getDataFormConstructorAbstractFactory().construct(iContext));
         if (dFactory == null) {
             this.dFactory = iContext.getC().getDataModelFactory();
         } else {
@@ -176,7 +181,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         dFactory.fromViewToData(dType, fContainer, aTo);
     }
 
-    private void fromDataToView(IVModelData aFrom, PersistTypeEnum persistTypeEnum) {
+    private void fromDataToView(IVModelData aFrom,
+            PersistTypeEnum persistTypeEnum) {
         dFactory.fromDataToView(dType, persistTypeEnum, aFrom, fContainer);
     }
 

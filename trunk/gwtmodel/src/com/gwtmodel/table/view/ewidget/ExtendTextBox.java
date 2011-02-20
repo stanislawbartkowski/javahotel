@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
@@ -32,7 +31,6 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.ewidget.richtextoolbar.googlerichbar.RichTextToolbar;
-//import com.gwtmodel.table.view.ewidget.richtextoolbar.RichTextToolbar;
 
 /**
  * 
@@ -45,9 +43,7 @@ class ExtendTextBox extends AbstractField {
 
         private final TextBoxBase tBox;
         private final RichTextArea rArea;
-//        private final VerticalPanel vP;
         private final Grid vP;
-
 
         EWidget(EParam param) {
             if (param.isPassword()) {
@@ -57,7 +53,6 @@ class ExtendTextBox extends AbstractField {
             } else {
                 if (param.isIsRich()) {
                     vP = new Grid(2, 1);
-//                    vP = new VerticalPanel();
                     vP.setStyleName("cw-RichText");
                     rArea = new RichTextArea();
                     RichTextToolbar r = new RichTextToolbar(rArea);
@@ -211,7 +206,6 @@ class ExtendTextBox extends AbstractField {
         }
     }
     protected final Widget wW;
-//    protected final TextBoxBase tBox;
     private final EWidget eW;
     protected final HorizontalPanel hPanel;
     protected final CheckBox check;
@@ -220,22 +214,8 @@ class ExtendTextBox extends AbstractField {
     protected ExtendTextBox(ITableCustomFactories tFactories, IVField v, EParam param) {
         super(tFactories, v);
         this.isArea = param.isArea();
-//      if (param.isPassword()) {
-//            tBox = new PasswordTextBox();
-//        } else {
-//            tBox = isArea ? new TextArea() : new TextBox();
-//        }
         eW = new EWidget(param);
-//      tBox.setName(v.getId());
         eW.setName(v.getId());
-        if (param.isPanel()) {
-            hPanel = new HorizontalPanel();
-            hPanel.add(eW.getGWidget());
-            wW = hPanel;
-        } else {
-            hPanel = null;
-            wW = eW.getGWidget();
-        }
         if (param.isCheckBox()) {
             check = new CheckBox("Auto");
             check.setChecked(param.isEnable());
@@ -245,8 +225,18 @@ class ExtendTextBox extends AbstractField {
         } else {
             check = null;
         }
+        if (param.isPanel()) {
+            hPanel = new HorizontalPanel();
+            if (check != null) {
+                hPanel.add(check);
+            }
+            hPanel.add(eW.getGWidget());
+            wW = hPanel;
+        } else {
+            hPanel = null;
+            wW = eW.getGWidget();
+        }
         initWidget(wW);
-//        setMouse();
     }
 
     private void changeS() {
