@@ -44,6 +44,7 @@ import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.nmvc.common.AddType;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.nmvc.common.VModelDataFactory;
 
 public class BookingHeaderContainer extends AbstractSlotContainer {
 
@@ -75,7 +76,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
             if (p == null) {
                 pData = daFactory.construct(dType);
             } else {
-                pData = new VModelData(p);
+                pData = VModelDataFactory.construct(p);
             }
             drawBook(dType, pData);
 
@@ -85,7 +86,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
             }
             IVModelData aData;
             if (pa != null) {
-                aData = new VModelData(pa);
+                aData = VModelDataFactory.construct(pa);
             } else {
                 aData = daFactory.construct(aType);
             }

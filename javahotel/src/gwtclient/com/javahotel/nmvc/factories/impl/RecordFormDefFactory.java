@@ -123,6 +123,10 @@ public class RecordFormDefFactory implements IFormTitleFactory, IFormDefFactory 
                         BookElemP.F.checkIn)));
                 fList.add(new FormField("Rezerwacja do", new VField(
                         BookElemP.F.checkOut)));
+                fList.add(new FormField("Pokój", new VField(
+                        BookElemP.F.resObject)));
+                fList.add(new FormField("Usługa", new VField(
+                        BookElemP.F.service)));
 
                 // ILineField checkIn = GetIEditFactory.getTextCalendard(rI);
                 // ILineField checkOut = GetIEditFactory.getTextCalendard(rI);

@@ -45,6 +45,7 @@ import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.VModelData;
+import com.javahotel.nmvc.common.VModelDataFactory;
 import com.javahotel.types.LId;
 
 public class BookingCustomerContainer extends AbstractSlotContainer {
@@ -63,7 +64,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
 
         @Override
         public void doOne(AbstractTo val) {
-            IVModelData cData = new VModelData(val);
+            IVModelData cData = VModelDataFactory.construct(val);
             drawCust(cData);
         }
     }

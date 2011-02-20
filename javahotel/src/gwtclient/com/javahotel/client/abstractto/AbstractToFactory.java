@@ -121,6 +121,10 @@ public class AbstractToFactory {
 
     private static final T stringSeaT = new T(String.class,
             FieldDataType.constructString(new SeasonListFactory()));
+    private static final T stringServT = new T(String.class,
+            FieldDataType.constructString(new ServiceListFactory()));
+    private static final T stringRoomT = new T(String.class,
+            FieldDataType.constructString(new RoomListFactory()));
     // SeasonListFactory
     private static final getMap ge = new getMap() {
 
@@ -232,37 +236,105 @@ public class AbstractToFactory {
         }
     }
 
-    private static class SeasonListFactory implements
+    private static abstract class DictListFactory implements
             FieldDataType.IFormLineViewFactory {
+
+        private final DictType d;
+        private final IField f;
+
+        DictListFactory(DictType d, IField f) {
+            this.d = d;
+            this.f = f;
+        }
+
+        DictListFactory(DictType d) {
+            this.d = d;
+            this.f = DictionaryP.F.name;
+        }
 
         @Override
         public IFormLineView construct() {
             IResLocator rI = HInjector.getI().getI();
             EWidgetFactory heFactory = HInjector.getI().getEWidgetFactory();
             CommandParam p = rI.getR().getHotelCommandParam();
-            p.setDict(DictType.OffSeasonDict);
-            IVField stanV = new VField(DictionaryP.F.name);
-            IFormLineView season = heFactory.getListValuesBox(stanV, p);
-            // ILineField season = heFactory.getListValuesBox(rI,
-            // RType.ListDict, p, DictionaryP.F.name);
-            return season;
+
+            p.setDict(d);
+            IVField stanV = new VField(f);
+            IFormLineView i = heFactory.getListValuesBox(stanV, p);
+            return i;
         }
     }
 
-    private static class RoomStandardFactory implements
-            FieldDataType.IFormLineViewFactory {
+    private static class RoomListFactory extends DictListFactory {
 
-        @Override
-        public IFormLineView construct() {
-            IResLocator rI = HInjector.getI().getI();
-            EWidgetFactory heFactory = HInjector.getI().getEWidgetFactory();
-            CommandParam p = rI.getR().getHotelCommandParam();
-            p.setDict(DictType.RoomStandard);
-            IVField stanV = new VField(ResObjectP.F.standard);
-            IFormLineView standardB = heFactory.getListValuesBox(stanV, p);
-            return standardB;
+        RoomListFactory() {
+            super(DictType.RoomObjects);
         }
 
+    }
+
+    // FieldDataType.IFormLineViewFactory {
+    //
+    // @Override
+    // public IFormLineView construct() {
+    // IResLocator rI = HInjector.getI().getI();
+    // EWidgetFactory heFactory = HInjector.getI().getEWidgetFactory();
+    // CommandParam p = rI.getR().getHotelCommandParam();
+    //
+    // p.setDict(DictType.RoomObjects);
+    // IVField stanV = new VField(DictionaryP.F.name);
+    // IFormLineView room = heFactory.getListValuesBox(stanV, p);
+    // return room;
+    // }
+    // }
+
+    // private static class SeasonListFactory implements
+    // FieldDataType.IFormLineViewFactory {
+    //
+    // @Override
+    // public IFormLineView construct() {
+    // IResLocator rI = HInjector.getI().getI();
+    // EWidgetFactory heFactory = HInjector.getI().getEWidgetFactory();
+    // CommandParam p = rI.getR().getHotelCommandParam();
+    // p.setDict(DictType.OffSeasonDict);
+    // IVField stanV = new VField(DictionaryP.F.name);
+    // IFormLineView season = heFactory.getListValuesBox(stanV, p);
+    // return season;
+    // }
+    // }
+
+    private static class SeasonListFactory extends DictListFactory {
+        SeasonListFactory() {
+            super(DictType.OffSeasonDict);
+        }
+    }
+    
+    private static class ServiceListFactory extends DictListFactory {
+        ServiceListFactory() {
+            super(DictType.ServiceDict);
+        }
+    }
+
+    // private static class RoomStandardFactory implements
+    // FieldDataType.IFormLineViewFactory {
+    //
+    // @Override
+    // public IFormLineView construct() {
+    // IResLocator rI = HInjector.getI().getI();
+    // EWidgetFactory heFactory = HInjector.getI().getEWidgetFactory();
+    // CommandParam p = rI.getR().getHotelCommandParam();
+    // p.setDict(DictType.RoomStandard);
+    // IVField stanV = new VField(ResObjectP.F.standard);
+    // IFormLineView standardB = heFactory.getListValuesBox(stanV, p);
+    // return standardB;
+    // }
+    //
+    // }
+
+    private static class RoomStandardFactory extends DictListFactory {
+        RoomStandardFactory() {
+            super(DictType.RoomStandard, ResObjectP.F.standard);
+        }
     }
 
     private static class DictionaryToS<T extends DictionaryP> implements
@@ -323,7 +395,7 @@ public class AbstractToFactory {
         ma.put(BookingP.F.checkIn, dateT);
         ma.put(BookingP.F.checkOut, dateT);
         ma.put(BookingP.F.noPersons, intT);
-        ma.put(BookingP.F.season,stringSeaT);
+        ma.put(BookingP.F.season, stringSeaT);
 
         ma.put(BookRecordP.F.customerPrice, decimalT);
         ma.put(BookRecordP.F.oPrice, decimalT);
@@ -363,6 +435,8 @@ public class AbstractToFactory {
 
         ma.put(BookElemP.F.checkIn, dateT);
         ma.put(BookElemP.F.checkOut, dateT);
+        ma.put(BookElemP.F.resObject, stringRoomT);
+        ma.put(BookElemP.F.service, stringServT);
 
         ma.put(OfferPriceP.F.season, stringSeaT);
     }
