@@ -24,7 +24,6 @@ public class ComboVal {
 
     public ComboVal(String dispVal) {
         this.dispVal = dispVal;
-//        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
     }
 
     /**

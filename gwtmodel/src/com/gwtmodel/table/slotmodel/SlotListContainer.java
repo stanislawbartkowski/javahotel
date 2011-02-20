@@ -89,13 +89,20 @@ public final class SlotListContainer {
             // to avoid concurrency exception
             List<SlotSubscriberType> li = (List<SlotSubscriberType>) ((ArrayList) listOfSubscribers)
                     .clone();
+            boolean found = false;
             for (SlotSubscriberType so : li) {
                 if (sl.eq(so.getSlType())) {
+                    found = true;
                     LogT.getLS().info(
                             LogT.getT().sendSignalLog(
                                     slContext.getSlType().toString()));
                     so.getSlSignaller().signal(slContext);
                 }
+            }
+            if (!found) {
+                LogT.getLS().info(
+                        LogT.getT().sendSignalNotFound(
+                                slContext.getSlType().toString()));
             }
         }
     }

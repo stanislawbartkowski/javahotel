@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
@@ -37,8 +38,8 @@ public class EditWidgetFactory {
     }
 
     public IFormLineView contructCalculatorNumber(IVField v) {
-        return new NumberCalculator(tFactories, v,
-                new ExtendTextBox.EParam(false, false, false, false, false));
+        return new NumberCalculator(tFactories, v, new ExtendTextBox.EParam(
+                false, false, false, false, false));
     }
 
     public IFormLineView constructCheckField(IVField v) {
@@ -74,8 +75,8 @@ public class EditWidgetFactory {
     }
 
     public IFormLineView constructRichTextArea(IVField v) {
-        return new ExtendTextBox(tFactories, v,
-                new ExtendTextBox.EParam(false, false));
+        return new ExtendTextBox(tFactories, v, new ExtendTextBox.EParam(false,
+                false));
     }
 
     public IFormLineView construcDateBoxCalendar(IVField v) {
@@ -128,25 +129,29 @@ public class EditWidgetFactory {
     }
 
     public IFormLineView constructEditWidget(IVField v) {
+        FieldDataType.IFormLineViewFactory fa = v.getType().getiFactory();
+        if (fa != null) {
+            return fa.construct();
+        }
         switch (v.getType().getType()) {
-            case DATE:
-                return construcDateBoxCalendar(v);
-            case INT:
-            case LONG:
-            case BIGDECIMAL:
-                if (v.getType().getLi() != null) {
-                    return constructListCombo(v);
-                }
-                return contructCalculatorNumber(v);
-            case ENUM:
-                return constructListComboEnum(v);
-            case BOOLEAN:
-                return constructCheckField(v);
-            default:
-                if (v.getType().getLi() != null) {
-                    return constructListCombo(v);
-                }
-                return constructTextField(v);
+        case DATE:
+            return construcDateBoxCalendar(v);
+        case INT:
+        case LONG:
+        case BIGDECIMAL:
+            if (v.getType().getLi() != null) {
+                return constructListCombo(v);
+            }
+            return contructCalculatorNumber(v);
+        case ENUM:
+            return constructListComboEnum(v);
+        case BOOLEAN:
+            return constructCheckField(v);
+        default:
+            if (v.getType().getLi() != null) {
+                return constructListCombo(v);
+            }
+            return constructTextField(v);
         }
 
     }

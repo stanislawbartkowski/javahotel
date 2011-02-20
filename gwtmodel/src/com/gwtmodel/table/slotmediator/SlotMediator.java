@@ -18,6 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 
@@ -37,6 +38,15 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
             this.iSlo = iSlo;
         }
     }
+    
+    @Override
+    public void replaceSlContainer(SlotListContainer sl) {
+        slContainer = sl;
+        for (C c : slList) {
+            c.iSlo.replaceSlContainer(sl);
+        }
+    }
+
 
     @Override
     public void registerSlotContainer(CellId cellId, ISlotable iSlo) {

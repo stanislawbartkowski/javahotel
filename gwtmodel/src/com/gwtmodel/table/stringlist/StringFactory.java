@@ -15,7 +15,6 @@ package com.gwtmodel.table.stringlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IFormDefFactory;

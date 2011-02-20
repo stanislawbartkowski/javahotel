@@ -14,11 +14,17 @@ package com.gwtmodel.table;
 
 import java.util.List;
 
+import com.gwtmodel.table.rdef.IFormLineView;
+
 /**
- *
+ * 
  * @author perseus
  */
 public class FieldDataType {
+
+    public interface IFormLineViewFactory {
+        IFormLineView construct();
+    }
 
     /**
      * @return the i
@@ -72,14 +78,15 @@ public class FieldDataType {
 
     public enum T {
 
-        BOOLEAN, DATE, DATETIME, BIGDECIMAL,
-        LONG, INT, STRING, ENUM
+        BOOLEAN, DATE, DATETIME, BIGDECIMAL, LONG, INT, STRING, ENUM
     };
+
     private final T type;
     private final int afterdot;
     private final ICustomType i;
     private final IEnumType e;
     private final IGetListValues li;
+    private final IFormLineViewFactory iFactory;
 
     public static FieldDataType constructDate() {
         return new FieldDataType(T.DATE);
@@ -97,8 +104,17 @@ public class FieldDataType {
         return new FieldDataType(T.STRING);
     }
 
+    public static FieldDataType constructString(IFormLineViewFactory iFact) {
+        return new FieldDataType(T.STRING, 0, null, null, null, iFact);
+    }
+
     public static FieldDataType constructString(ICustomType i) {
-        return new FieldDataType(T.STRING, 0, i, null, null);
+        return new FieldDataType(T.STRING, 0, i, null, null, null);
+    }
+
+    public static FieldDataType constructString(ICustomType i,
+            IFormLineViewFactory iFact) {
+        return new FieldDataType(T.STRING, 0, i, null, null, iFact);
     }
 
     public static FieldDataType constructBoolean() {
@@ -114,32 +130,40 @@ public class FieldDataType {
     }
 
     public static FieldDataType constructEnum(IEnumType e) {
-        return new FieldDataType(T.ENUM, 0, null, e, null);
+        return new FieldDataType(T.ENUM, 0, null, e, null, null);
     }
 
     public static FieldDataType constructStringList(IGetListValues gVal) {
-        return new FieldDataType(T.STRING, 0, null, null, gVal);
+        return new FieldDataType(T.STRING, 0, null, null, gVal, null);
     }
 
     public static FieldDataType constructLongList(IGetListValues gVal) {
-        return new FieldDataType(T.LONG, 0, null, null, gVal);
+        return new FieldDataType(T.LONG, 0, null, null, gVal, null);
     }
 
     private FieldDataType(T type, int afterdot, ICustomType i, IEnumType e,
-            IGetListValues li) {
+            IGetListValues li, IFormLineViewFactory iFactory) {
         this.type = type;
         this.afterdot = afterdot;
         this.i = i;
         this.e = e;
         this.li = li;
+        this.iFactory = iFactory;
     }
 
     private FieldDataType(T type) {
-        this(type, 0, null, null, null);
+        this(type, 0, null, null, null, null);
     }
 
     private FieldDataType(T type, int afterdot) {
-        this(type, afterdot, null, null, null);
+        this(type, afterdot, null, null, null, null);
+    }
+
+    /**
+     * @return the iFactory
+     */
+    public IFormLineViewFactory getiFactory() {
+        return iFactory;
     }
 
     /**

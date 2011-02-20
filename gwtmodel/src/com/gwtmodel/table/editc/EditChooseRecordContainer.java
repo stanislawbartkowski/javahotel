@@ -51,18 +51,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author hotel
  */
-class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements IEditChooseRecordContainer {
+class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
+        IEditChooseRecordContainer {
 
     private final VerticalPanel vp = new VerticalPanel();
     private final Sych sy = new Sych();
     private final IDataType publishdType;
     private final ISlotable pSlotable;
-  //  private final IDataType subType;
-//    private final ISlotMediator slMediator;
-//    private final IDataModelFactory daFactory;
     private final static String LIST_BUTTON = "HOTEL-LIST-BUTTON";
     private final CellId bId;
     private final CellId cId;
@@ -72,6 +70,23 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
     public void SetNewChange(boolean newc, boolean changec) {
         cBox.setNewCheck(newc);
         cBox.setChangeCheck(changec);
+    }
+
+    public void ModifForm() {
+        boolean newc = cBox.getNewCheck();
+        boolean changec = cBox.getChangeCheck();
+        PersistTypeEnum p;
+        if (newc) {
+            p = PersistTypeEnum.ADD;
+        } else {
+            if (changec) {
+                p = PersistTypeEnum.MODIF;
+            } else {
+                p = PersistTypeEnum.SHOWONLY;
+            }
+        }
+        slMediator.getSlContainer().publish(
+                DataActionEnum.ChangeViewComposeFormModeAction, dType, p);
     }
 
     @Override
@@ -109,7 +124,8 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
             hp.add(but);
             vp.add(hp);
             vp.add(cust);
-            pSlotable.getSlContainer().publish(publishdType, cellId, new GWidget(vp));
+            pSlotable.getSlContainer().publish(publishdType, cellId,
+                    new GWidget(vp));
         }
     }
 
@@ -158,9 +174,8 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
                 LogT.getL().info(LogT.getT().choosedEdit(vData.toString()));
                 slMediator.getSlContainer().publish(
                         DataActionEnum.DrawViewComposeFormAction, dType, vData);
-                slMediator.getSlContainer().publish(
-                        DataActionEnum.ChangeViewComposeFormModeAction, dType, PersistTypeEnum.SHOWONLY);
                 SetNewChange(false, false);
+                ModifForm();
                 d.hide();
             }
 
@@ -173,7 +188,8 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         @Override
         public void signal(ISlotSignalContext slContext) {
             WSize w = new WSize(slContext.getGwtWidget().getGWidget());
-            ChooseDictList<IVModelData> c = new ChooseDictList<IVModelData>(dType, w, new SelectC());
+            ChooseDictList<IVModelData> c = new ChooseDictList<IVModelData>(
+                    dType, w, new SelectC());
         }
     }
 
@@ -188,21 +204,16 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
     }
 
     private void register(ISlotable pView, ISlotable cust) {
-        pView.getSlContainer().registerSubscriber(dType, bId,
-                new SetWidget());
-        cust.getSlContainer().registerSubscriber(dType, cId, new SetWidgetCust());
+        pView.getSlContainer().registerSubscriber(dType, bId, new SetWidget());
+        cust.getSlContainer().registerSubscriber(dType, cId,
+                new SetWidgetCust());
     }
 
-    EditChooseRecordContainer(ICallContext iContext, IDataType publishdType, IDataType subType) {
+    EditChooseRecordContainer(ICallContext iContext, IDataType publishdType,
+            IDataType subType) {
         pSlotable = iContext.iSlo();
         this.dType = iContext.getDType();
-//        this.subType = subType;
         this.publishdType = publishdType;
-//        TablesFactories tFactories = iContext.getT();
-
- //       ITableCustomFactories fContainer = GwtGiniInjector.getI().getTableFactoriesContainer();
-//        daFactory = fContainer.getDataModelFactory();
-//        slMediator = tFactories.getSlotMediatorFactory().construct();
 
         ClickButtonType sChoose = new ClickButtonType(LIST_BUTTON);
         ControlButtonDesc bChoose = new ControlButtonDesc("Wybierz z listy",
@@ -211,9 +222,11 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         bList.add(bChoose);
         ListOfControlDesc cList = new ListOfControlDesc(bList);
         slMediator.getSlContainer().registerSubscriber(sChoose, new ChooseC());
-        ControlButtonViewFactory bFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
+        ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
+                .getControlButtonViewFactory();
         IControlButtonView bView = bFactory.construct(dType, cList);
-        IGetViewControllerFactory fa = GwtGiniInjector.getI().getTableFactoriesContainer().getGetViewControllerFactory();
+        IGetViewControllerFactory fa = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetViewControllerFactory();
         bId = new CellId(IPanelView.CUSTOMID);
         cId = new CellId(IPanelView.CUSTOMID + 1);
         IComposeController cust = fa.construct(iContext.construct(dType));
@@ -222,8 +235,6 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         register(bView, cust);
         slMediator.registerSlotContainer(cId, cust);
         slMediator.registerSlotContainer(bId, bView);
-        
-//        slMediator.registerSlotContainer(pSlotable);
     }
 
     @Override
@@ -231,6 +242,5 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         sy.cellId = cellId;
         sy.signalDone();
         slMediator.startPublish(null);
-//        slMediator.registerSlotContainer(pSlotable);
     }
 }

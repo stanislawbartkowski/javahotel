@@ -14,7 +14,6 @@ package com.gwtmodel.table.persist;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;

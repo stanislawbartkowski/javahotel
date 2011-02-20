@@ -31,11 +31,13 @@ class GetValueLB extends AbstractField implements IValueLB {
 
     final protected ListBox lB = new ListBox();
     private String beforeVal = null;
+    private final boolean addEmpty; 
 
     GetValueLB(ITableCustomFactories tFactories, IVField v) {
         super(tFactories, v);
         initWidget(lB);
         lB.setName(v.getId());
+        addEmpty = tFactories.getGetCustomValues().addEmptyAsDefault();
     }
 
     protected String getValS() {
@@ -123,7 +125,9 @@ class GetValueLB extends AbstractField implements IValueLB {
     @Override
     public void setList(List<String> li) {
         lB.clear();
-        lB.addItem(""); // add empty
+        if (addEmpty) {
+          lB.addItem(""); // add empty
+        }
         for (String s : li) {
             lB.addItem(s);
         }
