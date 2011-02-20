@@ -38,7 +38,7 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
             this.iSlo = iSlo;
         }
     }
-    
+
     @Override
     public void replaceSlContainer(SlotListContainer sl) {
         slContainer = sl;
@@ -46,7 +46,6 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
             c.iSlo.replaceSlContainer(sl);
         }
     }
-
 
     @Override
     public void registerSlotContainer(CellId cellId, ISlotable iSlo) {
