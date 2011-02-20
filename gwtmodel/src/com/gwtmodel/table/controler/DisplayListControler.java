@@ -24,13 +24,11 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 class DisplayListControler extends AbstractSlotMediatorContainer implements IDataControler {
 
     private final CellId cellTableId;
     private final CellId controlId;
-    private final SlotListContainer slContainer;
     private final boolean startM;
     private final DisplayListControlerParam cParam;
 
@@ -57,8 +55,6 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
             slMediator = cParam.getMe();
             startM = false;
         }
-        slContainer = slMediator.getSlContainer();
-
         slMediator.registerSlotContainer(cParam.getPanelId(), pView);
         slMediator.registerSlotContainer(-1, persistA);
         slMediator.registerSlotContainer(cellTableId, daView);
@@ -73,7 +69,7 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            slContainer.publish(DataActionEnum.DrawListAction, cParam.getdType(),
+            slMediator.getSlContainer().publish(DataActionEnum.DrawListAction, cParam.getdType(),
                     slContext.getDataList(), cParam.getwSize());
         }
     }
@@ -83,14 +79,14 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
         if (startM) {
             slMediator.startPublish(cellId);
         }
-        slContainer.registerSubscriber(DataActionEnum.ListReadSuccessSignal,
+        slMediator.getSlContainer().registerSubscriber(DataActionEnum.ListReadSuccessSignal,
                 cParam.getdType(), new DrawListAction());
-        slContainer.registerRedirector(cParam.gettFactories().getSlTypeFactory().construct(
+        slMediator.getSlContainer().registerRedirector(cParam.gettFactories().getSlTypeFactory().construct(
                 DataActionEnum.RefreshAfterPersistActionSignal, cParam.getdType()),
                 cParam.gettFactories().getSlTypeFactory().construct(
                 DataActionEnum.ReadListAction, cParam.getdType()));
         // secondly publish
-        slContainer.publish(DataActionEnum.ReadListAction, cParam.getdType(), cParam.getwSize());
-        slContainer.publish(DataActionEnum.ReadHeaderContainer, cParam.getdType());
+        slMediator.getSlContainer().publish(DataActionEnum.ReadListAction, cParam.getdType(), cParam.getwSize());
+        slMediator.getSlContainer().publish(DataActionEnum.ReadHeaderContainer, cParam.getdType());
     }
 }
