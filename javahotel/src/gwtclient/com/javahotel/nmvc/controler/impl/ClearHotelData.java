@@ -97,8 +97,6 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
         dType = new DataType(RType.AllHotels);
-        // iData = tFactory.constructDataControler(daType, null, cList,
-        // panelId);
         DisplayListControlerParam dList = tFactory.constructParam(dType, null,
                 cList, panelId);
         iSlot = tFactory.constructDataControler(dList);

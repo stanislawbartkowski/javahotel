@@ -101,8 +101,9 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
             VModelData vData = (VModelData) mData;
 
             IVModelData cust = daFactory.construct(dType);
-            IVModelData pData = slMediator.getSlContainer().
-                    getGetterIVModelData(GetActionEnum.GetViewModelEdited, dType, cust);
+            IVModelData pData = slMediator.getSlContainer()
+                    .getGetterIVModelData(GetActionEnum.GetViewModelEdited,
+                            dType, cust);
             boolean addCust = cContainer.getNewCheck();
             boolean changeCust = cContainer.getChangeCheck();
             VModelData vvData = (VModelData) pData;
@@ -118,7 +119,9 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             IChangeObject i = (IChangeObject) slContext.getCustom();
-            LogT.getLS().info(LogT.getT().receivedSignalLogParam(slContext.getSlType().toString(), i.toString()));
+            LogT.getLS().info(
+                    LogT.getT().receivedSignalLogParam(
+                            slContext.getSlType().toString(), i.toString()));
             String mess = null;
             String ask = null;
             final boolean newset;
@@ -127,17 +130,17 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
                 newset = !i.getSet();
                 changeset = cContainer.getChangeCheck();
                 if (i.getSet()) {
-                    ask = "Zostanie założony kolejny klient z tymi danymi i nadany nowy symbol.";
+                    ask = rI.getLabels().NextCustomerSymbol();
                 } else {
-                    mess = "Nie można zamienić na \"nie zakładaj\". Musisz jeszcze raz wybrać klienta z listy";
+                    mess = rI.getLabels().CannotChangeNoNewCustomer();
                 }
             } else {
                 newset = cContainer.getNewCheck();
                 changeset = !i.getSet();
                 if (i.getSet()) {
-                    ask = "Dane klienta zostaną poprawione po rezerwacji";
+                    ask = rI.getLabels().CustomerDataWillBeChanged();
                 } else {
-                    mess = "Nie można zamienić na \"nie zmieniaj\". Musisz jeszcze raz wybrać klienta z listy";
+                    mess = rI.getLabels().CannotChangeCustomerToNotChange();
                 }
             }
 
@@ -153,10 +156,14 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
                     public void click(boolean yes) {
                         if (!yes) {
                             cContainer.SetNewChange(newset, changeset);
+                        } else {
+                            cContainer.ModifForm();
                         }
+
                     }
                 };
-                YesNoDialog y = new YesNoDialog(ask + " Czy tak ma być ?", c);
+                YesNoDialog y = new YesNoDialog(ask + " "
+                        + rI.getLabels().Confirm(), c);
                 y.show(i.getW().getGWidget());
             }
         }
@@ -168,10 +175,11 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         ii.setiSlo(this);
         cContainer = EditChooseRecordFactory.constructEditChooseRecord(ii,
                 iContext.getDType(), subType);
-        cContainer.getSlContainer().registerSubscriber(IChangeObject.signalString, new ReceiveChange());
+        cContainer.getSlContainer().registerSubscriber(
+                IChangeObject.signalString, new ReceiveChange());
         TablesFactories tFactories = iContext.getT();
-        ITableCustomFactories fContainer =
-                GwtGiniInjector.getI().getTableFactoriesContainer();
+        ITableCustomFactories fContainer = GwtGiniInjector.getI()
+                .getTableFactoriesContainer();
         daFactory = fContainer.getDataModelFactory();
         slMediator = tFactories.getSlotMediatorFactory().construct();
         rI = HInjector.getI().getI();

@@ -15,7 +15,6 @@ package com.javahotel.nmvc.factories.booking;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.composecontroller.IComposeController;
@@ -36,8 +35,6 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.injector.HInjector;
 import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookRecordP;
@@ -53,8 +50,6 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
     private final DataType aType;
     private final ISlotMediator slMediator;
     private final IDataModelFactory daFactory;
-    private final IResLocator rI;
-    private final VerticalPanel vp = new VerticalPanel();
     private final IDataType publishdType;
     private final CellId cId = new CellId(IPanelView.CUSTOMID);
     private final CellId aId = new CellId(IPanelView.CUSTOMID + 1);
@@ -150,7 +145,6 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
                 .getTableFactoriesContainer();
         daFactory = fContainer.getDataModelFactory();
         slMediator = tFactories.getSlotMediatorFactory().construct();
-        rI = HInjector.getI().getI();
 
         dType = new DataType(AddType.BookRecord);
         aType = new DataType(AddType.AdvanceHeader);

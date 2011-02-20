@@ -12,9 +12,11 @@
  */
 package com.javahotel.client.dialog;
 
+import com.gwtmodel.table.injector.LogT;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.SeasonPeriodT;
+import com.javahotel.nmvc.common.AddType;
 
 /**
  * 
@@ -46,8 +48,9 @@ public class DictData {
     private final RType rt;
     private final SpecE sE;
     private final SeasonPeriodT speT;
-
+    
     public DictData(final DictType d) {
+        assert d != null : LogT.getT().cannotBeNull();        
         this.rt = RType.ListDict;
         this.d = d;
         this.sE = null;
@@ -55,6 +58,7 @@ public class DictData {
     }
 
     public DictData(final RType rt) {
+        assert rt != null : LogT.getT().cannotBeNull();        
         this.d = null;
         this.rt = rt;
         this.sE = null;
@@ -62,6 +66,7 @@ public class DictData {
     }
 
     public DictData(final SpecE e, final SeasonPeriodT te) {
+        assert e != null : LogT.getT().cannotBeNull();        
         this.rt = null;
         this.d = null;
         this.sE = e;
@@ -69,12 +74,13 @@ public class DictData {
     }
 
     public DictData(final SpecE e) {
+        assert e != null : LogT.getT().cannotBeNull();        
         this.rt = null;
         this.d = null;
         this.sE = e;
         this.speT = null;
     }
-
+    
     public boolean isSe() {
         return sE != null;
     }

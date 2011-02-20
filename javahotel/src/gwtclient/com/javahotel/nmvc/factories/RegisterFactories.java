@@ -18,7 +18,6 @@ import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.abstractto.AbstractToFactory;
 import com.javahotel.client.mvc.dict.validator.DictValidatorFactory;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.recordviewdef.GetRecordDefFactory;

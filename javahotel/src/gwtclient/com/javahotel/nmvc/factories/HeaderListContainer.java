@@ -23,9 +23,11 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.dialog.DictData;
+import com.javahotel.client.dialog.DictData.SpecE;
 import com.javahotel.client.mvc.recordviewdef.ColListFactory;
 import com.javahotel.client.mvc.table.model.ColTitle;
 import com.javahotel.common.command.RType;
+import com.javahotel.nmvc.common.DataType;
 import com.javahotel.nmvc.common.DataUtil;
 import com.javahotel.nmvc.common.VField;
 
@@ -40,7 +42,18 @@ class HeaderListContainer extends AbstractSlotContainer implements
     }
 
     HeaderListContainer(ColListFactory cFactory, IDataType dType) {
-        DictData dt = DataUtil.constructDictData(dType);
+        DataType da = (DataType) dType;
+        DictData dt = null;
+        if (da.isAddType()) {
+            switch (da.getAddType()) {
+            case BookElem:
+                dt = new DictData(SpecE.BookingElem);
+                break;
+            }
+        }
+        if (dt == null) {
+          dt = DataUtil.constructDictData(dType);
+        }
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         if (dt.isRt()) {
             if (dt.getRt() == RType.AllPersons) {
@@ -48,7 +61,6 @@ class HeaderListContainer extends AbstractSlotContainer implements
                         new LoginField(LoginField.F.LOGINNAME));
                 heList.add(v);
             }
-
         }
         String title = cFactory.getHeader(dt);
         if (heList.isEmpty()) {
