@@ -55,9 +55,11 @@ https://javahotel.googlecode.com/svn/trunk/examples/SampleGwt
 
 Make sure that you have the following jars in WEB-INF/lib directory:
 
+{{{
 org.springframework.beans-3.0.5.RELEASE.jar
 org.springframework.core-3.0.5.RELEASE.jar
 org.springframework.jdbc-3.0.5.RELEASE.jar
 org.springframework.transaction-3.0.5.RELEASE.jar
 commons-logging-1.1.1.jar
 gwt-servlet.jar
+}}}
