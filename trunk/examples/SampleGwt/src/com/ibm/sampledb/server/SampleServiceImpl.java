@@ -35,6 +35,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ibm.sampledb.client.SampleService;
 import com.ibm.sampledb.shared.EmployeeRecord;
+import com.ibm.sampledb.shared.ResourceInfo;
 
 /**
  * The server side implementation of the RPC service.
@@ -43,9 +44,28 @@ import com.ibm.sampledb.shared.EmployeeRecord;
 public class SampleServiceImpl extends RemoteServiceServlet implements
         SampleService {
 
-    private String getSql(String name) throws IOException {
-        URL u = getClass().getResource("resource/" + name);
-        BufferedReader reader = new BufferedReader(new FileReader(u.getFile()));
+    private String getResourceName(String name) throws NamingException {
+        InitialContext ctx = new InitialContext();
+        try {
+            String res = (String) ctx.lookup("java:comp/env/" + name);
+            return res;
+        } catch (javax.naming.NameNotFoundException e) {
+            return null;
+        }
+    }
+
+    private boolean getResourceBool(String name) throws NamingException {
+        InitialContext ctx = new InitialContext();
+        try {
+            Boolean res = (Boolean) ctx.lookup("java:comp/env/" + name);
+            return res.booleanValue();
+        } catch (javax.naming.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    private String getFile(String name) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(name));
         String line = null;
         StringBuilder stringBuilder = new StringBuilder();
         String ls = System.getProperty("line.separator");
@@ -54,6 +74,11 @@ public class SampleServiceImpl extends RemoteServiceServlet implements
             stringBuilder.append(ls);
         }
         return stringBuilder.toString();
+    }
+
+    private String getSql(String name) throws IOException {
+        URL u = getClass().getResource("resource/" + name);
+        return getFile(u.getFile());
     }
 
     private JdbcTemplate setDataSourceName(String name) throws NamingException {
@@ -68,20 +93,28 @@ public class SampleServiceImpl extends RemoteServiceServlet implements
 
     private class EmployeeRecordMapper implements RowMapper<EmployeeRecord> {
 
+        private String getS(ResultSet res, int no) throws SQLException {
+            String r = res.getString(no);
+            if (r == null) {
+                return null;
+            }
+            return r.trim();
+        }
+
         @Override
         public EmployeeRecord mapRow(ResultSet res, int arg1)
                 throws SQLException {
 
-            String empno = res.getString(1);
-            String firstname = res.getString(2);
-            String midinit = res.getString(3);
-            String lastname = res.getString(4);
-            String workdept = res.getString(5);
-            String phoneno = res.getString(6);
+            String empno = getS(res, 1);
+            String firstname = getS(res, 2);
+            String midinit = getS(res, 3);
+            String lastname = getS(res, 4);
+            String workdept = getS(res, 5);
+            String phoneno = getS(res, 6);
             Timestamp hiredate = res.getTimestamp(7);
-            String job = res.getString(8);
+            String job = getS(res, 8);
             int edlevel = res.getInt(9);
-            String sex = res.getString(10);
+            String sex = getS(res, 10);
             Timestamp birthdate = res.getTimestamp(11);
             BigDecimal salary = res.getBigDecimal(12);
             BigDecimal bonus = res.getBigDecimal(13);
@@ -130,5 +163,27 @@ public class SampleServiceImpl extends RemoteServiceServlet implements
                 new EmployeeRecordMapper());
         return mList;
 
+    }
+
+    private String getCustom(String name) throws NamingException, IOException {
+        String fName = getResourceName(name);
+        return getFile(fName);
+    }
+
+    @Override
+    public ResourceInfo getInfo() throws Exception {
+        try {
+            boolean customRow = getResourceBool("customRow");
+            String jScriptRes = getCustom("jsFile");
+            String cssRes = getCustom("cssFile");
+            ResourceInfo info = new ResourceInfo();
+            info.setCssS(cssRes);
+            info.setCustomRow(customRow);
+            info.setJavaS(jScriptRes);
+            return info;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 }

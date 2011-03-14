@@ -20,12 +20,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
@@ -36,6 +38,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.ibm.sampledb.shared.EmployeeRecord;
+import com.ibm.sampledb.shared.ResourceInfo;
 
 class DockMain extends Composite {
 
@@ -72,6 +75,78 @@ class DockMain extends Composite {
         return listBox;
     }
 
+    private ResourceInfo rInfo = null;
+    private List<EmployeeRecord> listToDraw = null;
+
+    void setResorceInfo(ResourceInfo r) {
+        this.rInfo = r;
+        if (r.getCssS() != null) {
+            addStyle(r.getCssS());
+        }
+        if (r.getJavaS() != null) {
+            addScript(r.getJavaS());
+        }
+        if (r.isCustomRow()) {
+            table.setRowStyles(new AddStyle());
+        }
+        drawResList();
+    }
+
+    public static native void addScript(String s) /*-{
+		$wnd.addScript(s);
+    }-*/;
+
+    public static native void addStyle(String s) /*-{
+		$wnd.addStyle(s);
+    }-*/;
+
+    /*
+     * Takes in a trusted JSON String and evals it.
+     * 
+     * @param JSON String that you trust
+     * 
+     * @return JavaScriptObject that you can cast to an Overlay Type
+     */
+    public static native JavaScriptObject evalJson(String jsonStr) /*-{
+		return eval(jsonStr);
+    }-*/;
+
+    public static JavaScriptObject parseJson(String jsonStr) {
+        return evalJson("(" + jsonStr + ")");
+    }
+
+    public static native String jsAddStyle(JavaScriptObject o) /*-{
+		return $wnd.jsAddStyle(o);
+    }-*/;
+
+    private class AddStyle implements RowStyles<EmployeeRecord> {
+
+        @Override
+        public String getStyleNames(EmployeeRecord row, int rowIndex) {
+            CreateJson js = new CreateJson("Employee");
+            js.addElem("firstName", row.getFirstname());
+            js.addElem("lastName", row.getLastname());
+            js.addElem("empno", row.getEmpno());
+            js.addElem("midInit", row.getMidinit());
+            js.addElem("workDept", row.getWorkdept());
+            js.addElem("phoneNo", row.getPhoneno());
+            js.addElem("hireDate", row.getHiredate().toString());
+            js.addElem("job", row.getJob());
+            js.addElem("eddLevel", new Integer(row.getEdlevel()).toString(),
+                    true);
+            js.addElem("sex", row.getSex());
+            js.addElem("lastName", row.getLastname());
+            js.addElem("birthDate", row.getBirthdate().toString());
+            js.addElem("salary", row.getSalary().toPlainString(), true);
+            js.addElem("comm", row.getComm().toPlainString(), true);
+            js.addElem("bonus", row.getBonus().toPlainString(), true);
+            String jsString = js.createJsonString();
+            js.addElem("salary", row.getSalary().toPlainString(), true);
+            return jsAddStyle(parseJson(jsString));
+        }
+
+    }
+
     DockMain(Map<String, String> col, IAction changeList) {
         initWidget(uiBinder.createAndBindUi(this));
         listBox.addItem("");
@@ -81,17 +156,32 @@ class DockMain extends Composite {
         }
         this.changeList = changeList;
         dataProvider.addDataDisplay(table);
+        pager.setDisplay(table);
+        pager.setPageSize(20);
+        pager.setPage(0);
     }
 
     CellTable<EmployeeRecord> getTable() {
         return table;
     }
 
-    void drawList(List<EmployeeRecord> list) {
+    private void drawResList() {
+        if (rInfo == null) {
+            return;
+        }
+        if (listToDraw == null) {
+            return;
+        }
         List<EmployeeRecord> result = dataProvider.getList();
-        table.setRowCount(list.size(), true);
+        table.setRowCount(listToDraw.size(), true);
         result.clear();
-        result.addAll(list);
+        result.addAll(listToDraw);
+
+    }
+
+    void drawList(List<EmployeeRecord> list) {
+        listToDraw = list;
+        drawResList();
     }
 
     void drawError(Widget w) {

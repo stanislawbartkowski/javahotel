@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.ibm.sampledb.shared.EmployeeRecord;
+import com.ibm.sampledb.shared.ResourceInfo;
 
 public class SampleGwt implements EntryPoint {
 
@@ -74,7 +75,6 @@ public class SampleGwt implements EntryPoint {
             } else if (field.equals("BIRTHDATE")) {
                 d = object.getBirthdate();
             }
-            ;
             return d;
         }
     }
@@ -159,6 +159,22 @@ public class SampleGwt implements EntryPoint {
 
     }
 
+    class PutResource implements AsyncCallback<ResourceInfo> {
+
+        @Override
+        public void onFailure(Throwable caught) {
+            String mess = message.ErrorMessage();
+            HTML ha = new HTML(mess);
+            dock.drawError(ha);
+        }
+
+        @Override
+        public void onSuccess(ResourceInfo result) {
+            dock.setResorceInfo(result);
+        }
+
+    }
+
     class DrawList implements AsyncCallback<List<EmployeeRecord>> {
 
         @Override
@@ -203,7 +219,7 @@ public class SampleGwt implements EntryPoint {
 
     }
 
-    private final void drawTable() {
+    private void drawTable() {
         ListBox lb = dock.getListBox();
         String orderBy = null;
         int sel = lb.getSelectedIndex();
@@ -229,6 +245,7 @@ public class SampleGwt implements EntryPoint {
     public void onModuleLoad() {
         RootLayoutPanel.get().add(dock);
         drawTable();
+        sampleService.getInfo(new PutResource());
     }
 
 }
