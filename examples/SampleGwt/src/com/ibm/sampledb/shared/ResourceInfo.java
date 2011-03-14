@@ -13,22 +13,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.ibm.sampledb.client;
+package com.ibm.sampledb.shared;
 
-import java.util.List;
+import java.io.Serializable;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.ibm.sampledb.shared.EmployeeRecord;
-import com.ibm.sampledb.shared.ResourceInfo;
-
-/**
- * The client side stub for the RPC service.
- */
-@RemoteServiceRelativePath("sample")
-public interface SampleService extends RemoteService {
+public class ResourceInfo implements Serializable {
     
-    List<EmployeeRecord> getList(String orderBy) throws Exception;
+    private String javaS;
+    private String cssS;
+    private boolean customRow;
+    public String getJavaS() {
+        return javaS;
+    }
+    public void setJavaS(String javaS) {
+        this.javaS = javaS;
+    }
+    public String getCssS() {
+        return cssS;
+    }
+    public void setCssS(String cssS) {
+        this.cssS = cssS;
+    }
+    public boolean isCustomRow() {
+        return customRow;
+    }
+    public void setCustomRow(boolean customRow) {
+        this.customRow = customRow;
+    }
     
-    ResourceInfo getInfo() throws Exception;
 }

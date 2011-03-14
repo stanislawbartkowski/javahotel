@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.ibm.sampledb.shared.EmployeeRecord;
+import com.ibm.sampledb.shared.ResourceInfo;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -26,4 +27,6 @@ import com.ibm.sampledb.shared.EmployeeRecord;
 public interface SampleServiceAsync {
 
     void getList(String orderBy, AsyncCallback<List<EmployeeRecord>> callback);
+
+    void getInfo(AsyncCallback<ResourceInfo> callback);
 }
