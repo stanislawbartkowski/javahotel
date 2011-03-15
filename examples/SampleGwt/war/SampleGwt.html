@@ -6,6 +6,47 @@
 <!-- differences in layout.                        -->
 
 <html>
+
+<!-- 
+<style type="text/css">
+.addRow {
+    color : green;
+}
+</style>
+-->
+
+<script type="text/javascript"> 
+//<![CDATA[
+function addScript(s) {
+  var headID = document.getElementsByTagName("head")[0];         
+  var newScript = document.createElement('script');
+  newScript.type = 'text/javascript';
+  newScript.text = s;
+  headID.appendChild(newScript);
+}
+
+function addStyle(s) {
+	  var headID = document.getElementsByTagName("head")[0];         
+	  var newScript = document.createElement('style');
+	  newScript.type = 'text/css';
+	  newScript.textContent = s;
+	  headID.appendChild(newScript);
+	}
+//]]>
+</script> 
+
+<!-- 
+<script type="text/javascript"> 
+//<![CDATA[
+function jsAddStyle(o) {
+	var job = o.Employee.job;
+	if (job == 'MANAGER') { return 'addRow'; }
+	return null;
+}
+
+//]]>
+</script> 
+-->
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
