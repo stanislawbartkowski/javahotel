@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -87,10 +86,14 @@ class DockMain extends Composite {
             addScript(r.getJavaS());
         }
         if (r.isCustomRow()) {
-            table.setRowStyles(new AddStyle());
+            table.setRowStyles(new AddStyle(r.getJsAddRowFunc()));
         }
         drawResList();
     }
+
+    public static native void jsAlert() /*-{
+		jsAlert();
+    }-*/;
 
     public static native void addScript(String s) /*-{
 		$wnd.addScript(s);
@@ -100,26 +103,17 @@ class DockMain extends Composite {
 		$wnd.addStyle(s);
     }-*/;
 
-    /*
-     * Takes in a trusted JSON String and evals it.
-     * 
-     * @param JSON String that you trust
-     * 
-     * @return JavaScriptObject that you can cast to an Overlay Type
-     */
-    public static native JavaScriptObject evalJson(String jsonStr) /*-{
-		return eval(jsonStr);
-    }-*/;
-
-    public static JavaScriptObject parseJson(String jsonStr) {
-        return evalJson("(" + jsonStr + ")");
-    }
-
-    public static native String jsAddStyle(JavaScriptObject o) /*-{
-		return $wnd.jsAddStyle(o);
+    public static native String callJsStringFun(String jsonFun, String paramS) /*-{
+		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
     }-*/;
 
     private class AddStyle implements RowStyles<EmployeeRecord> {
+
+        private final String jsFun;
+
+        AddStyle(String jsFun) {
+            this.jsFun = jsFun;
+        }
 
         @Override
         public String getStyleNames(EmployeeRecord row, int rowIndex) {
@@ -142,7 +136,7 @@ class DockMain extends Composite {
             js.addElem("bonus", row.getBonus().toPlainString(), true);
             String jsString = js.createJsonString();
             js.addElem("salary", row.getSalary().toPlainString(), true);
-            return jsAddStyle(parseJson(jsString));
+            return callJsStringFun(jsFun, jsString);
         }
 
     }

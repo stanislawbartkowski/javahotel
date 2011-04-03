@@ -18,27 +18,42 @@ package com.ibm.sampledb.shared;
 import java.io.Serializable;
 
 public class ResourceInfo implements Serializable {
-    
+
     private String javaS;
     private String cssS;
     private boolean customRow;
+    private String jsAddRowFunc;
+
+    public String getJsAddRowFunc() {
+        return jsAddRowFunc;
+    }
+
+    public void setJsAddRowFunc(String jsAddRowFunc) {
+        this.jsAddRowFunc = jsAddRowFunc;
+    }
+
     public String getJavaS() {
         return javaS;
     }
+
     public void setJavaS(String javaS) {
         this.javaS = javaS;
     }
+
     public String getCssS() {
         return cssS;
     }
+
     public void setCssS(String cssS) {
         this.cssS = cssS;
     }
+
     public boolean isCustomRow() {
         return customRow;
     }
+
     public void setCustomRow(boolean customRow) {
         this.customRow = customRow;
     }
-    
+
 }

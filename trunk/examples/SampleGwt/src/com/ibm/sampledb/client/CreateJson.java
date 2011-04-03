@@ -55,6 +55,12 @@ class CreateJson {
         addElem(key, val, false);
     }
 
+    private String convertS(String s) {
+        if (s == null) { return null; }
+        String r = s.replace('\'', ' ');
+        return r;
+    }
+
     String createJsonString() {
         String res = "{ \"" + objectName + "\": {";
         boolean first = true;
@@ -67,9 +73,9 @@ class CreateJson {
             if (e.getValue().isNumber()) {
                 val = e.getValue().getVal();
             } else {
-                val = '\"' + e.getValue().getVal() + '\"';
+                val = '\"' + convertS(e.getValue().getVal()) + '\"';
             }
-            res += '\"' + e.getKey() +"\" : "+ val;
+            res += '\"' + e.getKey() + "\" : " + val;
         }
         res += "}}";
         return res;
