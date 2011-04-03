@@ -176,10 +176,12 @@ public class SampleServiceImpl extends RemoteServiceServlet implements
             boolean customRow = getResourceBool("customRow");
             String jScriptRes = getCustom("jsFile");
             String cssRes = getCustom("cssFile");
+            String jsAddRowFunc = getResourceName("customAddStyle");
             ResourceInfo info = new ResourceInfo();
             info.setCssS(cssRes);
             info.setCustomRow(customRow);
             info.setJavaS(jScriptRes);
+            info.setJsAddRowFunc(jsAddRowFunc);
             return info;
         } catch (Exception e) {
             e.printStackTrace();
