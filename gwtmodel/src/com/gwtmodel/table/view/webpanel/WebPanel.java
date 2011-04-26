@@ -70,6 +70,15 @@ class WebPanel implements IWebPanel {
         centreHideSignal = iSig;
     }
 
+    public void setUpInfo(String upinfo) {
+        if (upinfo == null) {
+            upInfo.setVisible(false);
+        } else {
+            upInfo.setVisible(true);
+            upInfo.setText(upinfo);
+        }
+    }
+
     private enum StatusE {
 
         NORMAL, REPLYL, ERRORL
@@ -83,6 +92,7 @@ class WebPanel implements IWebPanel {
     private final static String HOTELHEADER_LOGO = "header_logo";
     private final static String HOTELHEADER_DOWNMENU = "header_downmenu";
     private final static String HOTELHEADER_STATUSBAR = "header_statusbar";
+    private final static String HEADER_UPINFO = "header_upinfo";
     private final HTML ha;
     private final LogoH logo;
     private final ICommand logOut;
@@ -90,9 +100,9 @@ class WebPanel implements IWebPanel {
     private final Label ownerName; // owner name
     private final Label userName = new Label();
     private final Label hotelName = new Label();
+    private final Label upInfo = new Label();
     private final VerticalPanel vp = new VerticalPanel();
     private HTMLPanel uPanel = null;
-
 
     private void setStatusNormal() {
         status.setVisible(false);
@@ -211,7 +221,7 @@ class WebPanel implements IWebPanel {
                 }
             };
             YesNoDialog yesD = new YesNoDialog(pResources.getRes(IWebPanelResources.LOGOUTQUESTION), null, yes);
-            yesD.show(new WSize(ha));
+            yesD.show(ha);
         }
     }
 
@@ -270,6 +280,7 @@ class WebPanel implements IWebPanel {
         hList.add(new HtmlElemDesc(ha, HOTELHEADER_LOGOUT));
         hList.add(new HtmlElemDesc(logo, HOTELHEADER_LOGO));
         hList.add(new HtmlElemDesc(status, HOTELHEADER_STATUSBAR));
+        hList.add(new HtmlElemDesc(upInfo, HEADER_UPINFO));
 
         HtmlPanelFactory fa = GwtGiniInjector.getI().getHtmlPanelFactory();
         fa.getHtmlPanel(HtmlTypeEnum.MainStatus,

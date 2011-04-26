@@ -219,6 +219,9 @@ class GwtTableView implements IGwtTableView {
         wSize = getS(clickedno, 1);
     }
 
+    public void setModifyRowStyle(IModifyRowStyle iMod) {
+    }
+
     private class H extends SelectHandler {
 
         private final Table ta;

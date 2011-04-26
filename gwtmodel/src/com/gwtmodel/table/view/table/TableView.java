@@ -40,6 +40,9 @@ class TableView implements IGwtTableView {
     private WSize wSize;
     private final ICommand iClick;
 
+    public void setModifyRowStyle(IModifyRowStyle iMod) {
+    }
+
     private class ClickRowC implements TableListener {
 
         public void onCellClicked(final SourcesTableEvents arg0,
