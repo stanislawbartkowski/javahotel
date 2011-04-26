@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,24 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+
 package com.gwtmodel.table.view.table;
 
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.IVModelData;
 
-public interface IGwtTableView extends IGWidget {
+/**
+ *
+ * @author perseus
+ */
+public interface IModifyRowStyle {
 
-    void refresh();
-
-    WChoosedLine getClicked();
-
-    void setClicked(int clickedno);
-
-    IGwtTableModel getViewModel();
-
-    void setModel(IGwtTableModel model);
-
-    void setModifyRowStyle(IModifyRowStyle iMod);
-
+    String newRowStyle(IVModelData line);
 
 }

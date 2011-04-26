@@ -109,7 +109,7 @@ class FindListActionFactory {
         @Override
         public void signal(ISlotSignalContext slContext) {
             OkDialog ok = new OkDialog(MM.getL().NotFound(), null, null);
-            ok.show(new WSize(w.getGWidget()));
+            ok.show(w.getGWidget());
         }
     }
 
@@ -149,7 +149,7 @@ class FindListActionFactory {
             nF.w = w;
             if (fa.isEmpty()) {
                 OkDialog ok = new OkDialog(MM.getL().NothingEntered(), null, null);
-                ok.show(new WSize(w.getGWidget()));
+                ok.show(w.getGWidget());
                 return;
             }
             publishSlo.getSlContainer().publish(a,

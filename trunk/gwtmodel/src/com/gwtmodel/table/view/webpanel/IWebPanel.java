@@ -23,7 +23,6 @@ import com.gwtmodel.table.TLogMessages;
  */
 public interface IWebPanel {
 
-
     void setErrorL(String errmess);
 
     void clearReply();
@@ -49,4 +48,6 @@ public interface IWebPanel {
     void IncDecCounter(boolean inc);
 
     void setCenterSize(String size);
+
+    void setUpInfo(String upinfo);
 }

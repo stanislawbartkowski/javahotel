@@ -66,7 +66,8 @@ abstract public class ModalDialog {
 
     public void setTitle(String title) {
         this.title = title;
-    }
+        dBox.setText(title);
+  }
 
     protected void create() {
         create(new CloseClick());
@@ -78,6 +79,7 @@ abstract public class ModalDialog {
         dBox.setWidget(vP);
         dBox.setText(title);
     }
+    
 
     /**
      * @return the dBox
@@ -94,7 +96,7 @@ abstract public class ModalDialog {
         dBox.hide();
     }
 
-    public void show(final WSize w) {
+    public void show(final WSize w, final SolidPos sPos) {
 
         dBox.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
 
@@ -107,12 +109,29 @@ abstract public class ModalDialog {
 
                 int left = MaxI.min(maxwi - offsetWidth, l);
                 int top = MaxI.min(maxhei - offsetHeight, t);
+                if (sPos.getStartl() != -1) {
+                    top = sPos.getStartl();
+                }
+                if (sPos.getStartcol() != -1) {
+                    left = sPos.getStartcol();
+                }
+                if (top < 0) { 
+                    top = 0;
+                }
                 dBox.setPopupPosition(left, top);
             }
         });
     }
 
+    public void show(final WSize w) {
+        show(w, new SolidPos());
+    }
+
+    public void show(final Widget w, SolidPos sPos) {
+        show(new WSize(w), sPos);
+    }
+
     public void show(final Widget w) {
-        show(new WSize(w));
+        show(new WSize(w), new SolidPos());
     }
 }

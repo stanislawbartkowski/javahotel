@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-//
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.core.client.GWT;
@@ -22,6 +21,7 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
@@ -61,6 +61,23 @@ class PresentationTable implements IGwtTableView {
     private final ListDataProvider<Integer> dProvider = new ListDataProvider<Integer>();
     private final List<Integer> dList;
     private boolean whilefind = false;
+    private IModifyRowStyle iModRow = null;
+
+    public void setModifyRowStyle(IModifyRowStyle iMod) {
+        this.iModRow = iMod;
+        if (iMod != null) {
+            table.setRowStyles(new TStyles());
+        }
+    }
+
+    private class TStyles implements RowStyles<Integer> {
+
+// tr.wait-reply
+        public String getStyleNames(Integer row, int rowIndex) {
+            IVModelData v = model.getRows().get(row);
+            return iModRow.newRowStyle(v);
+        }
+    }
 
     private class SelectionChange implements SelectionChangeEvent.Handler {
 
@@ -156,6 +173,12 @@ class PresentationTable implements IGwtTableView {
             this.he = he;
         }
 
+//         @Override
+//    public void render(Context context, Contact value, SafeHtmlBuilder sb) {
+//      if (value != null) {
+//        sb.appendEscaped(value.name);
+//      }
+//    }
         @Override
         public Number getValue(Integer object) {
             IVModelData v = model.getRows().get(object);
@@ -275,7 +298,7 @@ class PresentationTable implements IGwtTableView {
         table.setPageStart(setSelected().pStart);
         int aNo = vPanel.getWidgetCount();
         int nNo = 1;
-        if (dList.size() > IConsts.minPageScroll) {
+        if ((size != 0) && dList.size() > size) {
             nNo = 2;
         }
         if (nNo != aNo) {

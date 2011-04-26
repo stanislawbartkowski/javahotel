@@ -13,6 +13,7 @@
 package com.gwtmodel.table;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
@@ -279,5 +280,28 @@ public class Utils {
 
     public static void setId(Widget w, String id) {
         w.getElement().setId(id);
+    }
+
+    public static native void addScript(String s) /*-{
+    $wnd.addScript(s);
+    }-*/;
+
+    public static native void addStyle(String s) /*-{
+    $wnd.addStyle(s);
+    }-*/;
+
+    /*
+     * Takes in a trusted JSON String and evals it.
+     *
+     * @param JSON String that you trust
+     *
+     * @return JavaScriptObject that you can cast to an Overlay Type
+     */
+    public static native JavaScriptObject evalJson(String jsonStr) /*-{
+    return eval(jsonStr);
+    }-*/;
+
+    public static JavaScriptObject parseJson(String jsonStr) {
+        return evalJson("(" + jsonStr + ")");
     }
 }
