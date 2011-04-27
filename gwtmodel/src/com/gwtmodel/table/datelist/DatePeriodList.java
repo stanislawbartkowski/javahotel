@@ -97,7 +97,7 @@ class DatePeriodList extends AbstractSlotContainer implements
                 new DatePeriodField(DatePeriodField.F.COMMENT));
         heList.add(he);
         VListHeaderContainer vHeader;
-        vHeader = new VListHeaderContainer(heList, title, 0);
+        vHeader = new VListHeaderContainer(heList, title, 0, null);
         dControler.getSlContainer().publish(dType, vHeader);
     }
 

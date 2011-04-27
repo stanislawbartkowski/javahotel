@@ -54,7 +54,7 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
                 vString);
         heList.add(he);
         VListHeaderContainer vHeader;
-        vHeader = new VListHeaderContainer(heList, title, 0);
+        vHeader = new VListHeaderContainer(heList, title, 0, null);
         dControler.getSlContainer().publish(dType, vHeader);
     }
 

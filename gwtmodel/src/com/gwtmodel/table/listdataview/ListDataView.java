@@ -12,12 +12,15 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import com.gwtmodel.table.CreateJson;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.injector.LogT;
@@ -31,6 +34,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.IGwtTableView;
+import com.gwtmodel.table.view.table.IModifyRowStyle;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,38 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             VListHeaderContainer listHeader = slContext.getListHeader();
             listView.setHeaderList(listHeader);
             tableView.setModel(listView);
+            if (listHeader.getJsModifRow() != null) {
+                tableView.setModifyRowStyle(new ModifRow(listHeader.getJsModifRow()));
+            }
+        }
+    }
+
+    private class ModifRow implements IModifyRowStyle {
+
+        private final String jsFun;
+
+        ModifRow(String jsFun) {
+            this.jsFun = jsFun;
+        }
+
+        public String newRowStyle(IVModelData line) {
+            CreateJson s = new CreateJson("row");
+            for (IVField f : line.getF()) {
+                boolean number = false;
+                switch (f.getType().getType()) {
+                    case BIGDECIMAL:
+                    case LONG:
+                    case INT:
+                        number = true;
+                        break;
+                }
+                String name = f.getId();
+                String val = FUtils.getValueS(line, f);
+                s.addElem(name, val, number);
+            }
+            String param = s.createJsonString();
+            String m = Utils.callJsStringFun(jsFun, param);
+            return m;
         }
     }
 
