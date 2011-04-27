@@ -304,4 +304,8 @@ public class Utils {
     public static JavaScriptObject parseJson(String jsonStr) {
         return evalJson("(" + jsonStr + ")");
     }
+
+    public static native String callJsStringFun(String jsonFun, String paramS) /*-{
+    return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
+    }-*/;
 }
