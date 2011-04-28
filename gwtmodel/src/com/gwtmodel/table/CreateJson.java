@@ -61,10 +61,14 @@ public class CreateJson {
             }
             first = false;
             String val;
-            if (e.getValue().isNumber()) {
-                val = e.getValue().getVal();
+            if (e.getValue().getVal() == null) {
+                val = "null";
             } else {
-                val = '\"' + e.getValue().getVal() + '\"';
+                if (e.getValue().isNumber()) {
+                    val = e.getValue().getVal();
+                } else {
+                    val = '\"' + e.getValue().getVal() + '\"';
+                }
             }
             res += '\"' + e.getKey() + "\" : " + val;
         }
