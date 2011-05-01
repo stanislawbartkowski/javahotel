@@ -38,7 +38,7 @@ import java.sql.Timestamp;
  COMM                            SYSIBM    DECIMAL                      9     2 Yes 
  */
 
-public class EmployeeRecord implements Serializable {
+public class EmployeeRecord implements Serializable,IRecord {
 
     private String empno;
     private String firstname;

@@ -17,7 +17,6 @@ package com.ibm.sampledb.client;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -30,13 +29,18 @@ import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
-import com.ibm.sampledb.shared.EmployeeRecord;
+import com.ibm.sampledb.shared.IRecord;
+import com.ibm.sampledb.shared.GetField;
+import com.ibm.sampledb.shared.GetField.FieldInfo;
+import com.ibm.sampledb.shared.GetField.FieldType;
+import com.ibm.sampledb.shared.GetField.FieldValue;
 import com.ibm.sampledb.shared.ResourceInfo;
 
 class DockMain extends Composite {
@@ -49,6 +53,7 @@ class DockMain extends Composite {
     }
 
     private final IAction changeList;
+    private final IAction printA;
 
     private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
 
@@ -61,21 +66,24 @@ class DockMain extends Composite {
     @UiField
     RadioButton decRadio;
 
+    @UiField
+    Button printB;
+
     @UiField(provided = true)
     SimplePager pager = new SimplePager(TextLocation.LEFT,
             (Resources) GWT.create(SimplePager.Resources.class), false, 0, true);
 
     @UiField(provided = true)
-    final CellTable<EmployeeRecord> table = new CellTable<EmployeeRecord>();
+    final CellTable<IRecord> table = new CellTable<IRecord>();
 
-    private final ListDataProvider<EmployeeRecord> dataProvider = new ListDataProvider<EmployeeRecord>();
+    private final ListDataProvider<IRecord> dataProvider = new ListDataProvider<IRecord>();
 
     public ListBox getListBox() {
         return listBox;
     }
 
     private ResourceInfo rInfo = null;
-    private List<EmployeeRecord> listToDraw = null;
+    private List<IRecord> listToDraw = null;
 
     void setResorceInfo(ResourceInfo r) {
         this.rInfo = r;
@@ -107,7 +115,7 @@ class DockMain extends Composite {
 		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
     }-*/;
 
-    private class AddStyle implements RowStyles<EmployeeRecord> {
+    private class AddStyle implements RowStyles<IRecord> {
 
         private final String jsFun;
 
@@ -116,47 +124,46 @@ class DockMain extends Composite {
         }
 
         @Override
-        public String getStyleNames(EmployeeRecord row, int rowIndex) {
+        public String getStyleNames(IRecord row, int rowIndex) {
             CreateJson js = new CreateJson("Employee");
-            js.addElem("firstName", row.getFirstname());
-            js.addElem("lastName", row.getLastname());
-            js.addElem("empno", row.getEmpno());
-            js.addElem("midInit", row.getMidinit());
-            js.addElem("workDept", row.getWorkdept());
-            js.addElem("phoneNo", row.getPhoneno());
-            js.addElem("hireDate", row.getHiredate().toString());
-            js.addElem("job", row.getJob());
-            js.addElem("eddLevel", new Integer(row.getEdlevel()).toString(),
-                    true);
-            js.addElem("sex", row.getSex());
-            js.addElem("lastName", row.getLastname());
-            js.addElem("birthDate", row.getBirthdate().toString());
-            js.addElem("salary", row.getSalary().toPlainString(), true);
-            js.addElem("comm", row.getComm().toPlainString(), true);
-            js.addElem("bonus", row.getBonus().toPlainString(), true);
+            for (FieldInfo f : GetField.getfList()) {
+                String fId = f.getfId();
+                FieldValue v = GetField.getValue(fId, row);
+                String val = v.getString(f);
+                boolean number = true;
+                if ((f.getfType() == FieldType.STRING)
+                        || (f.getfType() == FieldType.DATE)) {
+                    number = false;
+                }
+                js.addElem(fId, val, number);
+            }
             String jsString = js.createJsonString();
-            js.addElem("salary", row.getSalary().toPlainString(), true);
             return callJsStringFun(jsFun, jsString);
         }
 
     }
 
-    DockMain(Map<String, String> col, IAction changeList) {
+    DockMain(IAction changeList, IAction printA) {
         initWidget(uiBinder.createAndBindUi(this));
         listBox.addItem("");
-        for (Entry<String, String> e : col.entrySet()) {
-            String[] s = e.getValue().split(",");
-            listBox.addItem(s[0]);
+        // create listBox to select order by info
+        for (FieldInfo f : GetField.getfList()) {
+            listBox.addItem(f.getfDescr());
         }
         this.changeList = changeList;
+        this.printA = printA;
         dataProvider.addDataDisplay(table);
         pager.setDisplay(table);
         pager.setPageSize(20);
         pager.setPage(0);
     }
 
-    CellTable<EmployeeRecord> getTable() {
+    CellTable<IRecord> getTable() {
         return table;
+    }
+
+    List<IRecord> getList() {
+        return dataProvider.getList();
     }
 
     private void drawResList() {
@@ -166,15 +173,15 @@ class DockMain extends Composite {
         if (listToDraw == null) {
             return;
         }
-        List<EmployeeRecord> result = dataProvider.getList();
+        List<IRecord> result = dataProvider.getList();
         table.setRowCount(listToDraw.size(), true);
         result.clear();
         result.addAll(listToDraw);
 
     }
 
-    void drawList(List<EmployeeRecord> list) {
-        listToDraw = list;
+    void drawList(List<? extends IRecord> list) {
+        listToDraw = (List<IRecord>) list;
         drawResList();
     }
 
@@ -198,4 +205,10 @@ class DockMain extends Composite {
         return incRadio.getValue();
     }
 
+    @UiHandler("printB")
+    void onPrintBClick(ClickEvent event) {
+        if (printA != null) {
+            printA.execute();
+        }
+    }
 }

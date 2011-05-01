@@ -35,6 +35,10 @@ import org.springframework.jdbc.core.RowMapper;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.ibm.sampledb.client.SampleService;
 import com.ibm.sampledb.shared.EmployeeRecord;
+import com.ibm.sampledb.shared.GetField;
+import com.ibm.sampledb.shared.GetField.FieldInfo;
+import com.ibm.sampledb.shared.GetField.FieldValue;
+import com.ibm.sampledb.shared.IRecord;
 import com.ibm.sampledb.shared.ResourceInfo;
 
 /**
@@ -141,7 +145,7 @@ public class SampleServiceImpl extends RemoteServiceServlet implements
     }
 
     @Override
-    public List<EmployeeRecord> getList(String orderBy) throws Exception {
+    public List<? extends IRecord> getList(String orderBy) throws Exception {
         JdbcTemplate jdbc;
         try {
             jdbc = getJDBC();
@@ -161,8 +165,7 @@ public class SampleServiceImpl extends RemoteServiceServlet implements
         }
         List<EmployeeRecord> mList = jdbc.query(query,
                 new EmployeeRecordMapper());
-        return mList;
-
+        return (List<? extends IRecord>) mList;
     }
 
     private String getCustom(String name) throws NamingException, IOException {
@@ -177,13 +180,38 @@ public class SampleServiceImpl extends RemoteServiceServlet implements
             String jScriptRes = getCustom("jsFile");
             String cssRes = getCustom("cssFile");
             String jsAddRowFunc = getResourceName("customAddStyle");
+            String birtURL = getResourceName("ReportBirtURL");
+            String reportE = getResourceName("ReportEmployee");
             ResourceInfo info = new ResourceInfo();
             info.setCssS(cssRes);
             info.setCustomRow(customRow);
             info.setJavaS(jScriptRes);
             info.setJsAddRowFunc(jsAddRowFunc);
+            info.setBirtURL(birtURL);
+            info.setEmployeeReport(reportE);
             return info;
         } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public String printList(List<? extends IRecord> li) throws Exception {
+        CreateXML xml = new CreateXML("employees", "employee");
+        try {
+            xml.startXML();
+            for (IRecord i : li) {
+                xml.startElem();
+                for (FieldInfo f : GetField.getfList()) {
+                    FieldValue val = GetField.getValue(f.getfId(), i);
+                    xml.drawElem(f.getfId(), val.getString(f));
+                }
+                xml.endElem();
+            }
+            xml.endXML();
+            return xml.getFileName();
+        } catch (IOException e) {
             e.printStackTrace();
             throw e;
         }

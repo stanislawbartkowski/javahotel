@@ -23,6 +23,24 @@ public class ResourceInfo implements Serializable {
     private String cssS;
     private boolean customRow;
     private String jsAddRowFunc;
+    private String birtURL;
+    private String employeeReport;
+
+    public String getBirtURL() {
+        return birtURL;
+    }
+
+    public String getEmployeeReport() {
+        return employeeReport;
+    }
+
+    public void setBirtURL(String birtURL) {
+        this.birtURL = birtURL;
+    }
+
+    public void setEmployeeReport(String employeeReport) {
+        this.employeeReport = employeeReport;
+    }
 
     public String getJsAddRowFunc() {
         return jsAddRowFunc;
