@@ -15,13 +15,9 @@
  */
 package com.ibm.sampledb.client;
 
-import java.util.Map;
-
 import com.google.gwt.i18n.client.Constants;
 
 public interface Message extends Constants {
-
-    Map<String,String> columns();
     
     String SortedBy();
     
@@ -30,4 +26,8 @@ public interface Message extends Constants {
     String Inc();
     
     String Dec();
+    
+    String Print();
+    
+    String NoOrder();
 }

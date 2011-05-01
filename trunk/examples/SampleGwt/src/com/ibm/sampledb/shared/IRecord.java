@@ -13,23 +13,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.ibm.sampledb.client;
+package com.ibm.sampledb.shared;
 
-import java.util.List;
+public interface IRecord {
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.ibm.sampledb.shared.EmployeeRecord;
-import com.ibm.sampledb.shared.IRecord;
-import com.ibm.sampledb.shared.ResourceInfo;
-
-/**
- * The async counterpart of <code>GreetingService</code>.
- */
-public interface SampleServiceAsync {
-
-    void getList(String orderBy, AsyncCallback<List<? extends IRecord>> callback);
-
-    void getInfo(AsyncCallback<ResourceInfo> callback);
-
-    void printList(List<? extends IRecord> li, AsyncCallback<String> callback);
 }

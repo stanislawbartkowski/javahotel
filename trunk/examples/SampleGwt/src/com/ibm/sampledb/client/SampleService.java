@@ -20,6 +20,7 @@ import java.util.List;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.ibm.sampledb.shared.EmployeeRecord;
+import com.ibm.sampledb.shared.IRecord;
 import com.ibm.sampledb.shared.ResourceInfo;
 
 /**
@@ -28,7 +29,10 @@ import com.ibm.sampledb.shared.ResourceInfo;
 @RemoteServiceRelativePath("sample")
 public interface SampleService extends RemoteService {
     
-    List<EmployeeRecord> getList(String orderBy) throws Exception;
+    List<? extends IRecord> getList(String orderBy) throws Exception;
     
     ResourceInfo getInfo() throws Exception;
+    
+    String printList(List<? extends IRecord> li) throws Exception;
+
 }

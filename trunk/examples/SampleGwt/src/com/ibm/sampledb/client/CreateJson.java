@@ -56,7 +56,9 @@ class CreateJson {
     }
 
     private String convertS(String s) {
-        if (s == null) { return null; }
+        if (s == null) {
+            return null;
+        }
         String r = s.replace('\'', ' ');
         return r;
     }
@@ -70,7 +72,9 @@ class CreateJson {
             }
             first = false;
             String val;
-            if (e.getValue().isNumber()) {
+            if (e.getValue().getVal() == null) {
+                val = "null";
+            } else if (e.getValue().isNumber()) {
                 val = e.getValue().getVal();
             } else {
                 val = '\"' + convertS(e.getValue().getVal()) + '\"';

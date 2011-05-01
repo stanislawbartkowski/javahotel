@@ -12,6 +12,7 @@
 					text='{cc.Inc}'></g:RadioButton>
 				<g:RadioButton ui:field='decRadio' value='false' name="order"
 					text='{cc.Dec}'></g:RadioButton>
+				<g:Button ui:field='printB' text='{cc.Print}'></g:Button>	
 			</g:HorizontalPanel>
 		</g:north>
 
