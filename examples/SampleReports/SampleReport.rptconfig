@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
+    <list-property name="configVars">
+        <structure>
+            <property name="name">__isdisplay__FILEXML_98_0</property>
+            <property name="value">/home/sbartkowski/workspace/SampleReports/example/print_sample.xml</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__ORDERBY_99_1</property>
+            <property name="value">dfg</property>
+        </structure>
+        <structure>
+            <property name="name">ORDERBY_99_2</property>
+            <property name="value">dfg</property>
+        </structure>
+        <structure>
+            <property name="name">ORDERBY_99_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">FILEXML_98_3</property>
+            <property name="value">/home/sbartkowski/workspace/SampleReports/example/print_sample.xml</property>
+        </structure>
+        <structure>
+            <property name="name">FILEXML_98_type_</property>
+            <property name="value">string</property>
+        </structure>
+    </list-property>
+</report>
