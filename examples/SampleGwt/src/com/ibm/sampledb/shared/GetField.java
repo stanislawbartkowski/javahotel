@@ -26,10 +26,20 @@ public class GetField {
         INTEGER, DATE, STRING, NUMBER
     }
 
+    /**
+     * Field, column value (C union structure would be the best)
+     * Only one attribute should be set
+     * @author sbartkowski
+     * 
+     */
     public static class FieldValue {
+        /** Timestamp. date column. */
         private final Timestamp dField;
+        /** char, carchar2 column. */
         private final String sField;
+        /** integer column. */
         private final int iField;
+        /** decimal column. */
         private final BigDecimal nField;
 
         public FieldValue(Timestamp dField, String sField, int iField,
@@ -81,15 +91,19 @@ public class GetField {
         }
     }
 
+    /**
+     * Description of one column in IRecord object
+     * @author sbartkowski
+     *
+     */
     public static class FieldInfo {
+        /** Column identifier. */
         private final String fId;
+        /** Column type. */
         private final FieldType fType;
-
-        public int getcSize() {
-            return cSize;
-        }
-
+        /** Column description, title. */
         private final String fDescr;
+        /** Column size to display (in pixels). */
         private final int cSize;
 
         public FieldInfo(String fId, FieldType fType, String fDescr, int cSize) {
@@ -99,6 +113,10 @@ public class GetField {
             this.cSize = cSize;
         }
 
+        public int getcSize() {
+            return cSize;
+        }
+        
         public String getfId() {
             return fId;
         }
@@ -132,9 +150,20 @@ public class GetField {
         fList.add(new FieldInfo("COMM", FieldType.NUMBER, "Comm", 6));
     }
 
+    /**  
+     * Get list of all columns
+     * @return List of columns (FieldInfo)
+     */
     public static List<FieldInfo> getfList() {
         return fList;
     }
+    
+    /**
+     * Get column value from the record
+     * @param field Column identifier (fId attribute in FieldInfo)
+     * @param i IRecord, record, row
+     * @return FieldValue class with proper attribut set according to column type
+     */
 
     public static FieldValue getValue(String field, IRecord i) {
 
