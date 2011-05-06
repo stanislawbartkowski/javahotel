@@ -49,7 +49,6 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
         IControlButtonView bView = bFactory.construct(cParam.getdType(),
                 cParam.getListButton());
         if (cParam.getMe() == null) {
-//          slMediator = cParam.gettFactories().getSlotMediatorFactory().construct();
             startM = true;
         } else {
             slMediator = cParam.getMe();

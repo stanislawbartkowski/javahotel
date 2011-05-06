@@ -36,6 +36,7 @@ import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
+import com.gwtmodel.table.view.stack.StackPanelFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.WebPanelFactory;
@@ -96,4 +97,6 @@ public interface GwtTableInjector extends Ginjector {
     StackPanelButtonFactory getStackPanelButtonFactory();
 
     MailTestFactory getMailTestFactory();
+    
+    StackPanelFactory getStackPanelFactory();
 }

@@ -33,7 +33,6 @@ import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
-import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
@@ -78,7 +77,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(WebPanelFactory.class).in(Singleton.class);
         bind(IWebPanel.class).toProvider(WebPanelProvider.class);
         bind(StackPanelFactory.class).in(Singleton.class);
-        bind(StackPanelControllerFactory.class).in(Singleton.class);
         bind(ISlotMediator.class).toProvider(SlotMediatorFactory.class);
         bind(ICallContext.class).to(CallContext.class);
         bind(StackPanelButtonFactory.class).in(Singleton.class);
