@@ -10,24 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.stack;
-
-import java.util.List;
+package com.gwtmodel.table;
 
 /**
- *
- * @author stanislaw.bartkowski@gmail.com
+ * @author hotel
+ * 
  */
-public class StackPanelFactory {
+public interface ISetGWidget {
 
-    public StackPanelFactory() {
-    }
+    void setW(IGWidget w);
 
-    public IStackPanelView construct(List<StackButton> bList,
-            IClickStackButton click, String html) {
-        if (html == null) {
-            return new StackPanelView(bList, click);
-        }
-        return new StackPanelHtmlView(bList, click, html);
-    }
 }

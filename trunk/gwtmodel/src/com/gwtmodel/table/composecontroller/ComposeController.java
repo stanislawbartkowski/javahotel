@@ -19,6 +19,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -55,7 +56,8 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = dFactory.construct(dType);
-            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(getA, dType, mData);
+            IVModelData pData = slMediator.getSlContainer()
+                    .getGetterIVModelData(getA, dType, mData);
             for (ComposeControllerType cType : cList) {
                 if (cType.getdType() == null) {
                     continue;
@@ -77,6 +79,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
 
     @Override
     public void registerControler(ComposeControllerType cType) {
+        assert cType.getiSlot() != null : LogT.getT().cannotBeNull();
         cList.add(cType);
     }
 
@@ -103,7 +106,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         }
     }
 
-// do not remove, it overrides
+    // do not remove, it overrides
     @Override
     public void startPublish(CellId cellId) {
         slMediator.startPublish(null);
@@ -136,17 +139,17 @@ class ComposeController extends AbstractSlotMediatorContainer implements
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.PersistComposeFormAction,
-                dType),
+                        dType),
                 slFactory.construct(DataActionEnum.PersistDataAction, dType));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.InvalidSignal, dType),
                 slFactory.construct(
-                DataActionEnum.ChangeViewFormToInvalidAction, dType));
+                        DataActionEnum.ChangeViewFormToInvalidAction, dType));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.ValidateComposeFormAction,
-                dType),
+                        dType),
                 slFactory.construct(DataActionEnum.ValidateAction, dType));
 
         slMediator.getSlContainer().registerCaller(

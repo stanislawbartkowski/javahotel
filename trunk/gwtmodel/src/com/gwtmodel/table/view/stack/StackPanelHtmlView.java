@@ -12,14 +12,14 @@
  */
 package com.gwtmodel.table.view.stack;
 
-import com.google.gwt.user.client.ui.Button;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.util.CreateFormView;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
