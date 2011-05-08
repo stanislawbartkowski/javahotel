@@ -76,13 +76,20 @@ class GwtFormView implements IGwtFormView {
     public void showInvalidate(InvalidateFormContainer errContainer) {
         List<InvalidateMess> col = errContainer.getErrMess();
 
+        boolean something = false;
         for (InvalidateMess m : col) {
             IVField mFie = m.getFie();
             for (FormField re : fContainer.getfList()) {
-                if (re.getFie().eq(mFie)) {
+                if ((mFie == null) || re.getFie().eq(mFie)) {
                     eStore.setEMess(re, m);
+                    something = true;
                 }
-            }
+            }            
+        }
+        if (!something) {
+            FormField re = fContainer.getfList().get(0);
+            InvalidateMess m = col.get(0);
+            eStore.setEMess(re, m);
         }
     }
 
