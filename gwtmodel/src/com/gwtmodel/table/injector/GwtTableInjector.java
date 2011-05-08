@@ -31,6 +31,7 @@ import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
+import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
@@ -97,6 +98,8 @@ public interface GwtTableInjector extends Ginjector {
     StackPanelButtonFactory getStackPanelButtonFactory();
 
     MailTestFactory getMailTestFactory();
-    
+
     StackPanelFactory getStackPanelFactory();
+
+    StackPanelControllerFactory getStackPanelControllerFactory();
 }
