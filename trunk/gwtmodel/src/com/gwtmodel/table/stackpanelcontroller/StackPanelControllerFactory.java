@@ -24,8 +24,6 @@ import java.util.List;
  * @author stanislaw.bartkowski@gmail.com
  */
 
-// TODO: REMOVE
-
 public class StackPanelControllerFactory {
 
     private final StackPanelFactory paFactory;
