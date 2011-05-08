@@ -49,26 +49,6 @@ public class LoginData extends AVModelData {
         return null;
     }
 
-//    @Override
-//    public String getS(IVField fie) {
-//        return (String) getF(fie);
-//    }
-//
-//    @Override
-//    public boolean isEmpty(IVField fie) {
-//        LoginField f = (LoginField) fie;
-//        if (f.isLogin()) {
-//            return CUtil.EmptyS(loginName);
-//        }
-//        if (f.isPassword()) {
-//            return CUtil.EmptyS(password);
-//        }
-//        if (f.isRePassword()) {
-//            return CUtil.EmptyS(repassword);
-//        }
-//        return false;
-//    }
-
     @Override
     public void setF(IVField fie, Object val) {
         String s = (String) val;
