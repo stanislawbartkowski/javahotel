@@ -18,27 +18,29 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGFocusWidget;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.util.CreateFormView;
 
 /**
- *
+ * 
  * @author perseus
  */
 class StackPanelHtmlView extends AbstractPanelView {
 
     private final HTMLPanel hPanel;
 
-    StackPanelHtmlView(List<StackButton> bList,
-            IClickStackButton click, String html) {
+    StackPanelHtmlView(List<ControlButtonDesc> bList, IControlClick click,
+            String html) {
         super(click);
         hPanel = new HTMLPanel(html);
         List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
         List<IGFocusWidget> buList = new ArrayList<IGFocusWidget>();
-        for (StackButton bu : bList) {
+        for (ControlButtonDesc bu : bList) {
             IGFocusWidget bt = constructButton(bu);
             buList.add(bt);
-            cList.add(new ClickButtonType(bu.getId()));
+            cList.add(new ClickButtonType(bu.getActionId().getCustomButt()));
         }
         CreateFormView.setHtml(hPanel, cList, buList);
     }

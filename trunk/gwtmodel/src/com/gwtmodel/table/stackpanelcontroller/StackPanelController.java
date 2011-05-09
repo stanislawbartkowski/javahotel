@@ -17,32 +17,32 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.view.stack.IClickStackButton;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.stack.IStackPanelView;
-import com.gwtmodel.table.view.stack.StackButton;
 import com.gwtmodel.table.view.stack.StackPanelFactory;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
-class StackPanelController extends AbstractSlotContainer implements IStackPanelController {
+class StackPanelController extends AbstractSlotContainer implements
+        IStackPanelController {
 
     private final IStackPanelView sView;
-//    private final IDataType dType;
 
-    private class CallBack implements IClickStackButton {
+    private class CallBack implements IControlClick {
 
         @Override
-        public void click(StackButton bu, Widget w) {
-            publish(bu.getId(), new GWidget(w));
+        public void click(ControlButtonDesc bu, Widget w) {
+            publish(bu.getActionId(), new GWidget(w));
         }
     }
 
-    StackPanelController(StackPanelFactory paFactory, List<StackButton> bList,
-            String html, IDataType dType) {
+    StackPanelController(StackPanelFactory paFactory,
+            List<ControlButtonDesc> bList, String html, IDataType dType) {
         sView = paFactory.construct(bList, new CallBack(), html);
         this.dType = dType;
     }

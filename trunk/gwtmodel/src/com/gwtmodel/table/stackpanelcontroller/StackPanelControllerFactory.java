@@ -12,12 +12,13 @@
  */
 package com.gwtmodel.table.stackpanelcontroller;
 
+import java.util.List;
+
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
-import com.gwtmodel.table.view.stack.StackButton;
 import com.gwtmodel.table.view.stack.StackPanelFactory;
-import java.util.List;
 
 /**
  *
@@ -36,7 +37,7 @@ public class StackPanelControllerFactory {
         this.baFactory = baFactory;
     }
 
-    public IStackPanelController construct(IDataType dType, List<StackButton> bList, String html) {
+    public IStackPanelController construct(IDataType dType, List<ControlButtonDesc> bList, String html) {
         return baFactory.construct(dType, bList, html);
 //        return new StackPanelController(paFactory, bList, html, dType);
     }
