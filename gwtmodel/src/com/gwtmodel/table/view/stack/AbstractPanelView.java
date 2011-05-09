@@ -15,26 +15,28 @@ package com.gwtmodel.table.view.stack;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.gwtmodel.table.IGFocusWidget;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
 
 /**
- *
+ * 
  * @author perseus
  */
 abstract class AbstractPanelView implements IStackPanelView {
 
-    private final IClickStackButton click;
+    private final IControlClick click;
 
-    protected AbstractPanelView(IClickStackButton click) {
+    protected AbstractPanelView(IControlClick click) {
         this.click = click;
     }
 
     private class Click implements ClickHandler {
 
-        private final StackButton bu;
+        private final ControlButtonDesc bu;
         private final IGFocusWidget bt;
 
-        Click(StackButton bu, IGFocusWidget bt) {
+        Click(ControlButtonDesc bu, IGFocusWidget bt) {
             this.bu = bu;
             this.bt = bt;
         }
@@ -44,10 +46,10 @@ abstract class AbstractPanelView implements IStackPanelView {
         }
     }
 
-    protected IGFocusWidget constructButton(StackButton bu) {
-        IGFocusWidget bt = ImgButtonFactory.getButton(bu.getId(),
-                bu.getDisplayName(), null);
-//        bt.setWidth("100%");
+    protected IGFocusWidget constructButton(ControlButtonDesc bu) {
+        IGFocusWidget bt = ImgButtonFactory.getButton(bu.getActionId()
+                .getCustomButt(), bu.getDisplayName(), null);
+        // bt.setWidth("100%");
         bt.addClickHandler(new Click(bu, bt));
         return bt;
 

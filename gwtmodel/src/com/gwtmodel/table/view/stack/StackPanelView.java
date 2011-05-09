@@ -12,10 +12,13 @@
  */
 package com.gwtmodel.table.view.stack;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGFocusWidget;
-import java.util.List;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
 
 /**
  *
@@ -25,10 +28,10 @@ class StackPanelView extends AbstractPanelView {
 
     private final VerticalPanel vp = new VerticalPanel();
 
-    StackPanelView(List<StackButton> bList,
-            IClickStackButton click) {
+    StackPanelView(List<ControlButtonDesc> bList,
+            IControlClick click) {
         super(click);
-        for (StackButton bu : bList) {
+        for (ControlButtonDesc bu : bList) {
             IGFocusWidget bt = constructButton(bu);
             bt.getGWidget().setWidth("100%");
             vp.add(bt.getGWidget());

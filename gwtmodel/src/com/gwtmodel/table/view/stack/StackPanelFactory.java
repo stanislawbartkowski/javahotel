@@ -14,6 +14,9 @@ package com.gwtmodel.table.view.stack;
 
 import java.util.List;
 
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
+
 /**
  *
  * @author stanislaw.bartkowski@gmail.com
@@ -23,8 +26,8 @@ public class StackPanelFactory {
     public StackPanelFactory() {
     }
 
-    public IStackPanelView construct(List<StackButton> bList,
-            IClickStackButton click, String html) {
+    public IStackPanelView construct(List<ControlButtonDesc> bList,
+            IControlClick click, String html) {
         if (html == null) {
             return new StackPanelView(bList, click);
         }

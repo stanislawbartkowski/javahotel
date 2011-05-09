@@ -17,14 +17,14 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 public class ControlButtonDesc {
 
     private final String imageHtml;
-    private final String contrName;
+    private final String displayName;
     private final ClickButtonType actionId;
     private final boolean textimage;
 
-    public ControlButtonDesc(final String imageHtml, final String contrName,
+    public ControlButtonDesc(final String imageHtml, final String displayName,
             final ClickButtonType actionId) {
         this.imageHtml = imageHtml;
-        this.contrName = contrName;
+        this.displayName = displayName;
         this.actionId = actionId;
         textimage = false;
     }
@@ -32,6 +32,10 @@ public class ControlButtonDesc {
     public ControlButtonDesc(final String contrName,
             final ClickButtonType actionId) {
         this(null, contrName, actionId);
+    }
+
+    public ControlButtonDesc(final String contrName, String actionId) {
+        this(null, contrName, new ClickButtonType(actionId));
     }
 
     public boolean isTextimage() {
@@ -48,8 +52,8 @@ public class ControlButtonDesc {
     /**
      * @return the contrName
      */
-    public String getContrName() {
-        return contrName;
+    public String getDisplayName() {
+        return displayName;
     }
 
     /**

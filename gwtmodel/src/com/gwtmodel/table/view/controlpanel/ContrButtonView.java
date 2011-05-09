@@ -99,9 +99,9 @@ class ContrButtonView implements IContrButtonView {
             }
             if (b.isTextimage()) {
                 but = ImgButtonFactory.getButtonTextImage(bName,
-                        b.getContrName(), b.getImageHtml());
+                        b.getDisplayName(), b.getImageHtml());
             } else {
-                but = ImgButtonFactory.getButton(bName, b.getContrName(),
+                but = ImgButtonFactory.getButton(bName, b.getDisplayName(),
                         b.getImageHtml());
             }
             if (!hori) {

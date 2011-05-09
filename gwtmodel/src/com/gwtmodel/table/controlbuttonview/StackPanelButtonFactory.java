@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.controlbuttonview;
 
+import java.util.List;
+
 import com.google.inject.Inject;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
@@ -19,19 +21,15 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
-import com.gwtmodel.table.view.stack.StackButton;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class StackPanelButtonFactory {
@@ -46,11 +44,11 @@ public class StackPanelButtonFactory {
         this.slFactory = slFactory;
     }
 
-    private class StackButtonPanel extends ControlButtonView {
+    private class ControlButtonDescPanel extends ControlButtonView {
 
         private final String html;
 
-        StackButtonPanel(ContrButtonViewFactory vFactory,
+        ControlButtonDescPanel(ContrButtonViewFactory vFactory,
                 ListOfControlDesc listButton, IDataType dType, String html) {
             super(vFactory, listButton, dType, false);
             this.html = html;
@@ -80,18 +78,13 @@ public class StackPanelButtonFactory {
         }
     }
 
-    public IStackPanelController construct(IDataType dType, List<StackButton> bList,
-            String html) {
-        List<ControlButtonDesc> buList = new ArrayList<ControlButtonDesc>();
-        for (StackButton b : bList) {
-            ControlButtonDesc bu = new ControlButtonDesc(b.getDisplayName(), new ClickButtonType(b.getId()));
-            buList.add(bu);
-        }
-        ListOfControlDesc listButton = new ListOfControlDesc(buList);
+    public IStackPanelController construct(IDataType dType,
+            List<ControlButtonDesc> bList, String html) {
+        ListOfControlDesc listButton = new ListOfControlDesc(bList);
         if (html == null) {
             return new ControlButtonView(vFactory, listButton, dType, false);
         } else {
-            return new StackButtonPanel(vFactory, listButton, dType, html);
+            return new ControlButtonDescPanel(vFactory, listButton, dType, html);
         }
     }
 }
