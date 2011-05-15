@@ -23,7 +23,7 @@ import com.gwtmodel.table.rdef.IFormLineView;
 public class FieldDataType {
 
     public interface IFormLineViewFactory {
-        IFormLineView construct();
+        IFormLineView construct(IVField v);
     }
 
     /**

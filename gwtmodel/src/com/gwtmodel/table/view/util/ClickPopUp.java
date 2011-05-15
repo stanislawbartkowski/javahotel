@@ -57,6 +57,10 @@ public class ClickPopUp {
         setD(w, showW, null);
     }
 
+    public ClickPopUp(final Widget w, final Widget showW) {
+        setD(new WSize(w), showW, null);
+    }
+
     public ClickPopUp(final WSize w, final Widget showW, ICloseAction i) {
         setD(w, showW, i);
     }

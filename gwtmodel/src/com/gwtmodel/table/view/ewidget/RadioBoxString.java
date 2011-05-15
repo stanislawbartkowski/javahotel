@@ -26,6 +26,8 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.injector.LogT;
+import com.javahotel.client.MM;
 
 /**
  * 
@@ -113,7 +115,8 @@ public class RadioBoxString extends AbstractField {
 
     private void setRadio(IDataListType dataList, boolean enable) {
         IVField sym = tFactories.getGetCustomValues().getSymForCombo();
-        for (IVModelData vv: dataList.getList()) {
+        assert sym != null : LogT.getT().cannotBeNull();
+        for (IVModelData vv : dataList.getList()) {
             String s = FUtils.getValueS(vv, sym);
             CheckBox c = new CheckBox(s);
             c.setEnabled(enable);
@@ -138,8 +141,8 @@ public class RadioBoxString extends AbstractField {
         }
     }
 
-    RadioBoxString(ITableCustomFactories tFactories, IVField v, IGetDataList iGet,
-            final boolean enable) {
+    RadioBoxString(ITableCustomFactories tFactories, IVField v,
+            IGetDataList iGet, final boolean enable) {
         super(tFactories, v);
         this.iGet = iGet;
         sync = new SyncC();
