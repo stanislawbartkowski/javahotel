@@ -70,6 +70,10 @@ public class EditWidgetFactory {
         return new ExtendTextBox(tFactories, v, newE(false, false));
     }
 
+    public IFormLineView constructLabelTextEdit(IVField v, String la) {
+        return new LabelEdit(tFactories, v, newE(false, false), la);
+    }
+
     public IFormLineView constructTextArea(IVField v) {
         return new ExtendTextBox(tFactories, v, newE(false, true));
     }
@@ -131,7 +135,7 @@ public class EditWidgetFactory {
     public IFormLineView constructEditWidget(IVField v) {
         FieldDataType.IFormLineViewFactory fa = v.getType().getiFactory();
         if (fa != null) {
-            return fa.construct();
+            return fa.construct(v);
         }
         switch (v.getType().getType()) {
         case DATE:

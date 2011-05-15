@@ -96,7 +96,6 @@ class ExtendTextBox extends AbstractField {
                 tBox.setText(t);
             } else {
                 rArea.setHTML(t);
-//                rArea.setText(t);
             }
         }
 
@@ -112,7 +111,6 @@ class ExtendTextBox extends AbstractField {
             if (rArea == null) {
                 return tBox.getText();
             } else {
-//                return rArea.getText();
                 return rArea.getHTML();
             }
         }
@@ -241,10 +239,8 @@ class ExtendTextBox extends AbstractField {
 
     private void changeS() {
         if (check.isChecked()) {
-//            tBox.setEnabled(false);
             eW.setEnabled(false);
         } else {
-//            tBox.setEnabled(true);
             eW.setEnabled(true);
         }
     }
@@ -254,7 +250,6 @@ class ExtendTextBox extends AbstractField {
         @Override
         public void onClick(Widget sender) {
             if (check.isChecked()) {
-//                tBox.setText("");
                 eW.setText("");
             }
             changeS();
@@ -276,7 +271,6 @@ class ExtendTextBox extends AbstractField {
     @Override
     public void setOnTouch(final ITouchListener iTouch) {
         super.setOnTouch(iTouch);
-//        tBox.addKeyboardListener(new Touch(iTouch));
         eW.addKeyboardListener(new Touch(iTouch));
     }
 
@@ -286,7 +280,6 @@ class ExtendTextBox extends AbstractField {
         if (iTouch != null) {
             iTouch.onTouch();
         }
-//        tBox.setText(va);
         eW.setText(va);
         runOnChange(null);
     }
@@ -298,13 +291,11 @@ class ExtendTextBox extends AbstractField {
 
     @Override
     public Object getValObj() {
-//        return tBox.getText();
         return eW.getText();
     }
 
     @Override
     public void setReadOnly(final boolean r) {
-//        tBox.setReadOnly(r);
         eW.setReadOnly(r);
         if (check != null) {
             check.setEnabled(!r);
@@ -326,12 +317,15 @@ class ExtendTextBox extends AbstractField {
     @Override
     public void addChangeListener(final IFormChangeListener l) {
         super.addChangeListener(l);
-//        tBox.addChangeListener(new L());
         eW.addChangeListener(new L());
     }
 
     @Override
     public Widget getGWidget() {
         return this;
+    }
+    
+    protected Widget getTextBox() {
+        return eW.getGWidget();
     }
 }
