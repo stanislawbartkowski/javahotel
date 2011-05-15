@@ -13,7 +13,7 @@
 package com.gwtmodel.table.common;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class MaxI {
@@ -34,5 +34,19 @@ public class MaxI {
         }
         return m2;
     }
-}
 
+    public static Long min(Long m1, Long m2) {
+        if (m1 < m2) {
+            return m1;
+        }
+        return m2;
+    }
+
+    public static Long max(Long m1, Long m2) {
+        if (m1 > m2) {
+            return m1;
+        }
+        return m2;
+    }
+
+}
