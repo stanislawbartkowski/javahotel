@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <source path="nmvc" />
+    <source path="client" excludes="**/unittest/*.java" />
+    <inherits name="com.google.gwt.user.User"/>
+    <inherits name="com.google.gwt.logging.Logging"/>
+    <set-property name="gwt.logging.popupHandler" value="DISABLED" />
+    <set-property name="gwt.logging.enabled" value="FALSE"/> 
+    <set-property name="gwt.logging.consoleHandler" value="DISABLED"/>
+    <entry-point class="com.javahotel.client.start.WebEntryPoint"/>
+    <stylesheet src='res/style/hotelstyles.css'/>
+    <inherits name="com.javahotel.common" /> 
+    <inherits name="com.javahotel.types" />
+    <inherits name='com.google.gwt.visualization.Visualization'/>    
+    <inherits name="com.google.gwt.user.theme.standard.Standard"/> 
+    <inherits name="com.google.gwt.http.HTTP"/>
+    <inherits name="com.google.gwt.inject.Inject"/>    
+   	<inherits name="com.gwtmodel.table" />    
+   	<inherits name="com.gwtmodel.commontable" />
+<!--    <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> --> 
+<!--    <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
+</module>
