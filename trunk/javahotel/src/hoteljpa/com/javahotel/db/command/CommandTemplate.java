@@ -16,6 +16,7 @@ import java.text.MessageFormat;
 import java.util.logging.Level;
 
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.context.IPersistCache;
 import com.javahotel.db.hotelbase.jpa.RHotel;
@@ -140,6 +141,7 @@ abstract public class CommandTemplate {
 	private boolean startedt = false;
 	protected final ICommandContext iC;
 	private final boolean startTraAutom;
+	protected final ReturnPersist ret;
 
 	protected abstract void command();
 
@@ -152,6 +154,7 @@ abstract public class CommandTemplate {
 
 	public CommandTemplate(final SessionT sessionId, final boolean admin,
 			final boolean blockP, final boolean startTraAutom) {
+	    ret = new ReturnPersist();
 		HotelLoginP hp = SecurityFilter.isLogged(sessionId, admin);
 		this.blockP = blockP;
 		trasuccess = true;
@@ -160,7 +163,14 @@ abstract public class CommandTemplate {
 		iC = new ContextC(hp, s);
 	}
 
-	protected void startTra() {
+	/**
+     * @return the res
+     */
+    public ReturnPersist getRet() {
+        return ret;
+    }
+
+    protected void startTra() {
 		if (startedt) {
 			return;
 		}

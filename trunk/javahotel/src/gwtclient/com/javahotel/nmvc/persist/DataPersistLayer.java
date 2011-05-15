@@ -52,7 +52,6 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         IDataPersistAction {
 
     private final IResLocator rI;
-//  private final DataType dType;
 
     private IDataListType convertToLogin(IDataListType dataList) {
         List<IVModelData> li = new ArrayList<IVModelData>();

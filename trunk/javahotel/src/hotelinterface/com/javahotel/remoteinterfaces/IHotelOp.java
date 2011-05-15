@@ -25,12 +25,10 @@ import javax.ejb.Remote;
 @Remote
 public interface IHotelOp {
 
-    void hotelOp(SessionT sessionId, HotelOpType op, CommandParam p);
-
-    ReturnPersist hotelOpRet(SessionT sessionID, HotelOpType op,
+    ReturnPersist hotelOp(SessionT sessionID, HotelOpType op,
             CommandParam p);
 
-    ReturnPersist hotelOpRet(SessionT sessionID, CommandParam p);
+    ReturnPersist hotelOp(SessionT sessionID, CommandParam p);
 
-    List<ReturnPersist> hotelOpRet(SessionT sessionID, List<CommandParam> p);
+    List<ReturnPersist> hotelOp(SessionT sessionID, List<CommandParam> p);
 }

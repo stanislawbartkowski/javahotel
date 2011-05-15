@@ -15,7 +15,6 @@ package com.javahotel.db.commands;
 import java.util.List;
 
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
@@ -35,7 +34,6 @@ public class PersistDictCommand extends CommandAbstract {
 
 	private final DictType d;
 	private final DictionaryP a;
-	private final ReturnPersist re;
 	private GetObjectRes o = null;
 	private final boolean checkBook;
 
@@ -45,7 +43,6 @@ public class PersistDictCommand extends CommandAbstract {
 		this.d = d;
 		this.a = a;
 		this.checkBook = checkBook;
-		this.re = new ReturnPersist();
 	}
 
 	private boolean canBookRes() {
@@ -54,7 +51,7 @@ public class PersistDictCommand extends CommandAbstract {
 		if (conflict == null) {
 			return true;
 		}
-		re.setResState(conflict);
+		ret.setResState(conflict);
 		return false;
 	}
 	
@@ -95,13 +92,10 @@ public class PersistDictCommand extends CommandAbstract {
 	@Override
 	protected void aftercommit() {
 		if (o == null) {
-			getRet(re, null);
+			getRet(ret, null);
 		} else {
-			getRet(re, o.getO());
+			getRet(ret, o.getO());
 		}
 	}
 
-	public ReturnPersist getRes() {
-		return re;
-	}
 }

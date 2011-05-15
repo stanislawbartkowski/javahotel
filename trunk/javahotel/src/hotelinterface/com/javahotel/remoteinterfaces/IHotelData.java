@@ -33,16 +33,14 @@ public interface IHotelData {
 	List<AbstractTo> getDicList(SessionT sessionId, DictType d,
 			HotelT hotel);
 
-	void persistDic(SessionT sessionId, DictType d, DictionaryP a);
-
-	ReturnPersist persistDicReturn(SessionT sessionId, DictType d, DictionaryP a);
+	ReturnPersist persistDic(SessionT sessionId, DictType d, DictionaryP a);
 
 	ReturnPersist persistResBookingReturn(SessionT sessionId, BookingP a);
 
-	void removeDic(SessionT sessionId, DictType d, DictionaryP a);
+	ReturnPersist removeDic(SessionT sessionId, DictType d, DictionaryP a);
 
-	void clearHotelBase(SessionT sessionId, HotelT hotel);
+	ReturnPersist clearHotelBase(SessionT sessionId, HotelT hotel);
 
-	ReturnPersist testDicPersist(SessionT sessionId, PersistType t,
+	ReturnPersist validateDicPersist(SessionT sessionId, PersistType t,
 			DictType da, DictionaryP a);
 }

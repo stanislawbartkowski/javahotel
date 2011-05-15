@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class ReportUtil {
@@ -25,8 +25,7 @@ class ReportUtil {
     private ReportUtil() {
     }
 
-    static List<StringP> toS(final List<String> cos,
-            final String removeS) {
+    static List<StringP> toS(final List<String> cos, final String removeS) {
 
         List<StringP> co = new ArrayList<StringP>();
         for (final String s : cos) {

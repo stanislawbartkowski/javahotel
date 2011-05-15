@@ -14,9 +14,9 @@ package com.javahotel.db.commands;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.javahotel.common.dateutil.DateUtil;
@@ -30,7 +30,6 @@ import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.ToLD;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
-import java.util.List;
 
 /**
  *

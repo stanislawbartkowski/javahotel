@@ -42,52 +42,56 @@ import com.javahotel.remoteinterfaces.SessionT;
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class HotelData implements IHotelData {
 
-	public List<AbstractTo> getDicList(final SessionT sessionId,
-			final DictType d, final HotelT hotel) {
-		GetListCommand co = new GetListCommand(sessionId, d, hotel);
-		co.run();
-		return co.getCol();
-	}
+    @Override
+    public List<AbstractTo> getDicList(final SessionT sessionId,
+            final DictType d, final HotelT hotel) {
+        GetListCommand co = new GetListCommand(sessionId, d, hotel);
+        co.run();
+        return co.getCol();
+    }
 
-	public void persistDic(final SessionT sessionId, final DictType d,
-			final DictionaryP a) {
-		PersistDictCommand co = new PersistDictCommand(sessionId, d, a, false);
-		co.run();
-	}
+    @Override
+    public ReturnPersist removeDic(final SessionT sessionId, final DictType d,
+            final DictionaryP a) {
+        RemoveDictCommand co = new RemoveDictCommand(sessionId, d, a);
+        co.run();
+        return co.getRet();
+    }
 
-	public void removeDic(final SessionT sessionId, final DictType d,
-			final DictionaryP a) {
-		RemoveDictCommand co = new RemoveDictCommand(sessionId, d, a);
-		co.run();
-	}
+    @Override
+    public ReturnPersist persistDic(final SessionT sessionId, final DictType d,
+            final DictionaryP a) {
+        PersistDictCommand co = new PersistDictCommand(sessionId, d, a, false);
+        co.run();
+        return co.getRet();
+    }
 
-	public ReturnPersist persistDicReturn(final SessionT sessionId,
-			final DictType d, final DictionaryP a) {
-		PersistDictCommand co = new PersistDictCommand(sessionId, d, a, false);
-		co.run();
-		return co.getRes();
-	}
+    @Override
+    public ReturnPersist persistResBookingReturn(final SessionT sessionId,
+            final BookingP a) {
+        PersistDictCommand co = new PersistDictCommand(sessionId,
+                DictType.BookingList, a, true);
+        co.run();
+        return co.getRet();
+    }
 
-	public ReturnPersist persistResBookingReturn(final SessionT sessionId,
-			final BookingP a) {
-		PersistDictCommand co = new PersistDictCommand(sessionId,
-				DictType.BookingList, a, true);
-		co.run();
-		return co.getRes();
-	}
+    @Override
+    public ReturnPersist clearHotelBase(SessionT sessionId, final HotelT hotel) {
+        if (!HotelStore.isHotel(sessionId, hotel)) {
+            // TODO: some error message !
+            return new ReturnPersist();
+        }
+        ClearHotelData cData = new ClearHotelData(sessionId, hotel);
+        cData.run();
+        return cData.getRet();
+    }
 
-	public void clearHotelBase(SessionT sessionId, final HotelT hotel) {
-		if (!HotelStore.isHotel(sessionId, hotel)) {
-			return;
-		}
-		ClearHotelData cData = new ClearHotelData(sessionId, hotel);
-		cData.run();
-	}
+    @Override
+    public ReturnPersist validateDicPersist(SessionT sessionId, PersistType t,
+            final DictType d, DictionaryP a) {
+        TestPersistCommand co = new TestPersistCommand(sessionId, t, d, a);
+        co.run();
+        return co.getRet();
+    }
 
-	public ReturnPersist testDicPersist(SessionT sessionId, PersistType t,
-			final DictType d, DictionaryP a) {
-		TestPersistCommand co = new TestPersistCommand(sessionId, t, d, a);
-		co.run();
-		return co.getRet();
-	}
 }

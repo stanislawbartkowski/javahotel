@@ -41,7 +41,7 @@ public class DictNumberRecord extends CommandAbstract {
         res = GetQueries.getDictNumber(iC, cla);
     }
 
-    public ReturnPersist getRes() {
+    public ReturnPersist getRet() {
         ReturnPersist ret = new ReturnPersist();
         ret.setNumberOf(res);
         return ret;

@@ -14,7 +14,6 @@ package com.javahotel.db.commands;
 
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.PersistType;
-import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
@@ -23,7 +22,6 @@ public class TestPersistCommand extends CommandAbstract {
 
 	private final PersistType t;
 	private final DictionaryP a;
-	private final ReturnPersist ret;
 	private final DictType da;
 
 	public TestPersistCommand(final SessionT se, PersistType t, DictType da,
@@ -32,16 +30,11 @@ public class TestPersistCommand extends CommandAbstract {
 		this.t = t;
 		this.a = a;
 		this.da = da;
-		ret = new ReturnPersist();
 	}
 
 	@Override
 	protected void command() {
 		TestPersistObject.testPersist(iC, ret, t, a, da);
-	}
-
-	public ReturnPersist getRet() {
-		return ret;
 	}
 
 }

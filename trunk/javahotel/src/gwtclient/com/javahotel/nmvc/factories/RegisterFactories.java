@@ -13,6 +13,7 @@
 package com.javahotel.nmvc.factories;
 
 import com.google.inject.Inject;
+import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
@@ -43,6 +44,7 @@ public class RegisterFactories {
         this.valFactory = valFactory;
         this.dFactory = dFactory;
     }
+//    IDataFormConstructorAbstractFactory
 
     public void register() {
         FormDefFactory fa = new FormDefFactory(gFactory, dFactory);
