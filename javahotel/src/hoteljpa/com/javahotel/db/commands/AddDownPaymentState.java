@@ -54,13 +54,6 @@ public class AddDownPaymentState extends CommandAbstract {
             final List<? extends INumerable> col, final INumerable sou,
             final Class cla, final String name, final Class mecl) {
 
-//        int no = GetMaxUtil.getMax(col);
-//        Integer lp;
-//        if (no == -1) {
-//            lp = new Integer(1);
-//        } else {
-//            lp = new Integer(no + 1);
-//        }
         INumerable dest;
         try {
             dest = (INumerable) cla.newInstance();

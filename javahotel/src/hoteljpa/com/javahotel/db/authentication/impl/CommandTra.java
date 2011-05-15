@@ -12,6 +12,7 @@
  */
 package com.javahotel.db.authentication.impl;
 
+import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.db.authentication.jpa.Hotel;
 import com.javahotel.db.authentication.jpa.Person;
 import com.javahotel.db.command.CommandTemplate;

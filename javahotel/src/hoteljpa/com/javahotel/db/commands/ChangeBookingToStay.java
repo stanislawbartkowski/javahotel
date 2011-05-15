@@ -20,7 +20,6 @@ import com.javahotel.common.command.BillEnumTypes;
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.PaymentMethod;
-import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
@@ -47,14 +46,12 @@ import com.javahotel.remoteinterfaces.SessionT;
 public class ChangeBookingToStay extends CommandAbstract {
 
     private final String resName;
-    private final ReturnPersist re;
     private Booking resO;
 
     public ChangeBookingToStay(final SessionT se, final String ho,
             final String resName) {
         super(se, true, new HotelT(ho), false);
         this.resName = resName;
-        re = new ReturnPersist();
     }
 
     private void modifBooking(final Booking p) {
@@ -128,13 +125,13 @@ public class ChangeBookingToStay extends CommandAbstract {
         Booking b = getBook(resName);
         if (b.getBookingType() == BookingEnumTypes.Stay) {
             String s = resName + " to jest już pobyt !";
-            re.setErrorMessage(s);
+            ret.setErrorMessage(s);
             return;
         }
         BookingState sta = GetMaxUtil.getLast(b.getState());
         if (sta.getBState() == BookingStateType.ChangedToCheckin) {
             String s = resName + " juz zamieniony na pobyt !";
-            re.setErrorMessage(s);
+            ret.setErrorMessage(s);
             return;
         }
         BookingP bp = new BookingP();
@@ -149,12 +146,9 @@ public class ChangeBookingToStay extends CommandAbstract {
         iC.getJpa().addRecord(resO);
     }
 
-    public ReturnPersist getRet() {
-        return re;
-    }
 
     @Override
     protected void aftercommit() {
-        getRet(re, resO);
+        getRet(ret, resO);
     }
 }

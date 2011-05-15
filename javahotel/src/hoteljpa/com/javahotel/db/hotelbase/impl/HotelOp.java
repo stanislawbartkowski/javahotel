@@ -43,12 +43,9 @@ import javax.ejb.TransactionAttributeType;
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class HotelOp implements IHotelOp {
 
-    public void hotelOp(final SessionT sessionId, final HotelOpType op,
-            final CommandParam p) {
-        hotelopret(sessionId, op, p);
-    }
 
-    public ReturnPersist hotelOpRet(final SessionT sessionId,
+    @Override
+    public ReturnPersist hotelOp(final SessionT sessionId,
             final HotelOpType op, final CommandParam p) {
         return hotelopret(sessionId, op, p);
     }
@@ -62,7 +59,7 @@ public class HotelOp implements IHotelOp {
                 DictNumberRecord nu = new DictNumberRecord(sessionId,
                         p.getDict(null), new HotelT( p.getHotel()));
                 nu.run();
-                ret = nu.getRes();
+                ret = nu.getRet();
                 break;
                 
             case ChangeBookingToStay:
@@ -102,15 +99,17 @@ public class HotelOp implements IHotelOp {
         }
         return ret;
     }
-
-    public ReturnPersist hotelOpRet(SessionT sessionID, CommandParam p) {
-        return hotelOpRet(sessionID, p.getoP(), p);
+    
+    @Override
+    public ReturnPersist hotelOp(SessionT sessionID, CommandParam p) {
+        return hotelOp(sessionID, p.getoP(), p);
     }
 
-    public List<ReturnPersist> hotelOpRet(SessionT sessionID, List<CommandParam> p) {
+    @Override
+    public List<ReturnPersist> hotelOp(SessionT sessionID, List<CommandParam> p) {
         List<ReturnPersist> ret = new ArrayList<ReturnPersist>();
         for (CommandParam pa : p) {
-            ReturnPersist re = hotelOpRet(sessionID, pa);
+            ReturnPersist re = hotelOp(sessionID, pa);
             ret.add(re);
         }
         return ret;

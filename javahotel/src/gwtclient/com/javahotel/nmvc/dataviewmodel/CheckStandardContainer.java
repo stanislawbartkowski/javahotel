@@ -64,7 +64,6 @@ class CheckStandardContainer extends AbstractSlotContainer {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            LogT.getLS().info("SETGETTER 1");
             IVModelData mData = slContext.getVData();
             infoExtract.setStrings(mData, iCheck.getValues(), dataList);
             return slContext;

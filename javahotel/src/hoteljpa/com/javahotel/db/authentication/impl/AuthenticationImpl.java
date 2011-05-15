@@ -31,76 +31,91 @@ import com.javahotel.remoteinterfaces.SessionT;
 @Stateless(mappedName = "authenticationEJB")
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class AuthenticationImpl implements IAuthentication,
-		IAuthenticationLocal {
+        IAuthenticationLocal {
 
-	public AuthenticationImpl() {
-	}
-
-	public void persistHotel(final SessionT sessionId, final HotelT hotel,
-			final String description, final String database) {
-		PersistHotelCommand p = new PersistHotelCommand(sessionId, hotel,
-				description, database);
-		p.run();
-	}
-
-	public List<HotelP> getHotelList(final SessionT sessionId) {
-		return GetList.getHotelList(sessionId);
-	}
-
-	public void removeHotel(final SessionT sessionId, final HotelT hotel) {
-		RemoveHotelCommand p = new RemoveHotelCommand(sessionId, hotel);
-		p.run();
-	}
-
-	public void removePerson(final SessionT sessionId, final String person) {
-		RemovePersonCommand p = new RemovePersonCommand(sessionId, person);
-		p.run();
-	}
+    public AuthenticationImpl() {
+    }
 
     @Override
-	public void persistPersonHotel(final SessionT sessionId,
-			final String person, final HotelT hotel,
-			final List<String> principals) {
-		PersistPersonHotelCommand p = new PersistPersonHotelCommand(sessionId,
-				person, hotel, principals);
-		p.run();
-	}
+    public ReturnPersist persistHotel(final SessionT sessionId,
+            final HotelT hotel, final String description, final String database) {
+        PersistHotelCommand p = new PersistHotelCommand(sessionId, hotel,
+                description, database);
+        p.run();
+        return p.getRet();
+    }
 
     @Override
-	public void persistPerson(final SessionT sessionId, final String person,
-			final PasswordT password) {
-		PersistPersonCommand p = new PersistPersonCommand(sessionId, person,
-				password);
-		p.run();
-	}
+    public List<HotelP> getHotelList(final SessionT sessionId) {
+        return GetList.getHotelList(sessionId);
+    }
 
     @Override
-	public void clearAuthBase(final SessionT sessionId) {
-		ClearAuthBaseCommand p = new ClearAuthBaseCommand(sessionId);
-		p.run();
-	}
+    public ReturnPersist removeHotel(final SessionT sessionId,
+            final HotelT hotel) {
+        RemoveHotelCommand p = new RemoveHotelCommand(sessionId, hotel);
+        p.run();
+        return p.getRet();
+    }
 
     @Override
-	public List<PersonP> getPersonList(final SessionT sessionId) {
-		return GetList.getPersonList(sessionId);
-	}
+    public ReturnPersist removePerson(final SessionT sessionId,
+            final String person) {
+        RemovePersonCommand p = new RemovePersonCommand(sessionId, person);
+        p.run();
+        return p.getRet();
+    }
 
-	public List<String> getPersonHotelRoles(final SessionT sessionId,
-			final String person, final HotelT hotel) {
-		return GetList.getPersonHotelRoles(sessionId, person, hotel);
-	}
+    @Override
+    public ReturnPersist persistPersonHotel(final SessionT sessionId,
+            final String person, final HotelT hotel,
+            final List<String> principals) {
+        PersistPersonHotelCommand p = new PersistPersonHotelCommand(sessionId,
+                person, hotel, principals);
+        p.run();
+        return p.getRet();
+    }
 
-	public ReturnPersist testPersistHotel(SessionT sessionId, PersistType t,
-			HotelP ho) {
-		TestPersist te = new TestPersist(sessionId, t, ho);
-		te.command();
-		return te.getRet();
-	}
+    @Override
+    public ReturnPersist persistPerson(final SessionT sessionId,
+            final String person, final PasswordT password) {
+        PersistPersonCommand p = new PersistPersonCommand(sessionId, person,
+                password);
+        p.run();
+        return p.getRet();
+    }
 
-	public ReturnPersist testPersistPerson(SessionT sessionId, PersistType t,
-			PersonP pe) {
-		TestPersist te = new TestPersist(sessionId, t, pe);
-		te.command();
-		return te.getRet();
-	}
+    @Override
+    public ReturnPersist clearAuthBase(final SessionT sessionId) {
+        ClearAuthBaseCommand p = new ClearAuthBaseCommand(sessionId);
+        p.run();
+        return p.getRet();
+    }
+
+    @Override
+    public List<PersonP> getPersonList(final SessionT sessionId) {
+        return GetList.getPersonList(sessionId);
+    }
+
+    @Override
+    public List<String> getPersonHotelRoles(final SessionT sessionId,
+            final String person, final HotelT hotel) {
+        return GetList.getPersonHotelRoles(sessionId, person, hotel);
+    }
+
+    @Override
+    public ReturnPersist validatePersistHotel(SessionT sessionId,
+            PersistType t, HotelP ho) {
+        TestPersist te = new TestPersist(sessionId, t, ho);
+        te.command();
+        return te.getRet();
+    }
+
+    @Override
+    public ReturnPersist validatePersistPerson(SessionT sessionId,
+            PersistType t, PersonP pe) {
+        TestPersist te = new TestPersist(sessionId, t, pe);
+        te.command();
+        return te.getRet();
+    }
 }

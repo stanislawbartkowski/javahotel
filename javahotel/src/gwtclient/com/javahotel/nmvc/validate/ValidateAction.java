@@ -51,7 +51,6 @@ import com.javahotel.nmvc.common.VField;
 public class ValidateAction extends AbstractSlotContainer implements
         IDataValidateAction {
 
-//    private final IDataType dType;
     private final DictValidatorFactory valFactory;
 
     private class Validate implements ISignalValidate {

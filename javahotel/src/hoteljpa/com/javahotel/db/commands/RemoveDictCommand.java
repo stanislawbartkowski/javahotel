@@ -13,6 +13,7 @@
 package com.javahotel.db.commands;
 
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.db.hotelbase.types.IPureDictionary;
 import com.javahotel.dbres.messid.IMessId;
@@ -20,7 +21,7 @@ import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class RemoveDictCommand extends CommandAbstract {
@@ -30,16 +31,16 @@ public class RemoveDictCommand extends CommandAbstract {
 
     public RemoveDictCommand(final SessionT se, final DictType d,
             final DictionaryP a) {
-        super(se, true, new HotelT(a.getHotel()),false);
+        super(se, true, new HotelT(a.getHotel()), false);
         this.d = d;
         this.a = a;
     }
-    
+
     private void logS(GetObjectRes o) {
-    	IPureDictionary oo = o.getO();
-		String logs = iC.getRecordDescr(d,oo);
-		String logm = iC.logEvent(IMessId.DELETEDICTRECORD,logs);
-		iC.getLog().getL().info(logm);		
+        IPureDictionary oo = o.getO();
+        String logs = iC.getRecordDescr(d, oo);
+        String logm = iC.logEvent(IMessId.DELETEDICTRECORD, logs);
+        iC.getLog().getL().info(logm);
 
     }
 

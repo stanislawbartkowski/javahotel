@@ -24,31 +24,31 @@ import com.javahotel.common.toobject.PersonP;
 @Remote
 public interface IAuthentication {
 
-	public void persistHotel(SessionT sessionId, HotelT hotel,
-			String description, String database);
+    public ReturnPersist persistHotel(SessionT sessionId, HotelT hotel,
+            String description, String database);
 
-	public ReturnPersist testPersistHotel(SessionT sessionId, PersistType t,
-			HotelP hotel);
+    public ReturnPersist validatePersistHotel(SessionT sessionId,
+            PersistType t, HotelP hotel);
 
-	public ReturnPersist testPersistPerson(SessionT sessionId, PersistType t,
-			PersonP person);
+    public ReturnPersist validatePersistPerson(SessionT sessionId,
+            PersistType t, PersonP person);
 
-	public void removeHotel(SessionT sessionId, HotelT hotel);
+    public ReturnPersist removeHotel(SessionT sessionId, HotelT hotel);
 
-	public List<HotelP> getHotelList(SessionT sessionId);
+    public List<HotelP> getHotelList(SessionT sessionId);
 
-	public void clearAuthBase(SessionT sessionId);
+    public ReturnPersist clearAuthBase(SessionT sessionId);
 
-	public void persistPersonHotel(SessionT sessionId, String person,
-			HotelT hotel, List<String> roles);
+    public ReturnPersist persistPersonHotel(SessionT sessionId, String person,
+            HotelT hotel, List<String> roles);
 
-	public List<String> getPersonHotelRoles(SessionT sessionId,
-			String person, HotelT hotel);
+    public List<String> getPersonHotelRoles(SessionT sessionId, String person,
+            HotelT hotel);
 
-	public void persistPerson(SessionT sessionId, String person,
-			PasswordT password);
+    public ReturnPersist persistPerson(SessionT sessionId, String person,
+            PasswordT password);
 
-	public void removePerson(SessionT sessionId, String person);
+    public ReturnPersist removePerson(SessionT sessionId, String person);
 
-	public List<PersonP> getPersonList(SessionT sessionId);
+    public List<PersonP> getPersonList(SessionT sessionId);
 }

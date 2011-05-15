@@ -34,7 +34,6 @@ import com.javahotel.dbjpa.ejb3.JpaEntity;
 import com.javahotel.dbres.log.HLog;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
-import java.util.List;
 
 /**
  * 

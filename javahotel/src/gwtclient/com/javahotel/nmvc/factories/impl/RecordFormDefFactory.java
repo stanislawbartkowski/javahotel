@@ -26,12 +26,8 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.idialog.GetIEditFactory;
-import com.javahotel.client.ifield.ILineField;
-import com.javahotel.client.mvc.record.model.RecordField;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
@@ -128,35 +124,6 @@ public class RecordFormDefFactory implements IFormTitleFactory, IFormDefFactory 
                 fList.add(new FormField("Usługa", new VField(
                         BookElemP.F.service)));
 
-                // ILineField checkIn = GetIEditFactory.getTextCalendard(rI);
-                // ILineField checkOut = GetIEditFactory.getTextCalendard(rI);
-                // p = rI.getR().getHotelCommandParam();
-                // p.setDict(DictType.RoomObjects);
-                // ILineField resObject = GetIEditFactory.getListValuesBox(rI,
-                // RType.ListDict, p, DictionaryP.F.name, null);
-                // ILineField service = GetIEditFactory.getLBEditI(rI);
-                // dict = new ArrayList<RecordField>();
-                // dict.add(new RecordField("Rezerwacja od", checkIn,
-                // BookElemP.F.checkIn, true));
-                // dict.add(new RecordField("Rezerwacja do", checkOut,
-                // BookElemP.F.checkOut, true));
-                // dict.add(new RecordField("Pokój", resObject,
-                // BookElemP.F.resObject,
-                // true));
-                // dict.add(new RecordField("Usługa", service,
-                // BookElemP.F.service,
-                // true));
-                //
-                //
-
-                // bookECol = new ArrayList<ColTitle>();
-                // bookECol.add(new ColTitle(BookElemP.F.checkIn, "Od",
-                // FieldDataType.constructDate()));
-                // bookECol.add(new ColTitle(BookElemP.F.checkOut, "Do",
-                // FieldDataType.constructDate()));
-                // bookECol.add(new ColTitle(BookElemP.F.resObject, "Pokój"));
-                // bookECol.add(new ColTitle(BookElemP.F.service, "Usługa"));
-
                 break;
             case BookRecord:
                 p = rI.getR().getHotelCommandParam();
@@ -247,27 +214,12 @@ public class RecordFormDefFactory implements IFormTitleFactory, IFormDefFactory 
                 break;
             case BookingList:
                 fList = getDict(false);
-                fList.add(new FormField("Od", new VField(
-                        BookingP.F.checkIn)));
-                fList.add(new FormField("Do", new VField(
-                        BookingP.F.checkOut)));
-                fList.add(new FormField("Sezon", new VField(
-                        BookingP.F.season)));
+                fList.add(new FormField("Od", new VField(BookingP.F.checkIn)));
+                fList.add(new FormField("Do", new VField(BookingP.F.checkOut)));
+                fList.add(new FormField("Sezon", new VField(BookingP.F.season)));
                 fList.add(new FormField("Liczba osób", new VField(
                         BookingP.F.noPersons)));
 
-//                ILineField dFrom = GetIEditFactory.getTextCalendard(rI);
-//                ILineField dTo = GetIEditFactory.getTextCalendard(rI);
-//                ILineField noPerson = GetIEditFactory.getNumEditI(rI);
-//                p = rI.getR().getHotelCommandParam();
-//                p.setDict(DictType.OffSeasonDict);
-//                season = GetIEditFactory.getListValuesBox(rI, RType.ListDict, p,
-//                        DictionaryP.F.name, null);
-//                dict.add(new RecordField("Od", dFrom, BookingP.F.checkIn, true));
-//                dict.add(new RecordField("Do", dTo, BookingP.F.checkOut, true));
-//                dict.add(new RecordField("Sezon", season, BookingP.F.season, true));
-//                dict.add(new RecordField("Liczba osób", noPerson,
-//                        BookingP.F.noPersons, true));
                 break;
 
             default:

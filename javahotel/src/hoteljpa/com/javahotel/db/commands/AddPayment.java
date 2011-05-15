@@ -12,8 +12,9 @@
  */
 package com.javahotel.db.commands;
 
+import java.util.List;
+
 import com.javahotel.common.command.BookingEnumTypes;
-import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.AddPaymentP;
 import com.javahotel.common.toobject.BillP;
 import com.javahotel.db.copy.AddPayments;
@@ -22,7 +23,6 @@ import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.dbres.resources.IMess;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
-import java.util.List;
 
 /**
  *
@@ -33,7 +33,6 @@ public class AddPayment extends CommandAbstract {
     private final String resName;
     private final List<AddPaymentP> col;
     private final BillP bill;
-    private final ReturnPersist re;
 
     public AddPayment(final SessionT se, final String ho, String resName,
             final BillP bill, List<AddPaymentP> col) {
@@ -41,7 +40,6 @@ public class AddPayment extends CommandAbstract {
         this.resName = resName;
         this.bill = bill;
         this.col = col;
-        re = new ReturnPersist();
     }
 
     @Override
@@ -55,11 +53,8 @@ public class AddPayment extends CommandAbstract {
             return;
         }
 
-        re.setIdName(AddPayments.addPayment(iC, b, bill, col));
+        ret.setIdName(AddPayments.addPayment(iC, b, bill, col));
         iC.getJpa().changeRecord(b);
     }
 
-    public ReturnPersist getRet() {
-        return re;
-    }
 }

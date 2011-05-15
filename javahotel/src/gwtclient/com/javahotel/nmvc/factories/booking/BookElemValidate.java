@@ -13,12 +13,17 @@
 package com.javahotel.nmvc.factories.booking;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.javahotel.client.abstractto.AbstractToFactory;
+import com.javahotel.client.dialog.DictData;
+import com.javahotel.common.toobject.AbstractTo;
 
 /**
  * @author hotel
@@ -30,6 +35,9 @@ class BookElemValidate extends AbstractSlotContainer implements IDataValidateAct
 
         @Override
         public void signal(ISlotSignalContext slContext) {
+            IVModelData pData = getGetterIVModelData(GetActionEnum.GetViewComposeModelEdited, dType);     
+ //    DictData da = (DictData) dType;
+ //           AbstractTo a = AbstractToFactory.getA(da);
             publish(DataActionEnum.ValidSignal, dType);
         }
     }

@@ -15,7 +15,6 @@ package com.javahotel.db.commands;
 import java.util.List;
 
 import com.javahotel.common.rescache.ReadResParam;
-import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.db.commands.bookstate.BookState;
 import com.javahotel.dbres.messid.IMessId;
