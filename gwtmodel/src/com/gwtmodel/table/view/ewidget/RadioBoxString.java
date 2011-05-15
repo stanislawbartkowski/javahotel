@@ -27,7 +27,6 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.LogT;
-import com.javahotel.client.MM;
 
 /**
  * 
