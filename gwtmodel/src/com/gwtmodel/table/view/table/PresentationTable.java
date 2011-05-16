@@ -33,7 +33,6 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
-import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
@@ -173,12 +172,6 @@ class PresentationTable implements IGwtTableView {
             this.he = he;
         }
 
-//         @Override
-//    public void render(Context context, Contact value, SafeHtmlBuilder sb) {
-//      if (value != null) {
-//        sb.appendEscaped(value.name);
-//      }
-//    }
         @Override
         public Number getValue(Integer object) {
             IVModelData v = model.getRows().get(object);

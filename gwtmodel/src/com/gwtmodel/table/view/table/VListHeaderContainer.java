@@ -27,12 +27,12 @@ public class VListHeaderContainer {
             int pageSize, String jsModifRow) {
         this.heList = heList;
         this.listTitle = listTitle;
-        this.pageSize = pageSize;
+        this.pageSize = pageSize <= 0 ? IConsts.defaultPage : pageSize;
         this.jsModifRow = jsModifRow;
     }
 
     public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
-        this(heList, listTitle, IConsts.defaultPage,null);
+        this(heList, listTitle, IConsts.defaultPage, null);
     }
 
     public List<VListHeaderDesc> getVisHeList() {
