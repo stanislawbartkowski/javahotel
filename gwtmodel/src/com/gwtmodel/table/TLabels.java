@@ -24,40 +24,71 @@ import com.google.gwt.i18n.client.Constants;
  */
 public interface TLabels extends Constants {
 
-	String DateFormNotValid();
+    String DateFormNotValid();
 
-	String NumberNotValid();
+    String NumberNotValid();
 
-	String From();
+    String From();
 
-	String To();
+    String To();
 
-	String Description();
+    String Description();
 
-	String NotFound();
+    String NotFound();
 
-	String NothingEntered();
+    String NothingEntered();
 
-	String AddNewRecord();
+    String AddNewRecord();
 
-	String ChangeRecord();
+    String ChangeRecord();
 
-	String SendingMail();
+    String SendingMail();
 
-	String MailFrom();
+    String MailFrom();
 
-	String SendingHeader();
+    String SendingHeader();
 
-	String SendingQuestion();
+    String SendingQuestion();
 
-	String MailBox();
+    String MailBox();
 
-	String MailSubject();
+    String MailSubject();
 
-	String MailContent();
+    String MailContent();
 
-	String MailTo();
-	
-	String EmptyFieldMessage();
+    String MailTo();
 
+    String EmptyFieldMessage();
+
+    String SearchButton();
+
+    String ClearParam();
+
+    String SearchFromBeginning();
+
+    String SearchNext();
+
+    String Yes();
+
+    String No();
+
+    String ClearParametersQuestion();
+
+    String SetFilter();
+
+    String RemoveFilter();
+
+    String Filter();
+
+    String Accept();
+
+    String Resign();
+    
+    String Choose();
+    
+    String Ok();
+    
+    String Print();
+    
+    String Remove();
 }

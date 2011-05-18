@@ -13,20 +13,22 @@
 package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.injector.LogT;
 
 public class ClickButtonType {
 
     public enum StandClickEnum {
 
         ADDITEM, REMOVEITEM, MODIFITEM, SHOWITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
-        CUSTOM, FILTRLIST, SETFILTER, REMOVEFILTER, FIND, FINDNOW, FINDNEXT,FINDFROMBEGINNING,
+        CUSTOM, FILTRLIST, SETFILTER, REMOVEFILTER, FIND, FINDNOW, FINDNEXT, FINDFROMBEGINNING,
+        CLEARFIND, CLEARFILTER,
         ALL
     };
     private StandClickEnum clickEnum;
     private String customButt;
 
     public ClickButtonType(StandClickEnum clickEnum) {
-        assert clickEnum != StandClickEnum.CUSTOM : "Must be connected to custom string";
+        assert clickEnum != StandClickEnum.CUSTOM : LogT.getT().mustBeConnectedToString();
         this.clickEnum = clickEnum;
         customButt = null;
     }

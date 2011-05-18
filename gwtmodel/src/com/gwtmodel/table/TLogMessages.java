@@ -81,4 +81,8 @@ public interface TLogMessages extends Messages {
     String GetterContainerDataViewModel();
     
     String GetterWidgetDataViewModel();
+    
+    String mustBeConnectedToString();
+    
+    String notFoundSignalNotNull();
 }
