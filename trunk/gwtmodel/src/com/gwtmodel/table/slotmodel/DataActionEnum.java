@@ -34,6 +34,8 @@ public enum DataActionEnum {
     ChangeViewComposeFormModeAction,
     /** Change view mode to invalid state / InvalidateFormContainer. */
     ChangeViewFormToInvalidAction,
+    /** ClearForm action. */
+    ClearViewFormAction,
     /** Draw form. / IVModeData. */
     DrawViewFormAction,
     /** Draw form. / IVModeData. */

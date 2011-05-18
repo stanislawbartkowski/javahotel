@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.datamodelview;
 
+import com.google.gwt.user.client.Window;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
@@ -44,6 +45,15 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private final IDataModelFactory dFactory;
     private final ICallContext iContext;
 
+    private class ClearAction implements ISlotSignaller {
+
+        public void signal(ISlotSignalContext slContext) {
+            for (FormField fie : fContainer.getfList()) {
+                fie.getELine().setValObj(null);
+            }
+        }
+    }
+
     private class ChangeMode implements ISlotSignaller {
 
         @Override
@@ -52,22 +62,22 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             for (FormField fie : fContainer.getfList()) {
                 IFormLineView vie = fie.getELine();
                 switch (persistTypeEnum) {
-                case ADD:
-                    vie.setReadOnly(false);
-                    break;
-                case MODIF:
-                    if (fie.isReadOnlyIfModif()) {
-                        vie.setReadOnly(true);
-                    } else {
+                    case ADD:
                         vie.setReadOnly(false);
-                    }
-                    break;
-                case REMOVE:
-                    vie.setReadOnly(true);
-                    break;
-                case SHOWONLY:
-                    vie.setReadOnly(true);
-                    break;
+                        break;
+                    case MODIF:
+                        if (fie.isReadOnlyIfModif()) {
+                            vie.setReadOnly(true);
+                        } else {
+                            vie.setReadOnly(false);
+                        }
+                        break;
+                    case REMOVE:
+                        vie.setReadOnly(true);
+                        break;
+                    case SHOWONLY:
+                        vie.setReadOnly(true);
+                        break;
                 }
             }
         }
@@ -123,8 +133,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext
-                    .getValidateError();
+            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext.getValidateError();
             gView.showInvalidate(errContainer);
         }
     }
@@ -151,8 +160,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         iContext.setdType(dType);
         // suspicious this in constructor, but as designed
         iContext.setiSlo(this);
-        gView = gFactory.construct(iContext, fContainer, iContext.getC()
-                .getDataFormConstructorAbstractFactory().construct(iContext));
+        gView = gFactory.construct(iContext, fContainer, iContext.getC().getDataFormConstructorAbstractFactory().construct(iContext));
         if (dFactory == null) {
             this.dFactory = iContext.getC().getDataModelFactory();
         } else {
@@ -165,6 +173,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 new ChangeMode());
         registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
                 new DrawModel());
+        registerSubscriber(DataActionEnum.ClearViewFormAction, dType,
+                new ClearAction());
         registerCaller(GetActionEnum.GetViewModelEdited, dType,
                 new GetterModel());
         registerCaller(GetActionEnum.GetFormFieldWidget, dType,

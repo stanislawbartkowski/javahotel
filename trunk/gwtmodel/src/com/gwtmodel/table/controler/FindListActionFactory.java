@@ -13,10 +13,12 @@
 package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.Empty;
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.ISignal;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
@@ -25,6 +27,7 @@ import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
@@ -43,6 +46,7 @@ import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.OkDialog;
+import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +78,7 @@ class FindListActionFactory {
 
     private class GetHeader implements ISlotSignaller {
 
-        VListHeaderContainer listHeader = null;
+        private VListHeaderContainer listHeader = null;
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -109,8 +113,71 @@ class FindListActionFactory {
         @Override
         public void signal(ISlotSignalContext slContext) {
             OkDialog ok = new OkDialog(MM.getL().NotFound(), null, null);
+            if (w == null) {
+                Utils.errAlert("signal", LogT.getT().notFoundSignalNotNull());
+            }
             ok.show(w.getGWidget());
         }
+
+        /**
+         * @param w the w to set
+         */
+        public void setW(IGWidget w) {
+            this.w = w;
+            if (w == null) {
+                Utils.errAlert("setW", LogT.getT().notFoundSignalNotNull());
+            }
+        }
+    }
+
+    private class ClearParam implements ISlotSignaller {
+
+        private final ISlotMediator slMediator;
+        private final List<FormField> liF;
+        private final List<VListHeaderDesc> li;
+        private final NotFoundSignal nF;
+
+        ClearParam(ISlotMediator slMediator, List<FormField> liF,
+                List<VListHeaderDesc> li, NotFoundSignal nF) {
+            this.slMediator = slMediator;
+            this.liF = liF;
+            this.li = li;
+            this.nF = nF;
+        }
+
+        public void signal(ISlotSignalContext slContext) {
+            FData fa = returnNotEmpty(slMediator, liF, li, slContext, nF);
+            if (fa == null) {
+                return;
+            }
+            IClickYesNo yes = new IClickYesNo() {
+
+                public void click(boolean yes) {
+                    if (yes) {
+                        slMediator.getSlContainer().publish(DataActionEnum.ClearViewFormAction,
+                                eType);
+
+                    }
+                }
+            };
+            YesNoDialog yesDialog = new YesNoDialog(MM.getL().ClearParametersQuestion(), yes);
+            yesDialog.show(nF.w.getGWidget());
+        }
+    }
+
+    private FData returnNotEmpty(ISlotMediator slMediator, List<FormField> liF,
+            List<VListHeaderDesc> li, ISlotSignalContext slContext, NotFoundSignal nF) {
+        FData fa = new FData(liF, li);
+        slMediator.getSlContainer().getGetterIVModelData(
+                GetActionEnum.GetViewModelEdited, eType, fa);
+        IGWidget w = slContext.getGwtWidget();
+        nF.setW(w);
+        if (fa.isEmpty()) {
+            OkDialog ok = new OkDialog(MM.getL().NothingEntered(), null, null);
+            ok.show(w.getGWidget());
+            return null;
+        }
+        return fa;
     }
 
     private class SetFilter implements ISlotSignaller {
@@ -142,16 +209,7 @@ class FindListActionFactory {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            FData fa = new FData(liF, li);
-            slMediator.getSlContainer().getGetterIVModelData(
-                    GetActionEnum.GetViewModelEdited, eType, fa);
-            IGWidget w = slContext.getGwtWidget();
-            nF.w = w;
-            if (fa.isEmpty()) {
-                OkDialog ok = new OkDialog(MM.getL().NothingEntered(), null, null);
-                ok.show(w.getGWidget());
-                return;
-            }
+            FData fa = returnNotEmpty(slMediator, liF, li, slContext, nF);
             publishSlo.getSlContainer().publish(a,
                     publishdType, fa.constructIOk());
             if (hide) {
@@ -257,6 +315,7 @@ class FindListActionFactory {
 
             String title = listParam.getFormFactory().getFormTitle(ddType);
             final DrawForm dForm = new DrawForm(wSize, title, action, modal);
+            ISlotSignaller clearS = new ClearParam(slMediator, liF, li, nF);
             slMediator.getSlContainer().registerSubscriber(eType, panelId, dForm);
             ResignAction aRes = new ResignAction(dForm, remF);
             slMediator.getSlContainer().registerSubscriber(
@@ -281,6 +340,10 @@ class FindListActionFactory {
             slMediator.getSlContainer().registerSubscriber(
                     ClickButtonType.StandClickEnum.REMOVEFILTER,
                     new RemoveFilter(dForm, publishSlo, publishdType));
+            slMediator.getSlContainer().registerSubscriber(
+                    ClickButtonType.StandClickEnum.CLEARFILTER, clearS);
+            slMediator.getSlContainer().registerSubscriber(
+                    ClickButtonType.StandClickEnum.CLEARFIND, clearS);
             publishSlo.getSlContainer().registerSubscriber(DataActionEnum.NotFoundSignal,
                     publishdType, nF);
 

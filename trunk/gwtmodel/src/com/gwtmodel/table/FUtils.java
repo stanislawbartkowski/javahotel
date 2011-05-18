@@ -218,8 +218,8 @@ public class FUtils {
     }
 
     private static int compString(IVModelData row, IVField f, IVModelData filter, IVField from, boolean first) {
-        String rS = getValueString(row, f);
-        String fS = getValueString(filter, from);
+        String rS = getValueString(row, f).toUpperCase();
+        String fS = getValueString(filter, from).toUpperCase();
         if (first) {
             if (rS.indexOf(fS) != -1) {
                 return 0;
