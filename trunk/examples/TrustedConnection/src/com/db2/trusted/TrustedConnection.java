@@ -36,6 +36,16 @@ public class TrustedConnection {
     private Object[] objects;
     private final DB2ConnectionPoolDataSource dataSource;
 
+    /**
+     * Constructor, provide all details necessary to estalish trusted connecton
+     * @param portNumber  port number (most common is 50000)
+     * @param databaseName e.g SAMPLE
+     * @param userName e.g trust
+     * @param password e.g trustme
+     * @param hostName IP address or hostname
+     * @param defaultSchema e.g DB2INST1 (important: case sensitive !)
+     */
+            
     public TrustedConnection(int portNumber, String databaseName,
             String userName, String password, String hostName,
             String defaultSchema) {
@@ -48,6 +58,10 @@ public class TrustedConnection {
         dataSource = new DB2ConnectionPoolDataSource();
     }
 
+    /**
+     * Establishes trusted connection, should be called only once
+     * @throws SQLException
+     */
     public void trustConnect() throws SQLException {
         dataSource.setDatabaseName(databaseName);
         dataSource.setServerName(hostName);
@@ -60,6 +74,12 @@ public class TrustedConnection {
                 new java.util.Properties());
     }
 
+    /**
+     * Switch and reuse trusted connection as different user (without authentication)
+     * @param newUser id of the new user
+     * @return Connection (java.sqlx)
+     * @throws SQLException
+     */
     public Connection useConnection(String newUser) throws SQLException {
         DB2PooledConnection pooledCon = (DB2PooledConnection) objects[0];
         Properties properties = new Properties();
@@ -72,6 +92,13 @@ public class TrustedConnection {
         return con;
     }
 
+    /**
+     * For the purpose of JdbcTemplate. 
+     * DataSource with getConnection method override
+     * New user id as constructor parameter
+     * @author sbartkowski
+     *
+     */
     private class TrustedDataSource implements DataSource {
 
         private final String newUser;
