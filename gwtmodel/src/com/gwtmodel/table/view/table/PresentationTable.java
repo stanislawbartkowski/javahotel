@@ -37,6 +37,9 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.GwtTableInjector;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
@@ -47,7 +50,7 @@ import java.util.List;
  * @author perseus
  */
 class PresentationTable implements IGwtTableView {
-
+    
     private final ICommand iClick;
     private final CellTable<Integer> table = new CellTable<Integer>();
     private IGwtTableModel model = null;
@@ -61,14 +64,15 @@ class PresentationTable implements IGwtTableView {
     private final List<Integer> dList;
     private boolean whilefind = false;
     private IModifyRowStyle iModRow = null;
-
+    private final IGetCustomValues cValues;
+    
     public void setModifyRowStyle(IModifyRowStyle iMod) {
         this.iModRow = iMod;
         if (iMod != null) {
             table.setRowStyles(new TStyles());
         }
     }
-
+    
     private class TStyles implements RowStyles<Integer> {
 
 // tr.wait-reply
@@ -77,9 +81,9 @@ class PresentationTable implements IGwtTableView {
             return iModRow.newRowStyle(v);
         }
     }
-
+    
     private class SelectionChange implements SelectionChangeEvent.Handler {
-
+        
         @Override
         public void onSelectionChange(SelectionChangeEvent event) {
             Integer sel = selectionModel.getSelectedObject();
@@ -98,7 +102,7 @@ class PresentationTable implements IGwtTableView {
             whilefind = false;
         }
     }
-
+    
     PresentationTable(ICommand iClick) {
         this.iClick = iClick;
         selectionModel.addSelectionChangeHandler(new SelectionChange());
@@ -107,16 +111,18 @@ class PresentationTable implements IGwtTableView {
         sPager.setDisplay(table);
         dProvider.addDataDisplay(table);
         setEmpty();
+        cValues = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        dCell = new DateCell(DateTimeFormat.getFormat(cValues.getCustomValue(IGetCustomValues.DATEFORMAT)));
     }
-
+    
     private class TColumn extends TextColumn<Integer> {
-
+        
         private final IVField iF;
-
+        
         TColumn(IVField iF) {
             this.iF = iF;
         }
-
+        
         @Override
         public String getValue(Integer object) {
             IVModelData v = model.getRows().get(object);
@@ -128,50 +134,50 @@ class PresentationTable implements IGwtTableView {
     private final NumberCell nCell2 = new NumberCell(NumberFormat.getFormat("###########.##"));
     private final NumberCell nCell3 = new NumberCell(NumberFormat.getFormat("###########.###"));
     private final NumberCell nCell4 = new NumberCell(NumberFormat.getFormat("###########.####"));
-    private final DateCell dCell = new DateCell(DateTimeFormat.getFormat("yyyy.MM.dd"));
-
+    private final DateCell dCell;
+    
     private class LongColumn extends Column<Integer, Number> {
-
+        
         private final VListHeaderDesc he;
-
+        
         LongColumn(VListHeaderDesc he) {
             super(iCell);
             this.he = he;
         }
-
+        
         @Override
         public Long getValue(Integer object) {
             IVModelData v = model.getRows().get(object);
             return FUtils.getValueLong(v, he.getFie());
-
+            
         }
     }
-
+    
     private class DateColumn extends Column<Integer, Date> {
-
+        
         private final VListHeaderDesc he;
-
+        
         DateColumn(VListHeaderDesc he) {
             super(dCell);
             this.he = he;
         }
-
+        
         @Override
         public Date getValue(Integer object) {
             IVModelData v = model.getRows().get(object);
             return FUtils.getValueDate(v, he.getFie());
         }
     }
-
+    
     private abstract class NumberColumn extends Column<Integer, Number> {
-
+        
         private final VListHeaderDesc he;
-
+        
         NumberColumn(NumberCell n, VListHeaderDesc he) {
             super(n);
             this.he = he;
         }
-
+        
         @Override
         public Number getValue(Integer object) {
             IVModelData v = model.getRows().get(object);
@@ -179,50 +185,50 @@ class PresentationTable implements IGwtTableView {
             return b;
         }
     }
-
+    
     private class NumberColumn1 extends NumberColumn {
-
+        
         NumberColumn1(VListHeaderDesc he) {
             super(nCell1, he);
         }
     }
-
+    
     private class NumberColumn2 extends NumberColumn {
-
+        
         NumberColumn2(VListHeaderDesc he) {
             super(nCell2, he);
         }
     }
-
+    
     private class NumberColumn3 extends NumberColumn {
-
+        
         NumberColumn3(VListHeaderDesc he) {
             super(nCell3, he);
         }
     }
-
+    
     private class NumberColumn4 extends NumberColumn {
-
+        
         NumberColumn4(VListHeaderDesc he) {
             super(nCell4, he);
         }
     }
-
+    
     private class CoComparator implements Comparator<Integer> {
-
+        
         private final VListHeaderDesc he;
-
+        
         CoComparator(VListHeaderDesc he) {
             this.he = he;
         }
-
+        
         public int compare(Integer o1, Integer o2) {
             IVModelData v1 = model.getRows().get(o1);
             IVModelData v2 = model.getRows().get(o2);
             return FUtils.compareValue(v1, he.getFie(), v2, he.getFie());
         }
     }
-
+    
     private void createHeader() {
         if (model == null) {
             return;
@@ -266,7 +272,7 @@ class PresentationTable implements IGwtTableView {
             }
             co.setSortable(true);
             table.addColumn(co, he.getHeaderString());
-
+            
             ListHandler<Integer> columnSortHandler = new ListHandler<Integer>(
                     dList);
             columnSortHandler.setComparator(co, new CoComparator(he));
@@ -274,7 +280,7 @@ class PresentationTable implements IGwtTableView {
         }
         columnC = true;
     }
-
+    
     private void drawRows() {
         if ((model == null) || !model.containsData()) {
             table.setRowCount(0, true);
@@ -302,29 +308,29 @@ class PresentationTable implements IGwtTableView {
             }
         }
     }
-
+    
     private void setEmpty() {
         wChoosed = new WChoosedLine();
     }
-
+    
     private class P {
-
+        
         private final int pStart;
         private final int pRow;
-
+        
         P(int pStart, int pRow) {
             this.pStart = pStart;
             this.pRow = pRow;
         }
     }
-
+    
     private P cPage(int li) {
         int pSize = table.getPageSize();
         int pStart = (li / pSize) * pSize;
         int pRow = li - pStart * pSize;
         return new P(pStart, pRow);
     }
-
+    
     private P setSelected() {
         if (!wChoosed.isChoosed()) {
             table.setPageStart(0);
@@ -338,18 +344,18 @@ class PresentationTable implements IGwtTableView {
         }
         return cPage(li);
     }
-
+    
     @Override
     public void refresh() {
         createHeader();
         drawRows();
     }
-
+    
     @Override
     public WChoosedLine getClicked() {
         return wChoosed;
     }
-
+    
     private WChoosedLine pgetClicked(Integer sel) {
         if (sel == null) {
             return new WChoosedLine();
@@ -362,24 +368,24 @@ class PresentationTable implements IGwtTableView {
                 ro.getClientHeight(), ro.getClientWidth());
         return new WChoosedLine(i, w);
     }
-
+    
     @Override
     public IGwtTableModel getViewModel() {
         return model;
     }
-
+    
     @Override
     public void setModel(IGwtTableModel model) {
         this.model = model;
         createHeader();
         drawRows();
     }
-
+    
     @Override
     public Widget getGWidget() {
         return vPanel;
     }
-
+    
     @Override
     public void setClicked(int clickedno) {
         int pStart = table.getPageStart();

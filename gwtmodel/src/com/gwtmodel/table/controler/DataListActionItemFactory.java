@@ -43,6 +43,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.util.GetActionName;
+import com.gwtmodel.table.view.util.ICloseAction;
 import com.gwtmodel.table.view.util.ModalDialog;
 
 /**
@@ -120,13 +121,15 @@ class DataListActionItemFactory {
         private final ClickButtonType.StandClickEnum action;
         private FormDialog d;
         private final boolean modal;
+        private final ICloseAction o;
 
         DrawForm(WSize wSize, String title,
-                ClickButtonType.StandClickEnum action, boolean modal) {
+                ClickButtonType.StandClickEnum action, boolean modal, ICloseAction o) {
             this.wSize = wSize;
             this.title = title;
             this.action = action;
             this.modal = modal;
+            this.o = o;
         }
 
         @Override
@@ -136,6 +139,9 @@ class DataListActionItemFactory {
             VerticalPanel vp = new VerticalPanel();
             d = new FormDialog(vp, title + " / " + addTitle, w, modal);
             d.show(wSize);
+            if (o != null) {
+                d.setOnClose(o);
+            }
         }
 
         void hide() {
@@ -278,7 +284,7 @@ class DataListActionItemFactory {
 
             SlotListContainer slControlerContainer = fController.getSlContainer();
             String title = listParam.getFormFactory().getFormTitle(dType);
-            DrawForm dForm = new DrawForm(wSize, title, action, true);
+            DrawForm dForm = new DrawForm(wSize, title, action, true, null);
             slControlerContainer.registerSubscriber(dType, cId, dForm);
             ResignAction aRes = new ResignAction(dForm, null);
             slControlerContainer.registerSubscriber(

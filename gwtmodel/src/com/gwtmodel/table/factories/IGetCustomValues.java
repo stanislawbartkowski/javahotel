@@ -26,8 +26,6 @@ public interface IGetCustomValues {
     String COUNTCALLBACK = "COUNTCALLBACK";
     String QUESTION = "QUESTION";
     String INFO = "INFO";
-    String ACCEPT = "ACCEPT";
-    String RESIGN = "RESIGN";
     String MODIFITEM = "MODIFITEM";
     String ADDITEM = "ADDITEM";
     String SHOWITEM = "SHOWITEM";
@@ -35,10 +33,11 @@ public interface IGetCustomValues {
     String LOGINMAME = "LOGINNAME";
     String PASSWORD = "PASSWORD";
     String LOGINBUTTON = "LOGINBUTTON";
+    String DATEFORMAT = "DATEFORMAT";
 
     String getCustomValue(String key);
 
     boolean compareComboByInt();
-    
+
     boolean addEmptyAsDefault();
 }

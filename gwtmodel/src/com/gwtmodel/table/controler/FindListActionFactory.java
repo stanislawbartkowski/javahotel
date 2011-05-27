@@ -45,6 +45,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.view.util.ICloseAction;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
@@ -271,7 +272,7 @@ class FindListActionFactory {
             if (!isFilter() && slMediator != null) {
                 return;
             }
-            ISignal remF = new Re();
+            final ISignal remF = new Re();
             IGWidget wi = slContext.getGwtWidget();
             WSize wSize = new WSize(wi.getGWidget());
             List<VListHeaderDesc> li = gHeader.listHeader.getVisHeList();
@@ -314,7 +315,13 @@ class FindListActionFactory {
             slMediator.registerSlotContainer(controlId, bView);
 
             String title = listParam.getFormFactory().getFormTitle(ddType);
-            final DrawForm dForm = new DrawForm(wSize, title, action, modal);
+            ICloseAction o = new ICloseAction() {
+
+                public void onClose() {
+                    remF.signal();
+                }
+            };
+            final DrawForm dForm = new DrawForm(wSize, title, action, modal, o);
             ISlotSignaller clearS = new ClearParam(slMediator, liF, li, nF);
             slMediator.getSlContainer().registerSubscriber(eType, panelId, dForm);
             ResignAction aRes = new ResignAction(dForm, remF);

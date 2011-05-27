@@ -14,7 +14,8 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.common.DateFormatUtil;
+//import com.gwtmodel.table.common.DateFormatUtil;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import java.util.Date;
@@ -42,10 +43,6 @@ class DateBoxCalendar extends AbstractField {
         db.setValue((Date) o);
     }
 
-//    @Override
-//    public Object getObj() {
-//        return getDate();
-//    }
     private class DFormat implements DateBox.Format {
 
         @Override
@@ -53,12 +50,12 @@ class DateBoxCalendar extends AbstractField {
             if (date == null) {
                 return "";
             }
-            return DateFormatUtil.toS(date);
+            return Utils.toS(date);
         }
 
         @Override
         public Date parse(DateBox dateBox, String text, boolean reportError) {
-            return DateFormatUtil.toD(text);
+            return Utils.toD(text);
         }
 
         @Override
@@ -73,31 +70,10 @@ class DateBoxCalendar extends AbstractField {
         db.addValueChangeHandler(new ValueChange());
         db.getTextBox().addKeyboardListener(new Touch(iTouch));
         initWidget(db);
-//        setMouse();
     }
 
     @Override
     public void addChangeListener(final IFormChangeListener l) {
         super.addChangeListener(l);
     }
-//    @Override
-//    public void setVal(String v) {
-//        if (CUtil.EmptyS(v)) {
-//            return;
-//        }
-//        Date d = DateFormatUtil.toD(v);
-//        db.setValue(d);
-//    }
-//
-//    @Override
-//    public String getVal() {
-//        Date d = db.getValue();
-//        return DateFormatUtil.toS(d);
-//    }
-//
-//    @Override
-//    public boolean emptyF() {
-//        String s = getVal();
-//        return CUtil.EmptyS(s);
-//    }
 }

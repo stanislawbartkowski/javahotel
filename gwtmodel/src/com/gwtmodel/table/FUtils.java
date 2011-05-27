@@ -13,7 +13,7 @@
 package com.gwtmodel.table;
 
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.common.DateFormatUtil;
+//import com.gwtmodel.table.common.DateFormatUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import java.math.BigDecimal;
@@ -88,7 +88,7 @@ public class FUtils {
                 o = Utils.toLong(s);
                 break;
             case DATE:
-                o = DateFormatUtil.toD(s);
+                o = Utils.toD(s);
                 break;
             case INT:
                 o = Utils.toInteger(s);
@@ -348,7 +348,7 @@ public class FUtils {
 
     private static String getDateS(Object o, IVField f) {
         Date d = (Date) o;
-        return DateFormatUtil.toS(d);
+        return Utils.toS(d);
     }
 
     private static String getLongS(Object o, IVField f) {
@@ -444,7 +444,7 @@ public class FUtils {
     }
 
     private static InvalidateMess checkDate(IVField f, String s) {
-        if (DateFormatUtil.toD(s) != null) {
+        if (Utils.toD(s) != null) {
             return null;
         }
         return new InvalidateMess(f, MM.getL().DateFormNotValid());

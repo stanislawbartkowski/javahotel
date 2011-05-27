@@ -16,6 +16,7 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.injector.WebPanelHolder;
 
 public class GwtTableFactory {
+    
 
     public IGwtTableView construct(ICommand click) {
         switch (WebPanelHolder.getTableType()) {
