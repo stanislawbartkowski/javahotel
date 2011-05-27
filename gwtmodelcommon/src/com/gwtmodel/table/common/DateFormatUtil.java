@@ -19,7 +19,7 @@ import java.util.Date;
  *
  * @author stanislawbartkowski@gmail.com
  */
-public class DateFormatUtil {
+class DateFormatUtil {
 
     private static int toI(final String s, final int len)
             throws NumberFormatException {
@@ -34,7 +34,7 @@ public class DateFormatUtil {
         }
     }
 
-    public static String toNS(final int nu, final int ma) {
+    private static String toNS(final int nu, final int ma) {
         String s = new Integer(nu).toString();
         while (s.length() < ma) {
             s = "0" + s;

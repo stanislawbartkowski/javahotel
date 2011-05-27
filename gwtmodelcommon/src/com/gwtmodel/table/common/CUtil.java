@@ -107,4 +107,12 @@ public class CUtil {
         }
         return (Long) val;
     }
+
+    public static String toNS(final int nu, final int ma) {
+        String s = new Integer(nu).toString();
+        while (s.length() < ma) {
+            s = "0" + s;
+        }
+        return s;
+    }
 }
