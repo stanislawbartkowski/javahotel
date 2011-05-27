@@ -19,7 +19,6 @@ package com.gwtmodel.table.datelist;
 import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.common.DateFormatUtil;
 import java.util.Date;
 import java.util.List;
 
@@ -70,10 +69,10 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
         DatePeriodField d = (DatePeriodField) fie;
         switch (d.getFie()) {
             case DATEFROM:
-                setdFrom(DateFormatUtil.DToD(val));
+                setdFrom(Utils.DToD(val));
                 break;
             case DATETO:
-                setdTo(DateFormatUtil.DToD(val));
+                setdTo(Utils.DToD(val));
                 break;
             case COMMENT:
                 setComment((String) val);

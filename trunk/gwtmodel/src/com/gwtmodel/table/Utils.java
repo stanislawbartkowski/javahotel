@@ -18,16 +18,18 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.common.DateFormatUtil;
+//import com.gwtmodel.table.common.DateFormatUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import java.math.BigDecimal;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.gwtmodel.table.injector.WebPanelHolder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Utils {
@@ -175,13 +177,46 @@ public class Utils {
         String s = DecimalToS(b);
         return new Double(s);
     }
+    
+    public static String getDateFormat() {
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        String f = c.getCustomValue(IGetCustomValues.DATEFORMAT);
+        return f;        
+    }
+    
+    private static DateTimeFormat getDateTimeFormat() {
+        String f = getDateFormat();
+        DateTimeFormat te = DateTimeFormat.getFormat(f);
+        return te;        
+    }
+    
+    public static Date toD(String s) {
+        DateTimeFormat te = getDateTimeFormat();
+        try {
+          return te.parseStrict(s);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+    
+    public static String toS(Date d) {
+        DateTimeFormat te = getDateTimeFormat();
+        return te.format(d);
+    }
+    
+    public static Date DToD(Object val) {
+        if (val instanceof String) {
+            return toD((String) val);
+        }
+        return (Date) val;
+    }
 
     public static String DecimalToS(final BigDecimal c, int afterdot) {
         int l = c.intValue();
         String sl = Integer.toString(l);
         BigDecimal re = new BigDecimal(sl);
         int rest = c.subtract(re).unscaledValue().intValue();
-        String sr = DateFormatUtil.toNS(rest, afterdot);
+        String sr = CUtil.toNS(rest, afterdot);
         String st = sl + "." + sr;
         return st;
     }
