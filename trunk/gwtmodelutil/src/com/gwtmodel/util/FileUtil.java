@@ -12,7 +12,9 @@
  */
 package com.gwtmodel.util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -29,6 +31,18 @@ import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
 
 public class FileUtil {
+
+    public static String getFile(String name) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(name));
+        String line = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        String ls = System.getProperty("line.separator");
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+            stringBuilder.append(ls);
+        }
+        return stringBuilder.toString();
+    }
 
     public static File getResourceDir(Class cl) {
         String me = cl.getName().replace(".", "/") + ".class";
@@ -76,5 +90,25 @@ public class FileUtil {
             prop.put(e.getKey(), e.getValue());
         }
         return prop;
+    }
+
+    private static boolean isFSep(char ch) {
+        if (ch == '/') {
+            return true;
+        }
+        if (ch == '\'') {
+            return true;
+        }
+        return false;
+    }
+
+    public static String addNameToPath(String path, String fName) {
+        StringBuilder bu = new StringBuilder(path);
+        int la = bu.length() - 1;
+        char ch = bu.charAt(la);
+        if (!isFSep(ch)) {
+            return path + File.separator + fName;
+        }
+        return path + fName;
     }
 }
