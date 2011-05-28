@@ -14,7 +14,6 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.gwtmodel.table.IVField;
-//import com.gwtmodel.table.common.DateFormatUtil;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -67,6 +66,7 @@ class DateBoxCalendar extends AbstractField {
         super(tFactories, v);
         db = new DateBox();
         db.setFormat(new DFormat());
+        db.getTextBox().setName(v.getId());
         db.addValueChangeHandler(new ValueChange());
         db.getTextBox().addKeyboardListener(new Touch(iTouch));
         initWidget(db);

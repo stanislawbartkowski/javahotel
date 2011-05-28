@@ -14,6 +14,7 @@ package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.FieldDataType;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
 /**
@@ -69,6 +70,7 @@ class FField implements IVField {
 
     @Override
     public String getId() {
-        return "AA";
+        assert v.getFie().getId() != null : LogT.getT().cannotBeNull();
+        return v.getFie().getId();
     }
 }
