@@ -200,6 +200,7 @@ public class Utils {
     }
     
     public static String toS(Date d) {
+        if (d == null) { return null; }
         DateTimeFormat te = getDateTimeFormat();
         return te.format(d);
     }
