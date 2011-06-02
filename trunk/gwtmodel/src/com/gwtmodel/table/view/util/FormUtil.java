@@ -53,14 +53,6 @@ public class FormUtil {
         }
     }
 
-//    public static void copyFromViewToDataS(FormLineContainer fContainer,
-//            IVModelData aTo) {
-//        for (FormField d : fContainer.getfList()) {
-//            IVField vFie = d.getFie();
-//            IFormLineView vView = d.getELine();
-//            aTo.setF(vFie, vView.getVal());
-//        }
-//    }
     public static List<IVField> getVList(FormLineContainer fContainer) {
         List<IVField> fList = new ArrayList<IVField>();
         for (FormField d : fContainer.getfList()) {
@@ -76,10 +68,4 @@ public class FormUtil {
             aTo.setF(v, val);
         }
     }
-//    public static void copyDataS(IVModelData aFrom, IVModelData aTo) {
-//        for (IVField v : aFrom.getF()) {
-//            String val = aFrom.getS(v);
-//            aTo.setF(v, val);
-//        }
-//    }
 }

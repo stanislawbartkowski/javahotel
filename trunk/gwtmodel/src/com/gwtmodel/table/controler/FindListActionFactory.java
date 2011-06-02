@@ -222,7 +222,20 @@ class FindListActionFactory {
     private List<FormField> constructForm(List<VListHeaderDesc> li) {
 
         List<FormField> liF = new ArrayList<FormField>();
+        // cannot use Set - use List instead
+        List<IVField> vLi = new ArrayList<IVField>();
         for (VListHeaderDesc he : li) {
+            boolean found = false;
+            for (IVField v : vLi) {
+                if (v.eq(he.getFie())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                continue;
+            }
+            vLi.add(he.getFie());
             IVField from = new FField(he.getFie(), true, he);
             IVField to = new FField(he.getFie(), false, he);
             IFormLineView ifrom = eFactory.constructEditWidget(from);
@@ -351,8 +364,10 @@ class FindListActionFactory {
                     ClickButtonType.StandClickEnum.CLEARFILTER, clearS);
             slMediator.getSlContainer().registerSubscriber(
                     ClickButtonType.StandClickEnum.CLEARFIND, clearS);
-            publishSlo.getSlContainer().registerSubscriber(DataActionEnum.NotFoundSignal,
-                    publishdType, nF);
+            if (!isFilter()) {
+                publishSlo.getSlContainer().registerSubscriber(DataActionEnum.NotFoundSignal,
+                        publishdType, nF);
+            }
 
             slMediator.startPublish(panelId);
             if (!isFilter()) {

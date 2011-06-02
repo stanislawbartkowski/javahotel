@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table;
 
+import com.gwtmodel.table.common.CUtil;
 import java.util.List;
 
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -23,6 +24,7 @@ import com.gwtmodel.table.rdef.IFormLineView;
 public class FieldDataType {
 
     public interface IFormLineViewFactory {
+
         IFormLineView construct(IVField v);
     }
 
@@ -80,7 +82,6 @@ public class FieldDataType {
 
         BOOLEAN, DATE, DATETIME, BIGDECIMAL, LONG, INT, STRING, ENUM
     };
-
     private final T type;
     private final int afterdot;
     private final ICustomType i;
@@ -178,5 +179,22 @@ public class FieldDataType {
      */
     public int getAfterdot() {
         return afterdot;
+    }
+
+    public boolean isConvertableToString() {
+        return li != null;
+    }
+
+    public String convertToString(String o) {
+        if (o == null) {
+            return null;
+        }
+        for (IMapEntry ii : li.getList()) {
+            if (CUtil.EqNS(o, ii.getKey())) {
+                return ii.getValue();
+            }
+        }
+        return "unknown";
+
     }
 }
