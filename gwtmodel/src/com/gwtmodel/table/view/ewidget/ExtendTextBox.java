@@ -12,25 +12,31 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.KeyboardListener;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RichTextArea;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.ewidget.richtextoolbar.googlerichbar.RichTextToolbar;
+import java.util.List;
 
 /**
  * 
@@ -43,13 +49,37 @@ class ExtendTextBox extends AbstractField {
 
         private final TextBoxBase tBox;
         private final RichTextArea rArea;
+        private final SuggestBox sBox;
+        private final MultiWordSuggestOracle sOracle = new MultiWordSuggestOracle();
         private final Grid vP;
+
+        private class R extends ReadR {
+
+            R() {
+                super(tFactories);
+            }
+
+            @Override
+            void setList(List<String> rList) {
+                sOracle.addAll(rList);
+            }
+        }
+        
+//        private class Focus implements FocusHandler {
+//
+//            public void onFocus(FocusEvent event) {
+//                int i = 0;
+//                sBox.showSuggestionList();
+//            }
+//            
+//        }
 
         EWidget(EParam param) {
             if (param.isPassword()) {
                 tBox = new PasswordTextBox();
                 rArea = null;
                 vP = null;
+                sBox = null;
             } else {
                 if (param.isIsRich()) {
                     vP = new Grid(2, 1);
@@ -60,8 +90,18 @@ class ExtendTextBox extends AbstractField {
                     vP.setWidget(0, 0, r);
                     vP.setWidget(1, 0, rArea);
                     tBox = null;
+                    sBox = null;
                 } else {
                     tBox = param.isArea() ? new TextArea() : new TextBox();
+                    if (param.suggestbox) {
+                        sBox = new SuggestBox(sOracle, tBox);
+                        if (param.iGet != null) {
+                            param.iGet.call(new R());
+                        }
+//                        tBox.addFocusHandler(new Focus());
+                    } else {
+                        sBox = null;
+                    }
                     rArea = null;
                     vP = null;
                 }
@@ -70,6 +110,9 @@ class ExtendTextBox extends AbstractField {
 
         public Widget getGWidget() {
             if (rArea == null) {
+                if (sBox != null) {
+                    return sBox;
+                }
                 return tBox;
             }
             return vP;
@@ -96,7 +139,7 @@ class ExtendTextBox extends AbstractField {
                 tBox.setText(t);
             } else {
                 rArea.setHTML(t);
-            }
+            } 
         }
 
         void addKeyboardListener(KeyboardListener k) {
@@ -137,10 +180,12 @@ class ExtendTextBox extends AbstractField {
 
         private final boolean password;
         private final boolean area;
+        private final boolean suggestbox;
         private final boolean panel;
         private final boolean checkBox;
         private final boolean enable;
         private final boolean isRich;
+        private final IGetDataList iGet;
 
         EParam(boolean password, boolean area, boolean panel,
                 boolean checkBox, boolean enable) {
@@ -150,6 +195,8 @@ class ExtendTextBox extends AbstractField {
             this.area = area;
             this.enable = enable;
             this.isRich = false;
+            this.suggestbox = false;
+            iGet = null;
         }
 
         EParam(boolean checkBox, boolean enable) {
@@ -159,6 +206,19 @@ class ExtendTextBox extends AbstractField {
             this.area = false;
             this.enable = enable;
             this.isRich = true;
+            this.suggestbox = false;
+            iGet = null;
+        }
+
+        EParam(boolean area, boolean checkBox, boolean enable, IGetDataList iGet) {
+            this.password = false;
+            this.panel = false;
+            this.checkBox = checkBox;
+            this.area = area;
+            this.enable = enable;
+            this.isRich = false;
+            this.suggestbox = true;
+            this.iGet = iGet;
         }
 
         /**
@@ -324,7 +384,7 @@ class ExtendTextBox extends AbstractField {
     public Widget getGWidget() {
         return this;
     }
-    
+
     protected Widget getTextBox() {
         return eW.getGWidget();
     }
