@@ -112,11 +112,11 @@ public class RadioBoxString extends AbstractField {
         }
     }
 
-    private void setRadio(IDataListType dataList, boolean enable) {
-        IVField sym = tFactories.getGetCustomValues().getSymForCombo();
-        assert sym != null : LogT.getT().cannotBeNull();
-        for (IVModelData vv : dataList.getList()) {
-            String s = FUtils.getValueS(vv, sym);
+    private void setRadio(List<String> sList, boolean enable) {
+//        IVField sym = tFactories.getGetCustomValues().getSymForCombo();
+//        assert sym != null : LogT.getT().cannotBeNull();
+        for (String s : sList) {
+//            String s = FUtils.getValueS(vv, sym);
             CheckBox c = new CheckBox(s);
             c.setEnabled(enable);
             CC cc = new CC(s, c);
@@ -125,20 +125,37 @@ public class RadioBoxString extends AbstractField {
         }
         sync.signalDone();
     }
-
-    private class R implements IGetDataListCallBack {
+    
+    private class R extends ReadR {
 
         private final boolean enable;
-
-        R(final boolean penable) {
-            this.enable = penable;
+        
+        R(boolean enable) {
+            super(tFactories);
+            this.enable = enable;
         }
-
+        
         @Override
-        public void set(IDataListType dataList) {
-            setRadio(dataList, enable);
+        void setList(List<String> rList) {
+//            throw new UnsupportedOperationException("Not supported yet.");
+            setRadio(rList,enable);
         }
+        
     }
+
+//    private class R implements IGetDataListCallBack {
+//
+//        private final boolean enable;
+//
+//        R(final boolean penable) {
+//            this.enable = penable;
+//        }
+//
+//        @Override
+//        public void set(IDataListType dataList) {
+//            setRadio(dataList, enable);
+//        }
+//    }
 
     RadioBoxString(ITableCustomFactories tFactories, IVField v,
             IGetDataList iGet, final boolean enable) {
