@@ -35,7 +35,7 @@ import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IImageGallery;
-import com.javahotel.client.IResLocator;
+import com.javahotel.client.MM;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.common.command.RType;
@@ -46,7 +46,6 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
 
     private final ClickButtonType cClear;
     private final static String CUSTOM = "CUSTOM-BUTTOM";
-    private final IResLocator rI;
 
     private class DelC extends CommonCallBack<ReturnPersist> {
 
@@ -88,19 +87,17 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
             HModelData m = (HModelData) vData;
             HotelP ho = (HotelP) m.getA();
             String hName = ho.getName();
-            String q = rI.getMessages().removeHoteDataQuestion(hName);
+            String q = MM.M().removeHoteDataQuestion(hName);
             YesNoDialog yes = new YesNoDialog(q, null, new ConfDelete(ho));
             yes.show(wSize);
         }
     }
 
-    public ClearHotelData(IResLocator rI, CellId panelId) {
+    public ClearHotelData(CellId panelId) {
 
-        this.rI = rI;
         cClear = new ClickButtonType(CUSTOM);
         ControlButtonDesc bDesc = new ControlButtonDesc(
-                IImageGallery.REMOVEHOTELDATA,
-                rI.getLabels().RemoveHotelData(), cClear);
+                IImageGallery.REMOVEHOTELDATA, MM.L().RemoveHotelData(), cClear);
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         bList.add(bDesc);
         ListOfControlDesc cList = new ListOfControlDesc(bList);

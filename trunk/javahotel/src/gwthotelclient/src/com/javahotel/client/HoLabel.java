@@ -102,5 +102,7 @@ public interface HoLabel extends Constants {
     String RemoveHotelData();
     
     String UsersAndHotele();
+    
+    String DataFormat();
 
 }

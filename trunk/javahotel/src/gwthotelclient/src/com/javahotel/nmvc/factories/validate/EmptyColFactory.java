@@ -21,6 +21,7 @@ import com.gwtmodel.table.login.LoginField;
 import com.javahotel.client.MM;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.VField;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
@@ -65,7 +66,9 @@ class EmptyColFactory {
                         OfferSeasonP.F.startp, OfferSeasonP.F.endp };
             case PriceListDict:
                 return new IField[] { DictionaryP.F.name, OfferPriceP.F.season };
-
+            case BookingList:
+                return new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
+                        BookingP.F.season, BookingP.F.noPersons };
             default:
 
                 assert false : MM.M().NotSupportedError(dt.getdType().name());

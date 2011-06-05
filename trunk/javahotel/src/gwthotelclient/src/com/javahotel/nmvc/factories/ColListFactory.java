@@ -21,6 +21,7 @@ import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.MM;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
@@ -67,6 +68,8 @@ class ColListFactory {
                 return "List sezonów";
             case PriceListDict:
                 return "Lista cenników";
+            case BookingList:
+                return "Rezerwacje";
             default:
                 assert false : MM.M().NotSupportedError(d.getdType().name());
 
@@ -125,6 +128,10 @@ class ColListFactory {
                 break;
             case PriceListDict:
                 fList = new IField[] { OfferPriceP.F.season };
+                break;
+            case BookingList:
+                fList = new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
+                        BookingP.F.season, BookingP.F.noPersons };
                 break;
 
             default:

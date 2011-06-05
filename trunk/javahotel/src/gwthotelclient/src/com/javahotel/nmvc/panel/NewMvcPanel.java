@@ -46,7 +46,7 @@ class NewMvcPanel implements IPanelCommand {
 
     @Override
     public void beforeDrawAction(ISetGWidget iSet) {
-        DataControlerFactory.runDataControler(rI, e, new CellId(0), new SetGwt(
+        DataControlerFactory.runDataControler(e, new CellId(0), new SetGwt(
                 iSet));
     }
 }

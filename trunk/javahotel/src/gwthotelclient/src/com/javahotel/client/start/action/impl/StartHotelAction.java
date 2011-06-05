@@ -84,7 +84,8 @@ public class StartHotelAction implements IStartHotelAction {
          */
         @Override
         public void execute() {
-            EPanelCommand eList[] = { EPanelCommand.ROOMSADMIN };
+            EPanelCommand eList[] = { EPanelCommand.ROOMSADMIN,
+                    EPanelCommand.BOOKING };
             IGWidget w = StackHeaderAddList.constructMenu(eList);
             IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
             iW.setMenuPanel(w.getGWidget());

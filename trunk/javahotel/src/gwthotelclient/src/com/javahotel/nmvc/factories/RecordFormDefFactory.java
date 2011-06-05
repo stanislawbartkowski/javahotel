@@ -195,12 +195,9 @@ class RecordFormDefFactory implements IFormDefFactory {
                 break;
             case BookingList:
                 fList = getDict(false);
-                fList.add(new FormField("Od", new VField(BookingP.F.checkIn)));
-                fList.add(new FormField("Do", new VField(BookingP.F.checkOut)));
-                fList.add(new FormField("Sezon", new VField(BookingP.F.season)));
-                fList.add(new FormField("Liczba osób", new VField(
-                        BookingP.F.noPersons)));
-
+                fL = new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
+                        BookingP.F.season, BookingP.F.noPersons };
+                FFactory.add(fList, fL);
                 break;
             default:
                 assert false : rI.getMessages().NotSupportedError(d.name());

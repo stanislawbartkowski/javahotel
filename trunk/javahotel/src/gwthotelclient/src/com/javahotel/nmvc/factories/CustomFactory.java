@@ -18,6 +18,7 @@ import java.util.Map;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.MM;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.DictionaryP;
 
@@ -25,20 +26,21 @@ class CustomFactory implements IGetCustomValues {
 
     private Map<String, String> ma = new HashMap<String, String>();
 
-    CustomFactory(IResLocator sI) {
+    CustomFactory() {
         ma.put(IGetCustomValues.IMAGEFOLDER, "img");
         ma.put(IGetCustomValues.RESOURCEFOLDER, "res");
-        ma.put(IGetCustomValues.COMMERROR, sI.getLabels().commError());
-        ma.put(IGetCustomValues.QUESTION, sI.getLabels().Question());
-        ma.put(IGetCustomValues.LOGINBUTTON, sI.getLabels().LoginButton());
-        ma.put(IGetCustomValues.LOGINMAME, sI.getLabels().LoginName());
-        ma.put(IGetCustomValues.PASSWORD, sI.getLabels().Password());
-        ma.put(IGetCustomValues.ADDITEM, sI.getLabels().DodajButton());
-        ma.put(IGetCustomValues.REMOVEITEM, sI.getLabels().UsunButton());
-        ma.put(IGetCustomValues.MODIFITEM, sI.getLabels().ModifItem());
-        ma.put(IGetCustomValues.SHOWITEM, sI.getLabels().ShowItem());
-        ma.put(IGetCustomValues.YESVALUE, sI.getLabels().Yes());
-        ma.put(IGetCustomValues.NOVALUE, sI.getLabels().No());
+        ma.put(IGetCustomValues.COMMERROR, MM.L().commError());
+        ma.put(IGetCustomValues.QUESTION, MM.L().Question());
+        ma.put(IGetCustomValues.LOGINBUTTON, MM.L().LoginButton());
+        ma.put(IGetCustomValues.LOGINMAME, MM.L().LoginName());
+        ma.put(IGetCustomValues.PASSWORD, MM.L().Password());
+        ma.put(IGetCustomValues.ADDITEM, MM.L().DodajButton());
+        ma.put(IGetCustomValues.REMOVEITEM, MM.L().UsunButton());
+        ma.put(IGetCustomValues.MODIFITEM, MM.L().ModifItem());
+        ma.put(IGetCustomValues.SHOWITEM, MM.L().ShowItem());
+        ma.put(IGetCustomValues.YESVALUE, MM.L().Yes());
+        ma.put(IGetCustomValues.NOVALUE, MM.L().No());
+        ma.put(IGetCustomValues.DATEFORMAT,MM.L().DataFormat());
     }
 
     @Override

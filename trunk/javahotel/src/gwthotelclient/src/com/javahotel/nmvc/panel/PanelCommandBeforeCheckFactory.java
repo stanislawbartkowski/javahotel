@@ -52,13 +52,13 @@ class PanelCommandBeforeCheckFactory {
             i = new VerifyNumberOfDict(new DictType[] { DictType.ServiceDict,
                     DictType.OffSeasonDict }, "cannotdisplayprice.jsp");
             break;
-        // case BOOKING:
-        // i = new VerifyNumberOfDict(sI, new DictType[]{
-        // DictType.ServiceDict, DictType.OffSeasonDict, DictType.RoomObjects,
-        // DictType.PriceListDict},
-        // "cannotdisplaybooking.jsp");
-        // break;
-        //
+        case BOOKING:
+            i = new VerifyNumberOfDict(new DictType[] {
+                    DictType.ServiceDict, DictType.OffSeasonDict,
+                    DictType.RoomObjects, DictType.PriceListDict },
+                    "cannotdisplaybooking.jsp");
+            break;
+
         }
         return i;
     }

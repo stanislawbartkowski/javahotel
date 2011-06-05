@@ -55,6 +55,8 @@ class RecordTitleFactory implements IFormTitleFactory {
             return "Pokój";
         case PriceListDict:
             return "Cennik";
+        case BookingList:
+            return "Rezerwacja";
         default:
             assert false : MM.M().NotSupportedError(d.name());
         }
