@@ -61,7 +61,7 @@ public class RegisterFactories {
                 return new DataPersistLayer(dType);
             }            
         };
-        tFactories.registerGetCustomValues(new CustomFactory(rI));
+        tFactories.registerGetCustomValues(new CustomFactory());
         tFactories.registerFormTitleFactory(new RecordTitleFactory());
         RecordFormDefFactory rFactory = new RecordFormDefFactory(rI, eFactory,
                 heFactory);

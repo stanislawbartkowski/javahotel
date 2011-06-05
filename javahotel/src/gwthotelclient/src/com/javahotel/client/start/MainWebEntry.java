@@ -23,8 +23,6 @@ import com.javahotel.nmvc.factories.RegisterFactories;
 
 public class MainWebEntry implements IWebEntry {
 
-//    private final HoLabel sLab = (HoLabel) GWT.create(HoLabel.class);
-//    private final HoMessages sMess = (HoMessages) GWT.create(HoMessages.class);
     private RData rD;
     private Map<String, String> param;
 
@@ -34,7 +32,6 @@ public class MainWebEntry implements IWebEntry {
 
         @Override
         public void onMySuccess(Object arg) {
-            // RootPanel.get().remove(0);
             RootPanel.get().clear();
             start();
         }

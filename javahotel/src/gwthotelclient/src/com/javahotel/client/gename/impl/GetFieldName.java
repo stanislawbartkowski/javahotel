@@ -20,6 +20,7 @@ import java.util.Map;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.gename.ISeasonPriceNames;
 import com.javahotel.client.types.DataType;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
@@ -68,6 +69,11 @@ public class GetFieldName implements IGetFieldName {
         ma.put(OfferSeasonP.F.startp, "Okres od");
         ma.put(OfferSeasonP.F.endp, "Okres do");
         ma.put(OfferPriceP.F.season, "Sezon");
+        
+        ma.put(BookingP.F.checkIn, "Od");
+        ma.put(BookingP.F.checkOut, "Do");
+        ma.put(BookingP.F.season, "Sezon");
+        ma.put(BookingP.F.noPersons, "Liczba osób");
     }
 
     @Override

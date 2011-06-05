@@ -18,7 +18,6 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.javahotel.client.IResLocator;
 import com.javahotel.client.MM;
 import com.javahotel.client.start.panel.EPanelCommand;
 import com.javahotel.client.types.DataType;
@@ -31,8 +30,8 @@ public class DataControlerFactory {
     private DataControlerFactory() {
     }
 
-    public static void runDataControler(IResLocator rI, EPanelCommand e,
-            CellId panelId, ISlotSignaller iS) {
+    public static void runDataControler(EPanelCommand e, CellId panelId,
+            ISlotSignaller iS) {
         DataType d = null;
         ISlotable i = null;
         switch (e) {
@@ -44,7 +43,7 @@ public class DataControlerFactory {
             break;
         case REMOVEDATA:
             d = new DataType(RType.AllHotels);
-            i = new ClearHotelData(rI, panelId);
+            i = new ClearHotelData(panelId);
             break;
         case VAT:
             d = new DataType(DictType.VatDict);
@@ -69,6 +68,9 @@ public class DataControlerFactory {
             break;
         case PRICES:
             d = new DataType(DictType.PriceListDict);
+            break;
+        case BOOKING:
+            d = new DataType(DictType.BookingList);
             break;
         default:
             assert false : MM.M().NotSupportedErrorS();
