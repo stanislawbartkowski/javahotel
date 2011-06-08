@@ -13,7 +13,6 @@
 package com.gwtmodel.table;
 
 import com.gwtmodel.table.common.CUtil;
-//import com.gwtmodel.table.common.DateFormatUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import java.math.BigDecimal;
@@ -48,7 +47,7 @@ public class FUtils {
         }
     }
 
-    private FUtils() {
+    static {
         iBool = new ConvB();
     }
 
