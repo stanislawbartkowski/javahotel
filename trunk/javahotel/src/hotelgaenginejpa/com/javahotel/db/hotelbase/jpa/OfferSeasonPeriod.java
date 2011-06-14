@@ -28,14 +28,14 @@ import com.google.appengine.api.datastore.Key;
 import com.javahotel.common.toobject.SeasonPeriodT;
 import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.IId;
-
+ 
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
 @Entity
 public class OfferSeasonPeriod implements IId {
-    
+      
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Key id;

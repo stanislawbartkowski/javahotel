@@ -30,7 +30,7 @@ import com.javahotel.common.command.BookingStateType;
 import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.IId;
 import com.javahotel.types.INumerable;
-
+ 
 /**
  *
  * @author stanislawbartkowski@gmail.com

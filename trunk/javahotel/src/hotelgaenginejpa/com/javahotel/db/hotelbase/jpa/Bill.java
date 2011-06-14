@@ -30,7 +30,7 @@ import com.google.appengine.api.datastore.Key;
 import com.javahotel.common.command.BillEnumTypes;
 import com.javahotel.db.hotelbase.types.IPureDictionary;
 import com.javahotel.db.jtypes.HId;
-
+ 
 /**
  * 
  * @author stanislawbartkowski@gmail.com

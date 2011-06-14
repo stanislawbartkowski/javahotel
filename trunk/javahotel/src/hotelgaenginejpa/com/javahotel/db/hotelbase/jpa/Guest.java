@@ -28,7 +28,7 @@ import javax.persistence.Transient;
 import com.google.appengine.api.datastore.Key;
 import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.IId;
-
+ 
 /**
  *
  * @author stanislawbartkowski@gmail.com

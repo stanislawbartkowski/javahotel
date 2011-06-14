@@ -43,7 +43,6 @@ public class GetOneCommand extends CommandAbstract {
     protected void command() {
         LId id = pa.getRecId();
         String na = pa.getRecName();
-//        String hotel = pa.getHotel();
         Class<?> cla = ObjectFactory.getC(d);
         Object o;
 
