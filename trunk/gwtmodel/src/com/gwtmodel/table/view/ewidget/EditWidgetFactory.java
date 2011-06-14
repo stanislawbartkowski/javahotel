@@ -58,6 +58,11 @@ public class EditWidgetFactory {
         return lB;
     }
 
+    public void setComboList(IFormLineView i, IGetDataList iGet) {
+        GetValueLB lB = (GetValueLB) i;
+        AddBoxValues.addValues(iGet, lB);
+    }
+
     private ExtendTextBox.EParam newE(boolean password, boolean area) {
         return new ExtendTextBox.EParam(password, area, false, false, false);
     }
@@ -158,24 +163,24 @@ public class EditWidgetFactory {
             return fa.construct(v);
         }
         switch (v.getType().getType()) {
-            case DATE:
-                return construcDateBoxCalendar(v);
-            case INT:
-            case LONG:
-            case BIGDECIMAL:
-                if (v.getType().getLi() != null) {
-                    return constructListCombo(v);
-                }
-                return contructCalculatorNumber(v);
-            case ENUM:
-                return constructListComboEnum(v);
-            case BOOLEAN:
-                return constructCheckField(v);
-            default:
-                if (v.getType().getLi() != null) {
-                    return constructListCombo(v);
-                }
-                return constructTextField(v);
+        case DATE:
+            return construcDateBoxCalendar(v);
+        case INT:
+        case LONG:
+        case BIGDECIMAL:
+            if (v.getType().getLi() != null) {
+                return constructListCombo(v);
+            }
+            return contructCalculatorNumber(v);
+        case ENUM:
+            return constructListComboEnum(v);
+        case BOOLEAN:
+            return constructCheckField(v);
+        default:
+            if (v.getType().getLi() != null) {
+                return constructListCombo(v);
+            }
+            return constructTextField(v);
         }
 
     }

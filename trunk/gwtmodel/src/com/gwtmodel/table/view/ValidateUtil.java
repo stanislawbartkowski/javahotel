@@ -21,9 +21,59 @@ import java.util.Set;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormLineContainer;
 
 public class ValidateUtil {
+
+    private static class FormLineDataView implements IVModelData {
+        private final FormLineContainer fo;
+
+        FormLineDataView(FormLineContainer fo) {
+            this.fo = fo;
+        }
+
+        public Object getF(IVField fie) {
+            return fo.findLineView(fie).getValObj();
+        }
+
+        public void setF(IVField fie, Object o) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public boolean isValid(IVField fie) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public List<IVField> getF() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public Object getCustomData() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        public void setCustomData(Object o) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    };
+
+    public static List<InvalidateMess> checkDate(IVModelData mData,
+            IVField from, IVField to) {
+        int comp = FUtils.compareValue(mData, to, mData, from);
+        if (comp <= 0) {
+            return null;
+        }
+        List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+        errMess.add(new InvalidateMess(to, MM.getL().DateLaterError()));
+        return errMess;
+    }
+
+    public static List<InvalidateMess> checkDate(FormLineContainer fo,
+            IVField from, IVField to) {
+        IVModelData mData = new FormLineDataView(fo);
+        return checkDate(mData, from, to);
+    }
 
     public static List<InvalidateMess> checkEmpty(IVModelData mData,
             List<IVField> listMFie, Set<IVField> ignoreV) {
@@ -48,32 +98,7 @@ public class ValidateUtil {
 
     public static List<InvalidateMess> checkEmpty(final FormLineContainer fo,
             List<IVField> listMFie) {
-        IVModelData mData = new IVModelData() {
-
-            public Object getF(IVField fie) {
-                return fo.findLineView(fie).getValObj();
-            }
-
-            public void setF(IVField fie, Object o) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public boolean isValid(IVField fie) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public List<IVField> getF() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public Object getCustomData() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-
-            public void setCustomData(Object o) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        };
+        IVModelData mData = new FormLineDataView(fo);
         return checkEmpty(mData, listMFie, new HashSet<IVField>());
     }
 
