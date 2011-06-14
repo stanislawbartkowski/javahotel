@@ -12,7 +12,7 @@
  */
 
 package com.javahotel.db.hotelbase.jpa;
-
+ 
 import java.util.ArrayList;
 import java.util.List;
 

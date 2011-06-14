@@ -31,7 +31,7 @@ import com.javahotel.db.jtypes.HId;
 @Entity
 @KeyObject(keyField="hotelId",objectField="hotel")
 public class VatDictionary implements IHotelDictionary {
-
+ 
 	// ============================================= 
 	// Abstract Dictionary 
 	// =============================================

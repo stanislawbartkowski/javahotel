@@ -49,6 +49,8 @@ public class CommandParam implements Serializable {
     private BillP bill;
     private LId recId;
     private HotelOpType oP;
+    // cannot be final
+    private Map<String, String> params;
 
     /**
      * @return the guests
@@ -113,8 +115,6 @@ public class CommandParam implements Serializable {
 
         void logEmptyParam(final String pa);
     }
-    // cannot be final
-    private Map<String, String> params;
 
     public CommandParam() {
         params = new HashMap<String, String>();

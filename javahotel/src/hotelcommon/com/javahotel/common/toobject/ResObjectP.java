@@ -59,19 +59,6 @@ public class ResObjectP extends DictionaryP {
     private DictionaryP rStandard;
     private List<DictionaryP> facilities;
 
-//    @Override
-//    protected boolean emptySpecialTrue(final IField f) {
-//        if (f instanceof ResObjectP.F) {
-//            F fie = (F) f;
-//            switch (fie) {
-//                case maxperson: return ((maxPerson == 0) || (maxPerson == -1));
-//                case noperson: return ((noPerson == 0) || (noPerson == -1));
-//            }
-//        }
-//        return false;
-//    }
-
-
     public ResObjectP() {
         facilities = new ArrayList<DictionaryP>();
     }

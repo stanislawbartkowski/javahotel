@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 import com.javahotel.common.toobject.ServiceType;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
 import com.javahotel.db.jtypes.HId;
-
+ 
 /**
  *
  * @author stanislawbartkowski@gmail.com
@@ -78,7 +78,6 @@ public class ServiceDictionary implements IHotelDictionary {
 	}
 
 	public void setHotel(RHotel hotel) {
-//		this.hotelId = AfterLoadActionFactory.getId(hotel);
 		this.hotel = hotel;
 	}
 

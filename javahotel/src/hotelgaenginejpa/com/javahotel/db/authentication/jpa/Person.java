@@ -27,7 +27,7 @@ import com.google.appengine.api.datastore.Key;
 
 @Entity
 public class Person {
-
+ 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Key id;

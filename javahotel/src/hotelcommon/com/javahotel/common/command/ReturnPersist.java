@@ -15,6 +15,7 @@ package com.javahotel.common.command;
 import java.io.Serializable;
 import java.util.List;
 
+import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.types.LId;
 

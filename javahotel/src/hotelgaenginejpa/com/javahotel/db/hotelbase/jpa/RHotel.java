@@ -12,7 +12,7 @@
  */
 
 package com.javahotel.db.hotelbase.jpa;
-
+ 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
