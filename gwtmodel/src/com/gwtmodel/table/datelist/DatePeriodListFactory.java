@@ -19,19 +19,31 @@ package com.gwtmodel.table.datelist;
 import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IDataValidateAction;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author hotel
  */
 public class DatePeriodListFactory {
 
     public IDatePeriodList construct(String title, IDatePeriodFactory eFactory,
-            ISlotSignaller setGwt) {
-        return new DatePeriodList(title, eFactory, setGwt);
+            ISlotSignaller setGwt, IDataValidateActionFactory vFactory) {
+        if (vFactory == null) {
+            vFactory = new IDataValidateActionFactory() {
+
+                @Override
+                public IDataValidateAction construct(IDataType dType) {
+                    return new ValidateS(dType);
+                }
+            };
+        }
+        return new DatePeriodList(title, eFactory, setGwt, vFactory);
     }
 
     public IDataListType construct(List<AbstractDatePeriodE> li) {

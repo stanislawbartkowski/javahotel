@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author hotel
  */
 class ValidateS extends AbstractSlotContainer implements IDataValidateAction {

@@ -91,4 +91,6 @@ public interface TLabels extends Constants {
     String Print();
     
     String Remove();
+    
+    String DateLaterError();
 }

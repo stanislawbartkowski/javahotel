@@ -40,44 +40,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author hotel
  */
-class DatePeriodList extends AbstractSlotContainer implements
-        IDatePeriodList {
+class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
 
     private final IMemoryListModel mList;
     private final String title;
     private final IDataControler dControler;
 
-    DatePeriodList(String title, IDatePeriodFactory eFactory, ISlotSignaller setGwt) {
+    DatePeriodList(String title, IDatePeriodFactory eFactory,
+            ISlotSignaller setGwt, IDataValidateActionFactory vFactory) {
         this.title = title;
         this.dType = Empty.getDataType();
 
-        TableDataControlerFactory tFactory =
-                GwtGiniInjector.getI().getTableDataControlerFactory();
-        DataViewModelFactory daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
+                .getTableDataControlerFactory();
+        DataViewModelFactory daFactory = GwtGiniInjector.getI()
+                .getDataViewModelFactory();
         mList = new MemoryListPersist(dType);
-        IDataValidateActionFactory vFactory = new IDataValidateActionFactory() {
-
-            @Override
-            public IDataValidateAction construct(IDataType dType) {
-                return new ValidateS(dType);
-            }
-        };
-
         IGetViewControllerFactory iGetCon = new MemoryGetController(
-                new DateViewFactory(title),
-                new DataFactory(eFactory),
-                daFactory,
-                mList,
-                vFactory);
+                new DateViewFactory(title), new DataFactory(eFactory),
+                daFactory, mList, vFactory);
 
-        DisplayListControlerParam cParam = tFactory.constructParam(dType, new CellId(0),
-                new DataListParam(mList, null, new DataFactory(eFactory),
-                new DateViewFactory(title),
-                //              new GetControler(title, eFactory, daFactory, mList)
-                iGetCon), null);
+        DisplayListControlerParam cParam = tFactory.constructParam(dType,
+                new CellId(0), new DataListParam(mList, null, new DataFactory(
+                        eFactory), new DateViewFactory(title),
+                // new GetControler(title, eFactory, daFactory, mList)
+                        iGetCon), null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
     }
@@ -87,14 +77,14 @@ class DatePeriodList extends AbstractSlotContainer implements
         mList.setDataList(dList);
         dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        VListHeaderDesc he = new VListHeaderDesc("Od",
-                new DatePeriodField(DatePeriodField.F.DATEFROM));
+        VListHeaderDesc he = new VListHeaderDesc("Od", new DatePeriodField(
+                DatePeriodField.F.DATEFROM));
         heList.add(he);
-        he = new VListHeaderDesc("Do",
-                new DatePeriodField(DatePeriodField.F.DATETO));
+        he = new VListHeaderDesc("Do", new DatePeriodField(
+                DatePeriodField.F.DATETO));
         heList.add(he);
-        he = new VListHeaderDesc("Opis",
-                new DatePeriodField(DatePeriodField.F.COMMENT));
+        he = new VListHeaderDesc("Opis", new DatePeriodField(
+                DatePeriodField.F.COMMENT));
         heList.add(he);
         VListHeaderContainer vHeader;
         vHeader = new VListHeaderContainer(heList, title, 0, null);

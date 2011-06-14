@@ -19,6 +19,7 @@ package com.gwtmodel.table.persist;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeController;
+import com.gwtmodel.table.composecontroller.IComposeControllerTypeFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IDataModelFactory;
@@ -30,7 +31,7 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 
 /**
- *
+ * 
  * @author hotel
  */
 public class MemoryGetController implements IGetViewControllerFactory {
@@ -40,31 +41,49 @@ public class MemoryGetController implements IGetViewControllerFactory {
     private final DataViewModelFactory daFactory;
     private final IMemoryListModel mList;
     private final IDataValidateActionFactory vFactory;
+    private final IComposeControllerTypeFactory customConType;
 
     public MemoryGetController(IFormDefFactory defFactory,
             IDataModelFactory dFactory, DataViewModelFactory daFactory,
-            IMemoryListModel mList, IDataValidateActionFactory vFactory) {
+            IMemoryListModel mList, IDataValidateActionFactory vFactory,
+            IComposeControllerTypeFactory customConType) {
         this.defFactory = defFactory;
         this.dFactory = dFactory;
         this.daFactory = daFactory;
         this.mList = mList;
         this.vFactory = vFactory;
+        this.customConType = customConType;
+    }
+
+    public MemoryGetController(IFormDefFactory defFactory,
+            IDataModelFactory dFactory, DataViewModelFactory daFactory,
+            IMemoryListModel mList, IDataValidateActionFactory vFactory) {
+        this(defFactory, dFactory, daFactory, mList, vFactory, null);
     }
 
     @Override
     public IComposeController construct(ICallContext iContext) {
-        ComposeControllerFactory coFactory =
-                GwtGiniInjector.getI().getComposeControllerFactory();
-        FormLineContainer fContainer = defFactory.construct(iContext.getDType());
-        IComposeController iCon = coFactory.construct(iContext.getDType(), dFactory);
-        IDataViewModel daModel = daFactory.construct(iContext.getDType(), fContainer,
+        ComposeControllerFactory coFactory = GwtGiniInjector.getI()
+                .getComposeControllerFactory();
+        FormLineContainer fContainer = defFactory
+                .construct(iContext.getDType());
+        IComposeController iCon = coFactory.construct(iContext.getDType(),
                 dFactory);
-        ComposeControllerType cType = new ComposeControllerType(daModel, iContext.getDType(),
-                0, 0);
+        IDataViewModel daModel = daFactory.construct(iContext.getDType(),
+                fContainer, dFactory);
+        ComposeControllerType cType = new ComposeControllerType(daModel,
+                iContext.getDType(), 0, 0);
         iCon.registerControler(cType);
-        MemoryRecordPersist mRecord = new MemoryRecordPersist(iContext.getDType(), mList.getDataList());
-        iCon.registerControler(new ComposeControllerType(mRecord, iContext.getDType()));
-        iCon.registerControler(new ComposeControllerType(vFactory.construct(iContext.getDType()), iContext.getDType()));
+        MemoryRecordPersist mRecord = new MemoryRecordPersist(
+                iContext.getDType(), mList.getDataList());
+        iCon.registerControler(new ComposeControllerType(mRecord, iContext
+                .getDType()));
+        iCon.registerControler(new ComposeControllerType(vFactory
+                .construct(iContext.getDType()), iContext.getDType()));
+        if (customConType != null) {
+            ComposeControllerType ccType = customConType.construct(iContext);
+            iCon.registerControler(ccType);
+        }
         return iCon;
     }
 }

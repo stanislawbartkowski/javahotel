@@ -33,21 +33,13 @@ public class ComposeControllerType {
     }
 
     public ComposeControllerType(ISlotable iSlot) {
-        this.iSlot = iSlot;
-        this.dType = null;
-        this.row = -1;
-        this.cell = -1;
-        this.cellId = null;
+        this(iSlot, null, -1, -1);
     }
-    
+
     public ComposeControllerType(ISlotable iSlot, IDataType dType) {
-        this.iSlot = iSlot;
-        this.dType = dType;
-        this.row = -1;
-        this.cell = -1;
-        this.cellId = null;
+        this(iSlot, dType, -1, -1);
     }
-    
+
     public ComposeControllerType(ISlotable iSlot, CellId cellId) {
         this.iSlot = iSlot;
         this.dType = null;
@@ -55,7 +47,7 @@ public class ComposeControllerType {
         this.cell = -1;
         this.cellId = cellId;
     }
-    
+
     public ComposeControllerType(ISlotable iSlot, IDataType dType, CellId cellId) {
         this.iSlot = iSlot;
         this.dType = dType;
