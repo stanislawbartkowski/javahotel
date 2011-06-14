@@ -75,16 +75,14 @@ class ValidateEmpty {
                         errMess.add(new InvalidateMess(new LoginField(
                                 LoginField.F.PASSWORD),
                                 "Hasła się nie zgadzają"));
-                        return P.publishValidSignal(slContainer, da,
-                                new InvalidateFormContainer(errMess));
+                        return P.publishValidSignalE(slContainer, da, errMess);
                     }
                 }
             }
             // return P.publishValidSignal(slContainer, da, null);
             return true;
         }
-        return P.publishValidSignal(slContainer, da,
-                new InvalidateFormContainer(errMess));
+        return P.publishValidSignalE(slContainer, da, errMess);
     }
 
 }

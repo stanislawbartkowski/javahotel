@@ -12,29 +12,35 @@
  */
 package com.javahotel.nmvc.factories.validate;
 
+import java.util.List;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 /**
  * @author hotel
- *
+ * 
  */
 class P {
-    
+
+    static boolean publishValidSignalE(SlotListContainer slContainer,
+            IDataType dType, List<InvalidateMess> errMess) {
+        return publishValidSignal(slContainer, dType, errMess == null ? null
+                : new InvalidateFormContainer(errMess));
+    }
+
     static boolean publishValidSignal(SlotListContainer slContainer,
-            IDataType dType,InvalidateFormContainer errContainer) {
+            IDataType dType, InvalidateFormContainer errContainer) {
         if (errContainer == null) {
             slContainer.publish(DataActionEnum.ValidSignal, dType);
             return true;
         } else {
-            slContainer.publish(DataActionEnum.InvalidSignal, dType, errContainer);
+            slContainer.publish(DataActionEnum.InvalidSignal, dType,
+                    errContainer);
             return false;
         }
     }
-
-    
-    
-
 }

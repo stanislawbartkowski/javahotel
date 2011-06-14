@@ -43,6 +43,7 @@ import com.javahotel.client.types.VField;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
+import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
@@ -95,11 +96,12 @@ public class PriceListContainer extends AbstractSlotContainer {
         }
     }
 
-    private class ReadSeason implements IOneList<OfferSeasonP> {
+    private class ReadSeason implements IOneList<AbstractTo> {
 
         @Override
-        public void doOne(OfferSeasonP val) {
-            synch.iModel = PriceSeasonModelFactory.construct(val);
+        public void doOne(AbstractTo val) {
+            synch.iModel = PriceSeasonModelFactory
+                    .construct((OfferSeasonP) val);
             List<String> cols = synch.iModel.pricesNames();
             iView.setCols("ceny", cols);
             synch.signalDone();

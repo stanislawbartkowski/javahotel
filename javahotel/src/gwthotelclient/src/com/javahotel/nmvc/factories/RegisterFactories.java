@@ -18,6 +18,7 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -59,14 +60,15 @@ public class RegisterFactories {
             @Override
             public IDataPersistAction contruct(IDataType dType) {
                 return new DataPersistLayer(dType);
-            }            
+            }
         };
+        IFormTitleFactory tiFactory = new RecordTitleFactory();
         tFactories.registerGetCustomValues(new CustomFactory());
-        tFactories.registerFormTitleFactory(new RecordTitleFactory());
+        tFactories.registerFormTitleFactory(tiFactory);
         RecordFormDefFactory rFactory = new RecordFormDefFactory(rI, eFactory,
                 heFactory);
         GetViewFactory getViewFactory = new GetViewFactory(valFactory,
-                peFactory, rFactory);
+                peFactory, rFactory, tiFactory);
         tFactories.registerGetViewControllerFactory(getViewFactory);
         tFactories
                 .registerDataFormConstructorAbstractFactory(new FormFactory());

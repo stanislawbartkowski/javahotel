@@ -78,6 +78,7 @@ class RecordFormDefFactory implements IFormDefFactory {
     public FormLineContainer construct(IDataType dType) {
         DataType dd = (DataType) dType;
         List<FormField> fList = new ArrayList<FormField>();
+        IField[] fL;
         if (dd.isRType()) {
             switch (dd.getrType()) {
             case AllPersons:
@@ -113,15 +114,9 @@ class RecordFormDefFactory implements IFormDefFactory {
         if (dd.isAddType()) {
             switch (dd.getAddType()) {
             case BookElem:
-                fList.add(new FormField("Rezerwacja od", new VField(
-                        BookElemP.F.checkIn)));
-                fList.add(new FormField("Rezerwacja do", new VField(
-                        BookElemP.F.checkOut)));
-                fList.add(new FormField("Pokój", new VField(
-                        BookElemP.F.resObject)));
-                fList.add(new FormField("Usługa", new VField(
-                        BookElemP.F.service)));
-
+                fL = new IField[] { BookElemP.F.checkIn, BookElemP.F.checkOut,
+                        BookElemP.F.resObject, BookElemP.F.service };
+                FFactory.add(fList, fL);
                 break;
             case BookRecord:
                 p = rI.getR().getHotelCommandParam();
@@ -146,7 +141,6 @@ class RecordFormDefFactory implements IFormDefFactory {
         }
         if (dd.isDictType()) {
             DictType d = dd.getdType();
-            IField[] fL;
             switch (d) {
             case RoomFacility:
             case RoomStandard:

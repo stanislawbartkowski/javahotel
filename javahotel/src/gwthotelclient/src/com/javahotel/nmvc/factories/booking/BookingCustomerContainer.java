@@ -15,7 +15,6 @@ package com.javahotel.nmvc.factories.booking;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
 import com.gwtmodel.table.editc.IChangeObject;
 import com.gwtmodel.table.editc.IEditChooseRecordContainer;

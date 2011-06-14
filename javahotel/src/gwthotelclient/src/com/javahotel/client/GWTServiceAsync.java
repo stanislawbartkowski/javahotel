@@ -21,6 +21,7 @@ import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.PersistType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ReturnPersist;
+import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
@@ -32,9 +33,10 @@ import com.javahotel.common.toobject.PersonP;
  */
 public interface GWTServiceAsync {
 
-    void getList(RType r, CommandParam p, AsyncCallback callback);
+    void getList(RType r, CommandParam p,
+            AsyncCallback<List<AbstractTo>> callback);
 
-    void getOne(RType r, CommandParam p, AsyncCallback callback);
+    void getOne(RType r, CommandParam p, AsyncCallback<AbstractTo> callback);
 
     void loginUser(String user, String password, AsyncCallback callback);
 

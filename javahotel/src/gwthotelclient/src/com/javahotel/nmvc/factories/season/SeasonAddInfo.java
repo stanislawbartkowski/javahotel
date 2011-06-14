@@ -35,6 +35,8 @@ import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.datelist.IDatePeriodFactory;
 import com.gwtmodel.table.datelist.IDatePeriodList;
 import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.factories.IDataValidateAction;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -48,6 +50,7 @@ import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.MM;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
@@ -254,7 +257,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
             Date to = off.getEndP();
             IGWidget w = slContext.getGwtWidget();
             if ((from == null) || (to == null)) {
-                OkDialog ok = new OkDialog("Wprowadż datę od i do !",
+                OkDialog ok = new OkDialog("Wprowadź datę od i do !",
                         "Nie można nic wyświetlić", null);
                 ok.show(w.getGWidget());
                 return;
@@ -270,10 +273,18 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         this.dType = iContext.getDType();
         daFactory = GwtGiniInjector.getI().getDatePeriodListFactory();
         pFactory = new MyPeriodFactory();
-        outsideSeason = daFactory.construct("Poza sezonem", pFactory,
-                sPanel.constructSetGwt());
-        periodSpecial = daFactory.construct("Okresy specjalne", pFactory,
-                sPanel.constructSetGwt());
+        IDataValidateActionFactory vFactory = new IDataValidateActionFactory() {
+
+            @Override
+            public IDataValidateAction construct(IDataType dType) {
+                return new ValidateS(dType);
+            }
+        };
+
+        outsideSeason = daFactory.construct(MM.L().LowSeasonName(), pFactory,
+                sPanel.constructSetGwt(), vFactory);
+        periodSpecial = daFactory.construct(MM.L().SpecialSeasonName(),
+                pFactory, sPanel.constructSetGwt(), vFactory);
         registerCaller(GetActionEnum.GetViewModelEdited, ddType,
                 new SetGetter());
         registerCaller(GetActionEnum.GetModelToPersist, ddType, new SetGetter());

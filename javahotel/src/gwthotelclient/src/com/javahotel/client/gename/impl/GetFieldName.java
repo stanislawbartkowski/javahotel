@@ -20,6 +20,7 @@ import java.util.Map;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.gename.ISeasonPriceNames;
 import com.javahotel.client.types.DataType;
+import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
@@ -30,7 +31,6 @@ import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
-import com.javahotel.nmvc.factories.price.model.ISeasonPriceModel;
 
 /**
  * @author hotel
@@ -74,6 +74,12 @@ public class GetFieldName implements IGetFieldName {
         ma.put(BookingP.F.checkOut, "Do");
         ma.put(BookingP.F.season, "Sezon");
         ma.put(BookingP.F.noPersons, "Liczba osób");
+        
+        ma.put(BookElemP.F.checkIn, "Od");
+        ma.put(BookElemP.F.checkOut, "Do");
+        ma.put(BookElemP.F.service, "Usługa");
+        ma.put(BookElemP.F.resObject, "Pokój");
+        
     }
 
     @Override

@@ -82,7 +82,7 @@ public class RData {
 
     private class ReadResInfoData implements IReadResData {
 
-        private class setRes extends CommonCallBack<List<ResDayObjectStateP>> {
+        private class setRes extends CommonCallBack<List<AbstractTo>> {
 
             private final IReadResCallBack ca;
 
@@ -91,7 +91,11 @@ public class RData {
             }
 
             @Override
-            public void onMySuccess(List<ResDayObjectStateP> a) {
+            public void onMySuccess(List<AbstractTo> aList) {
+                List<ResDayObjectStateP> a = new ArrayList<ResDayObjectStateP>();
+                for (AbstractTo p : aList) {
+                    a.add((ResDayObjectStateP) p);
+                }
                 ca.setCol(a);
             }
         }
@@ -141,10 +145,10 @@ public class RData {
 
     private class CallOne extends CommonCallBack<AbstractTo> {
 
-        private final IOneList i;
+        private final IOneList<AbstractTo> i;
         private final RetData re;
 
-        CallOne(final RetData re, final IOneList i) {
+        CallOne(final RetData re, final IOneList<AbstractTo> i) {
             this.re = re;
             this.i = i;
         }
@@ -168,11 +172,12 @@ public class RData {
         GWTGetService.getService().getList(r, p, new CallList(re, i));
     }
 
-    public void getOne(final RType r, final CommandParam p, final IOneList i) {
+    public void getOne(final RType r, final CommandParam p,
+            final IOneList<AbstractTo> i) {
         RetData re = ca.getCol(r, p);
         if (re.col != null) {
             AbstractTo aa = null;
-            for (final AbstractTo a : re.col) {
+            for (AbstractTo a : re.col) {
                 aa = a;
                 break;
             }
