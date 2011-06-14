@@ -16,7 +16,6 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.javahotel.client.MM;
 import com.javahotel.client.types.DataType;
-import com.javahotel.common.command.DictType;
 
 /**
  * @author hotel
@@ -37,29 +36,42 @@ class RecordTitleFactory implements IFormTitleFactory {
                 assert false : MM.M().NotSupportedError(dd.getrType().name());
             }
 
-        DictType d = dd.getdType();
-        switch (d) {
-        case CustomerList:
-            return "Kontrahent";
-        case OffSeasonDict:
-            return "Sezony";
-        case VatDict:
-            return "Stawka Vat";
-        case RoomFacility:
-            return "Wyposażenie";
-        case ServiceDict:
-            return "Usługa";
-        case RoomStandard:
-            return "Standard pokoju";
-        case RoomObjects:
-            return "Pokój";
-        case PriceListDict:
-            return "Cennik";
-        case BookingList:
-            return "Rezerwacja";
-        default:
-            assert false : MM.M().NotSupportedError(d.name());
+        if (dd.isDictType()) {
+            switch (dd.getdType()) {
+            case CustomerList:
+                return "Kontrahent";
+            case OffSeasonDict:
+                return "Sezony";
+            case VatDict:
+                return "Stawka Vat";
+            case RoomFacility:
+                return "Wyposażenie";
+            case ServiceDict:
+                return "Usługa";
+            case RoomStandard:
+                return "Standard pokoju";
+            case RoomObjects:
+                return "Pokój";
+            case PriceListDict:
+                return "Cennik";
+            case BookingList:
+                return "Rezerwacja";
+            default:
+                assert false : MM.M().NotSupportedError(dd.getdType().name());
+            }
         }
+        if (dd.isAddType()) {
+            switch (dd.getAddType()) {
+            case BookElem:
+                return "Rezerwacja pokoju";
+            case BookRecord:
+            case AdvanceHeader:
+                return "";
+            default:
+                assert false : MM.M().NotSupportedError(dd.getdType().name());
+            }
+        }
+
         assert false : MM.M().NotSupportedErrorS();
         return null;
     }

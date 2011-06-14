@@ -32,7 +32,6 @@ public class VField implements IVField {
         this.fie = fie;
         IAbstractType i = HInjector.getI().getAbstractType();
         fType = i.construct(fie).getT();
- //       this(fie, AbstractToFactory.getT(fie).getT());
     }
 
     public IField getFie() {

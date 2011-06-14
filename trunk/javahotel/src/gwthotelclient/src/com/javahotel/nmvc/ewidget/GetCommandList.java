@@ -27,6 +27,7 @@ import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
 
 class GetCommandList implements IGetDataList {
@@ -35,6 +36,7 @@ class GetCommandList implements IGetDataList {
     private final RType r;
     private final CommandParam p;
     private final IField f;
+    private final List<? extends AbstractTo> dictList;
 
     private static class R implements RData.IVectorList {
 
@@ -64,11 +66,26 @@ class GetCommandList implements IGetDataList {
         this.r = r;
         this.p = p;
         this.f = f;
+        this.dictList = null;
+    }
+    
+    GetCommandList(final IResLocator rI, List<? extends AbstractTo> dictList) {
+        this.rI = rI;
+        this.r = null;
+        this.p = null;
+        this.f = DictionaryP.F.name;
+        this.dictList = dictList;
     }
 
     @Override
     public void call(IGetDataListCallBack iCallBack) {
-        rI.getR().getList(r, p, new R(f, iCallBack));
+        R rR = new R(f, iCallBack);
+        if (dictList == null) {
+          rI.getR().getList(r, p, rR);
+        }
+        else {
+            rR.doVList(dictList);               
+        }
     }
 
 }

@@ -12,6 +12,8 @@
  */
 package com.javahotel.nmvc.ewidget;
 
+import java.util.List;
+
 import com.google.inject.Inject;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -19,6 +21,7 @@ import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
+import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
 
@@ -46,5 +49,11 @@ public class EWidgetFactory {
 
     public IFormLineView getListValuesBox(IVField v, final CommandParam p) {
         return getListValuesBox(v, RType.ListDict, p, DictionaryP.F.name);
+    }
+
+    public void setComboDictList(IFormLineView iView,
+            List<? extends AbstractTo> dList) {
+        eFactory.setComboList(iView, new GetCommandList(pLoc, dList));
+
     }
 }

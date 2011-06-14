@@ -12,9 +12,13 @@
  */
 package com.javahotel.nmvc.factories.validate;
 
+import java.util.List;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.datelist.DatePeriodField;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -22,7 +26,11 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.view.ValidateUtil;
 import com.javahotel.client.types.DataType;
+import com.javahotel.client.types.VField;
+import com.javahotel.common.toobject.BookElemP;
+import com.javahotel.common.toobject.OfferSeasonP;
 
 public class ValidateAction extends AbstractSlotContainer implements
         IDataValidateAction {
@@ -40,6 +48,32 @@ public class ValidateAction extends AbstractSlotContainer implements
             if (!ValidateEmpty.validateE(slContainer, da,
                     slContext.getPersistType(), pData, fContainer,
                     eFactory.getEmptyCol(da, slContext.getPersistType()))) {
+                return;
+            }
+            List<InvalidateMess> errMess = null;
+            if (da.isDictType()) {
+                switch (da.getdType()) {
+                case OffSeasonDict:
+                    errMess = ValidateUtil.checkDate(pData, new VField(
+                            OfferSeasonP.F.startp), new VField(
+                            OfferSeasonP.F.endp));
+                    break;
+                default:
+                    break;
+
+                }
+            }
+            if (da.isAddType()) {
+                switch (da.getAddType()) {
+                case BookElem:
+                    errMess = ValidateUtil.checkDate(pData, new VField(
+                            BookElemP.F.checkIn), new VField(
+                            BookElemP.F.checkOut));
+                    break;
+                }
+            }
+            if (errMess != null) {
+                P.publishValidSignalE(getSlContainer(), da, errMess);
                 return;
             }
             PersistTypeEnum action = slContext.getPersistType();

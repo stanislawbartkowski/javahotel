@@ -19,13 +19,14 @@ import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.composecontroller.ComposeControllerType;
+import com.gwtmodel.table.composecontroller.IComposeControllerTypeFactory;
 import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
@@ -42,6 +43,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
@@ -64,7 +66,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
         public void signal(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             HModelData vData = (HModelData) mData;
-            BookingP b = (BookingP) vData.getA();
+            BookingP b = (BookingP) vData.getA();//
             BookRecordP p = null;
             if (b.getBookrecords() != null) {
                 p = GetMaxUtil.getLastBookRecord(b);
@@ -76,45 +78,53 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
     }
 
     public BookingElemContainer(ICallContext iContext, DataType subType,
-            IFormDefFactory fFactory,IFormTitleFactory tiFactory) {
+            IFormDefFactory fFactory, IFormTitleFactory tiFactory) {
         tFactories = iContext.getC();
         publishdType = iContext.getDType();
         dType = new DataType(AddType.BookElem);
-        slMediator.getSlContainer().registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
-                new DrawModel());
+        slMediator.getSlContainer().registerSubscriber(
+                DataActionEnum.DrawViewFormAction, subType, new DrawModel());
         lPersistList = new MemoryListPersist(dType);
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
+
         DataViewModelFactory daFactory = GwtGiniInjector.getI()
                 .getDataViewModelFactory();
 
-        IDataValidateActionFactory vFactory = new IDataValidateActionFactory() {
-
-            @Override
-            public IDataValidateAction construct(IDataType dType) {
-                return new BookElemValidate(dType);
-            }
-        };
+        IDataValidateActionFactory vFactory = tFactories
+                .getDataValidateFactory();
 
         CellId cI = new CellId(0);
         IDataModelFactory iDataModelFactory = tFactories.getDataModelFactory();
-        IGetViewControllerFactory iGetCon = new MemoryGetController(fFactory,
-                iDataModelFactory, daFactory, lPersistList, vFactory);
+        IComposeControllerTypeFactory custFactory = new IComposeControllerTypeFactory() {
 
-        DisplayListControlerParam cParam = tFactory.constructParam(dType,
-                cI, new DataListParam(lPersistList, null,
-                        iDataModelFactory, tiFactory, iGetCon), null);
+            @Override
+            public ComposeControllerType construct(ICallContext iContext) {
+                ISlotable iSlo = new CustomBookingElem(iContext);
+                return new ComposeControllerType(iSlo);
+            }
+
+        };
+        IGetViewControllerFactory iGetCon = new MemoryGetController(fFactory,
+                iDataModelFactory, daFactory, lPersistList, vFactory,
+                custFactory);
+
+        DisplayListControlerParam cParam = tFactory.constructParam(dType, cI,
+                new DataListParam(lPersistList, null, iDataModelFactory,
+                        tiFactory, iGetCon), null);
         IHeaderListFactory he = tFactories.getHeaderListFactory();
         dControler = tFactory.constructDataControler(cParam);
         slMediator.registerSlotContainer(dControler);
         slMediator.registerSlotContainer(he.construct(dType));
-        slMediator.getSlContainer().registerSubscriber(dType, cI, sPanel.constructSetGwt());
+        slMediator.getSlContainer().registerSubscriber(dType, cI,
+                sPanel.constructSetGwt());
     }
 
     @Override
     public void startPublish(CellId cellId) {
         slMediator.startPublish(null);
-        slMediator.getSlContainer().publish(publishdType, cellId, sPanel.constructGWidget());
+        slMediator.getSlContainer().publish(publishdType, cellId,
+                sPanel.constructGWidget());
     }
 
 }

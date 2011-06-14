@@ -21,6 +21,7 @@ import com.gwtmodel.table.login.LoginField;
 import com.javahotel.client.MM;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.VField;
+import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
@@ -72,6 +73,15 @@ class EmptyColFactory {
             default:
 
                 assert false : MM.M().NotSupportedError(dt.getdType().name());
+            }
+        } else if (dt.isAddType()) {
+            switch (dt.getAddType()) {
+            case BookElem:
+                return new IField[] { BookElemP.F.checkIn,
+                        BookElemP.F.checkOut, BookElemP.F.resObject,
+                        BookElemP.F.service };
+            default:
+                assert false : MM.M().NotSupportedError(dt.getAddType().name());
             }
         }
         assert false : MM.M().NotSupportedErrorS();

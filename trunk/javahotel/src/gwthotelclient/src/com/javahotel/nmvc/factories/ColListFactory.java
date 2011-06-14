@@ -21,6 +21,7 @@ import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.MM;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
+import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
@@ -31,6 +32,7 @@ import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
+import com.javahotel.db.hotelbase.jpa.BookElem;
 
 /**
  * 
@@ -72,7 +74,14 @@ class ColListFactory {
                 return "Rezerwacje";
             default:
                 assert false : MM.M().NotSupportedError(d.getdType().name());
-
+            }
+        }
+        if (d.isAddType()) {
+            switch (d.getAddType()) {
+            case BookRecord:
+            case BookElem:
+            case AdvanceHeader:
+                return null;
             }
         }
         assert false : MM.M().NotSupportedErrorS();
@@ -137,6 +146,21 @@ class ColListFactory {
             default:
                 assert false : MM.M().NotSupportedError(d.getdType().name());
                 break;
+            }
+        } else if (d.isAddType()) {
+            dList = null;
+            switch (d.getAddType()) {
+            case BookRecord:
+            case AdvanceHeader:
+                break;
+            case BookElem:
+                dList = null;
+                fList = new IField[] { BookElemP.F.checkIn,
+                        BookElemP.F.checkOut, BookElemP.F.resObject,
+                        BookElemP.F.service };
+                break;
+            default:
+                assert false : MM.M().NotSupportedError(d.getAddType().name());
             }
         } else {
             assert false : MM.M().NotSupportedError(d.getrType().name());

@@ -60,9 +60,8 @@ class ValidateOnServer {
                 P.publishValidSignal(slContainer, dType, null);
             } else {
                 List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
-                errMess.add(new InvalidateMess(null,errMessage));
-                P.publishValidSignal(slContainer, dType,
-                        new InvalidateFormContainer(errMess));
+                errMess.add(new InvalidateMess(null, errMessage));
+                P.publishValidSignalE(slContainer, dType,errMess);
             }
 
         }
@@ -77,9 +76,12 @@ class ValidateOnServer {
         AbstractTo a = null;
         if (da.isAllPersons()) {
             a = ConvertP.toLoginP(pData);
-        } else {
+        } else if (da.isAllHotels() || da.isDictType()) {
             HModelData ho = (HModelData) pData;
             a = ho.getA();
+        } else {
+            P.publishValidSignal(slContainer, da, null);
+            return;
         }
         iPersist.persist(persistTypeEnum, a, pResult);
     }

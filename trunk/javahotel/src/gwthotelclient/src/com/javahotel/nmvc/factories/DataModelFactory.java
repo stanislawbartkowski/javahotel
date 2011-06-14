@@ -26,7 +26,6 @@ import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.AbstractTo;
 
 class DataModelFactory implements IDataModelFactory {
-        
 
     @Override
     public IVModelData construct(IDataType dType) {
@@ -36,7 +35,13 @@ class DataModelFactory implements IDataModelFactory {
         }
         IAbstractFactory i = HInjector.getI().getAbstractFactory();
         AbstractTo a = i.construct(daType);
-        
+        if (daType.isAddType()) {
+            switch (daType.getAddType()) {
+            case BookElem:
+                return VModelDataFactory.constructLp(a);
+            }
+        }
+
         return VModelDataFactory.construct(a);
     }
 
@@ -59,10 +64,10 @@ class DataModelFactory implements IDataModelFactory {
         FormUtil.copyFromDataToView(aFrom, fContainer);
     }
 
-  @Override
-  public void fromViewToData(IDataType dType, FormLineContainer fContainer,
-          IVModelData aTo) {
-      FormUtil.copyFromViewToData(fContainer, aTo);
-      }
+    @Override
+    public void fromViewToData(IDataType dType, FormLineContainer fContainer,
+            IVModelData aTo) {
+        FormUtil.copyFromViewToData(fContainer, aTo);
+    }
 
 }

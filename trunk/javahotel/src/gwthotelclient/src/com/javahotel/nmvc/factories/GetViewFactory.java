@@ -27,6 +27,7 @@ import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -42,6 +43,9 @@ import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
+import com.javahotel.nmvc.factories.booking.BookingCustomerContainer;
+import com.javahotel.nmvc.factories.booking.BookingElemContainer;
+import com.javahotel.nmvc.factories.booking.BookingHeaderContainer;
 import com.javahotel.nmvc.factories.customer.CustomerAddInfo;
 import com.javahotel.nmvc.factories.hotelperson.HotelPersonRightsContainer;
 import com.javahotel.nmvc.factories.price.PriceListContainer;
@@ -54,14 +58,17 @@ class GetViewFactory implements IGetViewControllerFactory {
     private final IDataValidateActionFactory vFactory;
     private final IPersistFactoryAction peFactory;
     private final RecordFormDefFactory reFactory;
+    private final IFormTitleFactory tiFactory;
 
     GetViewFactory(IDataValidateActionFactory vFactory,
-            IPersistFactoryAction peFactory, RecordFormDefFactory reFactory) {
+            IPersistFactoryAction peFactory, RecordFormDefFactory reFactory,
+            IFormTitleFactory tiFactory) {
         coFactory = GwtGiniInjector.getI().getComposeControllerFactory();
         daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
         this.peFactory = peFactory;
         this.vFactory = vFactory;
         this.reFactory = reFactory;
+        this.tiFactory = tiFactory;
     }
 
     private class InfoExtractRoom implements CheckStandardContainer.InfoExtract {
@@ -160,7 +167,15 @@ class GetViewFactory implements IGetViewControllerFactory {
             case PriceListDict:
                 cContainer = new PriceListContainer(peFactory, dType, subType);
                 break;
+            case BookingList:
+                cContainer = new BookingCustomerContainer(iContext, subType);
+                cContainer1 = new BookingHeaderContainer(iContext, sub1Type);
+                cContainer2 = new BookingElemContainer(iContext, sub2Type,
+                        reFactory, tiFactory);
+                break;
+
             }
+
         }
         if (cContainer != null) {
             cType = new ComposeControllerType(cContainer, subType, 0, 1);

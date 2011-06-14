@@ -280,7 +280,6 @@ public class TypeToFactory implements IAbstractType {
                 return null;
             }
             IAbstractFactory i = HInjector.getI().getAbstractFactory();
-            // T t = (T) getA(new DataType(da));
             T t = (T) i.construct(new DataType(da));
             String s = (String) sou;
             t.setName(s);
