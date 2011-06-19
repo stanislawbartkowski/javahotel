@@ -39,7 +39,7 @@ public class FFactory {
 
     public static FormField constructRM(IField f, IFormLineView e) {
         IGetFieldName i = HInjector.getI().getGetFieldName();
-        return new FormField(i.getName(f), e, new VField(f), true);
+        return new FormField(i.getName(f), e, new VField(f), true, false);
     }
 
     public static FormField construct(IField f) {
@@ -49,7 +49,12 @@ public class FFactory {
 
     public static FormField constructRM(IField f) {
         IGetFieldName i = HInjector.getI().getGetFieldName();
-        return new FormField(i.getName(f), null, new VField(f), true);
+        return new FormField(i.getName(f), null, new VField(f), true, false);
+    }
+
+    public static FormField constructReadOnly(IField f) {
+        IGetFieldName i = HInjector.getI().getGetFieldName();
+        return new FormField(i.getName(f), null, new VField(f), true, true);
     }
 
     public static void add(List<FormField> l, IField[] ft) {

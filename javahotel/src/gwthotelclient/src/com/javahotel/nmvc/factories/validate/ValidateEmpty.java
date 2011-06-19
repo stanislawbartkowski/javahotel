@@ -19,7 +19,6 @@ import java.util.Set;
 
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.common.CUtil;
@@ -79,7 +78,6 @@ class ValidateEmpty {
                     }
                 }
             }
-            // return P.publishValidSignal(slContainer, da, null);
             return true;
         }
         return P.publishValidSignalE(slContainer, da, errMess);

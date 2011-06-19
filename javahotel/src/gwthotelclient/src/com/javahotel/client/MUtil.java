@@ -12,14 +12,29 @@
  */
 package com.javahotel.client;
 
+import java.math.BigDecimal;
+
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class CommonUtil {
+public class MUtil {
 
-    private CommonUtil() {
+    private MUtil() {
+    }
+    
+    public static BigDecimal addB(final BigDecimal b1, final BigDecimal b2) {
+        return b1.add(b2);
+    }
+
+    public static BigDecimal multI(final BigDecimal b, int no) {
+        BigDecimal n = new BigDecimal(no);
+        return n.multiply(b);
+    }
+
+    public static BigDecimal getO() {
+        return new BigDecimal(0);
     }
 
 }

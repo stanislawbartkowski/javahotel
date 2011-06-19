@@ -77,7 +77,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
         }
     }
 
-    public BookingElemContainer(ICallContext iContext, DataType subType,
+    public BookingElemContainer(final ICallContext iContext, DataType subType,
             IFormDefFactory fFactory, IFormTitleFactory tiFactory) {
         tFactories = iContext.getC();
         publishdType = iContext.getDType();
@@ -99,8 +99,8 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
         IComposeControllerTypeFactory custFactory = new IComposeControllerTypeFactory() {
 
             @Override
-            public ComposeControllerType construct(ICallContext iContext) {
-                ISlotable iSlo = new CustomBookingElem(iContext);
+            public ComposeControllerType construct(ICallContext iiContext) {
+                ISlotable iSlo = new CustomBookingElem(iiContext, BookingElemContainer.this);
                 return new ComposeControllerType(iSlo);
             }
 

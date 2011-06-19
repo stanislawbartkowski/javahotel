@@ -10,10 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.types;
+package com.javahotel.client.calculateprice;
 
-public enum AddType {
+import java.util.Date;
+import java.util.List;
 
-    BookRecord, AdvanceHeader, BookElem, RowPaymentElem
+import com.javahotel.common.toobject.PaymentRowP;
 
+/**
+ * @author hotel
+ *
+ */
+public interface IPaymentData {
+
+    public interface ISetPaymentRows {
+
+        void setRow(List<PaymentRowP> col);
+    }
+    
+    public void setPaymentData(final String season, final String sprice,
+            final Date dFrom, final Date dTo,
+            final String service, final ISetPaymentRows i);
+    
 }

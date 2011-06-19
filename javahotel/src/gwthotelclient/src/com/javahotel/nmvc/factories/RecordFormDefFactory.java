@@ -24,6 +24,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.abstractto.BookElemWithPayment;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.VField;
@@ -89,7 +90,7 @@ class RecordFormDefFactory implements IFormDefFactory {
                 IFormLineView repassword = eFactory
                         .constructPasswordField(repasswordP);
                 fList.add(new FormField("Symbol", null, new LoginField(
-                        LoginField.F.LOGINNAME), true));
+                        LoginField.F.LOGINNAME), true, false));
                 fList.add(new FormField("Hasło", password, passwordP));
                 fList.add(new FormField("Hasło do sprawdzenia", repassword,
                         repasswordP));
@@ -117,6 +118,11 @@ class RecordFormDefFactory implements IFormDefFactory {
                 fL = new IField[] { BookElemP.F.checkIn, BookElemP.F.checkOut,
                         BookElemP.F.resObject, BookElemP.F.service };
                 FFactory.add(fList, fL);
+                fList.add(FFactory
+                        .constructReadOnly(BookElemWithPayment.F.customerPrice));
+                fList.add(FFactory
+                        .constructReadOnly(BookElemWithPayment.F.offerPrice));
+
                 break;
             case BookRecord:
                 p = rI.getR().getHotelCommandParam();
@@ -128,10 +134,9 @@ class RecordFormDefFactory implements IFormDefFactory {
                 fList.add(new FormField("Cennik", oPrice, priceV));
                 break;
             case AdvanceHeader:
-                fList.add(new FormField("Zaliczka", new VField(
-                        AdvancePaymentP.F.amount)));
-                fList.add(new FormField("Zapłacić do", new VField(
-                        AdvancePaymentP.F.validationDate)));
+                fL = new IField[] { AdvancePaymentP.F.amount,
+                        AdvancePaymentP.F.amount };
+                FFactory.add(fList, fL);
                 break;
             default:
                 assert false : rI.getMessages().NotSupportedError(

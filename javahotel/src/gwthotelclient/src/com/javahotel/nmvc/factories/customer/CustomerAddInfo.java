@@ -59,7 +59,7 @@ public class CustomerAddInfo extends AbstractSlotContainer {
 
         StringE(AbstractToILd a, IField fie) {
             this.a = a;
-            String s = a.getS(fie);
+            String s = (String) a.getF(fie);
             this.setF(null, s);
         }
 

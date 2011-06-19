@@ -48,6 +48,7 @@ public class HotelPersistFactory implements IHotelPersistFactory {
             case BookRecord:
             case AdvanceHeader:
             case BookElem:
+            case RowPaymentElem:
                 return null;
             }
         }

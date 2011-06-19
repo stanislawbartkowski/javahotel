@@ -25,6 +25,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.abstractto.BookElemWithPayment;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.IAbstractType;
 import com.javahotel.client.injector.HInjector;
@@ -316,7 +317,7 @@ public class TypeToFactory implements IAbstractType {
         ma.put(BookingP.F.season, stringSeaT);
 
         ma.put(BookRecordP.F.customerPrice, decimalT);
-        ma.put(BookRecordP.F.oPrice, decimalT);
+//        ma.put(BookRecordP.F.oPrice, decimalT);
 
         ma.put(PaymentP.F.amount, decimalT);
         ma.put(PaymentP.F.datePayment, dateT);
@@ -346,9 +347,6 @@ public class TypeToFactory implements IAbstractType {
         ma.put(AdvancePaymentP.F.validationDate, dateT);
         ma.put(AdvancePaymentP.F.amount, decimalT);
 
-        ma.put(BookRecordP.F.oPrice, decimalT);
-        ma.put(BookRecordP.F.customerPrice, decimalT);
-
         ma.put(VatDictionaryP.F.vat, decimalT);
 
         ma.put(BookElemP.F.checkIn, dateT);
@@ -357,6 +355,9 @@ public class TypeToFactory implements IAbstractType {
         ma.put(BookElemP.F.service, stringServT);
 
         ma.put(OfferPriceP.F.season, stringSeaT);
+
+        ma.put(BookElemWithPayment.F.customerPrice, decimalT);
+        ma.put(BookElemWithPayment.F.offerPrice, decimalT);
     }
 
     @Override

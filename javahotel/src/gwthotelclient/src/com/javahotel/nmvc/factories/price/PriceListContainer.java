@@ -152,6 +152,24 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     }
 
+    private class ValidateC implements ISlotSignaller {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see
+         * com.gwtmodel.table.slotmodel.ISlotSignaller#signal(com.gwtmodel.table
+         * .slotmodel.ISlotSignalContext)
+         */
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            // TODO Auto-generated method stub
+            int i = 0;
+
+        }
+
+    }
+
     private class SetGetter implements ISlotCaller {
 
         @Override
@@ -187,6 +205,8 @@ public class PriceListContainer extends AbstractSlotContainer {
                 new DrawModel());
         registerSubscriber(dType, new VField(OfferPriceP.F.season),
                 new ChangeSeason());
+        registerSubscriber(DataUtil.constructValidateAgain(dType),
+                new ValidateC());
     }
 
     @Override

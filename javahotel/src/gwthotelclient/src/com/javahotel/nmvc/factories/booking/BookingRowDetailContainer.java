@@ -1,0 +1,129 @@
+/*
+ * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
+package com.javahotel.nmvc.factories.booking;
+
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.controler.DataListParam;
+import com.gwtmodel.table.controler.DisplayListControlerParam;
+import com.gwtmodel.table.controler.IDataControler;
+import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.factories.IFormTitleFactory;
+import com.gwtmodel.table.factories.IGetViewControllerFactory;
+import com.gwtmodel.table.factories.IHeaderListContainer;
+import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.slotmediator.ISlotMediator;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
+import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotable;
+import com.javahotel.client.abstractto.IAbstractFactory;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.types.AddType;
+import com.javahotel.client.types.DataType;
+import com.javahotel.client.types.VModelDataFactory;
+import com.javahotel.common.toobject.AbstractTo;
+
+/**
+ * @author hotel
+ * 
+ */
+public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
+
+    private final IDataType publishdType;
+    private final TableDataControlerFactory taFactory;
+    private final IDataControler iControler;
+    private final DataType fElem = new DataType(AddType.BookElem);
+
+    private class DrawModel implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            iControler.startPublish(null);
+            // iControler.getSlContainer().publish(DataActionEnum.DrawListAction,
+            // dType);
+        }
+    }
+
+    private class DataPersistAction extends AbstractSlotContainer implements
+            IDataPersistAction {
+
+        private class ReadList implements ISlotSignaller {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ISlotable sL = BookingRowDetailContainer.this;
+                IAbstractFactory iFactory = HInjector.getI()
+                        .getAbstractFactory();
+                AbstractTo a = iFactory.construct(fElem);
+                IVModelData mData = VModelDataFactory.construct(a);
+                mData = sL.getSlContainer().getGetterIVModelData(
+                        GetActionEnum.GetListLineChecked, fElem, mData);
+                if (mData == null) {
+                    return;
+                }
+            }
+        }
+
+        DataPersistAction() {
+            this.dType = BookingRowDetailContainer.this.dType;
+            registerSubscriber(DataActionEnum.ReadListAction, dType,
+                    new ReadList());
+        }
+        // BookElemP
+    }
+
+    private IDataControler createControler() {
+        ITableCustomFactories fContainer = GwtGiniInjector.getI()
+                .getTableFactoriesContainer();
+
+        IDataPersistAction persistA = new DataPersistAction();
+        IHeaderListContainer heList = fContainer.getHeaderListFactory()
+                .construct(dType);
+        IDataModelFactory dataFactory = fContainer.getDataModelFactory();
+        IFormTitleFactory formFactory = fContainer.getFormTitleFactory();
+        IGetViewControllerFactory fControler = fContainer
+                .getGetViewControllerFactory();
+
+        DataListParam dLiParam = new DataListParam(persistA, heList,
+                dataFactory, formFactory, fControler);
+        CellId cI = new CellId(0);
+        DisplayListControlerParam lParam = taFactory.constructParam(dType, cI,
+                dLiParam, this.slMediator);
+        return taFactory.constructDataControler(lParam);
+    }
+
+    public BookingRowDetailContainer(ICallContext iContext, IDataType subType) {
+        taFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
+        publishdType = iContext.getDType();
+        dType = new DataType(AddType.RowPaymentElem);
+        slMediator.getSlContainer().registerSubscriber(
+                DataActionEnum.DrawViewFormAction, subType, new DrawModel());
+
+        iControler = createControler();
+    }
+
+    @Override
+    public void startPublish(CellId cellId) {
+        // iControler.startPublish(null);
+    }
+
+}

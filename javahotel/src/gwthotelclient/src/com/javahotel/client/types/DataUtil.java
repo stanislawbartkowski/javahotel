@@ -12,17 +12,23 @@
  */
 package com.javahotel.client.types;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.ISlotCustom;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.common.command.PersistType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
@@ -31,6 +37,10 @@ import com.javahotel.common.toobject.IField;
 public class DataUtil {
 
     private DataUtil() {
+    }
+
+    public static ISlotCustom constructValidateAgain(IDataType dType) {
+        return new CustomStringDataTypeSlot("HOTEL-VALIDATE-AGAIN", dType);
     }
 
     public static IDataListType construct(List<? extends AbstractTo> dList) {
@@ -105,6 +115,19 @@ public class DataUtil {
                 set.add(v);
             }
         }
+    }
+
+    public static Object getO(ISlotable iSlo, IDataType dType, IField f) {
+        IFormLineView i = iSlo.getSlContainer().getGetterFormLine(dType,
+                new VField(f));
+        return i.getValObj();
+    }
+
+    public static void setBigDecimal(ISlotable iSlo, IDataType dType,
+            IField fie, BigDecimal b) {
+        IFormLineView i = iSlo.getSlContainer().getGetterFormLine(dType,
+                new VField(fie));
+        i.setValObj(b);
     }
 
 }
