@@ -17,11 +17,12 @@
 package com.gwtmodel.table.injector;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 /**
- *
+ * 
  * @author hotel
  */
 public interface ICallContext {
@@ -43,5 +44,9 @@ public interface ICallContext {
     ICallContext construct(ISlotable iSlo, IDataType dType);
 
     ICallContext construct(ISlotable iSlo);
+
+    PersistTypeEnum getPersistTypeEnum();
+
+    void setPersistTypeEnum(PersistTypeEnum persistTypeEnum);
 
 }

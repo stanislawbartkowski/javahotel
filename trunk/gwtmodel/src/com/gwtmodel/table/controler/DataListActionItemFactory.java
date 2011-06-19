@@ -47,7 +47,7 @@ import com.gwtmodel.table.view.util.ICloseAction;
 import com.gwtmodel.table.view.util.ModalDialog;
 
 /**
- *
+ * 
  * @author hotel
  */
 class DataListActionItemFactory {
@@ -80,7 +80,8 @@ class DataListActionItemFactory {
         @Override
         public void signal(ISlotSignalContext slContext) {
             hide();
-            iSlo.getSlContainer().publish(DataActionEnum.RefreshAfterPersistActionSignal, dType,
+            iSlo.getSlContainer().publish(
+                    DataActionEnum.RefreshAfterPersistActionSignal, dType,
                     persistTypeEnum);
         }
     }
@@ -124,7 +125,8 @@ class DataListActionItemFactory {
         private final ICloseAction o;
 
         DrawForm(WSize wSize, String title,
-                ClickButtonType.StandClickEnum action, boolean modal, ICloseAction o) {
+                ClickButtonType.StandClickEnum action, boolean modal,
+                ICloseAction o) {
             this.wSize = wSize;
             this.title = title;
             this.action = action;
@@ -218,8 +220,8 @@ class DataListActionItemFactory {
             IVModelData perData = slContext.getVData(); // do nothing
             IVModelData pData = slControlerContainer.getGetterIVModelData(
                     GetActionEnum.GetViewModelEdited, dType, peData);
-            listParam.getDataFactory().fromModelToPersist(dType, pData,
-                    perData);
+            listParam.getDataFactory()
+                    .fromModelToPersist(dType, pData, perData);
             // result: perData
             return slContext;
         }
@@ -235,7 +237,8 @@ class DataListActionItemFactory {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            ClickButtonType.StandClickEnum action = slContext.getSlType().getButtonClick().getClickEnum();
+            ClickButtonType.StandClickEnum action = slContext.getSlType()
+                    .getButtonClick().getClickEnum();
             ISlotSignalContext ret = iSlo.getSlContainer().getGetterContext(
                     GetActionEnum.GetListLineChecked, dType);
             IVModelData mModel = listParam.getDataFactory().construct(dType);
@@ -259,30 +262,36 @@ class DataListActionItemFactory {
             }
             ListOfControlDesc liControls;
             switch (action) {
-                case REMOVEITEM:
-                    liControls = tFactories.getControlButtonFactory().constructRemoveDesign();
-                    break;
-                case SHOWITEM:
-                    liControls = tFactories.getControlButtonFactory().constructOkButton();
-                    break;
-                default:
-                    liControls = tFactories.getControlButtonFactory().constructAcceptResign();
-                    break;
+            case REMOVEITEM:
+                liControls = tFactories.getControlButtonFactory()
+                        .constructRemoveDesign();
+                break;
+            case SHOWITEM:
+                liControls = tFactories.getControlButtonFactory()
+                        .constructOkButton();
+                break;
+            default:
+                liControls = tFactories.getControlButtonFactory()
+                        .constructAcceptResign();
+                break;
 
             }
             CellId cId = new CellId(0);
             ICallContext iCall = GwtGiniInjector.getI().getCallContext();
             iCall.setdType(dType);
             iCall.setiSlo(iSlo);
-            IComposeController fController = listParam.getfControler().construct(iCall);
-            IControlButtonView cView = tFactories.getbViewFactory().construct(dType,
-                    liControls);
+            iCall.setPersistTypeEnum(persistTypeEnum);
+            IComposeController fController = listParam.getfControler()
+                    .construct(iCall);
+            IControlButtonView cView = tFactories.getbViewFactory().construct(
+                    dType, liControls);
             ComposeControllerType bType = new ComposeControllerType(cView,
                     null, 1, 0);
             fController.registerControler(bType);
             fController.createComposeControle(cId);
 
-            SlotListContainer slControlerContainer = fController.getSlContainer();
+            SlotListContainer slControlerContainer = fController
+                    .getSlContainer();
             String title = listParam.getFormFactory().getFormTitle(dType);
             DrawForm dForm = new DrawForm(wSize, title, action, true, null);
             slControlerContainer.registerSubscriber(dType, cId, dForm);
@@ -310,9 +319,11 @@ class DataListActionItemFactory {
 
             fController.startPublish(cId);
             slControlerContainer.publish(
-                    DataActionEnum.DrawViewComposeFormAction, dType, peData, persistTypeEnum);
+                    DataActionEnum.DrawViewComposeFormAction, dType, peData,
+                    persistTypeEnum);
             slControlerContainer.publish(
-                    DataActionEnum.DefaultViewComposeFormAction, dType, peData, persistTypeEnum);
+                    DataActionEnum.DefaultViewComposeFormAction, dType, peData,
+                    persistTypeEnum);
 
             slControlerContainer.publish(
                     DataActionEnum.ChangeViewComposeFormModeAction, dType,
@@ -320,9 +331,9 @@ class DataListActionItemFactory {
 
             slControlerContainer.registerCaller(
                     GetActionEnum.GetModelToPersist, dType, new GetterModel(
-                    slControlerContainer, peData));
-            slControlerContainer.registerCaller(
-                    GetActionEnum.GetGWidget, dType, new GetterGWidget(dForm));
+                            slControlerContainer, peData));
+            slControlerContainer.registerCaller(GetActionEnum.GetGWidget,
+                    dType, new GetterGWidget(dForm));
         }
     }
 
@@ -332,24 +343,27 @@ class DataListActionItemFactory {
                 new ClickButtonType(ClickButtonType.StandClickEnum.ADDITEM), b);
 
         iSlo.getSlContainer().publish(dType,
-                new ClickButtonType(ClickButtonType.StandClickEnum.REMOVEITEM), b);
+                new ClickButtonType(ClickButtonType.StandClickEnum.REMOVEITEM),
+                b);
     }
 
     private class ChangeMode implements ISlotSignaller {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            LogT.getLS().info(LogT.getT().receivedSignalLog(slContext.getSlType().toString()));
+            LogT.getLS().info(
+                    LogT.getT().receivedSignalLog(
+                            slContext.getSlType().toString()));
             PersistTypeEnum persistTypeEnum = slContext.getPersistType();
             switch (persistTypeEnum) {
-                case ADD:
-                case MODIF:
-                case REMOVE:
-                    publishP(ButtonAction.EnableButton);
-                    break;
-                case SHOWONLY:
-                    publishP(ButtonAction.DisableButton);
-                    break;
+            case ADD:
+            case MODIF:
+            case REMOVE:
+                publishP(ButtonAction.EnableButton);
+                break;
+            case SHOWONLY:
+                publishP(ButtonAction.DisableButton);
+                break;
             }
         }
     }

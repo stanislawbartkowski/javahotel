@@ -67,39 +67,41 @@ public class SlotType implements IEquatable<SlotType> {
             return false;
         }
         switch (slEnum) {
-            case Custom:
-                return slType.getiEq().eq(getiEq());
-            case ChangeValue:
+        case Custom:
+            return slType.getiEq().eq(getiEq());
+        case ChangeValue:
+            if (fie != null && slType.getFie() != null) {
                 if (!fie.eq(slType.getFie())) {
                     return false;
                 }
-                return dType.eq(slType.dType);
-            case CallBackWidget:
-                if (!dType.eq(slType.dType)) {
-                    return false;
-                }
+            }
+            return dType.eq(slType.dType);
+        case CallBackWidget:
+            if (!dType.eq(slType.dType)) {
+                return false;
+            }
+            return cellId.eq(slType.cellId);
+        case ButtonAction:
+            if (!bAction.equals(slType.bAction)) {
+                return false;
+            }
+            if (!Utils.eqI(dType, slType.dType)) {
+                return false;
+            }
+            return buttonClick.eq(slType.buttonClick);
+        case DataAction:
+            if (dataActionEnum != slType.dataActionEnum) {
+                return false;
+            }
+            return Utils.eqI(dType, slType.dType);
+        case GetterCaller:
+            if (gEnum != slType.gEnum) {
+                return false;
+            }
+            if (gEnum == GetActionEnum.GetHtmlForm) {
                 return cellId.eq(slType.cellId);
-            case ButtonAction:
-                if (!bAction.equals(slType.bAction)) {
-                    return false;
-                }
-                if (!Utils.eqI(dType, slType.dType)) {
-                    return false;
-                }
-                return buttonClick.eq(slType.buttonClick);
-            case DataAction:
-                if (dataActionEnum != slType.dataActionEnum) {
-                    return false;
-                }
-                return Utils.eqI(dType, slType.dType);
-            case GetterCaller:
-                if (gEnum != slType.gEnum) {
-                    return false;
-                }
-                if (gEnum == GetActionEnum.GetHtmlForm) {
-                    return cellId.eq(slType.cellId);
-                }
-                return dType.eq(slType.dType);
+            }
+            return dType.eq(slType.dType);
         }
         return true;
     }
@@ -137,26 +139,26 @@ public class SlotType implements IEquatable<SlotType> {
         Object o1 = null;
         Object o2 = null;
         switch (slEnum) {
-            case ChangeValue:
-                o1 = fie;
-                break;
-            case ButtonAction:
-                o1 = getbAction();
-                break;
-            case CallBackWidget:
-                o1 = cellId;
-                break;
-            case DataAction:
-                o1 = dataActionEnum;
-                o2 = dType;
-                break;
-            case GetterCaller:
-                o1 = gEnum;
-                o2 = dType;
-                break;
-            case Custom:
-                o1 = getiEq();
-                break;
+        case ChangeValue:
+            o1 = fie;
+            break;
+        case ButtonAction:
+            o1 = getbAction();
+            break;
+        case CallBackWidget:
+            o1 = cellId;
+            break;
+        case DataAction:
+            o1 = dataActionEnum;
+            o2 = dType;
+            break;
+        case GetterCaller:
+            o1 = gEnum;
+            o2 = dType;
+            break;
+        case Custom:
+            o1 = getiEq();
+            break;
         }
         if (o1 == null) {
             return LogT.getT().slStringLog(slEnum.toString());
@@ -164,7 +166,8 @@ public class SlotType implements IEquatable<SlotType> {
         if (o2 == null) {
             return LogT.getT().slStringLog1(slEnum.toString(), o1.toString());
         }
-        return LogT.getT().slStringLog2(slEnum.toString(), o1.toString(), o2.toString());
+        return LogT.getT().slStringLog2(slEnum.toString(), o1.toString(),
+                o2.toString());
     }
 
     /**

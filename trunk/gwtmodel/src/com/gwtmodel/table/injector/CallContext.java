@@ -18,6 +18,7 @@ package com.gwtmodel.table.injector;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
@@ -31,6 +32,21 @@ public class CallContext implements ICallContext {
     private IDataType dType;
     private ISlotable iSlo;
     private final ITableCustomFactories cFactories;
+    private PersistTypeEnum persistTypeEnum;
+
+    /**
+     * @return the persistTypeEnum
+     */
+    public PersistTypeEnum getPersistTypeEnum() {
+        return persistTypeEnum;
+    }
+
+    /**
+     * @param persistTypeEnum the persistTypeEnum to set
+     */
+    public void setPersistTypeEnum(PersistTypeEnum persistTypeEnum) {
+        this.persistTypeEnum = persistTypeEnum;
+    }
 
     @Inject
     public CallContext(TablesFactories tFactories, ITableCustomFactories cFactories) {

@@ -22,41 +22,53 @@ public class FormField {
     private final String pLabel;
     private final IFormLineView eLine;
     private final boolean readOnlyIfModif;
+    private final boolean readOnlyIfAdd;
     private final IVField fRange;
     private String htmlId;
     private boolean disabled;
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
-            boolean readOnlyIfModif) {
+            boolean readOnlyIfModif,boolean readOnlyIfAdd) {
         this.pLabel = p;
         if (e == null) {
             assert fie != null : LogT.getT().cannotBeNull();
-            EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+            EditWidgetFactory eFactory = GwtGiniInjector.getI()
+                    .getEditWidgetFactory();
             this.eLine = eFactory.constructEditWidget(fie);
         } else {
             this.eLine = e;
         }
-        this.readOnlyIfModif = readOnlyIfModif;
+        this.readOnlyIfModif = readOnlyIfModif;        
+        this.readOnlyIfAdd = readOnlyIfAdd;
         this.fRange = null;
     }
 
+    /**
+     * @return the readOnlyIfAdd
+     */
+    public boolean isReadOnlyIfAdd() {
+        return readOnlyIfAdd;
+    }
+
     public FormField(final String p, final IFormLineView e, final IVField fie) {
-        this(p, e, fie, false);
+        this(p, e, fie, false,false);
     }
 
     public FormField(final String p, final IFormLineView e) {
-        this(p, e, null, false);
+        this(p, e, null, false,false);
     }
 
     public FormField(final String p, final IVField fie) {
-        this(p, null, fie, false);
+        this(p, null, fie, false,false);
     }
 
-    public FormField(final String p, final IFormLineView e, final IVField fie, IVField fRange) {
+    public FormField(final String p, final IFormLineView e, final IVField fie,
+            IVField fRange) {
         this.pLabel = p;
         this.eLine = e;
         this.readOnlyIfModif = false;
         this.fRange = fRange;
+        this.readOnlyIfAdd = false;
     }
 
     public boolean isReadOnlyIfModif() {
@@ -101,7 +113,8 @@ public class FormField {
     }
 
     /**
-     * @param htmlId the htmlId to set
+     * @param htmlId
+     *            the htmlId to set
      */
     public void setHtmlId(String htmlId) {
         this.htmlId = htmlId;
@@ -115,7 +128,8 @@ public class FormField {
     }
 
     /**
-     * @param disabled the disabled to set
+     * @param disabled
+     *            the disabled to set
      */
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;

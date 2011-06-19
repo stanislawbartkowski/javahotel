@@ -48,6 +48,16 @@ public class Utils {
         return e1.eq(e2);
     }
 
+    public static <T> boolean eqE(T t1, T t2) {
+        if (t1 == null) {
+            return (t2 == null);
+        }
+        if (t2 == null) {
+            return false;
+        }
+        return t1 == t2;
+    }
+
     public static HTML createHTML(final String s) {
         HTML ha = new HTML("<a href='javascript:;'>" + s + "</a>");
         return ha;
@@ -63,7 +73,8 @@ public class Utils {
 
     public static String getResAdr(final String res) {
         String path;
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         String resF = c.getCustomValue(IGetCustomValues.RESOURCEFOLDER);
         path = GWT.getModuleBaseURL();
         if (resF == null) {
@@ -73,7 +84,8 @@ public class Utils {
     }
 
     public static String getImageAdr(final String image) {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         String folder = c.getCustomValue(IGetCustomValues.IMAGEFOLDER);
         String img;
         if (folder == null) {
@@ -105,15 +117,8 @@ public class Utils {
         return getImageHTML(imageUrl, 0, 0);
     }
 
-    public static <T> boolean eqE(T t1, T t2) {
-        if (t1 == null) {
-            return (t2 == null);
-        }
-        if (t2 == null) {
-            return false;
-        }
-        return t1 == t2;
-    }
+    // int/long utilities
+
     public static final int BADNUMBER = -1;
 
     public static int getNum(final String s) {
@@ -127,17 +132,6 @@ public class Utils {
             return BADNUMBER;
         }
         return i;
-    }
-
-    public static BigDecimal toBig(final String s) {
-        if (CUtil.EmptyS(s)) {
-            return null;
-        }
-        try {
-            return new BigDecimal(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
     }
 
     public static Long toLong(String s) {
@@ -162,6 +156,58 @@ public class Utils {
         }
     }
 
+    // Date
+
+    public static String getDateFormat() {
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
+        String f = c.getCustomValue(IGetCustomValues.DATEFORMAT);
+        return f;
+    }
+
+    private static DateTimeFormat getDateTimeFormat() {
+        String f = getDateFormat();
+        DateTimeFormat te = DateTimeFormat.getFormat(f);
+        return te;
+    }
+
+    public static Date toD(String s) {
+        DateTimeFormat te = getDateTimeFormat();
+        try {
+            return te.parseStrict(s);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    public static String toS(Date d) {
+        if (d == null) {
+            return null;
+        }
+        DateTimeFormat te = getDateTimeFormat();
+        return te.format(d);
+    }
+
+    public static Date DToD(Object val) {
+        if (val instanceof String) {
+            return toD((String) val);
+        }
+        return (Date) val;
+    }
+
+    // BigDecimal
+
+    public static BigDecimal toBig(final String s) {
+        if (CUtil.EmptyS(s)) {
+            return null;
+        }
+        try {
+            return new BigDecimal(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
     public static BigDecimal toBig(final Double d) {
         if (d == null) {
             return null;
@@ -176,40 +222,6 @@ public class Utils {
         }
         String s = DecimalToS(b);
         return new Double(s);
-    }
-    
-    public static String getDateFormat() {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
-        String f = c.getCustomValue(IGetCustomValues.DATEFORMAT);
-        return f;        
-    }
-    
-    private static DateTimeFormat getDateTimeFormat() {
-        String f = getDateFormat();
-        DateTimeFormat te = DateTimeFormat.getFormat(f);
-        return te;        
-    }
-    
-    public static Date toD(String s) {
-        DateTimeFormat te = getDateTimeFormat();
-        try {
-          return te.parseStrict(s);
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
-    }
-    
-    public static String toS(Date d) {
-        if (d == null) { return null; }
-        DateTimeFormat te = getDateTimeFormat();
-        return te.format(d);
-    }
-    
-    public static Date DToD(Object val) {
-        if (val instanceof String) {
-            return toD((String) val);
-        }
-        return (Date) val;
     }
 
     public static String DecimalToS(final BigDecimal c, int afterdot) {
@@ -234,6 +246,26 @@ public class Utils {
         return res1;
     }
 
+    // some 'log' utilities
+
+    public static boolean TrueL(String s) {
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
+        String yesv = c.getCustomValue(IGetCustomValues.YESVALUE);
+        return CUtil.EqNS(s, yesv);
+    }
+
+    public static String LToS(boolean l) {
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
+        if (l) {
+            return c.getCustomValue(IGetCustomValues.YESVALUE);
+        }
+        return c.getCustomValue(IGetCustomValues.NOVALUE);
+    }
+
+    // -------------
+
     public static int CalculateNOfRows(WSize w) {
         int up = 0;
         if (w != null) {
@@ -243,20 +275,6 @@ public class Utils {
 
         int size = (he - up - 10) / 30;
         return size;
-    }
-
-    public static boolean TrueL(String s) {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
-        String yesv = c.getCustomValue(IGetCustomValues.YESVALUE);
-        return CUtil.EqNS(s, yesv);
-    }
-
-    public static String LToS(boolean l) {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
-        if (l) {
-            return c.getCustomValue(IGetCustomValues.YESVALUE);
-        }
-        return c.getCustomValue(IGetCustomValues.NOVALUE);
     }
 
     public static String getURLParam(String key) {
@@ -287,11 +305,11 @@ public class Utils {
     }
 
     public static native void callJs(String js) /*-{
-    $wnd.eval(js);
+		$wnd.eval(js);
     }-*/;
 
     public static List<IVField> toList(IVField[] a) {
-//        return Arrays.asList(a);
+        // return Arrays.asList(a);
         // WARNING: do not replace with Arrays.asList !
         List<IVField> l = new ArrayList<IVField>();
         for (int i = 0; i < a.length; i++) {
@@ -319,22 +337,22 @@ public class Utils {
     }
 
     public static native void addScript(String s) /*-{
-    $wnd.addScript(s);
+		$wnd.addScript(s);
     }-*/;
 
     public static native void addStyle(String s) /*-{
-    $wnd.addStyle(s);
+		$wnd.addStyle(s);
     }-*/;
 
     /*
      * Takes in a trusted JSON String and evals it.
-     *
+     * 
      * @param JSON String that you trust
-     *
+     * 
      * @return JavaScriptObject that you can cast to an Overlay Type
      */
     public static native JavaScriptObject evalJson(String jsonStr) /*-{
-    return eval(jsonStr);
+		return eval(jsonStr);
     }-*/;
 
     public static JavaScriptObject parseJson(String jsonStr) {
@@ -342,6 +360,6 @@ public class Utils {
     }
 
     public static native String callJsStringFun(String jsonFun, String paramS) /*-{
-    return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
+		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
     }-*/;
 }
