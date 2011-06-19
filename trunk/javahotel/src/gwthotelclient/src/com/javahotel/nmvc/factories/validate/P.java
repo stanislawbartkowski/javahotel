@@ -19,12 +19,23 @@ import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
+import com.javahotel.client.types.DataType;
+import com.javahotel.client.types.DataUtil;
+import com.javahotel.common.command.DictType;
 
 /**
  * @author hotel
  * 
  */
 class P {
+
+    static private boolean validateCustom(IDataType dType) {
+        DataType daType = (DataType) dType;
+        if (!daType.isDictType()) {
+            return false;
+        }
+        return daType.getdType() == DictType.PriceListDict;
+    }
 
     static boolean publishValidSignalE(SlotListContainer slContainer,
             IDataType dType, List<InvalidateMess> errMess) {
@@ -35,7 +46,12 @@ class P {
     static boolean publishValidSignal(SlotListContainer slContainer,
             IDataType dType, InvalidateFormContainer errContainer) {
         if (errContainer == null) {
-            slContainer.publish(DataActionEnum.ValidSignal, dType);
+            if (validateCustom(dType)) {
+                slContainer.publish(DataUtil.constructValidateAgain(dType),
+                        null);
+            } else {
+                slContainer.publish(DataActionEnum.ValidSignal, dType);
+            }
             return true;
         } else {
             slContainer.publish(DataActionEnum.InvalidSignal, dType,

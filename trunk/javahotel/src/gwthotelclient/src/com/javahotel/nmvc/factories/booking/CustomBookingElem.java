@@ -18,6 +18,7 @@ import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData.IOneList;
@@ -41,42 +42,49 @@ class CustomBookingElem extends AbstractSlotContainer {
     private final ICallContext iContext;
     private final IResLocator rI;
     private final EWidgetFactory eFactory;
+    private final BookElementRefreshPayment fPayment;
+    private final ISlotable mainSlo;
 
-    CustomBookingElem(ICallContext iContext) {
+    CustomBookingElem(ICallContext iContext, ISlotable mainSlo) {
         this.iContext = iContext;
         this.dType = iContext.getDType();
         registerSubscriber(dType, new VField(BookElemP.F.resObject),
                 new ChangeRoom());
         rI = HInjector.getI().getI();
         eFactory = HInjector.getI().getEWidgetFactory();
+        this.mainSlo = mainSlo;
+        fPayment = new BookElementRefreshPayment(dType, this, iContext, mainSlo);
     }
-    
+
     private class ReadStandard implements IOneList<AbstractTo> {
 
         private final IFormLineView sView;
-        
+
         ReadStandard(IFormLineView sView) {
             this.sView = sView;
         }
 
-        /* (non-Javadoc)
-         * @see com.javahotel.client.rdata.RData.IOneList#doOne(java.lang.Object)
+        /*
+         * (non-Javadoc)
+         * 
+         * @see
+         * com.javahotel.client.rdata.RData.IOneList#doOne(java.lang.Object)
          */
         @Override
         public void doOne(AbstractTo val) {
             RoomStandardP r = (RoomStandardP) val;
-            eFactory.setComboDictList(sView, r.getServices());            
+            eFactory.setComboDictList(sView, r.getServices());
         }
     }
-    
+
     private class ReadRoom implements IOneList<AbstractTo> {
 
         private final IFormLineView sView;
-        
+
         ReadRoom(IFormLineView sView) {
             this.sView = sView;
         }
-        
+
         @Override
         public void doOne(AbstractTo val) {
             ResObjectP r = (ResObjectP) val;
@@ -103,7 +111,9 @@ class CustomBookingElem extends AbstractSlotContainer {
         public void signal(ISlotSignalContext slContext) {
             IFormLineView iView = slContext.getChangedValue();
             String res = (String) iView.getValObj();
-            if (res == null) { return; }
+            if (res == null) {
+                return;
+            }
             FormLineContainer fContainer = getGetterContainer(dType);
             IFormLineView sView = fContainer.findLineView(new VField(
                     BookElemP.F.service));

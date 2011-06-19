@@ -46,6 +46,7 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.nmvc.factories.booking.BookingCustomerContainer;
 import com.javahotel.nmvc.factories.booking.BookingElemContainer;
 import com.javahotel.nmvc.factories.booking.BookingHeaderContainer;
+import com.javahotel.nmvc.factories.booking.BookingRowDetailContainer;
 import com.javahotel.nmvc.factories.customer.CustomerAddInfo;
 import com.javahotel.nmvc.factories.hotelperson.HotelPersonRightsContainer;
 import com.javahotel.nmvc.factories.price.PriceListContainer;
@@ -134,9 +135,11 @@ class GetViewFactory implements IGetViewControllerFactory {
         DataType subType = new DataType(dd.getdType(), DataTypeSubEnum.Sub1);
         DataType sub1Type = new DataType(dd.getdType(), DataTypeSubEnum.Sub2);
         DataType sub2Type = new DataType(dd.getdType(), DataTypeSubEnum.Sub3);
+        DataType sub3Type = new DataType(dd.getdType(), DataTypeSubEnum.Sub4);
         ISlotable cContainer = null;
         ISlotable cContainer1 = null;
         ISlotable cContainer2 = null;
+        ISlotable cContainer3 = null;
         if (dd.isRType()) {
             switch (dd.getrType()) {
             case AllPersons:
@@ -172,8 +175,8 @@ class GetViewFactory implements IGetViewControllerFactory {
                 cContainer1 = new BookingHeaderContainer(iContext, sub1Type);
                 cContainer2 = new BookingElemContainer(iContext, sub2Type,
                         reFactory, tiFactory);
+                cContainer3 = new BookingRowDetailContainer(iContext, sub3Type);
                 break;
-
             }
 
         }
@@ -186,6 +189,10 @@ class GetViewFactory implements IGetViewControllerFactory {
             }
             if (cContainer2 != null) {
                 cType = new ComposeControllerType(cContainer2, sub2Type, 1, 2);
+                iCon.registerControler(cType);
+            }
+            if (cContainer3 != null) {
+                cType = new ComposeControllerType(cContainer3, sub3Type, 1, 3);
                 iCon.registerControler(cType);
             }
         }

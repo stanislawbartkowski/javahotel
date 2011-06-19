@@ -19,6 +19,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.MM;
+import com.javahotel.client.abstractto.BookElemWithPayment;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.toobject.BookElemP;
@@ -29,10 +30,10 @@ import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
+import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
-import com.javahotel.db.hotelbase.jpa.BookElem;
 
 /**
  * 
@@ -81,6 +82,7 @@ class ColListFactory {
             case BookRecord:
             case BookElem:
             case AdvanceHeader:
+            case RowPaymentElem:
                 return null;
             }
         }
@@ -140,7 +142,9 @@ class ColListFactory {
                 break;
             case BookingList:
                 fList = new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
-                        BookingP.F.season, BookingP.F.noPersons };
+                        BookingP.F.season, BookingP.F.noPersons,
+                        BookElemWithPayment.F.customerPrice,
+                        BookElemWithPayment.F.offerPrice };
                 break;
 
             default:
@@ -154,10 +158,14 @@ class ColListFactory {
             case AdvanceHeader:
                 break;
             case BookElem:
-                dList = null;
                 fList = new IField[] { BookElemP.F.checkIn,
                         BookElemP.F.checkOut, BookElemP.F.resObject,
                         BookElemP.F.service };
+                break;
+            case RowPaymentElem:
+                fList = new IField[] { PaymentRowP.F.offerPrice,
+                        PaymentRowP.F.customerPrice, PaymentRowP.F.rowFrom,
+                        PaymentRowP.F.rowTo };
                 break;
             default:
                 assert false : MM.M().NotSupportedError(d.getAddType().name());

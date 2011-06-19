@@ -18,7 +18,6 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.datelist.DatePeriodField;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -34,6 +33,7 @@ import com.javahotel.common.toobject.OfferSeasonP;
 
 public class ValidateAction extends AbstractSlotContainer implements
         IDataValidateAction {
+    
 
     private final EmptyColFactory eFactory = new EmptyColFactory();
 
@@ -80,7 +80,7 @@ public class ValidateAction extends AbstractSlotContainer implements
             ValidateOnServer.validateS(slContainer, da, action, pData);
         }
     }
-
+    
     public ValidateAction(IDataType dType) {
         this.dType = dType;
         registerSubscriber(DataActionEnum.ValidateAction, dType,

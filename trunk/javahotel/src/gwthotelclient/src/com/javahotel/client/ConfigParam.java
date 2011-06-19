@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.types;
+package com.javahotel.client;
 
 import java.util.Date;
 
@@ -30,10 +30,6 @@ public class ConfigParam {
         Date da = DateUtil.getToday();
         DateUtil.addDays(da, 3);
         return da;
-    }
-
-    public static String getExtyDateFormat() {
-        return "Y/m/d";
     }
 
     public static StartWeek getStartWeek() {

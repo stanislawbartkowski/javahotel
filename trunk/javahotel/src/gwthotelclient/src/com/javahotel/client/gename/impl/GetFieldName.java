@@ -17,9 +17,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gwtmodel.table.login.LoginField;
+import com.javahotel.client.abstractto.BookElemWithPayment;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.gename.ISeasonPriceNames;
 import com.javahotel.client.types.DataType;
+import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
@@ -28,6 +31,7 @@ import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
+import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
@@ -69,17 +73,27 @@ public class GetFieldName implements IGetFieldName {
         ma.put(OfferSeasonP.F.startp, "Okres od");
         ma.put(OfferSeasonP.F.endp, "Okres do");
         ma.put(OfferPriceP.F.season, "Sezon");
-        
+
         ma.put(BookingP.F.checkIn, "Od");
         ma.put(BookingP.F.checkOut, "Do");
         ma.put(BookingP.F.season, "Sezon");
         ma.put(BookingP.F.noPersons, "Liczba osób");
-        
+
         ma.put(BookElemP.F.checkIn, "Od");
         ma.put(BookElemP.F.checkOut, "Do");
         ma.put(BookElemP.F.service, "Usługa");
         ma.put(BookElemP.F.resObject, "Pokój");
+
+        ma.put(PaymentRowP.F.customerPrice, "Cena klienta");
+        ma.put(PaymentRowP.F.offerPrice, "Cena z cennika");
+        ma.put(PaymentRowP.F.rowFrom, "Od");
+        ma.put(PaymentRowP.F.rowTo, "Do");
         
+        ma.put(BookElemWithPayment.F.customerPrice, "Cena klienta");
+        ma.put(BookElemWithPayment.F.offerPrice, "Cena z cennika");
+        
+        ma.put(AdvancePaymentP.F.amount, "Zaliczka");
+        ma.put(AdvancePaymentP.F.validationDate, "Zapłacić do");
     }
 
     @Override

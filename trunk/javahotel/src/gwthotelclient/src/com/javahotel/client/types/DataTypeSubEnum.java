@@ -14,6 +14,6 @@ package com.javahotel.client.types;
 
 public enum DataTypeSubEnum {
 
-    Sub1, Sub2, Sub3
+    Sub1, Sub2, Sub3, Sub4
 
 }

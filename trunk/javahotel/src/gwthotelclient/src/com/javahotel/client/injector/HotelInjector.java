@@ -17,6 +17,7 @@ import com.google.gwt.inject.client.Ginjector;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.IAbstractType;
+import com.javahotel.client.calculateprice.IPaymentData;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.start.IWebEntry;
 import com.javahotel.client.start.action.ILoginDialog;
@@ -50,5 +51,7 @@ public interface HotelInjector extends Ginjector {
     IGetFieldName getGetFieldName();
 
     IHotelPersistFactory getHotelPersistFactory();
+
+    IPaymentData getPaymentData();
 
 }

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.common.CUtil;
@@ -45,14 +44,6 @@ class ValidateOnServer {
             this.slContainer = slContainer;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.javahotel.nmvc.factories.persist.dict.IPersistResult#success(
-         * com.javahotel
-         * .nmvc.factories.persist.dict.IPersistResult.PersistResultContext)
-         */
         @Override
         public void success(PersistResultContext re) {
             String errMessage = re.getRet().getErrorMessage();

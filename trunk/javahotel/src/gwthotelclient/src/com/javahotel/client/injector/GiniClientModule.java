@@ -22,6 +22,8 @@ import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.IAbstractType;
 import com.javahotel.client.abstractto.impl.AbstractToFactory;
 import com.javahotel.client.abstractto.impl.TypeToFactory;
+import com.javahotel.client.calculateprice.IPaymentData;
+import com.javahotel.client.calculateprice.impl.PaymentData;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.gename.impl.GetFieldName;
 import com.javahotel.client.start.IWebEntry;
@@ -54,5 +56,6 @@ public class GiniClientModule extends AbstractGinModule {
         bind(IAbstractType.class).to(TypeToFactory.class).in(Singleton.class); 
         bind(IGetFieldName.class).to(GetFieldName.class).in(Singleton.class);
         bind(IHotelPersistFactory.class).to(HotelPersistFactory.class);
+        bind(IPaymentData.class).to(PaymentData.class);
     }
 }

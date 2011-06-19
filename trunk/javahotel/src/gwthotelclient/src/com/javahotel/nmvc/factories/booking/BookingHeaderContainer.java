@@ -34,6 +34,7 @@ import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
@@ -55,6 +56,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
     private final CellId cId = new CellId(IPanelView.CUSTOMID);
     private final CellId aId = new CellId(IPanelView.CUSTOMID + 1);
     private final SetVPanelGwt sPanel = new SetVPanelGwt();
+    private final SlotSignalContextFactory sFactory;
 
     private void drawBook(IDataType dType, IVModelData book) {
         slMediator.getSlContainer().publish(
@@ -134,6 +136,16 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         }
     }
 
+    private class GetSlot implements ISlotCaller {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            GetSlowC g = new GetSlowC(slMediator);
+            return sFactory.construct(slContext.getSlType(), g);
+        }
+
+    }
+
     private BookingP getBook(ISlotSignalContext slContext) {
         IVModelData mData = slContext.getVData();
         HModelData vData = (HModelData) mData;
@@ -145,6 +157,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         publishdType = iContext.getDType();
         TablesFactories tFactories = GwtGiniInjector.getI()
                 .getTablesFactories();
+        sFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         ITableCustomFactories fContainer = GwtGiniInjector.getI()
                 .getTableFactoriesContainer();
         daFactory = fContainer.getDataModelFactory();
@@ -165,6 +178,7 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
                 new DrawModel());
         registerCaller(GetActionEnum.GetViewModelEdited, subType,
                 new SetGetter());
+        registerCaller(GetSlowC.GETSLOTS, new GetSlot());
     }
 
     @Override
