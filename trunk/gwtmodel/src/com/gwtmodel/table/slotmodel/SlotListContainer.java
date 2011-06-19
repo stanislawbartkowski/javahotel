@@ -215,6 +215,11 @@ public final class SlotListContainer {
         registerSubscriber(slTypeFactory.construct(i), slSignaller);
     }
 
+    public void registerCaller(ISlotCustom i, ISlotCaller slCaller) {
+        listOfCallers.add(new SlotCallerType(slTypeFactory.construct(i),
+                slCaller));
+    }
+
     public void registerCaller(SlotType slType, ISlotCaller slCaller) {
         listOfCallers.add(new SlotCallerType(slType, slCaller));
     }
@@ -290,6 +295,12 @@ public final class SlotListContainer {
     public ISlotSignalContext getGetterContext(GetActionEnum getActionEnum,
             IDataType dType) {
         SlotType slType = slTypeFactory.construct(getActionEnum, dType);
+        ISlotSignalContext slContext = callGet(slType);
+        return slContext;
+    }
+    
+    public ISlotSignalContext getGetterCustom(ISlotCustom i) {
+        SlotType slType = slTypeFactory.construct(i);
         ISlotSignalContext slContext = callGet(slType);
         return slContext;
     }

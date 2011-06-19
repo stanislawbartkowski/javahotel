@@ -118,11 +118,12 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(stringButton);
     }
 
-    protected void publish(String stringButton,ICustomObject customO) {
-        slContainer.publish(stringButton,customO);
+    protected void publish(String stringButton, ICustomObject customO) {
+        slContainer.publish(stringButton, customO);
     }
 
-    public void publish(IDataType dType, ClickButtonType bType, ButtonAction bAction) {
+    public void publish(IDataType dType, ClickButtonType bType,
+            ButtonAction bAction) {
         slContainer.publish(dType, bType, bAction);
     }
 
@@ -166,6 +167,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerSubscriber(dType, cellId, slSignaller);
     }
 
+    protected void registerSubscriber(ISlotCustom i, ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(i, slSignaller);
+    }
+
     protected void registerCaller(GetActionEnum gEnum, IDataType dType,
             ISlotCaller slCaller) {
         slContainer.registerCaller(gEnum, dType, slCaller);
@@ -173,6 +178,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
 
     public void registerCaller(SlotType slType, ISlotCaller slCaller) {
         slContainer.registerCaller(slType, slCaller);
+    }
+
+    public void registerCaller(ISlotCustom i, ISlotCaller slCaller) {
+        slContainer.registerCaller(i, slCaller);
     }
 
     protected ISlotSignalContext construct(GetActionEnum getActionEnum,
