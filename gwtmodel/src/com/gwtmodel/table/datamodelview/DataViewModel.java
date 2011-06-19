@@ -12,7 +12,8 @@
  */
 package com.gwtmodel.table.datamodelview;
 
-import com.google.gwt.user.client.Window;
+import java.util.List;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
@@ -22,6 +23,7 @@ import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -35,8 +37,6 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
-import com.gwtmodel.table.injector.LogT;
-import java.util.List;
 
 class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
@@ -62,22 +62,26 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             for (FormField fie : fContainer.getfList()) {
                 IFormLineView vie = fie.getELine();
                 switch (persistTypeEnum) {
-                    case ADD:
+                case ADD:
+                    if (fie.isReadOnlyIfAdd()) {
+                        vie.setReadOnly(true);
+                    } else {
                         vie.setReadOnly(false);
-                        break;
-                    case MODIF:
-                        if (fie.isReadOnlyIfModif()) {
-                            vie.setReadOnly(true);
-                        } else {
-                            vie.setReadOnly(false);
-                        }
-                        break;
-                    case REMOVE:
+                    }
+                    break;
+                case MODIF:
+                    if (fie.isReadOnlyIfModif()) {
                         vie.setReadOnly(true);
-                        break;
-                    case SHOWONLY:
-                        vie.setReadOnly(true);
-                        break;
+                    } else {
+                        vie.setReadOnly(false);
+                    }
+                    break;
+                case REMOVE:
+                    vie.setReadOnly(true);
+                    break;
+                case SHOWONLY:
+                    vie.setReadOnly(true);
+                    break;
                 }
             }
         }
@@ -133,7 +137,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext.getValidateError();
+            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext
+                    .getValidateError();
             gView.showInvalidate(errContainer);
         }
     }
@@ -158,9 +163,10 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         this.dType = dType;
         this.iContext = GwtGiniInjector.getI().getCallContext();
         iContext.setdType(dType);
-        // suspicious this in constructor, but as designed
+        // suspicious 'this' in constructor, but as designed
         iContext.setiSlo(this);
-        gView = gFactory.construct(iContext, fContainer, iContext.getC().getDataFormConstructorAbstractFactory().construct(iContext));
+        gView = gFactory.construct(iContext, fContainer, iContext.getC()
+                .getDataFormConstructorAbstractFactory().construct(iContext));
         if (dFactory == null) {
             this.dFactory = iContext.getC().getDataModelFactory();
         } else {

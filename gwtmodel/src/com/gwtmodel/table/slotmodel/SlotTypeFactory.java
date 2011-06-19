@@ -18,7 +18,6 @@ import com.gwtmodel.table.injector.LogT;
 
 public class SlotTypeFactory {
 
-
     public SlotType construct(DataActionEnum dataActionEnum, IDataType dType) {
         return new SlotType(SlotEventEnum.DataAction, null, null,
                 dataActionEnum, null, null, dType, null, null, null);
@@ -48,8 +47,8 @@ public class SlotTypeFactory {
 
     public SlotType constructH(CellId cellId) {
         assert cellId != null : LogT.getT().cannotBeNull();
-        return new SlotType(SlotEventEnum.GetterCaller, null, null, null,
-                null, cellId, null, GetActionEnum.GetHtmlForm, null, null);
+        return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
+                cellId, null, GetActionEnum.GetHtmlForm, null, null);
     }
 
     public SlotType construct(IDataType dType, int cellId) {
@@ -59,18 +58,19 @@ public class SlotTypeFactory {
     }
 
     public SlotType construct(ClickButtonType buttonClick, ButtonAction bAction) {
-        return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick, null,
-                null, null, null, null, null, bAction);
+        return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick,
+                null, null, null, null, null, null, bAction);
     }
 
-    public SlotType construct(IDataType dType, ClickButtonType buttonClick, ButtonAction bAction) {
-        return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick, null,
-                null, null, dType, null, null, bAction);
+    public SlotType construct(IDataType dType, ClickButtonType buttonClick,
+            ButtonAction bAction) {
+        return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick,
+                null, null, null, dType, null, null, bAction);
     }
 
     public SlotType construct(ClickButtonType buttonClick) {
-        return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick, null,
-                null, null, null, null, null, ButtonAction.ClickButton);
+        return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick,
+                null, null, null, null, null, null, ButtonAction.ClickButton);
     }
 
     public SlotType construct(String stringButton) {
@@ -78,14 +78,13 @@ public class SlotTypeFactory {
     }
 
     public SlotType construct(ISlotCustom iEq) {
-        return new SlotType(SlotEventEnum.Custom, null, null, null, null,
-                null, null, null, iEq, null);
+        return new SlotType(SlotEventEnum.Custom, null, null, null, null, null,
+                null, null, iEq, null);
     }
 
     public SlotType construct(IDataType dType, SlotType sl) {
         return new SlotType(sl.getSlEnum(), sl.getFie(), sl.getButtonClick(),
-                sl.getDataActionEnum(), sl.getSlList(),
-                sl.getCellId(), dType, sl.getgEnum(),
-                sl.getiEq(), sl.getbAction());
+                sl.getDataActionEnum(), sl.getSlList(), sl.getCellId(), dType,
+                sl.getgEnum(), sl.getiEq(), sl.getbAction());
     }
 }
