@@ -12,11 +12,11 @@
  */
 package com.gwtmodel.table.view.form;
 
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.gwtmodel.table.IGWidget;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
@@ -25,6 +25,7 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.ITouchListener;
+import com.gwtmodel.table.view.ErrorLineContainer;
 import com.gwtmodel.table.view.util.CreateFormView;
 
 class GwtFormView implements IGwtFormView {
@@ -55,7 +56,8 @@ class GwtFormView implements IGwtFormView {
             if (fContainer.getHtml() == null) {
                 gg = CreateFormView.construct(fContainer.getfList());
             } else {
-                gg = CreateFormView.setHtml(fContainer.getHtml(), fContainer.getfList());
+                gg = CreateFormView.setHtml(fContainer.getHtml(),
+                        fContainer.getfList());
             }
         } else {
             gg = cType.getfConstructor().construct(iContext, fContainer);
@@ -81,15 +83,15 @@ class GwtFormView implements IGwtFormView {
             IVField mFie = m.getFie();
             for (FormField re : fContainer.getfList()) {
                 if ((mFie == null) || re.getFie().eq(mFie)) {
-                    eStore.setEMess(re, m);
+                    eStore.setEMess(re.getELine(), m);
                     something = true;
                 }
-            }            
+            }
         }
         if (!something) {
             FormField re = fContainer.getfList().get(0);
             InvalidateMess m = col.get(0);
-            eStore.setEMess(re, m);
+            eStore.setEMess(re.getELine(), m);
         }
     }
 

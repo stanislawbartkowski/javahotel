@@ -12,8 +12,8 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -36,7 +36,6 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.ewidget.richtextoolbar.googlerichbar.RichTextToolbar;
-import java.util.List;
 
 /**
  * 
@@ -64,15 +63,6 @@ class ExtendTextBox extends AbstractField {
                 sOracle.addAll(rList);
             }
         }
-        
-//        private class Focus implements FocusHandler {
-//
-//            public void onFocus(FocusEvent event) {
-//                int i = 0;
-//                sBox.showSuggestionList();
-//            }
-//            
-//        }
 
         EWidget(EParam param) {
             if (param.isPassword()) {
@@ -98,7 +88,7 @@ class ExtendTextBox extends AbstractField {
                         if (param.iGet != null) {
                             param.iGet.call(new R());
                         }
-//                        tBox.addFocusHandler(new Focus());
+                        // tBox.addFocusHandler(new Focus());
                     } else {
                         sBox = null;
                     }
@@ -139,7 +129,7 @@ class ExtendTextBox extends AbstractField {
                 tBox.setText(t);
             } else {
                 rArea.setHTML(t);
-            } 
+            }
         }
 
         void addKeyboardListener(KeyboardListener k) {
@@ -147,6 +137,14 @@ class ExtendTextBox extends AbstractField {
                 tBox.addKeyboardListener(k);
             } else {
                 rArea.addKeyboardListener(k);
+            }
+        }
+
+        private void removeKeyboardListener(KeyboardListener k) {
+            if (rArea == null) {
+                tBox.removeKeyboardListener(k);
+            } else {
+                rArea.removeKeyboardListener(k);
             }
         }
 
@@ -170,7 +168,7 @@ class ExtendTextBox extends AbstractField {
             if (rArea == null) {
                 tBox.addChangeListener(c);
             } else {
-//                rArea.a
+                // rArea.a
             }
 
         }
@@ -187,8 +185,8 @@ class ExtendTextBox extends AbstractField {
         private final boolean isRich;
         private final IGetDataList iGet;
 
-        EParam(boolean password, boolean area, boolean panel,
-                boolean checkBox, boolean enable) {
+        EParam(boolean password, boolean area, boolean panel, boolean checkBox,
+                boolean enable) {
             this.password = password;
             this.panel = panel;
             this.checkBox = checkBox;
@@ -263,13 +261,15 @@ class ExtendTextBox extends AbstractField {
             return isRich;
         }
     }
+
     protected final Widget wW;
     private final EWidget eW;
     protected final HorizontalPanel hPanel;
     protected final CheckBox check;
     protected final boolean isArea;
 
-    protected ExtendTextBox(ITableCustomFactories tFactories, IVField v, EParam param) {
+    protected ExtendTextBox(ITableCustomFactories tFactories, IVField v,
+            EParam param) {
         super(tFactories, v);
         this.isArea = param.isArea();
         eW = new EWidget(param);
@@ -330,6 +330,13 @@ class ExtendTextBox extends AbstractField {
 
     @Override
     public void setOnTouch(final ITouchListener iTouch) {
+        if (iTouch == null) {
+            if (super.iTouch != null) {
+                eW.removeKeyboardListener(new Touch(super.iTouch));
+            }
+            super.setOnTouch(iTouch);
+            return;
+        }
         super.setOnTouch(iTouch);
         eW.addKeyboardListener(new Touch(iTouch));
     }
