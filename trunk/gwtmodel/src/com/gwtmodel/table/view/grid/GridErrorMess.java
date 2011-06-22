@@ -12,30 +12,35 @@
  */
 package com.gwtmodel.table.view.grid;
 
-import java.util.List;
-
-import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.InvalidateMess;
 
 /**
+ * @author hotel
  * 
- * @author stanislawbartkowski@gmail.com
  */
-public interface IGridView extends IGWidget {
+public class GridErrorMess extends InvalidateMess {
 
-    void setRowBeginning(List<String> rows);
+    private final int row;
+    private final int col;
 
-    void setRowNo(int rowNo);
+    public GridErrorMess(int row, int col) {
+        super(null);
+        this.row = row;
+        this.col = col;
+    }
 
-    void setColNo(int colNo);
+    /**
+     * @return the row
+     */
+    int getRow() {
+        return row;
+    }
 
-    void setCols(String rowTitle, List<String> cols);
-
-    void setRowVal(int row, int c, Object o);
-
-    Object getCell(int row, int c);
-
-    void setReadOnly(boolean readOnly);
-
-    void setErrorMess(List<GridErrorMess> eList);
+    /**
+     * @return the col
+     */
+    int getCol() {
+        return col;
+    }
 
 }

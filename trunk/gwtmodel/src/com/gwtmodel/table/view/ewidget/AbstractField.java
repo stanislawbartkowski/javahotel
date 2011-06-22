@@ -55,7 +55,8 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         return v;
     }
 
-    AbstractField(ITableCustomFactories tFactories, final IVField v, boolean checkenable) {
+    AbstractField(ITableCustomFactories tFactories, final IVField v,
+            boolean checkenable) {
         assert v != null : LogT.getT().cannotBeNull();
         this.tFactories = tFactories;
         iTouch = null;
@@ -120,24 +121,30 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 
         @Override
         public void onKeyDown(Widget sender, char keyCode, int modifiers) {
-            iTouch.onTouch();
+            if (iTouch != null) {
+                iTouch.onTouch();
+            }
 
         }
 
         @Override
         public void onKeyPress(Widget sender, char keyCode, int modifiers) {
-            iTouch.onTouch();
+            if (iTouch != null) {
+                iTouch.onTouch();
+            }
         }
 
         @Override
         public void onKeyUp(Widget sender, char keyCode, int modifiers) {
-            iTouch.onTouch();
+            if (iTouch != null) {
+                iTouch.onTouch();
+            }
         }
     }
 
     @Override
     public void setOnTouch(final ITouchListener iTouch) {
-        this.iTouch = iTouch;
+            this.iTouch = iTouch;
     }
 
     @Override

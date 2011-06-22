@@ -21,7 +21,10 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.rdef.ITouchListener;
+import com.gwtmodel.table.view.ErrorLineContainer;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 class GridView implements IGridView {
@@ -35,6 +38,7 @@ class GridView implements IGridView {
     private List<String> rowTitles = null;
     private String rowTitle = null;
     private S synch = new S();
+    private ErrorLineContainer eError = null;
 
     private void drawCols() {
         if (colTitles == null) {
@@ -125,16 +129,16 @@ class GridView implements IGridView {
         if (w == null) {
             w = null;
             switch (gType.getgType()) {
-                case BOOLEAN:
-                    CheckBox ce = new CheckBox();
-                    w = ce;
-                    break;
-                case DECIMAL:
-                    IFormLineView nView =
-                            wFactory.contructCalculatorNumber(Empty.getDecimalType());
-                    NumerW nu = new NumerW(nView);
-                    w = nu;
-                    break;
+            case BOOLEAN:
+                CheckBox ce = new CheckBox();
+                w = ce;
+                break;
+            case DECIMAL:
+                IFormLineView nView = wFactory.contructCalculatorNumber(Empty
+                        .getDecimalType());
+                NumerW nu = new NumerW(nView);
+                w = nu;
+                break;
             }
             g.setWidget(co.row, co.col, w);
         }
@@ -145,15 +149,15 @@ class GridView implements IGridView {
     public Object getCell(int row, int c) {
         Widget w = getW(row, c);
         switch (gType.getgType()) {
-            case BOOLEAN:
-                CheckBox ce = (CheckBox) w;
-                boolean b = ce.isChecked();
-                return b;
-            case DECIMAL:
-                NumerW nw = (NumerW) w;
-                IFormLineView i = nw.iF;
-                BigDecimal bi = (BigDecimal) i.getValObj();
-                return bi;
+        case BOOLEAN:
+            CheckBox ce = (CheckBox) w;
+            boolean b = ce.isChecked();
+            return b;
+        case DECIMAL:
+            NumerW nw = (NumerW) w;
+            IFormLineView i = nw.iF;
+            BigDecimal bi = (BigDecimal) i.getValObj();
+            return bi;
         }
         return null;
     }
@@ -178,15 +182,15 @@ class GridView implements IGridView {
             for (int c = 0; c < colNo; c++) {
                 Widget w = getW(r, c);
                 switch (gType.getgType()) {
-                    case BOOLEAN:
-                        CheckBox ce = (CheckBox) w;
-                        ce.setEnabled(!readOnly);
-                        break;
-                    case DECIMAL:
-                        NumerW nw = (NumerW) w;
-                        IFormLineView i = nw.iF;
-                        i.setReadOnly(readOnly);
-                        break;
+                case BOOLEAN:
+                    CheckBox ce = (CheckBox) w;
+                    ce.setEnabled(!readOnly);
+                    break;
+                case DECIMAL:
+                    NumerW nw = (NumerW) w;
+                    IFormLineView i = nw.iF;
+                    i.setReadOnly(readOnly);
+                    break;
                 }
             }
         }
@@ -210,22 +214,56 @@ class GridView implements IGridView {
     public void setRowVal(int row, int c, Object o) {
         Widget w = getW(row, c);
         switch (gType.getgType()) {
-            case BOOLEAN:
-                Boolean b = (Boolean) o;
-                CheckBox ce = (CheckBox) w;
-                ce.setChecked(b.booleanValue());
-                break;
-            case DECIMAL:
-                NumerW nw = (NumerW) w;
-                IFormLineView i = nw.iF;
-                BigDecimal bi = (BigDecimal) o;
-                i.setValObj(bi);
-                break;
+        case BOOLEAN:
+            Boolean b = (Boolean) o;
+            CheckBox ce = (CheckBox) w;
+            ce.setChecked(b.booleanValue());
+            break;
+        case DECIMAL:
+            NumerW nw = (NumerW) w;
+            IFormLineView i = nw.iF;
+            BigDecimal bi = (BigDecimal) o;
+            i.setValObj(bi);
+            break;
         }
     }
 
     @Override
     public Widget getGWidget() {
         return g;
+    }
+
+    private void removeTouch() {
+        for (int r = 0; r < rowNo; r++) {
+            for (int c = 0; c < colNo; c++) {
+                Widget w = getW(r, c);
+                NumerW nw = (NumerW) w;
+                IFormLineView i = nw.iF;
+                i.setOnTouch(null);
+            }
+        }
+
+    }
+
+    @Override
+    public void setErrorMess(List<GridErrorMess> eList) {
+        eError = new ErrorLineContainer();
+
+        ITouchListener ii = new ITouchListener() {
+
+            @Override
+            public void onTouch() {
+                eError.clearE();
+                removeTouch();
+            }
+        };
+        for (GridErrorMess g : eList) {
+            Widget w = getW(g.getRow(), g.getCol());
+            NumerW nw = (NumerW) w;
+            IFormLineView i = nw.iF;
+            eError.setEMess(i, g);
+            i.setOnTouch(ii);
+        }
+
     }
 }
