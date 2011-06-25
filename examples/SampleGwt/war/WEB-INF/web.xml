@@ -4,21 +4,32 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-  
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>sampleServlet</servlet-name>
-    <servlet-class>com.ibm.sampledb.server.SampleServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>sampleServlet</servlet-name>
-    <url-pattern>/samplegwt/sample</url-pattern>
-  </servlet-mapping>
-  
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>SampleGwt.html</welcome-file>
-  </welcome-file-list>
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>sampleServlet</servlet-name>
+		<servlet-class>com.ibm.sampledb.server.SampleServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>sampleServlet</servlet-name>
+		<url-pattern>/samplegwt/sample</url-pattern>
+	</servlet-mapping>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>SampleGwt.html</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>fileUploaderServler</servlet-name>
+		<servlet-class>com.ibm.sampledb.server.UpLoadFile</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>fileUploaderServler</servlet-name>
+		<url-pattern>/upLoadHandler</url-pattern>
+	</servlet-mapping>
+
 
 </web-app>
