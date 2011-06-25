@@ -19,6 +19,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+// create table empattach ( empno char(6)filename varchar2(100), comment varchar2(100), attach BLOB)
+// alter table  empattach FOREIGN KEY FOREIGN_EMPNO (EMPNO)  REFERENCES EMPLOYEE ON DELETE NO ACTION
+
 /*
  *
  db2 describe table employee
@@ -36,6 +39,8 @@ import java.sql.Timestamp;
  SALARY                          SYSIBM    DECIMAL                      9     2 Yes   
  BONUS                           SYSIBM    DECIMAL                      9     2 Yes   
  COMM                            SYSIBM    DECIMAL                      9     2 Yes 
+ -- additional
+ NOATTACH INT (number of attachments)
  */
 
 public class EmployeeRecord implements Serializable,IRecord {
@@ -54,8 +59,17 @@ public class EmployeeRecord implements Serializable,IRecord {
     private BigDecimal salary;
     private BigDecimal bonus;
     private BigDecimal comm;
+    int noattach;
 
-    public String getEmpno() {
+    public int getNoattach() {
+		return noattach;
+	}
+
+	public void setNoattach(int noattach) {
+		this.noattach = noattach;
+	}
+
+	public String getEmpno() {
         return empno;
     }
 
