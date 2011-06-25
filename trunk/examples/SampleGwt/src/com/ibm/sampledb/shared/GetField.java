@@ -148,6 +148,7 @@ public class GetField {
         fList.add(new FieldInfo("SALARY", FieldType.NUMBER, "Salary", 6));
         fList.add(new FieldInfo("BONUS", FieldType.NUMBER, "Bonus", 6));
         fList.add(new FieldInfo("COMM", FieldType.NUMBER, "Comm", 6));
+        fList.add(new FieldInfo("NOATTACH", FieldType.INTEGER, "Att", 6));
     }
 
     /**  
