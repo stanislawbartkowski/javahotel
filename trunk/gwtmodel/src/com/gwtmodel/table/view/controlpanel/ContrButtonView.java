@@ -93,19 +93,16 @@ class ContrButtonView implements IContrButtonView {
         List<ControlButtonDesc> bu = model.getcList();
         for (ControlButtonDesc b : bu) {
             IGFocusWidget but;
-            String bName = b.getActionId().getCustomButt();
-            if (bName == null) {
-                bName = b.getActionId().getClickEnum().toString();
-            }
+            String htmlElementName = b.getActionId().getHtmlElementName();
             if (b.isTextimage()) {
-                but = ImgButtonFactory.getButtonTextImage(bName,
+                but = ImgButtonFactory.getButtonTextImage(htmlElementName,
                         b.getDisplayName(), b.getImageHtml());
             } else {
-                but = ImgButtonFactory.getButton(bName, b.getDisplayName(),
+                but = ImgButtonFactory.getButton(htmlElementName, b.getDisplayName(),
                         b.getImageHtml());
             }
             if (!hori) {
-              but.getGWidget().setWidth("100%");
+                but.getGWidget().setWidth("100%");
             }
             but.addClickHandler(new Click(b));
             hP.add(but.getGWidget());

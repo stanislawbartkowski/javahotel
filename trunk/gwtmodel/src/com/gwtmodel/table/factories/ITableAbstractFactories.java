@@ -32,4 +32,7 @@ public interface ITableAbstractFactories {
     void registerDataFormConstructorAbstractFactory(IDataFormConstructorAbstractFactory cFactory);
 
     void registerJavaMailActionFactory(IJavaMailActionFactory mAction);
+
+    void registerDataCrudModifButtonActionFactory(
+            IDataCrudModifButtonActionFactory crudModifButtonAction);
 }

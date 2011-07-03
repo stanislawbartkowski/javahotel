@@ -36,70 +36,74 @@ public class ControlButtonFactory {
     private final IGetCustomValues c;
     private boolean wasset = false;
 
-    public ControlButtonDesc constructButt(StandClickEnum bType) {
+    public ControlButtonDesc constructButt(StandClickEnum bType, ClickButtonType buttonType) {
         String imageName = ControlButtonImages.getImageName(bType);
         switch (bType) {
             case CLEARFILTER:
             case CLEARFIND:
                 return new ControlButtonDesc(imageName,
-                        MM.getL().ClearParam(), new ClickButtonType(bType));
+                        MM.getL().ClearParam(), buttonType);
             case FIND:
                 return new ControlButtonDesc(imageName,
-                        MM.getL().SearchButton(), new ClickButtonType(bType));
+                        MM.getL().SearchButton(), buttonType);
 
             case FINDFROMBEGINNING:
                 return new ControlButtonDesc(imageName,
-                        MM.getL().SearchFromBeginning(), new ClickButtonType(bType));
+                        MM.getL().SearchFromBeginning(), buttonType);
 
             case FINDNOW:
                 return new ControlButtonDesc(imageName,
-                        MM.getL().SearchButton(), new ClickButtonType(bType));
+                        MM.getL().SearchButton(), buttonType);
             case FINDNEXT:
                 return new ControlButtonDesc(imageName,
-                        MM.getL().SearchNext(), new ClickButtonType(bType));
+                        MM.getL().SearchNext(), buttonType);
 
             case SETFILTER:
                 return new ControlButtonDesc(imageName,
-                        MM.getL().SetFilter(), new ClickButtonType(bType));
+                        MM.getL().SetFilter(), buttonType);
 
             case REMOVEFILTER:
                 return new ControlButtonDesc(imageName,
-                        MM.getL().RemoveFilter(), new ClickButtonType(bType));
+                        MM.getL().RemoveFilter(), buttonType);
 
             case FILTRLIST:
                 return new ControlButtonDesc(imageName,
-                        MM.getL().Filter(), new ClickButtonType(bType));
+                        MM.getL().Filter(), buttonType);
             case ADDITEM:
                 return new ControlButtonDesc(imageName,
                         c.getCustomValue(IGetCustomValues.ADDITEM),
-                        new ClickButtonType(bType));
+                        buttonType);
             case REMOVEITEM:
                 return new ControlButtonDesc(imageName,
                         c.getCustomValue(IGetCustomValues.REMOVEITEM),
-                        new ClickButtonType(bType));
+                        buttonType);
             case MODIFITEM:
                 return new ControlButtonDesc(imageName, c.getCustomValue(IGetCustomValues.MODIFITEM),
-                        new ClickButtonType(bType));
+                        buttonType);
             case SHOWITEM:
                 return new ControlButtonDesc(
                         imageName,
                         c.getCustomValue(IGetCustomValues.SHOWITEM),
-                        new ClickButtonType(bType));
+                        buttonType);
             case ACCEPT:
                 return new ControlButtonDesc(imageName, MM.getL().Accept(),
-                        new ClickButtonType(bType));
+                        buttonType);
             case RESIGN:
             case RESIGNLIST:
                 return new ControlButtonDesc(imageName, MM.getL().Resign(),
-                        new ClickButtonType(bType));
+                        buttonType);
             case CHOOSELIST:
                 return new ControlButtonDesc(imageName, MM.getL().Choose(),
-                        new ClickButtonType(bType));
+                        buttonType);
 
             default:
                 break;
         }
         return null;
+    }
+
+    public ControlButtonDesc constructButt(StandClickEnum bType) {
+        return constructButt(bType, new ClickButtonType(bType));
     }
 
     private void setM() {

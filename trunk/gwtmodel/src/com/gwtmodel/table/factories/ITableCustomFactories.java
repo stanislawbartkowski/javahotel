@@ -35,4 +35,6 @@ public interface ITableCustomFactories {
     IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory();
 
     IJavaMailActionFactory getJavaMailActionFactory();
+
+    IDataCrudModifButtonActionFactory getDataCrudModifButtonActionFactory();
 }

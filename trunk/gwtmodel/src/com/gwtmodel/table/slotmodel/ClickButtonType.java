@@ -14,8 +14,16 @@ package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 
 public class ClickButtonType {
+
+    /**
+     * @return the htmlElementName
+     */
+    public String getHtmlElementName() {
+        return htmlElementName;
+    }
 
     public enum StandClickEnum {
 
@@ -24,18 +32,34 @@ public class ClickButtonType {
         CLEARFIND, CLEARFILTER,
         ALL
     };
-    private StandClickEnum clickEnum;
-    private String customButt;
+    private final StandClickEnum clickEnum;
+    private final String customButt;
+    private final String htmlElementName;
 
-    public ClickButtonType(StandClickEnum clickEnum) {
+    public ClickButtonType(StandClickEnum clickEnum, String customButt) {
         assert clickEnum != StandClickEnum.CUSTOM : LogT.getT().mustBeConnectedToString();
         this.clickEnum = clickEnum;
-        customButt = null;
+        this.customButt = customButt;
+        this.htmlElementName = clickEnum.name();
+    }
+
+    public ClickButtonType(StandClickEnum clickEnum) {
+        this(clickEnum, null);
     }
 
     public ClickButtonType(String customButt) {
+        this(customButt, null);
+    }
+
+    public ClickButtonType(String customButt, String htmlElementName) {
+        assert customButt != null : LogT.getT().cannotBeNull();
         this.clickEnum = StandClickEnum.CUSTOM;
         this.customButt = customButt;
+        if (htmlElementName == null) {
+            this.htmlElementName = customButt;
+        } else {
+            this.htmlElementName = htmlElementName;
+        }
     }
 
     public StandClickEnum getClickEnum() {

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.injector;
 
+import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
@@ -56,6 +57,7 @@ public class WebPanelHolder {
         private IGetCustomValues iGetCustomValues;
         private IDataFormConstructorAbstractFactory formFactory;
         private IJavaMailActionFactory maActionFactory;
+        private IDataCrudModifButtonActionFactory crudModifButtonActionFactory;
 
         private TableFactoriesContainer() {
         }
@@ -150,6 +152,17 @@ public class WebPanelHolder {
 
         public IJavaMailActionFactory getJavaMailActionFactory() {
             return maActionFactory;
+        }
+
+        @Override
+        public IDataCrudModifButtonActionFactory getDataCrudModifButtonActionFactory() {
+            return this.crudModifButtonActionFactory;
+        }
+
+        @Override
+        public void registerDataCrudModifButtonActionFactory(
+                IDataCrudModifButtonActionFactory crudModifButtonActionFactory) {
+            this.crudModifButtonActionFactory = crudModifButtonActionFactory;
         }
     }
 

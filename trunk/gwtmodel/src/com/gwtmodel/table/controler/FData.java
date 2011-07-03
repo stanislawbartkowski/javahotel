@@ -13,6 +13,7 @@
 package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -49,6 +50,9 @@ class FData extends VModelData {
 
     public boolean isEmpty() {
         for (IVField f : getF()) {
+            if (f.getType().getType() == FieldDataType.T.BOOLEAN) {
+                continue;
+            }
             if (!FUtils.isNullValue(this, f)) {
                 return false;
             }

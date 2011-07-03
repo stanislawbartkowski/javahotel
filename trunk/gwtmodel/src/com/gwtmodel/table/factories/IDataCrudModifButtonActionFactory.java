@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,23 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.buttoncontrolmodel;
+package com.gwtmodel.table.factories;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.gwtmodel.table.injector.ICallContext;
 
-public class ListOfControlDesc {
-
-    private final List<ControlButtonDesc> cList =
-            new ArrayList<ControlButtonDesc>();
-
-    public ListOfControlDesc(List<ControlButtonDesc> cList) {
-        for (ControlButtonDesc c : cList) {
-            this.cList.add(c);
-        }
-    }
-
-    public List<ControlButtonDesc> getcList() {
-        return cList;
-    }
+/**
+ *
+ * @author perseus
+ */
+public interface IDataCrudModifButtonActionFactory {
+    
+    IDataCrudModifButtonAction contruct(ICallContext iCall);        
+    
 }

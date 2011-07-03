@@ -28,19 +28,18 @@ public class FormField {
     private boolean disabled;
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
-            boolean readOnlyIfModif,boolean readOnlyIfAdd) {
+            IVField fRange, boolean readOnlyIfModif, boolean readOnlyIfAdd) {
         this.pLabel = p;
         if (e == null) {
             assert fie != null : LogT.getT().cannotBeNull();
-            EditWidgetFactory eFactory = GwtGiniInjector.getI()
-                    .getEditWidgetFactory();
+            EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
             this.eLine = eFactory.constructEditWidget(fie);
         } else {
             this.eLine = e;
         }
-        this.readOnlyIfModif = readOnlyIfModif;        
+        this.readOnlyIfModif = readOnlyIfModif;
         this.readOnlyIfAdd = readOnlyIfAdd;
-        this.fRange = null;
+        this.fRange = fRange;
     }
 
     /**
@@ -50,25 +49,17 @@ public class FormField {
         return readOnlyIfAdd;
     }
 
-    public FormField(final String p, final IFormLineView e, final IVField fie) {
-        this(p, e, fie, false,false);
+    public FormField(final String p, final IVField fie) {
+        this(p, null, fie, null, false, false);
     }
 
     public FormField(final String p, final IFormLineView e) {
-        this(p, e, null, false,false);
-    }
-
-    public FormField(final String p, final IVField fie) {
-        this(p, null, fie, false,false);
+        this(p, e, null, null, false, false);
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
             IVField fRange) {
-        this.pLabel = p;
-        this.eLine = e;
-        this.readOnlyIfModif = false;
-        this.fRange = fRange;
-        this.readOnlyIfAdd = false;
+        this(p, e, fie, fRange, false, false);
     }
 
     public boolean isReadOnlyIfModif() {
