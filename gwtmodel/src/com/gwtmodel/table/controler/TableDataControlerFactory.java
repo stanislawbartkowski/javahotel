@@ -17,6 +17,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IFormTitleFactory;
@@ -53,7 +54,8 @@ public class TableDataControlerFactory {
         IDataModelFactory dataFactory = fContainer.getDataModelFactory();
         IFormTitleFactory formFactory = fContainer.getFormTitleFactory();
         IGetViewControllerFactory fControler = fContainer.getGetViewControllerFactory();
-        return new DataListParam(persistA, heList, dataFactory, formFactory, fControler);
+        IDataCrudModifButtonActionFactory modifButton = fContainer.getDataCrudModifButtonActionFactory();
+        return new DataListParam(persistA, heList, dataFactory, formFactory, fControler, modifButton);
     }
 
     public IDataControler constructDataControler(DisplayListControlerParam cParam) {

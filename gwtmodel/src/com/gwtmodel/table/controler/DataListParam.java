@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.controler;
 
+import com.gwtmodel.table.factories.IDataCrudModifButtonAction;
+import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IFormTitleFactory;
@@ -25,6 +27,7 @@ public class DataListParam {
     private final IDataModelFactory dataFactory;
     private final IFormTitleFactory formFactory;
     private final IGetViewControllerFactory fControler;
+    private final IDataCrudModifButtonActionFactory modifButtonFactory;
 
     public IFormTitleFactory getFormFactory() {
         return formFactory;
@@ -32,12 +35,20 @@ public class DataListParam {
 
     public DataListParam(IDataPersistAction persistA,
             IHeaderListContainer heList, IDataModelFactory dataFactory,
-            IFormTitleFactory formFactory,IGetViewControllerFactory fControler) {
+            IFormTitleFactory formFactory, IGetViewControllerFactory fControler,
+            IDataCrudModifButtonActionFactory modifButtonFactory) {
         this.persistA = persistA;
         this.heList = heList;
         this.dataFactory = dataFactory;
         this.formFactory = formFactory;
         this.fControler = fControler;
+        this.modifButtonFactory = modifButtonFactory;
+    }
+
+    public DataListParam(IDataPersistAction persistA,
+            IHeaderListContainer heList, IDataModelFactory dataFactory,
+            IFormTitleFactory formFactory, IGetViewControllerFactory fControler) {
+        this(persistA, heList, dataFactory, formFactory, fControler, null);
     }
 
     public IGetViewControllerFactory getfControler() {
@@ -56,4 +67,10 @@ public class DataListParam {
         return persistA;
     }
 
+    /**
+     * @return the modifButton
+     */
+    public IDataCrudModifButtonActionFactory getModifButtonFactory() {
+        return modifButtonFactory;
+    }
 }

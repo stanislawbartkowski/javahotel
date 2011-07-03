@@ -13,6 +13,7 @@
 package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.Empty;
+import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
@@ -157,7 +158,7 @@ class FindListActionFactory {
                     if (yes) {
                         slMediator.getSlContainer().publish(DataActionEnum.ClearViewFormAction,
                                 eType);
-
+                        clearBoolean(liF);
                     }
                 }
             };
@@ -211,12 +212,25 @@ class FindListActionFactory {
         @Override
         public void signal(ISlotSignalContext slContext) {
             FData fa = returnNotEmpty(slMediator, liF, li, slContext, nF);
-            publishSlo.getSlContainer().publish(a,
-                    publishdType, fa.constructIOk());
+            if (fa != null) {
+                publishSlo.getSlContainer().publish(a,
+                        publishdType, fa.constructIOk());
+            }
             if (hide) {
                 dForm.hide();
             }
         }
+    }
+
+    private void clearBoolean(List<FormField> li) {
+        for (FormField f : li) {
+            IVField fie = f.getFie();
+            if (fie.getType().getType() == FieldDataType.T.BOOLEAN) {
+                Boolean val = new Boolean(!f.isRange());
+                f.getELine().setValObj(val);
+            }
+        }
+
     }
 
     private List<FormField> constructForm(List<VListHeaderDesc> li) {
@@ -242,7 +256,15 @@ class FindListActionFactory {
             IFormLineView ito = eFactory.constructEditWidget(to);
             liF.add(new FormField(he.getHeaderString(), ifrom));
             liF.add(new FormField(he.getHeaderString(), ito, to, from));
+//            if (from.getType().getType() == FieldDataType.T.BOOLEAN) {
+//                // loginal : set from as T and the second as N
+//                Boolean val = new Boolean(true);
+//                ifrom.setValObj(val);
+//                val = new Boolean(false);
+//                ito.setValObj(val);
+//            }            
         }
+        clearBoolean(liF);
         return liF;
     }
 

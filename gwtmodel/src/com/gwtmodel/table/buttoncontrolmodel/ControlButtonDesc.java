@@ -62,4 +62,8 @@ public class ControlButtonDesc {
     public ClickButtonType getActionId() {
         return actionId;
     }
+
+    /**
+     * @return the htmlElementName
+     */
 }

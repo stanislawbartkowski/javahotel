@@ -212,8 +212,17 @@ public class FUtils {
                 return isNullDate(ii, f);
             case ENUM:
                 return isNullEnum(ii, f);
+            // cannot set boolean as null     
+            case BOOLEAN:
+                return false;
         }
         return isNullString(ii, f);
+    }
+
+    private static int compBoolean(IVModelData row, IVField f, IVModelData filter, IVField from) {
+        Boolean bTow = getValueBoolean(row, f);
+        Boolean bFilt = getValueBoolean(filter, from);
+        return bTow.compareTo(bFilt);
     }
 
     private static int compString(IVModelData row, IVField f, IVModelData filter, IVField from, boolean first) {
@@ -271,6 +280,9 @@ public class FUtils {
             case DATE:
                 comp = compDate(row1, f1, row2, f2);
                 break;
+            case BOOLEAN:
+                comp = compBoolean(row1, f1, row2, f2);
+                break;
             default:
                 comp = compString(row1, f1, row2, f2, true);
                 break;
@@ -310,6 +322,9 @@ public class FUtils {
                 case DATE:
                     compfrom = compDate(row, f, filter, from);
                     break;
+                case BOOLEAN:
+                    compfrom = compBoolean(row, f, filter, from);
+                    break;
                 default:
                     compfrom = compString(row, f, filter, from, true);
                     break;
@@ -326,10 +341,17 @@ public class FUtils {
                 case DATE:
                     compto = compDate(row, f, filter, to);
                     break;
+                case BOOLEAN:
+                    compto = compBoolean(row, f, filter, to);
+                    break;
                 default:
                     compto = compString(row, f, filter, to, false);
                     break;
             }
+        }
+        // take BOOLEAN type differently
+        if (f.getType().getType() == FieldDataType.T.BOOLEAN) {
+            return (compfrom == 0 || compto == 0);
         }
         if (emptyto) {
             return compfrom == 0;
