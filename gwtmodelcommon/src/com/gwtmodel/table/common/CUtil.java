@@ -27,7 +27,14 @@ public class CUtil {
         if (s == null) {
             return true;
         }
-        return s.equals("");
+        return s.trim().equals("");
+    }
+
+    public static String emptyToS(String s) {
+        if (s == null) {
+            return null;
+        }
+        return "";
     }
 
     public static boolean OkNumber(String s) {
