@@ -1,0 +1,1 @@
+INSERT INTO empattach VALUES (DEFAULT, ?, ? , ?, DEFAULT, ?)

@@ -18,18 +18,21 @@ package com.ibm.sampledb.client;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.ibm.sampledb.shared.EmployeeRecord;
-import com.ibm.sampledb.shared.IRecord;
-import com.ibm.sampledb.shared.ResourceInfo;
+import com.ibm.sampledb.shared.GetRowsInfo;
+import com.ibm.sampledb.shared.OneRecord;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface SampleServiceAsync {
 
-    void getList(String orderBy, AsyncCallback<List<? extends IRecord>> callback);
+	void getList(String orderBy, AsyncCallback<List<OneRecord>> callback);
 
-    void getInfo(AsyncCallback<ResourceInfo> callback);
+	void printList(List<OneRecord> li, AsyncCallback<String> callback);
 
-    void printList(List<? extends IRecord> li, AsyncCallback<String> callback);
+	void getInfo(String resType, AsyncCallback<GetRowsInfo> callback);
+
+	void getAttachmentList(String empNo, AsyncCallback<List<OneRecord>> callback);
+
+	void removeAttachment(Integer Id, AsyncCallback<Void> callback);
 }

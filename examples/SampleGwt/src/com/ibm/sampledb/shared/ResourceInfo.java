@@ -17,16 +17,27 @@ package com.ibm.sampledb.shared;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class ResourceInfo implements Serializable {
 
-    private String javaS;
-    private String cssS;
-    private boolean customRow;
-    private String jsAddRowFunc;
-    private String birtURL;
-    private String employeeReport;
+    private String javaS = null;
+    private String cssS = null;
+    private boolean customRow = false;
+    private String jsAddRowFunc = null;
+    private String birtURL = null;
+    private String employeeReport = null;
+    private String tableWidth = null;
+    
+    
+    public String getTableWidth() {
+		return tableWidth;
+	}
 
-    public String getBirtURL() {
+	public void setTableWidth(String tableWidth) {
+		this.tableWidth = tableWidth;
+	}
+
+	public String getBirtURL() {
         return birtURL;
     }
 

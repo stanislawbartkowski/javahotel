@@ -17,40 +17,41 @@ package com.ibm.sampledb.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
+import com.ibm.sampledb.shared.GetRowsInfo;
 import com.ibm.sampledb.shared.ResourceInfo;
 
 public class LaunchPrint {
 
-    private ResourceInfo rInfo;
-    private String orderBy = null;
+	private GetRowsInfo rInfo;
+	private String orderBy = null;
 
-    private final Message message = GWT.create(Message.class);
+	private final Message message = GWT.create(Message.class);
 
-    public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
-    }
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
 
-    public void setrInfo(ResourceInfo rInfo) {
-        this.rInfo = rInfo;
-    }
+	public void setrInfo(GetRowsInfo rInfo) {
+		this.rInfo = rInfo;
+	}
 
-    void launchPrint(String fileName) {
-        // create an URL string
-        StringBuffer b = new StringBuffer(rInfo.getBirtURL());
-        b.append("?__report=");
-        b.append(rInfo.getEmployeeReport());
-        b.append("&FILEXML=");
-        b.append(fileName);
-        String s;
-        if (orderBy == null) {
-            s = " " + message.NoOrder();
-        } else {
-            s = orderBy;
-        }
-        b.append("&ORDERBY=");
-        b.append(s);
-        // Window.alert(b.toString());
-        Window.open(b.toString(), message.Print(), null);
-    }
+	void launchPrint(String fileName) {
+		// create an URL string
+		StringBuffer b = new StringBuffer(rInfo.getResource().getBirtURL());
+		b.append("?__report=");
+		b.append(rInfo.getResource().getEmployeeReport());
+		b.append("&FILEXML=");
+		b.append(fileName);
+		String s;
+		if (orderBy == null) {
+			s = " " + message.NoOrder();
+		} else {
+			s = orderBy;
+		}
+		b.append("&ORDERBY=");
+		b.append(s);
+		// Window.alert(b.toString());
+		Window.open(b.toString(), message.Print(), null);
+	}
 
 }
