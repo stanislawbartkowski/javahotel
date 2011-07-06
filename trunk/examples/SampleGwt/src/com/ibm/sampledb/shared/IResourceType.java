@@ -13,47 +13,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.ibm.sampledb.client;
+package com.ibm.sampledb.shared;
 
-import com.google.gwt.i18n.client.Constants;
+public interface IResourceType {
 
-public interface Message extends Constants {
-
-	String SortedBy();
-
-	String ErrorMessage();
-
-	String Inc();
-
-	String Dec();
-
-	String Print();
-
-	String NoOrder();
-
-	String AttachmentInfo();
-
-	String AddNewDoc();
-
-	String DeleteDoc();
-
-	String DownloadDoc();
+	String EMPLOYEE = "EMPLOYEE";
 	
-	String Submit();
+	String ATTACHMENTS = "ATTACHMENTS";
+
+	String NOATTACH = "NOATTACH";
+
+	String EMPNO = "EMPNO";
+
+	String FIRSTNME = "FIRSTNME";
+
+	String LASTNAME = "LASTNAME";
+
+	String COMMENT = "COMMENT";
+
+	String FILENAME = "FILENAME";
+
+	String FILE = "FILE";
 	
-	String EnterFileName();
+	String ERRORSUBMIT = "---ERROR--SUBMIT--";
 	
-	String SubmitQuestion();
-	
-	String SubmitCompleted();
-	
-	String Resign();
-	
-	String SubmitError();
-	
-	String RemoveQuestion();
-	
-	String SelectOne();
-	
+	String ATTACHID = "ID";
 
 }

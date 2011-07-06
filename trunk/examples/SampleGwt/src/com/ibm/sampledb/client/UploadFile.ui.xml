@@ -1,0 +1,18 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='cc' type='com.ibm.sampledb.client.Message' />
+	<g:FormPanel>
+		<g:VerticalPanel width='100%'>
+			<g:Hidden ui:field="empname"></g:Hidden>
+			<g:TextBox ui:field="comment"></g:TextBox>
+			<g:FileUpload ui:field="fileupload"></g:FileUpload>
+			<g:HorizontalPanel width='100%'>
+				<g:Button ui:field="submit" text='{cc.Submit}'></g:Button>
+				<g:Button ui:field="resign" text='{cc.Resign}'></g:Button>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+
+	</g:FormPanel>
+
+</ui:UiBinder> 

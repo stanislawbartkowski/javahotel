@@ -1,0 +1,1 @@
+SELECT filename,attach FROM empattach WHERE id = ?
