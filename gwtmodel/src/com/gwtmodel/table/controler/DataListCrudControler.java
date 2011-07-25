@@ -38,7 +38,7 @@ class DataListCrudControler extends AbstractSlotContainer {
         aFactory = new DataListActionItemFactory(tFactories, dType, this, listParam,
                 slFactory);
         fFactory = new FindListActionFactory(tFactories, dType, listParam);
-        registerSubscriber(DataActionEnum.ReadHeaderContainerSignal, dType,
+        registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
                 fFactory.constructActionHeader());
 
         registerSubscriber(ClickButtonType.StandClickEnum.ADDITEM,
@@ -55,7 +55,7 @@ class DataListCrudControler extends AbstractSlotContainer {
         registerSubscriber(ClickButtonType.StandClickEnum.FIND,
                 fFactory.constructActionFind(
                 ClickButtonType.StandClickEnum.FIND, this, dType));
-        registerSubscriber(DataActionEnum.ChangeViewFormModeAction, dType,
+        registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
                 aFactory.constructChangeMode());
 
     }

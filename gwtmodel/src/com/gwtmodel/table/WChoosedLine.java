@@ -20,15 +20,20 @@ public class WChoosedLine {
 
     private final int choosedLine;
     private final WSize wSize;
+    private final IVField vField;
 
-    public WChoosedLine(int choosedLine, WSize wSize) {
+    public WChoosedLine(int choosedLine, WSize wSize, IVField vField) {
         this.choosedLine = choosedLine;
         this.wSize = wSize;
+        this.vField = vField;
+    }
+
+    public WChoosedLine(int choosedLine, WSize wSize) {
+        this(choosedLine, wSize, null);
     }
 
     public WChoosedLine() {
-        choosedLine = -1;
-        wSize = null;
+        this(-1, null, null);
     }
 
     public int getChoosedLine() {
@@ -41,5 +46,12 @@ public class WChoosedLine {
 
     public WSize getwSize() {
         return wSize;
+    }
+
+    /**
+     * @return the vField
+     */
+    public IVField getvField() {
+        return vField;
     }
 }

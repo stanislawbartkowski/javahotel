@@ -85,8 +85,8 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
                 p = PersistTypeEnum.SHOWONLY;
             }
         }
-        slMediator.getSlContainer().publish(
-                DataActionEnum.ChangeViewComposeFormModeAction, dType, p);
+        slMediator.getSlContainer().publish(dType,
+                DataActionEnum.ChangeViewComposeFormModeAction, p);
     }
 
     @Override
@@ -172,8 +172,8 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
             public void setChoosed(IVModelData vData, IVField comboFie) {
                 assert vData != null : LogT.getT().cannotBeNull();
                 LogT.getL().info(LogT.getT().choosedEdit(vData.toString()));
-                slMediator.getSlContainer().publish(
-                        DataActionEnum.DrawViewComposeFormAction, dType, vData);
+                slMediator.getSlContainer().publish(dType,
+                        DataActionEnum.DrawViewComposeFormAction, vData);
                 SetNewChange(false, false);
                 ModifForm();
                 d.hide();
@@ -222,11 +222,9 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         bList.add(bChoose);
         ListOfControlDesc cList = new ListOfControlDesc(bList);
         slMediator.getSlContainer().registerSubscriber(sChoose, new ChooseC());
-        ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
-                .getControlButtonViewFactory();
+        ControlButtonViewFactory bFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
         IControlButtonView bView = bFactory.construct(dType, cList);
-        IGetViewControllerFactory fa = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetViewControllerFactory();
+        IGetViewControllerFactory fa = GwtGiniInjector.getI().getTableFactoriesContainer().getGetViewControllerFactory();
         bId = new CellId(IPanelView.CUSTOMID);
         cId = new CellId(IPanelView.CUSTOMID + 1);
         IComposeController cust = fa.construct(iContext.construct(dType));

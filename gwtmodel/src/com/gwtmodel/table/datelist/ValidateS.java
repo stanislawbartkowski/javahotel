@@ -14,7 +14,6 @@
  *  limitations under the License.
  *  under the License.
  */
-
 package com.gwtmodel.table.datelist;
 
 import com.gwtmodel.table.IDataType;
@@ -45,24 +44,24 @@ class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetViewComposeModelEdited, stringType);
+            IVModelData pData = getGetterIVModelData(stringType,
+                    GetActionEnum.GetViewComposeModelEdited);
             List<IVField> listMFie = new ArrayList<IVField>();
             listMFie.add(new DatePeriodField(DatePeriodField.F.DATEFROM));
             List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,
                     listMFie);
             if (errMess != null) {
-                publish(DataActionEnum.InvalidSignal, stringType,
+                publish(stringType, DataActionEnum.InvalidSignal,
                         new InvalidateFormContainer(errMess));
                 return;
             }
-            publish(DataActionEnum.ValidSignal, stringType);
+            publish(stringType, DataActionEnum.ValidSignal);
         }
     }
 
     ValidateS(IDataType stringType) {
         this.stringType = stringType;
-        registerSubscriber(DataActionEnum.ValidateAction, stringType,
+        registerSubscriber(stringType, DataActionEnum.ValidateAction,
                 new ValidateA());
 
     }
@@ -70,5 +69,4 @@ class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
     @Override
     public void startPublish(CellId cellId) {
     }
-
 }

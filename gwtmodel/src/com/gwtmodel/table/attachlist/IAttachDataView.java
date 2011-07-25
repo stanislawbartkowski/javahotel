@@ -10,12 +10,22 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+package com.gwtmodel.table.attachlist;
 
-import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.ICustomObject;
+import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface IFormTitleFactory {
-       
-    String getFormTitle(ICallContext iContext);    
+/**
+ *
+ * @author perseus
+ */
+public interface IAttachDataView extends ISlotable {
 
+    String CALLFORDOWNLOADEDFILENAME = "CALLFORDOWNLOADEDFILENAME";
+    String SENDDOWNLOADFILENAME = "SENDDOWNALOADFILENAME";
+
+    interface ICustomData extends ICustomObject {
+
+        AttachData getA();
+    }
 }

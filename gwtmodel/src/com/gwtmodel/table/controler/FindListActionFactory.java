@@ -28,6 +28,7 @@ import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.injector.TablesFactories;
@@ -102,8 +103,7 @@ class FindListActionFactory {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            publishSlo.getSlContainer().publish(DataActionEnum.DrawListRemoveFilter,
-                    publishdType);
+            publishSlo.getSlContainer().publish(publishdType, DataActionEnum.DrawListRemoveFilter);
             dForm.hide();
         }
     }
@@ -156,8 +156,7 @@ class FindListActionFactory {
 
                 public void click(boolean yes) {
                     if (yes) {
-                        slMediator.getSlContainer().publish(DataActionEnum.ClearViewFormAction,
-                                eType);
+                        slMediator.getSlContainer().publish(eType, DataActionEnum.ClearViewFormAction);
                         clearBoolean(liF);
                     }
                 }
@@ -170,8 +169,8 @@ class FindListActionFactory {
     private FData returnNotEmpty(ISlotMediator slMediator, List<FormField> liF,
             List<VListHeaderDesc> li, ISlotSignalContext slContext, NotFoundSignal nF) {
         FData fa = new FData(liF, li);
-        slMediator.getSlContainer().getGetterIVModelData(
-                GetActionEnum.GetViewModelEdited, eType, fa);
+        slMediator.getSlContainer().getGetterIVModelData(eType,
+                GetActionEnum.GetViewModelEdited, fa);
         IGWidget w = slContext.getGwtWidget();
         nF.setW(w);
         if (fa.isEmpty()) {
@@ -213,8 +212,8 @@ class FindListActionFactory {
         public void signal(ISlotSignalContext slContext) {
             FData fa = returnNotEmpty(slMediator, liF, li, slContext, nF);
             if (fa != null) {
-                publishSlo.getSlContainer().publish(a,
-                        publishdType, fa.constructIOk());
+                publishSlo.getSlContainer().publish(publishdType,
+                        a, fa.constructIOk());
             }
             if (hide) {
                 dForm.hide();
@@ -256,13 +255,6 @@ class FindListActionFactory {
             IFormLineView ito = eFactory.constructEditWidget(to);
             liF.add(new FormField(he.getHeaderString(), ifrom));
             liF.add(new FormField(he.getHeaderString(), ito, to, from));
-//            if (from.getType().getType() == FieldDataType.T.BOOLEAN) {
-//                // loginal : set from as T and the second as N
-//                Boolean val = new Boolean(true);
-//                ifrom.setValObj(val);
-//                val = new Boolean(false);
-//                ito.setValObj(val);
-//            }            
         }
         clearBoolean(liF);
         return liF;
@@ -293,8 +285,8 @@ class FindListActionFactory {
 
             @Override
             public void signal() {
-                publishSlo.getSlContainer().removeSubscriber(DataActionEnum.NotFoundSignal,
-                        publishdType);
+                publishSlo.getSlContainer().removeSubscriber(publishdType,
+                        DataActionEnum.NotFoundSignal);
                 slMediator = null;
             }
         }
@@ -349,7 +341,12 @@ class FindListActionFactory {
             slMediator.registerSlotContainer(cellTableId, daView);
             slMediator.registerSlotContainer(controlId, bView);
 
-            String title = listParam.getFormFactory().getFormTitle(ddType);
+            ICallContext iCall = GwtGiniInjector.getI().getCallContext();
+            iCall.setdType(ddType);
+            iCall.setiSlo(publishSlo);
+            iCall.setPersistTypeEnum(slContext.getPersistType());
+
+            String title = listParam.getFormFactory().getFormTitle(iCall);
             ICloseAction o = new ICloseAction() {
 
                 public void onClose() {
@@ -387,8 +384,8 @@ class FindListActionFactory {
             slMediator.getSlContainer().registerSubscriber(
                     ClickButtonType.StandClickEnum.CLEARFIND, clearS);
             if (!isFilter()) {
-                publishSlo.getSlContainer().registerSubscriber(DataActionEnum.NotFoundSignal,
-                        publishdType, nF);
+                publishSlo.getSlContainer().registerSubscriber(publishdType, DataActionEnum.NotFoundSignal,
+                        nF);
             }
 
             slMediator.startPublish(panelId);

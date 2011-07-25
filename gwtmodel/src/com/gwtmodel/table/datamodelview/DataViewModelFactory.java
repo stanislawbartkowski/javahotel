@@ -14,6 +14,7 @@ package com.gwtmodel.table.datamodelview;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -31,11 +32,18 @@ public class DataViewModelFactory {
 
     public IDataViewModel construct(IDataType dType,
             FormLineContainer fContainer, IDataModelFactory dFactory) {
-        return new DataViewModel(gFactory, dType, fContainer, dFactory);
+        return new DataViewModel(gFactory, dType, fContainer, dFactory, null);
+    }
+
+    public IDataViewModel construct(IDataType dType,
+            FormLineContainer fContainer, IDataModelFactory dFactory,
+            IDataFormConstructorAbstractFactory abFactory) {
+        return new DataViewModel(gFactory, dType, fContainer, dFactory,
+                abFactory);
     }
 
     public IDataViewModel construct(IDataType dType,
             FormLineContainer fContainer) {
-        return new DataViewModel(gFactory, dType, fContainer, null);
+        return new DataViewModel(gFactory, dType, fContainer, null, null);
     }
 }

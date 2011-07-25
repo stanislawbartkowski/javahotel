@@ -19,17 +19,25 @@ public class VListHeaderDesc {
     private final String headerString;
     private final IVField fie;
     private final boolean hidden;
+    private final String buttonAction;
 
     public VListHeaderDesc(String headerString, IVField fie) {
-        this.headerString = headerString;
-        this.fie = fie;
-        this.hidden = false;
+        this(headerString, fie, false, null);
     }
 
-    public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
+    public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
+        this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction());
+    }
+
+    public VListHeaderDesc(String headerString, IVField fie, boolean hidden, String buttonAction) {
         this.headerString = headerString;
         this.fie = fie;
         this.hidden = hidden;
+        this.buttonAction = buttonAction;
+    }
+
+    public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
+        this(headerString, fie, hidden, null);
     }
 
     public String getHeaderString() {
@@ -45,5 +53,12 @@ public class VListHeaderDesc {
      */
     public boolean isHidden() {
         return hidden;
+    }
+
+    /**
+     * @return the buttonAction
+     */
+    public String getButtonAction() {
+        return buttonAction;
     }
 }

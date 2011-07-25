@@ -85,4 +85,6 @@ public interface TLogMessages extends Messages {
     String mustBeConnectedToString();
     
     String notFoundSignalNotNull();
+    
+    String errrorUploadingFile();
 }

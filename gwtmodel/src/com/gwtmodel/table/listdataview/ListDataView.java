@@ -23,6 +23,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.DataListModelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -32,7 +33,9 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.IModifyRowStyle;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
@@ -44,6 +47,16 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private final IGwtTableView tableView;
     private final DataListModelView listView;
     private IDataListType dataList;
+    private final SlotSignalContextFactory coFactory;
+
+    private class GetHeader implements ISlotCaller {
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IGwtTableModel model = tableView.getViewModel();
+            VListHeaderContainer header = model.getHeaderList();
+            return coFactory.construct(slContext.getSlType(), header);
+        }
+    }
 
     private class DrawHeader implements ISlotSignaller {
 
@@ -174,7 +187,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 found = iOk.OkData(v);
             }
             if (!found) {
-                publish(DataActionEnum.NotFoundSignal, dType);
+                publish(dType, DataActionEnum.NotFoundSignal);
                 return;
             }
             tableView.setClicked(aLine);
@@ -203,12 +216,14 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         WChoosedLine w = tableView.getClicked();
         WSize wSize = null;
         IVModelData vData = null;
+        IVField v = null;
         if (w.isChoosed()) {
             wSize = w.getwSize();
             vData = tableView.getViewModel().getRows().get(w.getChoosedLine());
+            v = w.getvField();
         }
-        return construct(GetActionEnum.GetListLineChecked, dType, vData,
-                wSize);
+        return construct(dType, GetActionEnum.GetListLineChecked, vData,
+                wSize, v);
     }
 
     private class GetListData implements ISlotCaller {
@@ -223,27 +238,37 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void execute() {
-            publish(DataActionEnum.TableLineClicked, dType, constructChoosedContext());
+            publish(dType, DataActionEnum.TableLineClicked, constructChoosedContext());
+        }
+    }
+
+    private class ClickColumn implements ICommand {
+
+        @Override
+        public void execute() {
+            publish(dType, DataActionEnum.TableCellClicked, constructChoosedContext());
         }
     }
 
     ListDataView(GwtTableFactory gFactory, IDataType dType) {
         listView = new DataListModelView();
         this.dType = dType;
-        tableView = gFactory.construct(new ClickList());
+        tableView = gFactory.construct(new ClickList(), new ClickColumn());
+        coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         // subscriber
-        registerSubscriber(DataActionEnum.DrawListAction, dType, new DrawList());
-        registerSubscriber(DataActionEnum.FindRowList, dType, new FindRow(false, false));
-        registerSubscriber(DataActionEnum.FindRowBeginningList, dType, new FindRow(false, true));
-        registerSubscriber(DataActionEnum.FindRowNextList, dType, new FindRow(true, false));
-        registerSubscriber(DataActionEnum.DrawListSetFilter, dType, new SetFilter());
-        registerSubscriber(DataActionEnum.DrawListRemoveFilter, dType, new RemoveFilter());
-        registerSubscriber(DataActionEnum.ReadHeaderContainerSignal, dType,
+        registerSubscriber(dType, DataActionEnum.DrawListAction, new DrawList());
+        registerSubscriber(dType, DataActionEnum.FindRowList, new FindRow(false, false));
+        registerSubscriber(dType, DataActionEnum.FindRowBeginningList, new FindRow(false, true));
+        registerSubscriber(dType, DataActionEnum.FindRowNextList, new FindRow(true, false));
+        registerSubscriber(dType, DataActionEnum.DrawListSetFilter, new SetFilter());
+        registerSubscriber(dType, DataActionEnum.DrawListRemoveFilter, new RemoveFilter());
+        registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
                 new DrawHeader());
         // caller
-        registerCaller(GetActionEnum.GetListLineChecked, dType,
+        registerCaller(dType, GetActionEnum.GetListLineChecked,
                 new GetListData());
-        registerCaller(GetActionEnum.GetListComboField, dType, new GetComboField());
+        registerCaller(dType, GetActionEnum.GetListComboField, new GetComboField());
+        registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
     }
 
     @Override

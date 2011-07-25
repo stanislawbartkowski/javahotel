@@ -55,8 +55,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = dFactory.construct(dType);
-            IVModelData pData = slMediator.getSlContainer()
-                    .getGetterIVModelData(getA, dType, mData);
+            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(dType, getA, mData);
             for (ComposeControllerType cType : cList) {
                 if (cType.getdType() == null) {
                     continue;
@@ -67,8 +66,8 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                 if (!cType.isPanelElem()) {
                     continue;
                 }
-                pData = slMediator.getSlContainer().getGetterIVModelData(getA,
-                        cType.getdType(), pData);
+                pData = slMediator.getSlContainer().getGetterIVModelData(
+                        cType.getdType(), getA, pData);
                 assert pData != null : LogT.getT().cannotBeNull();
             }
             return slMediator.getSlContainer().getGetterContext(
@@ -99,8 +98,8 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                 if (!cType.isPanelElem() && !cType.isCellId()) {
                     continue;
                 }
-                slMediator.getSlContainer().publish(dataActionEnum,
-                        cType.getdType(), slContext);
+                slMediator.getSlContainer().publish(cType.getdType(), dataActionEnum,
+                        slContext);
             }
         }
     }
@@ -126,36 +125,36 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         }
         pView.createView();
         slMediator.registerSlotContainer(cellId, pView);
-        slMediator.getSlContainer().registerSubscriber(
-                DataActionEnum.DrawViewComposeFormAction, dType,
+        slMediator.getSlContainer().registerSubscriber(dType,
+                DataActionEnum.DrawViewComposeFormAction,
                 new DrawAction(DataActionEnum.DrawViewFormAction));
-        slMediator.getSlContainer().registerSubscriber(
-                DataActionEnum.DefaultViewComposeFormAction, dType,
+        slMediator.getSlContainer().registerSubscriber(dType,
+                DataActionEnum.DefaultViewComposeFormAction,
                 new DrawAction(DataActionEnum.DefaultViewFormAction));
-        slMediator.getSlContainer().registerSubscriber(
-                DataActionEnum.ChangeViewComposeFormModeAction, dType,
+        slMediator.getSlContainer().registerSubscriber(dType,
+                DataActionEnum.ChangeViewComposeFormModeAction,
                 new DrawAction(DataActionEnum.ChangeViewFormModeAction));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.PersistComposeFormAction,
-                        dType),
+                dType),
                 slFactory.construct(DataActionEnum.PersistDataAction, dType));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.InvalidSignal, dType),
                 slFactory.construct(
-                        DataActionEnum.ChangeViewFormToInvalidAction, dType));
+                DataActionEnum.ChangeViewFormToInvalidAction, dType));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.ValidateComposeFormAction,
-                        dType),
+                dType),
                 slFactory.construct(DataActionEnum.ValidateAction, dType));
 
-        slMediator.getSlContainer().registerCaller(
-                GetActionEnum.GetViewComposeModelEdited, dType,
+        slMediator.getSlContainer().registerCaller(dType,
+                GetActionEnum.GetViewComposeModelEdited,
                 new EditCallerGetter(GetActionEnum.GetViewModelEdited));
-        slMediator.getSlContainer().registerCaller(
-                GetActionEnum.GetComposeModelToPersist, dType,
+        slMediator.getSlContainer().registerCaller(dType,
+                GetActionEnum.GetComposeModelToPersist,
                 new EditCallerGetter(GetActionEnum.GetModelToPersist));
     }
 }

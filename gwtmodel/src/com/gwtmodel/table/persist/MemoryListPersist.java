@@ -39,18 +39,17 @@ public class MemoryListPersist extends AbstractSlotContainer implements
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            publish(DataActionEnum.ListReadSuccessSignal, dType, dataList);
+            publish(dType, DataActionEnum.ListReadSuccessSignal, dataList);
         }
     }
 
     public MemoryListPersist(IDataType dType) {
         this.dType = dType;
         // create subscribers - ReadList
-        registerSubscriber(DataActionEnum.ReadListAction, dType, new ReadList());
+        registerSubscriber(dType, DataActionEnum.ReadListAction, new ReadList());
     }
 
     @Override
     public void startPublish(CellId cellId) {
     }
-
 }

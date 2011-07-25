@@ -16,16 +16,15 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.injector.WebPanelHolder;
 
 public class GwtTableFactory {
-    
 
-    public IGwtTableView construct(ICommand click) {
+    public IGwtTableView construct(ICommand click, ICommand actionColumn) {
         switch (WebPanelHolder.getTableType()) {
             case GOOGLETABLE:
                 return new GwtTableView(click);
             case GRIDTABLE:
                 return new TableView(click);
             case PRESETABLE:
-                return new PresentationTable(click);
+                return new PresentationTable(click, actionColumn);
         }
         return null;
     }

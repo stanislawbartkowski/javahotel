@@ -41,7 +41,7 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
         public void signal(ISlotSignalContext slContext) {
             PersistTypeEnum persistEnumType = slContext.getPersistType();
             IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetComposeModelToPersist, dType);
+                    dType,GetActionEnum.GetComposeModelToPersist);
             IVModelDataEquable eData = (IVModelDataEquable) pData;
             switch (persistEnumType) {
                 case ADD:
@@ -60,7 +60,7 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
                     }
                     break;
             } // switch
-            publish(DataActionEnum.PersistDataSuccessSignal, dType,
+            publish(dType,DataActionEnum.PersistDataSuccessSignal,
                     persistEnumType);
         }
     }
@@ -69,7 +69,7 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
         assert dataList != null : "dataList cannot be null";
         this.dataList = dataList;
         this.dType = dType;
-        registerSubscriber(DataActionEnum.PersistDataAction, dType,
+        registerSubscriber(dType,DataActionEnum.PersistDataAction,
                 new PersistRecord());
     }
 }

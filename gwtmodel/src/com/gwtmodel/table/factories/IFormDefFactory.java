@@ -17,7 +17,7 @@
 
 package com.gwtmodel.table.factories;
 
-import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 
 /**
@@ -26,6 +26,6 @@ import com.gwtmodel.table.rdef.FormLineContainer;
  */
 public interface IFormDefFactory {
     
-    FormLineContainer construct(IDataType dType);
+    FormLineContainer construct(ICallContext iContext);
 
 }

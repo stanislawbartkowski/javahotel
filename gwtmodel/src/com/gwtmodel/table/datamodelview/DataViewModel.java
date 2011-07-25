@@ -20,6 +20,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
@@ -158,34 +159,42 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     }
 
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
-            FormLineContainer fContainer, IDataModelFactory dFactory) {
+            FormLineContainer fContainer, IDataModelFactory dFactory,
+            IDataFormConstructorAbstractFactory abFactory) {
         this.fContainer = fContainer;
         this.dType = dType;
         this.iContext = GwtGiniInjector.getI().getCallContext();
         iContext.setdType(dType);
         // suspicious 'this' in constructor, but as designed
         iContext.setiSlo(this);
-        gView = gFactory.construct(iContext, fContainer, iContext.getC()
-                .getDataFormConstructorAbstractFactory().construct(iContext));
+        IDataFormConstructorAbstractFactory.CType ccType;
+        if (abFactory == null) {
+            ccType = iContext.getC()
+                .getDataFormConstructorAbstractFactory().construct(iContext);
+        }
+        else {
+            ccType = abFactory.construct(iContext);
+        }
+        gView = gFactory.construct(iContext, fContainer, ccType);
         if (dFactory == null) {
             this.dFactory = iContext.getC().getDataModelFactory();
         } else {
             this.dFactory = dFactory;
 
         }
-        registerSubscriber(DataActionEnum.ChangeViewFormToInvalidAction, dType,
+        registerSubscriber(dType, DataActionEnum.ChangeViewFormToInvalidAction,
                 new InvalidateMess());
-        registerSubscriber(DataActionEnum.ChangeViewFormModeAction, dType,
+        registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
                 new ChangeMode());
-        registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
+        registerSubscriber(dType, DataActionEnum.DrawViewFormAction,
                 new DrawModel());
-        registerSubscriber(DataActionEnum.ClearViewFormAction, dType,
+        registerSubscriber(dType, DataActionEnum.ClearViewFormAction,
                 new ClearAction());
-        registerCaller(GetActionEnum.GetViewModelEdited, dType,
+        registerCaller(dType, GetActionEnum.GetViewModelEdited,
                 new GetterModel());
-        registerCaller(GetActionEnum.GetFormFieldWidget, dType,
+        registerCaller(dType, GetActionEnum.GetFormFieldWidget,
                 new GetterWidget());
-        registerCaller(GetActionEnum.GetEditContainer, dType,
+        registerCaller(dType, GetActionEnum.GetEditContainer,
                 new GetterContainer());
         for (FormField fie : fContainer.getfList()) {
             IFormLineView vie = fie.getELine();

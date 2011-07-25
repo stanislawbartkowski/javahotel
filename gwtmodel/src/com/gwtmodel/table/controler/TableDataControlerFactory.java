@@ -99,6 +99,13 @@ public class TableDataControlerFactory {
                 tFactories, fContainer, listParam, dType), listParam, null);
     }
 
+    public DisplayListControlerParam constructParam(IDataType dType, ListOfControlDesc cList, CellId panelId,
+            DataListParam listParam, ISlotMediator me) {
+        return new DisplayListControlerParam(tFactories, fContainer, dType, null,
+                panelId, cList, new DataListCrudControler(
+                tFactories, fContainer, listParam, dType), listParam, null);
+    }
+
     public DisplayListControlerParam constructParam(IDataType dType,
             WSize wSize, ListOfControlDesc cList, CellId panelId) {
         DataListParam listParam = getParam(dType);

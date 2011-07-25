@@ -20,6 +20,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -38,7 +39,7 @@ class StringFactory implements IFormTitleFactory, IFormDefFactory {
     }
 
     @Override
-    public FormLineContainer construct(IDataType dType) {
+    public FormLineContainer construct(ICallContext iContext) {
         EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
         IFormLineView textLine = eFactory.constructTextField(v);
@@ -47,7 +48,7 @@ class StringFactory implements IFormTitleFactory, IFormDefFactory {
     }
 
     @Override
-    public String getFormTitle(IDataType dType) {
+    public String getFormTitle(ICallContext iContext) {
         return title;
     }
 }

@@ -41,8 +41,8 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData perData = dFactory.construct(dType);
-            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(GetActionEnum.GetViewModelEdited,
-                    dType, perData);
+            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(dType,
+                    GetActionEnum.GetViewModelEdited, perData);
             // result: perData
             SlotSignalContextFactory coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
             return coFactory.construct(slContext.getSlType(), pData);

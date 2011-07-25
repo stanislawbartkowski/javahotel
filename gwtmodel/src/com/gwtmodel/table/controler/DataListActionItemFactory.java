@@ -81,8 +81,8 @@ class DataListActionItemFactory {
         @Override
         public void signal(ISlotSignalContext slContext) {
             hide();
-            iSlo.getSlContainer().publish(
-                    DataActionEnum.RefreshAfterPersistActionSignal, dType,
+            iSlo.getSlContainer().publish(dType,
+                    DataActionEnum.RefreshAfterPersistActionSignal,
                     persistTypeEnum);
         }
     }
@@ -185,7 +185,7 @@ class DataListActionItemFactory {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            iController.getSlContainer().publish(dataActionEnum, dType,
+            iController.getSlContainer().publish(dType, dataActionEnum,
                     persistTypeEnum);
         }
     }
@@ -219,8 +219,8 @@ class DataListActionItemFactory {
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData perData = slContext.getVData(); // do nothing
-            IVModelData pData = slControlerContainer.getGetterIVModelData(
-                    GetActionEnum.GetViewModelEdited, dType, peData);
+            IVModelData pData = slControlerContainer.getGetterIVModelData(dType,
+                    GetActionEnum.GetViewModelEdited, peData);
             listParam.getDataFactory().fromModelToPersist(dType, pData, perData);
             // result: perData
             return slContext;
@@ -239,7 +239,7 @@ class DataListActionItemFactory {
         public void signal(ISlotSignalContext slContext) {
             ClickButtonType.StandClickEnum action = slContext.getSlType().getButtonClick().getClickEnum();
             ISlotSignalContext ret = iSlo.getSlContainer().getGetterContext(
-                    GetActionEnum.GetListLineChecked, dType);
+                    dType, GetActionEnum.GetListLineChecked);
             IVModelData mModel = listParam.getDataFactory().construct(dType);
             IVModelData peData = null;
             WSize wSize = null;
@@ -292,7 +292,7 @@ class DataListActionItemFactory {
             fController.createComposeControle(cId);
 
             SlotListContainer slControlerContainer = fController.getSlContainer();
-            String title = listParam.getFormFactory().getFormTitle(dType);
+            String title = listParam.getFormFactory().getFormTitle(iCall);
             DrawForm dForm = new DrawForm(wSize, title, action, true, null);
             slControlerContainer.registerSubscriber(dType, cId, dForm);
             ResignAction aRes = new ResignAction(dForm, null);
@@ -310,30 +310,30 @@ class DataListActionItemFactory {
 
             pData = new PersistData(persistTypeEnum, fController,
                     DataActionEnum.PersistComposeFormAction);
-            slControlerContainer.registerSubscriber(DataActionEnum.ValidSignal,
-                    dType, pData);
+            slControlerContainer.registerSubscriber(dType, DataActionEnum.ValidSignal,
+                    pData);
 
             slControlerContainer.registerSubscriber(
-                    DataActionEnum.PersistDataSuccessSignal, dType,
+                    dType, DataActionEnum.PersistDataSuccessSignal,
                     new AfterPersistData(dForm, persistTypeEnum));
 
             fController.startPublish(cId);
-            slControlerContainer.publish(
-                    DataActionEnum.DrawViewComposeFormAction, dType, peData,
+            slControlerContainer.publish(dType,
+                    DataActionEnum.DrawViewComposeFormAction, peData,
                     persistTypeEnum);
-            slControlerContainer.publish(
-                    DataActionEnum.DefaultViewComposeFormAction, dType, peData,
-                    persistTypeEnum);
-
-            slControlerContainer.publish(
-                    DataActionEnum.ChangeViewComposeFormModeAction, dType,
+            slControlerContainer.publish(dType,
+                    DataActionEnum.DefaultViewComposeFormAction, peData,
                     persistTypeEnum);
 
-            slControlerContainer.registerCaller(
-                    GetActionEnum.GetModelToPersist, dType, new GetterModel(
+            slControlerContainer.publish(dType,
+                    DataActionEnum.ChangeViewComposeFormModeAction,
+                    persistTypeEnum);
+
+            slControlerContainer.registerCaller(dType,
+                    GetActionEnum.GetModelToPersist, new GetterModel(
                     slControlerContainer, peData));
-            slControlerContainer.registerCaller(GetActionEnum.GetGWidget,
-                    dType, new GetterGWidget(dForm));
+            slControlerContainer.registerCaller(dType, GetActionEnum.GetGWidget,
+                    new GetterGWidget(dForm));
         }
     }
 

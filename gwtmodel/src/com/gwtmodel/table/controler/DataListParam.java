@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.controler;
 
-import com.gwtmodel.table.factories.IDataCrudModifButtonAction;
 import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;

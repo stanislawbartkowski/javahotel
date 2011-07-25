@@ -63,10 +63,8 @@ public class MemoryGetController implements IGetViewControllerFactory {
 
     @Override
     public IComposeController construct(ICallContext iContext) {
-        ComposeControllerFactory coFactory = GwtGiniInjector.getI()
-                .getComposeControllerFactory();
-        FormLineContainer fContainer = defFactory
-                .construct(iContext.getDType());
+        ComposeControllerFactory coFactory = GwtGiniInjector.getI().getComposeControllerFactory();
+        FormLineContainer fContainer = defFactory.construct(iContext);
         IComposeController iCon = coFactory.construct(iContext.getDType(),
                 dFactory);
         IDataViewModel daModel = daFactory.construct(iContext.getDType(),
@@ -76,10 +74,8 @@ public class MemoryGetController implements IGetViewControllerFactory {
         iCon.registerControler(cType);
         MemoryRecordPersist mRecord = new MemoryRecordPersist(
                 iContext.getDType(), mList.getDataList());
-        iCon.registerControler(new ComposeControllerType(mRecord, iContext
-                .getDType()));
-        iCon.registerControler(new ComposeControllerType(vFactory
-                .construct(iContext.getDType()), iContext.getDType()));
+        iCon.registerControler(new ComposeControllerType(mRecord, iContext.getDType()));
+        iCon.registerControler(new ComposeControllerType(vFactory.construct(iContext.getDType()), iContext.getDType()));
         if (customConType != null) {
             ComposeControllerType ccType = customConType.construct(iContext);
             iCon.registerControler(ccType);
