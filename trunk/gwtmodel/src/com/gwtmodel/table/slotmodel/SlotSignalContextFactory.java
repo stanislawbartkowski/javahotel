@@ -158,9 +158,9 @@ public class SlotSignalContextFactory {
     }
 
     public ISlotSignalContext construct(SlotType slType, IVModelData vData,
-            WSize wSize) {
+            WSize wSize, IVField v) {
         return new SlotSignalContext(slType, null, null, null, null, wSize,
-                vData, null, null, null, null, null, null, null);
+                vData, null, null, v, null, null, null, null);
     }
 
     public ISlotSignalContext construct(SlotType slType, WSize wSize) {
@@ -249,5 +249,4 @@ public class SlotSignalContextFactory {
                 iSlot.getEditContainer(), iSlot.getStringButton(),
                 iSlot.getCustom(), iSlot.getIOkModelData());
     }
-
 }

@@ -60,8 +60,6 @@ class GwtTableView implements IGwtTableView {
         List<VListHeaderDesc> co = model.getHeaderList().getVisHeList();
         for (int c = 0; c < co.size(); c++) {
             VListHeaderDesc cl = co.get(c);
-//            Object val = ii.getF(cl.getFie());
-//            String sval = ii.getS(cl.getFie());
             switch (cl.getFie().getType().getType()) {
                 case BIGDECIMAL:
                     BigDecimal b = FUtils.getValueBigDecimal(ii, cl.getFie());

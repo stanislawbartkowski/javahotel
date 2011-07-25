@@ -10,12 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+package com.gwtmodel.table.attachlist;
 
-import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface IFormTitleFactory {
-       
-    String getFormTitle(ICallContext iContext);    
+/**
+ *
+ * @author perseus
+ */
 
+
+public interface IAttachData extends ISlotable {
+    
 }

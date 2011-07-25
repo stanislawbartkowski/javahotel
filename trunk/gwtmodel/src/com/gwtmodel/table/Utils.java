@@ -18,7 +18,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
-//import com.gwtmodel.table.common.DateFormatUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import java.math.BigDecimal;
@@ -31,6 +30,8 @@ import com.gwtmodel.table.injector.WebPanelHolder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Utils {
 
@@ -73,8 +74,7 @@ public class Utils {
 
     public static String getResAdr(final String res) {
         String path;
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         String resF = c.getCustomValue(IGetCustomValues.RESOURCEFOLDER);
         path = GWT.getModuleBaseURL();
         if (resF == null) {
@@ -84,8 +84,7 @@ public class Utils {
     }
 
     public static String getImageAdr(final String image) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         String folder = c.getCustomValue(IGetCustomValues.IMAGEFOLDER);
         String img;
         if (folder == null) {
@@ -116,9 +115,7 @@ public class Utils {
     public static String getImageHTML(final String imageUrl) {
         return getImageHTML(imageUrl, 0, 0);
     }
-
     // int/long utilities
-
     public static final int BADNUMBER = -1;
 
     public static int getNum(final String s) {
@@ -157,10 +154,8 @@ public class Utils {
     }
 
     // Date
-
     public static String getDateFormat() {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         String f = c.getCustomValue(IGetCustomValues.DATEFORMAT);
         return f;
     }
@@ -196,7 +191,6 @@ public class Utils {
     }
 
     // BigDecimal
-
     public static BigDecimal toBig(final String s) {
         if (CUtil.EmptyS(s)) {
             return null;
@@ -247,17 +241,14 @@ public class Utils {
     }
 
     // some 'log' utilities
-
     public static boolean TrueL(String s) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         String yesv = c.getCustomValue(IGetCustomValues.YESVALUE);
         return CUtil.EqNS(s, yesv);
     }
 
     public static String LToS(boolean l) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         if (l) {
             return c.getCustomValue(IGetCustomValues.YESVALUE);
         }
@@ -265,7 +256,6 @@ public class Utils {
     }
 
     // -------------
-
     public static int CalculateNOfRows(WSize w) {
         int up = 0;
         if (w != null) {
@@ -305,7 +295,7 @@ public class Utils {
     }
 
     public static native void callJs(String js) /*-{
-		$wnd.eval(js);
+    $wnd.eval(js);
     }-*/;
 
     public static List<IVField> toList(IVField[] a) {
@@ -332,16 +322,31 @@ public class Utils {
         return tType;
     }
 
+    private static String paraS(String key, String value) {
+        String u = "&" + key + "=" + value;
+        return u;
+    }
+
+    public static String createURL(String u, String firstPar, String firstVal, Map<String, String> args) {
+        String url = u + "?" + firstPar + "=" + firstVal;
+        for (Entry<String, String> e : args.entrySet()) {
+            String param = e.getKey();
+            String val = e.getValue();
+            url += paraS(param, val);
+        }
+        return url;
+    }
+
     public static void setId(Widget w, String id) {
         w.getElement().setId(id);
     }
 
     public static native void addScript(String s) /*-{
-		$wnd.addScript(s);
+    $wnd.addScript(s);
     }-*/;
 
     public static native void addStyle(String s) /*-{
-		$wnd.addStyle(s);
+    $wnd.addStyle(s);
     }-*/;
 
     /*
@@ -352,7 +357,7 @@ public class Utils {
      * @return JavaScriptObject that you can cast to an Overlay Type
      */
     public static native JavaScriptObject evalJson(String jsonStr) /*-{
-		return eval(jsonStr);
+    return eval(jsonStr);
     }-*/;
 
     public static JavaScriptObject parseJson(String jsonStr) {
@@ -360,6 +365,6 @@ public class Utils {
     }
 
     public static native String callJsStringFun(String jsonFun, String paramS) /*-{
-		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
+    return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
     }-*/;
 }

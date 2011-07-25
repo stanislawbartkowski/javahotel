@@ -42,7 +42,6 @@ public class ValidateLogin extends AbstractSlotContainer implements
 
         void validate(IVModelData vData, IBackValidate backValidate);
     }
-
     private final FormLineContainer fContainer;
     private final IValidateLogin iValidate;
 
@@ -51,7 +50,7 @@ public class ValidateLogin extends AbstractSlotContainer implements
         this.dType = dType;
         this.fContainer = fContainer;
         this.iValidate = iValidate;
-        registerSubscriber(DataActionEnum.ValidateAction, dType,
+        registerSubscriber(dType, DataActionEnum.ValidateAction,
                 new ValidateA());
     }
 
@@ -59,13 +58,13 @@ public class ValidateLogin extends AbstractSlotContainer implements
 
         @Override
         public void invalid(InvalidateFormContainer errMess) {
-            publish(DataActionEnum.ChangeViewFormToInvalidAction, dType,
+            publish(dType, DataActionEnum.ChangeViewFormToInvalidAction,
                     errMess);
         }
 
         @Override
         public void valid() {
-            publish(DataActionEnum.ValidSignal, dType);
+            publish(dType, DataActionEnum.ValidSignal);
         }
     }
 
@@ -73,13 +72,13 @@ public class ValidateLogin extends AbstractSlotContainer implements
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetViewComposeModelEdited, dType);
+            IVModelData pData = getGetterIVModelData(dType,
+                    GetActionEnum.GetViewComposeModelEdited);
             List<IVField> listMFie = FormUtil.getVList(fContainer);
             List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,
                     listMFie);
             if (errMess != null) {
-                publish(DataActionEnum.ChangeViewFormToInvalidAction, dType,
+                publish(dType, DataActionEnum.ChangeViewFormToInvalidAction,
                         new InvalidateFormContainer(errMess));
                 return;
             }

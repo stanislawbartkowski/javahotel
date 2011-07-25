@@ -46,8 +46,8 @@ public class ChooseDictList<T extends IVModelData> {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IVModelData vData = sl.getGetterIVModelData(
-                    GetActionEnum.GetListLineChecked, dType);
+            IVModelData vData = sl.getGetterIVModelData(dType,
+                    GetActionEnum.GetListLineChecked);
             if (vData == null) {
                 return;
             }

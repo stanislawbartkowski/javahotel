@@ -60,9 +60,14 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(dType, cellId, gwtWidget);
     }
 
-    protected void publish(DataActionEnum dataActionEnum, IDataType dType,
+    protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             PersistTypeEnum persistTypeEnum) {
-        slContainer.publish(dataActionEnum, dType, persistTypeEnum);
+        slContainer.publish(dType, dataActionEnum, persistTypeEnum);
+    }
+
+    public void publish(IDataType dType, DataActionEnum dataActionEnum,
+            IVModelData vData, PersistTypeEnum persistTypeEnum) {
+        slContainer.publish(dType, dataActionEnum, vData, persistTypeEnum);
     }
 
     protected void publish(ClickButtonType bType, IGWidget gwtWidget) {
@@ -73,37 +78,37 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(stringButton, gwtWidget);
     }
 
-    protected void publish(DataActionEnum dataActionEnum, IDataType dType,
+    protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             InvalidateFormContainer errContainer) {
-        slContainer.publish(dataActionEnum, dType, errContainer);
+        slContainer.publish(dType, dataActionEnum, errContainer);
     }
 
-    protected void publish(DataActionEnum dataActionEnum, IDataType dType) {
-        slContainer.publish(dataActionEnum, dType);
+    protected void publish(IDataType dType, DataActionEnum dataActionEnum) {
+        slContainer.publish(dType, dataActionEnum);
     }
 
-    protected void publish(DataActionEnum dataActionEnum, IDataType dType,
+    protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             IDataListType dataList) {
-        slContainer.publish(dataActionEnum, dType, dataList);
+        slContainer.publish(dType, dataActionEnum, dataList);
     }
 
-    public void publish(DataActionEnum dataActionEnum, IDataType dType,
+    public void publish(IDataType dType, DataActionEnum dataActionEnum,
             WSize wSize) {
-        slContainer.publish(dataActionEnum, dType, wSize);
+        slContainer.publish(dType, dataActionEnum, wSize);
     }
 
     public void publish(ISlotCustom is, ICustomObject customO) {
         slContainer.publish(is, customO);
     }
 
-    protected void publish(DataActionEnum dataActionEnum, IDataType dType,
+    protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             IVModelData vData) {
-        slContainer.publish(dataActionEnum, dType, vData);
+        slContainer.publish(dType, dataActionEnum, vData);
     }
 
-    protected void publish(DataActionEnum dataActionEnum, IDataType dType,
+    protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             IOkModelData iOkModelData) {
-        slContainer.publish(dataActionEnum, dType, iOkModelData);
+        slContainer.publish(dType, dataActionEnum, iOkModelData);
     }
 
     protected void publish(IDataType dType, IVField fie, IFormLineView formLine) {
@@ -142,9 +147,9 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerSubscriber(dType, fie, slSignaller);
     }
 
-    protected void registerSubscriber(DataActionEnum dataActionEnum,
-            IDataType dType, ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(dataActionEnum, dType, slSignaller);
+    protected void registerSubscriber(IDataType dType, DataActionEnum dataActionEnum,
+            ISlotSignaller slSignaller) {
+        slContainer.registerSubscriber(dType, dataActionEnum, slSignaller);
     }
 
     protected void registerSubscriber(String stringButton,
@@ -171,9 +176,9 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerSubscriber(i, slSignaller);
     }
 
-    protected void registerCaller(GetActionEnum gEnum, IDataType dType,
+    protected void registerCaller(IDataType dType, GetActionEnum gEnum,
             ISlotCaller slCaller) {
-        slContainer.registerCaller(gEnum, dType, slCaller);
+        slContainer.registerCaller(dType, gEnum, slCaller);
     }
 
     public void registerCaller(SlotType slType, ISlotCaller slCaller) {
@@ -184,9 +189,9 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerCaller(i, slCaller);
     }
 
-    protected ISlotSignalContext construct(GetActionEnum getActionEnum,
-            IDataType dType, IVModelData vData, WSize wSize) {
-        return slContainer.setGetter(getActionEnum, dType, vData, wSize);
+    protected ISlotSignalContext construct(IDataType dType, GetActionEnum getActionEnum,
+            IVModelData vData, WSize wSize, IVField v) {
+        return slContainer.setGetter(dType, getActionEnum, vData, wSize, v);
     }
 
     protected ISlotSignalContext construct(IDataType dType, IVField comboFie) {
@@ -207,19 +212,17 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContainer.contextReplace(slType, iSlot);
     }
 
-    protected ISlotSignalContext getGetterContext(GetActionEnum getActionEnum,
-            IDataType dType) {
-        return slContainer.getGetterContext(getActionEnum, dType);
+    protected ISlotSignalContext getGetterContext(IDataType dType, GetActionEnum getActionEnum) {
+        return slContainer.getGetterContext(dType, getActionEnum);
     }
 
-    protected IVModelData getGetterIVModelData(GetActionEnum getActionEnum,
-            IDataType dType, IVModelData mData) {
-        return slContainer.getGetterIVModelData(getActionEnum, dType, mData);
+    protected IVModelData getGetterIVModelData(IDataType dType, GetActionEnum getActionEnum,
+            IVModelData mData) {
+        return slContainer.getGetterIVModelData(dType, getActionEnum, mData);
     }
 
-    protected IVModelData getGetterIVModelData(GetActionEnum getActionEnum,
-            IDataType dType) {
-        return slContainer.getGetterIVModelData(getActionEnum, dType);
+    protected IVModelData getGetterIVModelData(IDataType dType, GetActionEnum getActionEnum) {
+        return slContainer.getGetterIVModelData(dType, getActionEnum);
     }
 
     protected IGWidget getHtmlWidget(CellId c) {
@@ -230,9 +233,9 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContainer.getGetterContainer(dType);
     }
 
-    protected void publish(DataActionEnum dataActionEnum, IDataType dType,
+    protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             ISlotSignalContext slContext) {
-        slContainer.publish(dataActionEnum, dType, slContext);
+        slContainer.publish(dType, dataActionEnum, slContext);
     }
 
     protected void publish(IDataType dType, ISlotSignalContext slContext) {

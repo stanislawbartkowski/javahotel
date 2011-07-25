@@ -22,6 +22,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 public class ReadDictList<T extends IDataListType> {
 
     public interface IListCallBack<T extends IDataListType> {
+
         void setList(T dList);
     }
 
@@ -42,12 +43,10 @@ public class ReadDictList<T extends IDataListType> {
     }
 
     public void readList(IDataType dType, IListCallBack<T> iList) {
-        IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getPersistFactoryAction();
+        IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI().getTableFactoriesContainer().getPersistFactoryAction();
         IDataPersistAction persistA = persistFactoryA.contruct(dType);
-        persistA.getSlContainer().registerSubscriber(
-                DataActionEnum.ListReadSuccessSignal, dType, new R(iList));
-        persistA.getSlContainer().publish(DataActionEnum.ReadListAction, dType);
+        persistA.getSlContainer().registerSubscriber(dType,
+                DataActionEnum.ListReadSuccessSignal, new R(iList));
+        persistA.getSlContainer().publish(dType, DataActionEnum.ReadListAction);
     }
-
 }

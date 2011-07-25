@@ -16,11 +16,11 @@
  */
 package com.gwtmodel.table.datelist;
 
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -42,7 +42,7 @@ class DateViewFactory implements IFormTitleFactory, IFormDefFactory {
     }
 
     @Override
-    public FormLineContainer construct(IDataType dType) {
+    public FormLineContainer construct(ICallContext iContext) {
         EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
         IVField vfrom = new DatePeriodField(DatePeriodField.F.DATEFROM);
@@ -58,7 +58,7 @@ class DateViewFactory implements IFormTitleFactory, IFormDefFactory {
     }
 
     @Override
-    public String getFormTitle(IDataType dType) {
+    public String getFormTitle(ICallContext iContext) {
         return title;
     }
 }

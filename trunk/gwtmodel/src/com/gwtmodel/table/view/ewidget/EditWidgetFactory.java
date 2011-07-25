@@ -39,7 +39,7 @@ public class EditWidgetFactory {
 
     public IFormLineView contructCalculatorNumber(IVField v) {
         return new NumberCalculator(tFactories, v, new ExtendTextBox.EParam(
-                false, false, false, false, false));
+                false, false, false, false, false, null));
     }
 
     public IFormLineView constructCheckField(IVField v) {
@@ -64,7 +64,7 @@ public class EditWidgetFactory {
     }
 
     private ExtendTextBox.EParam newE(boolean password, boolean area) {
-        return new ExtendTextBox.EParam(password, area, false, false, false);
+        return new ExtendTextBox.EParam(password, area, false, false, false, null);
     }
 
     public IFormLineView constructPasswordField(IVField v) {
@@ -80,7 +80,7 @@ public class EditWidgetFactory {
         if (iGet == null) {
             e = newE(false, false);
         } else {
-            e = new ExtendTextBox.EParam(false, false, true, iGet);
+            e = new ExtendTextBox.EParam(false, false, true, iGet, null);
         }
         return new ExtendTextBox(tFactories, v, e);
     }
@@ -98,7 +98,7 @@ public class EditWidgetFactory {
         if (iGet == null) {
             e = newE(false, true);
         } else {
-            e = new ExtendTextBox.EParam(true, false, true, iGet);
+            e = new ExtendTextBox.EParam(true, false, true, iGet, null);
         }
         return new ExtendTextBox(tFactories, v, e);
     }
@@ -122,7 +122,7 @@ public class EditWidgetFactory {
 
     public IFormLineView constructListValuesHelp(IVField v, IDataType dType) {
         return new ListFieldWithHelp(tFactories, v, dType,
-                new ExtendTextBox.EParam(false, false, true, false, false));
+                new ExtendTextBox.EParam(false, false, true, false, false, null));
     }
 
     public IFormLineView constructListComboValuesHelp(IVField v, IDataType dType) {
@@ -132,11 +132,15 @@ public class EditWidgetFactory {
     }
 
     private ExtendTextBox.EParam newC(boolean cEnable) {
-        return new ExtendTextBox.EParam(false, false, false, true, cEnable);
+        return new ExtendTextBox.EParam(false, false, false, true, cEnable, null);
     }
 
     public IFormLineView constructTextCheckEdit(IVField v, boolean checkenable) {
         return new ExtendTextBox(tFactories, v, newC(checkenable));
+    }
+
+    public IFormLineView constructEditFileName(IVField v) {
+        return new FileChooser(tFactories, v);
     }
 
     public IFormLineView constructListCombo(IVField v, List<String> ma) {
@@ -163,24 +167,24 @@ public class EditWidgetFactory {
             return fa.construct(v);
         }
         switch (v.getType().getType()) {
-        case DATE:
-            return construcDateBoxCalendar(v);
-        case INT:
-        case LONG:
-        case BIGDECIMAL:
-            if (v.getType().getLi() != null) {
-                return constructListCombo(v);
-            }
-            return contructCalculatorNumber(v);
-        case ENUM:
-            return constructListComboEnum(v);
-        case BOOLEAN:
-            return constructCheckField(v);
-        default:
-            if (v.getType().getLi() != null) {
-                return constructListCombo(v);
-            }
-            return constructTextField(v);
+            case DATE:
+                return construcDateBoxCalendar(v);
+            case INT:
+            case LONG:
+            case BIGDECIMAL:
+                if (v.getType().getLi() != null) {
+                    return constructListCombo(v);
+                }
+                return contructCalculatorNumber(v);
+            case ENUM:
+                return constructListComboEnum(v);
+            case BOOLEAN:
+                return constructCheckField(v);
+            default:
+                if (v.getType().getLi() != null) {
+                    return constructListCombo(v);
+                }
+                return constructTextField(v);
         }
 
     }

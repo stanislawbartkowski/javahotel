@@ -82,7 +82,11 @@ class ExtendTextBox extends AbstractField {
                     tBox = null;
                     sBox = null;
                 } else {
-                    tBox = param.isArea() ? new TextArea() : new TextBox();
+                    if (param.tBox == null) {
+                        tBox = param.isArea() ? new TextArea() : new TextBox();
+                    } else {
+                        tBox = param.tBox;
+                    }
                     if (param.suggestbox) {
                         sBox = new SuggestBox(sOracle, tBox);
                         if (param.iGet != null) {
@@ -184,9 +188,10 @@ class ExtendTextBox extends AbstractField {
         private final boolean enable;
         private final boolean isRich;
         private final IGetDataList iGet;
+        private final TextBoxBase tBox;
 
         EParam(boolean password, boolean area, boolean panel, boolean checkBox,
-                boolean enable) {
+                boolean enable, TextBoxBase tBox) {
             this.password = password;
             this.panel = panel;
             this.checkBox = checkBox;
@@ -195,6 +200,7 @@ class ExtendTextBox extends AbstractField {
             this.isRich = false;
             this.suggestbox = false;
             iGet = null;
+            this.tBox = tBox;
         }
 
         EParam(boolean checkBox, boolean enable) {
@@ -206,9 +212,10 @@ class ExtendTextBox extends AbstractField {
             this.isRich = true;
             this.suggestbox = false;
             iGet = null;
+            this.tBox = null;
         }
 
-        EParam(boolean area, boolean checkBox, boolean enable, IGetDataList iGet) {
+        EParam(boolean area, boolean checkBox, boolean enable, IGetDataList iGet, TextBoxBase tBox) {
             this.password = false;
             this.panel = false;
             this.checkBox = checkBox;
@@ -217,6 +224,7 @@ class ExtendTextBox extends AbstractField {
             this.isRich = false;
             this.suggestbox = true;
             this.iGet = iGet;
+            this.tBox = tBox;
         }
 
         /**
@@ -261,7 +269,6 @@ class ExtendTextBox extends AbstractField {
             return isRich;
         }
     }
-
     protected final Widget wW;
     private final EWidget eW;
     protected final HorizontalPanel hPanel;

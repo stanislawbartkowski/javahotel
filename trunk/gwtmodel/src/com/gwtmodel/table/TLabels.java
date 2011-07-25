@@ -93,4 +93,10 @@ public interface TLabels extends Constants {
     String Remove();
     
     String DateLaterError();
+    
+    String Attachment();
+    
+    String DownloadAttachment();
+    
+    String ClockToDownload();
 }

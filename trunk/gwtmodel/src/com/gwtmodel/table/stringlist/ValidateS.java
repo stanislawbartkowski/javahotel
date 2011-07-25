@@ -32,30 +32,28 @@ import com.gwtmodel.table.view.ValidateUtil;
 
 class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
 
-    private final IDataType stringType;
-
     private class ValidateA implements ISlotSignaller {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetViewComposeModelEdited, stringType);
+                    dType, GetActionEnum.GetViewComposeModelEdited);
             List<IVField> listMFie = new ArrayList<IVField>();
             listMFie.add(Empty.getFieldType());
             List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,
                     listMFie);
             if (errMess != null) {
-                publish(DataActionEnum.InvalidSignal, stringType,
+                publish(dType, DataActionEnum.InvalidSignal,
                         new InvalidateFormContainer(errMess));
                 return;
             }
-            publish(DataActionEnum.ValidSignal, stringType);
+            publish(dType, DataActionEnum.ValidSignal);
         }
     }
 
     ValidateS(IDataType stringType) {
-        this.stringType = stringType;
-        registerSubscriber(DataActionEnum.ValidateAction, stringType,
+        this.dType = stringType;
+        registerSubscriber(stringType, DataActionEnum.ValidateAction,
                 new ValidateA());
 
     }
@@ -63,5 +61,4 @@ class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
     @Override
     public void startPublish(CellId cellId) {
     }
-
 }

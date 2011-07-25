@@ -12,12 +12,15 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.google.gwt.cell.client.ActionCell;
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
@@ -40,6 +43,7 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
@@ -52,6 +56,7 @@ import java.util.List;
 class PresentationTable implements IGwtTableView {
 
     private final ICommand iClick;
+    private final ICommand iActionColumn;
     private final CellTable<Integer> table = new CellTable<Integer>();
     private IGwtTableModel model = null;
     private boolean columnC = false;
@@ -90,7 +95,7 @@ class PresentationTable implements IGwtTableView {
             if (sel == null) {
                 return;
             }
-            wChoosed = pgetClicked(sel);
+            wChoosed = pgetClicked(sel, null);
             if (model.getIClicked() != null) {
                 model.getIClicked().clicked(wChoosed);
             }
@@ -103,8 +108,9 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
-    PresentationTable(ICommand iClick) {
+    PresentationTable(ICommand iClick, ICommand actionColumn) {
         this.iClick = iClick;
+        this.iActionColumn = actionColumn;
         selectionModel.addSelectionChangeHandler(new SelectionChange());
         dList = dProvider.getList();
         table.setSelectionModel(selectionModel);
@@ -247,6 +253,54 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
+    private class AttachClass implements ActionCell.Delegate<Integer> {
+
+        private final IVField v;
+
+        AttachClass(IVField v) {
+            this.v = v;
+        }
+
+        @Override
+        public void execute(Integer i) {
+            wChoosed = pgetClicked(i, v);
+            iActionColumn.execute();
+        }
+    }
+
+    private class ActionButtonCell extends ActionCell<Integer> {
+
+        private final String buttonString;
+        private final TColumn tCol;
+
+        ActionButtonCell(String buttonString, IVField iF, FieldDataType fType) {
+            super("", new AttachClass(iF));
+            this.buttonString = buttonString;
+            this.tCol = new TColumn(iF);
+        }
+
+        @Override
+        public void render(Cell.Context context, Integer value,
+                SafeHtmlBuilder sb) {
+            sb.appendHtmlConstant("<strong>");
+            String s = tCol.getValue(value);
+            sb.appendEscaped(s);
+            sb.appendHtmlConstant("</strong>");
+        }
+    }
+
+    private class ButtonColumn extends Column<Integer, Integer> {
+
+        public ButtonColumn(ActionButtonCell cell) {
+            super(cell);
+        }
+
+        @Override
+        public Integer getValue(Integer object) {
+            return object;
+        }
+    }
+
     private void createHeader() {
         if (model == null) {
             return;
@@ -259,7 +313,9 @@ class PresentationTable implements IGwtTableView {
         Column co = null;
         for (VListHeaderDesc he : li) {
             FieldDataType fType = he.getFie().getType();
-            if (fType.isConvertableToString()) {
+            if (he.getButtonAction() != null) {
+                co = new ButtonColumn(new ActionButtonCell(he.getButtonAction(), he.getFie(), fType));
+            } else if (fType.isConvertableToString()) {
                 co = new TColumnString(he.getFie(), fType);
             } else {
                 switch (fType.getType()) {
@@ -294,6 +350,7 @@ class PresentationTable implements IGwtTableView {
                 }
             }
             co.setSortable(true);
+            assert !he.isHidden() && he.getHeaderString() != null : LogT.getT().cannotBeNull();
             table.addColumn(co, he.getHeaderString());
 
             ListHandler<Integer> columnSortHandler = new ListHandler<Integer>(
@@ -379,7 +436,7 @@ class PresentationTable implements IGwtTableView {
         return wChoosed;
     }
 
-    private WChoosedLine pgetClicked(Integer sel) {
+    private WChoosedLine pgetClicked(Integer sel, IVField v) {
         if (sel == null) {
             return new WChoosedLine();
         }
@@ -389,7 +446,7 @@ class PresentationTable implements IGwtTableView {
         TableRowElement ro = table.getRowElement(inde);
         WSize w = new WSize(ro.getAbsoluteTop(), ro.getAbsoluteLeft(),
                 ro.getClientHeight(), ro.getClientWidth());
-        return new WChoosedLine(i, w);
+        return new WChoosedLine(i, w, v);
     }
 
     @Override

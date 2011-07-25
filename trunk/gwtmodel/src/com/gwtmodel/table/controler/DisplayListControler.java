@@ -55,7 +55,9 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
             startM = false;
         }
         slMediator.registerSlotContainer(cParam.getPanelId(), pView);
-        slMediator.registerSlotContainer(-1, persistA);
+        if (persistA != null) {
+          slMediator.registerSlotContainer(-1, persistA);
+        }
         slMediator.registerSlotContainer(cellTableId, daView);
         slMediator.registerSlotContainer(controlId, bView);
         slMediator.registerSlotContainer(-1, cParam.getcControler());
@@ -68,7 +70,7 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            slMediator.getSlContainer().publish(DataActionEnum.DrawListAction, cParam.getdType(),
+            slMediator.getSlContainer().publish(cParam.getdType(), DataActionEnum.DrawListAction,
                     slContext.getDataList(), cParam.getwSize());
         }
     }
@@ -78,14 +80,14 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
         if (startM) {
             slMediator.startPublish(cellId);
         }
-        slMediator.getSlContainer().registerSubscriber(DataActionEnum.ListReadSuccessSignal,
-                cParam.getdType(), new DrawListAction());
+        slMediator.getSlContainer().registerSubscriber(cParam.getdType(),
+                DataActionEnum.ListReadSuccessSignal, new DrawListAction());
         slMediator.getSlContainer().registerRedirector(cParam.gettFactories().getSlTypeFactory().construct(
                 DataActionEnum.RefreshAfterPersistActionSignal, cParam.getdType()),
                 cParam.gettFactories().getSlTypeFactory().construct(
                 DataActionEnum.ReadListAction, cParam.getdType()));
         // secondly publish
-        slMediator.getSlContainer().publish(DataActionEnum.ReadListAction, cParam.getdType(), cParam.getwSize());
-        slMediator.getSlContainer().publish(DataActionEnum.ReadHeaderContainer, cParam.getdType());
+        slMediator.getSlContainer().publish(cParam.getdType(), DataActionEnum.ReadListAction, cParam.getwSize());
+        slMediator.getSlContainer().publish(cParam.getdType(), DataActionEnum.ReadHeaderContainer);
     }
 }

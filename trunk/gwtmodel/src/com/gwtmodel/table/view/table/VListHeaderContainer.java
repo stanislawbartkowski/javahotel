@@ -13,6 +13,7 @@
 package com.gwtmodel.table.view.table;
 
 import com.gwtmodel.table.IConsts;
+import com.gwtmodel.table.IVField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,16 @@ public class VListHeaderContainer {
 
     public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
         this(heList, listTitle, IConsts.defaultPage, null);
+    }
+
+    public VListHeaderDesc getHeader(IVField v) {
+        for (VListHeaderDesc h : heList) {
+            if (h.getFie().eq(v)) {
+                return h;
+            }
+        }
+        return null;
+
     }
 
     public List<VListHeaderDesc> getVisHeList() {

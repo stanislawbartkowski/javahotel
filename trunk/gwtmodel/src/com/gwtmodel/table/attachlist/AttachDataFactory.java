@@ -10,12 +10,20 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.factories;
+package com.gwtmodel.table.attachlist;
 
-import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.composecontroller.IComposeControllerTypeFactory;
+import com.gwtmodel.table.factories.IHeaderListContainer;
+import com.gwtmodel.table.slotmodel.ISlotSignaller;
 
-public interface IFormTitleFactory {
-       
-    String getFormTitle(ICallContext iContext);    
+/**
+ *
+ * @author perseus
+ */
+public class AttachDataFactory {
 
+    public IAttachDataView construct(IDataType dType, ISlotSignaller setGwt, IHeaderListContainer iHeader, IComposeControllerTypeFactory compFactory) {
+        return new AttachDataView(dType, setGwt, iHeader, compFactory);
+    }
 }
