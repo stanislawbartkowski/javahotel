@@ -12,21 +12,24 @@
  */
 package com.gwtmodel.util;
 
-import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.common.IConstUtil;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.IConstUtil;
 
 /**
  *
@@ -54,7 +57,7 @@ public class UpLoadFile extends HttpServlet {
                 InputStream stream = item.openStream();
                 File temp = File.createTempFile("upload-", ".attach");
                 temp.deleteOnExit();
-                OutputStream bout = new FileOutputStream(temp);
+                OutputStream bout = new PrintStream(temp);
                 byte[] buffer = new byte[8192];
                 int len;
                 while ((len = stream.read(buffer, 0, buffer.length)) != -1) {
