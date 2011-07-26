@@ -129,12 +129,12 @@ class CheckStandardContainer extends AbstractSlotContainer {
         CheckDictModelFactory cFactory = GwtGiniInjector.getI().getCheckDictModelFactory();
         getDataList = new GetDataList();
         iCheck = cFactory.construct(Empty.getFieldType(), getDataList);
-        registerSubscriber(DataActionEnum.DrawViewFormAction, cType,
+        registerSubscriber(cType, DataActionEnum.DrawViewFormAction, 
                 new DrawModel());
-        registerSubscriber(DataActionEnum.ChangeViewFormModeAction, cType,
+        registerSubscriber(cType, DataActionEnum.ChangeViewFormModeAction, 
                 new ChangeModeModel());
-        registerCaller(GetActionEnum.GetModelToPersist, cType, new SetGetter());
-        registerCaller(GetActionEnum.GetViewModelEdited, cType, new SetGetter());
+        registerCaller(cType, GetActionEnum.GetModelToPersist, new SetGetter());
+        registerCaller(cType, GetActionEnum.GetViewModelEdited, new SetGetter());
     }
 
     @Override

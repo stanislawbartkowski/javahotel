@@ -33,7 +33,6 @@ import com.javahotel.common.toobject.OfferSeasonP;
 
 public class ValidateAction extends AbstractSlotContainer implements
         IDataValidateAction {
-    
 
     private final EmptyColFactory eFactory = new EmptyColFactory();
 
@@ -42,8 +41,8 @@ public class ValidateAction extends AbstractSlotContainer implements
         @Override
         public void signal(ISlotSignalContext slContext) {
             DataType da = (DataType) dType;
-            IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetViewComposeModelEdited, dType);
+            IVModelData pData = getGetterIVModelData(dType,
+                    GetActionEnum.GetViewComposeModelEdited);
             FormLineContainer fContainer = getGetterContainer(dType);
             if (!ValidateEmpty.validateE(slContainer, da,
                     slContext.getPersistType(), pData, fContainer,
@@ -80,10 +79,10 @@ public class ValidateAction extends AbstractSlotContainer implements
             ValidateOnServer.validateS(slContainer, da, action, pData);
         }
     }
-    
+
     public ValidateAction(IDataType dType) {
         this.dType = dType;
-        registerSubscriber(DataActionEnum.ValidateAction, dType,
+        registerSubscriber(dType, DataActionEnum.ValidateAction,
                 new ValidateA());
     }
 }

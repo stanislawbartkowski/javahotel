@@ -120,7 +120,7 @@ class GetViewFactory implements IGetViewControllerFactory {
     @Override
     public IComposeController construct(ICallContext iContext) {
         IDataType dType = iContext.getDType();
-        FormLineContainer fContainer = reFactory.construct(dType);
+        FormLineContainer fContainer = reFactory.construct(iContext);
         IComposeController iCon = coFactory.construct(dType);
         IDataViewModel daModel = daFactory.construct(dType, fContainer);
         IDataValidateAction vAction = vFactory.construct(dType);

@@ -18,6 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -76,8 +77,8 @@ class RecordFormDefFactory implements IFormDefFactory {
     }
 
     @Override
-    public FormLineContainer construct(IDataType dType) {
-        DataType dd = (DataType) dType;
+    public FormLineContainer construct(ICallContext iContext) {
+        DataType dd = (DataType) iContext.getDType();
         List<FormField> fList = new ArrayList<FormField>();
         IField[] fL;
         if (dd.isRType()) {

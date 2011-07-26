@@ -205,11 +205,11 @@ public class CustomerAddInfo extends AbstractSlotContainer {
             aList = maFactory.construct("Konto", rI.getLabels().Account(),
                     new SFactory(), new SetGWT(setAccString));
         }
-        registerCaller(GetActionEnum.GetViewModelEdited, dType, new SetGetter());
-        registerCaller(GetActionEnum.GetModelToPersist, dType, new SetGetter());
-        registerSubscriber(DataActionEnum.DrawViewFormAction, dType,
+        registerCaller(dType, GetActionEnum.GetViewModelEdited, new SetGetter());
+        registerCaller(dType, GetActionEnum.GetModelToPersist, new SetGetter());
+        registerSubscriber(dType, DataActionEnum.DrawViewFormAction,
                 new DrawModel());
-        registerSubscriber(DataActionEnum.ChangeViewFormModeAction, dType,
+        registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
                 new ChangeMode());
 
     }
