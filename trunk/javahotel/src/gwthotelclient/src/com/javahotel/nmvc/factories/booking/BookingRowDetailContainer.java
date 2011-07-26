@@ -75,8 +75,8 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
                         .getAbstractFactory();
                 AbstractTo a = iFactory.construct(fElem);
                 IVModelData mData = VModelDataFactory.construct(a);
-                mData = sL.getSlContainer().getGetterIVModelData(
-                        GetActionEnum.GetListLineChecked, fElem, mData);
+                mData = sL.getSlContainer().getGetterIVModelData(fElem,
+                        GetActionEnum.GetListLineChecked, mData);
                 if (mData == null) {
                     return;
                 }
@@ -85,7 +85,7 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
 
         DataPersistAction() {
             this.dType = BookingRowDetailContainer.this.dType;
-            registerSubscriber(DataActionEnum.ReadListAction, dType,
+            registerSubscriber(dType, DataActionEnum.ReadListAction,
                     new ReadList());
         }
         // BookElemP
@@ -115,8 +115,8 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
         taFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
         publishdType = iContext.getDType();
         dType = new DataType(AddType.RowPaymentElem);
-        slMediator.getSlContainer().registerSubscriber(
-                DataActionEnum.DrawViewFormAction, subType, new DrawModel());
+        slMediator.getSlContainer().registerSubscriber(subType,
+                DataActionEnum.DrawViewFormAction, new DrawModel());
 
         iControler = createControler();
     }

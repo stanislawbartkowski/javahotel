@@ -50,11 +50,11 @@ class P {
                 slContainer.publish(DataUtil.constructValidateAgain(dType),
                         null);
             } else {
-                slContainer.publish(DataActionEnum.ValidSignal, dType);
+                slContainer.publish(dType, DataActionEnum.ValidSignal);
             }
             return true;
         } else {
-            slContainer.publish(DataActionEnum.InvalidSignal, dType,
+            slContainer.publish(dType, DataActionEnum.InvalidSignal,
                     errContainer);
             return false;
         }

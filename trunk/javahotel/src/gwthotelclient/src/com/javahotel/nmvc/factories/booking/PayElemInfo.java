@@ -108,8 +108,9 @@ class PayElemInfo {
     void initW() {
         setE();
         if (iContext.getPersistTypeEnum() != PersistTypeEnum.ADD) {
-            IVModelData vData = iSlo.getSlContainer().getGetterContext(
-                    GetActionEnum.GetListLineChecked, dType).getVData();
+            IVModelData vData = mainSlo.getSlContainer()
+                    .getGetterContext(dType, GetActionEnum.GetListLineChecked)
+                    .getVData();
             HModelData ho = (HModelData) vData;
             BookElemP p = (BookElemP) ho.getA();
             dFrom = p.getCheckIn();

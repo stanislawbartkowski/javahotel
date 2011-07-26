@@ -14,6 +14,7 @@ package com.javahotel.nmvc.factories;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IFormTitleFactory;
+import com.gwtmodel.table.injector.ICallContext;
 import com.javahotel.client.MM;
 import com.javahotel.client.types.DataType;
 
@@ -24,8 +25,8 @@ import com.javahotel.client.types.DataType;
 class RecordTitleFactory implements IFormTitleFactory {
 
     @Override
-    public String getFormTitle(IDataType dType) {
-        DataType dd = (DataType) dType;
+    public String getFormTitle(ICallContext iContext) {
+        DataType dd = (DataType) iContext.getDType();
         if (dd.isRType())
             switch (dd.getrType()) {
             case AllPersons:

@@ -59,8 +59,8 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
     private final SlotSignalContextFactory sFactory;
 
     private void drawBook(IDataType dType, IVModelData book) {
-        slMediator.getSlContainer().publish(
-                DataActionEnum.DrawViewComposeFormAction, dType, book);
+        slMediator.getSlContainer().publish(dType,
+                DataActionEnum.DrawViewComposeFormAction, book);
     }
 
     private class DrawModel implements ISlotSignaller {
@@ -111,8 +111,8 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
 
             IVModelData vData = daFactory.construct(dType);
             IVModelData pData = slMediator.getSlContainer()
-                    .getGetterIVModelData(GetActionEnum.GetViewModelEdited,
-                            dType, vData);
+                    .getGetterIVModelData(dType,
+                            GetActionEnum.GetViewModelEdited, vData);
             HModelData vv = (HModelData) pData;
             BookRecordP p = (BookRecordP) vv.getA();
             List<BookRecordP> l = new ArrayList<BookRecordP>();
@@ -120,8 +120,8 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
             b.setBookrecords(l);
 
             vData = daFactory.construct(aType);
-            pData = slMediator.getSlContainer().getGetterIVModelData(
-                    GetActionEnum.GetViewModelEdited, aType, vData);
+            pData = slMediator.getSlContainer().getGetterIVModelData(aType,
+                    GetActionEnum.GetViewModelEdited, vData);
             vv = (HModelData) pData;
             AdvancePaymentP a = (AdvancePaymentP) vv.getA();
             List<AdvancePaymentP> ll = new ArrayList<AdvancePaymentP>();
@@ -174,9 +174,9 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         register(book, aHeader);
         slMediator.registerSlotContainer(cId, book);
         slMediator.registerSlotContainer(aId, aHeader);
-        registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
+        registerSubscriber(subType, DataActionEnum.DrawViewFormAction,
                 new DrawModel());
-        registerCaller(GetActionEnum.GetViewModelEdited, subType,
+        registerCaller(subType, GetActionEnum.GetViewModelEdited,
                 new SetGetter());
         registerCaller(GetSlowC.GETSLOTS, new GetSlot());
     }

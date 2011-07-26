@@ -75,8 +75,8 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
 
         @Override
         public void signal(ISlotSignalContext sl) {
-            ISlotSignalContext ret = getSlContainer().getGetterContext(
-                    GetActionEnum.GetListLineChecked, dType);
+            ISlotSignalContext ret = getSlContainer().getGetterContext(dType,
+                    GetActionEnum.GetListLineChecked);
             IVModelData vData = ret.getVData();
             WSize wSize = ret.getWSize();
 

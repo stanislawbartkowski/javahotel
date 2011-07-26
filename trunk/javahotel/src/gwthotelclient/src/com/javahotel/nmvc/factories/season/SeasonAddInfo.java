@@ -248,9 +248,8 @@ public class SeasonAddInfo extends AbstractSlotContainer {
             IVModelData pData = iContext
                     .iSlo()
                     .getSlContainer()
-                    .getGetterIVModelData(
-                            GetActionEnum.GetViewComposeModelEdited, dType,
-                            mData);
+                    .getGetterIVModelData(dType,
+                            GetActionEnum.GetViewComposeModelEdited, mData);
             HModelData v = (HModelData) pData;
             OfferSeasonP off = (OfferSeasonP) v.getA();
             Date from = off.getStartP();
@@ -285,10 +284,10 @@ public class SeasonAddInfo extends AbstractSlotContainer {
                 sPanel.constructSetGwt(), vFactory);
         periodSpecial = daFactory.construct(MM.L().SpecialSeasonName(),
                 pFactory, sPanel.constructSetGwt(), vFactory);
-        registerCaller(GetActionEnum.GetViewModelEdited, ddType,
+        registerCaller(ddType, GetActionEnum.GetViewModelEdited,
                 new SetGetter());
-        registerCaller(GetActionEnum.GetModelToPersist, ddType, new SetGetter());
-        registerSubscriber(DataActionEnum.DrawViewFormAction, ddType,
+        registerCaller(ddType, GetActionEnum.GetModelToPersist, new SetGetter());
+        registerSubscriber(ddType, DataActionEnum.DrawViewFormAction,
                 new DrawModel());
         registerSubscriber(SHOWSEASONSTRING, new DrawSeason(iContext, ddType));
 

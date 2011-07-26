@@ -41,7 +41,7 @@ class ValidateLogin extends AbstractSlotContainer implements
         this.dType = dType;
         this.user = user;
         this.fContainer = fContainer;
-        registerSubscriber(DataActionEnum.ValidateAction, dType,
+        registerSubscriber(dType,DataActionEnum.ValidateAction, 
                 new ValidateA());
     }
     
@@ -49,12 +49,12 @@ class ValidateLogin extends AbstractSlotContainer implements
 
         @Override
         public void invalid(InvalidateFormContainer errMess) {
-            publish(DataActionEnum.ChangeViewFormToInvalidAction, dType, errMess);            
+            publish(dType,DataActionEnum.ChangeViewFormToInvalidAction, errMess);            
         }
 
         @Override
         public void valid() {
-            publish(DataActionEnum.ValidSignal, dType);            
+            publish(dType,DataActionEnum.ValidSignal);            
         }
         
     }
@@ -63,13 +63,13 @@ class ValidateLogin extends AbstractSlotContainer implements
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetViewComposeModelEdited, dType);
+            IVModelData pData = getGetterIVModelData(dType,
+                    GetActionEnum.GetViewComposeModelEdited);
             List<IVField> listMFie = FormUtil.getVList(fContainer);
             List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,
                     listMFie);
             if (errMess != null) {
-                publish(DataActionEnum.ChangeViewFormToInvalidAction, dType,
+                publish(dType,DataActionEnum.ChangeViewFormToInvalidAction, 
                         new InvalidateFormContainer(errMess));
                 return;
             }

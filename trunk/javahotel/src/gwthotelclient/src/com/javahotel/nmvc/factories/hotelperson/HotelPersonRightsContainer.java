@@ -229,7 +229,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         gFactory = GwtGiniInjector.getI().getGridViewFactory();
         iView = gFactory.constructBoolean(true, true, true);
         rI = HInjector.getI().getI();
-        registerSubscriber(DataActionEnum.DrawViewFormAction, cType,
+        registerSubscriber(cType, DataActionEnum.DrawViewFormAction, 
                 new DrawModel());
         Map<String, String> m = rI.getLabels().HotelRoles();
         cols = new ArrayList<String>();
@@ -248,8 +248,8 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
             fie = PersonP.F.name;
         }
         rI.getR().getList(rr, null, new SetCols(fie));
-        registerCaller(GetActionEnum.GetViewModelEdited, cType, new SetGetter());
-        registerCaller(GetActionEnum.GetModelToPersist, cType, new SetGetter());
+        registerCaller(cType, GetActionEnum.GetViewModelEdited, new SetGetter());
+        registerCaller(cType, GetActionEnum.GetModelToPersist, new SetGetter());
     }
 
     @Override

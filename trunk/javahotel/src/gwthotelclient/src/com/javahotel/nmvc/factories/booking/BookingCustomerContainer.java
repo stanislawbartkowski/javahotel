@@ -56,8 +56,8 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     private final IEditChooseRecordContainer cContainer;
 
     private void drawCust(IVModelData cust) {
-        slMediator.getSlContainer().publish(
-                DataActionEnum.DrawViewComposeFormAction, dType, cust);
+        slMediator.getSlContainer().publish(dType,
+                DataActionEnum.DrawViewComposeFormAction, cust);
     }
 
     private class SetCustomerData implements RData.IOneList<AbstractTo> {
@@ -103,8 +103,8 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
 
             IVModelData cust = daFactory.construct(dType);
             IVModelData pData = slMediator.getSlContainer()
-                    .getGetterIVModelData(GetActionEnum.GetViewModelEdited,
-                            dType, cust);
+                    .getGetterIVModelData(dType,
+                            GetActionEnum.GetViewModelEdited, cust);
             boolean addCust = cContainer.getNewCheck();
             boolean changeCust = cContainer.getChangeCheck();
             HModelData vvData = (HModelData) pData;
@@ -186,10 +186,10 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         rI = HInjector.getI().getI();
 
         slMediator.registerSlotContainer(cContainer);
-        registerSubscriber(DataActionEnum.DrawViewFormAction, subType,
+        registerSubscriber(subType, DataActionEnum.DrawViewFormAction,
                 new DrawModel());
 
-        registerCaller(GetActionEnum.GetViewModelEdited, subType,
+        registerCaller(subType, GetActionEnum.GetViewModelEdited,
                 new SetGetter());
 
     }

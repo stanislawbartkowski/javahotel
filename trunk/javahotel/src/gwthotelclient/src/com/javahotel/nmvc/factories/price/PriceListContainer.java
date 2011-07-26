@@ -31,6 +31,7 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.view.grid.GridErrorMess;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.grid.IGridViewDecimal;
 import com.javahotel.client.IResLocator;
@@ -154,20 +155,28 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     private class ValidateC implements ISlotSignaller {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.gwtmodel.table.slotmodel.ISlotSignaller#signal(com.gwtmodel.table
-         * .slotmodel.ISlotSignalContext)
-         */
         @Override
         public void signal(ISlotSignalContext slContext) {
-            // TODO Auto-generated method stub
-            int i = 0;
-
+            int row = 0;
+            List<GridErrorMess> eMess = null;
+            for (String service : synch.servNames) {
+                for (int col = 0; col < synch.iModel.noPrices(); col++) {
+                    BigDecimal b = iView.getCellDecimal(row, col);
+                    if (b == null) {
+                        if (eMess == null) {
+                            eMess = new ArrayList<GridErrorMess>();
+                        }
+                        eMess.add(new GridErrorMess(row, col));
+                    }
+                }
+                row++;
+            }
+            if (eMess == null) {
+                publish(dType, DataActionEnum.ValidSignal);
+                return;
+            }
+            iView.setErrorMess(eMess);
         }
-
     }
 
     private class SetGetter implements ISlotCaller {
@@ -199,9 +208,9 @@ public class PriceListContainer extends AbstractSlotContainer {
         iView = gFactory.constructDecimal(true, true, true);
         DataType daType = new DataType(DictType.ServiceDict);
         new ReadDictList<IDataListType>().readList(daType, new R());
-        registerCaller(GetActionEnum.GetViewModelEdited, cType, new SetGetter());
-        registerCaller(GetActionEnum.GetModelToPersist, cType, new SetGetter());
-        registerSubscriber(DataActionEnum.DrawViewFormAction, cType,
+        registerCaller(cType, GetActionEnum.GetViewModelEdited, new SetGetter());
+        registerCaller(cType, GetActionEnum.GetModelToPersist, new SetGetter());
+        registerSubscriber(cType, DataActionEnum.DrawViewFormAction,
                 new DrawModel());
         registerSubscriber(dType, new VField(OfferPriceP.F.season),
                 new ChangeSeason());

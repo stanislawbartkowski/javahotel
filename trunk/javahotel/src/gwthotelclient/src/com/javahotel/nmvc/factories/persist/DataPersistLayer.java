@@ -74,7 +74,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             if (da.isAllPersons()) {
                 dataList = convertToLogin(dataList);
             }
-            publish(DataActionEnum.ListReadSuccessSignal, dType, dataList);
+            publish(dType, DataActionEnum.ListReadSuccessSignal, dataList);
         }
     }
 
@@ -88,7 +88,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
         @Override
         public void success(PersistResultContext re) {
-            publish(DataActionEnum.PersistDataSuccessSignal, dType,
+            publish(dType, DataActionEnum.PersistDataSuccessSignal,
                     persistTypeEnum);
         }
     }
@@ -97,8 +97,8 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetComposeModelToPersist, dType);
+            IVModelData pData = getGetterIVModelData(dType,
+                    GetActionEnum.GetComposeModelToPersist);
             PersistTypeEnum action = slContext.getPersistType();
             HModelData mo = (HModelData) pData;
             iPersist.persist(action, mo.getA(),
@@ -109,7 +109,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
     private void sendSignal(PersistTypeEnum persistTypeEnum) {
         rI.getR().invalidateCache(RType.AllHotels, RType.AllPersons,
                 RType.PersonHotelRoles);
-        publish(DataActionEnum.PersistDataSuccessSignal, dType, persistTypeEnum);
+        publish(dType, DataActionEnum.PersistDataSuccessSignal, persistTypeEnum);
     }
 
     private class PersisRoles extends CommonCallBackNo<ReturnPersist> {
@@ -162,8 +162,8 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IVModelData pData = getGetterIVModelData(
-                    GetActionEnum.GetComposeModelToPersist, dType);
+            IVModelData pData = getGetterIVModelData(dType,
+                    GetActionEnum.GetComposeModelToPersist);
             AccessRoles roles = (AccessRoles) pData.getCustomData();
             AbstractTo a = null;
             if (da.isAllPersons()) {
@@ -200,12 +200,12 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         iPersist = HInjector.getI().getHotelPersistFactory()
                 .construct(da, false);
         // create subscribers - ReadList
-        registerSubscriber(DataActionEnum.ReadListAction, dType, new ReadList());
+        registerSubscriber(dType, DataActionEnum.ReadListAction, new ReadList());
         if (da.isAllPersons() || da.isAllHotels()) {
-            registerSubscriber(DataActionEnum.PersistDataAction, dType,
+            registerSubscriber(dType, DataActionEnum.PersistDataAction,
                     new SignalPersistPerson(iPersist));
         } else {
-            registerSubscriber(DataActionEnum.PersistDataAction, dType,
+            registerSubscriber(dType, DataActionEnum.PersistDataAction,
                     new PersistRecord());
         }
         // persist subscriber
