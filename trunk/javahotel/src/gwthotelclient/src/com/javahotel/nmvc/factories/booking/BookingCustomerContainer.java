@@ -170,6 +170,18 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         }
     }
 
+    class ChangeMode implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            cContainer.ChangeViewForm(slContext.getPersistType());
+            slMediator.getSlContainer().publish(dType,
+                    DataActionEnum.ChangeViewComposeFormModeAction,
+                    slContext.getPersistType());
+        }
+
+    }
+
     public BookingCustomerContainer(ICallContext iContext, IDataType subType) {
         dType = new DataType(DictType.CustomerList);
         ICallContext ii = iContext.construct(dType);
@@ -188,8 +200,12 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         slMediator.registerSlotContainer(cContainer);
         registerSubscriber(subType, DataActionEnum.DrawViewFormAction,
                 new DrawModel());
+        registerSubscriber(subType, DataActionEnum.ChangeViewFormModeAction,
+                new ChangeMode());
 
         registerCaller(subType, GetActionEnum.GetViewModelEdited,
+                new SetGetter());
+        registerCaller(subType, GetActionEnum.GetModelToPersist,
                 new SetGetter());
 
     }

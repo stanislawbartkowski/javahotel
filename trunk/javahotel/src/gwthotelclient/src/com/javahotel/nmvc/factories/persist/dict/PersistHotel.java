@@ -15,7 +15,7 @@ package com.javahotel.nmvc.factories.persist.dict;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.types.DataUtil;
-import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.client.types.HModelData;
 import com.javahotel.common.toobject.HotelP;
 
 class PersistHotel extends APersonHotelPersist {
@@ -27,9 +27,9 @@ class PersistHotel extends APersonHotelPersist {
     }
 
     @Override
-    public void persist(PersistTypeEnum persistTypeEnum, AbstractTo a,
+    public void persist(PersistTypeEnum persistTypeEnum, HModelData h,
             IPersistResult iRes) {
-        HotelP ho = (HotelP) a;
+        HotelP ho = (HotelP) h.getA();
         CallBack ca = new CallBack(iRes, persistTypeEnum, ho);
         if (validate) {
             GWTGetService.getService().validatePersistHotel(

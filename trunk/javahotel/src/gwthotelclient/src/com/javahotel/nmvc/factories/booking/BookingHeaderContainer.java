@@ -16,90 +16,98 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.composecontroller.IComposeController;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.datamodelview.DataViewModelFactory;
+import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IGetViewControllerFactory;
+import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.slotmediator.ISlotMediator;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
+import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
+import com.javahotel.client.MM;
+import com.javahotel.client.abstractto.AUtil;
 import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
+import com.javahotel.client.types.VField;
 import com.javahotel.client.types.VModelDataFactory;
+import com.javahotel.common.command.BookingEnumTypes;
+import com.javahotel.common.command.BookingStateType;
+import com.javahotel.common.command.DictType;
+import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.util.BillUtil;
 import com.javahotel.common.util.GetMaxUtil;
 
-public class BookingHeaderContainer extends AbstractSlotContainer {
+public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
 
     private final DataType aType;
-    private final ISlotMediator slMediator;
     private final IDataModelFactory daFactory;
+
     private final IDataType publishdType;
+    private final IDataType subType;
     private final CellId cId = new CellId(IPanelView.CUSTOMID);
     private final CellId aId = new CellId(IPanelView.CUSTOMID + 1);
     private final SetVPanelGwt sPanel = new SetVPanelGwt();
     private final SlotSignalContextFactory sFactory;
+    private final DataViewModelFactory daViewFactory;
 
-    private void drawBook(IDataType dType, IVModelData book) {
-        slMediator.getSlContainer().publish(dType,
-                DataActionEnum.DrawViewComposeFormAction, book);
+    private final IDataViewModel bookModel;
+    private final IDataViewModel headerModel;
+
+    private void drawV(IDataType paType, IVModelData v) {
+        slMediator.getSlContainer().publish(paType,
+                DataActionEnum.DrawViewFormAction, v);
     }
 
     private class DrawModel implements ISlotSignaller {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IVModelData mData = slContext.getVData();
-            HModelData vData = (HModelData) mData;
-            BookingP b = (BookingP) vData.getA();
-            BookRecordP p = null;
-            if (b.getBookrecords() != null) {
-                p = GetMaxUtil.getLastBookRecord(b);
-            }
+            BookRecordP p = P.getBookR(slContext);
             IVModelData pData;
             if (p == null) {
                 pData = daFactory.construct(dType);
             } else {
                 pData = VModelDataFactory.construct(p);
             }
-            drawBook(dType, pData);
+            drawV(dType, pData);
 
-            AdvancePaymentP pa = null;
-            if (b.getBill() != null) {
-                pa = GetMaxUtil.getLastValidationRecord(b);
-            }
+            AdvancePaymentP pa = P.getAdvanced(slContext);
             IVModelData aData;
             if (pa != null) {
                 aData = VModelDataFactory.construct(pa);
             } else {
                 aData = daFactory.construct(aType);
             }
-            drawBook(aType, aData);
+            drawV(aType, aData);
         }
     }
 
-    private void register(ISlotable book, ISlotable aHeader) {
-        book.getSlContainer().registerSubscriber(dType, cId,
+    private void register() {
+        bookModel.getSlContainer().registerSubscriber(dType, cId,
                 sPanel.constructSetGwt());
-        aHeader.getSlContainer().registerSubscriber(aType, aId,
+        headerModel.getSlContainer().registerSubscriber(aType, aId,
                 sPanel.constructSetGwt());
     }
 
@@ -109,12 +117,30 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             BookingP b = getBook(slContext);
 
+            BookingStateP st = null;
+            List<BookingStateP> bLi = b.getState();
+            if (bLi != null) {
+                st = GetMaxUtil.getLastStateRecord(b);
+            }
+            if ((st == null)
+                    || st.getBState() != BookingStateType.WaitingForConfirmation) {
+                if (bLi == null) {
+                    bLi = new ArrayList<BookingStateP>();
+                }
+                BookingStateP sta = new BookingStateP();
+                sta.setBState(BookingStateType.WaitingForConfirmation);
+                bLi.add(sta);
+                b.setState(bLi);
+            }
+
             IVModelData vData = daFactory.construct(dType);
             IVModelData pData = slMediator.getSlContainer()
                     .getGetterIVModelData(dType,
                             GetActionEnum.GetViewModelEdited, vData);
             HModelData vv = (HModelData) pData;
             BookRecordP p = (BookRecordP) vv.getA();
+            p.setDataFrom(DateUtil.getToday());
+            p.setLp(1);
             List<BookRecordP> l = new ArrayList<BookRecordP>();
             l.add(p);
             b.setBookrecords(l);
@@ -124,14 +150,21 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
                     GetActionEnum.GetViewModelEdited, vData);
             vv = (HModelData) pData;
             AdvancePaymentP a = (AdvancePaymentP) vv.getA();
+
             List<AdvancePaymentP> ll = new ArrayList<AdvancePaymentP>();
-            ll.add(a);
+            if (!AUtil.emptyAdvance(a)) {
+                ll.add(a);
+            }
 
             List<BillP> bL = new ArrayList<BillP>();
             BillP bb = BillUtil.createPaymentBill();
             bb.setAdvancePay(ll);
             bL.add(bb);
             b.setBill(bL);
+            
+            if (b.getBookingType() == null) {
+                b.setBookingType(BookingEnumTypes.Reservation);
+            }
             return slContext;
         }
     }
@@ -153,37 +186,103 @@ public class BookingHeaderContainer extends AbstractSlotContainer {
         return b;
     }
 
-    public BookingHeaderContainer(ICallContext iContext, IDataType subType) {
+    private class ValidateA implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            PersistTypeEnum en = slContext.getPersistType();
+            if (en == PersistTypeEnum.REMOVE) {
+                slMediator.getSlContainer().publish(subType,
+                        DataActionEnum.ValidSignal);
+                return;                
+            }
+            DataType d = new DataType(DictType.BookingList);
+            IVModelData pData = slMediator.getSlContainer()
+                    .getGetterIVModelData(d,
+                            GetActionEnum.GetViewComposeModelEdited);
+            BookRecordP p = P.getBookR(pData);
+            if (p.getBooklist().size() == 0) {
+                List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+                errMess.add(new InvalidateMess(new VField(
+                        BookRecordP.F.customerPrice), MM.L().EnterReservation()));
+                InvalidateFormContainer e = new InvalidateFormContainer(errMess);
+                slMediator.getSlContainer().publish(dType,
+                        DataActionEnum.ChangeViewFormToInvalidAction, e);
+                return;
+            }
+            List<IVField> listE = new ArrayList<IVField>();
+            listE.add(new VField(BookRecordP.F.customerPrice));
+            listE.add(new VField(BookRecordP.F.oPrice));
+            IVModelData bData = VModelDataFactory.construct(p);
+            List<InvalidateMess> errMess = ValidateUtil
+                    .checkEmpty(bData, listE);
+            if (errMess != null) {
+                slMediator.getSlContainer().publish(dType,
+                        DataActionEnum.ChangeViewFormToInvalidAction,
+                        new InvalidateFormContainer(errMess));
+                return;
+            }
+
+            slMediator.getSlContainer().publish(subType,
+                    DataActionEnum.ValidSignal);
+        }
+
+    }
+
+    class ChangeMode implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            slMediator.getSlContainer().publish(dType,
+                    DataActionEnum.ChangeViewFormModeAction,
+                    slContext.getPersistType());
+            slMediator.getSlContainer().publish(aType,
+                    DataActionEnum.ChangeViewFormModeAction,
+                    slContext.getPersistType());
+        }
+
+    }
+
+    public BookingHeaderContainer(ICallContext iContext, IDataType subType,
+            IFormDefFactory reFactory) {
         publishdType = iContext.getDType();
-        TablesFactories tFactories = GwtGiniInjector.getI()
-                .getTablesFactories();
+        this.subType = subType;
+        daViewFactory = GwtGiniInjector.getI().getDataViewModelFactory();
         sFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         ITableCustomFactories fContainer = GwtGiniInjector.getI()
                 .getTableFactoriesContainer();
         daFactory = fContainer.getDataModelFactory();
-        slMediator = tFactories.getSlotMediatorFactory().construct();
 
         dType = new DataType(AddType.BookRecord);
         aType = new DataType(AddType.AdvanceHeader);
-        IGetViewControllerFactory fa = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetViewControllerFactory();
-        IComposeController book = fa.construct(iContext.construct(dType));
-        book.createComposeControle(cId);
-        IComposeController aHeader = fa.construct(iContext.construct(aType));
-        aHeader.createComposeControle(aId);
-        register(book, aHeader);
-        slMediator.registerSlotContainer(cId, book);
-        slMediator.registerSlotContainer(aId, aHeader);
-        registerSubscriber(subType, DataActionEnum.DrawViewFormAction,
-                new DrawModel());
-        registerCaller(subType, GetActionEnum.GetViewModelEdited,
-                new SetGetter());
-        registerCaller(GetSlowC.GETSLOTS, new GetSlot());
+
+        FormLineContainer fCont = reFactory
+                .construct(iContext.construct(dType));
+        bookModel = daViewFactory.construct(dType, fCont);
+        slMediator.registerSlotContainer(cId, bookModel);
+        fCont = reFactory.construct(iContext.construct(aType));
+        headerModel = daViewFactory.construct(aType, fCont);
+        slMediator.registerSlotContainer(aId, headerModel);
+        register();
+
+        this.getSlContainer().registerSubscriber(subType,
+                DataActionEnum.DrawViewFormAction, new DrawModel());
+        this.getSlContainer().registerCaller(subType,
+                GetActionEnum.GetViewModelEdited, new SetGetter());
+        this.getSlContainer().registerCaller(subType,
+                GetActionEnum.GetModelToPersist, new SetGetter());
+        this.getSlContainer().registerSubscriber(subType,
+                DataActionEnum.ValidateAction, new ValidateA());
+        this.getSlContainer().registerSubscriber(subType,
+                DataActionEnum.ChangeViewFormModeAction, new ChangeMode());
+
+        this.getSlContainer().registerCaller(GetSlowC.GETSLOTS, new GetSlot());
     }
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(publishdType, cellId, sPanel.constructGWidget());
+        this.getSlContainer().publish(publishdType, cellId,
+                sPanel.constructGWidget());
         slMediator.startPublish(null);
     }
 }

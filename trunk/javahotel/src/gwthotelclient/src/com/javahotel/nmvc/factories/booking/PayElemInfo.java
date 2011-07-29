@@ -13,6 +13,7 @@
 package com.javahotel.nmvc.factories.booking;
 
 import java.util.Date;
+import java.util.List;
 
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
@@ -28,6 +29,7 @@ import com.javahotel.client.types.HModelData;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.PaymentRowP;
 
 /**
  * @author hotel
@@ -40,6 +42,7 @@ class PayElemInfo {
     private Date dFrom;
     private Date dTo;
     private String service;
+    private List<PaymentRowP> pList;
 
     /**
      * @return the service
@@ -116,7 +119,22 @@ class PayElemInfo {
             dFrom = p.getCheckIn();
             dTo = p.getCheckOut();
             service = p.getService();
+            pList = p.getPaymentrows();
         }
+    }
+
+    /**
+     * @return the pList
+     */
+    List<PaymentRowP> getpList() {
+        return pList;
+    }
+
+    /**
+     * @param pList the pList to set
+     */
+    void setpList(List<PaymentRowP> pList) {
+        this.pList = pList;
     }
 
     void setFromW() {

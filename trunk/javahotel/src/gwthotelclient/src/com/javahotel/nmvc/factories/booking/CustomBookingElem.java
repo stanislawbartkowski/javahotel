@@ -12,16 +12,21 @@
  */
 package com.javahotel.nmvc.factories.booking;
 
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData.IOneList;
+import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
@@ -45,7 +50,7 @@ class CustomBookingElem extends AbstractSlotContainer {
     private final BookElementRefreshPayment fPayment;
     private final ISlotable mainSlo;
 
-    CustomBookingElem(ICallContext iContext, ISlotable mainSlo) {
+    CustomBookingElem(ICallContext iContext, ISlotable mainSlo, IDataType subType) {
         this.iContext = iContext;
         this.dType = iContext.getDType();
         registerSubscriber(dType, new VField(BookElemP.F.resObject),
@@ -55,7 +60,7 @@ class CustomBookingElem extends AbstractSlotContainer {
         this.mainSlo = mainSlo;
         fPayment = new BookElementRefreshPayment(dType, this, iContext, mainSlo);
     }
-
+    
     private class ReadStandard implements IOneList<AbstractTo> {
 
         private final IFormLineView sView;
@@ -64,12 +69,6 @@ class CustomBookingElem extends AbstractSlotContainer {
             this.sView = sView;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.javahotel.client.rdata.RData.IOneList#doOne(java.lang.Object)
-         */
         @Override
         public void doOne(AbstractTo val) {
             RoomStandardP r = (RoomStandardP) val;
@@ -100,13 +99,6 @@ class CustomBookingElem extends AbstractSlotContainer {
 
     private class ChangeRoom implements ISlotSignaller {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.gwtmodel.table.slotmodel.ISlotSignaller#signal(com.gwtmodel.table
-         * .slotmodel.ISlotSignalContext)
-         */
         @Override
         public void signal(ISlotSignalContext slContext) {
             IFormLineView iView = slContext.getChangedValue();

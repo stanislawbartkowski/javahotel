@@ -42,6 +42,11 @@ public class FFactory {
         return new FormField(i.getName(f), e, new VField(f), true, false);
     }
 
+    public static FormField constructRA(IField f, IFormLineView e) {
+        IGetFieldName i = HInjector.getI().getGetFieldName();
+        return new FormField(i.getName(f), e, new VField(f), true, true);
+    }
+
     public static FormField construct(IField f) {
         IGetFieldName i = HInjector.getI().getGetFieldName();
         return new FormField(i.getName(f), null, new VField(f));

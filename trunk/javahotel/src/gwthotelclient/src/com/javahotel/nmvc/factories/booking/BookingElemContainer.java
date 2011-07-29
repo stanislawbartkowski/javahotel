@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.DataListTypeFactory;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
@@ -50,9 +51,9 @@ import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
+import com.javahotel.client.types.VModelDataFactory;
+import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
-import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.util.GetMaxUtil;
 
 public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
@@ -66,14 +67,14 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IVModelData mData = slContext.getVData();
-            HModelData vData = (HModelData) mData;
-            BookingP b = (BookingP) vData.getA();//
-            BookRecordP p = null;
-            if (b.getBookrecords() != null) {
-                p = GetMaxUtil.getLastBookRecord(b);
-            }
             List<AbstractLpVModelData> li = new ArrayList<AbstractLpVModelData>();
+            BookRecordP p = P.getBookR(slContext);
+            if (p.getBooklist() != null) {
+                for (BookElemP e : p.getBooklist()) {
+                    AbstractLpVModelData lp = VModelDataFactory.constructLp(e);
+                    li.add(lp);
+                }
+            }
             lPersistList.setDataList(DataListTypeFactory.constructLp(li));
             dControler.startPublish(new CellId(0));
         }
@@ -81,29 +82,40 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
     private class SetGetter implements ISlotCaller {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.gwtmodel.table.slotmodel.ISlotCaller#call(com.gwtmodel.table.
-         * slotmodel.ISlotSignalContext)
-         */
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            IVModelData mData = slContext.getVData();
-            return null;
+            BookRecordP p = P.getBookR(slContext);
+            IDataListType li = lPersistList.getDataList();
+            List<BookElemP> ll = new ArrayList<BookElemP>();
+            for (IVModelData v : li.getList()) {
+                HModelData vData = (HModelData) v;
+                BookElemP e = (BookElemP) vData.getA();
+                ll.add(e);
+            }
+            p.setBooklist(ll);
+            return slContext;
         }
     }
 
-    public BookingElemContainer(final ICallContext iContext, DataType subType,
-            IFormDefFactory fFactory, IFormTitleFactory tiFactory) {
+    class ChangeMode implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            slMediator.getSlContainer().publish(dType,
+                    DataActionEnum.ChangeViewFormModeAction,
+                    slContext.getPersistType());
+        }
+
+    }
+
+    public BookingElemContainer(final ICallContext iContext,
+            final DataType subType, IFormDefFactory fFactory,
+            IFormTitleFactory tiFactory) {
         tFactories = iContext.getC();
         publishdType = iContext.getDType();
         dType = new DataType(AddType.BookElem);
         slMediator.getSlContainer().registerSubscriber(subType,
                 DataActionEnum.DrawViewFormAction, new DrawModel());
-        slMediator.getSlContainer().registerCaller(dType,
-                GetActionEnum.GetModelToPersist, new SetGetter());
 
         lPersistList = new MemoryListPersist(dType);
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
@@ -122,8 +134,8 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             @Override
             public ComposeControllerType construct(ICallContext iiContext) {
                 ISlotable iSlo = new CustomBookingElem(iiContext,
-                        BookingElemContainer.this);
-                return new ComposeControllerType(iSlo);
+                        BookingElemContainer.this, subType);
+                return new ComposeControllerType(iSlo, subType);
             }
 
         };
@@ -140,8 +152,13 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
         slMediator.registerSlotContainer(he.construct(dType));
         slMediator.getSlContainer().registerSubscriber(dType, cI,
                 sPanel.constructSetGwt());
-        slMediator.getSlContainer().registerCaller(dType,
+        slMediator.getSlContainer().registerCaller(subType,
                 GetActionEnum.GetModelToPersist, new SetGetter());
+        slMediator.getSlContainer().registerCaller(subType,
+                GetActionEnum.GetViewModelEdited, new SetGetter());
+        slMediator.getSlContainer().registerSubscriber(subType,
+                DataActionEnum.ChangeViewFormModeAction, new ChangeMode());
+
     }
 
     @Override

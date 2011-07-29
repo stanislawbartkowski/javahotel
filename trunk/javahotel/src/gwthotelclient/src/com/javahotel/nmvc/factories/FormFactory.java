@@ -34,7 +34,7 @@ public class FormFactory implements IDataFormConstructorAbstractFactory {
                 case OffSeasonDict:
                     return new IDataFormConstructorAbstractFactory.CType(
                             new SeasonForm());
-                    
+
                 }
             }
         }

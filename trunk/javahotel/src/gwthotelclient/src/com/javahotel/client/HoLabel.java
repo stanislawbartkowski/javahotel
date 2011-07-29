@@ -108,5 +108,7 @@ public interface HoLabel extends Constants {
     String LowSeasonName();
     
     String SpecialSeasonName();
-
+    
+    String EnterReservation();
+    
 }

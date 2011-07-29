@@ -13,7 +13,7 @@
 package com.javahotel.nmvc.factories.persist.dict;
 
 import com.gwtmodel.table.PersistTypeEnum;
-import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.client.types.HModelData;
 
 /**
  *
@@ -21,5 +21,5 @@ import com.javahotel.common.toobject.AbstractTo;
  */
 public interface IPersistRecord {
 
-    void persist(PersistTypeEnum action, AbstractTo a, IPersistResult ires);
+    void persist(PersistTypeEnum action, HModelData ho, IPersistResult ires);
 }

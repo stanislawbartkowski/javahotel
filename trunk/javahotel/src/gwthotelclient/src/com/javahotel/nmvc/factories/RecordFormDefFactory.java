@@ -15,7 +15,6 @@ package com.javahotel.nmvc.factories;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.injector.ICallContext;
@@ -61,7 +60,7 @@ class RecordFormDefFactory implements IFormDefFactory {
         this.heFactory = heFactory;
     }
 
-    private List<FormField> getDict(boolean symchecked) {
+    private List<FormField> getDict(boolean symchecked, boolean symdisabled) {
         List<FormField> fList = new ArrayList<FormField>();
         IFormLineView name;
         IVField vSymbol = new VField(DictionaryP.F.name);
@@ -70,10 +69,18 @@ class RecordFormDefFactory implements IFormDefFactory {
         } else {
             name = eFactory.constructTextField(vSymbol);
         }
-        fList.add(FFactory.constructRM(DictionaryP.F.name, name));
+        if (symdisabled) {
+            fList.add(FFactory.constructRA(DictionaryP.F.name, name));
+        } else {
+            fList.add(FFactory.constructRM(DictionaryP.F.name, name));
+        }
         fList.add(FFactory.construct(DictionaryP.F.description));
 
         return fList;
+    }
+
+    private List<FormField> getDict() {
+        return getDict(false, false);
     }
 
     @Override
@@ -111,8 +118,6 @@ class RecordFormDefFactory implements IFormDefFactory {
             }
         }
 
-        CommandParam p;
-
         if (dd.isAddType()) {
             switch (dd.getAddType()) {
             case BookElem:
@@ -126,17 +131,13 @@ class RecordFormDefFactory implements IFormDefFactory {
 
                 break;
             case BookRecord:
-                p = rI.getR().getHotelCommandParam();
-                fList.add(new FormField("Suma", new VField(
-                        BookRecordP.F.customerPrice)));
-                p.setDict(DictType.PriceListDict);
-                IVField priceV = new VField(BookRecordP.F.oPrice);
-                IFormLineView oPrice = heFactory.getListValuesBox(priceV, p);
-                fList.add(new FormField("Cennik", oPrice, priceV));
+                fL = new IField[] { BookRecordP.F.customerPrice,
+                        BookRecordP.F.oPrice };
+                FFactory.add(fList, fL);
                 break;
             case AdvanceHeader:
                 fL = new IField[] { AdvancePaymentP.F.amount,
-                        AdvancePaymentP.F.amount };
+                        AdvancePaymentP.F.validationDate };
                 FFactory.add(fList, fL);
                 break;
             default:
@@ -150,40 +151,40 @@ class RecordFormDefFactory implements IFormDefFactory {
             switch (d) {
             case RoomFacility:
             case RoomStandard:
-                fList = getDict(false);
+                fList = getDict();
                 break;
 
             case VatDict:
-                fList = getDict(false);
+                fList = getDict();
                 fList.add(FFactory.construct(VatDictionaryP.F.vat));
                 break;
 
             case PriceListDict:
-                fList = getDict(false);
+                fList = getDict();
                 fL = new IField[] { OfferPriceP.F.season };
                 FFactory.add(fList, fL);
                 break;
 
             case ServiceDict:
-                fList = getDict(false);
+                fList = getDict();
                 FFactory.add(fList, new IField[] { ServiceDictionaryP.F.vat,
                         ServiceDictionaryP.F.servtype });
                 break;
 
             case RoomObjects:
-                fList = getDict(false);
+                fList = getDict();
                 FFactory.add(fList, new IField[] { ResObjectP.F.standard,
                         ResObjectP.F.maxperson });
                 break;
 
             case OffSeasonDict:
-                fList = getDict(false);
+                fList = getDict();
                 fL = new IField[] { OfferSeasonP.F.startp, OfferSeasonP.F.endp };
                 FFactory.add(fList, fL);
                 break;
 
             case CustomerList:
-                fList = getDict(true);
+                fList = getDict(true, false);
                 fL = new IField[] { CustomerP.F.name1, CustomerP.F.name2,
                         CustomerP.F.cType, CustomerP.F.pTitle,
                         CustomerP.F.firstName, CustomerP.F.lastName,
@@ -194,7 +195,7 @@ class RecordFormDefFactory implements IFormDefFactory {
                 FFactory.add(fList, fL);
                 break;
             case BookingList:
-                fList = getDict(false);
+                fList = getDict(false, true);
                 fL = new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
                         BookingP.F.season, BookingP.F.noPersons };
                 FFactory.add(fList, fL);

@@ -17,8 +17,8 @@ import com.gwtmodel.table.common.CUtil;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.abstractto.LoginRecord;
 import com.javahotel.client.types.DataUtil;
+import com.javahotel.client.types.HModelData;
 import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.PersonP;
 
 class PersistPerson extends APersonHotelPersist {
@@ -30,9 +30,9 @@ class PersistPerson extends APersonHotelPersist {
     }
 
     @Override
-    public void persist(PersistTypeEnum persistTypeEnum, AbstractTo a,
+    public void persist(PersistTypeEnum persistTypeEnum, HModelData h,
             IPersistResult iRes) {
-        LoginRecord lo = (LoginRecord) a;
+        LoginRecord lo = (LoginRecord) h.getA();
         PersonP pe = new PersonP();
         String loginName = lo.getLogin();
         String password = lo.getPassword();
