@@ -14,10 +14,9 @@ package com.javahotel.nmvc.factories.persist.dict;
 
 import javax.inject.Inject;
 
-import com.gwtmodel.table.PersistTypeEnum;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.types.DataType;
-import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.command.DictType;
 
 /**
  * @author hotel
@@ -41,6 +40,9 @@ public class HotelPersistFactory implements IHotelPersistFactory {
             return new PersistPerson(validate);
         }
         if (d.isDictType()) {
+            if (d.getdType() == DictType.BookingList) {
+                return new PersistRecordBooking(rI, validate);
+            }
             return new PersistRecordDict(rI, d.getdType(), validate);
         }
         if (d.isAddType()) {

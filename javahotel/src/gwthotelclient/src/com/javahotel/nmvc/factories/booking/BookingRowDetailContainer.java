@@ -26,7 +26,6 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -41,6 +40,7 @@ import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.nmvc.factories.booking.BookingHeaderContainer.ChangeMode;
 
 /**
  * @author hotel
@@ -110,6 +110,18 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
                 dLiParam, this.slMediator);
         return taFactory.constructDataControler(lParam);
     }
+    
+    class ChangeMode implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            iControler.getSlContainer().publish(dType,
+                    DataActionEnum.ChangeViewComposeFormModeAction,
+                    slContext.getPersistType());
+        }
+
+    }
+
 
     public BookingRowDetailContainer(ICallContext iContext, IDataType subType) {
         taFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
@@ -117,6 +129,8 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
         dType = new DataType(AddType.RowPaymentElem);
         slMediator.getSlContainer().registerSubscriber(subType,
                 DataActionEnum.DrawViewFormAction, new DrawModel());
+        slMediator.getSlContainer().registerSubscriber(subType,
+                DataActionEnum.ChangeViewFormModeAction, new ChangeMode());
 
         iControler = createControler();
     }

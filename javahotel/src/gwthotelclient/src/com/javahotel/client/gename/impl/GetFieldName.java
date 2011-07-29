@@ -17,13 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gwtmodel.table.login.LoginField;
 import com.javahotel.client.abstractto.BookElemWithPayment;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.gename.ISeasonPriceNames;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
+import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
@@ -78,6 +78,7 @@ public class GetFieldName implements IGetFieldName {
         ma.put(BookingP.F.checkOut, "Do");
         ma.put(BookingP.F.season, "Sezon");
         ma.put(BookingP.F.noPersons, "Liczba osób");
+        ma.put(BookingP.F.resName, "Symbol");
 
         ma.put(BookElemP.F.checkIn, "Od");
         ma.put(BookElemP.F.checkOut, "Do");
@@ -94,6 +95,9 @@ public class GetFieldName implements IGetFieldName {
         
         ma.put(AdvancePaymentP.F.amount, "Zaliczka");
         ma.put(AdvancePaymentP.F.validationDate, "Zapłacić do");
+        
+        ma.put(BookRecordP.F.customerPrice, "Suma");
+        ma.put(BookRecordP.F.oPrice, "Cennik");
     }
 
     @Override

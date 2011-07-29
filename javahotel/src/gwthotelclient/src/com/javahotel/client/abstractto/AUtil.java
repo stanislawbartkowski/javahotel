@@ -10,34 +10,25 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.types;
+package com.javahotel.client.abstractto;
 
-import com.javahotel.client.abstractto.IAbstractFactory;
-import com.javahotel.client.injector.HInjector;
-import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.AdvancePaymentP;
 
 /**
  * @author hotel
  * 
  */
-public class VModelDataFactory {
+public class AUtil {
 
-    private VModelDataFactory() {
+    private AUtil() {
 
     }
 
-    public static HModelData construct(AbstractTo a) {
-        return new AModelData(a);
-    }
-
-    public static VModelDataLp constructLp(AbstractTo a) {
-        return new VModelDataLp(a);
-    }
-
-    public static HModelData construct(final DataType da) {
-        IAbstractFactory aFactory = HInjector.getI().getAbstractFactory();
-        return construct(aFactory.construct(da));
-
+    public static boolean emptyAdvance(AdvancePaymentP a) {
+        if (a.getValidationDate() == null) {
+            return true;
+        }
+        return false;
     }
 
 }

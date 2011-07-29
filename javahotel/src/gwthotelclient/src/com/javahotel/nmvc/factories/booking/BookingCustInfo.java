@@ -15,11 +15,11 @@ package com.javahotel.nmvc.factories.booking;
 import com.javahotel.common.toobject.CustomerP;
 
 public class BookingCustInfo {
-    
+
     private final boolean addCust;
     private final boolean changeCust;
     private final CustomerP cust;
-    
+
     public boolean isAddCust() {
         return addCust;
     }
@@ -35,7 +35,7 @@ public class BookingCustInfo {
     BookingCustInfo(boolean addCust, boolean changeCust, CustomerP cust) {
         this.addCust = addCust;
         this.changeCust = changeCust;
-        this.cust = cust;       
+        this.cust = cust;
     }
-   
+
 }

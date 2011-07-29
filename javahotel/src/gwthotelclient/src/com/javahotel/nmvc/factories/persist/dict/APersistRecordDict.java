@@ -18,6 +18,7 @@ import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.types.DataUtil;
+import com.javahotel.client.types.HModelData;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.AbstractTo;
@@ -62,9 +63,9 @@ abstract class APersistRecordDict implements IPersistRecord {
     }
 
     @Override
-    public void persist(PersistTypeEnum action, AbstractTo a,
+    public void persist(PersistTypeEnum action, HModelData ho,
             IPersistResult ires) {
-        ipersist(action, a, ires);
+        ipersist(action, ho.getA(), ires);
     }
 
     protected void ipersist(PersistTypeEnum action, AbstractTo a,

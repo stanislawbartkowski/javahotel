@@ -16,6 +16,7 @@ import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.DictionaryP;
 
 /**
@@ -29,7 +30,7 @@ class PersistRecordDict extends APersistRecordDict {
     }
 
     @Override
-    protected void persistDict(DictType d, DictionaryP dP, CommonCallBack b) {
+    protected void persistDict(DictType d, DictionaryP dP, CommonCallBack<ReturnPersist> b) {
         GWTGetService.getService().persistDict(d, dP, b);
     }
 

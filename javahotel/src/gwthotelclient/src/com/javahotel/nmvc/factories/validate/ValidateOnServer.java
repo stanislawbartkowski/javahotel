@@ -23,6 +23,7 @@ import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
+import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.nmvc.factories.persist.ConvertP;
 import com.javahotel.nmvc.factories.persist.dict.IPersistRecord;
@@ -52,7 +53,7 @@ class ValidateOnServer {
             } else {
                 List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
                 errMess.add(new InvalidateMess(null, errMessage));
-                P.publishValidSignalE(slContainer, dType,errMess);
+                P.publishValidSignalE(slContainer, dType, errMess);
             }
 
         }
@@ -64,17 +65,17 @@ class ValidateOnServer {
         IPersistRecord iPersist = HInjector.getI().getHotelPersistFactory()
                 .construct(da, true);
         IPersistResult pResult = new ValResult(da, slContainer);
-        AbstractTo a = null;
+        HModelData ho;
         if (da.isAllPersons()) {
-            a = ConvertP.toLoginP(pData);
+            AbstractTo a = ConvertP.toLoginP(pData);
+            ho = VModelDataFactory.construct(a);
         } else if (da.isAllHotels() || da.isDictType()) {
-            HModelData ho = (HModelData) pData;
-            a = ho.getA();
+            ho = (HModelData) pData;
         } else {
             P.publishValidSignal(slContainer, da, null);
             return;
         }
-        iPersist.persist(persistTypeEnum, a, pResult);
+        iPersist.persist(persistTypeEnum, ho, pResult);
     }
 
 }

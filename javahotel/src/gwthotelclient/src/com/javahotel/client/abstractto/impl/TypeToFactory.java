@@ -30,7 +30,6 @@ import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.IAbstractType;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
-import com.javahotel.client.types.VField;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.DictType;
@@ -82,6 +81,8 @@ public class TypeToFactory implements IAbstractType {
             FieldDataType.constructString(new SeasonListFactory()));
     private static final T stringServT = new T(String.class,
             FieldDataType.constructString(new ServiceListFactory()));
+    private static final T stringPriceT = new T(String.class,
+            FieldDataType.constructString(new PriceListFactory()));
     private static final T stringRoomT = new T(String.class,
             FieldDataType.constructString(new RoomListFactory()));
     // SeasonListFactory
@@ -248,6 +249,13 @@ public class TypeToFactory implements IAbstractType {
             super(DictType.ServiceDict);
         }
     }
+    
+    private static class PriceListFactory extends DictListFactory {
+        PriceListFactory() {
+            super(DictType.PriceListDict);
+        }
+    }
+
 
     private static class RoomStandardFactory extends DictListFactory {
         RoomStandardFactory() {
@@ -358,6 +366,8 @@ public class TypeToFactory implements IAbstractType {
 
         ma.put(BookElemWithPayment.F.customerPrice, decimalT);
         ma.put(BookElemWithPayment.F.offerPrice, decimalT);
+        
+        ma.put(BookRecordP.F.oPrice,stringPriceT);
     }
 
     @Override

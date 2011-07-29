@@ -27,6 +27,7 @@ import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
@@ -58,11 +59,11 @@ class GetViewFactory implements IGetViewControllerFactory {
     private final DataViewModelFactory daFactory;
     private final IDataValidateActionFactory vFactory;
     private final IPersistFactoryAction peFactory;
-    private final RecordFormDefFactory reFactory;
+    private final IFormDefFactory reFactory;
     private final IFormTitleFactory tiFactory;
 
     GetViewFactory(IDataValidateActionFactory vFactory,
-            IPersistFactoryAction peFactory, RecordFormDefFactory reFactory,
+            IPersistFactoryAction peFactory, IFormDefFactory reFactory,
             IFormTitleFactory tiFactory) {
         coFactory = GwtGiniInjector.getI().getComposeControllerFactory();
         daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
@@ -172,7 +173,8 @@ class GetViewFactory implements IGetViewControllerFactory {
                 break;
             case BookingList:
                 cContainer = new BookingCustomerContainer(iContext, subType);
-                cContainer1 = new BookingHeaderContainer(iContext, sub1Type);
+                cContainer1 = new BookingHeaderContainer(iContext, sub1Type,
+                        reFactory);
                 cContainer2 = new BookingElemContainer(iContext, sub2Type,
                         reFactory, tiFactory);
                 cContainer3 = new BookingRowDetailContainer(iContext, sub3Type);

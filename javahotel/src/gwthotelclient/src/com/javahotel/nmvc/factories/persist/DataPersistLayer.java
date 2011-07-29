@@ -38,6 +38,7 @@ import com.javahotel.client.types.AccessRoles;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
+import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ReturnPersist;
@@ -101,7 +102,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
                     GetActionEnum.GetComposeModelToPersist);
             PersistTypeEnum action = slContext.getPersistType();
             HModelData mo = (HModelData) pData;
-            iPersist.persist(action, mo.getA(),
+            iPersist.persist(action, mo,
                     new AfterPersist(slContext.getPersistType()));
         }
     }
@@ -165,14 +166,14 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             IVModelData pData = getGetterIVModelData(dType,
                     GetActionEnum.GetComposeModelToPersist);
             AccessRoles roles = (AccessRoles) pData.getCustomData();
-            AbstractTo a = null;
+            HModelData ho;
             if (da.isAllPersons()) {
-                a = ConvertP.toLoginP(pData);
+                AbstractTo a = ConvertP.toLoginP(pData);
+                ho = VModelDataFactory.construct(a);
             } else {
-                HModelData ho = (HModelData) pData;
-                a = ho.getA();
+                ho = (HModelData) pData;
             }
-            iPersist.persist(slContext.getPersistType(), a, new PeSuccess(
+            iPersist.persist(slContext.getPersistType(), ho, new PeSuccess(
                     slContext.getPersistType(), roles));
         }
     }

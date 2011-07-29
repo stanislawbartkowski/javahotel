@@ -45,7 +45,8 @@ class BookElementRefreshPayment {
     private final ISlotable mainSlo;
     private final IDataType bookType = new DataType(DictType.BookingList);
     private final PayElemInfo initP;
-    private final PayElemInfo actP;
+    
+    private PayElemInfo pInfo;
 
     private void setBigDecimal(IField fie, BigDecimal b) {
         DataUtil.setBigDecimal(iSlo, dType, fie, b);
@@ -55,6 +56,10 @@ class BookElementRefreshPayment {
         setBigDecimal(BookElemWithPayment.F.offerPrice, offerPrice);
         setBigDecimal(BookElemWithPayment.F.customerPrice, custPrice);
     }
+    
+    List<PaymentRowP> getPList() {
+        return pInfo.getpList();
+    }
 
     private class setPayment implements IPaymentData.ISetPaymentRows {
 
@@ -62,6 +67,7 @@ class BookElementRefreshPayment {
         public void setRow(List<PaymentRowP> col) {
             PUtil.SumP sumP = PUtil.getPrice(col);
             setPrice(sumP.sumOffer, sumP.sumCustomer);
+            pInfo.setpList(col);
         }
 
     }
@@ -77,7 +83,7 @@ class BookElementRefreshPayment {
          */
         @Override
         public void signal(ISlotSignalContext slContext) {
-            PayElemInfo pInfo = new PayElemInfo(dType, bookType, iSlo, mainSlo,
+            pInfo = new PayElemInfo(dType, bookType, iSlo, mainSlo,
                     iContext);
             pInfo.setFromW();
             if (pInfo.isNotDefined()) {
@@ -99,7 +105,6 @@ class BookElementRefreshPayment {
         this.iSlo = iSlo;
         this.dType = dType;
         this.initP = new PayElemInfo(dType, bookType, iSlo, mainSlo, iContext);
-        this.actP = new PayElemInfo(dType, bookType, iSlo, mainSlo, iContext);
         iSlo.getSlContainer().registerSubscriber(dType,
                 new VField(BookElemP.F.checkIn), new ChangeValue());
         iSlo.getSlContainer().registerSubscriber(dType,
@@ -107,7 +112,6 @@ class BookElementRefreshPayment {
         iSlo.getSlContainer().registerSubscriber(dType,
                 new VField(BookElemP.F.service), new ChangeValue());
         initP.initW();
-        actP.initW();
     }
 
 }
