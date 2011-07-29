@@ -70,7 +70,7 @@ public class SlotTypeFactory {
 
     public SlotType construct(ClickButtonType buttonClick) {
         return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick,
-                null, null, null, null, null, null, ButtonAction.ClickButton);
+                null, null, null, null, null, null, new ButtonAction(ButtonAction.Action.ClickButton));
     }
 
     public SlotType construct(String stringButton) {

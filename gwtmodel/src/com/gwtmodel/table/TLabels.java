@@ -99,4 +99,6 @@ public interface TLabels extends Constants {
     String DownloadAttachment();
     
     String ClockToDownload();
+    
+    String ChooseFromList();
 }

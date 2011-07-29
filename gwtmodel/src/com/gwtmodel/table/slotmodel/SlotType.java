@@ -82,7 +82,7 @@ public class SlotType implements IEquatable<SlotType> {
             }
             return cellId.eq(slType.cellId);
         case ButtonAction:
-            if (!bAction.equals(slType.bAction)) {
+            if (!bAction.getAction().equals(slType.bAction.getAction())) {
                 return false;
             }
             if (!Utils.eqI(dType, slType.dType)) {

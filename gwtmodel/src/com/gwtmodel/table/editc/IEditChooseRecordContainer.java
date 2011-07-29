@@ -16,6 +16,7 @@
  */
 package com.gwtmodel.table.editc;
 
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 /**
@@ -31,4 +32,6 @@ public interface IEditChooseRecordContainer extends ISlotable {
     boolean getChangeCheck();
 
     void ModifForm();
+
+    void ChangeViewForm(PersistTypeEnum e);
 }

@@ -28,7 +28,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 
 /**
- *
+ * 
  * @author hotel
  */
 public class MemoryRecordPersist extends AbstractSlotContainer {
@@ -40,27 +40,27 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             PersistTypeEnum persistEnumType = slContext.getPersistType();
-            IVModelData pData = getGetterIVModelData(
-                    dType,GetActionEnum.GetComposeModelToPersist);
+            IVModelData pData = getGetterIVModelData(dType,
+                    GetActionEnum.GetComposeModelToPersist);
             IVModelDataEquable eData = (IVModelDataEquable) pData;
             switch (persistEnumType) {
-                case ADD:
-                    dataList.append(pData);
-                    break;
-                case MODIF:
-                    break;
-                case REMOVE:
-                    for (int row = 0; row < FUtils.getRowNumber(dataList); row++) {
-                        IVModelDataEquable eeData =
-                                (IVModelDataEquable) FUtils.getRow(dataList, row);
-                        if (eData.eq(eeData)) {
-                            dataList.remove(row);
-                            break;
-                        }
+            case ADD:
+                dataList.append(pData);
+                break;
+            case MODIF:
+                break;
+            case REMOVE:
+                for (int row = 0; row < FUtils.getRowNumber(dataList); row++) {
+                    IVModelDataEquable eeData = (IVModelDataEquable) FUtils
+                            .getRow(dataList, row);
+                    if (eData.eq(eeData)) {
+                        dataList.remove(row);
+                        break;
                     }
-                    break;
+                }
+                break;
             } // switch
-            publish(dType,DataActionEnum.PersistDataSuccessSignal,
+            publish(dType, DataActionEnum.PersistDataSuccessSignal,
                     persistEnumType);
         }
     }
@@ -69,7 +69,7 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
         assert dataList != null : "dataList cannot be null";
         this.dataList = dataList;
         this.dType = dType;
-        registerSubscriber(dType,DataActionEnum.PersistDataAction,
+        registerSubscriber(dType, DataActionEnum.PersistDataAction,
                 new PersistRecord());
     }
 }

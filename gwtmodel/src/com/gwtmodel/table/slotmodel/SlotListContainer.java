@@ -66,6 +66,26 @@ public final class SlotListContainer {
         return slContextFactory.construct(slType, iSlot);
     }
 
+    private List<SlotSubscriberType> getList(SlotType sl) {
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+        List<SlotSubscriberType> li = (List<SlotSubscriberType>) ((ArrayList) listOfSubscribers)
+                .clone();
+        List<SlotSubscriberType> outli = new ArrayList<SlotSubscriberType>();
+        // to avoid concurrency exception
+        for (SlotSubscriberType so : li) {
+            if (sl.eq(so.getSlType())) {
+                outli.add(so);
+            }
+        }
+        return outli;
+
+    }
+
+    public int noListeners(SlotType sl) {
+        List<SlotSubscriberType> li = getList(sl);
+        return li.size();
+    }
+
     private class GeneralListener implements ISlotSignaller {
 
         @Override
@@ -87,21 +107,33 @@ public final class SlotListContainer {
             }
 
             // to avoid concurrency exception
-            List<SlotSubscriberType> li = (List<SlotSubscriberType>) ((ArrayList) listOfSubscribers).clone();
-            boolean found = false;
-            for (SlotSubscriberType so : li) {
-                if (sl.eq(so.getSlType())) {
-                    found = true;
-                    LogT.getLS().info(
-                            LogT.getT().sendSignalLog(
-                            slContext.getSlType().toString()));
-                    so.getSlSignaller().signal(slContext);
-                }
-            }
-            if (!found) {
+            List<SlotSubscriberType> li = getList(slContext.getSlType());
+            // boolean found = false;
+            // for (SlotSubscriberType so : li) {
+            // if (sl.eq(so.getSlType())) {
+            // found = true;
+            // LogT.getLS().info(
+            // LogT.getT().sendSignalLog(
+            // slContext.getSlType().toString()));
+            // so.getSlSignaller().signal(slContext);
+            // }
+            // }
+            // if (!found) {
+            // LogT.getLS().info(
+            // LogT.getT().sendSignalNotFound(
+            // slContext.getSlType().toString()));
+            // }
+            if (li.size() == 0) {
                 LogT.getLS().info(
                         LogT.getT().sendSignalNotFound(
-                        slContext.getSlType().toString()));
+                                slContext.getSlType().toString()));
+                return;
+            }
+            for (SlotSubscriberType so : li) {
+                LogT.getLS().info(
+                        LogT.getT().sendSignalLog(
+                                slContext.getSlType().toString()));
+                so.getSlSignaller().signal(slContext);
             }
         }
     }
@@ -114,7 +146,7 @@ public final class SlotListContainer {
             if (slCaller == null) {
                 LogT.getLS().info(
                         LogT.getT().slCallerNotFound(
-                        slContext.getSlType().toString()));
+                                slContext.getSlType().toString()));
                 return null;
             }
             LogT.getLS().info(
@@ -135,7 +167,8 @@ public final class SlotListContainer {
     public void publish(ISlotSignalContext slContext) {
         if (slSignaller == null) {
             LogT.getLS().info(
-                    LogT.getT().publishLogNull(slContext.getSlType().toString()));
+                    LogT.getT()
+                            .publishLogNull(slContext.getSlType().toString()));
             return;
         }
         LogT.getLS().info(
@@ -188,8 +221,8 @@ public final class SlotListContainer {
         registerSubscriber(slTypeFactory.construct(stringButton), slSignaller);
     }
 
-    public void registerSubscriber(IDataType dType, DataActionEnum dataActionEnum,
-            ISlotSignaller slSignaller) {
+    public void registerSubscriber(IDataType dType,
+            DataActionEnum dataActionEnum, ISlotSignaller slSignaller) {
         registerSubscriber(slTypeFactory.construct(dataActionEnum, dType),
                 slSignaller);
     }
@@ -238,11 +271,13 @@ public final class SlotListContainer {
     }
 
     private ISlotSignalContext callGet(SlotType slType, IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory
+                .construct(slType, mData);
         return call(slContext);
     }
 
-    public IVModelData getGetterIVModelData(IDataType dType, GetActionEnum getActionEnum) {
+    public IVModelData getGetterIVModelData(IDataType dType,
+            GetActionEnum getActionEnum) {
         ISlotSignalContext slContext = getGetterContext(dType, getActionEnum);
         return slContext.getVData();
     }
@@ -264,13 +299,13 @@ public final class SlotListContainer {
     }
 
     public FormLineContainer getGetterContainer(IDataType dType) {
-        ISlotSignalContext slContext = getGetterContext(
-                dType, GetActionEnum.GetEditContainer);
+        ISlotSignalContext slContext = getGetterContext(dType,
+                GetActionEnum.GetEditContainer);
         return slContext.getEditContainer();
     }
 
-    public IVModelData getGetterIVModelData(IDataType dType, GetActionEnum getActionEnum,
-            IVModelData mData) {
+    public IVModelData getGetterIVModelData(IDataType dType,
+            GetActionEnum getActionEnum, IVModelData mData) {
         ISlotSignalContext slContext = getGetterContext(dType, getActionEnum,
                 mData);
         if (slContext == null) {
@@ -288,7 +323,8 @@ public final class SlotListContainer {
         return slContext;
     }
 
-    public ISlotSignalContext getGetterContext(IDataType dType, GetActionEnum getActionEnum) {
+    public ISlotSignalContext getGetterContext(IDataType dType,
+            GetActionEnum getActionEnum) {
         SlotType slType = slTypeFactory.construct(getActionEnum, dType);
         ISlotSignalContext slContext = callGet(slType);
         return slContext;
@@ -312,21 +348,24 @@ public final class SlotListContainer {
 
     public ISlotSignalContext getGetterContext(SlotType slType,
             IVModelData mData) {
-        ISlotSignalContext slContext = slContextFactory.construct(slType, mData);
+        ISlotSignalContext slContext = slContextFactory
+                .construct(slType, mData);
         return slContext;
     }
 
-    public ISlotSignalContext getGetterContext(IDataType dType, GetActionEnum getActionEnum,
-            IVModelData mData) {
+    public ISlotSignalContext getGetterContext(IDataType dType,
+            GetActionEnum getActionEnum, IVModelData mData) {
         SlotType slType = slTypeFactory.construct(getActionEnum, dType);
         ISlotSignalContext slContext = callGet(slType, mData);
         return slContext;
     }
 
-    public ISlotSignalContext setGetter(IDataType dType, GetActionEnum getActionEnum,
-            IVModelData vData, WSize wSize, IVField v) {
+    public ISlotSignalContext setGetter(IDataType dType,
+            GetActionEnum getActionEnum, IVModelData vData, WSize wSize,
+            IVField v) {
         SlotType slType = slTypeFactory.construct(getActionEnum, dType);
-        ISlotSignalContext sl = slContextFactory.construct(slType, vData, wSize, v);
+        ISlotSignalContext sl = slContextFactory.construct(slType, vData,
+                wSize, v);
         return sl;
     }
 
@@ -376,7 +415,8 @@ public final class SlotListContainer {
     }
 
     public void publish(ISlotCustom is, ICustomObject customO) {
-        publish(slContextFactory.construct(slTypeFactory.construct(is), customO));
+        publish(slContextFactory
+                .construct(slTypeFactory.construct(is), customO));
     }
 
     public void publish(String customString, ICustomObject customO) {
@@ -402,8 +442,9 @@ public final class SlotListContainer {
 
     public void publish(IDataType dType, DataActionEnum dataActionEnum,
             PersistTypeEnum persistTypeEnum) {
-        publish(slContextFactory.construct(slTypeFactory.construct(dataActionEnum, dType),
-                persistTypeEnum));
+        publish(slContextFactory
+                .construct(slTypeFactory.construct(dataActionEnum, dType),
+                        persistTypeEnum));
     }
 
     public void publish(IDataType dType, ISlotSignalContext slContext) {
@@ -438,8 +479,9 @@ public final class SlotListContainer {
 
     public void publish(IDataType dType, DataActionEnum dataActionEnum,
             IDataListType dataList, WSize wSize) {
-        publish(slContextFactory.construct(slTypeFactory.construct(dataActionEnum, dType),
-                dataList, wSize));
+        publish(slContextFactory
+                .construct(slTypeFactory.construct(dataActionEnum, dType),
+                        dataList, wSize));
     }
 
     public void publish(IDataType dType, DataActionEnum dataActionEnum,
@@ -475,6 +517,7 @@ public final class SlotListContainer {
     }
 
     public void publish(String buttonString) {
-        publish(slContextFactory.construct(slTypeFactory.construct(buttonString)));
+        publish(slContextFactory.construct(slTypeFactory
+                .construct(buttonString)));
     }
 }
