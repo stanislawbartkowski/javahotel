@@ -73,7 +73,7 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
             slMediator.getSlContainer().publish(cParam.getdType(), DataActionEnum.DrawListAction,
                     slContext.getDataList(), cParam.getwSize());
         }
-    }
+    }    
 
     @Override
     public void startPublish(CellId cellId) {
@@ -86,6 +86,7 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements IDat
                 DataActionEnum.RefreshAfterPersistActionSignal, cParam.getdType()),
                 cParam.gettFactories().getSlTypeFactory().construct(
                 DataActionEnum.ReadListAction, cParam.getdType()));
+
         // secondly publish
         slMediator.getSlContainer().publish(cParam.getdType(), DataActionEnum.ReadListAction, cParam.getwSize());
         slMediator.getSlContainer().publish(cParam.getdType(), DataActionEnum.ReadHeaderContainer);

@@ -39,8 +39,8 @@ class AddChangeBox extends Composite {
         @Override
         public void onClick(ClickEvent event) {
             CheckBox b = (CheckBox) event.getSource();
-            IChangeObject o = EditChooseRecordFactory.constructChangeObject(what, 
-                    b.isChecked(), new GWidget(b));
+            IChangeObject o = EditChooseRecordFactory.constructChangeObject(
+                    what, b.isChecked(), new GWidget(b));
             i.signal(o);
         }
     }
@@ -67,5 +67,10 @@ class AddChangeBox extends Composite {
 
     boolean getChangeCheck() {
         return changeD.isChecked();
+    }
+
+    void setReadOnly(boolean readOnly) {
+        addNew.setEnabled(!readOnly);
+        changeD.setEnabled(!readOnly);
     }
 }

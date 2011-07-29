@@ -16,6 +16,9 @@
  */
 package com.gwtmodel.table.datelist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.controler.DataListParam;
@@ -31,11 +34,11 @@ import com.gwtmodel.table.persist.MemoryGetController;
 import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -46,6 +49,23 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
     private final IMemoryListModel mList;
     private final String title;
     private final IDataControler dControler;
+
+    private class PersistElem implements ISlotSignaller {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see
+         * com.gwtmodel.table.slotmodel.ISlotSignaller#signal(com.gwtmodel.table
+         * .slotmodel.ISlotSignalContext)
+         */
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            int i = 0;
+
+        }
+
+    }
 
     DatePeriodList(String title, IDatePeriodFactory eFactory,
             ISlotSignaller setGwt, IDataValidateActionFactory vFactory) {
@@ -68,6 +88,9 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
                         iGetCon), null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
+        dControler.getSlContainer().replaceContainer(this);
+        registerSubscriber(dType, DataActionEnum.PersistDataSuccessSignal,
+                new PersistElem());
     }
 
     @Override

@@ -38,8 +38,10 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
+import com.gwtmodel.table.slotmodel.ButtonAction;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -47,6 +49,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.util.ModalDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,8 +88,18 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
                 p = PersistTypeEnum.SHOWONLY;
             }
         }
+        modifList(p);
+    }
+
+    private void modifList(PersistTypeEnum e) {
         slMediator.getSlContainer().publish(dType,
-                DataActionEnum.ChangeViewComposeFormModeAction, p);
+                DataActionEnum.ChangeViewComposeFormModeAction, e);
+        slMediator.getSlContainer().publish(
+                dType,
+                new ClickButtonType(LIST_BUTTON),
+                new ButtonAction(
+                        readOnly(e) ? ButtonAction.Action.DisableButton
+                                : ButtonAction.Action.EnableButton));
     }
 
     @Override
@@ -216,19 +229,21 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         this.publishdType = publishdType;
 
         ClickButtonType sChoose = new ClickButtonType(LIST_BUTTON);
-        ControlButtonDesc bChoose = new ControlButtonDesc("Wybierz z listy",
-                sChoose);
+        ControlButtonDesc bChoose = new ControlButtonDesc(MM.getL()
+                .ChooseFromList(), sChoose);
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         bList.add(bChoose);
         ListOfControlDesc cList = new ListOfControlDesc(bList);
         slMediator.getSlContainer().registerSubscriber(sChoose, new ChooseC());
-        ControlButtonViewFactory bFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
+        ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
+                .getControlButtonViewFactory();
         IControlButtonView bView = bFactory.construct(dType, cList);
-        IGetViewControllerFactory fa = GwtGiniInjector.getI().getTableFactoriesContainer().getGetViewControllerFactory();
+        IGetViewControllerFactory fa = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetViewControllerFactory();
         bId = new CellId(IPanelView.CUSTOMID);
         cId = new CellId(IPanelView.CUSTOMID + 1);
         IComposeController cust = fa.construct(iContext.construct(dType));
-        cust.createComposeControle(cId);
+        cust.createComposeControler(cId);
 
         register(bView, cust);
         slMediator.registerSlotContainer(cId, cust);
@@ -240,5 +255,32 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         sy.cellId = cellId;
         sy.signalDone();
         slMediator.startPublish(null);
+    }
+
+    private boolean readOnly(PersistTypeEnum e) {
+        boolean readOnly;
+        switch (e) {
+        case ADD:
+        case MODIF:
+            readOnly = false;
+            break;
+        default:
+            readOnly = true;
+            break;
+        }
+        return readOnly;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.gwtmodel.table.editc.IEditChooseRecordContainer#ChangeViewForm(com
+     * .gwtmodel.table.PersistTypeEnum)
+     */
+    @Override
+    public void ChangeViewForm(PersistTypeEnum e) {
+        cBox.setReadOnly(readOnly(e));
+        modifList(e);
     }
 }

@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.controlbuttonview;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
@@ -34,12 +37,15 @@ class ControlButtonView extends AbstractSlotContainer implements
         IControlButtonView, IStackPanelController {
 
     private final IContrButtonView vButton;
+    
+    private Map<ClickButtonType,ClickButtonType> redirMap = new HashMap<ClickButtonType,ClickButtonType>();
 
     private class Click implements IControlClick {
 
         @Override
         public void click(ControlButtonDesc co, Widget w) {
-            publish(co.getActionId(), new GWidget(w));
+            ClickButtonType bType = redirMap.get(co.getActionId());
+            publish(bType != null ? bType : co.getActionId(), new GWidget(w));
         }
     }
 
@@ -56,13 +62,31 @@ class ControlButtonView extends AbstractSlotContainer implements
         @Override
         public void signal(ISlotSignalContext slContext) {
             LogT.getLS().info(LogT.getT().receivedSignalLog(slContext.getSlType().toString()));
-            vButton.setEnable(actionId, bAction == ButtonAction.EnableButton);
+            vButton.setEnable(actionId, bAction.getAction() == ButtonAction.Action.EnableButton);
+        }
+    }
+    
+    private class RedirectButton implements ISlotSignaller {
+        
+        private final ControlButtonDesc b;
+        
+        RedirectButton(ControlButtonDesc b) {
+            this.b = b;
+        }
+
+        /* (non-Javadoc)
+         * @see com.gwtmodel.table.slotmodel.ISlotSignaller#signal(com.gwtmodel.table.slotmodel.ISlotSignalContext)
+         */
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            redirMap.put(b.getActionId(),slContext.getSlType().getbAction().getRedirectB());            
         }
     }
 
-    private void register(ButtonAction bA, ControlButtonDesc b) {
-        EnableButton e = new EnableButton(bA, b.getActionId());
-        registerSubscriber(dType, b.getActionId(), bA, e);
+    private void register(ButtonAction.Action bA, ControlButtonDesc b) {
+        ButtonAction ba = new ButtonAction(bA);
+        EnableButton e = new EnableButton(ba, b.getActionId());
+        registerSubscriber(dType, b.getActionId(), ba, e);
     }
 
     ControlButtonView(ContrButtonViewFactory vFactory,
@@ -70,8 +94,10 @@ class ControlButtonView extends AbstractSlotContainer implements
         this.dType = dType;
         vButton = vFactory.getView(listButton, new Click(),hori);
         for (ControlButtonDesc b : listButton.getcList()) {
-            register(ButtonAction.EnableButton, b);
-            register(ButtonAction.DisableButton, b);
+            register(ButtonAction.Action.EnableButton, b);
+            register(ButtonAction.Action.DisableButton, b);
+            ButtonAction bR = new ButtonAction(ButtonAction.Action.RedirectButton);
+            registerSubscriber(dType, b.getActionId(),bR, new RedirectButton(b));            
         }
 
     }

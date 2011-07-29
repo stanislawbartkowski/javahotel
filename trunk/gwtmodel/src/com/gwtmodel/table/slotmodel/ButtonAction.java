@@ -18,11 +18,40 @@
 package com.gwtmodel.table.slotmodel;
 
 /**
- *
+ * 
  * @author hotel
  */
-public enum ButtonAction {
+public class ButtonAction {
+    
+    public enum Action {
+       ClickButton, EnableButton, DisableButton, RedirectButton
+    }
+    
+    private final Action action;
+    private final ClickButtonType redirectB;
+    
+    public ButtonAction(Action action,ClickButtonType redirectB) {
+        this.action = action;
+        this.redirectB = redirectB;
+    }
+    
+    public ButtonAction(Action action) {
+        this(action,null);
+   }
 
-    ClickButton, EnableButton, DisableButton
+    /**
+     * @return the action
+     */
+    public Action getAction() {
+        return action;
+    }
+
+    /**
+     * @return the redirectB
+     */
+    public ClickButtonType getRedirectB() {
+        return redirectB;
+    }
+    
 
 }

@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.panelview.IPanelView;
@@ -27,6 +28,7 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
 class ComposeController extends AbstractSlotMediatorContainer implements
@@ -55,7 +57,8 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = dFactory.construct(dType);
-            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(dType, getA, mData);
+            IVModelData pData = slMediator.getSlContainer()
+                    .getGetterIVModelData(dType, getA, mData);
             for (ComposeControllerType cType : cList) {
                 if (cType.getdType() == null) {
                     continue;
@@ -63,12 +66,11 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                 if (cType.getdType().equals(dType)) {
                     continue;
                 }
-                if (!cType.isPanelElem()) {
-                    continue;
+                IVModelData ppData = slMediator.getSlContainer()
+                        .getGetterIVModelData(cType.getdType(), getA, pData);
+                if (ppData != null) {
+                    pData = ppData;
                 }
-                pData = slMediator.getSlContainer().getGetterIVModelData(
-                        cType.getdType(), getA, pData);
-                assert pData != null : LogT.getT().cannotBeNull();
             }
             return slMediator.getSlContainer().getGetterContext(
                     slContext.getSlType(), pData);
@@ -98,8 +100,8 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                 if (!cType.isPanelElem() && !cType.isCellId()) {
                     continue;
                 }
-                slMediator.getSlContainer().publish(cType.getdType(), dataActionEnum,
-                        slContext);
+                slMediator.getSlContainer().publish(cType.getdType(),
+                        dataActionEnum, slContext);
             }
         }
     }
@@ -110,8 +112,74 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         slMediator.startPublish(null);
     }
 
+    private class ValidateA extends SynchronizeList {
+
+        private final ISlotSignalContext slContext;
+
+        ValidateA(int no, ISlotSignalContext slContext) {
+            super(no);
+            this.slContext = slContext;
+        }
+
+        @Override
+        protected void doTask() {
+            slMediator.getSlContainer().publish(slContext);
+        }
+    }
+
+    private class ComposeValidateAction implements ISlotSignaller {
+
+        private final int no;
+        private final List<SubValidate> li;
+        private final SlotType sldType;
+
+        ComposeValidateAction(int no, List<SubValidate> li, SlotType sldType) {
+            this.no = no;
+            this.li = li;
+            this.sldType = sldType;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ISlotSignalContext rSl = slContextFactory.construct(sldType,
+                    slContext);
+            ValidateA a = new ValidateA(no, rSl);
+            if (no == 0) {
+                a.doTask();
+                return;
+            }
+            for (SubValidate v : li) {
+                v.li = a;
+                v.publish(slContext);
+            }
+        }
+
+    }
+
+    private class SubValidate implements ISlotSignaller {
+
+        private SynchronizeList li;
+        private final SlotType slType;
+
+        SubValidate(SlotType slType) {
+            this.slType = slType;
+        }
+
+        void publish(ISlotSignalContext slContext) {
+            ISlotSignalContext rSl = slContextFactory.construct(slType,
+                    slContext);
+            slMediator.getSlContainer().publish(rSl);
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            li.signalDone();
+        }
+
+    }
+
     @Override
-    public void createComposeControle(CellId cellId) {
+    public void createComposeControler(CellId cellId) {
         pView = pViewFactory.construct(dType, cellId);
         for (ComposeControllerType c : cList) {
             CellId cId = null;
@@ -129,26 +197,54 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                 DataActionEnum.DrawViewComposeFormAction,
                 new DrawAction(DataActionEnum.DrawViewFormAction));
         slMediator.getSlContainer().registerSubscriber(dType,
-                DataActionEnum.DefaultViewComposeFormAction,
-                new DrawAction(DataActionEnum.DefaultViewFormAction));
-        slMediator.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.ChangeViewComposeFormModeAction,
                 new DrawAction(DataActionEnum.ChangeViewFormModeAction));
+        slMediator.getSlContainer().registerSubscriber(dType,
+                DataActionEnum.DefaultViewComposeFormAction,
+                new DrawAction(DataActionEnum.DefaultViewFormAction));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.PersistComposeFormAction,
-                dType),
+                        dType),
                 slFactory.construct(DataActionEnum.PersistDataAction, dType));
 
         slMediator.getSlContainer().registerRedirector(
                 slFactory.construct(DataActionEnum.InvalidSignal, dType),
                 slFactory.construct(
-                DataActionEnum.ChangeViewFormToInvalidAction, dType));
+                        DataActionEnum.ChangeViewFormToInvalidAction, dType));
 
-        slMediator.getSlContainer().registerRedirector(
-                slFactory.construct(DataActionEnum.ValidateComposeFormAction,
-                dType),
-                slFactory.construct(DataActionEnum.ValidateAction, dType));
+        // slMediator.getSlContainer().registerRedirector(
+        // slFactory.construct(DataActionEnum.ValidateComposeFormAction,
+        // dType),
+        // slFactory.construct(DataActionEnum.ValidateAction, dType));
+
+        int no = 0;
+        List<SubValidate> li = new ArrayList<SubValidate>();
+        SlotType sldType = slFactory.construct(DataActionEnum.ValidateAction,
+                dType);
+        for (ComposeControllerType c : cList) {
+            IDataType dType = c.getdType();
+            if (dType == null) {
+                continue;
+            }
+            SlotType slType = slFactory.construct(
+                    DataActionEnum.ValidateAction, dType);
+            if (slType.eq(sldType)) {
+                continue;
+            }
+            int i = slMediator.getSlContainer().noListeners(slType);
+            if (i > 0) {
+                no += i;
+                SubValidate va = new SubValidate(slType);
+                SlotType slVal = slFactory.construct(
+                        DataActionEnum.ValidSignal, dType);
+                c.getiSlot().getSlContainer().registerSubscriber(slVal, va);
+                li.add(va);
+            }
+        }
+        slMediator.getSlContainer().registerSubscriber(dType,
+                DataActionEnum.ValidateComposeFormAction,
+                new ComposeValidateAction(no, li, sldType));
 
         slMediator.getSlContainer().registerCaller(dType,
                 GetActionEnum.GetViewComposeModelEdited,

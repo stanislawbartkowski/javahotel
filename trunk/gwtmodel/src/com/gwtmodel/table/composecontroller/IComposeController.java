@@ -19,6 +19,6 @@ public interface IComposeController extends ISlotable {
 
     void registerControler(ComposeControllerType cType);
     
-    void createComposeControle(CellId cellId);
+    void createComposeControler(CellId cellId);
 
 }
