@@ -16,18 +16,14 @@ import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.start.panel.EPanelCommand;
 import com.javahotel.client.start.panel.IPanelCommand;
 
 class NewMvcPanel implements IPanelCommand {
 
-    private final IResLocator rI;
     private final EPanelCommand e;
 
     NewMvcPanel(EPanelCommand e) {
-        this.rI = HInjector.getI().getI();
         this.e = e;
     }
 

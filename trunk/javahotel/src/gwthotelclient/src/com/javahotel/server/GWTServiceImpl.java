@@ -37,6 +37,7 @@ import com.javahotel.webhelper.HotelHelper;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
     private static GetLogger lo = new GetLogger("com.javahotel.gwtserviceimpl");

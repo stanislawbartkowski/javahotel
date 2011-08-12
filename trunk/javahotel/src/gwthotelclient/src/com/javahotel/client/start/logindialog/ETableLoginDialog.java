@@ -91,8 +91,8 @@ public class ETableLoginDialog implements ILoginDialog {
         ILoginDataView dView = LoginViewFactory.contructView(new CellId(0),
                 dType, lContainer, new CustomLoginDataModelFactory(), vAction);
         dView.getSlContainer().registerSubscriber(dType, 0, new SetGwt(iSet));
-        dView.getSlContainer().registerSubscriber(dType, DataActionEnum.ValidSignal,
-                new Valid(iNext));
+        dView.getSlContainer().registerSubscriber(dType,
+                DataActionEnum.ValidSignal, new Valid(iNext));
         dView.startPublish(new CellId(0));
     }
 

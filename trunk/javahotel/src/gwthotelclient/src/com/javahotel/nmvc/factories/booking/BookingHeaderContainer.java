@@ -129,6 +129,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
                 }
                 BookingStateP sta = new BookingStateP();
                 sta.setBState(BookingStateType.WaitingForConfirmation);
+                GetMaxUtil.setNextLp(bLi, sta);
                 bLi.add(sta);
                 b.setState(bLi);
             }
@@ -140,8 +141,8 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
             HModelData vv = (HModelData) pData;
             BookRecordP p = (BookRecordP) vv.getA();
             p.setDataFrom(DateUtil.getToday());
-            p.setLp(1);
             List<BookRecordP> l = new ArrayList<BookRecordP>();
+            GetMaxUtil.setNextLp(l, p);
             l.add(p);
             b.setBookrecords(l);
 
@@ -153,6 +154,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
 
             List<AdvancePaymentP> ll = new ArrayList<AdvancePaymentP>();
             if (!AUtil.emptyAdvance(a)) {
+                GetMaxUtil.setNextLp(ll, a);
                 ll.add(a);
             }
 
@@ -161,7 +163,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
             bb.setAdvancePay(ll);
             bL.add(bb);
             b.setBill(bL);
-            
+
             if (b.getBookingType() == null) {
                 b.setBookingType(BookingEnumTypes.Reservation);
             }
@@ -194,7 +196,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
             if (en == PersistTypeEnum.REMOVE) {
                 slMediator.getSlContainer().publish(subType,
                         DataActionEnum.ValidSignal);
-                return;                
+                return;
             }
             DataType d = new DataType(DictType.BookingList);
             IVModelData pData = slMediator.getSlContainer()

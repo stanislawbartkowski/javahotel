@@ -98,11 +98,16 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
         @Override
         public void signal(ISlotSignalContext slContext) {
+            PersistTypeEnum e = slContext.getPersistType();
+            IVModelData mData = null;
+            if (e == PersistTypeEnum.MODIF || e == PersistTypeEnum.REMOVE) {
+                mData = getGetterIVModelData(dType,
+                        GetActionEnum.GetListLineChecked);
+            }
             IVModelData pData = getGetterIVModelData(dType,
-                    GetActionEnum.GetComposeModelToPersist);
-            PersistTypeEnum action = slContext.getPersistType();
+                    GetActionEnum.GetComposeModelToPersist, mData);
             HModelData mo = (HModelData) pData;
-            iPersist.persist(action, mo,
+            iPersist.persist(e, mo,
                     new AfterPersist(slContext.getPersistType()));
         }
     }

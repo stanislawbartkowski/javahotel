@@ -12,6 +12,8 @@
  */
 package com.javahotel.nmvc.panel;
 
+import com.gwtmodel.table.Empty;
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -23,6 +25,7 @@ import com.javahotel.client.start.panel.EPanelCommand;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
+import com.javahotel.nmvc.factories.bookingpanel.BookingPanel;
 import com.javahotel.nmvc.factories.cleardatahotel.ClearHotelData;
 
 public class DataControlerFactory {
@@ -32,7 +35,7 @@ public class DataControlerFactory {
 
     public static void runDataControler(EPanelCommand e, CellId panelId,
             ISlotSignaller iS) {
-        DataType d = null;
+        IDataType d = null;
         ISlotable i = null;
         switch (e) {
         case PERSON:
@@ -72,6 +75,10 @@ public class DataControlerFactory {
         case BOOKING:
             d = new DataType(DictType.BookingList);
             break;
+        case BOOKINGPANEL:
+            d = Empty.getDataType();
+            i = new BookingPanel(d, panelId);
+            break;
         default:
             assert false : MM.M().NotSupportedErrorS();
             break;
@@ -82,7 +89,6 @@ public class DataControlerFactory {
             DisplayListControlerParam dList = tFactory.constructParam(d, null,
                     panelId);
             i = tFactory.constructDataControler(dList);
-            i.getSlContainer().registerSubscriber(d, 0, iS);
         }
         i.getSlContainer().registerSubscriber(d, 0, iS);
         i.startPublish(null);

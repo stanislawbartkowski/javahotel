@@ -74,6 +74,9 @@ public class DataType implements IDataType {
     }
 
     public boolean eq(IDataType dt) {
+        if (!(dt instanceof DataType)) {
+            return false;
+        }
         DataType p = (DataType) dt;
         if (isRType()) {
             if (!p.isRType()) {

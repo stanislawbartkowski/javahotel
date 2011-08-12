@@ -12,7 +12,6 @@
  */
 package com.javahotel.nmvc.factories;
 
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.injector.ICallContext;
 import com.javahotel.client.MM;

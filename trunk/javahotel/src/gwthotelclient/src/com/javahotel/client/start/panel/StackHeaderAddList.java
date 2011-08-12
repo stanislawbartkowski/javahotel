@@ -66,14 +66,6 @@ public class StackHeaderAddList {
 
     private static class Click implements IControlClick {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.gwtmodel.table.view.stack.IClickControlButtonDesc#click(com.gwtmodel
-         * .table.view.stack.ControlButtonDesc,
-         * com.google.gwt.user.client.ui.Widget)
-         */
         @Override
         public void click(ControlButtonDesc bu, Widget w) {
             String id = bu.getActionId().getCustomButt();
@@ -97,9 +89,6 @@ public class StackHeaderAddList {
 
     public static IGWidget constructMenu(EPanelCommand[] eMenu) {
         List<ControlButtonDesc> li = createControlButtonDescList(eMenu);
-        // MenuBar menu = PopupCreateMenu.createMenu(new ListOfControlDesc(li),
-        // new Click(), null);
-        // return new GWidget(menu);
         String htmlImage = Utils.getImageHTML(IImageGallery.DOWNMENU);
         return PopupCreateMenu.createImageMenu(htmlImage,
                 new ListOfControlDesc(li), new Click(), null);

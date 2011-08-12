@@ -54,7 +54,6 @@ import com.javahotel.client.MM;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
-import com.javahotel.client.user.season.PanelSeason;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.OfferSeasonP;
@@ -215,7 +214,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
     private class DrawSeason implements ISlotSignaller {
 
         private final PanelSeason pS;
-        private final Grid g = new Grid(2, 1);
+        private final Grid g = new Grid();
         private final IResLocator rI;
         private final HorizontalPanel controlC = new HorizontalPanel();
         private final ICallContext iContext;
@@ -224,20 +223,20 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         private class DrawD extends ModalDialog {
 
             DrawD(VerticalPanel vp) {
-                super(vp, "Pokaż sezony");
+                super(vp, MM.L().ShowSeasonTitle());
                 create();
             }
 
             @Override
             protected void addVP(VerticalPanel vp) {
-                vp.add(g);
                 vp.add(controlC);
+                vp.add(g);
             }
         }
 
         DrawSeason(ICallContext iContext, IDataType ddType) {
             rI = HInjector.getI().getI();
-            pS = new PanelSeason(rI, g, controlC, 0, null, DateUtil.getToday());
+            pS = new PanelSeason(rI, g, controlC, DateUtil.getToday());
             this.iContext = iContext;
             dFactory = iContext.getC().getDataModelFactory();
         }
@@ -256,8 +255,8 @@ public class SeasonAddInfo extends AbstractSlotContainer {
             Date to = off.getEndP();
             IGWidget w = slContext.getGwtWidget();
             if ((from == null) || (to == null)) {
-                OkDialog ok = new OkDialog("Wprowadź datę od i do !",
-                        "Nie można nic wyświetlić", null);
+                OkDialog ok = new OkDialog(MM.L().EnterDateFromTo(), MM.L()
+                        .NothingToDisplay(), null);
                 ok.show(w.getGWidget());
                 return;
             }

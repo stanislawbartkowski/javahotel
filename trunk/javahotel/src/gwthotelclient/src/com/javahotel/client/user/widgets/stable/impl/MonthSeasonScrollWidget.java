@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.user.widgets.stable.seasonscroll;
+package com.javahotel.client.user.widgets.stable.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -33,7 +33,6 @@ import com.javahotel.common.scrollseason.model.YearMonthPe;
  */
 class MonthSeasonScrollWidget implements IGWidget {
 
-    private final IResLocator iR;
     private final HorizontalPanel hp;
     private final MonthSeasonScrollData sData;
     private int todayM;
@@ -43,8 +42,7 @@ class MonthSeasonScrollWidget implements IGWidget {
         void clicked(YearMonthPe m);
     }
 
-    MonthSeasonScrollWidget(final IResLocator pLoc, IMonthClicked mClicked) {
-        this.iR = pLoc;
+    MonthSeasonScrollWidget(IMonthClicked mClicked) {
         sData = new MonthSeasonScrollData();
         hp = new HorizontalPanel();
         this.mClicked = mClicked;
@@ -99,6 +97,7 @@ class MonthSeasonScrollWidget implements IGWidget {
         hp.setStyleName("month-scroll-panel");
         for (int i = 0; i < sData.getMonthPe(); i++) {
             Label la = new Label("");
+            la.setTitle("aaaaa");
             la.addMouseDownHandler(new MonthEvent(i));
             hp.add(la);
         }

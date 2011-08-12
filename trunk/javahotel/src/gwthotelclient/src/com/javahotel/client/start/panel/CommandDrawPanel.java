@@ -32,11 +32,12 @@ class CommandDrawPanel {
         iW.setDCenter(w);
     }
 
-    static void setC(final IResLocator rI, final IPanelCommand ic, String menuName) {
+    static void setC(final IResLocator rI, final IPanelCommand ic,
+            String menuName) {
 
         final IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
 
-        ISetGWidget i = new ISetGWidget() {
+        ISetGWidget ii = new ISetGWidget() {
 
             @Override
             public void setW(IGWidget i) {
@@ -49,7 +50,7 @@ class CommandDrawPanel {
             }
         };
         iW.setUpInfo(menuName); // menuName null value is allowed
-        ic.beforeDrawAction(i);
+        ic.beforeDrawAction(ii);
     }
 
 }

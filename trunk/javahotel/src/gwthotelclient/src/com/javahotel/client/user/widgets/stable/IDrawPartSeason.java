@@ -12,31 +12,14 @@
  */
 package com.javahotel.client.user.widgets.stable;
 
-import java.util.Date;
-
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ISetGWidget;
+import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
 public interface IDrawPartSeason extends ISetGWidget {
-
-    /**
-     * Draw lines.
-     * 
-     * @param fromL
-     *            - number of first row/column to draw
-     * @param toL
-     *            - number of last row/column to draw
-     */
-    void draw(final int fromL, final int toL);
-
-    Widget getColumnEmpty(Label l);
-
-    void setColumn(Widget w, int cNo, Date d, Label l);
     
-    Label getLabel(Widget w);
+    void refresh(DaySeasonScrollData sData);
 }
