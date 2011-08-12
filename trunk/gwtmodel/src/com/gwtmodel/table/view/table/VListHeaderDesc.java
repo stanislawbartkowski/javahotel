@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IVField;
 
 public class VListHeaderDesc {
@@ -20,6 +21,22 @@ public class VListHeaderDesc {
     private final IVField fie;
     private final boolean hidden;
     private final String buttonAction;
+    private final IGHeader gHeader;
+
+    public VListHeaderDesc(IGHeader gHeader, IVField fie) {
+        this.headerString = null;
+        this.fie = fie;
+        this.hidden = false;
+        this.buttonAction = null;
+        this.gHeader = gHeader;
+    }
+
+    /**
+     * @return the gCell
+     */
+    public IGHeader getgHeader() {
+        return gHeader;
+    }
 
     public VListHeaderDesc(String headerString, IVField fie) {
         this(headerString, fie, false, null);
@@ -29,11 +46,13 @@ public class VListHeaderDesc {
         this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction());
     }
 
-    public VListHeaderDesc(String headerString, IVField fie, boolean hidden, String buttonAction) {
+    public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
+            String buttonAction) {
         this.headerString = headerString;
         this.fie = fie;
         this.hidden = hidden;
         this.buttonAction = buttonAction;
+        this.gHeader = null;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {

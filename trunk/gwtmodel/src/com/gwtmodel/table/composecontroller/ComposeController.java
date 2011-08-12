@@ -56,7 +56,10 @@ class ComposeController extends AbstractSlotMediatorContainer implements
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            IVModelData mData = dFactory.construct(dType);
+            IVModelData mData = slContext.getVData();
+            if (mData == null) {
+                mData = dFactory.construct(dType);
+            }
             IVModelData pData = slMediator.getSlContainer()
                     .getGetterIVModelData(dType, getA, mData);
             for (ComposeControllerType cType : cList) {

@@ -12,21 +12,15 @@
  */
 package com.gwtmodel.table.view.table;
 
-import com.gwtmodel.table.ICommand;
-import com.gwtmodel.table.injector.WebPanelHolder;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
 
-public class GwtTableFactory {
+/**
+ * @author hotel
+ *
+ */
+public interface IGetCellValue {
+    
+    String getValue(IVModelData v, IVField fie);
 
-    public IGwtTableView construct(ICommand click, ICommand actionColumn,
-            IGetCellValue gValue) {
-        switch (WebPanelHolder.getTableType()) {
-        case GOOGLETABLE:
-            return new GwtTableView(click);
-        case GRIDTABLE:
-            return new TableView(click);
-        case PRESETABLE:
-            return new PresentationTable(click, actionColumn, gValue);
-        }
-        return null;
-    }
 }

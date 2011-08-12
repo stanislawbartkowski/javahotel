@@ -83,7 +83,8 @@ public class ChooseDictList<T extends IVModelData> {
     public ChooseDictList(IDataType dType, WSize wSize, ICallBackWidget<T> i) {
         this.i = i;
         this.dType = dType;
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
+                .getTableDataControlerFactory();
         DisplayListControlerParam cParam = tFactory.constructChooseParam(dType,
                 wSize, new CellId(0));
 

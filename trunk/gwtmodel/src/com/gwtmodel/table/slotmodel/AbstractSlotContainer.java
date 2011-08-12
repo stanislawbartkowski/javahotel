@@ -147,8 +147,8 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerSubscriber(dType, fie, slSignaller);
     }
 
-    protected void registerSubscriber(IDataType dType, DataActionEnum dataActionEnum,
-            ISlotSignaller slSignaller) {
+    protected void registerSubscriber(IDataType dType,
+            DataActionEnum dataActionEnum, ISlotSignaller slSignaller) {
         slContainer.registerSubscriber(dType, dataActionEnum, slSignaller);
     }
 
@@ -189,8 +189,9 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerCaller(i, slCaller);
     }
 
-    protected ISlotSignalContext construct(IDataType dType, GetActionEnum getActionEnum,
-            IVModelData vData, WSize wSize, IVField v) {
+    protected ISlotSignalContext construct(IDataType dType,
+            GetActionEnum getActionEnum, IVModelData vData, WSize wSize,
+            IVField v) {
         return slContainer.setGetter(dType, getActionEnum, vData, wSize, v);
     }
 
@@ -212,16 +213,18 @@ abstract public class AbstractSlotContainer implements ISlotable {
         return slContainer.contextReplace(slType, iSlot);
     }
 
-    protected ISlotSignalContext getGetterContext(IDataType dType, GetActionEnum getActionEnum) {
+    protected ISlotSignalContext getGetterContext(IDataType dType,
+            GetActionEnum getActionEnum) {
         return slContainer.getGetterContext(dType, getActionEnum);
     }
 
-    protected IVModelData getGetterIVModelData(IDataType dType, GetActionEnum getActionEnum,
-            IVModelData mData) {
+    protected IVModelData getGetterIVModelData(IDataType dType,
+            GetActionEnum getActionEnum, IVModelData mData) {
         return slContainer.getGetterIVModelData(dType, getActionEnum, mData);
     }
-
-    protected IVModelData getGetterIVModelData(IDataType dType, GetActionEnum getActionEnum) {
+    
+    protected IVModelData getGetterIVModelData(IDataType dType,
+            GetActionEnum getActionEnum) {
         return slContainer.getGetterIVModelData(dType, getActionEnum);
     }
 

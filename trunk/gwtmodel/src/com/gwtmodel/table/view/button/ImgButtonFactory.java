@@ -40,14 +40,12 @@ public class ImgButtonFactory {
             String h = Utils.getImageHTML(imageFile);
             but = new Button();
             but.setHTML(h);
-            // w = new BImage(but, bName);
             w = GFocusWidgetFactory.construct(but, bName);
         } else {
             but = new Button(bName);
             w = GFocusWidgetFactory.construct(but);
         }
         if (bId != null) {
-//            but.getElement().setId(bId);
             Utils.setId(but, bId);
         }
         return w;

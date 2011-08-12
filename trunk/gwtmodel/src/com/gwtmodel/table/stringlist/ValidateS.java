@@ -36,8 +36,8 @@ class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IVModelData pData = getGetterIVModelData(
-                    dType, GetActionEnum.GetViewComposeModelEdited);
+            IVModelData pData = getGetterIVModelData(dType,
+                    GetActionEnum.GetViewComposeModelEdited);
             List<IVField> listMFie = new ArrayList<IVField>();
             listMFie.add(Empty.getFieldType());
             List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,

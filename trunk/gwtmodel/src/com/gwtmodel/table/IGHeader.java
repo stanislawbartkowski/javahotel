@@ -10,23 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.table;
+package com.gwtmodel.table;
 
-import com.gwtmodel.table.ICommand;
-import com.gwtmodel.table.injector.WebPanelHolder;
+import com.google.gwt.user.cellview.client.Header;
 
-public class GwtTableFactory {
+/**
+ * @author hotel
+ *
+ */
+public interface IGHeader {
+    
+    @SuppressWarnings("rawtypes")
+    Header getHeader();
 
-    public IGwtTableView construct(ICommand click, ICommand actionColumn,
-            IGetCellValue gValue) {
-        switch (WebPanelHolder.getTableType()) {
-        case GOOGLETABLE:
-            return new GwtTableView(click);
-        case GRIDTABLE:
-            return new TableView(click);
-        case PRESETABLE:
-            return new PresentationTable(click, actionColumn, gValue);
-        }
-        return null;
-    }
 }
