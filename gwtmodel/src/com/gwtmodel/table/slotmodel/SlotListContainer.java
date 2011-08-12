@@ -108,21 +108,6 @@ public final class SlotListContainer {
 
             // to avoid concurrency exception
             List<SlotSubscriberType> li = getList(slContext.getSlType());
-            // boolean found = false;
-            // for (SlotSubscriberType so : li) {
-            // if (sl.eq(so.getSlType())) {
-            // found = true;
-            // LogT.getLS().info(
-            // LogT.getT().sendSignalLog(
-            // slContext.getSlType().toString()));
-            // so.getSlSignaller().signal(slContext);
-            // }
-            // }
-            // if (!found) {
-            // LogT.getLS().info(
-            // LogT.getT().sendSignalNotFound(
-            // slContext.getSlType().toString()));
-            // }
             if (li.size() == 0) {
                 LogT.getLS().info(
                         LogT.getT().sendSignalNotFound(
@@ -277,8 +262,21 @@ public final class SlotListContainer {
     }
 
     public IVModelData getGetterIVModelData(IDataType dType,
+            GetActionEnum getActionEnum, IVModelData mData) {
+        ISlotSignalContext slContext = getGetterContext(dType, getActionEnum,
+                mData);
+        if (slContext == null) {
+            return null;
+        }
+        return slContext.getVData();
+    }
+
+    public IVModelData getGetterIVModelData(IDataType dType,
             GetActionEnum getActionEnum) {
         ISlotSignalContext slContext = getGetterContext(dType, getActionEnum);
+        if (slContext == null) {
+            return null;
+        }
         return slContext.getVData();
     }
 
@@ -304,22 +302,19 @@ public final class SlotListContainer {
         return slContext.getEditContainer();
     }
 
-    public IVModelData getGetterIVModelData(IDataType dType,
-            GetActionEnum getActionEnum, IVModelData mData) {
-        ISlotSignalContext slContext = getGetterContext(dType, getActionEnum,
-                mData);
-        if (slContext == null) {
-            return null;
-        }
-        return slContext.getVData();
-    }
-
     public ISlotSignalContext getGetterContext(IDataType dType,
             FormLineContainer lContainer) {
         SlotType slType = slTypeFactory.construct(
                 GetActionEnum.GetEditContainer, dType);
         ISlotSignalContext slContext = slContextFactory.construct(slType,
                 lContainer);
+        return slContext;
+    }
+
+    public ISlotSignalContext getGetterContext(IDataType dType,
+            GetActionEnum getActionEnum, IVModelData vData) {
+        SlotType slType = slTypeFactory.construct(getActionEnum, dType);
+        ISlotSignalContext slContext = callGet(slType, vData);
         return slContext;
     }
 
@@ -350,13 +345,6 @@ public final class SlotListContainer {
             IVModelData mData) {
         ISlotSignalContext slContext = slContextFactory
                 .construct(slType, mData);
-        return slContext;
-    }
-
-    public ISlotSignalContext getGetterContext(IDataType dType,
-            GetActionEnum getActionEnum, IVModelData mData) {
-        SlotType slType = slTypeFactory.construct(getActionEnum, dType);
-        ISlotSignalContext slContext = callGet(slType, mData);
         return slContext;
     }
 

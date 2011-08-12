@@ -228,6 +228,23 @@ class DataListActionItemFactory {
         }
     }
 
+    private class GetListLine implements ISlotCaller {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see
+         * com.gwtmodel.table.slotmodel.ISlotCaller#call(com.gwtmodel.table.
+         * slotmodel.ISlotSignalContext)
+         */
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            return iSlo.getSlContainer().getGetterContext(dType,
+                    GetActionEnum.GetListLineChecked);
+        }
+
+    }
+
     private class ActionItem implements ISlotSignaller {
 
         private final PersistTypeEnum persistTypeEnum;
@@ -342,6 +359,8 @@ class DataListActionItemFactory {
                             slControlerContainer, peData));
             slControlerContainer.registerCaller(dType,
                     GetActionEnum.GetGWidget, new GetterGWidget(dForm));
+            slControlerContainer.registerCaller(dType,
+                    GetActionEnum.GetListLineChecked, new GetListLine());
         }
     }
 

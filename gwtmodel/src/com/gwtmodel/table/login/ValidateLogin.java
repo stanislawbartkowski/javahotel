@@ -42,6 +42,7 @@ public class ValidateLogin extends AbstractSlotContainer implements
 
         void validate(IVModelData vData, IBackValidate backValidate);
     }
+
     private final FormLineContainer fContainer;
     private final IValidateLogin iValidate;
 

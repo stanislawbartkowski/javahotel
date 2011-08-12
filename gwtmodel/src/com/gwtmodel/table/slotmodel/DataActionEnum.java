@@ -16,6 +16,8 @@ public enum DataActionEnum {
 
     /** Draw list / DataListType. */
     DrawListAction,
+    /** Refresh only cell data. */
+    RefreshListAction,
     /** Set filter */
     DrawListSetFilter,
     /** Remove filter */

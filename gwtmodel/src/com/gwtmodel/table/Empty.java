@@ -13,7 +13,7 @@
 package com.gwtmodel.table;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public class Empty {
@@ -25,7 +25,8 @@ public class Empty {
 
         @Override
         public boolean eq(IDataType dType) {
-            return true;
+            // return true;
+            return (dType instanceof EmptyDataType);
         }
     }
 
@@ -33,7 +34,8 @@ public class Empty {
 
         @Override
         public boolean eq(IVField o) {
-            return true;
+            // return true;
+            return (o instanceof EmptyFieldType);
         }
 
         @Override
@@ -51,7 +53,7 @@ public class Empty {
 
         @Override
         public boolean eq(IVField o) {
-            return true;
+            return (o instanceof EmptyDecimalFieldType);
         }
 
         @Override
@@ -64,6 +66,7 @@ public class Empty {
             return "XX";
         }
     }
+
     private static IDataType eType;
     private static IVField eField;
     private static IVField deField;

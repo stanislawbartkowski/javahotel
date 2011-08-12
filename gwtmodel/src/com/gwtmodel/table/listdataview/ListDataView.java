@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gwtmodel.table.CreateJson;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
@@ -35,12 +38,11 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.IModifyRowStyle;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
-import java.util.ArrayList;
-import java.util.List;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
@@ -66,7 +68,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             listView.setHeaderList(listHeader);
             tableView.setModel(listView);
             if (listHeader.getJsModifRow() != null) {
-                tableView.setModifyRowStyle(new ModifRow(listHeader.getJsModifRow()));
+                tableView.setModifyRowStyle(new ModifRow(listHeader
+                        .getJsModifRow()));
             }
         }
     }
@@ -84,11 +87,11 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             for (IVField f : line.getF()) {
                 boolean number = false;
                 switch (f.getType().getType()) {
-                    case BIGDECIMAL:
-                    case LONG:
-                    case INT:
-                        number = true;
-                        break;
+                case BIGDECIMAL:
+                case LONG:
+                case INT:
+                    number = true;
+                    break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -141,6 +144,14 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         public void signal(ISlotSignalContext slContext) {
             dataList = slContext.getDataList();
             listView.setDataList(dataList);
+            tableView.refresh();
+        }
+    }
+
+    private class RefreshList implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
             tableView.refresh();
         }
     }
@@ -222,8 +233,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             vData = tableView.getViewModel().getRows().get(w.getChoosedLine());
             v = w.getvField();
         }
-        return construct(dType, GetActionEnum.GetListLineChecked, vData,
-                wSize, v);
+        return construct(dType, GetActionEnum.GetListLineChecked, vData, wSize,
+                v);
     }
 
     private class GetListData implements ISlotCaller {
@@ -238,7 +249,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void execute() {
-            publish(dType, DataActionEnum.TableLineClicked, constructChoosedContext());
+            publish(dType, DataActionEnum.TableLineClicked,
+                    constructChoosedContext());
         }
     }
 
@@ -246,28 +258,55 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void execute() {
-            publish(dType, DataActionEnum.TableCellClicked, constructChoosedContext());
+            publish(dType, DataActionEnum.TableCellClicked,
+                    constructChoosedContext());
         }
+    }
+
+    private class GetCellValue implements IGetCellValue {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see
+         * com.gwtmodel.table.view.table.IGetCellValue#getValue(com.gwtmodel
+         * .table.IVModelData, com.gwtmodel.table.IVField)
+         */
+        @Override
+        public String getValue(IVModelData v, IVField fie) {
+            // TODO Auto-generated method stub
+            return "rybka";
+        }
+
     }
 
     ListDataView(GwtTableFactory gFactory, IDataType dType) {
         listView = new DataListModelView();
         this.dType = dType;
-        tableView = gFactory.construct(new ClickList(), new ClickColumn());
+        tableView = gFactory.construct(new ClickList(), new ClickColumn(),
+                new GetCellValue());
         coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         // subscriber
         registerSubscriber(dType, DataActionEnum.DrawListAction, new DrawList());
-        registerSubscriber(dType, DataActionEnum.FindRowList, new FindRow(false, false));
-        registerSubscriber(dType, DataActionEnum.FindRowBeginningList, new FindRow(false, true));
-        registerSubscriber(dType, DataActionEnum.FindRowNextList, new FindRow(true, false));
-        registerSubscriber(dType, DataActionEnum.DrawListSetFilter, new SetFilter());
-        registerSubscriber(dType, DataActionEnum.DrawListRemoveFilter, new RemoveFilter());
+        registerSubscriber(dType, DataActionEnum.RefreshListAction,
+                new RefreshList());
+        registerSubscriber(dType, DataActionEnum.FindRowList, new FindRow(
+                false, false));
+        registerSubscriber(dType, DataActionEnum.FindRowBeginningList,
+                new FindRow(false, true));
+        registerSubscriber(dType, DataActionEnum.FindRowNextList, new FindRow(
+                true, false));
+        registerSubscriber(dType, DataActionEnum.DrawListSetFilter,
+                new SetFilter());
+        registerSubscriber(dType, DataActionEnum.DrawListRemoveFilter,
+                new RemoveFilter());
         registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
                 new DrawHeader());
         // caller
         registerCaller(dType, GetActionEnum.GetListLineChecked,
                 new GetListData());
-        registerCaller(dType, GetActionEnum.GetListComboField, new GetComboField());
+        registerCaller(dType, GetActionEnum.GetListComboField,
+                new GetComboField());
         registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
     }
 

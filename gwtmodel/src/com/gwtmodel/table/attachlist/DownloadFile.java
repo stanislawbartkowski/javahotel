@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * 
  * @author perseus
  */
 class DownloadFile extends AbstractSlotContainer {
@@ -42,14 +42,16 @@ class DownloadFile extends AbstractSlotContainer {
     DownloadFile(IDataType dType, ClickButtonType bType) {
         this.dType = dType;
         this.slContainer.registerSubscriber(bType, new DownloadFileSig());
-        this.slContainer.registerSubscriber(IAttachDataView.SENDDOWNLOADFILENAME, new GetTempFile());
+        this.slContainer.registerSubscriber(
+                IAttachDataView.SENDDOWNLOADFILENAME, new GetTempFile());
     }
 
     private String getLink(AttachData da) {
         String u = GWT.getHostPageBaseURL() + "/downLoadHandler";
         Map<String, String> val = new HashMap<String, String>();
         val.put(IConstUtil.TEMPORARYFILENAME, da.getTempFileName());
-        String link = Utils.createURL(u, IConstUtil.FILENAMEID, da.getFileName(), val);
+        String link = Utils.createURL(u, IConstUtil.FILENAMEID,
+                da.getFileName(), val);
         return link;
     }
 
@@ -69,7 +71,8 @@ class DownloadFile extends AbstractSlotContainer {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IAttachDataView.ICustomData cu = (IAttachDataView.ICustomData) slContext.getCustom();
+            IAttachDataView.ICustomData cu = (IAttachDataView.ICustomData) slContext
+                    .getCustom();
             AttachData a = cu.getA();
             ClickPopUp pUp = new ClickPopUp(w.getGWidget(), new DownLoad(a));
             pUp.setVisible(true);
