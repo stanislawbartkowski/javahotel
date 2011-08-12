@@ -33,12 +33,11 @@ class PanelCommandBeforeCheckFactory {
             i = new VerifyNumberOfDict(RType.AllHotels,
                     "cannotdisplayhotels.jsp");
             break;
-        // case BOOKINGPANEL:
-        // i = new VerifyNumberOfDict(sI,
-        // new DictType[]{DictType.RoomObjects,
-        // DictType.OffSeasonDict, DictType.PriceListDict},
-        // "cannotdisplaypanel.jsp");
-        // break;
+        case BOOKINGPANEL:
+            i = new VerifyNumberOfDict(new DictType[] {
+                    DictType.RoomObjects, DictType.OffSeasonDict,
+                    DictType.PriceListDict }, "cannotdisplaypanel.jsp");
+            break;
         case ROOMS:
             i = new VerifyNumberOfDict(new DictType[] { DictType.RoomFacility,
                     DictType.ServiceDict, DictType.RoomStandard },
@@ -53,10 +52,9 @@ class PanelCommandBeforeCheckFactory {
                     DictType.OffSeasonDict }, "cannotdisplayprice.jsp");
             break;
         case BOOKING:
-            i = new VerifyNumberOfDict(new DictType[] {
-                    DictType.ServiceDict, DictType.OffSeasonDict,
-                    DictType.RoomObjects, DictType.PriceListDict },
-                    "cannotdisplaybooking.jsp");
+            i = new VerifyNumberOfDict(new DictType[] { DictType.ServiceDict,
+                    DictType.OffSeasonDict, DictType.RoomObjects,
+                    DictType.PriceListDict }, "cannotdisplaybooking.jsp");
             break;
 
         }

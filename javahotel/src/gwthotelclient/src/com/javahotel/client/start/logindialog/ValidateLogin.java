@@ -41,22 +41,23 @@ class ValidateLogin extends AbstractSlotContainer implements
         this.dType = dType;
         this.user = user;
         this.fContainer = fContainer;
-        registerSubscriber(dType,DataActionEnum.ValidateAction, 
+        registerSubscriber(dType, DataActionEnum.ValidateAction,
                 new ValidateA());
     }
-    
+
     private class Validate implements IBackValidate {
 
         @Override
         public void invalid(InvalidateFormContainer errMess) {
-            publish(dType,DataActionEnum.ChangeViewFormToInvalidAction, errMess);            
+            publish(dType, DataActionEnum.ChangeViewFormToInvalidAction,
+                    errMess);
         }
 
         @Override
         public void valid() {
-            publish(dType,DataActionEnum.ValidSignal);            
+            publish(dType, DataActionEnum.ValidSignal);
         }
-        
+
     }
 
     private class ValidateA implements ISlotSignaller {
@@ -69,7 +70,7 @@ class ValidateLogin extends AbstractSlotContainer implements
             List<InvalidateMess> errMess = ValidateUtil.checkEmpty(pData,
                     listMFie);
             if (errMess != null) {
-                publish(dType,DataActionEnum.ChangeViewFormToInvalidAction, 
+                publish(dType, DataActionEnum.ChangeViewFormToInvalidAction,
                         new InvalidateFormContainer(errMess));
                 return;
             }

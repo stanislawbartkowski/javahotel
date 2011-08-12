@@ -10,19 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.user.widgets.stable.seasonscroll;
+package com.javahotel.client.user.widgets.stable.impl;
 
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
-import com.javahotel.client.IResLocator;
+import com.javahotel.client.MM;
 import com.javahotel.client.user.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.user.widgets.stable.IScrollSeason;
 import com.javahotel.common.scrollseason.model.MoveSkip;
@@ -40,7 +39,6 @@ class DaySeasonPanelWidget implements IScrollSeason {
     private ScrollArrowWidget scrollDayW;
     private ScrollArrowWidget scrollMonthW;
     private final MonthSeasonScrollWidget mW;
-    private final IResLocator pLoc;
 
     private void setWidget(List<Date> dList, int panelW, Panel dS, Panel mS) {
         HorizontalPanel hp = new HorizontalPanel();
@@ -50,8 +48,6 @@ class DaySeasonPanelWidget implements IScrollSeason {
         hp.add(mW.getGWidget());
         hp.add(mS);
         vp.add(hp);
-
-        vp.add(dW.getGWidget());
         scrollDayW.setState(dW.getPanelDesc());
         dPart.setW(new GWidget(vp));
     }
@@ -123,12 +119,10 @@ class DaySeasonPanelWidget implements IScrollSeason {
 
     }
 
-    DaySeasonPanelWidget(final IResLocator pLoc, IDrawPartSeason dPart, Grid g,
-            int startG, final Date todayC) {
-        dW = new DayLineWidget(pLoc, dPart, g, startG, todayC);
-        mW = new MonthSeasonScrollWidget(pLoc, new MonthClicked());
+    DaySeasonPanelWidget(IDrawPartSeason dPart, final Date todayC) {
+        dW = new DayLineWidget(dPart, todayC);
+        mW = new MonthSeasonScrollWidget(new MonthClicked());
         this.dPart = dPart;
-        this.pLoc = pLoc;
     }
 
     public int getStartNo() {
@@ -157,9 +151,11 @@ class DaySeasonPanelWidget implements IScrollSeason {
             }
         };
 
-        scrollDayW = new ScrollArrowWidget(pLoc, new ScrollCli(), true, dBack);
-        scrollMonthW = new ScrollArrowWidget(pLoc, new ScrollCliM(), false,
-                mBack);
+        scrollDayW = new ScrollArrowWidget(new ScrollCli(), true, dBack, MM.L()
+                .ScrollDays());
+        scrollMonthW = new ScrollArrowWidget(new ScrollCliM(), false, mBack, MM
+                .L().ScrollMonths());
 
     }
+
 }

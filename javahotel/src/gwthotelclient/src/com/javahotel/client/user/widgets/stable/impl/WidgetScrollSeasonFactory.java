@@ -10,21 +10,25 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.user.widgets.stable;
+package com.javahotel.client.user.widgets.stable.impl;
 
-import com.javahotel.client.IResLocator;
+import java.util.Date;
+
+import com.javahotel.client.user.widgets.stable.IDrawPartSeason;
+import com.javahotel.client.user.widgets.stable.IScrollSeason;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
-public class ScrollSeasonFactory {
+public class WidgetScrollSeasonFactory {
 
-    private ScrollSeasonFactory() {
+    private WidgetScrollSeasonFactory() {
     }
 
-    public static IScrollSeason getScrollSeason(final IResLocator pLoc,
-            final IDrawPartSeason i, final int pNo) {
-        return new ScrollTable(pLoc, i, pNo);
+    public static IScrollSeason getScrollSeason(final IDrawPartSeason i, final Date today) {
+        // return new MonthSeasonScrollWidget(pLoc, i, periodNo);
+        // return new DaySeasonScrollWidget(pLoc, i, periodNo);
+        return new DaySeasonPanelWidget(i, today);
     }
 }

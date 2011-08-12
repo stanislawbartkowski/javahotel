@@ -13,6 +13,10 @@
 package com.javahotel.nmvc.panel;
 
 import com.gwtmodel.table.ISetGWidget;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
+import com.javahotel.client.IResLocator;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.start.panel.EPanelCommand;
 import com.javahotel.client.start.panel.IPanelCommand;
 import com.javahotel.client.start.panel.IPanelCommandFactory;
@@ -38,6 +42,11 @@ public class PanelCommandFactory implements IPanelCommandFactory {
 
             };
             return i;
+        }
+        // clear left (user) panel
+        IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
+        if (e == EPanelCommand.BOOKINGPANEL || e == EPanelCommand.BOOKING) {
+            iW.setWest(null);
         }
         IPanelCommandBeforeCheck pI = PanelCommandBeforeCheckFactory
                 .getPanelCheck(e);

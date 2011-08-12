@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.user.season;
+package com.javahotel.nmvc.factories.season;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +19,8 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,15 +28,17 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.view.util.ClickPopUp;
 import com.javahotel.client.ConfigParam;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.user.season.SeasonUtil;
 import com.javahotel.client.user.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.user.widgets.stable.IScrollSeason;
-import com.javahotel.client.user.widgets.stable.seasonscroll.WidgetScrollSeasonFactory;
+import com.javahotel.client.user.widgets.stable.impl.WidgetScrollSeasonFactory;
 import com.javahotel.common.dateutil.CalendarTable;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.GetPeriods;
 import com.javahotel.common.dateutil.PeriodT;
+import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 import com.javahotel.common.seasonutil.CreateTableSeason;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
@@ -45,7 +49,7 @@ import com.javahotel.common.toobject.SeasonPeriodT;
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
-public class PanelSeason {
+class PanelSeason {
 
     private final ComplexPanel controlP;
     private final IResLocator rI;
@@ -55,97 +59,73 @@ public class PanelSeason {
     private Date d2;
     private List<Date> dLine;
     private List<PeriodT> coP;
+    private static final int NO = 12;
     private final Grid g;
-    private final int startC;
-    private final IDrawPartSeason drawI;
 
-    public PanelSeason(final IResLocator rI, final Grid g,
-            final ComplexPanel controlP, final int startC,
-            final IDrawPartSeason drawI, final Date today) {
+    PanelSeason(final IResLocator rI, Grid g, final ComplexPanel controlP,
+            final Date today) {
         this.rI = rI;
         this.g = g;
-        this.startC = startC;
         this.controlP = controlP;
-        this.drawI = drawI;
-        sCr = WidgetScrollSeasonFactory.getScrollSeason(rI, new DrawC(), g,
-                startC, DateUtil.getToday());
+        sCr = WidgetScrollSeasonFactory.getScrollSeason(new DrawC(),
+                DateUtil.getToday());
+
     }
 
-    private void setDayLabel(Label l, int d) {
-        Date da = dLine.get(d);
+    private void setDayLabel(Label l, Date da) {
         PeriodT p = GetPeriods.findPeriod(da, coP);
-        // PeriodT pType = coP.get(d);
-        OfferSeasonPeriodP pp = (OfferSeasonPeriodP) p.getI();
         l.addClickListener(new IClick(p));
-        String sTyle = "day_high_season";
-        if (pp != null) {
-            switch (pp.getPeriodT()) {
-            case LOW:
-                sTyle = "day_low_season";
-                break;
-            case SPECIAL:
-                sTyle = "day_special_season";
-                break;
-            case LOWWEEKEND:
-                sTyle = "day_lowweekend_season";
-                break;
-            case HIGHWEEKEND:
-                sTyle = "day_highweekend_season";
-                break;
-            default:
-                break;
-            }
-        }
+        String sTyle = SeasonUtil.getStyleForDay(p);
         l.setStyleName(sTyle);
     }
 
     private class DrawC implements IDrawPartSeason {
 
-        public void draw(final int sno, final int sto) {
-            drawD(sno, sto);
-            if (drawI != null) {
-                drawI.draw(sno, sto);
-            }
-        }
-
+        @Override
         public void setW(IGWidget i) {
-            // int no = controlP.getWidgetCount();
             controlP.add(i.getGWidget());
-            // if (drawI != null) {
-            // drawI.setGwtWidget(new DefaultMvcWidget(controlP));
-            // }
         }
 
-        public Widget getColumnEmpty(Label l) {
-            VerticalPanel hp = new VerticalPanel();
-            hp.add(l);
-            Label la = new Label(".");
-            hp.add(la);
-            return hp;
-        }
-
-        public Label getLabel(Widget w) {
+        private Label getLabel(Widget w, int pa) {
             VerticalPanel hp = (VerticalPanel) w;
-            Label la = (Label) hp.getWidget(0);
+            Label la = (Label) hp.getWidget(pa);
             return la;
-
         }
 
-        public void setColumn(Widget w, int c, Date d, Label l) {
-            VerticalPanel hp = (VerticalPanel) w;
-            Label la = (Label) hp.getWidget(1);
-            setDayLabel(la, c);
+        private void refreshOneColumn(int cNo, Date pe, boolean today) {
+            String na = SeasonUtil.getDateName(pe);
+            Widget w = g.getWidget(0, cNo);
+            Label la = getLabel(w, 0);
+            if (today) {
+                la.setStyleName(SeasonUtil.getTodayStyle());
+            } else {
+                la.removeStyleName(SeasonUtil.getTodayStyle());
+            }
+            la.setText(na);
+            la = getLabel(w, 1);
+            setDayLabel(la, pe);
+        }
+
+        @Override
+        public void refresh(DaySeasonScrollData sData) {
+            for (int i = sData.getFirstD(); i <= sData.getLastD(); i++) {
+                Date pe = sData.getD(i);
+                Date today = sData.getTodayC();
+                refreshOneColumn(i - sData.getFirstD(), pe,
+                        DateUtil.eqDate(pe, today));
+            }
+
         }
     }
 
     private String getName(final PeriodT pe) {
-        Object o = pe.getI();
-        OfferSeasonPeriodP pp = (OfferSeasonPeriodP) o;
-        SeasonPeriodT t = null;
-        if (pp != null) {
-            t = pp.getPeriodT();
-        }
-        String s = SeasonNames.getName(rI, t);
+        // Object o = pe.getI();
+        // OfferSeasonPeriodP pp = (OfferSeasonPeriodP) o;
+        // SeasonPeriodT t = null;
+        // if (pp != null) {
+        // t = pp.getPeriodT();
+        // }
+        String s = SeasonUtil.getName(pe);
         return s;
     }
 
@@ -175,20 +155,18 @@ public class PanelSeason {
         }
 
         public void onClick(final Widget arg0) {
-            VerticalPanel h = new VerticalPanel();
-            ClickPopUp aPanel = new ClickPopUp(arg0, h);
-            String s = getName(pe);
-            h.add(new Label(s));
-            String s1 = DateFormatUtil.toS(pe.getFrom());
-            String s2 = DateFormatUtil.toS(pe.getTo());
-            h.add(new Label(s1 + " - " + s2));
-            int noD = DateUtil.noLodgings(pe.getFrom(), pe.getTo());
-            h.add(new Label(rI.getMessages().noSleeps(noD)));
+            // VerticalPanel h = new VerticalPanel();
+            // String s = getName(pe);
+            // do not remove
+            Widget w = SeasonUtil.createPeriodPopUp(pe);
+            new ClickPopUp(arg0, w);
+            // h.add(new Label(s));
+            // String s1 = DateFormatUtil.toS(pe.getFrom());
+            // String s2 = DateFormatUtil.toS(pe.getTo());
+            // h.add(new Label(s1 + " - " + s2));
+            // int noD = DateUtil.noLodgings(pe.getFrom(), pe.getTo());
+            // h.add(new Label(rI.getMessages().noSleeps(noD)));
         }
-    }
-
-    private void drawD(final int startno, final int endno) {
-
     }
 
     private void drawCa(final PeriodType pType, int actC) {
@@ -202,20 +180,18 @@ public class PanelSeason {
         controlP.clear();
         d1 = oP.getStartP();
         d2 = oP.getEndP();
-        if (d1 != null) {
-            drawCa(t, 12);
+        g.resizeColumns(NO);
+        g.resizeRows(1);
+        HTMLTable.RowFormatter fo = g.getRowFormatter();
+        fo.setStyleName(0, "day-scroll-panel");
+        g.resizeColumns(NO);
+        for (int i = 0; i < NO; i++) {
+            VerticalPanel hp = new VerticalPanel();
+            hp.add(new Label());
+            hp.add(new HTML("&nbsp;"));
+            g.setWidget(0, i, hp);
         }
+        drawCa(t, NO);
     }
 
-    public List<Date> getDLine() {
-        return dLine;
-    }
-
-    public int getStartNo() {
-        return sCr.getStartNo();
-    }
-
-    public int getColNumber() {
-        return g.getColumnCount() - startC;
-    }
 }

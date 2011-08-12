@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.user.widgets.stable.seasonscroll;
+package com.javahotel.client.user.widgets.stable.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,18 +42,12 @@ class ScrollArrowWidget {
     private final static String C_BUTTON_LEFT = "BUTTON-LEFT";
     private final static String C_BUTTON_RIGHT = "BUTTON-LRIGHT";
     private final static String C_BUTTON_RIGHT_END = "BUTTON-RIGHT-END";
-    // private final HorizontalPanel hp = new HorizontalPanel();
-    private final IGFocusWidget begP = ImgButtonFactory.getButton(
-            C_BUTTON_LEFT_END, null, "arrow-left-end-default");
-    private final IGFocusWidget leftP = ImgButtonFactory.getButton(
-            C_BUTTON_LEFT, null, "arrow-left-default");
-    private final IGFocusWidget rightP = ImgButtonFactory.getButton(
-            C_BUTTON_RIGHT, null, "arrow-right-default");
-    private final IGFocusWidget endP = ImgButtonFactory.getButton(
-            C_BUTTON_RIGHT_END, null, "arrow-right-end-default");
+    private final IGFocusWidget begP;
+    private final IGFocusWidget leftP;
+    private final IGFocusWidget rightP;
+    private final IGFocusWidget endP;
     private final IFormLineView dDate;
     private final IsignalP iP;
-    private final IResLocator rI;
     private final static String scrollBegId = "scrollpanel_Beg";
     private final static String scrollEndId = "scrollpanel_End";
     private final static String scrollLeftId = "scrollpanel_Left";
@@ -93,9 +87,17 @@ class ScrollArrowWidget {
         }
     }
 
-    ScrollArrowWidget(IResLocator rI, IsignalP i, boolean withDate,
-            IHtmlPanelCallBack cBack) {
-        this.rI = rI;
+    ScrollArrowWidget(IsignalP i, boolean withDate, IHtmlPanelCallBack cBack,
+            String[] titles) {
+        begP = ImgButtonFactory.getButton(C_BUTTON_LEFT_END, titles[0],
+                "arrow-left-end-default");
+        leftP = ImgButtonFactory.getButton(C_BUTTON_LEFT, titles[1],
+                "arrow-left-default");
+        rightP = ImgButtonFactory.getButton(C_BUTTON_RIGHT, titles[2],
+                "arrow-right-default");
+        endP = ImgButtonFactory.getButton(C_BUTTON_RIGHT_END, titles[3],
+                "arrow-right-end-default");
+
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
         dDate = eFactory.construcDateBoxCalendar(Empty.getFieldType());

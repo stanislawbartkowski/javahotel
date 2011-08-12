@@ -15,6 +15,8 @@ package com.javahotel.client.user.widgets.stable;
 import java.util.Date;
 import java.util.List;
 
+import com.gwtmodel.table.IGWidget;
+
 /**
  *
  * @author stanislawbartkowski@gmail.com
@@ -32,4 +34,5 @@ public interface IScrollSeason {
      *            if != -1 then column number to display
      */
     void createVPanel(List<Date> dList, final int actC);
+    
 }

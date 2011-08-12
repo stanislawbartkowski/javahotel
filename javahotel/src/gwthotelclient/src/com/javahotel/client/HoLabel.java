@@ -96,19 +96,28 @@ public interface HoLabel extends Constants {
     String CannotChangeCustomerToNotChange();
 
     String Confirm();
-    
+
     String UserOrPasswordNotValid();
-    
+
     String RemoveHotelData();
-    
+
     String UsersAndHotele();
-    
+
     String DataFormat();
-    
+
     String LowSeasonName();
-    
+
     String SpecialSeasonName();
-    
+
     String EnterReservation();
+
+    String ShowSeasonTitle();
+
+    String EnterDateFromTo();
+
+    String NothingToDisplay();
+    
+    String[] ScrollDays();
+    String[] ScrollMonths();
     
 }

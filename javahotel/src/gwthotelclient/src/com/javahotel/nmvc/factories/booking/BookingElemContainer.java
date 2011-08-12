@@ -69,7 +69,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
         public void signal(ISlotSignalContext slContext) {
             List<AbstractLpVModelData> li = new ArrayList<AbstractLpVModelData>();
             BookRecordP p = P.getBookR(slContext);
-            if (p.getBooklist() != null) {
+            if ((p != null) && (p.getBooklist() != null)) {
                 for (BookElemP e : p.getBooklist()) {
                     AbstractLpVModelData lp = VModelDataFactory.constructLp(e);
                     li.add(lp);
