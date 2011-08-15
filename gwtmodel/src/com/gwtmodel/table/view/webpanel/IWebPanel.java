@@ -14,7 +14,7 @@ package com.gwtmodel.table.view.webpanel;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.ISignal;
+import com.gwtmodel.table.common.ISignal;
 
 /**
  *

@@ -55,7 +55,7 @@ public interface TLogMessages extends Messages {
     String FilterCannotbeNull();
 
     String sendSignalLog(String slName);
-    
+
     String sendSignalNotFound(String slName);
 
     String receivedSignalLog(String slName);
@@ -77,14 +77,16 @@ public interface TLogMessages extends Messages {
     String CellShouldBeRegistered();
 
     String GetterModelDataViewModel();
-    
+
     String GetterContainerDataViewModel();
-    
+
     String GetterWidgetDataViewModel();
-    
+
     String mustBeConnectedToString();
-    
+
     String notFoundSignalNotNull();
-    
+
     String errrorUploadingFile();
+
+    String notExpected();
 }

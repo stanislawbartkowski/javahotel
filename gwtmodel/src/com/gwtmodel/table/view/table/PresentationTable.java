@@ -17,12 +17,17 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.cell.client.ValueUpdater;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
@@ -59,11 +64,16 @@ import com.gwtmodel.table.injector.LogT;
  */
 class PresentationTable implements IGwtTableView {
 
+    /** Call back when line is clicked. */
     private final ICommand iClick;
+    /** Call back when column is clicked. */
     private final ICommand iActionColumn;
+    /** Call back function for raw cell columns. */
     private final IGetCellValue gValue;
+    /** The widget table in flesh. */
     private final CellTable<Integer> table = new CellTable<Integer>();
     private IGwtTableModel model = null;
+    /** If column definition has been provided. */
     private boolean columnC = false;
     final SingleSelectionModel<Integer> selectionModel = new SingleSelectionModel<Integer>();
     private WChoosedLine wChoosed;
@@ -84,6 +94,13 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
+    /**
+     * Custom function for additional style for rows. Raises java script
+     * function.
+     * 
+     * @author hotel
+     * 
+     */
     private class TStyles implements RowStyles<Integer> {
 
         // tr.wait-reply
@@ -164,35 +181,58 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
+    /**
+     * Implementation of AbstractCell. The only purpose is to take over
+     * "clicked" event
+     * @author hotel
+     *
+     */
+    private class A extends AbstractCell<SafeHtml> {
+
+        A(SafeHtml a) {
+            // activates onBrowserEvent
+            super("click");
+        }
+
+        @Override
+        public void render(com.google.gwt.cell.client.Cell.Context context,
+                SafeHtml value, SafeHtmlBuilder sb) {
+            sb.append(value);
+        }
+
+    }
+
+    private SafeHtml getEmpty() {
+        return new SafeHtmlBuilder().appendEscaped("").toSafeHtml();
+    }
+
+    /**
+     * Display raw cell column. Call back function provides html (safe)
+     * 
+     * @author hotel
+     * 
+     */
     private class RawColumn extends Column<Integer, SafeHtml> {
 
         private final IVField fie;
 
         RawColumn(IVField fie) {
-            super(new SafeHtmlCell());
+            super(new A(getEmpty()));
             this.fie = fie;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.google.gwt.user.cellview.client.Column#getValue(java.lang.Object)
-         */
-        @SuppressWarnings("serial")
         @Override
         public SafeHtml getValue(Integer object) {
             IVModelData v = model.getRows().get(object);
-            final String s = gValue.getValue(v, fie);
-            return new SafeHtml() {
+            return gValue.getValue(v, fie);
+        }
 
-                @Override
-                public String asString() {
-                    return s;
-                }
-
-            };
-
+        @Override
+        public void onBrowserEvent(Context context, Element elem,
+                final Integer i, NativeEvent event) {
+            // do not check event type, only clicked is raised here
+            wChoosed = pgetClicked(i, fie);
+            iActionColumn.execute();
         }
 
     }

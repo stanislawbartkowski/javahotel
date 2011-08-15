@@ -15,6 +15,7 @@ package com.gwtmodel.table.listdataview;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.table.IGetCellValue;
 
 public class ListDataViewFactory {
 
@@ -26,6 +27,10 @@ public class ListDataViewFactory {
     }
 
     public IListDataView construct(IDataType dType) {
-        return new ListDataView(gFactory, dType);
+        return construct(dType, null);
+    }
+
+    public IListDataView construct(IDataType dType, IGetCellValue getCell) {
+        return new ListDataView(gFactory, dType, getCell);
     }
 }

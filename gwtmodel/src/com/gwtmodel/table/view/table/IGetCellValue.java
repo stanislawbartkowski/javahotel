@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 
@@ -21,6 +22,6 @@ import com.gwtmodel.table.IVModelData;
  */
 public interface IGetCellValue {
     
-    String getValue(IVModelData v, IVField fie);
+    SafeHtml getValue(IVModelData v, IVField fie);
 
 }

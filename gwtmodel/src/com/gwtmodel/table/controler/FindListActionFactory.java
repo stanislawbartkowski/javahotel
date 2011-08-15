@@ -12,16 +12,19 @@
  */
 package com.gwtmodel.table.controler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.ISignal;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.controler.DataListActionItemFactory.DrawForm;
 import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
@@ -51,8 +54,6 @@ import com.gwtmodel.table.view.util.ICloseAction;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
