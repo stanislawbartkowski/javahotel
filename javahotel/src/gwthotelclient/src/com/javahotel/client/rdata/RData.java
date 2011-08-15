@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.PersonHotelRoles;
 import com.javahotel.client.rdata.CacheData.RetData;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.ISignal;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.rescache.ResObjectCache;

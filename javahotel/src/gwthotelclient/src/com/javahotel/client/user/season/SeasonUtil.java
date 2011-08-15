@@ -17,7 +17,7 @@ import java.util.Date;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.PeriodT;
@@ -39,7 +39,7 @@ public class SeasonUtil {
         if (t != null) {
             sId = t.toString();
         }
-        return (String) MM.L().SeasonNames().get(sId);
+        return (String) M.L().SeasonNames().get(sId);
     }
 
     public static String getDateName(Date pe) {
@@ -84,7 +84,7 @@ public class SeasonUtil {
         String s2 = DateFormatUtil.toS(pe.getTo());
         h.add(new Label(s1 + " - " + s2));
         int noD = DateUtil.noLodgings(pe.getFrom(), pe.getTo());
-        h.add(new Label(MM.M().noSleeps(noD)));
+        h.add(new Label(M.M().noSleeps(noD)));
         return h;
 
     }

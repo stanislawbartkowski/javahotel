@@ -20,7 +20,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.start.panel.EPanelCommand;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.command.DictType;
@@ -80,7 +80,7 @@ public class DataControlerFactory {
             i = new BookingPanel(d, panelId);
             break;
         default:
-            assert false : MM.M().NotSupportedErrorS();
+            assert false : M.M().NotSupportedErrorS();
             break;
         }
         if (i == null) {

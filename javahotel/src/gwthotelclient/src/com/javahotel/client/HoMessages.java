@@ -35,4 +35,6 @@ public interface HoMessages extends Messages {
     String NotSupportedError(String e);
 
     String NotSupportedErrorS();
+    
+    String ResStateCannotBeNull();
 }

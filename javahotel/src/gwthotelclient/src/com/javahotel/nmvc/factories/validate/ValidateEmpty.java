@@ -29,7 +29,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.view.ValidateUtil;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.command.DictType;
@@ -74,7 +74,7 @@ class ValidateEmpty {
                         errMess = new ArrayList<InvalidateMess>();
                         errMess.add(new InvalidateMess(new LoginField(
                                 LoginField.F.PASSWORD),
-                                MM.L().PasswordDifferent()));
+                                M.L().PasswordDifferent()));
                         return P.publishValidSignalE(slContainer, da, errMess);
                     }
                 }

@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.user.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.user.widgets.stable.IScrollSeason;
 import com.javahotel.common.scrollseason.model.MoveSkip;
@@ -151,9 +151,9 @@ class DaySeasonPanelWidget implements IScrollSeason {
             }
         };
 
-        scrollDayW = new ScrollArrowWidget(new ScrollCli(), true, dBack, MM.L()
+        scrollDayW = new ScrollArrowWidget(new ScrollCli(), true, dBack, M.L()
                 .ScrollDays());
-        scrollMonthW = new ScrollArrowWidget(new ScrollCliM(), false, mBack, MM
+        scrollMonthW = new ScrollArrowWidget(new ScrollCliM(), false, mBack, M
                 .L().ScrollMonths());
 
     }

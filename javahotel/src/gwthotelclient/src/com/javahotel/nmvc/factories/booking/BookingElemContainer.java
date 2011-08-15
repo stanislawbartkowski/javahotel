@@ -133,7 +133,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
             @Override
             public ComposeControllerType construct(ICallContext iiContext) {
-                ISlotable iSlo = new CustomBookingElem(iiContext,
+                ISlotable iSlo = new BookingElem(iiContext,
                         BookingElemContainer.this, subType);
                 return new ComposeControllerType(iSlo, subType);
             }

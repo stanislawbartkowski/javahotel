@@ -40,7 +40,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.abstractto.AUtil;
 import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
@@ -206,7 +206,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
             if (p.getBooklist().size() == 0) {
                 List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
                 errMess.add(new InvalidateMess(new VField(
-                        BookRecordP.F.customerPrice), MM.L().EnterReservation()));
+                        BookRecordP.F.customerPrice), M.L().EnterReservation()));
                 InvalidateFormContainer e = new InvalidateFormContainer(errMess);
                 slMediator.getSlContainer().publish(dType,
                         DataActionEnum.ChangeViewFormToInvalidAction, e);

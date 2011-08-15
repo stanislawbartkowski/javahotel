@@ -19,7 +19,7 @@ import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.start.action.ILoginDialog;
 import com.javahotel.client.start.action.IStartHotelAction;
@@ -104,7 +104,7 @@ public class StartHotelAction implements IStartHotelAction {
         @Override
         public void execute() {
             IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
-            iW.setUpInfo(MM.L().UsersAndHotele());
+            iW.setUpInfo(M.L().UsersAndHotele());
             UserPanel.draw(new AdminPanelFactory());
         }
 

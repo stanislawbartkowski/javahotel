@@ -15,11 +15,6 @@ package com.javahotel.client;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.slotmodel.ISlotable;
-import com.javahotel.client.types.VField;
-import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.PaymentRowP;
 
 /**

@@ -18,7 +18,7 @@ import java.util.Map;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.DictionaryP;
 
@@ -29,18 +29,18 @@ class CustomFactory implements IGetCustomValues {
     CustomFactory() {
         ma.put(IGetCustomValues.IMAGEFOLDER, "img");
         ma.put(IGetCustomValues.RESOURCEFOLDER, "res");
-        ma.put(IGetCustomValues.COMMERROR, MM.L().commError());
-        ma.put(IGetCustomValues.QUESTION, MM.L().Question());
-        ma.put(IGetCustomValues.LOGINBUTTON, MM.L().LoginButton());
-        ma.put(IGetCustomValues.LOGINMAME, MM.L().LoginName());
-        ma.put(IGetCustomValues.PASSWORD, MM.L().Password());
-        ma.put(IGetCustomValues.ADDITEM, MM.L().DodajButton());
-        ma.put(IGetCustomValues.REMOVEITEM, MM.L().UsunButton());
-        ma.put(IGetCustomValues.MODIFITEM, MM.L().ModifItem());
-        ma.put(IGetCustomValues.SHOWITEM, MM.L().ShowItem());
-        ma.put(IGetCustomValues.YESVALUE, MM.L().Yes());
-        ma.put(IGetCustomValues.NOVALUE, MM.L().No());
-        ma.put(IGetCustomValues.DATEFORMAT,MM.L().DataFormat());
+        ma.put(IGetCustomValues.COMMERROR, M.L().commError());
+        ma.put(IGetCustomValues.QUESTION, M.L().Question());
+        ma.put(IGetCustomValues.LOGINBUTTON, M.L().LoginButton());
+        ma.put(IGetCustomValues.LOGINMAME, M.L().LoginName());
+        ma.put(IGetCustomValues.PASSWORD, M.L().Password());
+        ma.put(IGetCustomValues.ADDITEM, M.L().DodajButton());
+        ma.put(IGetCustomValues.REMOVEITEM, M.L().UsunButton());
+        ma.put(IGetCustomValues.MODIFITEM, M.L().ModifItem());
+        ma.put(IGetCustomValues.SHOWITEM, M.L().ShowItem());
+        ma.put(IGetCustomValues.YESVALUE, M.L().Yes());
+        ma.put(IGetCustomValues.NOVALUE, M.L().No());
+        ma.put(IGetCustomValues.DATEFORMAT,M.L().DataFormat());
     }
 
     @Override

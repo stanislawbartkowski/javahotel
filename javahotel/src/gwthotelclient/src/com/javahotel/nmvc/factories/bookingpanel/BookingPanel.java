@@ -23,52 +23,72 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.Header;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FieldDataType;
+import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.listdataview.IListDataView;
+import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.rdef.IFormChangeListener;
+import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.ClickPopUp;
-import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.ConfigParam;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.client.types.DataType;
+import com.javahotel.client.types.VField;
 import com.javahotel.client.user.season.SeasonUtil;
 import com.javahotel.client.user.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.user.widgets.stable.IScrollSeason;
 import com.javahotel.client.user.widgets.stable.impl.WidgetScrollSeasonFactory;
+import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.dateutil.CalendarTable;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
+import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.GetPeriods;
 import com.javahotel.common.dateutil.PeriodT;
+import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 import com.javahotel.common.seasonutil.CreateTableSeason;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
+import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
+import com.javahotel.common.toobject.ResDayObjectStateP;
 
 /**
  * @author hotel
@@ -77,33 +97,164 @@ import com.javahotel.common.toobject.OfferSeasonP;
 public class BookingPanel extends AbstractSlotMediatorContainer {
 
     private final IDataType roomType = new DataType(DictType.RoomObjects);
-    private final SetVPanelGwt v = new SetVPanelGwt();
+    private final VerticalPanel v = new VerticalPanel();
     private final IListDataView iList;
     private final IDataPersistAction iPersist;
     private final static int NOM = 15;
-    private IScrollSeason sCr;
 
-    private class DrawR extends SynchronizeList {
+    // local variable - changeable area
+    private IScrollSeason sCr = null;
+    private final IFormLineView seasonE;
+    private final String seasonName;
+    private Widget dList = null;
+    private Widget scrollW = null;
+    private HorizontalPanel upPanel = null;
+    private List<PeriodT> coP = null;
+    private DaySeasonScrollData sData;
 
-        private Widget dList;
-        private Widget scrollW;
-        private List<PeriodT> coP;
-
-        DrawR() {
-            super(2);
+    /**
+     * Creates or recreates panel widget.
+     */
+    private void createPanel() {
+        // can perform after list and scroll data are read
+        if (dList == null || scrollW == null) {
+            return;
         }
+        // create panel for the first time
+        if (upPanel == null) {
+            upPanel = new HorizontalPanel();
+            upPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+            VerticalPanel va = new VerticalPanel();
+            va.add(new Label(seasonName));
+            va.add(seasonE.getGWidget());
+            upPanel.add(va);
+            upPanel.add(scrollW);
+            v.add(upPanel);
+            v.add(dList);
+        } else {
+            // replace scrollW only
+            upPanel.remove(2);
+            upPanel.add(scrollW);
+        }
+    }
+
+    private SafeHtml getEmpty() {
+        return new SafeHtmlBuilder().appendEscaped("").toSafeHtml();
+    }
+
+    private Date getD(int i) {
+        if (sData == null) {
+            return null;
+        }
+        Date d = sData.getD(i + sData.getFirstD());
+        return d;
+    }
+
+    private String getRoomName(IVModelData v) {
+        String s = (String) v.getF(new VField(DictionaryP.F.name));
+        return s;
+    }
+
+    /**
+     * CallBack for DrawC. After re-reading reservation data refresh display
+     * panel
+     * 
+     * @author hotel
+     * 
+     */
+    private class DrawList implements ISignal {
 
         @Override
-        protected void doTask() {
-            v.getvPanel().add(scrollW);
-            v.getvPanel().add(dList);
+        public void signal() {
+            // refresh panel: header and content
+            getSlContainer()
+                    .publish(roomType, DataActionEnum.RefreshListAction);
         }
 
     }
 
+    /**
+     * Implementation of IDrawpartSeason. Provides refreshment for scrolling
+     * 
+     * @author hotel
+     * 
+     */
+    private class DrawC implements IDrawPartSeason {
+
+        @Override
+        public void setW(IGWidget w) {
+            scrollW = w.getGWidget();
+            createPanel();
+        }
+
+        @Override
+        public void refresh(DaySeasonScrollData res) {
+            sData = res;
+            Date from = sData.getD(sData.getFirstD());
+            Date to = sData.getD(sData.getLastD());
+            PeriodT pe = new PeriodT(from, to);
+            ISlotSignalContext sl = getSlContainer().getGetterContext(roomType,
+                    GetActionEnum.GetListData);
+            IDataListType dList = sl.getDataList();
+            List<String> roomList = new ArrayList<String>();
+            for (IVModelData v : dList.getList()) {
+                roomList.add(getRoomName(v));
+            }
+            IResLocator rI = HInjector.getI().getI();
+            // firstly re-read reservation data
+            rI.getR().readResObjectState(new ReadResParam(roomList, pe),
+                    new DrawList());
+        }
+
+    }
+
+    private class ReadOffer implements RData.IOneList<AbstractTo> {
+
+        @Override
+        public void doOne(AbstractTo a) {
+            OfferSeasonP oP = (OfferSeasonP) a;
+            sCr = WidgetScrollSeasonFactory.getScrollSeason(new DrawC(),
+                    DateUtil.getToday());
+            List<Date> dLine = CalendarTable.listOfDates(oP.getStartP(),
+                    oP.getEndP(), PeriodType.byDay);
+            coP = CreateTableSeason.createTable(oP, ConfigParam.getStartWeek());
+            sCr.createVPanel(dLine, NOM);
+        }
+
+    }
+
+    private class C implements IFormChangeListener {
+
+        @Override
+        public void onChange(IFormLineView sEdit) {
+            String s = (String) sEdit.getValObj();
+            if (CUtil.EmptyS(s)) {
+                return;
+            }
+            IResLocator i = HInjector.getI().getI();
+            CommandParam p = i.getR().getHotelCommandParam();
+            p.setDict(DictType.OffSeasonDict);
+            p.setRecName(s);
+            i.getR().getOne(RType.ListDict, p, new ReadOffer());
+        }
+
+    }
+
+    /**
+     * Local implementation for IVField. Contains only column number.
+     * 
+     * @author hotel
+     * 
+     */
     private class RField implements IVField {
 
-        @SuppressWarnings("unused")
+        /**
+         * @return the i
+         */
+        int getI() {
+            return i;
+        }
+
         private final int i;
 
         RField(int i) {
@@ -126,65 +277,84 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         }
 
     }
-    
+
+    /**
+     * The purpose of this class is to enable "click" event for Header
+     * 
+     * @author hotel
+     * 
+     */
     private class A extends AbstractCell<SafeHtml> {
-        
+
         A(SafeHtml a) {
+            // activates onBrowserEvent
             super("click");
         }
 
-        /* (non-Javadoc)
-         * @see com.google.gwt.cell.client.AbstractCell#render(com.google.gwt.cell.client.Cell.Context, java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
-         */
         @Override
         public void render(com.google.gwt.cell.client.Cell.Context context,
                 SafeHtml value, SafeHtmlBuilder sb) {
-            sb.append(value);            
+            sb.append(value);
         }
-        
+
     }
 
+    private void addStyle(SafeHtmlBuilder b, String st, String content, String h) {
+        String ht = "<div class=\"" + st + "\"";
+        if (h != null) {
+            ht += " style=\"line-height:" + h + ";\" ";
+        }
+        ht += ">";
+        b.appendHtmlConstant(ht);
+        b.appendHtmlConstant(content);
+        b.appendHtmlConstant("</div>");
+    }
+
+    /**
+     * Creates header data for panel, implementation of header interface
+     * 
+     * @author hotel
+     * 
+     */
     private class T extends Header<SafeHtml> {
 
         private String headerT = "";
-        @SuppressWarnings("unused")
         private final int i;
-        private boolean today;
-        private String sTyle;
+
         private PeriodT pe;
 
         public T(int i) {
-            super(new A(new SafeHtmlBuilder().appendEscaped("").toSafeHtml()));
+            super(new A(getEmpty()));
             this.i = i;
-            today = false;
-            sTyle = null;
             pe = null;
         }
-        
+
         @Override
-        public void onBrowserEvent(Cell.Context context, Element elem, NativeEvent event) {
-            if (pe == null) { return; }
+        public void onBrowserEvent(Cell.Context context, Element elem,
+                NativeEvent event) {
+            // do not test the type of event, always 'click'
+            if (pe == null) {
+                return;
+            }
             Widget w = SeasonUtil.createPeriodPopUp(pe);
             new ClickPopUp(new WSize(elem), w);
-            
-        }
-
-        private void addStyle(SafeHtmlBuilder b, String st, String content,
-                String h) {
-            String ht = "<div class=\"" + st + "\"";
-            if (h != null) {
-                ht += " style=\"line-height:" + h + ";\" ";
-            }
-            ht += ">";
-            b.appendHtmlConstant(ht);
-            b.appendHtmlConstant(content);
-            b.appendHtmlConstant("</div>");
 
         }
 
         @Override
         public SafeHtml getValue() {
+            if (sData == null) {
+                return getEmpty();
+            }
             SafeHtmlBuilder b = new SafeHtmlBuilder();
+            Date da = sData.getD(i + sData.getFirstD());
+            Date todayD = sData.getTodayC();
+            boolean today = DateUtil.eqDate(da, todayD);
+            String na = SeasonUtil.getDateName(da);
+            setHeaderT(na);
+            pe = GetPeriods.findPeriod(da, coP);
+            String sTyle = SeasonUtil.getStyleForDay(pe);
+
             if (today) {
                 addStyle(b, SeasonUtil.getTodayStyle(), headerT, null);
             } else {
@@ -219,17 +389,18 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             return t;
         }
 
-        T getT() {
-            return t;
-        }
-
     }
 
+    /**
+     * Creates header info containing two parts: room data and reservation panel
+     */
     private void sendHeaderInfo() {
+        // First part: room info
         IField[] dList = new IField[] { DictionaryP.F.name,
                 DictionaryP.F.description };
         List<VListHeaderDesc> fList = FFactory.constructH(null, dList);
 
+        // Second part : reservation columns
         for (int i = 0; i < NOM; i++) {
             RField r = new RField(i);
             GHeader g = new GHeader(i);
@@ -237,102 +408,144 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             fList.add(v);
         }
 
-        VListHeaderContainer vHeader = new VListHeaderContainer(fList, "");
+        // Create header and publish
+        VListHeaderContainer vHeader = new VListHeaderContainer(fList, "XXX");
         getSlContainer().publish(roomType, vHeader);
     }
 
     private class GetGWT implements ISlotSignaller {
 
-        private final DrawR d;
-
-        GetGWT(DrawR d) {
-            this.d = d;
-        }
-
         @Override
         public void signal(ISlotSignalContext slContext) {
             Widget w = slContext.getGwtWidget().getGWidget();
-            d.dList = w;
-            d.signalDone();
+            dList = w;
+            createPanel();
         }
 
     }
 
-    private List<GHeader> getHList() {
-        ISlotSignalContext slContext = getSlContainer().getGetterContext(
-                roomType, GetActionEnum.GetHeaderList);
-        VListHeaderContainer listHeader = slContext.getListHeader();
-        List<GHeader> g = new ArrayList<GHeader>();
-        for (VListHeaderDesc v : listHeader.getAllHeList()) {
-            GHeader gElem = (GHeader) v.getgHeader();
-            if (gElem != null) {
-                g.add(gElem);
+    private BookingStateType getResState(ResDayObjectStateP p) {
+        assert p != null : M.M().ResStateCannotBeNull();
+        BookingStateP staP = p.getLState();
+        BookingStateType staT = null;
+        if (staP != null) {
+            staT = staP.getBState();
+        }
+        return staT;
+    }
+
+    private boolean isBooked(BookingStateType p) {
+        if (p == null) {
+            return false;
+        }
+        return p != BookingStateType.Canceled;
+    }
+
+    /**
+     * Procedure providing data for reservation columns.
+     * 
+     * @author hotel
+     * 
+     */
+    private class GetResCell implements IGetCellValue {
+
+        /**
+         * Get value for reservation column
+         */
+        @Override
+        public SafeHtml getValue(IVModelData v, IVField fie) {
+
+            RField r = (RField) fie;
+            Date d = getD(r.getI());
+            if (d == null) {
+                // possible the first time only
+                return getEmpty();
             }
-        }
-        return g;
-    }
-
-    private class DrawC implements IDrawPartSeason {
-
-        private final DrawR d;
-
-        DrawC(DrawR d) {
-            this.d = d;
-        }
-
-        @Override
-        public void setW(IGWidget w) {
-            d.scrollW = w.getGWidget();
-            d.signalDone();
-        }
-
-        @Override
-        public void refresh(DaySeasonScrollData sData) {
-            List<GHeader> gList = getHList();
-
-            for (int i = sData.getFirstD(); i <= sData.getLastD(); i++) {
-                int pos = i - sData.getFirstD();
-                GHeader gElem = gList.get(pos);
-                Date pe = sData.getD(i);
-                Date todayD = sData.getTodayC();
-                gElem.getT().today = DateUtil.eqDate(pe, todayD);
-                String na = SeasonUtil.getDateName(pe);
-                gElem.getT().setHeaderT(na);
-                gElem.getT().pe = GetPeriods.findPeriod(pe, d.coP);
-                gElem.getT().sTyle = SeasonUtil.getStyleForDay(gElem.getT().pe);
+            // room number
+            String s = getRoomName(v);
+            IResLocator rI = HInjector.getI().getI();
+            // reservation data for room and day
+            ResDayObjectStateP p = rI.getR().getResState(s, d);
+            // as a content display the day.
+            String ss = DateFormatUtil.toS(p.getD());
+            BookingStateType staT = getResState(p);
+            String sTyle = null;
+            // enrich cell only if there is a reservation
+            if (isBooked(staT)) {
+                switch (staT) {
+                case WaitingForConfirmation:
+                    sTyle = "reserved-no-confirmed";
+                    break;
+                case Confirmed:
+                    sTyle = "reserved-confirmed";
+                    break;
+                case Stay:
+                    sTyle = "reserved-stay";
+                    break;
+                default:
+                    assert false : LogT.getT().notExpected();
+                }
             }
-            getSlContainer()
-                    .publish(roomType, DataActionEnum.RefreshListAction);
+            SafeHtmlBuilder b = new SafeHtmlBuilder();
+            if (sTyle != null) {
+                addStyle(b, sTyle, ss, null);
+            } else {
+                // do not enrich display if not booked at all
+                b.appendEscaped(ss);
+            }
+            return b.toSafeHtml();
         }
-
     }
 
-    private class ReadOffer implements RData.IVectorList {
-
-        private final DrawR d;
-
-        ReadOffer(DrawR d) {
-            this.d = d;
-        }
+    /**
+     * Class called when panel cell is clicked
+     * 
+     * @author hotel
+     * 
+     */
+    private class RoomCellClicked implements ISlotSignaller {
 
         @Override
-        public void doVList(List<? extends AbstractTo> val) {
-            AbstractTo a = val.get(0);
-            sCr = WidgetScrollSeasonFactory.getScrollSeason(new DrawC(d),
-                    DateUtil.getToday());
-            OfferSeasonP oP = (OfferSeasonP) a;
-            List<Date> dLine = CalendarTable.listOfDates(oP.getStartP(),
-                    oP.getEndP(), PeriodType.byDay);
-            d.coP = CreateTableSeason.createTable(oP,
-                    ConfigParam.getStartWeek());
-            sCr.createVPanel(dLine, NOM);
+        public void signal(ISlotSignalContext slContext) {
+            IResLocator rI = HInjector.getI().getI();
+            // retrieve informaction
+            WSize wSize = slContext.getWSize();
+            IVModelData vData = slContext.getVData();
+            IVField v = slContext.getVField();
+            assert v != null && wSize != null && vData != null : LogT.getT()
+                    .cannotBeNull();
+            // room number
+            String s = getRoomName(vData);
+            // now day
+            RField r = (RField) v;
+            Date d = getD(r.getI());
+            assert d != null : LogT.getT().cannotBeNull();
+            ResDayObjectStateP p = rI.getR().getResState(s, d);
+            BookingStateType staT = getResState(p);
+            Widget w = new ResRoomInfo(rI, s);
+            // no reservation : room info only
+            if (!isBooked(staT)) {
+                new ClickPopUp(wSize, w);
+                return;
+            }
+            // reservation room info + reservation state
+            VerticalPanel ve = new VerticalPanel();
+            ve.add(w);
+            BookingInfo resW = new BookingInfo(rI, p.getBookName());
+            ve.add(resW);
+            new ClickPopUp(wSize, ve);
         }
 
     }
 
     public BookingPanel(IDataType dType, CellId panelId) {
         this.dType = dType;
-        iList = this.tFactories.getlDataFactory().construct(roomType);
+        FormField f = FFactory.construct(OfferPriceP.F.season);
+        seasonE = f.getELine();
+        seasonE.addChangeListener(new C());
+        seasonName = f.getPLabel();
+        iList = this.tFactories.getlDataFactory().construct(roomType,
+                new GetResCell());
         IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getPersistFactoryAction();
         iPersist = persistFactoryA.contruct(roomType);
@@ -343,20 +556,18 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
                         DataActionEnum.ListReadSuccessSignal, roomType),
                 tFactories.getSlTypeFactory().construct(
                         DataActionEnum.DrawListAction, roomType));
-        DrawR d = new DrawR();
         iList.getSlContainer().registerSubscriber(roomType, panelId,
-                new GetGWT(d));
-        IResLocator i = HInjector.getI().getI();
-        CommandParam p = i.getR().getHotelCommandParam();
-        p.setDict(DictType.OffSeasonDict);
-        i.getR().getList(RType.ListDict, p, new ReadOffer(d));
+                new GetGWT());
+        // Raised when cell is clicked : action on reservation
+        iList.getSlContainer().registerSubscriber(roomType,
+                DataActionEnum.TableCellClicked, new RoomCellClicked());
     }
 
     @Override
     public void startPublish(CellId cellId) {
         slMediator.startPublish(null);
         getSlContainer().publish(roomType, DataActionEnum.ReadListAction);
-        getSlContainer().publish(dType, 0, v.constructGWidget());
+        getSlContainer().publish(dType, 0, new GWidget(v));
         sendHeaderInfo();
     }
 

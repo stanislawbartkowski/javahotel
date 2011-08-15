@@ -145,7 +145,8 @@ public class DataPersistLayer extends AbstractSlotContainer implements
 
         @Override
         public void success(PersistResultContext re) {
-            if (roles.getLi().isEmpty()) {
+            // do not touch roles while removing 
+            if (roles.getLi().isEmpty() || re.getAction() == PersistTypeEnum.REMOVE) {
                 sendSignal(persistTypeEnum);
                 return;
             }
