@@ -18,7 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.login.LoginField;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.BookElemP;
@@ -45,7 +45,7 @@ class EmptyColFactory {
             case AllHotels:
                 return new IField[] { HotelP.F.name, HotelP.F.database };
             default:
-                assert false : MM.M().NotSupportedError(dt.getrType().name());
+                assert false : M.M().NotSupportedError(dt.getrType().name());
             } // switch
         } else if (dt.isDictType()) {
             switch (dt.getdType()) {
@@ -72,7 +72,7 @@ class EmptyColFactory {
                         BookingP.F.season, BookingP.F.noPersons };
             default:
 
-                assert false : MM.M().NotSupportedError(dt.getdType().name());
+                assert false : M.M().NotSupportedError(dt.getdType().name());
             }
         } else if (dt.isAddType()) {
             switch (dt.getAddType()) {
@@ -81,10 +81,10 @@ class EmptyColFactory {
                         BookElemP.F.checkOut, BookElemP.F.resObject,
                         BookElemP.F.service };
             default:
-                assert false : MM.M().NotSupportedError(dt.getAddType().name());
+                assert false : M.M().NotSupportedError(dt.getAddType().name());
             }
         }
-        assert false : MM.M().NotSupportedErrorS();
+        assert false : M.M().NotSupportedErrorS();
         return null;
     }
 

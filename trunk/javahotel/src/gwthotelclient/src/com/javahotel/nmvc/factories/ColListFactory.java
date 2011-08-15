@@ -18,7 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.toobject.BookElemP;
@@ -48,7 +48,7 @@ class ColListFactory {
             case AllPersons:
                 return "Lista użytkowników";
             default:
-                assert false : MM.M().NotSupportedError(d.getrType().name());
+                assert false : M.M().NotSupportedError(d.getrType().name());
 
             }
         }
@@ -73,7 +73,7 @@ class ColListFactory {
             case BookingList:
                 return "Rezerwacje";
             default:
-                assert false : MM.M().NotSupportedError(d.getdType().name());
+                assert false : M.M().NotSupportedError(d.getdType().name());
             }
         }
         if (d.isAddType()) {
@@ -85,7 +85,7 @@ class ColListFactory {
                 return null;
             }
         }
-        assert false : MM.M().NotSupportedErrorS();
+        assert false : M.M().NotSupportedErrorS();
         return null;
     }
 
@@ -108,7 +108,7 @@ class ColListFactory {
                         HotelP.F.database };
                 break;
             default:
-                assert false : MM.M().NotSupportedError(d.getrType().name());
+                assert false : M.M().NotSupportedError(d.getrType().name());
 
             }
         } else if (d.isDictType()) {
@@ -145,7 +145,7 @@ class ColListFactory {
                 break;
 
             default:
-                assert false : MM.M().NotSupportedError(d.getdType().name());
+                assert false : M.M().NotSupportedError(d.getdType().name());
                 break;
             }
         } else if (d.isAddType()) {
@@ -165,10 +165,10 @@ class ColListFactory {
                         PaymentRowP.F.rowTo };
                 break;
             default:
-                assert false : MM.M().NotSupportedError(d.getAddType().name());
+                assert false : M.M().NotSupportedError(d.getAddType().name());
             }
         } else {
-            assert false : MM.M().NotSupportedError(d.getrType().name());
+            assert false : M.M().NotSupportedError(d.getrType().name());
         }
 
         return FFactory.constructH(dList, fList);

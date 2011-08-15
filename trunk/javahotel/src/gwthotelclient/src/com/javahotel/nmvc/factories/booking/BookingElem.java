@@ -42,7 +42,11 @@ import com.javahotel.nmvc.ewidget.EWidgetFactory;
  * @author hotel
  * 
  */
-class CustomBookingElem extends AbstractSlotContainer {
+class BookingElem extends AbstractSlotContainer {
+    
+    /**
+     * This class is created when dialog for booking one room is opened (RoomElemP).
+     */
 
     private final ICallContext iContext;
     private final IResLocator rI;
@@ -50,16 +54,47 @@ class CustomBookingElem extends AbstractSlotContainer {
     private final BookElementRefreshPayment fPayment;
     private final ISlotable mainSlo;
 
-    CustomBookingElem(ICallContext iContext, ISlotable mainSlo, IDataType subType) {
+    /**
+     * Constructor:
+     * @param iContext Context when this dialog is opened
+     * @param mainSlo Container for main dialog
+     * @param subType Auxiliary type user for opening and handling this dialog
+     */
+    BookingElem(ICallContext iContext, ISlotable mainSlo, IDataType subType) {
         this.iContext = iContext;
         this.dType = iContext.getDType();
+        /* Event when object (room number) is changed */
         registerSubscriber(dType, new VField(BookElemP.F.resObject),
                 new ChangeRoom());
         rI = HInjector.getI().getI();
         eFactory = HInjector.getI().getEWidgetFactory();
         this.mainSlo = mainSlo;
         fPayment = new BookElementRefreshPayment(dType, this, iContext, mainSlo);
+        /* Event when room reservation is persisted to attach reservation details */
+        getSlContainer().registerCaller(subType,
+                GetActionEnum.GetModelToPersist, new SetGetter());
+        getSlContainer().registerCaller(subType,
+                GetActionEnum.GetViewModelEdited, new SetGetter());
     }
+    
+    /**
+     * Caller class to attach reservation details for reservation (before persisting)
+     * @author hotel
+     *
+     */
+    private class SetGetter implements ISlotCaller {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVModelData mData = slContext.getVData();
+            HModelData vData = (HModelData) mData;
+            BookElemP p=(BookElemP) vData.getA(); 
+            p.setPaymentrows(fPayment.getPList());
+            return slContext;
+        }
+        
+    }
+
     
     private class ReadStandard implements IOneList<AbstractTo> {
 

@@ -14,7 +14,7 @@ package com.javahotel.nmvc.factories;
 
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.injector.ICallContext;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.types.DataType;
 
 /**
@@ -33,7 +33,7 @@ class RecordTitleFactory implements IFormTitleFactory {
             case AllHotels:
                 return "Hotel";
             default:
-                assert false : MM.M().NotSupportedError(dd.getrType().name());
+                assert false : M.M().NotSupportedError(dd.getrType().name());
             }
 
         if (dd.isDictType()) {
@@ -57,7 +57,7 @@ class RecordTitleFactory implements IFormTitleFactory {
             case BookingList:
                 return "Rezerwacja";
             default:
-                assert false : MM.M().NotSupportedError(dd.getdType().name());
+                assert false : M.M().NotSupportedError(dd.getdType().name());
             }
         }
         if (dd.isAddType()) {
@@ -68,11 +68,11 @@ class RecordTitleFactory implements IFormTitleFactory {
             case AdvanceHeader:
                 return "";
             default:
-                assert false : MM.M().NotSupportedError(dd.getdType().name());
+                assert false : M.M().NotSupportedError(dd.getdType().name());
             }
         }
 
-        assert false : MM.M().NotSupportedErrorS();
+        assert false : M.M().NotSupportedErrorS();
         return null;
     }
 

@@ -18,9 +18,9 @@ import com.google.gwt.core.client.GWT;
  * @author hotel
  *
  */
-public class MM {
+public class M {
     
-    private MM() {
+    private M() {
     }
     
     private static final HoLabel sLab = (HoLabel) GWT.create(HoLabel.class);

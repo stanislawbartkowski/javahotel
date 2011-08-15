@@ -14,7 +14,7 @@ import com.javahotel.client.GWTGetService;
 import com.javahotel.client.HoLabel;
 import com.javahotel.client.HoMessages;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.injector.ResLocatorHolder;
 import com.javahotel.client.rdata.RData;
@@ -47,11 +47,11 @@ public class MainWebEntry implements IWebEntry {
     private class ResC implements IResLocator {
 
         public HoLabel getLabels() {
-            return MM.L();
+            return M.L();
         }
 
         public HoMessages getMessages() {
-            return MM.M();
+            return M.M();
         }
 
         public RData getR() {

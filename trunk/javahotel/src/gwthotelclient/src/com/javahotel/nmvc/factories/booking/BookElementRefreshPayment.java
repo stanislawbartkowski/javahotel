@@ -74,13 +74,6 @@ class BookElementRefreshPayment {
 
     private class ChangeValue implements ISlotSignaller {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.gwtmodel.table.slotmodel.ISlotSignaller#signal(com.gwtmodel.table
-         * .slotmodel.ISlotSignalContext)
-         */
         @Override
         public void signal(ISlotSignalContext slContext) {
             pInfo = new PayElemInfo(dType, bookType, iSlo, mainSlo,

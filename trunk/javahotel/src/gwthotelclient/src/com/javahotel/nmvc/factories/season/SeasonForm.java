@@ -29,7 +29,7 @@ import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.util.CreateFormView;
-import com.javahotel.client.MM;
+import com.javahotel.client.M;
 
 /**
  * 
@@ -62,7 +62,7 @@ public class SeasonForm implements IDataFormConstructor {
     public Widget construct(ICallContext iContext, FormLineContainer model) {
         Widget w = CreateFormView.construct(model.getfList());
         VerticalPanel v = new VerticalPanel();
-        ControlButtonDesc b = new ControlButtonDesc(MM.L().ShowSeasons(),
+        ControlButtonDesc b = new ControlButtonDesc(M.L().ShowSeasons(),
                 new ClickButtonType("POKAZ"));
         List<ControlButtonDesc> li = new ArrayList<ControlButtonDesc>();
         li.add(b);

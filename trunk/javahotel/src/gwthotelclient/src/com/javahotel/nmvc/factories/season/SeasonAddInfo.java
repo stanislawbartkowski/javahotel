@@ -49,9 +49,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.MM;
-import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.M;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
@@ -215,7 +213,6 @@ public class SeasonAddInfo extends AbstractSlotContainer {
 
         private final PanelSeason pS;
         private final Grid g = new Grid();
-        private final IResLocator rI;
         private final HorizontalPanel controlC = new HorizontalPanel();
         private final ICallContext iContext;
         private final IDataModelFactory dFactory;
@@ -223,7 +220,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         private class DrawD extends ModalDialog {
 
             DrawD(VerticalPanel vp) {
-                super(vp, MM.L().ShowSeasonTitle());
+                super(vp, M.L().ShowSeasonTitle());
                 create();
             }
 
@@ -235,8 +232,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
         }
 
         DrawSeason(ICallContext iContext, IDataType ddType) {
-            rI = HInjector.getI().getI();
-            pS = new PanelSeason(rI, g, controlC, DateUtil.getToday());
+            pS = new PanelSeason(g, controlC, DateUtil.getToday());
             this.iContext = iContext;
             dFactory = iContext.getC().getDataModelFactory();
         }
@@ -255,7 +251,7 @@ public class SeasonAddInfo extends AbstractSlotContainer {
             Date to = off.getEndP();
             IGWidget w = slContext.getGwtWidget();
             if ((from == null) || (to == null)) {
-                OkDialog ok = new OkDialog(MM.L().EnterDateFromTo(), MM.L()
+                OkDialog ok = new OkDialog(M.L().EnterDateFromTo(), M.L()
                         .NothingToDisplay(), null);
                 ok.show(w.getGWidget());
                 return;
@@ -279,9 +275,9 @@ public class SeasonAddInfo extends AbstractSlotContainer {
             }
         };
 
-        outsideSeason = daFactory.construct(MM.L().LowSeasonName(), pFactory,
+        outsideSeason = daFactory.construct(M.L().LowSeasonName(), pFactory,
                 sPanel.constructSetGwt(), vFactory);
-        periodSpecial = daFactory.construct(MM.L().SpecialSeasonName(),
+        periodSpecial = daFactory.construct(M.L().SpecialSeasonName(),
                 pFactory, sPanel.constructSetGwt(), vFactory);
         registerCaller(ddType, GetActionEnum.GetViewModelEdited,
                 new SetGetter());

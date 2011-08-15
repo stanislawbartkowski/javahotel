@@ -52,7 +52,6 @@ import com.javahotel.common.toobject.SeasonPeriodT;
 class PanelSeason {
 
     private final ComplexPanel controlP;
-    private final IResLocator rI;
     private final IScrollSeason sCr;
     private OfferSeasonP oP;
     private Date d1;
@@ -62,9 +61,8 @@ class PanelSeason {
     private static final int NO = 12;
     private final Grid g;
 
-    PanelSeason(final IResLocator rI, Grid g, final ComplexPanel controlP,
+    PanelSeason(Grid g, final ComplexPanel controlP,
             final Date today) {
-        this.rI = rI;
         this.g = g;
         this.controlP = controlP;
         sCr = WidgetScrollSeasonFactory.getScrollSeason(new DrawC(),
@@ -119,12 +117,6 @@ class PanelSeason {
     }
 
     private String getName(final PeriodT pe) {
-        // Object o = pe.getI();
-        // OfferSeasonPeriodP pp = (OfferSeasonPeriodP) o;
-        // SeasonPeriodT t = null;
-        // if (pp != null) {
-        // t = pp.getPeriodT();
-        // }
         String s = SeasonUtil.getName(pe);
         return s;
     }
@@ -155,17 +147,8 @@ class PanelSeason {
         }
 
         public void onClick(final Widget arg0) {
-            // VerticalPanel h = new VerticalPanel();
-            // String s = getName(pe);
-            // do not remove
             Widget w = SeasonUtil.createPeriodPopUp(pe);
             new ClickPopUp(arg0, w);
-            // h.add(new Label(s));
-            // String s1 = DateFormatUtil.toS(pe.getFrom());
-            // String s2 = DateFormatUtil.toS(pe.getTo());
-            // h.add(new Label(s1 + " - " + s2));
-            // int noD = DateUtil.noLodgings(pe.getFrom(), pe.getTo());
-            // h.add(new Label(rI.getMessages().noSleeps(noD)));
         }
     }
 
