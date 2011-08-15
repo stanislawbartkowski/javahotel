@@ -192,7 +192,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 aLine++;
             }
             boolean found = false;
-            // order in while predicat evaluation is important !
+            // order in while predicate evaluation is important !
             while (!found && (++aLine < li.size())) {
                 IVModelData v = li.get(aLine);
                 found = iOk.OkData(v);
@@ -245,6 +245,14 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private class GetWholeList implements ISlotCaller {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            return coFactory.construct(slContext.getSlType(), dataList);
+        }
+    }
+
     private class ClickList implements ICommand {
 
         @Override
@@ -263,28 +271,11 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class GetCellValue implements IGetCellValue {
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.gwtmodel.table.view.table.IGetCellValue#getValue(com.gwtmodel
-         * .table.IVModelData, com.gwtmodel.table.IVField)
-         */
-        @Override
-        public String getValue(IVModelData v, IVField fie) {
-            // TODO Auto-generated method stub
-            return "rybka";
-        }
-
-    }
-
-    ListDataView(GwtTableFactory gFactory, IDataType dType) {
+    ListDataView(GwtTableFactory gFactory, IDataType dType, IGetCellValue gValue) {
         listView = new DataListModelView();
         this.dType = dType;
         tableView = gFactory.construct(new ClickList(), new ClickColumn(),
-                new GetCellValue());
+                gValue);
         coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         // subscriber
         registerSubscriber(dType, DataActionEnum.DrawListAction, new DrawList());
@@ -308,6 +299,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerCaller(dType, GetActionEnum.GetListComboField,
                 new GetComboField());
         registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
+        registerCaller(dType, GetActionEnum.GetListData, new GetWholeList());
     }
 
     @Override

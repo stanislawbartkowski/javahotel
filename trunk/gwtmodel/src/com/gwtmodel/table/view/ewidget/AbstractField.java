@@ -12,9 +12,9 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.gwtmodel.table.IMapEntry;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.AbstractListT.IGetList;
+import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.LogT;
@@ -30,7 +31,6 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.util.PopupTip;
-import java.util.List;
 
 /**
  * 

@@ -111,6 +111,10 @@ class GetValueLB extends AbstractField implements IValueLB {
             }
         };
         lB.addChangeListener(le);
+        // added: 2011/08/12 : in case of immediate setting the list (before AddChangeListener)
+        if (!addEmpty) {
+            le.onChange(this);
+        }
         //
     }
 
