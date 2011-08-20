@@ -110,6 +110,13 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
+    /**
+     * Raised when the whole row was selected
+     * 
+     * @author hotel
+     * 
+     */
+
     private class SelectionChange implements SelectionChangeEvent.Handler {
 
         @Override
@@ -118,7 +125,8 @@ class PresentationTable implements IGwtTableView {
             if (sel == null) {
                 return;
             }
-            wChoosed = pgetClicked(sel, null);
+            // neither cell position nor column are available
+            wChoosed = pgetClicked(sel, null, null);
             if (model.getIClicked() != null) {
                 model.getIClicked().clicked(wChoosed);
             }
@@ -184,8 +192,9 @@ class PresentationTable implements IGwtTableView {
     /**
      * Implementation of AbstractCell. The only purpose is to take over
      * "clicked" event
+     * 
      * @author hotel
-     *
+     * 
      */
     private class A extends AbstractCell<SafeHtml> {
 
@@ -231,7 +240,10 @@ class PresentationTable implements IGwtTableView {
         public void onBrowserEvent(Context context, Element elem,
                 final Integer i, NativeEvent event) {
             // do not check event type, only clicked is raised here
-            wChoosed = pgetClicked(i, fie);
+            WSize wSize = new WSize(elem);
+            // it is possible for cell to provide position of the single cell
+            // not the whole row
+            wChoosed = pgetClicked(i, fie, wSize);
             iActionColumn.execute();
         }
 
@@ -352,7 +364,7 @@ class PresentationTable implements IGwtTableView {
 
         @Override
         public void execute(Integer i) {
-            wChoosed = pgetClicked(i, v);
+            wChoosed = pgetClicked(i, v, null);
             iActionColumn.execute();
         }
     }
@@ -538,7 +550,19 @@ class PresentationTable implements IGwtTableView {
         return wChoosed;
     }
 
-    private WChoosedLine pgetClicked(Integer sel, IVField v) {
+    /**
+     * Creates WChoosedLine for selected/clicked. It can be later retrieved.
+     * Only one can be retrieved, next overwrite the previous
+     * 
+     * @param sel
+     *            Row (Integer) position
+     * @param v
+     *            Column to be clicked (if available)
+     * @param wSize
+     *            Cell position (if not null)
+     * @return
+     */
+    private WChoosedLine pgetClicked(Integer sel, IVField v, WSize wSize) {
         if (sel == null) {
             return new WChoosedLine();
         }
@@ -546,8 +570,12 @@ class PresentationTable implements IGwtTableView {
         int sta = sPager.getPageStart();
         int inde = i - sta;
         TableRowElement ro = table.getRowElement(inde);
-        WSize w = new WSize(ro.getAbsoluteTop(), ro.getAbsoluteLeft(),
-                ro.getClientHeight(), ro.getClientWidth());
+        WSize w = wSize;
+        // cell position not defined, take whe position of the whole row
+        if (wSize == null) {
+            w = new WSize(ro.getAbsoluteTop(), ro.getAbsoluteLeft(),
+                    ro.getClientHeight(), ro.getClientWidth());
+        }
         return new WChoosedLine(i, w, v);
     }
 
