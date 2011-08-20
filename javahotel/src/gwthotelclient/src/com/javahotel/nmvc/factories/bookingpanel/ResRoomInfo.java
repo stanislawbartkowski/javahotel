@@ -12,11 +12,13 @@
  */
 package com.javahotel.nmvc.factories.bookingpanel;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.RData;
+import com.javahotel.client.types.ButtonClickHandler;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
@@ -26,6 +28,7 @@ import com.javahotel.common.toobject.ResObjectP;
 
 /**
  * Display enhanced information on one room.
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class ResRoomInfo extends Composite {
@@ -36,24 +39,29 @@ class ResRoomInfo extends Composite {
         Label l = new Label(de + " : " + va);
         return l;
     }
-    
+
+
     private void addInfo(final ResObjectP r) {
         String name = r.getName();
         String desc = r.getDescription();
         DictionaryP sta = r.getRStandard();
         v.add(getL("Numer", name));
         v.add(getL("Opis", desc));
-        v.add(getL("Standard", sta.getName() + " " + sta.getDescription()));        
+        v.add(getL("Standard", sta.getName() + " " + sta.getDescription()));
+        Button b = new Button("Zobacz");
+        v.add(b);
+        b.addClickHandler(new ButtonClickHandler<ResObjectP>(r,
+                DictType.RoomObjects));
     }
-    
+
     private class ReadRoom implements RData.IOneList<AbstractTo> {
 
         @Override
         public void doOne(AbstractTo val) {
             ResObjectP r = (ResObjectP) val;
-            addInfo(r);            
+            addInfo(r);
         }
-        
+
     }
 
     ResRoomInfo(final IResLocator rI, final String roomName) {
