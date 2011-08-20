@@ -98,7 +98,7 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
                 dType,
                 new ClickButtonType(LIST_BUTTON),
                 new ButtonAction(
-                        readOnly(e) ? ButtonAction.Action.DisableButton
+                        e.readOnly() ? ButtonAction.Action.DisableButton
                                 : ButtonAction.Action.EnableButton));
     }
 
@@ -257,20 +257,6 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         slMediator.startPublish(null);
     }
 
-    private boolean readOnly(PersistTypeEnum e) {
-        boolean readOnly;
-        switch (e) {
-        case ADD:
-        case MODIF:
-            readOnly = false;
-            break;
-        default:
-            readOnly = true;
-            break;
-        }
-        return readOnly;
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -280,7 +266,7 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
      */
     @Override
     public void ChangeViewForm(PersistTypeEnum e) {
-        cBox.setReadOnly(readOnly(e));
+        cBox.setReadOnly(e.readOnly());
         modifList(e);
     }
 }

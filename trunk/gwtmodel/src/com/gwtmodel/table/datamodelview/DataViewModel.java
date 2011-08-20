@@ -78,8 +78,6 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                     }
                     break;
                 case REMOVE:
-                    vie.setReadOnly(true);
-                    break;
                 case SHOWONLY:
                     vie.setReadOnly(true);
                     break;
