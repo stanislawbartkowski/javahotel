@@ -14,7 +14,6 @@ package com.javahotel.db.authentication.impl;
 
 import com.javahotel.db.authentication.jpa.Hotel;
 import com.javahotel.db.hoteldb.HotelStore;
-import com.javahotel.dbres.exceptions.HotelException;
 import com.javahotel.dbres.log.ELog;
 import com.javahotel.dbres.log.HLog;
 import com.javahotel.dbres.messid.IMessId;

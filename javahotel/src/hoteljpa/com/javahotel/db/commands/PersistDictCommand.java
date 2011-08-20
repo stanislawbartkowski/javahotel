@@ -39,7 +39,8 @@ public class PersistDictCommand extends CommandAbstract {
 
 	public PersistDictCommand(final SessionT se, final DictType d,
 			final DictionaryP a, final boolean checkBook) {
-		super(se, true, new HotelT(a.getHotel()), false);
+//		super(se, true, new HotelT(a.getHotel()), false);
+        super(se, true, new HotelT(a.getHotel()));
 		this.d = d;
 		this.a = a;
 		this.checkBook = checkBook;
@@ -85,7 +86,9 @@ public class PersistDictCommand extends CommandAbstract {
 		CommonCopyBean.copyB(iC, a, o.getO());		
 		startTra();
 		logS();
-        iC.getC().persistRecords(iC);
+//        iC.getC().persistRecords(iC);
+		// GAE: move out - cannot be different transactions
+		// 2011/08/09
 		iC.getJpa().changeRecord(o.getO());
 	}
 

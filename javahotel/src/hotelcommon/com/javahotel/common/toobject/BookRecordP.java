@@ -26,6 +26,7 @@ import java.util.Date;
 public class BookRecordP extends AbstractTo implements INumerable {
 
 	private Long id;
+	/** The first day of the booking  validity. */
 	private DateP dataFrom;
 	private String oPrice;
 	private DecimalP customerPrice;

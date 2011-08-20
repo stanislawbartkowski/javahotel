@@ -50,7 +50,8 @@ public class ChangeBookingToStay extends CommandAbstract {
 
     public ChangeBookingToStay(final SessionT se, final String ho,
             final String resName) {
-        super(se, true, new HotelT(ho), false);
+//        super(se, true, new HotelT(ho), false);
+        super(se, true, new HotelT(ho));
         this.resName = resName;
     }
 

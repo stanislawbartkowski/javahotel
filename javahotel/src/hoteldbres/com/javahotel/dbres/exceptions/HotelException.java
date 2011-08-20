@@ -18,6 +18,7 @@ import javax.security.auth.login.LoginException;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class HotelException extends RuntimeException {
 
 	public HotelException(final String mess) {

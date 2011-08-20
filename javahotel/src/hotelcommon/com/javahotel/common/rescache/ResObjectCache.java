@@ -12,7 +12,15 @@
  */
 package com.javahotel.common.rescache;
 
-import com.javahotel.common.command.ISignal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.gwtmodel.table.common.ISignal;
 import com.javahotel.common.dateutil.CalendarTable;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.dateutil.DateFormatUtil;
@@ -20,13 +28,6 @@ import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.dateutil.RunPeriodLoop;
 import com.javahotel.common.toobject.ResDayObjectStateP;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *

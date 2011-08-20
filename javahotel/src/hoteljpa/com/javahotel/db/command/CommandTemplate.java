@@ -136,6 +136,7 @@ abstract public class CommandTemplate {
 		}
 	}
 
+	// if true do not open/close transactions, block transactions boundaries
 	private final boolean blockP;
 	protected boolean trasuccess;
 	private boolean startedt = false;
