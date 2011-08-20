@@ -53,7 +53,8 @@ public abstract class AbstractTo implements Serializable {
         return false;
     }
 
-    public String getDispS(final IField f, final IFieldToS i) {
+    // TODO : remove
+    private String getDispS(final IField f, final IFieldToS i) {
         if (emptySpecialTrue(f)) {
             return null;
         }
@@ -82,11 +83,13 @@ public abstract class AbstractTo implements Serializable {
         return va.toString();
     }
 
-    public String getS(final IField f) {
+    // TODO : REMOVE
+    private String getS(final IField f) {
         return getDispS(f, null);
     }
 
-    public boolean emptyS(final IField f) {
+    // TODO: REMOVE
+    private boolean emptyS(final IField f) {
         String val = getS(f);
         return StringU.isEmpty(val);
     }

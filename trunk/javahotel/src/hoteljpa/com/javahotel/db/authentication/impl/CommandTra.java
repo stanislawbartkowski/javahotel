@@ -12,7 +12,6 @@
  */
 package com.javahotel.db.authentication.impl;
 
-import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.db.authentication.jpa.Hotel;
 import com.javahotel.db.authentication.jpa.Person;
 import com.javahotel.db.command.CommandTemplate;
@@ -41,7 +40,7 @@ abstract class CommandTra extends CommandTemplate {
 		if (person != null) {
 			pe = AutUtil.getPerson(iC.getJpa(), person);
 			if (checkperson && (pe == null)) {
-				closeJpa(false);
+//				closeJpa(false);
 				HLog.failureE(GetLMess.CANNOTFINDPERSON, person);
 				return;
 			}
@@ -50,7 +49,7 @@ abstract class CommandTra extends CommandTemplate {
 			ha = iC.getJpa().getOneWhereRecord(Hotel.class, "name",
 					hotel.getName());
 			if (checkhotel && (ha == null)) {
-				closeJpa(false);
+//				closeJpa(false);
 				HLog.failureE(GetLMess.CANNOTFINDHOTEL, hotel.getName());
 				return;
 			}

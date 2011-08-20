@@ -239,6 +239,7 @@ public class CopyHelper {
             INumerable dest1 = (INumerable) dest;
             Integer lp = sou1.getLp();
             dest1.setLp(lp);
+            // wrong !
             dcopy(iC, sou, dest);
         }
     };

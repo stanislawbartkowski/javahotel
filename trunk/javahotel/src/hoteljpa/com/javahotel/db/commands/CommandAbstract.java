@@ -35,6 +35,7 @@ import com.javahotel.dbjpa.xmlbean.ReadFromXML;
 import com.javahotel.dbres.log.HLog;
 import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.dbres.resources.GetProp;
+import com.javahotel.dbutil.container.ContainerInfo;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
 
@@ -60,19 +61,20 @@ public abstract class CommandAbstract extends CommandTemplate {
 
     CommandAbstract(final SessionT sessionId, boolean starttra,
             final HotelT hotel) {
-        super(sessionId, false, starttra, true);
+//        super(sessionId, false, starttra, true);
+        super(sessionId, false, starttra, ContainerInfo.TransactionContainer());
         this.ho = hotel;
     }
-
-    CommandAbstract(final SessionT sessionId, boolean starttra,
-            final HotelT hotel, final boolean startTraAutom) {
-        super(sessionId, false, starttra, startTraAutom);
-        this.ho = hotel;
-    }
-
-    CommandAbstract(final SessionT sessionId, boolean starttra, boolean admin,
-            final HotelT hotel) {
-        super(sessionId, admin, starttra, true);
+//
+//    CommandAbstract(final SessionT sessionId, boolean starttra,
+//            final HotelT hotel, final boolean startTraAutom) {
+//        super(sessionId, false, starttra, startTraAutom);
+//        this.ho = hotel;
+//    }
+//
+    // admin constructor
+    CommandAbstract(final SessionT sessionId, final HotelT hotel) {
+        super(sessionId, true, true, ContainerInfo.TransactionContainer());
         this.ho = hotel;
     }
 

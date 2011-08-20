@@ -13,7 +13,6 @@
 package com.javahotel.db.commands;
 
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.db.hotelbase.types.IPureDictionary;
 import com.javahotel.dbres.messid.IMessId;
@@ -31,7 +30,8 @@ public class RemoveDictCommand extends CommandAbstract {
 
     public RemoveDictCommand(final SessionT se, final DictType d,
             final DictionaryP a) {
-        super(se, true, new HotelT(a.getHotel()), false);
+//        super(se, true, new HotelT(a.getHotel()), false);
+        super(se, true, new HotelT(a.getHotel()));
         this.d = d;
         this.a = a;
     }

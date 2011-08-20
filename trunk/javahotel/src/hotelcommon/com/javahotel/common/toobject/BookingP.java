@@ -12,8 +12,8 @@
  */
 package com.javahotel.common.toobject;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.CommandUtil;

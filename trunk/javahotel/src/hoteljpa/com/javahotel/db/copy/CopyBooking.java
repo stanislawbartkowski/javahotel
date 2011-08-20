@@ -40,6 +40,8 @@ import com.javahotel.db.hotelbase.jpa.PaymentRow;
 import com.javahotel.db.hotelbase.jpa.ServiceDictionary;
 import com.javahotel.db.jtypes.ToLD;
 import com.javahotel.dbjpa.copybean.CopyBean;
+import com.javahotel.dbres.exceptions.HotelException;
+import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.remoteinterfaces.HotelT;
 
 /**
@@ -165,6 +167,10 @@ class CopyBooking {
 			protected void dcopy(final ICommandContext iC, final Object sou,
 					final Object dest) {
 				BookElemP sou1 = (BookElemP) sou;
+				if (sou1.getPaymentrows() == null ||
+				        sou1.getPaymentrows().isEmpty()) {
+				    iC.logFatal(IMessId.NOPAYMENTROWS, sou1.getResObject());
+				}
 				BookElem dest1 = (BookElem) dest;
 				CopyBeanToP.copyRes1Collection(iC, sou1, dest1, "paymentrows",
 						"bookelem", BookElem.class, copypayrow, true);
@@ -220,7 +226,7 @@ class CopyBooking {
 		CopyBeanToP.copyRes1Collection(iC, sou, dest, "bill", "booking",
 				Booking.class, copybillre, true);
 		CopyBeanToP.copyRes1Collection(iC, sou, dest, "state", "booking",
-				Booking.class, copystate, true);
+				Booking.class, copystate, true);	
 		CopyBeanToP.copyRes1Collection(iC, sou, dest, "bookrecords", "booking",
 				Booking.class, copybookre, true);
 	}

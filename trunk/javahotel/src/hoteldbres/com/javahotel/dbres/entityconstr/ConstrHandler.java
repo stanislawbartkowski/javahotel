@@ -12,8 +12,6 @@
  */
 package com.javahotel.dbres.entityconstr;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -29,7 +27,6 @@ class ConstrHandler extends DefaultHandler {
 	private String viewname;
 	private String chars;
 
-	private final GetLogger log;
 	private final static String DEFAULT = "default";
 	private final static String CLASS = "class";
 	private final static String SYM = "sym";
@@ -44,9 +41,8 @@ class ConstrHandler extends DefaultHandler {
 		viewname = null;
 	}
 
-	ConstrHandler(EntityConstrData da, GetLogger log) {
+	ConstrHandler(EntityConstrData da) {
 		this.da = da;
-		this.log = log;
 		init();
 		chars = "";
 	}

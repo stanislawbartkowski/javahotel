@@ -26,29 +26,29 @@ import com.javahotel.dbres.resources.IMess;
 import com.javahotel.dbutil.log.GetLogger;
 
 public class EntityConstrFactory {
-	
-	private EntityConstrFactory() {		
-	}
-	
-	private static EntityConstrData createE(GetLogger log) throws SAXException, IOException {
-		EntityConstrData da = new EntityConstrData();
-		InputStream i = GetProp.getXMLFile(IMess.CONTRXMLDEF);
-		XMLReader xr = XMLReaderFactory.createXMLReader();
-		ConstrHandler co = new ConstrHandler(da,log);
-		xr.setContentHandler(co);
-		xr.parse(new InputSource(i));
-		return da;
-	}
-	
-	public static IEntityConstr createEntityConstr(GetLogger log) {
-		try {
-			return createE(log);
-		} catch (SAXException e) {
-			log.getL().log(Level.SEVERE,"",e);
-		} catch (IOException e) {
-			log.getL().log(Level.SEVERE,"",e);
-		}
-		return null;
-	}
+
+    private EntityConstrFactory() {
+    }
+
+    private static EntityConstrData createE() throws SAXException, IOException {
+        EntityConstrData da = new EntityConstrData();
+        InputStream i = GetProp.getXMLFile(IMess.CONTRXMLDEF);
+        XMLReader xr = XMLReaderFactory.createXMLReader();
+        ConstrHandler co = new ConstrHandler(da);
+        xr.setContentHandler(co);
+        xr.parse(new InputSource(i));
+        return da;
+    }
+
+    public static IEntityConstr createEntityConstr(GetLogger log) {
+        try {
+            return createE();
+        } catch (SAXException e) {
+            log.getL().log(Level.SEVERE, "", e);
+        } catch (IOException e) {
+            log.getL().log(Level.SEVERE, "", e);
+        }
+        return null;
+    }
 
 }

@@ -12,7 +12,10 @@
  */
 package com.javahotel.db.commands.bookstate;
 
-import com.javahotel.common.command.ISignal;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gwtmodel.table.common.ISignal;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.rescache.ReadResParam;
@@ -26,9 +29,6 @@ import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.db.context.ICommandContext;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 

@@ -20,7 +20,8 @@ import com.javahotel.remoteinterfaces.SessionT;
 public class ClearHotelData extends CommandAbstract {
 
 	    public ClearHotelData(final SessionT sessionId, final HotelT ho) {
-	        super(sessionId, true, true, ho);
+//	        super(sessionId, true, true, ho);
+            super(sessionId, ho);
 	    }
 
 	    @Override
