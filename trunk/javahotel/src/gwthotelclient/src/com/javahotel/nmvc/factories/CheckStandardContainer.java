@@ -55,7 +55,7 @@ class CheckStandardContainer extends AbstractSlotContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             PersistTypeEnum persistTypeEnum = slContext.getPersistType();
-            iCheck.setReadOnly(persistTypeEnum == PersistTypeEnum.REMOVE);
+            iCheck.setReadOnly(persistTypeEnum.readOnly());
         }
     }
 
@@ -101,6 +101,7 @@ class CheckStandardContainer extends AbstractSlotContainer {
         GetDataList() {
             super(2);
         }
+
         private IDataListType dataListType;
         private IGetDataListCallBack iCallBack;
 
@@ -121,17 +122,18 @@ class CheckStandardContainer extends AbstractSlotContainer {
         }
     }
 
-    CheckStandardContainer(IDataType publishType, IDataType cType, IDataType checkType,
-            InfoExtract infoExtract) {
+    CheckStandardContainer(IDataType publishType, IDataType cType,
+            IDataType checkType, InfoExtract infoExtract) {
         this.dType = publishType;
         this.checkType = checkType;
         this.infoExtract = infoExtract;
-        CheckDictModelFactory cFactory = GwtGiniInjector.getI().getCheckDictModelFactory();
+        CheckDictModelFactory cFactory = GwtGiniInjector.getI()
+                .getCheckDictModelFactory();
         getDataList = new GetDataList();
         iCheck = cFactory.construct(Empty.getFieldType(), getDataList);
-        registerSubscriber(cType, DataActionEnum.DrawViewFormAction, 
+        registerSubscriber(cType, DataActionEnum.DrawViewFormAction,
                 new DrawModel());
-        registerSubscriber(cType, DataActionEnum.ChangeViewFormModeAction, 
+        registerSubscriber(cType, DataActionEnum.ChangeViewFormModeAction,
                 new ChangeModeModel());
         registerCaller(cType, GetActionEnum.GetModelToPersist, new SetGetter());
         registerCaller(cType, GetActionEnum.GetViewModelEdited, new SetGetter());

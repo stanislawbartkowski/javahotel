@@ -133,7 +133,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             v.add(dList);
         } else {
             // replace scrollW only
-            upPanel.remove(2);
+            upPanel.remove(1);
             upPanel.add(scrollW);
         }
     }

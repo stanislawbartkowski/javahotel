@@ -14,6 +14,7 @@ package com.javahotel.nmvc.factories.bookingpanel;
 
 import java.math.BigDecimal;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -22,6 +23,7 @@ import com.gwtmodel.table.injector.LogT;
 import com.javahotel.client.DUtil;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.RData;
+import com.javahotel.client.types.ButtonClickHandler;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
@@ -45,13 +47,13 @@ class BookingInfo extends Composite {
     private LId resId;
     private final BookingStateP bState;
 
-//    private class CC implements RData.IOneList<CustomerP> {
-//
-//        public void doOne(CustomerP p) {
-//            CustomerPopInfo po = new CustomerPopInfo(p);
-//            vp.add(po);
-//        }
-//    }
+    // private class CC implements RData.IOneList<CustomerP> {
+    //
+    // public void doOne(CustomerP p) {
+    // CustomerPopInfo po = new CustomerPopInfo(p);
+    // vp.add(po);
+    // }
+    // }
 
     private void setB(BookingP p) {
         BookRecordP bR = GetMaxUtil.getLastBookRecord(p);
@@ -64,14 +66,16 @@ class BookingInfo extends Composite {
                     }
                 }
             }
-            assert e != null : "Reservation " + resId.getId().longValue() + " not found";
+            assert e != null : "Reservation " + resId.getId().longValue()
+                    + " not found";
             String st = DUtil.getBookingS(e.getCheckIn(), e.getCheckOut());
             vp.add(new Label(st));
             st = DUtil.getLodgingS(e.getCheckIn(), e.getCheckOut());
             vp.add(new Label(st));
             if (bState != null) {
                 String na = bState.getBState().toString();
-                String name = (String) rI.getLabels().BookingStateType().get(na);
+                String name = (String) rI.getLabels().BookingStateType()
+                        .get(na);
                 if (name != null) {
                     vp.add(new Label(name));
                 }
@@ -86,11 +90,17 @@ class BookingInfo extends Composite {
             price = "";
         }
         vp.add(new Label("Cena " + price));
-//        LId custId = p.getCustomer();
-//        assert custId != null : "Customer id" + custId.getId().longValue() + " cannot be null";
-//        CommandParam pa = rI.getR().getHotelDictId(DictType.CustomerList,
-//                custId);
-//        rI.getR().getOne(RType.ListDict, pa, new CC());
+        Button b = new Button("Zobacz");
+        vp.add(b);
+        b.addClickHandler(new ButtonClickHandler<BookingP>(p,
+                DictType.BookingList));
+
+        // LId custId = p.getCustomer();
+        // assert custId != null : "Customer id" + custId.getId().longValue() +
+        // " cannot be null";
+        // CommandParam pa = rI.getR().getHotelDictId(DictType.CustomerList,
+        // custId);
+        // rI.getR().getOne(RType.ListDict, pa, new CC());
     }
 
     private class R implements RData.IOneList<AbstractTo> {
