@@ -14,18 +14,23 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.db2.trusted.TrustedConnection;
 
 public class Main {
 
     private static void goTrusted() throws SQLException {
-        TrustedConnection trust = new TrustedConnection(50000, "SAMPLE", "trust",
-                "trustme", "think", "DB2INST1");
+//        TrustedConnection trust = new TrustedConnection(50000, "SAMPLE", "trust",
+//                "trustme", "think", "DB2INST1");
+        TrustedConnection trust = new TrustedConnection(50013, "SAMPLE", "trust",
+                "trustme", "ubu64", "DB2SAMPL");
         trust.trustConnect();
         JdbcTemplate jTemplate = new JdbcTemplate(
                 trust.constructReuseDataSource("john"));
@@ -42,7 +47,62 @@ public class Main {
         } catch (BadSqlGrammarException e) {
             // as expected
             // SQL0551N code
+        	System.out.println("Failed");
         }
+    }
+    
+    private static class Employee {
+    	
+    	private String firstName,lastName;
+
+		public String getFirstName() {
+			return firstName;
+		}
+
+		public void setFirstName(String firstName) {
+			this.firstName = firstName;
+		}
+
+		public String getLastName() {
+			return lastName;
+		}
+
+		public void setLastName(String lastName) {
+			this.lastName = lastName;
+		}
+    	
+    }
+    
+    private static class EMapper implements RowMapper<Employee> {
+
+		@Override
+		public Employee mapRow(ResultSet arg0, int arg1) throws SQLException {
+			Employee e = new Employee();
+			e.setFirstName(arg0.getString(2));
+			e.setLastName(arg0.getString(4));
+			return e;
+		}
+    	
+    }
+    
+    private static void printE(TrustedConnection trust, String user) {
+        JdbcTemplate jTemplate = new JdbcTemplate(
+                trust.constructReuseDataSource(user));
+        System.out.println("List of employees");
+        System.out.println("-----------------");
+        List<Employee>  listE = jTemplate.query("SELECT * FROM LBAC_EMPLOYEE", new EMapper());
+        for (Employee e : listE) {
+        	System.out.println(e.getFirstName() + " " + e.getLastName());
+        }
+        System.out.println(user + " : " + listE.size());    	
+    }
+    
+    private static void runEQuery(String user1,String user2) throws SQLException {
+        TrustedConnection trust = new TrustedConnection(50013, "SAMPLE", "trust",
+                "trustme", "ubu64", "DB2SAMPL");
+        trust.trustConnect();
+    	printE(trust,user1);
+    	printE(trust,user2);
     }
 
     /**
@@ -50,7 +110,9 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            goTrusted();
+        	if (args.length == 3 && args[0].equals("-u")) {
+        		runEQuery(args[1],args[2]);
+        	} else { goTrusted(); }
         } catch (Exception e) {
             e.printStackTrace();
         }
