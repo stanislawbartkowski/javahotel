@@ -91,7 +91,7 @@ public class TrustedConnection {
                 userRegistry, userSecTkn, originalUser, properties);
         return con;
     }
-
+    
     /**
      * For the purpose of JdbcTemplate. 
      * DataSource with getConnection method override
