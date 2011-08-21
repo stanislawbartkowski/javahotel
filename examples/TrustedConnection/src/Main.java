@@ -25,7 +25,7 @@ public class Main {
 
     private static void goTrusted() throws SQLException {
         TrustedConnection trust = new TrustedConnection(50000, "SAMPLE", "trust",
-                "trustme", "192.168.1.6", "DB2INST1");
+                "trustme", "think", "DB2INST1");
         trust.trustConnect();
         JdbcTemplate jTemplate = new JdbcTemplate(
                 trust.constructReuseDataSource("john"));
