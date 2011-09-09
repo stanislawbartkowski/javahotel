@@ -10,37 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.util;
+package com.gwtmodel.table;
 
 /**
- * 
- * @author perseus
+ * @author hotel Interface for getting and setting IVField objects
  */
-public class SolidPos {
-
-    private final int startl;
-    private final int startcol;
-
-    public SolidPos(int startl, int startcol) {
-        this.startl = startl;
-        this.startcol = startcol;
-    }
-
-    public SolidPos() {
-        this(-1, -1);
-    }
+public interface IGetSetVField {
 
     /**
-     * @return the startl
+     * Get IVField connected with that setter/getter
+     * 
+     * @return IVFIeld
      */
-    public int getStartl() {
-        return startl;
-    }
+    IVField getV();
 
     /**
-     * @return the startcol
+     * Getter
+     * 
+     * @return Object
      */
-    public int getStartcol() {
-        return startcol;
-    }
+    Object getValObj();
+
+    /**
+     * Setter
+     * 
+     * @param o
+     *            Object to set
+     */
+    void setValObj(Object o);
+
 }

@@ -22,6 +22,7 @@ public class VListHeaderDesc {
     private final boolean hidden;
     private final String buttonAction;
     private final IGHeader gHeader;
+    private final boolean editable;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
         this.headerString = null;
@@ -29,6 +30,14 @@ public class VListHeaderDesc {
         this.hidden = false;
         this.buttonAction = null;
         this.gHeader = gHeader;
+        this.editable = false;
+    }
+
+    /**
+     * @return the editable
+     */
+    boolean isEditable() {
+        return editable;
     }
 
     /**
@@ -39,24 +48,25 @@ public class VListHeaderDesc {
     }
 
     public VListHeaderDesc(String headerString, IVField fie) {
-        this(headerString, fie, false, null);
+        this(headerString, fie, false, null, false);
     }
 
     public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
-        this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction());
+        this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(), false);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
-            String buttonAction) {
+            String buttonAction, boolean editable) {
         this.headerString = headerString;
         this.fie = fie;
         this.hidden = hidden;
         this.buttonAction = buttonAction;
         this.gHeader = null;
+        this.editable = editable;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
-        this(headerString, fie, hidden, null);
+        this(headerString, fie, hidden, null, false);
     }
 
     public String getHeaderString() {

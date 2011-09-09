@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
@@ -136,4 +137,23 @@ class TableView implements IGwtTableView {
     @Override
     public void setClicked(int clickedno) {
     }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#setEditable(com.gwtmodel.table.view.table.ChangeEditableRows)
+     */
+    @Override
+    public void setEditable(ChangeEditableRowsParam eParam) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#getVList(int)
+     */
+    @Override
+    public List<IGetSetVField> getVList(int rowno) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

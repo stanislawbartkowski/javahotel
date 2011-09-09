@@ -10,37 +10,29 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.util;
+package com.gwtmodel.table.listdataview;
+
+import com.gwtmodel.table.ICustomObject;
 
 /**
+ * @author hotel
  * 
- * @author perseus
  */
-public class SolidPos {
+public class GetVDataByIntegerSignal implements ICustomObject {
 
-    private final int startl;
-    private final int startcol;
+    public static final String GETINTEGERSLOTSIGNAL = "GET_INTEGER_BY_SLOT_SIGNAL";
 
-    public SolidPos(int startl, int startcol) {
-        this.startl = startl;
-        this.startcol = startcol;
-    }
+    private final int i;
 
-    public SolidPos() {
-        this(-1, -1);
+    public GetVDataByIntegerSignal(int i) {
+        this.i = i;
     }
 
     /**
-     * @return the startl
+     * @return the i
      */
-    public int getStartl() {
-        return startl;
+    int getI() {
+        return i;
     }
 
-    /**
-     * @return the startcol
-     */
-    public int getStartcol() {
-        return startcol;
-    }
 }

@@ -261,6 +261,12 @@ public final class SlotListContainer {
         return call(slContext);
     }
 
+    public ISlotSignalContext getGetter(ISlotCustom is, ICustomObject customO) {
+        ISlotSignalContext slContext = slContextFactory.construct(
+                slTypeFactory.construct(is), customO);
+        return call(slContext);
+    }
+
     public IVModelData getGetterIVModelData(IDataType dType,
             GetActionEnum getActionEnum, IVModelData mData) {
         ISlotSignalContext slContext = getGetterContext(dType, getActionEnum,
@@ -410,6 +416,10 @@ public final class SlotListContainer {
     public void publish(String customString, ICustomObject customO) {
         publish(slContextFactory.construct(
                 slTypeFactory.construct(customString), customO));
+    }
+
+    public void publish(SlotType sl, ICustomObject customO) {
+        publish(slContextFactory.construct(sl, customO));
     }
 
     public void publish(String stringButton, IGWidget gwtWidget) {

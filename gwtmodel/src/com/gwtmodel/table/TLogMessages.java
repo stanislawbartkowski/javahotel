@@ -89,4 +89,6 @@ public interface TLogMessages extends Messages {
     String errrorUploadingFile();
 
     String notExpected();
+
+    String formRecordTitle(String title, String action);
 }

@@ -12,25 +12,19 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.DateCell;
-import com.google.gwt.cell.client.NumberCell;
-import com.google.gwt.cell.client.SafeHtmlCell;
-import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.TableRowElement;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -50,13 +44,13 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
-import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.view.table.PresentationCellFactory.IGetField;
 
 /**
  * 
@@ -85,7 +79,7 @@ class PresentationTable implements IGwtTableView {
     private final List<Integer> dList;
     private boolean whilefind = false;
     private IModifyRowStyle iModRow = null;
-    private final IGetCustomValues cValues;
+    private final PresentationCellFactory fa = new PresentationCellFactory();
 
     public void setModifyRowStyle(IModifyRowStyle iMod) {
         this.iModRow = iMod;
@@ -95,8 +89,7 @@ class PresentationTable implements IGwtTableView {
     }
 
     /**
-     * Custom function for additional style for rows. Raises java script
-     * function.
+     * Custom function for additional style for rows. Uses java script function.
      * 
      * @author hotel
      * 
@@ -150,25 +143,6 @@ class PresentationTable implements IGwtTableView {
         sPager.setDisplay(table);
         dProvider.addDataDisplay(table);
         setEmpty();
-        cValues = GwtGiniInjector.getI().getTableFactoriesContainer()
-                .getGetCustomValues();
-        dCell = new DateCell(DateTimeFormat.getFormat(cValues
-                .getCustomValue(IGetCustomValues.DATEFORMAT)));
-    }
-
-    private class TColumn extends TextColumn<Integer> {
-
-        private final IVField iF;
-
-        TColumn(IVField iF) {
-            this.iF = iF;
-        }
-
-        @Override
-        public String getValue(Integer object) {
-            IVModelData v = model.getRows().get(object);
-            return FUtils.getValueS(v, iF);
-        }
     }
 
     private class TColumnString extends TextColumn<Integer> {
@@ -249,96 +223,6 @@ class PresentationTable implements IGwtTableView {
 
     }
 
-    private final NumberCell iCell = new NumberCell(
-            NumberFormat.getFormat("#####"));
-    private final NumberCell nCell1 = new NumberCell(
-            NumberFormat.getFormat("###########.#"));
-    private final NumberCell nCell2 = new NumberCell(
-            NumberFormat.getFormat("###########.##"));
-    private final NumberCell nCell3 = new NumberCell(
-            NumberFormat.getFormat("###########.###"));
-    private final NumberCell nCell4 = new NumberCell(
-            NumberFormat.getFormat("###########.####"));
-    private final DateCell dCell;
-
-    private class LongColumn extends Column<Integer, Number> {
-
-        private final VListHeaderDesc he;
-
-        LongColumn(VListHeaderDesc he) {
-            super(iCell);
-            this.he = he;
-        }
-
-        @Override
-        public Long getValue(Integer object) {
-            IVModelData v = model.getRows().get(object);
-            return FUtils.getValueLong(v, he.getFie());
-
-        }
-    }
-
-    private class DateColumn extends Column<Integer, Date> {
-
-        private final VListHeaderDesc he;
-
-        DateColumn(VListHeaderDesc he) {
-            super(dCell);
-            this.he = he;
-        }
-
-        @Override
-        public Date getValue(Integer object) {
-            IVModelData v = model.getRows().get(object);
-            return FUtils.getValueDate(v, he.getFie());
-        }
-    }
-
-    private abstract class NumberColumn extends Column<Integer, Number> {
-
-        private final VListHeaderDesc he;
-
-        NumberColumn(NumberCell n, VListHeaderDesc he) {
-            super(n);
-            this.he = he;
-        }
-
-        @Override
-        public Number getValue(Integer object) {
-            IVModelData v = model.getRows().get(object);
-            BigDecimal b = FUtils.getValueBigDecimal(v, he.getFie());
-            return b;
-        }
-    }
-
-    private class NumberColumn1 extends NumberColumn {
-
-        NumberColumn1(VListHeaderDesc he) {
-            super(nCell1, he);
-        }
-    }
-
-    private class NumberColumn2 extends NumberColumn {
-
-        NumberColumn2(VListHeaderDesc he) {
-            super(nCell2, he);
-        }
-    }
-
-    private class NumberColumn3 extends NumberColumn {
-
-        NumberColumn3(VListHeaderDesc he) {
-            super(nCell3, he);
-        }
-    }
-
-    private class NumberColumn4 extends NumberColumn {
-
-        NumberColumn4(VListHeaderDesc he) {
-            super(nCell4, he);
-        }
-    }
-
     private class CoComparator implements Comparator<Integer> {
 
         private final VListHeaderDesc he;
@@ -369,40 +253,7 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
-    private class ActionButtonCell extends ActionCell<Integer> {
-
-        @SuppressWarnings("unused")
-        private final String buttonString;
-        private final TColumn tCol;
-
-        ActionButtonCell(String buttonString, IVField iF, FieldDataType fType) {
-            super("", new AttachClass(iF));
-            this.buttonString = buttonString;
-            this.tCol = new TColumn(iF);
-        }
-
-        @Override
-        public void render(Cell.Context context, Integer value,
-                SafeHtmlBuilder sb) {
-            sb.appendHtmlConstant("<strong>");
-            String s = tCol.getValue(value);
-            sb.appendEscaped(s);
-            sb.appendHtmlConstant("</strong>");
-        }
-    }
-
-    private class ButtonColumn extends Column<Integer, Integer> {
-
-        public ButtonColumn(ActionButtonCell cell) {
-            super(cell);
-        }
-
-        @Override
-        public Integer getValue(Integer object) {
-            return object;
-        }
-    }
-
+    @SuppressWarnings("unchecked")
     private void createHeader() {
         if (model == null) {
             return;
@@ -415,48 +266,34 @@ class PresentationTable implements IGwtTableView {
         @SuppressWarnings("rawtypes")
         Column co = null;
         for (VListHeaderDesc he : li) {
+            boolean editable = he.isEditable();
             if (he.getgHeader() != null) {
                 @SuppressWarnings("rawtypes")
                 Header header = he.getgHeader().getHeader();
-                co = new RawColumn(he.getFie());
+                co = he.getgHeader().getColumn();
+                if (co == null) {
+                    co = new RawColumn(he.getFie());
+                }
                 table.addColumn(co, header);
                 continue;
             }
             FieldDataType fType = he.getFie().getType();
             if (he.getButtonAction() != null) {
-                co = new ButtonColumn(new ActionButtonCell(
-                        he.getButtonAction(), he.getFie(), fType));
+                co = fa.constructActionButtonCell(he.getButtonAction(),
+                        he.getFie(), fType, new AttachClass(he.getFie()));
             } else if (fType.isConvertableToString()) {
                 co = new TColumnString(he.getFie(), fType);
             } else {
                 switch (fType.getType()) {
                 case LONG:
-                    co = new LongColumn(he);
-                    break;
                 case BIGDECIMAL:
-                    switch (he.getFie().getType().getAfterdot()) {
-                    case 0:
-                        co = new LongColumn(he);
-                        break;
-                    case 1:
-                        co = new NumberColumn1(he);
-                        break;
-                    case 2:
-                        co = new NumberColumn2(he);
-                        break;
-                    case 3:
-                        co = new NumberColumn3(he);
-                        break;
-                    default:
-                        co = new NumberColumn4(he);
-                        break;
-                    }
+                    co = fa.constructNumberCol(he.getFie(), editable);
                     break;
                 case DATE:
-                    co = new DateColumn(he);
+                    co = fa.constructDateEditCol(he.getFie(), editable);
                     break;
                 default:
-                    co = new TColumn(he.getFie());
+                    co = fa.constructEditCol(he.getFie(), editable);
                     break;
                 }
             }
@@ -587,6 +424,7 @@ class PresentationTable implements IGwtTableView {
     @Override
     public void setModel(IGwtTableModel model) {
         this.model = model;
+        fa.setModel(model);
         createHeader();
         drawRows();
     }
@@ -605,5 +443,72 @@ class PresentationTable implements IGwtTableView {
         }
         whilefind = true;
         selectionModel.setSelected(new Integer(clickedno), true);
+    }
+
+    @Override
+    public void setEditable(ChangeEditableRowsParam eParam) {
+        fa.setEditable(eParam);
+        drawRows();
+    }
+
+    private class GetSet implements IGetSetVField {
+
+        private final int i;
+        private final int rowno;
+
+        private GetSet(int i, int rowno) {
+            this.i = i;
+            this.rowno = rowno;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see com.gwtmodel.table.IGetSetVField#getV()
+         */
+        @Override
+        public IVField getV() {
+            VListHeaderDesc v = model.getHeaderList().getVisHeList().get(i);
+            return v.getFie();
+        }
+
+        private IGetField getI() {
+            Column<?, ?> co = table.getColumn(i);
+            Cell<?> ce = co.getCell();
+            IGetField iGet = (IGetField) ce;
+            return iGet;
+        }
+
+        @Override
+        public Object getValObj() {
+            IGetField iGet = getI();
+            Object o = iGet.getValObj(new Integer(rowno));
+            if (o == null) {
+                IVModelData v = model.getRows().get(rowno);
+                o = FUtils.getValue(v, getV());
+            }
+            return o;
+        }
+
+        @Override
+        public void setValObj(Object o) {
+            IGetField iGet = getI();
+            iGet.setValObj(new Integer(rowno), o);
+            table.redraw();
+        }
+
+    }
+
+    @Override
+    public List<IGetSetVField> getVList(int rowno) {
+        int no = 0;
+        List<IGetSetVField> vList = new ArrayList<IGetSetVField>();
+        for (VListHeaderDesc v : model.getHeaderList().getVisHeList()) {
+            if (v.isEditable()) {
+                vList.add(new GetSet(no, rowno));
+            }
+            no++;
+        }
+        return vList;
     }
 }

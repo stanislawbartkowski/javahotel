@@ -10,32 +10,37 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.rdef;
+package com.gwtmodel.table.listdataview;
 
+import java.util.List;
 
-import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
 
-public interface IFormLineView extends IGetSetVField,IGWidget {
-    
-    int NOCHOOSECHECK = 0;
-    int CHOOSECHECKTRUE = 1;
-    int CHOOSECHECKFALSE = 2;
+/**
+ * @author hotel
+ * 
+ */
+public class GetVListSignal extends GetVDataByIntegerSignal {
 
-    void addChangeListener(IFormChangeListener cListener);
-    
-    void setReadOnly(boolean readOnly);
+    public static final String GETVSIGNAL = "LISTDATAVIEW-GETVSIGNAL";
 
-    void setHidden(boolean hidden);
+    private final List<IGetSetVField> vList;
 
-    boolean isHidden();
-    
-    void setInvalidMess(String errmess);
-    
-    void setGStyleName(String styleMess, boolean set);
-    
-    void setOnTouch(ITouchListener lTouch);
-        
-    int getChooseResult();
+    public GetVListSignal(List<IGetSetVField> vList) {
+        super(-1);
+        this.vList = vList;
+    }
+
+    public GetVListSignal(int i) {
+        super(i);
+        this.vList = null;
+    }
+
+    /**
+     * @return the vList
+     */
+    public List<IGetSetVField> getvList() {
+        return vList;
+    }
 
 }

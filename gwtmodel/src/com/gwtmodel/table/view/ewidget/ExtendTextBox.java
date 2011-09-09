@@ -355,7 +355,8 @@ class ExtendTextBox extends AbstractField {
             iTouch.onTouch();
         }
         eW.setText(va);
-        runOnChange(null);
+        // warning: 2011/09/09 (changed to this from null)
+        runOnChange(this);
     }
 
     protected void setValAndFireChange(final String v) {

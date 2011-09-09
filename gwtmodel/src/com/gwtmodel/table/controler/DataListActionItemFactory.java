@@ -140,7 +140,9 @@ class DataListActionItemFactory {
             String addTitle = GetActionName.getActionName(action);
             IGWidget w = slContext.getGwtWidget();
             VerticalPanel vp = new VerticalPanel();
-            d = new FormDialog(vp, title + " / " + addTitle, w, modal);
+            // d = new FormDialog(vp, title + " / " + addTitle, w, modal);
+            d = new FormDialog(vp,
+                    LogT.getT().formRecordTitle(title, addTitle), w, modal);
             d.show(wSize);
             if (o != null) {
                 d.setOnClose(o);
@@ -230,13 +232,6 @@ class DataListActionItemFactory {
 
     private class GetListLine implements ISlotCaller {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.gwtmodel.table.slotmodel.ISlotCaller#call(com.gwtmodel.table.
-         * slotmodel.ISlotSignalContext)
-         */
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             return iSlo.getSlContainer().getGetterContext(dType,
@@ -245,8 +240,9 @@ class DataListActionItemFactory {
 
     }
 
-    void BoxActionItem(ClickButtonType.StandClickEnum action,
-            PersistTypeEnum persistTypeEnum, IVModelData peData, WSize wSize) {
+    IComposeController BoxActionItem(ClickButtonType.StandClickEnum action,
+            PersistTypeEnum persistTypeEnum, IVModelData peData, WSize wSize,
+            boolean contentOnly) {
         ListOfControlDesc liControls;
         ICallContext iCall = GwtGiniInjector.getI().getCallContext();
         iCall.setdType(dType);
@@ -277,40 +273,45 @@ class DataListActionItemFactory {
             fController.registerControler(mType);
             bModif.modifButton(liControls);
         }
-        IControlButtonView cView = tFactories.getbViewFactory().construct(
-                dType, liControls);
-        ComposeControllerType bType = new ComposeControllerType(cView, null, 1,
-                0);
-        fController.registerControler(bType);
-        fController.createComposeControler(cId);
-
         SlotListContainer slControlerContainer = fController.getSlContainer();
-        String title = listParam.getFormFactory().getFormTitle(iCall);
-        DrawForm dForm = new DrawForm(wSize, title, action, true, null);
-        slControlerContainer.registerSubscriber(dType, cId, dForm);
-        ResignAction aRes = new ResignAction(dForm, null);
-        slControlerContainer.registerSubscriber(
-                ClickButtonType.StandClickEnum.RESIGN, aRes);
-        PersistData pData = new PersistData(persistTypeEnum, fController,
-                DataActionEnum.ValidateComposeFormAction);
-        if (action == ClickButtonType.StandClickEnum.SHOWITEM) {
+        if (!contentOnly) {
+            IControlButtonView cView = tFactories.getbViewFactory().construct(
+                    dType, liControls);
+            ComposeControllerType bType = new ComposeControllerType(cView,
+                    null, 1, 0);
+            fController.registerControler(bType);
+            fController.createComposeControler(cId);
+            String title = listParam.getFormFactory().getFormTitle(iCall);
+            DrawForm dForm = new DrawForm(wSize, title, action, true, null);
+            slControlerContainer.registerSubscriber(dType, cId, dForm);
+            ResignAction aRes = new ResignAction(dForm, null);
             slControlerContainer.registerSubscriber(
-                    ClickButtonType.StandClickEnum.ACCEPT, aRes);
+                    ClickButtonType.StandClickEnum.RESIGN, aRes);
+            PersistData pData = new PersistData(persistTypeEnum, fController,
+                    DataActionEnum.ValidateComposeFormAction);
+            if (action == ClickButtonType.StandClickEnum.SHOWITEM) {
+                slControlerContainer.registerSubscriber(
+                        ClickButtonType.StandClickEnum.ACCEPT, aRes);
+            } else {
+                slControlerContainer.registerSubscriber(
+                        ClickButtonType.StandClickEnum.ACCEPT, pData);
+            }
+
+            pData = new PersistData(persistTypeEnum, fController,
+                    DataActionEnum.PersistComposeFormAction);
+            slControlerContainer.registerSubscriber(dType,
+                    DataActionEnum.ValidSignal, pData);
+
+            slControlerContainer.registerSubscriber(dType,
+                    DataActionEnum.PersistDataSuccessSignal,
+                    new AfterPersistData(dForm, persistTypeEnum));
+
+            fController.startPublish(cId);
+            slControlerContainer.registerCaller(dType,
+                    GetActionEnum.GetGWidget, new GetterGWidget(dForm));
         } else {
-            slControlerContainer.registerSubscriber(
-                    ClickButtonType.StandClickEnum.ACCEPT, pData);
+            fController.createComposeControler(cId);
         }
-
-        pData = new PersistData(persistTypeEnum, fController,
-                DataActionEnum.PersistComposeFormAction);
-        slControlerContainer.registerSubscriber(dType,
-                DataActionEnum.ValidSignal, pData);
-
-        slControlerContainer.registerSubscriber(dType,
-                DataActionEnum.PersistDataSuccessSignal, new AfterPersistData(
-                        dForm, persistTypeEnum));
-
-        fController.startPublish(cId);
         slControlerContainer.publish(dType,
                 DataActionEnum.DrawViewComposeFormAction, peData,
                 persistTypeEnum);
@@ -325,10 +326,9 @@ class DataListActionItemFactory {
         slControlerContainer.registerCaller(dType,
                 GetActionEnum.GetModelToPersist, new GetterModel(
                         slControlerContainer, peData));
-        slControlerContainer.registerCaller(dType, GetActionEnum.GetGWidget,
-                new GetterGWidget(dForm));
         slControlerContainer.registerCaller(dType,
                 GetActionEnum.GetListLineChecked, new GetListLine());
+        return fController;
     }
 
     private class ActionItem implements ISlotSignaller {
@@ -364,91 +364,7 @@ class DataListActionItemFactory {
                 // create empty
                 peData = listParam.getDataFactory().construct(dType);
             }
-            BoxActionItem(action, persistTypeEnum, peData, wSize);
-            // ListOfControlDesc liControls;
-            // ICallContext iCall = GwtGiniInjector.getI().getCallContext();
-            // iCall.setdType(dType);
-            // iCall.setiSlo(iSlo);
-            // iCall.setPersistTypeEnum(persistTypeEnum);
-            // switch (action) {
-            // case REMOVEITEM:
-            // liControls = tFactories.getControlButtonFactory()
-            // .constructRemoveDesign();
-            // break;
-            // case SHOWITEM:
-            // liControls = tFactories.getControlButtonFactory()
-            // .constructOkButton();
-            // break;
-            // default:
-            // liControls = tFactories.getControlButtonFactory()
-            // .constructAcceptResign();
-            // break;
-            //
-            // }
-            // CellId cId = new CellId(0);
-            // IComposeController fController = listParam.getfControler()
-            // .construct(iCall);
-            // if (listParam.getModifButtonFactory() != null) {
-            // IDataCrudModifButtonAction bModif = listParam
-            // .getModifButtonFactory().contruct(iCall);
-            // ComposeControllerType mType = new ComposeControllerType(bModif);
-            // fController.registerControler(mType);
-            // bModif.modifButton(liControls);
-            // }
-            // IControlButtonView cView =
-            // tFactories.getbViewFactory().construct(
-            // dType, liControls);
-            // ComposeControllerType bType = new ComposeControllerType(cView,
-            // null, 1, 0);
-            // fController.registerControler(bType);
-            // fController.createComposeControler(cId);
-            //
-            // SlotListContainer slControlerContainer = fController
-            // .getSlContainer();
-            // String title = listParam.getFormFactory().getFormTitle(iCall);
-            // DrawForm dForm = new DrawForm(wSize, title, action, true, null);
-            // slControlerContainer.registerSubscriber(dType, cId, dForm);
-            // ResignAction aRes = new ResignAction(dForm, null);
-            // slControlerContainer.registerSubscriber(
-            // ClickButtonType.StandClickEnum.RESIGN, aRes);
-            // PersistData pData = new PersistData(persistTypeEnum, fController,
-            // DataActionEnum.ValidateComposeFormAction);
-            // if (action == ClickButtonType.StandClickEnum.SHOWITEM) {
-            // slControlerContainer.registerSubscriber(
-            // ClickButtonType.StandClickEnum.ACCEPT, aRes);
-            // } else {
-            // slControlerContainer.registerSubscriber(
-            // ClickButtonType.StandClickEnum.ACCEPT, pData);
-            // }
-            //
-            // pData = new PersistData(persistTypeEnum, fController,
-            // DataActionEnum.PersistComposeFormAction);
-            // slControlerContainer.registerSubscriber(dType,
-            // DataActionEnum.ValidSignal, pData);
-            //
-            // slControlerContainer.registerSubscriber(dType,
-            // DataActionEnum.PersistDataSuccessSignal,
-            // new AfterPersistData(dForm, persistTypeEnum));
-            //
-            // fController.startPublish(cId);
-            // slControlerContainer.publish(dType,
-            // DataActionEnum.DrawViewComposeFormAction, peData,
-            // persistTypeEnum);
-            // slControlerContainer.publish(dType,
-            // DataActionEnum.DefaultViewComposeFormAction, peData,
-            // persistTypeEnum);
-            //
-            // slControlerContainer.publish(dType,
-            // DataActionEnum.ChangeViewComposeFormModeAction,
-            // persistTypeEnum);
-            //
-            // slControlerContainer.registerCaller(dType,
-            // GetActionEnum.GetModelToPersist, new GetterModel(
-            // slControlerContainer, peData));
-            // slControlerContainer.registerCaller(dType,
-            // GetActionEnum.GetGWidget, new GetterGWidget(dForm));
-            // slControlerContainer.registerCaller(dType,
-            // GetActionEnum.GetListLineChecked, new GetListLine());
+            BoxActionItem(action, persistTypeEnum, peData, wSize, false);
         }
     }
 
@@ -487,18 +403,10 @@ class DataListActionItemFactory {
                     LogT.getT().receivedSignalLog(
                             slContext.getSlType().toString()));
             PersistTypeEnum persistTypeEnum = slContext.getPersistType();
-            switch (persistTypeEnum) {
-            case ADD:
-            case MODIF:
-                publishP(ButtonAction.Action.EnableButton, false);
-                break;
-            case REMOVE:
-                publishP(ButtonAction.Action.DisableButton, true);
-                break;
-            case SHOWONLY:
-                publishP(ButtonAction.Action.DisableButton, false);
-                break;
-            }
+            publishP(
+                    persistTypeEnum.readOnly() ? ButtonAction.Action.DisableButton
+                            : ButtonAction.Action.EnableButton,
+                    persistTypeEnum.readOnly());
         }
     }
 

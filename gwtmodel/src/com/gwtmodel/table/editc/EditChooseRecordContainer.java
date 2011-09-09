@@ -75,6 +75,7 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         cBox.setChangeCheck(changec);
     }
 
+    @Override
     public void ModifForm() {
         boolean newc = cBox.getNewCheck();
         boolean changec = cBox.getChangeCheck();
@@ -133,10 +134,14 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         @Override
         protected void doTask() {
             HorizontalPanel hp = new HorizontalPanel();
+            // two checkboxes
             hp.add(cBox);
+            // select button
             hp.add(but);
             vp.add(hp);
+            // widget with record data
             vp.add(cust);
+            // public created widget
             pSlotable.getSlContainer().publish(publishdType, cellId,
                     new GWidget(vp));
         }
@@ -224,7 +229,12 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
 
     EditChooseRecordContainer(ICallContext iContext, IDataType publishdType,
             IDataType subType) {
-        pSlotable = iContext.iSlo();
+        // pSlotable - where to send the SetWidget signal
+        if (iContext.iSlo() == null) {
+            pSlotable = this;
+        } else {
+            pSlotable = iContext.iSlo();
+        }
         this.dType = iContext.getDType();
         this.publishdType = publishdType;
 
@@ -257,13 +267,6 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         slMediator.startPublish(null);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.gwtmodel.table.editc.IEditChooseRecordContainer#ChangeViewForm(com
-     * .gwtmodel.table.PersistTypeEnum)
-     */
     @Override
     public void ChangeViewForm(PersistTypeEnum e) {
         cBox.setReadOnly(e.readOnly());
