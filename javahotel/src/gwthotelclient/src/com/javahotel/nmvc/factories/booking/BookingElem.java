@@ -43,9 +43,10 @@ import com.javahotel.nmvc.ewidget.EWidgetFactory;
  * 
  */
 class BookingElem extends AbstractSlotContainer {
-    
+
     /**
-     * This class is created when dialog for booking one room is opened (RoomElemP).
+     * This class is created when dialog for booking one room is opened
+     * (RoomElemP).
      */
 
     private final ICallContext iContext;
@@ -56,9 +57,13 @@ class BookingElem extends AbstractSlotContainer {
 
     /**
      * Constructor:
-     * @param iContext Context when this dialog is opened
-     * @param mainSlo Container for main dialog
-     * @param subType Auxiliary type user for opening and handling this dialog
+     * 
+     * @param iContext
+     *            Context when this dialog is opened
+     * @param mainSlo
+     *            Container for main dialog
+     * @param subType
+     *            Auxiliary type user for opening and handling this dialog
      */
     BookingElem(ICallContext iContext, ISlotable mainSlo, IDataType subType) {
         this.iContext = iContext;
@@ -70,17 +75,22 @@ class BookingElem extends AbstractSlotContainer {
         eFactory = HInjector.getI().getEWidgetFactory();
         this.mainSlo = mainSlo;
         fPayment = new BookElementRefreshPayment(dType, this, iContext, mainSlo);
-        /* Event when room reservation is persisted to attach reservation details */
+        /*
+         * Event when room reservation is persisted to attach reservation
+         * details
+         */
         getSlContainer().registerCaller(subType,
                 GetActionEnum.GetModelToPersist, new SetGetter());
         getSlContainer().registerCaller(subType,
                 GetActionEnum.GetViewModelEdited, new SetGetter());
     }
-    
+
     /**
-     * Caller class to attach reservation details for reservation (before persisting)
+     * Caller class to attach reservation details for reservation (before
+     * persisting)
+     * 
      * @author hotel
-     *
+     * 
      */
     private class SetGetter implements ISlotCaller {
 
@@ -88,14 +98,13 @@ class BookingElem extends AbstractSlotContainer {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData mData = slContext.getVData();
             HModelData vData = (HModelData) mData;
-            BookElemP p=(BookElemP) vData.getA(); 
+            BookElemP p = (BookElemP) vData.getA();
             p.setPaymentrows(fPayment.getPList());
             return slContext;
         }
-        
+
     }
 
-    
     private class ReadStandard implements IOneList<AbstractTo> {
 
         private final IFormLineView sView;

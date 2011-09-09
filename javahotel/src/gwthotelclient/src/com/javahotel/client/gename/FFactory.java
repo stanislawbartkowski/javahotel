@@ -13,7 +13,9 @@
 package com.javahotel.client.gename;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -23,13 +25,11 @@ import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.IField;
 
 /**
- * @author hotel
- * 
+ * @author hotel Utility class for constructing FormField and VHeader objects
  */
 public class FFactory {
 
     private FFactory() {
-
     }
 
     public static FormField construct(IField f, IFormLineView e) {
@@ -69,15 +69,42 @@ public class FFactory {
     }
 
     public static List<VListHeaderDesc> constructH(IField[] dList, IField ft[]) {
+        return constructH(dList, ft, null);
+    }
+
+    private static boolean isEditable(IField f, Set<IField> editable) {
+        if (editable == null) {
+            return false;
+        }
+        return editable.contains(f);
+    }
+
+    public static Set<IField> createSet(IField ft[]) {
+        if (ft == null || ft.length == 0) {
+            return null;
+        }
+        Set<IField> s = new HashSet<IField>();
+        for (IField f : ft) {
+            s.add(f);
+        }
+        return s;
+    }
+
+    public static List<VListHeaderDesc> constructH(IField[] dList, IField ft[],
+            Set<IField> editable) {
         IGetFieldName i = HInjector.getI().getGetFieldName();
         List<VListHeaderDesc> v = new ArrayList<VListHeaderDesc>();
+        boolean hidden = false;
+        String buttonAction = null;
         if (dList != null) {
             for (IField f : dList) {
-                v.add(new VListHeaderDesc(i.getName(f), new VField(f)));
+                v.add(new VListHeaderDesc(i.getName(f), new VField(f), hidden,
+                        buttonAction, isEditable(f, editable)));
             }
         }
         for (IField f : ft) {
-            v.add(new VListHeaderDesc(i.getName(f), new VField(f)));
+            v.add(new VListHeaderDesc(i.getName(f), new VField(f), hidden,
+                    buttonAction, isEditable(f, editable)));
         }
         return v;
     }

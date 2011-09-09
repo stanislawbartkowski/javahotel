@@ -19,19 +19,30 @@ import com.javahotel.common.dateutil.GetPeriods.StartWeek;
 
 /**
  * 
- * @author stanislawbartkowski@gmail.com
+ * @author stanislawbartkowski@gmail.com Some general configuration parameters
  */
+
 public class ConfigParam {
 
     private ConfigParam() {
     }
 
+    /**
+     * Default number of days for advance payment
+     * 
+     * @return Number of days
+     */
     public static Date countPayAdvanceDay() {
         Date da = DateUtil.getToday();
         DateUtil.addDays(da, 3);
         return da;
     }
 
+    /**
+     * Default day is regarded as the start of the weekend
+     * 
+     * @return The day of the week as the start of the weekend
+     */
     public static StartWeek getStartWeek() {
         return StartWeek.onFriday;
     }

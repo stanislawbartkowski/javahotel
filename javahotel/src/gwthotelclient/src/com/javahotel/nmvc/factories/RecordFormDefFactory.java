@@ -24,7 +24,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.abstractto.BookElemWithPayment;
+import com.javahotel.client.abstractto.BookPaymentField;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.VField;
@@ -125,9 +125,9 @@ class RecordFormDefFactory implements IFormDefFactory {
                         BookElemP.F.resObject, BookElemP.F.service };
                 FFactory.add(fList, fL);
                 fList.add(FFactory
-                        .constructReadOnly(BookElemWithPayment.F.customerPrice));
+                        .constructReadOnly(BookPaymentField.customerPrice));
                 fList.add(FFactory
-                        .constructReadOnly(BookElemWithPayment.F.offerPrice));
+                        .constructReadOnly(BookPaymentField.offerPrice));
 
                 break;
             case BookRecord:

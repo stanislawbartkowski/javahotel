@@ -71,7 +71,8 @@ class DaySeasonPanelWidget implements IScrollSeason {
 
     }
 
-    private void refresh() {
+    @Override
+    public void refresh() {
         scrollDayW.setState(dW.getPanelDesc());
         dW.refresh();
     }
@@ -80,6 +81,8 @@ class DaySeasonPanelWidget implements IScrollSeason {
         scrollMonthW.setState(mW.getPanelDesc());
         mW.refresh();
     }
+    
+    
 
     private class ScrollCli implements ScrollArrowWidget.IsignalP {
 

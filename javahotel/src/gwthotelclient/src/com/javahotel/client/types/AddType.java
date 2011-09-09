@@ -14,6 +14,6 @@ package com.javahotel.client.types;
 
 public enum AddType {
 
-    BookRecord, AdvanceHeader, BookElem, RowPaymentElem
+    BookRecord, AdvanceHeader, BookElem, RowPaymentElem, GuestElem
 
 }

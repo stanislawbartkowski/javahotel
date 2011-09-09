@@ -42,7 +42,7 @@ class P {
 
     static BookRecordP getBookR(ISlotSignalContext slContext) {
         IVModelData mData = slContext.getVData();
-        return P.getBookR(mData);
+        return getBookR(mData);
     }
 
     static AdvancePaymentP getAdvanced(ISlotSignalContext slContext) {

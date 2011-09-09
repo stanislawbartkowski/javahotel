@@ -55,7 +55,7 @@ class AModelData extends AVModelData implements HModelData {
         List<IVField> eList = new ArrayList<IVField>();
         for (int i = 0; i < a.getT().length; i++) {
             IField fie = a.getT()[i];
-            Class c = a.getT(fie);
+            Class<?> c = a.getT(fie);
             FieldDataType t;
             if (c == Date.class) {
                 t = FieldDataType.constructDate();

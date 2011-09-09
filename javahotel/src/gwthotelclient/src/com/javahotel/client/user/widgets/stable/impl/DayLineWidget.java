@@ -42,11 +42,6 @@ class DayLineWidget {
     }
 
     private final void drawNames() {
-//      for (int i = sData.getFirstD(); i <= sData.getLastD(); i++) {
-//        Date pe = sData.getD(i);
-//        Date today = sData.getTodayC();
-//        dPart.refreshColumn(i - sData.getFirstD(), pe,DateUtil.eqDate(pe, today));          
-//      }
         dPart.refresh(sData);
     }
 

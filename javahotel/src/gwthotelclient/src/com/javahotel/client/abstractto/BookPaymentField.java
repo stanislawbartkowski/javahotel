@@ -10,32 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.user.widgets.stable;
+package com.javahotel.client.abstractto;
 
-import java.util.Date;
-import java.util.List;
+import com.javahotel.common.toobject.IField;
 
 /**
- *
- * @author stanislawbartkowski@gmail.com
+ * @author hotel
+ * 
  */
-public interface IScrollSeason {
-
-    int getStartNo();
-
-    /**
-     * Creates scroll panel.
-     *
-     * @param no
-     *            Total number of lines
-     * @param actC
-     *            if != -1 then column number to display
-     */
-    void createVPanel(List<Date> dList, final int actC);
-    
-    /**
-     * Refresh using current settings
-     */
-    void refresh();
-    
+public enum BookPaymentField implements IField {
+    offerPrice, customerPrice
 }

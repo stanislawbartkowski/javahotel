@@ -21,7 +21,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.PUtil;
-import com.javahotel.client.abstractto.BookElemWithPayment;
+import com.javahotel.client.abstractto.BookPaymentField;
 import com.javahotel.client.calculateprice.IPaymentData;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
@@ -53,8 +53,8 @@ class BookElementRefreshPayment {
     }
 
     private void setPrice(BigDecimal offerPrice, BigDecimal custPrice) {
-        setBigDecimal(BookElemWithPayment.F.offerPrice, offerPrice);
-        setBigDecimal(BookElemWithPayment.F.customerPrice, custPrice);
+        setBigDecimal(BookPaymentField.offerPrice, offerPrice);
+        setBigDecimal(BookPaymentField.customerPrice, custPrice);
     }
     
     List<PaymentRowP> getPList() {

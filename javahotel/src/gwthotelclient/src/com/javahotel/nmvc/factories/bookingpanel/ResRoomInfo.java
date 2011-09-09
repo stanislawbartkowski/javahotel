@@ -16,13 +16,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.rdata.RData;
+import com.javahotel.client.types.BackAbstract;
 import com.javahotel.client.types.ButtonClickHandler;
-import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResObjectP;
 
@@ -40,7 +36,6 @@ class ResRoomInfo extends Composite {
         return l;
     }
 
-
     private void addInfo(final ResObjectP r) {
         String name = r.getName();
         String desc = r.getDescription();
@@ -54,22 +49,18 @@ class ResRoomInfo extends Composite {
                 DictType.RoomObjects));
     }
 
-    private class ReadRoom implements RData.IOneList<AbstractTo> {
+    private class ReadRoom implements BackAbstract.IRunAction<ResObjectP> {
 
         @Override
-        public void doOne(AbstractTo val) {
-            ResObjectP r = (ResObjectP) val;
-            addInfo(r);
+        public void action(ResObjectP t) {
+            addInfo(t);
         }
-
     }
 
-    ResRoomInfo(final IResLocator rI, final String roomName) {
+    ResRoomInfo(final String roomName) {
         initWidget(v);
-        CommandParam p = rI.getR().getHotelCommandParam();
-        p.setDict(DictType.RoomObjects);
-        p.setRecName(roomName);
-        rI.getR().getOne(RType.ListDict, p, new ReadRoom());
+        new BackAbstract<ResObjectP>().readAbstract(DictType.RoomObjects,
+                roomName, new ReadRoom());
 
     }
 }

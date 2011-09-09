@@ -53,6 +53,14 @@ class VModelDataLp extends AbstractLpVModelData implements HModelData {
     }
 
     @Override
+    public boolean isValid(IVField fie) {
+        if (super.isValid(fie)) {
+            return true;
+        }
+        return v.isValid(fie);
+    }
+
+    @Override
     public AbstractTo getA() {
         return v.getA();
     }

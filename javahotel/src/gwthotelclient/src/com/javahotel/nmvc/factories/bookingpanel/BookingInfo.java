@@ -19,15 +19,11 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.injector.LogT;
 import com.javahotel.client.DUtil;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.rdata.RData;
+import com.javahotel.client.types.BackAbstract;
 import com.javahotel.client.types.ButtonClickHandler;
-import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
@@ -103,13 +99,13 @@ class BookingInfo extends Composite {
         // rI.getR().getOne(RType.ListDict, pa, new CC());
     }
 
-    private class R implements RData.IOneList<AbstractTo> {
+    private class R implements BackAbstract.IRunAction<BookingP> {
 
-        public void doOne(AbstractTo a) {
-            assert a != null : LogT.getT().cannotBeNull();
-            BookingP p = (BookingP) a;
-            setB(p);
+        @Override
+        public void action(BookingP t) {
+            setB(t);
         }
+
     }
 
     BookingInfo(final IResLocator rI, final String resName) {
@@ -118,8 +114,7 @@ class BookingInfo extends Composite {
         this.resId = null;
         initWidget(vp);
         vp.add(new Label(resName));
-        CommandParam p = rI.getR().getHotelDictName(DictType.BookingList,
-                resName);
-        rI.getR().getOne(RType.ListDict, p, new R());
+        new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
+                resName, new R());
     }
 }
