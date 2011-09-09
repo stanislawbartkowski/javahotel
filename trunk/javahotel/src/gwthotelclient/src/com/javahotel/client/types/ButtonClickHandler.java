@@ -17,10 +17,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
-import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
 
@@ -47,9 +47,11 @@ public class ButtonClickHandler<T extends AbstractTo> implements ClickHandler {
                 .constructParam(new DataType(d));
         IVModelData peData = VModelDataFactory.construct(r);
         WSize wSize = new WSize(event.getRelativeElement());
-        IDataControler dControler = tFactory.constructDataControler(lParam,
+        ISlotable dControler = tFactory.constructDataControler(lParam,
                 ClickButtonType.StandClickEnum.SHOWITEM, peData, wSize);
-        dControler.startPublish(null);
+// redundant        
+//        dControler.startPublish(null);
+       
     }
 
 }

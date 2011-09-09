@@ -22,10 +22,11 @@ import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.abstractto.BookElemWithPayment;
+import com.javahotel.client.abstractto.BookPaymentField;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.IAbstractType;
 import com.javahotel.client.injector.HInjector;
@@ -134,6 +135,10 @@ public class TypeToFactory implements IAbstractType {
             DictType.VatDict, VatDictionaryP.class);
     private static final T stringVatT = new T(String.class,
             FieldDataType.constructString(iVat, new VatListFactory()));
+
+    private static final T paymentT = new T(BigDecimal.class,
+            FieldDataType.constructCustom(FieldDataType.T.BIGDECIMAL,
+                    FieldDataType.constructEmptyCustomValue()));
 
     private static class GetMap implements AbstractListT.IGetMap {
 
@@ -249,13 +254,12 @@ public class TypeToFactory implements IAbstractType {
             super(DictType.ServiceDict);
         }
     }
-    
+
     private static class PriceListFactory extends DictListFactory {
         PriceListFactory() {
             super(DictType.PriceListDict);
         }
     }
-
 
     private static class RoomStandardFactory extends DictListFactory {
         RoomStandardFactory() {
@@ -267,9 +271,9 @@ public class TypeToFactory implements IAbstractType {
             FieldDataType.ICustomType {
 
         private final DictType da;
-        private final Class cl;
+        private final Class<?> cl;
 
-        DictionaryToS(DictType da, Class cl) {
+        DictionaryToS(DictType da, Class<?> cl) {
             this.da = da;
             this.cl = cl;
         }
@@ -279,6 +283,7 @@ public class TypeToFactory implements IAbstractType {
             if (sou == null) {
                 return "";
             }
+            @SuppressWarnings("unchecked")
             T va = (T) sou;
             return va.getName();
         }
@@ -325,12 +330,13 @@ public class TypeToFactory implements IAbstractType {
         ma.put(BookingP.F.season, stringSeaT);
 
         ma.put(BookRecordP.F.customerPrice, decimalT);
-//        ma.put(BookRecordP.F.oPrice, decimalT);
+        // ma.put(BookRecordP.F.oPrice, decimalT);
 
         ma.put(PaymentP.F.amount, decimalT);
         ma.put(PaymentP.F.datePayment, dateT);
 
         ma.put(GuestP.F.checkIn, dateT);
+        ma.put(GuestP.F.checkOut, dateT);
 
         ma.put(AddPaymentP.F.payDate, dateT);
         ma.put(AddPaymentP.F.noSe, longT);
@@ -364,10 +370,10 @@ public class TypeToFactory implements IAbstractType {
 
         ma.put(OfferPriceP.F.season, stringSeaT);
 
-        ma.put(BookElemWithPayment.F.customerPrice, decimalT);
-        ma.put(BookElemWithPayment.F.offerPrice, decimalT);
-        
-        ma.put(BookRecordP.F.oPrice,stringPriceT);
+        ma.put(BookPaymentField.customerPrice, paymentT);
+        ma.put(BookPaymentField.offerPrice, paymentT);
+
+        ma.put(BookRecordP.F.oPrice, stringPriceT);
     }
 
     @Override

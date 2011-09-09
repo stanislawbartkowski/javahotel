@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.javahotel.client.abstractto.BookElemWithPayment;
+import com.javahotel.client.abstractto.BookPaymentField;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.gename.ISeasonPriceNames;
 import com.javahotel.client.types.DataType;
@@ -27,6 +27,7 @@ import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
+import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
@@ -90,14 +91,18 @@ public class GetFieldName implements IGetFieldName {
         ma.put(PaymentRowP.F.rowFrom, "Od");
         ma.put(PaymentRowP.F.rowTo, "Do");
         
-        ma.put(BookElemWithPayment.F.customerPrice, "Cena klienta");
-        ma.put(BookElemWithPayment.F.offerPrice, "Cena z cennika");
+        ma.put(BookPaymentField.customerPrice, "Cena klienta");
+        ma.put(BookPaymentField.offerPrice, "Cena z cennika");
         
         ma.put(AdvancePaymentP.F.amount, "Zaliczka");
         ma.put(AdvancePaymentP.F.validationDate, "Zapłacić do");
         
         ma.put(BookRecordP.F.customerPrice, "Suma");
         ma.put(BookRecordP.F.oPrice, "Cennik");
+        
+        ma.put(GuestP.F.checkIn, "Od");
+        ma.put(GuestP.F.checkOut, "Do");
+        
     }
 
     @Override

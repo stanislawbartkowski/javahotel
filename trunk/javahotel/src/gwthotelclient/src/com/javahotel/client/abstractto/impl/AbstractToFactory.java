@@ -13,14 +13,15 @@
 package com.javahotel.client.abstractto.impl;
 
 import com.javahotel.client.IResLocator;
-import com.javahotel.client.abstractto.BookElemWithPayment;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.LoginRecord;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.AdvancePaymentP;
+import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
+import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.util.AbstractObjectFactory;
@@ -40,10 +41,11 @@ public class AbstractToFactory implements IAbstractFactory {
             case AdvanceHeader:
                 return new AdvancePaymentP();
             case BookElem:
-                return new BookElemWithPayment();
+                return new BookElemP();
             case RowPaymentElem:
                 return new PaymentRowP();
-                
+            case GuestElem:
+                return new GuestP();
             }
             rI = HInjector.getI().getI();
             assert false : rI.getMessages().NotSupportedError(

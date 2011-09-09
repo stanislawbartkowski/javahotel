@@ -116,8 +116,9 @@ public interface HoLabel extends Constants {
     String EnterDateFromTo();
 
     String NothingToDisplay();
-    
+
     String[] ScrollDays();
+
     String[] ScrollMonths();
-    
+
 }

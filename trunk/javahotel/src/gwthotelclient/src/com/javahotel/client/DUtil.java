@@ -18,24 +18,26 @@ import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
 
 /**
- * @author hotel
- * Static class providing different simple utils for dialogs
- *
+ * @author hotel Static class providing different simple utils for dialogs
+ * 
  */
 public class DUtil {
-    
+
     /**
-     * Static class, disables contructor
+     * Static class, disables constructor
      */
     private DUtil() {
-        
+
     }
-    
+
     /**
      * Info about number of days for reservation
-     * @param from First date of the period
-     * @param to Last date
-     * @return String with info 
+     * 
+     * @param from
+     *            First date of the period
+     * @param to
+     *            Last date
+     * @return String with info
      */
     public static String getLodgingS(final Date from, final Date to) {
         Date d1 = DateUtil.copyDate(to);
@@ -48,8 +50,11 @@ public class DUtil {
 
     /**
      * Info with general information on reservation
-     * @param from First date
-     * @param to Last date
+     * 
+     * @param from
+     *            First date
+     * @param to
+     *            Last date
      * @return String with info
      */
     public static String getBookingS(final Date from, final Date to) {
@@ -61,6 +66,5 @@ public class DUtil {
 
         return st;
     }
-
 
 }

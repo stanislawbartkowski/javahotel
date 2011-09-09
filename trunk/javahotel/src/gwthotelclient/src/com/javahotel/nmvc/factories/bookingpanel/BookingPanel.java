@@ -18,11 +18,18 @@ import java.util.List;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -30,12 +37,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
@@ -53,16 +62,21 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.ClickPopUp;
+import com.gwtmodel.table.view.util.ModalDialog;
+import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.ConfigParam;
+import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.injector.HInjector;
-import com.javahotel.client.rdata.RData;
+import com.javahotel.client.types.BackAbstract;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.VField;
 import com.javahotel.client.user.season.SeasonUtil;
@@ -72,7 +86,8 @@ import com.javahotel.client.user.widgets.stable.impl.WidgetScrollSeasonFactory;
 import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.RType;
+import com.javahotel.common.command.HotelOpType;
+import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.dateutil.CalendarTable;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.dateutil.DateFormatUtil;
@@ -82,13 +97,14 @@ import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 import com.javahotel.common.seasonutil.CreateTableSeason;
-import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
+import com.javahotel.nmvc.factories.bookingpanel.checkinguest.CheckGuestWidget;
 
 /**
  * @author hotel
@@ -101,6 +117,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     private final IListDataView iList;
     private final IDataPersistAction iPersist;
     private final static int NOM = 15;
+    private final IResLocator rI;
 
     // local variable - changeable area
     private IScrollSeason sCr = null;
@@ -111,6 +128,22 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     private HorizontalPanel upPanel = null;
     private List<PeriodT> coP = null;
     private DaySeasonScrollData sData;
+
+    interface TemplateClass extends SafeHtmlTemplates {
+        @Template("<div class=\"{0}\">{1} </div>")
+        SafeHtml input(String style, String content);
+    }
+
+    // style=\"line-height:" + h + ";\" ";
+    interface TemplateStyleHeight extends SafeHtmlTemplates {
+        @Template("<div class=\"{0}\" style=\"line-height:{1};\">{2}</div>")
+        SafeHtml input(String style, String height, String content);
+    }
+
+    private final static TemplateStyleHeight templateHeight = GWT
+            .create(TemplateStyleHeight.class);
+    private final static TemplateClass templateClass = GWT
+            .create(TemplateClass.class);
 
     /**
      * Creates or recreates panel widget.
@@ -200,7 +233,6 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             for (IVModelData v : dList.getList()) {
                 roomList.add(getRoomName(v));
             }
-            IResLocator rI = HInjector.getI().getI();
             // firstly re-read reservation data
             rI.getR().readResObjectState(new ReadResParam(roomList, pe),
                     new DrawList());
@@ -208,11 +240,10 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
     }
 
-    private class ReadOffer implements RData.IOneList<AbstractTo> {
+    private class ReadOffer implements BackAbstract.IRunAction<OfferSeasonP> {
 
         @Override
-        public void doOne(AbstractTo a) {
-            OfferSeasonP oP = (OfferSeasonP) a;
+        public void action(OfferSeasonP oP) {
             sCr = WidgetScrollSeasonFactory.getScrollSeason(new DrawC(),
                     DateUtil.getToday());
             List<Date> dLine = CalendarTable.listOfDates(oP.getStartP(),
@@ -231,11 +262,8 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             if (CUtil.EmptyS(s)) {
                 return;
             }
-            IResLocator i = HInjector.getI().getI();
-            CommandParam p = i.getR().getHotelCommandParam();
-            p.setDict(DictType.OffSeasonDict);
-            p.setRecName(s);
-            i.getR().getOne(RType.ListDict, p, new ReadOffer());
+            new BackAbstract<OfferSeasonP>().readAbstract(
+                    DictType.OffSeasonDict, s, new ReadOffer());
         }
 
     }
@@ -299,15 +327,31 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
     }
 
+    /**
+     * Modify html style
+     * 
+     * @param b
+     *            SafeHtmlBuilder
+     * @param st
+     *            Html style to be added to line
+     * @param content
+     *            Tag contennt
+     * @param h
+     *            If not null add line-height css modifier
+     */
     private void addStyle(SafeHtmlBuilder b, String st, String content, String h) {
-        String ht = "<div class=\"" + st + "\"";
+        /*
+         * String ht = "<div class=\"" + st + "\""; if (h != null) { ht +=
+         * " style=\"line-height:" + h + ";\" "; } ht += ">";
+         * b.appendHtmlConstant(ht); b.appendHtmlConstant(content);
+         * b.appendHtmlConstant("</div>");
+         */
         if (h != null) {
-            ht += " style=\"line-height:" + h + ";\" ";
+            b.append(templateHeight.input(st, h, content));
+        } else {
+            b.append(templateClass.input(st, content));
         }
-        ht += ">";
-        b.appendHtmlConstant(ht);
-        b.appendHtmlConstant(content);
-        b.appendHtmlConstant("</div>");
+
     }
 
     /**
@@ -361,7 +405,8 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
                 b.appendEscaped(headerT);
             }
             if (sTyle != null) {
-                addStyle(b, sTyle, "&nbsp;", "70%");
+                // addStyle(b, sTyle, "&nbsp;", "70%");
+                addStyle(b, sTyle, ".", "70%");
             }
             return b.toSafeHtml();
         }
@@ -383,10 +428,14 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             t = new T(i);
         }
 
-        @SuppressWarnings("rawtypes")
         @Override
-        public Header getHeader() {
+        public Header<?> getHeader() {
             return t;
+        }
+
+        @Override
+        public Column<?, ?> getColumn() {
+            return null;
         }
 
     }
@@ -434,11 +483,18 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         return staT;
     }
 
+    /**
+     * Test if reservation cell is in booked stated
+     * 
+     * @param p
+     *            BookingStateType (can be null)
+     * @return True if booked
+     */
     private boolean isBooked(BookingStateType p) {
         if (p == null) {
             return false;
         }
-        return p != BookingStateType.Canceled;
+        return p.isBooked();
     }
 
     /**
@@ -497,6 +553,103 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         }
     }
 
+    private class ChangeToStay implements ClickHandler {
+
+        private final String resName;
+
+        ChangeToStay(String resName) {
+            this.resName = resName;
+        }
+
+        private class RBack extends CommonCallBack<ReturnPersist> {
+
+            @Override
+            public void onMySuccess(ReturnPersist ret) {
+                if (ret.getIdName() != null) {
+                    Window.alert(ret.getIdName());
+                    // clear cache (contains previous booking data)
+                    rI.getR().invalidateResCache();
+                    // redraw
+                    sCr.refresh();
+                } else {
+                    Window.alert(ret.getErrorMessage());
+                }
+            }
+        }
+
+        @Override
+        public void onClick(ClickEvent event) {
+            IClickYesNo yes = new IClickYesNo() {
+
+                @Override
+                public void click(boolean yes) {
+                    if (!yes) {
+                        return;
+                    }
+                    CommandParam pa = rI.getR().getHotelCommandParam();
+                    pa.setReservName(resName);
+                    GWTGetService.getService().hotelOp(
+                            HotelOpType.ChangeBookingToStay, pa, new RBack());
+                }
+
+            };
+            new YesNoDialog("Na pewno zamieniasz tę rezerwację na pobyt ?", yes)
+                    .show(new WSize(event.getRelativeElement()));
+        }
+
+    }
+
+    private class GuestDialog extends ModalDialog {
+
+        private final Widget w;
+
+        GuestDialog(Widget w) {
+            super("Zameldowanie gości");
+            this.w = w;
+            create();
+        }
+
+        @Override
+        protected void addVP(VerticalPanel vp) {
+            vp.add(w);
+        }
+
+    }
+
+    private class R implements BackAbstract.IRunAction<BookingP> {
+
+        private final WSize wSize;
+
+        R(WSize w) {
+            this.wSize = w;
+        }
+
+        @Override
+        public void action(BookingP p) {
+            Widget w = new CheckGuestWidget(p);
+            GuestDialog g = new GuestDialog(w);
+            g.show(wSize);
+        }
+
+    }
+
+    private class CheckInGuests implements ClickHandler {
+
+        private final String resName;
+
+        CheckInGuests(String resName) {
+            this.resName = resName;
+        }
+
+        @Override
+        public void onClick(ClickEvent event) {
+            new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
+                    resName, new R(new WSize(event.getRelativeElement())));
+
+        }
+
+    }
+
     /**
      * Class called when panel cell is clicked
      * 
@@ -508,10 +661,14 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             IResLocator rI = HInjector.getI().getI();
-            // retrieve informaction
-            WSize wSize = slContext.getWSize();
-            IVModelData vData = slContext.getVData();
-            IVField v = slContext.getVField();
+            // retrieve information
+            // WSize wSize = slContext.getWSize();
+            // IVModelData vData = slContext.getVData();
+            // IVField v = slContext.getVField();
+            WChoosedLine wC = SlU.getWChoosedLine(slContext);
+            WSize wSize = wC.getwSize();
+            IVField v = wC.getvField();
+            IVModelData vData = SlU.getVDataByW(roomType, iList, wC);
             assert v != null && wSize != null && vData != null : LogT.getT()
                     .cannotBeNull();
             // room number
@@ -522,7 +679,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             assert d != null : LogT.getT().cannotBeNull();
             ResDayObjectStateP p = rI.getR().getResState(s, d);
             BookingStateType staT = getResState(p);
-            Widget w = new ResRoomInfo(rI, s);
+            Widget w = new ResRoomInfo(s);
             // no reservation : room info only
             if (!isBooked(staT)) {
                 new ClickPopUp(wSize, w);
@@ -534,12 +691,28 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             BookingInfo resW = new BookingInfo(rI, p.getBookName());
             ve.add(resW);
             new ClickPopUp(wSize, ve);
+            Button b;
+            switch (staT) {
+            case WaitingForConfirmation:
+            case Confirmed:
+                b = new Button("Zamień na pobyt");
+                b.addClickHandler(new ChangeToStay(p.getBookName()));
+                ve.add(b);
+                break;
+            case ChangedToCheckin:
+            case Stay:
+                b = new Button("Zamelduj gości");
+                b.addClickHandler(new CheckInGuests(p.getBookName()));
+                ve.add(b);
+                break;
+            }
         }
 
     }
 
     public BookingPanel(IDataType dType, CellId panelId) {
         this.dType = dType;
+        rI = HInjector.getI().getI();
         FormField f = FFactory.construct(OfferPriceP.F.season);
         seasonE = f.getELine();
         seasonE.addChangeListener(new C());

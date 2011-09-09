@@ -93,6 +93,7 @@ public class DataUtil {
 
         for (IVModelData v : dataListType.getList()) {
             HModelData vData = (HModelData) v;
+            @SuppressWarnings("unchecked")
             T t = (T) vData.getA();
             dList.add(t);
         }
@@ -102,6 +103,7 @@ public class DataUtil {
     public static <T extends AbstractTo> T getData(ISlotSignalContext slContext) {
         IVModelData mData = slContext.getVData();
         HModelData vData = (HModelData) mData;
+        @SuppressWarnings("unchecked")
         T cust = (T) vData.getA();
         return cust;
     }
@@ -128,6 +130,35 @@ public class DataUtil {
         IFormLineView i = iSlo.getSlContainer().getGetterFormLine(dType,
                 new VField(fie));
         i.setValObj(b);
+    }
+
+    /**
+     * Copy list of fields from AbstractTo to the second AbstractTp
+     * 
+     * @param from
+     *            Source AbstractTo
+     * @param to
+     *            Destination AbstractTo
+     * @param listFrom
+     *            List of fields to copy from
+     * @param listTo
+     *            List of fields to copy to
+     */
+    public static void copyField(AbstractTo from, AbstractTo to,
+            IField[] listFrom, IField[] listTo) {
+        for (int i = 0; i < listFrom.length; i++) {
+            Object o = from.getF(listFrom[i]);
+            to.setF(listTo[i], o);
+        }
+    }
+
+    public static List<IVField> toList(IField[] ft) {
+        List<IVField> eLList = new ArrayList<IVField>();
+        for (IField f : ft) {
+            eLList.add(new VField(f));
+        }
+        return eLList;
+
     }
 
 }

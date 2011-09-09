@@ -120,7 +120,7 @@ public class RData {
         void doVList(final List<? extends AbstractTo> val);
     }
 
-    public interface IOneList<T> {
+    public interface IOneList<T extends AbstractTo> {
 
         void doOne(final T val);
     }
@@ -143,7 +143,7 @@ public class RData {
         }
     }
 
-    private class CallOne extends CommonCallBack<AbstractTo> {
+    private class CallOne<T extends AbstractTo> extends CommonCallBack<T> {
 
         private final IOneList<AbstractTo> i;
         private final RetData re;
@@ -154,7 +154,7 @@ public class RData {
         }
 
         @Override
-        public void onMySuccess(AbstractTo a) {
+        public void onMySuccess(T a) {
             List<AbstractTo> v = new ArrayList<AbstractTo>();
             v.add(a);
             re.col = v;
@@ -172,13 +172,13 @@ public class RData {
         GWTGetService.getService().getList(r, p, new CallList(re, i));
     }
 
-    public void getOne(final RType r, final CommandParam p,
-            final IOneList<AbstractTo> i) {
+    public <T extends AbstractTo> void getOne(final RType r, final CommandParam p,
+            final IOneList<T> i) {
         RetData re = ca.getCol(r, p);
         if (re.col != null) {
-            AbstractTo aa = null;
+            T aa = null;
             for (AbstractTo a : re.col) {
-                aa = a;
+                aa = (T) a;
                 break;
             }
             i.doOne(aa);
