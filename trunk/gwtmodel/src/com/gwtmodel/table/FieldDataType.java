@@ -23,6 +23,38 @@ import com.gwtmodel.table.rdef.IFormLineView;
  */
 public class FieldDataType {
 
+    /**
+     * Custom access to field value (not by IVModelData.getF and
+     * IVModelData.setF
+     * 
+     * @author hotel
+     * 
+     */
+    public interface IGetCustomValue {
+        Object getF(IVField fie, IVModelData v);
+
+        void setF(IVField fie, IVModelData v, Object o);
+
+    }
+
+    /**
+     * Construct empty IGetCuctomValue interface
+     * @return IGetCustomValue - which does nothing
+     */
+    public static IGetCustomValue constructEmptyCustomValue() {
+        return new IGetCustomValue() {
+
+            @Override
+            public void setF(IVField fie, IVModelData v, Object o) {
+            }
+
+            @Override
+            public Object getF(IVField fie, IVModelData v) {
+                return null;
+            }
+        };
+    }
+
     public interface IFormLineViewFactory {
 
         IFormLineView construct(IVField v);
@@ -67,9 +99,9 @@ public class FieldDataType {
 
     public interface IEnumType {
 
-        boolean IsNullEnum(Enum e);
+        boolean IsNullEnum(Enum<?> e);
 
-        Enum toEnum(String e);
+        Enum<?> toEnum(String e);
 
         String assertS(Object sou);
 
@@ -82,12 +114,30 @@ public class FieldDataType {
 
         BOOLEAN, DATE, DATETIME, BIGDECIMAL, LONG, INT, STRING, ENUM
     };
+
     private final T type;
     private final int afterdot;
     private final ICustomType i;
     private final IEnumType e;
     private final IGetListValues li;
     private final IFormLineViewFactory iFactory;
+    private final IGetCustomValue iGetCustom;
+
+    private static int D(T type) {
+        return type == T.BIGDECIMAL ? IConsts.defaultDecimal : 0;
+    }
+
+    public static FieldDataType constructCustom(T type, IGetCustomValue iGet) {
+        return new FieldDataType(type, D(type), null, null, null, null, iGet);
+
+    }
+
+    /**
+     * @return the iGetCustom
+     */
+    IGetCustomValue getiGetCustom() {
+        return iGetCustom;
+    }
 
     public static FieldDataType constructDate() {
         return new FieldDataType(T.DATE);
@@ -106,16 +156,16 @@ public class FieldDataType {
     }
 
     public static FieldDataType constructString(IFormLineViewFactory iFact) {
-        return new FieldDataType(T.STRING, 0, null, null, null, iFact);
+        return new FieldDataType(T.STRING, 0, null, null, null, iFact, null);
     }
 
     public static FieldDataType constructString(ICustomType i) {
-        return new FieldDataType(T.STRING, 0, i, null, null, null);
+        return new FieldDataType(T.STRING, 0, i, null, null, null, null);
     }
 
     public static FieldDataType constructString(ICustomType i,
             IFormLineViewFactory iFact) {
-        return new FieldDataType(T.STRING, 0, i, null, null, iFact);
+        return new FieldDataType(T.STRING, 0, i, null, null, iFact, null);
     }
 
     public static FieldDataType constructBoolean() {
@@ -127,37 +177,39 @@ public class FieldDataType {
     }
 
     public static FieldDataType constructBigDecimal() {
-        return new FieldDataType(T.BIGDECIMAL, IConsts.defaultDecimal);
+        return new FieldDataType(T.BIGDECIMAL);
     }
 
     public static FieldDataType constructEnum(IEnumType e) {
-        return new FieldDataType(T.ENUM, 0, null, e, null, null);
+        return new FieldDataType(T.ENUM, 0, null, e, null, null, null);
     }
 
     public static FieldDataType constructStringList(IGetListValues gVal) {
-        return new FieldDataType(T.STRING, 0, null, null, gVal, null);
+        return new FieldDataType(T.STRING, 0, null, null, gVal, null, null);
     }
 
     public static FieldDataType constructLongList(IGetListValues gVal) {
-        return new FieldDataType(T.LONG, 0, null, null, gVal, null);
+        return new FieldDataType(T.LONG, 0, null, null, gVal, null, null);
     }
 
     private FieldDataType(T type, int afterdot, ICustomType i, IEnumType e,
-            IGetListValues li, IFormLineViewFactory iFactory) {
+            IGetListValues li, IFormLineViewFactory iFactory,
+            IGetCustomValue iGet) {
         this.type = type;
         this.afterdot = afterdot;
         this.i = i;
         this.e = e;
         this.li = li;
         this.iFactory = iFactory;
+        this.iGetCustom = iGet;
     }
 
     private FieldDataType(T type) {
-        this(type, 0, null, null, null, null);
+        this(type, D(type), null, null, null, null, null);
     }
 
     private FieldDataType(T type, int afterdot) {
-        this(type, afterdot, null, null, null, null);
+        this(type, afterdot, null, null, null, null, null);
     }
 
     /**

@@ -142,6 +142,11 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
+    /**
+     * Listener for all changes in the form
+     * @author hotel
+     *
+     */
     private class FormChangeListener implements IFormChangeListener {
 
         private final IVField fie;
@@ -152,6 +157,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         public void onChange(IFormLineView i) {
+            // propagate change (regardless if something is listening or not
             publish(dType, fie, i);
         }
     }

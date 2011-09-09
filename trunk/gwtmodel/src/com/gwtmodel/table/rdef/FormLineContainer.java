@@ -12,8 +12,11 @@
  */
 package com.gwtmodel.table.rdef;
 
-import com.gwtmodel.table.IVField;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.gwtmodel.table.IGetSetVField;
+import com.gwtmodel.table.IVField;
 
 public class FormLineContainer {
 
@@ -36,6 +39,19 @@ public class FormLineContainer {
     public FormLineContainer(List<FormField> fList, String html) {
         this.fList = fList;
         this.html = html;
+    }
+
+    /**
+     * Get list of IGetSetVField related for FormContainer
+     * 
+     * @return List
+     */
+    public List<IGetSetVField> getvList() {
+        List<IGetSetVField> vList = new ArrayList<IGetSetVField>();
+        for (FormField f : fList) {
+            vList.add(f.getELine());
+        }
+        return vList;
     }
 
     public List<FormField> getfList() {

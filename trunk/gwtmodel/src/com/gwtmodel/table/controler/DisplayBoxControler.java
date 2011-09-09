@@ -12,35 +12,36 @@
  */
 package com.gwtmodel.table.controler;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
+import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 
 /**
  * @author hotel
  * 
  */
-class DisplayBoxControler extends AbstractSlotMediatorContainer implements
-        IDataControler {
+class DisplayBoxControler {
 
-    private final DisplayListControlerParam cParam;
-    private final ClickButtonType.StandClickEnum action;
-    private final DataListActionItemFactory aFactory;
     private final SlotSignalContextFactory slFactory;
+    private final TablesFactories tFactories;
 
-    DisplayBoxControler(DisplayListControlerParam cParam,
-            ClickButtonType.StandClickEnum action, IVModelData vData,
-            WSize wSize) {
-        this.dType = cParam.getdType();
-        this.cParam = cParam;
-        this.action = action;
+    DisplayBoxControler() {
         this.slFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
-        aFactory = new DataListActionItemFactory(tFactories, dType, this,
-                cParam.getListParam(), slFactory);
+        this.tFactories = GwtGiniInjector.getI().getTablesFactories();
+    }
+
+    ISlotable construct(DisplayListControlerParam cParam,
+            ClickButtonType.StandClickEnum action, IVModelData vData,
+            WSize wSize, boolean contentonly) {
+        IDataType dType = cParam.getdType();
+        DataListActionItemFactory aFactory = new DataListActionItemFactory(
+                tFactories, dType, null, cParam.getListParam(), slFactory);
         PersistTypeEnum persistTypeEnum = PersistTypeEnum.SHOWONLY;
         switch (action) {
         case SHOWITEM:
@@ -55,7 +56,8 @@ class DisplayBoxControler extends AbstractSlotMediatorContainer implements
             persistTypeEnum = PersistTypeEnum.REMOVE;
             break;
         }
-        aFactory.BoxActionItem(action, persistTypeEnum, vData, wSize);
+        return aFactory.BoxActionItem(action, persistTypeEnum, vData, wSize,
+                contentonly);
     }
 
 }

@@ -12,15 +12,23 @@
  */
 package com.gwtmodel.table.view.util;
 
-import com.gwtmodel.table.FUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+
+/**
+ * Utility class for copying data between view and model
+ * 
+ * @author hotel
+ * 
+ */
 
 public class FormUtil {
 
@@ -44,12 +52,33 @@ public class FormUtil {
         }
     }
 
+    /**
+     * Copies values from view to model data
+     * 
+     * @param fContainer
+     *            Source view
+     * @param aTo
+     *            Destination model data
+     */
     public static void copyFromViewToData(FormLineContainer fContainer,
             IVModelData aTo) {
-        for (FormField d : fContainer.getfList()) {
-            IVField vFie = d.getFie();
-            IFormLineView vView = d.getELine();
-            aTo.setF(vFie, vView.getValObj());
+        // for (FormField d : fContainer.getfList()) {
+        // IVField vFie = d.getFie();
+        // IFormLineView vView = d.getELine();
+        // if (aTo.isValid(vFie)) {
+        // aTo.setF(vFie, vView.getValObj());
+        // }
+        // }
+        copyFromViewToModel(fContainer.getvList(), aTo);
+    }
+
+    public static void copyFromViewToModel(List<IGetSetVField> vList,
+            IVModelData aTo) {
+        for (IGetSetVField v : vList) {
+            IVField vFie = v.getV();
+            if (aTo.isValid(vFie)) {
+                aTo.setF(vFie, v.getValObj());
+            }
         }
     }
 

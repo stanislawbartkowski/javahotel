@@ -12,7 +12,8 @@
  */
 package com.gwtmodel.table.view.table;
 
-import com.gwtmodel.table.FieldDataType;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.core.client.JsArray;
@@ -26,13 +27,13 @@ import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.formatters.DateFormat;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
-import java.math.BigDecimal;
-import java.util.Date;
 
 class GwtTableView implements IGwtTableView {
 
@@ -273,4 +274,23 @@ class GwtTableView implements IGwtTableView {
     public Widget getGWidget() {
         return ta;
     }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#setEditable(com.gwtmodel.table.view.table.ChangeEditableRows)
+     */
+    @Override
+    public void setEditable(ChangeEditableRowsParam eParam) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#getVList(int)
+     */
+    @Override
+    public List<IGetSetVField> getVList(int rowno) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

@@ -30,6 +30,7 @@ import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.ISlotable;
 
 public class TableDataControlerFactory {
 
@@ -69,11 +70,17 @@ public class TableDataControlerFactory {
         return new DisplayListControler(cParam);
     }
 
-    public IDataControler constructDataControler(
-            DisplayListControlerParam cParam,
+    public ISlotable constructDataControler(DisplayListControlerParam cParam,
             ClickButtonType.StandClickEnum action, IVModelData vData,
             WSize wSize) {
-        return new DisplayBoxControler(cParam, action, vData, wSize);
+        return new DisplayBoxControler().construct(cParam, action, vData,
+                wSize, false);
+    }
+
+    public ISlotable constructDataControler(DisplayListControlerParam cParam,
+            ClickButtonType.StandClickEnum action, IVModelData vData) {
+        return new DisplayBoxControler().construct(cParam, action, vData, null,
+                true);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,

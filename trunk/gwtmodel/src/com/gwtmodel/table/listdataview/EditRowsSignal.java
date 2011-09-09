@@ -10,37 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.util;
+package com.gwtmodel.table.listdataview;
+
+import java.util.List;
+
+import com.gwtmodel.table.ICustomObject;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 
 /**
+ * @author hotel
  * 
- * @author perseus
  */
-public class SolidPos {
+public class EditRowsSignal extends ChangeEditableRowsParam implements ICustomObject {
 
-    private final int startl;
-    private final int startcol;
+    public static final String EditSignal = "DATALIST_ENABLE_SIGNAL_ROW";
 
-    public SolidPos(int startl, int startcol) {
-        this.startl = startl;
-        this.startcol = startcol;
-    }
-
-    public SolidPos() {
-        this(-1, -1);
-    }
 
     /**
-     * @return the startl
+     * @param i
+     * @param editable
+     * @param eList
      */
-    public int getStartl() {
-        return startl;
+    public EditRowsSignal(int i, boolean editable, List<IVField> eList) {
+        super(i,editable,eList);
     }
 
-    /**
-     * @return the startcol
-     */
-    public int getStartcol() {
-        return startcol;
-    }
 }

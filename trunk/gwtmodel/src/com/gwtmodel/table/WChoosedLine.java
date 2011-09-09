@@ -13,10 +13,10 @@
 package com.gwtmodel.table;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
-public class WChoosedLine {
+public class WChoosedLine implements ICustomObject {
 
     private final int choosedLine;
     private final WSize wSize;

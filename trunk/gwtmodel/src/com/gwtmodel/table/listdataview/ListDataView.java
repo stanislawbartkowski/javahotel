@@ -18,8 +18,10 @@ import java.util.List;
 import com.gwtmodel.table.CreateJson;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -31,12 +33,14 @@ import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.DataListModelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.IGwtTableModel;
@@ -214,6 +218,52 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private class ChangeEditRows implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            EditRowsSignal e = (EditRowsSignal) o;
+            tableView.setEditable(e);
+        }
+    }
+
+    /**
+     * Delivers IVModelData indentified by position in list
+     * 
+     * @author hotel
+     * 
+     */
+    private class GetVDataByI implements ISlotCaller {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            GetVDataByIntegerSignal e = (GetVDataByIntegerSignal) o;
+            IVModelData v = dataList.getList().get(e.getI());
+            return coFactory.construct(slContext.getSlType(), v);
+
+        }
+    }
+
+    /**
+     * Delivers List of IGetSetVield from table view
+     * 
+     * @author hotel
+     * 
+     */
+    private class GetVListByI implements ISlotCaller {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            GetVListSignal e = (GetVListSignal) o;
+            List<IGetSetVField> vList = tableView.getVList(e.getI());
+            e = new GetVListSignal(vList);
+            return coFactory.construct(slContext.getSlType(), e);
+        }
+    }
+
     private class GetComboField implements ISlotCaller {
 
         @Override
@@ -263,11 +313,12 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     }
 
     private class ClickColumn implements ICommand {
-
+ 
         @Override
         public void execute() {
-            publish(dType, DataActionEnum.TableCellClicked,
-                    constructChoosedContext());
+            WChoosedLine w = tableView.getClicked();
+            SlotType sl = slTypeFactory.construct(DataActionEnum.TableCellClicked,dType);
+            publish(sl,w);
         }
     }
 
@@ -293,7 +344,14 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new RemoveFilter());
         registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
                 new DrawHeader());
+        registerSubscriber(new CustomStringDataTypeSlot(
+                EditRowsSignal.EditSignal, dType), new ChangeEditRows());
         // caller
+        registerCaller(new CustomStringDataTypeSlot(
+                GetVDataByIntegerSignal.GETINTEGERSLOTSIGNAL, dType),
+                new GetVDataByI());
+        registerCaller(new CustomStringDataTypeSlot(GetVListSignal.GETVSIGNAL,
+                dType), new GetVListByI());
         registerCaller(dType, GetActionEnum.GetListLineChecked,
                 new GetListData());
         registerCaller(dType, GetActionEnum.GetListComboField,

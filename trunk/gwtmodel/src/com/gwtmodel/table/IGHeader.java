@@ -12,15 +12,17 @@
  */
 package com.gwtmodel.table;
 
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 
 /**
  * @author hotel
- *
+ * 
  */
 public interface IGHeader {
-    
-    @SuppressWarnings("rawtypes")
-    Header getHeader();
+
+    Header<?> getHeader();
+
+    Column<?, ?> getColumn();
 
 }

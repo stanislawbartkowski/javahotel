@@ -65,7 +65,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(dType, dataActionEnum, persistTypeEnum);
     }
 
-    public void publish(IDataType dType, DataActionEnum dataActionEnum,
+    protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             IVModelData vData, PersistTypeEnum persistTypeEnum) {
         slContainer.publish(dType, dataActionEnum, vData, persistTypeEnum);
     }
@@ -92,13 +92,17 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(dType, dataActionEnum, dataList);
     }
 
-    public void publish(IDataType dType, DataActionEnum dataActionEnum,
+    protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             WSize wSize) {
         slContainer.publish(dType, dataActionEnum, wSize);
     }
 
-    public void publish(ISlotCustom is, ICustomObject customO) {
+    protected void publish(ISlotCustom is, ICustomObject customO) {
         slContainer.publish(is, customO);
+    }
+
+    protected void publish(SlotType sl, ICustomObject customO) {
+        slContainer.publish(sl, customO);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
@@ -127,7 +131,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.publish(stringButton, customO);
     }
 
-    public void publish(IDataType dType, ClickButtonType bType,
+    protected void publish(IDataType dType, ClickButtonType bType,
             ButtonAction bAction) {
         slContainer.publish(dType, bType, bAction);
     }
@@ -181,11 +185,11 @@ abstract public class AbstractSlotContainer implements ISlotable {
         slContainer.registerCaller(dType, gEnum, slCaller);
     }
 
-    public void registerCaller(SlotType slType, ISlotCaller slCaller) {
+    protected void registerCaller(SlotType slType, ISlotCaller slCaller) {
         slContainer.registerCaller(slType, slCaller);
     }
 
-    public void registerCaller(ISlotCustom i, ISlotCaller slCaller) {
+    protected void registerCaller(ISlotCustom i, ISlotCaller slCaller) {
         slContainer.registerCaller(i, slCaller);
     }
 
@@ -222,7 +226,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
             GetActionEnum getActionEnum, IVModelData mData) {
         return slContainer.getGetterIVModelData(dType, getActionEnum, mData);
     }
-    
+
     protected IVModelData getGetterIVModelData(IDataType dType,
             GetActionEnum getActionEnum) {
         return slContainer.getGetterIVModelData(dType, getActionEnum);

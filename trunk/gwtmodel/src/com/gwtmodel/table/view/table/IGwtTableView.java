@@ -12,7 +12,10 @@
  */
 package com.gwtmodel.table.view.table;
 
+import java.util.List;
+
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.WChoosedLine;
 
 public interface IGwtTableView extends IGWidget {
@@ -29,5 +32,8 @@ public interface IGwtTableView extends IGWidget {
 
     void setModifyRowStyle(IModifyRowStyle iMod);
 
+    void setEditable(ChangeEditableRowsParam eParam);
+    
+    List<IGetSetVField> getVList(int rowno);
 
 }
