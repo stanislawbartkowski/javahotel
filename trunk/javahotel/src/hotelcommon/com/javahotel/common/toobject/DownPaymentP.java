@@ -22,6 +22,7 @@ import com.javahotel.types.LId;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class DownPaymentP extends AdvancePaymentP {
 
     private String resId;

@@ -16,6 +16,7 @@ package com.javahotel.common.toobject;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class PersonP extends AbstractTo {
 
     private Long id;

@@ -23,6 +23,7 @@ import com.javahotel.types.LId;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class BillP extends DictionaryP implements ILd {
 
 	public BillEnumTypes getBillType() {

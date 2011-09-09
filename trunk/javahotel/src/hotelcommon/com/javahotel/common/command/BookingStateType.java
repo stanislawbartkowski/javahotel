@@ -13,10 +13,14 @@
 package com.javahotel.common.command;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public enum BookingStateType {
 
-    WaitingForConfirmation, Confirmed, Canceled, ChangedToCheckin, Stay
+    WaitingForConfirmation, Confirmed, Canceled, ChangedToCheckin, Stay;
+
+    public boolean isBooked() {
+        return this != Canceled;
+    }
 }

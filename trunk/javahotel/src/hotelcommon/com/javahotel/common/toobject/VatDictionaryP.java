@@ -20,6 +20,7 @@ import java.math.BigDecimal;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class VatDictionaryP extends DictionaryP {
 
     public enum F implements IField {

@@ -20,6 +20,7 @@ import java.io.Serializable;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class PersonalDataP implements Serializable {
     
     private Long id;

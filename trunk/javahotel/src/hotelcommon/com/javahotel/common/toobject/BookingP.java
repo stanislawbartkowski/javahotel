@@ -24,6 +24,7 @@ import com.javahotel.types.LId;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class BookingP extends DictionaryP {
 
     private DateP checkIn;
@@ -96,8 +97,8 @@ public class BookingP extends DictionaryP {
     }
 
     @Override
-    public Class getT(final IField f) {
-        Class cla = super.getT(f);
+    public Class<?> getT(final IField f) {
+        Class<?> cla = super.getT(f);
         if (cla != null) {
             return cla;
         }

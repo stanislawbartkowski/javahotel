@@ -16,6 +16,7 @@ package com.javahotel.common.toobject;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class StringP extends AbstractTo {
 
     public String getName() {

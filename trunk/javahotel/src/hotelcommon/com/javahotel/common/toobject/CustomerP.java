@@ -22,6 +22,7 @@ import java.util.List;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class CustomerP extends DictionaryP {
 	
     private String zipCode;

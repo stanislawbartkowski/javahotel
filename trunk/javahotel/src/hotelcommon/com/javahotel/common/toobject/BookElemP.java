@@ -22,6 +22,7 @@ import com.javahotel.types.LId;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class BookElemP extends AbstractToILd {
 
 	private LId id;
@@ -75,9 +76,9 @@ public class BookElemP extends AbstractToILd {
 	};
 
 	@Override
-	public Class getT(IField f) {
+	public Class<?> getT(IField f) {
 		F fi = (F) f;
-		Class cla = String.class;
+		Class<?> cla = String.class;
 		switch (fi) {
 		case id:
 			cla = Long.class;
@@ -115,7 +116,8 @@ public class BookElemP extends AbstractToILd {
 		return null;
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	public void setF(IField f, Object o) {
 		F fi = (F) f;
 		switch (fi) {
