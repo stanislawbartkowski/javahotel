@@ -219,8 +219,8 @@ public class AddPaymentP extends AbstractTo implements INumerable {
     }
 
     @Override
-    public Class getT(IField f) {
-        Class cla = null;
+    public Class<?> getT(IField f) {
+        Class<?> cla = null;
         F fie = (F) f;
         switch (fie) {
             case lp: cla = Integer.class; break;

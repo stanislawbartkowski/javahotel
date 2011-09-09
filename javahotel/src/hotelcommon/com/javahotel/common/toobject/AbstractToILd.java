@@ -14,6 +14,7 @@ package com.javahotel.common.toobject;
 
 import com.javahotel.types.ILd;
 
+@SuppressWarnings("serial")
 public abstract class AbstractToILd extends AbstractTo implements ILd  {
 
 }

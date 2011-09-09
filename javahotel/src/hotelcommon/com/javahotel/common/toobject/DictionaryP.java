@@ -19,6 +19,7 @@ import com.javahotel.types.LId;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class DictionaryP extends AbstractTo implements IDictionary {
 	
 	private LId id;

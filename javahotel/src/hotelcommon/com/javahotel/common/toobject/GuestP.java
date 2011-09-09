@@ -21,6 +21,7 @@ import com.javahotel.types.LId;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class GuestP extends AbstractTo {
 
     /**
@@ -98,7 +99,7 @@ public class GuestP extends AbstractTo {
     }
 
     @Override
-    public Class getT(IField f) {
+    public Class<?> getT(IField f) {
         F fie = (F) f;
         switch (fie) {
             case id:

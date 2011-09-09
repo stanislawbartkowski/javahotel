@@ -22,6 +22,7 @@ import java.util.Date;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class AdvancePaymentP extends AbstractTo implements INumerable {
 
     private Long id;

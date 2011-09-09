@@ -21,6 +21,7 @@ import java.util.Date;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class BookingStateP extends AbstractTo implements INumerable {
 
     private Long id;
@@ -35,9 +36,9 @@ public class BookingStateP extends AbstractTo implements INumerable {
     };
 
     @Override
-    public Class getT(IField f) {
+    public Class<?> getT(IField f) {
         F fi = (F) f;
-        Class cla = String.class;
+        Class<?> cla = String.class;
         switch (fi) {
             case id:
                 cla = Long.class;

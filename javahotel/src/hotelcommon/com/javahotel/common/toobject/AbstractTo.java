@@ -13,17 +13,15 @@
 package com.javahotel.common.toobject;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.javahotel.common.command.CommandUtil;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.util.StringU;
 import com.javahotel.types.LId;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public abstract class AbstractTo implements Serializable {
 
     public interface IFieldToS {
@@ -51,47 +49,6 @@ public abstract class AbstractTo implements Serializable {
 
     protected boolean emptySpecialTrue(final IField f) {
         return false;
-    }
-
-    // TODO : remove
-    private String getDispS(final IField f, final IFieldToS i) {
-        if (emptySpecialTrue(f)) {
-            return null;
-        }
-        Object va = getF(f);
-        if (va == null) {
-            return null;
-        }
-        if (i != null) {
-            String s = i.toS(f, va);
-            if (s != null) {
-                return s;
-            }
-        }
-        if (va instanceof String) {
-            return (String) va;
-        }
-        if (va instanceof DictionaryP) {
-            DictionaryP p = (DictionaryP) va;
-            return p.getName();
-        }
-        if (va instanceof Date) {
-            String s = DateFormatUtil.toS((Date) va);
-            return s;
-
-        }
-        return va.toString();
-    }
-
-    // TODO : REMOVE
-    private String getS(final IField f) {
-        return getDispS(f, null);
-    }
-
-    // TODO: REMOVE
-    private boolean emptyS(final IField f) {
-        String val = getS(f);
-        return StringU.isEmpty(val);
     }
 
     public void copyFrom(final AbstractTo from) {
