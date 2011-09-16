@@ -19,10 +19,11 @@ package com.gwtmodel.table.slotmodel;
 import com.gwtmodel.table.IDataType;
 
 /**
- *
+ * 
  * @author hotel
  */
-public class TemplateContainerSlotable<T extends ISlotable> implements ISlotable {
+public class TemplateContainerSlotable<T extends ISlotable> implements
+        ISlotable {
 
     protected T iSlot;
     protected IDataType dType;
@@ -33,13 +34,24 @@ public class TemplateContainerSlotable<T extends ISlotable> implements ISlotable
     }
 
     @Override
-    public void replaceSlContainer(SlotListContainer sl) {
-        iSlot.replaceSlContainer(sl);
+    public void startPublish(CellId cellId) {
+        iSlot.startPublish(cellId);
     }
 
     @Override
-    public void startPublish(CellId cellId) {
-        iSlot.startPublish(cellId);
+    public void setSlContainer(ISlotable iSlo) {
+        iSlot.setSlContainer(iSlo);
+
+    }
+
+    @Override
+    public void setSlotContainerReference(SlotContainerReference sReference) {
+        iSlot.setSlotContainerReference(sReference);
+    }
+
+    @Override
+    public SlotContainerReference getSlotContainerReference() {
+        return iSlot.getSlotContainerReference();
     }
 
 }

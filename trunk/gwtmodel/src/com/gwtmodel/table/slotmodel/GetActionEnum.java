@@ -36,6 +36,6 @@ public enum GetActionEnum {
     GetFormFieldWidget,
     /** GetHeaderDef */
     GetHeaderList,
-    /** GetListData. */
+    /** IDataListType. */
     GetListData
 }

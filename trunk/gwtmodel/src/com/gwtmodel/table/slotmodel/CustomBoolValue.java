@@ -12,16 +12,25 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-public interface ISlotable {
+import com.gwtmodel.table.ICustomObject;
 
-    SlotListContainer getSlContainer();
+/**
+ * @author hotel
+ * 
+ */
+public class CustomBoolValue implements ICustomObject {
 
-    void startPublish(CellId cellId);
+    private final boolean boolValue;
 
-    void setSlContainer(ISlotable iSlo);
+    public CustomBoolValue(boolean boolValue) {
+        this.boolValue = boolValue;
+    }
 
-    void setSlotContainerReference(SlotContainerReference sReference);
-
-    SlotContainerReference getSlotContainerReference();
+    /**
+     * @return the boolValue
+     */
+    boolean isBoolValue() {
+        return boolValue;
+    }
 
 }

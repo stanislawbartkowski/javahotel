@@ -195,6 +195,9 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
                 SetNewChange(false, false);
                 ModifForm();
                 d.hide();
+                // sent signal object was choosed and set
+                slMediator.getSlContainer()
+                        .publish(IChangeObject.choosedString);
             }
 
             @Override
@@ -206,6 +209,7 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         @Override
         public void signal(ISlotSignalContext slContext) {
             WSize w = new WSize(slContext.getGwtWidget().getGWidget());
+            @SuppressWarnings("unused")
             ChooseDictList<IVModelData> c = new ChooseDictList<IVModelData>(
                     dType, w, new SelectC());
         }

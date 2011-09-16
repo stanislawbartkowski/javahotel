@@ -12,16 +12,25 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-public interface ISlotable {
+import com.gwtmodel.table.ICustomObject;
 
-    SlotListContainer getSlContainer();
+/**
+ * @author hotel
+ * 
+ */
+public class CustomStringValue implements ICustomObject {
 
-    void startPublish(CellId cellId);
+    private final String value;
 
-    void setSlContainer(ISlotable iSlo);
+    public CustomStringValue(String s) {
+        this.value = s;
+    }
 
-    void setSlotContainerReference(SlotContainerReference sReference);
-
-    SlotContainerReference getSlotContainerReference();
+    /**
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
 
 }

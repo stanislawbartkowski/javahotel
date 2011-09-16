@@ -24,6 +24,8 @@ import com.gwtmodel.table.slotmodel.ISlotable;
  * @author hotel
  */
 public interface IEditChooseRecordContainer extends ISlotable {
+    
+    
 
     /**
      * Set values for check box

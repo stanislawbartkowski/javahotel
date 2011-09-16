@@ -95,19 +95,21 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         }
     }
 
+    @SuppressWarnings("deprecation")
     protected class L implements ChangeListener {
 
         @Override
         public void onChange(Widget sender) {
-            runOnChange(AbstractField.this);
+            runOnChange(AbstractField.this, true);
         }
     }
 
+    @SuppressWarnings("rawtypes")
     protected class ValueChange implements ValueChangeHandler {
 
         @Override
         public void onValueChange(ValueChangeEvent event) {
-            runOnChange(AbstractField.this);
+            runOnChange(AbstractField.this, true);
         }
     }
 
@@ -144,7 +146,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 
     @Override
     public void setOnTouch(final ITouchListener iTouch) {
-            this.iTouch = iTouch;
+        this.iTouch = iTouch;
     }
 
     @Override
@@ -155,12 +157,12 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         lC.add(l);
     }
 
-    protected void runOnChange(IFormLineView i) {
+    protected void runOnChange(IFormLineView i, boolean afterFocus) {
         if (lC == null) {
             return;
         }
         for (IFormChangeListener c : lC) {
-            c.onChange(i);
+            c.onChange(i, afterFocus);
         }
     }
 

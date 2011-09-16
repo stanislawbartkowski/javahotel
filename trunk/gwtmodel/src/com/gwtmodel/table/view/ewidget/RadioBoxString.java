@@ -18,15 +18,10 @@ import java.util.List;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGetDataList;
-import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.ITableCustomFactories;
-import com.gwtmodel.table.injector.LogT;
 
 /**
  * 

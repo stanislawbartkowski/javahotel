@@ -31,7 +31,7 @@ class GetValueLB extends AbstractField implements IValueLB {
 
     final protected ListBox lB = new ListBox();
     private String beforeVal = null;
-    private final boolean addEmpty; 
+    private final boolean addEmpty;
 
     GetValueLB(ITableCustomFactories tFactories, IVField v) {
         super(tFactories, v);
@@ -44,8 +44,8 @@ class GetValueLB extends AbstractField implements IValueLB {
         int i = lB.getSelectedIndex();
         String s;
         if (i == -1) {
-// CHANGE: 2010/09/22
-//            return null;
+            // CHANGE: 2010/09/22
+            // return null;
             s = beforeVal;
         } else {
             s = lB.getItemText(i);
@@ -88,7 +88,7 @@ class GetValueLB extends AbstractField implements IValueLB {
     @Override
     public void setValObj(Object o) {
         setV((String) o);
-        runOnChange(this);
+        runOnChange(this, false);
     }
 
     @Override
@@ -107,13 +107,14 @@ class GetValueLB extends AbstractField implements IValueLB {
 
             @Override
             public void onChange(Widget sender) {
-                runOnChange(GetValueLB.this);
+                runOnChange(GetValueLB.this, true);
             }
         };
         lB.addChangeListener(le);
-        // added: 2011/08/12 : in case of immediate setting the list (before AddChangeListener)
+        // added: 2011/08/12 : in case of immediate setting the list (before
+        // AddChangeListener)
         if (!addEmpty) {
-            le.onChange(this);
+            runOnChange(GetValueLB.this, false);
         }
         //
     }
@@ -130,7 +131,7 @@ class GetValueLB extends AbstractField implements IValueLB {
     public void setList(List<String> li) {
         lB.clear();
         if (addEmpty) {
-          lB.addItem(""); // add empty
+            lB.addItem(""); // add empty
         }
         for (String s : li) {
             lB.addItem(s);

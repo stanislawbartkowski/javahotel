@@ -189,6 +189,10 @@ class PresentationCellFactory {
 
         @Override
         public void setValObj(Integer key, Object o) {
+            if (o == null) {
+                this.setViewData(key, null);
+                return;
+            }
             String s = (String) o;
             ViewData v = new ViewData(s);
             this.setViewData(key, v);

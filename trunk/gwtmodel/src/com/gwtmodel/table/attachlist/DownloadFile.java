@@ -41,8 +41,8 @@ class DownloadFile extends AbstractSlotContainer {
 
     DownloadFile(IDataType dType, ClickButtonType bType) {
         this.dType = dType;
-        this.slContainer.registerSubscriber(bType, new DownloadFileSig());
-        this.slContainer.registerSubscriber(
+        this.getSlContainer().registerSubscriber(bType, new DownloadFileSig());
+        this.getSlContainer().registerSubscriber(
                 IAttachDataView.SENDDOWNLOADFILENAME, new GetTempFile());
     }
 

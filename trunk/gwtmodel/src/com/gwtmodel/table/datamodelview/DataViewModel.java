@@ -36,6 +36,7 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
 
@@ -144,8 +145,9 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     /**
      * Listener for all changes in the form
+     * 
      * @author hotel
-     *
+     * 
      */
     private class FormChangeListener implements IFormChangeListener {
 
@@ -156,9 +158,10 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
 
         @Override
-        public void onChange(IFormLineView i) {
-            // propagate change (regardless if something is listening or not
-            publish(dType, fie, i);
+        public void onChange(IFormLineView i, boolean afterFocus) {
+            // propagate change (regardless if something is listening or not)
+            SlU.publishValueChange(dType, DataViewModel.this, fie, i,
+                    afterFocus);
         }
     }
 
@@ -173,10 +176,9 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         iContext.setiSlo(this);
         IDataFormConstructorAbstractFactory.CType ccType;
         if (abFactory == null) {
-            ccType = iContext.getC()
-                .getDataFormConstructorAbstractFactory().construct(iContext);
-        }
-        else {
+            ccType = iContext.getC().getDataFormConstructorAbstractFactory()
+                    .construct(iContext);
+        } else {
             ccType = abFactory.construct(iContext);
         }
         gView = gFactory.construct(iContext, fContainer, ccType);

@@ -24,11 +24,24 @@ import com.gwtmodel.table.IGWidget;
  * @author hotel
  */
 public interface IChangeObject extends ICustomObject {
+    
+    /**
+     * Signal sent after choosing object from list
+     */
+    String choosedString = "CHOOSED-SIGNAL-STRING";
 
     int NEW = 0;
     int CHANGE = 1;
+    
+    /**
+     * Signal sent after changing checkboxes NEW or CHANGE
+     */
     String signalString = "CHANGE-SIGNAL-STRING";
 
+    /**
+     * Which checkbox has been changed
+     * @return NEW or CHANGE
+     */
     int getWhat();
 
     boolean getSet();

@@ -52,13 +52,6 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
 
     private class PersistElem implements ISlotSignaller {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.gwtmodel.table.slotmodel.ISlotSignaller#signal(com.gwtmodel.table
-         * .slotmodel.ISlotSignalContext)
-         */
         @Override
         public void signal(ISlotSignalContext slContext) {
             int i = 0;
@@ -81,14 +74,15 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
                 new DateViewFactory(title), new DataFactory(eFactory),
                 daFactory, mList, vFactory);
 
-        DisplayListControlerParam cParam = tFactory.constructParam(dType,
-                new CellId(0), new DataListParam(mList, null, new DataFactory(
-                        eFactory), new DateViewFactory(title),
-                // new GetControler(title, eFactory, daFactory, mList)
+        DisplayListControlerParam cParam = tFactory.constructParam(
+                new CellId(0), new DataListParam(dType, mList, null,
+                        new DataFactory(eFactory), new DateViewFactory(title),
+                        // new GetControler(title, eFactory, daFactory, mList)
                         iGetCon), null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
-        dControler.getSlContainer().replaceContainer(this);
+        // dControler.getSlContainer().replaceContainer(this);
+        this.setSlContainer(dControler);
         registerSubscriber(dType, DataActionEnum.PersistDataSuccessSignal,
                 new PersistElem());
     }

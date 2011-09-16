@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.attachlist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.PersistTypeEnum;
@@ -23,7 +26,6 @@ import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.factories.IDataFormConstructor;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
-import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory.CType;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -37,8 +39,6 @@ import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.CreateFormView;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

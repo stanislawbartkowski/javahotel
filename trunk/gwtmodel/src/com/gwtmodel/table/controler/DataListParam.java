@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.controler;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;
@@ -27,15 +28,20 @@ public class DataListParam {
     private final IFormTitleFactory formFactory;
     private final IGetViewControllerFactory fControler;
     private final IDataCrudModifButtonActionFactory modifButtonFactory;
+    private final BoxActionMenuOptions menuOptions;
+    private final IDataType dType;
 
     public IFormTitleFactory getFormFactory() {
         return formFactory;
     }
 
-    public DataListParam(IDataPersistAction persistA,
+    public DataListParam(IDataType dType, IDataPersistAction persistA,
             IHeaderListContainer heList, IDataModelFactory dataFactory,
-            IFormTitleFactory formFactory, IGetViewControllerFactory fControler,
+            IFormTitleFactory formFactory,
+            IGetViewControllerFactory fControler,
             IDataCrudModifButtonActionFactory modifButtonFactory) {
+        this.dType = dType;
+        this.menuOptions = new BoxActionMenuOptions(dType);
         this.persistA = persistA;
         this.heList = heList;
         this.dataFactory = dataFactory;
@@ -44,10 +50,25 @@ public class DataListParam {
         this.modifButtonFactory = modifButtonFactory;
     }
 
-    public DataListParam(IDataPersistAction persistA,
+    /**
+     * @return the menuOptions
+     */
+    public BoxActionMenuOptions getMenuOptions() {
+        return menuOptions;
+    }
+
+    /**
+     * @return the dType
+     */
+    IDataType getdType() {
+        return dType;
+    }
+
+    public DataListParam(IDataType dType, IDataPersistAction persistA,
             IHeaderListContainer heList, IDataModelFactory dataFactory,
             IFormTitleFactory formFactory, IGetViewControllerFactory fControler) {
-        this(persistA, heList, dataFactory, formFactory, fControler, null);
+        this(dType, persistA, heList, dataFactory, formFactory, fControler,
+                null);
     }
 
     public IGetViewControllerFactory getfControler() {

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.MaxI;
 
@@ -67,7 +68,7 @@ abstract public class ModalDialog {
     public void setTitle(String title) {
         this.title = title;
         dBox.setText(title);
-  }
+    }
 
     protected void create() {
         create(new CloseClick());
@@ -79,7 +80,6 @@ abstract public class ModalDialog {
         dBox.setWidget(vP);
         dBox.setText(title);
     }
-    
 
     /**
      * @return the dBox
@@ -115,7 +115,7 @@ abstract public class ModalDialog {
                 if (sPos.getStartcol() != -1) {
                     left = sPos.getStartcol();
                 }
-                if (top < 0) { 
+                if (top < 0) {
                     top = 0;
                 }
                 dBox.setPopupPosition(left, top);
@@ -133,5 +133,9 @@ abstract public class ModalDialog {
 
     public void show(final Widget w) {
         show(new WSize(w), new SolidPos());
+    }
+
+    public void show(final IGWidget w) {
+        show(w.getGWidget(), new SolidPos());
     }
 }

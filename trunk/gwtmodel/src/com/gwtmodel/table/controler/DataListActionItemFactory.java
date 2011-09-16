@@ -17,6 +17,8 @@
 package com.gwtmodel.table.controler;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtmodel.table.IClickYesNo;
+import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
@@ -35,17 +37,20 @@ import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.ButtonAction;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.CustomStringValue;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ICloseAction;
 import com.gwtmodel.table.view.util.ModalDialog;
+import com.gwtmodel.table.view.util.YesNoDialog;
 
 /**
  * 
@@ -154,6 +159,12 @@ class DataListActionItemFactory {
         }
     }
 
+    /**
+     * Removes dialog from screen (important: default visibility)
+     * 
+     * @author hotel
+     * 
+     */
     static class ResignAction extends Signaller {
 
         private final ISignal i;
@@ -185,10 +196,37 @@ class DataListActionItemFactory {
             this.dataActionEnum = dataActionEnum;
         }
 
+        private void goPersist(ISlotSignalContext slContext) {
+            // iController.getSlContainer().publish(dType, dataActionEnum,
+            // persistTypeEnum);
+            SlU.publishActionPersist(dType, iController, slContext,
+                    dataActionEnum, persistTypeEnum);
+        }
+
         @Override
-        public void signal(ISlotSignalContext slContext) {
-            iController.getSlContainer().publish(dType, dataActionEnum,
-                    persistTypeEnum);
+        public void signal(final ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+
+            if (o != null && o instanceof CustomStringValue) {
+                CustomStringValue v = (CustomStringValue) o;
+                IGWidget w = slContext.getGwtWidget();
+                IClickYesNo yes = new IClickYesNo() {
+
+                    @Override
+                    public void click(boolean yes) {
+                        if (yes) {
+                            goPersist(slContext);
+                        }
+
+                    }
+
+                };
+                YesNoDialog yesD = new YesNoDialog(v.getValue(), yes);
+                yesD.show(w);
+                return;
+
+            }
+            goPersist(slContext);
         }
     }
 
@@ -240,6 +278,34 @@ class DataListActionItemFactory {
 
     }
 
+    private class AskBeforeRemove extends Signaller {
+
+        AskBeforeRemove(DrawForm d) {
+            super(d);
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            CustomStringValue v = (CustomStringValue) o;
+            IGWidget w = slContext.getGwtWidget();
+            IClickYesNo yes = new IClickYesNo() {
+
+                @Override
+                public void click(boolean yes) {
+                    if (yes) {
+                        hide();
+                    }
+
+                }
+
+            };
+            YesNoDialog yesD = new YesNoDialog(v.getValue(), yes);
+            yesD.show(w);
+        }
+
+    }
+
     IComposeController BoxActionItem(ClickButtonType.StandClickEnum action,
             PersistTypeEnum persistTypeEnum, IVModelData peData, WSize wSize,
             boolean contentOnly) {
@@ -285,8 +351,18 @@ class DataListActionItemFactory {
             DrawForm dForm = new DrawForm(wSize, title, action, true, null);
             slControlerContainer.registerSubscriber(dType, cId, dForm);
             ResignAction aRes = new ResignAction(dForm, null);
-            slControlerContainer.registerSubscriber(
-                    ClickButtonType.StandClickEnum.RESIGN, aRes);
+            slControlerContainer.registerSubscriber(listParam.getMenuOptions()
+                    .constructRemoveFormDialogSlotType(), aRes);
+            slControlerContainer.registerSubscriber(listParam.getMenuOptions()
+                    .constructAskBeforeRemoveSlotType(), new AskBeforeRemove(
+                    dForm));
+
+            // redirect Resign (default: remove without any question)
+            slControlerContainer.registerRedirector(
+                    listParam.getMenuOptions().constructResignButtonSlotType(),
+                    listParam.getMenuOptions().getSlotType(
+                            BoxActionMenuOptions.REDIRECT_RESIGN));
+
             PersistData pData = new PersistData(persistTypeEnum, fController,
                     DataActionEnum.ValidateComposeFormAction);
             if (action == ClickButtonType.StandClickEnum.SHOWITEM) {
