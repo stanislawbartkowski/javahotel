@@ -69,7 +69,7 @@ public class CustomerForm implements IDataFormConstructor {
     private class CList implements IFormChangeListener {
 
         @Override
-        public void onChange(IFormLineView i) {
+        public void onChange(IFormLineView i, boolean afterFocus) {
             changeC(i);
         }
     }
@@ -84,7 +84,9 @@ public class CustomerForm implements IDataFormConstructor {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            LogT.getLS().info(LogT.getT().receivedSignalLog(slContext.getSlType().toString()));
+            LogT.getLS().info(
+                    LogT.getT().receivedSignalLog(
+                            slContext.getSlType().toString()));
             IGWidget g = slContext.getGwtWidget();
             assert g != null : LogT.getT().cannotBeNull();
             tab.add(g.getGWidget(), tabName);
@@ -129,8 +131,14 @@ public class CustomerForm implements IDataFormConstructor {
         eC.getELine().addChangeListener(new CList());
         changeC(eC.getELine());
 
-        iContext.iSlo().getSlContainer().registerSubscriber(CustomerAddInfo.setAccString, new GetGWT("Konta"));
-        iContext.iSlo().getSlContainer().registerSubscriber(CustomerAddInfo.setTelString, new GetGWT("Telefony"));
+        iContext.iSlo()
+                .getSlContainer()
+                .registerSubscriber(CustomerAddInfo.setAccString,
+                        new GetGWT("Konta"));
+        iContext.iSlo()
+                .getSlContainer()
+                .registerSubscriber(CustomerAddInfo.setTelString,
+                        new GetGWT("Telefony"));
 
         return vpm;
     }

@@ -68,7 +68,6 @@ import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.ClickPopUp;
-import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.ConfigParam;
 import com.javahotel.client.GWTGetService;
@@ -104,7 +103,7 @@ import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
-import com.javahotel.nmvc.factories.bookingpanel.checkinguest.CheckGuestWidget;
+import com.javahotel.nmvc.factories.bookingpanel.checkinguest.CheckinGuest;
 
 /**
  * @author hotel
@@ -257,7 +256,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     private class C implements IFormChangeListener {
 
         @Override
-        public void onChange(IFormLineView sEdit) {
+        public void onChange(IFormLineView sEdit, boolean afterFocus) {
             String s = (String) sEdit.getValObj();
             if (CUtil.EmptyS(s)) {
                 return;
@@ -599,23 +598,6 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
     }
 
-    private class GuestDialog extends ModalDialog {
-
-        private final Widget w;
-
-        GuestDialog(Widget w) {
-            super("Zameldowanie gości");
-            this.w = w;
-            create();
-        }
-
-        @Override
-        protected void addVP(VerticalPanel vp) {
-            vp.add(w);
-        }
-
-    }
-
     private class R implements BackAbstract.IRunAction<BookingP> {
 
         private final WSize wSize;
@@ -626,9 +608,8 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
         @Override
         public void action(BookingP p) {
-            Widget w = new CheckGuestWidget(p);
-            GuestDialog g = new GuestDialog(w);
-            g.show(wSize);
+            CheckinGuest g = new CheckinGuest();
+            g.CheckIn(p, wSize);
         }
 
     }

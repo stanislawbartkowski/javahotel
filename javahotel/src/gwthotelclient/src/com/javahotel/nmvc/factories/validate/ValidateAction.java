@@ -44,7 +44,7 @@ public class ValidateAction extends AbstractSlotContainer implements
             IVModelData pData = getGetterIVModelData(dType,
                     GetActionEnum.GetViewComposeModelEdited);
             FormLineContainer fContainer = getGetterContainer(dType);
-            if (!ValidateEmpty.validateE(slContainer, da,
+            if (!ValidateEmpty.validateE(getSlContainer(), da,
                     slContext.getPersistType(), pData, fContainer,
                     eFactory.getEmptyCol(da, slContext.getPersistType()))) {
                 return;
@@ -76,7 +76,7 @@ public class ValidateAction extends AbstractSlotContainer implements
                 return;
             }
             PersistTypeEnum action = slContext.getPersistType();
-            ValidateOnServer.validateS(slContainer, da, action, pData);
+            ValidateOnServer.validateS(getSlContainer(), da, action, pData);
         }
     }
 

@@ -18,13 +18,13 @@ import com.javahotel.client.abstractto.LoginRecord;
 
 /**
  * @author hotel
- *
+ * 
  */
 public class ConvertP {
-    
-    private ConvertP() {        
+
+    private ConvertP() {
     }
-    
+
     public static LoginRecord toLoginP(IVModelData ma) {
         LoginData lo = (LoginData) ma;
         LoginRecord pe = new LoginRecord();

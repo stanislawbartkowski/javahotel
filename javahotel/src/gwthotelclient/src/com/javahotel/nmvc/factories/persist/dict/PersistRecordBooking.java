@@ -15,12 +15,12 @@ package com.javahotel.nmvc.factories.persist.dict;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.types.HModelData;
-import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.util.BillUtil;
 import com.javahotel.nmvc.factories.booking.BookingCustInfo;
+import com.javahotel.nmvc.factories.persist.PersistCustomer;
 import com.javahotel.types.LId;
 
 /**
@@ -37,7 +37,7 @@ class PersistRecordBooking implements IPersistRecord {
         this.validate = validate;
     }
 
-    private class PersistP implements IPersistResult {
+    private class PersistP implements PersistCustomer.ISetCustomerId {
 
         private final HModelData mo;
         private final IPersistResult ires;
@@ -52,10 +52,10 @@ class PersistRecordBooking implements IPersistRecord {
             this.bPersist = bPersist;
         }
 
-        public void success(PersistResultContext re) {
-            LId id = re.getRet().getId();
+        @Override
+        public void setC(LId custId) {
             BookingP p = (BookingP) mo.getA();
-            setCustId(p, id);
+            setCustId(p, custId);
             bPersist.persist(action, mo, ires);
         }
     }
@@ -72,24 +72,14 @@ class PersistRecordBooking implements IPersistRecord {
 
         IPersistRecord bPersist = new PersistRecordDict(rI,
                 DictType.BookingList, validate);
-        BookingP b = (BookingP) ho.getA();
         BookingCustInfo bCust = (BookingCustInfo) ho.getCustomData();
-        boolean runNow = false;
         if (action == PersistTypeEnum.REMOVE) {
-            runNow = true;
-        }
-        if ((b.getId() != null) && !bCust.isChangeCust()) {
-            b.setCustomer(bCust.getCust().getLId());
-            runNow = true;
-        }
-        if (runNow) {
             bPersist.persist(action, ho, ires);
             return;
         }
-        IPersistRecord re = new PersistRecordDict(rI, DictType.CustomerList,
-                validate);
-        HModelData custH = VModelDataFactory.construct(bCust.getCust());
-        re.persist(action, custH, new PersistP(action, ho, ires, bPersist));
+        PersistCustomer pC = new PersistCustomer();
+        pC.persistCustomer(action, bCust, new PersistP(action, ho, ires,
+                bPersist));
     }
 
 }

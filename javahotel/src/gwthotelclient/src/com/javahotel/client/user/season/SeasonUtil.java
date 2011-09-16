@@ -22,7 +22,6 @@ import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
-import com.javahotel.common.toobject.SeasonPeriodT;
 
 /**
  * 

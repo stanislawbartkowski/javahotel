@@ -32,7 +32,7 @@ public class BookingCustInfo {
         return cust;
     }
 
-    BookingCustInfo(boolean addCust, boolean changeCust, CustomerP cust) {
+    public BookingCustInfo(boolean addCust, boolean changeCust, CustomerP cust) {
         this.addCust = addCust;
         this.changeCust = changeCust;
         this.cust = cust;

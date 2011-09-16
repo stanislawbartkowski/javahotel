@@ -143,8 +143,8 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
                 iDataModelFactory, daFactory, lPersistList, vFactory,
                 custFactory);
 
-        DisplayListControlerParam cParam = tFactory.constructParam(dType, cI,
-                new DataListParam(lPersistList, null, iDataModelFactory,
+        DisplayListControlerParam cParam = tFactory.constructParam(cI,
+                new DataListParam(dType, lPersistList, null, iDataModelFactory,
                         tiFactory, iGetCon), null);
         IHeaderListFactory he = tFactories.getHeaderListFactory();
         dControler = tFactory.constructDataControler(cParam);
