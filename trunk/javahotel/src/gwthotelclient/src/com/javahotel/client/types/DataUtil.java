@@ -14,6 +14,7 @@ package com.javahotel.client.types;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +30,7 @@ import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.ISlotCustom;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.view.ValidateUtil;
 import com.javahotel.common.command.PersistType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
@@ -101,7 +103,10 @@ public class DataUtil {
     }
 
     public static <T extends AbstractTo> T getData(ISlotSignalContext slContext) {
-        IVModelData mData = slContext.getVData();
+        return getData(slContext.getVData());
+    }
+
+    public static <T extends AbstractTo> T getData(IVModelData mData) {
         HModelData vData = (HModelData) mData;
         @SuppressWarnings("unchecked")
         T cust = (T) vData.getA();
@@ -158,7 +163,61 @@ public class DataUtil {
             eLList.add(new VField(f));
         }
         return eLList;
+    }
 
+    public static boolean isEmpty(AbstractTo to, IField[] fList) {
+        IVModelData v = VModelDataFactory.construct(to);
+        List<IVField> vList = new ArrayList<IVField>();
+        for (IField f : fList) {
+            vList.add(new VField(f));
+        }
+        return ValidateUtil.isEmpty(v, vList);
+
+    }
+
+    private static class Ite<T extends AbstractTo> implements Iterator<T> {
+
+        private final Iterator<IVModelData> ite;
+
+        Ite(List<IVModelData> vList) {
+            this.ite = vList.iterator();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return ite.hasNext();
+        }
+
+        @Override
+        public T next() {
+            IVModelData v = ite.next();
+            if (v == null) {
+                return null;
+            }
+            return DataUtil.getData(v);
+        }
+
+        @Override
+        public void remove() {
+            ite.remove();
+        }
+
+    }
+
+    public static <T extends AbstractTo> Iterable<T> getI(
+            final List<IVModelData> vList) {
+        return new Iterable<T>() {
+
+            @Override
+            public Iterator<T> iterator() {
+                return new Ite(vList);
+            }
+
+        };
+    }
+
+    public static <T extends AbstractTo> Iterable<T> getI(IDataListType dList) {
+        return getI(dList.getList());
     }
 
 }

@@ -49,6 +49,7 @@ import com.javahotel.common.toobject.AbstractTo;
  */
 public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
 
+    @SuppressWarnings("unused")
     private final IDataType publishdType;
     private final TableDataControlerFactory taFactory;
     private final IDataControler iControler;
@@ -64,7 +65,7 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
 
     private class DataPersistAction extends AbstractSlotContainer implements
             IDataPersistAction {
-        
+
         private class ReadList implements ISlotSignaller {
 
             @Override
@@ -89,10 +90,10 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
         }
         // BookElemP
     }
-    
-//    class OneRoomBook extends AbstractSlotContainer {
-//        
-//    }
+
+    // class OneRoomBook extends AbstractSlotContainer {
+    //
+    // }
 
     private IDataControler createControler() {
         ITableCustomFactories fContainer = GwtGiniInjector.getI()
@@ -103,28 +104,29 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
                 .construct(dType);
         IDataModelFactory dataFactory = fContainer.getDataModelFactory();
         IFormTitleFactory formFactory = fContainer.getFormTitleFactory();
-        
-//        IComposeControllerTypeFactory custFactory = new IComposeControllerTypeFactory() {
 
-//            @Override
-//            public ComposeControllerType construct(ICallContext iiContext) {
-//                ISlotable iSlo = new OneRoomBook();
-//                return new ComposeControllerType(iSlo, dType);
-//            }
+        // IComposeControllerTypeFactory custFactory = new
+        // IComposeControllerTypeFactory() {
 
-//        };
+        // @Override
+        // public ComposeControllerType construct(ICallContext iiContext) {
+        // ISlotable iSlo = new OneRoomBook();
+        // return new ComposeControllerType(iSlo, dType);
+        // }
+
+        // };
 
         IGetViewControllerFactory fControler = fContainer
                 .getGetViewControllerFactory();
 
-        DataListParam dLiParam = new DataListParam(persistA, heList,
+        DataListParam dLiParam = new DataListParam(dType, persistA, heList,
                 dataFactory, formFactory, fControler);
         CellId cI = new CellId(0);
-        DisplayListControlerParam lParam = taFactory.constructParam(dType, cI,
+        DisplayListControlerParam lParam = taFactory.constructParam(cI,
                 dLiParam, this.slMediator);
         return taFactory.constructDataControler(lParam);
     }
-    
+
     class ChangeMode implements ISlotSignaller {
 
         @Override
@@ -135,7 +137,6 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
         }
 
     }
-
 
     public BookingRowDetailContainer(ICallContext iContext, IDataType subType) {
         taFactory = GwtGiniInjector.getI().getTableDataControlerFactory();

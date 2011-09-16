@@ -78,7 +78,7 @@ class ScrollArrowWidget {
     private class ChangeD implements IFormChangeListener {
 
         @Override
-        public void onChange(IFormLineView i) {
+        public void onChange(IFormLineView i, boolean aferFocus) {
             Date d = (Date) i.getValObj();
             if (d == null) {
                 return;

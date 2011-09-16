@@ -12,7 +12,6 @@
  */
 package com.javahotel.nmvc.factories.booking;
 
-import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
@@ -22,7 +21,6 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -32,8 +30,6 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCaller;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.view.util.OkDialog;
-import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData;
@@ -115,61 +111,6 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         }
     }
 
-    private class ReceiveChange implements ISlotSignaller {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            IChangeObject i = (IChangeObject) slContext.getCustom();
-            LogT.getLS().info(
-                    LogT.getT().receivedSignalLogParam(
-                            slContext.getSlType().toString(), i.toString()));
-            String mess = null;
-            String ask = null;
-            final boolean newset;
-            final boolean changeset;
-            if (i.getWhat() == IChangeObject.NEW) {
-                newset = !i.getSet();
-                changeset = cContainer.getChangeCheck();
-                if (i.getSet()) {
-                    ask = rI.getLabels().NextCustomerSymbol();
-                } else {
-                    mess = rI.getLabels().CannotChangeNoNewCustomer();
-                }
-            } else {
-                newset = cContainer.getNewCheck();
-                changeset = !i.getSet();
-                if (i.getSet()) {
-                    ask = rI.getLabels().CustomerDataWillBeChanged();
-                } else {
-                    mess = rI.getLabels().CannotChangeCustomerToNotChange();
-                }
-            }
-
-            if (mess != null) {
-                cContainer.SetNewChange(newset, changeset);
-                OkDialog ok = new OkDialog(mess, null);
-                ok.show(i.getW().getGWidget());
-            }
-            if (ask != null) {
-                IClickYesNo c = new IClickYesNo() {
-
-                    @Override
-                    public void click(boolean yes) {
-                        if (!yes) {
-                            cContainer.SetNewChange(newset, changeset);
-                        } else {
-                            cContainer.ModifForm();
-                        }
-
-                    }
-                };
-                YesNoDialog y = new YesNoDialog(ask + " "
-                        + rI.getLabels().Confirm(), c);
-                y.show(i.getW().getGWidget());
-            }
-        }
-    }
-
     class ChangeMode implements ISlotSignaller {
 
         @Override
@@ -189,7 +130,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         cContainer = EditChooseRecordFactory.constructEditChooseRecord(ii,
                 iContext.getDType(), subType);
         cContainer.getSlContainer().registerSubscriber(
-                IChangeObject.signalString, new ReceiveChange());
+                IChangeObject.signalString, new ReceiveChange(cContainer));
         TablesFactories tFactories = iContext.getT();
         ITableCustomFactories fContainer = GwtGiniInjector.getI()
                 .getTableFactoriesContainer();

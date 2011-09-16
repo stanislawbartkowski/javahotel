@@ -86,6 +86,7 @@ class BookingInfo extends Composite {
             price = "";
         }
         vp.add(new Label("Cena " + price));
+        vp.add(new Label("Liczba osób " + p.getNoPersons()));
         Button b = new Button("Zobacz");
         vp.add(b);
         b.addClickHandler(new ButtonClickHandler<BookingP>(p,

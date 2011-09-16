@@ -22,7 +22,6 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.TextHeader;
-import com.google.gwt.user.client.ui.Composite;
 import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.FieldDataType;
@@ -30,24 +29,28 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IGetSetVField;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.controler.BoxActionMenuOptions;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.EditRowsSignal;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.CustomStringValue;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
-import com.gwtmodel.table.view.util.SetVPanelGwt;
+import com.gwtmodel.table.view.util.FormUtil;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.injector.HInjector;
@@ -74,9 +77,8 @@ import com.javahotel.common.util.GetMaxUtil;
  * @author hotel
  * 
  */
-public class CheckGuestWidget extends Composite {
+class CheckGuestWidget extends AbstractSlotContainer {
 
-    private final SetVPanelGwt v = new SetVPanelGwt();
     private final BookingP p;
 
     private Map<String, ResObjectP> rMap = new HashMap<String, ResObjectP>();
@@ -84,13 +86,13 @@ public class CheckGuestWidget extends Composite {
 
     private final ListDataViewFactory liFactory;
     private final IListDataView iList;
-    private final IDataType dType = Empty.getDataType();
     private final IAbstractFactory aFactory = HInjector.getI()
             .getAbstractFactory();
     private final List<BookElemP> bList;
     private final IField[] eList = new IField[] { GuestP.F.checkIn,
             GuestP.F.checkOut, CustomerP.F.pTitle, CustomerP.F.firstName,
             CustomerP.F.lastName, CustomerP.F.address1 };
+    private final BoxActionMenuOptions bOptions;
 
     private class ReadList extends SynchronizeList {
 
@@ -159,8 +161,7 @@ public class CheckGuestWidget extends Composite {
                             value.booleanValue(), DataUtil.toList(eList));
                     IVModelData v = SlU.getVDataByI(dType, iList,
                             object.intValue());
-                    HModelData ha = (HModelData) v;
-                    AbstractToCheckGuest a = (AbstractToCheckGuest) ha.getA();
+                    AbstractToCheckGuest a = DataUtil.getData(v);
                     a.setEditable(value.booleanValue());
                     iList.getSlContainer().publish(
                             new CustomStringDataTypeSlot(
@@ -188,28 +189,132 @@ public class CheckGuestWidget extends Composite {
         public void signal(ISlotSignalContext slContext) {
 
             WChoosedLine w = SlU.getWChoosedLine(slContext);
-            IVField vie = w.getvField();
             IVModelData v = SlU.getVDataByW(dType, iList, w);
+
             List<IGetSetVField> vList = SlU.getVListFromEditTable(dType, iList,
                     w.getChoosedLine());
-            DrawGuest.drawGuest(vie,v, w.getwSize(), vList);
+            HModelData ha = (HModelData) v;
+            AbstractToCheckGuest a = (AbstractToCheckGuest) ha.getA();
+            DrawGuest g = a.getGuest();
+            if (g == null) {
+                g = new DrawGuest(vList);
+                a.setGuest(g);
+                g.getcContainer().SetNewChange(true, true);
+            }
+            g.drawGuest(ha, w.getwSize());
         }
 
     }
 
-    public CheckGuestWidget(BookingP p) {
+    private boolean EmptyCust(CustomerP p) {
+        IField[] fEmpty = { CustomerP.F.firstName, CustomerP.F.lastName,
+                CustomerP.F.address1 };
+        return DataUtil.isEmpty(p, fEmpty);
+    }
+
+    private class ResignSignaller implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+
+            IDataListType dList = SlU.getIDataListType(dType, iList);
+            Iterable<AbstractToCheckGuest> i = DataUtil.getI(dList);
+            boolean wasedited = false;
+            for (AbstractToCheckGuest g : i) {
+                if (g.isWaseditable()) {
+                    wasedited = true;
+                }
+            }
+            if (!wasedited) {
+                getSlContainer().publish(
+                        bOptions.constructRemoveFormDialogSlotType());
+                return;
+            }
+            SlotType sl = bOptions.constructAskBeforeRemoveSlotType();
+            CustomStringValue c = new CustomStringValue(
+                    "Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
+            ISlotSignalContext slC = slContextFactory.construct(sl, slContext,
+                    c);
+            getSlContainer().publish(slC);
+        }
+
+    }
+
+    private class ValidateSignal implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+                        
+            IDataListType dList = SlU.getIDataListType(dType, iList);
+            
+            // put data from view to list
+            int li = 0;
+            List<IGetSetVField> vList;
+            for (IVModelData m : dList.getList()) {
+                vList = SlU.getVListFromEditTable(dType, iList,
+                        li);
+                li++;
+                FormUtil.copyFromViewToModel(vList, m);                                
+            }
+            
+            // now count number of guest check-ined
+            int noP = p.getNoPersons();
+            int cGuest = 0;
+            Iterable<AbstractToCheckGuest> i = DataUtil.getI(dList);
+            boolean wasEdited = false;
+            for (AbstractToCheckGuest a : i) {
+                CustomerP c = a.getO2();
+                if (!EmptyCust(c)) {
+                    cGuest++;
+                }
+                if (a.isWaseditable()) {
+                    wasEdited = true;
+                }
+            }
+            if (!wasEdited || (cGuest == 0)) {
+                getSlContainer().publish(
+                        bOptions.constructRemoveFormDialogSlotType());
+                return;
+            }
+            String ask = null;
+            if (noP == cGuest) {
+                ask = "Zapisać zameldowanych gości ?";
+            } else if (noP > cGuest) {
+                ask = "Liczba zameldowanych gości (" + cGuest
+                        + ") jest mniejsza niż liczba rezerwacji (" + noP
+                        + "). Czy zapisać jak jest ?";
+            } else {
+                ask = "Liczba zameldowanych gości (" + cGuest
+                        + ") jest większa niż liczba rezerwacji (" + noP
+                        + "). Czy zapisać jak jest ? ";
+            }
+            SlU.publishValidWithAsk(dType, iList, slContext, ask);
+        }
+
+    }
+    
+    private class PersistGuests implements ISlotSignaller {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            // TODO Auto-generated method stub
+            
+        }
+        
+    }
+
+    CheckGuestWidget(IDataType dType, BookingP p,
+            BoxActionMenuOptions bOptions, SlotType slType) {
         this.p = p;
-        initWidget(v.getvPanel());
-        liFactory = GwtGiniInjector.getI().getTablesFactories()
-                .getlDataFactory();
+        this.dType = dType;
+        this.bOptions = bOptions;
+        TablesFactories tFactories = GwtGiniInjector.getI()
+                .getTablesFactories();
+
+        liFactory = tFactories.getlDataFactory();
         // create list container
         iList = liFactory.construct(dType);
-        CellId cI = new CellId(0);
-        // register widget catcher
-        iList.getSlContainer().registerSubscriber(dType, cI,
-                v.constructSetGwt());
-        // start working
-        iList.startPublish(cI);
+
         // create header
         IField[] dList = new IField[] { DictionaryP.F.name,
                 DictionaryP.F.description };
@@ -218,13 +323,10 @@ public class CheckGuestWidget extends Composite {
         VListHeaderDesc vE = new VListHeaderDesc(new ModifHeader(),
                 Empty.getFieldType());
         fList.add(0, vE);
-        VListHeaderDesc bAction = new VListHeaderDesc("Pokaż", new VField(
-                AbstractToCheckGuest.F.DrawC, FieldDataType.constructString()),
-                false, AbstractToCheckGuest.buttonString, false);
-        fList.add(3, bAction);
-        bAction = new VListHeaderDesc("Wybierz", new VField(
-                AbstractToCheckGuest.F.ChooseC, FieldDataType.constructString()),
-                false, AbstractToCheckGuest.chooseCust, false);
+        VListHeaderDesc bAction = new VListHeaderDesc("Wybierz",
+                new VField(AbstractToCheckGuest.F.ChooseC, FieldDataType
+                        .constructString()), false,
+                AbstractToCheckGuest.chooseCust, false);
         fList.add(3, bAction);
 
         // Create header and publish
@@ -247,6 +349,18 @@ public class CheckGuestWidget extends Composite {
             new BackAbstract<ResObjectP>().readAbstract(DictType.RoomObjects,
                     s, new ReadResObject());
         }
+        this.setSlContainer(iList);
+        getSlContainer().registerSubscriber(slType, new ResignSignaller());
+        getSlContainer().registerSubscriber(dType,
+                DataActionEnum.ValidateAction, new ValidateSignal());
+        getSlContainer().registerSubscriber(dType,
+                DataActionEnum.PersistDataAction, new PersistGuests());
+
+    }
+
+    @Override
+    public void startPublish(CellId cellId) {
+        iList.startPublish(cellId);
     }
 
 }

@@ -15,14 +15,14 @@ package com.javahotel.nmvc.factories.bookingpanel.checkinguest;
 import java.util.List;
 
 import com.gwtmodel.table.IGetSetVField;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
+import com.gwtmodel.table.editc.IChangeObject;
 import com.gwtmodel.table.editc.IEditChooseRecordContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
@@ -37,6 +37,7 @@ import com.javahotel.client.types.VField;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.CustomerP;
+import com.javahotel.nmvc.factories.booking.ReceiveChange;
 
 /**
  * @author hotel
@@ -44,11 +45,21 @@ import com.javahotel.common.toobject.CustomerP;
  */
 class DrawGuest {
 
-    private DrawGuest() {
+    private final DataType dType;
+    private final IEditChooseRecordContainer cContainer;
+    private final ChoosedCustFromList choosedSignal = new ChoosedCustFromList();
 
+    /**
+     * @return the cContainer
+     */
+    IEditChooseRecordContainer getcContainer() {
+        return cContainer;
     }
 
-    private static class ChangeValue implements ISlotSignaller {
+    private final List<IGetSetVField> vList;
+    private final SetVPanelGwt vP;
+
+    private class ChangeValue implements ISlotSignaller {
 
         private final IGetSetVField iGet;
 
@@ -58,37 +69,74 @@ class DrawGuest {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
+            boolean afterFocus = SlU.afterFocus(slContext);
+            if (!afterFocus) {
+                return;
+            }
+            // apply changes cause only by focus change
             Object o = slContext.getChangedValue().getValObj();
             iGet.setValObj(o);
         }
 
     }
+    
+    /**
+     * Raised when user chose to select customer from the list
+     * @author hotel
+     *
+     */
+    private class ChoosedCustFromList implements ISlotSignaller {
+        
+        HModelData hCust;
 
-    static void drawGuest(IVField vie, IVModelData v, WSize w,
-            List<IGetSetVField> vList) {
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            // get FormLineContainer (data have been put there)
+            FormLineContainer formL = SlU.getFormLineContainer(dType, cContainer);
+            // retrieve to hCust
+            FormUtil.copyFromViewToData(formL, hCust);
+            // move to line view
+            FormUtil.copyFromDataToView(hCust,vList);           
+        }
+        
+    }
+
+    DrawGuest(List<IGetSetVField> vList) {
+        this.vList = vList;
+        dType = new DataType(DictType.CustomerList);
         DataType dType = new DataType(DictType.CustomerList);
         ICallContext ii = GwtGiniInjector.getI().getCallContext();
         ii.setdType(dType);
-        // ii.setiSlo(this);
         DataType subType = new DataType(dType.getdType(), DataTypeSubEnum.Sub1);
-        IEditChooseRecordContainer cContainer = EditChooseRecordFactory
-                .constructEditChooseRecord(ii, dType, subType);
-        SetVPanelGwt vP = new SetVPanelGwt();
-        cContainer.getSlContainer().registerSubscriber(dType, 0,
-                vP.constructSetGwt());
-        SlU.VWidgetChangeReadOnly(dType, cContainer, new VField(
-                CustomerP.F.cType), true);
-        cContainer.startPublish(new CellId(0));
-        HModelData ha = (HModelData) v;
-        FormUtil.copyFromViewToModel(vList, ha);
-        AbstractToCheckGuest a = (AbstractToCheckGuest) ha.getA();
-        HModelData hCust = VModelDataFactory.construct(a.getO2());
-        cContainer.getSlContainer().publish(dType,
-                DataActionEnum.DrawViewComposeFormAction, hCust);
+        cContainer = EditChooseRecordFactory.constructEditChooseRecord(ii,
+                dType, subType);
+        vP = new SetVPanelGwt();
+        SlU.registerWidgetListener0(dType, cContainer, vP.constructSetGwt());
+        cContainer.getSlContainer().registerSubscriber(
+                IChangeObject.signalString, new ReceiveChange(cContainer));
+        cContainer.getSlContainer().registerSubscriber(
+                IChangeObject.choosedString, choosedSignal);        
+        SlU.startPublish0(cContainer);
         for (IGetSetVField iGet : vList) {
             SlU.registerChangeFormSubscriber(dType, cContainer, iGet.getV(),
                     new ChangeValue(iGet));
         }
+    }
+
+    void drawGuest(HModelData ha, WSize w) {
+        FormUtil.copyFromViewToModel(vList, ha);
+        AbstractToCheckGuest a = (AbstractToCheckGuest) ha.getA();
+        choosedSignal.hCust = VModelDataFactory.construct(a.getO2());
+        cContainer.getSlContainer().publish(dType,
+                DataActionEnum.DrawViewComposeFormAction, choosedSignal.hCust);
+        if (a.isEditable()) {
+            cContainer.ChangeViewForm(PersistTypeEnum.ADD);
+        } else {
+            cContainer.ChangeViewForm(PersistTypeEnum.SHOWONLY);
+        }
+        SlU.VWidgetChangeReadOnly(dType, cContainer, new VField(
+                CustomerP.F.cType), true);
+
         ClickPopUp p = new ClickPopUp(w, vP.constructGWidget().getGWidget());
     }
 

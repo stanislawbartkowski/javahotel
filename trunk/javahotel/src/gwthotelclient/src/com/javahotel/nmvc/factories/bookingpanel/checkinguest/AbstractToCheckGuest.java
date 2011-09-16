@@ -12,7 +12,6 @@
  */
 package com.javahotel.nmvc.factories.bookingpanel.checkinguest;
 
-import com.gwtmodel.table.IVField;
 import com.javahotel.client.abstractto.Compose3AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.CustomerP;
@@ -32,6 +31,9 @@ class AbstractToCheckGuest extends
     private final BookElemP bElem;
 
     private boolean editable = false;
+    private boolean waseditable = false;
+
+    private DrawGuest guest = null;
 
     /**
      * @return the editable
@@ -46,13 +48,22 @@ class AbstractToCheckGuest extends
      */
     void setEditable(boolean editable) {
         this.editable = editable;
+        if (editable) {
+            waseditable = true;
+        }
+    }
+
+    /**
+     * @return the waseditable
+     */
+    boolean isWaseditable() {
+        return waseditable;
     }
 
     enum F implements IField {
-        DrawC, ChooseC
+        ChooseC
     };
 
-    static String buttonString = "CUSTOMER-SHOW-DETAIL";
     static String chooseCust = "CUSTOMER-CHOOSE-BUTTON";
 
     @Override
@@ -60,8 +71,6 @@ class AbstractToCheckGuest extends
         if (fie instanceof F) {
             F f = (F) fie;
             switch (f) {
-            case DrawC:
-                return "Pokaż";
             case ChooseC:
                 return "Wybierz";
             }
@@ -72,6 +81,21 @@ class AbstractToCheckGuest extends
     AbstractToCheckGuest(BookElemP bElem, ResObjectP o1, CustomerP o2, GuestP o3) {
         super(o1, o2, o3);
         this.bElem = bElem;
+    }
+
+    /**
+     * @return the guest
+     */
+    DrawGuest getGuest() {
+        return guest;
+    }
+
+    /**
+     * @param guest
+     *            the guest to set
+     */
+    void setGuest(DrawGuest guest) {
+        this.guest = guest;
     }
 
 }
