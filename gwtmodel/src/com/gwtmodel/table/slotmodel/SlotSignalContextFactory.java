@@ -123,7 +123,8 @@ public class SlotSignalContextFactory {
         }
 
         /**
-         * @param stringButton the stringButton to set
+         * @param stringButton
+         *            the stringButton to set
          */
         @Override
         public String getStringButton() {
@@ -173,9 +174,10 @@ public class SlotSignalContextFactory {
                 null, null, null, null, null, null, null, null);
     }
 
-    public ISlotSignalContext construct(SlotType slType, IFormLineView formLine) {
+    public ISlotSignalContext construct(SlotType slType,
+            IFormLineView formLine, ICustomObject o) {
         return new SlotSignalContext(slType, formLine, null, null, null, null,
-                null, null, null, null, null, null, null, null);
+                null, null, null, null, null, null, o, null);
     }
 
     public ISlotSignalContext construct(SlotType slType,
@@ -228,8 +230,7 @@ public class SlotSignalContextFactory {
                 null, null, null, null, lContainer, null, null, null);
     }
 
-    public ISlotSignalContext construct(SlotType slType,
-            ICustomObject customO) {
+    public ISlotSignalContext construct(SlotType slType, ICustomObject customO) {
         return new SlotSignalContext(slType, null, null, null, null, null,
                 null, null, null, null, null, null, customO, null);
     }
@@ -243,9 +244,30 @@ public class SlotSignalContextFactory {
     public ISlotSignalContext construct(SlotType slType,
             ISlotSignalContext iSlot) {
         return new SlotSignalContext(slType, iSlot.getChangedValue(),
-                iSlot.getValidateError(), iSlot.getGwtWidget(), iSlot.getDataList(),
-                iSlot.getWSize(), iSlot.getVData(), iSlot.getPersistType(),
-                iSlot.getListHeader(), iSlot.getVField(),
+                iSlot.getValidateError(), iSlot.getGwtWidget(),
+                iSlot.getDataList(), iSlot.getWSize(), iSlot.getVData(),
+                iSlot.getPersistType(), iSlot.getListHeader(),
+                iSlot.getVField(), iSlot.getEditContainer(),
+                iSlot.getStringButton(), iSlot.getCustom(),
+                iSlot.getIOkModelData());
+    }
+
+    public ISlotSignalContext construct(SlotType slType,
+            ISlotSignalContext iSlot, ICustomObject o) {
+        return new SlotSignalContext(slType, iSlot.getChangedValue(),
+                iSlot.getValidateError(), iSlot.getGwtWidget(),
+                iSlot.getDataList(), iSlot.getWSize(), iSlot.getVData(),
+                iSlot.getPersistType(), iSlot.getListHeader(),
+                iSlot.getVField(), iSlot.getEditContainer(),
+                iSlot.getStringButton(), o, iSlot.getIOkModelData());
+    }
+
+    public ISlotSignalContext construct(SlotType slType,
+            ISlotSignalContext iSlot, PersistTypeEnum persistTypeEnum) {
+        return new SlotSignalContext(slType, iSlot.getChangedValue(),
+                iSlot.getValidateError(), iSlot.getGwtWidget(),
+                iSlot.getDataList(), iSlot.getWSize(), iSlot.getVData(),
+                persistTypeEnum, iSlot.getListHeader(), iSlot.getVField(),
                 iSlot.getEditContainer(), iSlot.getStringButton(),
                 iSlot.getCustom(), iSlot.getIOkModelData());
     }

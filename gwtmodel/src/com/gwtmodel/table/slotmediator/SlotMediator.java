@@ -39,18 +39,19 @@ class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
         }
     }
 
-    @Override
-    public void replaceSlContainer(SlotListContainer sl) {
-        slContainer = sl;
-        for (C c : slList) {
-            c.iSlo.replaceSlContainer(sl);
-        }
-    }
+//    @Override
+//    public void setSlContainer(ISlotable iSlo) {
+//        super.setSlContainer(iSlo);
+//        for (C c : slList) {
+//            c.iSlo.setSlContainer(iSlo);
+//        }
+//    }
 
     @Override
     public void registerSlotContainer(CellId cellId, ISlotable iSlo) {
         addSlotContainer(cellId, iSlo);
-        this.slContainer.replaceContainer(iSlo);
+//        this.getSlContainer().addSlotLists(iSlo);
+        iSlo.setSlContainer(this);
     }
 
     @Override

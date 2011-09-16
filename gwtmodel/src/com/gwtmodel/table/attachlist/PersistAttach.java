@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 class PersistAttach extends AbstractSlotContainer implements IDataPersistAction {
@@ -46,7 +46,8 @@ class PersistAttach extends AbstractSlotContainer implements IDataPersistAction 
         public void signal(ISlotSignalContext slContext) {
             final PersistTypeEnum e = slContext.getPersistType();
             AttachData eDa = new AttachData();
-            IVModelData da = slContainer.getGetterIVModelData(dType, GetActionEnum.GetModelToPersist, eDa);
+            IVModelData da = getSlContainer().getGetterIVModelData(dType,
+                    GetActionEnum.GetModelToPersist, eDa);
             final AttachData dData = (AttachData) da;
             if (e != PersistTypeEnum.ADD) {
                 publish(dType, DataActionEnum.PersistDataAction, dData, e);
@@ -74,7 +75,8 @@ class PersistAttach extends AbstractSlotContainer implements IDataPersistAction 
                         Utils.errAlert(LogT.getT().errrorUploadingFile());
                         return;
                     }
-                    String f = res.substring(i + IConstUtil.FILENAMEID.length() + 1);
+                    String f = res.substring(i + IConstUtil.FILENAMEID.length()
+                            + 1);
                     int i1 = f.indexOf('<');
                     String fName = f.substring(0, i1);
                     dData.setTempFileName(fName);

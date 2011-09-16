@@ -36,7 +36,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 
 /**
- *
+ * 
  * @author perseus
  */
 class AttachDataView extends AbstractSlotContainer implements IAttachDataView {
@@ -45,10 +45,13 @@ class AttachDataView extends AbstractSlotContainer implements IAttachDataView {
     private final ControlButtonFactory cButtonFactory;
     private static final String DOWNLOAD = "DOWNLOAD-ACTION";
 
-    AttachDataView(IDataType dType, ISlotSignaller setGwt, IHeaderListContainer iHeader, IComposeControllerTypeFactory compFactory) {
+    AttachDataView(IDataType dType, ISlotSignaller setGwt,
+            IHeaderListContainer iHeader,
+            IComposeControllerTypeFactory compFactory) {
         this.dType = dType;
         cButtonFactory = GwtGiniInjector.getI().getControlButtonFactory();
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
+                .getTableDataControlerFactory();
         IDataModelFactory dFactory = new AbstractDataModel() {
 
             @Override
@@ -65,19 +68,24 @@ class AttachDataView extends AbstractSlotContainer implements IAttachDataView {
             }
         };
 
-        DataListParam dParam = new DataListParam(null, iHeader,
-                dFactory, iTitle, new AttachDataGetViewControler(dFactory, compFactory));
+        DataListParam dParam = new DataListParam(dType, null, iHeader,
+                dFactory, iTitle, new AttachDataGetViewControler(dFactory,
+                        compFactory));
 
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
-        ControlButtonDesc b = new ControlButtonDesc("DownLoad", MM.getL().DownloadAttachment(), new ClickButtonType(DOWNLOAD));
+        ControlButtonDesc b = new ControlButtonDesc("DownLoad", MM.getL()
+                .DownloadAttachment(), new ClickButtonType(DOWNLOAD));
         cList.getcList().add(b);
 
-        DisplayListControlerParam cParam = tFactory.constructParam(dType, cList, new CellId(0), dParam, null);
+        DisplayListControlerParam cParam = tFactory.constructParam(dType,
+                cList, new CellId(0), dParam, null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         ISlotable iSlo = new DownloadFile(dType, new ClickButtonType(DOWNLOAD));
-        dControler.getSlContainer().replaceContainer(this);
-        dControler.getSlContainer().replaceContainer(iSlo);        
+        // dControler.getSlContainer().replaceContainer(this);
+        // dControler.getSlContainer().replaceContainer(iSlo);
+        this.setSlContainer(dControler);
+        iSlo.setSlContainer(dControler);
     }
 
     @Override

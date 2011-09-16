@@ -102,6 +102,20 @@ public class ValidateUtil {
         return checkEmpty(mData, listMFie, new HashSet<IVField>());
     }
 
+    public static boolean isEmpty(IVModelData mData, List<IVField> listMFie,
+            Set<IVField> ignoreV) {
+        for (IVField f : listMFie) {
+            if (!ignoreV.contains(f) && !FUtils.isNullValue(mData, f)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isEmpty(IVModelData mData, List<IVField> listMFie) {
+        return isEmpty(mData, listMFie, new HashSet<IVField>());
+    }
+
     private ValidateUtil() {
     }
 }

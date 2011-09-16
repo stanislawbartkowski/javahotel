@@ -15,13 +15,17 @@ package com.gwtmodel.table.slotmodel;
 import java.util.List;
 
 import com.gwtmodel.table.ICustomObject;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.listdataview.GetVDataByIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
+import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 
 /**
@@ -133,10 +137,100 @@ public class SlU {
      * @param iSubscriber
      *            ISlotSignaller listener
      */
-    public static void registerChangeFormSubscriber(IDataType dType, ISlotable iSlo,
-            IVField v, ISlotSignaller iSubscriber) {
+    public static void registerChangeFormSubscriber(IDataType dType,
+            ISlotable iSlo, IVField v, ISlotSignaller iSubscriber) {
         iSlo.getSlContainer().registerSubscriber(dType, v, iSubscriber);
 
+    }
+
+    /**
+     * Publish after change in field widget
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param fie
+     *            IVield changed
+     * @param i
+     *            Form widget changed
+     * @param afterFocus
+     *            if change was cause by focus
+     */
+    public static void publishValueChange(IDataType dType, ISlotable iSlo,
+            IVField fie, IFormLineView i, boolean afterFocus) {
+        iSlo.getSlContainer().publish(dType, fie, i, afterFocus);
+    }
+
+    /**
+     * Retrieves 'afterFocus' value from ISlotSignalContext
+     * 
+     * @param slContext
+     *            ISlotSignalContext
+     * @return afterFocus value
+     */
+    public static boolean afterFocus(ISlotSignalContext slContext) {
+        ICustomObject o = slContext.getCustom();
+        CustomBoolValue b = (CustomBoolValue) o;
+        return b.isBoolValue();
+    }
+
+    public static void registerWidgetListener0(IDataType dType, ISlotable iSlo,
+            ISlotSignaller c) {
+        iSlo.getSlContainer().registerSubscriber(dType, 0, c);
+    }
+
+    public static void startPublish0(ISlotable iSlo) {
+        iSlo.startPublish(new CellId(0));
+    }
+
+    /**
+     * Retrieves FormLineContainer from FormView
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @return FormLineContainer
+     */
+    public static FormLineContainer getFormLineContainer(IDataType dType,
+            ISlotable iSlo) {
+        return iSlo.getSlContainer().getGetterContainer(dType);
+
+    }
+
+    public static IDataListType getIDataListType(IDataType dType, ISlotable iSlo) {
+        ISlotSignalContext sl = iSlo.getSlContainer().getGetterContext(dType,
+                GetActionEnum.GetListData);
+        return sl.getDataList();
+    }
+
+    public static void publishValidWithAsk(IDataType dType, ISlotable iSlo,
+            ISlotSignalContext slContext, String ask) {
+        SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
+                .getSlotTypeFactory();
+        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
+                .getSlotSignalContextFactory();
+
+        SlotType sl = slTypeFactory
+                .construct(DataActionEnum.ValidSignal, dType);
+        CustomStringValue c = new CustomStringValue(ask);
+        ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
+        iSlo.getSlContainer().publish(slC);
+    }
+
+    public static void publishActionPersist(IDataType dType, ISlotable iSlo,
+            ISlotSignalContext slContext, DataActionEnum action,
+            PersistTypeEnum persistTypeEnum) {
+        SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
+                .getSlotTypeFactory();
+        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
+                .getSlotSignalContextFactory();
+
+        SlotType sl = slTypeFactory.construct(action, dType);
+        ISlotSignalContext slC = slContextFactory.construct(sl, slContext,
+                persistTypeEnum);
+        iSlo.getSlContainer().publish(slC);
     }
 
 }

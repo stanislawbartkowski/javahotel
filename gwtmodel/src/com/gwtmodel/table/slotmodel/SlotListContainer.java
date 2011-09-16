@@ -53,12 +53,17 @@ public final class SlotListContainer {
         slSignaller = new GeneralListener();
     }
 
-    public void replaceContainer(ISlotable iSlo) {
+    /**
+     * Add all lists from iSlo to this SlotListContainer
+     * @param iSlo ISlotable
+     * (default visibility)
+     */
+    void addSlotLists(ISlotable iSlo) {
         SlotListContainer slo = iSlo.getSlContainer();
         listOfSubscribers.addAll(slo.listOfSubscribers);
         listOfCallers.addAll(slo.listOfCallers);
         listOfRedirectors.addAll(slo.listOfRedirectors);
-        iSlo.replaceSlContainer(this);
+//        iSlo.replaceSlContainer(this);
     }
 
     public ISlotSignalContext contextReplace(SlotType slType,
@@ -371,7 +376,9 @@ public final class SlotListContainer {
     }
 
     public ISlotSignalContext setGetter(SlotType slType, IFormLineView v) {
-        ISlotSignalContext sl = slContextFactory.construct(slType, v);
+        ISlotSignalContext sl = slContextFactory.construct(slType, v,
+                // not important here, only to call proper constructor
+                new CustomBoolValue(false));
         return sl;
     }
 
@@ -427,9 +434,10 @@ public final class SlotListContainer {
                 slTypeFactory.construct(stringButton), gwtWidget, stringButton));
     }
 
-    public void publish(IDataType dType, IVField fie, IFormLineView formLine) {
+    public void publish(IDataType dType, IVField fie, IFormLineView formLine,
+            boolean afterFocus) {
         publish(slContextFactory.construct(slTypeFactory.construct(dType, fie),
-                formLine));
+                formLine, new CustomBoolValue(afterFocus)));
     }
 
     public void publish(IDataType dType, ClickButtonType bType,

@@ -12,9 +12,14 @@
  */
 package com.gwtmodel.table.rdef;
 
-
 public interface IFormChangeListener {
-    
-    void onChange(IFormLineView i);
+
+    /**
+     * Calls back in case of widget value change
+     * @param i  Widget just changed
+     * @param afterFocus True: the change was cause by entering data,focus
+     *                   False: the change was cause by setting data from outside
+     */
+    void onChange(IFormLineView i, boolean afterFocus);
 
 }

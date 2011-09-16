@@ -50,21 +50,20 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
         lPersistList.setDataList(dList);
         dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        VListHeaderDesc he = new VListHeaderDesc(fieldName,
-                vString);
+        VListHeaderDesc he = new VListHeaderDesc(fieldName, vString);
         heList.add(he);
         VListHeaderContainer vHeader;
         vHeader = new VListHeaderContainer(heList, title, 0, null);
         dControler.getSlContainer().publish(dType, vHeader);
     }
 
-    MemoryStringList(String fieldName, String title, IDataType dType, IVField vString,
-            IStringEFactory eFactory, ISlotSignaller setGwt) {
+    MemoryStringList(String fieldName, String title, IDataType dType,
+            IVField vString, IStringEFactory eFactory, ISlotSignaller setGwt) {
         this.vString = vString;
-        TableDataControlerFactory tFactory =
-                GwtGiniInjector.getI().getTableDataControlerFactory();
-        DataViewModelFactory daFactory =
-                GwtGiniInjector.getI().getDataViewModelFactory();
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
+                .getTableDataControlerFactory();
+        DataViewModelFactory daFactory = GwtGiniInjector.getI()
+                .getDataViewModelFactory();
         this.dType = dType;
         this.fieldName = fieldName;
         this.title = title;
@@ -79,19 +78,13 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
         };
 
         IGetViewControllerFactory iGetCon = new MemoryGetController(
-                new StringFactory(vString, fieldName, title),
-                new DataFactory(eFactory),
-                daFactory,
-                lPersistList,
-                vFactory);
+                new StringFactory(vString, fieldName, title), new DataFactory(
+                        eFactory), daFactory, lPersistList, vFactory);
 
-
-        DisplayListControlerParam cParam = tFactory.constructParam(dType, new CellId(0),
-                new DataListParam(lPersistList, null,
-                new DataFactory(eFactory),
-                new StringFactory(vString, fieldName, title),
-                iGetCon),
-                null);
+        DisplayListControlerParam cParam = tFactory.constructParam(
+                new CellId(0), new DataListParam(dType, lPersistList, null,
+                        new DataFactory(eFactory), new StringFactory(vString,
+                                fieldName, title), iGetCon), null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         slMediator.registerSlotContainer(dControler);

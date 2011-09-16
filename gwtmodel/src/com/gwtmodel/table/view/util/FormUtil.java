@@ -46,9 +46,24 @@ public class FormUtil {
 
     public static void copyFromDataToView(IVModelData aFrom,
             FormLineContainer fContainer) {
-        for (FormField d : fContainer.getfList()) {
-            Object o = FUtils.getValue(aFrom, d.getFie());
-            d.getELine().setValObj(o);
+        copyFromDataToView(aFrom, fContainer.getvList());
+    }
+
+    /**
+     * Copies values from model to view
+     * 
+     * @param aFrom
+     *            IVModelData to copy from
+     * @param vList
+     *            Destination view
+     */
+    public static void copyFromDataToView(IVModelData aFrom,
+            List<IGetSetVField> vList) {
+        for (IGetSetVField v : vList) {
+            if (aFrom.isValid(v.getV())) {
+              Object o = FUtils.getValue(aFrom, v.getV());
+              v.setValObj(o);
+            }
         }
     }
 
@@ -62,13 +77,6 @@ public class FormUtil {
      */
     public static void copyFromViewToData(FormLineContainer fContainer,
             IVModelData aTo) {
-        // for (FormField d : fContainer.getfList()) {
-        // IVField vFie = d.getFie();
-        // IFormLineView vView = d.getELine();
-        // if (aTo.isValid(vFie)) {
-        // aTo.setF(vFie, vView.getValObj());
-        // }
-        // }
         copyFromViewToModel(fContainer.getvList(), aTo);
     }
 

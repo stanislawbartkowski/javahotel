@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.controler;
 
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -30,13 +29,12 @@ class DataListCrudControler extends AbstractSlotContainer {
     private final FindListActionFactory fFactory;
 
     DataListCrudControler(TablesFactories tFactories,
-            ITableCustomFactories fContainer, DataListParam listParam,
-            IDataType dType) {
+            ITableCustomFactories fContainer, DataListParam listParam) {
+        this.dType = listParam.getdType();
         assert dType != null : LogT.getT().cannotBeNull();
-        this.dType = dType;
         this.slFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
-        aFactory = new DataListActionItemFactory(tFactories, dType, this, listParam,
-                slFactory);
+        aFactory = new DataListActionItemFactory(tFactories, dType, this,
+                listParam, slFactory);
         fFactory = new FindListActionFactory(tFactories, dType, listParam);
         registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
                 fFactory.constructActionHeader());
@@ -51,10 +49,10 @@ class DataListCrudControler extends AbstractSlotContainer {
                 aFactory.constructActionItem(PersistTypeEnum.SHOWONLY));
         registerSubscriber(ClickButtonType.StandClickEnum.FILTRLIST,
                 fFactory.constructActionFind(
-                ClickButtonType.StandClickEnum.FILTRLIST, this, dType));
+                        ClickButtonType.StandClickEnum.FILTRLIST, this, dType));
         registerSubscriber(ClickButtonType.StandClickEnum.FIND,
                 fFactory.constructActionFind(
-                ClickButtonType.StandClickEnum.FIND, this, dType));
+                        ClickButtonType.StandClickEnum.FIND, this, dType));
         registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
                 aFactory.constructChangeMode());
 

@@ -29,224 +29,253 @@ import com.gwtmodel.table.view.table.VListHeaderContainer;
 
 abstract public class AbstractSlotContainer implements ISlotable {
 
-    protected SlotListContainer slContainer;
+    private SlotContainerReference sReference;
     protected final SlotTypeFactory slTypeFactory;
     protected IDataType dType = null;
+    protected final SlotSignalContextFactory slContextFactory;
 
     protected AbstractSlotContainer() {
-        slContainer = GwtGiniInjector.getI().getSlotListContainer();
+        SlotListContainer slContainer = GwtGiniInjector.getI()
+                .getSlotListContainer();
+        sReference = new SlotContainerReference(this, slContainer);
         slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
+        slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+    }
+
+    @Override
+    public void setSlotContainerReference(SlotContainerReference sReference) {
+        this.sReference = sReference;
+    }
+
+    @Override
+    public SlotContainerReference getSlotContainerReference() {
+        return sReference;
     }
 
     @Override
     public SlotListContainer getSlContainer() {
-        return slContainer;
+        return sReference.getSlContainer();
     }
 
     @Override
-    public void replaceSlContainer(SlotListContainer sl) {
-        slContainer = sl;
+    public void setSlContainer(ISlotable sl) {
+        sl.getSlContainer().addSlotLists(this);
+        sl.getSlotContainerReference().replace(sReference);
     }
 
     protected void publish(ISlotSignalContext slContext) {
-        slContainer.publish(slContext);
+        sReference.getSlContainer().publish(slContext);
     }
 
     protected void publish(IDataType dType, int cellId, IGWidget gwtWidget) {
-        slContainer.publish(dType, cellId, gwtWidget);
+        sReference.getSlContainer().publish(dType, cellId, gwtWidget);
     }
 
     protected void publish(IDataType dType, CellId cellId, IGWidget gwtWidget) {
-        slContainer.publish(dType, cellId, gwtWidget);
+        sReference.getSlContainer().publish(dType, cellId, gwtWidget);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             PersistTypeEnum persistTypeEnum) {
-        slContainer.publish(dType, dataActionEnum, persistTypeEnum);
+        sReference.getSlContainer().publish(dType, dataActionEnum,
+                persistTypeEnum);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             IVModelData vData, PersistTypeEnum persistTypeEnum) {
-        slContainer.publish(dType, dataActionEnum, vData, persistTypeEnum);
+        sReference.getSlContainer().publish(dType, dataActionEnum, vData,
+                persistTypeEnum);
     }
 
     protected void publish(ClickButtonType bType, IGWidget gwtWidget) {
-        slContainer.publish(bType, gwtWidget);
+        sReference.getSlContainer().publish(bType, gwtWidget);
     }
 
     protected void publish(String stringButton, IGWidget gwtWidget) {
-        slContainer.publish(stringButton, gwtWidget);
+        sReference.getSlContainer().publish(stringButton, gwtWidget);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             InvalidateFormContainer errContainer) {
-        slContainer.publish(dType, dataActionEnum, errContainer);
+        sReference.getSlContainer()
+                .publish(dType, dataActionEnum, errContainer);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum) {
-        slContainer.publish(dType, dataActionEnum);
+        sReference.getSlContainer().publish(dType, dataActionEnum);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             IDataListType dataList) {
-        slContainer.publish(dType, dataActionEnum, dataList);
+        sReference.getSlContainer().publish(dType, dataActionEnum, dataList);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             WSize wSize) {
-        slContainer.publish(dType, dataActionEnum, wSize);
+        sReference.getSlContainer().publish(dType, dataActionEnum, wSize);
     }
 
     protected void publish(ISlotCustom is, ICustomObject customO) {
-        slContainer.publish(is, customO);
+        sReference.getSlContainer().publish(is, customO);
     }
 
     protected void publish(SlotType sl, ICustomObject customO) {
-        slContainer.publish(sl, customO);
+        sReference.getSlContainer().publish(sl, customO);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             IVModelData vData) {
-        slContainer.publish(dType, dataActionEnum, vData);
+        sReference.getSlContainer().publish(dType, dataActionEnum, vData);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             IOkModelData iOkModelData) {
-        slContainer.publish(dType, dataActionEnum, iOkModelData);
+        sReference.getSlContainer()
+                .publish(dType, dataActionEnum, iOkModelData);
     }
 
-    protected void publish(IDataType dType, IVField fie, IFormLineView formLine) {
-        slContainer.publish(dType, fie, formLine);
-    }
+    // protected void publish(IDataType dType, IVField fie,
+    // IFormLineView formLine, boolean afterFocus) {
+    // sReference.getSlContainer().publish(dType, fie, formLine, afterFocus);
+    // }
 
     protected void publish(IDataType dType, VListHeaderContainer vHeader) {
-        slContainer.publish(dType, vHeader);
+        sReference.getSlContainer().publish(dType, vHeader);
     }
 
     protected void publish(String stringButton) {
-        slContainer.publish(stringButton);
+        sReference.getSlContainer().publish(stringButton);
     }
 
     protected void publish(String stringButton, ICustomObject customO) {
-        slContainer.publish(stringButton, customO);
+        sReference.getSlContainer().publish(stringButton, customO);
     }
 
     protected void publish(IDataType dType, ClickButtonType bType,
             ButtonAction bAction) {
-        slContainer.publish(dType, bType, bAction);
+        sReference.getSlContainer().publish(dType, bType, bAction);
     }
 
     protected void registerSubscriber(SlotType slType,
             ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(slType, slSignaller);
+        sReference.getSlContainer().registerSubscriber(slType, slSignaller);
     }
 
     protected void registerSubscriber(ClickButtonType.StandClickEnum eClick,
             ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(eClick, slSignaller);
+        sReference.getSlContainer().registerSubscriber(eClick, slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, IVField fie,
             ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(dType, fie, slSignaller);
+        sReference.getSlContainer().registerSubscriber(dType, fie, slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType,
             DataActionEnum dataActionEnum, ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(dType, dataActionEnum, slSignaller);
+        sReference.getSlContainer().registerSubscriber(dType, dataActionEnum,
+                slSignaller);
     }
 
     protected void registerSubscriber(String stringButton,
             ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(stringButton, slSignaller);
+        sReference.getSlContainer().registerSubscriber(stringButton,
+                slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, ClickButtonType bType,
             ButtonAction bAction, ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(dType, bType, bAction, slSignaller);
+        sReference.getSlContainer().registerSubscriber(dType, bType, bAction,
+                slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, int cellId,
             ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(dType, cellId, slSignaller);
+        sReference.getSlContainer().registerSubscriber(dType, cellId,
+                slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, CellId cellId,
             ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(dType, cellId, slSignaller);
+        sReference.getSlContainer().registerSubscriber(dType, cellId,
+                slSignaller);
     }
 
     protected void registerSubscriber(ISlotCustom i, ISlotSignaller slSignaller) {
-        slContainer.registerSubscriber(i, slSignaller);
+        sReference.getSlContainer().registerSubscriber(i, slSignaller);
     }
 
     protected void registerCaller(IDataType dType, GetActionEnum gEnum,
             ISlotCaller slCaller) {
-        slContainer.registerCaller(dType, gEnum, slCaller);
+        sReference.getSlContainer().registerCaller(dType, gEnum, slCaller);
     }
 
     protected void registerCaller(SlotType slType, ISlotCaller slCaller) {
-        slContainer.registerCaller(slType, slCaller);
+        sReference.getSlContainer().registerCaller(slType, slCaller);
     }
 
     protected void registerCaller(ISlotCustom i, ISlotCaller slCaller) {
-        slContainer.registerCaller(i, slCaller);
+        sReference.getSlContainer().registerCaller(i, slCaller);
     }
 
     protected ISlotSignalContext construct(IDataType dType,
             GetActionEnum getActionEnum, IVModelData vData, WSize wSize,
             IVField v) {
-        return slContainer.setGetter(dType, getActionEnum, vData, wSize, v);
+        return sReference.getSlContainer().setGetter(dType, getActionEnum,
+                vData, wSize, v);
     }
 
     protected ISlotSignalContext construct(IDataType dType, IVField comboFie) {
-        return slContainer.setGetter(dType, comboFie);
+        return sReference.getSlContainer().setGetter(dType, comboFie);
     }
 
     protected ISlotSignalContext construct(SlotType slType, IFormLineView v) {
-        return slContainer.setGetter(slType, v);
+        return sReference.getSlContainer().setGetter(slType, v);
     }
 
     protected ISlotSignalContext construct(IDataType dType,
             FormLineContainer lContainer) {
-        return slContainer.getGetterContext(dType, lContainer);
+        return sReference.getSlContainer().getGetterContext(dType, lContainer);
     }
 
     protected ISlotSignalContext contextReplace(SlotType slType,
             ISlotSignalContext iSlot) {
-        return slContainer.contextReplace(slType, iSlot);
+        return sReference.getSlContainer().contextReplace(slType, iSlot);
     }
 
     protected ISlotSignalContext getGetterContext(IDataType dType,
             GetActionEnum getActionEnum) {
-        return slContainer.getGetterContext(dType, getActionEnum);
+        return sReference.getSlContainer().getGetterContext(dType,
+                getActionEnum);
     }
 
     protected IVModelData getGetterIVModelData(IDataType dType,
             GetActionEnum getActionEnum, IVModelData mData) {
-        return slContainer.getGetterIVModelData(dType, getActionEnum, mData);
+        return sReference.getSlContainer().getGetterIVModelData(dType,
+                getActionEnum, mData);
     }
 
     protected IVModelData getGetterIVModelData(IDataType dType,
             GetActionEnum getActionEnum) {
-        return slContainer.getGetterIVModelData(dType, getActionEnum);
+        return sReference.getSlContainer().getGetterIVModelData(dType,
+                getActionEnum);
     }
 
     protected IGWidget getHtmlWidget(CellId c) {
-        return slContainer.getHtmlWidget(c);
+        return sReference.getSlContainer().getHtmlWidget(c);
     }
 
     protected FormLineContainer getGetterContainer(IDataType dType) {
-        return slContainer.getGetterContainer(dType);
+        return sReference.getSlContainer().getGetterContainer(dType);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             ISlotSignalContext slContext) {
-        slContainer.publish(dType, dataActionEnum, slContext);
+        sReference.getSlContainer().publish(dType, dataActionEnum, slContext);
     }
 
     protected void publish(IDataType dType, ISlotSignalContext slContext) {
-        slContainer.publish(dType, slContext);
+        sReference.getSlContainer().publish(dType, slContext);
     }
 
     @Override

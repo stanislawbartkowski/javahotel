@@ -29,7 +29,6 @@ public class DisplayListControlerParam {
 
     private final TablesFactories tFactories;
     private final ITableCustomFactories fContainer;
-    private final IDataType dType;
     private final WSize wSize;
     private final CellId panelId;
     private final ListOfControlDesc listButton;
@@ -38,12 +37,11 @@ public class DisplayListControlerParam {
     private final ISlotMediator me;
 
     DisplayListControlerParam(TablesFactories tFactories,
-            ITableCustomFactories fContainer, IDataType dType, WSize wSize,
+            ITableCustomFactories fContainer, WSize wSize,
             CellId panelId, ListOfControlDesc listButton,
             ISlotable cControler, DataListParam listParam, ISlotMediator me) {
         this.tFactories = tFactories;
         this.fContainer = fContainer;
-        this.dType = dType;
         this.wSize = wSize;
         this.panelId = panelId;
         this.listButton = listButton;
@@ -70,7 +68,7 @@ public class DisplayListControlerParam {
      * @return the dType
      */
     IDataType getdType() {
-        return dType;
+        return listParam.getdType();
     }
 
     /**

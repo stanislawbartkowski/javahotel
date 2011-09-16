@@ -215,7 +215,8 @@ class ExtendTextBox extends AbstractField {
             this.tBox = null;
         }
 
-        EParam(boolean area, boolean checkBox, boolean enable, IGetDataList iGet, TextBoxBase tBox) {
+        EParam(boolean area, boolean checkBox, boolean enable,
+                IGetDataList iGet, TextBoxBase tBox) {
             this.password = false;
             this.panel = false;
             this.checkBox = checkBox;
@@ -269,6 +270,7 @@ class ExtendTextBox extends AbstractField {
             return isRich;
         }
     }
+
     protected final Widget wW;
     private final EWidget eW;
     protected final HorizontalPanel hPanel;
@@ -356,12 +358,12 @@ class ExtendTextBox extends AbstractField {
         }
         eW.setText(va);
         // warning: 2011/09/09 (changed to this from null)
-        runOnChange(this);
+        runOnChange(this, false);
     }
 
     protected void setValAndFireChange(final String v) {
         setValObj(v);
-        runOnChange(this);
+        runOnChange(this, false);
     }
 
     @Override
@@ -385,7 +387,7 @@ class ExtendTextBox extends AbstractField {
 
         @Override
         public void onChange(Widget sender) {
-            runOnChange(ExtendTextBox.this);
+            runOnChange(ExtendTextBox.this, true);
         }
     }
 
