@@ -86,9 +86,11 @@ class DataListActionItemFactory {
         @Override
         public void signal(ISlotSignalContext slContext) {
             hide();
-            iSlo.getSlContainer().publish(dType,
-                    DataActionEnum.RefreshAfterPersistActionSignal,
-                    persistTypeEnum);
+            if (iSlo != null) {
+                iSlo.getSlContainer().publish(dType,
+                        DataActionEnum.RefreshAfterPersistActionSignal,
+                        persistTypeEnum);
+            }
         }
     }
 
