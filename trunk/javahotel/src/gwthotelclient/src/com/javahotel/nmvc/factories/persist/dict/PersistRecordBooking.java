@@ -73,7 +73,7 @@ class PersistRecordBooking implements IPersistRecord {
         IPersistRecord bPersist = new PersistRecordDict(rI,
                 DictType.BookingList, validate);
         BookingCustInfo bCust = (BookingCustInfo) ho.getCustomData();
-        if (action == PersistTypeEnum.REMOVE) {
+        if (action == PersistTypeEnum.REMOVE || (bCust == null)) {
             bPersist.persist(action, ho, ires);
             return;
         }

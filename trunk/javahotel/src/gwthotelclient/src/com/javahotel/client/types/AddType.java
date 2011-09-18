@@ -12,8 +12,18 @@
  */
 package com.javahotel.client.types;
 
+/**
+ * Additional elements
+ * 
+ * @author hotel
+ * 
+ */
 public enum AddType {
 
-    BookRecord, AdvanceHeader, BookElem, RowPaymentElem, GuestElem
-
+    BookRecord, // header for book record
+    AdvanceHeader, // header for advance payment
+    BookRoom, // reserve room
+    RowPaymentElem, // element if payments related to BookRoom
+    GuestElem, // guest to be check-ined
+    BookNoRoom // book, pay element (not room)
 }

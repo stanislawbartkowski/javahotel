@@ -12,17 +12,8 @@
  */
 package com.javahotel.nmvc.factories.booking;
 
-import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.editc.IChangeObject;
-import com.gwtmodel.table.editc.IEditChooseRecordContainer;
-import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
-import com.gwtmodel.table.view.util.OkDialog;
-import com.gwtmodel.table.view.util.YesNoDialog;
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookRecordP;
@@ -33,7 +24,7 @@ import com.javahotel.common.util.GetMaxUtil;
  * @author hotel
  * 
  */
-class P {
+public class P {
 
     private P() {
 
@@ -49,7 +40,7 @@ class P {
         return p;
     }
 
-    static BookRecordP getBookR(ISlotSignalContext slContext) {
+    public static BookRecordP getBookR(ISlotSignalContext slContext) {
         IVModelData mData = slContext.getVData();
         return getBookR(mData);
     }

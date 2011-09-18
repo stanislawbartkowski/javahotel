@@ -40,7 +40,7 @@ public class AbstractToFactory implements IAbstractFactory {
                 return new BookRecordP();
             case AdvanceHeader:
                 return new AdvancePaymentP();
-            case BookElem:
+            case BookRoom:
                 return new BookElemP();
             case RowPaymentElem:
                 return new PaymentRowP();

@@ -49,7 +49,7 @@ public class HotelPersistFactory implements IHotelPersistFactory {
             switch (d.getAddType()) {
             case BookRecord:
             case AdvanceHeader:
-            case BookElem:
+            case BookRoom:
             case RowPaymentElem:
                 return null;
             }

@@ -50,7 +50,6 @@ import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
-import com.gwtmodel.table.view.util.FormUtil;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.injector.HInjector;
@@ -72,6 +71,7 @@ import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.util.GetMaxUtil;
+import com.javahotel.types.LId;
 
 /**
  * @author hotel
@@ -82,6 +82,7 @@ class CheckGuestWidget extends AbstractSlotContainer {
     private final BookingP p;
 
     private Map<String, ResObjectP> rMap = new HashMap<String, ResObjectP>();
+    private Map<LId, CustomerP> cMap = new HashMap<LId, CustomerP>();
     private ReadList rSynch;
 
     private final ListDataViewFactory liFactory;
@@ -94,6 +95,12 @@ class CheckGuestWidget extends AbstractSlotContainer {
             CustomerP.F.lastName, CustomerP.F.address1 };
     private final BoxActionMenuOptions bOptions;
 
+    /**
+     * Class fired after reading all ResObjectP related to BookingP
+     * 
+     * @author hotel
+     * 
+     */
     private class ReadList extends SynchronizeList {
 
         ReadList(int no) {
@@ -106,7 +113,15 @@ class CheckGuestWidget extends AbstractSlotContainer {
 
             for (BookElemP b : bList) {
                 ResObjectP resO = rMap.get(b.getResObject());
-                for (int i = 0; i < resO.getMaxPerson(); i++) {
+                int numOf = 0;
+                for (GuestP g : b.getGuests()) {
+                    numOf++;
+                    CustomerP p = cMap.get(g.getCustomer());
+                    AbstractToCheckGuest a = new AbstractToCheckGuest(b, resO,
+                            p, g);
+                    vlist.add(VModelDataFactory.construct(a));
+                }
+                for (int i = numOf; i < resO.getMaxPerson(); i++) {
                     GuestP guest = (GuestP) aFactory.construct(new DataType(
                             AddType.GuestElem));
                     DataUtil.copyField(
@@ -134,6 +149,16 @@ class CheckGuestWidget extends AbstractSlotContainer {
         @Override
         public void action(ResObjectP t) {
             rMap.put(t.getName(), t);
+            rSynch.signalDone();
+        }
+
+    }
+
+    private class ReadCustomerP implements BackAbstract.IRunAction<CustomerP> {
+
+        @Override
+        public void action(CustomerP t) {
+            cMap.put(t.getId(), t);
             rSynch.signalDone();
         }
 
@@ -197,19 +222,12 @@ class CheckGuestWidget extends AbstractSlotContainer {
             AbstractToCheckGuest a = (AbstractToCheckGuest) ha.getA();
             DrawGuest g = a.getGuest();
             if (g == null) {
-                g = new DrawGuest(vList);
+                g = new DrawGuest(a,vList);
                 a.setGuest(g);
-                g.getcContainer().SetNewChange(true, true);
             }
             g.drawGuest(ha, w.getwSize());
         }
 
-    }
-
-    private boolean EmptyCust(CustomerP p) {
-        IField[] fEmpty = { CustomerP.F.firstName, CustomerP.F.lastName,
-                CustomerP.F.address1 };
-        return DataUtil.isEmpty(p, fEmpty);
     }
 
     private class ResignSignaller implements ISlotSignaller {
@@ -238,69 +256,6 @@ class CheckGuestWidget extends AbstractSlotContainer {
             getSlContainer().publish(slC);
         }
 
-    }
-
-    private class ValidateSignal implements ISlotSignaller {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-                        
-            IDataListType dList = SlU.getIDataListType(dType, iList);
-            
-            // put data from view to list
-            int li = 0;
-            List<IGetSetVField> vList;
-            for (IVModelData m : dList.getList()) {
-                vList = SlU.getVListFromEditTable(dType, iList,
-                        li);
-                li++;
-                FormUtil.copyFromViewToModel(vList, m);                                
-            }
-            
-            // now count number of guest check-ined
-            int noP = p.getNoPersons();
-            int cGuest = 0;
-            Iterable<AbstractToCheckGuest> i = DataUtil.getI(dList);
-            boolean wasEdited = false;
-            for (AbstractToCheckGuest a : i) {
-                CustomerP c = a.getO2();
-                if (!EmptyCust(c)) {
-                    cGuest++;
-                }
-                if (a.isWaseditable()) {
-                    wasEdited = true;
-                }
-            }
-            if (!wasEdited || (cGuest == 0)) {
-                getSlContainer().publish(
-                        bOptions.constructRemoveFormDialogSlotType());
-                return;
-            }
-            String ask = null;
-            if (noP == cGuest) {
-                ask = "Zapisać zameldowanych gości ?";
-            } else if (noP > cGuest) {
-                ask = "Liczba zameldowanych gości (" + cGuest
-                        + ") jest mniejsza niż liczba rezerwacji (" + noP
-                        + "). Czy zapisać jak jest ?";
-            } else {
-                ask = "Liczba zameldowanych gości (" + cGuest
-                        + ") jest większa niż liczba rezerwacji (" + noP
-                        + "). Czy zapisać jak jest ? ";
-            }
-            SlU.publishValidWithAsk(dType, iList, slContext, ask);
-        }
-
-    }
-    
-    private class PersistGuests implements ISlotSignaller {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            // TODO Auto-generated method stub
-            
-        }
-        
     }
 
     CheckGuestWidget(IDataType dType, BookingP p,
@@ -338,24 +293,37 @@ class CheckGuestWidget extends AbstractSlotContainer {
         BookRecordP b;
         b = GetMaxUtil.getLastBookRecord(p);
         assert b != null : LogT.getT().cannotBeNull();
+        // create and count number of all ResObjectP and CustomerP
         bList = b.getBooklist();
         assert bList != null && bList.size() != 0 : LogT.getT()
                 .CellCannotBeNull();
         for (BookElemP bElem : bList) {
             rMap.put(bElem.getResObject(), null);
+            for (GuestP g : bElem.getGuests()) {
+                if (g.getCustomer() != null) {
+                    cMap.put(g.getCustomer(), null);
+                }
+            }
         }
-        rSynch = new ReadList(rMap.size());
+
+        rSynch = new ReadList(rMap.size() + cMap.size());
+        // initialize reading of ResObjectP
         for (String s : rMap.keySet()) {
             new BackAbstract<ResObjectP>().readAbstract(DictType.RoomObjects,
                     s, new ReadResObject());
         }
+        // initialize reading of CustomerP
+        for (LId l : cMap.keySet()) {
+            new BackAbstract<CustomerP>().readAbstract(DictType.CustomerList,
+                    l, new ReadCustomerP());
+        }
+
+        ValidateGuests v = new ValidateGuests(dType, p, bOptions);
+        v.setSlContainer(iList);
+        PersistGuests pe = new PersistGuests(dType, p);
+        pe.setSlContainer(iList);
         this.setSlContainer(iList);
         getSlContainer().registerSubscriber(slType, new ResignSignaller());
-        getSlContainer().registerSubscriber(dType,
-                DataActionEnum.ValidateAction, new ValidateSignal());
-        getSlContainer().registerSubscriber(dType,
-                DataActionEnum.PersistDataAction, new PersistGuests());
-
     }
 
     @Override

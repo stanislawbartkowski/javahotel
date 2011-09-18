@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.booking;
+package com.javahotel.nmvc.factories.booking.elem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +48,12 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
-import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
+import com.javahotel.nmvc.factories.booking.P;
 
 public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
@@ -108,12 +108,12 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
     }
 
-    public BookingElemContainer(final ICallContext iContext,
+    public BookingElemContainer(IDataType dType, final ICallContext iContext,
             final DataType subType, IFormDefFactory fFactory,
             IFormTitleFactory tiFactory) {
+        this.dType = dType;
         tFactories = iContext.getC();
         publishdType = iContext.getDType();
-        dType = new DataType(AddType.BookElem);
         slMediator.getSlContainer().registerSubscriber(subType,
                 DataActionEnum.DrawViewFormAction, new DrawModel());
 
