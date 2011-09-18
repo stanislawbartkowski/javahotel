@@ -175,6 +175,16 @@ public class SlU {
         return b.isBoolValue();
     }
 
+    /**
+     * Register Widget listener
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param c
+     *            Signaller waiting for widget
+     */
     public static void registerWidgetListener0(IDataType dType, ISlotable iSlo,
             ISlotSignaller c) {
         iSlo.getSlContainer().registerSubscriber(dType, 0, c);
@@ -205,6 +215,18 @@ public class SlU {
         return sl.getDataList();
     }
 
+    /**
+     * Publish Valid signal but containing string to be asked before proceeding
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param slContext
+     *            ISlotSignalContext (Widget/WSize whould be preserved)
+     * @param ask
+     *            String to be asked
+     */
     public static void publishValidWithAsk(IDataType dType, ISlotable iSlo,
             ISlotSignalContext slContext, String ask) {
         SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
@@ -219,6 +241,20 @@ public class SlU {
         iSlo.getSlContainer().publish(slC);
     }
 
+    /**
+     * Publish PeristTypeEnum action
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param slContext
+     *            ISlotSignalContext (Widget/WSize should be preserved)
+     * @param action
+     *            DataActionEnum
+     * @param persistTypeEnum
+     *            PersistTypeEnum
+     */
     public static void publishActionPersist(IDataType dType, ISlotable iSlo,
             ISlotSignalContext slContext, DataActionEnum action,
             PersistTypeEnum persistTypeEnum) {
