@@ -101,10 +101,8 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
             IVModelData pData = slMediator.getSlContainer()
                     .getGetterIVModelData(dType,
                             GetActionEnum.GetViewModelEdited, cust);
-            boolean addCust = cContainer.getNewCheck();
-            boolean changeCust = cContainer.getChangeCheck();
             HModelData vvData = (HModelData) pData;
-            BookingCustInfo bInfo = new BookingCustInfo(addCust, changeCust,
+            BookingCustInfo bInfo = new BookingCustInfo(cContainer,
                     (CustomerP) vvData.getA());
             vData.setCustomData(bInfo);
             return slContext;

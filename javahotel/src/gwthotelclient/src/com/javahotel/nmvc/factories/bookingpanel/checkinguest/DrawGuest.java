@@ -37,6 +37,7 @@ import com.javahotel.client.types.VField;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.CustomerP;
+import com.javahotel.nmvc.factories.booking.BookingCustInfo;
 import com.javahotel.nmvc.factories.booking.ReceiveChange;
 
 /**
@@ -79,29 +80,31 @@ class DrawGuest {
         }
 
     }
-    
+
     /**
      * Raised when user chose to select customer from the list
+     * 
      * @author hotel
-     *
+     * 
      */
     private class ChoosedCustFromList implements ISlotSignaller {
-        
+
         HModelData hCust;
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             // get FormLineContainer (data have been put there)
-            FormLineContainer formL = SlU.getFormLineContainer(dType, cContainer);
+            FormLineContainer formL = SlU.getFormLineContainer(dType,
+                    cContainer);
             // retrieve to hCust
             FormUtil.copyFromViewToData(formL, hCust);
             // move to line view
-            FormUtil.copyFromDataToView(hCust,vList);           
+            FormUtil.copyFromDataToView(hCust, vList);
         }
-        
+
     }
 
-    DrawGuest(List<IGetSetVField> vList) {
+    DrawGuest(AbstractToCheckGuest a, List<IGetSetVField> vList) {
         this.vList = vList;
         dType = new DataType(DictType.CustomerList);
         DataType dType = new DataType(DictType.CustomerList);
@@ -110,12 +113,18 @@ class DrawGuest {
         DataType subType = new DataType(dType.getdType(), DataTypeSubEnum.Sub1);
         cContainer = EditChooseRecordFactory.constructEditChooseRecord(ii,
                 dType, subType);
+        if (a.getO3().getCustomer() != null) {
+            cContainer.SetNewChange(false, true);
+        } else {
+            cContainer.SetNewChange(true, true);
+        }
+
         vP = new SetVPanelGwt();
         SlU.registerWidgetListener0(dType, cContainer, vP.constructSetGwt());
         cContainer.getSlContainer().registerSubscriber(
                 IChangeObject.signalString, new ReceiveChange(cContainer));
         cContainer.getSlContainer().registerSubscriber(
-                IChangeObject.choosedString, choosedSignal);        
+                IChangeObject.choosedString, choosedSignal);
         SlU.startPublish0(cContainer);
         for (IGetSetVField iGet : vList) {
             SlU.registerChangeFormSubscriber(dType, cContainer, iGet.getV(),
@@ -138,6 +147,10 @@ class DrawGuest {
                 CustomerP.F.cType), true);
 
         ClickPopUp p = new ClickPopUp(w, vP.constructGWidget().getGWidget());
+    }
+
+    BookingCustInfo constructCustInfo(CustomerP p) {
+        return new BookingCustInfo(cContainer, p);
     }
 
 }

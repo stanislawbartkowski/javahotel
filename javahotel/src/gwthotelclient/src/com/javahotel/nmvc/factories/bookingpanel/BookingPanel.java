@@ -103,6 +103,7 @@ import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
+import com.javahotel.nmvc.factories.bookingpanel.addtobill.AddToBillDialog;
 import com.javahotel.nmvc.factories.bookingpanel.checkinguest.CheckinGuest;
 
 /**
@@ -339,12 +340,6 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
      *            If not null add line-height css modifier
      */
     private void addStyle(SafeHtmlBuilder b, String st, String content, String h) {
-        /*
-         * String ht = "<div class=\"" + st + "\""; if (h != null) { ht +=
-         * " style=\"line-height:" + h + ";\" "; } ht += ">";
-         * b.appendHtmlConstant(ht); b.appendHtmlConstant(content);
-         * b.appendHtmlConstant("</div>");
-         */
         if (h != null) {
             b.append(templateHeight.input(st, h, content));
         } else {
@@ -614,6 +609,22 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
     }
 
+    private class RToBill implements BackAbstract.IRunAction<BookingP> {
+
+        private final WSize wSize;
+
+        RToBill(WSize w) {
+            this.wSize = w;
+        }
+
+        @Override
+        public void action(BookingP p) {
+            AddToBillDialog a = new AddToBillDialog();
+            a.addToBill(p, wSize);
+        }
+
+    }
+
     private class CheckInGuests implements ClickHandler {
 
         private final String resName;
@@ -631,6 +642,24 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
     }
 
+    private class AddToBill implements ClickHandler {
+
+        private final String resName;
+
+        AddToBill(String resName) {
+            this.resName = resName;
+        }
+
+        @Override
+        public void onClick(ClickEvent event) {
+            new BackAbstract<BookingP>()
+                    .readAbstract(DictType.BookingList, resName, new RToBill(
+                            new WSize(event.getRelativeElement())));
+
+        }
+
+    }
+
     /**
      * Class called when panel cell is clicked
      * 
@@ -643,9 +672,6 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         public void signal(ISlotSignalContext slContext) {
             IResLocator rI = HInjector.getI().getI();
             // retrieve information
-            // WSize wSize = slContext.getWSize();
-            // IVModelData vData = slContext.getVData();
-            // IVField v = slContext.getVField();
             WChoosedLine wC = SlU.getWChoosedLine(slContext);
             WSize wSize = wC.getwSize();
             IVField v = wC.getvField();
@@ -684,6 +710,9 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             case Stay:
                 b = new Button("Zamelduj gości");
                 b.addClickHandler(new CheckInGuests(p.getBookName()));
+                ve.add(b);
+                b = new Button("Dopisz do rachunku");
+                b.addClickHandler(new AddToBill(p.getBookName()));
                 ve.add(b);
                 break;
             }

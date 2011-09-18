@@ -35,6 +35,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataTypeSubEnum;
 import com.javahotel.client.types.DataUtil;
@@ -45,9 +46,9 @@ import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.nmvc.factories.booking.BookingCustomerContainer;
-import com.javahotel.nmvc.factories.booking.BookingElemContainer;
 import com.javahotel.nmvc.factories.booking.BookingHeaderContainer;
 import com.javahotel.nmvc.factories.booking.BookingRowDetailContainer;
+import com.javahotel.nmvc.factories.booking.elem.BookingElemContainer;
 import com.javahotel.nmvc.factories.customer.CustomerAddInfo;
 import com.javahotel.nmvc.factories.hotelperson.HotelPersonRightsContainer;
 import com.javahotel.nmvc.factories.price.PriceListContainer;
@@ -175,8 +176,9 @@ class GetViewFactory implements IGetViewControllerFactory {
                 cContainer = new BookingCustomerContainer(iContext, subType);
                 cContainer1 = new BookingHeaderContainer(iContext, sub1Type,
                         reFactory);
-                cContainer2 = new BookingElemContainer(iContext, sub2Type,
-                        reFactory, tiFactory);
+                cContainer2 = new BookingElemContainer(new DataType(
+                        AddType.BookRoom), iContext, sub2Type, reFactory,
+                        tiFactory);
                 cContainer3 = new BookingRowDetailContainer(iContext, sub3Type);
                 break;
             }

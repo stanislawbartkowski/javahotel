@@ -79,7 +79,7 @@ class ColListFactory {
         if (d.isAddType()) {
             switch (d.getAddType()) {
             case BookRecord:
-            case BookElem:
+            case BookRoom:
             case AdvanceHeader:
             case RowPaymentElem:
                 return null;
@@ -154,7 +154,7 @@ class ColListFactory {
             case BookRecord:
             case AdvanceHeader:
                 break;
-            case BookElem:
+            case BookRoom:
                 fList = new IField[] { BookElemP.F.checkIn,
                         BookElemP.F.checkOut, BookElemP.F.resObject,
                         BookElemP.F.service };

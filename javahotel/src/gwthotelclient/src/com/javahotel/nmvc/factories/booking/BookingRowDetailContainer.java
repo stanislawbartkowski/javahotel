@@ -53,7 +53,7 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
     private final IDataType publishdType;
     private final TableDataControlerFactory taFactory;
     private final IDataControler iControler;
-    private final DataType fElem = new DataType(AddType.BookElem);
+    private final DataType fElem = new DataType(AddType.BookRoom);
 
     private class DrawModel implements ISlotSignaller {
 

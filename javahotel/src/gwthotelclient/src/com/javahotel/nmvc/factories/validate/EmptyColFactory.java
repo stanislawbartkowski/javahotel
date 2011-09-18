@@ -76,7 +76,7 @@ class EmptyColFactory {
             }
         } else if (dt.isAddType()) {
             switch (dt.getAddType()) {
-            case BookElem:
+            case BookRoom:
                 return new IField[] { BookElemP.F.checkIn,
                         BookElemP.F.checkOut, BookElemP.F.resObject,
                         BookElemP.F.service };

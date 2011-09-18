@@ -62,7 +62,7 @@ class RecordTitleFactory implements IFormTitleFactory {
         }
         if (dd.isAddType()) {
             switch (dd.getAddType()) {
-            case BookElem:
+            case BookRoom:
                 return "Rezerwacja pokoju";
             case BookRecord:
             case AdvanceHeader:

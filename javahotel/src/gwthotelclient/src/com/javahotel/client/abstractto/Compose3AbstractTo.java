@@ -93,7 +93,7 @@ public class Compose3AbstractTo<T1 extends AbstractTo, T2 extends AbstractTo, T3
     /**
      * @return the o3
      */
-    T3 getO3() {
+    public T3 getO3() {
         return o3;
     }
 

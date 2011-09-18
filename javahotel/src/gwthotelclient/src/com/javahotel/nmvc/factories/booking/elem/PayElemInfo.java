@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.booking;
+package com.javahotel.nmvc.factories.booking.elem;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +30,7 @@ import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.PaymentRowP;
+import com.javahotel.nmvc.factories.booking.GetSlowC;
 
 /**
  * @author hotel

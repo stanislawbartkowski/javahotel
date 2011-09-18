@@ -12,6 +12,7 @@
  */
 package com.javahotel.nmvc.factories.booking;
 
+import com.gwtmodel.table.editc.IEditChooseRecordContainer;
 import com.javahotel.common.toobject.CustomerP;
 
 public class BookingCustInfo {
@@ -30,6 +31,12 @@ public class BookingCustInfo {
 
     public CustomerP getCust() {
         return cust;
+    }
+
+    public BookingCustInfo(IEditChooseRecordContainer eCust, CustomerP cust) {
+        addCust = eCust.getNewCheck();
+        changeCust = eCust.getChangeCheck();
+        this.cust = cust;
     }
 
     public BookingCustInfo(boolean addCust, boolean changeCust, CustomerP cust) {

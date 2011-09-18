@@ -37,7 +37,7 @@ class DataModelFactory implements IDataModelFactory {
         AbstractTo a = i.construct(daType);
         if (daType.isAddType()) {
             switch (daType.getAddType()) {
-            case BookElem:
+            case BookRoom:
                 return VModelDataFactory.constructLp(a);
             }
         }

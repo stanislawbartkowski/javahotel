@@ -64,7 +64,7 @@ public class ValidateAction extends AbstractSlotContainer implements
             }
             if (da.isAddType()) {
                 switch (da.getAddType()) {
-                case BookElem:
+                case BookRoom:
                     errMess = ValidateUtil.checkDate(pData, new VField(
                             BookElemP.F.checkIn), new VField(
                             BookElemP.F.checkOut));

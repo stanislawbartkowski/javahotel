@@ -10,34 +10,19 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.booking;
+package com.javahotel.nmvc.factories.bookingpanel.addtobill;
 
-import com.gwtmodel.table.ICustomObject;
-import com.gwtmodel.table.slotmodel.CustomStringSlot;
-import com.gwtmodel.table.slotmodel.ISlotCustom;
-import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.WSize;
+import com.javahotel.common.toobject.BookingP;
 
 /**
  * @author hotel
  *
  */
-public class GetSlowC implements ICustomObject {
+public class AddToBillDialog {
     
-    private final ISlotable iSlo;
-    
-    // default visibility
-    public static final ISlotCustom GETSLOTS = new CustomStringSlot("GET-SLOTS");
-    
-    GetSlowC(ISlotable iSlo) {
-        this.iSlo = iSlo;
+    public void addToBill(BookingP p, WSize wSize) {
+        
     }
-
-    /**
-     * @return the iSlow
-     */
-    public ISlotable getiSlo() {
-        return iSlo;
-    }
-    
 
 }

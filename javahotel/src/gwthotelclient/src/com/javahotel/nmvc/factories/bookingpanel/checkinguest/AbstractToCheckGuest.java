@@ -18,6 +18,7 @@ import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.ResObjectP;
+import com.javahotel.nmvc.factories.booking.BookingCustInfo;
 
 /**
  * @author hotel
@@ -27,7 +28,6 @@ import com.javahotel.common.toobject.ResObjectP;
 class AbstractToCheckGuest extends
         Compose3AbstractTo<ResObjectP, CustomerP, GuestP> {
 
-    @SuppressWarnings("unused")
     private final BookElemP bElem;
 
     private boolean editable = false;
@@ -98,4 +98,16 @@ class AbstractToCheckGuest extends
         this.guest = guest;
     }
 
+    BookingCustInfo construct() {
+        if (guest != null) {
+            return guest.constructCustInfo(getO2());
+        }
+        GuestP g = getO3();
+        boolean newCust = (g.getCustomer() == null);
+        return new BookingCustInfo(newCust, waseditable, getO2());
+    }
+
+    void addGuestToList() {
+        bElem.getGuests().add(getO3());
+    }
 }

@@ -120,7 +120,7 @@ class RecordFormDefFactory implements IFormDefFactory {
 
         if (dd.isAddType()) {
             switch (dd.getAddType()) {
-            case BookElem:
+            case BookRoom:
                 fL = new IField[] { BookElemP.F.checkIn, BookElemP.F.checkOut,
                         BookElemP.F.resObject, BookElemP.F.service };
                 FFactory.add(fList, fL);
