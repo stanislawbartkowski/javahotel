@@ -313,12 +313,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     }
 
     private class ClickColumn implements ICommand {
- 
+
         @Override
         public void execute() {
             WChoosedLine w = tableView.getClicked();
-            SlotType sl = slTypeFactory.construct(DataActionEnum.TableCellClicked,dType);
-            publish(sl,w);
+            SlotType sl = slTypeFactory.construct(dType,
+                    DataActionEnum.TableCellClicked);
+            publish(sl, w);
         }
     }
 

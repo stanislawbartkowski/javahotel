@@ -18,12 +18,12 @@ import com.gwtmodel.table.injector.LogT;
 
 public class SlotTypeFactory {
 
-    public SlotType construct(DataActionEnum dataActionEnum, IDataType dType) {
+    public SlotType construct(IDataType dType, DataActionEnum dataActionEnum) {
         return new SlotType(SlotEventEnum.DataAction, null, null,
                 dataActionEnum, null, null, dType, null, null, null);
     }
 
-    public SlotType construct(GetActionEnum gEnum, IDataType dType) {
+    public SlotType construct(IDataType dType, GetActionEnum gEnum) {
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
                 null, dType, gEnum, null, null);
     }
@@ -70,7 +70,8 @@ public class SlotTypeFactory {
 
     public SlotType construct(ClickButtonType buttonClick) {
         return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick,
-                null, null, null, null, null, null, new ButtonAction(ButtonAction.Action.ClickButton));
+                null, null, null, null, null, null, new ButtonAction(
+                        ButtonAction.Action.ClickButton));
     }
 
     public SlotType construct(String stringButton) {
