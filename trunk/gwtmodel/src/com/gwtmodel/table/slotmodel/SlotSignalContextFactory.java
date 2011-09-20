@@ -180,6 +180,11 @@ public class SlotSignalContextFactory {
                 null, null, null, null, null, null, o, null);
     }
 
+    public ISlotSignalContext constructIFormLineView(SlotType slType, IFormLineView formLine) {
+        return new SlotSignalContext(slType, formLine, null, null, null, null,
+                null, null, null, null, null, null, null, null);
+    }
+
     public ISlotSignalContext construct(SlotType slType,
             PersistTypeEnum persistTypeEnum) {
         return new SlotSignalContext(slType, null, null, null, null, null,
