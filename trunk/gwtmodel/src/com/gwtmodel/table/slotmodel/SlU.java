@@ -17,6 +17,7 @@ import java.util.List;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -190,6 +191,10 @@ public class SlU {
         iSlo.getSlContainer().registerSubscriber(dType, 0, c);
     }
 
+    public static void publishWidget(IDataType dType, ISlotable iSlo, IGWidget g) {
+        iSlo.getSlContainer().publish(dType, 0, g);
+    }
+
     public static void startPublish0(ISlotable iSlo) {
         iSlo.startPublish(new CellId(0));
     }
@@ -235,7 +240,7 @@ public class SlU {
                 .getSlotSignalContextFactory();
 
         SlotType sl = slTypeFactory
-                .construct(DataActionEnum.ValidSignal, dType);
+                .construct(dType, DataActionEnum.ValidSignal);
         CustomStringValue c = new CustomStringValue(ask);
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
         iSlo.getSlContainer().publish(slC);
@@ -263,7 +268,7 @@ public class SlU {
         SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
                 .getSlotSignalContextFactory();
 
-        SlotType sl = slTypeFactory.construct(action, dType);
+        SlotType sl = slTypeFactory.construct(dType, action);
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext,
                 persistTypeEnum);
         iSlo.getSlContainer().publish(slC);

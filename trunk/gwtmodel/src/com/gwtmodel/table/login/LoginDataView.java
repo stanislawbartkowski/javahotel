@@ -32,7 +32,8 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
-class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataView {
+class LoginDataView extends AbstractSlotMediatorContainer implements
+        ILoginDataView {
 
     private final IDataModelFactory dFactory;
 
@@ -41,10 +42,12 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IVModelData perData = dFactory.construct(dType);
-            IVModelData pData = slMediator.getSlContainer().getGetterIVModelData(dType,
-                    GetActionEnum.GetViewModelEdited, perData);
+            IVModelData pData = slMediator.getSlContainer()
+                    .getGetterIVModelData(dType,
+                            GetActionEnum.GetViewModelEdited, perData);
             // result: perData
-            SlotSignalContextFactory coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+            SlotSignalContextFactory coFactory = GwtGiniInjector.getI()
+                    .getSlotSignalContextFactory();
             return coFactory.construct(slContext.getSlType(), pData);
         }
     }
@@ -54,10 +57,12 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
             IDataValidateAction vAction) {
         this.dFactory = dFactory;
         this.dType = dType;
-        ListOfControlDesc bControl = tFactories.getControlButtonFactory().constructLoginButton();
-        IControlButtonView bView = tFactories.getbViewFactory().construct(dType,
-                bControl);
-        IPanelView pView = tFactories.getpViewFactory().construct(dType, panelId);
+        ListOfControlDesc bControl = tFactories.getControlButtonFactory()
+                .constructLoginButton();
+        IControlButtonView bView = tFactories.getbViewFactory().construct(
+                dType, bControl);
+        IPanelView pView = tFactories.getpViewFactory().construct(dType,
+                panelId);
         CellId controlId = pView.addCellPanel(1, 0);
         CellId cellTableId = pView.addCellPanel(0, 0);
         pView.createView();
@@ -69,10 +74,12 @@ class LoginDataView extends AbstractSlotMediatorContainer implements ILoginDataV
         slMediator.registerSlotContainer(vAction);
         SlotTypeFactory slFactory = tFactories.getSlTypeFactory();
         slMediator.getSlContainer().registerCaller(
-                slFactory.construct(GetActionEnum.GetViewComposeModelEdited,
-                dType), new GetCompose());
+                slFactory.construct(dType,
+                        GetActionEnum.GetViewComposeModelEdited),
+                new GetCompose());
         slMediator.getSlContainer().registerRedirector(
-                slFactory.construct(new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)),
-                slFactory.construct(DataActionEnum.ValidateAction, dType));
+                slFactory.construct(new ClickButtonType(
+                        ClickButtonType.StandClickEnum.ACCEPT)),
+                slFactory.construct(dType, DataActionEnum.ValidateAction));
     }
 }

@@ -207,14 +207,14 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                 new DrawAction(DataActionEnum.DefaultViewFormAction));
 
         slMediator.getSlContainer().registerRedirector(
-                slFactory.construct(DataActionEnum.PersistComposeFormAction,
-                        dType),
-                slFactory.construct(DataActionEnum.PersistDataAction, dType));
+                slFactory.construct(dType,
+                        DataActionEnum.PersistComposeFormAction),
+                slFactory.construct(dType, DataActionEnum.PersistDataAction));
 
         slMediator.getSlContainer().registerRedirector(
-                slFactory.construct(DataActionEnum.InvalidSignal, dType),
-                slFactory.construct(
-                        DataActionEnum.ChangeViewFormToInvalidAction, dType));
+                slFactory.construct(dType, DataActionEnum.InvalidSignal),
+                slFactory.construct(dType,
+                        DataActionEnum.ChangeViewFormToInvalidAction));
 
         // slMediator.getSlContainer().registerRedirector(
         // slFactory.construct(DataActionEnum.ValidateComposeFormAction,
@@ -223,15 +223,15 @@ class ComposeController extends AbstractSlotMediatorContainer implements
 
         int no = 0;
         List<SubValidate> li = new ArrayList<SubValidate>();
-        SlotType sldType = slFactory.construct(DataActionEnum.ValidateAction,
-                dType);
+        SlotType sldType = slFactory.construct(dType,
+                DataActionEnum.ValidateAction);
         for (ComposeControllerType c : cList) {
             IDataType dType = c.getdType();
             if (dType == null) {
                 continue;
             }
-            SlotType slType = slFactory.construct(
-                    DataActionEnum.ValidateAction, dType);
+            SlotType slType = slFactory.construct(dType,
+                    DataActionEnum.ValidateAction);
             if (slType.eq(sldType)) {
                 continue;
             }
@@ -239,8 +239,8 @@ class ComposeController extends AbstractSlotMediatorContainer implements
             if (i > 0) {
                 no += i;
                 SubValidate va = new SubValidate(slType);
-                SlotType slVal = slFactory.construct(
-                        DataActionEnum.ValidSignal, dType);
+                SlotType slVal = slFactory.construct(dType,
+                        DataActionEnum.ValidSignal);
                 c.getiSlot().getSlContainer().registerSubscriber(slVal, va);
                 li.add(va);
             }
