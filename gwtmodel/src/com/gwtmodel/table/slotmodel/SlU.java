@@ -14,6 +14,7 @@ package com.gwtmodel.table.slotmodel;
 
 import java.util.List;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
@@ -27,7 +28,9 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.listdataview.GetVDataByIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.rdef.ITouchListener;
 
 /**
  * @author hotel Static utility for making bringing object more easy
@@ -272,6 +275,76 @@ public class SlU {
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext,
                 persistTypeEnum);
         iSlo.getSlContainer().publish(slC);
+    }
+
+    private static class GetValueContainer implements IFormLineView {
+
+        private final Object val;
+
+        GetValueContainer(Object val) {
+            this.val = val;
+        }
+
+        @Override
+        public IVField getV() {
+            return null;
+        }
+
+        @Override
+        public Object getValObj() {
+            return val;
+        }
+
+        @Override
+        public void setValObj(Object o) {
+        }
+
+        @Override
+        public Widget getGWidget() {
+            return null;
+        }
+
+        @Override
+        public void addChangeListener(IFormChangeListener cListener) {
+        }
+
+        @Override
+        public void setReadOnly(boolean readOnly) {
+        }
+
+        @Override
+        public void setHidden(boolean hidden) {
+
+        }
+
+        @Override
+        public boolean isHidden() {
+            return false;
+        }
+
+        @Override
+        public void setInvalidMess(String errmess) {
+
+        }
+
+        @Override
+        public void setGStyleName(String styleMess, boolean set) {
+
+        }
+
+        @Override
+        public void setOnTouch(ITouchListener lTouch) {
+        }
+
+        @Override
+        public int getChooseResult() {
+            return 0;
+        }
+
+    }
+
+    public static IFormLineView contructObjectValue(Object val) {
+        return new GetValueContainer(val);
     }
 
 }
