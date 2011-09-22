@@ -15,6 +15,7 @@ package com.javahotel.nmvc.factories;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.injector.ICallContext;
@@ -47,13 +48,14 @@ import com.javahotel.common.toobject.StringP;
 import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.nmvc.ewidget.EWidgetFactory;
 
-class RecordFormDefFactory implements IFormDefFactory {
+public class RecordFormDefFactory implements IFormDefFactory {
 
     private final EditWidgetFactory eFactory;
     private final EWidgetFactory heFactory;
     private final IResLocator rI;
 
-    RecordFormDefFactory(IResLocator rI, EditWidgetFactory eFactory,
+    @Inject
+    public RecordFormDefFactory(IResLocator rI, EditWidgetFactory eFactory,
             EWidgetFactory heFactory) {
         this.rI = rI;
         this.eFactory = eFactory;
@@ -168,7 +170,8 @@ class RecordFormDefFactory implements IFormDefFactory {
             case ServiceDict:
                 fList = getDict();
                 FFactory.add(fList, new IField[] { ServiceDictionaryP.F.vat,
-                        ServiceDictionaryP.F.servtype });
+                        ServiceDictionaryP.F.servtype,
+                        ServiceDictionaryP.F.noPerson });
                 break;
 
             case RoomObjects:
@@ -191,7 +194,8 @@ class RecordFormDefFactory implements IFormDefFactory {
                         CustomerP.F.PESEL, CustomerP.F.docType,
                         CustomerP.F.docNumber, CustomerP.F.country,
                         CustomerP.F.zipCode, CustomerP.F.city,
-                        CustomerP.F.address1, CustomerP.F.address2 };
+                        CustomerP.F.address1, CustomerP.F.address2,
+                        CustomerP.F.mailAddress };
                 FFactory.add(fList, fL);
                 break;
             case BookingList:

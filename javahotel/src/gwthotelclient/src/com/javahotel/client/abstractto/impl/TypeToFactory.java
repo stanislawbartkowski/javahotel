@@ -344,7 +344,6 @@ public class TypeToFactory implements IAbstractType {
         ma.put(AddPaymentP.F.customerSum, decimalT);
 
         ma.put(ResObjectP.F.standard, stringDT);
-        ma.put(ResObjectP.F.noperson, intT);
         ma.put(ResObjectP.F.maxperson, intT);
 
         ma.put(VatDictionaryP.F.vat, decimalT);
@@ -353,6 +352,7 @@ public class TypeToFactory implements IAbstractType {
 
         ma.put(ServiceDictionaryP.F.servtype, stringServiceT);
         ma.put(ServiceDictionaryP.F.vat, stringVatT);
+        ma.put(ServiceDictionaryP.F.noPerson, intT);
 
         ma.put(CustomerP.F.cType, stringCustomerT);
         ma.put(CustomerP.F.pTitle, stringPersonT);

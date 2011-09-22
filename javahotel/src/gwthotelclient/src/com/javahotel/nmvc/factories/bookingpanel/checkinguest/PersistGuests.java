@@ -18,6 +18,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -45,7 +46,7 @@ import com.javahotel.types.LId;
  * @author hotel
  * 
  */
-class PersistGuests extends AbstractSlotContainer {
+class PersistGuests extends AbstractSlotContainer implements IDataPersistAction  {
 
     private final IDataType dType;
     private final BookingP p;
