@@ -22,6 +22,7 @@ import com.javahotel.types.DecimalP;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class OfferServicePriceP extends AbstractTo {
 
     private DecimalP highseasonprice;

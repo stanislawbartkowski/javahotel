@@ -23,6 +23,7 @@ import java.util.Date;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class AddPaymentP extends AbstractTo implements INumerable {
 
     private DateP payDate;

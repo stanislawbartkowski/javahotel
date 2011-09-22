@@ -22,6 +22,7 @@ import com.javahotel.types.LId;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class RemarkP extends AbstractToILd implements INumerable {
 
     private LId id;

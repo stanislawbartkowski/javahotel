@@ -18,12 +18,24 @@ import com.javahotel.types.DateP;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("serial")
 public class GuestP extends AbstractTo {
 
+    /** Customer (guest.) */
+    private LId customer;
+    /** Check-in date. */
+    private DateP checkIn;
+    /** Check-out date. */
+    private DateP checkOut;
+
+    public enum F implements IField {
+
+        id, checkIn, checkOut
+    };
+    
     /**
      * @return the customer
      */
@@ -32,7 +44,8 @@ public class GuestP extends AbstractTo {
     }
 
     /**
-     * @param customer the customer to set
+     * @param customer
+     *            the customer to set
      */
     public void setCustomer(LId customer) {
         this.customer = customer;
@@ -46,7 +59,8 @@ public class GuestP extends AbstractTo {
     }
 
     /**
-     * @param checkIn the checkIn to set
+     * @param checkIn
+     *            the checkIn to set
      */
     public void setCheckIn(Date checkIn) {
         this.checkIn.setD(checkIn);
@@ -60,54 +74,61 @@ public class GuestP extends AbstractTo {
     }
 
     /**
-     * @param checkOut the checkOut to set
+     * @param checkOut
+     *            the checkOut to set
      */
     public void setCheckOut(Date checkOut) {
         this.checkOut.setD(checkOut);
     }
 
-    public enum F implements IField {
-
-        id, checkIn, checkOut
-    };
 
     @Override
     public IField[] getT() {
         return F.values();
     }
-    private LId customer;
-    private DateP checkIn;
-    private DateP checkOut;
 
+
+    /**
+     * Constructor, creates empty dates
+     */
     public GuestP() {
         checkIn = new DateP();
         checkOut = new DateP();
     }
 
+    /**
+     * Trasforms IField to local F, does accept any other IField
+     * @param f IField
+     * @return F (local)
+     */
+    private F getFie(IField f) {
+        return (F) f;
+    }
+
     @Override
     public Object getF(IField f) {
-        F fie = (F) f;
+        F fie = getFie(f);
         switch (fie) {
-            case id:
-                return getCustomer();
-            case checkIn:
-                return getCheckIn();
-            case checkOut:
-                return getCheckOut();
+        case id:
+            return getCustomer();
+        case checkIn:
+            return getCheckIn();
+        case checkOut:
+            return getCheckOut();
         }
         return null;
     }
 
     @Override
     public Class<?> getT(IField f) {
-        F fie = (F) f;
+        F fie = getFie(f);
         switch (fie) {
-            case id:
-                return Long.class;
-            case checkIn:
-                return Date.class;
-            case checkOut:
-                return Date.class;
+        case id:
+            return Long.class;
+        case checkIn:
+            return Date.class;
+        case checkOut:
+            return Date.class;
         }
         return null;
     }
@@ -116,15 +137,15 @@ public class GuestP extends AbstractTo {
     public void setF(IField f, Object o) {
         F fie = (F) f;
         switch (fie) {
-            case id:
-                setCustomer((LId) o);
-                break;
-            case checkIn:
-                setCheckIn((Date) o);
-                break;
-            case checkOut:
-                setCheckOut((Date) o);
-                break;
+        case id:
+            setCustomer((LId) o);
+            break;
+        case checkIn:
+            setCheckIn((Date) o);
+            break;
+        case checkOut:
+            setCheckOut((Date) o);
+            break;
         }
     }
 }

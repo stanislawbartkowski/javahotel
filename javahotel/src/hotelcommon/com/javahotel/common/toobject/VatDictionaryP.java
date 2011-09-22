@@ -34,8 +34,8 @@ public class VatDictionaryP extends DictionaryP {
     }
 
     @Override
-    public Class getT(final IField f) {
-        Class cla = super.getT(f);
+    public Class<?> getT(final IField f) {
+        Class<?> cla = super.getT(f);
         if (cla != null) {
             return cla;
         }

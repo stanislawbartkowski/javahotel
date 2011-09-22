@@ -19,6 +19,7 @@ import java.util.Date;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class OfferSeasonPeriodP extends AbstractTo {
 
     private DateP startP;

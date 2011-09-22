@@ -33,8 +33,8 @@ public class StringP extends AbstractTo {
     }
 
     @Override
-    public Class getT(final IField f) {
-        Class cla = String.class;
+    public Class<?> getT(final IField f) {
+        Class<?> cla = String.class;
         return cla;
     }
 

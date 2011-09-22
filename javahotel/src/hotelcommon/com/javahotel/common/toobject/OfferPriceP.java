@@ -19,6 +19,7 @@ import java.util.List;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class OfferPriceP extends DictionaryP {
 
 	private String season;

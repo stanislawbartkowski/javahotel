@@ -72,6 +72,7 @@ public class ServiceDictionary implements IHotelDictionary {
 
 	@Transient
 	private RHotel hotel;
+		
 
 	public RHotel getHotel() {
 		return hotel;
@@ -85,8 +86,24 @@ public class ServiceDictionary implements IHotelDictionary {
 	private String name;
 	@Basic
 	private String description;
+	@Basic
+	private Integer noPerson;
 
-	public String getName() {
+	/**
+     * @return the noPerson
+     */
+    Integer getNoPerson() {
+        return noPerson;
+    }
+
+    /**
+     * @param noPerson the noPerson to set
+     */
+    void setNoPerson(Integer noPerson) {
+        this.noPerson = noPerson;
+    }
+
+    public String getName() {
 		return name;
 	}
 

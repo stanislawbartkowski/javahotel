@@ -15,13 +15,30 @@ package com.javahotel.common.toobject;
 import com.javahotel.common.command.CommandUtil;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class ServiceDictionaryP extends DictionaryP {
 
     private ServiceType servType;
     private VatDictionaryP vat;
+    private Integer noPerson;
+
+    /**
+     * @return the noPerson
+     */
+    Integer getNoPerson() {
+        return noPerson;
+    }
+
+    /**
+     * @param noPerson
+     *            the noPerson to set
+     */
+    void setNoPerson(Integer noPerson) {
+        this.noPerson = noPerson;
+    }
 
     public ServiceType getServType() {
         return servType;
@@ -41,7 +58,7 @@ public class ServiceDictionaryP extends DictionaryP {
 
     public enum F implements IField {
 
-        servtype, vat
+        servtype, vat, noPerson
     }
 
     @Override
@@ -52,10 +69,12 @@ public class ServiceDictionaryP extends DictionaryP {
         }
         F fie = (F) f;
         switch (fie) {
-            case servtype:
-                return ServiceType.class;
-            case vat :
-                return VatDictionaryP.class;
+        case noPerson:
+            return Integer.class;
+        case servtype:
+            return ServiceType.class;
+        case vat:
+            return VatDictionaryP.class;
         }
         return null;
     }
@@ -75,10 +94,12 @@ public class ServiceDictionaryP extends DictionaryP {
         F fi = (F) f;
 
         switch (fi) {
-            case servtype:
-                return getServType();
-            case vat:
-                return getVat();
+        case servtype:
+            return getServType();
+        case vat:
+            return getVat();
+        case noPerson:
+            return getNoPerson();
         }
         return null;
     }
@@ -94,12 +115,15 @@ public class ServiceDictionaryP extends DictionaryP {
         F fi = (F) f;
 
         switch (fi) {
-            case servtype:
-                setServType((ServiceType) o);
-                break;
-            case vat:
-                setVat((VatDictionaryP) o);
-                break;
+        case servtype:
+            setServType((ServiceType) o);
+            break;
+        case vat:
+            setVat((VatDictionaryP) o);
+            break;
+        case noPerson:
+            setNoPerson((Integer) o);
+            break;
         }
     }
 }

@@ -18,6 +18,7 @@ import java.util.List;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class RoomStandardP extends DictionaryP {
 
     private List<ServiceDictionaryP> services;

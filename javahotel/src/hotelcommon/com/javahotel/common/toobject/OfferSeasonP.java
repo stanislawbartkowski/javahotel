@@ -21,6 +21,7 @@ import java.util.Date;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class OfferSeasonP extends DictionaryP {
 
     private DateP startP;

@@ -46,8 +46,8 @@ public class ResDayObjectStateP extends AbstractTo implements INumerable {
     };
 
     @Override
-    public Class getT(final IField f) {
-        Class cla = String.class;
+    public Class<?> getT(final IField f) {
+        Class<?> cla = String.class;
         F fi = (F) f;
         switch (fi) {
             case d:
