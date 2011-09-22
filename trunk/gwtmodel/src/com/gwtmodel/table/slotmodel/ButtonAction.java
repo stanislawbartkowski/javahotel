@@ -18,26 +18,32 @@
 package com.gwtmodel.table.slotmodel;
 
 /**
- * 
+ * Button action description
  * @author hotel
  */
 public class ButtonAction {
-    
+
     public enum Action {
-       ClickButton, EnableButton, DisableButton, RedirectButton
+        ClickButton, // click button 
+        EnableButton, // enable button
+        DisableButton, // disable button
+        RedirectButton, // redirect button, make button behave like another button
+        ForceButton // artificially causes push button
     }
-    
+
+    /** Action */
     private final Action action;
+    /** Redirected to button. */
     private final ClickButtonType redirectB;
-    
-    public ButtonAction(Action action,ClickButtonType redirectB) {
+
+    public ButtonAction(Action action, ClickButtonType redirectB) {
         this.action = action;
         this.redirectB = redirectB;
     }
-    
+
     public ButtonAction(Action action) {
-        this(action,null);
-   }
+        this(action, null);
+    }
 
     /**
      * @return the action
@@ -52,6 +58,5 @@ public class ButtonAction {
     public ClickButtonType getRedirectB() {
         return redirectB;
     }
-    
 
 }

@@ -41,8 +41,8 @@ class ContrButtonView implements IContrButtonView {
 
     private final Panel hP;
     private final IControlClick co;
-    private final Map<ClickButtonType, IGFocusWidget> iBut =
-            new HashMap<ClickButtonType, IGFocusWidget>();
+    private final Map<ClickButtonType, IGFocusWidget> iBut = new HashMap<ClickButtonType, IGFocusWidget>();
+    private final Map<ClickButtonType, ControlButtonDesc> cBut = new HashMap<ClickButtonType, ControlButtonDesc>();
 
     @Override
     public void setEnable(ClickButtonType id, boolean enable) {
@@ -81,8 +81,8 @@ class ContrButtonView implements IContrButtonView {
         }
     }
 
-    ContrButtonView(final ListOfControlDesc model,
-            final IControlClick co, final boolean hori) {
+    ContrButtonView(final ListOfControlDesc model, final IControlClick co,
+            final boolean hori) {
         this.co = co;
         if (hori) {
             hP = new HorizontalPanel();
@@ -98,8 +98,8 @@ class ContrButtonView implements IContrButtonView {
                 but = ImgButtonFactory.getButtonTextImage(htmlElementName,
                         b.getDisplayName(), b.getImageHtml());
             } else {
-                but = ImgButtonFactory.getButton(htmlElementName, b.getDisplayName(),
-                        b.getImageHtml());
+                but = ImgButtonFactory.getButton(htmlElementName,
+                        b.getDisplayName(), b.getImageHtml());
             }
             if (!hori) {
                 but.getGWidget().setWidth("100%");
@@ -107,11 +107,25 @@ class ContrButtonView implements IContrButtonView {
             but.addClickHandler(new Click(b));
             hP.add(but.getGWidget());
             iBut.put(b.getActionId(), but);
+            cBut.put(b.getActionId(), b);
         }
     }
 
     @Override
     public Widget getGWidget() {
         return hP;
+    }
+
+    @Override
+    public void emulateClick(ClickButtonType actionId) {
+        if (co == null) {
+            return;
+        }
+        IGFocusWidget f = iBut.get(actionId);
+        if (f == null) {
+            return;
+        }
+        ControlButtonDesc b = cBut.get(actionId);
+        co.click(b, f.getGWidget());
     }
 }

@@ -22,15 +22,16 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.ISignal;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public class PopupUtil {
 
     @SuppressWarnings("deprecation")
-    public static void addClose(final Panel hP, final ICloseAction i,
+    public static void addClose(final Panel hP, final ISignal i,
             final MenuBar menu, final MenuBar bmenu) {
         HorizontalPanel hC = new HorizontalPanel();
         hC.setWidth("100%");
@@ -45,7 +46,7 @@ public class PopupUtil {
         w.addClickListener(new ClickListener() {
 
             public void onClick(Widget arg0) {
-                i.onClose();
+                i.signal();
             }
         });
         hC.setCellHorizontalAlignment(hC.getWidget(0),

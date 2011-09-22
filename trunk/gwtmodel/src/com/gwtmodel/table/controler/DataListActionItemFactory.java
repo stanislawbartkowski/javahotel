@@ -48,7 +48,6 @@ import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.util.GetActionName;
-import com.gwtmodel.table.view.util.ICloseAction;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 
@@ -111,10 +110,15 @@ class DataListActionItemFactory {
 
         private final IGWidget w;
 
-        FormDialog(VerticalPanel vp, String title, IGWidget w, boolean modal) {
+        FormDialog(VerticalPanel vp, String title, IGWidget w, boolean modal,
+                ISignal aClose) {
             super(vp, title, modal);
             this.w = w;
-            create();
+            if (aClose == null) {
+                create();
+            } else {
+                create(aClose);
+            }
         }
 
         @Override
@@ -130,16 +134,18 @@ class DataListActionItemFactory {
         private final ClickButtonType.StandClickEnum action;
         private FormDialog d;
         private final boolean modal;
-        private final ICloseAction o;
+        private final ISignal o;
+        private final ISignal aClose;
 
         DrawForm(WSize wSize, String title,
                 ClickButtonType.StandClickEnum action, boolean modal,
-                ICloseAction o) {
+                ISignal o, ISignal aClose) {
             this.wSize = wSize;
             this.title = title;
             this.action = action;
             this.modal = modal;
             this.o = o;
+            this.aClose = aClose;
         }
 
         @Override
@@ -147,9 +153,9 @@ class DataListActionItemFactory {
             String addTitle = GetActionName.getActionName(action);
             IGWidget w = slContext.getGwtWidget();
             VerticalPanel vp = new VerticalPanel();
-            // d = new FormDialog(vp, title + " / " + addTitle, w, modal);
             d = new FormDialog(vp,
-                    LogT.getT().formRecordTitle(title, addTitle), w, modal);
+                    LogT.getT().formRecordTitle(title, addTitle), w, modal,
+                    aClose);
             d.show(wSize);
             if (o != null) {
                 d.setOnClose(o);
@@ -316,6 +322,7 @@ class DataListActionItemFactory {
         iCall.setdType(dType);
         iCall.setiSlo(iSlo);
         iCall.setPersistTypeEnum(persistTypeEnum);
+        boolean addModifAction = false;
         switch (action) {
         case REMOVEITEM:
             liControls = tFactories.getControlButtonFactory()
@@ -328,6 +335,7 @@ class DataListActionItemFactory {
         default:
             liControls = tFactories.getControlButtonFactory()
                     .constructAcceptResign();
+            addModifAction = true;
             break;
 
         }
@@ -341,7 +349,8 @@ class DataListActionItemFactory {
             fController.registerControler(mType);
             bModif.modifButton(liControls);
         }
-        SlotListContainer slControlerContainer = fController.getSlContainer();
+        final SlotListContainer slControlerContainer = fController
+                .getSlContainer();
         if (!contentOnly) {
             IControlButtonView cView = tFactories.getbViewFactory().construct(
                     dType, liControls);
@@ -350,7 +359,23 @@ class DataListActionItemFactory {
             fController.registerControler(bType);
             fController.createComposeControler(cId);
             String title = listParam.getFormFactory().getFormTitle(iCall);
-            DrawForm dForm = new DrawForm(wSize, title, action, true, null);
+            ISignal aClose = null;
+            if (addModifAction) {
+                aClose = new ISignal() {
+
+                    @Override
+                    public void signal() {
+                        slControlerContainer.publish(dType,
+                                new ClickButtonType(
+                                        ClickButtonType.StandClickEnum.RESIGN),
+                                new ButtonAction(
+                                        ButtonAction.Action.ForceButton));
+                    }
+
+                };
+            }
+            DrawForm dForm = new DrawForm(wSize, title, action, true, null,
+                    aClose);
             slControlerContainer.registerSubscriber(dType, cId, dForm);
             ResignAction aRes = new ResignAction(dForm, null);
             slControlerContainer.registerSubscriber(listParam.getMenuOptions()

@@ -17,6 +17,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.ISignal;
 
 /**
  * 
@@ -32,18 +33,18 @@ public class ClickPopUp {
 
     private class CloseH implements CloseHandler<PopupPanel> {
 
-        private final ICloseAction i;
+        private final ISignal i;
 
-        CloseH(ICloseAction i) {
+        CloseH(ISignal i) {
             this.i = i;
         }
 
         public void onClose(CloseEvent<PopupPanel> event) {
-            i.onClose();
+            i.signal();
         }
     }
 
-    private void setD(final WSize w, final Widget showW, ICloseAction i) {
+    private void setD(final WSize w, final Widget showW, ISignal i) {
         pUp = new PopupPanel(true);
         if (i != null) {
             pUp.addCloseHandler(new CloseH(i));
@@ -61,7 +62,7 @@ public class ClickPopUp {
         setD(new WSize(w), showW, null);
     }
 
-    public ClickPopUp(final WSize w, final Widget showW, ICloseAction i) {
+    public ClickPopUp(final WSize w, final Widget showW, ISignal i) {
         setD(w, showW, i);
     }
 }

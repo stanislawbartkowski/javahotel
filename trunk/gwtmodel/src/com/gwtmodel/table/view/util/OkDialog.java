@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -46,15 +47,15 @@ public class OkDialog extends ModalDialog {
         this(kom, null, null);
     }
 
-    private void close(ICloseAction ok) {
+    private void close(ISignal ok) {
         hide();
         if (ok != null) {
-            ok.onClose();
+            ok.signal();
         }
     }
 
     public OkDialog(String kom, String title,
-            final ICloseAction ok) {
+            final ISignal ok) {
         super(new VerticalPanel(), null);
         this.kom = kom;
         if (title == null) {
@@ -64,10 +65,10 @@ public class OkDialog extends ModalDialog {
         }
         setTitle(title);
 
-        ICloseAction co = new ICloseAction() {
+        ISignal co = new ISignal() {
 
             @Override
-            public void onClose() {
+            public void signal() {
                 close(ok);
             }
         };

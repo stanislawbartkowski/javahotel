@@ -24,4 +24,6 @@ public interface IContrButtonView extends IGWidget {
     void setEnable(ClickButtonType actionId, boolean enable);
 
     void fillHtml(IGWidget g);
+
+    void emulateClick(ClickButtonType actionId);
 }

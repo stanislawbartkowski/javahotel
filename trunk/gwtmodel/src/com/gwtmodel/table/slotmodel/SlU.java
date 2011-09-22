@@ -24,6 +24,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.controler.BoxActionMenuOptions;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.listdataview.GetVDataByIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
@@ -345,6 +346,18 @@ public class SlU {
 
     public static IFormLineView contructObjectValue(Object val) {
         return new GetValueContainer(val);
+    }
+
+    public static void publishActionResignWithWarning(IDataType dType,ISlotable iSlo,
+            ISlotSignalContext slContext) {
+        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
+                .getSlotSignalContextFactory();
+        SlotType sl = BoxActionMenuOptions.constructSAskBeforeRemoveSlotType(dType);
+        CustomStringValue c = new CustomStringValue(
+                "Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
+        ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
+        iSlo.getSlContainer().publish(slC);
+
     }
 
 }
