@@ -19,6 +19,7 @@ import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -55,10 +56,10 @@ public class YesNoDialog extends ModalDialog {
         }
         setTitle(title);
 
-        ICloseAction closeC = new ICloseAction() {
+        ISignal closeC = new ISignal() {
 
             @Override
-            public void onClose() {
+            public void signal() {
                 hide();
                 yes.click(false);
             }

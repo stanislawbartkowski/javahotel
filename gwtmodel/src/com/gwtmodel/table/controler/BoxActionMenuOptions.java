@@ -36,19 +36,27 @@ public class BoxActionMenuOptions {
 
     private final IDataType dType;
 
-    private final SlotTypeFactory slTypeFactory;
+    private final static SlotTypeFactory slTypeFactory;
+
+    static {
+        slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
+    }
+
     private final Map<String, SlotType> rMap = new HashMap<String, SlotType>();
 
     public BoxActionMenuOptions(IDataType dType) {
         assert dType != null : LogT.getT().cannotBeNull();
         this.dType = dType;
-        slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
         setSlotType(REDIRECT_RESIGN, constructRemoveFormDialogSlotType());
     }
 
-    public SlotType constructRemoveFormDialogSlotType() {
+    public static SlotType constructSRemoveFormDialogSlotType(IDataType dType) {
         return slTypeFactory.construct(new CustomStringDataTypeSlot(
                 REMOVE_FORM_ACTION, dType));
+    }
+
+    public SlotType constructRemoveFormDialogSlotType() {
+        return constructSRemoveFormDialogSlotType(dType);
     }
 
     public SlotType constructResignButtonSlotType() {
@@ -56,9 +64,13 @@ public class BoxActionMenuOptions {
                 ClickButtonType.StandClickEnum.RESIGN));
     }
 
-    public SlotType constructAskBeforeRemoveSlotType() {
+    public static SlotType constructSAskBeforeRemoveSlotType(IDataType dType) {
         return slTypeFactory.construct(new CustomStringDataTypeSlot(
                 ASK_BEFORE_REMOVE_ACTION, dType));
+    }
+
+    public SlotType constructAskBeforeRemoveSlotType() {
+        return constructSAskBeforeRemoveSlotType(dType);
     }
 
     public void setSlotType(String key, SlotType sl) {

@@ -37,8 +37,8 @@ class ControlButtonView extends AbstractSlotContainer implements
         IControlButtonView, IStackPanelController {
 
     private final IContrButtonView vButton;
-    
-    private Map<ClickButtonType,ClickButtonType> redirMap = new HashMap<ClickButtonType,ClickButtonType>();
+
+    private Map<ClickButtonType, ClickButtonType> redirMap = new HashMap<ClickButtonType, ClickButtonType>();
 
     private class Click implements IControlClick {
 
@@ -61,26 +61,49 @@ class ControlButtonView extends AbstractSlotContainer implements
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            LogT.getLS().info(LogT.getT().receivedSignalLog(slContext.getSlType().toString()));
-            vButton.setEnable(actionId, bAction.getAction() == ButtonAction.Action.EnableButton);
+            LogT.getLS().info(
+                    LogT.getT().receivedSignalLog(
+                            slContext.getSlType().toString()));
+            vButton.setEnable(actionId,
+                    bAction.getAction() == ButtonAction.Action.EnableButton);
         }
     }
-    
+
     private class RedirectButton implements ISlotSignaller {
-        
+
         private final ControlButtonDesc b;
-        
+
         RedirectButton(ControlButtonDesc b) {
             this.b = b;
         }
 
-        /* (non-Javadoc)
-         * @see com.gwtmodel.table.slotmodel.ISlotSignaller#signal(com.gwtmodel.table.slotmodel.ISlotSignalContext)
-         */
         @Override
         public void signal(ISlotSignalContext slContext) {
-            redirMap.put(b.getActionId(),slContext.getSlType().getbAction().getRedirectB());            
+            redirMap.put(b.getActionId(), slContext.getSlType().getbAction()
+                    .getRedirectB());
         }
+    }
+
+    /**
+     * Listener for 'force button' action
+     * 
+     * @author hotel
+     * 
+     */
+    private class ForceButton implements ISlotSignaller {
+
+        private final ControlButtonDesc b;
+
+        ForceButton(ControlButtonDesc b) {
+            this.b = b;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            vButton.emulateClick(b.getActionId());
+
+        }
+
     }
 
     private void register(ButtonAction.Action bA, ControlButtonDesc b) {
@@ -92,12 +115,17 @@ class ControlButtonView extends AbstractSlotContainer implements
     ControlButtonView(ContrButtonViewFactory vFactory,
             ListOfControlDesc listButton, IDataType dType, boolean hori) {
         this.dType = dType;
-        vButton = vFactory.getView(listButton, new Click(),hori);
+        vButton = vFactory.getView(listButton, new Click(), hori);
         for (ControlButtonDesc b : listButton.getcList()) {
             register(ButtonAction.Action.EnableButton, b);
             register(ButtonAction.Action.DisableButton, b);
-            ButtonAction bR = new ButtonAction(ButtonAction.Action.RedirectButton);
-            registerSubscriber(dType, b.getActionId(),bR, new RedirectButton(b));            
+            ButtonAction bR = new ButtonAction(
+                    ButtonAction.Action.RedirectButton);
+            registerSubscriber(dType, b.getActionId(), bR,
+                    new RedirectButton(b));
+            ButtonAction fR = new ButtonAction(ButtonAction.Action.ForceButton);
+            registerSubscriber(dType, b.getActionId(), fR, new ForceButton(b));
+
         }
 
     }

@@ -12,6 +12,10 @@
  */
 package com.gwtmodel.table.factories.mailtest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,6 +30,7 @@ import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.VSField;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
@@ -49,12 +54,8 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import com.gwtmodel.table.view.util.ICloseAction;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 
@@ -84,9 +85,10 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
 
     private class Wait extends ModalDialog {
 
-        private class CloseA implements ICloseAction {
+        private class CloseA implements ISignal {
 
-            public void onClose() {
+            @Override
+            public void signal() {
                 slMediator.getSlContainer().publish(IMailTest.MAIL_SEND,
                         mResult);
             }
@@ -96,6 +98,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
             super(MM.getL().SendingHeader());
             create();
         }
+
         private Label box = new Label();
         private Label to = new Label();
         private Label header = new Label();
@@ -264,7 +267,8 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
             li.add(v3);
             li.add(v4);
             li.add(v5);
-            List<InvalidateMess> lMess = ValidateUtil.checkEmpty(fContainer, li);
+            List<InvalidateMess> lMess = ValidateUtil
+                    .checkEmpty(fContainer, li);
             if (lMess != null) {
                 slMediator.getSlContainer().publish(dType,
                         DataActionEnum.ChangeViewFormToInvalidAction,
@@ -314,7 +318,8 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         cuFactories = GwtGiniInjector.getI().getTableFactoriesContainer();
         wFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         dFactory = tFactories.getdViewFactory();
-        IJavaMailAction mAction = cuFactories.getJavaMailActionFactory().contruct();
+        IJavaMailAction mAction = cuFactories.getJavaMailActionFactory()
+                .contruct();
         slMediator.registerSlotContainer(mAction);
 
         CellId cId = new CellId(1);

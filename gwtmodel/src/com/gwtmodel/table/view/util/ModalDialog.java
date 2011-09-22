@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.MaxI;
 
 abstract public class ModalDialog {
@@ -26,22 +27,23 @@ abstract public class ModalDialog {
     private final DialogBox dBox;
     protected final VerticalPanel vP;
     private String title;
-    private ICloseAction iClose = null;
+    private ISignal iClose = null;
+    
 
-    private class CloseClick implements ICloseAction {
+    private class CloseClick implements ISignal {
 
         @Override
-        public void onClose() {
+        public void signal() {
             hide();
             if (iClose != null) {
-                iClose.onClose();
+                iClose.signal();
             }
         }
     }
 
     protected abstract void addVP(VerticalPanel vp);
 
-    public void setOnClose(ICloseAction iClose) {
+    public void setOnClose(ISignal iClose) {
         this.iClose = iClose;
     }
 
@@ -74,7 +76,7 @@ abstract public class ModalDialog {
         create(new CloseClick());
     }
 
-    protected void create(ICloseAction i) {
+    protected void create(ISignal i) {
         PopupUtil.addClose(vP, i, null, null);
         addVP(vP);
         dBox.setWidget(vP);
