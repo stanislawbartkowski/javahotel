@@ -25,9 +25,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.util.FormUtil;
-import com.javahotel.client.types.DataUtil;
 import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.toobject.CustomerP;
 
 /**
  * @author hotel

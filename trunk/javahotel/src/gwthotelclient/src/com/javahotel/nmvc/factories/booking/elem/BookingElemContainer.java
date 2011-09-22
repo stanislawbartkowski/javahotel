@@ -48,6 +48,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
@@ -62,6 +63,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
     private final IMemoryListModel lPersistList;
     private final IDataControler dControler;
     private final ITableCustomFactories tFactories;
+    private final IFormDefFactory fFactory;
 
     private class DrawModel implements ISlotSignaller {
 
@@ -109,10 +111,11 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
     }
 
     public BookingElemContainer(IDataType dType, final ICallContext iContext,
-            final DataType subType, IFormDefFactory fFactory,
-            IFormTitleFactory tiFactory) {
+            final DataType subType) {
         this.dType = dType;
+        fFactory = HInjector.getI().getFormDefFactory();
         tFactories = iContext.getC();
+        IFormTitleFactory tiFactory = tFactories.getFormTitleFactory();
         publishdType = iContext.getDType();
         slMediator.getSlContainer().registerSubscriber(subType,
                 DataActionEnum.DrawViewFormAction, new DrawModel());

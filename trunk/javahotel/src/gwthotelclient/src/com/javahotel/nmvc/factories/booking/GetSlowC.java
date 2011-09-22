@@ -28,7 +28,7 @@ public class GetSlowC implements ICustomObject {
     // default visibility
     public static final ISlotCustom GETSLOTS = new CustomStringSlot("GET-SLOTS");
     
-    GetSlowC(ISlotable iSlo) {
+    public GetSlowC(ISlotable iSlo) {
         this.iSlo = iSlo;
     }
 

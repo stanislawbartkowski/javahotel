@@ -18,6 +18,7 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
@@ -31,17 +32,12 @@ import com.javahotel.nmvc.factories.validate.ValidateAction;
 public class RegisterFactories {
 
     private final ITableAbstractFactories tFactories;
-    private final IResLocator rI;
-    private final EditWidgetFactory eFactory;
-    private final EWidgetFactory heFactory;
+    private final IFormDefFactory rFactory;
 
     @Inject
-    public RegisterFactories(IResLocator rI, EditWidgetFactory eFactory,
-            EWidgetFactory heFactory) {
-        this.rI = rI;
+    public RegisterFactories(IFormDefFactory rFactory) {
         this.tFactories = GwtGiniInjector.getI().getITableAbstractFactories();
-        this.eFactory = eFactory;
-        this.heFactory = heFactory;
+        this.rFactory = rFactory;
     }
 
     public void register() {
@@ -65,8 +61,6 @@ public class RegisterFactories {
         IFormTitleFactory tiFactory = new RecordTitleFactory();
         tFactories.registerGetCustomValues(new CustomFactory());
         tFactories.registerFormTitleFactory(tiFactory);
-        RecordFormDefFactory rFactory = new RecordFormDefFactory(rI, eFactory,
-                heFactory);
         GetViewFactory getViewFactory = new GetViewFactory(valFactory,
                 peFactory, rFactory, tiFactory);
         tFactories.registerGetViewControllerFactory(getViewFactory);

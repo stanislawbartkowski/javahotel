@@ -54,8 +54,8 @@ public class GetFieldName implements IGetFieldName {
         ma.put(VatDictionaryP.F.vat, "Procent");
         ma.put(ServiceDictionaryP.F.vat, "Stawka Vat");
         ma.put(ServiceDictionaryP.F.servtype, "Typ");
+        ma.put(ServiceDictionaryP.F.noPerson, "Liczba osób");
         ma.put(ResObjectP.F.standard, "Standard");
-        ma.put(ResObjectP.F.noperson, "L osób");
         ma.put(ResObjectP.F.maxperson, "L osób");
         ma.put(CustomerP.F.name1, "Nazwa 1");
         ma.put(CustomerP.F.name2, "Nazwa 2");
@@ -71,6 +71,7 @@ public class GetFieldName implements IGetFieldName {
         ma.put(CustomerP.F.city, "Miasto");
         ma.put(CustomerP.F.address1, "Adres 1");
         ma.put(CustomerP.F.address2, "Adres 2");
+        ma.put(CustomerP.F.mailAddress, "Adres mejlowy");
         ma.put(OfferSeasonP.F.startp, "Okres od");
         ma.put(OfferSeasonP.F.endp, "Okres do");
         ma.put(OfferPriceP.F.season, "Sezon");

@@ -735,10 +735,10 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         slMediator.registerSlotContainer(panelId, iList);
         slMediator.registerSlotContainer(iPersist);
         getSlContainer().registerRedirector(
-                tFactories.getSlTypeFactory().construct(
-                        DataActionEnum.ListReadSuccessSignal, roomType),
-                tFactories.getSlTypeFactory().construct(
-                        DataActionEnum.DrawListAction, roomType));
+                tFactories.getSlTypeFactory().construct(roomType,
+                        DataActionEnum.ListReadSuccessSignal),
+                tFactories.getSlTypeFactory().construct(roomType,
+                        DataActionEnum.DrawListAction));
         iList.getSlContainer().registerSubscriber(roomType, panelId,
                 new GetGWT());
         // Raised when cell is clicked : action on reservation

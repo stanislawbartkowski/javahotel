@@ -104,6 +104,7 @@ public class CustomerForm implements IDataFormConstructor {
         DataUtil.addToSet(fi, model.getfList(), CustomerP.F.city);
         DataUtil.addToSet(fi, model.getfList(), CustomerP.F.address1);
         DataUtil.addToSet(fi, model.getfList(), CustomerP.F.address2);
+        DataUtil.addToSet(fi, model.getfList(), CustomerP.F.mailAddress);
         Widget w = CreateFormView.construct(model.getfList(), fi);
 
         fi = new HashSet<IVField>();

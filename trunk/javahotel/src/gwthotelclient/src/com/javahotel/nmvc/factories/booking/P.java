@@ -14,6 +14,7 @@ package com.javahotel.nmvc.factories.booking;
 
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookRecordP;
@@ -31,8 +32,7 @@ public class P {
     }
 
     static BookRecordP getBookR(IVModelData mData) {
-        HModelData vData = (HModelData) mData;
-        BookingP b = (BookingP) vData.getA();
+        BookingP b = DataUtil.getData(mData);
         BookRecordP p = null;
         if (b.getBookrecords() != null) {
             p = GetMaxUtil.getLastBookRecord(b);

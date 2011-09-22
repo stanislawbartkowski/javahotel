@@ -15,28 +15,12 @@ package com.javahotel.nmvc.factories.bookingpanel.checkinguest;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.WSize;
-import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
-import com.gwtmodel.table.composecontroller.ComposeControllerType;
-import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controler.BoxActionMenuOptions;
-import com.gwtmodel.table.controler.DataListParam;
-import com.gwtmodel.table.controler.DisplayListControlerParam;
-import com.gwtmodel.table.controler.TableDataControlerFactory;
-import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IFormTitleFactory;
-import com.gwtmodel.table.factories.IGetViewControllerFactory;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.javahotel.client.M;
-import com.javahotel.client.types.HModelData;
-import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.BookingP;
 
 /**
@@ -45,17 +29,25 @@ import com.javahotel.common.toobject.BookingP;
  */
 public class CheckinGuest {
 
-    private final ComposeControllerFactory fFactory;
-    private final SlotTypeFactory slTypeFactory;
-    private static final String RESIGN_STRING = "RESIGN_STRING_GUEST";
+    private final RunCompose rCompose;
 
     public CheckinGuest() {
-        fFactory = GwtGiniInjector.getI().getComposeControllerFactory();
-        slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
-    }
+        RunCompose.IRunComposeFactory iFactory = new RunCompose.IRunComposeFactory() {
 
-    private class PersistA extends AbstractSlotContainer implements
-            IDataPersistAction {
+            @Override
+            public IFormTitleFactory getTitle() {
+                return new TitleFactory();
+            }
+
+            @Override
+            public ISlotable constructS(ICallContext iContext, IDataType dType,
+                    BookingP p, BoxActionMenuOptions bOptions, SlotType slType) {
+                ISlotable iSlo = new CheckGuestWidget(dType, p, bOptions,
+                        slType);
+                return iSlo;
+            }
+        };
+        rCompose = new RunCompose(iFactory);
 
     }
 
@@ -68,55 +60,9 @@ public class CheckinGuest {
 
     }
 
-    private class GetView implements IGetViewControllerFactory {
-
-        private final IDataType dType;
-        private final BookingP p;
-        private BoxActionMenuOptions bOptions;
-        private SlotType slType;
-
-        /**
-         * @param dType
-         * @param p
-         */
-        public GetView(IDataType dType, BookingP p) {
-            super();
-            this.dType = dType;
-            this.p = p;
-        }
-
-        @Override
-        public IComposeController construct(ICallContext iContext) {
-            IComposeController iCon = fFactory.construct(iContext.getDType());
-            ISlotable iSlo = new CheckGuestWidget(dType, p, bOptions,slType);
-            ComposeControllerType cType = new ComposeControllerType(iSlo,
-                    dType, 0, 0);
-            iCon.registerControler(cType);
-            return iCon;
-        }
-
-    }
-
     public void CheckIn(final BookingP p, WSize wSize) {
-        final CellId pId = new CellId(0);
-        final IDataType dType = Empty.getDataType();
-        TableDataControlerFactory tFa = GwtGiniInjector.getI()
-                .getTableDataControlerFactory();
-        GetView fControler = new GetView(dType, p);
-        DataListParam dParam = new DataListParam(dType, new PersistA(), null,
-                null, new TitleFactory(), fControler, null);
-        fControler.bOptions = dParam.getMenuOptions();
-        fControler.slType = slTypeFactory.construct(new CustomStringDataTypeSlot(
-                RESIGN_STRING, dType));
-        fControler.bOptions.setSlotType(BoxActionMenuOptions.REDIRECT_RESIGN, fControler.slType);
-        
-        DisplayListControlerParam cParam = tFa
-                .constructParam(pId, dParam, null);
-
-        HModelData hBook = VModelDataFactory.construct(p);
-        ISlotable iSlo = tFa.constructDataControler(cParam,
-                ClickButtonType.StandClickEnum.MODIFITEM, hBook, wSize);
-
+        IDataType dType = Empty.getDataType();
+        rCompose.runDialog(dType, p, wSize);
     }
 
 }

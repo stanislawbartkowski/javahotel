@@ -222,7 +222,7 @@ class CheckGuestWidget extends AbstractSlotContainer {
             AbstractToCheckGuest a = (AbstractToCheckGuest) ha.getA();
             DrawGuest g = a.getGuest();
             if (g == null) {
-                g = new DrawGuest(a,vList);
+                g = new DrawGuest(a, vList);
                 a.setGuest(g);
             }
             g.drawGuest(ha, w.getwSize());
@@ -248,12 +248,13 @@ class CheckGuestWidget extends AbstractSlotContainer {
                         bOptions.constructRemoveFormDialogSlotType());
                 return;
             }
-            SlotType sl = bOptions.constructAskBeforeRemoveSlotType();
-            CustomStringValue c = new CustomStringValue(
-                    "Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
-            ISlotSignalContext slC = slContextFactory.construct(sl, slContext,
-                    c);
-            getSlContainer().publish(slC);
+//            SlotType sl = bOptions.constructAskBeforeRemoveSlotType();
+//            CustomStringValue c = new CustomStringValue(
+//                    "Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
+//            ISlotSignalContext slC = slContextFactory.construct(sl, slContext,
+//                    c);
+//            getSlContainer().publish(slC);
+            SlU.publishActionResignWithWarning(dType, iList, slContext);
         }
 
     }
