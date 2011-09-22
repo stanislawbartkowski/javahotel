@@ -21,11 +21,21 @@ import java.util.List;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class ResObjectP extends DictionaryP {
+    
+    /** Type of reservation object (room) ot the other. */
+    private RRoom rType;
+    /** Maximum number of persons. */
+    private Integer maxPerson;
+    /** Standard. */
+    private DictionaryP rStandard;
+    /** List of facilities attached to room. */ 
+    private List<DictionaryP> facilities;
 
     public enum F implements IField {
 
-        rtype, noperson, maxperson, standard
+        rtype, maxperson, standard
     }
 
     @Override
@@ -43,8 +53,6 @@ public class ResObjectP extends DictionaryP {
         switch (fie) {
             case rtype:
                 return RRoom.class;
-            case noperson:
-                return Integer.class;
             case maxperson:
                 return Integer.class;
             case standard:
@@ -53,12 +61,7 @@ public class ResObjectP extends DictionaryP {
         return null;
     }
     
-    private RRoom rType;
-    private Integer noPerson;
-    private Integer maxPerson;
-    private DictionaryP rStandard;
-    private List<DictionaryP> facilities;
-
+ 
     public ResObjectP() {
         facilities = new ArrayList<DictionaryP>();
     }
@@ -69,14 +72,6 @@ public class ResObjectP extends DictionaryP {
 
     public void setRType(RRoom rType) {
         this.rType = rType;
-    }
-
-    public Integer getNoPerson() {
-        return noPerson;
-    }
-
-    public void setNoPerson(Integer noPerson) {
-        this.noPerson = noPerson;
     }
 
     public Integer getMaxPerson() {
@@ -115,8 +110,6 @@ public class ResObjectP extends DictionaryP {
         switch (fi) {
             case rtype:
                 return getRType();
-            case noperson:
-                return getNoPerson();
             case maxperson:
                 return getMaxPerson();
             case standard:
@@ -139,10 +132,6 @@ public class ResObjectP extends DictionaryP {
         switch (fi) {
             case rtype:
                 setRType((RRoom) o);
-                break;
-            case noperson:
-                i = (Integer) o;
-                setNoPerson(i);
                 break;
             case maxperson:
                 i = (Integer) o;

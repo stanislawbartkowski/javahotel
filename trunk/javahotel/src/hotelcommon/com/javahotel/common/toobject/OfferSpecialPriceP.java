@@ -19,6 +19,7 @@ import java.math.BigDecimal;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class OfferSpecialPriceP extends AbstractTo {
 
     private Long id;

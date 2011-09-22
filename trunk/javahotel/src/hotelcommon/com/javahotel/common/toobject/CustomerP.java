@@ -42,6 +42,22 @@ public class CustomerP extends DictionaryP {
     private List<RemarkP> remarks;
     private List<PhoneNumberP> phones;
     private List<BankAccountP> accounts;
+    private String mailAddress;
+
+
+    /**
+     * @return the mailAddress
+     */
+    String getMailAddress() {
+        return mailAddress;
+    }
+
+    /**
+     * @param mailAddress the mailAddress to set
+     */
+    void setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
+    }
 
     public IdentDocType getDocType() {
         return docType;
@@ -54,7 +70,7 @@ public class CustomerP extends DictionaryP {
     public enum F implements IField {
 
         zipCode, name1, name2, city, stateUS, country, address1, address2,
-        cType, NIP, PESEL, docType, docNumber,
+        cType, NIP, PESEL, docType, docNumber, mailAddress,
         firstName, lastName, pTitle
     }
 
@@ -121,6 +137,8 @@ public class CustomerP extends DictionaryP {
                 return getLastName();
             case pTitle:
                 return getPTitle();
+            case mailAddress:
+                return getMailAddress();
         }
         return null;
     }
@@ -182,6 +200,9 @@ public class CustomerP extends DictionaryP {
                 break;
             case pTitle:
                 setPTitle((PersonTitle) o);
+                break;
+            case mailAddress:
+                this.setMailAddress((String) o);
                 break;
         }
     }

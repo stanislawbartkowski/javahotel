@@ -85,7 +85,6 @@ public class RoomStandard implements IHotelDictionary {
 	}
 
 	public void setHotel(RHotel hotel) {
-		// this.hotelId = AfterLoadActionFactory.getId(hotel);
 		this.hotel = hotel;
 	}
 

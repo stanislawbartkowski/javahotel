@@ -23,8 +23,10 @@ import java.util.Date;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class PaymentP extends AbstractTo implements INumerable {
 
+    /** Item no, consecutive number. */
     private Integer lp;
     private PaymentMethod payMethod;
     private boolean sumOp;
@@ -70,9 +72,9 @@ public class PaymentP extends AbstractTo implements INumerable {
     }
 
     @Override
-    public Class getT(final IField f) {
+    public Class<?> getT(final IField f) {
         F fi = (F) f;
-        Class cla = String.class;
+        Class<?> cla = String.class;
         switch (fi) {
             case lp:
                 cla = Integer.class;

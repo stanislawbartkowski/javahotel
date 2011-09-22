@@ -125,8 +125,6 @@ public class ResObject implements IHotelDictionary {
 	@Basic(optional = false)
 	private RRoom rType;
 
-	@Basic
-	private Integer noPerson;
 
 	@Basic
 	private Integer maxPerson;
@@ -149,14 +147,6 @@ public class ResObject implements IHotelDictionary {
 
 	public void setRType(RRoom rType) {
 		this.rType = rType;
-	}
-
-	public Integer getNoPerson() {
-		return noPerson;
-	}
-
-	public void setNoPerson(Integer noPerson) {
-		this.noPerson = noPerson;
 	}
 
 	public Integer getMaxPerson() {

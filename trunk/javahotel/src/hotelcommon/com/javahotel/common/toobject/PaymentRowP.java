@@ -24,6 +24,7 @@ import com.javahotel.types.LId;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class PaymentRowP extends AbstractTo implements ILd {
 
     private LId id;
@@ -31,6 +32,12 @@ public class PaymentRowP extends AbstractTo implements ILd {
     private DateP rowTo;
     private DecimalP offerPrice;
     private DecimalP customerPrice;
+    
+    public enum F implements IField {
+
+        id, rowFrom, rowTo, offerPrice, customerPrice
+    };
+
 
     public Date getRowFrom() {
         return rowFrom.getD();
@@ -71,14 +78,9 @@ public class PaymentRowP extends AbstractTo implements ILd {
         customerPrice = new DecimalP();
     }
 
-    public enum F implements IField {
-
-        id, rowFrom, rowTo, offerPrice, customerPrice
-    };
-
     @Override
-    public Class getT(final IField f) {
-        Class cla = String.class;
+    public Class<?> getT(final IField f) {
+        Class<?> cla = String.class;
         F fi = (F) f;
         switch (fi) {
             case id:

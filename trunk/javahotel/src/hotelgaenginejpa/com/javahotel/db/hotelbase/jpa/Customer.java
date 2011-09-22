@@ -124,8 +124,24 @@ public class Customer implements IHotelDictionary {
 	private IdentDocType docType;
 	@Basic
 	private String docNumber;
-
 	@Basic
+	private String mailAddress;
+
+	/**
+     * @return the mailAddress
+     */
+    String getMailAddress() {
+        return mailAddress;
+    }
+
+    /**
+     * @param mailAddress the mailAddress to set
+     */
+    void setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
+    }
+
+    @Basic
 	private String firstName;
 	@Basic
 	private String lastName;
