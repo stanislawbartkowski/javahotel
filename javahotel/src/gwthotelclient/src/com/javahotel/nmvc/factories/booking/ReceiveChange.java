@@ -17,7 +17,7 @@ import com.gwtmodel.table.editc.IChangeObject;
 import com.gwtmodel.table.editc.IEditChooseRecordContainer;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.IResLocator;
@@ -27,7 +27,7 @@ import com.javahotel.client.injector.HInjector;
  * @author hotel
  *
  */
-public class ReceiveChange implements ISlotSignaller {
+public class ReceiveChange implements ISlotListener {
 
     private final IEditChooseRecordContainer cContainer;
     private final IResLocator rI;

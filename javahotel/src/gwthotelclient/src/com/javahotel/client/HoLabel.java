@@ -122,5 +122,11 @@ public interface HoLabel extends Constants {
     String[] ScrollMonths();
     
     String CheckinGuests();
+    
+    String ListOfHotels();
+    
+    String ListOfUsers();
+    
+    String YouHaveNoRights();
 
 }

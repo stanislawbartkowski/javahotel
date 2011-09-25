@@ -124,16 +124,45 @@ public class DataUtil {
         }
     }
 
+    /**
+     * Gets date from FormView
+     * 
+     * @param iSlo
+     *            ISlotable containing path to FormView
+     * @param dType
+     *            IDataType
+     * @param f
+     *            IField of the field to retrieve
+     * @return Date or null (if not exist)
+     */
     public static Object getO(ISlotable iSlo, IDataType dType, IField f) {
         IFormLineView i = iSlo.getSlContainer().getGetterFormLine(dType,
                 new VField(f));
+        if (i == null) {
+            return null;
+        }
         return i.getValObj();
     }
 
+    /**
+     * Sets BigDecimal to FormView
+     * 
+     * @param iSlo
+     *            ISlotable containing path to FormView
+     * @param dType
+     *            IDataType
+     * @param fie
+     *            IField identifier
+     * @param b
+     *            BigDecimal to be displayed
+     */
     public static void setBigDecimal(ISlotable iSlo, IDataType dType,
             IField fie, BigDecimal b) {
         IFormLineView i = iSlo.getSlContainer().getGetterFormLine(dType,
                 new VField(fie));
+        if (i == null) {
+            return;
+        }
         i.setValObj(b);
     }
 

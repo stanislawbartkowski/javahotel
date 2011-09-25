@@ -177,7 +177,7 @@ class GetViewFactory implements IGetViewControllerFactory {
                 cContainer1 = new BookingHeaderContainer(iContext, sub1Type,
                         reFactory);
                 cContainer2 = new BookingElemContainer(new DataType(
-                        AddType.BookRoom), iContext, sub2Type);
+                        AddType.BookRoom), iContext, sub2Type, false);
                 cContainer3 = new BookingRowDetailContainer(iContext, sub3Type);
                 break;
             }

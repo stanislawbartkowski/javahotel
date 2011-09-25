@@ -27,7 +27,7 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.callback.CommonCallBackNo;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
@@ -67,10 +67,10 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         return DataListTypeFactory.construct(li);
     }
 
-    private class ReadListDict implements IVectorList {
+    private class ReadListDict implements IVectorList<AbstractTo> {
 
         @Override
-        public void doVList(final List<? extends AbstractTo> val) {
+        public void doVList(final List<AbstractTo> val) {
             IDataListType dataList = DataUtil.construct(val);
             if (da.isAllPersons()) {
                 dataList = convertToLogin(dataList);
@@ -94,7 +94,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         }
     }
 
-    private class PersistRecord implements ISlotSignaller {
+    private class PersistRecord implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -160,7 +160,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         }
     }
 
-    private class SignalPersistPerson implements ISlotSignaller {
+    private class SignalPersistPerson implements ISlotListener {
 
         private final IPersistRecord iPersist;
 
@@ -185,7 +185,7 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         }
     }
 
-    private class ReadList implements ISlotSignaller {
+    private class ReadList implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

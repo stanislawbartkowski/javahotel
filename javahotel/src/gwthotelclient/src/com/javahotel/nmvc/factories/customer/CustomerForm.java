@@ -29,7 +29,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.util.CreateFormView;
 import com.gwtmodel.table.view.util.FormUtil;
 import com.javahotel.client.IResLocator;
@@ -74,7 +74,7 @@ public class CustomerForm implements IDataFormConstructor {
         }
     }
 
-    private class GetGWT implements ISlotSignaller {
+    private class GetGWT implements ISlotListener {
 
         private final String tabName;
 

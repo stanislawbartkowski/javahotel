@@ -23,9 +23,9 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
@@ -51,7 +51,8 @@ public class AddToBillDialog {
 
     private final RunCompose rCompose;
     private final IDataType dType = Empty.getDataType();
-    private final IDataType resType = new DataType(AddType.BookRoom);
+//    private final IDataType resType = new DataType(AddType.BookRoom);
+    private final IDataType resType = new DataType(AddType.BookNoRoom);
     private final SlotTypeFactory slTypeFactory;
     private final IDataType bType = new DataType(DictType.BookingList);
     private final IDataType brType = new DataType(AddType.BookRecord);
@@ -76,7 +77,7 @@ public class AddToBillDialog {
                 DataType da = (DataType) resType;
                 DataType subType = new DataType(da.getdType(),
                         DataTypeSubEnum.Sub1);
-                iSlo = new BookingElemContainer(resType, iContext, subType);
+                iSlo = new BookingElemContainer(resType, iContext, subType,true);
 
                 SlotType from = slTypeFactory.construct(dType,
                         DataActionEnum.DrawViewFormAction);
@@ -98,7 +99,7 @@ public class AddToBillDialog {
         rCompose = new RunCompose(iFactory);
     }
 
-    private class ResignSignaller implements ISlotSignaller {
+    private class ResignSignaller implements ISlotListener {
 
         private final ISlotable iSlo;
 
@@ -114,7 +115,7 @@ public class AddToBillDialog {
 
     }
 
-    private class GetSlot implements ISlotCaller {
+    private class GetSlot implements ISlotCallerListener {
 
         private final ISlotable iSlo;
 
@@ -130,7 +131,7 @@ public class AddToBillDialog {
 
     }
 
-    private class GetValue implements ISlotCaller {
+    private class GetValue implements ISlotCallerListener {
 
         private final BookingP p;
 

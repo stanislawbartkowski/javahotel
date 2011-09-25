@@ -15,7 +15,7 @@ package com.javahotel.nmvc.panel;
 import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.javahotel.client.start.panel.EPanelCommand;
 import com.javahotel.client.start.panel.IPanelCommand;
 
@@ -27,7 +27,7 @@ class NewMvcPanel implements IPanelCommand {
         this.e = e;
     }
 
-    private class SetGwt implements ISlotSignaller {
+    private class SetGwt implements ISlotListener {
         private final ISetGWidget iS;
 
         SetGwt(ISetGWidget iS) {

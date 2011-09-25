@@ -27,9 +27,9 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData;
@@ -67,7 +67,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         }
     }
 
-    private class DrawModel implements ISlotSignaller {
+    private class DrawModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -90,7 +90,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         return b;
     }
 
-    private class SetGetter implements ISlotCaller {
+    private class SetGetter implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -109,7 +109,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         }
     }
 
-    class ChangeMode implements ISlotSignaller {
+    class ChangeMode implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

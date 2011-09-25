@@ -28,9 +28,9 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.checkstring.ICheckDictModel;
 
@@ -50,7 +50,7 @@ class CheckStandardContainer extends AbstractSlotContainer {
                 IDataListType dataList);
     }
 
-    private class ChangeModeModel implements ISlotSignaller {
+    private class ChangeModeModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -59,7 +59,7 @@ class CheckStandardContainer extends AbstractSlotContainer {
         }
     }
 
-    private class SetGetter implements ISlotCaller {
+    private class SetGetter implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -69,7 +69,7 @@ class CheckStandardContainer extends AbstractSlotContainer {
         }
     }
 
-    private class DrawModel implements ISlotSignaller {
+    private class DrawModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

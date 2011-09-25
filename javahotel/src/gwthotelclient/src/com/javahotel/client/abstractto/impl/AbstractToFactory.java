@@ -13,6 +13,7 @@
 package com.javahotel.client.abstractto.impl;
 
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.abstractto.BookElemPayment;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.LoginRecord;
 import com.javahotel.client.injector.HInjector;
@@ -42,6 +43,8 @@ public class AbstractToFactory implements IAbstractFactory {
                 return new AdvancePaymentP();
             case BookRoom:
                 return new BookElemP();
+            case BookNoRoom:
+                return new BookElemPayment();
             case RowPaymentElem:
                 return new PaymentRowP();
             case GuestElem:

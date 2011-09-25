@@ -20,6 +20,8 @@ import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeControllerTypeFactory;
 import com.gwtmodel.table.controler.DataListParam;
@@ -43,17 +45,20 @@ import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
+import com.javahotel.client.abstractto.BookElemPayment;
 import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
+import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.nmvc.factories.booking.P;
 
 public class BookingElemContainer extends AbstractSlotMediatorContainer {
@@ -64,25 +69,92 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
     private final IDataControler dControler;
     private final ITableCustomFactories tFactories;
     private final IFormDefFactory fFactory;
+    /** Enter data in one line. */
+    private final boolean isFlat;
+    /** Book data, otherwise add cost. */
+    private final boolean isBook;
 
-    private class DrawModel implements ISlotSignaller {
+    private final StartDraw sDraw = new StartDraw();
+    private final IsServiceBooking iService = new IsServiceBooking(
+            new ServiceRead());
 
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            List<AbstractLpVModelData> li = new ArrayList<AbstractLpVModelData>();
-            BookRecordP p = P.getBookR(slContext);
-            if ((p != null) && (p.getBooklist() != null)) {
-                for (BookElemP e : p.getBooklist()) {
+    private void drawList(BookRecordP p) {
+        List<AbstractLpVModelData> li = new ArrayList<AbstractLpVModelData>();
+        if ((p != null) && (p.getBooklist() != null)) {
+            for (BookElemP e : p.getBooklist()) {
+                // omit all elements not related
+                if (iService.isBooking(e.getService()) != isBook) {
+                    continue;
+                }
+                if (isFlat) {
                     AbstractLpVModelData lp = VModelDataFactory.constructLp(e);
+                    li.add(lp);
+                    continue;
+                }
+                for (PaymentRowP pa : e.getPaymentrows()) {
+                    BookElemPayment bP = new BookElemPayment(e, pa);
+                    AbstractLpVModelData lp = VModelDataFactory.constructLp(bP);
                     li.add(lp);
                 }
             }
-            lPersistList.setDataList(DataListTypeFactory.constructLp(li));
-            dControler.startPublish(new CellId(0));
+        }
+        lPersistList.setDataList(DataListTypeFactory.constructLp(li));
+        dControler.startPublish(new CellId(0));
+
+    }
+
+    /**
+     * Class for synchronizing StartPublish and IsServiceBooking
+     * 
+     * @author hotel
+     * 
+     */
+    private class StartDraw extends SynchronizeList {
+
+        BookRecordP p;
+
+        StartDraw() {
+            super(2);
+        }
+
+        @Override
+        protected void doTask() {
+            drawList(p);
         }
     }
 
-    private class SetGetter implements ISlotCaller {
+    private class ServiceRead implements ISignal {
+
+        @Override
+        public void signal() {
+            sDraw.signalDone();
+
+        }
+
+    }
+
+    /**
+     * Draw list listener for booking elements
+     * 
+     * @author hotel
+     * 
+     */
+    private class DrawModel implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            sDraw.p = P.getBookR(slContext);
+            sDraw.signalDone();
+        }
+    }
+
+    /**
+     * Call listener for retrieving current list
+     * 
+     * @author hotel
+     * 
+     */
+    private class SetGetter implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -99,7 +171,13 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
         }
     }
 
-    class ChangeMode implements ISlotSignaller {
+    /**
+     * Change mode listener
+     * 
+     * @author hotel
+     * 
+     */
+    private class ChangeMode implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -110,8 +188,23 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
     }
 
+    /**
+     * Constructor
+     * 
+     * @param dType
+     *            IDataType
+     * @param iContext
+     *            ICallContext
+     * @param subType
+     *            IDataType used for internal stuff
+     * @param flat
+     *            : true, res and payment in one line
+     */
     public BookingElemContainer(IDataType dType, final ICallContext iContext,
-            final DataType subType) {
+            final DataType subType, boolean flat) {
+        this.isFlat = flat;
+        DataType dd = (DataType) dType;
+        this.isBook = (dd.getAddType() == AddType.BookRoom);
         this.dType = dType;
         fFactory = HInjector.getI().getFormDefFactory();
         tFactories = iContext.getC();
@@ -137,7 +230,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             @Override
             public ComposeControllerType construct(ICallContext iiContext) {
                 ISlotable iSlo = new BookingElem(iiContext,
-                        BookingElemContainer.this, subType);
+                        BookingElemContainer.this, subType, isFlat);
                 return new ComposeControllerType(iSlo, subType);
             }
 

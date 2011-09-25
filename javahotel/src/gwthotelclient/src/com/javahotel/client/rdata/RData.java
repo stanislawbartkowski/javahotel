@@ -115,9 +115,9 @@ public class RData {
         }
     }
 
-    public interface IVectorList {
+    public interface IVectorList<T extends AbstractTo> {
 
-        void doVList(final List<? extends AbstractTo> val);
+        void doVList(final List<T> val);
     }
 
     public interface IOneList<T extends AbstractTo> {

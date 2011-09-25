@@ -44,9 +44,9 @@ class ColListFactory {
         if (d.isRType()) {
             switch (d.getrType()) {
             case AllHotels:
-                return "List hoteli";
+                return M.L().ListOfHotels();
             case AllPersons:
-                return "Lista użytkowników";
+                return M.L().ListOfUsers();
             default:
                 assert false : M.M().NotSupportedError(d.getrType().name());
 
@@ -79,6 +79,7 @@ class ColListFactory {
         if (d.isAddType()) {
             switch (d.getAddType()) {
             case BookRecord:
+            case BookNoRoom:
             case BookRoom:
             case AdvanceHeader:
             case RowPaymentElem:
@@ -141,7 +142,7 @@ class ColListFactory {
                 break;
             case BookingList:
                 fList = new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
-                        BookingP.F.season, BookingP.F.noPersons};
+                        BookingP.F.season, BookingP.F.noPersons };
                 break;
 
             default:
@@ -158,6 +159,11 @@ class ColListFactory {
                 fList = new IField[] { BookElemP.F.checkIn,
                         BookElemP.F.checkOut, BookElemP.F.resObject,
                         BookElemP.F.service };
+                break;
+            case BookNoRoom:
+                fList = new IField[] { BookElemP.F.checkIn,
+                        BookElemP.F.resObject, BookElemP.F.service,
+                        PaymentRowP.F.customerPrice };
                 break;
             case RowPaymentElem:
                 fList = new IField[] { PaymentRowP.F.offerPrice,

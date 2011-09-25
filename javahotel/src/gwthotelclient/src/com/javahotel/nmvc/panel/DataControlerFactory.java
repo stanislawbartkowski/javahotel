@@ -18,7 +18,7 @@ import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.M;
 import com.javahotel.client.start.panel.EPanelCommand;
@@ -34,7 +34,7 @@ public class DataControlerFactory {
     }
 
     public static void runDataControler(EPanelCommand e, CellId panelId,
-            ISlotSignaller iS) {
+            ISlotListener iS) {
         IDataType d = null;
         ISlotable i = null;
         switch (e) {

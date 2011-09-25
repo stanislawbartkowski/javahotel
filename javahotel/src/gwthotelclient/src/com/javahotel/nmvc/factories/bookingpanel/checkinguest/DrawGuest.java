@@ -25,7 +25,7 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.util.ClickPopUp;
 import com.gwtmodel.table.view.util.FormUtil;
@@ -60,7 +60,7 @@ class DrawGuest {
     private final List<IGetSetVField> vList;
     private final SetVPanelGwt vP;
 
-    private class ChangeValue implements ISlotSignaller {
+    private class ChangeValue implements ISlotListener {
 
         private final IGetSetVField iGet;
 
@@ -87,7 +87,7 @@ class DrawGuest {
      * @author hotel
      * 
      */
-    private class ChoosedCustFromList implements ISlotSignaller {
+    private class ChoosedCustFromList implements ISlotListener {
 
         HModelData hCust;
 

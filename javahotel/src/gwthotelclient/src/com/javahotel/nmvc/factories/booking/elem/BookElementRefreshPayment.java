@@ -18,7 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.PUtil;
 import com.javahotel.client.abstractto.BookPaymentField;
@@ -72,7 +72,7 @@ class BookElementRefreshPayment {
 
     }
 
-    private class ChangeValue implements ISlotSignaller {
+    private class ChangeValue implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
