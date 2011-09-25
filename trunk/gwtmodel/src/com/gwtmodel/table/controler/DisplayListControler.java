@@ -23,7 +23,7 @@ import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 
 class DisplayListControler extends AbstractSlotMediatorContainer implements
         IDataControler {
@@ -70,7 +70,7 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
         }
     }
 
-    private class DrawListAction implements ISlotSignaller {
+    private class DrawListAction implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

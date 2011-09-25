@@ -31,7 +31,7 @@ import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 
@@ -45,7 +45,7 @@ class AttachDataView extends AbstractSlotContainer implements IAttachDataView {
     private final ControlButtonFactory cButtonFactory;
     private static final String DOWNLOAD = "DOWNLOAD-ACTION";
 
-    AttachDataView(IDataType dType, ISlotSignaller setGwt,
+    AttachDataView(IDataType dType, ISlotListener setGwt,
             IHeaderListContainer iHeader,
             IComposeControllerTypeFactory compFactory) {
         this.dType = dType;

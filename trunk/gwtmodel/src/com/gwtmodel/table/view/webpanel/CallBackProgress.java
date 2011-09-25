@@ -17,7 +17,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 class CallBackProgress {
@@ -26,7 +26,7 @@ class CallBackProgress {
     private int coL = 0;
     private final IWebPanelResources pResources;
 
-    CallBackProgress(final IWebPanel p,IWebPanelResources pResources) {
+    CallBackProgress(final IWebPanel p, IWebPanelResources pResources) {
         this.pLoc = p;
         this.pResources = pResources;
     }
@@ -38,6 +38,7 @@ class CallBackProgress {
             l.setStyleName("wait-reply");
         }
     }
+
     private Timer tim = null;
 
     void IncDecL(final boolean inc) {

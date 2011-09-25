@@ -15,7 +15,7 @@ package com.gwtmodel.table.attachlist;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.composecontroller.IComposeControllerTypeFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 
 /**
  *
@@ -23,7 +23,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignaller;
  */
 public class AttachDataFactory {
 
-    public IAttachDataView construct(IDataType dType, ISlotSignaller setGwt, IHeaderListContainer iHeader, IComposeControllerTypeFactory compFactory) {
+    public IAttachDataView construct(IDataType dType, ISlotListener setGwt, IHeaderListContainer iHeader, IComposeControllerTypeFactory compFactory) {
         return new AttachDataView(dType, setGwt, iHeader, compFactory);
     }
 }

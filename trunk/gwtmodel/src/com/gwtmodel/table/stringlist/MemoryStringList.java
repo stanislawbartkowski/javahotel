@@ -32,7 +32,7 @@ import com.gwtmodel.table.persist.MemoryGetController;
 import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
@@ -58,7 +58,7 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
     }
 
     MemoryStringList(String fieldName, String title, IDataType dType,
-            IVField vString, IStringEFactory eFactory, ISlotSignaller setGwt) {
+            IVField vString, IStringEFactory eFactory, ISlotListener setGwt) {
         this.vString = vString;
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();

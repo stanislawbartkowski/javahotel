@@ -25,7 +25,7 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
 
     private final IDataListType dataList;
 
-    private class PersistRecord implements ISlotSignaller {
+    private class PersistRecord implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

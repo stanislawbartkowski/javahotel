@@ -17,7 +17,7 @@ import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 
 public class ReadDictList<T extends IDataListType> {
 
@@ -26,7 +26,7 @@ public class ReadDictList<T extends IDataListType> {
         void setList(T dList);
     }
 
-    private class R implements ISlotSignaller {
+    private class R implements ISlotListener {
 
         private final IListCallBack<T> iList;
 

@@ -22,7 +22,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ import java.util.List;
 public class DatePeriodListFactory {
 
     public IDatePeriodList construct(String title, IDatePeriodFactory eFactory,
-            ISlotSignaller setGwt, IDataValidateActionFactory vFactory) {
+            ISlotListener setGwt, IDataValidateActionFactory vFactory) {
         if (vFactory == null) {
             vFactory = new IDataValidateActionFactory() {
 

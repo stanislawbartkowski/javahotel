@@ -26,7 +26,7 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.util.ClickPopUp;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +67,7 @@ class DownloadFile extends AbstractSlotContainer {
         }
     }
 
-    private class GetTempFile implements ISlotSignaller {
+    private class GetTempFile implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -93,7 +93,7 @@ class DownloadFile extends AbstractSlotContainer {
         }
     }
 
-    class DownloadFileSig implements ISlotSignaller {
+    class DownloadFileSig implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

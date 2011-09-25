@@ -27,7 +27,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
@@ -37,7 +37,7 @@ class LoginDataView extends AbstractSlotMediatorContainer implements
 
     private final IDataModelFactory dFactory;
 
-    private class GetCompose implements ISlotCaller {
+    private class GetCompose implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {

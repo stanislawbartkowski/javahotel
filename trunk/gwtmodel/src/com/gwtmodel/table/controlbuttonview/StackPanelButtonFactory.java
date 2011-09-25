@@ -21,7 +21,7 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotType;
@@ -54,7 +54,7 @@ public class StackPanelButtonFactory {
             this.html = html;
         }
 
-        private class GetGwt implements ISlotCaller {
+        private class GetGwt implements ISlotCallerListener {
 
             private final IGWidget wg;
 

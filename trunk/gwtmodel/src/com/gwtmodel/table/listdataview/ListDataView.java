@@ -36,9 +36,9 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.GwtTableFactory;
@@ -55,7 +55,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private IDataListType dataList;
     private final SlotSignalContextFactory coFactory;
 
-    private class GetHeader implements ISlotCaller {
+    private class GetHeader implements ISlotCallerListener {
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IGwtTableModel model = tableView.getViewModel();
@@ -64,7 +64,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class DrawHeader implements ISlotSignaller {
+    private class DrawHeader implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -142,7 +142,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class DrawList implements ISlotSignaller {
+    private class DrawList implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -152,7 +152,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class RefreshList implements ISlotSignaller {
+    private class RefreshList implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -160,7 +160,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class SetFilter implements ISlotSignaller {
+    private class SetFilter implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -172,7 +172,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class FindRow implements ISlotSignaller {
+    private class FindRow implements ISlotListener {
 
         private final boolean next;
         private final boolean begin;
@@ -209,7 +209,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class RemoveFilter implements ISlotSignaller {
+    private class RemoveFilter implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -218,7 +218,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class ChangeEditRows implements ISlotSignaller {
+    private class ChangeEditRows implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -234,7 +234,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
      * @author hotel
      * 
      */
-    private class GetVDataByI implements ISlotCaller {
+    private class GetVDataByI implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -252,7 +252,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
      * @author hotel
      * 
      */
-    private class GetVListByI implements ISlotCaller {
+    private class GetVListByI implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -264,7 +264,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class GetComboField implements ISlotCaller {
+    private class GetComboField implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -287,7 +287,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 v);
     }
 
-    private class GetListData implements ISlotCaller {
+    private class GetListData implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -295,7 +295,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class GetWholeList implements ISlotCaller {
+    private class GetWholeList implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {

@@ -36,8 +36,8 @@ public final class SlotListContainer {
     private final List<SlotSubscriberType> listOfSubscribers;
     private final List<SlotCallerType> listOfCallers;
     private final List<SlotRedirector> listOfRedirectors;
-    private final ISlotCaller slCaller;
-    private final ISlotSignaller slSignaller;
+    private final ISlotCallerListener slCaller;
+    private final ISlotListener slSignaller;
     private final SlotTypeFactory slTypeFactory;
     private final SlotSignalContextFactory slContextFactory;
 
@@ -92,7 +92,7 @@ public final class SlotListContainer {
         return li.size();
     }
 
-    private class GeneralListener implements ISlotSignaller {
+    private class GeneralListener implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContextP) {
@@ -129,7 +129,7 @@ public final class SlotListContainer {
         }
     }
 
-    private class GeneralCaller implements ISlotCaller {
+    private class GeneralCaller implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -181,39 +181,39 @@ public final class SlotListContainer {
         }
     }
 
-    public void registerSubscriber(SlotType slType, ISlotSignaller slSignaller) {
+    public void registerSubscriber(SlotType slType, ISlotListener slSignaller) {
         listOfSubscribers.add(new SlotSubscriberType(slType, slSignaller));
     }
 
     public void registerSubscriber(IDataType dType, CellId cellId,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         registerSubscriber(slTypeFactory.construct(dType, cellId), slSignaller);
     }
 
     public void registerSubscriber(IDataType dType, int cellId,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         registerSubscriber(slTypeFactory.construct(dType, cellId), slSignaller);
     }
 
     public void registerSubscriber(ClickButtonType.StandClickEnum eClick,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         registerSubscriber(
                 slTypeFactory.construct(new ClickButtonType(eClick)),
                 slSignaller);
     }
 
     public void registerSubscriber(ClickButtonType bClick,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         registerSubscriber(slTypeFactory.construct(bClick), slSignaller);
     }
 
     public void registerSubscriber(String stringButton,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         registerSubscriber(slTypeFactory.construct(stringButton), slSignaller);
     }
 
     public void registerSubscriber(IDataType dType,
-            DataActionEnum dataActionEnum, ISlotSignaller slSignaller) {
+            DataActionEnum dataActionEnum, ISlotListener slSignaller) {
         registerSubscriber(slTypeFactory.construct(dType, dataActionEnum),
                 slSignaller);
     }
@@ -223,31 +223,31 @@ public final class SlotListContainer {
     }
 
     public void registerSubscriber(IDataType dType, IVField fie,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         registerSubscriber(slTypeFactory.construct(dType, fie), slSignaller);
     }
 
     public void registerSubscriber(IDataType dType, ClickButtonType bType,
-            ButtonAction bAction, ISlotSignaller slSignaller) {
+            ButtonAction bAction, ISlotListener slSignaller) {
         registerSubscriber(slTypeFactory.construct(dType, bType, bAction),
                 slSignaller);
     }
 
-    public void registerSubscriber(ISlotCustom i, ISlotSignaller slSignaller) {
+    public void registerSubscriber(ISlotCustom i, ISlotListener slSignaller) {
         registerSubscriber(slTypeFactory.construct(i), slSignaller);
     }
 
-    public void registerCaller(ISlotCustom i, ISlotCaller slCaller) {
+    public void registerCaller(ISlotCustom i, ISlotCallerListener slCaller) {
         listOfCallers.add(new SlotCallerType(slTypeFactory.construct(i),
                 slCaller));
     }
 
-    public void registerCaller(SlotType slType, ISlotCaller slCaller) {
+    public void registerCaller(SlotType slType, ISlotCallerListener slCaller) {
         listOfCallers.add(new SlotCallerType(slType, slCaller));
     }
 
     public void registerCaller(IDataType dType, GetActionEnum gEnum,
-            ISlotCaller slCaller) {
+            ISlotCallerListener slCaller) {
         SlotType slType = slTypeFactory.construct(dType, gEnum);
         registerCaller(slType, slCaller);
     }

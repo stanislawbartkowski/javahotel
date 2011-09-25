@@ -15,9 +15,9 @@ package com.gwtmodel.table.slotmodel;
 public class SlotSubscriberType {
 
     private final SlotType slType;
-    private final ISlotSignaller slSignaller;
+    private final ISlotListener slSignaller;
 
-    SlotSubscriberType(SlotType slType, ISlotSignaller slSignaller) {
+    SlotSubscriberType(SlotType slType, ISlotListener slSignaller) {
         this.slType = slType;
         this.slSignaller = slSignaller;
     }
@@ -26,7 +26,7 @@ public class SlotSubscriberType {
         return slType;
     }
 
-    public ISlotSignaller getSlSignaller() {
+    public ISlotListener getSlSignaller() {
         return slSignaller;
     }
 

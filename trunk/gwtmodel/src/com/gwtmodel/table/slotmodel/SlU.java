@@ -143,7 +143,7 @@ public class SlU {
      *            ISlotSignaller listener
      */
     public static void registerChangeFormSubscriber(IDataType dType,
-            ISlotable iSlo, IVField v, ISlotSignaller iSubscriber) {
+            ISlotable iSlo, IVField v, ISlotListener iSubscriber) {
         iSlo.getSlContainer().registerSubscriber(dType, v, iSubscriber);
 
     }
@@ -191,7 +191,7 @@ public class SlU {
      *            Signaller waiting for widget
      */
     public static void registerWidgetListener0(IDataType dType, ISlotable iSlo,
-            ISlotSignaller c) {
+            ISlotListener c) {
         iSlo.getSlContainer().registerSubscriber(dType, 0, c);
     }
 

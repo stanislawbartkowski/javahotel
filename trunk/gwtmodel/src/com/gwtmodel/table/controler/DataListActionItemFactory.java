@@ -40,9 +40,9 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.CustomStringValue;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
@@ -93,7 +93,7 @@ class DataListActionItemFactory {
         }
     }
 
-    static abstract class Signaller implements ISlotSignaller {
+    static abstract class Signaller implements ISlotListener {
 
         private final DrawForm dForm;
 
@@ -127,7 +127,7 @@ class DataListActionItemFactory {
         }
     }
 
-    static class DrawForm implements ISlotSignaller {
+    static class DrawForm implements ISlotListener {
 
         private final WSize wSize;
         private final String title;
@@ -191,7 +191,7 @@ class DataListActionItemFactory {
         }
     }
 
-    private class PersistData implements ISlotSignaller {
+    private class PersistData implements ISlotListener {
 
         private final PersistTypeEnum persistTypeEnum;
         private final IComposeController iController;
@@ -238,7 +238,7 @@ class DataListActionItemFactory {
         }
     }
 
-    private class GetterGWidget implements ISlotCaller {
+    private class GetterGWidget implements ISlotCallerListener {
 
         private final DrawForm d;
 
@@ -253,7 +253,7 @@ class DataListActionItemFactory {
         }
     }
 
-    private class GetterModel implements ISlotCaller {
+    private class GetterModel implements ISlotCallerListener {
 
         private final IVModelData peData;
         private final SlotListContainer slControlerContainer;
@@ -276,7 +276,7 @@ class DataListActionItemFactory {
         }
     }
 
-    private class GetListLine implements ISlotCaller {
+    private class GetListLine implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -434,7 +434,7 @@ class DataListActionItemFactory {
         return fController;
     }
 
-    private class ActionItem implements ISlotSignaller {
+    private class ActionItem implements ISlotListener {
 
         private final PersistTypeEnum persistTypeEnum;
 
@@ -498,7 +498,7 @@ class DataListActionItemFactory {
                 new ButtonAction(b));
     }
 
-    private class ChangeMode implements ISlotSignaller {
+    private class ChangeMode implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -513,11 +513,11 @@ class DataListActionItemFactory {
         }
     }
 
-    ISlotSignaller constructChangeMode() {
+    ISlotListener constructChangeMode() {
         return new ChangeMode();
     }
 
-    ISlotSignaller constructActionItem(PersistTypeEnum persistTypeEnum) {
+    ISlotListener constructActionItem(PersistTypeEnum persistTypeEnum) {
         return new ActionItem(persistTypeEnum);
     }
 }

@@ -20,20 +20,52 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 
+/**
+ * Simple class for implementing PopUp widget while is moving on
+ * 
+ * @author hotel
+ * 
+ */
 public abstract class PopupTip extends Composite {
 
     protected PopupTip() {
         setMouse();
     }
 
-    private String message = null;
+    /** Widget to be drawn. */
+    private Widget message = null;
 
-    public void setMessage(String message) {
+    /**
+     * Hide PopUp
+     */
+    public void delMessage() {
+        message = null;
+        hideUp();
+    }
+
+    /**
+     * Set Widget to be displayed
+     * 
+     * @param message
+     *            Widget
+     */
+    public void setMessage(Widget message) {
+        assert message != null : LogT.getT().cannotBeNull();
         this.message = message;
-        if (message == null) {
-            hideUp();
-        }
+    }
+
+    /**
+     * Set message to be displayed
+     * 
+     * @param message
+     *            String
+     */
+    public void setMessage(String message) {
+        setMessage(new Label(message));
     }
 
     private PopupPanel tup = null;
@@ -50,7 +82,7 @@ public abstract class PopupTip extends Composite {
         @Override
         public void onMouseOver(MouseOverEvent event) {
             if (message != null) {
-                tup = PopUpTip.getPopupTip(new Label(message));
+                tup = PopUpTip.getPopupTip(message);
                 PopupUtil.setPos(tup, PopupTip.this);
                 tup.show();
             }
