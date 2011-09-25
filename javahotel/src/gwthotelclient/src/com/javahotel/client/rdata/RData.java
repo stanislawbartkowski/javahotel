@@ -172,8 +172,8 @@ public class RData {
         GWTGetService.getService().getList(r, p, new CallList(re, i));
     }
 
-    public <T extends AbstractTo> void getOne(final RType r, final CommandParam p,
-            final IOneList<T> i) {
+    public <T extends AbstractTo> void getOne(final RType r,
+            final CommandParam p, final IOneList<T> i) {
         RetData re = ca.getCol(r, p);
         if (re.col != null) {
             T aa = null;
@@ -197,14 +197,34 @@ public class RData {
         }
     }
 
+    /**
+     * Read res data into cache
+     * 
+     * @param rp
+     *            ReadResParam to read
+     * @param i
+     *            Signal raised when data is read
+     */
     public void readResObjectState(final ReadResParam rp, final ISignal i) {
         resCache.ReadResState(rp, i);
     }
 
+    /**
+     * Read data already cached
+     * 
+     * @param resObject
+     *            to be read
+     * @param d
+     *            Date
+     * @return ResDayObjectStateP
+     */
     public ResDayObjectStateP getResState(final String resObject, final Date d) {
         return resCache.getResState(resObject, d);
     }
 
+    /**
+     * Clear cache
+     */
     public void invalidateResCache() {
         resCache.invalidate();
     }

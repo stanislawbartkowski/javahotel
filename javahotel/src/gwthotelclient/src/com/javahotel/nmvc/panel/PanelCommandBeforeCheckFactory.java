@@ -13,6 +13,7 @@
 package com.javahotel.nmvc.panel;
 
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.start.panel.EPanelCommand;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
@@ -28,12 +29,20 @@ class PanelCommandBeforeCheckFactory {
 
     static IPanelCommandBeforeCheck getPanelCheck(EPanelCommand command) {
         IPanelCommandBeforeCheck i = null;
+        IResLocator rI = HInjector.getI().getI();
+        // clear all caches to force reading from database directly
+        // refresh
+        rI.getR().invalidateCacheList();
+
         switch (command) {
         case REMOVEDATA:
             i = new VerifyNumberOfDict(RType.AllHotels,
                     "cannotdisplayhotels.jsp");
             break;
         case BOOKINGPANEL:
+            // invalidate/refresh cache at the beginning
+            // force reading data from database
+            rI.getR().invalidateResCache();
             i = new VerifyNumberOfDict(new DictType[] {
                     DictType.RoomObjects, DictType.OffSeasonDict,
                     DictType.PriceListDict }, "cannotdisplaypanel.jsp");

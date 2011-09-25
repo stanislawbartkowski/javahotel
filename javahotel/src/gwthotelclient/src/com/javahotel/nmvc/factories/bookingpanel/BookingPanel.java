@@ -723,6 +723,9 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     public BookingPanel(IDataType dType, CellId panelId) {
         this.dType = dType;
         rI = HInjector.getI().getI();
+        // invalidate/refresh cache at the beginning
+        // force reading data from database
+//        rI.getR().invalidateResCache();
         FormField f = FFactory.construct(OfferPriceP.F.season);
         seasonE = f.getELine();
         seasonE.addChangeListener(new C());
