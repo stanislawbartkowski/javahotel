@@ -23,7 +23,7 @@ import java.util.logging.Level;
 
 /**
  * 
- * @author sb
+ * @author stanislawbartkowski@gmail.com
  */
 public class ReadProperties {
 

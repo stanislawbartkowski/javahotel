@@ -43,7 +43,6 @@ public class HotelCache {
 		return o;
 	}
 
-	@SuppressWarnings("unchecked")
 	public static void put(String key, Object o) {
 		cache.put(key, o);
 	}

@@ -13,10 +13,18 @@
 package com.javahotel.common.toobject;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public enum ServiceType {
 
-    NOCLEG, PARKING, DOSTAWKA
+    NOCLEG, PARKING, SALAKONFERENCYJNA, INNE;
+
+    public boolean isRoomBooking() {
+        return this == NOCLEG;
+    }
+
+    public boolean isBooking() {
+        return this != INNE;
+    }
 }

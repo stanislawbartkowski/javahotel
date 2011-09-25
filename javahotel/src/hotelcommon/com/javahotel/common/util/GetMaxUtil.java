@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Some utilities related to get something 'max'
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class GetMaxUtil {
@@ -35,10 +36,19 @@ public class GetMaxUtil {
         Integer getLp(Object o);
     }
 
-    public static int getMax(final List col, final IGetLp i) {
+    /**
+     * Find maximum number in the list
+     * 
+     * @param col
+     *            Input list of elements
+     * @param i
+     *            Method for getting the numbue from the element
+     * @return Number or -i if the list is empty
+     */
+    public static <T> int getMax(final List<T> col, final IGetLp i) {
         int no = -1;
-        for (Object o : col) {
-            int lp = i.getLp(o);
+        for (T t : col) {
+            int lp = i.getLp(t);
             if (lp > no) {
                 no = lp;
             }
@@ -46,8 +56,16 @@ public class GetMaxUtil {
         return no;
     }
 
-    public static <T> List<T> getListLp(final List<T> col,
-            final IGetLp i) {
+    /**
+     * Filter out from the list col only the element equal to the max element
+     * 
+     * @param col
+     *            Input list
+     * @param i
+     *            Method for getting the number for the element
+     * @return New list
+     */
+    public static <T> List<T> getListLp(final List<T> col, final IGetLp i) {
         int no = getMax(col, i);
         List<T> out = new ArrayList<T>();
         for (T t : col) {
@@ -96,8 +114,7 @@ public class GetMaxUtil {
         return new Integer(m);
     }
 
-    public static <T> T getLast(
-            final List<? extends INumerable> col) {
+    public static <T> T getLast(final List<? extends INumerable> col) {
         IGetLp in = createI();
         return (T) getOneLp(col, in);
     }

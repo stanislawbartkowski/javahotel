@@ -30,7 +30,7 @@ import com.javahotel.remoteinterfaces.SessionT;
 import com.javahotel.types.INumerable;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class AddDownPaymentState extends CommandAbstract {
@@ -50,9 +50,9 @@ public class AddDownPaymentState extends CommandAbstract {
         this.stateNoChange = stateNoChange;
     }
 
-    private void setCol(final Object p,
-            final List<? extends INumerable> col, final INumerable sou,
-            final Class cla, final String name, final Class mecl) {
+    private void setCol(final Object p, final List<? extends INumerable> col,
+            final INumerable sou, final Class<?> cla, final String name,
+            final Class<?> mecl) {
 
         INumerable dest;
         try {
@@ -63,10 +63,9 @@ public class AddDownPaymentState extends CommandAbstract {
             throw new HotelException(ex);
         }
         CommonCopyBean.copyB(iC, sou, dest);
-//        dest.setLp(lp);
+        // dest.setLp(lp);
         GetMaxUtil.setNextLp(col, dest);
-        GetFieldHelper.setterVal(dest, p, name, mecl,
-                iC.getLog());
+        GetFieldHelper.setterVal(dest, p, name, mecl, iC.getLog());
         CopyHelper.checkPersonDateOp(iC, dest);
         ((List) col).add(dest);
     }
@@ -76,8 +75,8 @@ public class AddDownPaymentState extends CommandAbstract {
         Booking b = getBook(resName);
         Bill bi = HotelHelper.getBill(b);
         if (payP != null) {
-            setCol(bi, bi.getPayments(), payP,
-                    Payment.class, "bill", Bill.class);
+            setCol(bi, bi.getPayments(), payP, Payment.class, "bill",
+                    Bill.class);
         }
         if (stateP != null) {
             boolean changeS = true;
@@ -88,7 +87,8 @@ public class AddDownPaymentState extends CommandAbstract {
                 }
             }
             if (changeS) {
-                setCol(b, b.getState(), stateP, BookingState.class, "booking", Booking.class);
+                setCol(b, b.getState(), stateP, BookingState.class, "booking",
+                        Booking.class);
             }
         }
         iC.getJpa().changeRecord(b);

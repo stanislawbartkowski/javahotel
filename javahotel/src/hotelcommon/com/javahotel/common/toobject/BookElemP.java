@@ -31,6 +31,7 @@ public class BookElemP extends AbstractToILd {
 	private String resObject;
 	private String service;
 	private List<PaymentRowP> paymentrows;
+	/** List of guests checked into this room. */
 	private List<GuestP> guests;
 
 	public BookElemP() {

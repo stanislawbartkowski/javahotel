@@ -28,7 +28,7 @@ public class ServiceDictionaryP extends DictionaryP {
     /**
      * @return the noPerson
      */
-    Integer getNoPerson() {
+    public Integer getNoPerson() {
         return noPerson;
     }
 
@@ -36,7 +36,7 @@ public class ServiceDictionaryP extends DictionaryP {
      * @param noPerson
      *            the noPerson to set
      */
-    void setNoPerson(Integer noPerson) {
+    public void setNoPerson(Integer noPerson) {
         this.noPerson = noPerson;
     }
 

@@ -32,73 +32,85 @@ import com.javahotel.remoteinterfaces.SessionT;
  */
 public class PersistDictCommand extends CommandAbstract {
 
-	private final DictType d;
-	private final DictionaryP a;
-	private GetObjectRes o = null;
-	private final boolean checkBook;
+    private final DictType d;
+    private final DictionaryP a;
+    private GetObjectRes o = null;
+    private final boolean checkBook;
 
-	public PersistDictCommand(final SessionT se, final DictType d,
-			final DictionaryP a, final boolean checkBook) {
-//		super(se, true, new HotelT(a.getHotel()), false);
+    public PersistDictCommand(final SessionT se, final DictType d,
+            final DictionaryP a, final boolean checkBook) {
         super(se, true, new HotelT(a.getHotel()));
-		this.d = d;
-		this.a = a;
-		this.checkBook = checkBook;
-	}
+        this.d = d;
+        this.a = a;
+        this.checkBook = checkBook;
+    }
+    
+    /**
+     * prevRun Set setBookingServices cache
+     */
+    @Override
+    protected void prevRun() {
+        super.prevRun();
+        if (checkBook) {
+          // read all services and create a set of services related to booking
+          createSetOfBookingServices();
+        }
+    }
 
-	private boolean canBookRes() {
-		List<ResDayObjectStateP> conflict = BookCanReserv.isConflict(iC,
-				(BookingP) a);
-		if (conflict == null) {
-			return true;
-		}
-		ret.setResState(conflict);
-		return false;
-	}
-	
-	private void logS() {
-		IPureDictionary oo = o.getO();
-		if (oo == null) { return ; }
-		String logs = iC.getRecordDescr(d,oo);
-		String logm;
-		if (iC.isNull(oo.getId())) {
-			logm = iC.logEvent(IMessId.ADDDICTRECORD,logs);
-		}
-		else {
-			logm = iC.logEvent(IMessId.MODIFDICTRECORD,logs);
-		}
-		iC.getLog().getL().info(logm);		
-	}
-	
 
-	@Override
-	protected void command() {
-		if (checkBook) {
-			if (!canBookRes()) {
-				return;
-			}
-		}
-		o = getObject(d, a);
-		// before start transaction
-		BeanPrepareKeys.prepareKeys(iC, a);
-//		startTra();
-		o.refresh();
-		CommonCopyBean.copyB(iC, a, o.getO());		
-		startTra();
-		logS();
-//        iC.getC().persistRecords(iC);
-		// GAE: move out - cannot be different transactions
-		// 2011/08/09
-		iC.getJpa().changeRecord(o.getO());
-	}
+    private boolean canBookRes() {
+        List<ResDayObjectStateP> conflict = BookCanReserv.isConflict(iC,
+                (BookingP) a);
+        if (conflict == null) {
+            return true;
+        }
+        ret.setResState(conflict);
+        return false;
+    }
 
-	@Override
-	protected void aftercommit() {
-		if (o == null) {
-			getRet(ret, null);
-		} else {
-			getRet(ret, o.getO());
-		}
-	}
+    private void logS() {
+        IPureDictionary oo = o.getO();
+        if (oo == null) {
+            return;
+        }
+        String logs = iC.getRecordDescr(d, oo);
+        String logm;
+        if (iC.isNull(oo.getId())) {
+            logm = iC.logEvent(IMessId.ADDDICTRECORD, logs);
+        } else {
+            logm = iC.logEvent(IMessId.MODIFDICTRECORD, logs);
+        }
+        iC.getLog().getL().info(logm);
+    }
+
+    @Override
+    protected void command() {
+        if (checkBook) {
+            if (!canBookRes()) {
+                return;
+            }
+        }
+        o = getObject(d, a);
+        // before start transaction
+        BeanPrepareKeys.prepareKeys(iC, a);
+        // startTra();
+        o.refresh();
+        CommonCopyBean.copyB(iC, a, o.getO());
+        startTra();
+        logS();
+        // iC.getC().persistRecords(iC);
+        // GAE: move out - cannot be different transactions
+        // 2011/08/09
+        iC.getJpa().changeRecord(o.getO());
+    }
+
+    @Override
+    protected void aftercommit() {
+        if (o == null) {
+            getRet(ret, null);
+        } else {
+            getRet(ret, o.getO());
+        }
+    }
 
 }

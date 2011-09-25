@@ -39,7 +39,7 @@ public class TestGetNumber extends CommandAbstract {
     @Override
     protected void command() {
 
-        Class cla = null;
+        Class<?> cla = null;
 
         switch (rType) {
             case IHotelTest.OFFERSEASONSPECIALPRICE:

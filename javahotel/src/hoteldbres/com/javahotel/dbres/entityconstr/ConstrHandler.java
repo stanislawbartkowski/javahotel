@@ -16,8 +16,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.javahotel.dbutil.log.GetLogger;
-
 class ConstrHandler extends DefaultHandler {
 
 	private final EntityConstrData da;

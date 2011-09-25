@@ -17,6 +17,7 @@ import java.util.Date;
 import com.javahotel.types.DateP;
 
 /**
+ * Utilities related to date methods
  * 
  * @author stanislawbartkowski@gmail.com
  */
@@ -24,6 +25,7 @@ public class DateUtil {
 
     private DateUtil() {
     }
+
     private static final long DAY_IN_MILISECONDS = 86400000;
 
     public static void NextDay(final Date d) {
@@ -139,12 +141,24 @@ public class DateUtil {
         }
         return 0;
     }
+
     private static Date testToday = null;
 
+    /**
+     * Only for testing purpose. Change the day to be reported as 'today'
+     * 
+     * @param d
+     *            New 'today' day
+     */
     public static void setTestToday(final Date d) {
         testToday = d;
     }
 
+    /**
+     * Get today date Important: can be modified by setTestToday method
+     * 
+     * @return today
+     */
     public static Date getToday() {
         DateP d = new DateP();
         Date tt;

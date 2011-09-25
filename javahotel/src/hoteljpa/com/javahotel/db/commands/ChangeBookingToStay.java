@@ -40,7 +40,7 @@ import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
 
 /**
- *
+ * Changes Booking to Stay by copying the content and assigning new id
  * @author stanislawbartkowski@gmail.com
  */
 public class ChangeBookingToStay extends CommandAbstract {
@@ -48,9 +48,14 @@ public class ChangeBookingToStay extends CommandAbstract {
     private final String resName;
     private Booking resO;
 
+    /**
+     * Constructor
+     * @param se Session
+     * @param ho Hotel
+     * @param resName Symbol of reservation to be transformed to stay
+     */
     public ChangeBookingToStay(final SessionT se, final String ho,
             final String resName) {
-//        super(se, true, new HotelT(ho), false);
         super(se, true, new HotelT(ho));
         this.resName = resName;
     }
@@ -121,6 +126,9 @@ public class ChangeBookingToStay extends CommandAbstract {
         }
     }
 
+    /**
+     * Run command
+     */
     @Override
     protected void command() {
         Booking b = getBook(resName);
