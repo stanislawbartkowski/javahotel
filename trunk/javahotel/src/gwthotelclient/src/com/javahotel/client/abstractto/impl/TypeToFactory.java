@@ -95,7 +95,7 @@ public class TypeToFactory implements IAbstractType {
         }
     };
     private static final EnumTypeToS<ServiceType> e = new EnumTypeToS<ServiceType>(
-            new GetMap(ge), ServiceType.DOSTAWKA);
+            new GetMap(ge), ServiceType.INNE);
     private static final T stringServiceT = new T(String.class,
             FieldDataType.constructEnum(e));
     private static final getMap gec = new getMap() {

@@ -12,6 +12,7 @@
  */
 package com.javahotel.nmvc.factories.validate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IDataType;
@@ -27,9 +28,11 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotSignaller;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.javahotel.client.types.DataType;
+import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.OfferSeasonP;
+import com.javahotel.common.toobject.ServiceDictionaryP;
 
 public class ValidateAction extends AbstractSlotContainer implements
         IDataValidateAction {
@@ -57,6 +60,19 @@ public class ValidateAction extends AbstractSlotContainer implements
                             OfferSeasonP.F.startp), new VField(
                             OfferSeasonP.F.endp));
                     break;
+                case ServiceDict:
+                    ServiceDictionaryP se = DataUtil.getData(pData);
+                    if (se.getServType().isRoomBooking()
+                            && ((se.getNoPerson() == null) || se.getNoPerson()
+                                    .intValue() == 0)) {
+                        errMess = new ArrayList<InvalidateMess>();
+                        InvalidateMess e = new InvalidateMess(new VField(
+                                ServiceDictionaryP.F.noPerson),
+                                "Usługa 'nocleg' wymaga podania liczny osób");
+                        errMess.add(e);
+                    }
+                    break;
+
                 default:
                     break;
 

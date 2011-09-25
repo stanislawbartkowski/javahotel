@@ -34,12 +34,12 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.client.types.DataType;
+import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.types.LId;
@@ -50,18 +50,20 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     private final IDataModelFactory daFactory;
     private final IResLocator rI;
     private final IEditChooseRecordContainer cContainer;
+    /* Initial CustomerP being displayed. */
+    private IVModelData custP = null;
 
-    private void drawCust(IVModelData cust) {
+    private void drawCust() {
         slMediator.getSlContainer().publish(dType,
-                DataActionEnum.DrawViewComposeFormAction, cust);
+                DataActionEnum.DrawViewComposeFormAction, custP);
     }
 
-    private class SetCustomerData implements RData.IOneList<AbstractTo> {
+    private class SetCustomerData implements RData.IOneList<CustomerP> {
 
         @Override
-        public void doOne(AbstractTo val) {
-            IVModelData cData = VModelDataFactory.construct(val);
-            drawCust(cData);
+        public void doOne(CustomerP val) {
+            custP = VModelDataFactory.construct(val);
+            drawCust();
         }
     }
 
@@ -72,8 +74,8 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
             BookingP b = getBook(slContext);
             LId custI = b.getCustomer();
             if (custI == null) {
-                IVModelData cust = daFactory.construct(dType);
-                drawCust(cust);
+                custP = daFactory.construct(dType);
+                drawCust();
                 cContainer.SetNewChange(true, true);
                 return;
             }
@@ -84,9 +86,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     }
 
     private BookingP getBook(ISlotSignalContext slContext) {
-        IVModelData mData = slContext.getVData();
-        HModelData vData = (HModelData) mData;
-        BookingP b = (BookingP) vData.getA();
+        BookingP b = DataUtil.getData(slContext);
         return b;
     }
 
@@ -97,13 +97,13 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
             IVModelData mData = slContext.getVData();
             HModelData vData = (HModelData) mData;
 
-            IVModelData cust = daFactory.construct(dType);
+            // Use initial CustomerP modified by data being displayed 
             IVModelData pData = slMediator.getSlContainer()
                     .getGetterIVModelData(dType,
-                            GetActionEnum.GetViewModelEdited, cust);
-            HModelData vvData = (HModelData) pData;
+                            GetActionEnum.GetViewModelEdited, custP);
+            CustomerP custP = DataUtil.getData(pData);
             BookingCustInfo bInfo = new BookingCustInfo(cContainer,
-                    (CustomerP) vvData.getA());
+                    custP);
             vData.setCustomData(bInfo);
             return slContext;
         }
