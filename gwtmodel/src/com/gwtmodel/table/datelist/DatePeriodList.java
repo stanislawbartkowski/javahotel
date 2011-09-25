@@ -36,7 +36,7 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
@@ -50,7 +50,7 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
     private final String title;
     private final IDataControler dControler;
 
-    private class PersistElem implements ISlotSignaller {
+    private class PersistElem implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -61,7 +61,7 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
     }
 
     DatePeriodList(String title, IDatePeriodFactory eFactory,
-            ISlotSignaller setGwt, IDataValidateActionFactory vFactory) {
+            ISlotListener setGwt, IDataValidateActionFactory vFactory) {
         this.title = title;
         this.dType = Empty.getDataType();
 

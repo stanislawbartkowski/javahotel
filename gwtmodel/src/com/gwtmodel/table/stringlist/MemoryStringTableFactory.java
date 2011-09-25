@@ -18,7 +18,7 @@ import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class MemoryStringTableFactory {
     }
 
     public IMemoryStringList construct(String fieldName, String title,
-            IStringEFactory eFactory, ISlotSignaller setGwt) {
+            IStringEFactory eFactory, ISlotListener setGwt) {
         return new MemoryStringList(fieldName, title, strType,
                 strField, eFactory, setGwt);
     }

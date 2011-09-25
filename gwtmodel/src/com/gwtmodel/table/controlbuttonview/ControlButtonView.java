@@ -27,7 +27,7 @@ import com.gwtmodel.table.slotmodel.ButtonAction;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
@@ -49,7 +49,7 @@ class ControlButtonView extends AbstractSlotContainer implements
         }
     }
 
-    private class EnableButton implements ISlotSignaller {
+    private class EnableButton implements ISlotListener {
 
         private final ButtonAction bAction;
         private final ClickButtonType actionId;
@@ -69,7 +69,7 @@ class ControlButtonView extends AbstractSlotContainer implements
         }
     }
 
-    private class RedirectButton implements ISlotSignaller {
+    private class RedirectButton implements ISlotListener {
 
         private final ControlButtonDesc b;
 
@@ -90,7 +90,7 @@ class ControlButtonView extends AbstractSlotContainer implements
      * @author hotel
      * 
      */
-    private class ForceButton implements ISlotSignaller {
+    private class ForceButton implements ISlotListener {
 
         private final ControlButtonDesc b;
 

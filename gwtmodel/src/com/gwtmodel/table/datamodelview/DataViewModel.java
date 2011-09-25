@@ -33,9 +33,9 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
@@ -47,7 +47,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private final IDataModelFactory dFactory;
     private final ICallContext iContext;
 
-    private class ClearAction implements ISlotSignaller {
+    private class ClearAction implements ISlotListener {
 
         public void signal(ISlotSignalContext slContext) {
             for (FormField fie : fContainer.getfList()) {
@@ -56,7 +56,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
-    private class ChangeMode implements ISlotSignaller {
+    private class ChangeMode implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -87,7 +87,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
-    private class DrawModel implements ISlotSignaller {
+    private class DrawModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -97,7 +97,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
-    private class GetterModel implements ISlotCaller {
+    private class GetterModel implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -108,7 +108,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
-    private class GetterContainer implements ISlotCaller {
+    private class GetterContainer implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -117,7 +117,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
-    private class GetterWidget implements ISlotCaller {
+    private class GetterWidget implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -133,7 +133,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
-    private class InvalidateMess implements ISlotSignaller {
+    private class InvalidateMess implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

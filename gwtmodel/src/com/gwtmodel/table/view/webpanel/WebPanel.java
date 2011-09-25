@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.webpanel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Window;
@@ -34,11 +35,12 @@ import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.htmlview.HtmlTypeEnum;
 import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.util.PopupTip;
 import com.gwtmodel.table.view.util.YesNoDialog;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 class WebPanel implements IWebPanel {
@@ -83,6 +85,7 @@ class WebPanel implements IWebPanel {
 
         NORMAL, REPLYL, ERRORL
     };
+
     private StatusE sta = StatusE.NORMAL;
     private final StatusL status = new StatusL(null);
     private Widget wCenter = null;
@@ -138,7 +141,7 @@ class WebPanel implements IWebPanel {
             initWidget(l);
             setMessage(errmess);
             setStyleName("error-reply");
-//            setMouse();
+            // setMouse();
         }
     }
 
@@ -156,17 +159,17 @@ class WebPanel implements IWebPanel {
 
     public void initStatus() {
         switch (sta) {
-            case NORMAL:
-                setStatusNormal();
-                break;
+        case NORMAL:
+            setStatusNormal();
+            break;
         }
     }
 
     private void setWidth() {
         if (wCenter != null) {
             if (wWest != null) {
-//                dPanel.setCellWidth(wCenter, "90%");
-//                dPanel.setCellWidth(wCenter, "70%");
+                // dPanel.setCellWidth(wCenter, "90%");
+                // dPanel.setCellWidth(wCenter, "70%");
                 dPanel.setCellWidth(wCenter, centerSize);
             } else {
                 dPanel.setCellWidth(wCenter, "100%");
@@ -220,7 +223,9 @@ class WebPanel implements IWebPanel {
                     logOut.execute();
                 }
             };
-            YesNoDialog yesD = new YesNoDialog(pResources.getRes(IWebPanelResources.LOGOUTQUESTION), null, yes);
+            YesNoDialog yesD = new YesNoDialog(
+                    pResources.getRes(IWebPanelResources.LOGOUTQUESTION), null,
+                    yes);
             yesD.show(ha);
         }
     }
@@ -248,8 +253,10 @@ class WebPanel implements IWebPanel {
         LogoH(String h) {
             ha = new HTML(h);
             initWidget(ha);
-            setMessage(pResources.getRes(IWebPanelResources.WERSJA));
-//          setMouse();
+            VerticalPanel vp = new VerticalPanel();
+            vp.add(new Label(pResources.getRes(IWebPanelResources.WERSJA)));
+            vp.add(new Label(LogT.getT().GWTVersion(GWT.getVersion())));
+            setMessage(vp);
         }
     }
 
@@ -261,12 +268,14 @@ class WebPanel implements IWebPanel {
         tL = new Label(pResources.getRes(IWebPanelResources.PRODUCTNAME));
         ownerName = new Label(pResources.getRes(IWebPanelResources.OWNERNAME));
 
-        String h = Utils.getImageHTML(pResources.getRes(IWebPanelResources.IMAGELOGOUT), 20, 20);
+        String h = Utils.getImageHTML(
+                pResources.getRes(IWebPanelResources.IMAGELOGOUT), 20, 20);
         ha = new HTML(h);
 
         ha.addMouseDownHandler(new ClickLogOut());
 
-        h = Utils.getImageHTML(pResources.getRes(IWebPanelResources.IIMAGEPRODCUT), 20, 20);
+        h = Utils.getImageHTML(
+                pResources.getRes(IWebPanelResources.IIMAGEPRODCUT), 20, 20);
         logo = new LogoH(h);
 
         dPanel.add(vp, DockPanel.NORTH);
@@ -283,8 +292,7 @@ class WebPanel implements IWebPanel {
         hList.add(new HtmlElemDesc(upInfo, HEADER_UPINFO));
 
         HtmlPanelFactory fa = GwtGiniInjector.getI().getHtmlPanelFactory();
-        fa.getHtmlPanel(HtmlTypeEnum.MainStatus,
-                new PanelCallback(), hList);
+        fa.getHtmlPanel(HtmlTypeEnum.MainStatus, new PanelCallback(), hList);
 
     }
 

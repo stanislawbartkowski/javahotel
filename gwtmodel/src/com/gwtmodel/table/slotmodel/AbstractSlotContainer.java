@@ -157,64 +157,64 @@ abstract public class AbstractSlotContainer implements ISlotable {
     }
 
     protected void registerSubscriber(SlotType slType,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         sReference.getSlContainer().registerSubscriber(slType, slSignaller);
     }
 
     protected void registerSubscriber(ClickButtonType.StandClickEnum eClick,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         sReference.getSlContainer().registerSubscriber(eClick, slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, IVField fie,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         sReference.getSlContainer().registerSubscriber(dType, fie, slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType,
-            DataActionEnum dataActionEnum, ISlotSignaller slSignaller) {
+            DataActionEnum dataActionEnum, ISlotListener slSignaller) {
         sReference.getSlContainer().registerSubscriber(dType, dataActionEnum,
                 slSignaller);
     }
 
     protected void registerSubscriber(String stringButton,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         sReference.getSlContainer().registerSubscriber(stringButton,
                 slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, ClickButtonType bType,
-            ButtonAction bAction, ISlotSignaller slSignaller) {
+            ButtonAction bAction, ISlotListener slSignaller) {
         sReference.getSlContainer().registerSubscriber(dType, bType, bAction,
                 slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, int cellId,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         sReference.getSlContainer().registerSubscriber(dType, cellId,
                 slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, CellId cellId,
-            ISlotSignaller slSignaller) {
+            ISlotListener slSignaller) {
         sReference.getSlContainer().registerSubscriber(dType, cellId,
                 slSignaller);
     }
 
-    protected void registerSubscriber(ISlotCustom i, ISlotSignaller slSignaller) {
+    protected void registerSubscriber(ISlotCustom i, ISlotListener slSignaller) {
         sReference.getSlContainer().registerSubscriber(i, slSignaller);
     }
 
     protected void registerCaller(IDataType dType, GetActionEnum gEnum,
-            ISlotCaller slCaller) {
+            ISlotCallerListener slCaller) {
         sReference.getSlContainer().registerCaller(dType, gEnum, slCaller);
     }
 
-    protected void registerCaller(SlotType slType, ISlotCaller slCaller) {
+    protected void registerCaller(SlotType slType, ISlotCallerListener slCaller) {
         sReference.getSlContainer().registerCaller(slType, slCaller);
     }
 
-    protected void registerCaller(ISlotCustom i, ISlotCaller slCaller) {
+    protected void registerCaller(ISlotCustom i, ISlotCallerListener slCaller) {
         sReference.getSlContainer().registerCaller(i, slCaller);
     }
 

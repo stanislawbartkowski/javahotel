@@ -45,7 +45,7 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
@@ -80,7 +80,7 @@ class FindListActionFactory {
         this.listParam = listParam;
     }
 
-    private class GetHeader implements ISlotSignaller {
+    private class GetHeader implements ISlotListener {
 
         private VListHeaderContainer listHeader = null;
 
@@ -90,7 +90,7 @@ class FindListActionFactory {
         }
     }
 
-    private class RemoveFilter implements ISlotSignaller {
+    private class RemoveFilter implements ISlotListener {
 
         private final DrawForm dForm;
         private final ISlotable publishSlo;
@@ -111,7 +111,7 @@ class FindListActionFactory {
         }
     }
 
-    private class NotFoundSignal implements ISlotSignaller {
+    private class NotFoundSignal implements ISlotListener {
 
         private IGWidget w;
 
@@ -136,7 +136,7 @@ class FindListActionFactory {
         }
     }
 
-    private class ClearParam implements ISlotSignaller {
+    private class ClearParam implements ISlotListener {
 
         private final ISlotMediator slMediator;
         private final List<FormField> liF;
@@ -188,7 +188,7 @@ class FindListActionFactory {
         return fa;
     }
 
-    private class SetFilter implements ISlotSignaller {
+    private class SetFilter implements ISlotListener {
 
         private final ISlotMediator slMediator;
         private final List<FormField> liF;
@@ -267,7 +267,7 @@ class FindListActionFactory {
         return liF;
     }
 
-    private class ActionFind implements ISlotSignaller {
+    private class ActionFind implements ISlotListener {
 
         private final ClickButtonType.StandClickEnum action;
         private ISlotMediator slMediator;
@@ -366,7 +366,7 @@ class FindListActionFactory {
             };
             final DrawForm dForm = new DrawForm(wSize, title, action, modal, o,
                     null);
-            ISlotSignaller clearS = new ClearParam(slMediator, liF, li, nF);
+            ISlotListener clearS = new ClearParam(slMediator, liF, li, nF);
             slMediator.getSlContainer().registerSubscriber(eType, panelId,
                     dForm);
             ResignAction aRes = new ResignAction(dForm, remF);
@@ -421,13 +421,13 @@ class FindListActionFactory {
         }
     }
 
-    ISlotSignaller constructActionFind(ClickButtonType.StandClickEnum eNum,
+    ISlotListener constructActionFind(ClickButtonType.StandClickEnum eNum,
             ISlotable publishSlo, IDataType publishdType) {
         return new ActionFind(eNum, publishSlo, publishdType,
                 new NotFoundSignal());
     }
 
-    ISlotSignaller constructActionHeader() {
+    ISlotListener constructActionHeader() {
         return gHeader;
     }
 }

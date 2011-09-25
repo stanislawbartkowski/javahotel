@@ -20,7 +20,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 
 /**
@@ -42,7 +42,7 @@ public class ChooseDictList<T extends IVModelData> {
         void setResign();
     }
 
-    private class GetChoosed implements ISlotSignaller {
+    private class GetChoosed implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -57,7 +57,7 @@ public class ChooseDictList<T extends IVModelData> {
         }
     }
 
-    private class GetResign implements ISlotSignaller {
+    private class GetResign implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -65,7 +65,7 @@ public class ChooseDictList<T extends IVModelData> {
         }
     }
 
-    private class GetWidget implements ISlotSignaller {
+    private class GetWidget implements ISlotListener {
 
         private final WSize ws;
 

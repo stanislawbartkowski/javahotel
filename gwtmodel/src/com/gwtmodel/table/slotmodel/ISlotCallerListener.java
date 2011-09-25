@@ -12,26 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import java.util.ArrayList;
-import java.util.List;
+public interface ISlotCallerListener {
 
-class SlotRegisterSubscriber implements ISlotListener {
-
-    private final List<ISlotListener> slList;
-
-    SlotRegisterSubscriber() {
-        slList = new ArrayList<ISlotListener>();
-
-    }
-
-    public void register(ISlotListener slSignaller) {
-        slList.add(slSignaller);
-    }
-
-    public void signal(ISlotSignalContext slContext) {
-        for (ISlotListener slSignaller : slList) {
-            slSignaller.signal(slContext);
-        }
-    }
-
+    ISlotSignalContext call(ISlotSignalContext slContext);
 }

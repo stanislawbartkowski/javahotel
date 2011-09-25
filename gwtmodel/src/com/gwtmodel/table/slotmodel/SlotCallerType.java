@@ -17,9 +17,9 @@ import com.gwtmodel.table.injector.LogT;
 public class SlotCallerType {
 
     private final SlotType slType;
-    private final ISlotCaller slCaller;
+    private final ISlotCallerListener slCaller;
 
-    SlotCallerType(SlotType slType, ISlotCaller slCaller) {
+    SlotCallerType(SlotType slType, ISlotCallerListener slCaller) {
         assert slType != null : LogT.getT().cannotBeNull();
         assert slCaller != null : LogT.getT().cannotBeNull();
         this.slType = slType;
@@ -30,7 +30,7 @@ public class SlotCallerType {
         return slType;
     }
 
-    public ISlotCaller getSlCaller() {
+    public ISlotCallerListener getSlCaller() {
         return slCaller;
     }
 

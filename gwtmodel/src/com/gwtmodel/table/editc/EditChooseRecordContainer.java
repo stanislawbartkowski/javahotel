@@ -46,7 +46,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.util.ModalDialog;
 
@@ -147,7 +147,7 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         }
     }
 
-    private class SetWidget implements ISlotSignaller {
+    private class SetWidget implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -157,7 +157,7 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         }
     }
 
-    private class ChooseC implements ISlotSignaller {
+    private class ChooseC implements ISlotListener {
 
         private class SelectC implements ICallBackWidget<IVModelData> {
 
@@ -215,7 +215,7 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         }
     }
 
-    private class SetWidgetCust implements ISlotSignaller {
+    private class SetWidgetCust implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

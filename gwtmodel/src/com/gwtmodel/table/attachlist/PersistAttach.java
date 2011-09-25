@@ -27,7 +27,7 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.ValidateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ class PersistAttach extends AbstractSlotContainer implements IDataPersistAction 
 
     private final UploadFile u;
 
-    private class ValidateA implements ISlotSignaller {
+    private class ValidateA implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

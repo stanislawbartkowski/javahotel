@@ -25,9 +25,9 @@ import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
@@ -46,7 +46,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         this.dFactory = dFactory;
     }
 
-    private class EditCallerGetter implements ISlotCaller {
+    private class EditCallerGetter implements ISlotCallerListener {
 
         private final GetActionEnum getA;
 
@@ -86,7 +86,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         cList.add(cType);
     }
 
-    private class DrawAction implements ISlotSignaller {
+    private class DrawAction implements ISlotListener {
 
         private final DataActionEnum dataActionEnum;
 
@@ -130,7 +130,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
         }
     }
 
-    private class ComposeValidateAction implements ISlotSignaller {
+    private class ComposeValidateAction implements ISlotListener {
 
         private final int no;
         private final List<SubValidate> li;
@@ -159,7 +159,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
 
     }
 
-    private class SubValidate implements ISlotSignaller {
+    private class SubValidate implements ISlotListener {
 
         private SynchronizeList li;
         private final SlotType slType;

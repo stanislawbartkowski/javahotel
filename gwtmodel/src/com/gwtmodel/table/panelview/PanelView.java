@@ -22,9 +22,9 @@ import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
@@ -81,7 +81,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         return nextId;
     }
 
-    private class SetWidget implements ISlotSignaller {
+    private class SetWidget implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -94,7 +94,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         }
     }
 
-    private class GetHtml implements ISlotCaller {
+    private class GetHtml implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -111,7 +111,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             return;
         }
         htmlWidget = new GWidget(html);
-        ISlotCaller c = new GetHtml();
+        ISlotCallerListener c = new GetHtml();
         for (CellId i : colM.keySet()) {
             SlotType sl = slTypeFactory.constructH(i);
             registerCaller(sl, c);

@@ -51,7 +51,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.util.ModalDialog;
@@ -222,7 +222,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         }
     }
 
-    private class WaitForRes implements ISlotSignaller {
+    private class WaitForRes implements ISlotListener {
 
         public void signal(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
@@ -250,14 +250,14 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         i.setValObj(from);
     }
 
-    private class ChangeBox implements ISlotSignaller {
+    private class ChangeBox implements ISlotListener {
 
         public void signal(ISlotSignalContext slContext) {
             setAfterBoxChange();
         }
     }
 
-    private final class Accept implements ISlotSignaller {
+    private final class Accept implements ISlotListener {
 
         public void signal(ISlotSignalContext slContext) {
             IGWidget w = slContext.getGwtWidget();
@@ -290,7 +290,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         slMediator.getSlContainer().publish(IJavaMailAction.SEND_MAIL, startM);
     }
 
-    private final class CreateMail implements ISlotSignaller {
+    private final class CreateMail implements ISlotListener {
 
         public void signal(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();

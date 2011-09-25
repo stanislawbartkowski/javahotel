@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 
 /**
  *
@@ -41,7 +41,7 @@ public class SetVPanelGwt {
         return vPanel;
     }
 
-    private class SetGwt implements ISlotSignaller {
+    private class SetGwt implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -50,7 +50,7 @@ public class SetVPanelGwt {
         }
     }
 
-    public ISlotSignaller constructSetGwt() {
+    public ISlotListener constructSetGwt() {
         return new SetGwt();
     }
 

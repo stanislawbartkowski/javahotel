@@ -91,4 +91,6 @@ public interface TLogMessages extends Messages {
     String notExpected();
 
     String formRecordTitle(String title, String action);
+    
+    String GWTVersion(String ver);
 }
