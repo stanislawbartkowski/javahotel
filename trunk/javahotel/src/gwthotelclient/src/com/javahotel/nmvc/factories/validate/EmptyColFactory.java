@@ -28,6 +28,7 @@ import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
+import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
@@ -80,6 +81,10 @@ class EmptyColFactory {
                 return new IField[] { BookElemP.F.checkIn,
                         BookElemP.F.checkOut, BookElemP.F.resObject,
                         BookElemP.F.service };
+            case BookNoRoom:
+                return new IField[] { BookElemP.F.checkIn,
+                        BookElemP.F.resObject, BookElemP.F.service,
+                        PaymentRowP.F.customerPrice };
             default:
                 assert false : M.M().NotSupportedError(dt.getAddType().name());
             }

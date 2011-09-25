@@ -27,7 +27,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.util.FormUtil;
 
@@ -60,7 +60,7 @@ class ValidateLogin extends AbstractSlotContainer implements
 
     }
 
-    private class ValidateA implements ISlotSignaller {
+    private class ValidateA implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

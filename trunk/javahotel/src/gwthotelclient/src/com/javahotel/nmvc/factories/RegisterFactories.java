@@ -23,9 +23,6 @@ import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import com.javahotel.client.IResLocator;
-import com.javahotel.nmvc.ewidget.EWidgetFactory;
 import com.javahotel.nmvc.factories.persist.DataPersistLayer;
 import com.javahotel.nmvc.factories.validate.ValidateAction;
 

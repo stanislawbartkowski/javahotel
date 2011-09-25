@@ -36,9 +36,9 @@ class GetCommandList implements IGetDataList {
     private final RType r;
     private final CommandParam p;
     private final IField f;
-    private final List<? extends AbstractTo> dictList;
+    private final List<AbstractTo> dictList;
 
-    private static class R implements RData.IVectorList {
+    private static class R implements RData.IVectorList<AbstractTo> {
 
         private final IField f;
         private final IGetDataListCallBack iCallBack;
@@ -49,7 +49,7 @@ class GetCommandList implements IGetDataList {
         }
 
         @Override
-        public void doVList(final List<? extends AbstractTo> val) {
+        public void doVList(final List<AbstractTo> val) {
             List<IVModelData> dList = new ArrayList<IVModelData>();
             for (AbstractTo a : val) {
                 dList.add(VModelDataFactory.construct(a));
@@ -74,7 +74,7 @@ class GetCommandList implements IGetDataList {
         this.r = null;
         this.p = null;
         this.f = DictionaryP.F.name;
-        this.dictList = dictList;
+        this.dictList = (List<AbstractTo>) dictList;
     }
 
     @Override

@@ -22,7 +22,7 @@ import com.gwtmodel.table.controler.BoxActionMenuOptions;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.util.FormUtil;
 import com.javahotel.common.toobject.BookingP;
@@ -46,7 +46,7 @@ class ValidateGuests extends AbstractSlotContainer {
                 DataActionEnum.ValidateAction, new ValidateSignal());
     }
 
-    private class ValidateSignal implements ISlotSignaller {
+    private class ValidateSignal implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

@@ -19,13 +19,14 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData.IOneList;
+import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.command.CommandParam;
@@ -49,11 +50,10 @@ class BookingElem extends AbstractSlotContainer {
      * (RoomElemP).
      */
 
-    private final ICallContext iContext;
     private final IResLocator rI;
     private final EWidgetFactory eFactory;
     private final BookElementRefreshPayment fPayment;
-    private final ISlotable mainSlo;
+    private final boolean flat;
 
     /**
      * Constructor:
@@ -65,24 +65,26 @@ class BookingElem extends AbstractSlotContainer {
      * @param subType
      *            Auxiliary type user for opening and handling this dialog
      */
-    BookingElem(ICallContext iContext, ISlotable mainSlo, IDataType subType) {
-        this.iContext = iContext;
+    BookingElem(ICallContext iContext, ISlotable mainSlo, IDataType subType,
+            boolean flat) {
         this.dType = iContext.getDType();
+        this.flat = flat;
         /* Event when object (room number) is changed */
         registerSubscriber(dType, new VField(BookElemP.F.resObject),
                 new ChangeRoom());
         rI = HInjector.getI().getI();
         eFactory = HInjector.getI().getEWidgetFactory();
-        this.mainSlo = mainSlo;
         fPayment = new BookElementRefreshPayment(dType, this, iContext, mainSlo);
         /*
          * Event when room reservation is persisted to attach reservation
          * details
          */
-        getSlContainer().registerCaller(subType,
-                GetActionEnum.GetModelToPersist, new SetGetter());
-        getSlContainer().registerCaller(subType,
-                GetActionEnum.GetViewModelEdited, new SetGetter());
+        if (!flat) {
+            getSlContainer().registerCaller(subType,
+                    GetActionEnum.GetModelToPersist, new SetGetter());
+            getSlContainer().registerCaller(subType,
+                    GetActionEnum.GetViewModelEdited, new SetGetter());
+        }
     }
 
     /**
@@ -92,13 +94,11 @@ class BookingElem extends AbstractSlotContainer {
      * @author hotel
      * 
      */
-    private class SetGetter implements ISlotCaller {
+    private class SetGetter implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            IVModelData mData = slContext.getVData();
-            HModelData vData = (HModelData) mData;
-            BookElemP p = (BookElemP) vData.getA();
+            BookElemP p = DataUtil.getData(slContext);
             p.setPaymentrows(fPayment.getPList());
             return slContext;
         }
@@ -141,7 +141,7 @@ class BookingElem extends AbstractSlotContainer {
 
     }
 
-    private class ChangeRoom implements ISlotSignaller {
+    private class ChangeRoom implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

@@ -34,7 +34,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.injector.HInjector;
@@ -55,7 +55,7 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
     private final IDataControler iControler;
     private final DataType fElem = new DataType(AddType.BookRoom);
 
-    private class DrawModel implements ISlotSignaller {
+    private class DrawModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -66,7 +66,7 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
     private class DataPersistAction extends AbstractSlotContainer implements
             IDataPersistAction {
 
-        private class ReadList implements ISlotSignaller {
+        private class ReadList implements ISlotListener {
 
             @Override
             public void signal(ISlotSignalContext slContext) {
@@ -88,12 +88,7 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
             registerSubscriber(dType, DataActionEnum.ReadListAction,
                     new ReadList());
         }
-        // BookElemP
     }
-
-    // class OneRoomBook extends AbstractSlotContainer {
-    //
-    // }
 
     private IDataControler createControler() {
         ITableCustomFactories fContainer = GwtGiniInjector.getI()
@@ -104,17 +99,6 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
                 .construct(dType);
         IDataModelFactory dataFactory = fContainer.getDataModelFactory();
         IFormTitleFactory formFactory = fContainer.getFormTitleFactory();
-
-        // IComposeControllerTypeFactory custFactory = new
-        // IComposeControllerTypeFactory() {
-
-        // @Override
-        // public ComposeControllerType construct(ICallContext iiContext) {
-        // ISlotable iSlo = new OneRoomBook();
-        // return new ComposeControllerType(iSlo, dType);
-        // }
-
-        // };
 
         IGetViewControllerFactory fControler = fContainer
                 .getGetViewControllerFactory();
@@ -127,7 +111,7 @@ public class BookingRowDetailContainer extends AbstractSlotMediatorContainer {
         return taFactory.constructDataControler(lParam);
     }
 
-    class ChangeMode implements ISlotSignaller {
+    class ChangeMode implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

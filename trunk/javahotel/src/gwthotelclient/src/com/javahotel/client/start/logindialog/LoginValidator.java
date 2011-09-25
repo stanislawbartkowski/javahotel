@@ -24,6 +24,7 @@ import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.M;
 import com.javahotel.client.PersonHotelRoles;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData;
@@ -65,29 +66,28 @@ class LoginValidator {
         private final IBackValidate cBack;
         private final IResLocator rI;
 
-        private void setUserHotel(String hotel, List<? extends AbstractTo> val) {
+        private void setUserHotel(String hotel, List<StringP> val) {
             String u = lData.getLoginName();
             PersonHotelRoles pRoles = new PersonHotelRoles(u, hotel);
             rI.getR().setpRoles(pRoles);
             IWebPanel w = GwtGiniInjector.getI().getWebPanel();
             w.setUserData(u, hotel);
             if (val != null) {
-                for (AbstractTo a : val) {
-                    StringP p = (StringP) a;
+                for (StringP p : val) {
                     pRoles.getRoles().add(p.getName());
                 }
             }
         }
 
-        private class HotelUserLogin implements RData.IVectorList {
+        private class HotelUserLogin implements RData.IVectorList<StringP> {
 
             @Override
-            public void doVList(List<? extends AbstractTo> val) {
+            public void doVList(List<StringP> val) {
                 if (val.isEmpty()) {
                     List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
                     errMess.add(new InvalidateMess(new LoginField(
                             LoginField.F.OTHER), false,
-                            "Nie masz uprawnień w tym hotelu"));
+                            M.L().YouHaveNoRights()));
                     cBack.invalid(new InvalidateFormContainer(errMess));
                     return;
                 }

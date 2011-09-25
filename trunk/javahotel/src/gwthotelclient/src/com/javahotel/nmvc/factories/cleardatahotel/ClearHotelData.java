@@ -29,7 +29,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.TemplateContainerSlotable;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.YesNoDialog;
@@ -71,7 +71,7 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
         }
     }
 
-    private class ClearData implements ISlotSignaller {
+    private class ClearData implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext sl) {

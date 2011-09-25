@@ -22,7 +22,6 @@ import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.javahotel.client.IResLocator;
@@ -49,6 +48,7 @@ import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferServicePriceP;
 import com.javahotel.common.toobject.PaymentP;
+import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.ServiceType;
@@ -374,6 +374,11 @@ public class TypeToFactory implements IAbstractType {
         ma.put(BookPaymentField.offerPrice, paymentT);
 
         ma.put(BookRecordP.F.oPrice, stringPriceT);
+
+        ma.put(PaymentRowP.F.customerPrice, decimalT);
+        ma.put(PaymentRowP.F.offerPrice, decimalT);
+        ma.put(PaymentRowP.F.rowFrom, dateT);
+        ma.put(PaymentRowP.F.rowTo, dateT);
     }
 
     @Override

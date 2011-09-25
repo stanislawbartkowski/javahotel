@@ -132,7 +132,8 @@ class PayElemInfo {
     }
 
     /**
-     * @param pList the pList to set
+     * @param pList
+     *            the pList to set
      */
     void setpList(List<PaymentRowP> pList) {
         this.pList = pList;

@@ -45,7 +45,7 @@ import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringValue;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
@@ -208,7 +208,7 @@ class CheckGuestWidget extends AbstractSlotContainer {
 
     }
 
-    private class ClickCust implements ISlotSignaller {
+    private class ClickCust implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -230,7 +230,7 @@ class CheckGuestWidget extends AbstractSlotContainer {
 
     }
 
-    private class ResignSignaller implements ISlotSignaller {
+    private class ResignSignaller implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -248,12 +248,6 @@ class CheckGuestWidget extends AbstractSlotContainer {
                         bOptions.constructRemoveFormDialogSlotType());
                 return;
             }
-//            SlotType sl = bOptions.constructAskBeforeRemoveSlotType();
-//            CustomStringValue c = new CustomStringValue(
-//                    "Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
-//            ISlotSignalContext slC = slContextFactory.construct(sl, slContext,
-//                    c);
-//            getSlContainer().publish(slC);
             SlU.publishActionResignWithWarning(dType, iList, slContext);
         }
 

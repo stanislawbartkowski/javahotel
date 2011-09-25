@@ -25,9 +25,9 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.stringlist.AbstractStringE;
 import com.gwtmodel.table.stringlist.IMemoryStringList;
 import com.gwtmodel.table.stringlist.IStringEFactory;
@@ -81,7 +81,7 @@ public class CustomerAddInfo extends AbstractSlotContainer {
         }
     }
 
-    private class SetGetter implements ISlotCaller {
+    private class SetGetter implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -152,7 +152,7 @@ public class CustomerAddInfo extends AbstractSlotContainer {
 
     }
 
-    private class DrawModel implements ISlotSignaller {
+    private class DrawModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -162,7 +162,7 @@ public class CustomerAddInfo extends AbstractSlotContainer {
         }
     }
 
-    private class ChangeMode implements ISlotSignaller {
+    private class ChangeMode implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -175,7 +175,7 @@ public class CustomerAddInfo extends AbstractSlotContainer {
         this(publishType, dType, true);
     }
 
-    private class SetGWT implements ISlotSignaller {
+    private class SetGWT implements ISlotListener {
 
         private final String stringButt;
 

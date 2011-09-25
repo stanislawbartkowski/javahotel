@@ -27,7 +27,7 @@ import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.start.action.ILoginDialog;
 import com.javahotel.common.command.CommandParam;
@@ -45,7 +45,7 @@ public class ETableLoginDialog implements ILoginDialog {
         }
     }
 
-    private class SetGwt implements ISlotSignaller {
+    private class SetGwt implements ISlotListener {
 
         private final ISetGWidget iSet;
 
@@ -60,7 +60,7 @@ public class ETableLoginDialog implements ILoginDialog {
         }
     }
 
-    private class Valid implements ISlotSignaller {
+    private class Valid implements ISlotListener {
 
         final ICommand iNext;
 

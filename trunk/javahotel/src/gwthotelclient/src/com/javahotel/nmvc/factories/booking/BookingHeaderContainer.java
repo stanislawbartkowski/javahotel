@@ -34,9 +34,9 @@ import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
@@ -80,7 +80,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
                 DataActionEnum.DrawViewFormAction, v);
     }
 
-    private class DrawModel implements ISlotSignaller {
+    private class DrawModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -111,7 +111,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
                 sPanel.constructSetGwt());
     }
 
-    private class SetGetter implements ISlotCaller {
+    private class SetGetter implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -171,7 +171,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
         }
     }
 
-    private class GetSlot implements ISlotCaller {
+    private class GetSlot implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -188,7 +188,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
         return b;
     }
 
-    private class ValidateA implements ISlotSignaller {
+    private class ValidateA implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -231,7 +231,7 @@ public class BookingHeaderContainer extends AbstractSlotMediatorContainer {
 
     }
 
-    class ChangeMode implements ISlotSignaller {
+    class ChangeMode implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

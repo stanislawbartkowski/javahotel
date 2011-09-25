@@ -28,9 +28,9 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.grid.GridErrorMess;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.grid.IGridViewDecimal;
@@ -129,7 +129,7 @@ public class PriceListContainer extends AbstractSlotContainer {
         rI.getR().getOne(RType.ListDict, p, new ReadSeason());
     }
 
-    private class DrawModel implements ISlotSignaller {
+    private class DrawModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -142,7 +142,7 @@ public class PriceListContainer extends AbstractSlotContainer {
         }
     }
 
-    private class ChangeSeason implements ISlotSignaller {
+    private class ChangeSeason implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -153,7 +153,7 @@ public class PriceListContainer extends AbstractSlotContainer {
 
     }
 
-    private class ValidateC implements ISlotSignaller {
+    private class ValidateC implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -179,7 +179,7 @@ public class PriceListContainer extends AbstractSlotContainer {
         }
     }
 
-    private class SetGetter implements ISlotCaller {
+    private class SetGetter implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {

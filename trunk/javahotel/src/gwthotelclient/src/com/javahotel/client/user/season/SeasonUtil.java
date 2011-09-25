@@ -73,7 +73,7 @@ public class SeasonUtil {
         }
         return sTyle;
     }
-    
+
     public static Widget createPeriodPopUp(PeriodT pe) {
         VerticalPanel h = new VerticalPanel();
         String s = getName(pe);

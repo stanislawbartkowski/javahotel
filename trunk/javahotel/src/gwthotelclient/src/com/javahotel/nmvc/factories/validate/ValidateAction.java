@@ -25,7 +25,7 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataUtil;
@@ -39,7 +39,7 @@ public class ValidateAction extends AbstractSlotContainer implements
 
     private final EmptyColFactory eFactory = new EmptyColFactory();
 
-    private class ValidateA implements ISlotSignaller {
+    private class ValidateA implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

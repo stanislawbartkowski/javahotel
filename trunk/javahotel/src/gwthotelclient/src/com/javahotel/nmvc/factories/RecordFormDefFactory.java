@@ -42,6 +42,7 @@ import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
+import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.StringP;
@@ -130,6 +131,12 @@ public class RecordFormDefFactory implements IFormDefFactory {
                         .constructReadOnly(BookPaymentField.customerPrice));
                 fList.add(FFactory
                         .constructReadOnly(BookPaymentField.offerPrice));
+
+                break;
+            case BookNoRoom:
+                fL = new IField[] { BookElemP.F.checkIn, BookElemP.F.resObject,
+                        BookElemP.F.service, PaymentRowP.F.customerPrice };
+                FFactory.add(fList, fL);
 
                 break;
             case BookRecord:

@@ -22,7 +22,7 @@ import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
@@ -122,7 +122,7 @@ class PersistGuests extends AbstractSlotContainer implements IDataPersistAction 
      * @author hotel
      * 
      */
-    private class Persist implements ISlotSignaller {
+    private class Persist implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {

@@ -27,9 +27,9 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCaller;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.grid.IGridViewBoolean;
@@ -81,7 +81,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         }
     }
 
-    private class BackRoles implements RData.IVectorList {
+    private class BackRoles implements RData.IVectorList<StringP> {
 
         final int c;
 
@@ -90,10 +90,9 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         }
 
         @Override
-        public void doVList(List<? extends AbstractTo> val) {
+        public void doVList(List<StringP> val) {
             List<String> roles = new ArrayList<String>();
-            for (AbstractTo p : val) {
-                StringP pp = (StringP) p;
+            for (StringP pp : val) {
                 roles.add(pp.getName());
             }
             setColVal(c, roles);
@@ -134,12 +133,11 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         }
     }
 
-
     private boolean isPersons() {
         return daType.getrType() == RType.AllPersons;
     }
 
-    private class DrawModel implements ISlotSignaller {
+    private class DrawModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -156,7 +154,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         }
     }
 
-    private class SetCols implements RData.IVectorList {
+    private class SetCols implements RData.IVectorList<AbstractTo> {
 
         private final IField fie;
 
@@ -165,9 +163,9 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         }
 
         @Override
-        public void doVList(final List<? extends AbstractTo> val) {
+        public void doVList(final List<AbstractTo> val) {
 
-            for (final AbstractTo a : val) {
+            for (AbstractTo a : val) {
                 String s = (String) a.getF(fie);
                 cols.add(s);
             }
@@ -182,7 +180,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         }
     }
 
-    private class SetGetter implements ISlotCaller {
+    private class SetGetter implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -229,7 +227,7 @@ public class HotelPersonRightsContainer extends AbstractSlotContainer implements
         gFactory = GwtGiniInjector.getI().getGridViewFactory();
         iView = gFactory.constructBoolean(true, true, true);
         rI = HInjector.getI().getI();
-        registerSubscriber(cType, DataActionEnum.DrawViewFormAction, 
+        registerSubscriber(cType, DataActionEnum.DrawViewFormAction,
                 new DrawModel());
         Map<String, String> m = rI.getLabels().HotelRoles();
         cols = new ArrayList<String>();
