@@ -84,7 +84,6 @@ public class GenSymbol {
 
     private static AnalizePattern parsePattern(final String pattern) {
         AnalizePattern a = new AnalizePattern();
-        final int LE = 100;
 
         String r = pattern.replaceAll(RR, REGRR);
         r = r.replaceAll(MM, REGMM);

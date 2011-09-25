@@ -60,16 +60,16 @@ public class GetQueries {
             for (OfferPrice o : colx) {
                 if (o.getSeason() == null) {
                     String s = MessageFormat.format(
-                            "{0} OfferPrice object with null season field", o
-                                    .getName());
+                            "{0} OfferPrice object with null season field",
+                            o.getName());
                     iC.getLog().getL().log(Level.SEVERE, s);
                     if (all) {
                         col.add(o);
                     }
                     continue;
                 }
-                OfferSeason of = (OfferSeason) getD(iC, OfferSeason.class, iC
-                        .getRHotel(), o.getSeason());
+                OfferSeason of = (OfferSeason) getD(iC, OfferSeason.class,
+                        iC.getRHotel(), o.getSeason());
                 if (of != null) {
                     col.add(o);
                 }
@@ -105,8 +105,8 @@ public class GetQueries {
 
     public static OfferSeasonPeriod getSeasonPeriod(final ICommandContext iC,
             String seasonName, Long pId) {
-        OfferSeason os = (OfferSeason) getD(iC, OfferSeason.class, iC
-                .getRHotel(), seasonName);
+        OfferSeason os = (OfferSeason) getD(iC, OfferSeason.class,
+                iC.getRHotel(), seasonName);
         if (os == null) {
             return null;
         }
@@ -118,6 +118,19 @@ public class GetQueries {
         return null;
     }
 
+    /**
+     * Get the list of PaymentRow (reservation) related to the given object
+     * 
+     * @param iC
+     *            ICommandContext
+     * @param dFrom
+     *            The beginning of the period
+     * @param dTo
+     *            The end of the period
+     * @param oName
+     *            Object
+     * @return List of reservation
+     */
     public static List<PaymentRow> getPaymentForReservation(
             final ICommandContext iC, final Date dFrom, final Date dTo,
             final String oName) {
@@ -130,15 +143,24 @@ public class GetQueries {
             for (BookRecord bo : cBo) {
                 List<BookElem> cE = bo.getBooklist();
                 for (BookElem be : cE) {
+                    // only oName object
                     if (!be.getResObject().equals(oName)) {
                         continue;
                     }
+                    // only BookElem related to reservation
+                    // ignore all other BookElems
+                    String service = be.getService();
+                    if (!iC.getC().getBookingServices().contains(service)) {
+                        continue;
+                    }                    
                     List<PaymentRow> cR = be.getPaymentrows();
                     for (PaymentRow p : cR) {
 
                         List<BookingState> cP = p.getBookelem().getBookrecord()
                                 .getBooking().getState();
+                        @SuppressWarnings("unused")
                         BookingState sta = GetMaxUtil.getLast(cP);
+                        @SuppressWarnings("unused")
                         String ma = p.getBookelem().getBookrecord()
                                 .getBooking().getName();
                         Date ddTo = p.getRowTo();
@@ -171,10 +193,11 @@ public class GetQueries {
         List<AdvancePayment> out = new ArrayList<AdvancePayment>();
         String hot = iC.getHotel();
         for (AdvancePayment a : col) {
-            // for some reason should - othwerwise is not read
+            // for some reason should - otherwise is not read
             Bill bi = a.getBill();
             Bill bi1 = iC.getJpa().getRecord(Bill.class, bi.getId());
             Booking bo = bi1.getBooking();
+            @SuppressWarnings("unused")
             Booking bo1 = iC.getJpa().getRecord(Booking.class, bo.getId());
             // ------------------
             String ho = a.getBill().getBooking().getHotel().getName();
@@ -186,10 +209,26 @@ public class GetQueries {
         return out;
     }
 
+    /**
+     * Gets the list of ParamRegistries entry like keyLike
+     * 
+     * @param iC
+     *            ICommandContext
+     * @param keylike
+     *            Like pattern
+     * @return List of ParamRegistry
+     */
     public static List<ParamRegistry> getRegistryEntries(
             final ICommandContext iC, final String keylike) {
-        List<ParamRegistry> c = iC.getJpa().getListQuery(ParamRegistry.class,
-                "hotelId", iC.getRHotel().getId().getL());
+
+        // check if the list of all entries already stored in the cache
+        List<ParamRegistry> c = iC.getC().getCacheList();
+        if (c == null) {
+            // if not then read it from the storage and save in the cache
+            c = iC.getJpa().getListQuery(ParamRegistry.class, "hotelId",
+                    iC.getRHotel().getId().getL());
+            iC.getC().setCacheList(c);
+        }
         List<ParamRegistry> out = new ArrayList<ParamRegistry>();
         for (ParamRegistry p : c) {
             String na = p.getName();

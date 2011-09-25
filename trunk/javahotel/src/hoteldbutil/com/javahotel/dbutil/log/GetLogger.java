@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 /**
  * 
- * @author sb
+ * @author stanislawbartkowski@gmail.com
  */
 public class GetLogger {
 

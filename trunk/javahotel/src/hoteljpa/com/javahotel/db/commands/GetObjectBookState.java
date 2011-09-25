@@ -12,17 +12,20 @@
  */
 package com.javahotel.db.commands;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.db.commands.bookstate.BookState;
+import com.javahotel.db.hotelbase.jpa.ServiceDictionary;
 import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
 
 /**
- * 
+ * Command for getting actual booking state of res objects.
  * @author stanislawbartkowski@gmail.com
  */
 public class GetObjectBookState extends CommandAbstract {
@@ -35,6 +38,17 @@ public class GetObjectBookState extends CommandAbstract {
 		super(sessionId, false, hotel);
 		this.rParam = rParam;
 	}
+	
+	/**
+	 * prevRun Set setBookingServices cache
+	 */
+    @Override
+    protected void prevRun() {
+        super.prevRun();
+        // read all services and create a set of services related to booking
+        createSetOfBookingServices();
+    }
+
 
 	@Override
 	protected void command() {

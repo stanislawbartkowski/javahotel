@@ -31,7 +31,7 @@ import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.db.context.ICommandContext;
 
 /**
- * 
+ * Command for testing if the booking is possible
  * @author stanislawbartkowski@gmail.com
  */
 public class BookCanReserv {

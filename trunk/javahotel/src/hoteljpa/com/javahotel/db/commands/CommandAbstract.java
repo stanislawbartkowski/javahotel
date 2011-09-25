@@ -13,7 +13,9 @@
 package com.javahotel.db.commands;
 
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.ReturnPersist;
@@ -26,6 +28,7 @@ import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.Customer;
 import com.javahotel.db.hotelbase.jpa.OfferPrice;
 import com.javahotel.db.hotelbase.jpa.RHotel;
+import com.javahotel.db.hotelbase.jpa.ServiceDictionary;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
 import com.javahotel.db.hotelbase.types.IPureDictionary;
 import com.javahotel.db.jtypes.ToLD;
@@ -61,17 +64,9 @@ public abstract class CommandAbstract extends CommandTemplate {
 
     CommandAbstract(final SessionT sessionId, boolean starttra,
             final HotelT hotel) {
-//        super(sessionId, false, starttra, true);
         super(sessionId, false, starttra, ContainerInfo.TransactionContainer());
         this.ho = hotel;
     }
-//
-//    CommandAbstract(final SessionT sessionId, boolean starttra,
-//            final HotelT hotel, final boolean startTraAutom) {
-//        super(sessionId, false, starttra, startTraAutom);
-//        this.ho = hotel;
-//    }
-//
     // admin constructor
     CommandAbstract(final SessionT sessionId, final HotelT hotel) {
         super(sessionId, true, true, ContainerInfo.TransactionContainer());
@@ -160,5 +155,21 @@ public abstract class CommandAbstract extends CommandTemplate {
             re.setId(ToLD.toLId(o.getId()));
             re.setIdName(o.getName());
         }
+    }
+    
+    /**
+     * Create set of booking services and keep it in the cache 
+     */
+    protected void createSetOfBookingServices() {
+        // read all services and create a set of services related to booking
+        List<ServiceDictionary> colx = iC.getJpa().getAllList(ServiceDictionary.class);
+        Set<String> booking = new HashSet<String>();
+        for (ServiceDictionary c : colx) {
+            if (c.getServType().isBooking()) {
+                booking.add(c.getName());
+            }
+        }
+        // store result in the cache
+        iC.getC().setBookingServices(booking);
     }
 }

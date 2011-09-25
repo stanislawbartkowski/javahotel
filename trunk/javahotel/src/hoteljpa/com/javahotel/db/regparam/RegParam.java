@@ -38,7 +38,7 @@ public class RegParam {
 		return pa.getDescription();
 	}
 
-	public static void setParam(final ICommandContext iC, final String key,
+	private static void setParam(final ICommandContext iC, final String key,
 			final String val) {
 		ParamRegistry pa = CommonHelper.getA(iC, ParamRegistry.class, key);
 		if (pa == null) {

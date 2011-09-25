@@ -92,14 +92,14 @@ public class ServiceDictionary implements IHotelDictionary {
 	/**
      * @return the noPerson
      */
-    Integer getNoPerson() {
+    public Integer getNoPerson() {
         return noPerson;
     }
 
     /**
      * @param noPerson the noPerson to set
      */
-    void setNoPerson(Integer noPerson) {
+    public void setNoPerson(Integer noPerson) {
         this.noPerson = noPerson;
     }
 

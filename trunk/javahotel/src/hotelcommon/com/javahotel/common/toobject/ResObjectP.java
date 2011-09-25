@@ -24,7 +24,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ResObjectP extends DictionaryP {
     
-    /** Type of reservation object (room) ot the other. */
+    /** Type of reservation object (room). */
     private RRoom rType;
     /** Maximum number of persons. */
     private Integer maxPerson;

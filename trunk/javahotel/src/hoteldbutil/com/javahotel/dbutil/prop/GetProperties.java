@@ -23,7 +23,7 @@ import com.javahotel.dbutil.log.GetLogger;
 
 /**
  *
- * @author defekt
+ * @author stanislawbartkowski@gmail.com
  */
 public class GetProperties {
 

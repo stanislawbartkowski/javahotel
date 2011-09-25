@@ -48,14 +48,14 @@ public class CustomerP extends DictionaryP {
     /**
      * @return the mailAddress
      */
-    String getMailAddress() {
+    public String getMailAddress() {
         return mailAddress;
     }
 
     /**
      * @param mailAddress the mailAddress to set
      */
-    void setMailAddress(String mailAddress) {
+    public void setMailAddress(String mailAddress) {
         this.mailAddress = mailAddress;
     }
 
