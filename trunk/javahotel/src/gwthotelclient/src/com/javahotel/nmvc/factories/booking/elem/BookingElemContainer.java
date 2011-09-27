@@ -54,7 +54,7 @@ import com.javahotel.client.abstractto.BookElemPayment;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
-import com.javahotel.client.types.HModelData;
+import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
@@ -86,7 +86,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
                 if (iService.isBooking(e.getService()) != isBook) {
                     continue;
                 }
-                if (isFlat) {
+                if (!isFlat) {
                     AbstractLpVModelData lp = VModelDataFactory.constructLp(e);
                     li.add(lp);
                     continue;
@@ -162,8 +162,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             IDataListType li = lPersistList.getDataList();
             List<BookElemP> ll = new ArrayList<BookElemP>();
             for (IVModelData v : li.getList()) {
-                HModelData vData = (HModelData) v;
-                BookElemP e = (BookElemP) vData.getA();
+                BookElemP e = DataUtil.getData(v);
                 ll.add(e);
             }
             p.setBooklist(ll);
@@ -230,7 +229,8 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             @Override
             public ComposeControllerType construct(ICallContext iiContext) {
                 ISlotable iSlo = new BookingElem(iiContext,
-                        BookingElemContainer.this, subType, isFlat);
+                        BookingElemContainer.this, subType, isFlat, iService,
+                        isBook);
                 return new ComposeControllerType(iSlo, subType);
             }
 

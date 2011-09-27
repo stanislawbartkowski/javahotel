@@ -29,6 +29,8 @@ public interface HoLabel extends Constants {
 
     Map<String, String> Roles();
 
+    Map<String, String> RRoom();
+
     Map<String, String> Services();
 
     Map<String, String> SeasonNames();
@@ -120,13 +122,13 @@ public interface HoLabel extends Constants {
     String[] ScrollDays();
 
     String[] ScrollMonths();
-    
+
     String CheckinGuests();
-    
+
     String ListOfHotels();
-    
+
     String ListOfUsers();
-    
+
     String YouHaveNoRights();
 
 }

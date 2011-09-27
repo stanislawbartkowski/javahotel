@@ -12,31 +12,32 @@
  */
 package com.javahotel.nmvc.factories.booking.elem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.client.types.DataUtil;
-import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
+import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.nmvc.ewidget.EWidgetFactory;
 
 /**
@@ -53,7 +54,9 @@ class BookingElem extends AbstractSlotContainer {
     private final IResLocator rI;
     private final EWidgetFactory eFactory;
     private final BookElementRefreshPayment fPayment;
-    private final boolean flat;
+    private final boolean isFlat;
+    private final IsServiceBooking sService;
+    private final boolean isBook;
 
     /**
      * Constructor:
@@ -66,15 +69,18 @@ class BookingElem extends AbstractSlotContainer {
      *            Auxiliary type user for opening and handling this dialog
      */
     BookingElem(ICallContext iContext, ISlotable mainSlo, IDataType subType,
-            boolean flat) {
+            boolean flat, IsServiceBooking sService, boolean isBook) {
         this.dType = iContext.getDType();
-        this.flat = flat;
+        this.isFlat = flat;
+        this.sService = sService;
+        this.isBook = isBook;
         /* Event when object (room number) is changed */
         registerSubscriber(dType, new VField(BookElemP.F.resObject),
                 new ChangeRoom());
         rI = HInjector.getI().getI();
         eFactory = HInjector.getI().getEWidgetFactory();
-        fPayment = new BookElementRefreshPayment(dType, this, iContext, mainSlo);
+        fPayment = new BookElementRefreshPayment(dType, this, iContext,
+                mainSlo, isFlat);
         /*
          * Event when room reservation is persisted to attach reservation
          * details
@@ -105,22 +111,58 @@ class BookingElem extends AbstractSlotContainer {
 
     }
 
-    private class ReadStandard implements IOneList<AbstractTo> {
+    private class ReadStandard implements IOneList<RoomStandardP> {
 
         private final IFormLineView sView;
+        private final ResObjectP r;
 
-        ReadStandard(IFormLineView sView) {
+        ReadStandard(IFormLineView sView, ResObjectP r) {
             this.sView = sView;
+            this.r = r;
+        }
+
+        private void setBookServices(RoomStandardP sa) {
+            // set services not more persons than possible for this room
+            if (!r.getRType().isRoom()) {
+                eFactory.setComboDictList(sView, sa.getServices());
+                return;
+            }
+            List<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
+            for (ServiceDictionaryP s : sa.getServices()) {
+                if (!s.getServType().isRoomBooking()) {
+                    li.add(s);
+                    continue;
+                }
+                if (s.getNoPerson().compareTo(r.getMaxPerson()) > 0) {
+                    continue;
+                }
+                li.add(s);
+            }
+            eFactory.setComboDictList(sView, li);
+        }
+
+        private void setNoBookServices() {
+            List<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
+            for (ServiceDictionaryP se : sService.getsList()) {
+                if (se.getServType().isBooking()) {
+                    continue;
+                }
+                li.add(se);
+            }
+            eFactory.setComboDictList(sView, li);
         }
 
         @Override
-        public void doOne(AbstractTo val) {
-            RoomStandardP r = (RoomStandardP) val;
-            eFactory.setComboDictList(sView, r.getServices());
+        public void doOne(RoomStandardP sa) {
+            if (isBook) {
+                setBookServices(sa);
+            } else {
+                setNoBookServices();
+            }
         }
     }
 
-    private class ReadRoom implements IOneList<AbstractTo> {
+    private class ReadRoom implements IOneList<ResObjectP> {
 
         private final IFormLineView sView;
 
@@ -129,14 +171,13 @@ class BookingElem extends AbstractSlotContainer {
         }
 
         @Override
-        public void doOne(AbstractTo val) {
-            ResObjectP r = (ResObjectP) val;
+        public void doOne(ResObjectP r) {
             DictionaryP stand = r.getRStandard();
             String standName = stand.getName();
             CommandParam p = rI.getR().getHotelCommandParam();
             p.setDict(DictType.RoomStandard);
             p.setRecName(standName);
-            rI.getR().getOne(RType.ListDict, p, new ReadStandard(sView));
+            rI.getR().getOne(RType.ListDict, p, new ReadStandard(sView, r));
         }
 
     }

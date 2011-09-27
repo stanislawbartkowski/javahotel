@@ -57,9 +57,10 @@ class PayElemInfo {
     private final ISlotable iSlo;
     private final ICallContext iContext;
     private final ISlotable mainSlo;
+    private final boolean isFlat;
 
     PayElemInfo(IDataType dType, IDataType bookType, ISlotable iSlo,
-            ISlotable mainSlo, ICallContext iContext) {
+            ISlotable mainSlo, ICallContext iContext, boolean isFlat) {
         this.season = null;
         this.sprice = null;
         this.dFrom = null;
@@ -69,6 +70,7 @@ class PayElemInfo {
         this.iSlo = iSlo;
         this.mainSlo = mainSlo;
         this.iContext = iContext;
+        this.isFlat = isFlat;
     }
 
     /**
@@ -110,6 +112,7 @@ class PayElemInfo {
     }
 
     void initW() {
+        if (isFlat) { return; }
         setE();
         if (iContext.getPersistTypeEnum() != PersistTypeEnum.ADD) {
             IVModelData vData = mainSlo.getSlContainer()

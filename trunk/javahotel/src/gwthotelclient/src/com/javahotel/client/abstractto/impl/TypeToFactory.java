@@ -35,6 +35,8 @@ import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.IdentDocType;
 import com.javahotel.common.command.PersonTitle;
+import com.javahotel.common.command.RRoom;
+import com.javahotel.common.command.ServiceType;
 import com.javahotel.common.toobject.AddPaymentP;
 import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
@@ -51,7 +53,6 @@ import com.javahotel.common.toobject.PaymentP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
-import com.javahotel.common.toobject.ServiceType;
 import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.nmvc.ewidget.EWidgetFactory;
 
@@ -86,6 +87,7 @@ public class TypeToFactory implements IAbstractType {
             FieldDataType.constructString(new PriceListFactory()));
     private static final T stringRoomT = new T(String.class,
             FieldDataType.constructString(new RoomListFactory()));
+    
     // SeasonListFactory
     private static final getMap ge = new getMap() {
 
@@ -98,6 +100,22 @@ public class TypeToFactory implements IAbstractType {
             new GetMap(ge), ServiceType.INNE);
     private static final T stringServiceT = new T(String.class,
             FieldDataType.constructEnum(e));
+    
+        
+    // RRoom
+    private static final getMap rrec = new getMap() {
+
+        @Override
+        public Map<String, String> getM(IResLocator rI) {
+            return rI.getLabels().RRoom();
+        }
+    };
+    private static final EnumTypeToS<RRoom> rr = new EnumTypeToS<RRoom>(
+            new GetMap(rrec), RRoom.Other);
+    private static final T stringRoomTypeT = new T(String.class,
+            FieldDataType.constructEnum(rr));
+
+    // CustomerType
     private static final getMap gec = new getMap() {
 
         @Override
@@ -105,6 +123,7 @@ public class TypeToFactory implements IAbstractType {
             return rI.getLabels().CustomerType();
         }
     };
+
     private static final EnumTypeToS<CustomerType> ec = new EnumTypeToS<CustomerType>(
             new GetMap(gec), CustomerType.Company);
     private static final getMap gept = new getMap() {
@@ -160,13 +179,14 @@ public class TypeToFactory implements IAbstractType {
         Map<String, String> getM(IResLocator rI);
     }
 
-    private static class EnumTypeToS<T extends Enum> extends AbstractListT
+    @SuppressWarnings("rawtypes")
+    private static class EnumTypeToS<TT extends Enum> extends AbstractListT
             implements FieldDataType.IEnumType {
 
         private final Class cl;
-        private final T t;
+        private final TT t;
 
-        EnumTypeToS(AbstractListT.IGetMap g, T t) {
+        EnumTypeToS(AbstractListT.IGetMap g, TT t) {
             super(g);
             this.cl = t.getClass();
             this.t = t;
@@ -183,7 +203,7 @@ public class TypeToFactory implements IAbstractType {
                 return null;
             }
             String val = getValue(e);
-            T se = (T) t.valueOf(cl, val);
+            TT se = (TT) t.valueOf(cl, val);
             return se;
         }
 
@@ -206,11 +226,6 @@ public class TypeToFactory implements IAbstractType {
 
         private final DictType d;
         private final IField f;
-
-        DictListFactory(DictType d, IField f) {
-            this.d = d;
-            this.f = f;
-        }
 
         DictListFactory(DictType d) {
             this.d = d;
@@ -267,7 +282,7 @@ public class TypeToFactory implements IAbstractType {
         }
     }
 
-    private static class DictionaryToS<T extends DictionaryP> implements
+    private static class DictionaryToS<TT extends DictionaryP> implements
             FieldDataType.ICustomType {
 
         private final DictType da;
@@ -284,7 +299,7 @@ public class TypeToFactory implements IAbstractType {
                 return "";
             }
             @SuppressWarnings("unchecked")
-            T va = (T) sou;
+            TT va = (TT) sou;
             return va.getName();
         }
 
@@ -294,7 +309,8 @@ public class TypeToFactory implements IAbstractType {
                 return null;
             }
             IAbstractFactory i = HInjector.getI().getAbstractFactory();
-            T t = (T) i.construct(new DataType(da));
+            @SuppressWarnings("unchecked")
+            TT t = (TT) i.construct(new DataType(da));
             String s = (String) sou;
             t.setName(s);
             return t;
@@ -345,6 +361,7 @@ public class TypeToFactory implements IAbstractType {
 
         ma.put(ResObjectP.F.standard, stringDT);
         ma.put(ResObjectP.F.maxperson, intT);
+        ma.put(ResObjectP.F.rtype, stringRoomTypeT);
 
         ma.put(VatDictionaryP.F.vat, decimalT);
 

@@ -45,7 +45,8 @@ class BookElementRefreshPayment {
     private final ISlotable mainSlo;
     private final IDataType bookType = new DataType(DictType.BookingList);
     private final PayElemInfo initP;
-    
+    private final boolean isFlat;
+
     private PayElemInfo pInfo;
 
     private void setBigDecimal(IField fie, BigDecimal b) {
@@ -56,7 +57,7 @@ class BookElementRefreshPayment {
         setBigDecimal(BookPaymentField.offerPrice, offerPrice);
         setBigDecimal(BookPaymentField.customerPrice, custPrice);
     }
-    
+
     List<PaymentRowP> getPList() {
         return pInfo.getpList();
     }
@@ -76,8 +77,8 @@ class BookElementRefreshPayment {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            pInfo = new PayElemInfo(dType, bookType, iSlo, mainSlo,
-                    iContext);
+            pInfo = new PayElemInfo(dType, bookType, iSlo, mainSlo, iContext,
+                    isFlat);
             pInfo.setFromW();
             if (pInfo.isNotDefined()) {
                 setPrice(null, null);
@@ -91,13 +92,15 @@ class BookElementRefreshPayment {
     }
 
     BookElementRefreshPayment(IDataType dType, ISlotable iSlo,
-            ICallContext iContext, ISlotable mainSlo) {
+            ICallContext iContext, ISlotable mainSlo, boolean isFlat) {
         this.iContext = iContext;
         this.mainSlo = mainSlo;
         iPayment = HInjector.getI().getPaymentData();
         this.iSlo = iSlo;
         this.dType = dType;
-        this.initP = new PayElemInfo(dType, bookType, iSlo, mainSlo, iContext);
+        this.isFlat = isFlat;
+        this.initP = new PayElemInfo(dType, bookType, iSlo, mainSlo, iContext,
+                isFlat);
         iSlo.getSlContainer().registerSubscriber(dType,
                 new VField(BookElemP.F.checkIn), new ChangeValue());
         iSlo.getSlContainer().registerSubscriber(dType,

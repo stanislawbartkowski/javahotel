@@ -60,7 +60,8 @@ class EmptyColFactory {
                 return new IField[] { DictionaryP.F.name };
             case RoomObjects:
                 return new IField[] { DictionaryP.F.name,
-                        ResObjectP.F.standard, ResObjectP.F.maxperson };
+                        ResObjectP.F.standard, ResObjectP.F.maxperson,
+                        ResObjectP.F.rtype };
             case CustomerList:
                 return new IField[] {};
             case OffSeasonDict:
