@@ -40,12 +40,13 @@ import com.javahotel.types.INumerable;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class CopyHelper {
 
-    static public void checkPersonDateOp(final ICommandContext iC, final Object o) {
+    static public void checkPersonDateOp(final ICommandContext iC,
+            final Object o) {
         Method me = null;
         String naF = GetFieldHelper.getF(IMess.DATEOPFIELD);
         try {
@@ -79,31 +80,29 @@ public class CopyHelper {
         }
     }
 
-    static void copyDict2(final ICommandContext iC,
-            final IHotelDictionary sou, final DictionaryP dest,
-            final String[] fields) {
+    static void copyDict2(final ICommandContext iC, final IHotelDictionary sou,
+            final DictionaryP dest, final String[] fields) {
         CopyBean.copyBean(sou, dest, iC.getLog(), fields);
         copyHotel(sou, dest);
     }
 
-    static void copyHotel(final IHotelDictionary sou,
-            final DictionaryP dest) {
+    static void copyHotel(final IHotelDictionary sou, final DictionaryP dest) {
         RHotel r = sou.getHotel();
         dest.setHotel(r.getName());
     }
 
-    static void copyRes2(final ICommandContext iC,
-            final IHotelDictionary sou, final DictionaryP dest,
-            final String[] malist, String colField, Class<?> memCla) {
+    static void copyRes2(final ICommandContext iC, final IHotelDictionary sou,
+            final DictionaryP dest, final String[] malist, String colField,
+            Class<?> memCla) {
         copyDict2(iC, sou, dest, malist);
         copyRes2Collection(iC, sou, dest, colField, memCla);
     }
 
     static void copyRes2Collection(final ICommandContext iC, final Object sou,
             final AbstractTo dest, final String colField, final Class<?> memCla) {
-        List<?> col =
-                (List<?>) GetFieldHelper.getterVal(sou, colField, iC.getLog());
-        List<Object> de = new ArrayList();
+        List<?> col = (List<?>) GetFieldHelper.getterVal(sou, colField,
+                iC.getLog());
+        List<Object> de = new ArrayList<Object>();
         if (col != null) {
             for (Object o : col) {
                 try {
@@ -118,28 +117,25 @@ public class CopyHelper {
                 }
             }
         }
-        GetFieldHelper.setterVal(dest, de, colField, List.class,
-                iC.getLog());
+        GetFieldHelper.setterVal(dest, de, colField, List.class, iC.getLog());
     }
 
-    static void copyDict1(final ICommandContext iC,
-            final DictionaryP sou, final IHotelDictionary dest,
-            final String[] fields) {
+    static void copyDict1(final ICommandContext iC, final DictionaryP sou,
+            final IHotelDictionary dest, final String[] fields) {
         CopyBean.copyBean(sou, dest, iC.getLog(), fields);
-//        RHotel r = CommonHelper.getH(iC, new HotelT(sou.getHotel()));
+        // RHotel r = CommonHelper.getH(iC, new HotelT(sou.getHotel()));
         dest.setHotel(iC.getRHotel());
     }
 
-    static void copyBeanIId(final ICommandContext iC, final IId sou, final ILd dest,
-            final String[] fList) {
+    static void copyBeanIId(final ICommandContext iC, final IId sou,
+            final ILd dest, final String[] fList) {
         CopyBean.copyBean(sou, dest, iC.getLog(), fList);
         HId id = sou.getId();
         dest.setId(ToLD.toLId(id));
     }
 
     static void copyBeanINumerable(final ICommandContext iC,
-            final INumerable sou, final INumerable dest,
-            final String[] fList) {
+            final INumerable sou, final INumerable dest, final String[] fList) {
         CopyBean.copyBean(sou, dest, iC.getLog(), fList);
         Integer id = sou.getLp();
         dest.setLp(id);
@@ -199,7 +195,7 @@ public class CopyHelper {
                 return false;
             }
             HId id2 = sou2.getId();
-            return ToLD.eq(id1,id2);
+            return ToLD.eq(id1, id2);
         }
 
         public void copy(final ICommandContext iC, final Object sou,
@@ -209,11 +205,12 @@ public class CopyHelper {
         }
     };
 
-    static abstract class AINumerableCopyHelper
-            implements CopyBeanToP.ICopyHelper {
+    static abstract class AINumerableCopyHelper implements
+            CopyBeanToP.ICopyHelper {
 
         abstract protected void dcopy(final ICommandContext iC,
                 final Object sou, final Object dest);
+
         private final String[] f;
 
         AINumerableCopyHelper(final String[] f) {
@@ -254,12 +251,10 @@ public class CopyHelper {
                 iC.getLog());
     }
 
-
     static void copyCustomer(final ICommandContext iC, final AbstractTo sou,
             final Object dest) {
-        LId l = (LId) GetFieldHelper.getterVal(sou, "customer",
-                iC.getLog());
-        copyCustomer(iC,l,dest);
+        LId l = (LId) GetFieldHelper.getterVal(sou, "customer", iC.getLog());
+        copyCustomer(iC, l, dest);
     }
 
     static void setPattName(final ICommandContext iC, final IDictionary dic,
@@ -273,22 +268,22 @@ public class CopyHelper {
         String sym = GetNextSym.NextSym(iC, pId, toDay, patt);
         dic.setName(sym);
     }
-    
+
     static void copyID(ILd sou, IId dest) {
-    	LId id1 = sou.getId();
-    	HId id2 = null;
-    	if (id1 != null) {
-    		id2 = new HId(id1);    		
-    	}
-    	dest.setId(id2);
+        LId id1 = sou.getId();
+        HId id2 = null;
+        if (id1 != null) {
+            id2 = new HId(id1);
+        }
+        dest.setId(id2);
     }
-    
+
     static void copyID(IId sou, ILd dest) {
-    	HId id1 = sou.getId();
-    	LId id2 = null;
-    	if (id1 != null) {
-    		id2 = new LId(id1.getL());    		
-    	}
-    	dest.setId(id2);
+        HId id1 = sou.getId();
+        LId id2 = null;
+        if (id1 != null) {
+            id2 = new LId(id1.getL());
+        }
+        dest.setId(id2);
     }
 }

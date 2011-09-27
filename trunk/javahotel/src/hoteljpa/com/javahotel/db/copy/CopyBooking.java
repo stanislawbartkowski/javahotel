@@ -40,7 +40,6 @@ import com.javahotel.db.hotelbase.jpa.PaymentRow;
 import com.javahotel.db.hotelbase.jpa.ServiceDictionary;
 import com.javahotel.db.jtypes.ToLD;
 import com.javahotel.dbjpa.copybean.CopyBean;
-import com.javahotel.dbres.exceptions.HotelException;
 import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.remoteinterfaces.HotelT;
 
