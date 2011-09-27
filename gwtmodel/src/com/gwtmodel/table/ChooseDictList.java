@@ -51,6 +51,7 @@ public class ChooseDictList<T extends IVModelData> {
             if (vData == null) {
                 return;
             }
+            @SuppressWarnings("unchecked")
             T t = (T) vData;
             IVField comboFie = sl.getGetterComboField(dType);
             i.setChoosed(t, comboFie);
