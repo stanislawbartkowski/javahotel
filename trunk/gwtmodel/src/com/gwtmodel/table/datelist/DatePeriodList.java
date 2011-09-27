@@ -54,8 +54,7 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            int i = 0;
-
+            // TODO: do nothing
         }
 
     }

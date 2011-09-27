@@ -12,10 +12,11 @@
  */
 package com.gwtmodel.table.stringlist;
 
-import com.gwtmodel.table.AbstractLpVModelData;
-import com.gwtmodel.table.IVField;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.gwtmodel.table.AbstractLpVModelData;
+import com.gwtmodel.table.IVField;
 
 public abstract class AbstractStringE extends AbstractLpVModelData {
 
@@ -27,6 +28,14 @@ public abstract class AbstractStringE extends AbstractLpVModelData {
         li.add(fie);
         return addV(li);
     }
+    
+    @Override
+    public boolean isValid(IVField fie) {
+        if (super.isValid(fie)) { return true; }
+        // TODO: some checking is necessary
+        return true;
+    }
+
 
     @Override
     public Object getF(IVField fie) {

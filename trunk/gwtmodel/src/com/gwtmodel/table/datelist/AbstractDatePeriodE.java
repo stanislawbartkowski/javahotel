@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * 
  * @author hotel
  */
 public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
@@ -33,12 +33,21 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
     private String comment;
 
     @Override
+    public boolean isValid(IVField fie) {
+        if (super.isValid(fie)) {
+            return true;
+        }
+        if (fie instanceof DatePeriodField) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public List<IVField> getF() {
-        IVField f[] = {
-            new DatePeriodField(DatePeriodField.F.DATEFROM),
-            new DatePeriodField(DatePeriodField.F.DATETO),
-            new DatePeriodField(DatePeriodField.F.COMMENT)
-        };
+        IVField f[] = { new DatePeriodField(DatePeriodField.F.DATEFROM),
+                new DatePeriodField(DatePeriodField.F.DATETO),
+                new DatePeriodField(DatePeriodField.F.COMMENT) };
         List<IVField> li = Utils.toList(f);
         return addV(li);
     }
@@ -50,12 +59,12 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
         }
         DatePeriodField d = (DatePeriodField) fie;
         switch (d.getFie()) {
-            case DATEFROM:
-                return getdFrom();
-            case DATETO:
-                return getdTo();
-            case COMMENT:
-                return getComment();
+        case DATEFROM:
+            return getdFrom();
+        case DATETO:
+            return getdTo();
+        case COMMENT:
+            return getComment();
         }
         return null;
     }
@@ -68,15 +77,15 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
         }
         DatePeriodField d = (DatePeriodField) fie;
         switch (d.getFie()) {
-            case DATEFROM:
-                setdFrom(Utils.DToD(val));
-                break;
-            case DATETO:
-                setdTo(Utils.DToD(val));
-                break;
-            case COMMENT:
-                setComment((String) val);
-                break;
+        case DATEFROM:
+            setdFrom(Utils.DToD(val));
+            break;
+        case DATETO:
+            setdTo(Utils.DToD(val));
+            break;
+        case COMMENT:
+            setComment((String) val);
+            break;
         }
     }
 
@@ -88,7 +97,8 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
     }
 
     /**
-     * @param dFrom the dFrom to set
+     * @param dFrom
+     *            the dFrom to set
      */
     public void setdFrom(Date dFrom) {
         this.dFrom = dFrom;
@@ -102,7 +112,8 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
     }
 
     /**
-     * @param dTo the dTo to set
+     * @param dTo
+     *            the dTo to set
      */
     public void setdTo(Date dTo) {
         this.dTo = dTo;
@@ -116,7 +127,8 @@ public abstract class AbstractDatePeriodE extends AbstractLpVModelData {
     }
 
     /**
-     * @param comment the comment to set
+     * @param comment
+     *            the comment to set
      */
     public void setComment(String comment) {
         this.comment = comment;
