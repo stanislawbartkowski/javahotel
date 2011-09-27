@@ -32,7 +32,9 @@ class VModelDataLp extends AbstractLpVModelData implements HModelData {
 
     @Override
     public List<IVField> getF() {
-        return v.getF();
+        List<IVField> li = v.getF();
+        addV(li); // add Lp
+        return li;
     }
 
     @Override

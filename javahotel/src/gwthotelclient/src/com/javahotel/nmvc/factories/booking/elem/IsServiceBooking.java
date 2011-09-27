@@ -23,7 +23,6 @@ import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 
 /**
@@ -38,6 +37,14 @@ class IsServiceBooking {
     // important: is null at the beginning to break in case of not ready
     private Set<String> bSet = null;
     private final IResLocator rI;
+    private List<ServiceDictionaryP> sList;
+
+    /**
+     * @return the sList
+     */
+    List<ServiceDictionaryP> getsList() {
+        return sList;
+    }
 
     /**
      * If service is related to booking
@@ -49,6 +56,7 @@ class IsServiceBooking {
     boolean isBooking(String service) {
         return bSet.contains(service);
     }
+
 
     /**
      * Class for receiving the list of services
@@ -68,6 +76,7 @@ class IsServiceBooking {
         @Override
         public void doVList(final List<ServiceDictionaryP> val) {
             bSet = new HashSet<String>();
+            sList = val;
             for (ServiceDictionaryP se : val) {
                 if (se.getServType().isBooking()) {
                     bSet.add(se.getName());

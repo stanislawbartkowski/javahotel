@@ -38,6 +38,7 @@ class DataModelFactory implements IDataModelFactory {
         if (daType.isAddType()) {
             switch (daType.getAddType()) {
             case BookRoom:
+            case BookNoRoom:
                 return VModelDataFactory.constructLp(a);
             }
         }

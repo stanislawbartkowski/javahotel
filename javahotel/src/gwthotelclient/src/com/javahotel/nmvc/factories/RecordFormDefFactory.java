@@ -184,7 +184,7 @@ public class RecordFormDefFactory implements IFormDefFactory {
             case RoomObjects:
                 fList = getDict();
                 FFactory.add(fList, new IField[] { ResObjectP.F.standard,
-                        ResObjectP.F.maxperson });
+                        ResObjectP.F.maxperson, ResObjectP.F.rtype });
                 break;
 
             case OffSeasonDict:
