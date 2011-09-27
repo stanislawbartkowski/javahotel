@@ -20,7 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
-import com.javahotel.common.toobject.ServiceType;
+import com.javahotel.common.command.ServiceType;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
 import com.javahotel.db.jtypes.HId;
  

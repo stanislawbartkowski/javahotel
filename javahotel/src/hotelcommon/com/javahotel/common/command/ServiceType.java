@@ -13,14 +13,18 @@
 package com.javahotel.common.command;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
-public enum RRoom {
+public enum ServiceType {
 
-    Room, Conference, Other;
-    
-    public boolean isRoom() {
-        return this == Room;
+    NOCLEG, PARKING, SALAKONFERENCYJNA, INNE;
+
+    public boolean isRoomBooking() {
+        return this == NOCLEG;
+    }
+
+    public boolean isBooking() {
+        return this != INNE;
     }
 }

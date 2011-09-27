@@ -13,6 +13,7 @@
 package com.javahotel.common.toobject;
 
 import com.javahotel.common.command.CommandUtil;
+import com.javahotel.common.command.ServiceType;
 
 /**
  * 

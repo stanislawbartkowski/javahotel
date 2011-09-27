@@ -17,13 +17,10 @@ import com.javahotel.common.toobject.OfferServicePriceP;
 import com.javahotel.common.toobject.OfferSpecialPriceP;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.OfferPrice;
-import com.javahotel.db.hotelbase.jpa.OfferSeason;
-import com.javahotel.db.hotelbase.jpa.OfferSeasonPeriod;
 import com.javahotel.db.hotelbase.jpa.OfferServicePrice;
 import com.javahotel.db.hotelbase.jpa.OfferSpecialPrice;
 import com.javahotel.db.hotelbase.jpa.ServiceDictionary;
 import com.javahotel.dbjpa.copybean.CopyBean;
-import com.javahotel.dbres.messid.IMessId;
 
 /**
  * 
@@ -31,25 +28,11 @@ import com.javahotel.dbres.messid.IMessId;
  */
 class CopyPriceList {
 
-//	private static OfferSeasonPeriod getPeriod(final ICommandContext iC,
-//			final String seasonName, Long pId) {
-//		// OfferSeasonPeriod o = iC.getJpa().getNamedOneQuery("getSeasonPeriod",
-//		// "hotel", iC.getHotel(), "name", name, "pId", pId);
-//		// OfferSeasonPeriod o = GetQueries.getSeasonPeriod(iC, seasonName,
-//		// pId);
-//		OfferSeasonPeriod o = (OfferSeasonPeriod) iC.getC().get(
-//				OfferServicePrice.class, seasonName, OfferSeasonPeriod.class,
-//				pId.toString());
-//
-//		return o;
-//	}
 
 	static void copyRes1(final ICommandContext iC, final OfferPriceP sou,
 			final OfferPrice dest) {
 		CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.PriceListOfferList);
 		dest.setHotel(iC.getRHotel());
-//		final String hotel = sou.getHotel();
-//		final String seasonname = sou.getSeason();
 
 		final CopyBeanToP.ICopyHelper eqspec = new CopyBeanToP.ICopyHelper() {
 
@@ -57,7 +40,6 @@ class CopyPriceList {
 				OfferSpecialPriceP oo1 = (OfferSpecialPriceP) o1;
 				OfferSpecialPrice oo2 = (OfferSpecialPrice) o2;
 				long l1 = oo1.getSpecialperiod();
-//				long l2 = oo2.getSpecialperiod().getPId().longValue();
 				long l2 = oo2.getSpecialperiod();
 				return (l1 == l2);
 			}
@@ -70,15 +52,6 @@ class CopyPriceList {
 					final Object dest) {
 				CopyBean.copyBean(sou, dest, iC.getLog(),
 						FieldList.PriceListSpecialOfferList);
-//				OfferSpecialPriceP soup = (OfferSpecialPriceP) sou;
-//				OfferSpecialPrice destp = (OfferSpecialPrice) dest;
-//				Long pId = soup.getSpecialperiod();
-//				OfferSeasonPeriod se = getPeriod(iC, seasonname, pId);
-//				if (se == null) {
-//					iC.logFatal(IMessId.SPECIALPERIODNOTFOUND, seasonname, pId
-//							.toString());
-//				}
-//				destp.setSpecialperiod(se);
 			}
 		};
 
@@ -106,19 +79,12 @@ class CopyPriceList {
 						"priceid", OfferServicePrice.class, eqspec, false);
 				ServiceDictionary se1 = (ServiceDictionary) iC.getC().get(
 						ServiceDictionary.class, sou1.getService());
-				// ServiceDictionary se1 = CommonHelper.getA(iC,
-				// ServiceDictionary.class, sou1.getService());
 				dest1.setService(se1);
 			}
 		};
 
 		CopyBeanToP.copyRes1Collection(iC, sou, dest, "serviceprice",
 				"offerid", OfferPrice.class, eqservice, false);
-		// OfferSeason se = CommonHelper.getA(iC, OfferSeason.class,
-		// sou.getSeason());
-//		OfferSeason se = (OfferSeason) iC.getC().get(OfferSeason.class,
-//				sou.getSeason());
-//		dest.setSeason(se);
 	}
 
 	static void copyRes2(final ICommandContext iC, final OfferPrice sou,
@@ -126,7 +92,6 @@ class CopyPriceList {
 		CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.PriceListOfferList);
 		CopyHelper.copyRes2Collection(iC, sou, dest, "serviceprice",
 				OfferServicePriceP.class);
-//		dest.setSeason(sou.getSeason().getName());
 		dest.setHotel(iC.getHotel());
 	}
 
