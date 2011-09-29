@@ -379,7 +379,7 @@ public final class SlotListContainer {
     public ISlotSignalContext setGetter(SlotType slType, IFormLineView v) {
         ISlotSignalContext sl = slContextFactory.construct(slType, v,
         // not important here, only to call proper constructor
-                new CustomBoolValue(false));
+                new CustomObjectValue<Boolean>(false));
         return sl;
     }
 
@@ -438,7 +438,7 @@ public final class SlotListContainer {
     public void publish(IDataType dType, IVField fie, IFormLineView formLine,
             boolean afterFocus) {
         publish(slContextFactory.construct(slTypeFactory.construct(dType, fie),
-                formLine, new CustomBoolValue(afterFocus)));
+                formLine, new CustomObjectValue<Boolean>(afterFocus)));
     }
 
     public void publish(IDataType dType, ClickButtonType bType,

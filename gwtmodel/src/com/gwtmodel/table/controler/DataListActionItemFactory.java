@@ -37,16 +37,17 @@ import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.ButtonAction;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.CustomStringValue;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
@@ -176,18 +177,54 @@ class DataListActionItemFactory {
     static class ResignAction extends Signaller {
 
         private final ISignal i;
+        private final String ask;
 
-        ResignAction(DrawForm dForm, ISignal i) {
+        ResignAction(DrawForm dForm, ISignal i, String ask) {
             super(dForm);
             this.i = i;
+            this.ask = ask;
         }
 
-        @Override
-        public void signal(ISlotSignalContext slContext) {
+        private void removeDialog() {
             hide();
             if (i != null) {
                 i.signal();
             }
+
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            String pAsk = null;
+
+            if (o != null && o instanceof CustomObjectValue) {
+                CustomObjectValue<String> v = (CustomObjectValue<String>) o;
+                pAsk = v.getValue();
+            }
+
+            if (pAsk == null) {
+                pAsk = ask;
+            }
+            if (pAsk != null) {
+                IGWidget w = slContext.getGwtWidget();
+                IClickYesNo yes = new IClickYesNo() {
+
+                    @Override
+                    public void click(boolean yes) {
+                        if (yes) {
+                            removeDialog();
+                        }
+
+                    }
+
+                };
+                YesNoDialog yesD = new YesNoDialog(pAsk, yes);
+                yesD.show(w);
+                return;
+
+            }
+            removeDialog();
         }
     }
 
@@ -196,12 +233,15 @@ class DataListActionItemFactory {
         private final PersistTypeEnum persistTypeEnum;
         private final IComposeController iController;
         private final DataActionEnum dataActionEnum;
+        private final String ask;
 
         PersistData(PersistTypeEnum persistTypeEnum,
-                IComposeController iController, DataActionEnum dataActionEnum) {
+                IComposeController iController, DataActionEnum dataActionEnum,
+                String ask) {
             this.persistTypeEnum = persistTypeEnum;
             this.iController = iController;
             this.dataActionEnum = dataActionEnum;
+            this.ask = ask;
         }
 
         private void goPersist(ISlotSignalContext slContext) {
@@ -214,9 +254,15 @@ class DataListActionItemFactory {
         @Override
         public void signal(final ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
-
-            if (o != null && o instanceof CustomStringValue) {
-                CustomStringValue v = (CustomStringValue) o;
+            String pAsk = null;
+            if (o != null && o instanceof CustomObjectValue) {
+                CustomObjectValue<String> v = (CustomObjectValue<String>) o;
+                pAsk = v.getValue();
+            }
+            if (pAsk == null) {
+                pAsk = ask;
+            }
+            if (pAsk != null) {
                 IGWidget w = slContext.getGwtWidget();
                 IClickYesNo yes = new IClickYesNo() {
 
@@ -229,7 +275,7 @@ class DataListActionItemFactory {
                     }
 
                 };
-                YesNoDialog yesD = new YesNoDialog(v.getValue(), yes);
+                YesNoDialog yesD = new YesNoDialog(pAsk, yes);
                 yesD.show(w);
                 return;
 
@@ -282,34 +328,6 @@ class DataListActionItemFactory {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             return iSlo.getSlContainer().getGetterContext(dType,
                     GetActionEnum.GetListLineChecked);
-        }
-
-    }
-
-    private class AskBeforeRemove extends Signaller {
-
-        AskBeforeRemove(DrawForm d) {
-            super(d);
-        }
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            ICustomObject o = slContext.getCustom();
-            CustomStringValue v = (CustomStringValue) o;
-            IGWidget w = slContext.getGwtWidget();
-            IClickYesNo yes = new IClickYesNo() {
-
-                @Override
-                public void click(boolean yes) {
-                    if (yes) {
-                        hide();
-                    }
-
-                }
-
-            };
-            YesNoDialog yesD = new YesNoDialog(v.getValue(), yes);
-            yesD.show(w);
         }
 
     }
@@ -377,12 +395,14 @@ class DataListActionItemFactory {
             DrawForm dForm = new DrawForm(wSize, title, action, true, null,
                     aClose);
             slControlerContainer.registerSubscriber(dType, cId, dForm);
-            ResignAction aRes = new ResignAction(dForm, null);
+            String resignAsk = listParam.getMenuOptions().getAskString(
+                    BoxActionMenuOptions.ASK_BEFORE_RESIGN);
+            String persistAsk = listParam.getMenuOptions().getAskString(
+                    BoxActionMenuOptions.ASK_BEFORE_PERSIST);
+            ResignAction aRes = new ResignAction(dForm, null, resignAsk);
+
             slControlerContainer.registerSubscriber(listParam.getMenuOptions()
                     .constructRemoveFormDialogSlotType(), aRes);
-            slControlerContainer.registerSubscriber(listParam.getMenuOptions()
-                    .constructAskBeforeRemoveSlotType(), new AskBeforeRemove(
-                    dForm));
 
             // redirect Resign (default: remove without any question)
             slControlerContainer.registerRedirector(
@@ -391,7 +411,7 @@ class DataListActionItemFactory {
                             BoxActionMenuOptions.REDIRECT_RESIGN));
 
             PersistData pData = new PersistData(persistTypeEnum, fController,
-                    DataActionEnum.ValidateComposeFormAction);
+                    DataActionEnum.ValidateComposeFormAction, persistAsk);
             if (action == ClickButtonType.StandClickEnum.SHOWITEM) {
                 slControlerContainer.registerSubscriber(
                         ClickButtonType.StandClickEnum.ACCEPT, aRes);
@@ -401,7 +421,7 @@ class DataListActionItemFactory {
             }
 
             pData = new PersistData(persistTypeEnum, fController,
-                    DataActionEnum.PersistComposeFormAction);
+                    DataActionEnum.PersistComposeFormAction, persistAsk);
             slControlerContainer.registerSubscriber(dType,
                     DataActionEnum.ValidSignal, pData);
 

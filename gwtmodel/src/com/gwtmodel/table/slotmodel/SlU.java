@@ -176,8 +176,8 @@ public class SlU {
      */
     public static boolean afterFocus(ISlotSignalContext slContext) {
         ICustomObject o = slContext.getCustom();
-        CustomBoolValue b = (CustomBoolValue) o;
-        return b.isBoolValue();
+        CustomObjectValue<Boolean> b = (CustomObjectValue<Boolean>) o;
+        return b.getValue();
     }
 
     /**
@@ -245,7 +245,7 @@ public class SlU {
 
         SlotType sl = slTypeFactory
                 .construct(dType, DataActionEnum.ValidSignal);
-        CustomStringValue c = new CustomStringValue(ask);
+        CustomObjectValue<String> c = new CustomObjectValue<String>(ask);
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
         iSlo.getSlContainer().publish(slC);
     }
@@ -348,12 +348,13 @@ public class SlU {
         return new GetValueContainer(val);
     }
 
-    public static void publishActionResignWithWarning(IDataType dType,ISlotable iSlo,
-            ISlotSignalContext slContext) {
+    public static void publishActionResignWithWarning(IDataType dType,
+            ISlotable iSlo, ISlotSignalContext slContext) {
         SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
                 .getSlotSignalContextFactory();
-        SlotType sl = BoxActionMenuOptions.constructSAskBeforeRemoveSlotType(dType);
-        CustomStringValue c = new CustomStringValue(
+        SlotType sl = BoxActionMenuOptions
+                .constructSRemoveFormDialogSlotType(dType);
+        CustomObjectValue<String> c = new CustomObjectValue<String>(
                 "Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
         iSlo.getSlContainer().publish(slC);
