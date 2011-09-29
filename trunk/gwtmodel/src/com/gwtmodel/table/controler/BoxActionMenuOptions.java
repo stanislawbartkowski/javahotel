@@ -30,9 +30,10 @@ import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 public class BoxActionMenuOptions {
 
     private static final String REMOVE_FORM_ACTION = "BoxActionMenuOptions_REMOVE_FORM_ACTION";
-    private static final String ASK_BEFORE_REMOVE_ACTION = "BoxActionMenuOptions_AKS_BEFORE_REMOVE";
-
     public static final String REDIRECT_RESIGN = "REDIRECT_RESIGN";
+
+    public static final String ASK_BEFORE_RESIGN = "ASK_BEFORE_RESING";
+    public static final String ASK_BEFORE_PERSIST = "ASK_BEFORE_PERSIST";
 
     private final IDataType dType;
 
@@ -43,6 +44,7 @@ public class BoxActionMenuOptions {
     }
 
     private final Map<String, SlotType> rMap = new HashMap<String, SlotType>();
+    private final Map<String, String> sMap = new HashMap<String, String>();
 
     public BoxActionMenuOptions(IDataType dType) {
         assert dType != null : LogT.getT().cannotBeNull();
@@ -64,21 +66,20 @@ public class BoxActionMenuOptions {
                 ClickButtonType.StandClickEnum.RESIGN));
     }
 
-    public static SlotType constructSAskBeforeRemoveSlotType(IDataType dType) {
-        return slTypeFactory.construct(new CustomStringDataTypeSlot(
-                ASK_BEFORE_REMOVE_ACTION, dType));
-    }
-
-    public SlotType constructAskBeforeRemoveSlotType() {
-        return constructSAskBeforeRemoveSlotType(dType);
-    }
-
     public void setSlotType(String key, SlotType sl) {
         rMap.put(key, sl);
     }
 
-    public SlotType getSlotType(String key) {
+    SlotType getSlotType(String key) {
         return rMap.get(key);
+    }
+
+    public void setAskString(String key, String s) {
+        sMap.put(key, s);
+    }
+
+    String getAskString(String key) {
+        return sMap.get(key);
     }
 
 }

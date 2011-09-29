@@ -369,7 +369,7 @@ class FindListActionFactory {
             ISlotListener clearS = new ClearParam(slMediator, liF, li, nF);
             slMediator.getSlContainer().registerSubscriber(eType, panelId,
                     dForm);
-            ResignAction aRes = new ResignAction(dForm, remF);
+            ResignAction aRes = new ResignAction(dForm, remF, null);
             slMediator.getSlContainer().registerSubscriber(
                     ClickButtonType.StandClickEnum.RESIGN, aRes);
 
