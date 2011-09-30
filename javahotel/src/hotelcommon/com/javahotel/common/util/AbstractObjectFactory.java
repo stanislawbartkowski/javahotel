@@ -19,7 +19,6 @@ import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
-import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
@@ -54,8 +53,6 @@ public class AbstractObjectFactory {
                 return new CustomerP();
             case BookingList:
                 return new BookingP();
-            case PaymentRowList:
-                return new PaymentRowP();
 
         }
         return null;
