@@ -79,6 +79,9 @@ public class DataControlerFactory {
             d = Empty.getDataType();
             i = new BookingPanel(d, panelId);
             break;
+        case ADVANCEPAYMENT:
+            d = new DataType(RType.DownPayments);
+            break;
         default:
             assert false : M.M().NotSupportedErrorS();
             break;

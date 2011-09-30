@@ -98,7 +98,8 @@ public class RunCompose {
 
     }
 
-    public void runDialog(IDataType dType, final BookingP p, WSize wSize) {
+    public void runDialog(IDataType dType, final BookingP p, WSize wSize,
+            boolean redirectResign) {
         final CellId pId = new CellId(0);
         TableDataControlerFactory tFa = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
@@ -106,10 +107,13 @@ public class RunCompose {
         DataListParam dParam = new DataListParam(dType, null, null, null,
                 iFactory.getTitle(), fControler, null);
         fControler.bOptions = dParam.getMenuOptions();
-        fControler.slType = slTypeFactory
-                .construct(new CustomStringDataTypeSlot(RESIGN_STRING, dType));
-        fControler.bOptions.setSlotType(BoxActionMenuOptions.REDIRECT_RESIGN,
-                fControler.slType);
+        if (redirectResign) {
+            fControler.slType = slTypeFactory
+                    .construct(new CustomStringDataTypeSlot(RESIGN_STRING,
+                            dType));
+            fControler.bOptions.setSlotType(
+                    BoxActionMenuOptions.REDIRECT_RESIGN, fControler.slType);
+        }
 
         DisplayListControlerParam cParam = tFa
                 .constructParam(pId, dParam, null);

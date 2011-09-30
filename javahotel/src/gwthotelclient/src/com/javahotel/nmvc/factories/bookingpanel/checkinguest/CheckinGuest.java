@@ -62,7 +62,7 @@ public class CheckinGuest {
 
     public void CheckIn(final BookingP p, WSize wSize) {
         IDataType dType = Empty.getDataType();
-        rCompose.runDialog(dType, p, wSize);
+        rCompose.runDialog(dType, p, wSize, true);
     }
 
 }

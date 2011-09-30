@@ -40,12 +40,13 @@ class PanelCommandBeforeCheckFactory {
                     "cannotdisplayhotels.jsp");
             break;
         case BOOKINGPANEL:
+        case ADVANCEPAYMENT:
             // invalidate/refresh cache at the beginning
             // force reading data from database
             rI.getR().invalidateResCache();
-            i = new VerifyNumberOfDict(new DictType[] {
-                    DictType.RoomObjects, DictType.OffSeasonDict,
-                    DictType.PriceListDict }, "cannotdisplaypanel.jsp");
+            i = new VerifyNumberOfDict(new DictType[] { DictType.RoomObjects,
+                    DictType.OffSeasonDict, DictType.PriceListDict },
+                    "cannotdisplaypanel.jsp");
             break;
         case ROOMS:
             i = new VerifyNumberOfDict(new DictType[] { DictType.RoomFacility,

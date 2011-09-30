@@ -13,6 +13,7 @@
 package com.javahotel.nmvc.factories.booking.elem;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.gwtmodel.table.AbstractLpVModelData;
@@ -161,8 +162,28 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             BookRecordP p = P.getBookR(slContext);
             IDataListType li = lPersistList.getDataList();
             List<BookElemP> ll = new ArrayList<BookElemP>();
+            for (BookElemP b : p.getBooklist()) {
+                String service = b.getService();
+                if (iService.isBooking(service) != isBook) {
+                    ll.add(b);
+                }
+            }
             for (IVModelData v : li.getList()) {
-                BookElemP e = DataUtil.getData(v);
+                BookElemP e;
+                if (!isFlat) {
+                    e = DataUtil.getData(v);
+                } else {
+                    BookElemPayment bP = DataUtil.getData(v);
+                    e = bP.getO1();
+                    PaymentRowP pa = bP.getO2();
+                    Date da = e.getCheckIn();
+                    pa.setRowTo(da);
+                    pa.setRowFrom(da);
+                    e.setCheckOut(da);
+                    List<PaymentRowP> pLi = new ArrayList<PaymentRowP>();
+                    pLi.add(pa);
+                    e.setPaymentrows(pLi);
+                }
                 ll.add(e);
             }
             p.setBooklist(ll);
@@ -200,7 +221,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
      *            : true, res and payment in one line
      */
     public BookingElemContainer(IDataType dType, final ICallContext iContext,
-            final DataType subType, boolean flat) {
+            final IDataType subType, boolean flat) {
         this.isFlat = flat;
         DataType dd = (DataType) dType;
         this.isBook = (dd.getAddType() == AddType.BookRoom);

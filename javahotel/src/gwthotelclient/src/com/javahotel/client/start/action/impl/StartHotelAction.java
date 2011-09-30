@@ -77,15 +77,11 @@ public class StartHotelAction implements IStartHotelAction {
 
     private class GoNextUser implements ICommand {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see com.gwtmodel.table.ICommand#execute()
-         */
         @Override
         public void execute() {
             EPanelCommand eList[] = { EPanelCommand.ROOMSADMIN,
-                    EPanelCommand.BOOKING, EPanelCommand.BOOKINGPANEL };
+                    EPanelCommand.BOOKING, EPanelCommand.BOOKINGPANEL,
+                    EPanelCommand.ADVANCEPAYMENT };
             IGWidget w = StackHeaderAddList.constructMenu(eList);
             IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
             iW.setMenuPanel(w.getGWidget());
@@ -96,11 +92,6 @@ public class StartHotelAction implements IStartHotelAction {
 
     private class GoNextAdmin implements ICommand {
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see com.gwtmodel.table.ICommand#execute()
-         */
         @Override
         public void execute() {
             IWebPanel iW = GwtGiniInjector.getI().getWebPanel();
@@ -110,11 +101,6 @@ public class StartHotelAction implements IStartHotelAction {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gwtmodel.table.ICommand#execute()
-     */
     @Override
     public void execute() {
         SynchList sList = new SynchList();
