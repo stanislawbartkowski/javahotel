@@ -72,9 +72,6 @@ class VerifyNumberOfDict implements IPanelCommandBeforeCheck {
     
     private class BackT extends CommonCallBack<List<AbstractTo>> {
 
-        /* (non-Javadoc)
-         * @see com.gwtmodel.table.view.callback.CommonCallBack#onMySuccess(java.lang.Object)
-         */
         @Override
         public void onMySuccess(List<AbstractTo> arg) {
             if (arg.size() > 0) {

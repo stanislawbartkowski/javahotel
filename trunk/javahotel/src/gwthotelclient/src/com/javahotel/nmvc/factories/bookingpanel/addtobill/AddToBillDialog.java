@@ -15,6 +15,8 @@ package com.javahotel.nmvc.factories.bookingpanel.addtobill;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.controler.BoxActionMenuOptions;
 import com.gwtmodel.table.factories.IFormTitleFactory;
@@ -24,17 +26,20 @@ import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataTypeSubEnum;
+import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VField;
+import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
@@ -42,6 +47,9 @@ import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.nmvc.factories.booking.GetSlowC;
 import com.javahotel.nmvc.factories.booking.elem.BookingElemContainer;
 import com.javahotel.nmvc.factories.bookingpanel.checkinguest.RunCompose;
+import com.javahotel.nmvc.factories.persist.dict.IHotelPersistFactory;
+import com.javahotel.nmvc.factories.persist.dict.IPersistRecord;
+import com.javahotel.nmvc.factories.persist.dict.IPersistResult;
 
 /**
  * @author hotel
@@ -51,17 +59,21 @@ public class AddToBillDialog {
 
     private final RunCompose rCompose;
     private final IDataType dType = Empty.getDataType();
-//    private final IDataType resType = new DataType(AddType.BookRoom);
-    private final IDataType resType = new DataType(AddType.BookNoRoom);
+    private final DataType resType = new DataType(AddType.BookNoRoom);
+    private final DataType subType = new DataType(resType.getdType(),
+            DataTypeSubEnum.Sub1);
     private final SlotTypeFactory slTypeFactory;
     private final IDataType bType = new DataType(DictType.BookingList);
     private final IDataType brType = new DataType(AddType.BookRecord);
     private final SlotSignalContextFactory slContextFactory;
+    private final IHotelPersistFactory pFactory;
+    private final PersistTypeEnum action = PersistTypeEnum.ADD;
 
     public AddToBillDialog() {
 
         slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
         slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+        pFactory = HInjector.getI().getHotelPersistFactory();
 
         RunCompose.IRunComposeFactory iFactory = new RunCompose.IRunComposeFactory() {
 
@@ -74,10 +86,8 @@ public class AddToBillDialog {
             public ISlotable constructS(ICallContext iContext, IDataType dType,
                     BookingP p, BoxActionMenuOptions bOptions, SlotType slType) {
                 ISlotable iSlo = null;
-                DataType da = (DataType) resType;
-                DataType subType = new DataType(da.getdType(),
-                        DataTypeSubEnum.Sub1);
-                iSlo = new BookingElemContainer(resType, iContext, subType,true);
+                iSlo = new BookingElemContainer(resType, iContext, subType,
+                        true);
 
                 SlotType from = slTypeFactory.construct(dType,
                         DataActionEnum.DrawViewFormAction);
@@ -90,8 +100,20 @@ public class AddToBillDialog {
                         GetActionEnum.GetFormFieldWidget, new GetValue(p));
                 iSlo.getSlContainer().registerCaller(GetSlowC.GETSLOTS,
                         new GetSlot(iSlo));
-                iSlo.getSlContainer().registerSubscriber(slType,
-                        new ResignSignaller(iSlo));
+
+                SlotType validS = slTypeFactory.construct(dType,
+                        DataActionEnum.ValidateAction);
+                SlotType peristS = slTypeFactory.construct(dType,
+                        DataActionEnum.PersistDataAction);
+                iSlo.getSlContainer().registerRedirector(validS, peristS);
+
+                iSlo.getSlContainer().registerSubscriber(dType,
+                        DataActionEnum.PersistDataAction,
+                        new PersistSignaller(iSlo, p));
+                bOptions.setAskString(BoxActionMenuOptions.ASK_BEFORE_PERSIST,
+                        "Dopisać zmiany do rachunku ?");
+                bOptions.setAskString(BoxActionMenuOptions.ASK_BEFORE_RESIGN,
+                        "Rezygnujesz ? (wszystkie zmiany przepadną");
 
                 return iSlo;
             }
@@ -99,18 +121,41 @@ public class AddToBillDialog {
         rCompose = new RunCompose(iFactory);
     }
 
-    private class ResignSignaller implements ISlotListener {
+    private class AddBillPersisted implements IPersistResult {
 
         private final ISlotable iSlo;
 
-        ResignSignaller(ISlotable iSlo) {
+        AddBillPersisted(ISlotable iSlo) {
             this.iSlo = iSlo;
         }
 
         @Override
-        public void signal(ISlotSignalContext slContext) {
-            SlU.publishActionResignWithWarning(dType, iSlo, slContext);
+        public void success(PersistResultContext re) {
+            // publish persisted successfully
+            iSlo.getSlContainer().publish(dType,
+                    DataActionEnum.PersistDataSuccessSignal);
+        }
 
+    }
+
+    private class PersistSignaller implements ISlotListener {
+
+        private final ISlotable iSlo;
+        private final BookingP p;
+
+        PersistSignaller(ISlotable iSlo, BookingP p) {
+            this.iSlo = iSlo;
+            this.p = p;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            HModelData ho = VModelDataFactory.construct(p);
+            IVModelData pData = iSlo.getSlContainer().getGetterIVModelData(
+                    subType, GetActionEnum.GetModelToPersist, ho);
+            IPersistRecord re = pFactory.construct(new DataType(
+                    DictType.BookingList), false);
+            re.persist(action, ho, new AddBillPersisted(iSlo));
         }
 
     }
@@ -172,7 +217,7 @@ public class AddToBillDialog {
     }
 
     public void addToBill(BookingP p, WSize wSize) {
-        rCompose.runDialog(dType, p, wSize);
+        rCompose.runDialog(dType, p, wSize, false);
     }
 
 }

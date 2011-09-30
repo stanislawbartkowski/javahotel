@@ -21,10 +21,12 @@ import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
+import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
+import com.javahotel.common.toobject.DownPaymentP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
@@ -47,6 +49,8 @@ class ColListFactory {
                 return M.L().ListOfHotels();
             case AllPersons:
                 return M.L().ListOfUsers();
+            case DownPayments:
+                return "Lista zaliczek";
             default:
                 assert false : M.M().NotSupportedError(d.getrType().name());
 
@@ -108,6 +112,14 @@ class ColListFactory {
                 fList = new IField[] { HotelP.F.name, HotelP.F.description,
                         HotelP.F.database };
                 break;
+            case DownPayments:
+                dList = null;
+                fList = new IField[] { AdvancePaymentP.F.amount,
+                        AdvancePaymentP.F.dateOp,
+                        AdvancePaymentP.F.validationDate,
+                        DownPaymentP.F.sumPayment };
+                break;
+
             default:
                 assert false : M.M().NotSupportedError(d.getrType().name());
 

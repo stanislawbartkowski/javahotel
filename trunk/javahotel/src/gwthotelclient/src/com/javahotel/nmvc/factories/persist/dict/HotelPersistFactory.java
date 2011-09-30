@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.RType;
 
 /**
  * @author hotel
@@ -44,6 +45,9 @@ public class HotelPersistFactory implements IHotelPersistFactory {
                 return new PersistRecordBooking(rI, validate);
             }
             return new PersistRecordDict(rI, d.getdType(), validate);
+        }
+        if (d.isRType() && d.getrType() == RType.DownPayments) {
+            return null;
         }
         if (d.isAddType()) {
             switch (d.getAddType()) {
