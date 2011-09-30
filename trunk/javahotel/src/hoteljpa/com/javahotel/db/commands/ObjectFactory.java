@@ -73,8 +73,6 @@ class ObjectFactory {
 			return Customer.class;
 		case BookingList:
 			return Booking.class;
-		case PaymentRowList:
-			return PaymentRow.class;
 		}
 		return null;
 	}

@@ -19,5 +19,5 @@ package com.javahotel.common.command;
 public enum RType {
 
     AllHotels, DataBases, AllPersons, PersonHotelRoles, ListDict,
-    ResObjectState, OfferPriceName, DownPayments
+    ResObjectState, DownPayments
 }
