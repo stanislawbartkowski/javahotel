@@ -20,9 +20,10 @@ import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.view.table.IGetCellValue;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public class DisplayListControlerParam {
@@ -35,11 +36,12 @@ public class DisplayListControlerParam {
     private final ISlotable cControler;
     private final DataListParam listParam;
     private final ISlotMediator me;
+    private final IGetCellValue getCell;
 
     DisplayListControlerParam(TablesFactories tFactories,
-            ITableCustomFactories fContainer, WSize wSize,
-            CellId panelId, ListOfControlDesc listButton,
-            ISlotable cControler, DataListParam listParam, ISlotMediator me) {
+            ITableCustomFactories fContainer, WSize wSize, CellId panelId,
+            ListOfControlDesc listButton, ISlotable cControler,
+            DataListParam listParam, ISlotMediator me, IGetCellValue getCell) {
         this.tFactories = tFactories;
         this.fContainer = fContainer;
         this.wSize = wSize;
@@ -48,6 +50,7 @@ public class DisplayListControlerParam {
         this.cControler = cControler;
         this.listParam = listParam;
         this.me = me;
+        this.getCell = getCell;
     }
 
     /**
@@ -111,5 +114,12 @@ public class DisplayListControlerParam {
      */
     ISlotMediator getMe() {
         return me;
+    }
+
+    /**
+     * @return the getCell
+     */
+    IGetCellValue getGetCell() {
+        return getCell;
     }
 }

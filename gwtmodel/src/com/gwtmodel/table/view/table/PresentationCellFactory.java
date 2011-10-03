@@ -48,6 +48,10 @@ import com.gwtmodel.table.injector.LogT;
  * 
  */
 class PresentationCellFactory {
+    
+    PresentationCellFactory(IGetCellValue getCell) {
+        this.getCell = getCell;
+    }
 
     interface IGetField {
         Object getValObj(Integer key);
@@ -60,6 +64,7 @@ class PresentationCellFactory {
             .getTableFactoriesContainer().getGetCustomValues();
     private final DateTimeFormat fo = DateTimeFormat.getFormat(cValues
             .getCustomValue(IGetCustomValues.DATEFORMAT));
+    private final IGetCellValue getCell;
 
     private IGwtTableModel model;
 
@@ -84,6 +89,11 @@ class PresentationCellFactory {
 
     interface TemplateDisplay extends SafeHtmlTemplates {
         @Template("{0}")
+        SafeHtml input(String value);
+    }
+
+    interface TemplateButtonAction extends SafeHtmlTemplates {
+        @Template("<strong>{0}</strong>")
         SafeHtml input(String value);
     }
 
@@ -116,13 +126,6 @@ class PresentationCellFactory {
             sb.append(template.input(s));
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see
-         * com.gwtmodel.table.view.table.PresentationCellFactory.IGetField#getValObj
-         * (java.lang.Integer)
-         */
         @Override
         public Object getValObj(Integer key) {
             String s = this.getViewData(key);
@@ -393,11 +396,22 @@ class PresentationCellFactory {
         @Override
         public void render(Cell.Context context, Integer value,
                 SafeHtmlBuilder sb) {
-            sb.appendHtmlConstant("<strong>");
             IVModelData v = model.getRows().get(value);
+            if (getCell != null) {
+                SafeHtml sa = getCell.getValue(v, iF);
+                if (sa != null) {
+                    sb.append(sa);
+                    return;
+                }
+            }
+            // sb.appendHtmlConstant("<strong>");
             String s = FUtils.getValueS(v, iF);
-            sb.appendEscaped(s);
-            sb.appendHtmlConstant("</strong>");
+            // sb.appendEscaped(s);
+            // sb.appendHtmlConstant("</strong>");
+
+            TemplateButtonAction template = GWT
+                    .create(TemplateButtonAction.class);
+            sb.append(template.input(s));
         }
     }
 

@@ -15,7 +15,7 @@ package com.gwtmodel.table;
 import com.gwtmodel.table.common.CUtil;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class VSField implements IVField {
@@ -37,8 +37,11 @@ public class VSField implements IVField {
     }
 
     public boolean eq(IVField o) {
-        VSField v = (VSField) o;
-        return CUtil.EqNS(vName, v.vName);
+        if (o instanceof VSField) {
+            VSField v = (VSField) o;
+            return CUtil.EqNS(vName, v.vName);
+        }
+        return false;
     }
 
     public static IVField createVString(String vName) {

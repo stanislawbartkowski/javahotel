@@ -47,7 +47,6 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
-import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;

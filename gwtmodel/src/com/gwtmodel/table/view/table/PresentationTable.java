@@ -17,7 +17,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
@@ -79,7 +78,7 @@ class PresentationTable implements IGwtTableView {
     private final List<Integer> dList;
     private boolean whilefind = false;
     private IModifyRowStyle iModRow = null;
-    private final PresentationCellFactory fa = new PresentationCellFactory();
+    private final PresentationCellFactory fa;
 
     public void setModifyRowStyle(IModifyRowStyle iMod) {
         this.iModRow = iMod;
@@ -143,6 +142,7 @@ class PresentationTable implements IGwtTableView {
         sPager.setDisplay(table);
         dProvider.addDataDisplay(table);
         setEmpty();
+        fa = new PresentationCellFactory(gValue);
     }
 
     private class TColumnString extends TextColumn<Integer> {
