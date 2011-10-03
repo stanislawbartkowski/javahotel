@@ -162,10 +162,12 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             BookRecordP p = P.getBookR(slContext);
             IDataListType li = lPersistList.getDataList();
             List<BookElemP> ll = new ArrayList<BookElemP>();
-            for (BookElemP b : p.getBooklist()) {
-                String service = b.getService();
-                if (iService.isBooking(service) != isBook) {
-                    ll.add(b);
+            if (p.getBooklist() != null) {
+                for (BookElemP b : p.getBooklist()) {
+                    String service = b.getService();
+                    if (iService.isBooking(service) != isBook) {
+                        ll.add(b);
+                    }
                 }
             }
             for (IVModelData v : li.getList()) {

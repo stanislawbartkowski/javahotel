@@ -44,6 +44,7 @@ import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
+import com.javahotel.common.toobject.DownPaymentP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
@@ -87,7 +88,7 @@ public class TypeToFactory implements IAbstractType {
             FieldDataType.constructString(new PriceListFactory()));
     private static final T stringRoomT = new T(String.class,
             FieldDataType.constructString(new RoomListFactory()));
-    
+
     // SeasonListFactory
     private static final getMap ge = new getMap() {
 
@@ -100,8 +101,7 @@ public class TypeToFactory implements IAbstractType {
             new GetMap(ge), ServiceType.INNE);
     private static final T stringServiceT = new T(String.class,
             FieldDataType.constructEnum(e));
-    
-        
+
     // RRoom
     private static final getMap rrec = new getMap() {
 
@@ -376,7 +376,9 @@ public class TypeToFactory implements IAbstractType {
         ma.put(CustomerP.F.docType, stringDocT);
 
         ma.put(AdvancePaymentP.F.validationDate, dateT);
+        ma.put(AdvancePaymentP.F.dateOp, dateT);
         ma.put(AdvancePaymentP.F.amount, decimalT);
+        ma.put(DownPaymentP.F.sumPayment, decimalT);
 
         ma.put(VatDictionaryP.F.vat, decimalT);
 

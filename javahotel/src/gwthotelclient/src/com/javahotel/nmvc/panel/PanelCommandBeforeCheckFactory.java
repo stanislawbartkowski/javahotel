@@ -29,11 +29,7 @@ class PanelCommandBeforeCheckFactory {
 
     static IPanelCommandBeforeCheck getPanelCheck(EPanelCommand command) {
         IPanelCommandBeforeCheck i = null;
-        IResLocator rI = HInjector.getI().getI();
-        // clear all caches to force reading from database directly
-        // refresh
-        rI.getR().invalidateCacheList();
-
+        
         switch (command) {
         case REMOVEDATA:
             i = new VerifyNumberOfDict(RType.AllHotels,
@@ -41,9 +37,6 @@ class PanelCommandBeforeCheckFactory {
             break;
         case BOOKINGPANEL:
         case ADVANCEPAYMENT:
-            // invalidate/refresh cache at the beginning
-            // force reading data from database
-            rI.getR().invalidateResCache();
             i = new VerifyNumberOfDict(new DictType[] { DictType.RoomObjects,
                     DictType.OffSeasonDict, DictType.PriceListDict },
                     "cannotdisplaypanel.jsp");

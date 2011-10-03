@@ -16,11 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.VSField;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;
+import com.javahotel.client.gename.IGetFieldName;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
+import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
@@ -35,6 +39,7 @@ import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
+import com.javahotel.nmvc.factories.advancepayment.AdvancePayment;
 
 /**
  * 
@@ -114,11 +119,24 @@ class ColListFactory {
                 break;
             case DownPayments:
                 dList = null;
+                VListHeaderDesc bAction = new VListHeaderDesc("Pokaż",
+                        VSField.createVString(AdvancePayment.CHOOSE_STRING),
+                        false, AdvancePayment.CHOOSE_STRING, false);
+
                 fList = new IField[] { AdvancePaymentP.F.amount,
                         AdvancePaymentP.F.dateOp,
-                        AdvancePaymentP.F.validationDate,
-                        DownPaymentP.F.sumPayment };
-                break;
+                        AdvancePaymentP.F.validationDate};
+                
+                IGetFieldName i = HInjector.getI().getGetFieldName();
+                String na = i.getName(DownPaymentP.F.sumPayment);
+                VListHeaderDesc bPayment = new VListHeaderDesc(na,
+                        new VField(DownPaymentP.F.sumPayment),
+                        false, AdvancePayment.PAY_STRING, false);
+
+                List<VListHeaderDesc> li = FFactory.constructH(null, fList);
+                li.add(0, bAction);
+                li.add(bPayment);
+                return li;
 
             default:
                 assert false : M.M().NotSupportedError(d.getrType().name());
