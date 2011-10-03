@@ -670,7 +670,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IResLocator rI = HInjector.getI().getI();
+//            IResLocator rI = HInjector.getI().getI();
             // retrieve information
             WChoosedLine wC = SlU.getWChoosedLine(slContext);
             WSize wSize = wC.getwSize();
@@ -695,7 +695,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             // reservation room info + reservation state
             VerticalPanel ve = new VerticalPanel();
             ve.add(w);
-            BookingInfo resW = new BookingInfo(rI, p.getBookName());
+            BookingInfo resW = new BookingInfo(p.getBookName());
             ve.add(resW);
             new ClickPopUp(wSize, ve);
             Button b;

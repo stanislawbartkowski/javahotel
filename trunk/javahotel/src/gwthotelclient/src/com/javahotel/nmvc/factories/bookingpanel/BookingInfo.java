@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.Utils;
 import com.javahotel.client.DUtil;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.BackAbstract;
 import com.javahotel.client.types.ButtonClickHandler;
 import com.javahotel.common.command.DictType;
@@ -36,7 +37,7 @@ import com.javahotel.types.LId;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-class BookingInfo extends Composite {
+public class BookingInfo extends Composite {
 
     private final IResLocator rI;
     private final VerticalPanel vp = new VerticalPanel();
@@ -109,8 +110,9 @@ class BookingInfo extends Composite {
 
     }
 
-    BookingInfo(final IResLocator rI, final String resName) {
-        this.rI = rI;
+    public BookingInfo(final String resName) {
+        this.rI = HInjector.getI().getI();
+
         this.bState = null;
         this.resId = null;
         initWidget(vp);

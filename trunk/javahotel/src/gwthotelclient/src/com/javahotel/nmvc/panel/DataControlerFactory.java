@@ -20,11 +20,14 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.javahotel.client.IResLocator;
 import com.javahotel.client.M;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.start.panel.EPanelCommand;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
+import com.javahotel.nmvc.factories.advancepayment.AdvancePayment;
 import com.javahotel.nmvc.factories.bookingpanel.BookingPanel;
 import com.javahotel.nmvc.factories.cleardatahotel.ClearHotelData;
 
@@ -37,6 +40,11 @@ public class DataControlerFactory {
             ISlotListener iS) {
         IDataType d = null;
         ISlotable i = null;
+        IResLocator rI = HInjector.getI().getI();
+        // clear all caches to force reading from database directly
+        // refresh
+        rI.getR().invalidateCacheList();
+
         switch (e) {
         case PERSON:
             d = new DataType(RType.AllPersons);
@@ -76,11 +84,16 @@ public class DataControlerFactory {
             d = new DataType(DictType.BookingList);
             break;
         case BOOKINGPANEL:
+            // invalidate/refresh cache at the beginning
+            // force reading data from database
+            rI.getR().invalidateResCache();
             d = Empty.getDataType();
             i = new BookingPanel(d, panelId);
             break;
         case ADVANCEPAYMENT:
+            rI.getR().invalidateCache(RType.DownPayments);
             d = new DataType(RType.DownPayments);
+            i = new AdvancePayment(d,panelId);
             break;
         default:
             assert false : M.M().NotSupportedErrorS();

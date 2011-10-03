@@ -32,6 +32,8 @@ class RecordTitleFactory implements IFormTitleFactory {
                 return "Użytkownik";
             case AllHotels:
                 return "Hotel";
+            case DownPayments:
+                return "Zaliczki";
             default:
                 assert false : M.M().NotSupportedError(dd.getrType().name());
             }
