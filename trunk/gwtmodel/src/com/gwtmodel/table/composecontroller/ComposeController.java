@@ -216,11 +216,6 @@ class ComposeController extends AbstractSlotMediatorContainer implements
                 slFactory.construct(dType,
                         DataActionEnum.ChangeViewFormToInvalidAction));
 
-        // slMediator.getSlContainer().registerRedirector(
-        // slFactory.construct(DataActionEnum.ValidateComposeFormAction,
-        // dType),
-        // slFactory.construct(DataActionEnum.ValidateAction, dType));
-
         int no = 0;
         List<SubValidate> li = new ArrayList<SubValidate>();
         SlotType sldType = slFactory.construct(dType,

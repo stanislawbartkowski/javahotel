@@ -22,6 +22,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -33,6 +34,8 @@ abstract public class AbstractSlotContainer implements ISlotable {
     protected final SlotTypeFactory slTypeFactory;
     protected IDataType dType = null;
     protected final SlotSignalContextFactory slContextFactory;
+    protected final ControlButtonFactory cButtonFactory;
+
 
     protected AbstractSlotContainer() {
         SlotListContainer slContainer = GwtGiniInjector.getI()
@@ -40,6 +43,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
         sReference = new SlotContainerReference(this, slContainer);
         slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
         slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+        cButtonFactory = GwtGiniInjector.getI().getControlButtonFactory();
     }
 
     @Override
