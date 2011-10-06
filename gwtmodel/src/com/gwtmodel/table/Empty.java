@@ -30,6 +30,15 @@ public class Empty {
         }
     }
 
+    private static class EmptyDataType1 implements IDataType {
+
+        @Override
+        public boolean eq(IDataType dType) {
+            // return true;
+            return (dType instanceof EmptyDataType1);
+        }
+    }
+
     private static class EmptyFieldType implements IVField {
 
         @Override
@@ -68,11 +77,13 @@ public class Empty {
     }
 
     private static IDataType eType;
+    private static IDataType eType1;
     private static IVField eField;
     private static IVField deField;
 
     static {
         eType = new EmptyDataType();
+        eType1 = new EmptyDataType1();
         eField = new EmptyFieldType();
         deField = new EmptyDecimalFieldType();
     }
@@ -83,6 +94,10 @@ public class Empty {
 
     public static IDataType getDataType() {
         return eType;
+    }
+
+    public static IDataType getDataType1() {
+        return eType1;
     }
 
     public static IVField getDecimalType() {
