@@ -93,8 +93,9 @@ class HotelHelper {
         return sumPayment(col);
     }
 
+    @SuppressWarnings("unchecked")
     private static <T extends IPureDictionary> T getName(
-            final List<? extends IPureDictionary> col, final String name) {
+            final List<T> col, final String name) {
         for (IPureDictionary t : col) {
             if (t.getName().equals(name)) {
                 return (T) t;
