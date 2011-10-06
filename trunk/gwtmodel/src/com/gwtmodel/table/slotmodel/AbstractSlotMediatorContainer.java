@@ -29,6 +29,7 @@ public abstract class AbstractSlotMediatorContainer extends
         TemplateContainerSlotable<ISlotMediator> {
 
     protected final TablesFactories tFactories;
+    // not final
     protected ISlotMediator slMediator;
     protected final PanelViewFactory pViewFactory;
     protected final SlotSignalContextFactory slContextFactory;
