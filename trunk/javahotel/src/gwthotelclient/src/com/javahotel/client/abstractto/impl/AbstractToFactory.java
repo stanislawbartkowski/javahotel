@@ -24,6 +24,7 @@ import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.HotelP;
+import com.javahotel.common.toobject.PaymentP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.util.AbstractObjectFactory;
 
@@ -49,6 +50,8 @@ public class AbstractToFactory implements IAbstractFactory {
                 return new PaymentRowP();
             case GuestElem:
                 return new GuestP();
+            case Payment:
+                return new PaymentP();
             }
             rI = HInjector.getI().getI();
             assert false : rI.getMessages().NotSupportedError(

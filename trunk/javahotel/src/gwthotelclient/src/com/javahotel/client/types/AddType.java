@@ -25,5 +25,6 @@ public enum AddType {
     BookRoom, // reserve room
     RowPaymentElem, // element if payments related to BookRoom
     GuestElem, // guest to be check-ined
-    BookNoRoom // book, pay element (not room)
+    BookNoRoom, // book, pay element (not room)
+    Payment
 }

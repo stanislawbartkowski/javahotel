@@ -23,6 +23,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.VSField;
 import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
@@ -38,7 +39,10 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.util.ClickPopUp;
+import com.javahotel.client.types.BackAbstract;
 import com.javahotel.client.types.DataUtil;
+import com.javahotel.common.command.DictType;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DownPaymentP;
 import com.javahotel.nmvc.factories.bookingpanel.BookingInfo;
 
@@ -72,6 +76,22 @@ public class AdvancePayment extends AbstractSlotContainer {
         }
 
     }
+    
+    private class R implements BackAbstract.IRunAction<BookingP> {
+        
+        private final WSize w;
+        
+        R(WSize w) {
+            this.w = w;
+        }
+
+        @Override
+        public void action(BookingP t) {
+            new AddPayment().addPayment(t, w);
+        }
+
+    }
+
 
     private class ClickCust implements ISlotListener {
 
@@ -87,7 +107,11 @@ public class AdvancePayment extends AbstractSlotContainer {
                 BookingInfo bInfo = new BookingInfo(d.getResId());
                 ve.add(bInfo);
                 new ClickPopUp(w.getwSize(), ve);
+            } else {
+                new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
+                        d.getResId(), new R(w.getwSize()));
             }
+                
         }
 
     }
