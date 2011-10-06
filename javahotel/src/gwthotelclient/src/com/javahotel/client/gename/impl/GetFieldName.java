@@ -33,6 +33,7 @@ import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
+import com.javahotel.common.toobject.PaymentP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
@@ -117,6 +118,9 @@ public class GetFieldName implements IGetFieldName {
         ma.put(AdvancePaymentP.F.amount, "Kwota zaliczki");
         ma.put(AdvancePaymentP.F.dateOp, "Data wystawienia");
         ma.put(AdvancePaymentP.F.validationDate, "Termin płatności");
+
+        ma.put(PaymentP.F.amount, "Kwota wpłaty");
+        ma.put(PaymentP.F.datePayment, "Data wpłaty");
     }
 
     @Override

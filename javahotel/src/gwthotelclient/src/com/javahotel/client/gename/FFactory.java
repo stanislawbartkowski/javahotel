@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
@@ -65,6 +66,12 @@ public class FFactory {
     public static void add(List<FormField> l, IField[] ft) {
         for (IField f : ft) {
             l.add(construct(f));
+        }
+    }
+
+    public static void addI(List<IVField> l, IField[] ft) {
+        for (IField f : ft) {
+            l.add(new VField(f));
         }
     }
 

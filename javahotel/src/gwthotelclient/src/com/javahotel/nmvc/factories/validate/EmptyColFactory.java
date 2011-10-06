@@ -19,6 +19,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.login.LoginField;
 import com.javahotel.client.M;
+import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.BookElemP;
@@ -106,9 +107,7 @@ class EmptyColFactory {
             return li;
         }
         IField[] ft = getEmptyField(dt);
-        for (IField f : ft) {
-            li.add(new VField(f));
-        }
+        FFactory.addI(li, ft);
         return li;
     }
 
