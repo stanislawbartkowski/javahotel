@@ -22,8 +22,6 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.composecontroller.ComposeControllerType;
-import com.gwtmodel.table.composecontroller.IComposeControllerTypeFactory;
 import com.gwtmodel.table.controler.BoxActionMenuOptions;
 import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
@@ -37,7 +35,6 @@ import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
-import com.gwtmodel.table.factories.IHeaderListFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
@@ -118,7 +115,7 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
                     List<IVField> li = new ArrayList<IVField>();
                     FFactory.addI(li, getF());
                     List<InvalidateMess> errMess = ValidateUtil.checkEmpty(
-                            pData, li, null);
+                            pData, li);
                     if (errMess != null) {
                         publish(dType, DataActionEnum.InvalidSignal,
                                 new InvalidateFormContainer(errMess));
@@ -129,7 +126,8 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
 
             }
 
-            Validate() {
+            Validate(IDataType dType) {
+                this.dType = dType;
                 registerSubscriber(dType, DataActionEnum.ValidateAction,
                         new ValidateA());
             }
@@ -137,7 +135,7 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
 
         @Override
         public IDataValidateAction construct(IDataType dType) {
-            return new Validate();
+            return new Validate(dType);
         }
 
     }
