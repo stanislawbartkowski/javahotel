@@ -214,6 +214,7 @@ public final class SlotListContainer {
 
     public void registerSubscriber(IDataType dType,
             DataActionEnum dataActionEnum, ISlotListener slSignaller) {
+        assert dType != null : LogT.getT().cannotBeNull();
         registerSubscriber(slTypeFactory.construct(dType, dataActionEnum),
                 slSignaller);
     }
