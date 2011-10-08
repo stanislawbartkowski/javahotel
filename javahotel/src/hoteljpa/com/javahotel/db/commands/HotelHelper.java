@@ -46,8 +46,7 @@ class HotelHelper {
 
     static void removeAllDic(final ICommandContext iC, final DictType d,
             final HotelT ho) {
-        List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d,
-                true);
+        List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d, true);
         iC.getJpa().removeList(c);
     }
 
@@ -65,11 +64,11 @@ class HotelHelper {
         return jpa;
     }
 
-    static List<AbstractTo> toA(final ICommandContext iC,
-            final List<?> sou, final DictType d) {
+    static List<AbstractTo> toA(final ICommandContext iC, final List<?> sou,
+            final DictType d) {
         List<AbstractTo> dest = new ArrayList<AbstractTo>();
         for (Object o : sou) {
-            AbstractTo a = AbstractObjectFactory.getAbstract(d);
+            AbstractTo a = AbstractObjectFactory.constructAbstract(d);
             CommonCopyBean.copyB(iC, o, a);
             dest.add(a);
         }
@@ -94,8 +93,8 @@ class HotelHelper {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends IPureDictionary> T getName(
-            final List<T> col, final String name) {
+    private static <T extends IPureDictionary> T getName(final List<T> col,
+            final String name) {
         for (IPureDictionary t : col) {
             if (t.getName().equals(name)) {
                 return (T) t;

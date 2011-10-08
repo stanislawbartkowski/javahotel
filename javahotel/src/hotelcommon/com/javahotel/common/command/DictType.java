@@ -19,5 +19,5 @@ package com.javahotel.common.command;
 public enum DictType {
 
     RoomStandard, RoomFacility, RoomObjects, VatDict, ServiceDict,
-    OffSeasonDict, PriceListDict, CustomerList, BookingList, RegistryParam
+    OffSeasonDict, PriceListDict, CustomerList, BookingList, RegistryParam,PaymentRowList
 }

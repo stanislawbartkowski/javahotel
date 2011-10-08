@@ -61,7 +61,7 @@ public class GetOneCommand extends CommandAbstract {
             res = null;
             return;
         }
-        res = AbstractObjectFactory.getAbstract(d);
+        res = AbstractObjectFactory.constructAbstract(d);
         CommonCopyBean.copyB(iC, o, res);
     }
 

@@ -23,9 +23,10 @@ import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
+import com.javahotel.common.toobject.PaymentRowP;
 
 /**
- *
+ * Factory of dictionary objects
  * @author stanislawbartkowski@gmail.com
  */
 public class AbstractObjectFactory {
@@ -33,7 +34,12 @@ public class AbstractObjectFactory {
     private AbstractObjectFactory() {
     }
 
-    public static AbstractTo getAbstract(final DictType d) {
+    /**
+     * Constructs dictionary object
+     * @param d DictType
+     * @return Object created
+     */
+    public static AbstractTo constructAbstract(final DictType d) {
         switch (d) {
             case RoomStandard:
                 return new RoomStandardP();
@@ -53,6 +59,8 @@ public class AbstractObjectFactory {
                 return new CustomerP();
             case BookingList:
                 return new BookingP();
+            case PaymentRowList:
+                return new PaymentRowP();
 
         }
         return null;

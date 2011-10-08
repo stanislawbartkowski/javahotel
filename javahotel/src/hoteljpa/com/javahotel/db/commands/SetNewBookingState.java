@@ -12,40 +12,42 @@
  */
 package com.javahotel.db.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.javahotel.common.toobject.PaymentP;
-import com.javahotel.db.hotelbase.jpa.Bill;
+import com.javahotel.common.toobject.BookingStateP;
+import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.db.hotelbase.jpa.Booking;
-import com.javahotel.db.hotelbase.jpa.Payment;
+import com.javahotel.db.hotelbase.jpa.BookingState;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
 
 /**
+ * @author hotel
  * 
- * @author stanislawbartkowski@gmail.com
  */
-public class AddDownPaymentState extends CommandAbstract {
+public class SetNewBookingState extends CommandAbstract {
 
     private final String resName;
-    private final List<PaymentP> payP;
+    private final BookingStateP stateP;
 
-    public AddDownPaymentState(final SessionT se, final String ho,
-            final List<PaymentP> payP, final String resName) {
+    public SetNewBookingState(final SessionT se, final String ho,
+            final BookingStateP s, final String resName) {
         super(se, true, new HotelT(ho));
+        this.stateP = s;
         this.resName = resName;
-        this.payP = payP;
     }
 
     @Override
     protected void command() {
         Booking b = getBook(resName);
-        Bill bi = HotelHelper.getBill(b);
-        bi.setPayments(new ArrayList<Payment>());
-        for (PaymentP p : payP) {
-            setCol(bi, bi.getPayments(), p, Payment.class, "bill", Bill.class);
+        boolean changeS = true;
+        BookingState sta = GetMaxUtil.getLast(b.getState());
+        if ((sta != null) && sta.getBState() == stateP.getBState()) {
+            changeS = false;
+        }
+        if (changeS) {
+            setCol(b, b.getState(), stateP, BookingState.class, "booking",
+                    Booking.class);
         }
         iC.getJpa().changeRecord(b);
     }
+
 }

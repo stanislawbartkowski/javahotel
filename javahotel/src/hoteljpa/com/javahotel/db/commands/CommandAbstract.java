@@ -22,8 +22,11 @@ import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.OfferPriceP;
+import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.common.util.StringU;
 import com.javahotel.db.command.CommandTemplate;
+import com.javahotel.db.copy.CommonCopyBean;
+import com.javahotel.db.copy.CopyHelper;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.Customer;
 import com.javahotel.db.hotelbase.jpa.OfferPrice;
@@ -33,14 +36,17 @@ import com.javahotel.db.hotelbase.types.IHotelDictionary;
 import com.javahotel.db.hotelbase.types.IPureDictionary;
 import com.javahotel.db.jtypes.ToLD;
 import com.javahotel.db.util.CommonHelper;
+import com.javahotel.dbjpa.copybean.GetFieldHelper;
 import com.javahotel.dbjpa.ejb3.JpaEntity;
 import com.javahotel.dbjpa.xmlbean.ReadFromXML;
+import com.javahotel.dbres.exceptions.HotelException;
 import com.javahotel.dbres.log.HLog;
 import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.dbres.resources.GetProp;
 import com.javahotel.dbutil.container.ContainerInfo;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
+import com.javahotel.types.INumerable;
 
 /**
  * 
@@ -67,6 +73,7 @@ public abstract class CommandAbstract extends CommandTemplate {
         super(sessionId, false, starttra, ContainerInfo.TransactionContainer());
         this.ho = hotel;
     }
+    
     // admin constructor
     CommandAbstract(final SessionT sessionId, final HotelT hotel) {
         super(sessionId, true, true, ContainerInfo.TransactionContainer());
@@ -172,4 +179,25 @@ public abstract class CommandAbstract extends CommandTemplate {
         // store result in the cache
         iC.getC().setBookingServices(booking);
     }
+    
+    protected void setCol(final Object p, final List<? extends INumerable> col,
+            final INumerable sou, final Class<?> cla, final String name,
+            final Class<?> mecl) {
+
+        INumerable dest;
+        try {
+            dest = (INumerable) cla.newInstance();
+        } catch (InstantiationException ex) {
+            throw new HotelException(ex);
+        } catch (IllegalAccessException ex) {
+            throw new HotelException(ex);
+        }
+        CommonCopyBean.copyB(iC, sou, dest);
+        // dest.setLp(lp);
+        GetMaxUtil.setNextLp(col, dest);
+        GetFieldHelper.setterVal(dest, p, name, mecl, iC.getLog());
+        CopyHelper.checkPersonDateOp(iC, dest);
+        ((List) col).add(dest);
+    }
+
 }

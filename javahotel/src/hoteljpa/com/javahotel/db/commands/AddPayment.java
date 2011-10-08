@@ -25,7 +25,7 @@ import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class AddPayment extends CommandAbstract {
@@ -36,7 +36,6 @@ public class AddPayment extends CommandAbstract {
 
     public AddPayment(final SessionT se, final String ho, String resName,
             final BillP bill, List<AddPaymentP> col) {
-//        super(se, true, new HotelT(ho), false); // defer start transaction
         super(se, true, new HotelT(ho)); // defer start transaction
         this.resName = resName;
         this.bill = bill;
