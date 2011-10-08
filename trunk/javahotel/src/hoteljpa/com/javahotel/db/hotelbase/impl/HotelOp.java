@@ -12,6 +12,14 @@
  */
 package com.javahotel.db.hotelbase.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.ReturnPersist;
@@ -25,15 +33,10 @@ import com.javahotel.db.commands.AddGuests;
 import com.javahotel.db.commands.AddPayment;
 import com.javahotel.db.commands.ChangeBookingToStay;
 import com.javahotel.db.commands.DictNumberRecord;
+import com.javahotel.db.commands.SetNewBookingState;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.IHotelOp;
 import com.javahotel.remoteinterfaces.SessionT;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 
 /**
  *
@@ -70,14 +73,17 @@ public class HotelOp implements IHotelOp {
                 ret = sta.getRet();
                 break;
             case payDownPaymentState:
-            case payDownPaymentStateNoChange:
-                PaymentP pa = p.getDownPayment();
-                BookingStateP st = p.getStateP();
+                List<PaymentP> pa = p.getListP();
                 resName = p.getReservName();
                 AddDownPaymentState dcom = new AddDownPaymentState(sessionId,
-                        ho, pa, st, resName,
-                        op == HotelOpType.payDownPaymentStateNoChange);
+                        ho, pa, resName);
                 dcom.run();
+                break;
+            case BookingSetNewState:
+                BookingStateP s = p.getStateP();
+                resName = p.getReservName();
+                SetNewBookingState scom = new SetNewBookingState(sessionId,ho,s,resName);
+                scom.run();
                 break;
             case PersistGuests:
                 resName = p.getReservName();

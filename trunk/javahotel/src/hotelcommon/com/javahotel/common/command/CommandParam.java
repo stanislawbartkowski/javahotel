@@ -42,10 +42,10 @@ public class CommandParam implements Serializable {
     private static final transient String RESLIST = "ResList";
     private static final transient String SEASONNAME = "SeasonName";
     private static final transient String RESERVNAME = "ReservName";
-    private PaymentP payP;
+    private List<PaymentP> listP; // HotelOpType.PersistAddPaymentList
     private BookingStateP stateP;
     private Map<String, List<GuestP>> guests;
-    private List<AddPaymentP> addpayment;
+    private List<AddPaymentP> addpayment; // HotelOpType.PersistAddPayment
     private BillP bill;
     private LId recId;
     private HotelOpType oP;
@@ -105,7 +105,8 @@ public class CommandParam implements Serializable {
     }
 
     /**
-     * @param oP the oP to set
+     * @param oP
+     *            the oP to set
      */
     public void setoP(HotelOpType oP) {
         this.oP = oP;
@@ -118,7 +119,6 @@ public class CommandParam implements Serializable {
 
     public CommandParam() {
         params = new HashMap<String, String>();
-        payP = null;
         stateP = null;
         guests = null;
     }
@@ -229,14 +229,6 @@ public class CommandParam implements Serializable {
         return getS(SEASONNAME, null);
     }
 
-    public void setDownPayment(final PaymentP p) {
-        payP = p;
-    }
-
-    public PaymentP getDownPayment() {
-        return payP;
-    }
-
     public void setStateP(final BookingStateP p) {
         stateP = p;
     }
@@ -251,6 +243,21 @@ public class CommandParam implements Serializable {
 
     public String getReservName() {
         return getS(RESERVNAME, null);
+    }
+
+    /**
+     * @return the listP
+     */
+    public List<PaymentP> getListP() {
+        return listP;
+    }
+
+    /**
+     * @param listP
+     *            the listP to set
+     */
+    public void setListP(List<PaymentP> listP) {
+        this.listP = listP;
     }
 
     // default visibility

@@ -78,52 +78,55 @@ public class ListCommand implements IList {
         return com.getRes();
     }
 
-    public List<AbstractTo> getList(final SessionT sessionId,
-            final RType r, final CommandParam p) throws HotelException {
+    public List<AbstractTo> getList(final SessionT sessionId, final RType r,
+            final CommandParam p) throws HotelException {
         List<? extends AbstractTo> co = null;
         switch (r) {
-            case ListDict:
-                co = getDictList(sessionId, r, p);
-                return (List<AbstractTo>) co;
-            case DownPayments:
-                co = getDownPayments(sessionId, p);
-                return (List<AbstractTo>) co;
-            default:
-                break;
+        case ListDict:
+            co = getDictList(sessionId, r, p);
+            return (List<AbstractTo>) co;
+        case DownPayments:
+            co = getDownPayments(sessionId, p);
+            return (List<AbstractTo>) co;
+        default:
+            break;
         }
 
         HotelLoginP hp = SecurityFilter.isLogged(sessionId, false);
-        String logs = ELog.logListS(sessionId.getName(), hp.getUser(), r.name());
+        String logs = ELog
+                .logListS(sessionId.getName(), hp.getUser(), r.name());
         HLog.getLo().info(logs);
         switch (r) {
-            case AllHotels:
-                co = GetList.getHotelList(sessionId);
-                break;
-            case DataBases:
-                co = getDataBaseList(sessionId);
-                break;
-            case AllPersons:
-                co = GetList.getPersonList(sessionId);
-                break;
-            case PersonHotelRoles:
-                String pe = p.getPerson();
-                HotelT ho = new HotelT(p.getHotel());
-                List<String> d = GetList.getPersonHotelRoles(sessionId, pe,
-                        ho);
-                co = ReportUtil.toS(d, null);
-                break;
-            case ResObjectState:
-                BookStateParam bS = new BookStateParam(p);
-                logs = ELog.logDrawPeriodS(IMessId.READRESTATE,
-                        sessionId.getName(), hp.getUser(), p.getHotel(), bS.getRParam().getPe().getFrom(), bS.getRParam().getPe().getTo());
-                HLog.getLo().info(logs);
-                logs = ELog.drawColStringS(bS.getRParam().getResList());
-                HLog.getLo().info(logs);
-                ho = new HotelT(p.getHotel());
-                GetObjectBookState oS = new GetObjectBookState(sessionId, ho, bS.getRParam());
-                oS.run();
-                co = oS.getROut();
-                break;
+        case AllHotels:
+            co = GetList.getHotelList(sessionId);
+            break;
+        case DataBases:
+            co = getDataBaseList(sessionId);
+            break;
+        case AllPersons:
+            co = GetList.getPersonList(sessionId);
+            break;
+        case PersonHotelRoles:
+            String pe = p.getPerson();
+            HotelT ho = new HotelT(p.getHotel());
+            List<String> d = GetList.getPersonHotelRoles(sessionId, pe, ho);
+            co = ReportUtil.toS(d, null);
+            break;
+        case ResObjectState:
+            BookStateParam bS = new BookStateParam(p);
+            logs = ELog.logDrawPeriodS(IMessId.READRESTATE,
+                    sessionId.getName(), hp.getUser(), p.getHotel(), bS
+                            .getRParam().getPe().getFrom(), bS.getRParam()
+                            .getPe().getTo());
+            HLog.getLo().info(logs);
+            logs = ELog.drawColStringS(bS.getRParam().getResList());
+            HLog.getLo().info(logs);
+            ho = new HotelT(p.getHotel());
+            GetObjectBookState oS = new GetObjectBookState(sessionId, ho,
+                    bS.getRParam());
+            oS.run();
+            co = oS.getROut();
+            break;
         }
         return (List<AbstractTo>) co;
     }

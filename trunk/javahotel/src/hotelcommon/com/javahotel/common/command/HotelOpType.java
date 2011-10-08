@@ -13,11 +13,15 @@
 package com.javahotel.common.command;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public enum HotelOpType {
 
-    payDownPaymentState, payDownPaymentStateNoChange, ChangeBookingToStay,
-    PersistGuests, PersistAddPayment, NumberOfDictRecords
+    payDownPaymentState, // add list of payments replacing existing one
+    BookingSetNewState, // set new booking state
+    ChangeBookingToStay, 
+    PersistGuests, 
+    PersistAddPayment, // add list of additional payment
+    NumberOfDictRecords,
 }
