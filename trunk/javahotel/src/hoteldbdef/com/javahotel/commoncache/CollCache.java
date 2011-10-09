@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.logging.Level;
 
+@SuppressWarnings("serial")
 public class CollCache<T> implements Serializable {
 
 	private class C extends HashMap<String, T> {

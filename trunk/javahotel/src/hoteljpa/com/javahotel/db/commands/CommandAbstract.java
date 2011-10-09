@@ -70,13 +70,13 @@ public abstract class CommandAbstract extends CommandTemplate {
 
     CommandAbstract(final SessionT sessionId, boolean starttra,
             final HotelT hotel) {
-        super(sessionId, false, starttra, ContainerInfo.TransactionContainer());
+        super(sessionId, false, !ContainerInfo.TransactionContainer(),starttra);
         this.ho = hotel;
     }
     
     // admin constructor
     CommandAbstract(final SessionT sessionId, final HotelT hotel) {
-        super(sessionId, true, true, ContainerInfo.TransactionContainer());
+        super(sessionId, true, !ContainerInfo.TransactionContainer(),true);
         this.ho = hotel;
     }
 

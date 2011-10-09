@@ -28,7 +28,7 @@ import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.PaymentP;
-import com.javahotel.db.commands.AddDownPaymentState;
+import com.javahotel.db.commands.AddDownPayment;
 import com.javahotel.db.commands.AddGuests;
 import com.javahotel.db.commands.AddPayment;
 import com.javahotel.db.commands.ChangeBookingToStay;
@@ -72,10 +72,10 @@ public class HotelOp implements IHotelOp {
                 sta.run();
                 ret = sta.getRet();
                 break;
-            case payDownPaymentState:
+            case AddDownPayment:
                 List<PaymentP> pa = p.getListP();
                 resName = p.getReservName();
-                AddDownPaymentState dcom = new AddDownPaymentState(sessionId,
+                AddDownPayment dcom = new AddDownPayment(sessionId,
                         ho, pa, resName);
                 dcom.run();
                 break;

@@ -18,6 +18,7 @@ import java.io.Serializable;
  *
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class PasswordT implements Serializable {
 
     private final String password;
