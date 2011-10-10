@@ -35,6 +35,7 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.controler.BoxActionMenuOptions;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.EditRowsSignal;
 import com.gwtmodel.table.listdataview.IListDataView;
@@ -272,7 +273,7 @@ class CheckGuestWidget extends AbstractSlotContainer {
         VListHeaderDesc vE = new VListHeaderDesc(new ModifHeader(),
                 Empty.getFieldType());
         fList.add(0, vE);
-        VListHeaderDesc bAction = new VListHeaderDesc("Wybierz",
+        VListHeaderDesc bAction = new VListHeaderDesc(MM.getL().ChooseNow(),
                 new VField(AbstractToCheckGuest.F.ChooseC, FieldDataType
                         .constructString()), false,
                 AbstractToCheckGuest.chooseCust, false);

@@ -112,8 +112,7 @@ public class AddToBillDialog {
                         new PersistSignaller(iSlo, p));
                 bOptions.setAskString(BoxActionMenuOptions.ASK_BEFORE_PERSIST,
                         "Dopisać zmiany do rachunku ?");
-                bOptions.setAskString(BoxActionMenuOptions.ASK_BEFORE_RESIGN,
-                        "Rezygnujesz ? (wszystkie zmiany przepadną");
+                bOptions.setAskStandardResign();
 
                 return iSlo;
             }
