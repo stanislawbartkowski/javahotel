@@ -40,6 +40,7 @@ public class PaymentP extends AbstractTo implements INumerable {
         this.amount = new DecimalP();
         this.dateOp = new DateP();
         this.datePayment = new DateP();
+        this.sumOp = true;
     }
 
     public Integer getLp() {

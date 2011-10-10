@@ -36,6 +36,7 @@ public class BookingP extends DictionaryP {
     private List<BookingStateP> state;
     private List<BillP> bill;
     private BookingEnumTypes bookingType;
+    /** For stay - symbol of reservation used. */
     private String resName;
 
     public List<BillP> getBill() {
