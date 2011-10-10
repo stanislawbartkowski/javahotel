@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.DataListTypeFactory;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -55,6 +56,7 @@ import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.gename.FFactory;
+import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookingP;
@@ -75,15 +77,20 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
     private final ITableCustomFactories tFactories;
     private final IDataType publishType;
 
+    List<PaymentP> getList() {
+        IDataListType li = lPersistList.getDataList();
+        List<PaymentP> pLi = DataUtil.construct(li);
+        return pLi;
+    }
+
     private class DrawModel implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             List<AbstractLpVModelData> li = new ArrayList<AbstractLpVModelData>();
             BillP bi = BillUtil.getBill(p);
-            List<IVModelData> vlist = new ArrayList<IVModelData>();
             for (PaymentP pa : bi.getPayments()) {
-                vlist.add(VModelDataFactory.constructLp(pa));
+                li.add(VModelDataFactory.constructLp(pa));
             }
             lPersistList.setDataList(DataListTypeFactory.constructLp(li));
             dControler.startPublish(new CellId(0));
@@ -144,15 +151,14 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
 
         @Override
         public String getFormTitle(ICallContext iContext) {
-            // TODO Auto-generated method stub
-            return "xxxxxxxxxxxxxxxx";
+            return "Płatność do zaliczki";
         }
 
     }
 
     private IField[] getF() {
         IField[] eList = new IField[] { PaymentP.F.datePayment,
-                PaymentP.F.amount };
+                PaymentP.F.amount, PaymentP.F.payMethod };
         return eList;
 
     }
@@ -189,14 +195,6 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
         IDataModelFactory iDataModelFactory = tFactories.getDataModelFactory();
         DataViewModelFactory daFactory = GwtGiniInjector.getI()
                 .getDataViewModelFactory();
-        // IComposeControllerTypeFactory custFactory = new
-        // IComposeControllerTypeFactory() {
-        //
-        // @Override
-        // public ComposeControllerType construct(ICallContext iiContext) {
-        // return null;
-        // }
-        // };
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
 

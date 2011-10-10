@@ -121,6 +121,7 @@ public class GetFieldName implements IGetFieldName {
 
         ma.put(PaymentP.F.amount, "Kwota wpłaty");
         ma.put(PaymentP.F.datePayment, "Data wpłaty");
+        ma.put(PaymentP.F.payMethod, "Metoda wpłaty");
     }
 
     @Override

@@ -34,6 +34,7 @@ import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.IdentDocType;
+import com.javahotel.common.command.PaymentMethod;
 import com.javahotel.common.command.PersonTitle;
 import com.javahotel.common.command.RRoom;
 import com.javahotel.common.command.ServiceType;
@@ -144,6 +145,18 @@ public class TypeToFactory implements IAbstractType {
     };
     private static final EnumTypeToS<IdentDocType> edoct = new EnumTypeToS<IdentDocType>(
             new GetMap(gedoct), IdentDocType.DriverLicense);
+    private static final getMap payMet = new getMap() {
+
+        @Override
+        public Map<String, String> getM(IResLocator rI) {
+            return rI.getLabels().PaymentMethod();
+        }
+    };
+    private static final EnumTypeToS<PaymentMethod> payMetType = new EnumTypeToS<PaymentMethod>(
+            new GetMap(payMet), PaymentMethod.CreditCard);
+
+    private static final T paymentMethT = new T(String.class,
+            FieldDataType.constructEnum(payMetType));
     private static final T stringDocT = new T(String.class,
             FieldDataType.constructEnum(edoct));
     private static final T stringCustomerT = new T(String.class,
@@ -350,6 +363,7 @@ public class TypeToFactory implements IAbstractType {
 
         ma.put(PaymentP.F.amount, decimalT);
         ma.put(PaymentP.F.datePayment, dateT);
+        ma.put(PaymentP.F.payMethod, paymentMethT);
 
         ma.put(GuestP.F.checkIn, dateT);
         ma.put(GuestP.F.checkOut, dateT);

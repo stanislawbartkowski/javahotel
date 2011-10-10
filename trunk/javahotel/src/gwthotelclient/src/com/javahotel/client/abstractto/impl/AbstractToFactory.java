@@ -61,7 +61,7 @@ public class AbstractToFactory implements IAbstractFactory {
         }
 
         if (da.isDictType()) {
-            return AbstractObjectFactory.getAbstract(da.getdType());
+            return AbstractObjectFactory.constructAbstract(da.getdType());
         }
         if (da.isRType()) {
             switch (da.getrType()) {
