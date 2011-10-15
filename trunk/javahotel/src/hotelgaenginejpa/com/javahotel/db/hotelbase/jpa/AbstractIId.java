@@ -10,13 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.common.command;
+package com.javahotel.db.hotelbase.jpa;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+import com.google.appengine.api.datastore.Key;
+import com.javahotel.db.jtypes.HId;
 
 /**
+ * @author hotel
  * 
- * @author stanislawbartkowski@gmail.com
  */
-public enum CustomerType {
+@MappedSuperclass
+public class AbstractIId {
 
-    Company, Person, TouristBureau
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Key id;
+
+    public HId getId() {
+        return new HId(id);
+    }
+
+    public void setId(HId id) {
+        this.id = id.getId();
+    }
+
 }

@@ -14,10 +14,9 @@
 package com.javahotel.common.command;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public enum BillEnumTypes {
-    MainBill,IndividualBill
-
+    MainBill, IndividualBill
 }

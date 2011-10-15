@@ -66,8 +66,6 @@ class JpaDb {
     static private Object getSingle(final Query q) {
         try {
             Object res = q.getSingleResult();
-            if (res != null) {
-            }
             return res;
         } catch (NoResultException e) {
             return null;

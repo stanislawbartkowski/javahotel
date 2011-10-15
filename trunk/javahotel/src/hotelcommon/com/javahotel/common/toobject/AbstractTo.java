@@ -55,13 +55,17 @@ public abstract class AbstractTo implements Serializable {
         CommandUtil.copyA(from, this, getT());
     }
 
-    public boolean isField(final IField f) {
-        for (IField t : getT()) {
+    protected boolean isOnList(IField f, IField[] ft) {
+        for (IField t : ft) {
             if (t == f) {
                 return true;
             }
         }
         return false;
+    }
+
+    public boolean isField(final IField f) {
+        return isOnList(f, getT());
     }
 
     public LId getLId() {

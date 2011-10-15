@@ -12,48 +12,57 @@
  */
 package com.javahotel.db.hotelbase.jpa;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Basic;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.MappedSuperclass;
 
-import com.javahotel.db.hotelbase.types.IHotelDictionary;
+import com.google.appengine.api.datastore.Key;
 import com.javahotel.db.jtypes.HId;
 
 /**
+ * @author hotel
  *
- * @author stanislawbartkowski@gmail.com
  */
-@Entity
-@KeyObject(keyField="hotelId",objectField="hotel")
-public class VatDictionary extends AbstractDictionary implements IHotelDictionary {
- 
-    @Basic
-    private BigDecimal vatPercent;
+@MappedSuperclass
+public class AbstractPureDictionary {
+    
+    // ===============================
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Key id;
+
+    public HId getId() {
+        return new HId(id);
+    }
+
+    public void setId(HId id) {
+        this.id = id.getId();
+    }
+
     @Basic(optional = false)
-    private boolean defVat;
+    private String name;
+    @Basic
+    private String description;
 
-    public VatDictionary() {
-        defVat = false;
+    public String getName() {
+        return name;
     }
 
-    public BigDecimal getVatPercent() {
-        return vatPercent;
+    public void setName(final String name) {
+        this.name = name;
     }
 
-    public void setVatPercent(BigDecimal vatPercent) {
-        this.vatPercent = vatPercent;
+    public String getDescription() {
+        return description;
     }
 
-    public boolean isDefVat() {
-        return defVat;
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
-    public void setDefVat(boolean defVat) {
-        this.defVat = defVat;
-    }
+    // ====================================
+
+
 }

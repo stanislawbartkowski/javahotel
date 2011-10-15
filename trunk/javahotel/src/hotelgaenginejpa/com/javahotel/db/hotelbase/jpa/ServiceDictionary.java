@@ -15,81 +15,42 @@ package com.javahotel.db.hotelbase.jpa;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.javahotel.common.command.ServiceType;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
-import com.javahotel.db.jtypes.HId;
- 
+
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @Entity
-@KeyObjects(keyFields={"hotelId","vatKey"},objectFields={"hotel","vat"})
-public class ServiceDictionary implements IHotelDictionary {
+@KeyObjects(keyFields = { "hotelId", "vatKey" }, objectFields = { "hotel",
+        "vat" })
+public class ServiceDictionary extends AbstractDictionary implements
+        IHotelDictionary {
 
-	public Long getVatKey() {
-		return vatKey;
-	}
+    @Basic
+    private Integer noPerson;
 
-	public void setVatKey(Long vatKey) {
-		this.vatKey = vatKey;
-	}
+    @Basic(optional = false)
+    private ServiceType servType;
 
-	// ============================================= 
-	// Abstract Dictionary 
-	// =============================================
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	private Long id;
+    @Basic
+    private Long vatKey;
 
-	public HId getId() {
-		return new HId(id);
-	}
+    @Transient
+    private VatDictionary vat;
 
-	public void setId(HId id) {
-		this.id = id.getL();
-	}
-	
-	public Long getHotelId() {
-		return hotelId;
-	}
+    public Long getVatKey() {
+        return vatKey;
+    }
 
-	public void setHotelId(Long hotelId) {
-		this.hotelId = hotelId;
-	}
+    public void setVatKey(Long vatKey) {
+        this.vatKey = vatKey;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Basic
-	private Long hotelId;
-
-	@Transient
-	private RHotel hotel;
-		
-
-	public RHotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(RHotel hotel) {
-		this.hotel = hotel;
-	}
-
-	@Basic(optional = false)
-	private String name;
-	@Basic
-	private String description;
-	@Basic
-	private Integer noPerson;
-
-	/**
+    /**
      * @return the noPerson
      */
     public Integer getNoPerson() {
@@ -97,40 +58,13 @@ public class ServiceDictionary implements IHotelDictionary {
     }
 
     /**
-     * @param noPerson the noPerson to set
+     * @param noPerson
+     *            the noPerson to set
      */
     public void setNoPerson(Integer noPerson) {
         this.noPerson = noPerson;
     }
 
-    public String getName() {
-		return name;
-	}
-
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
-// ===================================================	
-
-    
-    @Basic(optional = false)
-    private ServiceType servType;
-
-    @Basic
-    private Long vatKey;
-
-	@Transient
-    private VatDictionary vat;
-    
     public ServiceDictionary() {
         super();
         this.servType = ServiceType.NOCLEG;
@@ -151,6 +85,5 @@ public class ServiceDictionary implements IHotelDictionary {
     public void setVat(VatDictionary vat) {
         this.vat = vat;
     }
-
 
 }

@@ -32,7 +32,7 @@ import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.IId;
 
 /**
- * 
+ * Entity: advance (forward) payment
  * @author stanislawbartkowski@gmail.com
  */
 @Entity
