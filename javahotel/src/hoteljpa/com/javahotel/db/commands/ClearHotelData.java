@@ -12,7 +12,11 @@
  */
 package com.javahotel.db.commands;
 
+import java.util.List;
+
 import com.javahotel.common.command.DictType;
+import com.javahotel.db.hotelbase.jpa.AdvancePayment;
+import com.javahotel.db.hotelbase.queries.GetQueries;
 import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
@@ -37,6 +41,11 @@ public class ClearHotelData extends CommandAbstract {
 	    	HotelHelper.removeAllDic(iC, DictType.RoomFacility, new HotelT(iC.getHotel()));
 	    	HotelHelper.removeAllDic(iC, DictType.ServiceDict, new HotelT(iC.getHotel()));
 	    	HotelHelper.removeAllDic(iC, DictType.VatDict, new HotelT(iC.getHotel()));
+            HotelHelper.removeAllDic(iC, DictType.IssuerInvoiceList, new HotelT(iC.getHotel()));
+            
+            List<AdvancePayment> li = GetQueries.getValidationForHotel(iC);
+            iC.getJpa().removeList(li);
+
 	    	HotelHelper.removeHo(iC, new HotelT(iC.getHotel()));
 	    }
 }

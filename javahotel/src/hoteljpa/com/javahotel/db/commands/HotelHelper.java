@@ -49,6 +49,8 @@ class HotelHelper {
         List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d, true);
         iC.getJpa().removeList(c);
     }
+    
+    
 
     static void removeHo(final ICommandContext iC, final HotelT ho) {
         // re-read to make attached

@@ -21,6 +21,7 @@ import com.javahotel.db.authentication.jpa.Hotel;
 import com.javahotel.db.authentication.jpa.Person;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.Customer;
+import com.javahotel.db.hotelbase.jpa.InvoiceIssuer;
 import com.javahotel.db.hotelbase.jpa.OfferPrice;
 import com.javahotel.db.hotelbase.jpa.OfferSeason;
 import com.javahotel.db.hotelbase.jpa.ParamRegistry;
@@ -34,58 +35,68 @@ import com.javahotel.db.hotelbase.types.IPureDictionary;
 import com.javahotel.dbres.log.HLog;
 
 /**
+ * Factory for constructing DicType objects.
  * 
  * @author stanislawbartkowski@gmail.com
  */
 class ObjectFactory {
 
-	static IPureDictionary getADict(final DictType d) {
-		try {
-			Class<?> cla = getC(d);
-			return (IPureDictionary) cla.newInstance();
-		} catch (InstantiationException ex) {
-			HLog.getL().getL().log(Level.SEVERE, "", ex);
-		} catch (IllegalAccessException ex) {
-			HLog.getL().getL().log(Level.SEVERE, "", ex);
-		}
-		return null;
-	}
+    /**
+     * Construct DicType object
+     * 
+     * @param d
+     *            DictType
+     * @return Object requested
+     */
+    static IPureDictionary constructADict(final DictType d) {
+        try {
+            Class<?> cla = getC(d);
+            return (IPureDictionary) cla.newInstance();
+        } catch (InstantiationException ex) {
+            HLog.getL().getL().log(Level.SEVERE, "", ex);
+        } catch (IllegalAccessException ex) {
+            HLog.getL().getL().log(Level.SEVERE, "", ex);
+        }
+        return null;
+    }
 
-	static Class<?> getC(final DictType d) {
-		switch (d) {
-		case RegistryParam:
-			return ParamRegistry.class;
-		case RoomStandard:
-			return RoomStandard.class;
-		case RoomFacility:
-			return RoomFacilities.class;
-		case RoomObjects:
-			return ResObject.class;
-		case VatDict:
-			return VatDictionary.class;
-		case ServiceDict:
-			return ServiceDictionary.class;
-		case OffSeasonDict:
-			return OfferSeason.class;
-		case PriceListDict:
-			return OfferPrice.class;
-		case CustomerList:
-			return Customer.class;
-		case BookingList:
-			return Booking.class;
-		case PaymentRowList:
-		    return PaymentRow.class;
-		}
-		return null;
-	}
-	
-	static Class<?> getP(final Class<?> aClass) {
-		if (aClass == HotelP.class) {
-			return Hotel.class;
-		}
-		if (aClass == PersonP.class) {
-			return Person.class;
-		}
-		return null;
-	}
+    static Class<?> getC(final DictType d) {
+        switch (d) {
+        case RegistryParam:
+            return ParamRegistry.class;
+        case RoomStandard:
+            return RoomStandard.class;
+        case RoomFacility:
+            return RoomFacilities.class;
+        case RoomObjects:
+            return ResObject.class;
+        case VatDict:
+            return VatDictionary.class;
+        case ServiceDict:
+            return ServiceDictionary.class;
+        case OffSeasonDict:
+            return OfferSeason.class;
+        case PriceListDict:
+            return OfferPrice.class;
+        case CustomerList:
+            return Customer.class;
+        case BookingList:
+            return Booking.class;
+        case PaymentRowList:
+            return PaymentRow.class;
+        case IssuerInvoiceList:
+            return InvoiceIssuer.class;
+        }
+        return null;
+    }
+
+    static Class<?> getP(final Class<?> aClass) {
+        if (aClass == HotelP.class) {
+            return Hotel.class;
+        }
+        if (aClass == PersonP.class) {
+            return Person.class;
+        }
+        return null;
+    }
 }

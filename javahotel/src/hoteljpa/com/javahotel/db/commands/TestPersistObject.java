@@ -19,20 +19,20 @@ import com.javahotel.db.context.ICommandContext;
 
 public class TestPersistObject {
 
-	public static void testPersist(ICommandContext iC, ReturnPersist ret,
-			PersistType t, Object a, DictType d) {
-		switch (t) {
-		case REMOVE:
-			return;
-		case CHANGE:
-			return;
-		}
-		DictExists.ErrKom e = DictExists.existsAlready(iC, a, d);
-		if (e == null) {
-			return;
-		}
-		ret.setErrorMessage(e.getErrInfo());
-		ret.setViewName(e.getViewName());
-	}
+    public static void testPersist(ICommandContext iC, ReturnPersist ret,
+            PersistType t, Object a, DictType d) {
+        switch (t) {
+        case REMOVE:
+            return;
+        case CHANGE:
+            return;
+        }
+        DictExists.ErrKom e = DictExists.existsAlready(iC, a, d);
+        if (e == null) {
+            return;
+        }
+        ret.setErrorMessage(e.getErrInfo());
+        ret.setViewName(e.getViewName());
+    }
 
 }

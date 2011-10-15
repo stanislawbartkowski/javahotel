@@ -52,13 +52,15 @@ class CopyBeanToP {
 			final AbstractTo sou, final Object dest, final String colField,
 			final String upF, final Class<?> cupF, final ICopyHelper i,
 			final boolean remove) {
-		List col = (List) GetFieldHelper.getterVal(sou, colField,
+		@SuppressWarnings("unchecked")
+        List<Object> col = (List<Object>) GetFieldHelper.getterVal(sou, colField,
 				iC.getLog());
-		List de = (List) GetFieldHelper.getterVal(dest, colField,
+		@SuppressWarnings("unchecked")
+        List<Object> de = (List<Object>) GetFieldHelper.getterVal(dest, colField,
 				iC.getLog());
-		List removeO = new ArrayList();
+		List<Object> removeO = new ArrayList<Object>();
 		if (de == null) {
-			de = new ArrayList();
+			de = new ArrayList<Object>();
 			GetFieldHelper.setterVal(dest, de, colField, List.class, iC
 					.getLog());
 		} else {
@@ -103,7 +105,8 @@ class CopyBeanToP {
 			final boolean removefromDB) {
 		List<?> col = (List<?>) GetFieldHelper.getterVal(sou,
 				colField, iC.getLog());
-		List<Object> de = (List<Object>) GetFieldHelper.getterVal(
+		@SuppressWarnings("unchecked")
+        List<Object> de = (List<Object>) GetFieldHelper.getterVal(
 				dest, colField, iC.getLog());
 		if (de == null) {
 			de = new ArrayList<Object>();

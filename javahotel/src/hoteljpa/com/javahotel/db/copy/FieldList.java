@@ -12,8 +12,9 @@
  */
 package com.javahotel.db.copy;
 
+
 /**
- * 
+ * Keeps list of fields to be copied for particular object
  * @author stanislawbartkowski@gmail.com
  */
 public class FieldList {
@@ -43,6 +44,7 @@ public class FieldList {
     public static final String[] BillList;
     public static final String[] GuestList;
     public static final String[] AddPayList;
+    public static final String[] InvoiceIssuerList;
 
     static {
         HotelList = new String[] { "name", "description", "database" };
@@ -88,5 +90,8 @@ public class FieldList {
         AddPayList = new String[] { "lp", "payDate", "offerPrice",
                 "customerPrice", "personOp", "dateOp", "remarks", "noSe",
                 "customerSum", "sumOp" };
+        // keeps only fields additional to Customer
+        InvoiceIssuerList = new String[] { "paymentDays", "townMaking",
+                "personMaking" };
     }
 }

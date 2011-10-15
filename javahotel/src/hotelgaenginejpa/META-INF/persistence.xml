@@ -44,6 +44,7 @@
 		<class>com.javahotel.db.hotelbase.jpa.AdvancePayment</class>
 		<class>com.javahotel.db.hotelbase.jpa.Bill</class>
 		<class>com.javahotel.db.hotelbase.jpa.Guest</class>
+		<class>com.javahotel.db.hotelbase.jpa.InvoiceIssuer</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="openjpa.MetaDataFactory" value="jpa(ClasspathScan=build;lib.jar)" />

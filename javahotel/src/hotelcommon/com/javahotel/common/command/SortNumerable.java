@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class SortNumerable {
@@ -27,7 +27,7 @@ public class SortNumerable {
     private SortNumerable() {
     }
 
-    private static class sortC implements Comparator {
+    private static class sortC implements Comparator<Object> {
 
         public int compare(final Object o1, final Object o2) {
             INumerable i1 = (INumerable) o1;
@@ -36,8 +36,8 @@ public class SortNumerable {
         }
     }
 
-    public static void sortN(final List col) {
-        ArrayList a = (ArrayList) col;
+    public static <T>void sortN(final List<T> col) {
+        ArrayList<T> a = (ArrayList<T>) col;
         Collections.sort(a, new sortC());
     }
 }

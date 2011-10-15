@@ -73,6 +73,7 @@ public class CommonHelper {
 
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T getA(final ICommandContext iC, final Class<?> cla,
             final String name) {
         IHotelDictionary o = GetQueries.getD(iC, cla, iC.getRHotel(), name);
@@ -85,6 +86,7 @@ public class CommonHelper {
         return o;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends IPureDictionary> T getName(
             final List<? extends IPureDictionary> col, final String name) {
         for (IPureDictionary t : col) {

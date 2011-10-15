@@ -17,16 +17,11 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.google.appengine.api.datastore.Key;
-import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.IId;
 import com.javahotel.types.INumerable;
  
@@ -35,7 +30,7 @@ import com.javahotel.types.INumerable;
  * @author stanislawbartkowski@gmail.com
  */
 @Entity
-public class CustomerRemark implements IId,INumerable {
+public class CustomerRemark extends AbstractIId  implements IId,INumerable {
 
 	@Basic(optional = false)
 	private String remark;
@@ -70,21 +65,6 @@ public class CustomerRemark implements IId,INumerable {
 	public void setLp(Integer lp) {
 		this.lp = lp;
 	}
-
-	// ==========================================================
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Key id;
-
-	public HId getId() {
-		return new HId(id);
-	}
-
-	public void setId(HId id) {
-		this.id = id.getId();
-	}
-
-	// ==========================================================
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "customer", nullable = false)

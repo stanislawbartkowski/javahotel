@@ -138,7 +138,7 @@ public abstract class CommandAbstract extends CommandTemplate {
             res.created = true;
         }
         if (res.o == null) {
-            res.o = ObjectFactory.getADict(d);
+            res.o = ObjectFactory.constructADict(d);
             res.created = true;
         }
         return res;

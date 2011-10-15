@@ -27,6 +27,7 @@ import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.GuestP;
+import com.javahotel.common.toobject.InvoiceIssuerP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
@@ -81,6 +82,7 @@ public class CommonCopyBean {
         void addFields(boolean add, final Object sou, final Object dest);
     }
 
+    @SuppressWarnings("unchecked")
     private static <T> T persistObject(final ICommandContext iC,
             final Class<?> cla, final DictionaryP sou, final String[] fields,
             final IAddFields i) {
@@ -329,6 +331,15 @@ public class CommonCopyBean {
             return;
         }
 
+        // before Customer
+        if (sou instanceof InvoiceIssuerP) {
+            // firstly copy CustomerData
+            CopyCustomer.copy1(iC, (CustomerP) sou, (Customer) dest);
+            // then copy specific data
+            CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.InvoiceIssuerList);
+            return;
+        }
+        
         if (sou instanceof CustomerP) {
             CopyCustomer.copy1(iC, (CustomerP) sou, (Customer) dest);
             return;
@@ -424,6 +435,15 @@ public class CommonCopyBean {
         if (sou instanceof OfferSeasonPeriod) {
             CopyBean.copyBean(sou, dest, iC.getLog(),
                     FieldList.DictSeasonOfferPeriodList);
+            return;
+        }
+
+        // important: before Customer
+        if (sou instanceof InvoiceIssuerP) {
+            // firstly copy CustomerData
+            CopyCustomer.copy2(iC, (Customer) sou, (CustomerP) dest);
+            // then copy specific fields
+            CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.InvoiceIssuerList);
             return;
         }
 
