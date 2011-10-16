@@ -39,7 +39,11 @@ public class PersistDictCommand extends CommandAbstract {
 
     public PersistDictCommand(final SessionT se, final DictType d,
             final DictionaryP a, final boolean checkBook) {
-        super(se, true, new HotelT(a.getHotel()));
+//        super(se, true, new HotelT(a.getHotel()));
+        // Important: Google App Engine specific
+        // startTra = true : getName not empty
+        // startTra = false, start transaction later, modifying record related to RecordParam (next sym) outside transaction 
+        super(se, !a.getName().equals(""), new HotelT(a.getHotel()));
         this.d = d;
         this.a = a;
         this.checkBook = checkBook;
