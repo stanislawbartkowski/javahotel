@@ -58,6 +58,7 @@ class EmptyColFactory {
                         ServiceDictionaryP.F.vat, ServiceDictionaryP.F.servtype };
             case RoomFacility:
             case RoomStandard:
+            case IssuerInvoiceList:
                 return new IField[] { DictionaryP.F.name };
             case RoomObjects:
                 return new IField[] { DictionaryP.F.name,

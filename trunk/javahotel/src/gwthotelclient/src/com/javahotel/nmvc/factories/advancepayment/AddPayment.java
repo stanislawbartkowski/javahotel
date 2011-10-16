@@ -30,6 +30,7 @@ import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
+import com.javahotel.client.M;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
@@ -48,7 +49,7 @@ import com.javahotel.nmvc.factories.bookingpanel.checkinguest.RunCompose;
 class AddPayment {
 
     private final RunCompose rCompose;
-    private final IDataType dType = Empty.getDataType();
+    static final IDataType dType = Empty.getDataType();
     private final SlotTypeFactory slTypeFactory;
     private final IResLocator rI;
 
@@ -66,7 +67,10 @@ class AddPayment {
 
             @Override
             public void onMySuccess(ReturnPersist arg) {
-                rI.getR().invalidateCache(RType.ListDict);
+                // invalidate, force reading from database to display payment
+                // properly
+                rI.getR().invalidateCache(RType.DownPayments, RType.ListDict);
+                // publish success
                 pW.getSlContainer().publish(dType,
                         DataActionEnum.PersistDataSuccessSignal);
             }
@@ -97,7 +101,7 @@ class AddPayment {
 
                     @Override
                     public String getFormTitle(ICallContext iContext) {
-                        return "Zapłata do zaliczki";
+                        return M.L().PaymentToAdvance();
                     }
                 };
             }
@@ -108,7 +112,7 @@ class AddPayment {
                 AddPaymentWidget iSlo = new AddPaymentWidget(dType,
                         new DataType(AddType.Payment), p, bOptions);
                 bOptions.setAskString(BoxActionMenuOptions.ASK_BEFORE_PERSIST,
-                        "Zapisać zapłaty do zaliczki ?");
+                        M.L().QuestionSavePaymentsToAdvance());
                 bOptions.setAskStandardResign();
                 // skip validate - just persist
                 SlotType validS = slTypeFactory.construct(dType,
@@ -125,8 +129,8 @@ class AddPayment {
         rCompose = new RunCompose(iFactory);
     }
 
-    public void addPayment(BookingP p, WSize wSize) {
-        rCompose.runDialog(dType, p, wSize, false);
+    public void addPayment(BookingP p, WSize wSize, ISlotable iSlo) {
+        rCompose.runDialog(dType, p, wSize, false, iSlo);
     }
 
 }

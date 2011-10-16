@@ -83,6 +83,9 @@ public class DataControlerFactory {
         case BOOKING:
             d = new DataType(DictType.BookingList);
             break;
+        case INVOICEISSUER:
+            d = new DataType(DictType.IssuerInvoiceList);
+            break;
         case BOOKINGPANEL:
             // invalidate/refresh cache at the beginning
             // force reading data from database
@@ -93,7 +96,7 @@ public class DataControlerFactory {
         case ADVANCEPAYMENT:
             rI.getR().invalidateCache(RType.DownPayments);
             d = new DataType(RType.DownPayments);
-            i = new AdvancePayment(d,panelId);
+            i = new AdvancePayment(d, panelId);
             break;
         default:
             assert false : M.M().NotSupportedErrorS();

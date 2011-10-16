@@ -33,6 +33,7 @@ import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.DownPaymentP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
+import com.javahotel.common.toobject.InvoiceIssuerP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.PaymentRowP;
@@ -81,6 +82,8 @@ class ColListFactory {
                 return "Lista cenników";
             case BookingList:
                 return "Rezerwacje";
+            case IssuerInvoiceList:
+                return "Dane do wystawienia faktury";
             default:
                 assert false : M.M().NotSupportedError(d.getdType().name());
             }
@@ -125,13 +128,13 @@ class ColListFactory {
 
                 fList = new IField[] { AdvancePaymentP.F.amount,
                         AdvancePaymentP.F.dateOp,
-                        AdvancePaymentP.F.validationDate};
-                
+                        AdvancePaymentP.F.validationDate };
+
                 IGetFieldName i = HInjector.getI().getGetFieldName();
                 String na = i.getName(DownPaymentP.F.sumPayment);
-                VListHeaderDesc bPayment = new VListHeaderDesc(na,
-                        new VField(DownPaymentP.F.sumPayment),
-                        false, AdvancePayment.PAY_STRING, false);
+                VListHeaderDesc bPayment = new VListHeaderDesc(na, new VField(
+                        DownPaymentP.F.sumPayment), false,
+                        AdvancePayment.PAY_STRING, false);
 
                 List<VListHeaderDesc> li = FFactory.constructH(null, fList);
                 li.add(0, bAction);
@@ -173,6 +176,11 @@ class ColListFactory {
             case BookingList:
                 fList = new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
                         BookingP.F.season, BookingP.F.noPersons };
+                break;
+            case IssuerInvoiceList:
+                fList = new IField[] {
+                        InvoiceIssuerP.F.bankAccount  
+                };
                 break;
 
             default:

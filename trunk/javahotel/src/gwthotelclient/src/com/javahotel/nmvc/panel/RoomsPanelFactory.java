@@ -29,7 +29,8 @@ class RoomsPanelFactory implements IUserPanelMenuFactory {
         EPanelCommand eList[] = { EPanelCommand.VAT, EPanelCommand.FACILITY,
                 EPanelCommand.SERVICES, EPanelCommand.STANDARD,
                 EPanelCommand.ROOMS, EPanelCommand.CUSTOMERS,
-                EPanelCommand.SEASON, EPanelCommand.PRICES };
+                EPanelCommand.SEASON, EPanelCommand.PRICES,
+                EPanelCommand.INVOICEISSUER };
         return StackHeaderAddList.constructPanel(eList);
     }
 
