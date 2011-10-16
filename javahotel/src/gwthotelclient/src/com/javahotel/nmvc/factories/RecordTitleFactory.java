@@ -58,6 +58,9 @@ class RecordTitleFactory implements IFormTitleFactory {
                 return "Cennik";
             case BookingList:
                 return "Rezerwacja";
+            case IssuerInvoiceList:
+                return "Dane do faktury";
+
             default:
                 assert false : M.M().NotSupportedError(dd.getdType().name());
             }
@@ -67,7 +70,7 @@ class RecordTitleFactory implements IFormTitleFactory {
             case BookRoom:
                 return "Rezerwacja pokoju";
             case BookNoRoom:
-                return "Dodatkowy rachunek";                
+                return "Dodatkowy rachunek";
             case BookRecord:
             case AdvanceHeader:
                 return "";

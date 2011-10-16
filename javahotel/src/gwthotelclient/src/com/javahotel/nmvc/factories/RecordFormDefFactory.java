@@ -40,6 +40,7 @@ import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
+import com.javahotel.common.toobject.InvoiceIssuerP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.PaymentRowP;
@@ -157,38 +158,33 @@ public class RecordFormDefFactory implements IFormDefFactory {
         }
         if (dd.isDictType()) {
             DictType d = dd.getdType();
+            fList = getDict();
             switch (d) {
             case RoomFacility:
             case RoomStandard:
-                fList = getDict();
                 break;
 
             case VatDict:
-                fList = getDict();
                 fList.add(FFactory.construct(VatDictionaryP.F.vat));
                 break;
 
             case PriceListDict:
-                fList = getDict();
                 fL = new IField[] { OfferPriceP.F.season };
                 FFactory.add(fList, fL);
                 break;
 
             case ServiceDict:
-                fList = getDict();
                 FFactory.add(fList, new IField[] { ServiceDictionaryP.F.vat,
                         ServiceDictionaryP.F.servtype,
                         ServiceDictionaryP.F.noPerson });
                 break;
 
             case RoomObjects:
-                fList = getDict();
                 FFactory.add(fList, new IField[] { ResObjectP.F.standard,
                         ResObjectP.F.maxperson, ResObjectP.F.rtype });
                 break;
 
             case OffSeasonDict:
-                fList = getDict();
                 fL = new IField[] { OfferSeasonP.F.startp, OfferSeasonP.F.endp };
                 FFactory.add(fList, fL);
                 break;
@@ -211,6 +207,18 @@ public class RecordFormDefFactory implements IFormDefFactory {
                         BookingP.F.season, BookingP.F.noPersons };
                 FFactory.add(fList, fL);
                 break;
+            case IssuerInvoiceList:
+                fL = new IField[] { CustomerP.F.name1, CustomerP.F.name2,
+                        CustomerP.F.country, CustomerP.F.NIP,
+                        CustomerP.F.zipCode, CustomerP.F.city,
+                        CustomerP.F.address1, CustomerP.F.address2,
+                        InvoiceIssuerP.F.bankAccount,
+                        InvoiceIssuerP.F.personMaking,
+                        InvoiceIssuerP.F.townMaking,
+                        InvoiceIssuerP.F.paymentDays };
+                FFactory.add(fList, fL);
+                break;
+
             default:
                 assert false : rI.getMessages().NotSupportedError(d.name());
             }

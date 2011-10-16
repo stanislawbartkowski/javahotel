@@ -48,6 +48,7 @@ import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.DownPaymentP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.IField;
+import com.javahotel.common.toobject.InvoiceIssuerP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferServicePriceP;
@@ -412,6 +413,8 @@ public class TypeToFactory implements IAbstractType {
         ma.put(PaymentRowP.F.offerPrice, decimalT);
         ma.put(PaymentRowP.F.rowFrom, dateT);
         ma.put(PaymentRowP.F.rowTo, dateT);
+
+        ma.put(InvoiceIssuerP.F.paymentDays, intT);
     }
 
     @Override

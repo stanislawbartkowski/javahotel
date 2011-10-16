@@ -130,5 +130,9 @@ public interface HoLabel extends Constants {
     String ListOfUsers();
 
     String YouHaveNoRights();
+    
+    String PaymentToAdvance();
+    
+    String QuestionSavePaymentsToAdvance();
 
 }

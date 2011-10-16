@@ -99,7 +99,7 @@ public class RunCompose {
     }
 
     public void runDialog(IDataType dType, final BookingP p, WSize wSize,
-            boolean redirectResign) {
+            boolean redirectResign, ISlotable cSlo) {
         final CellId pId = new CellId(0);
         TableDataControlerFactory tFa = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
@@ -116,7 +116,7 @@ public class RunCompose {
         }
 
         DisplayListControlerParam cParam = tFa
-                .constructParam(pId, dParam, null);
+                .constructParam(pId, dParam, cSlo);
 
         HModelData hBook = VModelDataFactory.construct(p);
         iSlo = tFa.constructDataControler(cParam,

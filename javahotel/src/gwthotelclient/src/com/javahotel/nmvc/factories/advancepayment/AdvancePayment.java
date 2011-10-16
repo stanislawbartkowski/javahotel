@@ -37,6 +37,7 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.util.ClickPopUp;
 import com.javahotel.client.types.BackAbstract;
@@ -76,22 +77,21 @@ public class AdvancePayment extends AbstractSlotContainer {
         }
 
     }
-    
+
     private class R implements BackAbstract.IRunAction<BookingP> {
-        
+
         private final WSize w;
-        
+
         R(WSize w) {
             this.w = w;
         }
 
         @Override
         public void action(BookingP t) {
-            new AddPayment().addPayment(t, w);
+            new AddPayment().addPayment(t, w, i);
         }
 
     }
-
 
     private class ClickCust implements ISlotListener {
 
@@ -111,7 +111,7 @@ public class AdvancePayment extends AbstractSlotContainer {
                 new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
                         d.getResId(), new R(w.getwSize()));
             }
-                
+
         }
 
     }
@@ -131,6 +131,14 @@ public class AdvancePayment extends AbstractSlotContainer {
         i = tFactory.constructDataControler(dList);
         i.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.TableCellClicked, new ClickCust());
+
+        // AddPayment publish AddPayment.addType
+        // redirect to publish type
+        SlotType sFrom = slTypeFactory.construct(AddPayment.dType,
+                DataActionEnum.RefreshAfterPersistActionSignal);
+        SlotType sTo = slTypeFactory.construct(dType,
+                DataActionEnum.RefreshAfterPersistActionSignal);
+        i.getSlContainer().registerRedirector(sFrom, sTo);
 
         this.setSlContainer(i);
     }

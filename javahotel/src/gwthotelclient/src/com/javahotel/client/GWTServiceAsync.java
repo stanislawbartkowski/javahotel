@@ -13,6 +13,7 @@
 package com.javahotel.client;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.javahotel.common.command.CommandParam;
@@ -38,10 +39,13 @@ public interface GWTServiceAsync {
 
     void getOne(RType r, CommandParam p, AsyncCallback<AbstractTo> callback);
 
+    @SuppressWarnings("rawtypes")
     void loginUser(String user, String password, AsyncCallback callback);
 
+    @SuppressWarnings("rawtypes")
     void loginAdmin(String user, String password, AsyncCallback callback);
 
+    @SuppressWarnings("rawtypes")
     void logout(AsyncCallback callback);
 
     void addHotel(HotelP hotel, AsyncCallback<ReturnPersist> callback);
@@ -70,9 +74,9 @@ public interface GWTServiceAsync {
     void hotelOp(List<CommandParam> p,
             AsyncCallback<List<ReturnPersist>> callback);
 
-    void persistResBookingReturn(BookingP dp, AsyncCallback callback);
+    void persistResBookingReturn(BookingP dp, @SuppressWarnings("rawtypes") AsyncCallback callback);
 
-    void getParam(AsyncCallback callback);
+    void getParam(AsyncCallback<Map<String, String>> callback);
 
     void clearHotelData(HotelP hotel, AsyncCallback<ReturnPersist> callback);
 

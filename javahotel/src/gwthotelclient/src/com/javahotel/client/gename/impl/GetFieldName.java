@@ -31,6 +31,7 @@ import com.javahotel.common.toobject.DownPaymentP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
+import com.javahotel.common.toobject.InvoiceIssuerP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.PaymentP;
@@ -80,6 +81,7 @@ public class GetFieldName implements IGetFieldName {
         ma.put(CustomerP.F.address1, "Adres 1");
         ma.put(CustomerP.F.address2, "Adres 2");
         ma.put(CustomerP.F.mailAddress, "Adres mejlowy");
+        ma.put(CustomerP.F.NIP, "NIP");
 
         ma.put(OfferSeasonP.F.startp, "Okres od");
         ma.put(OfferSeasonP.F.endp, "Okres do");
@@ -122,6 +124,11 @@ public class GetFieldName implements IGetFieldName {
         ma.put(PaymentP.F.amount, "Kwota wpłaty");
         ma.put(PaymentP.F.datePayment, "Data wpłaty");
         ma.put(PaymentP.F.payMethod, "Metoda wpłaty");
+
+        ma.put(InvoiceIssuerP.F.bankAccount, "Konto bankowe");
+        ma.put(InvoiceIssuerP.F.paymentDays, "Płatność w ciągu (liczba dni)");
+        ma.put(InvoiceIssuerP.F.personMaking, "Osoba wystawiająca");
+        ma.put(InvoiceIssuerP.F.townMaking, "Miejsce wystawienia");
     }
 
     @Override

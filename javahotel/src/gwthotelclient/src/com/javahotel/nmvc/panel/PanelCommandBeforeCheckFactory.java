@@ -12,8 +12,6 @@
  */
 package com.javahotel.nmvc.panel;
 
-import com.javahotel.client.IResLocator;
-import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.start.panel.EPanelCommand;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
@@ -36,7 +34,6 @@ class PanelCommandBeforeCheckFactory {
                     "cannotdisplayhotels.jsp");
             break;
         case BOOKINGPANEL:
-        case ADVANCEPAYMENT:
             i = new VerifyNumberOfDict(new DictType[] { DictType.RoomObjects,
                     DictType.OffSeasonDict, DictType.PriceListDict },
                     "cannotdisplaypanel.jsp");
@@ -59,8 +56,8 @@ class PanelCommandBeforeCheckFactory {
                     DictType.OffSeasonDict, DictType.RoomObjects,
                     DictType.PriceListDict }, "cannotdisplaybooking.jsp");
             break;
-
         }
+            
         return i;
     }
 }

@@ -216,7 +216,7 @@ public class AddToBillDialog {
     }
 
     public void addToBill(BookingP p, WSize wSize) {
-        rCompose.runDialog(dType, p, wSize, false);
+        rCompose.runDialog(dType, p, wSize, false,null);
     }
 
 }
