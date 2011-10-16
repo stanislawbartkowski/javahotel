@@ -43,6 +43,7 @@ public class ClearHotelData extends CommandAbstract {
 	    	HotelHelper.removeAllDic(iC, DictType.VatDict, new HotelT(iC.getHotel()));
             HotelHelper.removeAllDic(iC, DictType.IssuerInvoiceList, new HotelT(iC.getHotel()));
             
+            // remove all advance payments
             List<AdvancePayment> li = GetQueries.getValidationForHotel(iC);
             iC.getJpa().removeList(li);
 

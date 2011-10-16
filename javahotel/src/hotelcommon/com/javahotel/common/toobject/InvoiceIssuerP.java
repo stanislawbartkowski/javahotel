@@ -83,6 +83,19 @@ public class InvoiceIssuerP extends CustomerP {
     }
 
     @Override
+    public Class<?> getT(final IField f) {
+        if (!isOnList(f, F.values())) {
+            return super.getT(f);
+        }
+        F fi = (F) f;
+        switch (fi) {
+        case paymentDays:
+            return Integer.class;
+        }
+        return String.class;
+    }
+
+    @Override
     public Object getF(IField f) {
         if (!isOnList(f, F.values())) {
             return super.getF(f);
