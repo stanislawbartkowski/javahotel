@@ -146,7 +146,14 @@ public class TableDataControlerFactory {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, null, null);
+                        fContainer, listParam), listParam, me, null);
+    }
+    
+    public DisplayListControlerParam constructParam(CellId panelId,
+            DataListParam listParam, ISlotable iSlo) {
+        ListOfControlDesc cList = cButtonFactory.constructCrudList();
+        return new DisplayListControlerParam(tFactories, fContainer, null,
+                panelId, cList, iSlo, listParam, null, null);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType) {

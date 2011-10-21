@@ -21,6 +21,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -66,7 +67,7 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
     }
 
     public MemoryRecordPersist(IDataType dType, IDataListType dataList) {
-        assert dataList != null : "dataList cannot be null";
+        assert dataList != null : LogT.getT().DataListCannotBeNull();
         this.dataList = dataList;
         this.dType = dType;
         registerSubscriber(dType, DataActionEnum.PersistDataAction,

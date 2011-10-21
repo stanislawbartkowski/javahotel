@@ -13,6 +13,7 @@
 package com.gwtmodel.table;
 
 /**
+ * Common class for synchronizing different events before going forward
  * 
  * @author stanislawbartkowski@gmail.com
  */
@@ -21,21 +22,41 @@ public abstract class SynchronizeList {
     private final int noSync;
     private int actSync;
 
+    /**
+     * Main task being fired after reaching max counter
+     */
     protected abstract void doTask();
 
+    /**
+     * Constructor
+     * 
+     * @param noSync
+     *            Number of signals before going forward
+     */
     protected SynchronizeList(final int noSync) {
         this.noSync = noSync;
         reset();
     }
 
+    /**
+     * Reset counter
+     */
     public final void reset() {
         actSync = 0;
     }
 
+    /**
+     * Check if counter hit already
+     * 
+     * @return true: yes, false : no
+     */
     public boolean signalledAlready() {
         return (actSync >= noSync);
     }
 
+    /**
+     * Signal done, increase counter. After reaching max doTask
+     */
     public void signalDone() {
         actSync++;
         if (signalledAlready()) {

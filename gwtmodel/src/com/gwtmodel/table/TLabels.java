@@ -101,4 +101,8 @@ public interface TLabels extends Constants {
     String ClockToDownload();
     
     String ChooseFromList();
+    
+    String YouResignStandard();
+    
+    String ChooseNow();
 }
