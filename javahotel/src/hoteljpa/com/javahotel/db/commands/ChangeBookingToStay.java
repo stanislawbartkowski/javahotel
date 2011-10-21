@@ -56,7 +56,8 @@ public class ChangeBookingToStay extends CommandAbstract {
      */
     public ChangeBookingToStay(final SessionT se, final String ho,
             final String resName) {
-        super(se, true, new HotelT(ho));
+        // do not start transaction automatically (GAE specific)
+        super(se, false, new HotelT(ho));
         this.resName = resName;
     }
 

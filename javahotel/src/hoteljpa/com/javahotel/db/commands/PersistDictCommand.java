@@ -39,16 +39,18 @@ public class PersistDictCommand extends CommandAbstract {
 
     public PersistDictCommand(final SessionT se, final DictType d,
             final DictionaryP a, final boolean checkBook) {
-//        super(se, true, new HotelT(a.getHotel()));
+        // super(se, true, new HotelT(a.getHotel()));
         // Important: Google App Engine specific
         // startTra = true : getName not empty
-        // startTra = false, start transaction later, modifying record related to RecordParam (next sym) outside transaction 
-        super(se, !a.getName().equals(""), new HotelT(a.getHotel()));
+        // startTra = false, start transaction later, modifying record related
+        // to RecordParam (next sym) outside transaction
+        super(se, a.getName() != null && !a.getName().equals(""), new HotelT(
+                a.getHotel()));
         this.d = d;
         this.a = a;
         this.checkBook = checkBook;
     }
-    
+
     /**
      * prevRun Set setBookingServices cache
      */
@@ -56,11 +58,10 @@ public class PersistDictCommand extends CommandAbstract {
     protected void prevRun() {
         super.prevRun();
         if (checkBook) {
-          // read all services and create a set of services related to booking
-          createSetOfBookingServices();
+            // read all services and create a set of services related to booking
+            createSetOfBookingServices();
         }
     }
-
 
     private boolean canBookRes() {
         List<ResDayObjectStateP> conflict = BookCanReserv.isConflict(iC,
