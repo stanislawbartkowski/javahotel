@@ -19,6 +19,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -145,6 +146,7 @@ class PersistGuests extends AbstractSlotContainer implements IDataPersistAction 
                 if (UtilCust.EmptyC(cu)) {
                     continue;
                 }
+                
                 PersistCustomer pe = new PersistCustomer();
                 pe.persistCustomer(action, a.construct(), new SaveCustomer(a,
                         sy));

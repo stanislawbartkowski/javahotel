@@ -128,13 +128,16 @@ public class RData {
     private class CallList extends CommonCallBack<List<AbstractTo>> {
 
         private final RetData re;
+        @SuppressWarnings("rawtypes")
         private final IVectorList i;
 
+        @SuppressWarnings("rawtypes")
         CallList(final RetData re, final IVectorList i) {
             this.re = re;
             this.i = i;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public void onMySuccess(List<AbstractTo> v) {
             re.col = v;
@@ -163,15 +166,17 @@ public class RData {
         }
     }
 
-    public void getList(final RType r, final CommandParam p, final IVectorList i) {
+    @SuppressWarnings("unchecked")
+    public <T extends AbstractTo> void getList(final RType r, final CommandParam p, final IVectorList<T> i) {
         RetData re = ca.getCol(r, p);
         if (re.col != null) {
-            i.doVList(re.col);
+            i.doVList((List<T>) re.col);
             return;
         }
         GWTGetService.getService().getList(r, p, new CallList(re, i));
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public <T extends AbstractTo> void getOne(final RType r,
             final CommandParam p, final IOneList<T> i) {
         RetData re = ca.getCol(r, p);
