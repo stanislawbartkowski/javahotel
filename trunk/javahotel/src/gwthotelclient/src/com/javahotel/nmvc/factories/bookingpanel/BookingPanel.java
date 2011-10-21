@@ -60,8 +60,8 @@ import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.table.IGetCellValue;
@@ -105,6 +105,7 @@ import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.nmvc.factories.bookingpanel.addtobill.AddToBillDialog;
 import com.javahotel.nmvc.factories.bookingpanel.checkinguest.CheckinGuest;
+import com.javahotel.nmvc.factories.bookingpanel.invoice.MakeOutInvoice;
 
 /**
  * @author hotel
@@ -659,6 +660,31 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         }
 
     }
+    
+    private class MakeInvoice implements ClickHandler {
+
+        private final String resName;
+
+        MakeInvoice(String resName) {
+            this.resName = resName;
+        }
+
+        @Override
+        public void onClick(final ClickEvent event) {
+            BackAbstract.IRunAction<BookingP> i = new BackAbstract.IRunAction<BookingP>() {
+
+                @Override
+                public void action(BookingP t) {
+                    new MakeOutInvoice().doInvoice(t,new WSize(event.getRelativeElement()));
+                }
+
+            };
+            new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
+                    resName, i);
+
+        }
+
+    }
 
     /**
      * Class called when panel cell is clicked
@@ -670,7 +696,6 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-//            IResLocator rI = HInjector.getI().getI();
             // retrieve information
             WChoosedLine wC = SlU.getWChoosedLine(slContext);
             WSize wSize = wC.getwSize();
@@ -713,6 +738,9 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
                 ve.add(b);
                 b = new Button("Dopisz do rachunku");
                 b.addClickHandler(new AddToBill(p.getBookName()));
+                ve.add(b);
+                b = new Button("Wystaw fakturę");
+                b.addClickHandler(new MakeInvoice(p.getBookName()));
                 ve.add(b);
                 break;
             }
