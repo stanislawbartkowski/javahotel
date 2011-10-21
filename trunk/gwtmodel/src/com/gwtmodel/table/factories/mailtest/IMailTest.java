@@ -16,7 +16,7 @@ package com.gwtmodel.table.factories.mailtest;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 /**
- *
+ * 
  * @author perseus
  */
 public interface IMailTest extends ISlotable {

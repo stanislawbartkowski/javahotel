@@ -19,32 +19,64 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
 /**
- *
+ * Common AsyncCallBack for all async service Handles OnFailure
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public abstract class CommonCallBack<T> implements AsyncCallback<T> {
 
+    /**
+     * OnSuccess handler
+     * 
+     * @param arg
+     *            Value returned
+     */
     abstract public void onMySuccess(final T arg);
+
     final private IWebPanel iWeb;
     final private onFailureExt ext;
 
+    /**
+     * Customer handler for onFailure (if needed)
+     * 
+     * @author hotel
+     * 
+     */
     public interface onFailureExt {
 
+        /**
+         * Custom action on failure
+         * 
+         * @param ext
+         *            Throwable causing failure
+         * @return true: run standard failure handler, false: do not run
+         * 
+         */
         boolean doSth(Throwable ext);
     }
 
-    public CommonCallBack() {
+    /**
+     * Constructor
+     */
+    protected CommonCallBack() {
         iWeb = GwtGiniInjector.getI().getWebPanel();
         iWeb.IncDecCounter(true);
         ext = null;
     }
 
-    protected void incC(final int no) {
+    // default visibility on purpose
+    void incC(final int no) {
         for (int i = 0; i < no; i++) {
             iWeb.IncDecCounter(true);
         }
     }
 
+    /**
+     * Constructor with custom failure handler
+     * 
+     * @param e
+     *            Custom failure handler
+     */
     public CommonCallBack(final onFailureExt e) {
         iWeb = GwtGiniInjector.getI().getWebPanel();
         iWeb.IncDecCounter(true);
@@ -65,7 +97,8 @@ public abstract class CommonCallBack<T> implements AsyncCallback<T> {
                 return;
             }
         }
-        ITableCustomFactories fa = GwtGiniInjector.getI().getTableFactoriesContainer();
+        ITableCustomFactories fa = GwtGiniInjector.getI()
+                .getTableFactoriesContainer();
         IGetCustomValues va = fa.getGetCustomValues();
         String cMessage = va.getCustomValue(IGetCustomValues.COMMERROR);
         if (caught.getMessage() != null) {

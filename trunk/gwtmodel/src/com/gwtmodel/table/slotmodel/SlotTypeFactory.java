@@ -19,25 +19,25 @@ import com.gwtmodel.table.injector.LogT;
 public class SlotTypeFactory {
 
     public SlotType construct(IDataType dType, DataActionEnum dataActionEnum) {
-        assert dType != null : LogT.getT().cannotBeNull();
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(SlotEventEnum.DataAction, null, null,
                 dataActionEnum, null, null, dType, null, null, null);
     }
 
     public SlotType construct(IDataType dType, GetActionEnum gEnum) {
-        assert dType != null : LogT.getT().cannotBeNull();
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
                 null, dType, gEnum, null, null);
     }
 
     public SlotType construct(IDataType dType, IVField fie) {
-        assert dType != null : LogT.getT().cannotBeNull();
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(SlotEventEnum.ChangeValue, fie, null, null, null,
                 null, dType, null, null, null);
     }
 
     public SlotType constructI(IDataType dType) {
-        assert dType != null : LogT.getT().cannotBeNull();
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
                 null, dType, GetActionEnum.GetFormFieldWidget, null, null);
     }
@@ -68,7 +68,7 @@ public class SlotTypeFactory {
 
     public SlotType construct(IDataType dType, ClickButtonType buttonClick,
             ButtonAction bAction) {
-        assert dType != null : LogT.getT().cannotBeNull();
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick,
                 null, null, null, dType, null, null, bAction);
     }
@@ -89,7 +89,7 @@ public class SlotTypeFactory {
     }
 
     public SlotType construct(IDataType dType, SlotType sl) {
-        assert dType != null : LogT.getT().cannotBeNull();
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(sl.getSlEnum(), sl.getFie(), sl.getButtonClick(),
                 sl.getDataActionEnum(), sl.getSlList(), sl.getCellId(), dType,
                 sl.getgEnum(), sl.getiEq(), sl.getbAction());

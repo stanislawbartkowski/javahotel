@@ -24,11 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Class for keeping data for 'Find' and 'Filter' functionality
+ * 
  * @author perseus
  */
 class FData extends VModelData {
 
+    /** List of all fields with find/filter values. */
     private final List<FormField> liF;
     private final List<VListHeaderDesc> li;
     private final IOkModelData iOk;
@@ -48,6 +50,11 @@ class FData extends VModelData {
         return ll;
     }
 
+    /**
+     * Check if any data have been entered
+     * 
+     * @return true: nothing, is empty false: not empty
+     */
     public boolean isEmpty() {
         for (IVField f : getF()) {
             if (f.getType().getType() == FieldDataType.T.BOOLEAN) {

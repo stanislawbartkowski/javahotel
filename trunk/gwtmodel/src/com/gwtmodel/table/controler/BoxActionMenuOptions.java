@@ -18,6 +18,7 @@ import java.util.Map;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.SlotType;
@@ -76,6 +77,11 @@ public class BoxActionMenuOptions {
 
     public void setAskString(String key, String s) {
         sMap.put(key, s);
+    }
+
+    public void setAskStandardResign() {
+        setAskString(BoxActionMenuOptions.ASK_BEFORE_RESIGN, MM.getL()
+                .YouResignStandard());
     }
 
     String getAskString(String key) {
