@@ -37,68 +37,8 @@ import com.javahotel.db.jtypes.HId;
 @Entity
 @KeyObject(keyField="hotelId",objectField="hotel")
 @ObjectCollection(objectCollectionField="periods")
-public class OfferSeason implements IHotelDictionary {
+public class OfferSeason extends AbstractDictionary implements IHotelDictionary {
 	
-	// ============================================= 
-	// Abstract Dictionary 
-	// =============================================
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	private Key id;
-
-	public HId getId() {
-		return new HId(id);
-	}
-
-	public void setId(HId id) {
-		this.id = id.getId();
-	}
-	
-	public Long getHotelId() {
-		return hotelId;
-	}
-
-	public void setHotelId(Long hotelId) {
-		this.hotelId = hotelId;
-	}
-
-	@Basic
-	private Long hotelId;
-
-	@Transient
-	private RHotel hotel;
-
-	public RHotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(RHotel hotel) {
-		this.hotel = hotel;
-	}
-
-	@Basic(optional = false)
-	private String name;
-	@Basic
-	private String description;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
-// ===================================================	
-
     @Basic(optional=false)
     @Temporal(TemporalType.DATE)
     private Date startP;

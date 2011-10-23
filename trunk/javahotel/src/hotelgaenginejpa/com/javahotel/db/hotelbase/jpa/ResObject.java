@@ -12,20 +12,16 @@
  */
 
 package com.javahotel.db.hotelbase.jpa;
- 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.javahotel.common.command.RRoom;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
-import com.javahotel.db.jtypes.HId;
 
 /**
  * 
@@ -33,144 +29,78 @@ import com.javahotel.db.jtypes.HId;
  */
 @KeyCollectionObject(keyCollectionField = "keyFacilities", objectCollectionField = "facilities", classObject = RoomFacilities.class)
 @KeyObjects(keyFields = { "hotelId", "rStandardKey" }, objectFields = {
-		"hotel", "rStandard" })
+        "hotel", "rStandard" })
 @Entity
-public class ResObject implements IHotelDictionary {
+public class ResObject extends AbstractDictionary implements IHotelDictionary {
 
-	public ResObject() {
-		facilities = new ArrayList<RoomFacilities>();
-	}
+    public ResObject() {
+        facilities = new ArrayList<RoomFacilities>();
+    }
 
-	public Long getRStandardKey() {
-		return rStandardKey;
-	}
+    public Long getRStandardKey() {
+        return rStandardKey;
+    }
 
-	public void setRStandardKey(Long standardKey) {
-		rStandardKey = standardKey;
-	}
+    public void setRStandardKey(Long standardKey) {
+        rStandardKey = standardKey;
+    }
 
-	public List<Long> getKeyFacilities() {
-		return keyFacilities;
-	}
+    public List<Long> getKeyFacilities() {
+        return keyFacilities;
+    }
 
-	public void setKeyFacilities(List<Long> keyFacilities) {
-		this.keyFacilities = keyFacilities;
-	}
+    public void setKeyFacilities(List<Long> keyFacilities) {
+        this.keyFacilities = keyFacilities;
+    }
 
-	// =============================================
-	// Abstract Dictionary
-	// =============================================
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Basic(optional = false)
+    private RRoom rType;
 
-	public HId getId() {
-		return new HId(id);
-	}
+    @Basic
+    private Integer maxPerson;
 
-	public void setId(HId id) {
-		this.id = id.getL();
-	}
+    @Transient
+    private RoomStandard rStandard;
 
-	public Long getHotelId() {
-		return hotelId;
-	}
+    @Basic
+    private Long rStandardKey;
 
-	public void setHotelId(Long hotelId) {
-		this.hotelId = hotelId;
-	}
+    @Transient
+    private List<RoomFacilities> facilities;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Basic
+    private List<Long> keyFacilities;
 
-	@Basic
-	private Long hotelId;
+    public RRoom getRType() {
+        return rType;
+    }
 
-	@Transient
-	private RHotel hotel;
+    public void setRType(RRoom rType) {
+        this.rType = rType;
+    }
 
-	public RHotel getHotel() {
-		return hotel;
-	}
+    public Integer getMaxPerson() {
+        return maxPerson;
+    }
 
-	public void setHotel(RHotel hotel) {
-		// this.hotelId = AfterLoadActionFactory.getId(hotel);
-		this.hotel = hotel;
-	}
+    public void setMaxPerson(Integer maxPerson) {
+        this.maxPerson = maxPerson;
+    }
 
-	@Basic(optional = false)
-	private String name;
-	@Basic
-	private String description;
+    public RoomStandard getRStandard() {
+        return rStandard;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setRStandard(RoomStandard rStandard) {
+        this.rStandard = rStandard;
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public List<RoomFacilities> getFacilities() {
+        return facilities;
+    }
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
-	// ===================
-
-	@Basic(optional = false)
-	private RRoom rType;
-
-
-	@Basic
-	private Integer maxPerson;
-
-	@Transient
-	private RoomStandard rStandard;
-
-	@Basic
-	private Long rStandardKey;
-
-	@Transient
-	private List<RoomFacilities> facilities;
-
-	@Basic
-	private List<Long> keyFacilities;
-
-	public RRoom getRType() {
-		return rType;
-	}
-
-	public void setRType(RRoom rType) {
-		this.rType = rType;
-	}
-
-	public Integer getMaxPerson() {
-		return maxPerson;
-	}
-
-	public void setMaxPerson(Integer maxPerson) {
-		this.maxPerson = maxPerson;
-	}
-
-	public RoomStandard getRStandard() {
-		return rStandard;
-	}
-
-	public void setRStandard(RoomStandard rStandard) {
-		this.rStandard = rStandard;
-	}
-
-	public List<RoomFacilities> getFacilities() {
-		return facilities;
-	}
-
-	public void setFacilities(final List<RoomFacilities> facilities) {
-		this.facilities = facilities;
-	}
+    public void setFacilities(final List<RoomFacilities> facilities) {
+        this.facilities = facilities;
+    }
 
 }

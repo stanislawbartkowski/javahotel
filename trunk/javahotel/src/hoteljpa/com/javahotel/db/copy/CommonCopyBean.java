@@ -53,6 +53,7 @@ import com.javahotel.db.hotelbase.jpa.CustomerBankAccount;
 import com.javahotel.db.hotelbase.jpa.CustomerPhoneNumber;
 import com.javahotel.db.hotelbase.jpa.CustomerRemark;
 import com.javahotel.db.hotelbase.jpa.Guest;
+import com.javahotel.db.hotelbase.jpa.InvoiceIssuer;
 import com.javahotel.db.hotelbase.jpa.OfferPrice;
 import com.javahotel.db.hotelbase.jpa.OfferSeason;
 import com.javahotel.db.hotelbase.jpa.OfferSeasonPeriod;
@@ -439,7 +440,7 @@ public class CommonCopyBean {
         }
 
         // important: before Customer
-        if (sou instanceof InvoiceIssuerP) {
+        if (sou instanceof InvoiceIssuer) {
             // firstly copy CustomerData
             CopyCustomer.copy2(iC, (Customer) sou, (CustomerP) dest);
             // then copy specific fields

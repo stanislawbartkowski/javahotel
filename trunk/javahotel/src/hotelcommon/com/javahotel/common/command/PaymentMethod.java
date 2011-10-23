@@ -13,9 +13,9 @@
 package com.javahotel.common.command;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public enum PaymentMethod {
-    Cache, Check, CreditCard
+    Transfer, CreditCard, Cache, Check
 }

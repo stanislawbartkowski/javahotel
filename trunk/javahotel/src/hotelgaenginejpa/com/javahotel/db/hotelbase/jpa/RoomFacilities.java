@@ -13,85 +13,17 @@
 
 package com.javahotel.db.hotelbase.jpa;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Transient;
 
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
-import com.javahotel.db.jtypes.HId;
- 
+
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-@KeyObject(keyField="hotelId",objectField="hotel")
+@KeyObject(keyField = "hotelId", objectField = "hotel")
 @Entity
-public class RoomFacilities implements IHotelDictionary {
-
-	// ============================================= 
-	// Abstract Dictionary 
-	// =============================================
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	private Long id;
-
-	public HId getId() {
-		return new HId(id);
-	}
-
-	public void setId(HId id) {
-		this.id = id.getL();
-	}
-	
-	public Long getHotelId() {
-		return hotelId;
-	}
-
-	public void setHotelId(Long hotelId) {
-		this.hotelId = hotelId;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Basic
-	private Long hotelId;
-
-	@Transient
-	private RHotel hotel;
-
-	public RHotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(RHotel hotel) {
-//		this.hotelId = AfterLoadActionFactory.getId(hotel);
-		this.hotel = hotel;
-	}
-
-	@Basic(optional = false)
-	private String name;
-	@Basic
-	private String description;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+public class RoomFacilities extends AbstractDictionary implements
+        IHotelDictionary {
 
 }

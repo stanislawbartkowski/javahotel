@@ -32,8 +32,6 @@ import com.javahotel.db.hotelbase.types.IHotelDictionary;
 @KeyObject(keyField = "hotelId", objectField = "hotel")
 public class Customer extends AbstractDictionary implements IHotelDictionary {
 
-    // ===================================================
-
     @Basic
     private String zipCode;
     @Basic

@@ -18,14 +18,10 @@ import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
-import com.javahotel.db.jtypes.HId;
- 
+
 /**
  * 
  * @author stanislawbartkowski@gmail.com
@@ -33,96 +29,33 @@ import com.javahotel.db.jtypes.HId;
 @KeyCollectionObject(keyCollectionField = "keyServices", objectCollectionField = "services", classObject = ServiceDictionary.class)
 @KeyObject(keyField = "hotelId", objectField = "hotel")
 @Entity
-public class RoomStandard implements IHotelDictionary {
+public class RoomStandard extends AbstractDictionary implements
+        IHotelDictionary {
 
-	public RoomStandard() {
-		services = new ArrayList<ServiceDictionary>();
-	}
+    public RoomStandard() {
+        services = new ArrayList<ServiceDictionary>();
+    }
 
-	public List<Long> getKeyServices() {
-		return keyServices;
-	}
+    public List<Long> getKeyServices() {
+        return keyServices;
+    }
 
-	public void setKeyServices(List<Long> keyServices) {
-		this.keyServices = keyServices;
-	}
+    public void setKeyServices(List<Long> keyServices) {
+        this.keyServices = keyServices;
+    }
 
-	// =============================================
-	// Abstract Dictionary
-	// =============================================
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Transient
+    private List<ServiceDictionary> services;
 
-	public HId getId() {
-		return new HId(id);
-	}
+    @Basic
+    private List<Long> keyServices;
 
-	public void setId(HId id) {
-		this.id = id.getL();
-	}
+    public List<ServiceDictionary> getServices() {
+        return services;
+    }
 
-	public Long getHotelId() {
-		return hotelId;
-	}
-
-	public void setHotelId(Long hotelId) {
-		this.hotelId = hotelId;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Basic
-	private Long hotelId;
-
-	@Transient
-	private RHotel hotel;
-
-	public RHotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(RHotel hotel) {
-		this.hotel = hotel;
-	}
-
-	@Basic(optional = false)
-	private String name;
-	@Basic
-	private String description;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
-	// ===================================================
-
-	@Transient
-	private List<ServiceDictionary> services;
-
-	@Basic
-	private List<Long> keyServices;
-
-	public List<ServiceDictionary> getServices() {
-		return services;
-	}
-
-	public void setServices(final List<ServiceDictionary> services) {
-		this.services = services;
-	}
+    public void setServices(final List<ServiceDictionary> services) {
+        this.services = services;
+    }
 
 }
