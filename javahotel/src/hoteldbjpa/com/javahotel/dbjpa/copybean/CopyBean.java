@@ -30,8 +30,8 @@ public class CopyBean {
 
     public static Object createI(final Class<?> cla, final GetLogger log) {
         try {
-            Constructor<?> c = cla.getConstructor(new Class[]{});
-            Object t = c.newInstance(new Object[]{});
+            Constructor<?> c = cla.getConstructor(new Class[] {});
+            Object t = c.newInstance(new Object[] {});
             return t;
         } catch (NoSuchMethodException ex) {
             log.getL().log(Level.SEVERE, "", ex);
@@ -55,7 +55,7 @@ public class CopyBean {
         protected Object getVal(final Object sou, final Object dest,
                 final Method m) throws IllegalAccessException,
                 IllegalArgumentException, InvocationTargetException {
-            Object val = m.invoke(sou, new Object[]{});
+            Object val = m.invoke(sou, new Object[] {});
             return val;
         }
     }

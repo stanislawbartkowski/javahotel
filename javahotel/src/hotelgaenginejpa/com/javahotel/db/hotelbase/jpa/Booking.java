@@ -20,209 +20,144 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import com.google.appengine.api.datastore.Key;
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
-import com.javahotel.db.jtypes.HId;
- 
+
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
 @Entity
 @KeyObjects(keyFields = { "hotelId", "customerId" }, objectFields = { "hotel",
-		"customer" })
+        "customer" })
 @ObjectCollections(objectCollectionField = { "bill", "bookrecords" })
-public class Booking implements IHotelDictionary {
+public class Booking extends AbstractDictionary implements IHotelDictionary {
 
-	// =============================================
-	// Abstract Dictionary
-	// =============================================
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Key id;
+    @Basic(optional = false)
+    @Temporal(TemporalType.DATE)
+    private Date checkIn;
+    @Basic(optional = false)
+    @Temporal(TemporalType.DATE)
+    private Date checkOut;
 
-	public HId getId() {
-		return new HId(id);
-	}
+    @Basic(optional = false)
+    private Long customerId;
+    @Transient
+    private Customer customer;
 
-	public void setId(HId id) {
-		this.id = id.getId();
-	}
+    @Basic
+    private Integer noPersons;
 
-	public Long getHotelId() {
-		return hotelId;
-	}
+    @Basic(optional = false)
+    private String season;
 
-	public void setHotelId(Long hotelId) {
-		this.hotelId = hotelId;
-	}
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 
-	@Basic
-	private Long hotelId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
+    private List<BookRecord> bookrecords;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
+    private List<BookingState> state;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
+    private List<Bill> bill;
+    @Basic
+    private String resName;
+    @Basic(optional = false)
+    private BookingEnumTypes bookingType;
 
-	@Transient
-	private RHotel hotel;
+    public Booking() {
+        state = new ArrayList<BookingState>();
+        bill = new ArrayList<Bill>();
+    }
 
-	public RHotel getHotel() {
-		return hotel;
-	}
+    public Date getCheckIn() {
+        return checkIn;
+    }
 
-	public void setHotel(RHotel hotel) {
-		this.hotel = hotel;
-	}
+    public void setCheckIn(final Date checkIn) {
+        this.checkIn = checkIn;
+    }
 
-	@Basic(optional = false)
-	private String name;
-	@Basic
-	private String description;
+    public Date getCheckOut() {
+        return checkOut;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setCheckOut(final Date checkOut) {
+        this.checkOut = checkOut;
+    }
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public Customer getCustomer() {
+        return customer;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+    public Integer getNoPersons() {
+        return noPersons;
+    }
 
-	// ===================================================
+    public void setNoPersons(Integer noPersons) {
+        this.noPersons = noPersons;
+    }
 
-	@Basic(optional = false)
-	@Temporal(TemporalType.DATE)
-	private Date checkIn;
-	@Basic(optional = false)
-	@Temporal(TemporalType.DATE)
-	private Date checkOut;
+    public Long getCustomerId() {
+        return customerId;
+    }
 
-	@Basic(optional = false)
-	private Long customerId;
-	@Transient
-	private Customer customer;
+    public String getSeason() {
+        return season;
+    }
 
-	@Basic
-	private Integer noPersons;
+    public void setSeason(String season) {
+        this.season = season;
+    }
 
-	@Basic(optional = false)
-	private String season;
+    public List<BookRecord> getBookrecords() {
+        return bookrecords;
+    }
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
-	}
+    public void setBookrecords(final List<BookRecord> bookrecords) {
+        this.bookrecords = bookrecords;
+    }
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-	private List<BookRecord> bookrecords;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-	private List<BookingState> state;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-	private List<Bill> bill;
-	@Basic
-	private String resName;
-	@Basic(optional = false)
-	private BookingEnumTypes bookingType;
+    public List<BookingState> getState() {
+        return state;
+    }
 
-	public Booking() {
-		state = new ArrayList<BookingState>();
-		bill = new ArrayList<Bill>();
-	}
+    public void setState(final List<BookingState> state) {
+        this.state = state;
+    }
 
-	public Date getCheckIn() {
-		return checkIn;
-	}
+    public String getResName() {
+        return resName;
+    }
 
-	public void setCheckIn(final Date checkIn) {
-		this.checkIn = checkIn;
-	}
+    public void setResName(String resName) {
+        this.resName = resName;
+    }
 
-	public Date getCheckOut() {
-		return checkOut;
-	}
+    public BookingEnumTypes getBookingType() {
+        return bookingType;
+    }
 
-	public void setCheckOut(final Date checkOut) {
-		this.checkOut = checkOut;
-	}
+    public void setBookingType(BookingEnumTypes bookingType) {
+        this.bookingType = bookingType;
+    }
 
-	public Customer getCustomer() {
-		return customer;
-	}
+    public List<Bill> getBill() {
+        return bill;
+    }
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public Integer getNoPersons() {
-		return noPersons;
-	}
-
-	public void setNoPersons(Integer noPersons) {
-		this.noPersons = noPersons;
-	}
-
-	public Long getCustomerId() {
-		return customerId;
-	}
-
-	public String getSeason() {
-		return season;
-	}
-
-	public void setSeason(String season) {
-		this.season = season;
-	}
-
-	public List<BookRecord> getBookrecords() {
-		return bookrecords;
-	}
-
-	public void setBookrecords(final List<BookRecord> bookrecords) {
-		this.bookrecords = bookrecords;
-	}
-
-	public List<BookingState> getState() {
-		return state;
-	}
-
-	public void setState(final List<BookingState> state) {
-		this.state = state;
-	}
-
-	public String getResName() {
-		return resName;
-	}
-
-	public void setResName(String resName) {
-		this.resName = resName;
-	}
-
-	public BookingEnumTypes getBookingType() {
-		return bookingType;
-	}
-
-	public void setBookingType(BookingEnumTypes bookingType) {
-		this.bookingType = bookingType;
-	}
-
-	public List<Bill> getBill() {
-		return bill;
-	}
-
-	public void setBill(List<Bill> bill) {
-		this.bill = bill;
-	}
+    public void setBill(List<Bill> bill) {
+        this.bill = bill;
+    }
 
 }

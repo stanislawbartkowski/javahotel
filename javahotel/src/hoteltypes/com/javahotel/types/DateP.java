@@ -20,6 +20,7 @@ import java.util.Date;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class DateP implements Serializable {
 
 	private int year, month, day;
@@ -63,7 +64,8 @@ public class DateP implements Serializable {
 		this.day = day;
 	}
 
-	public void setT(final Timestamp d) {
+	@SuppressWarnings("deprecation")
+    public void setT(final Timestamp d) {
 		if (d == null) {
 			empty = true;
 			return;
@@ -76,7 +78,8 @@ public class DateP implements Serializable {
 		setS(d.getSeconds());
 	}
 
-	public void setD(final Date d) {
+	@SuppressWarnings("deprecation")
+    public void setD(final Date d) {
 		if (d == null) {
 			empty = true;
 			return;
@@ -89,7 +92,8 @@ public class DateP implements Serializable {
 		setS(DEFS);
 	}
 
-	public Date getD() {
+	@SuppressWarnings("deprecation")
+    public Date getD() {
 		if (empty) {
 			return null;
 		}
@@ -97,7 +101,8 @@ public class DateP implements Serializable {
 		return d;
 	}
 
-	public Timestamp getT() {
+	@SuppressWarnings("deprecation")
+    public Timestamp getT() {
 		if (empty) {
 			return null;
 		}

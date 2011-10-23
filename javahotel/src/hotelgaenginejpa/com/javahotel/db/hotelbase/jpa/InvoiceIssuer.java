@@ -18,7 +18,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 /**
- * @author hotel Entity for keeping data of invoice issuer It is derived from
+ * @author hotel Entity for keeping data of invoice issuer. It is derived from
  *         Customer with some additional data
  */
 @Entity

@@ -18,17 +18,12 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.google.appengine.api.datastore.Key;
-import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.IId;
  
 /**
@@ -37,23 +32,8 @@ import com.javahotel.db.jtypes.IId;
  */
 @Entity
 @ObjectCollection(objectCollectionField = "guests")
-public class BookElem implements IId {
+public class BookElem extends AbstractIId implements IId {
 	
-// =====================	
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Key id;
-    
-    public HId getId() {
-		return new HId(id);
-	}
-
-	public void setId(HId id) {
-		this.id = id.getId();		
-	}
-// =====================	
-
-
 	@Basic(optional = false)
 	@Temporal(TemporalType.DATE)
 	private Date checkIn;
