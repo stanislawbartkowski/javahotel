@@ -32,7 +32,7 @@ public class CreateFormView {
     private CreateFormView() {
     }
 
-    private static void replace(HTMLPanel ha, String htmlId, Widget w) {
+    public static void replace(HTMLPanel ha, String htmlId, Widget w) {
         try {
             w.getElement().setId(htmlId);
             ha.addAndReplaceElement(w, htmlId);

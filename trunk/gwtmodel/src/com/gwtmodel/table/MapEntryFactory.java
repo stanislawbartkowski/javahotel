@@ -14,7 +14,7 @@ package com.gwtmodel.table;
 
 /**
  * 
- *
+ * 
  * @author perseus
  */
 public class MapEntryFactory {

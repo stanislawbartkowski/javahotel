@@ -12,27 +12,25 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import com.gwtmodel.table.ICustomObject;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
 /**
  * @author hotel
  * 
  */
-public class GetVDataByIntegerSignal implements ICustomObject {
+public class GetVDataByIntegerSignal extends CustomObjectValue<Integer> {
 
-    public static final String GETINTEGERSLOTSIGNAL = "GET_INTEGER_BY_SLOT_SIGNAL";
-
-    private final int i;
+    private static final String GETINTEGERSLOTSIGNAL = "GET_INTEGER_BY_SLOT_SIGNAL";
 
     public GetVDataByIntegerSignal(int i) {
-        this.i = i;
+        super(i);
     }
 
-    /**
-     * @return the i
-     */
-    int getI() {
-        return i;
+    public static CustomStringSlot constructSlot(IDataType dType) {
+        return new CustomStringDataTypeSlot(GETINTEGERSLOTSIGNAL, dType);
     }
 
 }
