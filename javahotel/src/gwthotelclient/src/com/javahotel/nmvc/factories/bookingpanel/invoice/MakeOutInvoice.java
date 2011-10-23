@@ -55,7 +55,6 @@ public class MakeOutInvoice {
         protected void doTask() {
             new MakeOutInvoiceWidget(p, val, buyer, html, w);
         }
-
     }
 
     public MakeOutInvoice() {

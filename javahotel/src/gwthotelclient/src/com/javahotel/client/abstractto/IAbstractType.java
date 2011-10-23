@@ -46,6 +46,17 @@ public interface IAbstractType {
         }
     }
 
+    /**
+     * Construct T type relevant to IVField
+     * @param i IField
+     * @return T
+     */
     T construct(IField i);
+
+    /**
+     * Construct FieldDataType for entring payment method
+     * @return FieldDataType
+     */
+    FieldDataType contructPaymentMethod();
 
 }

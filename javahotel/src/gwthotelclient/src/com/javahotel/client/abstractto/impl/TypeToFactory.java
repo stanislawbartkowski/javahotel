@@ -426,4 +426,9 @@ public class TypeToFactory implements IAbstractType {
         return t;
     }
 
+    @Override
+    public FieldDataType contructPaymentMethod() {
+        return FieldDataType.constructEnum(payMetType);
+    }
+
 }

@@ -57,7 +57,7 @@ class MakeOutInvoiceWidget {
         public ISlotable constructS(ICallContext iContext, IDataType dType,
                 BookingP p, BoxActionMenuOptions bOptions, SlotType slType) {
             ISlotable iSlo = new MakeOutInvoiceDialog(dType,
-                    Empty.getDataType1(), val.get(0), html, buyer);
+                    Empty.getDataType1(), val.get(0), html, buyer, p);
             return iSlo;
         }
 
