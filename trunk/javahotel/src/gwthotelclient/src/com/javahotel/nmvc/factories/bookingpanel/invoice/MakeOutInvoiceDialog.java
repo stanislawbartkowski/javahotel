@@ -13,11 +13,13 @@
 package com.javahotel.nmvc.factories.bookingpanel.invoice;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -25,6 +27,7 @@ import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.VSField;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
+import com.gwtmodel.table.datamodelview.SignalSetHtmlId;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -35,6 +38,8 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import com.javahotel.common.dateutil.DateUtil;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.InvoiceIssuerP;
@@ -52,6 +57,20 @@ class MakeOutInvoiceDialog extends AbstractSlotContainer {
     private final EditWidgetFactory eFactory;
     private final IDataType publishType;
     private final CustomerP buyer;
+    private final InvoiceLines iLines;
+    private final CellId lineId = new CellId(0);
+    private final IDataType lineType = Empty.getDataType();
+    private final BookingP p;
+
+    private final static String INVOICE_DATE = "invoice_date";
+    private final static String DATE_OF_SALE = "date_of_sale";
+    private final static String NUMBER_OF_DAYS = "invoice_number_of_days";
+    private final static String PAYMENT_METHOD = "invoice_payment_method";
+    private final static String PAYMENT_DATE = "invoice_payment_date";
+
+    private final static String INVOICE_LINES = "invoice_lines";
+
+    private final MapString mapS = new MapString();
 
     private Map<IField, String> getMapF() {
         Map<IField, String> ma = new HashMap<IField, String>();
@@ -61,6 +80,9 @@ class MakeOutInvoiceDialog extends AbstractSlotContainer {
         ma.put(CustomerP.F.address2, "hotel_address2");
         ma.put(CustomerP.F.city, "hotel_city");
         ma.put(CustomerP.F.zipCode, "hotel_zip");
+        ma.put(InvoiceIssuerP.F.townMaking, "invoice_place");
+        ma.put(InvoiceIssuerP.F.paymentDays, NUMBER_OF_DAYS);
+        ma.put(InvoiceIssuerP.F.bankAccount, "invoice_bank_account");
         return ma;
     }
 
@@ -85,19 +107,53 @@ class MakeOutInvoiceDialog extends AbstractSlotContainer {
         for (String s : ma.values()) {
             fList.add(s);
         }
+        fList.add(INVOICE_DATE);
+        fList.add(DATE_OF_SALE);
+        fList.add(PAYMENT_DATE);
+        fList.add(PAYMENT_METHOD);
         return fList;
+    }
+
+    private class MapString extends MapStringField {
+
+        @Override
+        SType GetType(String s) {
+            if (s.equals(INVOICE_DATE)) {
+                return SType.DATE;
+            }
+            if (s.equals(DATE_OF_SALE)) {
+                return SType.DATE;
+            }
+            if (s.equals(PAYMENT_DATE)) {
+                return SType.DATE;
+            }
+            if (s.equals(NUMBER_OF_DAYS)) {
+                return SType.INT;
+            }
+            if (s.equals(PAYMENT_METHOD)) {
+                return SType.PAYMENTMETHOD;
+            }
+            return SType.STRING;
+        }
+
+    }
+
+    private void createMap() {
+        List<String> fList = getFieldList();
+        mapS.createMap(fList);
     }
 
     private FormLineContainer createForm() {
         List<String> fList = getFieldList();
         List<FormField> foList = new ArrayList<FormField>();
         for (String f : fList) {
-            IVField v = VSField.createVString(f);
-            IFormLineView e = eFactory.constructTextField(v);
+            IVField v = mapS.get(f);
+            IFormLineView e = eFactory.constructEditWidget(v);
             FormField fie = new FormField(null, e);
             fie.setHtmlId(f);
             foList.add(fie);
         }
+
         return new FormLineContainer(foList, html);
     }
 
@@ -112,6 +168,19 @@ class MakeOutInvoiceDialog extends AbstractSlotContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             publish(publishType, cellId, slContext.getGwtWidget());
+        }
+
+    }
+
+    private class LineWidget implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            // publish(publishType, cellId, slContext.getGwtWidget());
+            SignalSetHtmlId sId = new SignalSetHtmlId(INVOICE_LINES,
+                    slContext.getGwtWidget());
+            iView.getSlContainer().publish(
+                    SignalSetHtmlId.constructSlot(dType), sId);
         }
 
     }
@@ -132,6 +201,10 @@ class MakeOutInvoiceDialog extends AbstractSlotContainer {
                 IVField v = VSField.createVString(e.getValue());
                 va.setF(v, o);
             }
+            Date da = DateUtil.getToday();
+            va.setF(mapS.get(DATE_OF_SALE), da);
+            va.setF(mapS.get(INVOICE_DATE), da);
+
             iView.getSlContainer().publish(dType,
                     DataActionEnum.DrawViewFormAction, va);
         }
@@ -139,15 +212,20 @@ class MakeOutInvoiceDialog extends AbstractSlotContainer {
     }
 
     MakeOutInvoiceDialog(IDataType publishType, IDataType dType,
-            InvoiceIssuerP iIssuer, String html, CustomerP buyer) {
+            InvoiceIssuerP iIssuer, String html, CustomerP buyer, BookingP p) {
         this.iIssuer = iIssuer;
         this.dType = dType;
         this.html = html;
         this.publishType = publishType;
         this.buyer = buyer;
+        this.p = p;
+        iLines = new InvoiceLines(lineType, lineId, p);
+        createMap();
         daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
         eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         iView = daFactory.construct(dType, createForm());
+        iLines.getSlContainer().registerSubscriber(lineType, lineId,
+                new LineWidget());
 
         // SlU.registerWidgetListener0(dType, iView, new GetWidget());
         this.registerSubscriber(publishType, DataActionEnum.DrawViewFormAction,
@@ -159,6 +237,7 @@ class MakeOutInvoiceDialog extends AbstractSlotContainer {
         iView.getSlContainer().registerSubscriber(dType, cellId,
                 new GetWidget(cellId));
         iView.startPublish(cellId);
+        iLines.startPublish(lineId);
     }
 
 }
