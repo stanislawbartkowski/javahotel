@@ -14,6 +14,7 @@ package com.gwtmodel.table.datamodelview;
 
 import java.util.List;
 
+import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVField;
@@ -34,8 +35,8 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
@@ -164,6 +165,17 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                     afterFocus);
         }
     }
+    
+    private class SetHtmlId implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject i = slContext.getCustom();
+            SignalSetHtmlId setI = (SignalSetHtmlId) i;
+            gView.setHtmlId(setI.getId(),setI.getgWidget());            
+        }
+        
+    }
 
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
             FormLineContainer fContainer, IDataModelFactory dFactory,
@@ -196,6 +208,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 new DrawModel());
         registerSubscriber(dType, DataActionEnum.ClearViewFormAction,
                 new ClearAction());
+        registerSubscriber(SignalSetHtmlId.constructSlot(dType), new SetHtmlId());
         registerCaller(dType, GetActionEnum.GetViewModelEdited,
                 new GetterModel());
         registerCaller(dType, GetActionEnum.GetFormFieldWidget,

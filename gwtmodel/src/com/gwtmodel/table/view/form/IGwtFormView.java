@@ -20,4 +20,6 @@ public interface IGwtFormView extends IGWidget {
     void showInvalidate(InvalidateFormContainer errContainer);
 
     void fillHtml(IGWidget g);
+
+    void setHtmlId(String is, IGWidget g);
 }

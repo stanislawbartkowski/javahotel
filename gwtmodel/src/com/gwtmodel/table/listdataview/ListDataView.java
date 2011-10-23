@@ -240,7 +240,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
             GetVDataByIntegerSignal e = (GetVDataByIntegerSignal) o;
-            IVModelData v = dataList.getList().get(e.getI());
+            IVModelData v = dataList.getList().get(e.getValue());
             return coFactory.construct(slContext.getSlType(), v);
 
         }
@@ -258,7 +258,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
             GetVListSignal e = (GetVListSignal) o;
-            List<IGetSetVField> vList = tableView.getVList(e.getI());
+            List<IGetSetVField> vList = tableView.getVList(e.getValue());
             e = new GetVListSignal(vList);
             return coFactory.construct(slContext.getSlType(), e);
         }
@@ -348,8 +348,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerSubscriber(new CustomStringDataTypeSlot(
                 EditRowsSignal.EditSignal, dType), new ChangeEditRows());
         // caller
-        registerCaller(new CustomStringDataTypeSlot(
-                GetVDataByIntegerSignal.GETINTEGERSLOTSIGNAL, dType),
+        registerCaller(GetVDataByIntegerSignal.constructSlot(dType),
                 new GetVDataByI());
         registerCaller(new CustomStringDataTypeSlot(GetVListSignal.GETVSIGNAL,
                 dType), new GetVListByI());

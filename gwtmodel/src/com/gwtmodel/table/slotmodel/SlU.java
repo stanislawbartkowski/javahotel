@@ -53,10 +53,8 @@ public class SlU {
      * @return IVModelData (throws Exception if not found)
      */
     public static IVModelData getVDataByI(IDataType dType, ISlotable iSlo, int i) {
-        ISlotCustom sl = new CustomStringDataTypeSlot(
-                GetVDataByIntegerSignal.GETINTEGERSLOTSIGNAL, dType);
         IVModelData v = iSlo.getSlContainer()
-                .getGetter(sl, new GetVDataByIntegerSignal(i)).getVData();
+                .getGetter(GetVDataByIntegerSignal.constructSlot(dType), new GetVDataByIntegerSignal(i)).getVData();
         return v;
     }
 
