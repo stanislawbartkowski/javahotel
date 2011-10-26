@@ -16,7 +16,6 @@ import java.util.List;
 
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.toobject.AddPaymentP;
-import com.javahotel.common.toobject.BillP;
 import com.javahotel.db.copy.AddPayments;
 import com.javahotel.db.copy.BeanPrepareKeys;
 import com.javahotel.db.hotelbase.jpa.Booking;
@@ -32,13 +31,11 @@ public class AddPayment extends CommandAbstract {
 
     private final String resName;
     private final List<AddPaymentP> col;
-    private final BillP bill;
 
     public AddPayment(final SessionT se, final String ho, String resName,
-            final BillP bill, List<AddPaymentP> col) {
+            List<AddPaymentP> col) {
         super(se, true, new HotelT(ho)); // defer start transaction
         this.resName = resName;
-        this.bill = bill;
         this.col = col;
     }
 
@@ -46,14 +43,12 @@ public class AddPayment extends CommandAbstract {
     protected void command() {
         Booking b = getBook(resName);
         BeanPrepareKeys.prepareA(iC, col);
-        BeanPrepareKeys.prepareB(iC, bill);
         startTra();
         if (b.getBookingType() == BookingEnumTypes.Reservation) {
             iC.logFatal(IMess.RESERVATIONNOTSTAY, resName);
             return;
         }
-
-        ret.setIdName(AddPayments.addPayment(iC, b, bill, col));
+        AddPayments.addPayment(iC, b, col);
         iC.getJpa().changeRecord(b);
     }
 

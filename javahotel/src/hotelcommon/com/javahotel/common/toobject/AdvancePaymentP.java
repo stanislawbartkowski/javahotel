@@ -19,17 +19,16 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("serial")
 public class AdvancePaymentP extends AbstractTo implements INumerable {
 
     private Long id;
-    private DateP dateOp;
+    private OperationData op;
     private DateP validationDate;
     private DecimalP amount;
-    private String remarks;
     private Integer lp;
 
     @Override
@@ -37,19 +36,19 @@ public class AdvancePaymentP extends AbstractTo implements INumerable {
         F fi = (F) f;
         Class<?> cla = String.class;
         switch (fi) {
-            case id:
-                cla = Long.class;
-                break;
-            case dateOp:
-            case validationDate:
-                cla = Date.class;
-                break;
-            case lp:
-                cla = Integer.class;
-                break;
-            case amount:
-                cla = BigDecimal.class;
-                break;
+        case id:
+            cla = Long.class;
+            break;
+        case dateOp:
+        case validationDate:
+            cla = Date.class;
+            break;
+        case lp:
+            cla = Integer.class;
+            break;
+        case amount:
+            cla = BigDecimal.class;
+            break;
         }
         return cla;
     }
@@ -68,18 +67,18 @@ public class AdvancePaymentP extends AbstractTo implements INumerable {
     public Object getF(IField f) {
         F fi = (F) f;
         switch (fi) {
-            case id:
-                return getId();
-            case dateOp:
-                return getDateOp();
-            case validationDate:
-                return getValidationDate();
-            case amount:
-                return getAmount();
-            case remarks:
-                return getRemarks();
-            case lp:
-                return getLp();
+        case id:
+            return getId();
+        case dateOp:
+            return getDateOp();
+        case validationDate:
+            return getValidationDate();
+        case amount:
+            return getAmount();
+        case remarks:
+            return getRemarks();
+        case lp:
+            return getLp();
         }
         return null;
 
@@ -89,29 +88,29 @@ public class AdvancePaymentP extends AbstractTo implements INumerable {
     public void setF(IField f, Object o) {
         F fi = (F) f;
         switch (fi) {
-            case id:
-                setId((Long) o);
-                break;
-            case dateOp:
-                setDateOp((Date) o);
-                break;
-            case validationDate:
-                setValidationDate((Date) o);
-                break;
-            case amount:
-                setAmount((BigDecimal) o);
-                break;
-            case remarks:
-                setRemarks((String) o);
-                break;
-            case lp:
-                setLp((Integer) o);
-                break;
+        case id:
+            setId((Long) o);
+            break;
+        case dateOp:
+            setDateOp((Date) o);
+            break;
+        case validationDate:
+            setValidationDate((Date) o);
+            break;
+        case amount:
+            setAmount((BigDecimal) o);
+            break;
+        case remarks:
+            setRemarks((String) o);
+            break;
+        case lp:
+            setLp((Integer) o);
+            break;
         }
     }
 
     public AdvancePaymentP() {
-        dateOp = new DateP();
+        op = new OperationData();
         validationDate = new DateP();
         amount = new DecimalP();
     }
@@ -125,11 +124,11 @@ public class AdvancePaymentP extends AbstractTo implements INumerable {
     }
 
     public Date getDateOp() {
-        return dateOp.getD();
+        return op.getDateOp();
     }
 
     public void setDateOp(final Date dateOp) {
-        this.dateOp.setD(dateOp);
+        op.setDateOp(dateOp);
     }
 
     public Date getValidationDate() {
@@ -149,11 +148,11 @@ public class AdvancePaymentP extends AbstractTo implements INumerable {
     }
 
     public String getRemarks() {
-        return remarks;
+        return op.getRemarks();
     }
 
     public void setRemarks(final String remarks) {
-        this.remarks = remarks;
+        op.setRemarks(remarks);
     }
 
     public Integer getLp() {

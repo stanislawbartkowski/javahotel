@@ -16,13 +16,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Transient;
 
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
-import com.javahotel.db.jtypes.HId;
 
 /**
  *

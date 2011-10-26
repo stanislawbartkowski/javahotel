@@ -16,15 +16,18 @@ import com.javahotel.common.command.CommandUtil;
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.IdentDocType;
 import com.javahotel.common.command.PersonTitle;
+
+import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("serial")
 public class CustomerP extends DictionaryP {
-	
+
+    private OperationData op;
     private String zipCode;
     private String name1;
     private String name2;
@@ -44,6 +47,10 @@ public class CustomerP extends DictionaryP {
     private List<BankAccountP> accounts;
     private String mailAddress;
 
+    public CustomerP() {
+        op = new OperationData();
+        customerperson = new PersonalDataP();
+    }
 
     /**
      * @return the mailAddress
@@ -53,7 +60,8 @@ public class CustomerP extends DictionaryP {
     }
 
     /**
-     * @param mailAddress the mailAddress to set
+     * @param mailAddress
+     *            the mailAddress to set
      */
     public void setMailAddress(String mailAddress) {
         this.mailAddress = mailAddress;
@@ -69,9 +77,7 @@ public class CustomerP extends DictionaryP {
 
     public enum F implements IField {
 
-        zipCode, name1, name2, city, stateUS, country, address1, address2,
-        cType, NIP, PESEL, docType, docNumber, mailAddress,
-        firstName, lastName, pTitle
+        zipCode, name1, name2, city, stateUS, country, address1, address2, cType, NIP, PESEL, docType, docNumber, mailAddress, firstName, lastName, pTitle
     }
 
     @Override
@@ -83,13 +89,18 @@ public class CustomerP extends DictionaryP {
         cla = String.class;
         F fie = (F) f;
         switch (fie) {
-            case cType: cla = CustomerType.class; break;
-            case docType: cla = IdentDocType.class; break;
-            case pTitle: cla = PersonTitle.class; break;
+        case cType:
+            cla = CustomerType.class;
+            break;
+        case docType:
+            cla = IdentDocType.class;
+            break;
+        case pTitle:
+            cla = PersonTitle.class;
+            break;
         }
         return cla;
     }
-
 
     @Override
     public IField[] getT() {
@@ -105,40 +116,40 @@ public class CustomerP extends DictionaryP {
 
         F fi = (F) f;
         switch (fi) {
-            case zipCode:
-                return getZipCode();
-            case name1:
-                return getName1();
-            case name2:
-                return getName2();
-            case city:
-                return getCity();
-            case stateUS:
-                return getStateUS();
-            case country:
-                return getCountry();
-            case address1:
-                return getAddress1();
-            case address2:
-                return getAddress2();
-            case cType:
-                return getCType();
-            case NIP:
-                return getNIP();
-            case PESEL:
-                return getPESEL();
-            case docType:
-                return getDocType();
-            case docNumber:
-                return getDocNumber();
-            case firstName:
-                return getFirstName();
-            case lastName:
-                return getLastName();
-            case pTitle:
-                return getPTitle();
-            case mailAddress:
-                return getMailAddress();
+        case zipCode:
+            return getZipCode();
+        case name1:
+            return getName1();
+        case name2:
+            return getName2();
+        case city:
+            return getCity();
+        case stateUS:
+            return getStateUS();
+        case country:
+            return getCountry();
+        case address1:
+            return getAddress1();
+        case address2:
+            return getAddress2();
+        case cType:
+            return getCType();
+        case NIP:
+            return getNIP();
+        case PESEL:
+            return getPESEL();
+        case docType:
+            return getDocType();
+        case docNumber:
+            return getDocNumber();
+        case firstName:
+            return getFirstName();
+        case lastName:
+            return getLastName();
+        case pTitle:
+            return getPTitle();
+        case mailAddress:
+            return getMailAddress();
         }
         return null;
     }
@@ -153,57 +164,57 @@ public class CustomerP extends DictionaryP {
 
         F fi = (F) f;
         switch (fi) {
-            case zipCode:
-                setZipCode((String) o);
-                break;
-            case name1:
-                setName1((String) o);
-                break;
-            case name2:
-                setName2((String) o);
-                break;
-            case city:
-                setCity((String) o);
-                break;
-            case stateUS:
-                setStateUS((String) o);
-                break;
-            case country:
-                setCountry((String) o);
-                break;
-            case address1:
-                setAddress1((String) o);
-                break;
-            case address2:
-                setAddress2((String) o);
-                break;
-            case cType:
-                setCType((CustomerType) o);
-                break;
-            case NIP:
-                setNIP((String) o);
-                break;
-            case PESEL:
-                setPESEL((String) o);
-                break;
-            case docType:
-                setDocType((IdentDocType) o);
-                break;
-            case docNumber:
-                setDocNumber((String) o);
-                break;
-            case firstName:
-                setFirstName((String) o);
-                break;
-            case lastName:
-                setLastName((String) o);
-                break;
-            case pTitle:
-                setPTitle((PersonTitle) o);
-                break;
-            case mailAddress:
-                this.setMailAddress((String) o);
-                break;
+        case zipCode:
+            setZipCode((String) o);
+            break;
+        case name1:
+            setName1((String) o);
+            break;
+        case name2:
+            setName2((String) o);
+            break;
+        case city:
+            setCity((String) o);
+            break;
+        case stateUS:
+            setStateUS((String) o);
+            break;
+        case country:
+            setCountry((String) o);
+            break;
+        case address1:
+            setAddress1((String) o);
+            break;
+        case address2:
+            setAddress2((String) o);
+            break;
+        case cType:
+            setCType((CustomerType) o);
+            break;
+        case NIP:
+            setNIP((String) o);
+            break;
+        case PESEL:
+            setPESEL((String) o);
+            break;
+        case docType:
+            setDocType((IdentDocType) o);
+            break;
+        case docNumber:
+            setDocNumber((String) o);
+            break;
+        case firstName:
+            setFirstName((String) o);
+            break;
+        case lastName:
+            setLastName((String) o);
+            break;
+        case pTitle:
+            setPTitle((PersonTitle) o);
+            break;
+        case mailAddress:
+            this.setMailAddress((String) o);
+            break;
         }
     }
 
@@ -336,53 +347,57 @@ public class CustomerP extends DictionaryP {
     }
 
     public String getFirstName() {
-        if (customerperson == null) {
-            return null;
-        }
         return customerperson.getFirstName();
     }
 
     public String getLastName() {
-        if (customerperson == null) {
-            return null;
-        }
         return customerperson.getLastName();
     }
 
     public PersonTitle getPTitle() {
-        if (customerperson == null) {
-            return null;
-        }
         return customerperson.getPTitle();
     }
 
     public void setFirstName(final String s) {
-        if (s == null) {
-            return;
-        }
-        if (customerperson == null) {
-            customerperson = new PersonalDataP();
-        }
         customerperson.setFirstName(s);
     }
 
     public void setLastName(final String s) {
-        if (s == null) {
-            return;
-        }
-        if (customerperson == null) {
-            customerperson = new PersonalDataP();
-        }
         customerperson.setLastName(s);
     }
 
     public void setPTitle(PersonTitle s) {
-        if (s == null) {
-            return;
-        }
-        if (customerperson == null) {
-            customerperson = new PersonalDataP();
-        }
         customerperson.setPTitle(s);
     }
+
+    /**
+     * @return the dateOp
+     */
+    public Date getDateOp() {
+        return op.getDateOp();
+    }
+
+    /**
+     * @param dateOp
+     *            the dateOp to set
+     */
+    public void setDateOp(Date dateOp) {
+        op.setDateOp(dateOp);
+    }
+
+    /**
+     * @return the personOp
+     */
+    public String getPersonOp() {
+        return op.getPersonOp();
+    }
+
+    /**
+     * @param personOp
+     *            the personOp to set
+     */
+    public void setPersonOp(String personOp) {
+        op.setPersonOp(personOp);
+    }
+
 }

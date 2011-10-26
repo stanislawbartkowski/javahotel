@@ -13,6 +13,7 @@
 
 package com.javahotel.db.hotelbase.jpa;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,9 +36,15 @@ import com.javahotel.db.hotelbase.types.IHotelDictionary;
 @Entity
 @KeyObjects(keyFields = { "hotelId", "customerId" }, objectFields = { "hotel",
         "customer" })
-@ObjectCollections(objectCollectionField = { "bill", "bookrecords" })
+@ObjectCollections(objectCollectionField = { "booklist", "addpayments" })
 public class Booking extends AbstractDictionary implements IHotelDictionary {
 
+    @Basic(optional = false)
+    @Temporal(TemporalType.DATE)
+    private Date dateOp;
+    @Basic(optional = false)
+    private String personOp;
+    
     @Basic(optional = false)
     @Temporal(TemporalType.DATE)
     private Date checkIn;
@@ -56,16 +63,23 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     @Basic(optional = false)
     private String season;
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
+    @Basic(optional = false)
+    private String oPrice;
+
+    @Basic(optional = false)
+    private BigDecimal customerPrice;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
+    private List<BookElem> booklist;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-    private List<BookRecord> bookrecords;
+    private List<AdvancePayment> advancePay;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
+    private List<Payment> payments;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
+    private List<AddPayment> addpayments;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
     private List<BookingState> state;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-    private List<Bill> bill;
     @Basic
     private String resName;
     @Basic(optional = false)
@@ -73,7 +87,10 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
 
     public Booking() {
         state = new ArrayList<BookingState>();
-        bill = new ArrayList<Bill>();
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public Date getCheckIn() {
@@ -120,14 +137,6 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
         this.season = season;
     }
 
-    public List<BookRecord> getBookrecords() {
-        return bookrecords;
-    }
-
-    public void setBookrecords(final List<BookRecord> bookrecords) {
-        this.bookrecords = bookrecords;
-    }
-
     public List<BookingState> getState() {
         return state;
     }
@@ -152,12 +161,121 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
         this.bookingType = bookingType;
     }
 
-    public List<Bill> getBill() {
-        return bill;
+    /**
+     * @return the oPrice
+     */
+    public String getOPrice() {
+        return oPrice;
     }
 
-    public void setBill(List<Bill> bill) {
-        this.bill = bill;
+    /**
+     * @param oPrice
+     *            the oPrice to set
+     */
+    public void setOPrice(String oPrice) {
+        this.oPrice = oPrice;
     }
+
+    /**
+     * @return the customerPrice
+     */
+    public BigDecimal getCustomerPrice() {
+        return customerPrice;
+    }
+
+    /**
+     * @param customerPrice
+     *            the customerPrice to set
+     */
+    public void setCustomerPrice(BigDecimal customerPrice) {
+        this.customerPrice = customerPrice;
+    }
+
+    /**
+     * @return the booklist
+     */
+    public List<BookElem> getBooklist() {
+        return booklist;
+    }
+
+    /**
+     * @param booklist
+     *            the booklist to set
+     */
+    public void setBooklist(List<BookElem> booklist) {
+        this.booklist = booklist;
+    }
+
+    /**
+     * @return the advancePay
+     */
+    public List<AdvancePayment> getAdvancePay() {
+        return advancePay;
+    }
+
+    /**
+     * @param advancePay the advancePay to set
+     */
+    public void setAdvancePay(List<AdvancePayment> advancePay) {
+        this.advancePay = advancePay;
+    }
+
+    /**
+     * @return the addpayments
+     */
+    public List<AddPayment> getAddpayments() {
+        return addpayments;
+    }
+
+    /**
+     * @param addpayments the addpayments to set
+     */
+    public void setAddpayments(List<AddPayment> addpayments) {
+        this.addpayments = addpayments;
+    }
+
+    /**
+     * @return the payments
+     */
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    /**
+     * @param payments the payments to set
+     */
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    /**
+     * @return the dateOp
+     */
+    public Date getDateOp() {
+        return dateOp;
+    }
+
+    /**
+     * @param dateOp the dateOp to set
+     */
+    public void setDateOp(Date dateOp) {
+        this.dateOp = dateOp;
+    }
+
+    /**
+     * @return the personOp
+     */
+    public String getPersonOp() {
+        return personOp;
+    }
+
+    /**
+     * @param personOp the personOp to set
+     */
+    public void setPersonOp(String personOp) {
+        this.personOp = personOp;
+    }
+    
+    
 
 }

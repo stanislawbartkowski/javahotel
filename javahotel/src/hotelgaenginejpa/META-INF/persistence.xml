@@ -36,14 +36,12 @@
 		<class>com.javahotel.db.hotelbase.jpa.CustomerRemark</class>
 		<class>com.javahotel.db.hotelbase.jpa.AddPayment</class>
 		<class>com.javahotel.db.hotelbase.jpa.BookElem</class>
-		<class>com.javahotel.db.hotelbase.jpa.BookRecord</class>
 		<class>com.javahotel.db.hotelbase.jpa.Booking</class>
 		<class>com.javahotel.db.hotelbase.jpa.BookingState</class>
 		<class>com.javahotel.db.hotelbase.jpa.Payment</class>
 		<class>com.javahotel.db.hotelbase.jpa.PaymentRow</class>
 		<class>com.javahotel.db.hotelbase.jpa.ParamRegistry</class>
 		<class>com.javahotel.db.hotelbase.jpa.AdvancePayment</class>
-		<class>com.javahotel.db.hotelbase.jpa.Bill</class>
 		<class>com.javahotel.db.hotelbase.jpa.Guest</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>

@@ -16,23 +16,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javahotel.common.command.BillEnumTypes;
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.PaymentMethod;
-import com.javahotel.common.toobject.BillP;
-import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
-import com.javahotel.common.toobject.PaymentRowP;
-import com.javahotel.common.util.BillUtil;
 import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.common.util.StringU;
 import com.javahotel.db.copy.BeanPrepareKeys;
 import com.javahotel.db.copy.CommonCopyBean;
 import com.javahotel.db.copy.CopyHelper;
-import com.javahotel.db.hotelbase.jpa.Bill;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.BookingState;
 import com.javahotel.db.hotelbase.jpa.Payment;
@@ -69,21 +62,17 @@ public class ChangeBookingToStay extends CommandAbstract {
         GetMaxUtil.setNextLp(p.getState(), sta);
         p.getState().add(sta);
 
-        Bill bi = HotelHelper.getBill(p);
-        BigDecimal sum = HotelHelper.sumPayment(bi.getPayments());
+        BigDecimal sum = HotelHelper.sumPayment(p.getPayments());
         if (StringU.eqZero(sum)) {
             return;
         }
         Payment pa = new Payment();
         CopyHelper.checkPersonDateOp(iC, pa);
         pa.setAmount(sum);
-        pa.setSumOp(false);
-        pa.setRemarks("Koretka zapłat");
-        pa.setBill(bi);
         pa.setPayMethod(PaymentMethod.Cache);
         pa.setDatePayment(pa.getDateOp());
-        GetMaxUtil.setNextLp(bi.getPayments(), pa);
-        bi.getPayments().add(pa);
+        GetMaxUtil.setNextLp(p.getPayments(), pa);
+        p.getPayments().add(pa);
     }
 
     private void changeToStay(final BookingP bp) {
@@ -93,17 +82,6 @@ public class ChangeBookingToStay extends CommandAbstract {
         bp.equals(null);
         bp.setBookingType(BookingEnumTypes.Stay);
 
-        // save old bill
-        BillP abill = BillUtil.getBill(bp);
-        // set first default bill
-        BillP bill = new BillP();
-        bill.setBillType(BillEnumTypes.MainBill);
-        bill.setCustomer(bp.getCustomer());
-        // move payments
-        bill.setPayments(abill.getPayments());
-        List<BillP> cP = BillUtil.getEmptyCol(bill);
-        bp.setBill(cP);
-
         List<BookingStateP> col = new ArrayList<BookingStateP>();
         BookingStateP bs = new BookingStateP();
         bs.setBState(BookingStateType.Stay);
@@ -111,20 +89,20 @@ public class ChangeBookingToStay extends CommandAbstract {
         col.add(bs);
         bp.setState(col);
 
-        BookRecordP rec = GetMaxUtil.getLastBookRecord(bp);
-        if (rec != null) {
-            GetMaxUtil.setFirstLp(rec);
-            rec.setId(null);
-            rec.setSeqId(null); // next seq id should be assigned
-            for (BookElemP el : rec.getBooklist()) {
-                el.setId(null);
-                for (PaymentRowP ro : el.getPaymentrows()) {
-                    ro.setId(null);
-                }
-            }
-            List<BookRecordP> bCol = BillUtil.getEmptyCol(rec);
-            bp.setBookrecords(bCol);
-        }
+//        BookRecordP rec = GetMaxUtil.getLastBookRecord(bp);
+//        if (rec != null) {
+//            GetMaxUtil.setFirstLp(rec);
+//            rec.setId(null);
+//            rec.setSeqId(null); // next seq id should be assigned
+//            for (BookElemP el : rec.getBooklist()) {
+//                el.setId(null);
+//                for (PaymentRowP ro : el.getPaymentrows()) {
+//                    ro.setId(null);
+//                }
+//            }
+//            List<BookRecordP> bCol = BillUtil.getEmptyCol(rec);
+//            bp.setBookrecords(bCol);
+//        }
     }
 
     /**

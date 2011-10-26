@@ -12,14 +12,13 @@
  */
 package com.javahotel.common.util;
 
-import com.javahotel.common.toobject.BookRecordP;
-import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.toobject.BookingStateP;
-import com.javahotel.common.toobject.AdvancePaymentP;
-import com.javahotel.common.toobject.BillP;
-import com.javahotel.types.INumerable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.javahotel.common.toobject.AdvancePaymentP;
+import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.BookingStateP;
+import com.javahotel.types.INumerable;
 
 /**
  * Some utilities related to get something 'max'
@@ -114,50 +113,20 @@ public class GetMaxUtil {
         return new Integer(m);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T getLast(final List<? extends INumerable> col) {
         IGetLp in = createI();
         return (T) getOneLp(col, in);
     }
 
-    public static BookRecordP getLastBookRecord(final BookingP p) {
-
-        IGetLp i = new IGetLp() {
-
-            public Integer getLp(final Object o) {
-                BookRecordP b = (BookRecordP) o;
-                return b.getLp();
-            }
-        };
-        INumerable in = getLast(p.getBookrecords());
-        return (BookRecordP) in;
-    }
-
     public static AdvancePaymentP getLastValidationRecord(final BookingP p) {
 
-        IGetLp i = new IGetLp() {
-
-            public Integer getLp(final Object o) {
-                AdvancePaymentP b = (AdvancePaymentP) o;
-                return b.getLp();
-            }
-        };
-        BillP bi = BillUtil.getBill(p);
-        if (bi == null) {
-            return null;
-        }
-        INumerable in = getLast(bi.getAdvancePay());
+        INumerable in = getLast(p.getAddpayments());
         return (AdvancePaymentP) in;
     }
 
     public static BookingStateP getLastStateRecord(final BookingP p) {
 
-        IGetLp i = new IGetLp() {
-
-            public Integer getLp(final Object o) {
-                BookingStateP b = (BookingStateP) o;
-                return b.getLp();
-            }
-        };
         INumerable in = getLast(p.getState());
         return (BookingStateP) in;
     }

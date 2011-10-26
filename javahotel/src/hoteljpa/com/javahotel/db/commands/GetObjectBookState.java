@@ -12,14 +12,11 @@
  */
 package com.javahotel.db.commands;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.db.commands.bookstate.BookState;
-import com.javahotel.db.hotelbase.jpa.ServiceDictionary;
 import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;

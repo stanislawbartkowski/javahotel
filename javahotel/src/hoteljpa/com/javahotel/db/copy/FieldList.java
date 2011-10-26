@@ -12,9 +12,9 @@
  */
 package com.javahotel.db.copy;
 
-
 /**
  * Keeps list of fields to be copied for particular object
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class FieldList {
@@ -38,10 +38,8 @@ public class FieldList {
     public static final String[] PaymentList;
     public static final String[] ValidationList;
     public static final String[] StateList;
-    public static final String[] BookRecordList;
     public static final String[] BookElemList;
     public static final String[] PaymentRowList;
-    public static final String[] BillList;
     public static final String[] GuestList;
     public static final String[] AddPayList;
     public static final String[] InvoiceIssuerList;
@@ -64,32 +62,28 @@ public class FieldList {
         PriceServiceListOffer = new String[] { "highseasonprice",
                 "lowseasonprice", "highseasonweekendprice",
                 "lowseasonweekendprice" };
-        CustomerList = new String[] { "name", "description", "zipCode",
+        CustomerList = new String[] {"personOp", "dateOp", "name", "description", "zipCode",
                 "name1", "name2", "city", "stateUS", "country", "address1",
                 "address2", "cType", "NIP", "PESEL", "docType", "docNumber",
                 "firstName", "lastName", "pTitle", "mailAddress" };
         RemarkList = new String[] { "lp", "remark", "addDate" };
         PhoneList = new String[] { "phoneNumber" };
         BankList = new String[] { "accountNumber" };
-        BookingList = new String[] { "name", "description", "checkIn",
-                "checkOut", "noPersons", "bookingType", "resName", "season" };
-        PaymentList = new String[] { "amount", "sumOp", "dateOp", "payMethod",
+        BookingList = new String[] { "personOp", "dateOp", "name", "description", "checkIn",
+                "checkOut", "noPersons", "bookingType", "resName", "season","oPrice","customerPrice" };
+        PaymentList = new String[] { "amount", "dateOp", "payMethod",
                 "remarks", "personOp", "datePayment" };
         ValidationList = new String[] { "amount", "validationDate", "remarks",
                 "dateOp" };
-        StateList = new String[] { "dateOp", "bState", "remarks" };
-        BookRecordList = new String[] { "dataFrom", "customerPrice", "oPrice",
-                "seqId" };
+        StateList = new String[] { "personOp", "dateOp", "remarks", "bState" };
         BookElemList = new String[] { "checkIn", "checkOut", "resObject",
                 "service" };
         PaymentRowList = new String[] { /* "id" */"rowFrom", "rowTo",
                 "offerPrice", "customerPrice" };
-        BillList = new String[] { /* "id" */"name", "description", "billType",
-                "oPrice" };
         GuestList = new String[] { "checkIn", "checkOut" };
         AddPayList = new String[] { "lp", "payDate", "offerPrice",
                 "customerPrice", "personOp", "dateOp", "remarks", "noSe",
-                "customerSum", "sumOp" };
+                "customerSum"};
         // keeps only fields additional to Customer
         InvoiceIssuerList = new String[] { "paymentDays", "townMaking",
                 "personMaking" };

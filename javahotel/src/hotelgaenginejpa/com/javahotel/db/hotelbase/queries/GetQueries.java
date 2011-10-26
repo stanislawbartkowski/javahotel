@@ -23,9 +23,7 @@ import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.AdvancePayment;
-import com.javahotel.db.hotelbase.jpa.Bill;
 import com.javahotel.db.hotelbase.jpa.BookElem;
-import com.javahotel.db.hotelbase.jpa.BookRecord;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.BookingState;
 import com.javahotel.db.hotelbase.jpa.OfferPrice;
@@ -139,9 +137,7 @@ public class GetQueries {
         List<Booking> cB = iC.getJpa().getListQuery(Booking.class, "hotelId",
                 iC.getRHotel().getId().getL());
         for (Booking b : cB) {
-            List<BookRecord> cBo = b.getBookrecords();
-            for (BookRecord bo : cBo) {
-                List<BookElem> cE = bo.getBooklist();
+                List<BookElem> cE = b.getBooklist();
                 for (BookElem be : cE) {
                     // only oName object
                     if (!be.getResObject().equals(oName)) {
@@ -156,13 +152,9 @@ public class GetQueries {
                     List<PaymentRow> cR = be.getPaymentrows();
                     for (PaymentRow p : cR) {
 
-                        List<BookingState> cP = p.getBookelem().getBookrecord()
-                                .getBooking().getState();
+                        List<BookingState> cP = p.getBookelem().getBooking().getState();
                         @SuppressWarnings("unused")
                         BookingState sta = GetMaxUtil.getLast(cP);
-                        @SuppressWarnings("unused")
-                        String ma = p.getBookelem().getBookrecord()
-                                .getBooking().getName();
                         Date ddTo = p.getRowTo();
                         int co;
                         if (ddTo != null) {
@@ -181,7 +173,6 @@ public class GetQueries {
                         cc.add(p);
                     }
                 }
-            }
         }
 
         return cc;
@@ -194,13 +185,11 @@ public class GetQueries {
         String hot = iC.getHotel();
         for (AdvancePayment a : col) {
             // for some reason should - otherwise is not read
-            Bill bi = a.getBill();
-            Bill bi1 = iC.getJpa().getRecord(Bill.class, bi.getId());
-            Booking bo = bi1.getBooking();
+            Booking bo = a.getBooking();
             @SuppressWarnings("unused")
             Booking bo1 = iC.getJpa().getRecord(Booking.class, bo.getId());
             // ------------------
-            String ho = a.getBill().getBooking().getHotel().getName();
+            String ho = a.getBooking().getHotel().getName();
             if (!ho.equals(hot)) {
                 continue;
             }

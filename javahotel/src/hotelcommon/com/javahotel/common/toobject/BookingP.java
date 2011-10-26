@@ -12,41 +12,47 @@
  */
 package com.javahotel.common.toobject;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.CommandUtil;
 import com.javahotel.types.DateP;
+import com.javahotel.types.DecimalP;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("serial")
 public class BookingP extends DictionaryP {
 
+    private OperationData op;
     private DateP checkIn;
     private DateP checkOut;
     private LId customer;
     private Integer noPersons;
     private String season;
-    private List<BookRecordP> bookrecords;
+    private String oPrice;
+
     private List<BookingStateP> state;
-    private List<BillP> bill;
     private BookingEnumTypes bookingType;
+    private List<BookElemP> booklist;
     /** For stay - symbol of reservation used. */
     private String resName;
+    private List<PaymentP> payments;
+    private List<AdvancePaymentP> advancePay;
+    private List<AddPaymentP> addpayments;
+    private DecimalP customerPrice;
 
-    public List<BillP> getBill() {
-        return bill;
-    }
 
-    public void setBill(List<BillP> bill) {
-        this.bill = bill;
-    }
+    public enum F implements IField {
 
+        checkIn, checkOut, customer, noPersons, season, resName, bookingType, oPrice
+    };
+    
     public BookingEnumTypes getBookingType() {
         return bookingType;
     }
@@ -63,35 +69,20 @@ public class BookingP extends DictionaryP {
         this.resName = resName;
     }
 
-    public enum F implements IField {
-
-        checkIn, checkOut, customer, noPersons, season, resName, bookingType
-    };
-
-    @Override
-    public void copyFrom(final AbstractTo from) {
-        super.copyFrom(from);
-        BookingP f = (BookingP) from;
-        bookrecords = f.getBookrecords();
-        state = f.getState();
-        bill = f.getBill();
-    }
-
 
     @Override
     protected boolean emptySpecialTrue(final IField f) {
         if (f instanceof BookingP.F) {
             F fie = (F) f;
             switch (fie) {
-                case noPersons:
-                    if (noPersons == null) {
-                        break;
-                    }
-                    if ((noPersons.intValue() == 0) ||
-                            (noPersons.intValue() == -1)) {
-                        return true;
-                    }
+            case noPersons:
+                if (noPersons == null) {
                     break;
+                }
+                if ((noPersons.intValue() == 0) || (noPersons.intValue() == -1)) {
+                    return true;
+                }
+                break;
             }
         }
         return false;
@@ -105,14 +96,14 @@ public class BookingP extends DictionaryP {
         }
         F fie = (F) f;
         switch (fie) {
-            case checkIn:
-            case checkOut:
-                return Date.class;
-            case noPersons:
-                return Integer.class;
-            case resName:
-            case season:
-                return String.class;
+        case checkIn:
+        case checkOut:
+            return Date.class;
+        case noPersons:
+            return Integer.class;
+        case resName:
+        case season:
+            return String.class;
         }
         return null;
     }
@@ -131,20 +122,22 @@ public class BookingP extends DictionaryP {
 
         F fi = (F) f;
         switch (fi) {
-            case checkIn:
-                return getCheckIn();
-            case checkOut:
-                return getCheckOut();
-            case customer:
-                return getCustomer();
-            case noPersons:
-                return getNoPersons();
-            case season:
-                return getSeason();
-            case resName:
-                return getResName();
-            case bookingType:
-                return getBookingType();
+        case oPrice:
+            return getOPrice();
+        case checkIn:
+            return getCheckIn();
+        case checkOut:
+            return getCheckOut();
+        case customer:
+            return getCustomer();
+        case noPersons:
+            return getNoPersons();
+        case season:
+            return getSeason();
+        case resName:
+            return getResName();
+        case bookingType:
+            return getBookingType();
 
         }
         return null;
@@ -160,33 +153,52 @@ public class BookingP extends DictionaryP {
 
         F fi = (F) f;
         switch (fi) {
-            case checkIn:
-                setCheckIn((Date) o);
-                break;
-            case checkOut:
-                setCheckOut((Date) o);
-                break;
-            case customer:
-                setCustomer((LId) o);
-                break;
-            case noPersons:
-                setNoPersons((Integer) o);
-                break;
-            case season:
-                setSeason((String) o);
-                break;
-            case resName:
-                setResName((String) o);
-                break;
-            case bookingType:
-                setBookingType((BookingEnumTypes) o);
-                break;
+        case oPrice:
+            setOPrice((String) o);
+            break;
+        case checkIn:
+            setCheckIn((Date) o);
+            break;
+        case checkOut:
+            setCheckOut((Date) o);
+            break;
+        case customer:
+            setCustomer((LId) o);
+            break;
+        case noPersons:
+            setNoPersons((Integer) o);
+            break;
+        case season:
+            setSeason((String) o);
+            break;
+        case resName:
+            setResName((String) o);
+            break;
+        case bookingType:
+            setBookingType((BookingEnumTypes) o);
+            break;
         }
     }
 
     public BookingP() {
         checkIn = new DateP();
         checkOut = new DateP();
+        op = new OperationData();
+        customerPrice = new DecimalP();
+    }
+
+    /**
+     * @return the customerPrice
+     */
+    public BigDecimal getCustomerPrice() {
+        return customerPrice.getDecim();
+    }
+
+    /**
+     * @param customerPrice the customerPrice to set
+     */
+    public void setCustomerPrice(BigDecimal customerPrice) {
+        this.customerPrice.setDecim(customerPrice);
     }
 
     public Date getCheckIn() {
@@ -229,14 +241,6 @@ public class BookingP extends DictionaryP {
         this.season = season;
     }
 
-    public List<BookRecordP> getBookrecords() {
-        return bookrecords;
-    }
-
-    public void setBookrecords(final List<BookRecordP> bookrecords) {
-        this.bookrecords = bookrecords;
-    }
-
     public List<BookingStateP> getState() {
         return state;
     }
@@ -244,4 +248,107 @@ public class BookingP extends DictionaryP {
     public void setState(final List<BookingStateP> state) {
         this.state = state;
     }
+
+    /**
+     * @return the oPrice
+     */
+    public String getOPrice() {
+        return oPrice;
+    }
+
+    /**
+     * @param oPrice
+     *            the oPrice to set
+     */
+    public void setOPrice(String oPrice) {
+        this.oPrice = oPrice;
+    }
+
+    /**
+     * @return the booklist
+     */
+    public List<BookElemP> getBooklist() {
+        return booklist;
+    }
+
+    /**
+     * @param booklist
+     *            the booklist to set
+     */
+    public void setBooklist(List<BookElemP> booklist) {
+        this.booklist = booklist;
+    }
+
+    /**
+     * @return the payments
+     */
+    public List<PaymentP> getPayments() {
+        return payments;
+    }
+
+    /**
+     * @param payments the payments to set
+     */
+    public void setPayments(List<PaymentP> payments) {
+        this.payments = payments;
+    }
+
+    /**
+     * @return the advancePay
+     */
+    public List<AdvancePaymentP> getAdvancePay() {
+        return advancePay;
+    }
+
+    /**
+     * @param advancePay the advancePay to set
+     */
+    public void setAdvancePay(List<AdvancePaymentP> advancePay) {
+        this.advancePay = advancePay;
+    }
+
+    /**
+     * @return the addpayments
+     */
+    public List<AddPaymentP> getAddpayments() {
+        return addpayments;
+    }
+
+    /**
+     * @param addpayments the addpayments to set
+     */
+    public void setAddpayments(List<AddPaymentP> addpayments) {
+        this.addpayments = addpayments;
+    }
+    
+    /**
+     * @return the dateOp
+     */
+    public Date getDateOp() {
+        return op.getDateOp();
+    }
+
+    /**
+     * @param dateOp
+     *            the dateOp to set
+     */
+    public void setDateOp(Date dateOp) {
+        op.setDateOp(dateOp);
+    }
+
+    /**
+     * @return the personOp
+     */
+    public String getPersonOp() {
+        return op.getPersonOp();
+    }
+
+    /**
+     * @param personOp
+     *            the personOp to set
+     */
+    public void setPersonOp(String personOp) {
+        op.setPersonOp(personOp);
+    }
+    
 }

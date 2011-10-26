@@ -12,12 +12,15 @@
  */
 package com.javahotel.db.hotelbase.jpa;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.IdentDocType;
@@ -32,6 +35,12 @@ import com.javahotel.db.hotelbase.types.IHotelDictionary;
 @KeyObject(keyField = "hotelId", objectField = "hotel")
 public class Customer extends AbstractDictionary implements IHotelDictionary {
 
+    @Basic(optional = false)
+    @Temporal(TemporalType.DATE)
+    private Date dateOp;
+    @Basic(optional = false)
+    private String personOp;
+   
     @Basic
     private String zipCode;
     @Basic
@@ -239,6 +248,62 @@ public class Customer extends AbstractDictionary implements IHotelDictionary {
 
     public void setPTitle(PersonTitle title) {
         pTitle = title;
+    }
+
+    /**
+     * @return the dateOp
+     */
+    public Date getDateOp() {
+        return dateOp;
+    }
+
+    /**
+     * @param dateOp the dateOp to set
+     */
+    public void setDateOp(Date dateOp) {
+        this.dateOp = dateOp;
+    }
+
+    /**
+     * @return the personOp
+     */
+    public String getPersonOp() {
+        return personOp;
+    }
+
+    /**
+     * @param personOp the personOp to set
+     */
+    public void setPersonOp(String personOp) {
+        this.personOp = personOp;
+    }
+
+    /**
+     * @return the cType
+     */
+    public CustomerType getcType() {
+        return cType;
+    }
+
+    /**
+     * @param cType the cType to set
+     */
+    public void setcType(CustomerType cType) {
+        this.cType = cType;
+    }
+
+    /**
+     * @return the pTitle
+     */
+    public PersonTitle getpTitle() {
+        return pTitle;
+    }
+
+    /**
+     * @param pTitle the pTitle to set
+     */
+    public void setpTitle(PersonTitle pTitle) {
+        this.pTitle = pTitle;
     }
 
 }

@@ -17,9 +17,7 @@ import java.util.List;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AddPaymentP;
 import com.javahotel.common.toobject.AdvancePaymentP;
-import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.GuestP;
@@ -29,9 +27,7 @@ import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.copy.CopyBeanToP.ICopyHelper;
 import com.javahotel.db.hotelbase.jpa.AddPayment;
 import com.javahotel.db.hotelbase.jpa.AdvancePayment;
-import com.javahotel.db.hotelbase.jpa.Bill;
 import com.javahotel.db.hotelbase.jpa.BookElem;
-import com.javahotel.db.hotelbase.jpa.BookRecord;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.BookingState;
 import com.javahotel.db.hotelbase.jpa.Guest;
@@ -49,249 +45,194 @@ import com.javahotel.remoteinterfaces.HotelT;
  */
 class CopyBooking {
 
-	private CopyBooking() {
-	}
+    private CopyBooking() {
+    }
 
-	static void copyBill(final ICommandContext iC, final HotelT ho,
-			final String seasonName, final BillP sou1, final Bill dest1) {
+    private static ICopyHelper getAddPayment(final HotelT ho) {
+        final CopyBeanToP.ICopyHelper copyaddpay = new CopyHelper.IICopyHelper(
+                FieldList.AddPayList, new String[] { "id" }) {
 
-		CopyHelper.copyCustomer(iC, sou1, dest1);
-	}
+            public Object getI(final Object se) {
+                return new AddPayment();
+            }
 
-	private static ICopyHelper getAddPayment(final HotelT ho) {
-		final CopyBeanToP.ICopyHelper copyaddpay = new CopyHelper.IICopyHelper(
-				FieldList.AddPayList, new String[] { "id" }) {
+            @Override
+            public boolean eq(final Object o1, final Object o2) {
+                return false;
+            }
 
-			public Object getI(final Object se) {
-				return new AddPayment();
-			}
+            @Override
+            protected void dcopy(final ICommandContext iC, final Object sou,
+                    final Object dest) {
+                AddPaymentP sou1 = (AddPaymentP) sou;
+                AddPayment dest1 = (AddPayment) dest;
+                ServiceDictionary se = (ServiceDictionary) iC.getC().get(
+                        ServiceDictionary.class, sou1.getRService().getName());
+                dest1.setRService(se);
+                CopyHelper.checkPersonDateOp(iC, dest1);
+            }
+        };
+        return copyaddpay;
+    }
 
-			@Override
-			public boolean eq(final Object o1, final Object o2) {
-				return false;
-			}
+    private static ICopyHelper getCopyGuest() {
+        final CopyBeanToP.ICopyHelper copyguestlist = new ICopyHelper() {
 
-			@Override
-			protected void dcopy(final ICommandContext iC, final Object sou,
-					final Object dest) {
-				AddPaymentP sou1 = (AddPaymentP) sou;
-				AddPayment dest1 = (AddPayment) dest;
-				ServiceDictionary se = (ServiceDictionary) iC.getC().get(
-						ServiceDictionary.class, sou1.getRService().getName());
-				dest1.setRService(se);
-				CopyHelper.checkPersonDateOp(iC, dest1);
-			}
-		};
-		return copyaddpay;
-	}
+            public boolean eq(Object o1, Object o2) {
+                GuestP g1 = (GuestP) o1;
+                Guest g2 = (Guest) o2;
+                if (!ToLD.eq(g1.getCustomer(), g2.getCustomer().getId())) {
+                    return false;
+                }
+                if (!DateUtil.eqNDate(g1.getCheckIn(), g2.getCheckIn())) {
+                    return false;
+                }
+                if (!DateUtil.eqNDate(g1.getCheckOut(), g2.getCheckOut())) {
+                    return false;
+                }
+                return true;
+            }
 
-	private static ICopyHelper getCopyGuest() {
-		final CopyBeanToP.ICopyHelper copyguestlist = new ICopyHelper() {
+            public Object getI(Object se) {
+                return new Guest();
+            }
 
-			public boolean eq(Object o1, Object o2) {
-				GuestP g1 = (GuestP) o1;
-				Guest g2 = (Guest) o2;
-				if (!ToLD.eq(g1.getCustomer(), g2.getCustomer().getId())) {
-					return false;
-				}
-				if (!DateUtil.eqNDate(g1.getCheckIn(), g2.getCheckIn())) {
-					return false;
-				}
-				if (!DateUtil.eqNDate(g1.getCheckOut(), g2.getCheckOut())) {
-					return false;
-				}
-				return true;
-			}
+            public void copy(ICommandContext iC, Object sou, Object dest) {
+                GuestP sou1 = (GuestP) sou;
+                Guest dest1 = (Guest) dest;
+                CopyHelper.copyCustomer(iC, sou1.getCustomer(), dest1);
+                CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.GuestList);
+            }
+        };
+        return copyguestlist;
+    }
 
-			public Object getI(Object se) {
-				return new Guest();
-			}
+    static void copy1(final ICommandContext iC, final BookingP sou,
+            final Booking dest) {
 
-			public void copy(ICommandContext iC, Object sou, Object dest) {
-				GuestP sou1 = (GuestP) sou;
-				Guest dest1 = (Guest) dest;
-				CopyHelper.copyCustomer(iC, sou1.getCustomer(), dest1);
-				CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.GuestList);
-			}
-		};
-		return copyguestlist;
-	}
+        final HotelT ho = new HotelT(sou.getHotel());
+        CopyHelper.copyDict1(iC, sou, dest, FieldList.BookingList);
+        CopyHelper.checkPersonDateOp(iC, dest);
+        CopyHelper.copyCustomer(iC, sou, dest);
 
-	static void copy1(final ICommandContext iC, final BookingP sou,
-			final Booking dest) {
+        final CopyBeanToP.ICopyHelper copypa = new CopyHelper.INumerableCopyHelper(
+                FieldList.PaymentList) {
 
-		final HotelT ho = new HotelT(sou.getHotel());
-		final String seasonName = sou.getSeason();
-		CopyHelper.copyDict1(iC, sou, dest, FieldList.BookingList);
-		CopyHelper.copyCustomer(iC, sou, dest);
+            public Object getI(final Object se) {
+                return new Payment();
+            }
+        };
+        final CopyBeanToP.ICopyHelper copyval = new CopyHelper.INumerableCopyHelper(
+                FieldList.ValidationList) {
 
-		final CopyBeanToP.ICopyHelper copypa = new CopyHelper.INumerableCopyHelper(
-				FieldList.PaymentList) {
+            public Object getI(final Object se) {
+                return new AdvancePayment();
+            }
+        };
+        final CopyBeanToP.ICopyHelper copystate = new CopyHelper.INumerableCopyHelper(
+                FieldList.StateList) {
 
-			public Object getI(final Object se) {
-				return new Payment();
-			}
-		};
-		final CopyBeanToP.ICopyHelper copyval = new CopyHelper.INumerableCopyHelper(
-				FieldList.ValidationList) {
+            public Object getI(final Object se) {
+                return new BookingState();
+            }
+        };
 
-			public Object getI(final Object se) {
-				return new AdvancePayment();
-			}
-		};
-		final CopyBeanToP.ICopyHelper copystate = new CopyHelper.INumerableCopyHelper(
-				FieldList.StateList) {
+        final CopyBeanToP.ICopyHelper copypayrow = new CopyHelper.IICopyHelper(
+                FieldList.PaymentRowList, new String[] { "id" }) {
 
-			public Object getI(final Object se) {
-				return new BookingState();
-			}
-		};
+            public Object getI(final Object se) {
+                return new PaymentRow();
+            }
+        };
 
-		final CopyBeanToP.ICopyHelper copypayrow = new CopyHelper.IICopyHelper(
-				FieldList.PaymentRowList, new String[] { "id" }) {
+        final CopyBeanToP.ICopyHelper copyaddpay = getAddPayment(ho);
 
-			public Object getI(final Object se) {
-				return new PaymentRow();
-			}
-		};
+        final CopyBeanToP.ICopyHelper copyguestlist = getCopyGuest();
 
-		final CopyBeanToP.ICopyHelper copyaddpay = getAddPayment(ho);
+        final CopyBeanToP.ICopyHelper copybookelem = new CopyHelper.AIICopyHelper(
+                FieldList.BookElemList) {
 
-		final CopyBeanToP.ICopyHelper copyguestlist = getCopyGuest();
+            @Override
+            protected void dcopy(final ICommandContext iC, final Object sou,
+                    final Object dest) {
+                BookElemP sou1 = (BookElemP) sou;
+                if (sou1.getPaymentrows() == null
+                        || sou1.getPaymentrows().isEmpty()) {
+                    iC.logFatal(IMessId.NOPAYMENTROWS, sou1.getResObject());
+                }
+                BookElem dest1 = (BookElem) dest;
+                CopyBeanToP.copyRes1Collection(iC, sou1, dest1, "paymentrows",
+                        "bookelem", BookElem.class, copypayrow, true);
+                CopyBeanToP.copyRes1Collection(iC, sou1, dest1, "guests",
+                        "bookelem", BookElem.class, copyguestlist, true);
+            }
 
-		final CopyBeanToP.ICopyHelper copybookelem = new CopyHelper.AIICopyHelper(
-				FieldList.BookElemList) {
+            public Object getI(Object se) {
+                return new BookElem();
+            }
+        };
 
-			@Override
-			protected void dcopy(final ICommandContext iC, final Object sou,
-					final Object dest) {
-				BookElemP sou1 = (BookElemP) sou;
-				if (sou1.getPaymentrows() == null ||
-				        sou1.getPaymentrows().isEmpty()) {
-				    iC.logFatal(IMessId.NOPAYMENTROWS, sou1.getResObject());
-				}
-				BookElem dest1 = (BookElem) dest;
-				CopyBeanToP.copyRes1Collection(iC, sou1, dest1, "paymentrows",
-						"bookelem", BookElem.class, copypayrow, true);
-				CopyBeanToP.copyRes1Collection(iC, sou1, dest1, "guests",
-						"bookelem", BookElem.class, copyguestlist, true);
-			}
+        CopyBeanToP.copyRes1Collection(iC, sou, dest, "payments", "booking",
+                Booking.class, copypa, true);
+        CopyBeanToP.copyRes1Collection(iC, sou, dest, "advancePay", "booking",
+                Booking.class, copyval, true);
+        CopyBeanToP.copyRes1Collection(iC, sou, dest, "addpayments", "booking",
+                Booking.class, copyaddpay, true);
 
-			public Object getI(Object se) {
-				return new BookElem();
-			}
-		};
+        CopyBeanToP.copyRes1Collection(iC, sou, dest, "state", "booking",
+                Booking.class, copystate, true);
+        CopyBeanToP.copyRes1Collection(iC, sou, dest, "booklist", "booking",
+                Booking.class, copybookelem, true);
+    }
 
-		final CopyBeanToP.ICopyHelper copybookre = new CopyHelper.AINumerableCopyHelper(
-				FieldList.BookRecordList) {
+    static void copy2(final ICommandContext iC, final Booking sou,
+            final BookingP dest) {
+        CopyHelper.copyDict2(iC, sou, dest, FieldList.BookingList);
+        dest.setCustomer(ToLD.toLId(sou.getCustomer().getId()));
+        CopyHelper.copyRes2Collection(iC, sou, dest, "state",
+                BookingStateP.class);
+        CopyHelper
+                .copyRes2Collection(iC, sou, dest, "payments", PaymentP.class);
+        CopyHelper.copyRes2Collection(iC, sou, dest, "advancePay",
+                AdvancePaymentP.class);
+        CopyHelper.copyRes2Collection(iC, sou, dest, "addpayments",
+                AddPaymentP.class);
+        CopyHelper.copyRes2Collection(iC, sou, dest, "booklist",
+                BookElemP.class);
 
-			public Object getI(final Object se) {
-				return new BookRecord();
-			}
+    }
 
-			@Override
-			protected void dcopy(final ICommandContext iC, final Object sou,
-					final Object dest) {
-				BookRecordP sou1 = (BookRecordP) sou;
-				BookRecord dest1 = (BookRecord) dest;
-				CopyBeanToP.copyRes1Collection(iC, sou1, dest1, "booklist",
-						"bookrecord", BookRecord.class, copybookelem, true);
-			}
-		};
+    static void copy2(final ICommandContext iC, final Guest sou,
+            final GuestP dest) {
+        dest.setCustomer(ToLD.toLId(sou.getCustomer().getId()));
+        CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.GuestList);
+    }
 
-		final CopyBeanToP.ICopyHelper copybillre = new CopyHelper.AIICopyHelper(
-				FieldList.BillList) {
+    static void copy2(final ICommandContext iC, final BookElem sou,
+            final BookElemP dest) {
+        CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.BookElemList);
+        CopyHelper.copyRes2Collection(iC, sou, dest, "paymentrows",
+                PaymentRowP.class);
+        CopyHelper.copyRes2Collection(iC, sou, dest, "guests", GuestP.class);
+    }
 
-			public Object getI(final Object se) {
-				return new Bill();
-			}
+    static void copyGuests(final ICommandContext iC, final BookElem dest,
+            List<GuestP> guests) {
 
-			@Override
-			protected void dcopy(final ICommandContext iC, final Object sou,
-					final Object dest) {
-				BillP sou1 = (BillP) sou;
-				Bill dest1 = (Bill) dest;
+        BookElemP sou = new BookElemP();
+        sou.setGuests(guests);
+        final CopyBeanToP.ICopyHelper copyguestlist = getCopyGuest();
 
-				copyBill(iC, ho, seasonName, sou1, dest1);
-				CopyBeanToP.copyRes1Collection(iC, sou1, dest1, "payments",
-						"bill", Bill.class, copypa, true);
-				CopyBeanToP.copyRes1Collection(iC, sou1, dest1, "advancePay",
-						"bill", Bill.class, copyval, true);
-				CopyBeanToP.copyRes1Collection(iC, sou1, dest1, "addpayments",
-						"bill", Bill.class, copyaddpay, true);
-			}
-		};
+        CopyBeanToP.copyRes1Collection(iC, sou, dest, "guests", "bookelem",
+                BookElem.class, copyguestlist, true);
+    }
 
-		CopyBeanToP.copyRes1Collection(iC, sou, dest, "bill", "booking",
-				Booking.class, copybillre, true);
-		CopyBeanToP.copyRes1Collection(iC, sou, dest, "state", "booking",
-				Booking.class, copystate, true);	
-		CopyBeanToP.copyRes1Collection(iC, sou, dest, "bookrecords", "booking",
-				Booking.class, copybookre, true);
-	}
-
-	static void copy2(final ICommandContext iC, final Booking sou,
-			final BookingP dest) {
-		CopyHelper.copyDict2(iC, sou, dest, FieldList.BookingList);
-		dest.setCustomer(ToLD.toLId(sou.getCustomer().getId()));
-		CopyHelper.copyRes2Collection(iC, sou, dest, "state",
-				BookingStateP.class);
-		CopyHelper.copyRes2Collection(iC, sou, dest, "bookrecords",
-				BookRecordP.class);
-		CopyHelper.copyRes2Collection(iC, sou, dest, "bill", BillP.class);
-	}
-
-	static void copy2(final ICommandContext iC, final BookRecord sou,
-			final BookRecordP dest) {
-		CopyHelper.copyBeanINumerable(iC, sou, dest, FieldList.BookRecordList);
-		CopyHelper.copyRes2Collection(iC, sou, dest, "booklist",
-				BookElemP.class);
-	}
-
-	static void copy2(final ICommandContext iC, final Bill sou, final BillP dest) {
-		dest.setCustomer(ToLD.toLId(sou.getCustomer().getId()));
-
-		CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.BillList);
-		CopyHelper.copyID(sou, dest);
-		CopyHelper
-				.copyRes2Collection(iC, sou, dest, "payments", PaymentP.class);
-		CopyHelper.copyRes2Collection(iC, sou, dest, "advancePay",
-				AdvancePaymentP.class);
-		CopyHelper.copyRes2Collection(iC, sou, dest, "addpayments",
-				AddPaymentP.class);
-	}
-
-	static void copy2(final ICommandContext iC, final Guest sou,
-			final GuestP dest) {
-		dest.setCustomer(ToLD.toLId(sou.getCustomer().getId()));
-		CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.GuestList);
-	}
-
-	static void copy2(final ICommandContext iC, final BookElem sou,
-			final BookElemP dest) {
-		CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.BookElemList);
-		CopyHelper.copyRes2Collection(iC, sou, dest, "paymentrows",
-				PaymentRowP.class);
-		CopyHelper.copyRes2Collection(iC, sou, dest, "guests", GuestP.class);
-	}
-
-	static void copyGuests(final ICommandContext iC, final BookElem dest,
-			List<GuestP> guests) {
-
-		BookElemP sou = new BookElemP();
-		sou.setGuests(guests);
-		final CopyBeanToP.ICopyHelper copyguestlist = getCopyGuest();
-
-		CopyBeanToP.copyRes1Collection(iC, sou, dest, "guests", "bookelem",
-				BookElem.class, copyguestlist, true);
-	}
-
-	static void copyAddPayment(final ICommandContext iC, final Bill dest,
-			HotelT ho, List<AddPaymentP> col) {
-		BillP sou = new BillP();
-		sou.setAddpayments(col);
-		final CopyBeanToP.ICopyHelper copylist = getAddPayment(ho);
-		CopyBeanToP.copyRes1Collection(iC, sou, dest, "addpayments", "bill",
-				Bill.class, copylist, true);
-	}
+    static void copyAddPayment(final ICommandContext iC, final Booking dest,
+            HotelT ho, List<AddPaymentP> col) {
+        BookingP sou = new BookingP();
+        sou.setAddpayments(col);
+        final CopyBeanToP.ICopyHelper copylist = getAddPayment(ho);
+        CopyBeanToP.copyRes1Collection(iC, sou, dest, "addpayments", "booking",
+                Booking.class, copylist, true);
+    }
 }

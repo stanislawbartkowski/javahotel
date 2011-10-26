@@ -13,18 +13,16 @@
 
 package com.javahotel.db.copy;
 
-import com.javahotel.common.toobject.GuestP;
-import com.javahotel.common.util.GetMaxUtil;
-import com.javahotel.db.context.ICommandContext;
-import com.javahotel.db.hotelbase.jpa.BookElem;
-import com.javahotel.db.hotelbase.jpa.BookRecord;
-import com.javahotel.db.hotelbase.jpa.Booking;
-
 import java.util.List;
 import java.util.Map;
 
+import com.javahotel.common.toobject.GuestP;
+import com.javahotel.db.context.ICommandContext;
+import com.javahotel.db.hotelbase.jpa.BookElem;
+import com.javahotel.db.hotelbase.jpa.Booking;
+
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class CopyGuests {
@@ -35,8 +33,7 @@ public class CopyGuests {
     public static void copyGuests(final ICommandContext iC, Booking b,
             Map<String, List<GuestP>> guests) {
 
-        BookRecord bR = GetMaxUtil.getLast(b.getBookrecords());
-        for (BookElem el : bR.getBooklist()) {
+        for (BookElem el : b.getBooklist()) {
             String resName = el.getResObject();
             List<GuestP> col = guests.get(resName);
             CopyBooking.copyGuests(iC, el, col);

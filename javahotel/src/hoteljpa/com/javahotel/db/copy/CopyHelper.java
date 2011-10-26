@@ -14,13 +14,13 @@ package com.javahotel.db.copy;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
+import com.gwtmodel.table.common.CUtil;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
-import com.javahotel.common.util.StringU;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.Customer;
 import com.javahotel.db.hotelbase.jpa.RHotel;
@@ -45,6 +45,11 @@ import com.javahotel.types.LId;
  */
 public class CopyHelper {
 
+    /**
+     * Put current date and person data
+     * @param iC ICommendContext
+     * @param o Object to be modified
+     */
     static public void checkPersonDateOp(final ICommandContext iC,
             final Object o) {
         Method me = null;
@@ -259,7 +264,7 @@ public class CopyHelper {
 
     static void setPattName(final ICommandContext iC, final IDictionary dic,
             final String pattId, final String pattP) {
-        if (!StringU.isEmpty(dic.getName())) {
+        if (!CUtil.EmptyS(dic.getName())) {
             return;
         }
         String pId = GetProp.getProp(pattId);

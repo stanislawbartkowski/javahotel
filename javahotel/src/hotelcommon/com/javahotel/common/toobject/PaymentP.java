@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("serial")
@@ -29,18 +29,14 @@ public class PaymentP extends AbstractTo implements INumerable {
     /** Item no, consecutive number. */
     private Integer lp;
     private PaymentMethod payMethod;
-    private boolean sumOp;
     private DecimalP amount;
-    private DateP dateOp;
-    private String remarks;
-    private String personOp;
     private DateP datePayment;
+    private OperationData op;
 
     public PaymentP() {
         this.amount = new DecimalP();
-        this.dateOp = new DateP();
+        this.op = new OperationData();
         this.datePayment = new DateP();
-        this.sumOp = true;
     }
 
     public Integer getLp() {
@@ -52,11 +48,11 @@ public class PaymentP extends AbstractTo implements INumerable {
     }
 
     public String getPersonOp() {
-        return personOp;
+        return op.getPersonOp();
     }
 
     public void setPersonOp(String personOp) {
-        this.personOp = personOp;
+        op.setPersonOp(personOp);
     }
 
     public Date getDatePayment() {
@@ -69,7 +65,7 @@ public class PaymentP extends AbstractTo implements INumerable {
 
     public enum F implements IField {
 
-        lp, payMethod, sumOp, amount, dateOp, remarks, personOp, datePayment
+        lp, payMethod, amount, dateOp, remarks, personOp, datePayment
     }
 
     @Override
@@ -77,22 +73,19 @@ public class PaymentP extends AbstractTo implements INumerable {
         F fi = (F) f;
         Class<?> cla = String.class;
         switch (fi) {
-            case lp:
-                cla = Integer.class;
-                break;
-            case payMethod:
-                cla = PaymentMethod.class;
-                break;
-            case sumOp:
-                cla = Boolean.class;
-                break;
-            case amount:
-                cla = BigDecimal.class;
-                break;
-            case dateOp:
-            case datePayment:
-                cla = Date.class;
-                break;
+        case lp:
+            cla = Integer.class;
+            break;
+        case payMethod:
+            cla = PaymentMethod.class;
+            break;
+        case amount:
+            cla = BigDecimal.class;
+            break;
+        case dateOp:
+        case datePayment:
+            cla = Date.class;
+            break;
         }
         return cla;
     }
@@ -106,22 +99,20 @@ public class PaymentP extends AbstractTo implements INumerable {
     public Object getF(IField f) {
         F fi = (F) f;
         switch (fi) {
-            case lp:
-                return getLp();
-            case payMethod:
-                return getPayMethod();
-            case sumOp:
-                return new Boolean(isSumOp());
-            case amount:
-                return getAmount();
-            case dateOp:
-                return getDateOp();
-            case remarks:
-                return getRemarks();
-            case personOp:
-                return getPersonOp();
-            case datePayment:
-                return getDatePayment();
+        case lp:
+            return getLp();
+        case payMethod:
+            return getPayMethod();
+        case amount:
+            return getAmount();
+        case dateOp:
+            return getDateOp();
+        case remarks:
+            return getRemarks();
+        case personOp:
+            return getPersonOp();
+        case datePayment:
+            return getDatePayment();
         }
         return null;
     }
@@ -130,30 +121,27 @@ public class PaymentP extends AbstractTo implements INumerable {
     public void setF(IField f, Object o) {
         F fi = (F) f;
         switch (fi) {
-            case lp:
-                setLp((Integer) o);
-                break;
-            case payMethod:
-                setPayMethod((PaymentMethod) o);
-                break;
-            case sumOp:
-                setSumOp(((Boolean) o).booleanValue());
-                break;
-            case amount:
-                setAmount((BigDecimal) o);
-                break;
-            case dateOp:
-                setDateOp((Date) o);
-                break;
-            case remarks:
-                setRemarks((String) o);
-                break;
-            case personOp:
-                setPersonOp((String) o);
-                break;
-            case datePayment:
-                setDatePayment((Date) o);
-                break;
+        case lp:
+            setLp((Integer) o);
+            break;
+        case payMethod:
+            setPayMethod((PaymentMethod) o);
+            break;
+        case amount:
+            setAmount((BigDecimal) o);
+            break;
+        case dateOp:
+            setDateOp((Date) o);
+            break;
+        case remarks:
+            setRemarks((String) o);
+            break;
+        case personOp:
+            setPersonOp((String) o);
+            break;
+        case datePayment:
+            setDatePayment((Date) o);
+            break;
         }
     }
 
@@ -165,14 +153,6 @@ public class PaymentP extends AbstractTo implements INumerable {
         this.payMethod = payMethod;
     }
 
-    public boolean isSumOp() {
-        return sumOp;
-    }
-
-    public void setSumOp(boolean sumOp) {
-        this.sumOp = sumOp;
-    }
-
     public BigDecimal getAmount() {
         return amount.getDecim();
     }
@@ -182,18 +162,18 @@ public class PaymentP extends AbstractTo implements INumerable {
     }
 
     public Date getDateOp() {
-        return dateOp.getD();
+        return op.getDateOp();
     }
 
     public void setDateOp(final Date dateOp) {
-        this.dateOp.setD(dateOp);
+        op.setDateOp(dateOp);
     }
 
     public String getRemarks() {
-        return remarks;
+        return op.getRemarks();
     }
 
     public void setRemarks(final String remarks) {
-        this.remarks = remarks;
+        op.setRemarks(remarks);
     }
 }

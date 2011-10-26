@@ -12,7 +12,7 @@
  */
 
 package com.javahotel.db.hotelbase.jpa;
- 
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -28,12 +28,20 @@ import com.javahotel.db.jtypes.IId;
 
 /**
  * Entity: advance (forward) payment
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @Entity
 @KeyObject(keyField = "serviceKey", objectField = "rService")
 public class AddPayment extends AbstractIId implements IId {
 
+    @Temporal(TemporalType.DATE)
+    private Date dateOp;
+    @Basic(optional = false)
+    private String personOp;
+    @Basic
+    private String remarks;
+    
     @Transient
     private ServiceDictionary rService;
 
@@ -47,21 +55,9 @@ public class AddPayment extends AbstractIId implements IId {
     private BigDecimal offerPrice;
     @Basic(optional = false)
     private BigDecimal customerPrice;
-    @Basic(optional = false)
-    private BigDecimal customerSum;
-    @Basic(optional = false)
-    private boolean sumOp;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "bill", nullable = false)
-    private Bill bill;
-    @Temporal(TemporalType.DATE)
-    private Date dateOp;
-    @Basic(optional = false)
-    private String personOp;
-    @Basic
-    private String remarks;
-    @Basic(optional = false)
-    private BigDecimal noSe;
+    @JoinColumn(name = "booking", nullable = false)
+    private Booking booking;
     @Basic(optional = false)
     private Integer lp;
 
@@ -108,21 +104,6 @@ public class AddPayment extends AbstractIId implements IId {
      */
     public void setCustomerPrice(BigDecimal customerPrice) {
         this.customerPrice = customerPrice;
-    }
-
-    /**
-     * @return the bill
-     */
-    public Bill getBill() {
-        return bill;
-    }
-
-    /**
-     * @param bill
-     *            the bill to set
-     */
-    public void setBill(Bill bill) {
-        this.bill = bill;
     }
 
     /**
@@ -186,21 +167,6 @@ public class AddPayment extends AbstractIId implements IId {
     }
 
     /**
-     * @return the noSe
-     */
-    public BigDecimal getNoSe() {
-        return noSe;
-    }
-
-    /**
-     * @param noSe
-     *            the noSe to set
-     */
-    public void setNoSe(BigDecimal noSe) {
-        this.noSe = noSe;
-    }
-
-    /**
      * @return the lp
      */
     public Integer getLp() {
@@ -215,36 +181,6 @@ public class AddPayment extends AbstractIId implements IId {
         this.lp = lp;
     }
 
-    /**
-     * @return the customerSum
-     */
-    public BigDecimal getCustomerSum() {
-        return customerSum;
-    }
-
-    /**
-     * @param customerSum
-     *            the customerSum to set
-     */
-    public void setCustomerSum(BigDecimal customerSum) {
-        this.customerSum = customerSum;
-    }
-
-    /**
-     * @return the sumOp
-     */
-    public boolean isSumOp() {
-        return sumOp;
-    }
-
-    /**
-     * @param sumOp
-     *            the sumOp to set
-     */
-    public void setSumOp(boolean sumOp) {
-        this.sumOp = sumOp;
-    }
-
     public Long getServiceKey() {
         return serviceKey;
     }
@@ -252,5 +188,21 @@ public class AddPayment extends AbstractIId implements IId {
     public void setServiceKey(Long serviceKey) {
         this.serviceKey = serviceKey;
     }
+
+    /**
+     * @return the booking
+     */
+    public Booking getBooking() {
+        return booking;
+    }
+
+    /**
+     * @param booking the booking to set
+     */
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+    
+    
 
 }

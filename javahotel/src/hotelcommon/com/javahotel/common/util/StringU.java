@@ -17,7 +17,8 @@ import java.math.BigInteger;
 import java.util.List;
 
 /**
- *
+ * Utility class
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class StringU {
@@ -25,17 +26,14 @@ public class StringU {
     private StringU() {
     }
 
-    public static boolean isEmpty(final String na) {
-        if (na == null) {
-            return true;
-        }
-        if (na.trim().equals("")) {
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isEmpty(final List col) {
+    /**
+     * Check if list (any) is empty (also accepts null value)
+     * 
+     * @param col
+     *            List of any data (? - not Object) can be null
+     * @return true: if list null or empty
+     */
+    public static boolean isEmpty(final List<?> col) {
         if (col == null) {
             return true;
         }
@@ -44,6 +42,7 @@ public class StringU {
         }
         return false;
     }
+
     private static final BigInteger zero = new BigInteger("0");
 
     public static boolean eqZero(final BigDecimal b) {

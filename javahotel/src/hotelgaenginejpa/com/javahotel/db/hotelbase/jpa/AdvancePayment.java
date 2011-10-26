@@ -33,21 +33,25 @@ import com.javahotel.types.INumerable;
 @Entity
 public class AdvancePayment extends AbstractIId implements IId, INumerable {
     
+    
 	@Basic(optional = false)
 	@Temporal(TemporalType.DATE)
 	private Date dateOp;
+    @Basic(optional = false)
+    private String personOp;
+    @Basic
+    private String remarks;
+	
 	@Basic(optional = false)
 	@Temporal(TemporalType.DATE)
 	private Date validationDate;
 	@Basic(optional = false)
 	private BigDecimal amount;
-	@Basic
-	private String remarks;
 	@Basic(optional = false)
 	private Integer lp;
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "bill", nullable = false)
-	private Bill bill;
+	@JoinColumn(name = "booking", nullable = false)
+	private Booking booking;
 
 	public Date getDateOp() {
 		return dateOp;
@@ -89,12 +93,34 @@ public class AdvancePayment extends AbstractIId implements IId, INumerable {
 		this.lp = lp;
 	}
 
-	public Bill getBill() {
-		return bill;
-	}
+    /**
+     * @return the booking
+     */
+    public Booking getBooking() {
+        return booking;
+    }
 
-	public void setBill(Bill bill) {
-		this.bill = bill;
-	}
+    /**
+     * @param booking the booking to set
+     */
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    /**
+     * @return the personOp
+     */
+    public String getPersonOp() {
+        return personOp;
+    }
+
+    /**
+     * @param personOp the personOp to set
+     */
+    public void setPersonOp(String personOp) {
+        this.personOp = personOp;
+    }
+	
+	
 
 }

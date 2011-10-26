@@ -23,45 +23,45 @@ import java.util.Properties;
  */
 class PropertiesToMap {
 
-	static private class retName {
+    static private class retName {
 
-		final String prefix;
-		final String key;
+        final String prefix;
+        final String key;
 
-		retName(String p1, String p2) {
-			prefix = p1;
-			key = p2;
-		}
-	}
+        retName(String p1, String p2) {
+            prefix = p1;
+            key = p2;
+        }
+    }
 
-	private static retName getPrefix(final String p) {
-		int k = p.indexOf(".");
-		if (k == -1) {
-			return new retName(null, p);
-		}
-		String pe = p.substring(0, k);
-		String ke = p.substring(k + 1);
-		return new retName(pe, ke);
-	}
+    private static retName getPrefix(final String p) {
+        int k = p.indexOf(".");
+        if (k == -1) {
+            return new retName(null, p);
+        }
+        String pe = p.substring(0, k);
+        String ke = p.substring(k + 1);
+        return new retName(pe, ke);
+    }
 
-	static Map<String, String> toM(final Properties p, final String preFix) {
+    static Map<String, String> toM(final Properties p, final String preFix) {
 
-		Map<String, String> m = new HashMap<String, String>();
-		for (Entry<Object, Object> o : p.entrySet()) {
-			String k = (String) o.getKey();
-			retName re = getPrefix(k);
-			String v = (String) o.getValue();
-			if (preFix != null) {
-				if (re.prefix != null) {
-					if (preFix.equals(re.prefix)) {
-						m.put(re.key, v);
-					}
-					continue;
-				}
-			}
-			m.put(k, v);
-		}
-		return m;
+        Map<String, String> m = new HashMap<String, String>();
+        for (Entry<Object, Object> o : p.entrySet()) {
+            String k = (String) o.getKey();
+            retName re = getPrefix(k);
+            String v = (String) o.getValue();
+            if (preFix != null) {
+                if (re.prefix != null) {
+                    if (preFix.equals(re.prefix)) {
+                        m.put(re.key, v);
+                    }
+                    continue;
+                }
+            }
+            m.put(k, v);
+        }
+        return m;
 
-	}
+    }
 }

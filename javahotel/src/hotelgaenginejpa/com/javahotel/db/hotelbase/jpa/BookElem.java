@@ -64,8 +64,8 @@ public class BookElem extends AbstractIId implements IId {
 	private List<Guest> guests;
 	
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "bookrecord", nullable = false)
-	private BookRecord bookrecord;
+	@JoinColumn(name = "booking", nullable = false)
+	private Booking booking;
 
 	public Date getCheckIn() {
 		return checkIn;
@@ -87,15 +87,7 @@ public class BookElem extends AbstractIId implements IId {
 		return paymentrows;
 	}
 
-	public BookRecord getBookrecord() {
-		return bookrecord;
-	}
-
-	public void setBookrecord(BookRecord bookrecord) {
-		this.bookrecord = bookrecord;
-	}
-
-	public String getService() {
+    public String getService() {
 		return service;
 	}
 
@@ -125,5 +117,21 @@ public class BookElem extends AbstractIId implements IId {
 	public void setGuests(List<Guest> guests) {
 		this.guests = guests;
 	}
+
+    /**
+     * @return the booking
+     */
+    public Booking getBooking() {
+        return booking;
+    }
+
+    /**
+     * @param booking the booking to set
+     */
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+	
+	
 
 }

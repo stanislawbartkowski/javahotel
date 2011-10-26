@@ -46,6 +46,7 @@ class CopyCustomer {
         }
         CopyHelper.setPattName(iC, sou, pId, patt);
         CopyHelper.copyDict1(iC, sou, dest, FieldList.CustomerList);
+        CopyHelper.checkPersonDateOp(iC, dest);
         final CopyBeanToP.ICopyHelper eqremark =
                 new CopyHelper.IICopyHelper(FieldList.RemarkList) {
 

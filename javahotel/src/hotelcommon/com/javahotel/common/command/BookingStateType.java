@@ -21,6 +21,6 @@ public enum BookingStateType {
     WaitingForConfirmation, Confirmed, Canceled, ChangedToCheckin, Stay;
 
     public boolean isBooked() {
-        return this != Canceled;
+        return this != Canceled && this != ChangedToCheckin;
     }
 }
