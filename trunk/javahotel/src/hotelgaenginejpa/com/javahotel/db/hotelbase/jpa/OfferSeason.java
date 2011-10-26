@@ -18,17 +18,11 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
-import com.google.appengine.api.datastore.Key;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
-import com.javahotel.db.jtypes.HId;
  
 /**
  *

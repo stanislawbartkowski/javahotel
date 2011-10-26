@@ -32,7 +32,7 @@ import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class GetDownPaymentsList extends CommandAbstract {
@@ -58,10 +58,9 @@ public class GetDownPaymentsList extends CommandAbstract {
         PeriodT pe = new PeriodT(dFrom, dTo);
         Map<Long, AdvancePayment> ma = new HashMap<Long, AdvancePayment>();
         for (AdvancePayment va : c) {
-            HId id = va.getBill().getBooking().getId();
+            HId id = va.getBooking().getId();
             AdvancePayment va1 = ma.get(id.getL());
-            if ((va1 == null) ||
-                    (va1.getLp().compareTo(va.getLp()) == -1)) {
+            if ((va1 == null) || (va1.getLp().compareTo(va.getLp()) == -1)) {
                 ma.put(id.getL(), va);
             }
         }
@@ -73,12 +72,12 @@ public class GetDownPaymentsList extends CommandAbstract {
             }
             DownPaymentP dp = new DownPaymentP();
             CommonCopyBean.copyB(iC, va, dp);
-            dp.setResId(va.getBill().getBooking().getName());
-            dp.setCustomerId(ToLD.toLId(va.getBill().getBooking().getCustomer().getId()));
-            BigDecimal sum = HotelHelper.sumPayment(va.getBill().getPayments());
+            dp.setResId(va.getBooking().getName());
+            dp.setCustomerId(ToLD.toLId(va.getBooking().getCustomer().getId()));
+            BigDecimal sum = HotelHelper.sumPayment(va.getBooking()
+                    .getPayments());
             dp.setSumPayment(sum);
             col.add(dp);
         }
     }
 }
-

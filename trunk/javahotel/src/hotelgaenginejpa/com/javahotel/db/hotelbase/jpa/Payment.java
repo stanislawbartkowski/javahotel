@@ -18,17 +18,12 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.google.appengine.api.datastore.Key;
 import com.javahotel.common.command.PaymentMethod;
-import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.IId;
 import com.javahotel.types.INumerable;
  
@@ -37,41 +32,25 @@ import com.javahotel.types.INumerable;
  * @author stanislawbartkowski@gmail.com
  */
 @Entity
-public class Payment implements INumerable,IId {
+public class Payment extends AbstractIId implements INumerable,IId {
 	
-	// =====================	
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Key id;
-    
-    public HId getId() {
-		return new HId(id);
-	}
-
-	public void setId(HId id) {
-		this.id = id.getId();		
-	}
-// =====================	
-
-    @Basic(optional=false)
-    private PaymentMethod payMethod;
-    @Basic(optional=false)
-    private boolean sumOp;
-    @Basic(optional=false)
-    private BigDecimal amount;
-    @Basic(optional = false)
-    @Temporal(TemporalType.DATE)
-    private Date datePayment;
-    @Basic(optional = false)
     @Temporal(TemporalType.DATE)
     private Date dateOp;
     @Basic(optional = false)
     private String personOp;
     @Basic
     private String remarks;
+    
+    @Basic(optional=false)
+    private PaymentMethod payMethod;
+    @Basic(optional=false)
+    private BigDecimal amount;
+    @Basic(optional = false)
+    @Temporal(TemporalType.DATE)
+    private Date datePayment;
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "bill", nullable = false)
-    private Bill bill;
+	@JoinColumn(name = "booking", nullable = false)
+    private Booking booking;
     @Basic(optional=false)
     private Integer lp;
 
@@ -81,14 +60,6 @@ public class Payment implements INumerable,IId {
 
     public void setPayMethod(PaymentMethod payMethod) {
         this.payMethod = payMethod;
-    }
-
-    public boolean isSumOp() {
-        return sumOp;
-    }
-
-    public void setSumOp(boolean sumOp) {
-        this.sumOp = sumOp;
     }
 
     public BigDecimal getAmount() {
@@ -139,12 +110,20 @@ public class Payment implements INumerable,IId {
         this.personOp = personOp;
     }
 
-    public Bill getBill() {
-        return bill;
+    /**
+     * @return the booking
+     */
+    public Booking getBooking() {
+        return booking;
     }
 
-    public void setBill(Bill bill) {
-        this.bill = bill;
+    /**
+     * @param booking the booking to set
+     */
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
+
+    
 
 }

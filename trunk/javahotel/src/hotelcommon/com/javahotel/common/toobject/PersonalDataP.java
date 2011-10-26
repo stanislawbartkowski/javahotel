@@ -17,48 +17,47 @@ import com.javahotel.common.command.PersonTitle;
 import java.io.Serializable;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("serial")
-public class PersonalDataP implements Serializable {
-    
+class PersonalDataP implements Serializable {
+
     private Long id;
     private String firstName;
     private String lastName;
     private PersonTitle pTitle;
 
-    public String getFirstName() {
+    String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(final String firstName) {
+    void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    String getLastName() {
         return lastName;
     }
 
-    public void setLastName(final String lastName) {
+    void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
-    public PersonTitle getPTitle() {
+    PersonTitle getPTitle() {
         return pTitle;
     }
- 
-    public void setPTitle(PersonTitle pTitle) {
+
+    void setPTitle(PersonTitle pTitle) {
         this.pTitle = pTitle;
     }
 
-    public Long getId() {
+    Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    void setId(Long id) {
         this.id = id;
     }
-
 
 }

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.javahotel.common.toobject.PaymentP;
-import com.javahotel.db.hotelbase.jpa.Bill;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.Payment;
 import com.javahotel.remoteinterfaces.HotelT;
@@ -41,10 +40,10 @@ public class AddDownPayment extends CommandAbstract {
     @Override
     protected void command() {
         Booking b = getBook(resName);
-        Bill bi = HotelHelper.getBill(b);
-        bi.setPayments(new ArrayList<Payment>());
+        b.setPayments(new ArrayList<Payment>());
         for (PaymentP p : payP) {
-            setCol(bi, bi.getPayments(), p, Payment.class, "bill", Bill.class);
+            setCol(b, b.getPayments(), p, Payment.class, "booking",
+                    Booking.class);
         }
         iC.getJpa().changeRecord(b);
     }

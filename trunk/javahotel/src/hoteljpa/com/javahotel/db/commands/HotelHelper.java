@@ -19,10 +19,8 @@ import java.util.List;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.util.AbstractObjectFactory;
-import com.javahotel.common.util.BillUtil;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.copy.CommonCopyBean;
-import com.javahotel.db.hotelbase.jpa.Bill;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.Payment;
 import com.javahotel.db.hotelbase.jpa.RHotel;
@@ -49,8 +47,6 @@ class HotelHelper {
         List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d, true);
         iC.getJpa().removeList(c);
     }
-    
-    
 
     static void removeHo(final ICommandContext iC, final HotelT ho) {
         // re-read to make attached
@@ -80,17 +76,13 @@ class HotelHelper {
     static BigDecimal sumPayment(List<Payment> col) {
         BigDecimal sum = new BigDecimal(0);
         for (Payment pa : col) {
-            if (pa.isSumOp()) {
-                sum = sum.add(pa.getAmount());
-            } else {
-                sum = sum.subtract(pa.getAmount());
-            }
+            sum = sum.add(pa.getAmount());
         }
         return sum;
     }
 
     static BigDecimal sumPayment(final Booking p) {
-        List<Payment> col = getBill(p).getPayments();
+        List<Payment> col = p.getPayments();
         return sumPayment(col);
     }
 
@@ -105,8 +97,4 @@ class HotelHelper {
         return null;
     }
 
-    public static Bill getBill(Booking p) {
-        Bill b = getName(p.getBill(), BillUtil.DOWNSYMBOL);
-        return b;
-    }
 }

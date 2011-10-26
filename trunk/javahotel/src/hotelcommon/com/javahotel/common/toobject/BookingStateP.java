@@ -25,14 +25,13 @@ import java.util.Date;
 public class BookingStateP extends AbstractTo implements INumerable {
 
     private Long id;
-    private DateP dateOp;
     private Integer lp;
     private BookingStateType bState;
-    private String remarks;
+    private OperationData op;
 
     public enum F implements IField {
 
-        id, dateOp, lp, bState, remarks;
+        id, dateOp, lp, bState, remarks, personOp
     };
 
     @Override
@@ -75,6 +74,8 @@ public class BookingStateP extends AbstractTo implements INumerable {
                 return getBState();
             case remarks:
                 return getRemarks();
+            case personOp:
+                return getPersonOp();
         }
         return null;
     }
@@ -98,11 +99,15 @@ public class BookingStateP extends AbstractTo implements INumerable {
             case remarks:
                 setRemarks((String) o);
                 break;
+            case personOp:
+                setPersonOp((String) o);
+                break;
         }
     }
 
     public BookingStateP() {
-        dateOp = new DateP();
+        op = new OperationData();
+
     }
 
     public Long getId() {
@@ -114,11 +119,11 @@ public class BookingStateP extends AbstractTo implements INumerable {
     }
 
     public Date getDateOp() {
-        return dateOp.getD();
+        return op.getDateOp();
     }
 
     public void setDateOp(final Date dateOp) {
-        this.dateOp.setD(dateOp);
+        op.setDateOp(dateOp);
     }
 
     public Integer getLp() {
@@ -138,10 +143,26 @@ public class BookingStateP extends AbstractTo implements INumerable {
     }
 
     public String getRemarks() {
-        return remarks;
+        return op.getRemarks();
     }
 
     public void setRemarks(final String remarks) {
-        this.remarks = remarks;
+        op.setRemarks(remarks);
     }
+    
+    /**
+     * @return the personOp
+     */
+    public String getPersonOp() {
+        return op.getPersonOp();
+    }
+
+    /**
+     * @param personOp
+     *            the personOp to set
+     */
+    public void setPersonOp(String personOp) {
+        op.setPersonOp(personOp);
+    }
+
 }

@@ -12,15 +12,12 @@
  */
 package com.javahotel.db.copy;
 
-import com.javahotel.common.toobject.AddPaymentP;
-import com.javahotel.common.toobject.BillP;
-import com.javahotel.db.context.ICommandContext;
-import com.javahotel.db.hotelbase.jpa.Bill;
-import com.javahotel.db.hotelbase.jpa.Booking;
-import com.javahotel.db.util.CommonHelper;
-import com.javahotel.dbjpa.copybean.CopyBean;
-import com.javahotel.remoteinterfaces.HotelT;
 import java.util.List;
+
+import com.javahotel.common.toobject.AddPaymentP;
+import com.javahotel.db.context.ICommandContext;
+import com.javahotel.db.hotelbase.jpa.Booking;
+import com.javahotel.remoteinterfaces.HotelT;
 
 /**
  * 
@@ -31,22 +28,9 @@ public class AddPayments {
 	private AddPayments() {
 	}
 
-	public static String addPayment(final ICommandContext iC, final Booking b,
-			final BillP bill, final List<AddPaymentP> col) {
-		Bill bi = CommonHelper.getName(b.getBill(), bill.getName());
+	public static void addPayment(final ICommandContext iC, final Booking b,
+			final List<AddPaymentP> col) {
 		HotelT ho = new HotelT(iC.getHotel());
-		if (bi == null) {
-			bi = new Bill();
-			CopyBean.copyBean(bill, bi, iC.getLog(), FieldList.BillList,
-					new String[] { "id" });
-			bi.setBooking(b);
-			CopyBooking.copyBill(iC, ho, b.getSeason(), bill, bi);
-			b.getBill().add(bi);
-		} else {
-			CopyBean.copyBean(bill, bi, iC.getLog(), FieldList.BillList,
-					new String[] { "id" });
-		}
-		CopyBooking.copyAddPayment(iC, bi, ho, col);
-		return bi.getName();
+		CopyBooking.copyAddPayment(iC, b, ho, col);
 	}
 }

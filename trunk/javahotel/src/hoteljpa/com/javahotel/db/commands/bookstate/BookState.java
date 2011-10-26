@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.dateutil.CalendarTable;
 import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 import com.javahotel.common.dateutil.DateFormatUtil;
@@ -30,7 +31,6 @@ import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.copy.CommonCopyBean;
 import com.javahotel.db.hotelbase.jpa.BookElem;
-import com.javahotel.db.hotelbase.jpa.BookRecord;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.BookingState;
 import com.javahotel.db.hotelbase.jpa.PaymentRow;
@@ -58,13 +58,12 @@ public class BookState {
     }
 
     private static String rName(PaymentRow p) {
-        return p.getBookelem().getBookrecord().getBooking().getName();
+        return p.getBookelem().getBooking().getName();
     }
 
     private static String logPaymentRow(PaymentRow po) {
         BookElem e = po.getBookelem();
-        BookRecord re = e.getBookrecord();
-        Booking bo = re.getBooking();
+        Booking bo = e.getBooking();
         String bName = bo.getName();
         String dFrom1 = DateFormatUtil.toS(po.getRowFrom());
         String dTo1 = DateFormatUtil.toS(po.getRowTo());
@@ -91,16 +90,7 @@ public class BookState {
                 out.add(p);
             }
         }
-        // The last version of the reservation only
-        GetMaxUtil.IGetLp i = new GetMaxUtil.IGetLp() {
-
-            public Integer getLp(Object o) {
-                PaymentRow p = (PaymentRow) o;
-                return p.getBookelem().getBookrecord().getLp();
-            }
-        };
-        List<PaymentRow> out1 = GetMaxUtil.getListLp(out, i);
-        return out1;
+        return out;
     }
 
     /**
@@ -139,6 +129,17 @@ public class BookState {
         return out;
     }
 
+    /**
+     * Get reservation from one day
+     * 
+     * @param iC
+     *            ICommandContext
+     * @param d
+     *            Day
+     * @param col
+     *            List of reservations
+     * @return Reservation or null (if no reservation)
+     */
     private static PaymentRow getForDay(ICommandContext iC, final Date d,
             final List<PaymentRow> col) {
         List<PaymentRow> out = new ArrayList<PaymentRow>();
@@ -148,19 +149,38 @@ public class BookState {
             if (c != 0) {
                 continue;
             }
+            // check if reservation cancelled or changed to checked-in
+            Booking b = p.getBookelem().getBooking();
+            List<BookingState> cP = b.getState();
+            BookingState sta = GetMaxUtil.getLast(cP);
+            if (sta == null) {
+                iC.logFatal(IMessId.NULLSTATERES, b.getName());
+            }
+            BookingStateType s = sta.getBState();
+            if (!s.isBooked()) {
+                String msg = iC.logEvent(IMessId.RESOMMITEDBADSTATE, sta
+                        .getBState().toString());
+                iC.getLog().getL().fine(msg);
+                continue;
+            }
             out.add(p);
         }
-        GetMaxUtil.IGetLp i = new GetMaxUtil.IGetLp() {
-
-            public Integer getLp(Object o) {
-                PaymentRow p = (PaymentRow) o;
-                // IMPORTANT: getId, not getLp
-                // Important: cannot assume that Id contains increasing values
-                return p.getBookelem().getBookrecord().getSeqId();
+        if (out.isEmpty()) {
+            return null;
+        }
+        if (out.size() > 1) {
+            // log info message
+            for (PaymentRow pp : out) {
+                String dateFrom = DateFormatUtil.toS(pp.getRowFrom());
+                String dateTo = DateFormatUtil.toS(pp.getRowTo());
+                String mess = iC.logEvent(IMessId.MORETHENONERESERVATION, pp
+                        .getBookelem().getResObject(), dateFrom, dateTo, pp
+                        .getBookelem().getBooking().getName());
+                iC.getLog().getL().info(mess);
             }
-        };
 
-        PaymentRow out1 = GetMaxUtil.getOneLp(out, i);
+        }
+        PaymentRow out1 = out.get(0); // TODO: get first ?
         return out1;
 
     }
@@ -181,8 +201,7 @@ public class BookState {
             }
             msg = iC.logEvent(IMessId.RESADDBOOK, logD, logPaymentRow(p));
             iC.getLog().getL().fine(msg);
-            String rName = p.getBookelem().getBookrecord().getBooking()
-                    .getName();
+            String rName = p.getBookelem().getBooking().getName();
             if ((omitResName != null) && rName.equals(omitResName)) {
                 msg = iC.logEvent(IMessId.RESOMITNOTEQUAL, rName, omitResName);
                 iC.getLog().getL().fine(msg);
@@ -196,23 +215,22 @@ public class BookState {
             o.setLp(new Integer(0));
             o.setBookName(rName);
             // BookingStateP
-            List<BookingState> cP = p.getBookelem().getBookrecord()
-                    .getBooking().getState();
+            List<BookingState> cP = p.getBookelem().getBooking().getState();
             BookingState sta = GetMaxUtil.getLast(cP);
-            if (sta == null) {
-                iC.logFatal(IMessId.NULLSTATERES, rName);
-            }
-            switch (sta.getBState()) {
-            case Confirmed:
-            case WaitingForConfirmation:
-            case Stay:
-                break;
-            default:
-                msg = iC.logEvent(IMessId.RESOMMITEDBADSTATE, sta.getBState()
-                        .toString());
-                iC.getLog().getL().fine(msg);
-                continue;
-            }
+            // if (sta == null) {
+            // iC.logFatal(IMessId.NULLSTATERES, rName);
+            // }
+            // switch (sta.getBState()) {
+            // case Confirmed:
+            // case WaitingForConfirmation:
+            // case Stay:
+            // break;
+            // default:
+            // msg = iC.logEvent(IMessId.RESOMMITEDBADSTATE, sta.getBState()
+            // .toString());
+            // iC.getLog().getL().fine(msg);
+            // continue;
+            // }
 
             BookingStateP stap = new BookingStateP();
             CommonCopyBean.copyB(iC, sta, stap);

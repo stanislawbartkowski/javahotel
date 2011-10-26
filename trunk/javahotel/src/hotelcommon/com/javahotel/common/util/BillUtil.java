@@ -12,29 +12,20 @@
  */
 package com.javahotel.common.util;
 
-import com.javahotel.common.command.BillEnumTypes;
-import com.javahotel.common.toobject.BillP;
-import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.toobject.DictionaryP;
-import com.javahotel.common.toobject.PaymentP;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.DictionaryP;
+import com.javahotel.common.toobject.PaymentP;
+
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class BillUtil {
 
-    public static final String DOWNSYMBOL = "DownPaymentBill";
-
-    public static BillP createPaymentBill() {
-        BillP p = new BillP();
-        p.setName(DOWNSYMBOL);
-        p.setBillType(BillEnumTypes.MainBill);
-        return p;
-    }
-
+    @SuppressWarnings("unchecked")
     public static <T extends DictionaryP> T getName(
             final List<? extends DictionaryP> col, final String name) {
         for (DictionaryP t : col) {
@@ -45,23 +36,10 @@ public class BillUtil {
         return null;
     }
 
-    public static BillP getBill(final BookingP p, final String bName) {
-        return getName(p.getBill(), bName);
+    public static List<PaymentP> getPayment(final BookingP p) {
+        return p.getPayments();
     }
 
-    public static BillP getBill(final BookingP p) {
-        return getBill(p, BillUtil.DOWNSYMBOL);
-    }
-    
-    public static List<PaymentP> getPayment(final BookingP p,
-            final String bName) {
-        return getBill(p,bName).getPayments();        
-    }
-    
-    public static List<PaymentP> getPayment(final BookingP p) {
-        return getBill(p).getPayments();        
-    }
-    
     public static <T> List<T> getEmptyCol(T elem) {
         List<T> col = new ArrayList<T>();
         col.add(elem);

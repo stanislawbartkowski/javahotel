@@ -24,10 +24,8 @@ import com.javahotel.common.rescache.ResObjectCache.IReadResCallBack;
 import com.javahotel.common.rescache.ResObjectCache.IReadResData;
 import com.javahotel.common.rescache.ResObjectElem;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
-import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.db.context.ICommandContext;
 
 /**
@@ -41,10 +39,9 @@ public class BookCanReserv {
 
 	private static ReadResParam createResParam(final BookingP b,
 			final List<ResObjectElem> col) {
-		BookRecordP bR = GetMaxUtil.getLastBookRecord(b);
 		PeriodT pe = new PeriodT(null, null);
 		List<String> resList = new ArrayList<String>();
-		for (BookElemP e : bR.getBooklist()) {
+		for (BookElemP e : b.getBooklist()) {
 			// TODO: can be duplicated
 			resList.add(e.getResObject());
 			PeriodT pR = new PeriodT(e.getCheckIn(), e.getCheckOut());

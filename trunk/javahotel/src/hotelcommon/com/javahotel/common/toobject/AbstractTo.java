@@ -14,7 +14,6 @@ package com.javahotel.common.toobject;
 
 import java.io.Serializable;
 
-import com.javahotel.common.command.CommandUtil;
 import com.javahotel.types.LId;
 
 /**
@@ -49,10 +48,6 @@ public abstract class AbstractTo implements Serializable {
 
     protected boolean emptySpecialTrue(final IField f) {
         return false;
-    }
-
-    public void copyFrom(final AbstractTo from) {
-        CommandUtil.copyA(from, this, getT());
     }
 
     protected boolean isOnList(IField f, IField[] ft) {

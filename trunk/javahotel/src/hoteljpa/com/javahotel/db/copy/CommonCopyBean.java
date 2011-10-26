@@ -19,9 +19,7 @@ import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AddPaymentP;
 import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BankAccountP;
-import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.CustomerP;
@@ -43,9 +41,7 @@ import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.AddPayment;
 import com.javahotel.db.hotelbase.jpa.AdvancePayment;
-import com.javahotel.db.hotelbase.jpa.Bill;
 import com.javahotel.db.hotelbase.jpa.BookElem;
-import com.javahotel.db.hotelbase.jpa.BookRecord;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.BookingState;
 import com.javahotel.db.hotelbase.jpa.Customer;
@@ -337,10 +333,11 @@ public class CommonCopyBean {
             // firstly copy CustomerData
             CopyCustomer.copy1(iC, (CustomerP) sou, (Customer) dest);
             // then copy specific data
-            CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.InvoiceIssuerList);
+            CopyBean.copyBean(sou, dest, iC.getLog(),
+                    FieldList.InvoiceIssuerList);
             return;
         }
-        
+
         if (sou instanceof CustomerP) {
             CopyCustomer.copy1(iC, (CustomerP) sou, (Customer) dest);
             return;
@@ -444,7 +441,8 @@ public class CommonCopyBean {
             // firstly copy CustomerData
             CopyCustomer.copy2(iC, (Customer) sou, (CustomerP) dest);
             // then copy specific fields
-            CopyBean.copyBean(sou, dest, iC.getLog(), FieldList.InvoiceIssuerList);
+            CopyBean.copyBean(sou, dest, iC.getLog(),
+                    FieldList.InvoiceIssuerList);
             return;
         }
 
@@ -506,16 +504,6 @@ public class CommonCopyBean {
             BookingState sou1 = (BookingState) sou;
             BookingStateP dest1 = (BookingStateP) dest;
             CopyHelper.copyBeanINumerable(iC, sou1, dest1, FieldList.StateList);
-            return;
-        }
-
-        if (sou instanceof Bill) {
-            CopyBooking.copy2(iC, (Bill) sou, (BillP) dest);
-            return;
-        }
-
-        if (sou instanceof BookRecord) {
-            CopyBooking.copy2(iC, (BookRecord) sou, (BookRecordP) dest);
             return;
         }
 

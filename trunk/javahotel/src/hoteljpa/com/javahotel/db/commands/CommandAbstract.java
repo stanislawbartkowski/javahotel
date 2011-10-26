@@ -17,13 +17,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.gwtmodel.table.common.CUtil;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.util.GetMaxUtil;
-import com.javahotel.common.util.StringU;
 import com.javahotel.db.command.CommandTemplate;
 import com.javahotel.db.copy.CommonCopyBean;
 import com.javahotel.db.copy.CopyHelper;
@@ -70,23 +70,23 @@ public abstract class CommandAbstract extends CommandTemplate {
 
     CommandAbstract(final SessionT sessionId, boolean starttra,
             final HotelT hotel) {
-        super(sessionId, false, !ContainerInfo.TransactionContainer(),starttra);
-        this.ho = hotel;
-    }
-    
-    // admin constructor
-    CommandAbstract(final SessionT sessionId, final HotelT hotel) {
-        super(sessionId, true, !ContainerInfo.TransactionContainer(),true);
+        super(sessionId, false, !ContainerInfo.TransactionContainer(), starttra);
         this.ho = hotel;
     }
 
-    protected <T> List<T> readDefault(final Class<?> cla,
-            final String tagProp, final String xmlProp) {
+    // admin constructor
+    CommandAbstract(final SessionT sessionId, final HotelT hotel) {
+        super(sessionId, true, !ContainerInfo.TransactionContainer(), true);
+        this.ho = hotel;
+    }
+
+    protected <T> List<T> readDefault(final Class<?> cla, final String tagProp,
+            final String xmlProp) {
         String tagName = GetProp.getProp(tagProp);
         InputStream i = GetProp.getXMLFile(xmlProp);
         String rootTag = GetProp.getRootTagName(tagProp);
-        List<T> col = (List<T>) ReadFromXML.readCol(i, cla,
-                tagName, rootTag, HLog.getL());
+        List<T> col = (List<T>) ReadFromXML.readCol(i, cla, tagName, rootTag,
+                HLog.getL());
 
         RHotel r = CommonHelper.getH(iC, new HotelT(iC.getHotel()));
         for (T o : col) {
@@ -133,7 +133,7 @@ public abstract class CommandAbstract extends CommandTemplate {
             OfferPriceP oP = (OfferPriceP) a;
             res.o = getOneOffer(a, oP.getSeason(), na);
         }
-        if ((res.o == null) && !StringU.isEmpty(na)) {
+        if ((res.o == null) && !CUtil.EmptyS(na)) {
             res.o = CommonHelper.getA(iC, res.cla, na);
             res.created = true;
         }
@@ -163,13 +163,14 @@ public abstract class CommandAbstract extends CommandTemplate {
             re.setIdName(o.getName());
         }
     }
-    
+
     /**
-     * Create set of booking services and keep it in the cache 
+     * Create set of booking services and keep it in the cache
      */
     protected void createSetOfBookingServices() {
         // read all services and create a set of services related to booking
-        List<ServiceDictionary> colx = iC.getJpa().getAllList(ServiceDictionary.class);
+        List<ServiceDictionary> colx = iC.getJpa().getAllList(
+                ServiceDictionary.class);
         Set<String> booking = new HashSet<String>();
         for (ServiceDictionary c : colx) {
             if (c.getServType().isBooking()) {
@@ -179,7 +180,7 @@ public abstract class CommandAbstract extends CommandTemplate {
         // store result in the cache
         iC.getC().setBookingServices(booking);
     }
-    
+
     protected void setCol(final Object p, final List<? extends INumerable> col,
             final INumerable sou, final Class<?> cla, final String name,
             final Class<?> mecl) {

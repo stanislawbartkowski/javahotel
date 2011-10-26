@@ -13,14 +13,13 @@
 package com.javahotel.common.command;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.AddPaymentP;
-import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.PaymentP;
@@ -46,7 +45,6 @@ public class CommandParam implements Serializable {
     private BookingStateP stateP;
     private Map<String, List<GuestP>> guests;
     private List<AddPaymentP> addpayment; // HotelOpType.PersistAddPayment
-    private BillP bill;
     private LId recId;
     private HotelOpType oP;
     // cannot be final
@@ -80,21 +78,6 @@ public class CommandParam implements Serializable {
      */
     public void setAddpayment(List<AddPaymentP> addpayment) {
         this.addpayment = addpayment;
-    }
-
-    /**
-     * @return the bill
-     */
-    public BillP getBill() {
-        return bill;
-    }
-
-    /**
-     * @param bill
-     *            the bill to set
-     */
-    public void setBill(BillP bill) {
-        this.bill = bill;
     }
 
     /**

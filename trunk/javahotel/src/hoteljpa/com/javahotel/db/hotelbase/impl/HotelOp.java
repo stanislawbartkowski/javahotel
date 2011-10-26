@@ -24,7 +24,6 @@ import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.AddPaymentP;
-import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.PaymentP;
@@ -39,13 +38,12 @@ import com.javahotel.remoteinterfaces.IHotelOp;
 import com.javahotel.remoteinterfaces.SessionT;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @Stateless(mappedName = "hotelOpEJB")
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class HotelOp implements IHotelOp {
-
 
     @Override
     public ReturnPersist hotelOp(final SessionT sessionId,
@@ -58,54 +56,52 @@ public class HotelOp implements IHotelOp {
         String ho = p.getHotel();
         ReturnPersist ret = null;
         switch (op) {
-            case NumberOfDictRecords:
-                DictNumberRecord nu = new DictNumberRecord(sessionId,
-                        p.getDict(null), new HotelT( p.getHotel()));
-                nu.run();
-                ret = nu.getRet();
-                break;
-                
-            case ChangeBookingToStay:
-                String resName = p.getReservName();
-                ChangeBookingToStay sta = new ChangeBookingToStay(sessionId,
-                        ho, resName);
-                sta.run();
-                ret = sta.getRet();
-                break;
-            case AddDownPayment:
-                List<PaymentP> pa = p.getListP();
-                resName = p.getReservName();
-                AddDownPayment dcom = new AddDownPayment(sessionId,
-                        ho, pa, resName);
-                dcom.run();
-                break;
-            case BookingSetNewState:
-                BookingStateP s = p.getStateP();
-                resName = p.getReservName();
-                SetNewBookingState scom = new SetNewBookingState(sessionId,ho,s,resName);
-                scom.run();
-                break;
-            case PersistGuests:
-                resName = p.getReservName();
-                Map<String, List<GuestP>> c = p.getGuests();
-                AddGuests a = new AddGuests(sessionId, ho, resName, c);
-                a.run();
-                break;
-            case PersistAddPayment:
-                resName = p.getReservName();
-                BillP bi = p.getBill();
-                List<AddPaymentP> add = p.getAddpayment();
-                AddPayment addCo = new AddPayment(sessionId, ho, resName,
-                        bi, add);
-                addCo.run();
-                ret = addCo.getRet();
-                break;
-            default:
+        case NumberOfDictRecords:
+            DictNumberRecord nu = new DictNumberRecord(sessionId,
+                    p.getDict(null), new HotelT(p.getHotel()));
+            nu.run();
+            ret = nu.getRet();
+            break;
+
+        case ChangeBookingToStay:
+            String resName = p.getReservName();
+            ChangeBookingToStay sta = new ChangeBookingToStay(sessionId, ho,
+                    resName);
+            sta.run();
+            ret = sta.getRet();
+            break;
+        case AddDownPayment:
+            List<PaymentP> pa = p.getListP();
+            resName = p.getReservName();
+            AddDownPayment dcom = new AddDownPayment(sessionId, ho, pa, resName);
+            dcom.run();
+            break;
+        case BookingSetNewState:
+            BookingStateP s = p.getStateP();
+            resName = p.getReservName();
+            SetNewBookingState scom = new SetNewBookingState(sessionId, ho, s,
+                    resName);
+            scom.run();
+            break;
+        case PersistGuests:
+            resName = p.getReservName();
+            Map<String, List<GuestP>> c = p.getGuests();
+            AddGuests a = new AddGuests(sessionId, ho, resName, c);
+            a.run();
+            break;
+        case PersistAddPayment:
+            resName = p.getReservName();
+            List<AddPaymentP> add = p.getAddpayment();
+            AddPayment addCo = new AddPayment(sessionId, ho, resName, add);
+            addCo.run();
+            ret = addCo.getRet();
+            break;
+        default:
 
         }
         return ret;
     }
-    
+
     @Override
     public ReturnPersist hotelOp(SessionT sessionID, CommandParam p) {
         return hotelOp(sessionID, p.getoP(), p);
