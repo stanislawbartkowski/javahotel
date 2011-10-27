@@ -16,7 +16,6 @@ import java.util.List;
 
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AddPaymentP;
-import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
@@ -26,7 +25,6 @@ import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.copy.CopyBeanToP.ICopyHelper;
 import com.javahotel.db.hotelbase.jpa.AddPayment;
-import com.javahotel.db.hotelbase.jpa.AdvancePayment;
 import com.javahotel.db.hotelbase.jpa.BookElem;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.BookingState;
@@ -122,13 +120,6 @@ class CopyBooking {
                 return new Payment();
             }
         };
-        final CopyBeanToP.ICopyHelper copyval = new CopyHelper.INumerableCopyHelper(
-                FieldList.ValidationList) {
-
-            public Object getI(final Object se) {
-                return new AdvancePayment();
-            }
-        };
         final CopyBeanToP.ICopyHelper copystate = new CopyHelper.INumerableCopyHelper(
                 FieldList.StateList) {
 
@@ -174,8 +165,6 @@ class CopyBooking {
 
         CopyBeanToP.copyRes1Collection(iC, sou, dest, "payments", "booking",
                 Booking.class, copypa, true);
-        CopyBeanToP.copyRes1Collection(iC, sou, dest, "advancePay", "booking",
-                Booking.class, copyval, true);
         CopyBeanToP.copyRes1Collection(iC, sou, dest, "addpayments", "booking",
                 Booking.class, copyaddpay, true);
 
@@ -193,8 +182,6 @@ class CopyBooking {
                 BookingStateP.class);
         CopyHelper
                 .copyRes2Collection(iC, sou, dest, "payments", PaymentP.class);
-        CopyHelper.copyRes2Collection(iC, sou, dest, "advancePay",
-                AdvancePaymentP.class);
         CopyHelper.copyRes2Collection(iC, sou, dest, "addpayments",
                 AddPaymentP.class);
         CopyHelper.copyRes2Collection(iC, sou, dest, "booklist",

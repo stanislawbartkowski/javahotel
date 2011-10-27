@@ -41,7 +41,6 @@
 		<class>com.javahotel.db.hotelbase.jpa.Payment</class>
 		<class>com.javahotel.db.hotelbase.jpa.PaymentRow</class>
 		<class>com.javahotel.db.hotelbase.jpa.ParamRegistry</class>
-		<class>com.javahotel.db.hotelbase.jpa.AdvancePayment</class>
 		<class>com.javahotel.db.hotelbase.jpa.Guest</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>

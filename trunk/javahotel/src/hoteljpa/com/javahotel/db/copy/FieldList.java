@@ -36,7 +36,6 @@ public class FieldList {
     public static final String[] BankList;
     public static final String[] BookingList;
     public static final String[] PaymentList;
-    public static final String[] ValidationList;
     public static final String[] StateList;
     public static final String[] BookElemList;
     public static final String[] PaymentRowList;
@@ -70,11 +69,9 @@ public class FieldList {
         PhoneList = new String[] { "phoneNumber" };
         BankList = new String[] { "accountNumber" };
         BookingList = new String[] { "personOp", "dateOp", "name", "description", "checkIn",
-                "checkOut", "noPersons", "bookingType", "resName", "season","oPrice","customerPrice" };
+                "checkOut", "noPersons", "bookingType", "resName", "season","oPrice","customerPrice","validationAmount", "validationDate" };
         PaymentList = new String[] { "amount", "dateOp", "payMethod",
                 "remarks", "personOp", "datePayment" };
-        ValidationList = new String[] { "amount", "validationDate", "remarks",
-                "dateOp" };
         StateList = new String[] { "personOp", "dateOp", "remarks", "bState" };
         BookElemList = new String[] { "checkIn", "checkOut", "resObject",
                 "service" };

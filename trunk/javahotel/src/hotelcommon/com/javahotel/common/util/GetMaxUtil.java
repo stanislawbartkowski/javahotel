@@ -15,7 +15,6 @@ package com.javahotel.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.types.INumerable;
@@ -117,12 +116,6 @@ public class GetMaxUtil {
     public static <T> T getLast(final List<? extends INumerable> col) {
         IGetLp in = createI();
         return (T) getOneLp(col, in);
-    }
-
-    public static AdvancePaymentP getLastValidationRecord(final BookingP p) {
-
-        INumerable in = getLast(p.getAddpayments());
-        return (AdvancePaymentP) in;
     }
 
     public static BookingStateP getLastStateRecord(final BookingP p) {

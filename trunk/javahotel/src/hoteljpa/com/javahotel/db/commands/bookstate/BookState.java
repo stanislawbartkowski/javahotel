@@ -217,20 +217,6 @@ public class BookState {
             // BookingStateP
             List<BookingState> cP = p.getBookelem().getBooking().getState();
             BookingState sta = GetMaxUtil.getLast(cP);
-            // if (sta == null) {
-            // iC.logFatal(IMessId.NULLSTATERES, rName);
-            // }
-            // switch (sta.getBState()) {
-            // case Confirmed:
-            // case WaitingForConfirmation:
-            // case Stay:
-            // break;
-            // default:
-            // msg = iC.logEvent(IMessId.RESOMMITEDBADSTATE, sta.getBState()
-            // .toString());
-            // iC.getLog().getL().fine(msg);
-            // continue;
-            // }
 
             BookingStateP stap = new BookingStateP();
             CommonCopyBean.copyB(iC, sta, stap);

@@ -44,7 +44,7 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     private Date dateOp;
     @Basic(optional = false)
     private String personOp;
-    
+
     @Basic(optional = false)
     @Temporal(TemporalType.DATE)
     private Date checkIn;
@@ -72,8 +72,6 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     private List<BookElem> booklist;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
-    private List<AdvancePayment> advancePay;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
     private List<Payment> payments;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
     private List<AddPayment> addpayments;
@@ -84,6 +82,12 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     private String resName;
     @Basic(optional = false)
     private BookingEnumTypes bookingType;
+
+    @Basic
+    @Temporal(TemporalType.DATE)
+    private Date validationDate;
+    @Basic
+    private BigDecimal validationAmount;
 
     public Booking() {
         state = new ArrayList<BookingState>();
@@ -207,20 +211,6 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     }
 
     /**
-     * @return the advancePay
-     */
-    public List<AdvancePayment> getAdvancePay() {
-        return advancePay;
-    }
-
-    /**
-     * @param advancePay the advancePay to set
-     */
-    public void setAdvancePay(List<AdvancePayment> advancePay) {
-        this.advancePay = advancePay;
-    }
-
-    /**
      * @return the addpayments
      */
     public List<AddPayment> getAddpayments() {
@@ -228,7 +218,8 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     }
 
     /**
-     * @param addpayments the addpayments to set
+     * @param addpayments
+     *            the addpayments to set
      */
     public void setAddpayments(List<AddPayment> addpayments) {
         this.addpayments = addpayments;
@@ -242,7 +233,8 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     }
 
     /**
-     * @param payments the payments to set
+     * @param payments
+     *            the payments to set
      */
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
@@ -256,7 +248,8 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     }
 
     /**
-     * @param dateOp the dateOp to set
+     * @param dateOp
+     *            the dateOp to set
      */
     public void setDateOp(Date dateOp) {
         this.dateOp = dateOp;
@@ -270,12 +263,56 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     }
 
     /**
-     * @param personOp the personOp to set
+     * @param personOp
+     *            the personOp to set
      */
     public void setPersonOp(String personOp) {
         this.personOp = personOp;
     }
-    
-    
+
+    /**
+     * @return the oPrice
+     */
+    public String getoPrice() {
+        return oPrice;
+    }
+
+    /**
+     * @param oPrice
+     *            the oPrice to set
+     */
+    public void setoPrice(String oPrice) {
+        this.oPrice = oPrice;
+    }
+
+    /**
+     * @return the validationDate
+     */
+    public Date getValidationDate() {
+        return validationDate;
+    }
+
+    /**
+     * @param validationDate
+     *            the validationDate to set
+     */
+    public void setValidationDate(Date validationDate) {
+        this.validationDate = validationDate;
+    }
+
+    /**
+     * @return the amount
+     */
+    public BigDecimal getValidationAmount() {
+        return validationAmount;
+    }
+
+    /**
+     * @param amount
+     *            the amount to set
+     */
+    public void setValidationAmount(BigDecimal amount) {
+        this.validationAmount = amount;
+    }
 
 }
