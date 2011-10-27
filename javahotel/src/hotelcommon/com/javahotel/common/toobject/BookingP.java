@@ -16,6 +16,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.CommandUtil;
 import com.javahotel.types.DateP;
@@ -43,16 +46,16 @@ public class BookingP extends DictionaryP {
     /** For stay - symbol of reservation used. */
     private String resName;
     private List<PaymentP> payments;
-    private List<AdvancePaymentP> advancePay;
     private List<AddPaymentP> addpayments;
     private DecimalP customerPrice;
-
+    private DateP validationDate;
+    private DecimalP validationAmount;
 
     public enum F implements IField {
 
-        checkIn, checkOut, customer, noPersons, season, resName, bookingType, oPrice
+        checkIn, checkOut, customer, noPersons, season, resName, bookingType, oPrice, customerPrice, validationDate, validationAmount
     };
-    
+
     public BookingEnumTypes getBookingType() {
         return bookingType;
     }
@@ -68,7 +71,6 @@ public class BookingP extends DictionaryP {
     public void setResName(String resName) {
         this.resName = resName;
     }
-
 
     @Override
     protected boolean emptySpecialTrue(final IField f) {
@@ -104,6 +106,8 @@ public class BookingP extends DictionaryP {
         case resName:
         case season:
             return String.class;
+        case customerPrice:
+            return BigDecimal.class;
         }
         return null;
     }
@@ -138,6 +142,8 @@ public class BookingP extends DictionaryP {
             return getResName();
         case bookingType:
             return getBookingType();
+        case customerPrice:
+            return getCustomerPrice();
 
         }
         return null;
@@ -177,6 +183,10 @@ public class BookingP extends DictionaryP {
         case bookingType:
             setBookingType((BookingEnumTypes) o);
             break;
+        case customerPrice:
+            setCustomerPrice((BigDecimal) o);
+            break;
+
         }
     }
 
@@ -185,6 +195,10 @@ public class BookingP extends DictionaryP {
         checkOut = new DateP();
         op = new OperationData();
         customerPrice = new DecimalP();
+        validationAmount = new DecimalP();
+        validationDate = new DateP();
+        // it seems that @Temporal(TemporalType.DATE) is always not-null
+        validationDate.setD(new Date());
     }
 
     /**
@@ -195,7 +209,8 @@ public class BookingP extends DictionaryP {
     }
 
     /**
-     * @param customerPrice the customerPrice to set
+     * @param customerPrice
+     *            the customerPrice to set
      */
     public void setCustomerPrice(BigDecimal customerPrice) {
         this.customerPrice.setDecim(customerPrice);
@@ -287,24 +302,11 @@ public class BookingP extends DictionaryP {
     }
 
     /**
-     * @param payments the payments to set
+     * @param payments
+     *            the payments to set
      */
     public void setPayments(List<PaymentP> payments) {
         this.payments = payments;
-    }
-
-    /**
-     * @return the advancePay
-     */
-    public List<AdvancePaymentP> getAdvancePay() {
-        return advancePay;
-    }
-
-    /**
-     * @param advancePay the advancePay to set
-     */
-    public void setAdvancePay(List<AdvancePaymentP> advancePay) {
-        this.advancePay = advancePay;
     }
 
     /**
@@ -315,12 +317,13 @@ public class BookingP extends DictionaryP {
     }
 
     /**
-     * @param addpayments the addpayments to set
+     * @param addpayments
+     *            the addpayments to set
      */
     public void setAddpayments(List<AddPaymentP> addpayments) {
         this.addpayments = addpayments;
     }
-    
+
     /**
      * @return the dateOp
      */
@@ -350,5 +353,35 @@ public class BookingP extends DictionaryP {
     public void setPersonOp(String personOp) {
         op.setPersonOp(personOp);
     }
-    
+
+    /**
+     * @return the validationDate
+     */
+    public Date getValidationDate() {
+        return validationDate.getD();
+    }
+
+    /**
+     * @param validationDate
+     *            the validationDate to set
+     */
+    public void setValidationDate(Date validationDate) {
+        this.validationDate.setD(validationDate);
+    }
+
+    /**
+     * @return the validationAmount
+     */
+    public BigDecimal getValidationAmount() {
+        return validationAmount.getDecim();
+    }
+
+    /**
+     * @param validationAmount
+     *            the validationAmount to set
+     */
+    public void setValidationAmount(BigDecimal validationAmount) {
+        this.validationAmount.setDecim(validationAmount);
+    }
+
 }

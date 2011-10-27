@@ -22,9 +22,9 @@ import java.util.Map;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.DownPaymentP;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.db.copy.CommonCopyBean;
-import com.javahotel.db.hotelbase.jpa.AdvancePayment;
+import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.queries.GetQueries;
 import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.ToLD;
@@ -37,7 +37,7 @@ import com.javahotel.remoteinterfaces.SessionT;
  */
 public class GetDownPaymentsList extends CommandAbstract {
 
-    private List<DownPaymentP> col;
+    private List<BookingP> col;
     private final Date dFrom;
     private final Date dTo;
 
@@ -54,29 +54,16 @@ public class GetDownPaymentsList extends CommandAbstract {
 
     @Override
     protected void command() {
-        List<AdvancePayment> c = GetQueries.getValidationForHotel(iC);
+        List<Booking> c = GetQueries.getValidationForHotel(iC);
         PeriodT pe = new PeriodT(dFrom, dTo);
-        Map<Long, AdvancePayment> ma = new HashMap<Long, AdvancePayment>();
-        for (AdvancePayment va : c) {
-            HId id = va.getBooking().getId();
-            AdvancePayment va1 = ma.get(id.getL());
-            if ((va1 == null) || (va1.getLp().compareTo(va.getLp()) == -1)) {
-                ma.put(id.getL(), va);
-            }
-        }
-        col = new ArrayList<DownPaymentP>();
-        for (AdvancePayment va : ma.values()) {
+        col = new ArrayList<BookingP>();
+        for (Booking va : c) {
             int cc = DateUtil.compPeriod(va.getValidationDate(), pe);
             if (cc != 0) {
                 continue;
             }
-            DownPaymentP dp = new DownPaymentP();
+            BookingP dp = new BookingP();
             CommonCopyBean.copyB(iC, va, dp);
-            dp.setResId(va.getBooking().getName());
-            dp.setCustomerId(ToLD.toLId(va.getBooking().getCustomer().getId()));
-            BigDecimal sum = HotelHelper.sumPayment(va.getBooking()
-                    .getPayments());
-            dp.setSumPayment(sum);
             col.add(dp);
         }
     }

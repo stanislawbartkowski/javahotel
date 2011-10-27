@@ -19,13 +19,13 @@ import java.util.List;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.util.AbstractObjectFactory;
+import com.javahotel.common.util.SumUtil;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.copy.CommonCopyBean;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.Payment;
 import com.javahotel.db.hotelbase.jpa.RHotel;
 import com.javahotel.db.hotelbase.queries.GetQueries;
-import com.javahotel.db.hotelbase.types.IPureDictionary;
 import com.javahotel.db.hoteldb.HotelStore;
 import com.javahotel.dbjpa.ejb3.JpaDataId;
 import com.javahotel.dbjpa.ejb3.JpaEntity;
@@ -72,8 +72,8 @@ class HotelHelper {
         }
         return dest;
     }
-
-    static BigDecimal sumPayment(List<Payment> col) {
+    
+    public static BigDecimal sumPayment(List<Payment> col) {
         BigDecimal sum = new BigDecimal(0);
         for (Payment pa : col) {
             sum = sum.add(pa.getAmount());
@@ -81,20 +81,10 @@ class HotelHelper {
         return sum;
     }
 
-    static BigDecimal sumPayment(final Booking p) {
+    
+    public static BigDecimal sumPayment(final Booking p) {
         List<Payment> col = p.getPayments();
         return sumPayment(col);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T extends IPureDictionary> T getName(final List<T> col,
-            final String name) {
-        for (IPureDictionary t : col) {
-            if (t.getName().equals(name)) {
-                return (T) t;
-            }
-        }
-        return null;
     }
 
 }

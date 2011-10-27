@@ -18,11 +18,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.db.context.ICommandContext;
-import com.javahotel.db.hotelbase.jpa.AdvancePayment;
 import com.javahotel.db.hotelbase.jpa.BookElem;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.BookingState;
@@ -137,63 +137,69 @@ public class GetQueries {
         List<Booking> cB = iC.getJpa().getListQuery(Booking.class, "hotelId",
                 iC.getRHotel().getId().getL());
         for (Booking b : cB) {
-                List<BookElem> cE = b.getBooklist();
-                for (BookElem be : cE) {
-                    // only oName object
-                    if (!be.getResObject().equals(oName)) {
-                        continue;
-                    }
-                    // only BookElem related to reservation
-                    // ignore all other BookElems
-                    String service = be.getService();
-                    if (!iC.getC().getBookingServices().contains(service)) {
-                        continue;
-                    }                    
-                    List<PaymentRow> cR = be.getPaymentrows();
-                    for (PaymentRow p : cR) {
-
-                        List<BookingState> cP = p.getBookelem().getBooking().getState();
-                        @SuppressWarnings("unused")
-                        BookingState sta = GetMaxUtil.getLast(cP);
-                        Date ddTo = p.getRowTo();
-                        int co;
-                        if (ddTo != null) {
-                            co = DateUtil.compareDate(ddTo, dFrom);
-                            if (co == -1) {
-                                continue;
-                            } // ddTo < dFrom
-                        }
-                        Date ddFrom = p.getRowFrom();
-                        if (ddFrom != null) {
-                            co = DateUtil.compareDate(ddFrom, dTo);
-                            if (co == 1) {
-                                continue;
-                            } // ddFrom < dTo
-                        }
-                        cc.add(p);
-                    }
+            List<BookElem> cE = b.getBooklist();
+            for (BookElem be : cE) {
+                // only oName object
+                if (!be.getResObject().equals(oName)) {
+                    continue;
                 }
+                // only BookElem related to reservation
+                // ignore all other BookElems
+                String service = be.getService();
+                if (!iC.getC().getBookingServices().contains(service)) {
+                    continue;
+                }
+                List<PaymentRow> cR = be.getPaymentrows();
+                for (PaymentRow p : cR) {
+
+                    List<BookingState> cP = p.getBookelem().getBooking()
+                            .getState();
+                    @SuppressWarnings("unused")
+                    BookingState sta = GetMaxUtil.getLast(cP);
+                    Date ddTo = p.getRowTo();
+                    int co;
+                    if (ddTo != null) {
+                        co = DateUtil.compareDate(ddTo, dFrom);
+                        if (co == -1) {
+                            continue;
+                        } // ddTo < dFrom
+                    }
+                    Date ddFrom = p.getRowFrom();
+                    if (ddFrom != null) {
+                        co = DateUtil.compareDate(ddFrom, dTo);
+                        if (co == 1) {
+                            continue;
+                        } // ddFrom < dTo
+                    }
+                    cc.add(p);
+                }
+            }
         }
 
         return cc;
     }
 
-    public static List<AdvancePayment> getValidationForHotel(
-            final ICommandContext iC) {
-        List<AdvancePayment> col = iC.getJpa().getAllList(AdvancePayment.class);
-        List<AdvancePayment> out = new ArrayList<AdvancePayment>();
+    public static List<Booking> getValidationForHotel(final ICommandContext iC) {
+        List<Booking> col = iC.getJpa().getAllList(Booking.class);
+        List<Booking> out = new ArrayList<Booking>();
         String hot = iC.getHotel();
-        for (AdvancePayment a : col) {
-            // for some reason should - otherwise is not read
-            Booking bo = a.getBooking();
-            @SuppressWarnings("unused")
-            Booking bo1 = iC.getJpa().getRecord(Booking.class, bo.getId());
-            // ------------------
-            String ho = a.getBooking().getHotel().getName();
+        for (Booking bo : col) {
+            String ho = bo.getHotel().getName();
             if (!ho.equals(hot)) {
                 continue;
             }
-            out.add(a);
+            if (bo.getBookingType() == BookingEnumTypes.Stay) {
+                continue;
+            }
+            List<BookingState> cP = bo.getState();
+            BookingState sta = GetMaxUtil.getLast(cP);
+            if (!sta.getBState().isBooked()) {
+                continue;
+            }
+            if (bo.getValidationAmount() == null) {
+                continue;
+            }
+            out.add(bo);
         }
         return out;
     }

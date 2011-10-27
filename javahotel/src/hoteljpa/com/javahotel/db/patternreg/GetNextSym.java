@@ -30,64 +30,64 @@ import java.util.Collection;
  */
 public class GetNextSym {
 
-	private GetNextSym() {
-	}
+    private GetNextSym() {
+    }
 
-	private final static String MAXPATT = "MAX-PATTERN-SYM-";
+    private final static String MAXPATT = "MAX-PATTERN-SYM-";
 
-	private static String getS(final String kId, final boolean withy) {
-		String s = MAXPATT + kId;
-		if (withy) {
-			s += "YY-";
-		}
-		return s;
-	}
+    private static String getS(final String kId, final boolean withy) {
+        String s = MAXPATT + kId;
+        if (withy) {
+            s += "YY-";
+        }
+        return s;
+    }
 
-	private static GenSymbolData getSy(final ICommandContext iC,
-			final String kId) {
-		String s = getS(kId, false);
-		int maxN = RegParam.getParam(iC, s, 0);
-		String s1 = getS(kId, true);
-		List<ParamRegistry> col = RegParam.getParams(iC, s1);
+    private static GenSymbolData getSy(final ICommandContext iC,
+            final String kId) {
+        String s = getS(kId, false);
+        int maxN = RegParam.getParam(iC, s, 0);
+        String s1 = getS(kId, true);
+        List<ParamRegistry> col = RegParam.getParams(iC, s1);
 
-		List<SymbolContainer> out = new ArrayList<SymbolContainer>();
-		for (ParamRegistry pa : col) {
-			String y = pa.getName().substring(s1.length());
-			int year = Integer.parseInt(y);
-			int maxw = Integer.parseInt(pa.getDescription());
-			SymbolContainer sy = new SymbolContainer(year, maxw);
-			out.add(sy);
-		}
-		GenSymbolData ge = new GenSymbolData(out, maxN);
-		return ge;
-	}
+        List<SymbolContainer> out = new ArrayList<SymbolContainer>();
+        for (ParamRegistry pa : col) {
+            String y = pa.getName().substring(s1.length());
+            int year = Integer.parseInt(y);
+            int maxw = Integer.parseInt(pa.getDescription());
+            SymbolContainer sy = new SymbolContainer(year, maxw);
+            out.add(sy);
+        }
+        GenSymbolData ge = new GenSymbolData(out, maxN);
+        return ge;
+    }
 
-	private static void putSy(final ICommandContext iC, final String kId,
-			final GenSymbolData sy) {
-		String s = getS(kId, false);
-		int maxN = sy.maxNo();
-		RegParam.setParam(iC, s, maxN);
+    private static void putSy(final ICommandContext iC, final String kId,
+            final GenSymbolData sy) {
+        String s = getS(kId, false);
+        int maxN = sy.maxNo();
+        RegParam.setParam(iC, s, maxN);
 
-		Collection<SymbolContainer> col = sy.getCol();
-		for (SymbolContainer ss : col) {
-			String ke = getS(kId, true) + ss.getYear();
-			RegParam.setParam(iC, ke, ss.getMaxno());
-		}
-	}
+        Collection<SymbolContainer> col = sy.getCol();
+        for (SymbolContainer ss : col) {
+            String ke = getS(kId, true) + ss.getYear();
+            RegParam.setParam(iC, ke, ss.getMaxno());
+        }
+    }
 
-	public static String NextSym(final ICommandContext iC, final String kId,
-			final Date da, final String pattern) {
-		GenSymbolData sy = getSy(iC, kId);
-		String outS = GenSymbol.nextSymbol(pattern, da, sy);
-		putSy(iC, kId, sy);
-		return outS;
-	}
+    public static String NextSym(final ICommandContext iC, final String kId,
+            final Date da, final String pattern) {
+        GenSymbolData sy = getSy(iC, kId);
+        String outS = GenSymbol.nextSymbol(pattern, da, sy);
+        putSy(iC, kId, sy);
+        return outS;
+    }
 
-	public static int NextIntValue(final ICommandContext iC, final String kId) {
-		int no = RegParam.getParam(iC, kId, 0);
-		no++;
-		RegParam.setParam(iC, kId, no);
-		return no;
-	}
+    public static int NextIntValue(final ICommandContext iC, final String kId) {
+        int no = RegParam.getParam(iC, kId, 0);
+        no++;
+        RegParam.setParam(iC, kId, no);
+        return no;
+    }
 
 }

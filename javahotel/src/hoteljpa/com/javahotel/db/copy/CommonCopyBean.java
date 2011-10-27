@@ -17,7 +17,6 @@ import java.util.List;
 
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AddPaymentP;
-import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
@@ -40,7 +39,6 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.AddPayment;
-import com.javahotel.db.hotelbase.jpa.AdvancePayment;
 import com.javahotel.db.hotelbase.jpa.BookElem;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.BookingState;
@@ -489,14 +487,6 @@ public class CommonCopyBean {
             PaymentP dest1 = (PaymentP) dest;
             CopyHelper.copyBeanINumerable(iC, sou1, dest1,
                     FieldList.PaymentList);
-            return;
-        }
-
-        if (sou instanceof AdvancePayment) {
-            AdvancePayment sou1 = (AdvancePayment) sou;
-            AdvancePaymentP dest1 = (AdvancePaymentP) dest;
-            CopyHelper.copyBeanINumerable(iC, sou1, dest1,
-                    FieldList.ValidationList);
             return;
         }
 
