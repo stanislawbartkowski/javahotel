@@ -21,6 +21,8 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.internal.ui.SWTFactory;
 import org.eclipse.jdt.debug.ui.launchConfigurations.JavaLaunchTab;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -28,6 +30,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PartInitException;
 
 public class DB2ScriptTabView extends JavaLaunchTab {
 
@@ -44,35 +47,49 @@ public class DB2ScriptTabView extends JavaLaunchTab {
 	private final static String DB_USER = Messages.DB2ScriptTabView_DB2_USER_NAME;
 	private final static String DB_PASSWORD = Messages.DB2ScriptTabView_DB2_PASSWORD;
 
+	@SuppressWarnings("restriction")
 	@Override
 	public void createControl(final Composite parent) {
+
+		ModifyListener listener = new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent arg0) {
+				updateLaunchConfigurationDialog();
+			}
+		};
 
 		Composite comp = SWTFactory.createComposite(parent, 1, 1,
 				GridData.CENTER);
 		setControl(comp);
 		// Composite namecomp = SWTFactory.createComposite(comp, comp.getFont(),
 		// 4, 1, GridData.FILL_HORIZONTAL, 0, 0);
-		Group namecomp = SWTFactory.createGroup(comp, Messages.DB2ScriptTabView_DB2_ACCESS_DATA, 4, 1,
+		Group namecomp = SWTFactory.createGroup(comp,
+				Messages.DB2ScriptTabView_DB2_ACCESS_DATA, 4, 1,
 				GridData.FILL_HORIZONTAL);
 
 		SWTFactory.createLabel(namecomp, DBNAME_LABEL, 1);
 		db2Alias = SWTFactory.createSingleText(namecomp, 1);
+		db2Alias.addModifyListener(listener);
 
 		// namecomp = SWTFactory.createComposite(comp, comp.getFont(), 4, 1,
 		// GridData.FILL_HORIZONTAL, 0, 0);
 
 		SWTFactory.createLabel(namecomp, DB_USER, 1);
 		db2User = SWTFactory.createSingleText(namecomp, 1);
+		db2User.addModifyListener(listener);
 
 		// namecomp = SWTFactory.createComposite(comp, comp.getFont(), 4, 1,
 		// GridData.FILL_HORIZONTAL, 0, 0);
 
 		SWTFactory.createLabel(namecomp, DB_PASSWORD, 1);
 		db2Password = SWTFactory.createSingleText(namecomp, 1);
+		db2Password.addModifyListener(listener);
 
 		Composite bcomp = SWTFactory.createComposite(comp, comp.getFont(), 4,
 				1, GridData.FILL_HORIZONTAL, 0, 0);
-		Button b = SWTFactory.createPushButton(bcomp, Messages.DB2ScriptTabView_DB2_BUTTON_TEST, null);
+		Button b = SWTFactory.createPushButton(bcomp,
+				Messages.DB2ScriptTabView_DB2_BUTTON_TEST, null);
 
 		b.addSelectionListener(new SelectionListener() {
 
@@ -85,6 +102,7 @@ public class DB2ScriptTabView extends JavaLaunchTab {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				try {
+					updateLaunchConfigurationDialog();
 					DB2LineFactory.executeDB2Script(parent.getShell(), null,
 							db2Alias.getText(), db2User.getText(),
 							db2Password.getText(), null, null);
@@ -92,6 +110,9 @@ public class DB2ScriptTabView extends JavaLaunchTab {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (PartInitException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
