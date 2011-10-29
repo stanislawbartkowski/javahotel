@@ -28,6 +28,17 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.IConsoleView;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * Utility class containing method for creating DB2 command line
@@ -40,6 +51,8 @@ public class DB2LineFactory {
 	/** DB2 CLP separator. */
 	private static final String SEP = ";"; //$NON-NLS-1$
 
+	private static final String DB2Console = "DB2";
+
 	/**
 	 * Thread to gather output from 'exec' to avoid blocking
 	 * 
@@ -49,9 +62,11 @@ public class DB2LineFactory {
 	private static class ReadI extends Thread {
 
 		private final InputStream i;
+		private final MessageConsoleStream cout;
 
-		ReadI(InputStream i) {
+		ReadI(InputStream i, MessageConsoleStream cout) {
 			this.i = i;
+			this.cout = cout;
 		}
 
 		@Override
@@ -60,7 +75,8 @@ public class DB2LineFactory {
 			try {
 				while ((in = i.read()) != -1) {
 					char ch = (char) in;
-					System.out.print(ch);
+					// System.out.print(ch);
+					cout.print("" + ch);
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -89,6 +105,19 @@ public class DB2LineFactory {
 
 	}
 
+	private static MessageConsole findConsole(String name) {
+		ConsolePlugin plugin = ConsolePlugin.getDefault();
+		IConsoleManager conMan = plugin.getConsoleManager();
+		IConsole[] existing = conMan.getConsoles();
+		for (int i = 0; i < existing.length; i++)
+			if (name.equals(existing[i].getName()))
+				return (MessageConsole) existing[i];
+		// no console found, so create a new one
+		MessageConsole myConsole = new MessageConsole(name, null);
+		conMan.addConsoles(new IConsole[] { myConsole });
+		return myConsole;
+	}
+
 	/**
 	 * Common entry for executing command (if both script and script content are
 	 * null then connect to the database only
@@ -111,12 +140,23 @@ public class DB2LineFactory {
 	 *             Exception
 	 * @throws InterruptedException
 	 *             Exception
+	 * @throws PartInitException
 	 */
 	static void executeDB2Script(Shell parent, IProgressMonitor pMonitor,
 			String db2Alias, String db2User, String db2Password, String script,
-			String scriptContent) throws IOException, InterruptedException {
+			String scriptContent) throws IOException, InterruptedException,
+			PartInitException {
 
 		String con = createConnectString(db2Alias, db2User, db2Password);
+		MessageConsole co = findConsole(DB2Console);
+		MessageConsoleStream cout = co.newMessageStream();
+		IWorkbench wb = PlatformUI.getWorkbench();
+//		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+//		if (win != null) {
+//			IWorkbenchPage page = win.getActivePage();
+//			IConsoleView view = (IConsoleView) page.showView(DB2Console);
+//			view.display(co);
+//		}
 		Process p;
 		if (pMonitor != null) {
 			pMonitor.beginTask(Messages.CONNECT_AND_EXECUTE,
@@ -125,7 +165,8 @@ public class DB2LineFactory {
 		File temp = null;
 		if (script == null && scriptContent == null) {
 			// connect to database only
-			System.out.println(Messages.CONNECTING);
+			// System.out.println(Messages.CONNECTING);
+			cout.println(Messages.CONNECTING);
 			p = Runtime.getRuntime().exec("db2 " + con); //$NON-NLS-1$
 		} else {
 			// copy content or script to temporary file
@@ -150,14 +191,14 @@ public class DB2LineFactory {
 			}
 			out.write(SEP);
 			out.close();
-			System.out.println(Messages.CONNECTING_AND_RUNNING);
+			cout.println(Messages.CONNECTING_AND_RUNNING);
 			// command to start clp
 			String com = "db2 -stvf " + temp.getAbsolutePath(); //$NON-NLS-1$
 			p = Runtime.getRuntime().exec(com);
 		}
 		// gather output
-		Thread r1 = new ReadI(p.getInputStream());
-		Thread r2 = new ReadI(p.getErrorStream());
+		Thread r1 = new ReadI(p.getInputStream(), cout);
+		Thread r2 = new ReadI(p.getErrorStream(), cout);
 		r1.run();
 		r2.run();
 		p.waitFor();
