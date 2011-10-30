@@ -53,7 +53,7 @@ public class BookingP extends DictionaryP {
 
     public enum F implements IField {
 
-        checkIn, checkOut, customer, noPersons, season, resName, bookingType, oPrice, customerPrice, validationDate, validationAmount
+        checkIn, checkOut, customer, noPersons, season, resName, bookingType, oPrice, customerPrice, validationDate, validationAmount, dateOp
     };
 
     public BookingEnumTypes getBookingType() {
@@ -100,6 +100,7 @@ public class BookingP extends DictionaryP {
         switch (fie) {
         case checkIn:
         case checkOut:
+        case dateOp:
             return Date.class;
         case noPersons:
             return Integer.class;
@@ -107,6 +108,8 @@ public class BookingP extends DictionaryP {
         case season:
             return String.class;
         case customerPrice:
+        case validationDate:
+        case validationAmount:
             return BigDecimal.class;
         }
         return null;
@@ -126,6 +129,8 @@ public class BookingP extends DictionaryP {
 
         F fi = (F) f;
         switch (fi) {
+        case dateOp:
+            return getDateOp();
         case oPrice:
             return getOPrice();
         case checkIn:
@@ -144,7 +149,10 @@ public class BookingP extends DictionaryP {
             return getBookingType();
         case customerPrice:
             return getCustomerPrice();
-
+        case validationDate:
+            return getValidationDate();
+        case validationAmount:
+            return getValidationAmount();
         }
         return null;
     }
@@ -185,6 +193,15 @@ public class BookingP extends DictionaryP {
             break;
         case customerPrice:
             setCustomerPrice((BigDecimal) o);
+            break;
+        case validationDate:
+            setValidationDate((Date) o);
+            break;
+        case validationAmount:
+            setValidationAmount((BigDecimal) o);
+            break;
+        case dateOp:
+            setDateOp((Date) o);
             break;
 
         }

@@ -12,10 +12,10 @@
  */
 package com.javahotel.common.toobject;
 
-import com.javahotel.common.command.BookingStateType;
-import com.javahotel.types.DateP;
-import com.javahotel.types.INumerable;
 import java.util.Date;
+
+import com.javahotel.common.command.BookingStateType;
+import com.javahotel.types.INumerable;
 
 /**
  *

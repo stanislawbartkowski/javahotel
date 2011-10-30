@@ -29,6 +29,12 @@ import com.javahotel.types.LId;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+/*
+ *  HotelOpType.PersistGuests (check-in) 
+ *    setReservName : reservation id 
+ *    setGuests list of guests to persisted : room name + list of guests
+ * 
+ */
 @SuppressWarnings("serial")
 public class CommandParam implements Serializable {
 
