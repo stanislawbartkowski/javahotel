@@ -25,8 +25,9 @@ import com.gwtmodel.table.slotmodel.SlotType;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.InvoiceIssuerP;
-import com.javahotel.nmvc.factories.bookingpanel.checkinguest.RunCompose;
-import com.javahotel.nmvc.factories.bookingpanel.checkinguest.RunCompose.IRunComposeFactory;
+import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
+import com.javahotel.nmvc.factories.booking.util.RunCompose;
+import com.javahotel.nmvc.factories.booking.util.RunCompose.IRunComposeFactory;
 
 /**
  * @author hotel
@@ -38,6 +39,7 @@ class MakeOutInvoiceWidget {
     private final String html;
     private final RunCompose rCompose;
     private final CustomerP buyer;
+    private final IsServiceBooking iService;
 
     private class Run implements IRunComposeFactory {
 
@@ -57,17 +59,18 @@ class MakeOutInvoiceWidget {
         public ISlotable constructS(ICallContext iContext, IDataType dType,
                 BookingP p, BoxActionMenuOptions bOptions, SlotType slType) {
             ISlotable iSlo = new MakeOutInvoiceDialog(dType,
-                    Empty.getDataType1(), val.get(0), html, buyer, p);
+                    Empty.getDataType1(), val.get(0), html, buyer, p, iService);
             return iSlo;
         }
 
     }
 
     MakeOutInvoiceWidget(BookingP p, List<InvoiceIssuerP> val, CustomerP buyer,
-            String html, WSize w) {
+            String html, WSize w, IsServiceBooking iService) {
         this.val = val;
         this.html = html;
         this.buyer = buyer;
+        this.iService = iService;
         this.rCompose = new RunCompose(new Run());
         rCompose.runDialog(Empty.getDataType(), p, w, false, null);
 

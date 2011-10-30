@@ -22,6 +22,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.javahotel.client.M;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.nmvc.factories.booking.util.RunCompose;
 
 /**
  * @author hotel

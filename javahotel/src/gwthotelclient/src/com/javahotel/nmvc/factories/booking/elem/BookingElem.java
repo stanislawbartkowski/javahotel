@@ -39,6 +39,7 @@ import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.nmvc.ewidget.EWidgetFactory;
+import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
 
 /**
  * @author hotel

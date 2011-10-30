@@ -13,64 +13,62 @@
 package com.javahotel.nmvc.factories.bookingpanel.checkinguest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.IDataPersistAction;
-import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.javahotel.client.GWTGetService;
+import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
-import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataUtil;
-import com.javahotel.client.types.HModelData;
-import com.javahotel.client.types.VModelDataFactory;
-import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.CommandParam;
+import com.javahotel.common.command.HotelOpType;
+import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.GuestP;
-import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.nmvc.factories.persist.PersistCustomer;
-import com.javahotel.nmvc.factories.persist.dict.IHotelPersistFactory;
-import com.javahotel.nmvc.factories.persist.dict.IPersistRecord;
-import com.javahotel.nmvc.factories.persist.dict.IPersistResult;
 import com.javahotel.types.LId;
 
 /**
  * @author hotel
  * 
  */
-class PersistGuests extends AbstractSlotContainer implements IDataPersistAction  {
+class PersistGuests extends AbstractSlotContainer implements IDataPersistAction {
 
     private final IDataType dType;
     private final BookingP p;
-    private final IHotelPersistFactory pFactory;
     private final PersistTypeEnum action = PersistTypeEnum.ADD;
+    private final IResLocator rI;
 
     PersistGuests(IDataType dType, BookingP p) {
         this.dType = dType;
         this.p = p;
+        this.rI = HInjector.getI().getI();
         getSlContainer().registerSubscriber(dType,
                 DataActionEnum.PersistDataAction, new Persist());
-        pFactory = HInjector.getI().getHotelPersistFactory();
     }
 
-    private class GuestsPersisted implements IPersistResult {
+    private class OkGuests extends CommonCallBack<ReturnPersist> {
 
         @Override
-        public void success(PersistResultContext re) {
+        public void onMySuccess(ReturnPersist arg) {
             // publish persisted successfully
             getSlContainer().publish(dType,
                     DataActionEnum.PersistDataSuccessSignal);
         }
-
     }
 
     /**
@@ -82,25 +80,31 @@ class PersistGuests extends AbstractSlotContainer implements IDataPersistAction 
      */
     private class ModifCust extends SynchronizeList {
 
+        private final Map<String, List<GuestP>> li = new HashMap<String, List<GuestP>>();
+
         ModifCust(int no) {
             super(no);
+            for (BookElemP bElem : p.getBooklist()) {
+                li.put(bElem.getResObject(), new ArrayList<GuestP>());
+            }
         }
 
         @Override
         protected void doTask() {
-            IPersistRecord re = pFactory.construct(new DataType(
-                    DictType.BookingList), false);
-            HModelData custH = VModelDataFactory.construct(p);
-            re.persist(action, custH, new GuestsPersisted());
+            CommandParam par = rI.getR().getHotelCommandParam();
+            par.setGuests(li);
+            par.setReservName(p.getName());
+            par.setoP(HotelOpType.PersistGuests);
+            GWTGetService.getService().hotelOp(par, new OkGuests());
         }
     }
 
     private class SaveCustomer implements PersistCustomer.ISetCustomerId {
 
         private final AbstractToCheckGuest a;
-        private final SynchronizeList sy;
+        private final ModifCust sy;
 
-        SaveCustomer(AbstractToCheckGuest a, SynchronizeList sy) {
+        SaveCustomer(AbstractToCheckGuest a, ModifCust sy) {
             this.a = a;
             this.sy = sy;
         }
@@ -110,7 +114,7 @@ class PersistGuests extends AbstractSlotContainer implements IDataPersistAction 
             // assign Customer id to Guest
             a.getO3().setCustomer(custId);
             // add to list of guests
-            a.addGuestToList();
+            a.addGuestToList(sy.li);
             // done
             sy.signalDone();
         }
@@ -127,26 +131,19 @@ class PersistGuests extends AbstractSlotContainer implements IDataPersistAction 
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            // make empty all lists of guests
-            // those list will recreated
-            BookRecordP b;
-            b = GetMaxUtil.getLastBookRecord(p);
-            for (BookElemP bElem : b.getBooklist()) {
-                bElem.setGuests(new ArrayList<GuestP>());
-            }
 
             IDataListType dList = SlU.getIDataListType(dType,
                     PersistGuests.this);
             // count number of guests
             UtilCust.ECountParam eC = UtilCust.countGuests(dList);
-            SynchronizeList sy = new ModifCust(eC.guestNo);
+            ModifCust sy = new ModifCust(eC.guestNo);
             Iterable<AbstractToCheckGuest> i = DataUtil.getI(dList);
             for (AbstractToCheckGuest a : i) {
                 CustomerP cu = a.getO2();
                 if (UtilCust.EmptyC(cu)) {
                     continue;
                 }
-                
+
                 PersistCustomer pe = new PersistCustomer();
                 pe.persistCustomer(action, a.construct(), new SaveCustomer(a,
                         sy));

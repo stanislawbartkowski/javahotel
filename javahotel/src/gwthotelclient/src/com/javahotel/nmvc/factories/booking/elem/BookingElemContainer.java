@@ -58,9 +58,10 @@ import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.nmvc.factories.booking.P;
+import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
 
 public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
@@ -79,7 +80,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
     private final IsServiceBooking iService = new IsServiceBooking(
             new ServiceRead());
 
-    private void drawList(BookRecordP p) {
+    private void drawList(BookingP p) {
         List<AbstractLpVModelData> li = new ArrayList<AbstractLpVModelData>();
         if ((p != null) && (p.getBooklist() != null)) {
             for (BookElemP e : p.getBooklist()) {
@@ -112,7 +113,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
      */
     private class StartDraw extends SynchronizeList {
 
-        BookRecordP p;
+        BookingP p;
 
         StartDraw() {
             super(2);
@@ -159,7 +160,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            BookRecordP p = P.getBookR(slContext);
+            BookingP p = P.getBookR(slContext);
             IDataListType li = lPersistList.getDataList();
             List<BookElemP> ll = new ArrayList<BookElemP>();
             if (p.getBooklist() != null) {

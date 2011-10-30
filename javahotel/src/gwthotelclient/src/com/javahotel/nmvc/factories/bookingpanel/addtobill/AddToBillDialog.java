@@ -41,12 +41,10 @@ import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VField;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.nmvc.factories.booking.GetSlowC;
 import com.javahotel.nmvc.factories.booking.elem.BookingElemContainer;
-import com.javahotel.nmvc.factories.bookingpanel.checkinguest.RunCompose;
+import com.javahotel.nmvc.factories.booking.util.RunCompose;
 import com.javahotel.nmvc.factories.persist.dict.IHotelPersistFactory;
 import com.javahotel.nmvc.factories.persist.dict.IPersistRecord;
 import com.javahotel.nmvc.factories.persist.dict.IPersistResult;
@@ -64,7 +62,7 @@ public class AddToBillDialog {
             DataTypeSubEnum.Sub1);
     private final SlotTypeFactory slTypeFactory;
     private final IDataType bType = new DataType(DictType.BookingList);
-    private final IDataType brType = new DataType(AddType.BookRecord);
+//    private final IDataType brType = new DataType(AddType.BookRecord);
     private final SlotSignalContextFactory slContextFactory;
     private final IHotelPersistFactory pFactory;
     private final PersistTypeEnum action = PersistTypeEnum.ADD;
@@ -96,7 +94,7 @@ public class AddToBillDialog {
                 iSlo.getSlContainer().registerRedirector(from, to);
                 iSlo.getSlContainer().registerCaller(bType,
                         GetActionEnum.GetFormFieldWidget, new GetValue(p));
-                iSlo.getSlContainer().registerCaller(brType,
+                iSlo.getSlContainer().registerCaller(bType,
                         GetActionEnum.GetFormFieldWidget, new GetValue(p));
                 iSlo.getSlContainer().registerCaller(GetSlowC.GETSLOTS,
                         new GetSlot(iSlo));
@@ -191,12 +189,8 @@ public class AddToBillDialog {
             if (vv.getFie() == BookingP.F.season) {
                 v = SlU.contructObjectValue(p.getSeason());
             }
-            if (vv.getFie() == BookRecordP.F.oPrice) {
-                BookRecordP b = null;
-                if (p.getBookrecords() != null) {
-                    b = GetMaxUtil.getLastBookRecord(p);
-                }
-                v = SlU.contructObjectValue(b.getOPrice());
+            if (vv.getFie() == BookingP.F.oPrice) {
+                v = SlU.contructObjectValue(p.getOPrice());
             }
             if (v == null) {
                 return null;

@@ -32,9 +32,7 @@ import com.javahotel.client.types.VField;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
@@ -140,16 +138,6 @@ public class RecordFormDefFactory implements IFormDefFactory {
                 FFactory.add(fList, fL);
 
                 break;
-            case BookRecord:
-                fL = new IField[] { BookRecordP.F.customerPrice,
-                        BookRecordP.F.oPrice };
-                FFactory.add(fList, fL);
-                break;
-            case AdvanceHeader:
-                fL = new IField[] { AdvancePaymentP.F.amount,
-                        AdvancePaymentP.F.validationDate };
-                FFactory.add(fList, fL);
-                break;
             default:
                 assert false : rI.getMessages().NotSupportedError(
                         dd.getAddType().name());
@@ -204,7 +192,9 @@ public class RecordFormDefFactory implements IFormDefFactory {
             case BookingList:
                 fList = getDict(false, true);
                 fL = new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
-                        BookingP.F.season, BookingP.F.noPersons };
+                        BookingP.F.season, BookingP.F.noPersons,
+                        BookingP.F.customerPrice, BookingP.F.oPrice,
+                        BookingP.F.validationAmount, BookingP.F.validationDate };
                 FFactory.add(fList, fL);
                 break;
             case IssuerInvoiceList:

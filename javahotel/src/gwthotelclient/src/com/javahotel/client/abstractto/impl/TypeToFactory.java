@@ -39,13 +39,10 @@ import com.javahotel.common.command.PersonTitle;
 import com.javahotel.common.command.RRoom;
 import com.javahotel.common.command.ServiceType;
 import com.javahotel.common.toobject.AddPaymentP;
-import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
-import com.javahotel.common.toobject.DownPaymentP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.InvoiceIssuerP;
@@ -70,8 +67,6 @@ public class TypeToFactory implements IAbstractType {
             FieldDataType.constructBigDecimal());
     private static final T dateT = new T(Date.class,
             FieldDataType.constructDate());
-    private static final T longT = new T(Long.class,
-            FieldDataType.constructLong());
     private static final T intT = new T(Long.class,
             FieldDataType.constructInt());
     private static final T stringT = new T(String.class,
@@ -211,12 +206,14 @@ public class TypeToFactory implements IAbstractType {
             return e == null;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public Enum toEnum(String e) {
             if (CUtil.EmptyS(e)) {
                 return null;
             }
             String val = getValue(e);
+            @SuppressWarnings("static-access")
             TT se = (TT) t.valueOf(cl, val);
             return se;
         }
@@ -358,9 +355,11 @@ public class TypeToFactory implements IAbstractType {
         ma.put(BookingP.F.checkOut, dateT);
         ma.put(BookingP.F.noPersons, intT);
         ma.put(BookingP.F.season, stringSeaT);
-
-        ma.put(BookRecordP.F.customerPrice, decimalT);
-        // ma.put(BookRecordP.F.oPrice, decimalT);
+        ma.put(BookingP.F.oPrice, stringPriceT);
+        ma.put(BookingP.F.customerPrice, decimalT);
+        ma.put(BookingP.F.validationDate, dateT);
+        ma.put(BookingP.F.validationAmount, decimalT);
+        ma.put(BookingP.F.dateOp, dateT);
 
         ma.put(PaymentP.F.amount, decimalT);
         ma.put(PaymentP.F.datePayment, dateT);
@@ -370,9 +369,7 @@ public class TypeToFactory implements IAbstractType {
         ma.put(GuestP.F.checkOut, dateT);
 
         ma.put(AddPaymentP.F.payDate, dateT);
-        ma.put(AddPaymentP.F.noSe, longT);
         ma.put(AddPaymentP.F.customerPrice, decimalT);
-        ma.put(AddPaymentP.F.customerSum, decimalT);
 
         ma.put(ResObjectP.F.standard, stringDT);
         ma.put(ResObjectP.F.maxperson, intT);
@@ -390,11 +387,6 @@ public class TypeToFactory implements IAbstractType {
         ma.put(CustomerP.F.pTitle, stringPersonT);
         ma.put(CustomerP.F.docType, stringDocT);
 
-        ma.put(AdvancePaymentP.F.validationDate, dateT);
-        ma.put(AdvancePaymentP.F.dateOp, dateT);
-        ma.put(AdvancePaymentP.F.amount, decimalT);
-        ma.put(DownPaymentP.F.sumPayment, decimalT);
-
         ma.put(VatDictionaryP.F.vat, decimalT);
 
         ma.put(BookElemP.F.checkIn, dateT);
@@ -406,8 +398,6 @@ public class TypeToFactory implements IAbstractType {
 
         ma.put(BookPaymentField.customerPrice, paymentT);
         ma.put(BookPaymentField.offerPrice, paymentT);
-
-        ma.put(BookRecordP.F.oPrice, stringPriceT);
 
         ma.put(PaymentRowP.F.customerPrice, decimalT);
         ma.put(PaymentRowP.F.offerPrice, decimalT);

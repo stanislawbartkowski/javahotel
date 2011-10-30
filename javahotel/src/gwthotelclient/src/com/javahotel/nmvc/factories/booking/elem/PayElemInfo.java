@@ -22,12 +22,11 @@ import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
+import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.nmvc.factories.booking.GetSlowC;
@@ -108,7 +107,7 @@ class PayElemInfo {
                 .getGetterCustom(GetSlowC.GETSLOTS).getCustom();
         GetSlowC sC = (GetSlowC) i;
         this.sprice = (String) DataUtil.getO(sC.getiSlo(), new DataType(
-                AddType.BookRecord), BookRecordP.F.oPrice);
+                DictType.BookingList), BookingP.F.oPrice);
     }
 
     void initW() {

@@ -63,14 +63,12 @@ import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.ResObjectP;
-import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.types.LId;
 
 /**
@@ -285,11 +283,8 @@ class CheckGuestWidget extends AbstractSlotContainer {
         iList.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.TableCellClicked, new ClickCust());
 
-        BookRecordP b;
-        b = GetMaxUtil.getLastBookRecord(p);
-        assert b != null : LogT.getT().cannotBeNull();
         // create and count number of all ResObjectP and CustomerP
-        bList = b.getBooklist();
+        bList = p.getBooklist();
         assert bList != null && bList.size() != 0 : LogT.getT()
                 .CellCannotBeNull();
         for (BookElemP bElem : bList) {

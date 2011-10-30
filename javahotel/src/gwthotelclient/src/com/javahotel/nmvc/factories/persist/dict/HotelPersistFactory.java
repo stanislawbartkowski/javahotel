@@ -51,8 +51,6 @@ public class HotelPersistFactory implements IHotelPersistFactory {
         }
         if (d.isAddType()) {
             switch (d.getAddType()) {
-            case BookRecord:
-            case AdvanceHeader:
             case BookRoom:
             case BookNoRoom:
             case RowPaymentElem:

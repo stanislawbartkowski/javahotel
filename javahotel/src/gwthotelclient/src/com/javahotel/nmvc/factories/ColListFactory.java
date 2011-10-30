@@ -24,13 +24,10 @@ import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
-import com.javahotel.client.types.VField;
-import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
-import com.javahotel.common.toobject.DownPaymentP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.InvoiceIssuerP;
@@ -90,10 +87,8 @@ class ColListFactory {
         }
         if (d.isAddType()) {
             switch (d.getAddType()) {
-            case BookRecord:
             case BookNoRoom:
             case BookRoom:
-            case AdvanceHeader:
             case RowPaymentElem:
                 return null;
             }
@@ -126,14 +121,15 @@ class ColListFactory {
                         VSField.createVString(AdvancePayment.CHOOSE_STRING),
                         false, AdvancePayment.CHOOSE_STRING, false);
 
-                fList = new IField[] { AdvancePaymentP.F.amount,
-                        AdvancePaymentP.F.dateOp,
-                        AdvancePaymentP.F.validationDate };
+                fList = new IField[] { BookingP.F.dateOp,
+                        BookingP.F.validationAmount,
+                        BookingP.F.validationDate };
 
-                IGetFieldName i = HInjector.getI().getGetFieldName();
-                String na = i.getName(DownPaymentP.F.sumPayment);
-                VListHeaderDesc bPayment = new VListHeaderDesc(na, new VField(
-                        DownPaymentP.F.sumPayment), false,
+                // IGetFieldName i = HInjector.getI().getGetFieldName();
+                // String na = i.getName(DownPaymentP.F.sumPayment);
+                String na = "Zapłata";
+                IVField f = VSField.createVDecimal(AdvancePayment.PAY_STRING);
+                VListHeaderDesc bPayment = new VListHeaderDesc(na, f, false,
                         AdvancePayment.PAY_STRING, false);
 
                 List<VListHeaderDesc> li = FFactory.constructH(null, fList);
@@ -178,9 +174,7 @@ class ColListFactory {
                         BookingP.F.season, BookingP.F.noPersons };
                 break;
             case IssuerInvoiceList:
-                fList = new IField[] {
-                        InvoiceIssuerP.F.bankAccount  
-                };
+                fList = new IField[] { InvoiceIssuerP.F.bankAccount };
                 break;
 
             default:
@@ -190,9 +184,6 @@ class ColListFactory {
         } else if (d.isAddType()) {
             dList = null;
             switch (d.getAddType()) {
-            case BookRecord:
-            case AdvanceHeader:
-                break;
             case BookRoom:
                 fList = new IField[] { BookElemP.F.checkIn,
                         BookElemP.F.checkOut, BookElemP.F.resObject,

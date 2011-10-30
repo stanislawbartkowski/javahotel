@@ -16,9 +16,7 @@ import com.gwtmodel.table.PersistTypeEnum;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.util.BillUtil;
 import com.javahotel.nmvc.factories.booking.BookingCustInfo;
 import com.javahotel.nmvc.factories.persist.PersistCustomer;
 import com.javahotel.types.LId;
@@ -62,8 +60,6 @@ class PersistRecordBooking implements IPersistRecord {
 
     private void setCustId(BookingP p, LId custId) {
         p.setCustomer(custId);
-        BillP bill = BillUtil.getBill(p);
-        bill.setCustomer(custId);
     }
 
     @Override

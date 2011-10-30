@@ -21,13 +21,10 @@ import com.javahotel.client.abstractto.BookPaymentField;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.gename.ISeasonPriceNames;
 import com.javahotel.client.types.DataType;
-import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
-import com.javahotel.common.toobject.DownPaymentP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
@@ -93,6 +90,9 @@ public class GetFieldName implements IGetFieldName {
         ma.put(BookingP.F.season, "Sezon");
         ma.put(BookingP.F.noPersons, "Liczba osób");
         ma.put(BookingP.F.resName, "Symbol");
+        ma.put(BookingP.F.validationAmount, "Zaliczka");
+        ma.put(BookingP.F.validationDate, "Zapłacić do");
+        ma.put(BookingP.F.dateOp, "Data");
 
         ma.put(BookElemP.F.checkIn, "Od");
         ma.put(BookElemP.F.checkOut, "Do");
@@ -107,19 +107,11 @@ public class GetFieldName implements IGetFieldName {
         ma.put(BookPaymentField.customerPrice, "Cena klienta");
         ma.put(BookPaymentField.offerPrice, "Cena z cennika");
 
-        ma.put(AdvancePaymentP.F.amount, "Zaliczka");
-        ma.put(AdvancePaymentP.F.validationDate, "Zapłacić do");
-
-        ma.put(BookRecordP.F.customerPrice, "Suma");
-        ma.put(BookRecordP.F.oPrice, "Cennik");
+        ma.put(BookingP.F.customerPrice, "Suma");
+        ma.put(BookingP.F.oPrice, "Cennik");
 
         ma.put(GuestP.F.checkIn, "Od");
         ma.put(GuestP.F.checkOut, "Do");
-
-        ma.put(DownPaymentP.F.sumPayment, "Wpłata");
-        ma.put(AdvancePaymentP.F.amount, "Kwota zaliczki");
-        ma.put(AdvancePaymentP.F.dateOp, "Data wystawienia");
-        ma.put(AdvancePaymentP.F.validationDate, "Termin płatności");
 
         ma.put(PaymentP.F.amount, "Kwota wpłaty");
         ma.put(PaymentP.F.datePayment, "Data wpłaty");

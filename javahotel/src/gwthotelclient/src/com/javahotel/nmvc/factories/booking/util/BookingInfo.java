@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.bookingpanel;
+package com.javahotel.nmvc.factories.booking.util;
 
 import java.math.BigDecimal;
 
@@ -26,11 +26,9 @@ import com.javahotel.client.types.BackAbstract;
 import com.javahotel.client.types.ButtonClickHandler;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.PaymentRowP;
-import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.types.LId;
 
 /**
@@ -44,19 +42,10 @@ public class BookingInfo extends Composite {
     private LId resId;
     private final BookingStateP bState;
 
-    // private class CC implements RData.IOneList<CustomerP> {
-    //
-    // public void doOne(CustomerP p) {
-    // CustomerPopInfo po = new CustomerPopInfo(p);
-    // vp.add(po);
-    // }
-    // }
-
     private void setB(BookingP p) {
-        BookRecordP bR = GetMaxUtil.getLastBookRecord(p);
         if (resId != null) {
             BookElemP e = null;
-            for (BookElemP ee : bR.getBooklist()) {
+            for (BookElemP ee : p.getBooklist()) {
                 for (PaymentRowP pr : ee.getPaymentrows()) {
                     if (pr.getId().equals(resId)) {
                         e = ee;
@@ -79,7 +68,7 @@ public class BookingInfo extends Composite {
             }
 
         }
-        BigDecimal c = bR.getCustomerPrice();
+        BigDecimal c = p.getCustomerPrice();
         String price;
         if (c != null) {
             price = Utils.DecimalToS(c);
@@ -93,12 +82,6 @@ public class BookingInfo extends Composite {
         b.addClickHandler(new ButtonClickHandler<BookingP>(p,
                 DictType.BookingList));
 
-        // LId custId = p.getCustomer();
-        // assert custId != null : "Customer id" + custId.getId().longValue() +
-        // " cannot be null";
-        // CommandParam pa = rI.getR().getHotelDictId(DictType.CustomerList,
-        // custId);
-        // rI.getR().getOne(RType.ListDict, pa, new CC());
     }
 
     private class R implements BackAbstract.IRunAction<BookingP> {
@@ -110,14 +93,22 @@ public class BookingInfo extends Composite {
 
     }
 
-    public BookingInfo(final String resName) {
+    private BookingInfo() {
         this.rI = HInjector.getI().getI();
 
         this.bState = null;
         this.resId = null;
         initWidget(vp);
-        vp.add(new Label(resName));
+    }
+
+    public BookingInfo(final String resName) {
+        this();
         new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
                 resName, new R());
+    }
+
+    public BookingInfo(final BookingP p) {
+        this();
+        setB(p);
     }
 }

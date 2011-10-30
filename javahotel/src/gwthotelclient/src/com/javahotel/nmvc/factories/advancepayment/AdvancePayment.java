@@ -12,18 +12,21 @@
  */
 package com.javahotel.nmvc.factories.advancepayment;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.VSField;
 import com.gwtmodel.table.WChoosedLine;
-import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
@@ -40,12 +43,10 @@ import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.util.ClickPopUp;
-import com.javahotel.client.types.BackAbstract;
 import com.javahotel.client.types.DataUtil;
-import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.toobject.DownPaymentP;
-import com.javahotel.nmvc.factories.bookingpanel.BookingInfo;
+import com.javahotel.common.util.SumUtil;
+import com.javahotel.nmvc.factories.booking.util.BookingInfo;
 
 /**
  * @author hotel
@@ -58,8 +59,21 @@ public class AdvancePayment extends AbstractSlotContainer {
     public final static String CHOOSE_STRING = "ADVANCE_PAYMENT_CHOOSE_STRING";
     public final static String PAY_STRING = "ADVANCE_PAYMENT_PAY_STRING";
 
+    interface PaymentCell extends SafeHtmlTemplates {
+        @Template("<string>{0}</strong>")
+        SafeHtml input(String suma);
+    }
+
+    private final static PaymentCell templateClass = GWT
+            .create(PaymentCell.class);
+
     private boolean isShow(IVField fie) {
-        return fie instanceof VSField;
+        if (!(fie instanceof VSField)) {
+            return false;
+        }
+        VSField f = (VSField) fie;
+        return (f.getId().equals(CHOOSE_STRING));
+
     }
 
     private final class GetCell implements IGetCellValue {
@@ -73,22 +87,10 @@ public class AdvancePayment extends AbstractSlotContainer {
                 builder.appendHtmlConstant("</strong>");
                 return builder.toSafeHtml();
             }
-            return null;
-        }
-
-    }
-
-    private class R implements BackAbstract.IRunAction<BookingP> {
-
-        private final WSize w;
-
-        R(WSize w) {
-            this.w = w;
-        }
-
-        @Override
-        public void action(BookingP t) {
-            new AddPayment().addPayment(t, w, i);
+            BookingP p = DataUtil.getData(v);
+            BigDecimal sum = SumUtil.sumPayment(p);
+            String s = FUtils.getBigDecimalS(sum, fie);
+            return templateClass.input(s);
         }
 
     }
@@ -100,16 +102,15 @@ public class AdvancePayment extends AbstractSlotContainer {
 
             WChoosedLine w = SlU.getWChoosedLine(slContext);
             IVModelData v = SlU.getVDataByW(dType, i, w);
-            DownPaymentP d = DataUtil.getData(v);
+            BookingP d = DataUtil.getData(v);
             IVField fie = w.getvField();
             if (isShow(fie)) {
                 VerticalPanel ve = new VerticalPanel();
-                BookingInfo bInfo = new BookingInfo(d.getResId());
+                BookingInfo bInfo = new BookingInfo(d);
                 ve.add(bInfo);
                 new ClickPopUp(w.getwSize(), ve);
             } else {
-                new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
-                        d.getResId(), new R(w.getwSize()));
+                new AddPayment().addPayment(d, w.getwSize(), i);
             }
 
         }

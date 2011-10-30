@@ -10,19 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.types;
+package com.javahotel.nmvc.factories.bookingpanel.invoice;
+
+import com.gwtmodel.table.VModelData;
+import com.gwtmodel.table.persist.IVModelDataEquable;
 
 /**
- * Additional elements
- * 
  * @author hotel
- * 
+ *
  */
-public enum AddType {
+class InvoiceLineAbstractTo extends VModelData implements IVModelDataEquable {
 
-    BookRoom, // reserve room
-    RowPaymentElem, // element if payments related to BookRoom
-    GuestElem, // guest to be check-ined
-    BookNoRoom, // book, pay element (not room)
-    Payment
+    @Override
+    public boolean eq(IVModelDataEquable o) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }
