@@ -12,6 +12,7 @@
  */
 package com.javahotel.common.toobject;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.javahotel.types.DateP;
@@ -20,7 +21,8 @@ import com.javahotel.types.DateP;
  * @author hotel
  * 
  */
-public class OperationData {
+@SuppressWarnings("serial")
+public class OperationData implements Serializable {
 
     private DateP dateOp;
     private String remarks;
