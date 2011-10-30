@@ -95,4 +95,6 @@ public interface TLogMessages extends Messages {
     String GWTVersion(String ver);
     
     String DataListCannotBeNull();
+    
+    String HeaderNull();
 }

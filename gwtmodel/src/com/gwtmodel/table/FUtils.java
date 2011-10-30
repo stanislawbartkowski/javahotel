@@ -434,7 +434,7 @@ public class FUtils {
         return l.toString();
     }
 
-    private static String getBigDecimalS(Object o, IVField f) {
+    public static String getBigDecimalS(Object o, IVField f) {
         BigDecimal b = (BigDecimal) o;
         if (b == null) {
             return "";

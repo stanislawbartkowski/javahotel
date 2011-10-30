@@ -92,6 +92,10 @@ public class VSField implements IVField {
         return new VSField(vName, FieldDataType.constructInt());
     }
 
+    public static IVField createVDecimal(String vName) {
+        return new VSField(vName, FieldDataType.constructBigDecimal());
+    }
+
     public static IVField createVSField(String vName, FieldDataType t) {
         return new VSField(vName, t);
     }

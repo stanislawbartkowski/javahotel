@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.injector.MM;
 
 /**
  * Simple class for implementing PopUp widget while is moving on
@@ -65,6 +64,10 @@ public abstract class PopupTip extends Composite {
      *            String
      */
     public void setMessage(String message) {
+        if (message == null) {
+            this.message = null;
+            return;
+        }
         setMessage(new Label(message));
     }
 

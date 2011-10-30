@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.table;
 
 import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.injector.LogT;
 
 public class VListHeaderDesc {
 
@@ -25,6 +26,7 @@ public class VListHeaderDesc {
     private final boolean editable;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
+        assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = null;
         this.fie = fie;
         this.hidden = false;
@@ -57,6 +59,7 @@ public class VListHeaderDesc {
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
             String buttonAction, boolean editable) {
+        assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = headerString;
         this.fie = fie;
         this.hidden = hidden;
