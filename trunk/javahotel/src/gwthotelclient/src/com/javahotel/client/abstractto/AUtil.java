@@ -12,7 +12,7 @@
  */
 package com.javahotel.client.abstractto;
 
-import com.javahotel.common.toobject.AdvancePaymentP;
+import com.javahotel.common.toobject.BookingP;
 
 /**
  * @author hotel
@@ -24,8 +24,8 @@ public class AUtil {
 
     }
 
-    public static boolean emptyAdvance(AdvancePaymentP a) {
-        if (a.getValidationDate() == null) {
+    public static boolean emptyAdvance(BookingP a) {
+        if (a.getValidationAmount() == null) {
             return true;
         }
         return false;

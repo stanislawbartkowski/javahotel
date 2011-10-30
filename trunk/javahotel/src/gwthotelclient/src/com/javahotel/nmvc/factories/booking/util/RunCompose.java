@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.bookingpanel.checkinguest;
+package com.javahotel.nmvc.factories.booking.util;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.WSize;

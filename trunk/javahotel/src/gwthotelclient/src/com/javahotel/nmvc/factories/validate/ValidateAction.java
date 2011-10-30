@@ -72,7 +72,9 @@ public class ValidateAction extends AbstractSlotContainer implements
                         errMess.add(e);
                     }
                     break;
-
+                case BookingList:
+                    errMess = BookingValidate.check(pData);
+                    break;
                 default:
                     break;
 

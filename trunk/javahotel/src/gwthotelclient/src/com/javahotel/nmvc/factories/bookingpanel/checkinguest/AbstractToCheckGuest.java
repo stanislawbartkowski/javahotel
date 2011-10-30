@@ -12,6 +12,9 @@
  */
 package com.javahotel.nmvc.factories.bookingpanel.checkinguest;
 
+import java.util.List;
+import java.util.Map;
+
 import com.javahotel.client.abstractto.Compose3AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.CustomerP;
@@ -107,7 +110,8 @@ class AbstractToCheckGuest extends
         return new BookingCustInfo(newCust, waseditable, getO2());
     }
 
-    void addGuestToList() {
-        bElem.getGuests().add(getO3());
+    void addGuestToList(Map<String,List<GuestP>> li) {
+//        bElem.getGuests().add(getO3());
+        li.get(bElem.getResObject()).add(getO3());
     }
 }

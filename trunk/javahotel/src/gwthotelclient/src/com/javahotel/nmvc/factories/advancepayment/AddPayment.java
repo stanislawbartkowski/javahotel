@@ -40,7 +40,7 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.PaymentP;
-import com.javahotel.nmvc.factories.bookingpanel.checkinguest.RunCompose;
+import com.javahotel.nmvc.factories.booking.util.RunCompose;
 
 /**
  * @author hotel

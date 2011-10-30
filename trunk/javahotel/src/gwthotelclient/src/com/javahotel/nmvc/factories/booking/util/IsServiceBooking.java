@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.booking.elem;
+package com.javahotel.nmvc.factories.booking.util;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +31,7 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
  * @author hotel
  * 
  */
-class IsServiceBooking {
+public class IsServiceBooking {
 
     /** contains a set of services related to booking. */
     // important: is null at the beginning to break in case of not ready
@@ -42,7 +42,7 @@ class IsServiceBooking {
     /**
      * @return the sList
      */
-    List<ServiceDictionaryP> getsList() {
+    public List<ServiceDictionaryP> getsList() {
         return sList;
     }
 
@@ -53,10 +53,18 @@ class IsServiceBooking {
      *            Service name
      * @return True: if related to booking
      */
-    boolean isBooking(String service) {
+    public boolean isBooking(String service) {
         return bSet.contains(service);
     }
 
+    public ServiceDictionaryP getService(String s) {
+        for (ServiceDictionaryP se : sList) {
+            if (se.getName().equals(s)) {
+                return se;
+            }
+        }
+        return null;
+    }
 
     /**
      * Class for receiving the list of services
@@ -92,7 +100,7 @@ class IsServiceBooking {
      * @param iReady
      *            Signals when class is ready
      */
-    IsServiceBooking(ISignal iReady) {
+    public IsServiceBooking(ISignal iReady) {
         rI = HInjector.getI().getI();
         CommandParam co = rI.getR().getHotelCommandParam();
         co.setDict(DictType.ServiceDict);

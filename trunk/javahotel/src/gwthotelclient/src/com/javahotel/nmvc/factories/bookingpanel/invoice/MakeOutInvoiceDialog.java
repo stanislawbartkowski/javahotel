@@ -43,6 +43,7 @@ import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.InvoiceIssuerP;
+import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
 
 /**
  * @author hotel
@@ -61,6 +62,7 @@ class MakeOutInvoiceDialog extends AbstractSlotContainer {
     private final CellId lineId = new CellId(0);
     private final IDataType lineType = Empty.getDataType();
     private final BookingP p;
+    private final IsServiceBooking iService;
 
     private final static String INVOICE_DATE = "invoice_date";
     private final static String DATE_OF_SALE = "date_of_sale";
@@ -212,14 +214,16 @@ class MakeOutInvoiceDialog extends AbstractSlotContainer {
     }
 
     MakeOutInvoiceDialog(IDataType publishType, IDataType dType,
-            InvoiceIssuerP iIssuer, String html, CustomerP buyer, BookingP p) {
+            InvoiceIssuerP iIssuer, String html, CustomerP buyer, BookingP p,
+            IsServiceBooking iService) {
+        this.iService = iService;
         this.iIssuer = iIssuer;
         this.dType = dType;
         this.html = html;
         this.publishType = publishType;
         this.buyer = buyer;
         this.p = p;
-        iLines = new InvoiceLines(lineType, lineId, p);
+        iLines = new InvoiceLines(lineType, lineId, p, iService);
         createMap();
         daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
         eFactory = GwtGiniInjector.getI().getEditWidgetFactory();

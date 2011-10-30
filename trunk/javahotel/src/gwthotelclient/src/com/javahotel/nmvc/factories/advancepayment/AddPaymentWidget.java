@@ -58,11 +58,9 @@ import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.VModelDataFactory;
-import com.javahotel.common.toobject.BillP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.PaymentP;
-import com.javahotel.common.util.BillUtil;
 
 /**
  * @author hotel
@@ -88,8 +86,7 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             List<AbstractLpVModelData> li = new ArrayList<AbstractLpVModelData>();
-            BillP bi = BillUtil.getBill(p);
-            for (PaymentP pa : bi.getPayments()) {
+            for (PaymentP pa : p.getPayments()) {
                 li.add(VModelDataFactory.constructLp(pa));
             }
             lPersistList.setDataList(DataListTypeFactory.constructLp(li));

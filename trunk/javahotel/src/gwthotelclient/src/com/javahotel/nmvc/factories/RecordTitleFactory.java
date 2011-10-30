@@ -71,9 +71,6 @@ class RecordTitleFactory implements IFormTitleFactory {
                 return "Rezerwacja pokoju";
             case BookNoRoom:
                 return "Dodatkowy rachunek";
-            case BookRecord:
-            case AdvanceHeader:
-                return "";
             default:
                 assert false : M.M().NotSupportedError(dd.getdType().name());
             }

@@ -73,7 +73,8 @@ class EmptyColFactory {
                 return new IField[] { DictionaryP.F.name, OfferPriceP.F.season };
             case BookingList:
                 return new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
-                        BookingP.F.season, BookingP.F.noPersons };
+                        BookingP.F.season, BookingP.F.noPersons,
+                        BookingP.F.oPrice, BookingP.F.customerPrice };
             default:
 
                 assert false : M.M().NotSupportedError(dt.getdType().name());

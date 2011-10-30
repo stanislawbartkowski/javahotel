@@ -10,40 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.booking;
+package com.javahotel.nmvc.factories.validate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.InvalidateMess;
 import com.javahotel.client.types.DataUtil;
+import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.util.StringU;
 
 /**
  * @author hotel
- * 
+ *
  */
-public class P {
-
-    private P() {
-
+class BookingValidate {
+    
+    static List<InvalidateMess> check(IVModelData pData) {
+        BookingP p = DataUtil.getData(pData);
+        if (!StringU.isEmpty(p.getBooklist())) { return null; }
+        List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
+        InvalidateMess e = new InvalidateMess(new VField(
+                BookingP.F.customerPrice),
+                "Nic nie zostało zarezerwowane !");
+        errMess.add(e);
+        return errMess;
     }
-
-    static BookingP getBookR(IVModelData mData) {
-        BookingP b = DataUtil.getData(mData);
-        return b;
-    }
-
-    public static BookingP getBookR(ISlotSignalContext slContext) {
-        IVModelData mData = slContext.getVData();
-        return getBookR(mData);
-    }
-
-//    static AdvancePaymentP getAdvanced(ISlotSignalContext slContext) {
-//        IVModelData mData = slContext.getVData();
-//        HModelData vData = (HModelData) mData;
-//        BookingP b = (BookingP) vData.getA();//
-//        AdvancePaymentP pa = null;
-//        pa = GetMaxUtil.getLastValidationRecord(b);
-//        return pa;
-//    }
 
 }

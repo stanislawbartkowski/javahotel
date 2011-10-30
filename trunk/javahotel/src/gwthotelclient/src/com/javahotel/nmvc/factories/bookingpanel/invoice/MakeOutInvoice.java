@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.readres.ISetResText;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
@@ -28,6 +29,7 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.InvoiceIssuerP;
+import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
 
 /**
  * @author hotel
@@ -46,14 +48,15 @@ public class MakeOutInvoice {
         WSize w;
         BookingP p;
         CustomerP buyer;
+        IsServiceBooking iService;
 
         Synch() {
-            super(3);
+            super(4);
         }
 
         @Override
         protected void doTask() {
-            new MakeOutInvoiceWidget(p, val, buyer, html, w);
+            new MakeOutInvoiceWidget(p, val, buyer, html, w, iService);
         }
     }
 
@@ -98,6 +101,16 @@ public class MakeOutInvoice {
         final Synch sy = new Synch();
         sy.w = w;
         sy.p = p;
+
+        ISignal iReady = new ISignal() {
+
+            @Override
+            public void signal() {
+                sy.signalDone();
+
+            }
+        };
+        sy.iService = new IsServiceBooking(iReady);
 
         CommandParam pa = rI.getR().getHotelCommandParam();
         pa.setDict(DictType.IssuerInvoiceList);

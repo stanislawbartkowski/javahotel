@@ -19,9 +19,7 @@ import com.javahotel.client.abstractto.LoginRecord;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.PaymentP;
@@ -38,10 +36,6 @@ public class AbstractToFactory implements IAbstractFactory {
         IResLocator rI;
         if (da.isAddType()) {
             switch (da.getAddType()) {
-            case BookRecord:
-                return new BookRecordP();
-            case AdvanceHeader:
-                return new AdvancePaymentP();
             case BookRoom:
                 return new BookElemP();
             case BookNoRoom:

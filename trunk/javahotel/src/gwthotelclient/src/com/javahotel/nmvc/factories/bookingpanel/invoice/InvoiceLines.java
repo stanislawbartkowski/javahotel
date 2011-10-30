@@ -12,13 +12,14 @@
  */
 package com.javahotel.nmvc.factories.bookingpanel.invoice;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.DataListParam;
@@ -36,7 +37,13 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.PaymentRowP;
+import com.javahotel.common.toobject.ServiceDictionaryP;
+import com.javahotel.common.toobject.VatDictionaryP;
+import com.javahotel.common.util.GetMaxUtil;
+import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
 
 /**
  * @author hotel
@@ -47,11 +54,13 @@ class InvoiceLines extends AbstractSlotContainer {
     private final BookingP p;
     // private final IDataType publishType;
     private final ISlotable i;
+    private final IsServiceBooking iService;
 
     private final static String SERVICE_DESCRIPTION = "line_service_description";
     private final static String QUANTITY = "line_quantity";
     private final static String TOTAL = "line_total";
     private final static String TAX_VAT = "line_tax";
+    private final static String SERVICE_DATE = "line_service_date";
 
     private final MapS mapF = new MapS();
 
@@ -64,6 +73,9 @@ class InvoiceLines extends AbstractSlotContainer {
             }
             if (s.equals(TOTAL)) {
                 return SType.AMOUNT;
+            }
+            if (s.equals(SERVICE_DATE)) {
+                return SType.DATE;
             }
             return SType.STRING;
         }
@@ -85,6 +97,7 @@ class InvoiceLines extends AbstractSlotContainer {
         public void startPublish(CellId cellId) {
             String title = "Pozycje do faktury";
             List<VListHeaderDesc> vList = new ArrayList<VListHeaderDesc>();
+            addH(vList, "Data", SERVICE_DATE);
             addH(vList, "Opis", SERVICE_DESCRIPTION);
             addH(vList, "Ilość", QUANTITY);
             addH(vList, "VAT", TAX_VAT);
@@ -103,8 +116,24 @@ class InvoiceLines extends AbstractSlotContainer {
 
             @Override
             public void signal(ISlotSignalContext slContext) {
-                List<AbstractLpVModelData> dList = new ArrayList<AbstractLpVModelData>();
-                IDataListType listType = DataListTypeFactory.constructLp(dList);
+                List<IVModelData> dList = new ArrayList<IVModelData>();
+                IDataListType listType = DataListTypeFactory.construct(dList);
+                for (BookElemP bElem : p.getBooklist()) {
+                    for (PaymentRowP rowP : bElem.getPaymentrows()) {
+                        ServiceDictionaryP se = iService.getService(bElem
+                                .getService());
+                        VatDictionaryP va = se.getVat();
+                        BigDecimal total = rowP.getCustomerPrice();
+                        InvoiceLineAbstractTo a = new InvoiceLineAbstractTo();
+                        a.setF(mapF.get(SERVICE_DESCRIPTION),
+                                se.getDescription());
+                        a.setF(mapF.get(QUANTITY), new Integer(1));
+                        a.setF(mapF.get(TAX_VAT), va.getName());
+                        a.setF(mapF.get(TOTAL), total);
+                        a.setF(mapF.get(SERVICE_DATE), rowP.getRowFrom());
+                        dList.add(a);
+                    }
+                }
                 publish(dType, DataActionEnum.ListReadSuccessSignal, listType);
             }
 
@@ -118,8 +147,10 @@ class InvoiceLines extends AbstractSlotContainer {
 
     }
 
-    InvoiceLines(IDataType publishType, CellId panelId, BookingP p) {
+    InvoiceLines(IDataType publishType, CellId panelId, BookingP p,
+            IsServiceBooking iService) {
         this.p = p;
+        this.iService = iService;
         this.dType = publishType;
         // this.dType = Empty.getDataType();
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
@@ -129,6 +160,7 @@ class InvoiceLines extends AbstractSlotContainer {
         sList.add(QUANTITY);
         sList.add(TAX_VAT);
         sList.add(TOTAL);
+        sList.add(SERVICE_DATE);
         mapF.createMap(sList);
 
         List<ControlButtonDesc> dButton = new ArrayList<ControlButtonDesc>();

@@ -45,9 +45,8 @@ import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
+import com.javahotel.nmvc.factories.booking.BookingControler;
 import com.javahotel.nmvc.factories.booking.BookingCustomerContainer;
-import com.javahotel.nmvc.factories.booking.BookingHeaderContainer;
-import com.javahotel.nmvc.factories.booking.BookingRowDetailContainer;
 import com.javahotel.nmvc.factories.booking.elem.BookingElemContainer;
 import com.javahotel.nmvc.factories.customer.CustomerAddInfo;
 import com.javahotel.nmvc.factories.hotelperson.HotelPersonRightsContainer;
@@ -61,6 +60,7 @@ class GetViewFactory implements IGetViewControllerFactory {
     private final IDataValidateActionFactory vFactory;
     private final IPersistFactoryAction peFactory;
     private final IFormDefFactory reFactory;
+    @SuppressWarnings("unused")
     private final IFormTitleFactory tiFactory;
 
     GetViewFactory(IDataValidateActionFactory vFactory,
@@ -174,11 +174,12 @@ class GetViewFactory implements IGetViewControllerFactory {
                 break;
             case BookingList:
                 cContainer = new BookingCustomerContainer(iContext, subType);
-                cContainer1 = new BookingHeaderContainer(iContext, sub1Type,
-                        reFactory);
-                cContainer2 = new BookingElemContainer(new DataType(
-                        AddType.BookRoom), iContext, sub2Type, false);
-                cContainer3 = new BookingRowDetailContainer(iContext, sub3Type);
+//                cContainer1 = new BookingHeaderContainer(iContext, sub1Type,
+//                        reFactory);
+                cContainer1 = new BookingElemContainer(new DataType(
+                        AddType.BookRoom), iContext, sub1Type, false);
+//                cContainer2 = new BookingRowDetailContainer(iContext, sub3Type);
+                cContainer3 = new BookingControler(iContext,  sub3Type );
                 break;
             }
 
@@ -195,7 +196,7 @@ class GetViewFactory implements IGetViewControllerFactory {
                 iCon.registerControler(cType);
             }
             if (cContainer3 != null) {
-                cType = new ComposeControllerType(cContainer3, sub3Type, 1, 3);
+                cType = new ComposeControllerType(cContainer3, sub3Type);
                 iCon.registerControler(cType);
             }
         }

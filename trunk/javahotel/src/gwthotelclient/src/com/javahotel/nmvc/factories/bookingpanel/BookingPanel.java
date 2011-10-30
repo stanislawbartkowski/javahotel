@@ -103,6 +103,7 @@ import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
+import com.javahotel.nmvc.factories.booking.util.BookingInfo;
 import com.javahotel.nmvc.factories.bookingpanel.addtobill.AddToBillDialog;
 import com.javahotel.nmvc.factories.bookingpanel.checkinguest.CheckinGuest;
 import com.javahotel.nmvc.factories.bookingpanel.invoice.MakeOutInvoice;
