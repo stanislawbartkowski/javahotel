@@ -36,6 +36,7 @@ import com.gwtmodel.table.view.util.PopupTip;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("deprecation")
 abstract class AbstractField extends PopupTip implements IFormLineView {
 
     protected ITouchListener iTouch;
@@ -95,7 +96,6 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         }
     }
 
-    @SuppressWarnings("deprecation")
     protected class L implements ChangeListener {
 
         @Override

@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 
 public class Utils {
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T> boolean eqI(IEquatable e1, IEquatable e2) {
 
         if (e1 == null && e2 == null) {

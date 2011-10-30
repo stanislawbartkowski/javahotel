@@ -46,6 +46,7 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.injector.LogT;
@@ -298,6 +299,11 @@ class PresentationTable implements IGwtTableView {
                 }
             }
             co.setSortable(true);
+            if (he.isHidden() || he.getHeaderString() == null) {
+                // Important: for some reason the assert violation cause breaking without Exception throwing
+                // So additional error alert is displayed to avoid confusion
+                Utils.errAlert(he.getFie().getId(), LogT.getT().HeaderNull());
+            }
             assert !he.isHidden() && he.getHeaderString() != null : LogT.getT()
                     .cannotBeNull();
 

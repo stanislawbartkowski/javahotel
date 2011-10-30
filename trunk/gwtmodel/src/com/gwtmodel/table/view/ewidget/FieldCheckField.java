@@ -24,6 +24,7 @@ class FieldCheckField extends AbstractField {
 
     private final CheckBox ch;
 
+    @SuppressWarnings("deprecation")
     FieldCheckField(ITableCustomFactories tFactories, IVField v) {
         super(tFactories,v);
         ch = new CheckBox();
@@ -31,6 +32,7 @@ class FieldCheckField extends AbstractField {
         initWidget(ch);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void setValObj(Object o) {
         Boolean b = (Boolean) o;
@@ -42,6 +44,7 @@ class FieldCheckField extends AbstractField {
 
     @Override
     public Object getValObj() {
+        @SuppressWarnings("deprecation")
         Boolean b = new Boolean(ch.isChecked());
         return b;
     }

@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
@@ -20,7 +22,7 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import java.util.Date;
 
 /**
- * 
+ * DabeBox field, wrapper around DateBox 
  * @author perseus
  */
 class DateBoxCalendar extends AbstractField {
@@ -61,14 +63,25 @@ class DateBoxCalendar extends AbstractField {
         public void reset(DateBox dateBox, boolean abandon) {
         }
     }
+    
+    @SuppressWarnings("rawtypes")
+    protected class TouchValueChange implements ValueChangeHandler {
 
+        @Override
+        public void onValueChange(ValueChangeEvent event) {
+            iTouch.onTouch();
+        }
+    }
+
+
+    @SuppressWarnings({ "unchecked" })
     DateBoxCalendar(ITableCustomFactories tFactories, IVField v) {
         super(tFactories, v);
         db = new DateBox();
         db.setFormat(new DFormat());
         db.getTextBox().setName(v.getId());
+        db.addValueChangeHandler(new TouchValueChange());
         db.addValueChangeHandler(new ValueChange());
-        db.getTextBox().addKeyboardListener(new Touch(iTouch));
         initWidget(db);
     }
 
