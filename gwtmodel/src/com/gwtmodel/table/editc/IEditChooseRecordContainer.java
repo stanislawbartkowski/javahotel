@@ -25,8 +25,6 @@ import com.gwtmodel.table.slotmodel.ISlotable;
  */
 public interface IEditChooseRecordContainer extends ISlotable {
     
-    
-
     /**
      * Set values for check box
      * @param newc Value for 'newc' checkbox

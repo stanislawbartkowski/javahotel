@@ -57,33 +57,37 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
+    private void changeMode(PersistTypeEnum persistTypeEnum, FormField fie) {
+        IFormLineView vie = fie.getELine();
+        switch (persistTypeEnum) {
+        case ADD:
+            if (fie.isReadOnlyIfAdd()) {
+                vie.setReadOnly(true);
+            } else {
+                vie.setReadOnly(false);
+            }
+            break;
+        case MODIF:
+            if (fie.isReadOnlyIfModif()) {
+                vie.setReadOnly(true);
+            } else {
+                vie.setReadOnly(false);
+            }
+            break;
+        case REMOVE:
+        case SHOWONLY:
+            vie.setReadOnly(true);
+            break;
+        }
+    }
+
     private class ChangeMode implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             PersistTypeEnum persistTypeEnum = slContext.getPersistType();
             for (FormField fie : fContainer.getfList()) {
-                IFormLineView vie = fie.getELine();
-                switch (persistTypeEnum) {
-                case ADD:
-                    if (fie.isReadOnlyIfAdd()) {
-                        vie.setReadOnly(true);
-                    } else {
-                        vie.setReadOnly(false);
-                    }
-                    break;
-                case MODIF:
-                    if (fie.isReadOnlyIfModif()) {
-                        vie.setReadOnly(true);
-                    } else {
-                        vie.setReadOnly(false);
-                    }
-                    break;
-                case REMOVE:
-                case SHOWONLY:
-                    vie.setReadOnly(true);
-                    break;
-                }
+                changeMode(persistTypeEnum, fie);
             }
         }
     }
@@ -165,16 +169,29 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                     afterFocus);
         }
     }
-    
+
     private class SetHtmlId implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             ICustomObject i = slContext.getCustom();
             SignalSetHtmlId setI = (SignalSetHtmlId) i;
-            gView.setHtmlId(setI.getId(),setI.getgWidget());            
+            gView.setHtmlId(setI.getId(), setI.getgWidget());
         }
-        
+    }
+
+    private class CustomChangeMode implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject i = slContext.getCustom();
+            SignalChangeMode cMode = (SignalChangeMode) i;
+            for (IVField fie : cMode.getvLi()) {
+                FormField f = fContainer.findFormField(fie);
+                changeMode(cMode.getPersistTypeEnum(), f);
+            }
+        }
+
     }
 
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
@@ -208,7 +225,10 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 new DrawModel());
         registerSubscriber(dType, DataActionEnum.ClearViewFormAction,
                 new ClearAction());
-        registerSubscriber(SignalSetHtmlId.constructSlot(dType), new SetHtmlId());
+        registerSubscriber(SignalSetHtmlId.constructSlot(dType),
+                new SetHtmlId());
+        registerSubscriber(SignalChangeMode.constructSlot(dType),
+                new CustomChangeMode());
         registerCaller(dType, GetActionEnum.GetViewModelEdited,
                 new GetterModel());
         registerCaller(dType, GetActionEnum.GetFormFieldWidget,
