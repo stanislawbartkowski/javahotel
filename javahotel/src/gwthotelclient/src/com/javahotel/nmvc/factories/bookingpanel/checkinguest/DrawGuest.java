@@ -24,21 +24,20 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.util.ClickPopUp;
 import com.gwtmodel.table.view.util.FormUtil;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.types.DataType;
-import com.javahotel.client.types.DataTypeSubEnum;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VField;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.CustomerP;
-import com.javahotel.nmvc.factories.booking.BookingCustInfo;
-import com.javahotel.nmvc.factories.booking.ReceiveChange;
+import com.javahotel.nmvc.factories.booking.util.BookingCustInfo;
+import com.javahotel.nmvc.factories.booking.util.ReceiveChange;
 
 /**
  * @author hotel
@@ -49,6 +48,7 @@ class DrawGuest {
     private final DataType dType;
     private final IEditChooseRecordContainer cContainer;
     private final ChoosedCustFromList choosedSignal = new ChoosedCustFromList();
+    private final EditChooseRecordFactory ecFactory;
 
     /**
      * @return the cContainer
@@ -110,9 +110,8 @@ class DrawGuest {
         DataType dType = new DataType(DictType.CustomerList);
         ICallContext ii = GwtGiniInjector.getI().getCallContext();
         ii.setdType(dType);
-        DataType subType = new DataType(dType.getdType(), DataTypeSubEnum.Sub1);
-        cContainer = EditChooseRecordFactory.constructEditChooseRecord(ii,
-                dType, subType);
+        ecFactory = GwtGiniInjector.getI().getEditChooseRecordFactory();
+        cContainer = ecFactory.constructEditChooseRecord(ii, dType);
         if (a.getO3().getCustomer() != null) {
             cContainer.SetNewChange(false, true);
         } else {

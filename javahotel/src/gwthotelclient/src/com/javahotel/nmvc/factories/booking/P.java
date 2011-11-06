@@ -37,13 +37,4 @@ public class P {
         return getBookR(mData);
     }
 
-//    static AdvancePaymentP getAdvanced(ISlotSignalContext slContext) {
-//        IVModelData mData = slContext.getVData();
-//        HModelData vData = (HModelData) mData;
-//        BookingP b = (BookingP) vData.getA();//
-//        AdvancePaymentP pa = null;
-//        pa = GetMaxUtil.getLastValidationRecord(b);
-//        return pa;
-//    }
-
 }

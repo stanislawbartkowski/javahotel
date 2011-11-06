@@ -17,7 +17,7 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.BookingP;
-import com.javahotel.nmvc.factories.booking.BookingCustInfo;
+import com.javahotel.nmvc.factories.booking.util.BookingCustInfo;
 import com.javahotel.nmvc.factories.persist.PersistCustomer;
 import com.javahotel.types.LId;
 
