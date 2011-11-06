@@ -16,9 +16,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.CommandUtil;
 import com.javahotel.types.DateP;
