@@ -42,6 +42,8 @@ import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
+import com.javahotel.nmvc.factories.booking.util.BookingCustInfo;
+import com.javahotel.nmvc.factories.booking.util.ReceiveChange;
 import com.javahotel.types.LId;
 
 public class BookingCustomerContainer extends AbstractSlotContainer {
@@ -52,6 +54,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
     private final IEditChooseRecordContainer cContainer;
     /* Initial CustomerP being displayed. */
     private IVModelData custP = null;
+    private final EditChooseRecordFactory ecFactory;
 
     private void drawCust() {
         slMediator.getSlContainer().publish(dType,
@@ -125,8 +128,9 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         dType = new DataType(DictType.CustomerList);
         ICallContext ii = iContext.construct(dType);
         ii.setiSlo(this);
-        cContainer = EditChooseRecordFactory.constructEditChooseRecord(ii,
-                iContext.getDType(), subType);
+        ecFactory = GwtGiniInjector.getI().getEditChooseRecordFactory();
+        cContainer = ecFactory.constructEditChooseRecord(ii,
+                iContext.getDType());
         cContainer.getSlContainer().registerSubscriber(
                 IChangeObject.signalString, new ReceiveChange(cContainer));
         TablesFactories tFactories = iContext.getT();

@@ -21,12 +21,13 @@ import com.gwtmodel.table.login.LoginField;
 import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
-import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
 import com.javahotel.common.toobject.IField;
+import com.javahotel.common.toobject.InvoiceIssuerP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.PaymentRowP;
@@ -59,7 +60,11 @@ class EmptyColFactory {
             case RoomFacility:
             case RoomStandard:
             case IssuerInvoiceList:
-                return new IField[] { DictionaryP.F.name };
+                return new IField[] { DictionaryP.F.name, CustomerP.F.name1,
+                        CustomerP.F.address1, CustomerP.F.zipCode,
+                        CustomerP.F.country, CustomerP.F.city,
+                        InvoiceIssuerP.F.bankAccount,
+                        InvoiceIssuerP.F.townMaking };
             case RoomObjects:
                 return new IField[] { DictionaryP.F.name,
                         ResObjectP.F.standard, ResObjectP.F.maxperson,

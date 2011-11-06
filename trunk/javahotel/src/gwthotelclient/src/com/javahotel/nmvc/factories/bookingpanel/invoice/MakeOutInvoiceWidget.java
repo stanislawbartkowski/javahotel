@@ -22,6 +22,7 @@ import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotType;
+import com.javahotel.client.M;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.InvoiceIssuerP;
@@ -51,7 +52,6 @@ class MakeOutInvoiceWidget {
                 public String getFormTitle(ICallContext iContext) {
                     return "Wystawienie faktury";
                 }
-
             };
         }
 
@@ -64,9 +64,10 @@ class MakeOutInvoiceWidget {
         }
 
     }
-
+    
     MakeOutInvoiceWidget(BookingP p, List<InvoiceIssuerP> val, CustomerP buyer,
             String html, WSize w, IsServiceBooking iService) {
+        assert !val.isEmpty() : M.M().AtLeastOneInvoiceData(); 
         this.val = val;
         this.html = html;
         this.buyer = buyer;

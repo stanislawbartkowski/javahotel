@@ -37,4 +37,6 @@ public interface HoMessages extends Messages {
     String NotSupportedErrorS();
     
     String ResStateCannotBeNull();
+    
+    String AtLeastOneInvoiceData();
 }

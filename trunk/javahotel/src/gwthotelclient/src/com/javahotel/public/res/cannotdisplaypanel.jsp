@@ -6,4 +6,4 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <H2>Nie można wyświetlić panelu rezerwacyjnego</H2>
-<P>Przed dokonaniem rezerwacji musisz dodać : pokoje, okres oraz cenniki. </P>
+<P>Przed dokonaniem rezerwacji musisz dodać : pokoje, okres, cenniki oraz dane do wystawienia faktury </P>

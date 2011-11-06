@@ -27,7 +27,7 @@ class PanelCommandBeforeCheckFactory {
 
     static IPanelCommandBeforeCheck getPanelCheck(EPanelCommand command) {
         IPanelCommandBeforeCheck i = null;
-        
+
         switch (command) {
         case REMOVEDATA:
             i = new VerifyNumberOfDict(RType.AllHotels,
@@ -35,8 +35,8 @@ class PanelCommandBeforeCheckFactory {
             break;
         case BOOKINGPANEL:
             i = new VerifyNumberOfDict(new DictType[] { DictType.RoomObjects,
-                    DictType.OffSeasonDict, DictType.PriceListDict },
-                    "cannotdisplaypanel.jsp");
+                    DictType.OffSeasonDict, DictType.PriceListDict,
+                    DictType.IssuerInvoiceList }, "cannotdisplaypanel.jsp");
             break;
         case ROOMS:
             i = new VerifyNumberOfDict(new DictType[] { DictType.RoomFacility,
@@ -57,7 +57,7 @@ class PanelCommandBeforeCheckFactory {
                     DictType.PriceListDict }, "cannotdisplaybooking.jsp");
             break;
         }
-            
+
         return i;
     }
 }

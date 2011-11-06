@@ -21,7 +21,7 @@ import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.common.toobject.ResObjectP;
-import com.javahotel.nmvc.factories.booking.BookingCustInfo;
+import com.javahotel.nmvc.factories.booking.util.BookingCustInfo;
 
 /**
  * @author hotel
