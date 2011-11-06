@@ -23,12 +23,12 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
 
 /**
- *
+ * 
  * @author hotel
  */
 public class EditChooseRecordFactory {
 
-    private static class ChangeObject implements IChangeObject {
+    private class ChangeObject implements IChangeObject {
 
         private final int what;
         private final boolean set;
@@ -63,19 +63,26 @@ public class EditChooseRecordFactory {
         }
     }
 
-    public static IChangeObject constructChangeObject(int what, boolean set, IGWidget w) {
+    public IChangeObject constructChangeObject(int what, boolean set, IGWidget w) {
         return new ChangeObject(what, set, w);
     }
 
-    public static IChangeObject constructChangeObject(int what, boolean set) {
+    public IChangeObject constructChangeObject(int what, boolean set) {
         return new ChangeObject(what, set, null);
     }
 
-    private EditChooseRecordFactory() {
+    public IEditChooseRecordContainer constructEditChooseRecord(
+            ICallContext iContext, IDataType publishdType) {
+        return new EditChooseRecordContainer(iContext, publishdType, false);
     }
 
-    public static IEditChooseRecordContainer constructEditChooseRecord(ICallContext iContext,
-            IDataType publishdType, IDataType subType) {
-        return new EditChooseRecordContainer(iContext, publishdType, subType);
+    public IEditChooseRecordContainer constructEditChooseRecordWithoutForm(
+            ICallContext iContext, IDataType publishdType) {
+        return new EditChooseRecordContainer(iContext, publishdType, true);
     }
+
+    public IChooseRecordContainer constructChooseRecord(IDataType dType) {
+        return new ChooseFromList(dType, dType);
+    }
+
 }

@@ -27,13 +27,21 @@ public class FormLineContainer {
         this(fList, null);
     }
 
-    public IFormLineView findLineView(IVField v) {
+    public FormField findFormField(IVField v) {
         for (FormField f : fList) {
             if (f.getFie().eq(v)) {
-                return f.getELine();
+                return f;
             }
         }
         return null;
+    }
+
+    public IFormLineView findLineView(IVField v) {
+        FormField f = findFormField(v);
+        if (f == null) {
+            return null;
+        }
+        return f.getELine();
     }
 
     public FormLineContainer(List<FormField> fList, String html) {

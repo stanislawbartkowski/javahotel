@@ -21,6 +21,7 @@ import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
+import com.gwtmodel.table.editc.EditChooseRecordFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.factories.mailtest.MailTestFactory;
@@ -83,5 +84,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(StackPanelButtonFactory.class).in(Singleton.class);
         bind(MailTestFactory.class).in(Singleton.class);
         bind(StackPanelControllerFactory.class).in(Singleton.class);
+        bind(EditChooseRecordFactory.class).in(Singleton.class);
     }
 }

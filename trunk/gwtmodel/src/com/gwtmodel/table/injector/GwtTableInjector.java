@@ -21,6 +21,7 @@ import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
+import com.gwtmodel.table.editc.EditChooseRecordFactory;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.factories.mailtest.MailTestFactory;
@@ -102,4 +103,6 @@ public interface GwtTableInjector extends Ginjector {
     StackPanelFactory getStackPanelFactory();
 
     StackPanelControllerFactory getStackPanelControllerFactory();
+
+    EditChooseRecordFactory getEditChooseRecordFactory();
 }

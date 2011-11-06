@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.MM;
 
 class AddChangeBox extends Composite {
@@ -25,6 +26,7 @@ class AddChangeBox extends Composite {
     private final VerticalPanel hp = new VerticalPanel();
     private final CheckBox addNew = new CheckBox(MM.getL().AddNewRecord());
     private final CheckBox changeD = new CheckBox(MM.getL().ChangeRecord());
+    private final EditChooseRecordFactory ecFactory;
 
     private class Checked implements ClickHandler {
 
@@ -39,13 +41,14 @@ class AddChangeBox extends Composite {
         @Override
         public void onClick(ClickEvent event) {
             CheckBox b = (CheckBox) event.getSource();
-            IChangeObject o = EditChooseRecordFactory.constructChangeObject(
-                    what, b.isChecked(), new GWidget(b));
+            IChangeObject o = ecFactory.constructChangeObject(what,
+                    b.isChecked(), new GWidget(b));
             i.signal(o);
         }
     }
 
     AddChangeBox(ITransferClick c) {
+        ecFactory = GwtGiniInjector.getI().getEditChooseRecordFactory();
         initWidget(hp);
         hp.add(addNew);
         hp.add(changeD);

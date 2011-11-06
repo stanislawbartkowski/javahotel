@@ -139,8 +139,10 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
             // select button
             hp.add(but);
             vp.add(hp);
-            // widget with record data
-            vp.add(cust);
+            if (cId != null) {
+                // widget with record data
+                vp.add(cust);
+            }
             // public created widget
             pSlotable.getSlContainer().publish(publishdType, cellId,
                     new GWidget(vp));
@@ -156,64 +158,82 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
             sy.signalDone();
         }
     }
+    
+    private class ChooseC extends AbstractChooseListener {
 
-    private class ChooseC implements ISlotListener {
-
-        private class SelectC implements ICallBackWidget<IVModelData> {
-
-            private D d;
-
-            private class D extends ModalDialog {
-
-                private final Widget w;
-
-                D(VerticalPanel vp, Widget w) {
-                    super(vp, "");
-                    this.w = w;
-                    create();
-                }
-
-                @Override
-                protected void addVP(VerticalPanel vp) {
-                    vp.add(w);
-                }
-            }
-
-            @Override
-            public void setWidget(WSize ws, IGWidget w) {
-                VerticalPanel vp = new VerticalPanel();
-                d = new D(vp, w.getGWidget());
-                d.show(ws);
-            }
-
-            @Override
-            public void setChoosed(IVModelData vData, IVField comboFie) {
-                assert vData != null : LogT.getT().cannotBeNull();
-                LogT.getL().info(LogT.getT().choosedEdit(vData.toString()));
-                slMediator.getSlContainer().publish(dType,
-                        DataActionEnum.DrawViewComposeFormAction, vData);
-                SetNewChange(false, false);
-                ModifForm();
-                d.hide();
-                // sent signal object was choosed and set
-                slMediator.getSlContainer()
-                        .publish(IChangeObject.choosedString);
-            }
-
-            @Override
-            public void setResign() {
-                d.hide();
-            }
+        /**
+         * @param dType
+         * @param iSlo
+         */
+        ChooseC(IDataType dType, ISlotable iSlo) {
+            super(dType, iSlo);
         }
 
         @Override
-        public void signal(ISlotSignalContext slContext) {
-            WSize w = new WSize(slContext.getGwtWidget().getGWidget());
-            @SuppressWarnings("unused")
-            ChooseDictList<IVModelData> c = new ChooseDictList<IVModelData>(
-                    dType, w, new SelectC());
+        void modifAfterSelect() {
+          SetNewChange(false, false);
+          ModifForm();            
         }
+        
     }
+
+//    private class ChooseC implements ISlotListener {
+
+//        private class SelectC implements ICallBackWidget<IVModelData> {
+//
+//            private D d;
+//
+//            private class D extends ModalDialog {
+//
+//                private final Widget w;
+//
+//                D(VerticalPanel vp, Widget w) {
+//                    super(vp, "");
+//                    this.w = w;
+//                    create();
+//                }
+//
+//                @Override
+//                protected void addVP(VerticalPanel vp) {
+//                    vp.add(w);
+//                }
+//            }
+//
+//            @Override
+//            public void setWidget(WSize ws, IGWidget w) {
+//                VerticalPanel vp = new VerticalPanel();
+//                d = new D(vp, w.getGWidget());
+//                d.show(ws);
+//            }
+//
+//            @Override
+//            public void setChoosed(IVModelData vData, IVField comboFie) {
+//                assert vData != null : LogT.getT().cannotBeNull();
+//                LogT.getL().info(LogT.getT().choosedEdit(vData.toString()));
+//                slMediator.getSlContainer().publish(dType,
+//                        DataActionEnum.DrawViewComposeFormAction, vData);
+//                SetNewChange(false, false);
+//                ModifForm();
+//                d.hide();
+//                // send signal : object was chose and set
+//                slMediator.getSlContainer()
+//                        .publish(IChangeObject.choosedString);
+//            }
+//
+//            @Override
+//            public void setResign() {
+//                d.hide();
+//            }
+//        }
+//
+//        @Override
+//        public void signal(ISlotSignalContext slContext) {
+//            WSize w = new WSize(slContext.getGwtWidget().getGWidget());
+//            @SuppressWarnings("unused")
+//            ChooseDictList<IVModelData> c = new ChooseDictList<IVModelData>(
+//                    dType, w, new SelectC());
+//        }
+//    }
 
     private class SetWidgetCust implements ISlotListener {
 
@@ -227,12 +247,16 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
 
     private void register(ISlotable pView, ISlotable cust) {
         pView.getSlContainer().registerSubscriber(dType, bId, new SetWidget());
-        cust.getSlContainer().registerSubscriber(dType, cId,
-                new SetWidgetCust());
+        if (cId != null) {
+            cust.getSlContainer().registerSubscriber(dType, cId,
+                    new SetWidgetCust());
+        } else {
+            sy.signalDone();
+        }
     }
 
     EditChooseRecordContainer(ICallContext iContext, IDataType publishdType,
-            IDataType subType) {
+            boolean withoutForm) {
         // pSlotable - where to send the SetWidget signal
         if (iContext.iSlo() == null) {
             pSlotable = this;
@@ -248,19 +272,24 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         bList.add(bChoose);
         ListOfControlDesc cList = new ListOfControlDesc(bList);
-        slMediator.getSlContainer().registerSubscriber(sChoose, new ChooseC());
+        slMediator.getSlContainer().registerSubscriber(sChoose, new ChooseC(dType,slMediator));
         ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
                 .getControlButtonViewFactory();
         IControlButtonView bView = bFactory.construct(dType, cList);
         IGetViewControllerFactory fa = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getGetViewControllerFactory();
         bId = new CellId(IPanelView.CUSTOMID);
-        cId = new CellId(IPanelView.CUSTOMID + 1);
-        IComposeController cust = fa.construct(iContext.construct(dType));
-        cust.createComposeControler(cId);
+        if (!withoutForm) {
+            cId = new CellId(IPanelView.CUSTOMID + 1);
+            IComposeController cust = fa.construct(iContext.construct(dType));
+            cust.createComposeControler(cId);
 
-        register(bView, cust);
-        slMediator.registerSlotContainer(cId, cust);
+            register(bView, cust);
+            slMediator.registerSlotContainer(cId, cust);
+        } else {
+            register(bView, null);
+            cId = null;
+        }
         slMediator.registerSlotContainer(bId, bView);
     }
 
