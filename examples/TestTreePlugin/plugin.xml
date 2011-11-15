@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+<extension point="org.eclipse.debug.core.launchConfigurationTypes">
+    <launchConfigurationType
+        name="Feature viewer"
+        delegate="com.sb.plugintree.TreeLauncher"
+        modes="run"               
+        id = "com.sb.plugintree.TreeLauncher"
+     >        
+    </launchConfigurationType>
+</extension>
+
+<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+    <launchConfigurationTabGroup
+        type="com.sb.plugintree.TreeLauncher"
+        class="com.sb.plugintree.TreeTab"
+        id="com.sb.plugintree.TreeTab">
+    </launchConfigurationTabGroup>
+</extension>
+
+<extension point="org.eclipse.debug.core.launchConfigurationComparators">
+	<launchConfigurationComparator
+		id="com.sb.plugintree.TreeComparator "
+		class="com.sb.plugintree.TreeComparator "
+		attribute="com.sb.plugintree.TREE_ACCESS"/>
+</extension>
+
+</plugin>
