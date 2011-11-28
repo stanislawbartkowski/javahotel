@@ -24,8 +24,10 @@ import java.util.Map.Entry;
  * @author sbartkowski
  *
  */
+@SuppressWarnings("rawtypes")
 public class DB2ScriptLauncherComparator implements Comparator {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int compare(Object o1, Object o2) {
 		Map<String, String> m1 = (Map<String, String>) o1;

@@ -107,13 +107,13 @@ public class DB2ScriptTabView extends JavaLaunchTab {
 							db2Alias.getText(), db2User.getText(),
 							db2Password.getText(), null, null);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					DB2LogUtil.launchererrorLog(e);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					DB2LogUtil.launchererrorLog(e);
 				} catch (PartInitException e) {
-					// TODO Auto-generated catch block
+					DB2LogUtil.launchererrorLog(e);
 					e.printStackTrace();
 				}
 

@@ -26,10 +26,6 @@ public class DB2ScriptTab extends AbstractLaunchConfigurationTabGroup {
 	public void createTabs(ILaunchConfigurationDialog arg0, String arg1) {
 		ILaunchConfigurationTab[] tabs = new ILaunchConfigurationTab[] {
 				new DB2ScriptTabView(),
-//				new JavaMainTab(),
-//				new JavaArgumentsTab(),
-//				new JavaJRETab(),
-//				new JavaClasspathTab(), 
 				new CommonTab(),
 		};
 		setTabs(tabs);		

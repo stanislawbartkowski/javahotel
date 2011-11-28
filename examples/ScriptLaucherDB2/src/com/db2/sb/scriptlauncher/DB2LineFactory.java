@@ -29,14 +29,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
-import org.eclipse.ui.console.IConsoleView;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 
@@ -79,7 +76,7 @@ public class DB2LineFactory {
 					cout.print("" + ch);
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				DB2LogUtil.launchererrorLog(e);
 				e.printStackTrace();
 			}
 		}
@@ -148,15 +145,22 @@ public class DB2LineFactory {
 			PartInitException {
 
 		String con = createConnectString(db2Alias, db2User, db2Password);
+		// create log message (without password - of course).
+		String logMessage = "Connecting to " + db2Alias + " as user " + db2User;
+		if (script != null) {
+			logMessage += " and run script " + script;
+		} else if (scriptContent != null) {
+			logMessage += " and run editor content";
+		}
 		MessageConsole co = findConsole(DB2Console);
 		MessageConsoleStream cout = co.newMessageStream();
 		IWorkbench wb = PlatformUI.getWorkbench();
-//		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-//		if (win != null) {
-//			IWorkbenchPage page = win.getActivePage();
-//			IConsoleView view = (IConsoleView) page.showView(DB2Console);
-//			view.display(co);
-//		}
+		// IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+		// if (win != null) {
+		// IWorkbenchPage page = win.getActivePage();
+		// IConsoleView view = (IConsoleView) page.showView(DB2Console);
+		// view.display(co);
+		// }
 		Process p;
 		if (pMonitor != null) {
 			pMonitor.beginTask(Messages.CONNECT_AND_EXECUTE,
@@ -195,6 +199,7 @@ public class DB2LineFactory {
 			// command to start clp
 			String com = "db2 -stvf " + temp.getAbsolutePath(); //$NON-NLS-1$
 			p = Runtime.getRuntime().exec(com);
+			DB2LogUtil.log(com);
 		}
 		// gather output
 		Thread r1 = new ReadI(p.getInputStream(), cout);
@@ -216,7 +221,10 @@ public class DB2LineFactory {
 			if (e == 0) {
 				messageBox = new MessageBox(parent, SWT.ICON_INFORMATION);
 				messageBox.setMessage(Messages.OK_CONNECTED);
+				DB2LogUtil.log(logMessage + " : Passed");
 			} else {
+				DB2LogUtil.logError(logMessage + " Failed (error code " + e
+						+ ")");
 				messageBox = new MessageBox(parent, SWT.ICON_ERROR);
 				messageBox
 						.setMessage(Messages.FAILURE_CANNOT_CONNECT + e + ")"); //$NON-NLS-1$

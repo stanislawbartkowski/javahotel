@@ -127,8 +127,8 @@ public class DB2ScriptShortCut implements ILaunchShortcut {
 			configuration = workingCopy.doSave();
 
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			DB2LogUtil.launchererrorLog(e);
 			return;
 		}
 
@@ -137,6 +137,7 @@ public class DB2ScriptShortCut implements ILaunchShortcut {
 
 	}
 
+	@SuppressWarnings("restriction")
 	@Override
 	public void launch(ISelection arg0, String arg1) {
 		ITreeSelection iSel = (ITreeSelection) arg0;
