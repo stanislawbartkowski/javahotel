@@ -52,11 +52,11 @@ public class DB2ScriptLauncher implements ILaunchConfigurationDelegate {
 			DB2LineFactory.executeDB2Script(null, arg3, a.getDb2Alias(),
 					a.getDb2User(), a.getDb2Password(), scriptToRun,
 					scriptContent);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException e) {			
 			e.printStackTrace();
+			DB2LogUtil.launchererrorLog(e);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			DB2LogUtil.launchererrorLog(e);
 			e.printStackTrace();
 		}
 

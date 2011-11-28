@@ -28,36 +28,4 @@
 </extension>
 
 
-  <extension
-         point="org.eclipse.debug.ui.launchShortcuts">
-      <shortcut
-            label="%LABEL_SCRIPT"
-            description="rybka"
-            icon="icons/full/etool16/java_app.png"
-            helpContextId="org.eclipse.jdt.debug.ui.shortcut_local_java_application"
-            modes="run"
-            class="com.db2.sb.scriptlauncher.DB2ScriptShortCut"
-            id="com.db2.sb.scriptlauncher.DB2ScriptShortCut">
-         <contextualLaunch>
-           <enablement>
-             <with variable="selection">
-               <count value="1"/>
-               <iterate>
-                 <or>
-                   <test property="org.eclipse.debug.ui.matchesPattern" value="*.db2"/>
-                   <test property="org.eclipse.debug.ui.matchesPattern" value="*.sql"/>
-                 </or>
-               </iterate>
-             </with>
-           </enablement>
-  		 </contextualLaunch>
-       <configurationType
-              id="com.db2.sb.scriptlauncher.DB2ScriptLauncher">
-       </configurationType>
-      </shortcut>
-      </extension>
-
-
-
-
 </plugin>

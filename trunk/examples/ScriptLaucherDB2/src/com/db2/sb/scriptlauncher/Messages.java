@@ -32,6 +32,7 @@ public class Messages extends NLS {
 	public static String DB2ScriptTabView_DB2_USER_NAME;
 	public static String DB2ScriptTabView_Choose;
 	public static String DB2ScriptTabView_List;
+	public static String DB2LauncherError;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
