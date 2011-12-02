@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
@@ -41,7 +43,7 @@ import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.CreateFormView;
 
 /**
- *
+ * 
  * @author perseus
  */
 class AttachDataGetViewControler implements IGetViewControllerFactory {
@@ -52,7 +54,8 @@ class AttachDataGetViewControler implements IGetViewControllerFactory {
     private final IDataModelFactory dFactory;
     private final IComposeControllerTypeFactory compFactory;
 
-    AttachDataGetViewControler(IDataModelFactory dFactory, IComposeControllerTypeFactory compFactory) {
+    AttachDataGetViewControler(IDataModelFactory dFactory,
+            IComposeControllerTypeFactory compFactory) {
         fFactory = GwtGiniInjector.getI().getComposeControllerFactory();
         this.aFactory = new AttachViewFactory();
         daFactory = GwtGiniInjector.getI().getDataViewModelFactory();
@@ -68,10 +71,13 @@ class AttachDataGetViewControler implements IGetViewControllerFactory {
 
     private ReturnU getUpLoad(VListHeaderContainer listHeader) {
         ReturnU u = new ReturnU();
-        EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+        EditWidgetFactory eFactory = GwtGiniInjector.getI()
+                .getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
-        IFormLineView dComment = eFactory.constructTextField(AttachDataField.vcomment);
-        IFormLineView dfilename = eFactory.constructEditFileName(AttachDataField.vfilename);
+        IFormLineView dComment = eFactory
+                .constructTextField(AttachDataField.vcomment);
+        IFormLineView dfilename = eFactory
+                .constructEditFileName(AttachDataField.vfilename);
         u.u = new UploadFile(dComment.getGWidget(), dfilename.getGWidget());
         VListHeaderDesc hCom = listHeader.getHeader(AttachDataField.vcomment);
         VListHeaderDesc hFile = listHeader.getHeader(AttachDataField.vfilename);
@@ -86,7 +92,8 @@ class AttachDataGetViewControler implements IGetViewControllerFactory {
     @Override
     public IComposeController construct(ICallContext iContext) {
         IDataType dType = iContext.getDType();
-        ISlotSignalContext slContext = iContext.iSlo().getSlContainer().getGetterContext(dType, GetActionEnum.GetHeaderList);
+        ISlotSignalContext slContext = iContext.iSlo().getSlContainer()
+                .getGetterContext(dType, GetActionEnum.GetHeaderList);
         VListHeaderContainer listHeader = slContext.getListHeader();
         IComposeController i = fFactory.construct(dType);
         IDataFormConstructorAbstractFactory cFactory;
@@ -98,18 +105,19 @@ class AttachDataGetViewControler implements IGetViewControllerFactory {
             final IDataFormConstructor cConstructor = new IDataFormConstructor() {
 
                 @Override
-                public Widget construct(ICallContext iContext, FormLineContainer model) {
-                    return u.u;
+                public void construct(ISetGWidget iSet, ICallContext iContext,
+                        FormLineContainer model) {
+                    iSet.setW(new GWidget(u.u));
                 }
             };
             cFactory = new IDataFormConstructorAbstractFactory() {
 
                 @Override
                 public CType construct(ICallContext iContext) {
-                    return new IDataFormConstructorAbstractFactory.CType(cConstructor);
+                    return new IDataFormConstructorAbstractFactory.CType(
+                            cConstructor);
                 }
             };
-
 
         } else {
             up.f = aFactory.construct(iContext, listHeader);
@@ -120,21 +128,24 @@ class AttachDataGetViewControler implements IGetViewControllerFactory {
                     IDataFormConstructor c = new IDataFormConstructor() {
 
                         @Override
-                        public Widget construct(ICallContext iContext, FormLineContainer model) {
-                            Widget w = CreateFormView.construct(model.getfList());
-                            return w;
+                        public void construct(ISetGWidget iSet,
+                                ICallContext iContext, FormLineContainer model) {
+                            Widget w = CreateFormView.construct(model
+                                    .getfList());
+                            iSet.setW(new GWidget(w));
                         }
                     };
                     return new IDataFormConstructorAbstractFactory.CType(c);
                 }
             };
         }
-        IDataViewModel daModel = daFactory.construct(iContext.getDType(),
-                up.f, dFactory, cFactory);
+        IDataViewModel daModel = daFactory.construct(iContext.getDType(), up.f,
+                dFactory, cFactory);
         ComposeControllerType cType = new ComposeControllerType(daModel,
                 iContext.getDType(), 0, 0);
         i.registerControler(cType);
-        ComposeControllerType c1Type = new ComposeControllerType(new PersistAttach(dType, up.u));
+        ComposeControllerType c1Type = new ComposeControllerType(
+                new PersistAttach(dType, up.u));
         i.registerControler(c1Type);
         ComposeControllerType c2Type = compFactory.construct(iContext);
         i.registerControler(c2Type);

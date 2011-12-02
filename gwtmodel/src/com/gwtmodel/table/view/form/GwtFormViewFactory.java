@@ -12,14 +12,16 @@
  */
 package com.gwtmodel.table.view.form;
 
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 
 public class GwtFormViewFactory {
 
-    public IGwtFormView construct(ICallContext iContext, FormLineContainer fContainer,
-            IDataFormConstructorAbstractFactory.CType cType) {
-        return new GwtFormView(iContext, fContainer, cType);
+    public IGwtFormView construct(ICallContext iContext,
+            FormLineContainer fContainer,
+            IDataFormConstructorAbstractFactory.CType cType, ISignal iSignal) {
+        return new GwtFormView(iContext, fContainer, cType, iSignal);
     }
 }

@@ -12,11 +12,12 @@
  */
 package com.gwtmodel.table.factories;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormLineContainer;
 
 public interface IDataFormConstructor {
 
-    Widget construct(ICallContext iContext, FormLineContainer model);
+    void construct(ISetGWidget iSet, ICallContext iContext,
+            FormLineContainer model);
 }
