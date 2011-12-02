@@ -21,6 +21,8 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -47,6 +49,27 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private final IGwtFormView gView;
     private final IDataModelFactory dFactory;
     private final ICallContext iContext;
+
+    private final SyPublish syP;
+
+    private class SyPublish extends SynchronizeList {
+
+        CellId cellId;
+
+        SyPublish() {
+            super(2);
+        }
+
+        @Override
+        protected void doTask() {
+            IGWidget w = getHtmlWidget(cellId);
+            if (w == null) {
+                publish(dType, cellId, gView);
+                return;
+            }
+            gView.fillHtml(w);
+        }
+    }
 
     private class ClearAction implements ISlotListener {
 
@@ -197,6 +220,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
             FormLineContainer fContainer, IDataModelFactory dFactory,
             IDataFormConstructorAbstractFactory abFactory) {
+        syP = new SyPublish();
         this.fContainer = fContainer;
         this.dType = dType;
         this.iContext = GwtGiniInjector.getI().getCallContext();
@@ -210,7 +234,15 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         } else {
             ccType = abFactory.construct(iContext);
         }
-        gView = gFactory.construct(iContext, fContainer, ccType);
+        ISignal iSig = new ISignal() {
+
+            @Override
+            public void signal() {
+                syP.signalDone();
+            }
+
+        };
+        gView = gFactory.construct(iContext, fContainer, ccType, iSig);
         if (dFactory == null) {
             this.dFactory = iContext.getC().getDataModelFactory();
         } else {
@@ -252,11 +284,13 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     @Override
     public void startPublish(CellId cellId) {
-        IGWidget w = getHtmlWidget(cellId);
-        if (w == null) {
-            publish(dType, cellId, gView);
-            return;
-        }
-        gView.fillHtml(w);
+        syP.cellId = cellId;
+        syP.signalDone();
+        // IGWidget w = getHtmlWidget(cellId);
+        // if (w == null) {
+        // publish(dType, cellId, gView);
+        // return;
+        // }
+        // gView.fillHtml(w);
     }
 }

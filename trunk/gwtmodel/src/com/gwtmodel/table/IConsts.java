@@ -24,5 +24,4 @@ public interface IConsts {
 
     int defaultDecimal = 2;
     int defaultPage = 20;
-//    int minPageScroll = 20;
 }

@@ -17,9 +17,11 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormField;
@@ -31,7 +33,7 @@ import com.gwtmodel.table.view.util.CreateFormView;
 class GwtFormView implements IGwtFormView {
 
     private final FormLineContainer fContainer;
-    private final Widget gg;
+    private Widget gg = null;
     final ErrorLineContainer eStore = new ErrorLineContainer();
     private HTMLPanel hp;
 
@@ -50,7 +52,8 @@ class GwtFormView implements IGwtFormView {
     }
 
     GwtFormView(ICallContext iContext, final FormLineContainer fContainer,
-            IDataFormConstructorAbstractFactory.CType cType) {
+            IDataFormConstructorAbstractFactory.CType cType,
+            final ISignal iSignal) {
         this.fContainer = fContainer;
         if (cType.getfConstructor() == null) {
             if (fContainer.getHtml() == null) {
@@ -59,8 +62,18 @@ class GwtFormView implements IGwtFormView {
                 gg = CreateFormView.setHtml(fContainer.getHtml(),
                         fContainer.getfList());
             }
+            iSignal.signal();
         } else {
-            gg = cType.getfConstructor().construct(iContext, fContainer);
+            ISetGWidget iSet = new ISetGWidget() {
+
+                @Override
+                public void setW(IGWidget w) {
+                    gg = w.getGWidget();
+                    iSignal.signal();
+                }
+
+            };
+            cType.getfConstructor().construct(iSet, iContext, fContainer);
         }
         hp = null;
         setListener();
