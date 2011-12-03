@@ -66,7 +66,7 @@ public class FileUtil {
         return se;
     }
 
-    public static void validate(Class<Object> cl, String xmlName, String schemaName)
+    public static void validate(Class cl, String xmlName, String schemaName)
             throws SAXException, IOException {
         Schema se = getSchema(cl, schemaName);
         Validator validator = se.newValidator();
