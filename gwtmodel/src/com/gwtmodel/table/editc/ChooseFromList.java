@@ -33,7 +33,6 @@ import com.gwtmodel.table.slotmodel.ISlotable;
  */
 class ChooseFromList extends AbstractSlotContainer implements IChooseRecordContainer {
 
-    private final IDataType publishType;
     private final static String LIST_BUTTON = "HOTEL-LIST-BUTTON";
     private final IControlButtonView bView;
 
@@ -54,15 +53,12 @@ class ChooseFromList extends AbstractSlotContainer implements IChooseRecordConta
 
     ChooseFromList(IDataType dType, IDataType publishType) {
         this.dType = dType;
-        this.publishType = publishType;
         ClickButtonType sChoose = new ClickButtonType(LIST_BUTTON);
-        ControlButtonDesc bChoose = new ControlButtonDesc(MM.getL()
-                .ChooseFromList(), sChoose);
+        ControlButtonDesc bChoose = new ControlButtonDesc(MM.getL().ChooseFromList(), sChoose);
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         bList.add(bChoose);
         ListOfControlDesc cList = new ListOfControlDesc(bList);
-        ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
-                .getControlButtonViewFactory();
+        ControlButtonViewFactory bFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
         bView = bFactory.construct(dType, cList);
         bView.getSlContainer().registerSubscriber(sChoose,
                 new ChooseC(dType, this));
@@ -73,5 +69,4 @@ class ChooseFromList extends AbstractSlotContainer implements IChooseRecordConta
     public void startPublish(CellId cellId) {
         bView.startPublish(cellId);
     }
-
 }

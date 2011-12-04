@@ -17,6 +17,7 @@
 package com.gwtmodel.table;
 
 import com.google.gwt.i18n.client.Constants;
+import java.util.Map;
 
 /**
  * 
@@ -105,4 +106,6 @@ public interface TLabels extends Constants {
     String YouResignStandard();
     
     String ChooseNow();
+    
+    Map<String,String> ActionName();
 }

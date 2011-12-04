@@ -25,20 +25,6 @@ public class CallBirt {
     private CallBirt() {
     }
 
-//    private static String paraS(String key, String value) {
-//        String u = "&" + key + "=" + value;
-//        return u;
-//    }
-//
-//    private static String createURL(String u, String reportName, Map<String, String> args) {
-//        String url = u + "?__report=" + reportName;
-//        for (Entry<String, String> e : args.entrySet()) {
-//            String param = e.getKey();
-//            String val = e.getValue();
-//            url += paraS(param, val);
-//        }
-//        return url;
-//    }
     public static void callBirt(String url, String reportName, Map<String, String> args) {
         String u = Utils.createURL(url, "__report", reportName, args);
         Window.open(u, "", "");

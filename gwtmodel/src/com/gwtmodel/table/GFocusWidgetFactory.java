@@ -57,7 +57,6 @@ public class GFocusWidgetFactory {
         FTip(FocusWidget f, String mess) {
             initWidget(f);
             setMessage(mess);
-//            setMouse();
         }
 
         @Override
