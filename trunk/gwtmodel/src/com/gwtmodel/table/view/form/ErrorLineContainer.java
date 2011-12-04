@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.form;
 
+import com.gwtmodel.table.IConsts;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,32 +25,45 @@ import com.gwtmodel.table.rdef.FormField;
 class ErrorLineContainer {
 
     private final IGetCustomValues c;
+    /** Contains all fields with error messages. */
     private List<FormField> el = new ArrayList<FormField>();
 
     ErrorLineContainer() {
         c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
     }
 
+    /**
+     * Clear error messages list
+     */
     void initErr() {
         el.clear();
     }
 
+    /**
+     * Apply error message nad CSS style to fiekd
+     * @param re Field where error should be attached to
+     * @param m Error
+     */
     void setEMess(FormField re, InvalidateMess m) {
-        re.getELine().setGStyleName("dialog-empty-field", true);
+        re.getELine().setGStyleName(IConsts.errorStyle, true);
         String e;
         if (m.isEmpty()) {
-//            e = c.getCustomValue(IGetCustomValues.EMPTYFIELDERRORDEFAULT);
+            // default empty message
             e = MM.getL().EmptyFieldMessage();
         } else {
             e = m.getErrmess();
         }
         re.getELine().setInvalidMess(e);
+        // remember the field with error message
         el.add(re);
     }
 
+    /**
+     * Remove all error messages and error style
+     */
     void clearE() {
         for (FormField re : el) {
-            re.getELine().setGStyleName("dialog-empty-field", false);
+            re.getELine().setGStyleName(IConsts.errorStyle, false);
             re.getELine().setInvalidMess(null);
         }
         initErr();

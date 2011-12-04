@@ -12,28 +12,22 @@
  */
 package com.gwtmodel.table.view.util;
 
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import java.util.Map;
 
 public class GetActionName {
 
     private GetActionName() {
     }
 
+    /**
+     * Get action string related to action enum
+     * @param action Action enm
+     * @return String or null
+     */
     public static String getActionName(ClickButtonType.StandClickEnum action) {
-        switch (action) {
-            case FIND:
-                return "Szukaj";
-            case FILTRLIST:
-                return "Filtr";
-            case ADDITEM:
-                return "Dodanie";
-            case MODIFITEM:
-                return "Zmiana";
-            case REMOVEITEM:
-                return "Usunięcie";
-            case SHOWITEM:
-                return "Zobacz";
-        }
-        return null;
+        Map<String, String> ma = MM.getL().ActionName();
+        return ma.get(action.toString());
     }
 }

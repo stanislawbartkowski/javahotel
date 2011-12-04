@@ -66,6 +66,7 @@ public abstract class PopupTip extends Composite {
     public void setMessage(String message) {
         if (message == null) {
             this.message = null;
+            hideUp();
             return;
         }
         setMessage(new Label(message));
