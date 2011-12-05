@@ -81,11 +81,18 @@ class WebPanel implements IWebPanel {
         }
     }
 
+    public void setTitle(String newTitle) {
+        Window.setTitle(newTitle);
+    }
+
+    public void setProductName(String productName) {
+        tL.setText(productName);
+    }
+
     private enum StatusE {
 
         NORMAL, REPLYL, ERRORL
     };
-
     private StatusE sta = StatusE.NORMAL;
     private final StatusL status = new StatusL(null);
     private Widget wCenter = null;
@@ -159,9 +166,9 @@ class WebPanel implements IWebPanel {
 
     public void initStatus() {
         switch (sta) {
-        case NORMAL:
-            setStatusNormal();
-            break;
+            case NORMAL:
+                setStatusNormal();
+                break;
         }
     }
 
