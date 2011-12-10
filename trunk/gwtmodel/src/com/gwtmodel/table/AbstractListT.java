@@ -101,6 +101,11 @@ public abstract class AbstractListT {
             keys.put(k.getKey(), k.getValue());
         }
     }
+    
+    public List<IMapEntry> getEntryList() {
+        setMaps();
+        return eL;        
+    }
 
     public String getValueS(String key) {
         setMaps();
@@ -119,5 +124,15 @@ public abstract class AbstractListT {
             li.add(e.getValue());
         }
         return li;
+    }
+    
+    public List<String> getListKeys() {
+        setMaps();
+        List<String> li = new ArrayList<String>();
+        for (IMapEntry e : eL) {
+            li.add(e.getKey());
+        }
+        return li;
+        
     }
 }
