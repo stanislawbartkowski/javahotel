@@ -17,12 +17,16 @@ import java.util.Map.Entry;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.javahotel.client.M;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
@@ -38,7 +42,7 @@ class DrawAfterSelect {
     private final MapStringField mapS;
     private final Map<IField, String> bList;
     private final IDataType dType;
-
+    
     void copyFields(AbstractTo cust) {
         FormLineContainer formL = SlU.getFormLineContainer(iViewType, iView);
 
@@ -46,9 +50,7 @@ class DrawAfterSelect {
             Object o = cust.getF(e.getKey());
             IVField fie = mapS.get(e.getValue());
             IFormLineView view = formL.findLineView(fie);
-            if (view == null) {
-                int i = 0;
-            }
+            assert view != null : LogT.getT().cannotBeNull();
             view.setValObj(o);
         }
     }
