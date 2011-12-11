@@ -27,6 +27,7 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotListener;
@@ -78,7 +79,7 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
         IsServiceBooking iService;
 
         Synch() {
-            super(5);
+            super(6);
         }
 
         @Override
@@ -96,6 +97,7 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
         if (o != null) { return; }
         IFormLineView vie = SlU.getVWidget(dType, this, v);
         vie.setValObj(DateUtil.getToday());
+        pa.setF(v, DateUtil.getToday());
     }
     
     private void drawDefault() {
@@ -171,7 +173,22 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
             return iLines.getSlContainer().call(slC);
         }
     }
+    
+    private class AfterDisplayed implements ISlotListener {
+        
+        private final Synch sy;
+        
+        AfterDisplayed(Synch sy) {
+            this.sy = sy;
+        }
 
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            sy.signalDone();
+        }
+        
+    }
+    
 
     public MakeOutInvoiceControler(ICallContext iContext, IDataType subType) {
         this.dType = iContext.getDType();
@@ -240,7 +257,7 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
 
         registerCaller(subType, GetActionEnum.GetViewModelEdited, new SetGetter());
         registerCaller(subType, GetActionEnum.GetModelToPersist, new SetGetter());
-
+        registerSubscriber(dType,DataActionEnum.AfterDrawViewFormAction,new AfterDisplayed(sy));
     }
 
     @Override
