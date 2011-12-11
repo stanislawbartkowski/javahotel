@@ -15,7 +15,6 @@ package com.gwtmodel.table.mapxml;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author hotel
@@ -23,25 +22,29 @@ import java.util.Map;
  */
 public class DataMapList {
     
-    private Map<String, Object> dFields;
-    private List<Map<String, Object>> dLines;
+    @SuppressWarnings("serial")
+    public static class DContainer extends HashMap<String, Object> {        
+    }
+    
+    private DContainer dFields;
+    private List<DContainer> dLines;
     
     public DataMapList() {
-        dFields = new HashMap<String,Object>();
-        dLines = new ArrayList<Map<String,Object>>();        
+        dFields = new DContainer();
+        dLines = new ArrayList<DContainer>();        
     }
 
     /**
      * @return the dFields
      */
-    public Map<String, Object> getdFields() {
+    public DContainer getdFields() {
         return dFields;
     }
 
     /**
      * @return the dLines
      */
-    public List<Map<String, Object>> getdLines() {
+    public List<DContainer> getdLines() {
         return dLines;
     }
     
