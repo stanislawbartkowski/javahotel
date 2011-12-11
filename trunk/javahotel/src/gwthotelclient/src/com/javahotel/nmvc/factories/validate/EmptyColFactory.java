@@ -21,6 +21,7 @@ import com.gwtmodel.table.login.LoginField;
 import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
+import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
@@ -111,6 +112,9 @@ class EmptyColFactory {
                 li.add(new LoginField(LoginField.F.PASSWORD));
                 li.add(new LoginField(LoginField.F.REPASSWORD));
             }
+            return li;
+        }
+        if (dt.isDictType(DictType.InvoiceList)) {
             return li;
         }
         IField[] ft = getEmptyField(dt);

@@ -18,6 +18,7 @@ import com.gwtmodel.table.factories.IFormDefFactory;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.IAbstractType;
+import com.javahotel.client.abstractto.IInvoicePListOfVFields;
 import com.javahotel.client.calculateprice.IPaymentData;
 import com.javahotel.client.gename.IGetFieldName;
 import com.javahotel.client.start.IWebEntry;
@@ -54,7 +55,9 @@ public interface HotelInjector extends Ginjector {
     IHotelPersistFactory getHotelPersistFactory();
 
     IPaymentData getPaymentData();
-    
+
     IFormDefFactory getFormDefFactory();
+
+    IInvoicePListOfVFields getIInvoicePListOfVFields();
 
 }

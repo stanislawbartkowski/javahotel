@@ -18,6 +18,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.factories.IDataFormConstructor;
@@ -59,7 +60,8 @@ public class SeasonForm implements IDataFormConstructor {
     }
 
     @Override
-    public Widget construct(ICallContext iContext, FormLineContainer model) {
+    public void construct(ISetGWidget iSet, ICallContext iContext,
+            FormLineContainer model) {
         Widget w = CreateFormView.construct(model.getfList());
         VerticalPanel v = new VerticalPanel();
         ControlButtonDesc b = new ControlButtonDesc(M.L().ShowSeasons(),
@@ -70,7 +72,6 @@ public class SeasonForm implements IDataFormConstructor {
         IContrButtonView bv = bFactory.getView(lo, new ButtList(iContext));
         v.add(w);
         v.add(bv.getGWidget());
-
-        return v;
+        iSet.setW(new GWidget(w));
     }
 }

@@ -81,6 +81,8 @@ class ColListFactory {
                 return "Rezerwacje";
             case IssuerInvoiceList:
                 return "Dane do wystawienia faktury";
+            case InvoiceList:
+                return "Lista faktur";
             default:
                 assert false : M.M().NotSupportedError(d.getdType().name());
             }
@@ -122,8 +124,7 @@ class ColListFactory {
                         false, AdvancePayment.CHOOSE_STRING, false);
 
                 fList = new IField[] { BookingP.F.dateOp,
-                        BookingP.F.validationAmount,
-                        BookingP.F.validationDate };
+                        BookingP.F.validationAmount, BookingP.F.validationDate };
 
                 // IGetFieldName i = HInjector.getI().getGetFieldName();
                 // String na = i.getName(DownPaymentP.F.sumPayment);
@@ -176,7 +177,9 @@ class ColListFactory {
             case IssuerInvoiceList:
                 fList = new IField[] { InvoiceIssuerP.F.bankAccount };
                 break;
-
+            case InvoiceList:
+                fList = new IField[] {};
+                break;
             default:
                 assert false : M.M().NotSupportedError(d.getdType().name());
                 break;

@@ -12,35 +12,33 @@
  */
 package com.javahotel.nmvc.factories.bookingpanel.invoice;
 
-import com.gwtmodel.table.VModelData;
-import com.gwtmodel.table.persist.IVModelDataEquable;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 
 /**
  * @author hotel
  *
  */
-class InvoiceLineAbstractTo extends VModelData implements IVModelDataEquable {
-
-    private boolean check;
+class PersistInvoice extends AbstractSlotContainer {
     
-    /**
-     * @return the check
-     */
-    public boolean isCheck() {
-        return check;
+    PersistInvoice(IDataType dType) {
+        this.dType = dType;
+        getSlContainer().registerSubscriber(dType,
+                DataActionEnum.PersistDataAction, new Persist());
     }
+    
+    private class Persist implements ISlotListener {
 
-    /**
-     * @param check the check to set
-     */
-    public void setCheck(boolean check) {
-        this.check = check;
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            
+        }
+        
     }
-
-    @Override
-    public boolean eq(IVModelDataEquable o) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    
+    
 
 }

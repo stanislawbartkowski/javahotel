@@ -20,7 +20,6 @@ import java.util.Map.Entry;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.datamodelview.SignalChangeMode;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
 import com.gwtmodel.table.editc.IChangeObject;
@@ -32,6 +31,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.common.toobject.IField;
 import com.javahotel.nmvc.factories.booking.util.ReceiveChange;
 
@@ -45,10 +45,9 @@ class BuyerWidget extends AbstractSlotContainer {
     private final EditChooseRecordFactory ecFactory;
     private final Map<IField, String> bList;
     private final MapStringField mapS;
-    private final IDataViewModel iView;
+    private final ISlotable iView;
     private final IDataType iViewType;
     private final DrawAfterSelect aSelect;
-
 
     private class ChangeModeAfterSelect implements ISlotListener {
 
@@ -68,7 +67,7 @@ class BuyerWidget extends AbstractSlotContainer {
     }
 
     BuyerWidget(IDataType dType, Map<IField, String> bList,
-            MapStringField mapS, IDataViewModel iView, IDataType iViewType) {
+            MapStringField mapS, ISlotable iView, IDataType iViewType) {
         aSelect = new DrawAfterSelect(dType, bList, mapS, iView, iViewType);
         this.dType = dType;
         this.bList = bList;
@@ -97,5 +96,14 @@ class BuyerWidget extends AbstractSlotContainer {
     public void startPublish(CellId cellId) {
         cContainer.startPublish(cellId);
     }
+
+    /**
+     * @return the aSelect
+     */
+    DrawAfterSelect getaSelect() {
+        return aSelect;
+    }
+    
+    
 
 }

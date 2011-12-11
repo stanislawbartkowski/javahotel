@@ -39,7 +39,6 @@ abstract class MapStringField {
 
     MapStringField() {
         factoryType = HInjector.getI().getAbstractType();
-
     }
 
     void createMap(List<String> fList) {

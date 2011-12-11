@@ -24,13 +24,19 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCustom;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.ValidateUtil;
+import com.javahotel.client.abstractto.IAbstractFactory;
+import com.javahotel.client.abstractto.InvoicePVData;
+import com.javahotel.client.injector.HInjector;
+import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.PersistType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
@@ -44,6 +50,28 @@ public class DataUtil {
     public static ISlotCustom constructValidateAgain(IDataType dType) {
         return new CustomStringDataTypeSlot("HOTEL-VALIDATE-AGAIN", dType);
     }
+    
+    public static IVModelData construct(IDataType dType) {
+        DataType daType = (DataType) dType;
+        if (daType.isAllPersons()) {
+            return new LoginData();
+        }
+        if (daType.isDictType(DictType.InvoiceList)) {
+            return new InvoicePVData();
+        }
+        IAbstractFactory i = HInjector.getI().getAbstractFactory();
+        AbstractTo a = i.construct(daType);
+        if (daType.isAddType()) {
+            switch (daType.getAddType()) {
+            case BookRoom:
+            case BookNoRoom:
+            case Payment:
+                return VModelDataFactory.constructLp(a);
+            }
+        }
+        return VModelDataFactory.construct(a);
+    }
+
 
     public static IDataListType construct(List<? extends AbstractTo> dList) {
         List<IVModelData> dvList = new ArrayList<IVModelData>();
@@ -104,6 +132,12 @@ public class DataUtil {
 
     public static <T extends AbstractTo> T getData(ISlotSignalContext slContext) {
         return getData(slContext.getVData());
+    }
+
+    public static <T extends AbstractTo> T getData(IDataType dType,
+            ISlotable iSlo, GetActionEnum e) {
+        IVModelData v = iSlo.getSlContainer().getGetterIVModelData(dType, e);
+        return getData(v);
     }
 
     public static <T extends AbstractTo> T getData(IVModelData mData) {

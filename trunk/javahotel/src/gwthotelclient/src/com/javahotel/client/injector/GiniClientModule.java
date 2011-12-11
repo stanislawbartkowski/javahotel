@@ -21,6 +21,7 @@ import com.gwtmodel.table.injector.TablesFactoriesContainerProvider;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.IAbstractType;
+import com.javahotel.client.abstractto.IInvoicePListOfVFields;
 import com.javahotel.client.abstractto.impl.AbstractToFactory;
 import com.javahotel.client.abstractto.impl.TypeToFactory;
 import com.javahotel.client.calculateprice.IPaymentData;
@@ -37,6 +38,7 @@ import com.javahotel.client.start.panel.IPanelCommandFactory;
 import com.javahotel.nmvc.ewidget.EWidgetFactory;
 import com.javahotel.nmvc.factories.RecordFormDefFactory;
 import com.javahotel.nmvc.factories.RegisterFactories;
+import com.javahotel.nmvc.factories.bookingpanel.invoice.InvoicePGetListOfFields;
 import com.javahotel.nmvc.factories.persist.dict.HotelPersistFactory;
 import com.javahotel.nmvc.factories.persist.dict.IHotelPersistFactory;
 import com.javahotel.nmvc.panel.PanelCommandFactory;
@@ -60,5 +62,6 @@ public class GiniClientModule extends AbstractGinModule {
         bind(IHotelPersistFactory.class).to(HotelPersistFactory.class);
         bind(IPaymentData.class).to(PaymentData.class);
         bind(IFormDefFactory.class).to(RecordFormDefFactory.class).in(Singleton.class);
+        bind(IInvoicePListOfVFields.class).to(InvoicePGetListOfFields.class).in(Singleton.class);
     }
 }

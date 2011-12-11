@@ -24,12 +24,25 @@ public class DataType implements IDataType {
     private final DictType dType;
     private final RType rType;
     private final AddType aType;
+    private final String param;
 
-    public DataType(DictType dType) {
+    public DataType(DictType dType, String param) {
         this.dType = dType;
         dSub = null;
         rType = null;
         aType = null;
+        this.param = param;
+    }
+
+    /**
+     * @return the param
+     */
+    public String getParam() {
+        return param;
+    }
+
+    public DataType(DictType dType) {
+        this(dType, (String) null);
     }
 
     public DataType(DictType dType, DataTypeSubEnum dSub) {
@@ -37,6 +50,7 @@ public class DataType implements IDataType {
         this.dSub = dSub;
         rType = null;
         aType = null;
+        this.param = null;
     }
 
     public DataType(RType rType) {
@@ -44,6 +58,7 @@ public class DataType implements IDataType {
         dSub = null;
         this.rType = rType;
         aType = null;
+        this.param = null;
     }
 
     public DataType(AddType aType) {
@@ -51,6 +66,7 @@ public class DataType implements IDataType {
         dSub = null;
         this.rType = null;
         this.aType = aType;
+        this.param = null;
     }
 
     public DictType getdType() {
@@ -59,6 +75,13 @@ public class DataType implements IDataType {
 
     public boolean isDictType() {
         return dType != null;
+    }
+
+    public boolean isDictType(DictType d) {
+        if (!isDictType()) {
+            return false;
+        }
+        return dType == d;
     }
 
     public boolean isAddType() {

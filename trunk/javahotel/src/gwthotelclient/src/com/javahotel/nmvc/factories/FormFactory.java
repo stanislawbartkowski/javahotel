@@ -16,6 +16,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.injector.ICallContext;
 import com.javahotel.client.types.DataType;
+import com.javahotel.nmvc.factories.bookingpanel.invoice.InvoiceForm;
 import com.javahotel.nmvc.factories.customer.CustomerForm;
 import com.javahotel.nmvc.factories.season.SeasonForm;
 
@@ -34,7 +35,9 @@ public class FormFactory implements IDataFormConstructorAbstractFactory {
                 case OffSeasonDict:
                     return new IDataFormConstructorAbstractFactory.CType(
                             new SeasonForm());
-
+                case InvoiceList:
+                    return new IDataFormConstructorAbstractFactory.CType(
+                            new InvoiceForm());
                 }
             }
         }

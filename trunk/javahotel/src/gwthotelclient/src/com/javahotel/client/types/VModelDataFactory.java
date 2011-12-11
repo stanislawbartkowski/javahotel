@@ -34,10 +34,4 @@ public class VModelDataFactory {
         return new VModelDataLp(a);
     }
 
-    public static HModelData construct(final DataType da) {
-        IAbstractFactory aFactory = HInjector.getI().getAbstractFactory();
-        return construct(aFactory.construct(da));
-
-    }
-
 }

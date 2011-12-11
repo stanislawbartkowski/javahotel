@@ -12,12 +12,9 @@
  */
 package com.javahotel.client.types;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.gwtmodel.table.AVModelData;
-import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.IField;
@@ -52,19 +49,7 @@ class AModelData extends AVModelData implements HModelData {
 
     @Override
     public List<IVField> getF() {
-        List<IVField> eList = new ArrayList<IVField>();
-        for (int i = 0; i < a.getT().length; i++) {
-            IField fie = a.getT()[i];
-            Class<?> c = a.getT(fie);
-            FieldDataType t;
-            if (c == Date.class) {
-                t = FieldDataType.constructDate();
-            } else {
-                t = FieldDataType.constructString();
-            }
-            eList.add(new VField(fie, t));
-        }
-        return eList;
+        return CreateList.getF(a);
     }
 
     @Override

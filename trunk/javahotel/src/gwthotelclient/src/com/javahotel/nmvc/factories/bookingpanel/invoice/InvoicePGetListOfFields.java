@@ -12,35 +12,29 @@
  */
 package com.javahotel.nmvc.factories.bookingpanel.invoice;
 
-import com.gwtmodel.table.VModelData;
-import com.gwtmodel.table.persist.IVModelDataEquable;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gwtmodel.table.AbstractListT;
+import com.gwtmodel.table.IMapEntry;
+import com.gwtmodel.table.IVField;
+import com.javahotel.client.abstractto.IInvoicePListOfVFields;
 
 /**
  * @author hotel
- *
+ * 
  */
-class InvoiceLineAbstractTo extends VModelData implements IVModelDataEquable {
-
-    private boolean check;
-    
-    /**
-     * @return the check
-     */
-    public boolean isCheck() {
-        return check;
-    }
-
-    /**
-     * @param check the check to set
-     */
-    public void setCheck(boolean check) {
-        this.check = check;
-    }
+public class InvoicePGetListOfFields implements IInvoicePListOfVFields {
 
     @Override
-    public boolean eq(IVModelDataEquable o) {
-        // TODO Auto-generated method stub
-        return false;
+    public List<IVField> getListOfFields() {
+        List<IVField> li = new ArrayList<IVField>();
+        AbstractListT aI = MapInvoiceP.getM();
+        for (IMapEntry en : aI.getEntryList()) {
+            IVField v = MapFields.mapS.get(en.getKey());
+            li.add(v);
+        }
+        return li;
     }
 
 }

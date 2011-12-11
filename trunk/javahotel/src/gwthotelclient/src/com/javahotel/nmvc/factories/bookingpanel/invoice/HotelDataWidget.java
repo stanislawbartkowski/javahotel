@@ -13,25 +13,16 @@
 package com.javahotel.nmvc.factories.bookingpanel.invoice;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
 import com.gwtmodel.table.editc.IChooseRecordContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.rdef.FormLineContainer;
-import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.SlU;
-import com.javahotel.client.types.DataUtil;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.javahotel.common.toobject.IField;
-import com.javahotel.common.toobject.InvoiceIssuerP;
 
 /**
  * @author hotel
@@ -40,12 +31,12 @@ import com.javahotel.common.toobject.InvoiceIssuerP;
 class HotelDataWidget extends AbstractSlotContainer {
 
     private final IChooseRecordContainer iChooseHotelData;
-    private final EditChooseRecordFactory ecFactory;    
+    private final EditChooseRecordFactory ecFactory;
     private final DrawAfterSelect aSelect;
 
     HotelDataWidget(IDataType dType, Map<IField, String> bList,
-            MapStringField mapS,IDataViewModel iView, IDataType iViewType) {
-        aSelect = new DrawAfterSelect(dType,bList,mapS,iView,iViewType);
+            MapStringField mapS, ISlotable iView, IDataType iViewType) {
+        aSelect = new DrawAfterSelect(dType, bList, mapS, iView, iViewType);
         this.dType = dType;
         ecFactory = GwtGiniInjector.getI().getEditChooseRecordFactory();
         iChooseHotelData = ecFactory.constructChooseRecord(dType);
@@ -58,6 +49,13 @@ class HotelDataWidget extends AbstractSlotContainer {
     @Override
     public void startPublish(CellId cellId) {
         iChooseHotelData.startPublish(cellId);
+    }
+
+    /**
+     * @return the aSelect
+     */
+    DrawAfterSelect getaSelect() {
+        return aSelect;
     }
 
 }

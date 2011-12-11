@@ -48,6 +48,7 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.nmvc.factories.booking.BookingControler;
 import com.javahotel.nmvc.factories.booking.BookingCustomerContainer;
 import com.javahotel.nmvc.factories.booking.elem.BookingElemContainer;
+import com.javahotel.nmvc.factories.bookingpanel.invoice.MakeOutInvoiceControler;
 import com.javahotel.nmvc.factories.customer.CustomerAddInfo;
 import com.javahotel.nmvc.factories.hotelperson.HotelPersonRightsContainer;
 import com.javahotel.nmvc.factories.price.PriceListContainer;
@@ -174,19 +175,23 @@ class GetViewFactory implements IGetViewControllerFactory {
                 break;
             case BookingList:
                 cContainer = new BookingCustomerContainer(iContext, subType);
-//                cContainer1 = new BookingHeaderContainer(iContext, sub1Type,
-//                        reFactory);
                 cContainer1 = new BookingElemContainer(new DataType(
                         AddType.BookRoom), iContext, sub1Type, false);
-//                cContainer2 = new BookingRowDetailContainer(iContext, sub3Type);
-                cContainer3 = new BookingControler(iContext,  sub3Type );
+                // cContainer2 = new BookingRowDetailContainer(iContext,
+                // sub3Type);
+                cContainer3 = new BookingControler(iContext, sub3Type);
+                break;
+            case InvoiceList:
+                cContainer3 = new MakeOutInvoiceControler(iContext, sub3Type);
                 break;
             }
 
         }
-        if (cContainer != null) {
-            cType = new ComposeControllerType(cContainer, subType, 0, 1);
-            iCon.registerControler(cType);
+        if ((cContainer != null) || (cContainer3 != null)) {
+            if (cContainer != null) {
+                cType = new ComposeControllerType(cContainer, subType, 0, 1);
+                iCon.registerControler(cType);
+            }
             if (cContainer1 != null) {
                 cType = new ComposeControllerType(cContainer1, sub1Type, 0, 2);
                 iCon.registerControler(cType);
