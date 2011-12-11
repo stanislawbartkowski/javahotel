@@ -81,5 +81,7 @@ public enum DataActionEnum {
     /** Line clicked / IVModelData + WSIze */
     TableLineClicked,
     /** Action cell clicked. */
-    TableCellClicked
+    TableCellClicked,
+    /** After FormDialog is displayed. */
+    AfterDrawViewFormAction
 }
