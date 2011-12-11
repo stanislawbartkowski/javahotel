@@ -46,7 +46,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     protected final ITableCustomFactories tFactories;
     protected final IVField v;
     protected final AbstractListT listT;
-
+    
     AbstractField(ITableCustomFactories tFactories, IVField v) {
         this(tFactories, v, true);
     }

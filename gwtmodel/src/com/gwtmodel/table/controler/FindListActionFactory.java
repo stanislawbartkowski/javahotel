@@ -221,8 +221,7 @@ class FindListActionFactory {
             if (fa != null) {
                 publishSlo.getSlContainer().publish(publishdType, a,
                         fa.constructIOk());
-            }
-            else {
+            } else {
                 return; // do not close the dialog if empty
             }
             if (hide) {
