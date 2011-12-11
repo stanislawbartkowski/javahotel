@@ -19,7 +19,9 @@ import java.util.Set;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IDataFormConstructor;
 import com.gwtmodel.table.injector.ICallContext;
@@ -28,8 +30,8 @@ import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.view.util.CreateFormView;
 import com.gwtmodel.table.view.util.FormUtil;
 import com.javahotel.client.IResLocator;
@@ -94,7 +96,8 @@ public class CustomerForm implements IDataFormConstructor {
     }
 
     @Override
-    public Widget construct(ICallContext iContext, FormLineContainer model) {
+    public void construct(ISetGWidget iSet, ICallContext iContext,
+            FormLineContainer model) {
         Set<IVField> fi = new HashSet<IVField>();
         DataUtil.addToSet(fi, model.getfList(), DictionaryP.F.name);
         DataUtil.addToSet(fi, model.getfList(), DictionaryP.F.description);
@@ -140,7 +143,6 @@ public class CustomerForm implements IDataFormConstructor {
                 .getSlContainer()
                 .registerSubscriber(CustomerAddInfo.setTelString,
                         new GetGWT("Telefony"));
-
-        return vpm;
+        iSet.setW(new GWidget(vpm));
     }
 }

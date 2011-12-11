@@ -20,6 +20,7 @@ import com.javahotel.common.toobject.IField;
  * 
  * @author stanislawbartkowski@gmail.com
  */
+@SuppressWarnings("serial")
 public class LoginRecord extends AbstractTo {
 
     private String login;

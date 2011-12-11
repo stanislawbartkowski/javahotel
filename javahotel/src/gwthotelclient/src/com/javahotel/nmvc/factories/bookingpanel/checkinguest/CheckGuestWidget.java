@@ -314,6 +314,7 @@ class CheckGuestWidget extends AbstractSlotContainer {
         pe.setSlContainer(iList);
         this.setSlContainer(iList);
         getSlContainer().registerSubscriber(slType, new ResignSignaller());
+        
     }
 
     @Override

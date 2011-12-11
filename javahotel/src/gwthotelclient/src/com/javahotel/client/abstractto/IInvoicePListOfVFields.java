@@ -10,13 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.injector;
+package com.javahotel.client.abstractto;
 
-import com.google.gwt.core.client.GWT;
+import java.util.List;
 
-class GiniInjector {
+import com.gwtmodel.table.IVField;
 
-    @SuppressWarnings("unused")
-    private final HotelInjector injector = GWT.create(HotelInjector.class);
+/**
+ * @author hotel
+ *
+ */
+public interface IInvoicePListOfVFields {
+    
+    List<IVField> getListOfFields();
 
-  }
+}

@@ -60,6 +60,8 @@ class RecordTitleFactory implements IFormTitleFactory {
                 return "Rezerwacja";
             case IssuerInvoiceList:
                 return "Dane do faktury";
+            case InvoiceList:
+                return "Faktura";
 
             default:
                 assert false : M.M().NotSupportedError(dd.getdType().name());

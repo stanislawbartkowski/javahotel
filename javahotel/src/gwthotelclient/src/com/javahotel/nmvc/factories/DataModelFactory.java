@@ -20,31 +20,19 @@ import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.view.util.FormUtil;
 import com.javahotel.client.abstractto.IAbstractFactory;
+import com.javahotel.client.abstractto.InvoicePVData;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
+import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.VModelDataFactory;
+import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
 
 class DataModelFactory implements IDataModelFactory {
 
     @Override
     public IVModelData construct(IDataType dType) {
-        DataType daType = (DataType) dType;
-        if (daType.isAllPersons()) {
-            return new LoginData();
-        }
-        IAbstractFactory i = HInjector.getI().getAbstractFactory();
-        AbstractTo a = i.construct(daType);
-        if (daType.isAddType()) {
-            switch (daType.getAddType()) {
-            case BookRoom:
-            case BookNoRoom:
-            case Payment:
-                return VModelDataFactory.constructLp(a);
-            }
-        }
-
-        return VModelDataFactory.construct(a);
+        return DataUtil.construct(dType);
     }
 
     @Override

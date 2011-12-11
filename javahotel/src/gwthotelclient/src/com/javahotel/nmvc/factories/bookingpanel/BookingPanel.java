@@ -106,7 +106,7 @@ import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.nmvc.factories.booking.util.BookingInfo;
 import com.javahotel.nmvc.factories.bookingpanel.addtobill.AddToBillDialog;
 import com.javahotel.nmvc.factories.bookingpanel.checkinguest.CheckinGuest;
-import com.javahotel.nmvc.factories.bookingpanel.invoice.MakeOutInvoice;
+import com.javahotel.nmvc.factories.bookingpanel.invoicelist.BookingInvoiceList;
 
 /**
  * @author hotel
@@ -661,28 +661,20 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         }
 
     }
-    
-    private class MakeInvoice implements ClickHandler {
+
+
+    private class InvoiceList implements ClickHandler {
 
         private final String resName;
 
-        MakeInvoice(String resName) {
+        InvoiceList(String resName) {
             this.resName = resName;
         }
 
         @Override
         public void onClick(final ClickEvent event) {
-            BackAbstract.IRunAction<BookingP> i = new BackAbstract.IRunAction<BookingP>() {
-
-                @Override
-                public void action(BookingP t) {
-                    new MakeOutInvoice().doInvoice(t,new WSize(event.getRelativeElement()));
-                }
-
-            };
-            new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
-                    resName, i);
-
+            new BookingInvoiceList(resName, new WSize(
+                    event.getRelativeElement()));
         }
 
     }
@@ -740,8 +732,8 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
                 b = new Button("Dopisz do rachunku");
                 b.addClickHandler(new AddToBill(p.getBookName()));
                 ve.add(b);
-                b = new Button("Wystaw fakturę");
-                b.addClickHandler(new MakeInvoice(p.getBookName()));
+                b = new Button("Lista faktur do pobytu");
+                b.addClickHandler(new InvoiceList(p.getBookName()));
                 ve.add(b);
                 break;
             }

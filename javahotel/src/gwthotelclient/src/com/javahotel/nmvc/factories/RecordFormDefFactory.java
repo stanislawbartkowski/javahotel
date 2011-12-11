@@ -47,6 +47,7 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.StringP;
 import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.nmvc.ewidget.EWidgetFactory;
+import com.javahotel.nmvc.factories.bookingpanel.invoice.GetListOfFields;
 
 public class RecordFormDefFactory implements IFormDefFactory {
 
@@ -207,6 +208,9 @@ public class RecordFormDefFactory implements IFormDefFactory {
                         InvoiceIssuerP.F.townMaking,
                         InvoiceIssuerP.F.paymentDays };
                 FFactory.add(fList, fL);
+                break;
+            case InvoiceList:
+                fList = GetListOfFields.getListOfFields();
                 break;
 
             default:
