@@ -42,6 +42,7 @@
 		<class>com.javahotel.db.hotelbase.jpa.PaymentRow</class>
 		<class>com.javahotel.db.hotelbase.jpa.ParamRegistry</class>
 		<class>com.javahotel.db.hotelbase.jpa.Guest</class>
+		<class>com.javahotel.db.hotelbase.jpa.Invoice</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
 			<property name="openjpa.MetaDataFactory" value="jpa(ClasspathScan=build;lib.jar)" />

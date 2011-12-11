@@ -42,6 +42,7 @@ public class FieldList {
     public static final String[] GuestList;
     public static final String[] AddPayList;
     public static final String[] InvoiceIssuerList;
+    public static final String[] InvoiceList;
 
     static {
         HotelList = new String[] { "name", "description", "database" };
@@ -61,15 +62,18 @@ public class FieldList {
         PriceServiceListOffer = new String[] { "highseasonprice",
                 "lowseasonprice", "highseasonweekendprice",
                 "lowseasonweekendprice" };
-        CustomerList = new String[] {"personOp", "dateOp", "name", "description", "zipCode",
-                "name1", "name2", "city", "stateUS", "country", "address1",
-                "address2", "cType", "NIP", "PESEL", "docType", "docNumber",
-                "firstName", "lastName", "pTitle", "mailAddress" };
+        CustomerList = new String[] { "personOp", "dateOp", "name",
+                "description", "zipCode", "name1", "name2", "city", "stateUS",
+                "country", "address1", "address2", "cType", "NIP", "PESEL",
+                "docType", "docNumber", "firstName", "lastName", "pTitle",
+                "mailAddress" };
         RemarkList = new String[] { "lp", "remark", "addDate" };
         PhoneList = new String[] { "phoneNumber" };
         BankList = new String[] { "accountNumber" };
-        BookingList = new String[] { "personOp", "dateOp", "name", "description", "checkIn",
-                "checkOut", "noPersons", "bookingType", "resName", "season","oPrice","customerPrice","validationAmount", "validationDate" };
+        BookingList = new String[] { "personOp", "dateOp", "name",
+                "description", "checkIn", "checkOut", "noPersons",
+                "bookingType", "resName", "season", "oPrice", "customerPrice",
+                "validationAmount", "validationDate" };
         PaymentList = new String[] { "amount", "dateOp", "payMethod",
                 "remarks", "personOp", "datePayment" };
         StateList = new String[] { "personOp", "dateOp", "remarks", "bState" };
@@ -80,9 +84,12 @@ public class FieldList {
         GuestList = new String[] { "checkIn", "checkOut" };
         AddPayList = new String[] { "lp", "payDate", "offerPrice",
                 "customerPrice", "personOp", "dateOp", "remarks", "noSe",
-                "customerSum"};
+                "customerSum" };
         // keeps only fields additional to Customer
         InvoiceIssuerList = new String[] { "paymentDays", "townMaking",
                 "personMaking" };
+        InvoiceList = new String[] { "personOp", "dateOp", "name",
+                "description", "remarks" };
+
     }
 }

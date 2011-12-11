@@ -12,14 +12,15 @@
  */
 package com.javahotel.dbutil.prop;
 
-import com.javahotel.dbres.resources.IMess;
-import com.javahotel.dbutil.log.GetLogger;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import com.javahotel.dbres.resources.IMess;
+import com.javahotel.dbutil.log.GetLogger;
 
 /**
  * 
@@ -27,45 +28,50 @@ import java.util.logging.Level;
  */
 public class ReadProperties {
 
-	public static InputStream getInputStream(final String propName) {
-		InputStream in1 = ReadProperties.class.getClassLoader()
-				.getResourceAsStream(propName);
-		return in1;
-	}
+    public static InputStream getInputStream(final String propName) {
+        InputStream in1 = ReadProperties.class.getClassLoader()
+                .getResourceAsStream(propName);
+        return in1;
+    }
 
-	private static Map<String, String> readP2(final String propName,
-			final String preFix) throws IOException {
-		// application class loader
-		InputStream in = getInputStream(propName);
-		Properties p = new Properties();
-		p.load(in);
-		return PropertiesToMap.toM(p, preFix);
-	}
+    public static URL getResourceURL(String na) {
+        URL u = ReadProperties.class.getClassLoader().getResource(na);
+        return u;
+    }
 
-	public static Map<String, String> getProperties(final String propName,
-			final String preName, final GetLogger log) {
-		try {
-			return readP2(propName, preName);
-		} catch (IOException ex) {
-			log.getL().log(Level.SEVERE,"",ex); 
-		} catch (Exception ex) {
-			log.getL().log(Level.SEVERE,"",ex);
-		}
-		return null;
-	}
+    private static Map<String, String> readP2(final String propName,
+            final String preFix) throws IOException {
+        // application class loader
+        InputStream in = getInputStream(propName);
+        Properties p = new Properties();
+        p.load(in);
+        return PropertiesToMap.toM(p, preFix);
+    }
 
-	public static Map<String, String> getProperties(final String propName,
-			final GetLogger log) {
-		return getProperties(propName, null, log);
-	}
-	
-	public static String getResourceName(String rName) {
-		String fName = IMess.RESOURCEFOLDER + "/" + rName;
-		return fName;		
-	}
-	
-	public static Map<String, String> getRProperties(final String propName,
-			final GetLogger log) {
-		return getProperties(getResourceName(propName), null, log);
-	}
+    public static Map<String, String> getProperties(final String propName,
+            final String preName, final GetLogger log) {
+        try {
+            return readP2(propName, preName);
+        } catch (IOException ex) {
+            log.getL().log(Level.SEVERE, "", ex);
+        } catch (Exception ex) {
+            log.getL().log(Level.SEVERE, "", ex);
+        }
+        return null;
+    }
+
+    public static Map<String, String> getProperties(final String propName,
+            final GetLogger log) {
+        return getProperties(propName, null, log);
+    }
+
+    public static String getResourceName(String rName) {
+        String fName = IMess.RESOURCEFOLDER + "/" + rName;
+        return fName;
+    }
+
+    public static Map<String, String> getRProperties(final String propName,
+            final GetLogger log) {
+        return getProperties(getResourceName(propName), null, log);
+    }
 }

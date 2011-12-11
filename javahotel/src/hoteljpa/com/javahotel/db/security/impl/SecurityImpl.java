@@ -37,7 +37,7 @@ import com.javahotel.dbres.resources.GetProp;
 import com.javahotel.dbres.resources.IMess;
 import com.javahotel.dbutil.container.ContainerInfo;
 import com.javahotel.dbutil.log.GetLogger;
-import com.javahotel.dbutil.prop.GetPropertiesFactoryI;
+import com.javahotel.dbutil.prop.IGetPropertiesFactory;
 import com.javahotel.remoteinterfaces.HotelServerType;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.ISecurity;
@@ -141,7 +141,7 @@ public class SecurityImpl implements ISecurity, ISecurityLocal {
         HLog.getLo().info(logs);
         JpaManagerData.clearAll();
         HotelStore.invalidateCache();
-        GetPropertiesFactoryI pa = new GetPropertiesFactoryI() {
+        IGetPropertiesFactory pa = new IGetPropertiesFactory() {
 
             @Override
             public Map<String, String> getPersistProperties(GetLogger log) {

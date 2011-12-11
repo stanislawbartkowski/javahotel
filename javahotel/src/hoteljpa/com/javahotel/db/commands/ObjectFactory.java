@@ -21,6 +21,7 @@ import com.javahotel.db.authentication.jpa.Hotel;
 import com.javahotel.db.authentication.jpa.Person;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.Customer;
+import com.javahotel.db.hotelbase.jpa.Invoice;
 import com.javahotel.db.hotelbase.jpa.InvoiceIssuer;
 import com.javahotel.db.hotelbase.jpa.OfferPrice;
 import com.javahotel.db.hotelbase.jpa.OfferSeason;
@@ -86,7 +87,10 @@ class ObjectFactory {
             return PaymentRow.class;
         case IssuerInvoiceList:
             return InvoiceIssuer.class;
+        case InvoiceList:
+            return Invoice.class;
         }
+            
         return null;
     }
 

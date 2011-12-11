@@ -13,7 +13,7 @@
 package com.javahotel.dbjpa.ejb3;
 
 import com.javahotel.dbutil.log.GetLogger;
-import com.javahotel.dbutil.prop.GetPropertiesFactoryI;
+import com.javahotel.dbutil.prop.IGetPropertiesFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ import java.util.Map;
  */
 class CommonData {
 
-	private static GetPropertiesFactoryI getPropFactory;
+	private static IGetPropertiesFactory getPropFactory;
 	private static GetLogger log;
 	private static String puname;
 	private static final Map<String, String> dM;
@@ -45,11 +45,11 @@ class CommonData {
 		puname = aPuname;
 	}
 
-	static GetPropertiesFactoryI getGetPropFactory() {
+	static IGetPropertiesFactory getGetPropFactory() {
 		return getPropFactory;
 	}
 
-	static void setGetPropFactory(final GetPropertiesFactoryI aGetPropFactory) {
+	static void setGetPropFactory(final IGetPropertiesFactory aGetPropFactory) {
 		getPropFactory = aGetPropFactory;
 	}
 

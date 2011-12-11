@@ -10,21 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.javahotel.db.util;
 
-package com.javahotel.db.hotelbase.jpa;
+import com.gwtmodel.mapxml.SimpleXMLTypeFactory;
 
-import javax.persistence.Entity;
-
-import com.javahotel.db.hotelbase.types.IHotelDictionary;
- 
 /**
+ * @author hotel
  *
- * @author stanislawbartkowski@gmail.com
  */
-
-@Entity
-@KeyObject(keyField="hotelId",objectField="hotel")
-public class ParamRegistry extends AbstractDictionary implements IHotelDictionary {
+class InvoiceXMLMapFactory extends SimpleXMLTypeFactory {
     
 
 }

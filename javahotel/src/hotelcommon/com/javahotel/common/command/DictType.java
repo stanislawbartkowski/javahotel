@@ -18,5 +18,30 @@ package com.javahotel.common.command;
  */
 public enum DictType {
 
-    RoomStandard, RoomFacility, RoomObjects, VatDict, ServiceDict, OffSeasonDict, PriceListDict, CustomerList, BookingList, RegistryParam, PaymentRowList, IssuerInvoiceList
+    /** Room standard available. */
+    RoomStandard,
+    /** Additional room equipment/facility. */
+    RoomFacility,
+    /** Room, object to book. */
+    RoomObjects,
+    /** List of vat taxes available. */
+    VatDict,
+    /** List of services/offerings . */
+    ServiceDict,
+    /** List of season available. */
+    OffSeasonDict,
+    /** List of prices: services/seasons/standard. */
+    PriceListDict,
+    /** List of customers. */
+    CustomerList,
+    /** List of bookings and stays. */
+    BookingList,
+    /** Registry of auxiliary data. */
+    RegistryParam,
+    /** List of additional payments. */
+    PaymentRowList,
+    /** Data for invoice, */
+    IssuerInvoiceList,
+    /** List of all invoices. */
+    InvoiceList
 }

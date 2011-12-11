@@ -25,59 +25,74 @@ import com.javahotel.dbutil.prop.ReadProperties;
  */
 public class GetProp {
 
-	static final private String CONF = IMess.RESOURCEFOLDER
-			+ "/config.properties";
-	private static final Map<String, String> confP;
-	private static final String seID;
-	private static final String ROOTTAGNAME = "RootTagName";
+    static final private String CONF = IMess.RESOURCEFOLDER
+            + "/config.properties";
+    private static final Map<String, String> confP;
+    private static final String seID;
+    private static final String ROOTTAGNAME = "RootTagName";
 
-	static {
-		confP = ReadProperties.getProperties(CONF, HLog.getL());
-//		String na = confP.get(IMess.PUPREFIX);
-//		JpaManagerData.setPuName(na);
-//		JpaManagerData.setLog(HLog.getL());
-		seID = confP.get(IMess.DATABASESECURITYID);
-//		JpaManagerData.setDataBaseMapping(getSeID(), IMess.PUSECURITY);
-	}
+    static {
+        confP = ReadProperties.getProperties(CONF, HLog.getL());
+        // String na = confP.get(IMess.PUPREFIX);
+        // JpaManagerData.setPuName(na);
+        // JpaManagerData.setLog(HLog.getL());
+        seID = confP.get(IMess.DATABASESECURITYID);
+        // JpaManagerData.setDataBaseMapping(getSeID(), IMess.PUSECURITY);
+    }
 
-	public static Map<String, String> getConfP() {
-		return confP;
-	}
+    public static Map<String, String> getConfP() {
+        return confP;
+    }
 
-	public static String getSeID() {
-		return seID;
-	}
+    public static String getSeID() {
+        return seID;
+    }
 
-	private GetProp() {
-	}
+    private GetProp() {
+    }
 
-	public static void setNewProp(final Map<String, String> p) {
-		for (final String s : p.keySet()) {
-			String val = p.get(s);
-			confP.put(s, val);
-		}
-	}
+    public static void setNewProp(final Map<String, String> p) {
+        for (final String s : p.keySet()) {
+            String val = p.get(s);
+            confP.put(s, val);
+        }
+    }
 
-	public static String getProp(final String prop) {
-		String val = confP.get(prop);
-		return val;
-	}
+    public static String getProp(final String prop) {
+        String val = confP.get(prop);
+        return val;
+    }
 
-	public static String getRootTagName(final String prop) {
-		String val = confP.get(prop);
-		String forma = confP.get(ROOTTAGNAME);
-		return MessageFormat.format(forma, new Object[] { val });
-	}
-	
-	public static String getResourceName(String name) {
-        String fName = IMess.RESOURCEFOLDER + "/" + name;
-        return fName;	    
-	}
+    public static String getRootTagName(final String prop) {
+        String val = confP.get(prop);
+        String forma = confP.get(ROOTTAGNAME);
+        return MessageFormat.format(forma, new Object[] { val });
+    }
 
-	public static InputStream getXMLFile(final String prop) {
-		String xmlname = confP.get(prop);
-		String fName = getResourceName(xmlname);
-		InputStream i = ReadProperties.getInputStream(fName);
-		return i;
-	}
+    public static String getResourceName(String name) {
+        // String fName = IMess.RESOURCEFOLDER + "/" + name;
+        // return fName;
+        return getResourceName(IMess.RESOURCEFOLDER, name);
+    }
+
+    public static String getResourceName(String resfolder, String name) {
+        String fName = resfolder + "/" + name;
+        return fName;
+    }
+
+    public static InputStream getXMLFile(final String prop) {
+        String xmlname = confP.get(prop);
+//        String xmlname = confP.get(prop);
+//        String fName = getResourceName(xmlname);
+//        InputStream i = ReadProperties.getInputStream(fName);
+//        return i;
+        return getXMLFile(IMess.RESOURCEFOLDER,xmlname);
+    }
+    
+    public static InputStream getXMLFile(String resFolder,final String xmlname) {
+        String fName = getResourceName(resFolder,xmlname);
+        InputStream i = ReadProperties.getInputStream(fName);
+        return i;
+    }
+
 }
