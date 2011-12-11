@@ -18,14 +18,9 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.google.appengine.api.datastore.Key;
-import com.javahotel.db.jtypes.HId;
 import com.javahotel.db.jtypes.IId;
 
 /**
@@ -33,22 +28,7 @@ import com.javahotel.db.jtypes.IId;
  * @author stanislawbartkowski@gmail.com
  */
 @Entity
-public class PaymentRow implements IId {
-
-    // =====================
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Key id;
-
-    public HId getId() {
-        return new HId(id);
-    }
-
-    public void setId(HId id) {
-        this.id = id.getId();
-    }
-
-    // =====================
+public class PaymentRow extends AbstractIId implements IId {
 
     @Basic(optional = false)
     private Long lrowFrom;

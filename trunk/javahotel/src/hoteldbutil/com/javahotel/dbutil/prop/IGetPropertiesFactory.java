@@ -10,21 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.javahotel.dbutil.prop;
 
-package com.javahotel.db.hotelbase.jpa;
+import com.javahotel.dbutil.log.GetLogger;
 
-import javax.persistence.Entity;
+import java.util.Map;
 
-import com.javahotel.db.hotelbase.types.IHotelDictionary;
- 
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
+public interface IGetPropertiesFactory {
 
-@Entity
-@KeyObject(keyField="hotelId",objectField="hotel")
-public class ParamRegistry extends AbstractDictionary implements IHotelDictionary {
-    
-
+    Map<String, String> getPersistProperties(GetLogger log);
 }

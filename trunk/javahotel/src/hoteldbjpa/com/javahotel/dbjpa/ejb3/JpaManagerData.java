@@ -15,7 +15,7 @@ package com.javahotel.dbjpa.ejb3;
 import java.util.List;
 
 import com.javahotel.dbutil.log.GetLogger;
-import com.javahotel.dbutil.prop.GetPropertiesFactoryI;
+import com.javahotel.dbutil.prop.IGetPropertiesFactory;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class JpaManagerData {
         CreateNamedManager.closeAll();
     }
 
-    public static void setGetPropFactory(GetPropertiesFactoryI aGetPropFactory, boolean EMFPermanent) {
+    public static void setGetPropFactory(IGetPropertiesFactory aGetPropFactory, boolean EMFPermanent) {
         CommonData.setGetPropFactory(aGetPropFactory);
         CreateNamedManager.setEMFPermanent(EMFPermanent);
     }

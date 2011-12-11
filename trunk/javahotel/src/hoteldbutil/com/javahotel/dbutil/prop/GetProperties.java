@@ -38,7 +38,7 @@ public class GetProperties {
         this.EMBPROPNAME = eN;
     }
 
-    class ReadTestFilePers implements GetPropertiesFactoryI {
+    class ReadTestFilePers implements IGetPropertiesFactory {
 
         private final String propFile;
 
@@ -63,7 +63,7 @@ public class GetProperties {
         }
     }
 
-    class ReadTestPers implements GetPropertiesFactoryI {
+    class ReadTestPers implements IGetPropertiesFactory {
 
         public Map<String, String> getPersistProperties(GetLogger log) {
             String pName = "META-INF/" + EMBPROPNAME + ".properties";
@@ -72,7 +72,7 @@ public class GetProperties {
         }
     }
 
-    public GetPropertiesFactoryI getPropFactory(GetLogger log) throws Exception {
+    public IGetPropertiesFactory getPropFactory(GetLogger log) throws Exception {
 
         boolean embedded = GetParam.getContextBoolean(LOCALPROP, false, true);
         if (embedded) {

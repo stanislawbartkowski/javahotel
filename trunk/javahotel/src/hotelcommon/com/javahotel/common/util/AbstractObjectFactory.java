@@ -17,6 +17,8 @@ import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
+import com.javahotel.common.toobject.InvoiceIssuerP;
+import com.javahotel.common.toobject.InvoiceP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.PaymentRowP;
@@ -24,7 +26,6 @@ import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
-import com.javahotel.common.toobject.InvoiceIssuerP;
 
 /**
  * Factory of dictionary objects
@@ -64,6 +65,8 @@ public class AbstractObjectFactory {
                 return new PaymentRowP();
             case IssuerInvoiceList:
                 return new InvoiceIssuerP();
+            case InvoiceList:
+                return new InvoiceP();
 
         }
         return null;

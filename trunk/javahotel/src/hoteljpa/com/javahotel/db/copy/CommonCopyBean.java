@@ -25,6 +25,7 @@ import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.InvoiceIssuerP;
+import com.javahotel.common.toobject.InvoiceP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
@@ -47,6 +48,7 @@ import com.javahotel.db.hotelbase.jpa.CustomerBankAccount;
 import com.javahotel.db.hotelbase.jpa.CustomerPhoneNumber;
 import com.javahotel.db.hotelbase.jpa.CustomerRemark;
 import com.javahotel.db.hotelbase.jpa.Guest;
+import com.javahotel.db.hotelbase.jpa.Invoice;
 import com.javahotel.db.hotelbase.jpa.InvoiceIssuer;
 import com.javahotel.db.hotelbase.jpa.OfferPrice;
 import com.javahotel.db.hotelbase.jpa.OfferSeason;
@@ -311,6 +313,13 @@ public class CommonCopyBean {
     public static void copyB(final ICommandContext iC, final Object sou,
             final Object dest) {
 
+        if (sou instanceof InvoiceP) {
+            InvoiceP sou1 = (InvoiceP) sou;
+            Invoice dest1 = (Invoice) dest;
+            CopyInvoice.copy(iC, sou1, dest1);
+            return;
+        }
+
         if (sou instanceof BookingStateP) {
             BookingStateP sou1 = (BookingStateP) sou;
             BookingState dest1 = (BookingState) dest;
@@ -390,6 +399,11 @@ public class CommonCopyBean {
         if (sou instanceof DictionaryP) {
             CopyHelper.copyDict1(iC, (DictionaryP) sou,
                     (IHotelDictionary) dest, FieldList.DictList);
+            return;
+        }
+
+        if (sou instanceof Invoice) {
+            CopyInvoice.copy(iC, (Invoice) sou, (InvoiceP) dest);
             return;
         }
 
