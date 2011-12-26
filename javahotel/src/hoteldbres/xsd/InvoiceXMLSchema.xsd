@@ -7,9 +7,13 @@
 
     <complexType name="HotelData">
     	<sequence>
+    		<element name="Symbol" type="string"></element>
+    		<element name="Name1" type="string"></element>
+    		<element name="Name2" type="string"></element>
     		<element name="Country" type="string"></element>
             <element name="City" type="string"></element>
-            <element name="Street" type="string"></element>
+            <element name="Address1" type="string"></element>
+            <element name="Address2" type="string"></element>
     		<element name="State" type="string"></element>
     		<element name="ZipCode" type="string"></element>
     	</sequence>
@@ -19,8 +23,10 @@
     	<sequence>
     		<element name="InvoiceNumber" type="string"></element>
     		<element name="InvoiceDate" type="date" nillable="true"></element>
+    		<element name="DateOfSale" type="date" nillable="true"></element>
     		<element name="TownMaking" type="string"></element>
     		<element name="PersonMaking" type="string"></element>
+    		<element name="BankAccount" type="string"></element>
     	</sequence>
     </complexType>
         
@@ -39,6 +45,7 @@
 
     <complexType name="AddressData">
     	<sequence>
+    		<element name="Symbol" type="string"></element>
     		<element name="Name1" type="string"></element>
     		<element name="Name2" type="string"></element>
     		<element name="Country" type="string"></element>
@@ -62,10 +69,11 @@
 
     <complexType name="Line">
     	<sequence>
-    		<element name="No" type="int" nillable="true"></element>
+    		<element name="No" type="long" nillable="true"></element>
     		<element name="Description" type="string"></element>
     		<element name="Quantity" type="int" nillable="true"></element>
     		<element name="Rate" type="decimal" nillable="true"></element>
+     		<element name="ServiceDate" type="date" nillable="true"></element>  		
     		<element name="Tax" type="string"></element>
     		<element name="Total" type="decimal" nillable="true"></element>
 
@@ -85,4 +93,5 @@
     		<element name="Total" type="decimal" nillable="true"></element>
     	</sequence>
     </complexType>
+
 </schema>

@@ -24,6 +24,8 @@ import com.javahotel.db.hotelbase.jpa.Booking;
 /**
  * 
  * @author stanislawbartkowski@gmail.com
+ * 
+ * (public visibility on purpose)
  */
 public class CopyGuests {
 

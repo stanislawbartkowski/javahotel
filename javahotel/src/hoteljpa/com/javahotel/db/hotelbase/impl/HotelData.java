@@ -45,7 +45,7 @@ public class HotelData implements IHotelData {
     @Override
     public List<AbstractTo> getDicList(final SessionT sessionId,
             final DictType d, final HotelT hotel) {
-        GetListCommand co = new GetListCommand(sessionId, d, hotel);
+        GetListCommand co = new GetListCommand(sessionId, d, hotel, null);
         co.run();
         return co.getCol();
     }
