@@ -21,15 +21,15 @@ import com.gwtmodel.table.common.CUtil;
 import com.javahotel.common.command.PaymentMethod;
 
 /**
- * @author hotel
- * 
+ * @author hotel Default implementation of IXMLType Factory. Can be used 'as is'
+ *         or extended
  */
 public class SimpleXMLTypeFactory implements IXMLTypeFactory {
 
     protected final SimpleDateFormat fo = new SimpleDateFormat("yyyy-MM-dd");
 
     public final static String PAYMENT = "pay";
-    
+
     protected boolean isInt(String xType) {
         return xType.equals(INT) || xType.equals(INTEGER);
     }
@@ -73,7 +73,7 @@ public class SimpleXMLTypeFactory implements IXMLTypeFactory {
         }
         if (xType.equals(PAYMENT)) {
             PaymentMethod pa = (PaymentMethod) o;
-            return pa.toString();            
+            return pa.toString();
         }
         if (xType.equals(DECIMAL)) {
             BigDecimal b = (BigDecimal) o;
@@ -99,7 +99,5 @@ public class SimpleXMLTypeFactory implements IXMLTypeFactory {
     public String getLineTag() {
         return "Line";
     }
-    
-    
 
 }

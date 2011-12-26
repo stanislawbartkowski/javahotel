@@ -59,15 +59,17 @@ public class FileUtil {
         return u;
     }
 
-    public static Schema getSchema(Class<Object> cl, String pa) throws SAXException {
+    public static Schema getSchema(Class<Object> cl, String pa)
+            throws SAXException {
         URL u = getResourceURL(cl, pa + ".xsd");
-        SchemaFactory fa = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        SchemaFactory fa = SchemaFactory
+                .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema se = fa.newSchema(u);
         return se;
     }
 
-    public static void validate(Class cl, String xmlName, String schemaName)
-            throws SAXException, IOException {
+    public static void validate(Class<Object> cl, String xmlName,
+            String schemaName) throws SAXException, IOException {
         Schema se = getSchema(cl, schemaName);
         Validator validator = se.newValidator();
         validator.validate(new StreamSource(xmlName));
