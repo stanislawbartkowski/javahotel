@@ -22,6 +22,8 @@ public interface IXMLTypeFactory {
     String DECIMAL = "decimal";
     String INT = "int";
     String INTEGER = "integer";
+    String LONG = "long";
+    
     
     String TYPE = "type";
     
