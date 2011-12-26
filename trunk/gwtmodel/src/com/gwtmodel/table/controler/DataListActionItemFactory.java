@@ -244,8 +244,6 @@ class DataListActionItemFactory {
         }
 
         private void goPersist(ISlotSignalContext slContext) {
-            // iController.getSlContainer().publish(dType, dataActionEnum,
-            // persistTypeEnum);
             SlU.publishActionPersist(dType, iController, slContext,
                     dataActionEnum, persistTypeEnum);
         }

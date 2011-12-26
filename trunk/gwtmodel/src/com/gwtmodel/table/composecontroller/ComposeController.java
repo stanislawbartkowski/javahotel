@@ -108,7 +108,7 @@ class ComposeController extends AbstractSlotMediatorContainer implements
             }
             if (dataActionEnum == DataActionEnum.DrawViewFormAction) {
                 slMediator.getSlContainer().publish(dType,
-                        DataActionEnum.AfterDrawViewFormAction);
+                        DataActionEnum.AfterDrawViewFormAction, slContext);
             }
         }
 
