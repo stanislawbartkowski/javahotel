@@ -19,7 +19,6 @@ import java.util.List;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.util.AbstractObjectFactory;
-import com.javahotel.common.util.SumUtil;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.copy.CommonCopyBean;
 import com.javahotel.db.hotelbase.jpa.Booking;
@@ -44,7 +43,8 @@ class HotelHelper {
 
     static void removeAllDic(final ICommandContext iC, final DictType d,
             final HotelT ho) {
-        List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d, true);
+        List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d, true,
+                null);
         iC.getJpa().removeList(c);
     }
 
@@ -72,7 +72,7 @@ class HotelHelper {
         }
         return dest;
     }
-    
+
     public static BigDecimal sumPayment(List<Payment> col) {
         BigDecimal sum = new BigDecimal(0);
         for (Payment pa : col) {
@@ -81,7 +81,6 @@ class HotelHelper {
         return sum;
     }
 
-    
     public static BigDecimal sumPayment(final Booking p) {
         List<Payment> col = p.getPayments();
         return sumPayment(col);

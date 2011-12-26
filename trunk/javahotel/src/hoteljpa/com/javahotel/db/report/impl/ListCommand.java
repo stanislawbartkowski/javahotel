@@ -62,7 +62,7 @@ public class ListCommand implements IList {
     private static List<AbstractTo> getDictList(final SessionT sessionId,
             final RType r, final CommandParam p) {
         DictType d = p.getDict(HLog.getILog());
-        GetListCommand com = new GetListCommand(sessionId, d, getH(p));
+        GetListCommand com = new GetListCommand(sessionId, d, getH(p), p);
         com.run();
         return com.getCol();
     }

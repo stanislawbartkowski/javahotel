@@ -10,14 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.db.util;
+package com.javahotel.common.toobject;
 
-import com.gwtmodel.mapxml.SimpleXMLTypeFactory;
+import java.util.ArrayList;
+
+import com.gwtmodel.table.mapxml.DataMapList;
 
 /**
  * @author hotel
- * 
+ *
  */
-public class InvoiceXMLMapFactory extends SimpleXMLTypeFactory {
+@SuppressWarnings("serial")
+public class DMapContainerList extends DataMapList<DContainer> {
+
+    public DMapContainerList() {
+        super(new DContainer(),new ArrayList<DContainer>());        
+    }
+    
+    @Override
+    public DContainer addToLines() {
+        DContainer d = new DContainer();
+        getdLines().add(d);
+        return d;
+    }
 
 }

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import com.javahotel.common.command.BookingEnumTypes;
+import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.util.GetMaxUtil;
@@ -49,7 +50,8 @@ public class GetQueries {
     }
 
     public static List<IId> getDList(final ICommandContext iC,
-            final Class<?> cla, final DictType d, boolean all) {
+            final Class<?> cla, final DictType d, boolean all,
+            CommandParam param) {
         List<IId> col;
         switch (d) {
         case PriceListDict:
@@ -73,6 +75,15 @@ public class GetQueries {
                 }
             }
             break;
+        case InvoiceList:
+            if (param == null || param.getBookingId() == null) {
+               col = iC.getJpa().getListQuery(cla, "hotelId",
+                      iC.getRHotel().getId().getL());
+               break;
+            }
+            col = iC.getJpa().getListQuery(cla, "hotelId",
+                    iC.getRHotel().getId().getL(), "bookingId", param.getBookingId().getId());            
+            break;            
         default:
             col = iC.getJpa().getListQuery(cla, "hotelId",
                     iC.getRHotel().getId().getL());
@@ -83,8 +94,8 @@ public class GetQueries {
     }
 
     public static List<IId> getDList(final ICommandContext iC,
-            final Class<?> cla, final DictType d) {
-        return getDList(iC, cla, d, false);
+            final Class<?> cla, final DictType d, CommandParam param) {
+        return getDList(iC, cla, d, false, param);
     }
 
     public static OfferPrice getOnePriceList(final ICommandContext iC,

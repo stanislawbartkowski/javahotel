@@ -14,6 +14,7 @@ package com.javahotel.db.commands;
 
 import java.util.List;
 
+import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.db.hotelbase.jpa.VatDictionary;
@@ -22,7 +23,6 @@ import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.dbres.resources.IMess;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
-import java.util.List;
 
 /**
  * 
@@ -30,32 +30,34 @@ import java.util.List;
  */
 public class GetListCommand extends CommandAbstract {
 
-	private final DictType d;
-	private List<AbstractTo> col;
+    private final DictType d;
+    private List<AbstractTo> col;
+    private final CommandParam para;
 
-	public GetListCommand(final SessionT se, final DictType d,
-			final HotelT hotel) {
-		super(se, false, hotel);
-		this.d = d;
-	}
+    public GetListCommand(final SessionT se, final DictType d,
+            final HotelT hotel, CommandParam para) {
+        super(se, false, hotel);
+        this.d = d;
+        this.para = para;
+    }
 
-	@Override
-	protected void command() {
-		List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d);
-		if ((d == DictType.VatDict) && (c.size() == 0)) {
-			c = readDefault(VatDictionary.class, IMess.VATDICTTAGNAME,
-					IMess.VATDICTXMLFILE);
-		}
-		col = HotelHelper.toA(iC, c, d);
-		String s = "null";
-		if (col != null) {
-			s = "" + col.size();
-		}
-		String msg = iC.logEvent(IMessId.GETLISTDICT,d.toString(),s);
-		iC.getLog().getL().info(msg);
-	}
+    @Override
+    protected void command() {
+        List<?> c = GetQueries.getDList(iC, ObjectFactory.getC(d), d, para);
+        if ((d == DictType.VatDict) && (c.size() == 0)) {
+            c = readDefault(VatDictionary.class, IMess.VATDICTTAGNAME,
+                    IMess.VATDICTXMLFILE);
+        }
+        col = HotelHelper.toA(iC, c, d);
+        String s = "null";
+        if (col != null) {
+            s = "" + col.size();
+        }
+        String msg = iC.logEvent(IMessId.GETLISTDICT, d.toString(), s);
+        iC.getLog().getL().info(msg);
+    }
 
-	public List<AbstractTo> getCol() {
-		return col;
-	}
+    public List<AbstractTo> getCol() {
+        return col;
+    }
 }

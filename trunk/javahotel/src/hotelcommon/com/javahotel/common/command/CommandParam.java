@@ -52,6 +52,7 @@ public class CommandParam implements Serializable {
     private Map<String, List<GuestP>> guests;
     private List<AddPaymentP> addpayment; // HotelOpType.PersistAddPayment
     private LId recId;
+    private LId bookingId;
     private HotelOpType oP;
     // cannot be final
     private Map<String, String> params;
@@ -261,4 +262,20 @@ public class CommandParam implements Serializable {
         }
         return h;
     }
+
+    /**
+     * @return the bookingId
+     */
+    public LId getBookingId() {
+        return bookingId;
+    }
+
+    /**
+     * @param bookingId
+     *            the bookingId to set
+     */
+    public void setBookingId(LId bookingId) {
+        this.bookingId = bookingId;
+    }
+
 }

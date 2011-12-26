@@ -22,6 +22,7 @@ import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.db.context.ICommandContext;
+import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.jpa.Customer;
 import com.javahotel.db.hotelbase.jpa.RHotel;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
@@ -47,8 +48,11 @@ public class CopyHelper {
 
     /**
      * Put current date and person data
-     * @param iC ICommendContext
-     * @param o Object to be modified
+     * 
+     * @param iC
+     *            ICommendContext
+     * @param o
+     *            Object to be modified
      */
     static public void checkPersonDateOp(final ICommandContext iC,
             final Object o) {
@@ -260,6 +264,22 @@ public class CopyHelper {
             final Object dest) {
         LId l = (LId) GetFieldHelper.getterVal(sou, "customer", iC.getLog());
         copyCustomer(iC, l, dest);
+    }
+
+    private static void copyBooking(final ICommandContext iC, final LId l,
+            final Object dest) {
+        if (l == null) {
+            iC.logFatal(IMessId.NULLCUSTOMER);
+        }
+        Booking book = iC.getJpa().getRecord(Booking.class, l);
+        GetFieldHelper.setterVal(dest, book, "booking", Booking.class,
+                iC.getLog());
+    }
+
+    static void copyBooking(final ICommandContext iC, final AbstractTo sou,
+            final Object dest) {
+        LId l = (LId) GetFieldHelper.getterVal(sou, "booking", iC.getLog());
+        copyBooking(iC, l, dest);
     }
 
     static void setPattName(final ICommandContext iC, final IDictionary dic,

@@ -34,8 +34,8 @@ public class InvoiceP extends DictionaryP {
     public final static String HOTEL_DATA_SYMBOL = "//HotelData/Symbol";
     public final static String HOTEL_NAME1 = "//HotelData/Name1";
     public final static String HOTEL_NAME2 = "//HotelData/Name2";
-    public final static String HOTEL_ADDRESS1 = "//HotelData/Street1";
-    public final static String HOTEL_ADDRESS2 = "//HotelData/Street2";
+    public final static String HOTEL_ADDRESS1 = "//HotelData/Address1";
+    public final static String HOTEL_ADDRESS2 = "//HotelData/Address2";
     public final static String HOTEL_CITY = "//HotelData/City";
     public final static String HOTEL_ZIP = "//HotelData/ZipCode";
     public final static String TOWN_MAKING = "//InvoiceData/TownMaking";
@@ -44,8 +44,8 @@ public class InvoiceP extends DictionaryP {
     public final static String BUYER_SYMBOL = "//Payer/Symbol";
     public final static String BUYER_NAME1 = "//Payer/Name1";
     public final static String BUYER_NAME2 = "//Payer/Name2";
-    public final static String BUYER_ADDRESS1 = "//Payer/Street1";
-    public final static String BUYER_ADDRESS2 = "//Payer/Street2";
+    public final static String BUYER_ADDRESS1 = "//Payer/Address1";
+    public final static String BUYER_ADDRESS2 = "//Payer/Address2";
     public final static String BUYER_CITY = "//Payer/City";
     public final static String BUYER_ZIP = "//Payer/ZipCode";
 
@@ -61,17 +61,17 @@ public class InvoiceP extends DictionaryP {
     private LId booking;
     private OperationData op;
 
-    private DataMapList invoiceD;
+    private DMapContainerList invoiceD;
 
     public InvoiceP() {
         this.op = new OperationData();
-        invoiceD = new DataMapList();
+        invoiceD = new DMapContainerList();
     }
 
     /**
      * @return the invoiceD
      */
-    public DataMapList getInvoiceD() {
+    public DataMapList<?> getInvoiceD() {
         return invoiceD;
     }
 

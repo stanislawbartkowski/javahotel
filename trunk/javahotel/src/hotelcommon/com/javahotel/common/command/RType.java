@@ -18,6 +18,18 @@ package com.javahotel.common.command;
  */
 public enum RType {
 
-    AllHotels, DataBases, AllPersons, PersonHotelRoles, ListDict,
-    ResObjectState, DownPayments, 
+    /** Get list of all hotels defined. */
+    AllHotels, 
+    /** Get list of all database defined. */
+    DataBases, 
+    /** Get list of all persons defined. */
+    AllPersons, 
+    /** Get list of all roles for person and hotel. */
+    PersonHotelRoles, 
+    /** Get list of all object if type dictionary. */
+    ListDict,
+    /** Get reservation related to one object. */
+    ResObjectState, 
+    /** Get list of all advance payments */
+    DownPayments, 
 }

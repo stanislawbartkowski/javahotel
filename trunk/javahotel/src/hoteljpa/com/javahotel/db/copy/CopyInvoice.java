@@ -15,6 +15,7 @@ package com.javahotel.db.copy;
 import com.javahotel.common.toobject.InvoiceP;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.Invoice;
+import com.javahotel.db.jtypes.ToLD;
 import com.javahotel.db.util.HotelChangeXMLToMap;
 import com.javahotel.db.util.HotelCreateXML;
 import com.javahotel.db.util.HotelVerifyXML;
@@ -29,9 +30,17 @@ import com.javahotel.dbres.resources.IMess;
 class CopyInvoice {
 
     static void copy(final ICommandContext iC, InvoiceP sou, Invoice dest) {
+        if (sou.getBooking() == null) {
+            iC.logFatal(IMessId.NULLBOOKINGINVOICE);
+        }
+        if (sou.getCustomer() == null) {
+            iC.logFatal(IMessId.NULLCUSTOMERINVOICE, sou.getBooking());
+        }
         CopyHelper.setPattName(iC, sou, IMess.INVOICEPATTID, IMess.INVOICEPATT);
         CopyHelper.copyDict1(iC, sou, dest, FieldList.InvoiceList);
         CopyHelper.checkPersonDateOp(iC, dest);
+        CopyHelper.copyCustomer(iC, sou, dest);
+        CopyHelper.copyBooking(iC, sou, dest);
         sou.getInvoiceD().getdFields()
                 .put(InvoiceP.INVOICENUMBER, sou.getName());
         String xml = HotelCreateXML.constructXMLFile(iC, IMess.INVOICEPATTERN,
@@ -41,6 +50,7 @@ class CopyInvoice {
             ok = true;
         }
         if (!ok) {
+            iC.getLog().getL().info(xml);
             String mess = iC.logEvent(IMessId.INPROPERINVOICEXML,
                     dest.getName(), IMess.INVOICEXSD);
             throw new HotelException(mess);
@@ -55,6 +65,8 @@ class CopyInvoice {
         String i = (String) dest.getInvoiceD().getdFields()
                 .get(InvoiceP.INVOICENUMBER);
         dest.setName(i);
+        dest.setCustomer(ToLD.toLId(sou.getCustomer().getId()));
+        dest.setBooking(ToLD.toLId(sou.getBooking().getId()));
     }
 
 }

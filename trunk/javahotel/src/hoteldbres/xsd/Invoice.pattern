@@ -19,8 +19,8 @@ xsi:nil="true" type="date"></DateOfSale>
   <Name2></Name2>
   <Country></Country>
   <City></City>
-  <Street1></Street1>
-  <Street2></Street2>
+  <Address1></Address1>
+  <Address2></Address2>
   <State></State>
   <ZipCode></ZipCode>  
 </HotelData>
@@ -50,7 +50,8 @@ xsi:nil="true" type="date"></DateOfSale>
 </Payer>
 
 <Payment>
-  <PaymentMethod></PaymentMethod>
+  <PaymentMethod type="pay" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></PaymentMethod>
   <DaysForPayment type="integer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:nil="true"></DaysForPayment>
   <TerminOfPayment type="date" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -60,10 +61,10 @@ xsi:nil="true" type="date"></DateOfSale>
 
 <Lines>
   <Line>
-    <No type="integer" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    <No type="long" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:nil="true"></No>
     <Description></Description>
-    <Quantity type="decimal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    <Quantity type="int" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:nil="true"></Quantity>
     <Rate type="decimal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:nil="true"></Rate>
