@@ -24,14 +24,24 @@ import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
 
 /**
- * @author hotel
- * 
+ * @author hotel Utility class for XML validation. In case of error throws
+ *         exception
  */
 public class VerifyXML {
 
     private VerifyXML() {
     }
 
+    /**
+     * 
+     * @param xsdFile
+     *            URL of xsd file (XML schema)
+     * @param sou
+     *            Source XML file (in shape of StreamSource)
+     * 
+     * @throws SAXException
+     * @throws IOException
+     */
     public static void verify(URL xsdFile, StreamSource sou)
             throws SAXException, IOException {
         SchemaFactory fa = SchemaFactory

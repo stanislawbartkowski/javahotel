@@ -42,8 +42,7 @@ import com.gwtmodel.table.mapxml.DataMapList;
 import com.gwtmodel.table.mapxml.IDataContainer;
 
 /**
- * @author hotel
- * 
+ * @author hotel Utility class - changes XML file into DataMapList map
  */
 public class ChangeXMLToMap {
 
@@ -51,22 +50,36 @@ public class ChangeXMLToMap {
 
     }
 
+    /**
+     * Implementation of SAX handler
+     * 
+     * @author hotel
+     * 
+     */
     private static class MyHandler extends DefaultHandler {
 
         private StringBuffer buf;
+        /** stack of nested XML tags. */
         private final Stack<String> st = new Stack<String>();
-        private final DataMapList d;
+        private final DataMapList<?> d;
         private final IXMLTypeFactory fa;
         private final Document pattDoc;
         private IDataContainer elem = null;
+        /** if true then 'lines' section is scanned now. */
         private boolean lines = false;
 
-        MyHandler(IXMLTypeFactory fa, DataMapList d, Document pattDoc) {
+        MyHandler(IXMLTypeFactory fa, DataMapList<?> d, Document pattDoc) {
             this.d = d;
             this.fa = fa;
             this.pattDoc = pattDoc;
         }
 
+        /**
+         * Create XPath pointer basing on current tag nesting as //root
+         * tag/tag/....
+         * 
+         * @return XPath pointer
+         */
         private String toPath() {
             String xp = "/";
             boolean first = true;
@@ -82,17 +95,25 @@ public class ChangeXMLToMap {
         @Override
         public void startElement(String uri, String localName, String qName,
                 Attributes attributes) throws SAXException {
+            // push tag to stack
             st.push(qName);
             buf = new StringBuffer();
             String tag = toPath();
             if (fa.getLinesTag().equals(tag)) {
-                lines = true;                
+                lines = true;
             }
+            // if 'lines' section and the first tag add next line
             if (lines & fa.getLineTag().equals(qName)) {
                 elem = d.addToLines();
             }
         }
 
+        /**
+         * Finds type attribute in pattern XML
+         * 
+         * @return Type string or null meaning no type is defined (default
+         *         string)
+         */
         private String getType() {
             XPathFactory xPathF = XPathFactory.newInstance();
             XPath xPath = xPathF.newXPath();
@@ -123,23 +144,21 @@ public class ChangeXMLToMap {
             String val = buf.toString().trim();
             String tag = toPath();
             if (lines && fa.getLineTag().equals(qName)) {
-//                d.getdLines().add(elem);
                 elem = null;
-            } else
-            if (lines && fa.getLinesTag().equals(tag)) {
+            } else if (lines && fa.getLinesTag().equals(tag)) {
+                // end of 'lines' section
                 lines = false;
-            } else
-            if (!CUtil.EmptyS(val)) {
+            } else if (!CUtil.EmptyS(val)) {
                 String attr = getType();
                 Object o = fa.contruct(attr, val);
                 if (lines && elem != null) {
-                    elem.put(qName,o);
-                }
-                else {
-                  d.getdFields().put(toPath(), o);
+                    elem.put(qName, o);
+                } else {
+                    d.getdFields().put(toPath(), o);
                 }
             }
             buf = new StringBuffer();
+            // delete element from tag stack
             st.pop();
         }
 
@@ -150,8 +169,26 @@ public class ChangeXMLToMap {
         }
     }
 
-    public static void constructMapFromXML(IXMLTypeFactory fa, DataMapList d,
-            String sXML, InputStream fPattern)
+    /**
+     * Only one public method, construct DataMapList map from XML file. In case
+     * of error throw exception
+     * 
+     * @param fa
+     *            IXMLTypeFactory
+     * @param d
+     *            DataMapList to be filled
+     * @param sXML
+     *            Source XML (as string)
+     * @param fPattern
+     *            InputStream with pattern XML
+     * 
+     * @throws ParserConfigurationException
+     *             Exception in case of error
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static void constructMapFromXML(IXMLTypeFactory fa,
+            DataMapList<?> d, String sXML, InputStream fPattern)
             throws ParserConfigurationException, SAXException, IOException {
 
         DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();

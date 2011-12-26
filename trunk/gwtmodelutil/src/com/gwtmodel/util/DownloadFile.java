@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author perseus
  */
+@SuppressWarnings("serial")
 public class DownloadFile extends HttpServlet {
 
     @Override
