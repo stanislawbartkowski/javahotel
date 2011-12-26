@@ -16,14 +16,15 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author hotel
- * 
+ * @author hotel Template class for keeping IDataContainer data.
  */
 @SuppressWarnings("serial")
 abstract public class DataMapList<T extends IDataContainer> implements
         Serializable {
 
+    /** Main body of data. */
     private T dFields;
+    /** List of lines in shape of IDataContainer. */
     private List<T> dLines;
 
     public DataMapList(T dFields, List<T> dLines) {
@@ -45,6 +46,11 @@ abstract public class DataMapList<T extends IDataContainer> implements
         return dLines;
     }
 
+    /**
+     * Adds next line to the dLines and returns IDataContainer just added
+     * 
+     * @return IDataContainer added
+     */
     abstract public T addToLines();
 
 }
