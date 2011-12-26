@@ -662,7 +662,6 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
     }
 
-
     private class InvoiceList implements ClickHandler {
 
         private final String resName;
@@ -673,8 +672,18 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
         @Override
         public void onClick(final ClickEvent event) {
-            new BookingInvoiceList(resName, new WSize(
-                    event.getRelativeElement()));
+
+            BackAbstract.IRunAction<BookingP> i = new BackAbstract.IRunAction<BookingP>() {
+
+                @Override
+                public void action(BookingP t) {
+                    new BookingInvoiceList(t.getId(), new WSize(
+                            event.getRelativeElement()));
+                }
+
+            };
+            new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
+                    resName, i);
         }
 
     }

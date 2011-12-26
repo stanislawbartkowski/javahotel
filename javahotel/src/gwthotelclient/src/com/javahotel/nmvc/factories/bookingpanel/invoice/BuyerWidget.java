@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.datamodelview.SignalChangeMode;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
@@ -32,7 +33,9 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.IField;
+import com.javahotel.nmvc.factories.booking.util.BookingCustInfo;
 import com.javahotel.nmvc.factories.booking.util.ReceiveChange;
 
 /**
@@ -103,7 +106,20 @@ class BuyerWidget extends AbstractSlotContainer {
     DrawAfterSelect getaSelect() {
         return aSelect;
     }
-    
-    
+
+    void setBuyer(CustomerP c) {
+        aSelect.setaObject(c);
+    }
+
+    BookingCustInfo constructC(IVModelData p) {
+        CustomerP cust;
+        if (cContainer.getNewCheck()) {
+            cust = new CustomerP();
+            aSelect.copyFields(p, cust);
+        } else {
+            cust = (CustomerP) aSelect.getaObject();
+        }
+        return new BookingCustInfo(cContainer, cust);
+    }
 
 }

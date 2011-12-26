@@ -15,6 +15,7 @@ package com.javahotel.client.injector;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtTableInjectModule;
 import com.gwtmodel.table.injector.TablesFactoriesContainerProvider;
@@ -39,6 +40,7 @@ import com.javahotel.nmvc.ewidget.EWidgetFactory;
 import com.javahotel.nmvc.factories.RecordFormDefFactory;
 import com.javahotel.nmvc.factories.RegisterFactories;
 import com.javahotel.nmvc.factories.bookingpanel.invoice.InvoicePGetListOfFields;
+import com.javahotel.nmvc.factories.persist.HotelDataPersistFactory;
 import com.javahotel.nmvc.factories.persist.dict.HotelPersistFactory;
 import com.javahotel.nmvc.factories.persist.dict.IHotelPersistFactory;
 import com.javahotel.nmvc.panel.PanelCommandFactory;
@@ -63,5 +65,6 @@ public class GiniClientModule extends AbstractGinModule {
         bind(IPaymentData.class).to(PaymentData.class);
         bind(IFormDefFactory.class).to(RecordFormDefFactory.class).in(Singleton.class);
         bind(IInvoicePListOfVFields.class).to(InvoicePGetListOfFields.class).in(Singleton.class);
+        bind(IPersistFactoryAction.class).to(HotelDataPersistFactory.class).in(Singleton.class);
     }
 }

@@ -10,26 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.client.types;
+package com.javahotel.nmvc.factories.persist.dict;
 
+import com.javahotel.client.IResLocator;
+import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.InvoiceP;
+import com.javahotel.types.LId;
 
 /**
  * @author hotel
- * 
+ *
  */
-public class VModelDataFactory {
+class PersistInvoice extends AbstractPersistWithCust {
+    
 
-    private VModelDataFactory() {
-
+    PersistInvoice(final IResLocator rI, boolean validate) {
+        super(rI,DictType.InvoiceList,validate);
     }
 
-    public static HModelData construct(AbstractTo a) {
-        return new AModelData(a);
+    @Override
+    void setCustId(AbstractTo a, LId custId) {
+        InvoiceP p = (InvoiceP) a;
+        p.setCustomer(custId);        
     }
-
-    public static VModelDataLp constructLp(AbstractTo a) {
-        return new VModelDataLp(a);
-    }
-
 }

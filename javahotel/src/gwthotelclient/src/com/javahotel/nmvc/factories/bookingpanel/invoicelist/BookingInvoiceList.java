@@ -27,6 +27,7 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.command.DictType;
+import com.javahotel.types.LId;
 
 /**
  * @author hotel
@@ -53,7 +54,7 @@ public class BookingInvoiceList {
 
     }
 
-    public BookingInvoiceList(String resName, WSize w) {
+    public BookingInvoiceList(LId resName, WSize w) {
         iType = new DataType(DictType.InvoiceList, resName);
         rI = HInjector.getI().getI();
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()

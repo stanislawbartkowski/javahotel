@@ -13,6 +13,8 @@
 package com.javahotel.nmvc.factories.bookingpanel.invoice;
 
 import com.gwtmodel.table.AbstractListT;
+import com.gwtmodel.table.IVModelData;
+import com.javahotel.client.abstractto.InvoicePVData;
 import com.javahotel.common.toobject.InvoiceP;
 
 /**
@@ -56,5 +58,5 @@ class MapFields {
         }
 
     }
-
+    
 }
