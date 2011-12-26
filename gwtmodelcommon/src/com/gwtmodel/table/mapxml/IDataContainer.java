@@ -12,39 +12,18 @@
  */
 package com.gwtmodel.table.mapxml;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author hotel
- * 
+ *
  */
-@SuppressWarnings("serial")
-abstract public class DataMapList<T extends IDataContainer> implements
-        Serializable {
+public interface IDataContainer {
+    
+    public Set<String> getKeys();
 
-    private T dFields;
-    private List<T> dLines;
+    public Object get(Object key);
 
-    public DataMapList(T dFields, List<T> dLines) {
-        this.dFields = dFields;
-        this.dLines = dLines;
-    }
-
-    /**
-     * @return the dFields
-     */
-    public T getdFields() {
-        return dFields;
-    }
-
-    /**
-     * @return the dLines
-     */
-    public List<T> getdLines() {
-        return dLines;
-    }
-
-    abstract public T addToLines();
+    public Object put(String key, Object val);
 
 }
