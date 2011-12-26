@@ -39,6 +39,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.mapxml.DataMapList;
+import com.gwtmodel.table.mapxml.IDataContainer;
 
 /**
  * @author hotel
@@ -57,7 +58,7 @@ public class ChangeXMLToMap {
         private final DataMapList d;
         private final IXMLTypeFactory fa;
         private final Document pattDoc;
-        private DataMapList.DContainer elem = null;
+        private IDataContainer elem = null;
         private boolean lines = false;
 
         MyHandler(IXMLTypeFactory fa, DataMapList d, Document pattDoc) {
@@ -88,7 +89,7 @@ public class ChangeXMLToMap {
                 lines = true;                
             }
             if (lines & fa.getLineTag().equals(qName)) {
-                elem = new DataMapList.DContainer();
+                elem = d.addToLines();
             }
         }
 
@@ -122,7 +123,7 @@ public class ChangeXMLToMap {
             String val = buf.toString().trim();
             String tag = toPath();
             if (lines && fa.getLineTag().equals(qName)) {
-                d.getdLines().add(elem);
+//                d.getdLines().add(elem);
                 elem = null;
             } else
             if (lines && fa.getLinesTag().equals(tag)) {

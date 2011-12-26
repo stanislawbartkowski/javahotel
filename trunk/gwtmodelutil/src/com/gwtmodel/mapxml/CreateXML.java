@@ -15,8 +15,6 @@ package com.gwtmodel.mapxml;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -41,6 +39,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.gwtmodel.table.mapxml.DataMapList;
+import com.gwtmodel.table.mapxml.IDataContainer;
 
 /**
  * @author hotel
@@ -81,10 +80,9 @@ public class CreateXML {
     }
 
     private static void modifyNode(IXMLTypeFactory fa, String prefix,
-            Document doc, Map<String, Object> d)
-            throws XPathExpressionException {
-        for (Entry<String, Object> e : d.entrySet()) {
-            String expression = e.getKey();
+            Document doc, IDataContainer d) throws XPathExpressionException {
+        for (String e : d.getKeys()) {
+            String expression = e;
             String ee;
             if (prefix != null) {
                 ee = prefix + expression;
@@ -109,7 +107,7 @@ public class CreateXML {
                     n.getAttributes().removeNamedItem("xsi:nil");
                 }
             }
-            n.setTextContent(fa.toS(attr, e.getValue()));
+            n.setTextContent(fa.toS(attr, d.get(e)));
         }
 
     }
@@ -138,7 +136,7 @@ public class CreateXML {
                 n.appendChild(newChild);
                 String prefix = fa.getLinesTag() + "/" + fa.getLineTag() + "["
                         + (i + 1) + "]/";
-                modifyNode(fa, prefix, doc, d.getdLines().get(i));
+                modifyNode(fa, prefix, doc, (IDataContainer) d.getdLines().get(i));
             }
         }
 
