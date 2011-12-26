@@ -39,7 +39,6 @@ class InvoiceLineAbstractTo extends VModelData implements IVModelDataEquable {
 
     @Override
     public boolean eq(IVModelDataEquable o) {
-        // TODO Auto-generated method stub
         return false;
     }
 

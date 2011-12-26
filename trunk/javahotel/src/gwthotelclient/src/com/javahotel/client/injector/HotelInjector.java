@@ -15,6 +15,7 @@ package com.javahotel.client.injector;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.gwtmodel.table.factories.IFormDefFactory;
+import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.abstractto.IAbstractType;
@@ -59,5 +60,7 @@ public interface HotelInjector extends Ginjector {
     IFormDefFactory getFormDefFactory();
 
     IInvoicePListOfVFields getIInvoicePListOfVFields();
+    
+    IPersistFactoryAction getIPersistFactoryAction();
 
 }

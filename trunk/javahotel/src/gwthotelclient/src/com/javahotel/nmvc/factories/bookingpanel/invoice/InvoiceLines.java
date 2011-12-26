@@ -39,7 +39,8 @@ import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.mapxml.DataMapList.DContainer;
+import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.mapxml.IDataContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
@@ -55,6 +56,7 @@ import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.abstractto.InvoicePVData;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.DContainer;
 import com.javahotel.common.toobject.InvoiceP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
@@ -67,10 +69,10 @@ import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
  */
 class InvoiceLines extends AbstractSlotContainer {
 
-    private final BookingP p;
-    // private final IDataType publishType;
+    private final BookingP bo;
     private final ISlotable i;
     private final IsServiceBooking iService;
+    private final InvoiceP startP;
 
     private final static String SERVICE_DESCRIPTION = "line_service_description";
     private final static String QUANTITY = "line_quantity";
@@ -78,6 +80,7 @@ class InvoiceLines extends AbstractSlotContainer {
     private final static String TAX_VAT = "line_tax";
     private final static String SERVICE_DATE = "line_service_date";
     private final static String RATE = "line_rate";
+    private final static String ID = "No";
 
     private final MapS mapF = new MapS();
     private final AbstractListT A = new MapI();
@@ -97,6 +100,7 @@ class InvoiceLines extends AbstractSlotContainer {
             ma.add(MapEntryFactory.createEntry(InvoiceP.LINE_SERVICE_DATE,
                     SERVICE_DATE));
             ma.add(MapEntryFactory.createEntry(InvoiceP.LINE_RATE, RATE));
+            ma.add(MapEntryFactory.createEntry(InvoiceP.LINE_NO, ID));
             return ma;
         }
     }
@@ -116,7 +120,7 @@ class InvoiceLines extends AbstractSlotContainer {
 
         @Override
         SType GetType(String s) {
-            if (s.equals(QUANTITY)) {
+            if (s.equals(QUANTITY) || s.equals(ID)) {
                 return SType.INT;
             }
             if (s.equals(TOTAL)) {
@@ -137,12 +141,20 @@ class InvoiceLines extends AbstractSlotContainer {
         private final TextHeader header = new TextHeader("Faktura");
         private final Column<Integer, Boolean> col;
 
+        private InvoiceLineAbstractTo getI(int index) {
+            IDataListType dList = SlU.getIDataListType(dType, i);
+            IVModelData va = dList.getList().get(index);
+            InvoiceLineAbstractTo a = (InvoiceLineAbstractTo) va;
+            return a;
+        }
+
         ModifHeader() {
             col = new Column<Integer, Boolean>(new CheckboxCell()) {
 
                 @Override
                 public Boolean getValue(Integer object) {
-                    return false;
+                    InvoiceLineAbstractTo a = getI(object);
+                    return a.isCheck();
                 }
 
             };
@@ -150,9 +162,7 @@ class InvoiceLines extends AbstractSlotContainer {
 
                 @Override
                 public void update(int index, Integer object, Boolean value) {
-                    IDataListType dList = SlU.getIDataListType(dType, i);
-                    IVModelData va = dList.getList().get(index);
-                    InvoiceLineAbstractTo a = (InvoiceLineAbstractTo) va;
+                    InvoiceLineAbstractTo a = getI(index);
                     a.setCheck(value.booleanValue());
                 }
 
@@ -187,6 +197,8 @@ class InvoiceLines extends AbstractSlotContainer {
         public void startPublish(CellId cellId) {
             String title = "Pozycje do faktury";
             List<VListHeaderDesc> vList = new ArrayList<VListHeaderDesc>();
+            VListHeaderDesc v = new VListHeaderDesc(null, mapF.get(ID), true);
+            vList.add(v);
             addH(vList, "Data", SERVICE_DATE);
             addH(vList, "Opis", SERVICE_DESCRIPTION);
             addH(vList, "Ilość", QUANTITY);
@@ -213,13 +225,14 @@ class InvoiceLines extends AbstractSlotContainer {
             public void signal(ISlotSignalContext slContext) {
                 List<IVModelData> dList = new ArrayList<IVModelData>();
                 IDataListType listType = DataListTypeFactory.construct(dList);
-                for (BookElemP bElem : p.getBooklist()) {
+                for (BookElemP bElem : bo.getBooklist()) {
                     for (PaymentRowP rowP : bElem.getPaymentrows()) {
                         ServiceDictionaryP se = iService.getService(bElem
                                 .getService());
                         VatDictionaryP va = se.getVat();
                         BigDecimal total = rowP.getCustomerPrice();
                         InvoiceLineAbstractTo a = new InvoiceLineAbstractTo();
+                        a.setF(mapF.get(ID), rowP.getId().getId());
                         a.setF(mapF.get(SERVICE_DESCRIPTION),
                                 se.getDescription());
                         a.setF(mapF.get(QUANTITY), new Integer(1));
@@ -227,6 +240,21 @@ class InvoiceLines extends AbstractSlotContainer {
                         a.setF(mapF.get(RATE), total);
                         a.setF(mapF.get(TOTAL), total);
                         a.setF(mapF.get(SERVICE_DATE), rowP.getRowFrom());
+                        if (startP.getInvoiceD().getdLines().isEmpty()) {
+                            a.setCheck(true);
+                        } else {
+                            Long l = rowP.getId().getId();
+                            boolean check = false;
+                            for (IDataContainer da : startP.getInvoiceD()
+                                    .getdLines()) {
+                                Long la = (Long) da.get(InvoiceP.LINE_NO);
+                                if ((la != null) && la.equals(l)) {
+                                    check = true;
+                                }
+                            } // for
+                            a.setCheck(check);
+                        }
+
                         dList.add(a);
                     }
                 }
@@ -257,27 +285,25 @@ class InvoiceLines extends AbstractSlotContainer {
                 if (!a.isCheck()) {
                     continue;
                 }
-                DContainer da = new DContainer();
-                int i = 1;
+                DContainer da = (DContainer) p.getInvoiceD().addToLines();
                 for (String s : fieldList) {
-                    Object o = a.getF(mapF.get(s));
                     String key = A.getValue(s);
-                    da.put(key, 0);
-                    da.put(InvoiceP.LINE_NO, new Integer(i));
-                    i++;
-                    p.getInvoiceD().getdLines().add(da);
+                    Object o = v.getF(mapF.get(s));
+                    da.put(key, o);
                 }
             }
-            p.getInvoiceD().getdLines();
+
             return slContext;
         }
     }
 
     InvoiceLines(IDataType publishType, CellId panelId, BookingP p,
-            IsServiceBooking iService) {
-        this.p = p;
+            IsServiceBooking iService, InvoiceP iP) {
+        assert p != null : LogT.getT().cannotBeNull();
+        this.bo = p;
         this.iService = iService;
         this.dType = publishType;
+        this.startP = iP;
         // this.dType = Empty.getDataType();
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
@@ -287,6 +313,7 @@ class InvoiceLines extends AbstractSlotContainer {
         fieldList.add(TOTAL);
         fieldList.add(SERVICE_DATE);
         fieldList.add(RATE);
+        fieldList.add(ID);
         mapF.createMap(fieldList);
 
         List<ControlButtonDesc> dButton = new ArrayList<ControlButtonDesc>();

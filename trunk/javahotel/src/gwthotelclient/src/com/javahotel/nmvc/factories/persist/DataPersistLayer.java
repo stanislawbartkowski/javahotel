@@ -20,22 +20,18 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.login.LoginField;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.view.callback.CommonCallBackNo;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.PersonHotelRoles;
-import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.client.types.AccessRoles;
-import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
@@ -44,15 +40,11 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.PersonP;
+import com.javahotel.nmvc.factories.persist.dict.IHotelPersistFactory;
 import com.javahotel.nmvc.factories.persist.dict.IPersistRecord;
 import com.javahotel.nmvc.factories.persist.dict.IPersistResult;
 
-public class DataPersistLayer extends AbstractSlotContainer implements
-        IDataPersistAction {
-
-    private final IResLocator rI;
-    private final IPersistRecord iPersist;
-    private final DataType da;
+public class DataPersistLayer extends AbstractPersistLayer {
 
     private IDataListType convertToLogin(IDataListType dataList) {
         List<IVModelData> li = new ArrayList<IVModelData>();
@@ -79,21 +71,6 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         }
     }
 
-    private class AfterPersist implements IPersistResult {
-
-        private final PersistTypeEnum persistTypeEnum;
-
-        AfterPersist(PersistTypeEnum persistTypeEnum) {
-            this.persistTypeEnum = persistTypeEnum;
-        }
-
-        @Override
-        public void success(PersistResultContext re) {
-            publish(dType, DataActionEnum.PersistDataSuccessSignal,
-                    persistTypeEnum);
-        }
-    }
-
     private class PersistRecord implements ISlotListener {
 
         @Override
@@ -106,7 +83,8 @@ public class DataPersistLayer extends AbstractSlotContainer implements
             }
             IVModelData pData = getGetterIVModelData(dType,
                     GetActionEnum.GetComposeModelToPersist, mData);
-            HModelData mo = (HModelData) pData;
+            HModelData mo;
+            mo = (HModelData) pData;
             iPersist.persist(e, mo,
                     new AfterPersist(slContext.getPersistType()));
         }
@@ -190,23 +168,19 @@ public class DataPersistLayer extends AbstractSlotContainer implements
         @Override
         public void signal(ISlotSignalContext slContext) {
             CommandParam co = rI.getR().getHotelCommandParam();
-            DataType daType = (DataType) dType;
 
-            if (daType.isDictType()) {
-                co.setDict(daType.getdType());
+            if (da.isDictType()) {
+                co.setDict(da.getdType());
                 rI.getR().getList(RType.ListDict, co, new ReadListDict());
             } else {
-                rI.getR().getList(daType.getrType(), co, new ReadListDict());
+                rI.getR().getList(da.getrType(), co, new ReadListDict());
             }
         }
     }
 
-    public DataPersistLayer(IDataType dd) {
-        this.rI = HInjector.getI().getI();
-        this.dType = dd;
-        this.da = (DataType) dd;
-        iPersist = HInjector.getI().getHotelPersistFactory()
-                .construct(da, false);
+    DataPersistLayer(IDataType dd, IResLocator rI,
+            IHotelPersistFactory iPersistFactory) {
+        super(dd, rI, iPersistFactory);
         // create subscribers - ReadList
         registerSubscriber(dType, DataActionEnum.ReadListAction, new ReadList());
         if (da.isAllPersons() || da.isAllHotels()) {

@@ -50,8 +50,8 @@ import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.InvoiceIssuerP;
 import com.javahotel.common.toobject.InvoiceP;
+import com.javahotel.nmvc.factories.booking.util.BookingCustInfo;
 import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
-
 
 /**
  * @author hotel
@@ -67,7 +67,7 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
     private final IDataType iInvoiceData = new DataType(
             DictType.IssuerInvoiceList);
     private final IDataType hotelDataType = iInvoiceData;
-    private final InvoiceLines iLines;
+    private InvoiceLines iLines;
     private final CellId lineId = new CellId(0);
     private final IDataType lineType = Empty.getDataType();
 
@@ -75,8 +75,8 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
 
         List<InvoiceIssuerP> val;
         BookingP p;
-        CustomerP buyer;
         IsServiceBooking iService;
+        InvoiceP i;
 
         Synch() {
             super(6);
@@ -84,36 +84,44 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
 
         @Override
         protected void doTask() {
+            iLines = new InvoiceLines(lineType, lineId, sy.p, sy.iService, sy.i);
+            iLines.getSlContainer().registerSubscriber(lineType, lineId,
+                    new LineWidget());
             bWidget.startPublish(new CellId(0));
             hData.startPublish(new CellId(0));
             iLines.startPublish(lineId);
             drawDefault();
         }
     }
-    
-    private void setTodayDate(InvoicePVData pa,String f) {
+
+    private void setTodayDate(InvoicePVData pa, String f) {
         IVField v = MapFields.mapS.get(f);
         Object o = pa.getF(v);
-        if (o != null) { return; }
+        if (o != null) {
+            return;
+        }
         IFormLineView vie = SlU.getVWidget(dType, this, v);
         vie.setValObj(DateUtil.getToday());
         pa.setF(v, DateUtil.getToday());
     }
-    
+
     private void drawDefault() {
-        IVModelData v = getGetterIVModelData(dType,GetActionEnum.GetViewComposeModelEdited);
+        IVModelData v = getGetterIVModelData(dType,
+                GetActionEnum.GetViewComposeModelEdited);
         InvoicePVData pa = (InvoicePVData) v;
-        String sym = (String) pa.getF(MapFields.mapS.get(InvoiceP.HOTEL_DATA_SYMBOL));
+        String sym = (String) pa.getF(MapFields.mapS
+                .get(InvoiceP.HOTEL_DATA_SYMBOL));
         if (CUtil.EmptyS(sym)) {
             AbstractTo a = sy.val.get(0);
-            hData.getaSelect().copyFields(a);            
+            hData.getaSelect().setaObject(a);
+            hData.getaSelect().copyFields();
         }
-        sym = (String) pa.getF(MapFields.mapS.get(InvoiceP.BUYER_SYMBOL)); 
+        sym = (String) pa.getF(MapFields.mapS.get(InvoiceP.BUYER_SYMBOL));
         if (CUtil.EmptyS(sym)) {
-            bWidget.getaSelect().copyFields(sy.buyer);            
+            bWidget.getaSelect().copyFields();
         }
-        setTodayDate(pa,InvoiceP.DATE_OF_DSALE);
-        setTodayDate(pa,InvoiceP.INVOICE_DATE);
+        setTodayDate(pa, InvoiceP.DATE_OF_DSALE);
+        setTodayDate(pa, InvoiceP.INVOICE_DATE);
     }
 
     private class ReadL implements IVectorList<InvoiceIssuerP> {
@@ -162,39 +170,51 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
         }
 
     }
-    
+
     private class SetGetter implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IVModelData va = slContext.getVData();
+            InvoicePVData pa = (InvoicePVData) va;
+            InvoiceP p = pa.getP();
+            p.setBooking(sy.p.getId());
+            BookingCustInfo bCust = bWidget.constructC(pa);
+            p.setCustomer(bCust.getCust().getId());
+            pa.setCustomData(bCust);
             // redirect to iLines
-            SlotType sl = slTypeFactory.construct(lineType, slContext.getSlType());
-            ISlotSignalContext slC = slContextFactory.construct(sl,slContext);
+            SlotType sl = slTypeFactory.construct(lineType,
+                    slContext.getSlType());
+            ISlotSignalContext slC = slContextFactory.construct(sl, slContext);
             return iLines.getSlContainer().call(slC);
         }
     }
-    
+
     private class AfterDisplayed implements ISlotListener {
-        
+
         private final Synch sy;
-        
+
         AfterDisplayed(Synch sy) {
             this.sy = sy;
         }
 
         @Override
         public void signal(ISlotSignalContext slContext) {
+            IVModelData va = slContext.getVData();
+            InvoicePVData pa = (InvoicePVData) va;
+            sy.i = pa.getP();            
             sy.signalDone();
         }
-        
+
     }
     
-
     public MakeOutInvoiceControler(ICallContext iContext, IDataType subType) {
         this.dType = iContext.getDType();
         rI = HInjector.getI().getI();
         DataType da = (DataType) iContext.getDType();
         sy = new Synch();
+        bWidget = new BuyerWidget(cuType, MapInvoiceDialog.getMapBuyer(),
+                MapFields.mapS, this, dType);
 
         // -----------
         // read reservation record
@@ -203,7 +223,7 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
 
             @Override
             public void action(CustomerP t) {
-                sy.buyer = t;
+                bWidget.setBuyer(t);
                 sy.signalDone();
             }
         };
@@ -221,7 +241,7 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
         };
         // param : reservation symbol
         new BackAbstract<BookingP>().readAbstract(DictType.BookingList,
-                da.getParam(), i);
+                da.getLParam(), i);
         // --------------
         // read services
         // --------------
@@ -244,20 +264,17 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
         // invoice lines
         // -------------------------------
 
-        iLines = new InvoiceLines(lineType, lineId, sy.p, sy.iService);
-        iLines.getSlContainer().registerSubscriber(lineType, lineId,
-                new LineWidget());
-
-        bWidget = new BuyerWidget(cuType, MapInvoiceDialog.getMapBuyer(),
-                MapFields.mapS, this, dType);
         SlU.registerWidgetListener0(cuType, bWidget, new GetCustC());
         hData = new HotelDataWidget(hotelDataType,
                 MapInvoiceDialog.getMapHotel(), MapFields.mapS, this, dType);
         SlU.registerWidgetListener0(hotelDataType, hData, new GetHotelD());
 
-        registerCaller(subType, GetActionEnum.GetViewModelEdited, new SetGetter());
-        registerCaller(subType, GetActionEnum.GetModelToPersist, new SetGetter());
-        registerSubscriber(dType,DataActionEnum.AfterDrawViewFormAction,new AfterDisplayed(sy));
+        registerCaller(subType, GetActionEnum.GetViewModelEdited,
+                new SetGetter());
+        registerCaller(subType, GetActionEnum.GetModelToPersist,
+                new SetGetter());
+        registerSubscriber(dType, DataActionEnum.AfterDrawViewFormAction,
+                new AfterDisplayed(sy));
     }
 
     @Override

@@ -14,8 +14,8 @@ package com.javahotel.client.abstractto;
 
 import java.util.List;
 
-import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.VSField;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.CreateList;
@@ -27,7 +27,7 @@ import com.javahotel.common.toobject.InvoiceP;
  * @author hotel
  * 
  */
-public class InvoicePVData extends AVModelData {
+public class InvoicePVData implements IVModelData {
 
     private final InvoiceP p;
 
@@ -92,6 +92,15 @@ public class InvoicePVData extends AVModelData {
      */
     public InvoiceP getP() {
         return p;
+    }
+
+    @Override
+    public Object getCustomData() {
+        return null;
+    }
+
+    @Override
+    public void setCustomData(Object o) {        
     }
 
 }

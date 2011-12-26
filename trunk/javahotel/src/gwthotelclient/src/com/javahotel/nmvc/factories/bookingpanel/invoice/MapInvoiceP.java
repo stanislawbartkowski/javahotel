@@ -86,7 +86,7 @@ class MapInvoiceP {
             ma.add(MapEntryFactory.createEntry(InvoiceP.BUYER_NAME2,
                     IMap.BUYER_NAME2));
             ma.add(MapEntryFactory.createEntry(InvoiceP.BUYER_ADDRESS1,
-                    IMap.HOTEL_ADDRESS1));
+                    IMap.BUYER_ADDRESS1));
             ma.add(MapEntryFactory.createEntry(InvoiceP.BUYER_ADDRESS2,
                     IMap.BUYER_ADDRESS2));
             ma.add(MapEntryFactory.createEntry(InvoiceP.BUYER_CITY,
@@ -107,15 +107,5 @@ class MapInvoiceP {
             return ma;
         }
     }
-
-    // static void fromInvoiceToM(InvoiceP sou, IVModelData dest,
-    // MapStringField maps) {
-    // DataMapList.DContainer dsou = sou.getInvoiceD().getdFields();
-    // for (IMapEntry e : IM.getEntryList()) {
-    // Object o = dsou.get(e.getKey());
-    // dest.setF(maps.get(e.getValue()), o);
-    // }
-    //
-    // }
 
 }

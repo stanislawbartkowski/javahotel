@@ -24,6 +24,7 @@ import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
+import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.nmvc.factories.persist.ConvertP;
 import com.javahotel.nmvc.factories.persist.dict.IPersistRecord;
@@ -66,6 +67,10 @@ class ValidateOnServer {
                 .construct(da, true);
         IPersistResult pResult = new ValResult(da, slContainer);
         HModelData ho;
+        if (da.isDictType(DictType.InvoiceList)) {
+            P.publishValidSignal(slContainer, da, null);
+            return;
+        }
         if (da.isAllPersons()) {
             AbstractTo a = ConvertP.toLoginP(pData);
             ho = VModelDataFactory.construct(a);

@@ -23,6 +23,7 @@ import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.javahotel.client.injector.HInjector;
 import com.javahotel.nmvc.factories.persist.DataPersistLayer;
 import com.javahotel.nmvc.factories.validate.ValidateAction;
 
@@ -48,13 +49,15 @@ public class RegisterFactories {
 
         };
 
-        IPersistFactoryAction peFactory = new IPersistFactoryAction() {
-
-            @Override
-            public IDataPersistAction contruct(IDataType dType) {
-                return new DataPersistLayer(dType);
-            }
-        };
+        // IPersistFactoryAction peFactory = new IPersistFactoryAction() {
+        //
+        // @Override
+        // public IDataPersistAction contruct(IDataType dType) {
+        // return new DataPersistLayer(dType);
+        // }
+        // };
+        IPersistFactoryAction peFactory = HInjector.getI()
+                .getIPersistFactoryAction();
         IFormTitleFactory tiFactory = new RecordTitleFactory();
         tFactories.registerGetCustomValues(new CustomFactory());
         tFactories.registerFormTitleFactory(tiFactory);
