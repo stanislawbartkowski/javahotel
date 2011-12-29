@@ -53,8 +53,10 @@ public class SlU {
      * @return IVModelData (throws Exception if not found)
      */
     public static IVModelData getVDataByI(IDataType dType, ISlotable iSlo, int i) {
-        IVModelData v = iSlo.getSlContainer()
-                .getGetter(GetVDataByIntegerSignal.constructSlot(dType), new GetVDataByIntegerSignal(i)).getVData();
+        IVModelData v = iSlo
+                .getSlContainer()
+                .getGetter(GetVDataByIntegerSignal.constructSlot(dType),
+                        new GetVDataByIntegerSignal(i)).getVData();
         return v;
     }
 
@@ -72,6 +74,18 @@ public class SlU {
     public static IFormLineView getVWidget(IDataType dType, ISlotable iSlo,
             IVField v) {
         return iSlo.getSlContainer().getGetterFormLine(dType, v);
+    }
+
+    public static <T> T getVWidgetValue(IDataType dType, ISlotable iSlo,
+            IVField v) {
+        IFormLineView i = getVWidget(dType, iSlo, v);
+        return (T) i.getValObj();
+    }
+
+    public static void setVWidgetValue(IDataType dType, ISlotable iSlo,
+            IVField v, Object o) {
+        IFormLineView i = getVWidget(dType, iSlo, v);
+        i.setValObj(o);
     }
 
     public static void VWidgetChangeReadOnly(IDataType dType, ISlotable iSlo,
@@ -356,7 +370,12 @@ public class SlU {
                 "Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
         iSlo.getSlContainer().publish(slC);
+    }
 
+    public static void changeEnable(IDataType dType, ISlotable iSlo, IVField v,
+            boolean enable) {
+        IFormLineView vi = SlU.getVWidget(dType, iSlo, v);
+        vi.setReadOnly(!enable);
     }
 
 }

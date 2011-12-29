@@ -16,19 +16,17 @@
  */
 package com.gwtmodel.table.editc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.ChooseDictList;
-import com.gwtmodel.table.ChooseDictList.ICallBackWidget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.SynchronizeList;
-import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.composecontroller.IComposeController;
@@ -37,7 +35,6 @@ import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
@@ -45,13 +42,9 @@ import com.gwtmodel.table.slotmodel.ButtonAction;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.view.util.ModalDialog;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -117,6 +110,7 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
 
         @Override
         public void signal(IChangeObject o) {
+            // send 'change' signal, change box has been check / uncheck
             getSlContainer().publish(IChangeObject.signalString, o);
         }
     }
@@ -158,7 +152,7 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
             sy.signalDone();
         }
     }
-    
+
     private class ChooseC extends AbstractChooseListener {
 
         /**
@@ -171,69 +165,11 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
 
         @Override
         void modifAfterSelect() {
-          SetNewChange(false, false);
-          ModifForm();            
+            SetNewChange(false, false);
+            ModifForm();
         }
-        
+
     }
-
-//    private class ChooseC implements ISlotListener {
-
-//        private class SelectC implements ICallBackWidget<IVModelData> {
-//
-//            private D d;
-//
-//            private class D extends ModalDialog {
-//
-//                private final Widget w;
-//
-//                D(VerticalPanel vp, Widget w) {
-//                    super(vp, "");
-//                    this.w = w;
-//                    create();
-//                }
-//
-//                @Override
-//                protected void addVP(VerticalPanel vp) {
-//                    vp.add(w);
-//                }
-//            }
-//
-//            @Override
-//            public void setWidget(WSize ws, IGWidget w) {
-//                VerticalPanel vp = new VerticalPanel();
-//                d = new D(vp, w.getGWidget());
-//                d.show(ws);
-//            }
-//
-//            @Override
-//            public void setChoosed(IVModelData vData, IVField comboFie) {
-//                assert vData != null : LogT.getT().cannotBeNull();
-//                LogT.getL().info(LogT.getT().choosedEdit(vData.toString()));
-//                slMediator.getSlContainer().publish(dType,
-//                        DataActionEnum.DrawViewComposeFormAction, vData);
-//                SetNewChange(false, false);
-//                ModifForm();
-//                d.hide();
-//                // send signal : object was chose and set
-//                slMediator.getSlContainer()
-//                        .publish(IChangeObject.choosedString);
-//            }
-//
-//            @Override
-//            public void setResign() {
-//                d.hide();
-//            }
-//        }
-//
-//        @Override
-//        public void signal(ISlotSignalContext slContext) {
-//            WSize w = new WSize(slContext.getGwtWidget().getGWidget());
-//            @SuppressWarnings("unused")
-//            ChooseDictList<IVModelData> c = new ChooseDictList<IVModelData>(
-//                    dType, w, new SelectC());
-//        }
-//    }
 
     private class SetWidgetCust implements ISlotListener {
 
@@ -272,7 +208,8 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         bList.add(bChoose);
         ListOfControlDesc cList = new ListOfControlDesc(bList);
-        slMediator.getSlContainer().registerSubscriber(sChoose, new ChooseC(dType,slMediator));
+        slMediator.getSlContainer().registerSubscriber(sChoose,
+                new ChooseC(dType, slMediator));
         ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
                 .getControlButtonViewFactory();
         IControlButtonView bView = bFactory.construct(dType, cList);

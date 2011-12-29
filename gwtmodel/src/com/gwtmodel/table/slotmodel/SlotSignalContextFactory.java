@@ -173,7 +173,7 @@ public class SlotSignalContextFactory {
         return new SlotSignalContext(slType, null, null, null, null, null,
                 null, null, null, null, null, null, null, null);
     }
-
+    
     public ISlotSignalContext construct(SlotType slType,
             IFormLineView formLine, ICustomObject o) {
         return new SlotSignalContext(slType, formLine, null, null, null, null,

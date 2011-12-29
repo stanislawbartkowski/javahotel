@@ -22,24 +22,21 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.slotmodel.AbstractSlotListener;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.view.util.ModalDialog;
 
 /**
  * @author hotel
  * 
  */
-abstract class AbstractChooseListener implements ISlotListener {
-
-    private final IDataType dType;
-    private final ISlotable iSlo;
+abstract class AbstractChooseListener extends AbstractSlotListener {
 
     AbstractChooseListener(IDataType dType, ISlotable iSlo) {
-        this.dType = dType;
-        this.iSlo = iSlo;
+        super(dType, iSlo);
     }
 
     abstract void modifAfterSelect();
@@ -80,7 +77,11 @@ abstract class AbstractChooseListener implements ISlotListener {
             modifAfterSelect();
             d.hide();
             // send signal : object was chose and set
-            iSlo.getSlContainer().publish(IChangeObject.choosedString);
+            SlotType slType = slTypeFactory
+                    .construct(IChangeObject.choosedString);
+            ISlotSignalContext con = slContextFactory.construct(slType, vData);
+            // iSlo.getSlContainer().publish(IChangeObject.choosedString);
+            iSlo.getSlContainer().publish(con);
         }
 
         @Override
