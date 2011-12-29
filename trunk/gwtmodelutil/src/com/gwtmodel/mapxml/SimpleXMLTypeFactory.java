@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.gwtmodel.table.common.CUtil;
-import com.javahotel.common.command.PaymentMethod;
 
 /**
  * @author hotel Default implementation of IXMLType Factory. Can be used 'as is'
@@ -28,8 +27,6 @@ public class SimpleXMLTypeFactory implements IXMLTypeFactory {
 
     protected final SimpleDateFormat fo = new SimpleDateFormat("yyyy-MM-dd");
 
-    public final static String PAYMENT = "pay";
-
     protected boolean isInt(String xType) {
         return xType.equals(INT) || xType.equals(INTEGER);
     }
@@ -38,9 +35,6 @@ public class SimpleXMLTypeFactory implements IXMLTypeFactory {
     public Object contruct(String xType, String s) {
         if (CUtil.EmptyS(xType)) {
             return s;
-        }
-        if (xType.equals(PAYMENT)) {
-            return PaymentMethod.valueOf(s);
         }
         if (xType.equals(DATE)) {
             try {
@@ -70,10 +64,6 @@ public class SimpleXMLTypeFactory implements IXMLTypeFactory {
         if (xType.equals(DATE)) {
             Date d = (Date) o;
             return fo.format(d);
-        }
-        if (xType.equals(PAYMENT)) {
-            PaymentMethod pa = (PaymentMethod) o;
-            return pa.toString();
         }
         if (xType.equals(DECIMAL)) {
             BigDecimal b = (BigDecimal) o;
