@@ -12,23 +12,33 @@
  */
 package com.javahotel.javatest.gaetest;
 
-import java.io.File;
-
-import com.google.appengine.tools.development.ApiProxyLocalImpl;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.apphosting.api.ApiProxy;
-import com.javahotel.test.ISetUpTestEnvironment;
 
 public class LocalServiceTestEnvironment {
 
+
+    private final LocalServiceTestHelper helper =
+        new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+    private final LocalServiceTestHelper helper1 =
+        new LocalServiceTestHelper(new LocalMemcacheServiceTestConfig());
+    
     public void beforeTest() {
+        helper.setUp();
+//        helper1.setUp();
         ApiProxy.setEnvironmentForCurrentThread(new TestEnvironment());
-        ApiProxy.setDelegate(new ApiProxyLocalImpl(new File(".")) {
-        });
+//        ApiProxy.setDelegate(new ApiProxyLocalImpl(new File(".")) {
+//        });
     }
 
     public void afterTest() {
         // not strictly necessary to null these out but there's no harm either
+        helper.tearDown();
         ApiProxy.setDelegate(null);
         ApiProxy.setEnvironmentForCurrentThread(null);
+//        helper.tearDown();
+  //      helper1.tearDown();
     }
 }
