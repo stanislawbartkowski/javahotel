@@ -13,6 +13,7 @@
 package com.javahotel.test;
 
 
+import com.javahotel.javatest.gaetest.LocalDataStoreTestEnvironment;
 import com.javahotel.remoteinterfaces.PasswordT;
 import com.javahotel.remoteinterfaces.ISecurity;
 import com.javahotel.remoteinterfaces.SessionT;
@@ -24,13 +25,14 @@ import static org.junit.Assert.*;
  *
  * @author stanislawbartkowski@gmail.com
  */
-public class TestSuite1 {
+public class TestSuite1 extends LocalDataStoreTestEnvironment {
 
     private ISecurity sec;
     private SessionT se;
     private final String SESSION = "AAAAAA";
 
     private void setUpG() {
+        beforeTest();
         sec = TestUtil.getSe();
         TestUtil.propStart(se, sec);
     }

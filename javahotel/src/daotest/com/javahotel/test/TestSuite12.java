@@ -37,7 +37,7 @@ public class TestSuite12 extends TestHelper {
     private void runtest(DictType d) {
        DictionaryP a = getDict(d,HOTEL1);
        a.setName("vat1");
-       ReturnPersist re = hot.persistDicReturn(se, d , a);
+       ReturnPersist re = hot.persistDic(se, d , a);
        System.out.println(re.getId());
        LId id = re.getId();
        assertNotNull(id);

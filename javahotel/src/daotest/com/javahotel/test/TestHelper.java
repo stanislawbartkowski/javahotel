@@ -31,30 +31,31 @@ import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.PaymentMethod;
 import com.javahotel.common.command.RRoom;
 import com.javahotel.common.command.RType;
+import com.javahotel.common.command.ServiceType;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.AdvancePaymentP;
-import com.javahotel.common.toobject.BillP;
+import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.HotelP;
+import com.javahotel.common.toobject.InvoiceP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.OfferServicePriceP;
 import com.javahotel.common.toobject.PaymentP;
+import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.RemarkP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.SeasonPeriodT;
 import com.javahotel.common.toobject.ServiceDictionaryP;
-import com.javahotel.common.toobject.ServiceType;
 import com.javahotel.common.toobject.VatDictionaryP;
-import com.javahotel.common.util.BillUtil;
+import com.javahotel.common.util.AbstractObjectFactory;
 import com.javahotel.dbutil.log.GetLogger;
-//import com.javahotel.javatest.exttest.ExtTestHelper;
+import com.javahotel.javatest.gaetest.LocalDataStoreTestEnvironment;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.IAuthentication;
 import com.javahotel.remoteinterfaces.IHotelData;
@@ -67,10 +68,10 @@ import com.javahotel.remoteinterfaces.SessionT;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
-abstract public class TestHelper {
+abstract public class TestHelper extends LocalDataStoreTestEnvironment {
 
     protected ISecurity sec;
     protected SessionT se;
@@ -85,18 +86,18 @@ abstract public class TestHelper {
     protected final GetLogger log = new GetLogger("com.javahotel.javatest");
     protected static final String HOTEL1 = "hotel1";
     protected static final String HOTEL2 = "hotel2";
-    
+
     private static ISetUpTestEnvironment iSetupx = null;
-        
+
     public static void setiSetup(ISetUpTestEnvironment iSetup) {
         TestHelper.iSetupx = iSetup;
     }
 
     protected void setUpG() {
-//        if (iSetup != null) {
-//            iSetup.setUp();
-//        }
-//        beforeTest();
+        // if (iSetup != null) {
+        // iSetup.setUp();
+        // }
+        beforeTest();
         sec = TestUtil.getSe();
         aut = TestUtil.getAu();
         list = TestUtil.getList();
@@ -107,10 +108,10 @@ abstract public class TestHelper {
 
     protected void tearDownG() {
         itest.setTodayDate(null);
-//        if (iSetup != null) {
-//            iSetup.tearDown();
-//        }
-//        afterTest();
+        // if (iSetup != null) {
+        // iSetup.tearDown();
+        // }
+        afterTest();
     }
 
     @After
@@ -136,7 +137,7 @@ abstract public class TestHelper {
         TestUtil.propStart(se, sec);
         login();
         TestUtil.testStart(se, sec);
-    	clearAll(); // added because appengine does not support "clear database"
+        clearAll(); // added because appengine does not support "clear database"
     }
 
     protected void clearAll() throws Exception {
@@ -150,7 +151,7 @@ abstract public class TestHelper {
     protected <T> T getOneName(DictType d, final String name) {
         List<AbstractTo> res = hot.getDicList(se, d, new HotelT(HOTEL1));
         assertNotNull(res);
-//        assertEquals(1, res.size());
+        // assertEquals(1, res.size());
         T out = null;
         int no = 0;
         for (final AbstractTo aa : res) {
@@ -245,7 +246,6 @@ abstract public class TestHelper {
         List<BookingStateP> staCol = new ArrayList<BookingStateP>();
         staCol.add(bState);
 
-
         BookingP bok = new BookingP();
         bok.setCheckIn(DateFormatUtil.toD("2008/02/02"));
         bok.setCheckOut(DateFormatUtil.toD("2008/05/05"));
@@ -254,11 +254,12 @@ abstract public class TestHelper {
         bok.setSeason(oP.getName());
         bok.setState(staCol);
         bok.setBookingType(BookingEnumTypes.Reservation);
-        setPay(bok,new ArrayList<PaymentP>());
+        setPay(bok, new ArrayList<PaymentP>());
         return bok;
     }
 
-    List<DictionaryP> getDicList(final SessionT sessionId, final DictType d, HotelT hotel) {
+    List<DictionaryP> getDicList(final SessionT sessionId, final DictType d,
+            HotelT hotel) {
         List res = hot.getDicList(sessionId, d, hotel);
         return res;
     }
@@ -267,166 +268,167 @@ abstract public class TestHelper {
 
         DictionaryP a;
         switch (t) {
-            case RoomObjects:
-                ResObjectP rp = new ResObjectP();
-                rp.setRType(RRoom.Room);
-                RoomStandardP st = new RoomStandardP();
-                st.setName("1p");
-                rp.setRStandard(st);
-                a = rp;
-                break;
-            case ServiceDict:
-                ServiceDictionaryP sP = new ServiceDictionaryP();
-                sP.setServType(ServiceType.DOSTAWKA);
-                VatDictionaryP va = new VatDictionaryP();
-                va.setName("zw");
-                va.setVatPercent(new BigDecimal("10"));
-                sP.setVat(va);
-                a = sP;
-                break;
-            case OffSeasonDict:
-                OfferSeasonP oP = new OfferSeasonP();
-                oP.setStartP(DateFormatUtil.toD("2008/10/01"));
-                oP.setEndP(DateFormatUtil.toD("2008/10/30"));
-                a = oP;
-                break;
-            case PriceListDict:
-                OfferSeasonP sep = new OfferSeasonP();
-                sep.setHotel(hotel);
-                sep.setName("GL");
-                sep.setStartP(DateFormatUtil.toD("2008/01/01"));
-                sep.setEndP(DateFormatUtil.toD("2008/10/02"));
+        case InvoiceList:
+            a = new InvoiceP();
+            break;
+        case RoomStandard:
+            RoomStandardP rP = new RoomStandardP();
+            List<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
+            rP.setServices(li);
+            a = rP;
+            break;
 
-                OfferSeasonPeriodP pe = new OfferSeasonPeriodP();
-                List<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
-                pe.setStartP(DateFormatUtil.toD("2008/03/11"));
-                pe.setEndP(DateFormatUtil.toD("2008/06/11"));
-                pe.setPeriodT(SeasonPeriodT.LOW);
-                pe.setPId(new Long(1));
-                seL.add(pe);
-                sep.setPeriods(seL);
+        case RoomObjects:
+            ResObjectP rp = new ResObjectP();
+            rp.setRType(RRoom.Room);
+            RoomStandardP st = new RoomStandardP();
+            st.setName("1p");
+            rp.setRStandard(st);
+            a = rp;
+            break;
+        case ServiceDict:
+            ServiceDictionaryP sP = new ServiceDictionaryP();
+            sP.setServType(ServiceType.NOCLEG);
+            VatDictionaryP va = new VatDictionaryP();
+            va.setName("zw");
+            va.setVatPercent(new BigDecimal("10"));
+            va.setHotel(hotel);
+            hot.persistDic(se, DictType.VatDict, va);
+            sP.setVat(va);
+            a = sP;
+            break;
+        case OffSeasonDict:
+            OfferSeasonP oP = new OfferSeasonP();
+            oP.setStartP(DateFormatUtil.toD("2008/10/01"));
+            oP.setEndP(DateFormatUtil.toD("2008/10/30"));
+            a = oP;
+            break;
+        case PriceListDict:
+            OfferSeasonP sep = new OfferSeasonP();
+            sep.setHotel(hotel);
+            sep.setName("GL");
+            sep.setStartP(DateFormatUtil.toD("2008/01/01"));
+            sep.setEndP(DateFormatUtil.toD("2008/10/02"));
 
-                hot.persistDic(seu, DictType.OffSeasonDict, sep);
+            OfferSeasonPeriodP pe = new OfferSeasonPeriodP();
+            List<OfferSeasonPeriodP> seL = new ArrayList<OfferSeasonPeriodP>();
+            pe.setStartP(DateFormatUtil.toD("2008/03/11"));
+            pe.setEndP(DateFormatUtil.toD("2008/06/11"));
+            pe.setPeriodT(SeasonPeriodT.LOW);
+            pe.setPId(new Long(1));
+            seL.add(pe);
+            sep.setPeriods(seL);
 
+            hot.persistDic(seu, DictType.OffSeasonDict, sep);
 
-                VatDictionaryP va1 = new VatDictionaryP();
-                va1.setHotel(hotel);
-                va1.setName("zw");
-                va1.setVatPercent(new BigDecimal("10"));
-                hot.persistDic(seu, DictType.VatDict, va1);
+            VatDictionaryP va1 = new VatDictionaryP();
+            va1.setHotel(hotel);
+            va1.setName("zw");
+            va1.setVatPercent(new BigDecimal("10"));
+            hot.persistDic(seu, DictType.VatDict, va1);
 
-                ServiceDictionaryP sP1 = new ServiceDictionaryP();
-                sP1.setHotel(hotel);
-                sP1.setServType(ServiceType.DOSTAWKA);
-                sP1.setName("DOST");
-                va1 = new VatDictionaryP();
-                va1.setName("zw");
-                va1.setVatPercent(new BigDecimal("10"));
-                sP1.setVat(va1);
-                hot.persistDic(seu, DictType.ServiceDict, sP1);
+            ServiceDictionaryP sP1 = new ServiceDictionaryP();
+            sP1.setHotel(hotel);
+            sP1.setServType(ServiceType.INNE);
+            sP1.setName("DOST");
+            va1 = new VatDictionaryP();
+            va1.setName("zw");
+            va1.setVatPercent(new BigDecimal("10"));
+            sP1.setVat(va1);
+            hot.persistDic(seu, DictType.ServiceDict, sP1);
 
-                OfferPriceP oP1 = new OfferPriceP();
-                oP1.setSeason("GL");
-//                oP1.setService("DOST");
-                oP1.setHotel(sP1.getHotel());
+            OfferPriceP oP1 = new OfferPriceP();
+            oP1.setSeason("GL");
+            // oP1.setService("DOST");
+            oP1.setHotel(sP1.getHotel());
 
-                OfferServicePriceP osp;
-                List<OfferServicePriceP> lP = new ArrayList<OfferServicePriceP>();
-                osp = new OfferServicePriceP();
-//                osp.setSpecialperiod(new Long(1));
-//                osp.setPrice(new BigDecimal("123"));
-                osp.setService("DOST");
-                lP.add(osp);
-                oP1.setServiceprice(lP);
+            OfferServicePriceP osp;
+            List<OfferServicePriceP> lP = new ArrayList<OfferServicePriceP>();
+            osp = new OfferServicePriceP();
+            osp.setService("DOST");
+            lP.add(osp);
+            oP1.setServiceprice(lP);
 
-                a = oP1;
-                break;
+            a = oP1;
+            break;
 
-            case CustomerList:
-                CustomerP cP = new CustomerP();
-                cP.setCType(CustomerType.Person);
-                List<RemarkP> rCol = new ArrayList<RemarkP>();
-                RemarkP r1 = new RemarkP();
-                r1.setRemark("rybka");
-                r1.setAddDate(DateFormatUtil.toT("2008/01/01"));
-                r1.setLp(new Integer(1));
-                rCol.add(r1);
-                r1 = new RemarkP();
-                r1.setRemark("rurka");
-                r1.setLp(new Integer(2));
-                r1.setAddDate(DateFormatUtil.toT("2008/02/01"));
-                rCol.add(r1);
-                cP.setRemarks(rCol);
-                a = cP;
-                break;
-                
-            case BookingList:
-                CustomerP cP1 = new CustomerP();
-                cP1.setCType(CustomerType.Person);
-                List<RemarkP> rCol1 = new ArrayList<RemarkP>();
-                RemarkP r2 = new RemarkP();
-                r2.setRemark("rybka");
-                r2.setAddDate(DateFormatUtil.toT("2008/01/01"));
-                r2.setLp(new Integer(1));
-                rCol1.add(r2);
-                r1 = new RemarkP();
-                r1.setRemark("rurka");
-                r1.setLp(new Integer(2));
-                r1.setAddDate(DateFormatUtil.toT("2008/02/01"));
-                rCol1.add(r1);
-                cP1.setRemarks(rCol1);
-                cP = getpersistName(DictType.CustomerList, cP1, "K002");
+        case CustomerList:
+            CustomerP cP = new CustomerP();
+            cP.setCType(CustomerType.Person);
+            List<RemarkP> rCol = new ArrayList<RemarkP>();
+            RemarkP r1 = new RemarkP();
+            r1.setRemark("rybka");
+            r1.setAddDate(DateFormatUtil.toT("2008/01/01"));
+            r1.setLp(new Integer(1));
+            rCol.add(r1);
+            r1 = new RemarkP();
+            r1.setRemark("rurka");
+            r1.setLp(new Integer(2));
+            r1.setAddDate(DateFormatUtil.toT("2008/02/01"));
+            rCol.add(r1);
+            cP.setRemarks(rCol);
+            a = cP;
+            break;
 
-                oP = new OfferSeasonP();
-                oP.setStartP(DateFormatUtil.toD("2008/10/01"));
-                oP.setEndP(DateFormatUtil.toD("2008/10/30"));
-                oP = getpersistName(DictType.OffSeasonDict, oP, "CUR");
+        case BookingList:
+            CustomerP cP1 = new CustomerP();
+            cP1.setCType(CustomerType.Person);
+            List<RemarkP> rCol1 = new ArrayList<RemarkP>();
+            RemarkP r2 = new RemarkP();
+            r2.setRemark("rybka");
+            r2.setAddDate(DateFormatUtil.toT("2008/01/01"));
+            r2.setLp(new Integer(1));
+            rCol1.add(r2);
+            r1 = new RemarkP();
+            r1.setRemark("rurka");
+            r1.setLp(new Integer(2));
+            r1.setAddDate(DateFormatUtil.toT("2008/02/01"));
+            rCol1.add(r1);
+            cP1.setRemarks(rCol1);
+            cP = getpersistName(DictType.CustomerList, cP1, "K002");
 
-                BookingP bok = new BookingP();
-                bok.setCheckIn(DateFormatUtil.toD("2008/02/02"));
-                bok.setCheckOut(DateFormatUtil.toD("2008/05/05"));
-                bok.setNoPersons(new Integer(2));
-                bok.setCustomer(cP.getId());
-                bok.setSeason(oP.getName());
-                bok.setBookingType(BookingEnumTypes.Reservation);
+            oP = new OfferSeasonP();
+            oP.setStartP(DateFormatUtil.toD("2008/10/01"));
+            oP.setEndP(DateFormatUtil.toD("2008/10/30"));
+            oP = getpersistName(DictType.OffSeasonDict, oP, "CUR");
 
-                BookingStateP bState = new BookingStateP();
-                bState.setBState(BookingStateType.Confirmed);
-                bState.setLp(new Integer(1));
-                List<BookingStateP> staCol = new ArrayList<BookingStateP>();
-                staCol.add(bState);
-                bok.setState(staCol);
+            BookingP bok = new BookingP();
+            bok.setCheckIn(DateFormatUtil.toD("2008/02/02"));
+            bok.setCheckOut(DateFormatUtil.toD("2008/05/05"));
+            bok.setNoPersons(new Integer(2));
+            bok.setCustomer(cP.getId());
+            bok.setSeason(oP.getName());
+            bok.setBookingType(BookingEnumTypes.Reservation);
 
+            BookingStateP bState = new BookingStateP();
+            bState.setBState(BookingStateType.Confirmed);
+            bState.setLp(new Integer(1));
+            List<BookingStateP> staCol = new ArrayList<BookingStateP>();
+            staCol.add(bState);
+            bok.setState(staCol);
 
-                List<PaymentP> colP = new ArrayList<PaymentP>();
-                PaymentP p = new PaymentP();
-                p.setAmount(new BigDecimal(123));
-                p.setDateOp(DateFormatUtil.toD("2008/02/02"));
-                p.setPayMethod(PaymentMethod.Cache);
-                p.setSumOp(true);
-                p.setLp(new Integer(1));
-                p.setDatePayment(D("2008/02/02"));
-                colP.add(p);
-                p = new PaymentP();
-                p.setAmount(new BigDecimal(126));
-                p.setDateOp(DateFormatUtil.toD("2008/02/03"));
-                p.setPayMethod(PaymentMethod.Cache);
-                p.setDatePayment(D("2008/02/03"));
-                p.setSumOp(true);
-                p.setLp(new Integer(6));
-                colP.add(p);
-//                BillP bill = BillUtil.createPaymentBill();
-//                bill.setPayments(colP);
-//                List<BillP> colB = new ArrayList<BillP>();
-//                colB.add(bill);
-//                bok.setBill(colB);
-                setPay(bok,colP);
-                a = bok;
-                break;
+            List<PaymentP> colP = new ArrayList<PaymentP>();
+            PaymentP p = new PaymentP();
+            p.setAmount(new BigDecimal(123));
+            p.setDateOp(DateFormatUtil.toD("2008/02/02"));
+            p.setPayMethod(PaymentMethod.Cache);
+            p.setLp(new Integer(1));
+            p.setDatePayment(D("2008/02/02"));
+            colP.add(p);
+            p = new PaymentP();
+            p.setAmount(new BigDecimal(126));
+            p.setDateOp(DateFormatUtil.toD("2008/02/03"));
+            p.setPayMethod(PaymentMethod.Cache);
+            p.setDatePayment(D("2008/02/03"));
+            p.setLp(new Integer(6));
+            colP.add(p);
+            setPay(bok, colP);
+            a = bok;
+            break;
 
-            default:
-                a = new DictionaryP();
-                break;
+        default:
+            a = (DictionaryP) AbstractObjectFactory.constructAbstract(t);
+            break;
         }
         a.setHotel(hotel);
         return a;
@@ -434,47 +436,23 @@ abstract public class TestHelper {
     }
 
     protected void setPay(BookingP bok, List<PaymentP> colP) {
-        BillP bill = BillUtil.createPaymentBill();
-        bill.setPayments(colP);
-        bill.setCustomer(bok.getCustomer());
-        List<BillP> colB = new ArrayList<BillP>();
-        colB.add(bill);
-        bok.setBill(colB);
+        bok.setPayments(colP);
     }
-    
+
     protected void addPay(BookingP bok, List<PaymentP> colP) {
-        List<BillP> colB =bok.getBill();
-        for (BillP p : colB) {
-            p.setPayments(colP);
-        }
+        bok.setPayments(colP);
     }
-    
+
     protected List<PaymentP> getPay(BookingP bok) {
-        BillP bi = BillUtil.getBill(bok);
-        return bi.getPayments();
+        // BillP bi = BillUtil.getBill(bok);
+        // return bi.getPayments();
+        return bok.getPayments();
     }
-    
+
     protected List<PaymentP> getFPay(BookingP bok) {
-        List<BillP> col = bok.getBill();
-        for (BillP p : col) {
-            return p.getPayments();
-        }
-        return null;
+        return bok.getPayments();
     }
-    
-    protected void setVal(BookingP bok, List<AdvancePaymentP> colP) {
-        BillP bill = BillUtil.createPaymentBill();
-        bill.setCustomer(bok.getCustomer());
-        bill.setAdvancePay(colP);
-        List<BillP> colB = new ArrayList<BillP>();
-        colB.add(bill);
-        bok.setBill(colB);
-    }
-    
-    protected List<AdvancePaymentP> getVal(BookingP bok) {
-        BillP bi = BillUtil.getBill(bok);
-        return bi.getAdvancePay();
-    }
+
 
     protected Date D(String s) {
         return DateFormatUtil.toD(s);
@@ -491,8 +469,19 @@ abstract public class TestHelper {
     protected void eqD(String s, Date d) {
         assertEquals(s, DateFormatUtil.toS(d));
     }
-    
+
     protected void logInfo(String s) {
-    	log.getL().info(s);
+        log.getL().info(s);
+    }
+
+    protected void modifPaymentRow(BookElemP be) {
+        PaymentRowP rP = new PaymentRowP();
+        rP.setCustomerPrice(new BigDecimal(100));
+        rP.setOfferPrice(new BigDecimal(100));
+        rP.setRowFrom(be.getCheckIn());
+        rP.setRowTo(be.getCheckOut());
+        List<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
+        rCol.add(rP);
+        be.setPaymentrows(rCol);
     }
 }

@@ -28,9 +28,7 @@ import com.javahotel.common.command.PaymentMethod;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.AdvancePaymentP;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.CustomerP;
@@ -42,7 +40,7 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class TestSuite10 extends TestHelper {
@@ -74,18 +72,17 @@ public class TestSuite10 extends TestHelper {
         p.setAmount(new BigDecimal(123));
         p.setDateOp(DateFormatUtil.toD("2008/02/02"));
         p.setPayMethod(PaymentMethod.Cache);
-        p.setSumOp(true);
         p.setLp(new Integer(1));
         p.setDatePayment(D("2008/10/01"));
         col.add(p);
-        setPay(bok,col);
-//        bok.setPayments(col);
+        setPay(bok, col);
+        // bok.setPayments(col);
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-//        col = bok.getPayments();
+        // col = bok.getPayments();
         col = getPay(bok);
         assertEquals(1, col.size());
         for (PaymentP pp : col) {
-//            assertEquals(new Long(123), pp.getAmount().longValue());
+            // assertEquals(new Long(123), pp.getAmount().longValue());
             eqBig(new BigDecimal(123), pp.getAmount());
         }
     }
@@ -95,49 +92,11 @@ public class TestSuite10 extends TestHelper {
         System.out.println("validation");
         loginuser();
         BookingP bok = createB();
-        List<AdvancePaymentP> col = new ArrayList<AdvancePaymentP>();
-        AdvancePaymentP p = new AdvancePaymentP();
-        p.setLp(new Integer(1));
-        p.setDateOp(DateFormatUtil.toD("2008/02/02"));
-        p.setValidationDate(DateFormatUtil.toD("2008/03/02"));
-        p.setAmount(new BigDecimal(12));
-//        p.setClosed(false);
-        p.setRemarks("rybka");
-        col.add(p);
-        setVal(bok,col);
-//        bok.setValidations(col);
+        bok.setValidationDate(DateFormatUtil.toD("2008/03/02"));
+        bok.setValidationAmount(new BigDecimal(12));
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-//        col = bok.getValidations();
-        col = getVal(bok);
-        assertEquals(1, col.size());
-        for (AdvancePaymentP pp : col) {
-//            assertEquals(new Long(12), pp.getAmount().longValue());
-            eqBig(new BigDecimal(12), pp.getAmount());
-            assertEquals("rybka", pp.getRemarks());
-        }
+        eqBig(new BigDecimal(12), bok.getValidationAmount());
 
-        for (int i = 0; i < 10; i++) {
-            p = new AdvancePaymentP();
-            p.setLp(new Integer(i + 2));
-            p.setDateOp(DateFormatUtil.toD("2008/02/02"));
-            p.setValidationDate(DateFormatUtil.toD("2008/03/02"));
-            p.setAmount(new BigDecimal(i));
-            p.setRemarks("rybka");
-            col.add(p);
-        }
-
-        hot.persistDic(seu, DictType.BookingList, bok);
-        bok = getOneName(DictType.BookingList, "BOK0001");
-//        col = bok.getValidations();
-        col = getVal(bok);
-        assertEquals(11, col.size());
-        long sum = 0;
-        for (AdvancePaymentP pp : col) {
-            long a = pp.getAmount().longValue();
-            sum += a;
-        }
-        System.out.println("sum=" + sum);
-        assertEquals(57l, sum);
     }
 
     @Test
@@ -182,26 +141,14 @@ public class TestSuite10 extends TestHelper {
         System.out.println("booking record");
         loginuser();
         BookingP bok = createB();
-        List<BookRecordP> col = new ArrayList<BookRecordP>();
-        BookRecordP p = new BookRecordP();
-//        OfferSeasonP oSeason = getOfferSeason("P2008");
-//        bok.setSeason("P2008");
+        // OfferSeasonP oSeason = getOfferSeason("P2008");
+        // bok.setSeason("P2008");
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        p.setOPrice("Norm");
-        p.setCustomerPrice(new BigDecimal(999));
-        p.setDataFrom(DateFormatUtil.toD("2008/02/07"));
-        p.setLp(new Integer(1));
-        col.add(p);
-        bok.setBookrecords(col);
+        bok.setOPrice("Norm");
+        bok.setCustomerPrice(new BigDecimal(999));
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-        col = bok.getBookrecords();
-        assertEquals(1, col.size());
-        for (BookRecordP pp : col) {
-//            assertEquals(new Long(999), pp.getCustomerPrice().longValue());
-            eqBig(new BigDecimal(999),pp.getCustomerPrice());
-            assertEquals("Norm", pp.getOPrice());
-            assertEquals(new Integer(1), pp.getLp());
-        }
+        eqBig(new BigDecimal(999), bok.getCustomerPrice());
+        assertEquals("Norm", bok.getOPrice());
     }
 
     @Test
@@ -209,11 +156,8 @@ public class TestSuite10 extends TestHelper {
         System.out.println("booking elem");
         Test5();
         BookingP bok = getOneName(DictType.BookingList, "BOK0001");
-        BookRecordP p = null;
-        for (BookRecordP pp : bok.getBookrecords()) {
-            p = pp;
-        }
-        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, "2p2");
+        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(
+                DictType.ServiceDict, HOTEL1);
         servi = getpersistName(DictType.ServiceDict, servi, "2p2");
 
         BookElemP be = new BookElemP();
@@ -224,13 +168,11 @@ public class TestSuite10 extends TestHelper {
         be.setCheckOut(DateFormatUtil.toD("2008/03/07"));
         List<BookElemP> col = new ArrayList<BookElemP>();
         col.add(be);
-        p.setBooklist(col);
+        modifPaymentRow(be);
+        bok.setBooklist(col);
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-        p = null;
-        for (BookRecordP pp : bok.getBookrecords()) {
-            p = pp;
-        }
-        for (BookElemP bb : p.getBooklist()) {
+        be = null;
+        for (BookElemP bb : bok.getBooklist()) {
             be = bb;
         }
         assertEquals("1p", be.getResObject());
@@ -242,12 +184,8 @@ public class TestSuite10 extends TestHelper {
         System.out.println("booking elem");
         Test6();
         BookingP bok = getOneName(DictType.BookingList, "BOK0001");
-        BookRecordP p = null;
-        for (BookRecordP pp : bok.getBookrecords()) {
-            p = pp;
-        }
         BookElemP be = null;
-        for (BookElemP bb : p.getBooklist()) {
+        for (BookElemP bb : bok.getBooklist()) {
             be = bb;
         }
         PaymentRowP pR = new PaymentRowP();
@@ -265,12 +203,8 @@ public class TestSuite10 extends TestHelper {
         col.add(pR);
         be.setPaymentrows(col);
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-        p = null;
-        for (BookRecordP pp : bok.getBookrecords()) {
-            p = pp;
-        }
         be = null;
-        for (BookElemP bb : p.getBooklist()) {
+        for (BookElemP bb : bok.getBooklist()) {
             be = bb;
         }
         col = be.getPaymentrows();

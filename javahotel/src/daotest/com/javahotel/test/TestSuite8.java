@@ -12,7 +12,17 @@
  */
 package com.javahotel.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.ServiceType;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.OfferPriceP;
@@ -22,15 +32,8 @@ import com.javahotel.common.toobject.OfferServicePriceP;
 import com.javahotel.common.toobject.OfferSpecialPriceP;
 import com.javahotel.common.toobject.SeasonPeriodT;
 import com.javahotel.common.toobject.ServiceDictionaryP;
-import com.javahotel.common.toobject.ServiceType;
 import com.javahotel.common.toobject.VatDictionaryP;
-
 import com.javahotel.remoteinterfaces.HotelT;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -58,7 +61,7 @@ public class TestSuite8 extends TestHelper {
 
         ServiceDictionaryP sP = new ServiceDictionaryP();
         sP.setHotel(HOTEL1);
-        sP.setServType(ServiceType.DOSTAWKA);
+        sP.setServType(ServiceType.INNE);
         sP.setName("DOST");
         va = new VatDictionaryP();
         va.setName("zw");

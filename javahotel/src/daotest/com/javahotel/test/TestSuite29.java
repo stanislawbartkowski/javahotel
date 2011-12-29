@@ -52,11 +52,11 @@ public class TestSuite29 extends TestHelper {
 		assertEquals(3, res.size());
 		HotelP te = new HotelP();
 		te.setName("hotelsuper");
-		ReturnPersist ret = aut.testPersistHotel(se, PersistType.ADD, te);
+		ReturnPersist ret = aut.validatePersistHotel(se, PersistType.ADD, te);
 		assertNull(ret.getErrorMessage());
 		te = new HotelP();
 		te.setName("hotel1");
-		ret = aut.testPersistHotel(se, PersistType.ADD, te);
+		ret = aut.validatePersistHotel(se, PersistType.ADD, te);
 		System.out.println(ret.getErrorMessage());
 		assertNotNull(ret.getErrorMessage());
 		assertNotNull(ret.getViewName());
@@ -70,17 +70,17 @@ public class TestSuite29 extends TestHelper {
 		aut.persistPerson(se, "user2", new PasswordT("password2"));
 		PersonP pe = new PersonP();
 		pe.setName("user1");
-		ReturnPersist ret = aut.testPersistPerson(se, PersistType.ADD, pe);
+		ReturnPersist ret = aut.validatePersistPerson(se, PersistType.ADD, pe);
 		System.out.println(ret.getErrorMessage());
 		assertNotNull(ret.getErrorMessage());
 		pe = new PersonP();
 		pe.setName("user2");
-		ret = aut.testPersistPerson(se, PersistType.ADD, pe);
+		ret = aut.validatePersistPerson(se, PersistType.ADD, pe);
 		System.out.println(ret.getErrorMessage());
 		assertNotNull(ret.getErrorMessage());
 		pe = new PersonP();
 		pe.setName("user3");
-		ret = aut.testPersistPerson(se, PersistType.ADD, pe);
+		ret = aut.validatePersistPerson(se, PersistType.ADD, pe);
 		assertNull(ret.getErrorMessage());
 	}
 	
@@ -90,11 +90,11 @@ public class TestSuite29 extends TestHelper {
         a.setName("rybka");
         a.setHotel(hotel1);
         hot.persistDic(se, d, a);
-        ReturnPersist ret = hot.testDicPersist(se, PersistType.ADD, d, a);
+        ReturnPersist ret = hot.validateDicPersist(se, PersistType.ADD, d, a);
 		System.out.println(ret.getErrorMessage());
 		assertNotNull(ret.getErrorMessage());
         a.setName("pipka");
-        ret = hot.testDicPersist(se, PersistType.ADD, d, a);
+        ret = hot.validateDicPersist(se, PersistType.ADD, d, a);
 		System.out.println(ret.getErrorMessage());
 		assertNull(ret.getErrorMessage());
 	}

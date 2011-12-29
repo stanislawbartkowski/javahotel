@@ -12,6 +12,14 @@
  */
 package com.javahotel.test;
 
+import static org.junit.Assert.assertEquals;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
@@ -21,16 +29,21 @@ import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.PaymentP;
 
-import java.math.BigDecimal;
-import java.util.List;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 /**
  *
  * @author stanislawbartkowski@gmail.com
  */
 public class TestSuite18 extends TestHelper {
+    
+    // Test scenario
+    // Step 1: add first payment
+    // Verification 1 : check if one payment added
+    // Verification 2 : one booking state
+    // Step 3: add Canceled state
+    // Verification 3: two booking states
+    // Step 4: add Canceled state
+    // Verification 4: still two states (two last CANCELED)
+    // Verification 5: last cancelled
 
     @Test
     public void Test1() {
@@ -45,14 +58,16 @@ public class TestSuite18 extends TestHelper {
         pa.setReservName("BOK0001");
         PaymentP pay = new PaymentP();
         pay.setAmount(new BigDecimal(90));
-        pay.setSumOp(true);
         pay.setDatePayment(D("2008/02/02"));
         pay.setPayMethod(PaymentMethod.Cache);
-        pa.setDownPayment(pay);
-        hotop.hotelOp(se, HotelOpType.payDownPaymentStateNoChange, pa);
+        col.add(pay);
+        pa.setListP(col);
+        hotop.hotelOp(se, HotelOpType.AddDownPayment, pa);
+        
         bok = getOneName(DictType.BookingList, "BOK0001");
 //        col = bok.getPayments();
         col = getPay(bok);
+        // Verification 1
         assertEquals(1, col.size());
         for (PaymentP p : col) {
             pay = p;
@@ -60,33 +75,39 @@ public class TestSuite18 extends TestHelper {
         assertEquals(new Integer(1), pay.getLp());
 
         List<BookingStateP> colp = bok.getState();
+        // Verification 2
         assertEquals(1, colp.size());
 
+        // Step 3
         BookingStateP bs = new BookingStateP();
         bs.setBState(BookingStateType.Canceled);
         pa = new CommandParam();
         pa.setHotel(HOTEL1);
         pa.setReservName("BOK0001");
         pa.setStateP(bs);
-        hotop.hotelOp(se, HotelOpType.payDownPaymentStateNoChange, pa);
+        hotop.hotelOp(se, HotelOpType.BookingSetNewState, pa);
         bok = getOneName(DictType.BookingList, "BOK0001");
         colp = bok.getState();
+        // Verification 3
         assertEquals(2, colp.size());
 
+        // Step 4
         bs = new BookingStateP();
         bs.setBState(BookingStateType.Canceled);
         pa = new CommandParam();
         pa.setHotel(HOTEL1);
         pa.setReservName("BOK0001");
         pa.setStateP(bs);
-        hotop.hotelOp(se, HotelOpType.payDownPaymentStateNoChange, pa);
+        hotop.hotelOp(se, HotelOpType.BookingSetNewState, pa);
         bok = getOneName(DictType.BookingList, "BOK0001");
         colp = bok.getState();
+        // Verification 4
         assertEquals(2, colp.size());
         bs = null;
         for (BookingStateP s : colp) {
             bs = s;
         }
+        // Verification 5
         assertEquals(BookingStateType.Canceled,bs.getBState());
     }
 }

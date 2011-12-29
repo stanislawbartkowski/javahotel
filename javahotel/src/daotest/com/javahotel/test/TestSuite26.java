@@ -18,8 +18,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -31,7 +31,6 @@ import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.GuestP;
@@ -57,29 +56,25 @@ public class TestSuite26 extends TestHelper {
         bok.setHotel(HOTEL1);
         bok.setName("");
         bok.setBookingType(BookingEnumTypes.Stay);
-        List<BookRecordP> col = new ArrayList<BookRecordP>();
-        BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        p.setCustomerPrice(new BigDecimal(999));
-        p.setDataFrom(DateFormatUtil.toD("2008/02/07"));
-        p.setLp(new Integer(1));
-        p.setOPrice("Norm");
-        p.setOPrice(oPrice.getName());
-        col.add(p);
-        bok.setBookrecords(col);
+        bok.setCustomerPrice(new BigDecimal(999));
+        bok.setOPrice("Norm");
+        bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();
         ResObjectP rO = getResObject("1p");
         be.setResObject("1p");
-        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, "LUX");
+        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, HOTEL1);
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
         be.setService("LUX");
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
+        modifPaymentRow(be);
+        
         List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
-        p.setBooklist(colE);
+        bok.setBooklist(colE);
 
-        ReturnPersist ret = hot.persistDicReturn(se, DictType.BookingList, bok);
+        ReturnPersist ret = hot.persistDic(se, DictType.BookingList, bok);
         System.out.println(ret.getIdName());
 
 
@@ -87,7 +82,10 @@ public class TestSuite26 extends TestHelper {
         CustomerP cust = (CustomerP) getDict(DictType.CustomerList,HOTEL1);
         cust = getpersistName(DictType.CustomerList,cust,"P001");
         GuestP guest = new GuestP();
+        guest.setCheckIn(D("2009/02/07"));
+        guest.setCheckOut(D("2009/02/08"));
         guest.setCustomer(cust.getId());
+        
         List<GuestP> guests = new ArrayList<GuestP>();
         guests.add(guest);
         Map<String,List<GuestP>> ma = new HashMap<String,List<GuestP>>();
@@ -98,9 +96,7 @@ public class TestSuite26 extends TestHelper {
         hotop.hotelOp(se, HotelOpType.PersistGuests,par);
 
         bok = getOneNameN(DictType.BookingList, ret.getIdName());
-        p = GetMaxUtil.getLastBookRecord(bok);
-        be = null;
-        for (BookElemP b : p.getBooklist()) {
+        for (BookElemP b : bok.getBooklist()) {
             be = b;
         }
         guests = be.getGuests();
@@ -118,6 +114,8 @@ public class TestSuite26 extends TestHelper {
         cust = getpersistName(DictType.CustomerList,cust,"P003");
         guest = new GuestP();
         guest.setCustomer(cust.getId());
+        guest.setCheckIn(D("2009/02/07"));
+        guest.setCheckOut(D("2009/02/08"));
         guests = new ArrayList<GuestP>();
         guests.add(guest);
         ma = new HashMap<String,List<GuestP>>();
@@ -128,9 +126,8 @@ public class TestSuite26 extends TestHelper {
         hotop.hotelOp(se, HotelOpType.PersistGuests,par);
 
         bok = getOneNameN(DictType.BookingList, ret.getIdName());
-        p = GetMaxUtil.getLastBookRecord(bok);
         be = null;
-        for (BookElemP b : p.getBooklist()) {
+        for (BookElemP b : bok.getBooklist()) {
             be = b;
         }
         guests = be.getGuests();
