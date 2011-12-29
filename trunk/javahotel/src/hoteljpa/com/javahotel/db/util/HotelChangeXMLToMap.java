@@ -35,7 +35,7 @@ public class HotelChangeXMLToMap {
     private HotelChangeXMLToMap() {
     }
 
-    public static void constructMapFromXML(ICommandContext iC, DataMapList d,
+    public static void constructMapFromXML(ICommandContext iC, DataMapList<?> d,
             String sXML) {
         IXMLTypeFactory fa = new InvoiceXMLMapFactory();
         InputStream ii = GetProp.getXMLFile(IMess.INVOICEXSDFILDER,

@@ -13,11 +13,45 @@
 package com.javahotel.db.util;
 
 import com.gwtmodel.mapxml.SimpleXMLTypeFactory;
+import com.gwtmodel.table.common.CUtil;
+import com.javahotel.common.command.PaymentMethod;
+import com.javahotel.common.command.PersonTitle;
 
 /**
  * @author hotel
  * 
  */
 public class InvoiceXMLMapFactory extends SimpleXMLTypeFactory {
+
+    public final static String PAYMENT = "pay";
+    public final static String TITLE = "title";
+
+    @Override
+    public Object contruct(String xType, String s) {
+        if (!CUtil.EmptyS(xType)) {
+            if (xType.equals(PAYMENT)) {
+                return PaymentMethod.valueOf(s);
+            }
+            if (xType.equals(TITLE)) {
+                return PersonTitle.valueOf(s);
+            }
+        }
+        return super.contruct(xType, s);
+    }
+
+    @Override
+    public String toS(String xType, Object o) {
+        if (!CUtil.EmptyS(xType)) {
+            if (xType.equals(PAYMENT)) {
+                PaymentMethod pa = (PaymentMethod) o;
+                return pa.toString();
+            }
+            if (xType.equals(TITLE)) {
+                PersonTitle pa = (PersonTitle) o;
+                return pa.toString();
+            }
+        }
+        return super.toS(xType, o);
+    }
 
 }

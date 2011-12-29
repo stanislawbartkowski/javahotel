@@ -45,6 +45,7 @@
 
     <complexType name="AddressData">
     	<sequence>
+    		<element name="Title" type="string" nillable="true"></element>
     		<element name="Symbol" type="string"></element>
     		<element name="Name1" type="string"></element>
     		<element name="Name2" type="string"></element>
@@ -59,7 +60,7 @@
 
     <complexType name="PaymentInfo">
     	<sequence>
-    		<element name="PaymentMethod" type="string"></element>
+    		<element name="PaymentMethod" type="string" nillable="true"></element>
     		<element name="DaysForPayment" type="int" nillable="true"></element>
     		<element name="TerminOfPayment" type="date" nillable="true"></element>
     		<element name="AccountNumber" type="string"></element>
