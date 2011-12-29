@@ -112,7 +112,7 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         }
     }
 
-    class ChangeMode implements ISlotListener {
+    private class ChangeMode implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
@@ -120,8 +120,18 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
             slMediator.getSlContainer().publish(dType,
                     DataActionEnum.ChangeViewComposeFormModeAction,
                     slContext.getPersistType());
+            cContainer.ModifForm();
         }
 
+    }
+    
+    private class ChooseCustomer implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            custP = slContext.getVData();
+        }
+        
     }
 
     public BookingCustomerContainer(ICallContext iContext, IDataType subType) {
@@ -131,8 +141,11 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         ecFactory = GwtGiniInjector.getI().getEditChooseRecordFactory();
         cContainer = ecFactory.constructEditChooseRecord(ii,
                 iContext.getDType());
+        // listener if one to check box has been changed
         cContainer.getSlContainer().registerSubscriber(
                 IChangeObject.signalString, new ReceiveChange(cContainer));
+        cContainer.getSlContainer().registerSubscriber(
+                IChangeObject.choosedString, new ChooseCustomer());
         TablesFactories tFactories = iContext.getT();
         ITableCustomFactories fContainer = GwtGiniInjector.getI()
                 .getTableFactoriesContainer();

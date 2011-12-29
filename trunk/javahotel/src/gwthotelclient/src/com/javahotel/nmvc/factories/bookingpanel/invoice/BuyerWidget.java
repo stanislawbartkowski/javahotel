@@ -51,22 +51,30 @@ class BuyerWidget extends AbstractSlotContainer {
     private final ISlotable iView;
     private final IDataType iViewType;
     private final DrawAfterSelect aSelect;
-
+    
+    private void changeMode(PersistTypeEnum pe) {
+        List<IVField> fLi = new ArrayList<IVField>();
+        for (Entry<IField, String> e : bList.entrySet()) {
+            IVField fie = mapS.get(e.getValue());
+            fLi.add(fie);
+        }
+        SignalChangeMode si = new SignalChangeMode(fLi, pe);
+        iView.getSlContainer().publish(
+                SignalChangeMode.constructSlot(iViewType), si);
+    }
+    
+    void ChangeModeToShow() {
+        changeMode(PersistTypeEnum.SHOWONLY);
+        cContainer.SetNewChange(false, false);
+    }
+    
     private class ChangeModeAfterSelect implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             PersistTypeEnum pe = slContext.getPersistType();
-            List<IVField> fLi = new ArrayList<IVField>();
-            for (Entry<IField, String> e : bList.entrySet()) {
-                IVField fie = mapS.get(e.getValue());
-                fLi.add(fie);
-            }
-            SignalChangeMode si = new SignalChangeMode(fLi, pe);
-            iView.getSlContainer().publish(
-                    SignalChangeMode.constructSlot(iViewType), si);
-        }
-
+            changeMode(pe);
+           }
     }
 
     BuyerWidget(IDataType dType, Map<IField, String> bList,

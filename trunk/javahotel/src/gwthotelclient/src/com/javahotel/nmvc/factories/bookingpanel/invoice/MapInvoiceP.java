@@ -104,6 +104,13 @@ class MapInvoiceP {
                     IMap.PAYMENT_METHOD));
             ma.add(MapEntryFactory.createEntry(InvoiceP.INVOICENUMBER,
                     IMap.INVOICE_NUMBER));
+            
+            ma.add(MapEntryFactory.createEntry(InvoiceP.GUEST_NAME1,
+                    IMap.GUEST_NAME1));
+            ma.add(MapEntryFactory.createEntry(InvoiceP.GUEST_NAME2,
+                    IMap.GUEST_NAME2));
+            ma.add(MapEntryFactory.createEntry(InvoiceP.GUEST_TITLE,
+                    IMap.GUEST_TITLE));
             return ma;
         }
     }

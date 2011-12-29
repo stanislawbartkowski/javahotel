@@ -50,16 +50,20 @@ class DrawAfterSelect {
         }
     }
 
-    void copyFields() {
+    void copyFields(Map<IField, String> paList) {
         FormLineContainer formL = SlU.getFormLineContainer(iViewType, iView);
 
-        for (Entry<IField, String> e : bList.entrySet()) {
+        for (Entry<IField, String> e : paList.entrySet()) {
             Object o = aObject.getF(e.getKey());
             IVField fie = mapS.get(e.getValue());
             IFormLineView view = formL.findLineView(fie);
             assert view != null : LogT.getT().cannotBeNull();
             view.setValObj(o);
         }
+    }
+
+    void copyFields() {
+        copyFields(bList);
     }
 
     private class DrawDataAfterSelect implements ISlotListener {
