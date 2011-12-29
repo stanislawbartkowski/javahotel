@@ -83,5 +83,7 @@ public enum DataActionEnum {
     /** Action cell clicked. */
     TableCellClicked,
     /** After FormDialog is displayed. */
-    AfterDrawViewFormAction
+    AfterDrawViewFormAction,
+    /** After ChangeMode is executed. */
+    AfterChangeModeFormAction
 }
