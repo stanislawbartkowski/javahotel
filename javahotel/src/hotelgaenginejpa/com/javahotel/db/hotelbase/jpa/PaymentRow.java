@@ -20,6 +20,8 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.javahotel.db.jtypes.IId;
 
@@ -31,10 +33,12 @@ import com.javahotel.db.jtypes.IId;
 public class PaymentRow extends AbstractIId implements IId {
 
     @Basic(optional = false)
-    private Long lrowFrom;
+    @Temporal(TemporalType.DATE)
+    private Date rowFrom;
 
     @Basic(optional = false)
-    private Long lrowTo;
+    @Temporal(TemporalType.DATE)
+    private Date rowTo;
 
     @Basic(optional = false)
     private BigDecimal offerPrice;
@@ -45,41 +49,19 @@ public class PaymentRow extends AbstractIId implements IId {
     private BookElem bookelem;
 
     public Date getRowFrom() {
-        if (lrowFrom == null) {
-            return null;
-        }
-        return new Date(lrowFrom);
+        return rowFrom;
     }
 
     public void setRowFrom(final Date rowFrom) {
-        this.lrowFrom = new Long(rowFrom.getTime());
-    }
-
-    public Long getLrowFrom() {
-        return lrowFrom;
-    }
-
-    public void setLrowFrom(Long lrowFrom) {
-        this.lrowFrom = lrowFrom;
+        this.rowFrom = rowFrom;
     }
 
     public Date getRowTo() {
-        if (lrowTo == null) {
-            return null;
-        }
-        return new Date(lrowTo.longValue());
+        return rowTo;
     }
 
     public void setRowTo(final Date rowTo) {
-        this.lrowTo = new Long(rowTo.getTime());
-    }
-
-    public Long getLrowTo() {
-        return lrowTo;
-    }
-
-    public void setLrowTo(Long lrowTo) {
-        this.lrowTo = lrowTo;
+        this.rowTo = rowTo;
     }
 
     public BigDecimal getOfferPrice() {

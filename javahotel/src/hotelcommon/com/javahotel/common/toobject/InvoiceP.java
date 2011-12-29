@@ -57,6 +57,10 @@ public class InvoiceP extends DictionaryP {
     public final static String LINE_TOTAL = "Total";
     public final static String LINE_SERVICE_DATE = "ServiceDate";
 
+    public final static String GUEST_TITLE = "//Person/Title";
+    public final static String GUEST_NAME1 = "//Person/Name1";
+    public final static String GUEST_NAME2 = "//Person/Name2";
+
     private LId customer;
     private LId booking;
     private OperationData op;

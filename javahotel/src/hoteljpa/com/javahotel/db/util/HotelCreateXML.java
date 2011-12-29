@@ -50,7 +50,7 @@ public class HotelCreateXML {
      * @return String valid xml file
      */
     public static String constructXMLFile(ICommandContext iC, String fPattern,
-            DataMapList d) {
+            DataMapList<?> d) {
         
         IXMLTypeFactory fa = new InvoiceXMLMapFactory();
         InputStream i = GetProp

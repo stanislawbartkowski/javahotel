@@ -16,7 +16,7 @@ import java.util.Date;
 import javax.ejb.Remote;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @Remote
@@ -26,6 +26,7 @@ public interface IHotelTest {
     int OFFERSERVICEPRICE = 1;
     int CUSTOMERREMARKS = 2;
     int BOOKINGPAYMENTREGISTER = 3;
+    int BOOKINTPAYMENTROWS = 4;
 
     int getNumberOfRecord(SessionT sessionId, int rType, HotelT hotel);
 

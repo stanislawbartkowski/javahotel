@@ -26,6 +26,8 @@ xsi:nil="true" type="date"></DateOfSale>
 </HotelData>
 
 <Person>
+  <Title type="title" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></Title>
   <Symbol></Symbol>
   <Name1></Name1>
   <Name2></Name2>
@@ -38,6 +40,8 @@ xsi:nil="true" type="date"></DateOfSale>
 </Person>
 
 <Payer>
+  <Title type="title" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:nil="true"></Title>
   <Symbol></Symbol>
   <Name1></Name1>
   <Name2></Name2>

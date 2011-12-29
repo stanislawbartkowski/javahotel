@@ -16,13 +16,14 @@ import com.javahotel.db.hotelbase.jpa.CustomerRemark;
 import com.javahotel.db.hotelbase.jpa.OfferServicePrice;
 import com.javahotel.db.hotelbase.jpa.OfferSpecialPrice;
 import com.javahotel.db.hotelbase.jpa.Payment;
+import com.javahotel.db.hotelbase.jpa.PaymentRow;
 import com.javahotel.db.hotelbase.queries.GetQueries;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.IHotelTest;
 import com.javahotel.remoteinterfaces.SessionT;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class TestGetNumber extends CommandAbstract {
@@ -30,8 +31,7 @@ public class TestGetNumber extends CommandAbstract {
     private final int rType;
     private int res;
 
-    public TestGetNumber(final SessionT se, final int rType,
-            final HotelT hotel) {
+    public TestGetNumber(final SessionT se, final int rType, final HotelT hotel) {
         super(se, false, hotel);
         this.rType = rType;
     }
@@ -42,21 +42,22 @@ public class TestGetNumber extends CommandAbstract {
         Class<?> cla = null;
 
         switch (rType) {
-            case IHotelTest.OFFERSEASONSPECIALPRICE:
-                cla = OfferSpecialPrice.class;
-                break;
-            case IHotelTest.OFFERSERVICEPRICE:
-                cla = OfferServicePrice.class;
-                break;
-            case IHotelTest.CUSTOMERREMARKS:
-                cla = CustomerRemark.class;
-                break;
-            case IHotelTest.BOOKINGPAYMENTREGISTER:
-                cla = Payment.class;
-                break;
+        case IHotelTest.OFFERSEASONSPECIALPRICE:
+            cla = OfferSpecialPrice.class;
+            break;
+        case IHotelTest.OFFERSERVICEPRICE:
+            cla = OfferServicePrice.class;
+            break;
+        case IHotelTest.CUSTOMERREMARKS:
+            cla = CustomerRemark.class;
+            break;
+        case IHotelTest.BOOKINGPAYMENTREGISTER:
+            cla = Payment.class;
+            break;
+        case IHotelTest.BOOKINTPAYMENTROWS:
+            cla = PaymentRow.class;
+            break;
         }
-//        Long l = iC.getJpa().getNumber(cla);
-//        res = l.intValue();
         res = GetQueries.getNumber(iC, cla);
     }
 
