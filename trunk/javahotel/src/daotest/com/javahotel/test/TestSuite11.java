@@ -1,7 +1,16 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
  */
+
 package com.javahotel.test;
 
 import static org.junit.Assert.assertEquals;
@@ -20,7 +29,6 @@ import com.javahotel.common.command.RType;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.OfferPriceP;
@@ -40,37 +48,30 @@ public class TestSuite11 extends TestHelper {
     public void Test1() {
         loginuser();
         BookingP bok = createB();
-        List<BookRecordP> col = new ArrayList<BookRecordP>();
-        BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        p.setCustomerPrice(new BigDecimal(999));
-        p.setDataFrom(DateFormatUtil.toD("2008/02/07"));
-        p.setLp(new Integer(1));
-        p.setOPrice("Norm");
-        p.setOPrice(oPrice.getName());
-        col.add(p);
-        bok.setBookrecords(col);
+        bok.setCustomerPrice(new BigDecimal(999));
+        bok.setOPrice("Norm");
+        bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();
         ResObjectP rO = getResObject("1p");
         be.setResObject("1p");
-        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict,"LUX");
+        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict,HOTEL1);
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
         be.setService("LUX");
+        List<PaymentRowP> pList = new ArrayList<PaymentRowP>();
+        PaymentRowP pRow = new PaymentRowP();
+        pList.add(pRow);
+        be.setPaymentrows(pList);
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/03/07"));
         List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
-        p.setBooklist(colE);
+        bok.setBooklist(colE);
 
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-        col = bok.getBookrecords();
-        p = null;
-        for (BookRecordP pp : bok.getBookrecords()) {
-            p = pp;
-        }
         be = null;
-        for (BookElemP bb : p.getBooklist()) {
+        for (BookElemP bb : bok.getBooklist()) {
             be = bb;
         }
 
@@ -86,13 +87,8 @@ public class TestSuite11 extends TestHelper {
     public void Test2() {
         Test1();
         BookingP bok = getOneName(DictType.BookingList, "BOK0001");
-        List<BookRecordP> col = bok.getBookrecords();
-        BookRecordP p = null;
-        for (BookRecordP pp : bok.getBookrecords()) {
-            p = pp;
-        }
         BookElemP be = null;
-        for (BookElemP bb : p.getBooklist()) {
+        for (BookElemP bb : bok.getBooklist()) {
             be = bb;
         }
         PaymentRowP pR = new PaymentRowP();

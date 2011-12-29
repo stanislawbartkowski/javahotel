@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.AbstractTo;
+import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.RoomStandardP;
@@ -60,12 +61,14 @@ public class TestSuite30 extends TestHelper {
 		assertTrue(ca.getId().equals(ca1.getId()));
 	}
 
-	/*
-	 * Check that modyfing roomstandard with list of services does not change
-	 * the list os ervices at all Test scenario: 1. Add service 2. Add
-	 * roomstandard with empty list 3. Modify roomstandard with one service
-	 * Expected result There is still on service in the database
-	 */
+	 // Check that modyfing roomstandard with list of services does not change
+	 // the list of services at all 
+    
+     // Test scenario: 
+     // 1. Add service 
+     // 2.Add roomstandard with empty list 
+     // 3. Modify roomstandard with one service 
+     // Expected result There is still on service in the database
 
 	@Test
 	public void Test2() {
@@ -74,7 +77,7 @@ public class TestSuite30 extends TestHelper {
 		DictionaryP a = getDict(DictType.ServiceDict, HOTEL1);
 		a.setName("1p1");
 		// Step 1
-		hot.persistDicReturn(se, DictType.ServiceDict, a);
+		hot.persistDic(se, DictType.ServiceDict, a);
 		ServiceDictionaryP sp = getOneName(DictType.ServiceDict, "1p1");
 		assertNotNull(sp);
 		DictionaryP a1 = getDict(DictType.RoomStandard, HOTEL1);
@@ -85,7 +88,7 @@ public class TestSuite30 extends TestHelper {
 		li.add(sp);
 		st.setServices(li);
 		// Step 3
-		hot.persistDicReturn(se, DictType.RoomStandard, st);
+		hot.persistDic(se, DictType.RoomStandard, st);
 		st = getOneName(DictType.RoomStandard, "STAND");
 		assertNotNull(st);
 		assertEquals(1, st.getServices().size());
@@ -97,11 +100,10 @@ public class TestSuite30 extends TestHelper {
 		assertEquals(1, col.size());
 	}
 
-	/*
-	 * Test vat registry Step 1: read vat (should be 4) Step 2: create and
-	 * persist ServiceDict Expected result: vat registry should contain 4
-	 * entries
-	 */
+	 // Test vat registry 
+	 // Step 1: read vat (should be 4) 
+	 // Step 2: create and persist ServiceDict 
+	 // Expected result: vat registry should contain 4 entries
 
 	@Test
 	public void Test3() {
@@ -113,7 +115,7 @@ public class TestSuite30 extends TestHelper {
 		DictionaryP a = getDict(DictType.ServiceDict, HOTEL1);
 		a.setName("1p1");
 		// Step 2
-		hot.persistDicReturn(se, DictType.ServiceDict, a);
+		hot.persistDic(se, DictType.ServiceDict, a);
 		ServiceDictionaryP sp = getOneName(DictType.ServiceDict, "1p1");
 		assertNotNull(sp);
 		col = hot.getDicList(se, DictType.VatDict, new HotelT(HOTEL1));
@@ -122,12 +124,11 @@ public class TestSuite30 extends TestHelper {
 		assertEquals(4, col.size());
 	}
 
-	/*
-	 * Test vat registry consistency Step 1: read vat (should be 4) Step 2:
-	 * create and persits ServiceDictionart Step 3: create and persist
-	 * RoomStandard having this Service Expected result: vat registry should
-	 * contain 4 entries (not 5)
-	 */
+	 // Test vat registry consistency 
+	 // Step 1: read vat (should be 4) 
+	 // Step 2: create and persits ServiceDictionart 
+	 // Step 3: create and persist RoomStandard having this Service Expected result: vat registry should
+	 //         contain 4 entries (not 5)
 
 	@Test
 	public void Test4() {
@@ -142,7 +143,7 @@ public class TestSuite30 extends TestHelper {
 		DictionaryP a = getDict(DictType.ServiceDict, HOTEL1);
 		a.setName("1p1");
 		// Step 2
-		hot.persistDicReturn(se, DictType.ServiceDict, a);
+		hot.persistDic(se, DictType.ServiceDict, a);
 
 		col = hot.getDicList(se, DictType.VatDict, new HotelT(HOTEL1));
 		assertEquals(4, col.size());
@@ -156,7 +157,7 @@ public class TestSuite30 extends TestHelper {
 		li.add(sp);
 		st.setServices(li);
 		// Step 3
-		hot.persistDicReturn(se, DictType.RoomStandard, st);
+		hot.persistDic(se, DictType.RoomStandard, st);
 
 		col = hot.getDicList(se, DictType.VatDict, new HotelT(HOTEL1));
 		logInfo("Expected result - 4 vat");
@@ -199,7 +200,7 @@ public class TestSuite30 extends TestHelper {
 		li.add(a1);
 		st.setServices(li);
 		// Step 2
-		hot.persistDicReturn(se, DictType.RoomStandard, st);
+		hot.persistDic(se, DictType.RoomStandard, st);
 		st = getOneName(DictType.RoomStandard, "STAND");
 		assertNotNull(st);
 		assertEquals(2, st.getServices().size());
@@ -211,7 +212,7 @@ public class TestSuite30 extends TestHelper {
 		li.add(a);
 		// Step 3
 		st.setServices(li);
-		hot.persistDicReturn(se, DictType.RoomStandard, st);
+		hot.persistDic(se, DictType.RoomStandard, st);
 		// Step 4
 		st = getOneName(DictType.RoomStandard, "STAND");
 		assertNotNull(st);
@@ -221,6 +222,38 @@ public class TestSuite30 extends TestHelper {
 		col = hot.getDicList(se, DictType.ServiceDict, new HotelT(HOTEL1));
 		assertEquals(2, col.size());
 
+	}
+	
+	// Test that list of bank accounts attached to customer is persisted properly
+	// Step1 : create C001 customer
+	// Step2 : add one account to customer
+	// Step3 :persist
+	// Step4 : read
+	// Verification: check that number of accounts is 1
+	@Test
+	public void test2() {
+        loginuser();
+        
+        // Step 1
+        DictionaryP a = getDict(DictType.CustomerList, HOTEL1);
+        a.setName("C001");
+        hot.persistDic(seu, DictType.CustomerList, a);
+        CustomerP ca = getOneNameN(DictType.CustomerList, "C001");
+        assertNotNull(ca);
+        ca.setName1("Name1");
+        
+        // Step2
+        List<BankAccountP> accounts = new ArrayList<BankAccountP>();
+        BankAccountP acc1 = new BankAccountP();
+        acc1.setAccountNumber("aaa bbb");
+        accounts.add(acc1);
+        ca.setAccounts(accounts);
+        // Step 3
+        hot.persistDic(seu, DictType.CustomerList, ca);
+        List<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
+        ca = getOneNameN(DictType.CustomerList, "C001");
+        accounts = ca.getAccounts();
+        assertEquals(1,accounts.size());
 	}
 
 }

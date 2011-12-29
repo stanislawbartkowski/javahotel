@@ -12,24 +12,26 @@
  */
 package com.javahotel.test;
 
-import com.javahotel.common.command.BookingStateType;
-import com.javahotel.common.command.DictType;
-import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
-import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.toobject.OfferPriceP;
-import com.javahotel.common.toobject.ResObjectP;
-import com.javahotel.common.toobject.ServiceDictionaryP;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.toobject.BookingStateP;
-import com.javahotel.common.toobject.PaymentRowP;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import com.javahotel.common.command.BookingStateType;
+import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.ReturnPersist;
+import com.javahotel.common.dateutil.DateFormatUtil;
+import com.javahotel.common.toobject.BookElemP;
+import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.BookingStateP;
+import com.javahotel.common.toobject.OfferPriceP;
+import com.javahotel.common.toobject.PaymentRowP;
+import com.javahotel.common.toobject.ResObjectP;
+import com.javahotel.common.toobject.ServiceDictionaryP;
 /**
  *
  * @author stanislawbartkowski@gmail.com
@@ -40,20 +42,15 @@ public class TestSuite21 extends TestHelper {
     public void Test1() {
         loginuser();
         BookingP bok = createB();
-        List<BookRecordP> col = new ArrayList<BookRecordP>();
-        BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        p.setCustomerPrice(new BigDecimal(999));
-        p.setDataFrom(DateFormatUtil.toD("2008/02/07"));
-        p.setLp(new Integer(1));
-        p.setOPrice("Norm");
-        p.setOPrice(oPrice.getName());
-        col.add(p);
-        bok.setBookrecords(col);
+        bok.setCustomerPrice(new BigDecimal(999));
+        bok.setOPrice("Norm");
+        bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();
+        modifPaymentRow(be);
         ResObjectP rO = getResObject("1p");
         be.setResObject("1p");
-        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, "LUX");
+        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, HOTEL1);
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
         be.setService("LUX");
 
@@ -61,7 +58,7 @@ public class TestSuite21 extends TestHelper {
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
         List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
-        p.setBooklist(colE);
+        bok.setBooklist(colE);
 
         PaymentRowP pR = new PaymentRowP();
         List<PaymentRowP> colP = new ArrayList<PaymentRowP>();
@@ -77,28 +74,23 @@ public class TestSuite21 extends TestHelper {
         BookingP bok1 = createB();
         bok1.setHotel(HOTEL1);
         bok1.setName("BOKRYBKA");
-        col = new ArrayList<BookRecordP>();
-        p = new BookRecordP();
         oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        p.setCustomerPrice(new BigDecimal(999));
-        p.setDataFrom(DateFormatUtil.toD("2008/02/07"));
-        p.setLp(new Integer(1));
-        p.setOPrice("Norm");
-        p.setOPrice(oPrice.getName());
-        col.add(p);
-        bok1.setBookrecords(col);
+        bok1.setCustomerPrice(new BigDecimal(999));
+        bok1.setOPrice("Norm");
+        bok1.setOPrice(oPrice.getName());
         be = new BookElemP();
         rO = getResObject("1p");
         be.setResObject("1p");
-        servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, "LUX");
+        servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, HOTEL1);
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
         be.setService("LUX");
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
+        modifPaymentRow(be);
         colE = new ArrayList<BookElemP>();
         colE.add(be);
-        p.setBooklist(colE);
+        bok1.setBooklist(colE);
 
         
         ReturnPersist ret = hot.persistResBookingReturn(se, bok1);

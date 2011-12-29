@@ -47,7 +47,7 @@ public class TestSuite15 extends TestHelper {
                 bok = createB();
                 bok.setHotel(HOTEL1);
                 System.out.println("Persist " + name);
-                ret = hot.persistDicReturn(se, DictType.BookingList, bok);
+                ret = hot.persistDic(se, DictType.BookingList, bok);
                 System.out.println(name + " " + ret.getIdName());
             }
 

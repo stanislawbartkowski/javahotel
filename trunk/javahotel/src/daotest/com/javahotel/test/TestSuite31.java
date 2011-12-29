@@ -65,7 +65,7 @@ public class TestSuite31 extends TestHelper {
         }
     }
 
-    /**
+    /*
      * Test with 2 BookRecord
      * Step1: Create and persists Booking with one BookRecord
      * Step2: Add next (second) BookRecord and persist
@@ -109,7 +109,7 @@ public class TestSuite31 extends TestHelper {
         assertEquals(2, noc);
     }
 
-    /**
+    /*
      * Step 1: Create Booking with two BookRecords 
      * Step 2: Create another Booking with one BookRecord
      * Expected result:

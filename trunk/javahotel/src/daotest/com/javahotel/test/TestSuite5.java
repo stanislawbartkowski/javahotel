@@ -135,6 +135,7 @@ public class TestSuite5 extends TestHelper {
         test1(DictType.PriceListDict);
         test1(DictType.CustomerList);
         test1(DictType.BookingList);
+        test1(DictType.IssuerInvoiceList);
     }
 
     @Test
@@ -226,8 +227,10 @@ public class TestSuite5 extends TestHelper {
         r.setFacilities(fac);
         r.setRType(RRoom.Room);
         DictionaryP sta = new DictionaryP();
+        sta.setHotel(ho);
         sta.setName("1p");
         sta.setDescription("Jedynak ze sniadaniem");
+        hot.persistDic( se, DictType.RoomStandard, sta);
         r.setRStandard(sta);
         hot.persistDic(se, DictType.RoomObjects, r);
     }

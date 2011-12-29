@@ -49,13 +49,13 @@ public class TestSuite32 extends TestHelper {
         pa.setDict(DictType.CustomerList);
         pa.setoP(HotelOpType.NumberOfDictRecords);
         // Step 2
-        ReturnPersist ret = hotop.hotelOpRet(se, pa);
+        ReturnPersist ret = hotop.hotelOp(se, pa);
         // Expected result
         assertEquals(1,ret.getNumberOf());
         // Step 3
         pa.setDict(DictType.RoomObjects);
         pa.setoP(HotelOpType.NumberOfDictRecords);
-        ret = hotop.hotelOpRet(se, pa);
+        ret = hotop.hotelOp(se, pa);
         // Expected result
         assertEquals(0,ret.getNumberOf());
     }
@@ -74,7 +74,7 @@ public class TestSuite32 extends TestHelper {
         pa.setDict(DictType.CustomerList);
         pa.setoP(HotelOpType.NumberOfDictRecords);
         // Step 1
-        ReturnPersist ret = hotop.hotelOpRet(se, pa);
+        ReturnPersist ret = hotop.hotelOp(se, pa);
         // Expected result
         assertEquals(0,ret.getNumberOf());
     }
@@ -105,7 +105,7 @@ public class TestSuite32 extends TestHelper {
         pa.setHotel(HOTEL2);
         pa.setDict(DictType.CustomerList);
         pa.setoP(HotelOpType.NumberOfDictRecords);
-        ReturnPersist ret = hotop.hotelOpRet(se, pa);
+        ReturnPersist ret = hotop.hotelOp(se, pa);
 
         // Expected result
         assertEquals(2,ret.getNumberOf());
@@ -116,7 +116,7 @@ public class TestSuite32 extends TestHelper {
         pa.setDict(DictType.CustomerList);
         pa.setoP(HotelOpType.NumberOfDictRecords);
 
-        ret = hotop.hotelOpRet(se, pa);
+        ret = hotop.hotelOp(se, pa);
         // Expected result
         assertEquals(1,ret.getNumberOf());
     }
@@ -158,7 +158,7 @@ public class TestSuite32 extends TestHelper {
         pa.setoP(HotelOpType.NumberOfDictRecords);
 
         // Expected result
-        List<ReturnPersist> res = hotop.hotelOpRet(se, li);
+        List<ReturnPersist> res = hotop.hotelOp(se, li);
 
         // (1)
         assertEquals(2,res.size());

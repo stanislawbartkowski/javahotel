@@ -44,26 +44,26 @@ public class TestSuite14 extends TestHelper {
         }
         bok = createB();
         bok.setHotel(HOTEL1);
-        ReturnPersist ret = hot.persistDicReturn(se, DictType.BookingList, bok);
+        ReturnPersist ret = hot.persistDic(se, DictType.BookingList, bok);
         System.out.println(ret.getIdName());
         assertEquals("2/10/2008", ret.getIdName());
 
         itest.setTodayDate(D("2007/10/08"));
         bok = createB();
         bok.setHotel(HOTEL1);
-        ret = hot.persistDicReturn(se, DictType.BookingList, bok);
+        ret = hot.persistDic(se, DictType.BookingList, bok);
         System.out.println(ret.getIdName());
         assertEquals("1/10/2007", ret.getIdName());
         bok = createB();
         bok.setHotel(HOTEL1);
-        ret = hot.persistDicReturn(se, DictType.BookingList, bok);
+        ret = hot.persistDic(se, DictType.BookingList, bok);
         System.out.println(ret.getIdName());
         assertEquals("2/10/2007", ret.getIdName());
 
         itest.setTodayDate(D("2008/10/08"));
         bok = createB();
         bok.setHotel(HOTEL1);
-        ret = hot.persistDicReturn(se, DictType.BookingList, bok);
+        ret = hot.persistDic(se, DictType.BookingList, bok);
         System.out.println(ret.getIdName());
         assertEquals("3/10/2008", ret.getIdName());
 
@@ -79,7 +79,7 @@ public class TestSuite14 extends TestHelper {
         for (int i = 0; i < 100; i++) {
             bok = createB();
             bok.setHotel(HOTEL1);
-            ret = hot.persistDicReturn(se, DictType.BookingList, bok);
+            ret = hot.persistDic(se, DictType.BookingList, bok);
             System.out.println(ret.getIdName());
         }
         assertEquals("100/10/2008", ret.getIdName());

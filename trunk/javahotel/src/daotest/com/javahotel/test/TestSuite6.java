@@ -16,20 +16,25 @@ package com.javahotel.test;
  *
  * @author stanislawbartkowski@gmail.com
  */
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RRoom;
+import com.javahotel.common.command.ServiceType;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.RoomStandardP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
-import com.javahotel.common.toobject.ServiceType;
 import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.remoteinterfaces.HotelT;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class TestSuite6 extends TestHelper {
 
@@ -99,6 +104,8 @@ public class TestSuite6 extends TestHelper {
         fac = new DictionaryP();
         fac.setName("internet");
         fac.setDescription("Dostep do internet");
+        fac.setHotel(HOTEL1);
+        hot.persistDic(se, DictType.RoomFacility, fac);        
         fDic.add(fac);
         rO.setFacilities(fDic);
         hot.persistDic(se, DictType.RoomObjects, rO);
@@ -143,8 +150,10 @@ public class TestSuite6 extends TestHelper {
         ServiceDictionaryP ser = new ServiceDictionaryP();
         VatDictionaryP v = new VatDictionaryP();
         v.setName("zw");
+        v.setHotel(HOTEL1);
+        hot.persistDic(se, DictType.VatDict, v);        
         ser.setVat(v);
-        ser.setServType(ServiceType.DOSTAWKA);
+        ser.setServType(ServiceType.INNE);
         ser.setName("1os2p");
         ser.setHotel(HOTEL1);
         hot.persistDic(se, DictType.ServiceDict, ser);
@@ -170,6 +179,8 @@ public class TestSuite6 extends TestHelper {
 
         v = new VatDictionaryP();
         v.setName("7%");
+        v.setHotel(HOTEL1);
+        hot.persistDic(se, DictType.VatDict, v);        
         ser.setVat(v);
         hot.persistDic(se, DictType.ServiceDict, ser);
         col = getDicList(se, DictType.ServiceDict, new HotelT(HOTEL1));
@@ -191,9 +202,13 @@ public class TestSuite6 extends TestHelper {
         ServiceDictionaryP ser = new ServiceDictionaryP();
         VatDictionaryP va = new VatDictionaryP();
         va.setName("zw");
+        va.setHotel(HOTEL1);
+        hot.persistDic(se, DictType.VatDict, va);        
         ser.setVat(va);
         ser.setName("1p2");
         ser.setServType(ServiceType.NOCLEG);
+        ser.setHotel(HOTEL1);
+        hot.persistDic(se, DictType.ServiceDict, ser);        
         col.add(ser);
         r.setServices(col);
         hot.persistDic(seu, DictType.RoomStandard, r);
@@ -218,6 +233,7 @@ public class TestSuite6 extends TestHelper {
 
         col = new ArrayList<ServiceDictionaryP>();
         ser.setName("2p2");
+        hot.persistDic(se, DictType.ServiceDict, ser);        
         col.add(ser);
         r.setServices(col);
         hot.persistDic(seu, DictType.RoomStandard, r);

@@ -12,26 +12,28 @@
  */
 package com.javahotel.test;
 
+import static org.junit.Assert.assertEquals;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.toobject.BookElemP;
-import com.javahotel.common.toobject.BookRecordP;
-import com.javahotel.common.toobject.BookingP;
-import com.javahotel.common.toobject.OfferPriceP;
-import com.javahotel.common.toobject.ResObjectP;
-import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.PeriodT;
+import com.javahotel.common.toobject.BookElemP;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
+import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.PaymentRowP;
+import com.javahotel.common.toobject.ResObjectP;
+import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.remoteinterfaces.HotelT;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -53,18 +55,13 @@ public class TestSuite20 extends TestHelper {
             be.setService("LUX");
             be.setCheckIn(dpocz);
             be.setCheckOut(dkon);
+            modifPaymentRow(be);
             List<BookElemP> colE = new ArrayList<BookElemP>();
             colE.add(be);
 
-            BookRecordP p = new BookRecordP();
-            p.setCustomerPrice(new BigDecimal(999));
-            p.setDataFrom(dpocz);
-            p.setLp(new Integer(1));
-            p.setOPrice("Norm");
-            List<BookRecordP> col = new ArrayList<BookRecordP>();
-            col.add(p);
-            bok.setBookrecords(col);
-            p.setBooklist(colE);
+            bok.setCustomerPrice(new BigDecimal(999));
+            bok.setOPrice("Norm");
+            bok.setBooklist(colE);
 
             PaymentRowP pR = new PaymentRowP();
             List<PaymentRowP> colP = new ArrayList<PaymentRowP>();
@@ -109,19 +106,14 @@ public class TestSuite20 extends TestHelper {
         loginuser();
         itest.setTodayDate(D("2008/10/08"));
         BookingP bok = createB();
-        List<BookRecordP> col = new ArrayList<BookRecordP>();
-        BookRecordP p = new BookRecordP();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        p.setCustomerPrice(new BigDecimal(999));
-        p.setDataFrom(DateFormatUtil.toD("2008/02/07"));
-        p.setLp(new Integer(1));
-        p.setOPrice("Norm");
-        p.setOPrice(oPrice.getName());
-        col.add(p);
-        bok.setBookrecords(col);
+        bok.setCustomerPrice(new BigDecimal(999));
+        bok.setOPrice("Norm");
+        bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();
         ResObjectP rO = getResObject("1p");
         be.setResObject("1p");
+        modifPaymentRow(be);
         ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, "LUX");
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
 
