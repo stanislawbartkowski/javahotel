@@ -15,34 +15,34 @@ package com.javahotel.servertest;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sortedunderbelly.appengineunit.harness.junit4.JUnit4Config;
-import org.sortedunderbelly.appengineunit.spi.EmailTestRunListener;
-import org.sortedunderbelly.appengineunit.spi.TestRun;
-import org.sortedunderbelly.appengineunit.spi.TestRunListener;
-
-public class ServerTestStarter extends JUnit4Config {
-
-    class MyTest implements TestRun {
-
-        public Iterable<String> getTestIds(long runId) {
-            List<String> li = new ArrayList<String>();
-            // li.add("org.testcode.mytest4.MyTestCase1");
-            // li.add("org.testcode.mytest4.MyTestCase2");
-            li.add("com.javahotel.test.TestSuite2");
-            return li;
-        }
-
-    }
-
-    public TestRun newTestRun() {
-        return new MyTest();
-    }
-
-    public TestRunListener getTestRunListener() {
-        List<String> to = new ArrayList<String>();
-        to.add("stanislawbartkowski@gmail.com");
-        return new EmailTestRunListener(to, new ArrayList<String>(),
-                new ArrayList<String>(), "ciacho");
-    }
-
-}
+//import org.sortedunderbelly.appengineunit.harness.junit4.JUnit4Config;
+//import org.sortedunderbelly.appengineunit.spi.EmailTestRunListener;
+//import org.sortedunderbelly.appengineunit.spi.TestRun;
+//import org.sortedunderbelly.appengineunit.spi.TestRunListener;
+//
+//public class ServerTestStarter extends JUnit4Config {
+//
+//    class MyTest implements TestRun {
+//
+//        public Iterable<String> getTestIds(long runId) {
+//            List<String> li = new ArrayList<String>();
+//            // li.add("org.testcode.mytest4.MyTestCase1");
+//            // li.add("org.testcode.mytest4.MyTestCase2");
+//            li.add("com.javahotel.test.TestSuite2");
+//            return li;
+//        }
+//
+//    }
+//
+//    public TestRun newTestRun() {
+//        return new MyTest();
+//    }
+//
+//    public TestRunListener getTestRunListener() {
+//        List<String> to = new ArrayList<String>();
+//        to.add("stanislawbartkowski@gmail.com");
+//        return new EmailTestRunListener(to, new ArrayList<String>(),
+//                new ArrayList<String>(), "ciacho");
+//    }
+//
+//}

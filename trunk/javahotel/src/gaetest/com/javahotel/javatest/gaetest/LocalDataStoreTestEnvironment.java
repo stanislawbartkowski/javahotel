@@ -13,22 +13,25 @@
 package com.javahotel.javatest.gaetest;
 
 import com.google.appengine.api.datastore.dev.LocalDatastoreService;
-import com.google.appengine.tools.development.ApiProxyLocalImpl;
+import com.google.appengine.tools.development.ApiProxyLocal;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.apphosting.api.ApiProxy;
 
 public class LocalDataStoreTestEnvironment extends LocalServiceTestEnvironment {
 
+
     @Override
     public void beforeTest() {
         super.beforeTest();
-        ApiProxyLocalImpl proxy = (ApiProxyLocalImpl) ApiProxy.getDelegate();
+        ApiProxyLocal proxy = (ApiProxyLocal) ApiProxy.getDelegate();
         proxy.setProperty(LocalDatastoreService.NO_STORAGE_PROPERTY,
                 Boolean.TRUE.toString());
     }
 
     @Override
     public void afterTest() {
-        ApiProxyLocalImpl proxy = (ApiProxyLocalImpl) ApiProxy.getDelegate();
+        ApiProxyLocal proxy = (ApiProxyLocal) ApiProxy.getDelegate();
         LocalDatastoreService datastoreService = (LocalDatastoreService) proxy
                 .getService("datastore_v3");
         datastoreService.clearProfiles();
