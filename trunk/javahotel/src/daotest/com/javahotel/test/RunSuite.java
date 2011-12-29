@@ -22,6 +22,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses(
 {
+/*    
         TestSuite1.class,
         TestSuite2.class,
         TestSuite3.class,
@@ -30,18 +31,20 @@ import org.junit.runners.Suite;
         TestSuite6.class,
         TestSuite7.class,
         TestSuite8.class,
-        TestSuite9.class,
+       TestSuite9.class,
         TestSuite10.class,
         TestSuite11.class,
         TestSuite12.class,
         TestSuite13.class,
         TestSuite14.class,
+  
+        
 //        TestSuite15.class,  // T
-//        TestSuite16.class,  // T
+////        TestSuite16.class,  // T
         TestSuite17.class,
         TestSuite18.class,
         TestSuite19.class,
-//        TestSuite20.class, // T
+////        TestSuite20.class, // T
         TestSuite21.class,
         TestSuite22.class,
         TestSuite23.class,
@@ -52,10 +55,16 @@ import org.junit.runners.Suite;
         TestSuite28.class,
         TestSuite29.class,
         TestSuite30.class,
-        TestSuite31.class,
-        TestSuite32.class
+        TestSuite32.class,
+        TestSuite33.class,
+        TestSuite34.class,
+        TestSuite35.class,
+        TestSuite36.class,
+        TestSuite37.class
+*/        
+    TestSuite38.class
 })
 
-//@Suite.SuiteClasses({TestSuite7.class})
+//@Suite.SuiteClasses({TestSuite4.class})
 public class RunSuite {
 }
