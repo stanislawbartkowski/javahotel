@@ -16,7 +16,7 @@ import java.util.Set;
 
 /**
  * @author hotel
- *
+ * Interface for keeping map data (subset of Map interface)
  */
 public interface IDataContainer {
     
