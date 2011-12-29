@@ -29,7 +29,7 @@ import com.javahotel.client.injector.HInjector;
 abstract class MapStringField {
 
     enum SType {
-        STRING, INT, DATE, PAYMENTMETHOD, AMOUNT;
+        STRING, INT, DATE, PAYMENTMETHOD, AMOUNT, TITLE;
     }
 
     abstract SType GetType(String s);
@@ -58,6 +58,9 @@ abstract class MapStringField {
             case AMOUNT:
                 v = VSField.createVSField(f,
                         FieldDataType.constructBigDecimal());
+                break;
+            case TITLE:
+                v = VSField.createVSField(f, factoryType.contructPersonTitle());
                 break;
 
             default:

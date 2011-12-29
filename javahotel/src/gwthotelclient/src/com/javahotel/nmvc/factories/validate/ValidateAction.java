@@ -34,7 +34,7 @@ import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 
-public class ValidateAction extends AbstractSlotContainer implements
+class ValidateAction extends AbstractSlotContainer implements
         IDataValidateAction {
 
     private final EmptyColFactory eFactory = new EmptyColFactory();
@@ -98,7 +98,7 @@ public class ValidateAction extends AbstractSlotContainer implements
         }
     }
 
-    public ValidateAction(IDataType dType) {
+    ValidateAction(IDataType dType) {
         this.dType = dType;
         registerSubscriber(dType, DataActionEnum.ValidateAction,
                 new ValidateA());

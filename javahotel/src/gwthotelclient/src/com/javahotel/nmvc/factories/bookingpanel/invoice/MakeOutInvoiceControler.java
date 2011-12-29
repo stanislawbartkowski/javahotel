@@ -12,6 +12,7 @@
  */
 package com.javahotel.nmvc.factories.bookingpanel.invoice;
 
+import java.util.Date;
 import java.util.List;
 
 import com.gwtmodel.table.Empty;
@@ -43,6 +44,7 @@ import com.javahotel.client.types.BackAbstract.IRunAction;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.command.PaymentMethod;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AbstractTo;
@@ -70,6 +72,13 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
     private InvoiceLines iLines;
     private final CellId lineId = new CellId(0);
     private final IDataType lineType = Empty.getDataType();
+    final static IVField vPayMethod = MapFields.mapS
+            .get(InvoiceP.PAYMENT_METHOD);
+    final static IVField vNumbOfDays = MapFields.mapS
+            .get(InvoiceP.NUMBER_OF_DAYS);
+    final static IVField vTermPay = MapFields.mapS.get(InvoiceP.PAYMENT_DATE);
+    final static IVField vInvoiceDate = MapFields.mapS
+            .get(InvoiceP.INVOICE_DATE);
 
     private class Synch extends SynchronizeList {
 
@@ -119,9 +128,11 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
         sym = (String) pa.getF(MapFields.mapS.get(InvoiceP.BUYER_SYMBOL));
         if (CUtil.EmptyS(sym)) {
             bWidget.getaSelect().copyFields();
+            bWidget.getaSelect().copyFields(MapInvoiceDialog.getMapGuest());
         }
         setTodayDate(pa, InvoiceP.DATE_OF_DSALE);
         setTodayDate(pa, InvoiceP.INVOICE_DATE);
+        setDays();
     }
 
     private class ReadL implements IVectorList<InvoiceIssuerP> {
@@ -202,12 +213,68 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
         public void signal(ISlotSignalContext slContext) {
             IVModelData va = slContext.getVData();
             InvoicePVData pa = (InvoicePVData) va;
-            sy.i = pa.getP();            
+            sy.i = pa.getP();
             sy.signalDone();
         }
 
     }
-    
+
+    private void changeDisable(boolean disable) {
+        SlU.changeEnable(dType, this, vNumbOfDays, !disable);
+        SlU.changeEnable(dType, this, vTermPay, !disable);
+    }
+
+    private void changeAfterPayMethod() {
+        IFormLineView vi = SlU.getVWidget(dType, this, vPayMethod);
+        Object o = vi.getValObj();
+        PaymentMethod pa = (PaymentMethod) o;
+        changeDisable(pa != PaymentMethod.Transfer);
+    }
+
+    private class ChangeMode implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            bWidget.ChangeModeToShow();
+            changeAfterPayMethod();
+        }
+
+    }
+
+    private void setDays() {
+        Integer l = SlU.getVWidgetValue(dType, this, vNumbOfDays);
+        Date dI = SlU.getVWidgetValue(dType, this, vInvoiceDate);
+
+        Date dToOfPay = null;
+        if ((l != null) && (dI != null)) {
+            dToOfPay = DateUtil.copyDate(dI);
+            DateUtil.addDays(dToOfPay, l.intValue());
+        }
+        SlU.setVWidgetValue(dType, this, vTermPay, dToOfPay);
+    }
+
+    private class ChangeMethodValue implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            if (!SlU.afterFocus(slContext)) {
+                return;
+            }
+            changeAfterPayMethod();
+        }
+    }
+
+    private class ChangeDaysValue implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            if (!SlU.afterFocus(slContext)) {
+                return;
+            }
+            setDays();
+        }
+    }
+
     public MakeOutInvoiceControler(ICallContext iContext, IDataType subType) {
         this.dType = iContext.getDType();
         rI = HInjector.getI().getI();
@@ -275,6 +342,11 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
                 new SetGetter());
         registerSubscriber(dType, DataActionEnum.AfterDrawViewFormAction,
                 new AfterDisplayed(sy));
+        registerSubscriber(dType, DataActionEnum.AfterChangeModeFormAction,
+                new ChangeMode());
+        registerSubscriber(dType, vPayMethod, new ChangeMethodValue());
+        registerSubscriber(dType, vNumbOfDays, new ChangeDaysValue());
+        registerSubscriber(dType, vInvoiceDate, new ChangeDaysValue());
     }
 
     @Override

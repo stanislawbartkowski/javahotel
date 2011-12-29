@@ -14,10 +14,14 @@ package com.javahotel.nmvc.factories.persist;
 
 import com.gwtmodel.table.PersistTypeEnum;
 import com.javahotel.client.injector.HInjector;
+import com.javahotel.client.types.BackAbstract;
+import com.javahotel.client.types.BackAbstract.IRunAction;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.DictType;
+import com.javahotel.common.toobject.CustomerP;
+import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.nmvc.factories.booking.util.BookingCustInfo;
 import com.javahotel.nmvc.factories.persist.dict.IHotelPersistFactory;
 import com.javahotel.nmvc.factories.persist.dict.IPersistRecord;
@@ -55,9 +59,26 @@ public class PersistCustomer {
     }
 
     public void persistCustomer(PersistTypeEnum action, BookingCustInfo bCust,
-            ISetCustomerId sId) {
+            final ISetCustomerId sId) {
         if (!bCust.isChangeCust()) {
-            sId.setC(bCust.getCust().getId());
+            // customer data is not changed
+            if (bCust.getCust().getId() != null) {
+                // if LId available set immediately and return
+                sId.setC(bCust.getCust().getId());
+            } else {
+                // if not then read using 'name' attribute
+                IRunAction<CustomerP> i = new IRunAction<CustomerP>() {
+
+                    @Override
+                    public void action(CustomerP t) {
+                        sId.setC(t.getId());
+                    }
+
+                };
+                new BackAbstract<CustomerP>().readAbstract(
+                        DictType.CustomerList, bCust.getCust().getName(), i);
+            }
+
             return;
         }
         IPersistRecord re = pFactory.construct(new DataType(

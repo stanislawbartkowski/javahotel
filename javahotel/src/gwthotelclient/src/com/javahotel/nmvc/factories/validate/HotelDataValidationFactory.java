@@ -10,29 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.javahotel.nmvc.factories.persist.dict;
+package com.javahotel.nmvc.factories.validate;
 
-import com.javahotel.client.IResLocator;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.factories.IDataValidateAction;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.javahotel.client.types.DataType;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.BookingP;
-import com.javahotel.types.LId;
+import com.javahotel.nmvc.factories.bookingpanel.invoice.InvoiceValidate;
 
 /**
  * @author hotel
  * 
  */
-class PersistRecordBooking extends AbstractPersistWithCust {
-
-    PersistRecordBooking(final IResLocator rI, boolean validate) {
-        super(rI,DictType.BookingList,validate);
-    }
+public class HotelDataValidationFactory implements IDataValidateActionFactory {
 
     @Override
-    void setCustId(AbstractTo a, LId custId) {
-        BookingP p = (BookingP) a;
-        p.setCustomer(custId);
-        
+    public IDataValidateAction construct(IDataType dType) {
+        DataType da = (DataType) dType;
+        if (da.isDictType(DictType.InvoiceList)) {
+            return new InvoiceValidate(dType);
+        }
+        return new ValidateAction(dType);
     }
 
 }

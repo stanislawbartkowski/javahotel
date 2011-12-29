@@ -47,6 +47,8 @@ public interface IMap {
 
     String CHOOSE_BUYER_WIDGET = "choose_buyer";
     String CHOOSE_HOTEL_DATA = "choose_hotel_data";
-
-
+    
+    String GUEST_TITLE = "guest_title";
+    String GUEST_NAME1 = "guest_name1";
+    String GUEST_NAME2 = "guest_name2";
 }

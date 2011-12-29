@@ -13,51 +13,44 @@
 package com.javahotel.nmvc.factories;
 
 import com.google.inject.Inject;
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IDataPersistAction;
-import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.IFormDefFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.javahotel.client.injector.HInjector;
-import com.javahotel.nmvc.factories.persist.DataPersistLayer;
-import com.javahotel.nmvc.factories.validate.ValidateAction;
 
 public class RegisterFactories {
 
     private final ITableAbstractFactories tFactories;
     private final IFormDefFactory rFactory;
+    private final IDataValidateActionFactory valFactory;
+    private final IPersistFactoryAction peFactory;
 
     @Inject
-    public RegisterFactories(IFormDefFactory rFactory) {
+    public RegisterFactories(IFormDefFactory rFactory,IDataValidateActionFactory valFactory,IPersistFactoryAction peFactory) {
         this.tFactories = GwtGiniInjector.getI().getITableAbstractFactories();
         this.rFactory = rFactory;
+        this.valFactory = valFactory;
+        this.peFactory = peFactory;
     }
 
     public void register() {
 
-        IDataValidateActionFactory valFactory = new IDataValidateActionFactory() {
-
-            @Override
-            public IDataValidateAction construct(IDataType dType) {
-                return new ValidateAction(dType);
-            }
-
-        };
-
-        // IPersistFactoryAction peFactory = new IPersistFactoryAction() {
+        // IDataValidateActionFactory valFactory = new
+        // IDataValidateActionFactory() {
         //
         // @Override
-        // public IDataPersistAction contruct(IDataType dType) {
-        // return new DataPersistLayer(dType);
+        // public IDataValidateAction construct(IDataType dType) {
+        // return new ValidateAction(dType);
         // }
+        //
         // };
-        IPersistFactoryAction peFactory = HInjector.getI()
-                .getIPersistFactoryAction();
+
+//        IDataValidateActionFactory valFactory = HInjector.getI().getIDataValidateActionFactory();
+//        IPersistFactoryAction peFactory = HInjector.getI()
+//                .getIPersistFactoryAction();
         IFormTitleFactory tiFactory = new RecordTitleFactory();
         tFactories.registerGetCustomValues(new CustomFactory());
         tFactories.registerFormTitleFactory(tiFactory);

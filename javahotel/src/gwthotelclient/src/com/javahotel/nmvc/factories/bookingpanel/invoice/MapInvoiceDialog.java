@@ -57,4 +57,13 @@ class MapInvoiceDialog {
         return ma;
     }
 
+    static Map<IField, String> getMapGuest() {
+        Map<IField, String> ma = new HashMap<IField, String>();
+        ma.put(CustomerP.F.name1, InvoiceP.GUEST_NAME1);
+        ma.put(CustomerP.F.name2, InvoiceP.GUEST_NAME2);
+        ma.put(CustomerP.F.pTitle, InvoiceP.GUEST_TITLE);
+        return ma;
+
+    }
+
 }
