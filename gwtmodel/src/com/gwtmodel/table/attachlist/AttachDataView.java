@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -73,17 +73,15 @@ class AttachDataView extends AbstractSlotContainer implements IAttachDataView {
                         compFactory));
 
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
-        ControlButtonDesc b = new ControlButtonDesc("DownLoad", MM.getL()
-                .DownloadAttachment(), new ClickButtonType(DOWNLOAD));
+        ControlButtonDesc b = new ControlButtonDesc(MM.getL().Download(), MM
+                .getL().DownloadAttachment(), new ClickButtonType(DOWNLOAD));
         cList.getcList().add(b);
 
-        DisplayListControlerParam cParam = tFactory.constructParam(dType,
-                cList, new CellId(0), dParam, null);
+        DisplayListControlerParam cParam = tFactory.constructParam(cList,
+                new CellId(0), dParam, null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         ISlotable iSlo = new DownloadFile(dType, new ClickButtonType(DOWNLOAD));
-        // dControler.getSlContainer().replaceContainer(this);
-        // dControler.getSlContainer().replaceContainer(iSlo);
         this.setSlContainer(dControler);
         iSlo.setSlContainer(dControler);
     }

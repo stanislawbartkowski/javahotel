@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -16,20 +16,21 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.mail.MailToSend;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class MailTestFactory {
 
     public IMailTest construct(IDataType dt) {
         List<ControlButtonDesc> lButton = new ArrayList<ControlButtonDesc>();
-        ControlButtonDesc dMail = new ControlButtonDesc("Wyślij",
+        ControlButtonDesc dMail = new ControlButtonDesc(MM.getL().Send(),
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT));
         lButton.add(dMail);
         ListOfControlDesc ldesc = new ListOfControlDesc(lButton);

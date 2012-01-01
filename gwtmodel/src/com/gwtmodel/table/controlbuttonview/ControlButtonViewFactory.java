@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -26,7 +26,8 @@ public class ControlButtonViewFactory {
         this.vFactory = vFactory;
     }
 
-    public IControlButtonView construct(IDataType dType, ListOfControlDesc listButton) {
+    public IControlButtonView construct(IDataType dType,
+            ListOfControlDesc listButton) {
         return new ControlButtonView(vFactory, listButton, dType, true);
     }
 }

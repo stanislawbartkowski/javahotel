@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -21,6 +21,7 @@ import com.gwtmodel.table.mailcommon.CMailToSend;
  * 
  * @author perseus
  */
+@SuppressWarnings("serial")
 public class MailToSend extends CMailToSend implements ICustomObject {
 
 	public MailToSend(String boxName, Map<String, String> box, String header,
