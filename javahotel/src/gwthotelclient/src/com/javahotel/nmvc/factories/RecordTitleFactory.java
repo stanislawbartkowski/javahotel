@@ -15,6 +15,7 @@ package com.javahotel.nmvc.factories;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.injector.ICallContext;
 import com.javahotel.client.M;
+import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
 
 /**
@@ -73,6 +74,9 @@ class RecordTitleFactory implements IFormTitleFactory {
                 return "Rezerwacja pokoju";
             case BookNoRoom:
                 return "Dodatkowy rachunek";
+            case RowPaymentElem:
+                return "Płatność";
+
             default:
                 assert false : M.M().NotSupportedError(dd.getdType().name());
             }
