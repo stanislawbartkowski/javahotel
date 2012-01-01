@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -38,6 +38,7 @@ import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.nmvc.factories.advancepayment.AdvancePayment;
+import com.javahotel.nmvc.factories.booking.elem.BookingElemContainer;
 
 /**
  * 
@@ -126,8 +127,6 @@ class ColListFactory {
                 fList = new IField[] { BookingP.F.dateOp,
                         BookingP.F.validationAmount, BookingP.F.validationDate };
 
-                // IGetFieldName i = HInjector.getI().getGetFieldName();
-                // String na = i.getName(DownPaymentP.F.sumPayment);
                 String na = "Zapłata";
                 IVField f = VSField.createVDecimal(AdvancePayment.PAY_STRING);
                 VListHeaderDesc bPayment = new VListHeaderDesc(na, f, false,
@@ -188,10 +187,17 @@ class ColListFactory {
             dList = null;
             switch (d.getAddType()) {
             case BookRoom:
-                fList = new IField[] { BookElemP.F.checkIn,
-                        BookElemP.F.checkOut, BookElemP.F.resObject,
+                fList = new IField[] { BookElemP.F.resObject,
+                        BookElemP.F.checkIn, BookElemP.F.checkOut,
                         BookElemP.F.service };
-                break;
+                String na = "Suma";
+                IVField f = VSField
+                        .createVDecimal(BookingElemContainer.BOOKINGELEMPAY);
+                VListHeaderDesc bPayment = new VListHeaderDesc(na, f, false,
+                        BookingElemContainer.BOOKINGELEMPAY, false);
+                List<VListHeaderDesc> li = FFactory.constructH(dList, fList);
+                li.add(bPayment);
+                return li;
             case BookNoRoom:
                 fList = new IField[] { BookElemP.F.checkIn,
                         BookElemP.F.resObject, BookElemP.F.service,
@@ -202,6 +208,7 @@ class ColListFactory {
                         PaymentRowP.F.customerPrice, PaymentRowP.F.rowFrom,
                         PaymentRowP.F.rowTo };
                 break;
+
             default:
                 assert false : M.M().NotSupportedError(d.getAddType().name());
             }

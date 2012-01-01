@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -62,7 +62,6 @@ public class AddToBillDialog {
             DataTypeSubEnum.Sub1);
     private final SlotTypeFactory slTypeFactory;
     private final IDataType bType = new DataType(DictType.BookingList);
-//    private final IDataType brType = new DataType(AddType.BookRecord);
     private final SlotSignalContextFactory slContextFactory;
     private final IHotelPersistFactory pFactory;
     private final PersistTypeEnum action = PersistTypeEnum.ADD;

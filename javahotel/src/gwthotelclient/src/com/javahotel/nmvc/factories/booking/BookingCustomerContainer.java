@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -130,10 +130,9 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             custP = slContext.getVData();
-        }
-        
+        }        
     }
-
+    
     public BookingCustomerContainer(ICallContext iContext, IDataType subType) {
         dType = new DataType(DictType.CustomerList);
         ICallContext ii = iContext.construct(dType);
@@ -163,6 +162,8 @@ public class BookingCustomerContainer extends AbstractSlotContainer {
                 new SetGetter());
         registerCaller(subType, GetActionEnum.GetModelToPersist,
                 new SetGetter());
+        
+        
 
     }
 

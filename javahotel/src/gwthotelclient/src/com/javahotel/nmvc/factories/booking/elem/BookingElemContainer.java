@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -16,12 +16,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.DataListTypeFactory;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeControllerTypeFactory;
@@ -39,6 +45,7 @@ import com.gwtmodel.table.factories.IHeaderListFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.persist.IMemoryListModel;
 import com.gwtmodel.table.persist.MemoryGetController;
 import com.gwtmodel.table.persist.MemoryListPersist;
@@ -50,7 +57,11 @@ import com.gwtmodel.table.slotmodel.ISlotCallerListener;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.view.table.IGetCellValue;
+import com.gwtmodel.table.view.util.ClickPopUp;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
+import com.javahotel.client.PUtil;
 import com.javahotel.client.abstractto.BookElemPayment;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.AddType;
@@ -60,10 +71,12 @@ import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.PaymentRowP;
-import com.javahotel.nmvc.factories.booking.P;
 import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
+import com.javahotel.nmvc.factories.booking.util.P;
 
 public class BookingElemContainer extends AbstractSlotMediatorContainer {
+
+    public static final String BOOKINGELEMPAY = "BOOKING_ELEM_PAY";
 
     private final SetVPanelGwt sPanel = new SetVPanelGwt();
     private final IDataType publishdType;
@@ -211,6 +224,50 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
     }
 
+    private final class GetCell implements IGetCellValue {
+
+        @Override
+        public SafeHtml getValue(IVModelData v, IVField fie) {
+            BookElemP pe = DataUtil.getData(v);
+            PUtil.SumP pSum = PUtil.getPrice(pe.getPaymentrows());
+            String s = FUtils.getBigDecimalS(pSum.sumCustomer, fie);
+            return LogT.getStrongCell().input(s);
+        }
+    }
+    
+    private class GetW implements ISlotListener {
+        
+        private final WSize wSi;
+        
+        GetW(WSize wSi) {
+            this.wSi = wSi;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IGWidget w = slContext.getGwtWidget();
+            ClickPopUp p = new ClickPopUp(wSi,w.getGWidget());
+        }
+        
+    }
+
+    private class ClickedSum implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            WChoosedLine w = SlU.getWChoosedLine(slContext);
+            int i = w.getChoosedLine();
+            IVModelData va = SlU.getVDataByI(dType, BookingElemContainer.this,
+                    i);
+            BookElemP pe = DataUtil.getData(va);
+            IDataType dType = new DataType(AddType.RowPaymentElem);
+            PaymentRowDetails pD = new PaymentRowDetails(dType, pe);
+            SlU.registerWidgetListener0(dType, pD, new GetW(w.getwSize()));
+            SlU.startPublish0(pD);
+        }
+
+    }
+
     /**
      * Constructor
      * 
@@ -265,7 +322,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
         DisplayListControlerParam cParam = tFactory.constructParam(cI,
                 new DataListParam(dType, lPersistList, null, iDataModelFactory,
-                        tiFactory, iGetCon), null);
+                        tiFactory, iGetCon), null, new GetCell());
         IHeaderListFactory he = tFactories.getHeaderListFactory();
         dControler = tFactory.constructDataControler(cParam);
         slMediator.registerSlotContainer(dControler);
@@ -278,6 +335,8 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
                 GetActionEnum.GetViewModelEdited, new SetGetter());
         slMediator.getSlContainer().registerSubscriber(subType,
                 DataActionEnum.ChangeViewFormModeAction, new ChangeMode());
+        slMediator.getSlContainer().registerSubscriber(dType,
+                DataActionEnum.TableCellClicked, new ClickedSum());
 
     }
 
