@@ -21,12 +21,14 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.SlU;
 
 /**
  * 
@@ -41,8 +43,14 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             PersistTypeEnum persistEnumType = slContext.getPersistType();
-            IVModelData pData = getGetterIVModelData(dType,
-                    GetActionEnum.GetComposeModelToPersist);
+            IVModelData pData = null;
+            if (persistEnumType == PersistTypeEnum.MODIF) {
+                ISlotSignalContext te = getGetterContext(dType,
+                        GetActionEnum.GetListLineChecked);
+                pData = te.getVData();
+            }
+            pData = getGetterIVModelData(dType,
+                    GetActionEnum.GetComposeModelToPersist, pData);
             IVModelDataEquable eData = (IVModelDataEquable) pData;
             switch (persistEnumType) {
             case ADD:

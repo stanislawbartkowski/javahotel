@@ -138,11 +138,6 @@ abstract public class AbstractSlotContainer implements ISlotable {
                 .publish(dType, dataActionEnum, iOkModelData);
     }
 
-    // protected void publish(IDataType dType, IVField fie,
-    // IFormLineView formLine, boolean afterFocus) {
-    // sReference.getSlContainer().publish(dType, fie, formLine, afterFocus);
-    // }
-
     protected void publish(IDataType dType, VListHeaderContainer vHeader) {
         sReference.getSlContainer().publish(dType, vHeader);
     }
