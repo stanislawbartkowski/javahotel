@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -323,7 +323,7 @@ class InvoiceLines extends AbstractSlotContainer {
         ListOfControlDesc cList = new ListOfControlDesc(dButton);
         DataListParam lParam = new DataListParam(dType, new PersistClass(),
                 new HeaderList(), null, null, null, null);
-        DisplayListControlerParam dList = tFactory.constructParam(dType, cList,
+        DisplayListControlerParam dList = tFactory.constructParam(cList,
                 panelId, lParam, null);
         i = tFactory.constructDataControler(dList);
         registerCaller(dType, GetActionEnum.GetViewModelEdited, new SetGetter());
