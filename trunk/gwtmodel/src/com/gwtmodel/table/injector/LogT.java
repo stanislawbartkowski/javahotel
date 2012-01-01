@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 stanislawbartkowski@gmail.com
+ *  Copyright 2012 stanislawbartkowski@gmail.com
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,21 +16,38 @@
  */
 package com.gwtmodel.table.injector;
 
-import com.google.gwt.core.client.GWT;
-import com.gwtmodel.table.TLogMessages;
 import java.util.logging.Logger;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.gwtmodel.table.TLogMessages;
+
 /**
- *
+ * 
  * @author hotel
  */
 public class LogT {
 
     private LogT() {
     }
+
     private static final Logger log = Logger.getLogger("gwt.gwtmodel.table");
-    private static final Logger logS = Logger.getLogger("gwt.gwtmodel.table.slot");
+    private static final Logger logS = Logger
+            .getLogger("gwt.gwtmodel.table.slot");
     private final static TLogMessages sMess;
+
+    public interface StrongTemplateCell extends SafeHtmlTemplates {
+        @Template("<strong>{0}</strong>")
+        SafeHtml input(String suma);
+    }
+
+    private final static StrongTemplateCell templateClass = GWT
+            .create(StrongTemplateCell.class);
+
+    public static StrongTemplateCell getStrongCell() {
+        return templateClass;
+    }
 
     static {
         sMess = (TLogMessages) GWT.create(TLogMessages.class);

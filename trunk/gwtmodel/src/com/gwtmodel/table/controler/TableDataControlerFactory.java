@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 stanislawbartkowski@gmail.com 
+ * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -142,13 +142,13 @@ public class TableDataControlerFactory {
     }
 
     public DisplayListControlerParam constructParam(CellId panelId,
-            DataListParam listParam, ISlotMediator me) {
+            DataListParam listParam, ISlotMediator me, IGetCellValue getCell) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, me, null);
+                        fContainer, listParam), listParam, me, getCell);
     }
-    
+
     public DisplayListControlerParam constructParam(CellId panelId,
             DataListParam listParam, ISlotable iSlo) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
@@ -164,9 +164,8 @@ public class TableDataControlerFactory {
                         listParam), listParam, null, null);
     }
 
-    public DisplayListControlerParam constructParam(IDataType dType,
-            ListOfControlDesc cList, CellId panelId, DataListParam listParam,
-            ISlotMediator me) {
+    public DisplayListControlerParam constructParam(ListOfControlDesc cList,
+            CellId panelId, DataListParam listParam, ISlotMediator me) {
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
                         fContainer, listParam), listParam, null, null);
