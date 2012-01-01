@@ -137,8 +137,14 @@ public class RecordFormDefFactory implements IFormDefFactory {
                 fL = new IField[] { BookElemP.F.checkIn, BookElemP.F.resObject,
                         BookElemP.F.service, PaymentRowP.F.customerPrice };
                 FFactory.add(fList, fL);
-
                 break;
+            case RowPaymentElem:
+                fL = new IField[] { PaymentRowP.F.offerPrice,
+                        PaymentRowP.F.customerPrice, PaymentRowP.F.rowFrom,
+                        PaymentRowP.F.rowTo };
+                FFactory.add(fList, fL);
+                break;
+
             default:
                 assert false : rI.getMessages().NotSupportedError(
                         dd.getAddType().name());
