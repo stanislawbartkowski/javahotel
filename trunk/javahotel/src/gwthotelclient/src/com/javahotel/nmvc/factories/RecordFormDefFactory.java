@@ -200,9 +200,12 @@ public class RecordFormDefFactory implements IFormDefFactory {
                 fList = getDict(false, true);
                 fL = new IField[] { BookingP.F.checkIn, BookingP.F.checkOut,
                         BookingP.F.season, BookingP.F.noPersons,
-                        BookingP.F.customerPrice, BookingP.F.oPrice,
-                        BookingP.F.validationAmount, BookingP.F.validationDate };
+                        BookingP.F.oPrice, BookingP.F.validationAmount,
+                        BookingP.F.validationDate };
+                FormField fPrice = FFactory
+                        .constructReadOnly(BookPaymentField.customerPrice);
                 FFactory.add(fList, fL);
+                FFactory.addAfter(fList, BookingP.F.noPersons, fPrice);
                 break;
             case IssuerInvoiceList:
                 fL = new IField[] { CustomerP.F.name1, CustomerP.F.name2,

@@ -61,7 +61,6 @@ import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.util.ClickPopUp;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
-import com.javahotel.client.PUtil;
 import com.javahotel.client.abstractto.BookElemPayment;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.AddType;
@@ -71,6 +70,7 @@ import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.PaymentRowP;
+import com.javahotel.common.util.PUtil;
 import com.javahotel.nmvc.factories.booking.util.IsServiceBooking;
 import com.javahotel.nmvc.factories.booking.util.P;
 
