@@ -72,7 +72,7 @@ public class FieldList {
         BankList = new String[] { "accountNumber" };
         BookingList = new String[] { "personOp", "dateOp", "name",
                 "description", "checkIn", "checkOut", "noPersons",
-                "bookingType", "resName", "season", "oPrice", "customerPrice",
+                "bookingType", "resName", "season", "oPrice",
                 "validationAmount", "validationDate" };
         PaymentList = new String[] { "amount", "dateOp", "payMethod",
                 "remarks", "personOp", "datePayment" };

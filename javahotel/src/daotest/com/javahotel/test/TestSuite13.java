@@ -42,11 +42,9 @@ public class TestSuite13 extends TestHelper {
         loginuser();
         BookingP bok = createB();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        bok.setCustomerPrice(new BigDecimal(999));
         bok.setOPrice("Norm");
         bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();
-        modifPaymentRow(be);
         ResObjectP rO = getResObject("1p");
         
         be.setResObject("1p");
@@ -56,6 +54,7 @@ public class TestSuite13 extends TestHelper {
 
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/03/07"));
+        modifPaymentRow(be);
         List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         bok.setBooklist(colE);

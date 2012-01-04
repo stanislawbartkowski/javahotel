@@ -32,9 +32,11 @@ class AfterBeforeLoadAction implements IAfterBeforeLoadAction {
 	private void doCollectionAction(GetLogger log, JpaEntity jpa, Object o,
 			String keyCollectionField, String objectCollectionField,
 			Class<?> cla) {
-		List<Long> keyC = (List<Long>) GetFieldHelper.getterVal(o,
+		@SuppressWarnings("unchecked")
+        List<Long> keyC = (List<Long>) GetFieldHelper.getterVal(o,
 				keyCollectionField, log);
-		List<Object> objC = (List<Object>) GetFieldHelper
+		@SuppressWarnings("unchecked")
+        List<Object> objC = (List<Object>) GetFieldHelper
 				.getterVal(o, objectCollectionField, log);
 		objC.clear();
 		if (keyC != null) {
@@ -108,9 +110,11 @@ class AfterBeforeLoadAction implements IAfterBeforeLoadAction {
 
 	private void doCollectionBeforeAction(GetLogger log, JpaEntity jpa,
 			Object o, String keyCollectionField, String objectColllectionField) {
-		List<Long> keyC = (List<Long>) GetFieldHelper.getterVal(o,
+		@SuppressWarnings("unchecked")
+        List<Long> keyC = (List<Long>) GetFieldHelper.getterVal(o,
 				keyCollectionField, log);
-		List<Object> objC = (List<Object>) GetFieldHelper
+		@SuppressWarnings("unchecked")
+        List<Object> objC = (List<Object>) GetFieldHelper
 				.getterVal(o, objectColllectionField, log);
 		if (keyC == null) {
 			keyC = new ArrayList<Long>();
@@ -127,7 +131,8 @@ class AfterBeforeLoadAction implements IAfterBeforeLoadAction {
 
 	private void objectCollection(GetLogger log, JpaEntity jpa, Object o,
 			String objectCollectionField) {
-		List<Object> objC = (List<Object>) GetFieldHelper
+		@SuppressWarnings("unchecked")
+        List<Object> objC = (List<Object>) GetFieldHelper
 				.getterVal(o, objectCollectionField, log);
 		if (objC == null) {
 			return;
@@ -140,7 +145,8 @@ class AfterBeforeLoadAction implements IAfterBeforeLoadAction {
 
 	private void beforePersisObjectCollection(GetLogger log, JpaEntity jpa,
 			Object o, String objectCollectionField) {
-		List<Object> objC = (List<Object>) GetFieldHelper
+		@SuppressWarnings("unchecked")
+        List<Object> objC = (List<Object>) GetFieldHelper
 				.getterVal(o, objectCollectionField, log);
 		if (objC == null) {
 			return;

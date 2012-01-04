@@ -55,7 +55,6 @@ public class TestSuite38 extends TestHelper {
         // Step 1
         BookingP bok = createB();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        bok.setCustomerPrice(new BigDecimal(999));
         bok.setOPrice("Norm");
         bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();
