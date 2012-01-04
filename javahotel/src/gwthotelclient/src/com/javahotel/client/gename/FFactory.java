@@ -69,6 +69,19 @@ public class FFactory {
         }
     }
 
+    public static void addAfter(List<FormField> l, IField f, FormField ff) {
+        int i = 1;
+        for (FormField fo : l) {
+            IVField fie = fo.getFie();
+            VField vf = (VField) fie;
+            if (vf.getFie() == f) {
+                break;
+            }
+            i++;
+        }
+        l.add(i, ff);
+    }
+
     public static void addI(List<IVField> l, IField[] ft) {
         for (IField f : ft) {
             l.add(new VField(f));

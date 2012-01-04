@@ -68,7 +68,7 @@ public class BookingInfo extends Composite {
             }
 
         }
-        BigDecimal c = p.getCustomerPrice();
+        BigDecimal c = (BigDecimal) p.getF(BookingP.F.customerPrice);
         String price;
         if (c != null) {
             price = Utils.DecimalToS(c);
