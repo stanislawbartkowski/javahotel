@@ -43,7 +43,6 @@ public class TestSuite21 extends TestHelper {
         loginuser();
         BookingP bok = createB();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        bok.setCustomerPrice(new BigDecimal(999));
         bok.setOPrice("Norm");
         bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();
@@ -75,7 +74,6 @@ public class TestSuite21 extends TestHelper {
         bok1.setHotel(HOTEL1);
         bok1.setName("BOKRYBKA");
         oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        bok1.setCustomerPrice(new BigDecimal(999));
         bok1.setOPrice("Norm");
         bok1.setOPrice(oPrice.getName());
         be = new BookElemP();

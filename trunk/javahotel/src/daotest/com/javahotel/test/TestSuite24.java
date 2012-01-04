@@ -58,7 +58,6 @@ public class TestSuite24 extends TestHelper {
         bok.setHotel(HOTEL1);
         bok.setName("BOKRYBKA");
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        bok.setCustomerPrice(new BigDecimal(999));
         bok.setOPrice("Norm");
         bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();
@@ -114,7 +113,6 @@ public class TestSuite24 extends TestHelper {
         // Step 3
         bok = createB();
         bok.setHotel(HOTEL1);
-        bok.setCustomerPrice(new BigDecimal(999));
         bok.setOPrice("Norm");
         bok.setOPrice(oPrice.getName());
         be = new BookElemP();

@@ -57,7 +57,6 @@ public class TestSuite26 extends TestHelper {
         bok.setName("");
         bok.setBookingType(BookingEnumTypes.Stay);
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        bok.setCustomerPrice(new BigDecimal(999));
         bok.setOPrice("Norm");
         bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();

@@ -66,8 +66,6 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
     @Basic(optional = false)
     private String oPrice;
 
-    @Basic(optional = false)
-    private BigDecimal customerPrice;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "booking")
     private List<BookElem> booklist;
 
@@ -178,21 +176,6 @@ public class Booking extends AbstractDictionary implements IHotelDictionary {
      */
     public void setOPrice(String oPrice) {
         this.oPrice = oPrice;
-    }
-
-    /**
-     * @return the customerPrice
-     */
-    public BigDecimal getCustomerPrice() {
-        return customerPrice;
-    }
-
-    /**
-     * @param customerPrice
-     *            the customerPrice to set
-     */
-    public void setCustomerPrice(BigDecimal customerPrice) {
-        this.customerPrice = customerPrice;
     }
 
     /**

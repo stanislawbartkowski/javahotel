@@ -62,7 +62,7 @@ import org.junit.runners.Suite;
         TestSuite36.class,
         TestSuite37.class
 */        
-    TestSuite38.class
+    TestSuite10.class
 })
 
 //@Suite.SuiteClasses({TestSuite4.class})

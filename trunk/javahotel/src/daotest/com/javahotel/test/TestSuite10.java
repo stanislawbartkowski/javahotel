@@ -145,9 +145,24 @@ public class TestSuite10 extends TestHelper {
         // bok.setSeason("P2008");
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         bok.setOPrice("Norm");
-        bok.setCustomerPrice(new BigDecimal(999));
+        BookElemP be = new BookElemP();
+        ResObjectP rO = getResObject("1p");
+        be.setResObject("1p");
+        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(
+                DictType.ServiceDict, HOTEL1);
+        servi = getpersistName(DictType.ServiceDict, servi, HOTEL1);
+        be.setService("LUX");
+
+        be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
+        be.setCheckOut(DateFormatUtil.toD("2008/03/07"));
+        List<BookElemP> colE = new ArrayList<BookElemP>();
+        colE.add(be);
+        modifPaymentRow(be);
+        bok.setBooklist(colE);
+
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-        eqBig(new BigDecimal(999), bok.getCustomerPrice());
+        BigDecimal sum = (BigDecimal) bok.getF(BookingP.F.customerPrice);
+        eqBig(new BigDecimal(100), sum);
         assertEquals("Norm", bok.getOPrice());
     }
 

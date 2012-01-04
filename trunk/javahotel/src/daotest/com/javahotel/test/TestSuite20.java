@@ -59,7 +59,6 @@ public class TestSuite20 extends TestHelper {
             List<BookElemP> colE = new ArrayList<BookElemP>();
             colE.add(be);
 
-            bok.setCustomerPrice(new BigDecimal(999));
             bok.setOPrice("Norm");
             bok.setBooklist(colE);
 
@@ -107,15 +106,14 @@ public class TestSuite20 extends TestHelper {
         itest.setTodayDate(D("2008/10/08"));
         BookingP bok = createB();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
-        bok.setCustomerPrice(new BigDecimal(999));
         bok.setOPrice("Norm");
         bok.setOPrice(oPrice.getName());
         BookElemP be = new BookElemP();
         ResObjectP rO = getResObject("1p");
         be.setResObject("1p");
         modifPaymentRow(be);
-        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, "LUX");
-        servi = getpersistName(DictType.ServiceDict, servi, "LUX");
+        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, HOTEL1);
+        servi = getpersistName(DictType.ServiceDict, servi, HOTEL1);
 
 //        runB("Thread 1", 50);
 

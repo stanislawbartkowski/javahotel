@@ -18,6 +18,8 @@ import java.util.List;
 
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.CommandUtil;
+import com.javahotel.common.util.PUtil;
+import com.javahotel.common.util.PUtil.SumP;
 import com.javahotel.types.DateP;
 import com.javahotel.types.DecimalP;
 import com.javahotel.types.LId;
@@ -44,13 +46,11 @@ public class BookingP extends DictionaryP {
     private String resName;
     private List<PaymentP> payments;
     private List<AddPaymentP> addpayments;
-    private DecimalP customerPrice;
     private DateP validationDate;
     private DecimalP validationAmount;
 
     public enum F implements IField {
-
-        checkIn, checkOut, customer, noPersons, season, resName, bookingType, oPrice, customerPrice, validationDate, validationAmount, dateOp
+        checkIn, checkOut, customer, customerPrice, noPersons, season, resName, bookingType, oPrice, validationDate, validationAmount, dateOp
     };
 
     public BookingEnumTypes getBookingType() {
@@ -104,8 +104,9 @@ public class BookingP extends DictionaryP {
         case resName:
         case season:
             return String.class;
-        case customerPrice:
         case validationDate:
+            return Date.class;
+        case customerPrice:
         case validationAmount:
             return BigDecimal.class;
         }
@@ -115,6 +116,24 @@ public class BookingP extends DictionaryP {
     @Override
     public IField[] getT() {
         return CommandUtil.addTD(F.values());
+    }
+
+    private BigDecimal getCustomerPrice() {
+        SumP su = null;
+        if (booklist != null) {
+            for (BookElemP e : booklist) {
+                SumP s = PUtil.getPrice(e.getPaymentrows());
+                if (su == null) {
+                    su = s;
+                } else {
+                    PUtil.addS(su, s);
+                }
+            }
+        }
+        if (su == null) {
+            return null;
+        }
+        return su.sumCustomer;
     }
 
     @Override
@@ -188,9 +207,6 @@ public class BookingP extends DictionaryP {
         case bookingType:
             setBookingType((BookingEnumTypes) o);
             break;
-        case customerPrice:
-            setCustomerPrice((BigDecimal) o);
-            break;
         case validationDate:
             setValidationDate((Date) o);
             break;
@@ -200,7 +216,8 @@ public class BookingP extends DictionaryP {
         case dateOp:
             setDateOp((Date) o);
             break;
-
+        case customerPrice:
+            break;
         }
     }
 
@@ -208,26 +225,10 @@ public class BookingP extends DictionaryP {
         checkIn = new DateP();
         checkOut = new DateP();
         op = new OperationData();
-        customerPrice = new DecimalP();
         validationAmount = new DecimalP();
         validationDate = new DateP();
         // it seems that @Temporal(TemporalType.DATE) is always not-null
         validationDate.setD(new Date());
-    }
-
-    /**
-     * @return the customerPrice
-     */
-    public BigDecimal getCustomerPrice() {
-        return customerPrice.getDecim();
-    }
-
-    /**
-     * @param customerPrice
-     *            the customerPrice to set
-     */
-    public void setCustomerPrice(BigDecimal customerPrice) {
-        this.customerPrice.setDecim(customerPrice);
     }
 
     public Date getCheckIn() {
