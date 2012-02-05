@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="databaseobject.category.wizards"
+         name="Custom Wizard"
+         point="org.eclipse.ui.newWizards">
+         <category
+            id="databaseobject.category.wizards"
+            name="DatabaseObject">
+      </category>
+        <wizard
+            category="databaseobject.category.wizards"
+            class="databaseobject.wizards.NewProjectWizard"
+            id="databseobject.wizard.new.custom"
+            name="Database Objects project">
+      </wizard>
+      </extension>
+      
+ <extension
+         id="databaseobject.category.projectNatureId"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="databaseobject.nature.ProjectNature">
+         </run>
+      </runtime>
+   </extension>
+      
+<extension point="org.eclipse.ui.ide.projectNatureImages">
+<image icon="icons/dummy-nature.png" 
+  id="databaseobject.image.natureId"
+ natureId="databaseobject.category.projectNatureId"></image>      
+</extension>
+
+<extension
+      point="org.eclipse.ui.propertyPages">
+   <page
+         class="databaseobject.properties.DatabaseObjectPropertyPage"
+         id="databaseobject.properties.DatabaseObjectPropertyPage"
+         name="Database Objects properties">
+  <filter name="nature"
+     value="databaseobject.category.projectNatureId"/>
+   </page>
+</extension>
+
+
+<extension
+      point="org.eclipse.ui.popupMenus">
+   <objectContribution
+         id="DatabaseObject.contribution1"
+         objectClass="org.eclipse.core.resources.IFolder">
+      <menu
+            id="DatabaseObject.menu1"
+            label="Database Object"
+            path="additions">
+         <separator
+               name="group1">
+         </separator>
+      </menu>
+      <action
+            class="databaseobject.popup.actions.NewAction"
+            enablesFor="1"
+            id="DatabaseObject.newAction"
+            label="Extract PL/SQL packages"
+            menubarPath="DatabaseObject.menu1/group1">
+      </action>
+   </objectContribution>
+</extension>
+
+<extension
+      point="org.eclipse.ui.popupMenus">
+   <objectContribution
+         id="DatabaseObject.contribution1"
+         objectClass="org.eclipse.core.resources.IFile">
+      <menu
+            id="DatabaseObject.menu1"
+            label="Database Object"
+            path="additions">
+         <separator
+               name="group1">
+         </separator>
+      </menu>
+      <action
+            class="databaseobject.popup.actions.DeployAction"
+            enablesFor="1"
+            id="DatabaseObject.deployObject"
+            label="Deploy database object"
+            menubarPath="DatabaseObject.menu1/group1">
+      </action>
+   </objectContribution>
+</extension>
+
+
+      
+</plugin>
