@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DatabaseObject
+Bundle-SymbolicName: DatabaseObject;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: databaseobject.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.ide;bundle-version="3.7.0",
+ org.eclipse.core.resources;bundle-version="3.7.100",
+ org.eclipse.datatools.connectivity;bundle-version="1.2.3"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
