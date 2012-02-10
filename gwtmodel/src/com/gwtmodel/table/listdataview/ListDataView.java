@@ -323,11 +323,12 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    ListDataView(GwtTableFactory gFactory, IDataType dType, IGetCellValue gValue) {
+    ListDataView(GwtTableFactory gFactory, IDataType dType,
+            IGetCellValue gValue, boolean selectedRow) {
         listView = new DataListModelView();
         this.dType = dType;
-        tableView = gFactory.construct(new ClickList(), new ClickColumn(),
-                gValue);
+        tableView = gFactory.construct(selectedRow ? new ClickList() : null,
+                new ClickColumn(), gValue);
         coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         // subscriber
         registerSubscriber(dType, DataActionEnum.DrawListAction, new DrawList());

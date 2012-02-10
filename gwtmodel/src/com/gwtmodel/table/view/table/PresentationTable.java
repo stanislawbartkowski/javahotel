@@ -139,7 +139,11 @@ class PresentationTable implements IGwtTableView {
         this.gValue = gValue;
         selectionModel.addSelectionChangeHandler(new SelectionChange());
         dList = dProvider.getList();
-        table.setSelectionModel(selectionModel);
+        // set selection only if iClick defined
+        // thus avoid changing color while clicking
+        if (iClick != null) {
+            table.setSelectionModel(selectionModel);
+        }
         sPager.setDisplay(table);
         dProvider.addDataDisplay(table);
         setEmpty();
@@ -203,6 +207,12 @@ class PresentationTable implements IGwtTableView {
         RawColumn(IVField fie) {
             super(new A(getEmpty()));
             this.fie = fie;
+        }
+
+        @Override
+        public String getCellStyleNames(Context context, Integer object) {
+            IVModelData v = model.getRows().get(object);
+            return gValue.getCellStyleNames(v, fie);
         }
 
         @Override
@@ -300,7 +310,8 @@ class PresentationTable implements IGwtTableView {
             }
             co.setSortable(true);
             if (he.isHidden() || he.getHeaderString() == null) {
-                // Important: for some reason the assert violation cause breaking without Exception throwing
+                // Important: for some reason the assert violation cause
+                // breaking without Exception throwing
                 // So additional error alert is displayed to avoid confusion
                 Utils.errAlert(he.getFie().getId(), LogT.getT().HeaderNull());
             }
