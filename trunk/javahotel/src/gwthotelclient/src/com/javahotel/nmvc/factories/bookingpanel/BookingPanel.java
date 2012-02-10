@@ -131,12 +131,21 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     private List<PeriodT> coP = null;
     private DaySeasonScrollData sData;
 
+    interface TemplateBlankClass extends SafeHtmlTemplates {
+        @Template("<div class=\"{0}\">&nbsp;</div>")
+        SafeHtml input(String style);
+    }
+
     interface TemplateClass extends SafeHtmlTemplates {
-        @Template("<div class=\"{0}\">{1} </div>")
+        @Template("<div style=\"line-height:100%\" class=\"{0}\">{1}</div>")
         SafeHtml input(String style, String content);
     }
 
-    // style=\"line-height:" + h + ";\" ";
+    interface TemplateStyleBlankHeight extends SafeHtmlTemplates {
+        @Template("<div class=\"{0}\" style=\"line-height:{1};\">&nbsp;</div>")
+        SafeHtml input(String style, String height);
+    }
+
     interface TemplateStyleHeight extends SafeHtmlTemplates {
         @Template("<div class=\"{0}\" style=\"line-height:{1};\">{2}</div>")
         SafeHtml input(String style, String height, String content);
@@ -146,6 +155,11 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             .create(TemplateStyleHeight.class);
     private final static TemplateClass templateClass = GWT
             .create(TemplateClass.class);
+
+    private final static TemplateStyleBlankHeight templateBlankHeight = GWT
+            .create(TemplateStyleBlankHeight.class);
+    private final static TemplateBlankClass templateBlankClass = GWT
+            .create(TemplateBlankClass.class);
 
     /**
      * Creates or recreates panel widget.
@@ -343,9 +357,17 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
      */
     private void addStyle(SafeHtmlBuilder b, String st, String content, String h) {
         if (h != null) {
-            b.append(templateHeight.input(st, h, content));
+            if (content == null) {
+                b.append(templateBlankHeight.input(st, h));
+            } else {
+                b.append(templateHeight.input(st, h, content));
+            }
         } else {
-            b.append(templateClass.input(st, content));
+            if (content == null) {
+                b.append(templateBlankClass.input(st));
+            } else {
+                b.append(templateClass.input(st, content));
+            }
         }
 
     }
@@ -401,8 +423,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
                 b.appendEscaped(headerT);
             }
             if (sTyle != null) {
-                // addStyle(b, sTyle, "&nbsp;", "70%");
-                addStyle(b, sTyle, ".", "70%");
+                addStyle(b, sTyle, null, "70%");
             }
             return b.toSafeHtml();
         }
@@ -501,25 +522,45 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
      */
     private class GetResCell implements IGetCellValue {
 
-        /**
-         * Get value for reservation column
-         */
-        @Override
-        public SafeHtml getValue(IVModelData v, IVField fie) {
-
+        private ResDayObjectStateP getResObject(IVModelData v, IVField fie) {
             RField r = (RField) fie;
             Date d = getD(r.getI());
             if (d == null) {
                 // possible the first time only
-                return getEmpty();
+                return null;
             }
             // room number
             String s = getRoomName(v);
             IResLocator rI = HInjector.getI().getI();
             // reservation data for room and day
             ResDayObjectStateP p = rI.getR().getResState(s, d);
+            return p;
+
+        }
+
+        /**
+         * Get value for reservation column
+         */
+        @Override
+        public SafeHtml getValue(IVModelData v, IVField fie) {
+
+            ResDayObjectStateP p = getResObject(v, fie);
+            if (p == null) {
+                return getEmpty();
+            }
             // as a content display the day.
             String ss = DateFormatUtil.toS(p.getD());
+            SafeHtmlBuilder b = new SafeHtmlBuilder();
+            b.appendEscaped(ss);
+            return b.toSafeHtml();
+        }
+
+        @Override
+        public String getCellStyleNames(IVModelData v, IVField fie) {
+            ResDayObjectStateP p = getResObject(v, fie);
+            if (p == null) {
+                return null;
+            }
             BookingStateType staT = getResState(p);
             String sTyle = null;
             // enrich cell only if there is a reservation
@@ -538,14 +579,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
                     assert false : LogT.getT().notExpected();
                 }
             }
-            SafeHtmlBuilder b = new SafeHtmlBuilder();
-            if (sTyle != null) {
-                addStyle(b, sTyle, ss, null);
-            } else {
-                // do not enrich display if not booked at all
-                b.appendEscaped(ss);
-            }
-            return b.toSafeHtml();
+            return sTyle;
         }
     }
 
@@ -757,8 +791,8 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         seasonE = f.getELine();
         seasonE.addChangeListener(new C());
         seasonName = f.getPLabel();
-        iList = this.tFactories.getlDataFactory().construct(roomType,
-                new GetResCell());
+        iList = tFactories.getlDataFactory().construct(roomType,
+                new GetResCell(),false);
         IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getPersistFactoryAction();
         iPersist = persistFactoryA.contruct(roomType);

@@ -93,6 +93,12 @@ public class AdvancePayment extends AbstractSlotContainer {
             return templateClass.input(s);
         }
 
+        @Override
+        public String getCellStyleNames(IVModelData v, IVField fie) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 
     private class ClickCust implements ISlotListener {

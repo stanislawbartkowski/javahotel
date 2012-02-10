@@ -49,6 +49,7 @@ import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.persist.IMemoryListModel;
 import com.gwtmodel.table.persist.MemoryGetController;
 import com.gwtmodel.table.persist.MemoryListPersist;
+import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -66,7 +67,10 @@ import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.AddType;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataUtil;
+import com.javahotel.client.types.VField;
 import com.javahotel.client.types.VModelDataFactory;
+import com.javahotel.common.command.DictType;
+import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.PaymentRowP;
@@ -88,6 +92,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
     private final boolean isFlat;
     /** Book data, otherwise add cost. */
     private final boolean isBook;
+    private final IDataType bType = new DataType(DictType.BookingList);
 
     private final StartDraw sDraw = new StartDraw();
     private final IsServiceBooking iService = new IsServiceBooking(
@@ -233,6 +238,11 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             String s = FUtils.getBigDecimalS(pSum.sumCustomer, fie);
             return LogT.getStrongCell().input(s);
         }
+
+        @Override
+        public String getCellStyleNames(IVModelData v, IVField fie) {
+            return null;
+        }
     }
     
     private class GetW implements ISlotListener {
@@ -266,6 +276,48 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             SlU.startPublish0(pD);
         }
 
+    }
+    
+    private class RefreshAfterPersist implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            if (isFlat) { return ; }
+
+            ISlotable i = BookingElemContainer.this;
+            IFormLineView f = SlU.getFormLineView(bType, new VField(BookingP.F.customerPrice), i);
+            IFormLineView fin = SlU.getFormLineView(bType, new VField(BookingP.F.checkIn), i);
+            IFormLineView fout = SlU.getFormLineView(bType, new VField(BookingP.F.checkOut), i);
+            IDataListType li = lPersistList.getDataList();
+            Date dMin = null;
+            Date dMax = null;
+            PUtil.SumP sumP = null;
+            for (IVModelData v : li.getList()) {
+                BookElemP e;
+                e = DataUtil.getData(v);
+                List<PaymentRowP> pLi = e.getPaymentrows();
+                PUtil.SumP s = PUtil.getPrice(pLi);
+                if (sumP == null) {
+                    sumP = s;
+                }
+                else {
+                    PUtil.addS(sumP, s);
+                }
+                if (dMin == null) { dMin = e.getCheckIn(); }
+                else {
+                    dMin = DateUtil.getMinDate(dMin,e.getCheckIn());
+                }
+                if (dMax == null) { dMax = e.getCheckOut(); }
+                else {
+                    dMax = DateUtil.getMaxDate(dMax,e.getCheckOut());
+                }
+            f.setValObj(sumP.sumCustomer);
+            fin.setValObj(dMin);
+            fout.setValObj(dMax);
+            }
+        }
+        
+        
     }
 
     /**
@@ -337,6 +389,8 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
                 DataActionEnum.ChangeViewFormModeAction, new ChangeMode());
         slMediator.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.TableCellClicked, new ClickedSum());
+        lPersistList.getSlContainer().registerSubscriber(dType,
+                DataActionEnum.RefreshAfterPersistActionSignal, new  RefreshAfterPersist());
 
     }
 
