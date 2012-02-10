@@ -227,7 +227,11 @@ public class SlU {
     public static FormLineContainer getFormLineContainer(IDataType dType,
             ISlotable iSlo) {
         return iSlo.getSlContainer().getGetterContainer(dType);
+    }
 
+    public static IFormLineView getFormLineView(IDataType dType, IVField fie,
+            ISlotable iSlo) {
+        return iSlo.getSlContainer().getGetterFormLine(dType, fie);
     }
 
     public static IDataListType getIDataListType(IDataType dType, ISlotable iSlo) {

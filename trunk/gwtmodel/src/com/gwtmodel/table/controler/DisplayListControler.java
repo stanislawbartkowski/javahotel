@@ -48,7 +48,7 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
         ListDataViewFactory lDataFactory = cParam.gettFactories()
                 .getlDataFactory();
         IListDataView daView = lDataFactory.construct(cParam.getdType(),
-                cParam.getGetCell());
+                cParam.getGetCell(), true);
         ControlButtonViewFactory bFactory = cParam.gettFactories()
                 .getbViewFactory();
         IControlButtonView bView = bFactory.construct(cParam.getdType(),

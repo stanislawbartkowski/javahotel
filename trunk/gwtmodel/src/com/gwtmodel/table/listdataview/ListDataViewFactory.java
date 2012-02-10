@@ -27,10 +27,11 @@ public class ListDataViewFactory {
     }
 
     public IListDataView construct(IDataType dType) {
-        return construct(dType, null);
+        return construct(dType, null, true);
     }
 
-    public IListDataView construct(IDataType dType, IGetCellValue getCell) {
-        return new ListDataView(gFactory, dType, getCell);
+    public IListDataView construct(IDataType dType, IGetCellValue getCell,
+            boolean selectedRow) {
+        return new ListDataView(gFactory, dType, getCell, selectedRow);
     }
 }

@@ -94,24 +94,7 @@ public final class SlotListContainer {
 
     private class GeneralListener implements ISlotListener {
 
-        @Override
-        public void signal(ISlotSignalContext slContextP) {
-            SlotType sl = slContextP.getSlType();
-            ISlotSignalContext slContext = slContextP;
-            // find redirector
-            boolean notReplaced = true;
-            while (notReplaced) {
-                notReplaced = false;
-                for (SlotRedirector re : listOfRedirectors) {
-                    if (re.getFrom().eq(sl)) {
-                        sl = re.getTo();
-                        slContext = contextReplace(sl, slContextP);
-                        notReplaced = true;
-                        break;
-                    }
-                }
-            }
-
+        private void signal(SlotType sl, ISlotSignalContext slContext) {
             // to avoid concurrency exception
             List<SlotSubscriberType> li = getList(slContext.getSlType());
             if (li.size() == 0) {
@@ -126,6 +109,47 @@ public final class SlotListContainer {
                                 slContext.getSlType().toString()));
                 so.getSlSignaller().signal(slContext);
             }
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContextP) {
+            SlotType sl = slContextP.getSlType();
+            ISlotSignalContext slContext = slContextP;
+            signal(sl, slContext);
+            // find redirector
+            boolean notReplaced = true;
+            boolean wasChanged = false;
+            while (notReplaced) {
+                notReplaced = false;
+                for (SlotRedirector re : listOfRedirectors) {
+                    if (re.getFrom().eq(sl)) {
+                        sl = re.getTo();
+                        slContext = contextReplace(sl, slContextP);
+                        notReplaced = true;
+                        wasChanged = true;
+                        break;
+                    }
+                }
+            }
+
+            if (wasChanged) {
+                signal(sl, slContext);
+            }
+
+            // // to avoid concurrency exception
+            // List<SlotSubscriberType> li = getList(slContext.getSlType());
+            // if (li.size() == 0) {
+            // LogT.getLS().info(
+            // LogT.getT().sendSignalNotFound(
+            // slContext.getSlType().toString()));
+            // return;
+            // }
+            // for (SlotSubscriberType so : li) {
+            // LogT.getLS().info(
+            // LogT.getT().sendSignalLog(
+            // slContext.getSlType().toString()));
+            // so.getSlSignaller().signal(slContext);
+            // }
         }
     }
 

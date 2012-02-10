@@ -18,10 +18,12 @@ import com.gwtmodel.table.IVModelData;
 
 /**
  * @author hotel
- *
+ * 
  */
 public interface IGetCellValue {
-    
+
     SafeHtml getValue(IVModelData v, IVField fie);
+
+    String getCellStyleNames(IVModelData v, IVField fie);
 
 }
