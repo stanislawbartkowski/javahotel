@@ -203,7 +203,7 @@ public class RecordFormDefFactory implements IFormDefFactory {
                         BookingP.F.oPrice, BookingP.F.validationAmount,
                         BookingP.F.validationDate };
                 FormField fPrice = FFactory
-                        .constructReadOnly(BookPaymentField.customerPrice);
+                        .constructReadOnly(BookingP.F.customerPrice);
                 FFactory.add(fList, fL);
                 FFactory.addAfter(fList, BookingP.F.noPersons, fPrice);
                 break;
