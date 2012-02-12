@@ -20,10 +20,6 @@ import com.google.gwt.i18n.client.Messages;
  */
 public interface HoMessages extends Messages {
 
-    String countNum(int no);
-
-    String scrollNum(int from, int to);
-
     String noSleeps(int no);
 
     String noDict(String s, int no);
@@ -39,4 +35,6 @@ public interface HoMessages extends Messages {
     String ResStateCannotBeNull();
     
     String AtLeastOneInvoiceData();
+    
+    String MustFindPeriod();
 }

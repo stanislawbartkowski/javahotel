@@ -52,6 +52,7 @@ import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -68,6 +69,8 @@ import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.ClickPopUp;
+import com.gwtmodel.table.view.util.EventPopUpHint;
+import com.gwtmodel.table.view.util.IEventName;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.javahotel.client.ConfigParam;
 import com.javahotel.client.GWTGetService;
@@ -131,35 +134,13 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     private List<PeriodT> coP = null;
     private DaySeasonScrollData sData;
 
-    interface TemplateBlankClass extends SafeHtmlTemplates {
-        @Template("<div class=\"{0}\">&nbsp;</div>")
-        SafeHtml input(String style);
+    interface TemplateHeader extends SafeHtmlTemplates {
+        @Template("<div class=\"{0}\">{1}</div><div class=\"{2}\">{3}</div>")
+        SafeHtml input(String style, String up, String style1, String down);
     }
 
-    interface TemplateClass extends SafeHtmlTemplates {
-        @Template("<div style=\"line-height:100%\" class=\"{0}\">{1}</div>")
-        SafeHtml input(String style, String content);
-    }
-
-    interface TemplateStyleBlankHeight extends SafeHtmlTemplates {
-        @Template("<div class=\"{0}\" style=\"line-height:{1};\">&nbsp;</div>")
-        SafeHtml input(String style, String height);
-    }
-
-    interface TemplateStyleHeight extends SafeHtmlTemplates {
-        @Template("<div class=\"{0}\" style=\"line-height:{1};\">{2}</div>")
-        SafeHtml input(String style, String height, String content);
-    }
-
-    private final static TemplateStyleHeight templateHeight = GWT
-            .create(TemplateStyleHeight.class);
-    private final static TemplateClass templateClass = GWT
-            .create(TemplateClass.class);
-
-    private final static TemplateStyleBlankHeight templateBlankHeight = GWT
-            .create(TemplateStyleBlankHeight.class);
-    private final static TemplateBlankClass templateBlankClass = GWT
-            .create(TemplateBlankClass.class);
+    private final static TemplateHeader templateHeader = GWT
+            .create(TemplateHeader.class);
 
     /**
      * Creates or recreates panel widget.
@@ -332,42 +313,13 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
         A(SafeHtml a) {
             // activates onBrowserEvent
-            super("click");
+            super(IEventName.MOUSEOVER, IEventName.MOUSEOUT);
         }
 
         @Override
         public void render(com.google.gwt.cell.client.Cell.Context context,
                 SafeHtml value, SafeHtmlBuilder sb) {
             sb.append(value);
-        }
-
-    }
-
-    /**
-     * Modify html style
-     * 
-     * @param b
-     *            SafeHtmlBuilder
-     * @param st
-     *            Html style to be added to line
-     * @param content
-     *            Tag contennt
-     * @param h
-     *            If not null add line-height css modifier
-     */
-    private void addStyle(SafeHtmlBuilder b, String st, String content, String h) {
-        if (h != null) {
-            if (content == null) {
-                b.append(templateBlankHeight.input(st, h));
-            } else {
-                b.append(templateHeight.input(st, h, content));
-            }
-        } else {
-            if (content == null) {
-                b.append(templateBlankClass.input(st));
-            } else {
-                b.append(templateClass.input(st, content));
-            }
         }
 
     }
@@ -380,8 +332,8 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
      */
     private class T extends Header<SafeHtml> {
 
-        private String headerT = "";
         private final int i;
+        private final EventPopUpHint pHint = new EventPopUpHint();
 
         private PeriodT pe;
 
@@ -394,13 +346,9 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         @Override
         public void onBrowserEvent(Cell.Context context, Element elem,
                 NativeEvent event) {
-            // do not test the type of event, always 'click'
-            if (pe == null) {
-                return;
-            }
-            Widget w = SeasonUtil.createPeriodPopUp(pe);
-            new ClickPopUp(new WSize(elem), w);
-
+            String sName = SeasonUtil.getName(pe);
+            pHint.setMessage(sName);
+            pHint.onBrowser(elem, event);
         }
 
         @Override
@@ -413,28 +361,18 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             Date todayD = sData.getTodayC();
             boolean today = DateUtil.eqDate(da, todayD);
             String na = SeasonUtil.getDateName(da);
-            setHeaderT(na);
             pe = GetPeriods.findPeriod(da, coP);
             String sTyle = SeasonUtil.getStyleForDay(pe);
-
+            String upStyle = sTyle;
             if (today) {
-                addStyle(b, SeasonUtil.getTodayStyle(), headerT, null);
-            } else {
-                b.appendEscaped(headerT);
+                upStyle = "day_today";
             }
-            if (sTyle != null) {
-                addStyle(b, sTyle, null, "70%");
-            }
+            String week = MM.getWeekdays()[DateUtil.weekDay(da)];
+            b.append(templateHeader.input(upStyle, na, sTyle, week));
+
             return b.toSafeHtml();
         }
 
-        /**
-         * @param headerT
-         *            the headerT to set
-         */
-        void setHeaderT(String headerT) {
-            this.headerT = headerT;
-        }
     }
 
     private class GHeader implements IGHeader {
@@ -792,7 +730,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         seasonE.addChangeListener(new C());
         seasonName = f.getPLabel();
         iList = tFactories.getlDataFactory().construct(roomType,
-                new GetResCell(),false);
+                new GetResCell(), false);
         IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getPersistFactoryAction();
         iPersist = persistFactoryA.contruct(roomType);

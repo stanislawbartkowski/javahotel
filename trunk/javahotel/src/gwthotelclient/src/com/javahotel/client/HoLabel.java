@@ -134,5 +134,9 @@ public interface HoLabel extends Constants {
     String PaymentToAdvance();
     
     String QuestionSavePaymentsToAdvance();
+    
+    String GotoMonth();
+    
+    String OkHotelDataRemoved();
 
 }

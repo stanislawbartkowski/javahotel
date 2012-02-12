@@ -114,22 +114,25 @@
 /* ------------------- */
 
 .day_high_season {
-   background-color:#0000FF;
+   background-color:#CCCCFF;
 }
 
 .day_low_season {
-   background-color:#00FF00
+   background-color:#CCFFCC
 }
 		
 .day_special_season {
-   background-color:#FF0000
+   background-color:#FFCCCC
 }
 
 .day_lowweekend_season {
-   background-color:#00FFF0
+   background-color:#CCFFFF
 }
 
 .day_highweekend_season {
-   background-color:#00FFFF
+   background-color:#DDFFFF
 }
-		
+
+.day_today {
+   background-color:#FFDDDD;
+}

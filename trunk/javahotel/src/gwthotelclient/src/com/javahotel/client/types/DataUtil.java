@@ -50,7 +50,7 @@ public class DataUtil {
     public static ISlotCustom constructValidateAgain(IDataType dType) {
         return new CustomStringDataTypeSlot("HOTEL-VALIDATE-AGAIN", dType);
     }
-    
+
     public static IVModelData construct(IDataType dType) {
         DataType daType = (DataType) dType;
         if (daType.isAllPersons()) {
@@ -71,7 +71,6 @@ public class DataUtil {
         }
         return VModelDataFactory.construct(a);
     }
-
 
     public static IDataListType construct(List<? extends AbstractTo> dList) {
         List<IVModelData> dvList = new ArrayList<IVModelData>();
@@ -220,6 +219,11 @@ public class DataUtil {
         }
     }
 
+    /**
+     * Converts IField array to IField list
+     * @param ft Array
+     * @return List
+     */
     public static List<IVField> toList(IField[] ft) {
         List<IVField> eLList = new ArrayList<IVField>();
         for (IField f : ft) {

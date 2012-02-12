@@ -20,11 +20,11 @@ import com.gwtmodel.table.SynchronizeList;
 import com.javahotel.client.ConfigParam;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.calculateprice.IPaymentData;
-import com.javahotel.client.calculateprice.ITableSeasonPrice;
 import com.javahotel.client.rdata.RData.IOneList;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
+import com.javahotel.common.tableprice.TableSeasonPrice;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
@@ -36,20 +36,20 @@ import com.javahotel.common.toobject.PaymentRowP;
  */
 public class PaymentData implements IPaymentData {
 
-    private final ITableSeasonPrice tPrice;
+    private final TableSeasonPrice tPrice;
     private final IResLocator rI;
     private String season;
     private String sprice;
-    
+
     private void initT() {
         season = null;
         sprice = null;
     }
 
-
     private void setRows(final Date dFrom, final Date dTo,
             final String service, final ISetPaymentRows i) {
-        List<PaymentRowP> co = tPrice.getPriceRows(service, dFrom, dTo);
+        List<PaymentRowP> co = tPrice.getPriceRowsInOut(service, dFrom, dTo,
+                ConfigParam.getRowDetails());
         i.setRow(co);
     }
 

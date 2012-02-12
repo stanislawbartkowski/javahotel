@@ -15,7 +15,6 @@ package com.javahotel.nmvc.factories.season;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
@@ -25,8 +24,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.view.util.ClickPopUp;
+import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.view.util.PopupTip;
 import com.javahotel.client.ConfigParam;
+import com.javahotel.client.M;
 import com.javahotel.client.user.season.SeasonUtil;
 import com.javahotel.client.user.widgets.stable.IDrawPartSeason;
 import com.javahotel.client.user.widgets.stable.IScrollSeason;
@@ -44,7 +45,6 @@ import com.javahotel.common.toobject.OfferSeasonP;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-@SuppressWarnings("deprecation")
 class PanelSeason {
 
     private final ComplexPanel controlP;
@@ -57,8 +57,7 @@ class PanelSeason {
     private static final int NO = 12;
     private final Grid g;
 
-    PanelSeason(Grid g, final ComplexPanel controlP,
-            final Date today) {
+    PanelSeason(Grid g, final ComplexPanel controlP, final Date today) {
         this.g = g;
         this.controlP = controlP;
         sCr = WidgetScrollSeasonFactory.getScrollSeason(new DrawC(),
@@ -66,11 +65,13 @@ class PanelSeason {
 
     }
 
-    private void setDayLabel(Label l, Date da) {
+    private void setDayLabel(DayLabel l, Date da, boolean today) {
         PeriodT p = GetPeriods.findPeriod(da, coP);
-        l.addClickListener(new IClick(p));
         String sTyle = SeasonUtil.getStyleForDay(p);
-        l.setStyleName(sTyle);
+        l.lUp.setStyleName(today ? SeasonUtil.getTodayStyle() : sTyle);
+        l.lDown.setStyleName(sTyle);
+        String sName = SeasonUtil.getName(p);
+        l.setMessage(sName);
     }
 
     private class DrawC implements IDrawPartSeason {
@@ -80,24 +81,19 @@ class PanelSeason {
             controlP.add(i.getGWidget());
         }
 
-        private Label getLabel(Widget w, int pa) {
-            VerticalPanel hp = (VerticalPanel) w;
-            Label la = (Label) hp.getWidget(pa);
-            return la;
+        private DayLabel getLabel(Widget w) {
+            DayLabel hp = (DayLabel) w;
+            return hp;
         }
 
         private void refreshOneColumn(int cNo, Date pe, boolean today) {
             String na = SeasonUtil.getDateName(pe);
             Widget w = g.getWidget(0, cNo);
-            Label la = getLabel(w, 0);
-            if (today) {
-                la.setStyleName(SeasonUtil.getTodayStyle());
-            } else {
-                la.removeStyleName(SeasonUtil.getTodayStyle());
-            }
-            la.setText(na);
-            la = getLabel(w, 1);
-            setDayLabel(la, pe);
+            DayLabel la = getLabel(w);
+            la.lUp.setText(na);
+            String week = MM.getWeekdays()[DateUtil.weekDay(pe)];
+            la.lDown.setText(week);
+            setDayLabel(la, pe, today);
         }
 
         @Override
@@ -113,7 +109,7 @@ class PanelSeason {
     }
 
     private String getName(final PeriodT pe) {
-        String s = SeasonUtil.getName(pe);
+        String s = SeasonUtil.getName(null);
         return s;
     }
 
@@ -123,7 +119,7 @@ class PanelSeason {
 
         private SeasonDayInfo(final Date da) {
             PeriodT p = GetPeriods.findPeriod(da, coP);
-            assert p != null : "Must find period";
+            assert p != null : M.M().MustFindPeriod();
             String na = getName(p);
             vp.add(new Label(na));
             initWidget(vp);
@@ -134,24 +130,24 @@ class PanelSeason {
         return new SeasonDayInfo(d);
     }
 
-    private class IClick implements ClickListener {
-
-        private final PeriodT pe;
-
-        IClick(PeriodT pe) {
-            this.pe = pe;
-        }
-
-        public void onClick(final Widget arg0) {
-            Widget w = SeasonUtil.createPeriodPopUp(pe);
-            new ClickPopUp(arg0, w);
-        }
-    }
-
     private void drawCa(final PeriodType pType, int actC) {
         dLine = CalendarTable.listOfDates(d1, d2, pType);
         coP = CreateTableSeason.createTable(oP, ConfigParam.getStartWeek());
         sCr.createVPanel(dLine, actC);
+    }
+
+    private class DayLabel extends PopupTip {
+
+        private final HTML lUp = new HTML();
+        private final Label lDown = new Label();
+        private final VerticalPanel hp = new VerticalPanel();
+
+        DayLabel() {
+            hp.add(lUp);
+            hp.add(lDown);
+            initWidget(hp);
+        }
+
     }
 
     public void drawPa(final OfferSeasonP oP, final PeriodType t) {
@@ -165,9 +161,7 @@ class PanelSeason {
         fo.setStyleName(0, "day-scroll-panel");
         g.resizeColumns(NO);
         for (int i = 0; i < NO; i++) {
-            VerticalPanel hp = new VerticalPanel();
-            hp.add(new Label());
-            hp.add(new HTML("&nbsp;"));
+            DayLabel hp = new DayLabel();
             g.setWidget(0, i, hp);
         }
         drawCa(t, NO);
