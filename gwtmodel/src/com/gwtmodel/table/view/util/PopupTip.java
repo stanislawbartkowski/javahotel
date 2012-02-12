@@ -18,10 +18,8 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.WSize;
 
 /**
  * Simple class for implementing PopUp widget while is moving on
@@ -31,70 +29,34 @@ import com.gwtmodel.table.injector.LogT;
  */
 public abstract class PopupTip extends Composite {
 
+    private final PopUpHint pHint = new PopUpHint();
+
     protected PopupTip() {
         setMouse();
     }
 
-    /** Widget to be drawn. */
-    private Widget message = null;
-
-    /**
-     * Hide PopUp
-     */
     public void delMessage() {
-        message = null;
-        hideUp();
+        pHint.delMessage();
     }
 
-    /**
-     * Set Widget to be displayed
-     * 
-     * @param message
-     *            Widget
-     */
     public void setMessage(Widget message) {
-        assert message != null : LogT.getT().cannotBeNull();
-        this.message = message;
+        pHint.setMessage(message);
     }
 
-    /**
-     * Set message to be displayed
-     * 
-     * @param message
-     *            String
-     */
     public void setMessage(String message) {
-        if (message == null) {
-            this.message = null;
-            hideUp();
-            return;
-        }
-        setMessage(new Label(message));
-    }
-
-    private PopupPanel tup = null;
-
-    private void hideUp() {
-        if (tup != null) {
-            tup.hide();
-            tup = null;
-        }
+        pHint.setMessage(message);
     }
 
     private class MouseO implements MouseOverHandler, MouseOutHandler {
 
         @Override
         public void onMouseOver(MouseOverEvent event) {
-            if (message != null) {
-                tup = PopUpTip.getPopupTip(message);
-                PopupUtil.setPos(tup, PopupTip.this);
-                tup.show();
-            }
+            pHint.actionOver(new WSize(PopupTip.this));
         }
 
         @Override
         public void onMouseOut(MouseOutEvent event) {
-            hideUp();
+            pHint.actionOut();
         }
     }
 
