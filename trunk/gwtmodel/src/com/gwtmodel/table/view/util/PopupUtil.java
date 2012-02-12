@@ -53,14 +53,14 @@ public class PopupUtil {
                 HasHorizontalAlignment.ALIGN_RIGHT);
 
         hP.add(hC);
-    }
+    }        
 
     public static void setPos(final PopupPanel pUp, final WSize w) {
         int t = w.getTop() + w.getHeight();
         int l = w.getLeft();
         pUp.setPopupPosition(l, t);
     }
-
+    
     public static void setPos(final PopupPanel pUp, final Widget w) {
         setPos(pUp, new WSize(w));
     }

@@ -63,27 +63,16 @@ public class PopupCreateMenu {
         }
         return menu;
     }
-    
-    public static IGWidget createImageMenu(String imageHtml,final ListOfControlDesc coP,
-            final IControlClick cli, final Widget w) {
+
+    public static IGWidget createImageMenu(String imageHtml,
+            final ListOfControlDesc coP, final IControlClick cli, final Widget w) {
 
         HorizontalPanel hp = new HorizontalPanel();
-        MenuBar menu = createMenu(coP,cli,w);
+        MenuBar menu = createMenu(coP, cli, w);
         MenuBar mp = new MenuBar();
         hp.add(mp);
         mp.addItem(imageHtml, true, menu);
         return new GWidget(hp);
     }
 
-//    HorizontalPanel hp = new HorizontalPanel();
-//    MenuBar mp = new MenuBar();
-//    hp.add(mp);
-//    MenuBar menu = CreateMenuCommand.createMenu(rI, new EPanelCommand[] {
-//            EPanelCommand.BOOKINGPANEL, EPanelCommand.BOOKING,
-//            EPanelCommand.PREPAID, EPanelCommand.ROOMSADMIN, EPanelCommand.TESTBOOKING,
-//            EPanelCommand.TESTBOOKINGELEM,EPanelCommand.TESTBOOKINGNEWELEM});
-//    
-//    mp.addItem(Utils.getImageHTML(IImageGallery.DOWNMENU), true, menu);
-//    return hp;
-    
 }

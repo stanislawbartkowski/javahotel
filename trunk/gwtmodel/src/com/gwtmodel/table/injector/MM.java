@@ -17,6 +17,7 @@
 package com.gwtmodel.table.injector;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.gwtmodel.table.TLabels;
 
 /**
@@ -26,6 +27,7 @@ import com.gwtmodel.table.TLabels;
 public class MM {
 
     private final static TLabels sLabel;
+    private final static String[] weekdays = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo().weekdaysFull();
 
     static {
         sLabel = (TLabels) GWT.create(TLabels.class);
@@ -34,4 +36,9 @@ public class MM {
     public static TLabels getL() {
         return sLabel;
     }
+    
+    public static String[] getWeekdays() {
+        return weekdays;
+    }
+    
 }
