@@ -31,7 +31,8 @@ public class CommonHelper {
 
     public static JpaEntity getAutJPA() {
 
-        JpaEntity jpa = new JpaEntity(new JpaDataId(GetProp.getSeID()), HLog.getL());
+        JpaEntity jpa = new JpaEntity(new JpaDataId(GetProp.getSeID()),
+                HLog.getL());
         return jpa;
     }
 
@@ -47,8 +48,7 @@ public class CommonHelper {
         return o;
     }
 
-    private static <T> void addCol(final ICommandContext iC,
-            final List<T> col) {
+    private static <T> void addCol(final ICommandContext iC, final List<T> col) {
         for (T o : col) {
             iC.getJpa().addRecord(o);
         }

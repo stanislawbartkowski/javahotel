@@ -28,26 +28,63 @@ public class DateUtil {
 
     private static final long DAY_IN_MILISECONDS = 86400000;
 
+    /**
+     * Change to next day
+     * 
+     * @param d
+     *            Date input and output (next day)
+     */
     public static void NextDay(final Date d) {
         long ti = d.getTime();
         ti += DAY_IN_MILISECONDS;
         d.setTime(ti);
     }
 
+    /**
+     * Change to previous day
+     * 
+     * @param d
+     *            Data input and output (previous day)
+     */
     public static void PrevDay(final Date d) {
         long ti = d.getTime();
         ti -= DAY_IN_MILISECONDS;
         d.setTime(ti);
     }
 
+    /**
+     * Make a copy of Data class
+     * 
+     * @param d
+     *            Date (source)
+     * @return Date copy of source
+     */
     public static Date copyDate(final Date d) {
         return new Date(d.getTime());
     }
 
+    /**
+     * Test if two dates (day) are equal
+     * 
+     * @param d1
+     *            First to compare
+     * @param d2
+     *            Second to compare
+     * @return true: if equal
+     */
     public static boolean eqDate(final Date d1, final Date d2) {
         return compareDate(d1, d2) == 0;
     }
 
+    /**
+     * Test if two dates are equal and also check for nul
+     * 
+     * @param d1
+     *            First to compare (can be null)
+     * @param d2
+     *            Second to compare (can be null)
+     * @return True : if equals or both null
+     */
     public static boolean eqNDate(final Date d1, final Date d2) {
         if (d1 == null) {
             if (d2 != null) {
@@ -60,6 +97,17 @@ public class DateUtil {
         }
         return eqDate(d1, d2);
     }
+
+    /**
+     * Compare two dates (day)
+     * 
+     * @param d1
+     *            First day
+     * @param d2
+     *            Second day
+     * @return -1 : first earlier then second 0 : equals 1 : first greater then
+     *         second
+     */
 
     @SuppressWarnings("deprecation")
     public static int compareDate(final Date d1, final Date d2) {
@@ -90,6 +138,17 @@ public class DateUtil {
         return 0;
     }
 
+    /**
+     * Check if day is inside period (iclusive)
+     * 
+     * @param d
+     *            Date to test
+     * @param pFrom
+     *            Beginning of period
+     * @param pTo
+     *            End of period
+     * @return -1: before, 0: inside, 1 : after
+     */
     public static int comparePeriod(final Date d, final Date pFrom,
             final Date pTo) {
         int c1 = compareDate(d, pFrom);

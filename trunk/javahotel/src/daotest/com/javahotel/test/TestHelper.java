@@ -476,8 +476,8 @@ abstract public class TestHelper extends LocalDataStoreTestEnvironment {
 
     protected void modifPaymentRow(BookElemP be) {
         PaymentRowP rP = new PaymentRowP();
-        rP.setCustomerPrice(new BigDecimal(100));
-        rP.setOfferPrice(new BigDecimal(100));
+        rP.setCustomerRate(new BigDecimal(100));
+        rP.setOfferRate(new BigDecimal(100));
         rP.setRowFrom(be.getCheckIn());
         rP.setRowTo(be.getCheckOut());
         List<PaymentRowP> rCol = new ArrayList<PaymentRowP>();

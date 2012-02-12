@@ -39,11 +39,11 @@ public class PaymentRow extends AbstractIId implements IId {
     @Basic(optional = false)
     @Temporal(TemporalType.DATE)
     private Date rowTo;
-
+    
     @Basic(optional = false)
-    private BigDecimal offerPrice;
+    private BigDecimal offerRate;
     @Basic(optional = false)
-    private BigDecimal customerPrice;
+    private BigDecimal customerRate;
     @ManyToOne(optional = false)
     @JoinColumn(name = "bookelem", nullable = false)
     private BookElem bookelem;
@@ -64,21 +64,6 @@ public class PaymentRow extends AbstractIId implements IId {
         this.rowTo = rowTo;
     }
 
-    public BigDecimal getOfferPrice() {
-        return offerPrice;
-    }
-
-    public void setOfferPrice(BigDecimal offerPrice) {
-        this.offerPrice = offerPrice;
-    }
-
-    public BigDecimal getCustomerPrice() {
-        return customerPrice;
-    }
-
-    public void setCustomerPrice(BigDecimal customerPrice) {
-        this.customerPrice = customerPrice;
-    }
 
     public BookElem getBookelem() {
         return bookelem;
@@ -87,5 +72,34 @@ public class PaymentRow extends AbstractIId implements IId {
     public void setBookelem(BookElem bookelem) {
         this.bookelem = bookelem;
     }
+
+    /**
+     * @return the offerRate
+     */
+    public BigDecimal getOfferRate() {
+        return offerRate;
+    }
+
+    /**
+     * @param offerRate the offerRate to set
+     */
+    public void setOfferRate(BigDecimal offerRate) {
+        this.offerRate = offerRate;
+    }
+
+    /**
+     * @return the customerRate
+     */
+    public BigDecimal getCustomerRate() {
+        return customerRate;
+    }
+
+    /**
+     * @param customerRate the customerRate to set
+     */
+    public void setCustomerRate(BigDecimal customerRate) {
+        this.customerRate = customerRate;
+    }
+    
 
 }

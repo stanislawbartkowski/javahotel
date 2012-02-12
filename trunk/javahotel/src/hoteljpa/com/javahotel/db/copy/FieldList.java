@@ -80,7 +80,7 @@ public class FieldList {
         BookElemList = new String[] { "checkIn", "checkOut", "resObject",
                 "service" };
         PaymentRowList = new String[] { /* "id" */"rowFrom", "rowTo",
-                "offerPrice", "customerPrice" };
+                "offerRate", "customerRate" };
         GuestList = new String[] { "checkIn", "checkOut" };
         AddPayList = new String[] { "lp", "payDate", "offerPrice",
                 "customerPrice", "personOp", "dateOp", "remarks", "noSe",

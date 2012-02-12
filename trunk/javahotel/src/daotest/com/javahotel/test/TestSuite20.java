@@ -64,14 +64,14 @@ public class TestSuite20 extends TestHelper {
 
             PaymentRowP pR = new PaymentRowP();
             List<PaymentRowP> colP = new ArrayList<PaymentRowP>();
-            pR.setCustomerPrice(new BigDecimal(123));
-            pR.setOfferPrice(new BigDecimal(333));
+            pR.setCustomerRate(new BigDecimal(123));
+            pR.setOfferRate(new BigDecimal(333));
             pR.setRowFrom(dpocz);
             pR.setRowTo(dpocz);
             colP.add(pR);
             pR = new PaymentRowP();
-            pR.setCustomerPrice(new BigDecimal(123));
-            pR.setOfferPrice(new BigDecimal(333));
+            pR.setCustomerRate(new BigDecimal(123));
+            pR.setOfferRate(new BigDecimal(333));
             pR.setRowFrom(dkon);
             pR.setRowTo(dkon);
             colP.add(pR);

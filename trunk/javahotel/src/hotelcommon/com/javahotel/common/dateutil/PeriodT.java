@@ -15,13 +15,17 @@ package com.javahotel.common.dateutil;
 import java.util.Date;
 
 /**
- *
+ * Class for keeping period of time
  * @author stanislawbartkowski@gmail.com
  */
+
 public class PeriodT {
 
+    /** The beginning of period. */
     private final Date from;
+    /** The end of period. */
     private Date to;
+    /** Additional object attached to period. */
     private Object i;
 
     public PeriodT(final Date d1, final Date d2, final Object i) {

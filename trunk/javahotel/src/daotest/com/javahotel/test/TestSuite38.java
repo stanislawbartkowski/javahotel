@@ -97,8 +97,8 @@ public class TestSuite38 extends TestHelper {
         bok.setBooklist(colE);
         for (int i = 0; i < 50; i++) {
             PaymentRowP rP = new PaymentRowP();
-            rP.setCustomerPrice(new BigDecimal(4));
-            rP.setOfferPrice(new BigDecimal(4));
+            rP.setCustomerRate(new BigDecimal(4));
+            rP.setOfferRate(new BigDecimal(4));
             rP.setRowFrom(be.getCheckIn());
             rP.setRowTo(be.getCheckOut());
             rCol.add(rP);

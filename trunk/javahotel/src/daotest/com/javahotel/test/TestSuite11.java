@@ -66,6 +66,7 @@ public class TestSuite11 extends TestHelper {
         be.setCheckOut(DateFormatUtil.toD("2008/03/07"));
         List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
+        modifPaymentRow(be);
         bok.setBooklist(colE);
 
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
@@ -92,14 +93,14 @@ public class TestSuite11 extends TestHelper {
         }
         PaymentRowP pR = new PaymentRowP();
         List<PaymentRowP> colp = new ArrayList<PaymentRowP>();
-        pR.setCustomerPrice(new BigDecimal(123));
-        pR.setOfferPrice(new BigDecimal(333));
+        pR.setCustomerRate(new BigDecimal(123));
+        pR.setOfferRate(new BigDecimal(333));
         pR.setRowFrom(DateFormatUtil.toD("2008/02/07"));
         pR.setRowTo(DateFormatUtil.toD("2008/03/07"));
         colp.add(pR);
         pR = new PaymentRowP();
-        pR.setCustomerPrice(new BigDecimal(1234));
-        pR.setOfferPrice(new BigDecimal(3334));
+        pR.setCustomerRate(new BigDecimal(1234));
+        pR.setOfferRate(new BigDecimal(3334));
         pR.setRowFrom(DateFormatUtil.toD("2008/06/07"));
         pR.setRowTo(DateFormatUtil.toD("2008/06/07"));
         colp.add(pR);

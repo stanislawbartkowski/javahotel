@@ -162,7 +162,7 @@ public class TestSuite10 extends TestHelper {
 
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
         BigDecimal sum = (BigDecimal) bok.getF(BookingP.F.customerPrice);
-        eqBig(new BigDecimal(100), sum);
+        eqBig(new BigDecimal(3000), sum);
         assertEquals("Norm", bok.getOPrice());
     }
 
@@ -205,14 +205,14 @@ public class TestSuite10 extends TestHelper {
         }
         PaymentRowP pR = new PaymentRowP();
         List<PaymentRowP> col = new ArrayList<PaymentRowP>();
-        pR.setCustomerPrice(new BigDecimal(123));
-        pR.setOfferPrice(new BigDecimal(333));
+        pR.setCustomerRate(new BigDecimal(123));
+        pR.setOfferRate(new BigDecimal(333));
         pR.setRowFrom(DateFormatUtil.toD("2008/02/07"));
         pR.setRowTo(DateFormatUtil.toD("2008/03/07"));
         col.add(pR);
         pR = new PaymentRowP();
-        pR.setCustomerPrice(new BigDecimal(1234));
-        pR.setOfferPrice(new BigDecimal(3334));
+        pR.setCustomerRate(new BigDecimal(1234));
+        pR.setOfferRate(new BigDecimal(3334));
         pR.setRowFrom(DateFormatUtil.toD("2008/06/07"));
         pR.setRowTo(DateFormatUtil.toD("2008/06/07"));
         col.add(pR);

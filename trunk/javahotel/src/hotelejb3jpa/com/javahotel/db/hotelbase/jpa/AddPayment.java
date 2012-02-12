@@ -83,7 +83,7 @@ public class AddPayment extends AbstractIID {
     /**
      * @param offerPrice the offerPrice to set
      */
-    public void setOfferPrice(BigDecimal offerPrice) {
+    public void setOfferRate(BigDecimal offerPrice) {
         this.offerPrice = offerPrice;
     }
 
@@ -97,7 +97,7 @@ public class AddPayment extends AbstractIID {
     /**
      * @param customerPrice the customerPrice to set
      */
-    public void setCustomerPrice(BigDecimal customerPrice) {
+    public void setCustomerRate(BigDecimal customerPrice) {
         this.customerPrice = customerPrice;
     }
 
