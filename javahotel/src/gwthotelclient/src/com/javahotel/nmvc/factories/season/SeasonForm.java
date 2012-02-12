@@ -64,6 +64,7 @@ public class SeasonForm implements IDataFormConstructor {
             FormLineContainer model) {
         Widget w = CreateFormView.construct(model.getfList());
         VerticalPanel v = new VerticalPanel();
+        // additional button : show season in more graphical way
         ControlButtonDesc b = new ControlButtonDesc(M.L().ShowSeasons(),
                 new ClickButtonType("POKAZ"));
         List<ControlButtonDesc> li = new ArrayList<ControlButtonDesc>();
@@ -72,6 +73,6 @@ public class SeasonForm implements IDataFormConstructor {
         IContrButtonView bv = bFactory.getView(lo, new ButtList(iContext));
         v.add(w);
         v.add(bv.getGWidget());
-        iSet.setW(new GWidget(w));
+        iSet.setW(new GWidget(v));
     }
 }

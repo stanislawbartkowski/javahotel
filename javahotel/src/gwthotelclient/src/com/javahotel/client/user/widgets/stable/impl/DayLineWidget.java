@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.javahotel.client.user.widgets.stable.IDrawPartSeason;
-import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 import com.javahotel.common.scrollseason.model.MoveSkip;
 import com.javahotel.common.scrollseason.model.PanelDesc;

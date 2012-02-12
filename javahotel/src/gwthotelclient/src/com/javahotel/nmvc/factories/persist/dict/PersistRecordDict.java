@@ -17,9 +17,11 @@ import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.ReturnPersist;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
 
 /**
+ * Class for persisting 'dictionary' object
  * 
  * @author stanislawbartkowski@gmail.com
  */
@@ -30,8 +32,15 @@ class PersistRecordDict extends APersistRecordDict {
     }
 
     @Override
-    protected void persistDict(DictType d, DictionaryP dP, CommonCallBack<ReturnPersist> b) {
-        GWTGetService.getService().persistDict(d, dP, b);
+    protected void persistDict(DictType d, DictionaryP dP,
+            CommonCallBack<ReturnPersist> b) {
+        if (d == DictType.BookingList) {
+            // in case of booking use different service
+            BookingP boo = (BookingP) dP;
+            GWTGetService.getService().persistResBookingReturn(boo, b);
+        } else {
+            GWTGetService.getService().persistDict(d, dP, b);
+        }
     }
 
 }

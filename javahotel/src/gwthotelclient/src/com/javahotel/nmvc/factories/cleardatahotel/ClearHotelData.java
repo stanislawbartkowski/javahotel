@@ -25,6 +25,7 @@ import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -51,7 +52,7 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
 
         @Override
         public void onMySuccess(ReturnPersist arg) {
-            Window.alert("OK - dane usunięte !");
+            Window.alert(M.L().OkHotelDataRemoved());
         }
     }
 

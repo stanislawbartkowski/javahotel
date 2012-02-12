@@ -21,7 +21,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
-import com.javahotel.client.IResLocator;
+import com.gwtmodel.table.view.util.PopupTip;
+import com.javahotel.client.M;
 import com.javahotel.common.scrollseason.model.MonthSeasonScrollData;
 import com.javahotel.common.scrollseason.model.MoveSkip;
 import com.javahotel.common.scrollseason.model.PanelDesc;
@@ -48,9 +49,9 @@ class MonthSeasonScrollWidget implements IGWidget {
         this.mClicked = mClicked;
     }
 
-    private Label getNo(int no) {
+    private DLabel getNo(int no) {
         Widget w = hp.getWidget(no);
-        return (Label) w;
+        return (DLabel) w;
     }
 
     boolean moveD(MoveSkip m) {
@@ -61,16 +62,13 @@ class MonthSeasonScrollWidget implements IGWidget {
         for (int i = sData.getFirstP(); i <= sData.getLastP(); i++) {
             YearMonthPe pe = sData.getPe(i);
             String na = pe.getYear() + " - " + pe.getMonth();
-            // if (i == todayM) {
-            // na = "[ " + na + "]";
-            // }
-            Label la = getNo(i - sData.getFirstP());
+            DLabel la = getNo(i - sData.getFirstP());
             if (i == todayM) {
                 la.addStyleName("today");
             } else {
                 la.removeStyleName("today");
             }
-            la.setText(na);
+            la.getLa().setText(na);
         }
 
     }
@@ -89,6 +87,25 @@ class MonthSeasonScrollWidget implements IGWidget {
         }
     }
 
+    private class DLabel extends PopupTip {
+
+        private final Label la = new Label("");
+
+        DLabel(int i) {
+            initWidget(la);
+            setMessage(M.L().GotoMonth());
+            la.addMouseDownHandler(new MonthEvent(i));
+        }
+
+        /**
+         * @return the la
+         */
+        public Label getLa() {
+            return la;
+        }
+
+    }
+
     void createVPanel(List<Date> dList, int panelW, int todayM) {
         this.todayM = todayM;
         hp.clear();
@@ -96,10 +113,10 @@ class MonthSeasonScrollWidget implements IGWidget {
         hp.setSpacing(5);
         hp.setStyleName("month-scroll-panel");
         for (int i = 0; i < sData.getMonthPe(); i++) {
-            Label la = new Label("");
-            la.setTitle("aaaaa");
-            la.addMouseDownHandler(new MonthEvent(i));
-            hp.add(la);
+            // Label la = new Label("");
+            // la.setTitle("aaaaa");
+            // la.addMouseDownHandler(new MonthEvent(i));
+            hp.add(new DLabel(i));
         }
         drawNames();
     }

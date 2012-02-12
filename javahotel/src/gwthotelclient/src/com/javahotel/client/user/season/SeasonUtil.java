@@ -22,6 +22,7 @@ import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
+import com.javahotel.common.toobject.SeasonPeriodT;
 
 /**
  * 
@@ -32,11 +33,11 @@ public class SeasonUtil {
     private SeasonUtil() {
     }
 
-    public static String getName(final PeriodT t) {
-
+    public static String getName(PeriodT pe) {
+        OfferSeasonPeriodP t = (OfferSeasonPeriodP) pe.getI();
         String sId = "HIGH";
         if (t != null) {
-            sId = t.toString();
+            sId = t.getPeriodT().toString();
         }
         return (String) M.L().SeasonNames().get(sId);
     }
@@ -76,6 +77,7 @@ public class SeasonUtil {
 
     public static Widget createPeriodPopUp(PeriodT pe) {
         VerticalPanel h = new VerticalPanel();
+        // TODO: correct
         String s = getName(pe);
         // do not remove
         h.add(new Label(s));

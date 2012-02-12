@@ -16,6 +16,7 @@ import java.util.Date;
 
 import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.GetPeriods.StartWeek;
+import com.javahotel.common.tableprice.TableSeasonPrice.RowDetailLevel;
 
 /**
  * 
@@ -45,5 +46,9 @@ public class ConfigParam {
      */
     public static StartWeek getStartWeek() {
         return StartWeek.onFriday;
+    }
+
+    public static RowDetailLevel getRowDetails() {
+        return RowDetailLevel.perDay;
     }
 }
