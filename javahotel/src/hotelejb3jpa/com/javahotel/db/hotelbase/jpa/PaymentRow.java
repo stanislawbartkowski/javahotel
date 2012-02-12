@@ -66,7 +66,7 @@ public class PaymentRow extends AbstractIID {
         return offerPrice;
     }
 
-    public void setOfferPrice(BigDecimal offerPrice) {
+    public void setOfferRate(BigDecimal offerPrice) {
         this.offerPrice = offerPrice;
     }
 
@@ -74,7 +74,7 @@ public class PaymentRow extends AbstractIID {
         return customerPrice;
     }
 
-    public void setCustomerPrice(BigDecimal customerPrice) {
+    public void setCustomerRate(BigDecimal customerPrice) {
         this.customerPrice = customerPrice;
     }
 

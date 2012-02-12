@@ -66,7 +66,7 @@ public class AddPaymentP extends AbstractTo implements INumerable {
      * @param offerPrice
      *            the offerPrice to set
      */
-    public void setOfferPrice(BigDecimal offerPrice) {
+    public void setOfferRate(BigDecimal offerPrice) {
         this.offerPrice.setDecim(offerPrice);
     }
 
@@ -81,7 +81,7 @@ public class AddPaymentP extends AbstractTo implements INumerable {
      * @param customerPrice
      *            the customerPrice to set
      */
-    public void setCustomerPrice(BigDecimal customerPrice) {
+    public void setCustomerRate(BigDecimal customerPrice) {
         this.customerPrice.setDecim(customerPrice);
     }
 
@@ -227,7 +227,7 @@ public class AddPaymentP extends AbstractTo implements INumerable {
             setPayDate((Date) o);
             break;
         case customerPrice:
-            setCustomerPrice((BigDecimal) o);
+            setCustomerRate((BigDecimal) o);
             break;
         case personOp:
             setPersonOp((String) o);

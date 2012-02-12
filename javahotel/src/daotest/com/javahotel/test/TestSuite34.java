@@ -68,8 +68,8 @@ public class TestSuite34 extends TestHelper {
         colE.add(be);
         bok.setBooklist(colE);
         PaymentRowP rP = new PaymentRowP();
-        rP.setCustomerPrice(new BigDecimal(100));
-        rP.setOfferPrice(new BigDecimal(100));
+        rP.setCustomerRate(new BigDecimal(100));
+        rP.setOfferRate(new BigDecimal(100));
         rP.setRowFrom(be.getCheckIn());
         rP.setRowTo(be.getCheckOut());
         List<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
@@ -93,8 +93,8 @@ public class TestSuite34 extends TestHelper {
         be.setService("BREAKFEST");
         bok.getBooklist().add(be);
         rP = new PaymentRowP();
-        rP.setCustomerPrice(new BigDecimal(100));
-        rP.setOfferPrice(new BigDecimal(100));
+        rP.setCustomerRate(new BigDecimal(100));
+        rP.setOfferRate(new BigDecimal(100));
         rP.setRowFrom(be.getCheckIn());
         rP.setRowTo(be.getCheckOut());
         rCol = new ArrayList<PaymentRowP>();

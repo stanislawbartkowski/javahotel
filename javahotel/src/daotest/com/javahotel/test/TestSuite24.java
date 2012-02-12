@@ -74,8 +74,8 @@ public class TestSuite24 extends TestHelper {
         colE.add(be);
         bok.setBooklist(colE);
         PaymentRowP rP = new PaymentRowP();
-        rP.setCustomerPrice(new BigDecimal(100));
-        rP.setOfferPrice(new BigDecimal(100));
+        rP.setCustomerRate(new BigDecimal(100));
+        rP.setOfferRate(new BigDecimal(100));
         rP.setRowFrom(be.getCheckIn());
         rP.setRowTo(be.getCheckOut());
         List<PaymentRowP> rCol = new ArrayList<PaymentRowP>();
@@ -126,8 +126,8 @@ public class TestSuite24 extends TestHelper {
         colE.add(be);
         bok.setBooklist(colE);
         rP = new PaymentRowP();
-        rP.setCustomerPrice(new BigDecimal(500));
-        rP.setOfferPrice(new BigDecimal(500));
+        rP.setCustomerRate(new BigDecimal(500));
+        rP.setOfferRate(new BigDecimal(500));
         rP.setRowFrom(be.getCheckIn());
         rP.setRowTo(be.getCheckOut());
         rCol = new ArrayList<PaymentRowP>();
@@ -158,7 +158,7 @@ public class TestSuite24 extends TestHelper {
                     }
                 }
             }
-            eqBig(new BigDecimal(500), bi);
+            eqBig(new BigDecimal(1000), bi);
         }
     }
 }

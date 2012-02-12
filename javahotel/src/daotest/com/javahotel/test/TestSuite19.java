@@ -63,8 +63,8 @@ public class TestSuite19 extends TestHelper {
         
         PaymentRowP pR = new PaymentRowP();
         List<PaymentRowP> colP = new ArrayList<PaymentRowP>();
-        pR.setCustomerPrice(new BigDecimal(123));
-        pR.setOfferPrice(new BigDecimal(333));
+        pR.setCustomerRate(new BigDecimal(123));
+        pR.setOfferRate(new BigDecimal(333));
         pR.setRowFrom(DateFormatUtil.toD("2008/02/07"));
         pR.setRowTo(DateFormatUtil.toD("2008/02/08"));
         colP.add(pR);

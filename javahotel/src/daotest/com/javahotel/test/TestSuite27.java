@@ -50,9 +50,9 @@ public class TestSuite27 extends TestHelper {
         setPay(bok, new ArrayList<PaymentP>());
         List<AddPaymentP> add = new ArrayList<AddPaymentP>();
         AddPaymentP a = new AddPaymentP();
-        a.setCustomerPrice(new BigDecimal(100));
+        a.setCustomerRate(new BigDecimal(100));
         a.setLp(new Integer(1));
-        a.setOfferPrice(new BigDecimal(200));
+        a.setOfferRate(new BigDecimal(200));
         a.setPayDate(D("2007/01/10"));
         ServiceDictionaryP servi = (ServiceDictionaryP) getDict(
                 DictType.ServiceDict, HOTEL1);
@@ -95,10 +95,10 @@ public class TestSuite27 extends TestHelper {
 
         List<AddPaymentP> add = new ArrayList<AddPaymentP>();
         AddPaymentP a = new AddPaymentP();
-        a.setCustomerPrice(new BigDecimal(100));
+        a.setCustomerRate(new BigDecimal(100));
         a.setLp(new Integer(1));
-        a.setOfferPrice(new BigDecimal(200));
-        a.setCustomerPrice(new BigDecimal(200));
+        a.setOfferRate(new BigDecimal(200));
+        a.setCustomerRate(new BigDecimal(200));
         a.setPayDate(D("2007/01/10"));
         a.setRService(servi);
         add.add(a);
@@ -123,9 +123,9 @@ public class TestSuite27 extends TestHelper {
             servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, HOTEL1);
             servi = getpersistName(DictType.ServiceDict, servi, "LUX" + i);
             a = new AddPaymentP();
-            a.setCustomerPrice(new BigDecimal(100));
+            a.setCustomerRate(new BigDecimal(100));
             a.setLp(new Integer(i + 1));
-            a.setOfferPrice(new BigDecimal(200));
+            a.setOfferRate(new BigDecimal(200));
             a.setPayDate(D("2007/01/10"));
             a.setRService(servi);
             add.add(a);
@@ -155,10 +155,10 @@ public class TestSuite27 extends TestHelper {
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
         List<AddPaymentP> add = new ArrayList<AddPaymentP>();
         AddPaymentP a = new AddPaymentP();
-        a.setCustomerPrice(new BigDecimal(100));
+        a.setCustomerRate(new BigDecimal(100));
         a.setLp(new Integer(1));
-        a.setOfferPrice(new BigDecimal(200));
-        a.setCustomerPrice(new BigDecimal(200));
+        a.setOfferRate(new BigDecimal(200));
+        a.setCustomerRate(new BigDecimal(200));
         a.setPayDate(D("2007/01/10"));
         a.setRService(servi);
         add.add(a);
@@ -195,9 +195,9 @@ public class TestSuite27 extends TestHelper {
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
         List<AddPaymentP> add = new ArrayList<AddPaymentP>();
         AddPaymentP a = new AddPaymentP();
-        a.setCustomerPrice(new BigDecimal(100));
+        a.setCustomerRate(new BigDecimal(100));
         a.setLp(new Integer(1));
-        a.setOfferPrice(new BigDecimal(200));
+        a.setOfferRate(new BigDecimal(200));
         a.setPayDate(D("2007/01/10"));
         a.setRService(servi);
         add.add(a);

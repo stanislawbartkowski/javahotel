@@ -32,15 +32,22 @@ import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
+
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class TestSuite21 extends TestHelper {
 
+    /**
+     * Persist booking and retrieve
+     * Step 1: Create and persist booking
+     * Step 2: Retrieve booking by name
+     */
     @Test
     public void Test1() {
         loginuser();
+        // Step 1
         BookingP bok = createB();
         OfferPriceP oPrice = getOfferPrice(bok.getSeason(), "Norm");
         bok.setOPrice("Norm");
@@ -49,7 +56,8 @@ public class TestSuite21 extends TestHelper {
         modifPaymentRow(be);
         ResObjectP rO = getResObject("1p");
         be.setResObject("1p");
-        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, HOTEL1);
+        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(
+                DictType.ServiceDict, HOTEL1);
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
         be.setService("LUX");
 
@@ -61,15 +69,15 @@ public class TestSuite21 extends TestHelper {
 
         PaymentRowP pR = new PaymentRowP();
         List<PaymentRowP> colP = new ArrayList<PaymentRowP>();
-        pR.setCustomerPrice(new BigDecimal(123));
-        pR.setOfferPrice(new BigDecimal(333));
+        pR.setCustomerRate(new BigDecimal(123));
+        pR.setOfferRate(new BigDecimal(333));
         pR.setRowFrom(DateFormatUtil.toD("2008/02/07"));
         pR.setRowTo(DateFormatUtil.toD("2008/02/08"));
         colP.add(pR);
         be.setPaymentrows(colP);
 
         bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-        
+
         BookingP bok1 = createB();
         bok1.setHotel(HOTEL1);
         bok1.setName("BOKRYBKA");
@@ -90,18 +98,18 @@ public class TestSuite21 extends TestHelper {
         colE.add(be);
         bok1.setBooklist(colE);
 
-        
         ReturnPersist ret = hot.persistResBookingReturn(se, bok1);
         assertNull(ret.getIdName());
-        
-        bok = getOneNameN(DictType.BookingList,"BOK0001");
+
+        // Step 2
+        bok = getOneNameN(DictType.BookingList, "BOK0001");
         BookingStateP bState = new BookingStateP();
         bState.setBState(BookingStateType.Canceled);
         bState.setLp(new Integer(1));
         List<BookingStateP> staCol = bok.getState();
         staCol.add(bState);
-        
-        hot.persistDic(se, DictType.BookingList,bok);
+
+        hot.persistDic(se, DictType.BookingList, bok);
 
         ret = hot.persistResBookingReturn(se, bok1);
         assertNotNull(ret.getIdName());

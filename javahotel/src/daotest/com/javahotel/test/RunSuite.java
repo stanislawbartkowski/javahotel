@@ -22,7 +22,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses(
 {
-/*    
+    
         TestSuite1.class,
         TestSuite2.class,
         TestSuite3.class,
@@ -60,9 +60,8 @@ import org.junit.runners.Suite;
         TestSuite34.class,
         TestSuite35.class,
         TestSuite36.class,
-        TestSuite37.class
-*/        
-    TestSuite10.class
+        TestSuite37.class      
+//    TestSuite21.class
 })
 
 //@Suite.SuiteClasses({TestSuite4.class})

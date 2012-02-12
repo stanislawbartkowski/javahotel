@@ -19,7 +19,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class GetPeriods {
@@ -29,8 +29,7 @@ public class GetPeriods {
 
     private static class ICompare implements Comparator<PeriodT> {
 
-        public int compare(final PeriodT o1,
-                final PeriodT o2) {
+        public int compare(final PeriodT o1, final PeriodT o2) {
             return DateUtil.compareDate(o1.getFrom(), o2.getFrom());
         }
     }
@@ -39,8 +38,7 @@ public class GetPeriods {
         Collections.sort(col, new ICompare());
     }
 
-    private static List<PeriodT> cut(final PeriodT pe,
-            final List<PeriodT> sou) {
+    private static List<PeriodT> cut(final PeriodT pe, final List<PeriodT> sou) {
         ArrayList<PeriodT> pout = new ArrayList<PeriodT>();
         Date pefrom = pe.getFrom();
         Date peto = pe.getTo();
@@ -62,8 +60,7 @@ public class GetPeriods {
         return pout;
     }
 
-    public static List<PeriodT> get(final PeriodT pe,
-            final List<PeriodT> sou) {
+    public static List<PeriodT> get(final PeriodT pe, final List<PeriodT> sou) {
 
         List<PeriodT> pout = cut(pe, sou);
         ArrayList<PeriodT> out = new ArrayList<PeriodT>();
@@ -109,8 +106,8 @@ public class GetPeriods {
         boolean eq(PeriodT p1, PeriodT p2);
     }
 
-    public static List<PeriodT> consolidatePeriods(
-            final List<PeriodT> sou, final IEqPeriodT i) {
+    public static List<PeriodT> consolidatePeriods(final List<PeriodT> sou,
+            final IEqPeriodT i) {
         PeriodT prev = null;
         List<PeriodT> out = new ArrayList<PeriodT>();
         for (PeriodT p : sou) {
@@ -123,7 +120,7 @@ public class GetPeriods {
                     if (DateUtil.compareDate(dto, dfrom) != -1) {
                         if (prev.getI() == p.getI()) {
                             // break final, getter, setter
-                            //  consolidate
+                            // consolidate
                             prev.setTo(p.getTo());
                             continue;
                         }
@@ -144,20 +141,20 @@ public class GetPeriods {
 
     private static boolean startW(final int dOfWeek, final StartWeek sWeek) {
         switch (sWeek) {
-            case onFriday:
-                return dOfWeek == 5;
-            case onSaturday:
-                return dOfWeek == 6;
+        case onFriday:
+            return dOfWeek == 5;
+        case onSaturday:
+            return dOfWeek == 6;
         }
         return false;
     }
 
     private static boolean endW(final int dOfWeek, final StartWeek sWeek) {
         switch (sWeek) {
-            case onFriday:
-                return dOfWeek == 6;
-            case onSaturday:
-                return dOfWeek == 0;
+        case onFriday:
+            return dOfWeek == 6;
+        case onSaturday:
+            return dOfWeek == 0;
         }
         return false;
     }
@@ -178,8 +175,7 @@ public class GetPeriods {
                 if (begW == null) {
                     begW = DateUtil.copyDate(first);
                 }
-                cDays.add(new PeriodT(begW, DateUtil.copyDate(actC),
-                        pe.getI()));
+                cDays.add(new PeriodT(begW, DateUtil.copyDate(actC), pe.getI()));
                 begW = null;
             }
             DateUtil.NextDay(actC);
@@ -190,8 +186,7 @@ public class GetPeriods {
         return cDays;
     }
 
-    public static PeriodT findPeriod(final Date d,
-            final List<PeriodT> sou) {
+    public static PeriodT findPeriod(final Date d, final List<PeriodT> sou) {
         for (PeriodT p : sou) {
             if (DateUtil.compPeriod(d, p) == 0) {
                 return p;

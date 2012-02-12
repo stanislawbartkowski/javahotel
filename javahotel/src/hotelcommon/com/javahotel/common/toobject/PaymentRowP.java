@@ -15,13 +15,15 @@ package com.javahotel.common.toobject;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.javahotel.common.dateutil.DateUtil;
+import com.javahotel.common.math.MathUtil;
 import com.javahotel.types.DateP;
 import com.javahotel.types.DecimalP;
 import com.javahotel.types.ILd;
 import com.javahotel.types.LId;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("serial")
@@ -30,14 +32,43 @@ public class PaymentRowP extends AbstractTo implements ILd {
     private LId id;
     private DateP rowFrom;
     private DateP rowTo;
-    private DecimalP offerPrice;
-    private DecimalP customerPrice;
-    
+    private DecimalP offerRate;
+    private DecimalP customerRate;
+
     public enum F implements IField {
 
-        id, rowFrom, rowTo, offerPrice, customerPrice
+        id, rowFrom, rowTo, offerRate, customerRate, offerPrice, customerPrice
     };
 
+    /**
+     * @return the offerRate
+     */
+    public BigDecimal getOfferRate() {
+        return offerRate.getDecim();
+    }
+
+    /**
+     * @param offerRate
+     *            the offerRate to set
+     */
+    public void setOfferRate(BigDecimal offerRate) {
+        this.offerRate.setDecim(offerRate);
+    }
+
+    /**
+     * @return the customerRate
+     */
+    public BigDecimal getCustomerRate() {
+        return customerRate.getDecim();
+    }
+
+    /**
+     * @param customerRate
+     *            the customerRate to set
+     */
+    public void setCustomerRate(BigDecimal customerRate) {
+        this.customerRate.setDecim(customerRate);
+    }
 
     public Date getRowFrom() {
         return rowFrom.getD();
@@ -55,27 +86,27 @@ public class PaymentRowP extends AbstractTo implements ILd {
         this.rowTo.setD(rowTo);
     }
 
-    public BigDecimal getOfferPrice() {
-        return offerPrice.getDecim();
-    }
-
-    public void setOfferPrice(BigDecimal offerPrice) {
-        this.offerPrice.setDecim(offerPrice);
+    private BigDecimal countP(DecimalP price) {
+        if (price.getDecim() == null) {
+            return null;
+        }
+        int no = DateUtil.noLodgings(rowFrom.getD(), rowTo.getD());
+        return MathUtil.multI(price.getDecim(), no);
     }
 
     public BigDecimal getCustomerPrice() {
-        return customerPrice.getDecim();
+        return countP(customerRate);
     }
 
-    public void setCustomerPrice(BigDecimal customerPrice) {
-        this.customerPrice.setDecim(customerPrice);
+    public BigDecimal getOfferPrice() {
+        return countP(offerRate);
     }
 
     public PaymentRowP() {
         rowFrom = new DateP();
         rowTo = new DateP();
-        offerPrice = new DecimalP();
-        customerPrice = new DecimalP();
+        offerRate = new DecimalP();
+        customerRate = new DecimalP();
     }
 
     @Override
@@ -83,17 +114,19 @@ public class PaymentRowP extends AbstractTo implements ILd {
         Class<?> cla = String.class;
         F fi = (F) f;
         switch (fi) {
-            case id:
-                cla = Long.class;
-                break;
-            case rowFrom:
-            case rowTo:
-                cla = Date.class;
-                break;
-            case offerPrice:
-            case customerPrice:
-                cla = BigDecimal.class;
-                break;
+        case id:
+            cla = Long.class;
+            break;
+        case rowFrom:
+        case rowTo:
+            cla = Date.class;
+            break;
+        case offerRate:
+        case customerRate:
+        case customerPrice:
+        case offerPrice:
+            cla = BigDecimal.class;
+            break;
 
         }
         return cla;
@@ -108,16 +141,20 @@ public class PaymentRowP extends AbstractTo implements ILd {
     public Object getF(IField f) {
         F fi = (F) f;
         switch (fi) {
-            case id:
-                return getId();
-            case rowFrom:
-                return getRowFrom();
-            case rowTo:
-                return getRowTo();
-            case offerPrice:
-                return getOfferPrice();
-            case customerPrice:
-                return getCustomerPrice();
+        case id:
+            return getId();
+        case rowFrom:
+            return getRowFrom();
+        case rowTo:
+            return getRowTo();
+        case offerPrice:
+            return getOfferPrice();
+        case customerPrice:
+            return getCustomerPrice();
+        case offerRate:
+            return getOfferRate();
+        case customerRate:
+            return getCustomerRate();
         }
         return null;
     }
@@ -126,21 +163,21 @@ public class PaymentRowP extends AbstractTo implements ILd {
     public void setF(IField f, Object o) {
         F fi = (F) f;
         switch (fi) {
-            case id:
-                setId((LId) o);
-                break;
-            case rowFrom:
-                setRowFrom((Date) o);
-                break;
-            case rowTo:
-                setRowTo((Date) o);
-                break;
-            case offerPrice:
-                setOfferPrice((BigDecimal) o);
-                break;
-            case customerPrice:
-                setCustomerPrice((BigDecimal) o);
-                break;
+        case id:
+            setId((LId) o);
+            break;
+        case rowFrom:
+            setRowFrom((Date) o);
+            break;
+        case rowTo:
+            setRowTo((Date) o);
+            break;
+        case offerRate:
+            setOfferRate((BigDecimal) o);
+            break;
+        case customerRate:
+            setCustomerRate((BigDecimal) o);
+            break;
         }
     }
 

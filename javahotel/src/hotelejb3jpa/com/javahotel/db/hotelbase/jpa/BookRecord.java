@@ -80,7 +80,7 @@ public class BookRecord extends AbstractIID implements INumerable {
 		return customerPrice;
 	}
 
-	public void setCustomerPrice(BigDecimal customerPrice) {
+	public void setCustomerRate(BigDecimal customerPrice) {
 		this.customerPrice = customerPrice;
 	}
 
