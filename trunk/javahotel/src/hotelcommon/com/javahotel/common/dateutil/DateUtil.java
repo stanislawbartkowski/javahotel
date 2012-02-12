@@ -187,6 +187,10 @@ public class DateUtil {
         return noDays(from, to) + 1;
     }
 
+    public static int weekDay(Date d) {
+        return d.getDay();
+    }
+
     public static int compPeriod(final Date d, final PeriodT pe) {
         if (pe.getFrom() != null) {
             if (compareDate(d, pe.getFrom()) == -1) {
