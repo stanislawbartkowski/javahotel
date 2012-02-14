@@ -21,13 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-
 import org.xml.sax.SAXException;
 
 public class FileUtil {
@@ -68,7 +66,7 @@ public class FileUtil {
         return se;
     }
 
-    public static void validate(Class<Object> cl, String xmlName,
+    public static void validate(Class cl, String xmlName,
             String schemaName) throws SAXException, IOException {
         Schema se = getSchema(cl, schemaName);
         Validator validator = se.newValidator();
