@@ -42,7 +42,7 @@ public class FileUtil {
         return stringBuilder.toString();
     }
 
-    public static File getResourceDir(Class<Object> cl) {
+    public static File getResourceDir(Class cl) {
         String me = cl.getName().replace(".", "/") + ".class";
         URL u = cl.getClassLoader().getResource(me);
         String p = u.getFile();
@@ -51,13 +51,13 @@ public class FileUtil {
         return new File(s + File.separatorChar + "resources");
     }
 
-    public static URL getResourceURL(Class<Object> cl, String pa) {
+    public static URL getResourceURL(Class cl, String pa) {
         URL u;
         u = cl.getClassLoader().getResource("resources/" + pa);
         return u;
     }
 
-    public static Schema getSchema(Class<Object> cl, String pa)
+    public static Schema getSchema(Class cl, String pa)
             throws SAXException {
         URL u = getResourceURL(cl, pa + ".xsd");
         SchemaFactory fa = SchemaFactory
