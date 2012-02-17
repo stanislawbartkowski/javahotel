@@ -12,41 +12,14 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gwtmodel.table.CreateJson;
-import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.ICommand;
-import com.gwtmodel.table.ICustomObject;
-import com.gwtmodel.table.IDataListType;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGetSetVField;
-import com.gwtmodel.table.IOkModelData;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.WChoosedLine;
-import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.DataListModelView;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
-import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.view.table.GwtTableFactory;
-import com.gwtmodel.table.view.table.IGetCellValue;
-import com.gwtmodel.table.view.table.IGwtTableModel;
-import com.gwtmodel.table.view.table.IGwtTableView;
-import com.gwtmodel.table.view.table.IModifyRowStyle;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
+import com.gwtmodel.table.slotmodel.*;
+import com.gwtmodel.table.view.table.*;
+import java.util.ArrayList;
+import java.util.List;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
@@ -72,8 +45,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             listView.setHeaderList(listHeader);
             tableView.setModel(listView);
             if (listHeader.getJsModifRow() != null) {
-                tableView.setModifyRowStyle(new ModifRow(listHeader
-                        .getJsModifRow()));
+                tableView.setModifyRowStyle(new ModifRow(listHeader.getJsModifRow()));
             }
         }
     }
@@ -91,11 +63,11 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             for (IVField f : line.getF()) {
                 boolean number = false;
                 switch (f.getType().getType()) {
-                case BIGDECIMAL:
-                case LONG:
-                case INT:
-                    number = true;
-                    break;
+                    case BIGDECIMAL:
+                    case LONG:
+                    case INT:
+                        number = true;
+                        break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -230,9 +202,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers IVModelData indentified by position in list
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -248,9 +220,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -324,8 +296,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     }
 
     ListDataView(GwtTableFactory gFactory, IDataType dType,
-            IGetCellValue gValue, boolean selectedRow) {
+            IGetCellValue gValue, boolean selectedRow, boolean unSelectAtOnce) {
         listView = new DataListModelView();
+        listView.setUnSelectAtOnce(unSelectAtOnce);
         this.dType = dType;
         tableView = gFactory.construct(selectedRow ? new ClickList() : null,
                 new ClickColumn(), gValue);

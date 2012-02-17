@@ -12,10 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
@@ -26,48 +22,48 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
-import com.google.gwt.user.cellview.client.Header;
-import com.google.gwt.user.cellview.client.RowStyles;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.ICommand;
-import com.gwtmodel.table.IGetSetVField;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.WChoosedLine;
-import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.table.PresentationCellFactory.IGetField;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
- * 
+ *
  * @author perseus
  */
 class PresentationTable implements IGwtTableView {
 
-    /** Call back when line is clicked. */
+    /**
+     * Call back when line is clicked.
+     */
     private final ICommand iClick;
-    /** Call back when column is clicked. */
+    /**
+     * Call back when column is clicked.
+     */
     private final ICommand iActionColumn;
-    /** Call back function for raw cell columns. */
+    /**
+     * Call back function for raw cell columns.
+     */
     private final IGetCellValue gValue;
-    /** The widget table in flesh. */
+    /**
+     * The widget table in flesh.
+     */
     private final CellTable<Integer> table = new CellTable<Integer>();
     private IGwtTableModel model = null;
-    /** If column definition has been provided. */
+    /**
+     * If column definition has been provided.
+     */
     private boolean columnC = false;
     final SingleSelectionModel<Integer> selectionModel = new SingleSelectionModel<Integer>();
     private WChoosedLine wChoosed;
@@ -90,9 +86,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Custom function for additional style for rows. Uses java script function.
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class TStyles implements RowStyles<Integer> {
 
@@ -105,11 +101,10 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Raised when the whole row was selected
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
-
     private class SelectionChange implements SelectionChangeEvent.Handler {
 
         @Override
@@ -125,6 +120,9 @@ class PresentationTable implements IGwtTableView {
             }
             if ((iClick != null) && !whilefind) {
                 iClick.execute();
+            }
+            if (model.unSelectAtOnce()) {
+                selectionModel.setSelected(sel, false);
             }
             // synchronization by global variable to avoid execute while finding
             // not elegant solution but no better for the time being
@@ -171,9 +169,9 @@ class PresentationTable implements IGwtTableView {
     /**
      * Implementation of AbstractCell. The only purpose is to take over
      * "clicked" event
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class A extends AbstractCell<SafeHtml> {
 
@@ -187,7 +185,6 @@ class PresentationTable implements IGwtTableView {
                 SafeHtml value, SafeHtmlBuilder sb) {
             sb.append(value);
         }
-
     }
 
     private SafeHtml getEmpty() {
@@ -196,9 +193,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Display raw cell column. Call back function provides html (safe)
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class RawColumn extends Column<Integer, SafeHtml> {
 
@@ -231,7 +228,6 @@ class PresentationTable implements IGwtTableView {
             wChoosed = pgetClicked(i, fie, wSize);
             iActionColumn.execute();
         }
-
     }
 
     private class CoComparator implements Comparator<Integer> {
@@ -275,7 +271,7 @@ class PresentationTable implements IGwtTableView {
         VListHeaderContainer vo = model.getHeaderList();
         List<VListHeaderDesc> li = vo.getVisHeList();
         @SuppressWarnings("rawtypes")
-        Column co = null;
+        Column co;
         for (VListHeaderDesc he : li) {
             boolean editable = he.isEditable();
             if (he.getgHeader() != null) {
@@ -296,16 +292,16 @@ class PresentationTable implements IGwtTableView {
                 co = new TColumnString(he.getFie(), fType);
             } else {
                 switch (fType.getType()) {
-                case LONG:
-                case BIGDECIMAL:
-                    co = fa.constructNumberCol(he.getFie(), editable);
-                    break;
-                case DATE:
-                    co = fa.constructDateEditCol(he.getFie(), editable);
-                    break;
-                default:
-                    co = fa.constructEditCol(he.getFie(), editable);
-                    break;
+                    case LONG:
+                    case BIGDECIMAL:
+                        co = fa.constructNumberCol(he.getFie(), editable);
+                        break;
+                    case DATE:
+                        co = fa.constructDateEditCol(he.getFie(), editable);
+                        break;
+                    default:
+                        co = fa.constructEditCol(he.getFie(), editable);
+                        break;
                 }
             }
             co.setSortable(true);
@@ -315,8 +311,7 @@ class PresentationTable implements IGwtTableView {
                 // So additional error alert is displayed to avoid confusion
                 Utils.errAlert(he.getFie().getId(), LogT.getT().HeaderNull());
             }
-            assert !he.isHidden() && he.getHeaderString() != null : LogT.getT()
-                    .cannotBeNull();
+            assert !he.isHidden() && he.getHeaderString() != null : LogT.getT().cannotBeNull();
 
             table.addColumn(co, he.getHeaderString());
 
@@ -407,13 +402,10 @@ class PresentationTable implements IGwtTableView {
     /**
      * Creates WChoosedLine for selected/clicked. It can be later retrieved.
      * Only one can be retrieved, next overwrite the previous
-     * 
-     * @param sel
-     *            Row (Integer) position
-     * @param v
-     *            Column to be clicked (if available)
-     * @param wSize
-     *            Cell position (if not null)
+     *
+     * @param sel Row (Integer) position
+     * @param v Column to be clicked (if available)
+     * @param wSize Cell position (if not null)
      * @return
      */
     private WChoosedLine pgetClicked(Integer sel, IVField v, WSize wSize) {
@@ -480,7 +472,7 @@ class PresentationTable implements IGwtTableView {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see com.gwtmodel.table.IGetSetVField#getV()
          */
         @Override
@@ -513,7 +505,6 @@ class PresentationTable implements IGwtTableView {
             iGet.setValObj(new Integer(rowno), o);
             table.redraw();
         }
-
     }
 
     @Override

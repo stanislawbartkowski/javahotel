@@ -19,11 +19,7 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.*;
 
 class DisplayListControler extends AbstractSlotMediatorContainer implements
         IDataControler {
@@ -48,7 +44,7 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
         ListDataViewFactory lDataFactory = cParam.gettFactories()
                 .getlDataFactory();
         IListDataView daView = lDataFactory.construct(cParam.getdType(),
-                cParam.getGetCell(), true);
+                cParam.getGetCell(), true, false);
         ControlButtonViewFactory bFactory = cParam.gettFactories()
                 .getbViewFactory();
         IControlButtonView bView = bFactory.construct(cParam.getdType(),
