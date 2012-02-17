@@ -24,4 +24,6 @@ public interface IGwtTableModel {
     IListClicked getIClicked();
 
     boolean containsData();
+    
+    boolean unSelectAtOnce();
 }
