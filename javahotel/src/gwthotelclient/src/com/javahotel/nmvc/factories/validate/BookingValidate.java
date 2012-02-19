@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
+import com.javahotel.client.M;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.BookingP;
@@ -24,17 +25,18 @@ import com.javahotel.common.util.StringU;
 
 /**
  * @author hotel
- *
+ * 
  */
 class BookingValidate {
-    
+
     static List<InvalidateMess> check(IVModelData pData) {
         BookingP p = DataUtil.getData(pData);
-        if (!StringU.isEmpty(p.getBooklist())) { return null; }
+        if (!StringU.isEmpty(p.getBooklist())) {
+            return null;
+        }
         List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
         InvalidateMess e = new InvalidateMess(new VField(
-                BookingP.F.customerPrice),
-                "Nic nie zostało zarezerwowane !");
+                BookingP.F.customerPrice), M.L().NothingReserved());
         errMess.add(e);
         return errMess;
     }

@@ -31,8 +31,7 @@ class PersistRecordBooking extends AbstractPersistWithCust {
     @Override
     void setCustId(AbstractTo a, LId custId) {
         BookingP p = (BookingP) a;
-        p.setCustomer(custId);
-        
+        p.setCustomer(custId);        
     }
 
 }

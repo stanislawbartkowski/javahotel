@@ -130,13 +130,21 @@ public interface HoLabel extends Constants {
     String ListOfUsers();
 
     String YouHaveNoRights();
-    
+
     String PaymentToAdvance();
-    
+
     String QuestionSavePaymentsToAdvance();
-    
+
     String GotoMonth();
-    
+
     String OkHotelDataRemoved();
+
+    String NothingReserved();
+
+    String CannotMakeBooking();
+
+    String CannotMakeBooking1();
+
+    String CannotMakeBooking2();
 
 }

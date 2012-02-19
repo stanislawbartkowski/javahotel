@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+   <ui:with field='cc' type='com.javahotel.client.HoLabel'/>
+	<ui:style>
+		.panel {
+			background-color: ivory;
+		}
+	</ui:style>
+
+	<g:FlowPanel styleName="{style.panel}">
+		<g:Label text="{cc.CannotMakeBooking1}"/>
+		<g:Label text="{cc.CannotMakeBooking2}"/>
+        <g:Widget ui:field="listOfR"></g:Widget>		
+	</g:FlowPanel>
+</ui:UiBinder>

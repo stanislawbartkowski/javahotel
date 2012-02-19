@@ -730,7 +730,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         seasonE.addChangeListener(new C());
         seasonName = f.getPLabel();
         iList = tFactories.getlDataFactory().construct(roomType,
-                new GetResCell(), false);
+                new GetResCell(), false, true);
         IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getPersistFactoryAction();
         iPersist = persistFactoryA.contruct(roomType);

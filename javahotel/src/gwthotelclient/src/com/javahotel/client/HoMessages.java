@@ -31,10 +31,12 @@ public interface HoMessages extends Messages {
     String NotSupportedError(String e);
 
     String NotSupportedErrorS();
-    
+
     String ResStateCannotBeNull();
-    
+
     String AtLeastOneInvoiceData();
-    
+
     String MustFindPeriod();
+
+    String OkBooking(String resName);
 }

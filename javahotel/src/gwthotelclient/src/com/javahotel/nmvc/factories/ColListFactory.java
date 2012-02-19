@@ -21,8 +21,6 @@ import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;
-import com.javahotel.client.gename.IGetFieldName;
-import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;

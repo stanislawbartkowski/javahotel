@@ -18,6 +18,9 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.DataUtil;
@@ -37,24 +40,26 @@ class P {
         return daType.getdType() == DictType.PriceListDict;
     }
 
-    static boolean publishValidSignalE(SlotListContainer slContainer,
-            IDataType dType, List<InvalidateMess> errMess) {
-        return publishValidSignal(slContainer, dType, errMess == null ? null
-                : new InvalidateFormContainer(errMess));
+    static boolean publishValidSignalE(ISlotable iSlo, IDataType dType,
+            List<InvalidateMess> errMess, ISlotSignalContext slContext) {
+        return publishValidSignal(iSlo, dType, errMess == null ? null
+                : new InvalidateFormContainer(errMess), slContext);
     }
 
-    static boolean publishValidSignal(SlotListContainer slContainer,
-            IDataType dType, InvalidateFormContainer errContainer) {
+    static boolean publishValidSignal(ISlotable iSlo, IDataType dType,
+            InvalidateFormContainer errContainer, ISlotSignalContext slContext) {
         if (errContainer == null) {
             if (validateCustom(dType)) {
-                slContainer.publish(DataUtil.constructValidateAgain(dType),
-                        null);
+                iSlo.getSlContainer().publish(
+                        DataUtil.constructValidateAgain(dType), null);
             } else {
-                slContainer.publish(dType, DataActionEnum.ValidSignal);
+                // slContainer.publish(dType, DataActionEnum.ValidSignal);
+                SlU.publishDataAction(dType, iSlo, slContext,
+                        DataActionEnum.ValidSignal);
             }
             return true;
         } else {
-            slContainer.publish(dType, DataActionEnum.InvalidSignal,
+            iSlo.getSlContainer().publish(dType, DataActionEnum.InvalidSignal,
                     errContainer);
             return false;
         }

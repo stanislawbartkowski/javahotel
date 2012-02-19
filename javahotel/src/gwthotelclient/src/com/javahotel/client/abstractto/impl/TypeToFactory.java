@@ -51,6 +51,7 @@ import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferServicePriceP;
 import com.javahotel.common.toobject.PaymentP;
 import com.javahotel.common.toobject.PaymentRowP;
+import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
@@ -404,6 +405,8 @@ public class TypeToFactory implements IAbstractType {
         ma.put(PaymentRowP.F.rowFrom, dateT);
         ma.put(PaymentRowP.F.rowTo, dateT);
 
+        ma.put(ResDayObjectStateP.F.d, dateT);
+
         ma.put(InvoiceIssuerP.F.paymentDays, intT);
     }
 
@@ -420,7 +423,7 @@ public class TypeToFactory implements IAbstractType {
     public FieldDataType contructPaymentMethod() {
         return FieldDataType.constructEnum(payMetType);
     }
-    
+
     @Override
     public FieldDataType contructPersonTitle() {
         return FieldDataType.constructEnum(ept);

@@ -33,6 +33,7 @@ import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.PaymentP;
 import com.javahotel.common.toobject.PaymentRowP;
+import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.common.toobject.VatDictionaryP;
@@ -121,6 +122,10 @@ public class GetFieldName implements IGetFieldName {
         ma.put(InvoiceIssuerP.F.paymentDays, "Płatność w ciągu (liczba dni)");
         ma.put(InvoiceIssuerP.F.personMaking, "Osoba wystawiająca");
         ma.put(InvoiceIssuerP.F.townMaking, "Miejsce wystawienia");
+
+        ma.put(ResDayObjectStateP.F.bookName, "Symbol rezerwacji");
+        ma.put(ResDayObjectStateP.F.d, "Dzień");
+        ma.put(ResDayObjectStateP.F.resObject, "Numer pokoju");
     }
 
     @Override

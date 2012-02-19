@@ -75,6 +75,7 @@ public class DataPersistLayer extends AbstractPersistLayer {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
+            wButton = slContext.getGwtWidget();
             PersistTypeEnum e = slContext.getPersistType();
             IVModelData mData = null;
             if (e == PersistTypeEnum.MODIF || e == PersistTypeEnum.REMOVE) {
@@ -85,8 +86,7 @@ public class DataPersistLayer extends AbstractPersistLayer {
                     GetActionEnum.GetComposeModelToPersist, mData);
             HModelData mo;
             mo = (HModelData) pData;
-            iPersist.persist(e, mo,
-                    new AfterPersist(slContext.getPersistType()));
+            iPersist.persist(e, mo, getPersist(slContext.getPersistType()));
         }
     }
 
