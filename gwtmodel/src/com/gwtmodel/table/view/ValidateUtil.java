@@ -59,20 +59,30 @@ public class ValidateUtil {
     };
 
     public static List<InvalidateMess> checkDate(IVModelData mData,
-            IVField from, IVField to) {
+            IVField from, IVField to, boolean canBeEqual) {
         int comp = FUtils.compareValue(mData, to, mData, from);
-        if (comp <= 0) {
+        if (comp < 0) {
             return null;
         }
+        String errMessS;
+        if (comp == 0) {
+            if (canBeEqual) {
+                return null;
+            }
+            errMessS = MM.getL().DateEqualError();
+        } else {
+            errMessS = MM.getL().DateLaterError();
+
+        }
         List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
-        errMess.add(new InvalidateMess(to, MM.getL().DateLaterError()));
+        errMess.add(new InvalidateMess(to, errMessS));
         return errMess;
     }
 
     public static List<InvalidateMess> checkDate(FormLineContainer fo,
-            IVField from, IVField to) {
+            IVField from, IVField to, boolean canBeEqual) {
         IVModelData mData = new FormLineDataView(fo);
-        return checkDate(mData, from, to);
+        return checkDate(mData, from, to, canBeEqual);
     }
 
     public static List<InvalidateMess> checkEmpty(IVModelData mData,

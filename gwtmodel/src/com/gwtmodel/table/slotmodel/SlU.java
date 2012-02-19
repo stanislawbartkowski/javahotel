@@ -294,6 +294,18 @@ public class SlU {
         iSlo.getSlContainer().publish(slC);
     }
 
+    public static void publishDataAction(IDataType dType, ISlotable iSlo,
+            ISlotSignalContext slContext, DataActionEnum action) {
+        SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
+                .getSlotTypeFactory();
+        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
+                .getSlotSignalContextFactory();
+
+        SlotType sl = slTypeFactory.construct(dType, action);
+        ISlotSignalContext slC = slContextFactory.construct(sl, slContext);
+        iSlo.getSlContainer().publish(slC);
+    }
+
     private static class GetValueContainer implements IFormLineView {
 
         private final Object val;

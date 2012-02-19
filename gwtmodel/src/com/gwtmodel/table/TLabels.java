@@ -112,4 +112,6 @@ public interface TLabels extends Constants {
     String Download();
 
     String Send();
+    
+    String DateEqualError();
 }
