@@ -27,7 +27,6 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.abstractto.InvoicePVData;
 import com.javahotel.client.rdata.RData.IVectorList;
-import com.javahotel.client.types.DataType;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.CommandParam;
@@ -71,8 +70,7 @@ public class InvoicePersistLayer extends AbstractPersistLayer {
             InvoicePVData pa = (InvoicePVData) pData;
             mo = VModelDataFactory.construct(pa.getP());
             mo.setCustomData(pa.getCustomData());
-            iPersist.persist(e, mo,
-                    new AfterPersist(slContext.getPersistType()));
+            iPersist.persist(e, mo, getPersist(slContext.getPersistType()));
         }
     }
 

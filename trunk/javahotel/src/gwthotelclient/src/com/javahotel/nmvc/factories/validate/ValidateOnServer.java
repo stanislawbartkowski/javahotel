@@ -19,6 +19,8 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataType;
@@ -39,36 +41,40 @@ class ValidateOnServer {
     private static class ValResult implements IPersistResult {
 
         private final DataType dType;
-        private final SlotListContainer slContainer;
+        private final ISlotable iSlo;
+        private final ISlotSignalContext slContext;
 
-        ValResult(DataType dType, SlotListContainer slContainer) {
+        ValResult(DataType dType, ISlotable iSlo,
+                ISlotSignalContext slContext) {
             this.dType = dType;
-            this.slContainer = slContainer;
+            this.iSlo = iSlo;
+            this.slContext = slContext;
         }
 
         @Override
         public void success(PersistResultContext re) {
             String errMessage = re.getRet().getErrorMessage();
             if (CUtil.EmptyS(errMessage)) {
-                P.publishValidSignal(slContainer, dType, null);
+                P.publishValidSignal(iSlo, dType, null, slContext);
             } else {
                 List<InvalidateMess> errMess = new ArrayList<InvalidateMess>();
                 errMess.add(new InvalidateMess(null, errMessage));
-                P.publishValidSignalE(slContainer, dType, errMess);
+                P.publishValidSignalE(iSlo, dType, errMess, slContext);
             }
 
         }
 
     }
 
-    static void validateS(SlotListContainer slContainer, DataType da,
-            PersistTypeEnum persistTypeEnum, IVModelData pData) {
+    static void validateS(ISlotable iSlo, DataType da,
+            PersistTypeEnum persistTypeEnum, IVModelData pData,
+            ISlotSignalContext slContext) {
         IPersistRecord iPersist = HInjector.getI().getHotelPersistFactory()
                 .construct(da, true);
-        IPersistResult pResult = new ValResult(da, slContainer);
+        IPersistResult pResult = new ValResult(da, iSlo, slContext);
         HModelData ho;
         if (da.isDictType(DictType.InvoiceList)) {
-            P.publishValidSignal(slContainer, da, null);
+            P.publishValidSignal(iSlo, da, null, slContext);
             return;
         }
         if (da.isAllPersons()) {
@@ -77,7 +83,7 @@ class ValidateOnServer {
         } else if (da.isAllHotels() || da.isDictType()) {
             ho = (HModelData) pData;
         } else {
-            P.publishValidSignal(slContainer, da, null);
+            P.publishValidSignal(iSlo, da, null, slContext);
             return;
         }
         iPersist.persist(persistTypeEnum, ho, pResult);

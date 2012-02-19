@@ -27,6 +27,8 @@ import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.javahotel.client.M;
@@ -41,9 +43,10 @@ import com.javahotel.common.toobject.DictionaryP;
  */
 class ValidateEmpty {
 
-    static boolean validateE(SlotListContainer slContainer, DataType da,
+    static boolean validateE(ISlotable iSlo, DataType da,
             PersistTypeEnum persistTypeEnum, IVModelData mData,
-            FormLineContainer fContainer, List<IVField> listE) {
+            FormLineContainer fContainer, List<IVField> listE,
+            ISlotSignalContext slContext) {
         Set<IVField> ignoreV = new HashSet<IVField>();
 
         if (da.getdType() == DictType.CustomerList) {
@@ -73,15 +76,16 @@ class ValidateEmpty {
                     if (!CUtil.EqNS(password, repassword)) {
                         errMess = new ArrayList<InvalidateMess>();
                         errMess.add(new InvalidateMess(new LoginField(
-                                LoginField.F.PASSWORD),
-                                M.L().PasswordDifferent()));
-                        return P.publishValidSignalE(slContainer, da, errMess);
+                                LoginField.F.PASSWORD), M.L()
+                                .PasswordDifferent()));
+                        return P.publishValidSignalE(iSlo, da, errMess,
+                                slContext);
                     }
                 }
             }
             return true;
         }
-        return P.publishValidSignalE(slContainer, da, errMess);
+        return P.publishValidSignalE(iSlo, da, errMess, slContext);
     }
 
 }

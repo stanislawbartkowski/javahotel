@@ -21,7 +21,6 @@ import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.CustomerP;
-import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.nmvc.factories.booking.util.BookingCustInfo;
 import com.javahotel.nmvc.factories.persist.dict.IHotelPersistFactory;
 import com.javahotel.nmvc.factories.persist.dict.IPersistRecord;

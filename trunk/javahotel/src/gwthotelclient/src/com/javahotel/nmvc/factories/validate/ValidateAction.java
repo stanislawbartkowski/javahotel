@@ -47,9 +47,10 @@ class ValidateAction extends AbstractSlotContainer implements
             IVModelData pData = getGetterIVModelData(dType,
                     GetActionEnum.GetViewComposeModelEdited);
             FormLineContainer fContainer = getGetterContainer(dType);
-            if (!ValidateEmpty.validateE(getSlContainer(), da,
+            if (!ValidateEmpty.validateE(ValidateAction.this, da,
                     slContext.getPersistType(), pData, fContainer,
-                    eFactory.getEmptyCol(da, slContext.getPersistType()))) {
+                    eFactory.getEmptyCol(da, slContext.getPersistType()),
+                    slContext)) {
                 return;
             }
             List<InvalidateMess> errMess = null;
@@ -58,7 +59,7 @@ class ValidateAction extends AbstractSlotContainer implements
                 case OffSeasonDict:
                     errMess = ValidateUtil.checkDate(pData, new VField(
                             OfferSeasonP.F.startp), new VField(
-                            OfferSeasonP.F.endp));
+                            OfferSeasonP.F.endp), false);
                     break;
                 case ServiceDict:
                     ServiceDictionaryP se = DataUtil.getData(pData);
@@ -85,16 +86,18 @@ class ValidateAction extends AbstractSlotContainer implements
                 case BookRoom:
                     errMess = ValidateUtil.checkDate(pData, new VField(
                             BookElemP.F.checkIn), new VField(
-                            BookElemP.F.checkOut));
+                            BookElemP.F.checkOut), false);
                     break;
                 }
             }
             if (errMess != null) {
-                P.publishValidSignalE(getSlContainer(), da, errMess);
+                P.publishValidSignalE(ValidateAction.this, da, errMess,
+                        slContext);
                 return;
             }
             PersistTypeEnum action = slContext.getPersistType();
-            ValidateOnServer.validateS(getSlContainer(), da, action, pData);
+            ValidateOnServer.validateS(ValidateAction.this, da, action, pData,
+                    slContext);
         }
     }
 

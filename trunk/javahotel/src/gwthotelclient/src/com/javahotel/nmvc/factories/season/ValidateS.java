@@ -57,7 +57,7 @@ class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
             if (errMess == null) {
                 errMess = ValidateUtil.checkDate(pData, new DatePeriodField(
                         DatePeriodField.F.DATEFROM), new DatePeriodField(
-                        DatePeriodField.F.DATETO));
+                        DatePeriodField.F.DATETO),false);
             }
             if (errMess != null) {
                 publish(stringType, DataActionEnum.InvalidSignal,

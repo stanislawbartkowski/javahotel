@@ -135,4 +135,9 @@ public class DataType implements IDataType {
         return isRType() && (rType == RType.AllHotels);
     }
 
+    public boolean isBookingType() {
+        return isDictType(DictType.BookingList);
+
+    }
+
 }
