@@ -29,14 +29,17 @@ import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.persist.IMemoryListModel;
 import com.gwtmodel.table.persist.MemoryGetController;
 import com.gwtmodel.table.persist.MemoryListPersist;
+import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
@@ -76,8 +79,7 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
         DisplayListControlerParam cParam = tFactory.constructParam(
                 new CellId(0), new DataListParam(dType, mList, null,
                         new DataFactory(eFactory), new DateViewFactory(title),
-                        // new GetControler(title, eFactory, daFactory, mList)
-                        iGetCon), null);
+                        iGetCon), (ISlotMediator)null, (IGetCellValue) null );
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         // dControler.getSlContainer().replaceContainer(this);
@@ -91,13 +93,13 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
         mList.setDataList(dList);
         dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        VListHeaderDesc he = new VListHeaderDesc("Od", new DatePeriodField(
+        VListHeaderDesc he = new VListHeaderDesc(MM.getL().From(), new DatePeriodField(
                 DatePeriodField.F.DATEFROM));
         heList.add(he);
-        he = new VListHeaderDesc("Do", new DatePeriodField(
+        he = new VListHeaderDesc(MM.getL().To(), new DatePeriodField(
                 DatePeriodField.F.DATETO));
         heList.add(he);
-        he = new VListHeaderDesc("Opis", new DatePeriodField(
+        he = new VListHeaderDesc(MM.getL().Description(), new DatePeriodField(
                 DatePeriodField.F.COMMENT));
         heList.add(he);
         VListHeaderContainer vHeader;
