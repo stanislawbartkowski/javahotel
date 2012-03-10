@@ -143,12 +143,20 @@ public class EditWidgetFactory {
         return new FileChooser(tFactories, v);
     }
 
-    public IFormLineView constructListCombo(IVField v, List<String> ma) {
+    private List<ComboVal> createVals(List<String> ma) {
         List<ComboVal> vals = new ArrayList<ComboVal>();
         for (String s : ma) {
             vals.add(new ComboVal(s));
         }
-        return new ComboBoxField(tFactories, v, vals);
+        return vals;
+    }
+
+    public IFormLineView constructListCombo(IVField v, List<String> ma) {
+        return new ComboBoxField(tFactories, v, createVals(ma));
+    }
+
+    public IFormLineView constructListCombo(IVField v, List<String> ma, boolean addEmpty) {
+        return new ComboBoxField(tFactories, v, createVals(ma), addEmpty);
     }
 
     public IFormLineView constructListCombo(IVField v) {

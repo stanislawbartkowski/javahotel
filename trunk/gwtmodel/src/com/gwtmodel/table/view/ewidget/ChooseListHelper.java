@@ -13,13 +13,7 @@
 package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.ChooseDictList;
-import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.*;
 
 /**
  * 

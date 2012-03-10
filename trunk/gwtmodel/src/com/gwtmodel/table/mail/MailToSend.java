@@ -12,10 +12,9 @@
  */
 package com.gwtmodel.table.mail;
 
-import java.util.Map;
-
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.mailcommon.CMailToSend;
+import java.util.Map;
 
 /**
  * 

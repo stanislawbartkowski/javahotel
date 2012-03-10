@@ -12,9 +12,8 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.List;
-
 import com.gwtmodel.table.IVField;
+import java.util.List;
 
 /**
  * @author hotel

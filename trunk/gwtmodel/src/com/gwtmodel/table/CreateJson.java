@@ -67,7 +67,13 @@ public class CreateJson {
                 if (e.getValue().isNumber()) {
                     val = e.getValue().getVal();
                 } else {
-                    val = '\"' + e.getValue().getVal() + '\"';
+                    String s = e.getValue().getVal();
+                    // escape all "
+                    s = s.replaceAll("\"", "");
+                    // escape all \n
+                    s = s.replaceAll("\n", "");                                        
+                    s = s.replaceAll("\r", "");  
+                    val = '\"' + s + '\"';
                 }
             }
             res += '\"' + e.getKey() + "\" : " + val;

@@ -12,11 +12,10 @@
  */
 package com.gwtmodel.table.mail;
 
-import java.util.List;
-import java.util.Map;
-
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.mailcommon.CListOfMailProperties;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
