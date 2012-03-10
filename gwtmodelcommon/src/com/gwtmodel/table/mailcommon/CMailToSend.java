@@ -13,6 +13,7 @@
 package com.gwtmodel.table.mailcommon;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -28,32 +29,35 @@ public class CMailToSend implements Serializable {
     private String to;
     private String from;
     private boolean text;
+    private boolean isSeen;
+    private Date sentDate;
+    private String person;
 
     public void setBoxName(String boxName) {
-		this.boxName = boxName;
-	}
+        this.boxName = boxName;
+    }
 
-	public void setHeader(String header) {
-		this.header = header;
-	}
+    public void setHeader(String header) {
+        this.header = header;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public void setTo(String to) {
-		this.to = to;
-	}
+    public void setTo(String to) {
+        this.to = to;
+    }
 
-	public void setFrom(String from) {
-		this.from = from;
-	}
+    public void setFrom(String from) {
+        this.from = from;
+    }
 
-	public void setText(boolean text) {
-		this.text = text;
-	}
+    public void setText(boolean text) {
+        this.text = text;
+    }
 
-	/**
+    /**
      * @return the box
      */
     public Map<String, String> getBox() {
@@ -108,4 +112,48 @@ public class CMailToSend implements Serializable {
     public void setBox(Map<String, String> box) {
         this.box = box;
     }
+
+    /**
+     * @return the isSeen
+     */
+    public boolean isIsSeen() {
+        return isSeen;
+    }
+
+    /**
+     * @param isSeen the isSeen to set
+     */
+    public void setIsSeen(boolean isSeen) {
+        this.isSeen = isSeen;
+    }
+
+    /**
+     * @return the sentDate
+     */
+    public Date getSentDate() {
+        return sentDate;
+    }
+
+    /**
+     * @param sentDate the sentDate to set
+     */
+    public void setSentDate(Date sentDate) {
+        this.sentDate = sentDate;
+    }
+
+    /**
+     * @return the person
+     */
+    public String getPerson() {
+        return person;
+    }
+
+    /**
+     * @param person the person to set
+     */
+    public void setPerson(String person) {
+        this.person = person;
+    }
+    
+    
 }
