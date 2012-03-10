@@ -26,14 +26,24 @@ class ComboBoxField extends GetValueLB {
 
     private final List<ComboVal> wy;
 
-    ComboBoxField(ITableCustomFactories tFactories, IVField v, List<ComboVal> wy) {
-        super(tFactories, v);
-        this.wy = wy;
+    private void init() {
         List<String> val = new ArrayList<String>();
         for (ComboVal va : wy) {
             val.add(va.getDispVal());
         }
         setList(val);
+    }
+
+    ComboBoxField(ITableCustomFactories tFactories, IVField v, List<ComboVal> wy, boolean addEmpty) {
+        super(tFactories, v, addEmpty);
+        this.wy = wy;
+        init();
+    }
+
+    ComboBoxField(ITableCustomFactories tFactories, IVField v, List<ComboVal> wy) {
+        super(tFactories, v);
+        this.wy = wy;
+        init();
     }
 
     @Override
@@ -50,5 +60,4 @@ class ComboBoxField extends GetValueLB {
         super.setValObj(di);
 
     }
-
 }

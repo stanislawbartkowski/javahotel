@@ -12,17 +12,10 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.*;
+import com.gwtmodel.table.ReadDictList.IListCallBack;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.gwtmodel.table.IDataListType;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGetDataList;
-import com.gwtmodel.table.IGetDataListCallBack;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.ReadDictList;
-import com.gwtmodel.table.ReadDictList.IListCallBack;
 
 /**
  * 
@@ -33,7 +26,6 @@ class AddBoxValues {
     private static void setValue(IDataListType dList, IValueLB e) {
         String firstS = null;
         List<String> li = new ArrayList<String>();
-//        li.add(""); // add empty
         for (int i = 0; i < FUtils.getRowNumber(dList); i++) {
             IVModelData vData = FUtils.getRow(dList, i);
             String s = FUtils.getValueS(vData, dList.comboField());
