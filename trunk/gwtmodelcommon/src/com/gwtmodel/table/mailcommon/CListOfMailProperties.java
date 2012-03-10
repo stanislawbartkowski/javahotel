@@ -12,69 +12,85 @@
  */
 package com.gwtmodel.table.mailcommon;
 
+import com.gwtmodel.table.common.CUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.gwtmodel.table.common.CUtil;
-
 /**
- * 
+ *
  * @author perseus
  */
 public class CListOfMailProperties implements Serializable {
 
-	private List<Map<String, String>> mList;
-	private String errMess;
-	private final static String F_NAME = "mail.com.filename";
-	private final static String B_NAME = "mail.com.displayname";
-	private final static String M_FROM = "mail.from";
+    private List<Map<String, String>> mList;
+    private String errMess;
+    private final static String F_NAME = "mail.com.filename";
+    private final static String B_NAME = "mail.com.displayname";
+    private final static String M_FROM = "mail.from";
+    private final static String BOX_TYPE = "mail.box.type";
+    private final static String BOX_IN = "in";
 
-	public void setmList(List<Map<String, String>> mList) {
-		this.mList = mList;
-	}
+    public void setmList(List<Map<String, String>> mList) {
+        this.mList = mList;
+    }
 
-	public void setErrMess(String errMess) {
-		this.errMess = errMess;
-	}
+    public void setErrMess(String errMess) {
+        this.errMess = errMess;
+    }
 
-	public Map<String, String> getM(String n) {
-		for (Map<String, String> m : mList) {
-			String na = getName(m);
-			if (CUtil.EqNS(na, n)) {
-				return m;
-			}
-		}
-		return null;
-	}
+    public Map<String, String> getM(String n) {
+        for (Map<String, String> m : mList) {
+            String na = getName(m);
+            if (CUtil.EqNS(na, n)) {
+                return m;
+            }
+        }
+        return null;
+    }
 
-	public String getName(Map<String, String> ma) {
-		String s = ma.get(B_NAME);
-		if (s != null) {
-			return s;
-		}
-		return ma.get(F_NAME);
-	}
+    public String getName(Map<String, String> ma) {
+        String s = ma.get(B_NAME);
+        if (s != null) {
+            return s;
+        }
+        return ma.get(F_NAME);
+    }
 
-	public String getFrom(Map<String, String> ma) {
-		return ma.get(M_FROM);
-	}
+    public String getFrom(Map<String, String> ma) {
+        return ma.get(M_FROM);
+    }
 
-	/**
-	 * @return the mList
-	 */
-	public List<Map<String, String>> getmList() {
-		if (mList == null) {
-			mList = new ArrayList<Map<String, String>>();
-		}
-		return mList;
-	}
+    /**
+     * @return the mList
+     */
+    public List<Map<String, String>> getmList(boolean outBox) {
+        if (mList == null) {
+            mList = new ArrayList<Map<String, String>>();
+        }
+        List<Map<String, String>> oList = new ArrayList<Map<String, String>>();
+        for (Map<String, String> ma : mList) {
+            String inS = ma.get(BOX_TYPE);
+            boolean inBS = CUtil.EqNS(inS, BOX_IN);
+            if (outBox != inBS) {
+                oList.add(ma);
+            }
+        }
+        return oList;
+    }
 
-	/**
-	 * @return the errMess
-	 */
-	public String getErrMess() {
-		return errMess;
-	}
+    public void addMap(Map<String, String> ma) {
+        if (mList == null) {
+            mList = new ArrayList<Map<String, String>>();
+        }
+        mList.add(ma);
+    }
+
+    /**
+     * @return the errMess
+     */
+    public String getErrMess() {
+        return errMess;
+    }
 }
