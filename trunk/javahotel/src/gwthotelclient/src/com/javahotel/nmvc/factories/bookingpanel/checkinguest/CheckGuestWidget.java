@@ -278,7 +278,7 @@ class CheckGuestWidget extends AbstractSlotContainer {
         fList.add(3, bAction);
 
         // Create header and publish
-        VListHeaderContainer vHeader = new VListHeaderContainer(fList, "XXX");
+        VListHeaderContainer vHeader = new VListHeaderContainer(fList, null);
         iList.getSlContainer().publish(dType, vHeader);
         iList.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.TableCellClicked, new ClickCust());

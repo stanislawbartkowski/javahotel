@@ -41,6 +41,9 @@ import com.javahotel.common.command.PersistType;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.IField;
+import com.javahotel.common.toobject.ResObjectP;
+import com.javahotel.common.toobject.RoomStandardP;
+import com.javahotel.common.toobject.ServiceDictionaryP;
 
 public class DataUtil {
 
@@ -221,7 +224,9 @@ public class DataUtil {
 
     /**
      * Converts IField array to IField list
-     * @param ft Array
+     * 
+     * @param ft
+     *            Array
      * @return List
      */
     public static List<IVField> toList(IField[] ft) {
@@ -271,7 +276,7 @@ public class DataUtil {
 
     }
 
-    public static <T extends AbstractTo> Iterable<T> getI(
+    private static <T extends AbstractTo> Iterable<T> getI(
             final List<IVModelData> vList) {
         return new Iterable<T>() {
 
@@ -285,6 +290,26 @@ public class DataUtil {
 
     public static <T extends AbstractTo> Iterable<T> getI(IDataListType dList) {
         return getI(dList.getList());
+    }
+
+    public static List<ServiceDictionaryP> createListOfServices(ResObjectP r,
+            RoomStandardP sa, boolean roomOnly) {
+
+        List<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
+        for (ServiceDictionaryP s : sa.getServices()) {
+            if (!s.getServType().isRoomBooking()) {
+                if (roomOnly) {
+                    continue;
+                }
+                li.add(s);
+                continue;
+            }
+            if (s.getNoPerson().compareTo(r.getMaxPerson()) > 0) {
+                continue;
+            }
+            li.add(s);
+        }
+        return li;
     }
 
 }
