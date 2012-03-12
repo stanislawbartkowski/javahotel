@@ -32,6 +32,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
@@ -134,7 +135,7 @@ public class AdvancePayment extends AbstractSlotContainer {
 
         ListOfControlDesc cList = new ListOfControlDesc(dButton);
         DisplayListControlerParam dList = tFactory.constructParam(dType, cList,
-                panelId, null, new GetCell());
+                panelId, (ISlotMediator) null, new GetCell());
         i = tFactory.constructDataControler(dList);
         i.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.TableCellClicked, new ClickCust());

@@ -128,17 +128,20 @@ class BookingElem extends AbstractSlotContainer {
                 eFactory.setComboDictList(sView, sa.getServices());
                 return;
             }
-            List<ServiceDictionaryP> li = new ArrayList<ServiceDictionaryP>();
-            for (ServiceDictionaryP s : sa.getServices()) {
-                if (!s.getServType().isRoomBooking()) {
-                    li.add(s);
-                    continue;
-                }
-                if (s.getNoPerson().compareTo(r.getMaxPerson()) > 0) {
-                    continue;
-                }
-                li.add(s);
-            }
+            // List<ServiceDictionaryP> li = new
+            // ArrayList<ServiceDictionaryP>();
+            // for (ServiceDictionaryP s : sa.getServices()) {
+            // if (!s.getServType().isRoomBooking()) {
+            // li.add(s);
+            // continue;
+            // }
+            // if (s.getNoPerson().compareTo(r.getMaxPerson()) > 0) {
+            // continue;
+            // }
+            // li.add(s);
+            // }
+            List<ServiceDictionaryP> li = DataUtil.createListOfServices(r, sa,
+                    false);
             eFactory.setComboDictList(sView, li);
         }
 

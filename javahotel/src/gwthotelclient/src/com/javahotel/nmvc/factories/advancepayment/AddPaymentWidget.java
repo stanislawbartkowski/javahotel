@@ -44,6 +44,7 @@ import com.gwtmodel.table.persist.MemoryGetController;
 import com.gwtmodel.table.persist.MemoryListPersist;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -52,6 +53,7 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.view.ValidateUtil;
+import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
@@ -169,7 +171,7 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
             this.dType = dType;
             IField[] eList = getF();
             List<VListHeaderDesc> fList = FFactory.constructH(null, eList);
-            vHeader = new VListHeaderContainer(fList, "XXX");
+            vHeader = new VListHeaderContainer(fList, null);
         }
 
         @Override
@@ -201,7 +203,8 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
         CellId cI = new CellId(0);
         DisplayListControlerParam cParam = tFactory.constructParam(cI,
                 new DataListParam(dType, lPersistList, null, iDataModelFactory,
-                        new GetTitleFactory(), iGetCon), null);
+                        new GetTitleFactory(), iGetCon), (ISlotMediator) null,
+                (IGetCellValue) null);
         dControler = tFactory.constructDataControler(cParam);
         slMediator.registerSlotContainer(dControler);
         slMediator.registerSlotContainer(new HeaderListContainer(dType));
