@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package com.mygwt.client;
+package com.mygwt.client.impl.mail;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,9 +22,10 @@ import com.gwtmodel.table.factories.mailtest.IMailTest;
 import com.gwtmodel.table.factories.mailtest.MailTestFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.mygwt.client.testEntryPoint;
 
 public class MailTest implements testEntryPoint.IGetWidget {
 

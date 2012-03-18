@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package com.mygwt.client;
+package com.mygwt.client.impl.mail;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.ICustomObject;
@@ -24,8 +24,9 @@ import com.gwtmodel.table.mailcommon.CMailToSend;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.mygwt.client.RemoteService;
 
-class MailOp extends AbstractSlotContainer implements IJavaMailAction {
+public class MailOp extends AbstractSlotContainer implements IJavaMailAction {
 
     private class ReadElem implements AsyncCallback<CListOfMailProperties> {
 
@@ -76,7 +77,7 @@ class MailOp extends AbstractSlotContainer implements IJavaMailAction {
         }
     }
 
-    MailOp() {
+    public MailOp() {
         registerSubscriber(IJavaMailAction.ACTIONGETLISTMAILPROPERTIES,
                 new GetMailList());
         registerSubscriber(IJavaMailAction.SEND_MAIL, new SendMail());
