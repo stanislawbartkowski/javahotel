@@ -16,3 +16,50 @@
     border-left-color: #ff6666;
     border-right-color: #ff6666;
 }
+
+/* ---------------------- */
+/* month scroll           */
+/* ---------------------- */
+.month-scroll-panel {
+	border: 2px solid #66CCFF; 
+	margin: 10px;
+}
+
+.month-scroll-panel td {
+   background-color:#E5ECF9;
+   padding: 2px;
+   width : 100x;
+}
+
+.month-scroll-panel td:hover {
+   outline: #aaaaaa dotted thick;
+   outline-width: 2px;
+}
+
+.month-scroll-panel .today {
+   background-color:#FFDDDD;
+}
+
+/* --------------------- */
+/* days panel            */
+/* --------------------- */
+
+.day-scroll-panel {
+	border: 2px solid #66CCFF; 
+	margin: 10px;
+}
+
+.day-scroll-panel td {
+   background-color:#E5ECF9;
+   padding: 2px;
+   width : 80px;
+}
+
+.day-scroll-panel td:hover {
+   outline: #aaaaaa dotted thick;
+   outline-width: 2px;
+}
+
+.day-scroll-panel .today {
+   background-color:#FFDDDD;
+}
