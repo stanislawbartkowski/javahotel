@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.mygwt.client;
+package com.mygwt.client.impl.tiptest;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -20,8 +20,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.util.PopupTip;
+import com.mygwt.client.testEntryPoint;
 
-class TooltipTest implements testEntryPoint.IGetWidget {
+public class TooltipTest implements testEntryPoint.IGetWidget {
 
 	private class LabTip extends PopupTip {
 

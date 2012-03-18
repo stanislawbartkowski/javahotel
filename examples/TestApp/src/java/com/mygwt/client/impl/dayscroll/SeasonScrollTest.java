@@ -10,18 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.mygwt.client.impl.dayscroll;
 
-package com.mygwt.client;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
+import com.mygwt.client.testEntryPoint;
 
-import com.google.gwt.core.client.GWT;
+/**
+ * @author hotel
+ *
+ */
+public class SeasonScrollTest implements testEntryPoint.IGetWidget {
 
-public class RemoteService {
-
-	private final static MyRemoteServiceAsync remoteService = GWT
-			.create(MyRemoteService.class);
-
-	static public MyRemoteServiceAsync getA() {
-		return remoteService;
-	}
+    @Override
+    public Widget getW() {
+        return new Label("rybka");
+    }
 
 }

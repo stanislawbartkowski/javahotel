@@ -40,6 +40,10 @@ import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.WebPanelHolder;
+import com.mygwt.client.impl.dayscroll.SeasonScrollTest;
+import com.mygwt.client.impl.mail.MailOp;
+import com.mygwt.client.impl.mail.MailTest;
+import com.mygwt.client.impl.tiptest.TooltipTest;
 
 /**
  * Main entry point.
@@ -153,6 +157,8 @@ public class testEntryPoint implements EntryPoint {
 		bList.add(new ButtonTest("Tooltip", g));
 		g = (IGetWidget) new MailTest();
 		bList.add(new ButtonTest("MailTest", g));
+        g = (IGetWidget) new SeasonScrollTest();
+        bList.add(new ButtonTest("ScrollControl", g));
 		VerticalPanel vB = new VerticalPanel();
 
 		for (final ButtonTest bu : bList) {
