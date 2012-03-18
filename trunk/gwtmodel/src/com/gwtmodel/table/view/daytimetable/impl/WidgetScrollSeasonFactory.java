@@ -10,18 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.util;
+package com.gwtmodel.table.view.daytimetable.impl;
+
+import java.util.Date;
+
+import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
+import com.gwtmodel.table.view.daytimetable.IScrollSeason;
+
 
 /**
- * @author hotel
  * 
+ * @author stanislawbartkowski@gmail.com
  */
-public interface IEventName {
+public class WidgetScrollSeasonFactory {
 
-    String CLICK = "click";
+    public WidgetScrollSeasonFactory() {
+    }
 
-    String MOUSEOVER = "mouseover";
-
-    String MOUSEOUT = "mouseout";
-
+    public IScrollSeason getScrollSeason(final IDrawPartSeason i, final Date today) {
+        // return new MonthSeasonScrollWidget(pLoc, i, periodNo);
+        // return new DaySeasonScrollWidget(pLoc, i, periodNo);
+        return new DaySeasonPanelWidget(i, today);
+    }
 }

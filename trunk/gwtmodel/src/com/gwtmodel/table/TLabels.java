@@ -112,6 +112,14 @@ public interface TLabels extends Constants {
     String Download();
 
     String Send();
-    
+
     String DateEqualError();
+
+    String[] ScrollDays();
+
+    String[] ScrollMonths();
+    
+    String GotoMonth();
+
+
 }

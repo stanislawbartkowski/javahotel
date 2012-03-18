@@ -36,6 +36,7 @@ import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
+import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.stack.StackPanelFactory;
@@ -105,4 +106,6 @@ public interface GwtTableInjector extends Ginjector {
     StackPanelControllerFactory getStackPanelControllerFactory();
 
     EditChooseRecordFactory getEditChooseRecordFactory();
+
+    WidgetScrollSeasonFactory getWidgetScrollSeasonFactory();
 }
