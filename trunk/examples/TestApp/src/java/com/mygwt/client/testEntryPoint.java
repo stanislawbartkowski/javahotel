@@ -33,7 +33,6 @@ import com.google.gwt.visualization.client.visualizations.Table;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
-import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory.CType;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.IJavaMailAction;
 import com.gwtmodel.table.factories.IJavaMailActionFactory;
