@@ -23,63 +23,63 @@ import com.gwtmodel.table.mailcommon.CListOfMailProperties;
 import com.gwtmodel.table.mailcommon.CMailToSend;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 
 class MailOp extends AbstractSlotContainer implements IJavaMailAction {
 
-	private class ReadElem implements AsyncCallback<CListOfMailProperties> {
+    private class ReadElem implements AsyncCallback<CListOfMailProperties> {
 
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
+        @Override
+        public void onFailure(Throwable caught) {
+            // TODO Auto-generated method stub
 
-		@Override
-		public void onSuccess(CListOfMailProperties arg) {
-			ListOfMailProperties ma = new ListOfMailProperties(arg.getmList(),
-					arg.getErrMess());
-			publish(IJavaMailAction.SENDLISTMAILPROPERTIES, ma);			
-		}
-	}
+        }
 
-	private class GetMailList implements ISlotSignaller {
+        @Override
+        public void onSuccess(CListOfMailProperties arg) {
+            ListOfMailProperties ma = new ListOfMailProperties(
+                    arg.getmList(true), arg.getErrMess());
+            publish(IJavaMailAction.SENDLISTMAILPROPERTIES, ma);
+        }
+    }
 
-		public void signal(ISlotSignalContext slContext) {
+    private class GetMailList implements ISlotListener {
 
-			RemoteService.getA().getListOfMailBoxes(new ReadElem());
-		}
-	}
+        public void signal(ISlotSignalContext slContext) {
 
-	private class MailRes implements AsyncCallback<String> {
+            RemoteService.getA().getListOfMailBoxes(new ReadElem());
+        }
+    }
 
-		@Override
-		public void onSuccess(String arg) {
-			MailResult res = new MailResult(arg);
-			publish(IJavaMailAction.SEND_RESULT, res);
-		}
+    private class MailRes implements AsyncCallback<String> {
 
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-	}
+        @Override
+        public void onSuccess(String arg) {
+            MailResult res = new MailResult(arg);
+            publish(IJavaMailAction.SEND_RESULT, res);
+        }
 
-	private class SendMail implements ISlotSignaller {
+        @Override
+        public void onFailure(Throwable caught) {
+            // TODO Auto-generated method stub
 
-		public void signal(ISlotSignalContext slContext) {
-			ICustomObject o = slContext.getCustom();
-			MailToSend ma = (MailToSend) o;
-			CMailToSend cma = ma.construct();
-			RemoteService.getA().sendMail(cma, new MailRes());
-		}
-	}
+        }
+    }
 
-	MailOp() {
-		registerSubscriber(IJavaMailAction.ACTIONGETLISTMAILPROPERTIES,
-				new GetMailList());
-		registerSubscriber(IJavaMailAction.SEND_MAIL, new SendMail());
-	}
+    private class SendMail implements ISlotListener {
+
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            MailToSend ma = (MailToSend) o;
+            CMailToSend cma = ma.construct();
+            RemoteService.getA().sendMail(cma, new MailRes());
+        }
+    }
+
+    MailOp() {
+        registerSubscriber(IJavaMailAction.ACTIONGETLISTMAILPROPERTIES,
+                new GetMailList());
+        registerSubscriber(IJavaMailAction.SEND_MAIL, new SendMail());
+    }
 }

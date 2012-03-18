@@ -23,44 +23,44 @@ import com.gwtmodel.table.factories.mailtest.MailTestFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotSignaller;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 public class MailTest implements testEntryPoint.IGetWidget {
 
-	private final VerticalPanel vp = new VerticalPanel();
+    private final VerticalPanel vp = new VerticalPanel();
     private final MailTestFactory maFactory;
-    
+
     public MailTest() {
-    	maFactory = GwtGiniInjector.getI().getMailTestFactory();
+        maFactory = GwtGiniInjector.getI().getMailTestFactory();
     }
 
-	protected class SetTable implements ISlotSignaller {
+    protected class SetTable implements ISlotListener {
 
-		public void signal(ISlotSignalContext slContext) {
-			IGWidget w = slContext.getGwtWidget();
-			Widget ww = w.getGWidget();
-			vp.clear();
-			vp.add(ww);
-		}
-	}
+        public void signal(ISlotSignalContext slContext) {
+            IGWidget w = slContext.getGwtWidget();
+            Widget ww = w.getGWidget();
+            vp.clear();
+            vp.add(ww);
+        }
+    }
 
-	private void runI(ISlotable sl, IDataType mType) {
-		CellId dialogId = new CellId(1);
-		sl.getSlContainer().registerSubscriber(mType, dialogId, new SetTable());
-		sl.startPublish(dialogId);
-	}
+    private void runI(ISlotable sl, IDataType mType) {
+        CellId dialogId = new CellId(1);
+        sl.getSlContainer().registerSubscriber(mType, dialogId, new SetTable());
+        sl.startPublish(dialogId);
+    }
 
-	private void runCommand() {
-		IDataType mType = Empty.getDataType();
-		IMailTest mTest = maFactory.construct(mType);
-		runI(mTest, mType);
-		return;
-	}
+    private void runCommand() {
+        IDataType mType = Empty.getDataType();
+        IMailTest mTest = maFactory.construct(mType);
+        runI(mTest, mType);
+        return;
+    }
 
-	@Override
-	public Widget getW() {
-		runCommand();
-		return vp;
-	}
+    @Override
+    public Widget getW() {
+        runCommand();
+        return vp;
+    }
 }

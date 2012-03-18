@@ -114,6 +114,11 @@ public class testEntryPoint implements EntryPoint {
 		public String getCustomValue(String key) {
 			return null;
 		}
+
+        @Override
+        public boolean addEmptyAsDefault() {
+            return false;
+        }
 	}
 
 	private class ButtonTest {
