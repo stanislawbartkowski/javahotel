@@ -28,17 +28,18 @@ import javax.mail.internet.InternetAddress;
  */
 public class CGetMailFrom {
 
+    @SuppressWarnings("serial")
     public static class CGetMailFromException extends Exception {
 
         CGetMailFromException(Throwable t) {
             super(t);
         }
     }
-    public static String HOST = "mail.in.host";
-    public static String USER = "mail.in.user";
-    public static String PASSWORD = "mail.in.password";
-    public static String MAILDEBUG = "mail.debug";
-    public static String MAILNUMB = "mail.in.numb";
+    public static final String HOST = "mail.in.host";
+    public static final String USER = "mail.in.user";
+    public static final String PASSWORD = "mail.in.password";
+    public static final String MAILDEBUG = "mail.debug";
+    public static final String MAILNUMB = "mail.in.numb";
 
     private CGetMailFrom() {
     }
