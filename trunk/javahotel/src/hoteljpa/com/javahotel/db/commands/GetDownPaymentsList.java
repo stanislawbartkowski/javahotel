@@ -12,22 +12,17 @@
  */
 package com.javahotel.db.commands;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.javahotel.common.dateutil.DateUtil;
-import com.javahotel.common.dateutil.PeriodT;
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.db.copy.CommonCopyBean;
 import com.javahotel.db.hotelbase.jpa.Booking;
 import com.javahotel.db.hotelbase.queries.GetQueries;
-import com.javahotel.db.jtypes.HId;
-import com.javahotel.db.jtypes.ToLD;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.SessionT;
 

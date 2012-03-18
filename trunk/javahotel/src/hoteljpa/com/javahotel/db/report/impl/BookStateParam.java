@@ -12,12 +12,13 @@
  */
 package com.javahotel.db.report.impl;
 
-import com.javahotel.common.command.CommandParam;
-import com.javahotel.common.dateutil.PeriodT;
-import com.javahotel.common.rescache.ReadResParam;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
+import com.gwtmodel.table.common.PeriodT;
+import com.javahotel.common.command.CommandParam;
+import com.javahotel.common.rescache.ReadResParam;
 
 /**
  * 
@@ -25,24 +26,24 @@ import java.util.Date;
  */
 class BookStateParam {
 
-	private final ReadResParam rParam;
+    private final ReadResParam rParam;
 
-	BookStateParam(final CommandParam p) {
-		List<String> resList;
-		Date dFrom = p.getDateFrom();
-		Date dTo = p.getDateTo();
-		resList = new ArrayList<String>();
-		for (int no = 0;; no++) {
-			String s = p.getResListNo(no);
-			if (s == null) {
-				break;
-			}
-			resList.add(s);
-		}
-		rParam = new ReadResParam(resList, new PeriodT(dFrom, dTo));
-	}
+    BookStateParam(final CommandParam p) {
+        List<String> resList;
+        Date dFrom = p.getDateFrom();
+        Date dTo = p.getDateTo();
+        resList = new ArrayList<String>();
+        for (int no = 0;; no++) {
+            String s = p.getResListNo(no);
+            if (s == null) {
+                break;
+            }
+            resList.add(s);
+        }
+        rParam = new ReadResParam(resList, new PeriodT(dFrom, dTo));
+    }
 
-	public ReadResParam getRParam() {
-		return rParam;
-	}
+    public ReadResParam getRParam() {
+        return rParam;
+    }
 }

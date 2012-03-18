@@ -13,8 +13,9 @@
 
 package com.javahotel.common.rescache;
 
-import com.javahotel.common.dateutil.PeriodT;
 import java.util.List;
+
+import com.gwtmodel.table.common.PeriodT;
 
 /**
  *

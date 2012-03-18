@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.javahotel.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.AddPaymentP;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.GuestP;

@@ -13,11 +13,11 @@
 package com.javahotel.dbres.log;
 
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 
-import com.javahotel.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.dbres.resources.GetLMess;
 
