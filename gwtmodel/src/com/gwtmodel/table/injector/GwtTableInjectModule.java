@@ -39,6 +39,7 @@ import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
+import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
@@ -87,5 +88,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(StackPanelControllerFactory.class).in(Singleton.class);
         bind(EditChooseRecordFactory.class).in(Singleton.class);
         bind(SplitViewFactory.class).in(Singleton.class);
+        bind(WidgetScrollSeasonFactory.class).in(Singleton.class);       
     }
 }

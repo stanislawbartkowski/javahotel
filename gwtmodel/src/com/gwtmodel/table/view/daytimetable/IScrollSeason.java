@@ -10,18 +10,32 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.util;
+package com.gwtmodel.table.view.daytimetable;
+
+import java.util.Date;
+import java.util.List;
 
 /**
- * @author hotel
  * 
+ * @author stanislawbartkowski@gmail.com
  */
-public interface IEventName {
+public interface IScrollSeason {
 
-    String CLICK = "click";
+    int getStartNo();
 
-    String MOUSEOVER = "mouseover";
+    /**
+     * Creates scroll panel.
+     * 
+     * @param dList
+     *            List of dates displayed as columns
+     * @param noC
+     *            if != -1 then column number to display
+     */
+    void createVPanel(List<Date> dList, final int noC);
 
-    String MOUSEOUT = "mouseout";
+    /**
+     * Refresh using current settings
+     */
+    void refresh();
 
 }

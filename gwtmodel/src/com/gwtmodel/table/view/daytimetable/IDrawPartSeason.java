@@ -10,18 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.util;
+package com.gwtmodel.table.view.daytimetable;
+
+import com.gwtmodel.table.ISetGWidget;
+import com.gwtmodel.table.daytimeline.DaySeasonScrollData;
 
 /**
- * @author hotel
  * 
+ * @author stanislawbartkowski@gmail.com
  */
-public interface IEventName {
+public interface IDrawPartSeason extends ISetGWidget {
 
-    String CLICK = "click";
-
-    String MOUSEOVER = "mouseover";
-
-    String MOUSEOUT = "mouseout";
-
+    void refresh(IDrawPartSeasonContext sData);
 }

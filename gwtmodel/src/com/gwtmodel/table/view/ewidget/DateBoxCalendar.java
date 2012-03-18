@@ -22,7 +22,8 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import java.util.Date;
 
 /**
- * DabeBox field, wrapper around DateBox 
+ * DabeBox field, wrapper around DateBox
+ * 
  * @author perseus
  */
 class DateBoxCalendar extends AbstractField {
@@ -63,16 +64,17 @@ class DateBoxCalendar extends AbstractField {
         public void reset(DateBox dateBox, boolean abandon) {
         }
     }
-    
+
     @SuppressWarnings("rawtypes")
     protected class TouchValueChange implements ValueChangeHandler {
 
         @Override
         public void onValueChange(ValueChangeEvent event) {
-            iTouch.onTouch();
+            if (iTouch != null) {
+                iTouch.onTouch();
+            }
         }
     }
-
 
     @SuppressWarnings({ "unchecked" })
     DateBoxCalendar(ITableCustomFactories tFactories, IVField v) {
