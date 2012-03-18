@@ -12,13 +12,12 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import java.util.List;
-
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.injector.LogT;
+import java.util.List;
 
 public class SlotType implements IEquatable<SlotType> {
 

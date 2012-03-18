@@ -12,16 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.ICustomObject;
-import com.gwtmodel.table.IDataListType;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.IOkModelData;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.InvalidateFormContainer;
-import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -36,10 +27,8 @@ abstract public class AbstractSlotContainer implements ISlotable {
     protected final SlotSignalContextFactory slContextFactory;
     protected final ControlButtonFactory cButtonFactory;
 
-
     protected AbstractSlotContainer() {
-        SlotListContainer slContainer = GwtGiniInjector.getI()
-                .getSlotListContainer();
+        SlotListContainer slContainer = GwtGiniInjector.getI().getSlotListContainer();
         sReference = new SlotContainerReference(this, slContainer);
         slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
         slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
@@ -92,7 +81,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
     }
 
     protected void publish(ClickButtonType bType, IGWidget gwtWidget) {
-        sReference.getSlContainer().publish(bType, gwtWidget);
+        sReference.getSlContainer().publish(dType, bType, gwtWidget);
     }
 
     protected void publish(String stringButton, IGWidget gwtWidget) {
@@ -101,8 +90,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             InvalidateFormContainer errContainer) {
-        sReference.getSlContainer()
-                .publish(dType, dataActionEnum, errContainer);
+        sReference.getSlContainer().publish(dType, dataActionEnum, errContainer);
     }
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum) {
@@ -134,8 +122,7 @@ abstract public class AbstractSlotContainer implements ISlotable {
 
     protected void publish(IDataType dType, DataActionEnum dataActionEnum,
             IOkModelData iOkModelData) {
-        sReference.getSlContainer()
-                .publish(dType, dataActionEnum, iOkModelData);
+        sReference.getSlContainer().publish(dType, dataActionEnum, iOkModelData);
     }
 
     protected void publish(IDataType dType, VListHeaderContainer vHeader) {
@@ -160,9 +147,9 @@ abstract public class AbstractSlotContainer implements ISlotable {
         sReference.getSlContainer().registerSubscriber(slType, slSignaller);
     }
 
-    protected void registerSubscriber(ClickButtonType.StandClickEnum eClick,
+    protected void registerSubscriber(IDataType dType, ClickButtonType.StandClickEnum eClick,
             ISlotListener slSignaller) {
-        sReference.getSlContainer().registerSubscriber(eClick, slSignaller);
+        sReference.getSlContainer().registerSubscriber(dType, eClick, slSignaller);
     }
 
     protected void registerSubscriber(IDataType dType, IVField fie,

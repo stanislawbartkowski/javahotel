@@ -12,17 +12,13 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.view.util.PopupUtil;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
@@ -49,9 +45,14 @@ class WidgetWithPopUpTemplate {
     private final HorizontalPanel hPanel;
     private PopupPanel pUp = null;
     private final IGetP iGet;
+    private final HTML dB;
+    private boolean isReadOnly = false;
     final private ClickListener cL = new ClickListener() {
 
         public void onClick(final Widget arg0) {
+            if (isReadOnly) {
+                return;
+            }
             if (pUp == null) {
                 iGet.getPopUp(arg0, is);
             } else {
@@ -69,8 +70,12 @@ class WidgetWithPopUpTemplate {
         this.iGet = i;
         this.hPanel = hPanel;
         String iPath = Utils.getImageHTML(image + ".gif");
-        HTML dB = new HTML(iPath);
+        dB = new HTML(iPath);
         hPanel.add(dB);
         dB.addClickListener(cL);
+    }
+
+    void setReadOnly(boolean readOnly) {
+        this.isReadOnly = readOnly;
     }
 }

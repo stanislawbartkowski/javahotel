@@ -12,24 +12,15 @@
  */
 package com.gwtmodel.table.composecontroller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.slotmodel.SlotTypeFactory;
+import com.gwtmodel.table.slotmodel.*;
+import java.util.ArrayList;
+import java.util.List;
 
 class ComposeController extends AbstractSlotMediatorContainer implements
         IComposeController {

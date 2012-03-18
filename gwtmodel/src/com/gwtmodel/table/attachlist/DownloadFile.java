@@ -22,17 +22,13 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.IConstUtil;
 import com.gwtmodel.table.injector.MM;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.view.util.ClickPopUp;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 
+ *
  * @author perseus
  */
 class DownloadFile extends AbstractSlotContainer {
@@ -41,7 +37,7 @@ class DownloadFile extends AbstractSlotContainer {
 
     DownloadFile(IDataType dType, ClickButtonType bType) {
         this.dType = dType;
-        this.getSlContainer().registerSubscriber(bType, new DownloadFileSig());
+        this.getSlContainer().registerSubscriber(dType, bType, new DownloadFileSig());
         this.getSlContainer().registerSubscriber(
                 IAttachDataView.SENDDOWNLOADFILENAME, new GetTempFile());
     }
@@ -71,8 +67,7 @@ class DownloadFile extends AbstractSlotContainer {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IAttachDataView.ICustomData cu = (IAttachDataView.ICustomData) slContext
-                    .getCustom();
+            IAttachDataView.ICustomData cu = (IAttachDataView.ICustomData) slContext.getCustom();
             AttachData a = cu.getA();
             ClickPopUp pUp = new ClickPopUp(w.getGWidget(), new DownLoad(a));
             pUp.setVisible(true);

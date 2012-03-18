@@ -39,20 +39,20 @@ class DataListCrudControler extends AbstractSlotContainer {
         registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
                 fFactory.constructActionHeader());
 
-        registerSubscriber(ClickButtonType.StandClickEnum.ADDITEM,
+        registerSubscriber(dType, ClickButtonType.StandClickEnum.ADDITEM,
                 aFactory.constructActionItem(PersistTypeEnum.ADD));
-        registerSubscriber(ClickButtonType.StandClickEnum.REMOVEITEM,
+        registerSubscriber(dType, ClickButtonType.StandClickEnum.REMOVEITEM,
                 aFactory.constructActionItem(PersistTypeEnum.REMOVE));
-        registerSubscriber(ClickButtonType.StandClickEnum.MODIFITEM,
+        registerSubscriber(dType, ClickButtonType.StandClickEnum.MODIFITEM,
                 aFactory.constructActionItem(PersistTypeEnum.MODIF));
-        registerSubscriber(ClickButtonType.StandClickEnum.SHOWITEM,
+        registerSubscriber(dType, ClickButtonType.StandClickEnum.SHOWITEM,
                 aFactory.constructActionItem(PersistTypeEnum.SHOWONLY));
-        registerSubscriber(ClickButtonType.StandClickEnum.FILTRLIST,
+        registerSubscriber(dType, ClickButtonType.StandClickEnum.FILTRLIST,
                 fFactory.constructActionFind(
-                        ClickButtonType.StandClickEnum.FILTRLIST, this, dType));
-        registerSubscriber(ClickButtonType.StandClickEnum.FIND,
+                ClickButtonType.StandClickEnum.FILTRLIST, this, dType));
+        registerSubscriber(dType, ClickButtonType.StandClickEnum.FIND,
                 fFactory.constructActionFind(
-                        ClickButtonType.StandClickEnum.FIND, this, dType));
+                ClickButtonType.StandClickEnum.FIND, this, dType));
         registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
                 aFactory.constructChangeMode());
 

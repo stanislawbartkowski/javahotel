@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.login;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IDataModelFactory;
@@ -26,6 +23,8 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginViewFactory {
 

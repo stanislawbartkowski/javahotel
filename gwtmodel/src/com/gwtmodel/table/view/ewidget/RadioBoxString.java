@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,6 +19,8 @@ import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.factories.ITableCustomFactories;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

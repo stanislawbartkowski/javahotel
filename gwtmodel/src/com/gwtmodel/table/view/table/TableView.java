@@ -12,20 +12,9 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.google.gwt.user.client.ui.*;
+import com.gwtmodel.table.*;
 import java.util.List;
-
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
-import com.google.gwt.user.client.ui.TableListener;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.ICommand;
-import com.gwtmodel.table.IGetSetVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.WChoosedLine;
-import com.gwtmodel.table.WSize;
 
 /**
  * 

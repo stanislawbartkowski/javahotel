@@ -73,9 +73,10 @@ public class SlotTypeFactory {
                 null, null, null, dType, null, null, bAction);
     }
 
-    public SlotType construct(ClickButtonType buttonClick) {
+    public SlotType construct(IDataType dType,ClickButtonType buttonClick) {
+        assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick,
-                null, null, null, null, null, null, new ButtonAction(
+                null, null, null, dType, null, null, new ButtonAction(
                         ButtonAction.Action.ClickButton));
     }
 

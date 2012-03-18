@@ -12,21 +12,16 @@
  */
 package com.gwtmodel.table.controlbuttonview;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
-import com.gwtmodel.table.slotmodel.SlotType;
+import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
+import java.util.List;
 
 /**
  * 

@@ -12,12 +12,7 @@
  */
 package com.gwtmodel.table.controler;
 
-import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.IOkModelData;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.VModelData;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import java.util.ArrayList;

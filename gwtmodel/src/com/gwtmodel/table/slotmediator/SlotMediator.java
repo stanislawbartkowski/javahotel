@@ -12,12 +12,11 @@
  */
 package com.gwtmodel.table.slotmediator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import java.util.ArrayList;
+import java.util.List;
 
 class SlotMediator extends AbstractSlotContainer implements ISlotMediator {
 

@@ -16,15 +16,10 @@ import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.SlotListContainer;
+import com.gwtmodel.table.slotmodel.*;
 
 /**
- * 
+ *
  * @author stanislaw.bartkowski@gmail.com
  */
 public class ChooseDictList<T extends IVModelData> {
@@ -84,17 +79,16 @@ public class ChooseDictList<T extends IVModelData> {
     public ChooseDictList(IDataType dType, WSize wSize, ICallBackWidget<T> i) {
         this.i = i;
         this.dType = dType;
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
-                .getTableDataControlerFactory();
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
         DisplayListControlerParam cParam = tFactory.constructChooseParam(dType,
                 wSize, new CellId(0));
 
         IDataControler iData = tFactory.constructDataControler(cParam);
 
         sl = iData.getSlContainer();
-        sl.registerSubscriber(ClickButtonType.StandClickEnum.CHOOSELIST,
+        sl.registerSubscriber(dType, ClickButtonType.StandClickEnum.CHOOSELIST,
                 new GetChoosed());
-        sl.registerSubscriber(ClickButtonType.StandClickEnum.RESIGNLIST,
+        sl.registerSubscriber(dType, ClickButtonType.StandClickEnum.RESIGNLIST,
                 new GetResign());
         sl.registerSubscriber(dType, 0, new GetWidget(wSize));
         iData.startPublish(new CellId(0));

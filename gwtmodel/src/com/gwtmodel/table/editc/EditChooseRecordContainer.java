@@ -16,17 +16,10 @@
  */
 package com.gwtmodel.table.editc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.GWidget;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.composecontroller.IComposeController;
@@ -37,17 +30,12 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
-import com.gwtmodel.table.slotmodel.ButtonAction;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 
+ *
  * @author hotel
  */
 class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
@@ -92,8 +80,8 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
                 dType,
                 new ClickButtonType(LIST_BUTTON),
                 new ButtonAction(
-                        e.readOnly() ? ButtonAction.Action.DisableButton
-                                : ButtonAction.Action.EnableButton));
+                e.readOnly() ? ButtonAction.Action.DisableButton
+                : ButtonAction.Action.EnableButton));
     }
 
     @Override
@@ -168,7 +156,6 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
             SetNewChange(false, false);
             ModifForm();
         }
-
     }
 
     private class SetWidgetCust implements ISlotListener {
@@ -203,18 +190,15 @@ class EditChooseRecordContainer extends AbstractSlotMediatorContainer implements
         this.publishdType = publishdType;
 
         ClickButtonType sChoose = new ClickButtonType(LIST_BUTTON);
-        ControlButtonDesc bChoose = new ControlButtonDesc(MM.getL()
-                .ChooseFromList(), sChoose);
+        ControlButtonDesc bChoose = new ControlButtonDesc(MM.getL().ChooseFromList(), sChoose);
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         bList.add(bChoose);
         ListOfControlDesc cList = new ListOfControlDesc(bList);
-        slMediator.getSlContainer().registerSubscriber(sChoose,
+        slMediator.getSlContainer().registerSubscriber(dType, sChoose,
                 new ChooseC(dType, slMediator));
-        ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
-                .getControlButtonViewFactory();
+        ControlButtonViewFactory bFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
         IControlButtonView bView = bFactory.construct(dType, cList);
-        IGetViewControllerFactory fa = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetViewControllerFactory();
+        IGetViewControllerFactory fa = GwtGiniInjector.getI().getTableFactoriesContainer().getGetViewControllerFactory();
         bId = new CellId(IPanelView.CUSTOMID);
         if (!withoutForm) {
             cId = new CellId(IPanelView.CUSTOMID + 1);

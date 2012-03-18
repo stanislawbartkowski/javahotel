@@ -12,8 +12,8 @@
  */
 package com.gwtmodel.table.login;
 
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.FieldDataType;
+import com.gwtmodel.table.IVField;
 
 public class LoginField implements IVField {
 

@@ -15,11 +15,10 @@ package com.gwtmodel.table.buttoncontrolmodel;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.MM;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ControlButtonFactory {
 
