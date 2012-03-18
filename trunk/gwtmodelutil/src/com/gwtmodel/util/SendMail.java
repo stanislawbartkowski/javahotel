@@ -35,6 +35,7 @@ public class SendMail {
     public static final String MAIL_FROM = "mail.from";
     public static final String PROP_FILE_NAME = "property.file.name";
     private static final String GAEMAIL = "gae";
+    public static final String MAILDEBUG = "mail.debug";
 
     private SendMail() {
     }
@@ -66,11 +67,13 @@ public class SendMail {
             String recipients[], String subject, String message, String from)
             throws MessagingException {
 
-        boolean debug = true;
-
         // create some properties and get the default Session
         Session session = Session.getDefaultInstance(props, null);
-        session.setDebug(debug);
+        String debug = props.getProperty(MAILDEBUG);
+
+        if (debug != null) {
+            session.setDebug(true);
+        }
 
         // create a message
         Message msg = new MimeMessage(session);
@@ -101,7 +104,8 @@ public class SendMail {
             Transport.send(msg);
         } else {
 
-            Transport transport = session.getTransport(props.getProperty(PROTOCOL));
+            Transport transport = session.getTransport(props
+                    .getProperty(PROTOCOL));
             transport.connect(props.getProperty(HOST), props.getProperty(USER),
                     props.getProperty(PASSWORD));
             transport.addTransportListener(li);
@@ -130,7 +134,7 @@ public class SendMail {
 
     public static String postMail(boolean text, Properties props,
             String recipient, String subject, String message, String from) {
-        return postMail(text, props, new String[]{recipient}, subject,
+        return postMail(text, props, new String[] { recipient }, subject,
                 message, from);
     }
 }

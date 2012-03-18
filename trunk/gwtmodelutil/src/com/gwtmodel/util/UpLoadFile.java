@@ -32,7 +32,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.IConstUtil;
 
 /**
- *
+ * 
  * @author perseus
  */
 @SuppressWarnings("serial")
