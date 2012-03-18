@@ -50,7 +50,7 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
             }
             Map<String, String> ma = FileUtil.PropertyToMap(pro);
             ma.put(SendMail.PROP_FILE_NAME, dir[i].getAbsolutePath());
-            cma.getmList(true).add(ma);
+            cma.addMap(ma);
         }
         return cma;
     }

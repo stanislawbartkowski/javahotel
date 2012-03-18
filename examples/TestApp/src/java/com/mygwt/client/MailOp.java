@@ -22,9 +22,8 @@ import com.gwtmodel.table.mail.MailToSend;
 import com.gwtmodel.table.mailcommon.CListOfMailProperties;
 import com.gwtmodel.table.mailcommon.CMailToSend;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 
 class MailOp extends AbstractSlotContainer implements IJavaMailAction {
 
