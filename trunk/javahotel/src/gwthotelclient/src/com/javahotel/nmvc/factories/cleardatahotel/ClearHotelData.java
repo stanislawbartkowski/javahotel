@@ -108,7 +108,7 @@ public class ClearHotelData extends TemplateContainerSlotable<IDataControler> {
         DisplayListControlerParam dList = tFactory.constructParam(dType, null,
                 cList, panelId);
         iSlot = tFactory.constructDataControler(dList);
-        getSlContainer().registerSubscriber(cClear, new ClearData());
+        getSlContainer().registerSubscriber(dType, cClear, new ClearData());
     }
 
     // keep it as overrided

@@ -17,10 +17,10 @@ import java.util.Date;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.javahotel.client.M;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.command.BookingStateType;
-import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
@@ -35,24 +35,23 @@ public class U {
 
     }
 
-    static Date getD(DaySeasonScrollData sData, int i) {
+    static Date getD(IDrawPartSeasonContext sData, int i) {
         if (sData == null) {
             return null;
         }
         Date d = sData.getD(i + sData.getFirstD());
         return d;
     }
-    
+
     static SafeHtml getEmpty() {
         return new SafeHtmlBuilder().appendEscaped("").toSafeHtml();
     }
-    
+
     static String getRoomName(IVModelData v) {
         String s = (String) v.getF(new VField(DictionaryP.F.name));
         return s;
     }
 
-    
     static BookingStateType getResState(ResDayObjectStateP p) {
         assert p != null : M.M().ResStateCannotBeNull();
         BookingStateP staP = p.getLState();
@@ -62,7 +61,7 @@ public class U {
         }
         return staT;
     }
-    
+
     /**
      * Test if reservation cell is in booked stated
      * 
@@ -76,8 +75,5 @@ public class U {
         }
         return p.isBooked();
     }
-
-
-
 
 }

@@ -14,8 +14,8 @@ package com.javahotel.client;
 
 import java.util.Date;
 
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.DateUtil;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 
 /**
  * @author hotel Static class providing different simple utils for dialogs
