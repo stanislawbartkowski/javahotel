@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011 stanislawbartkowski@gmail.com
+ *  Copyright 2012 stanislawbartkowski@gmail.com
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -52,136 +52,139 @@ import com.mygwt.client.impl.tiptest.TooltipTest;
  */
 public class testEntryPoint implements EntryPoint {
 
-	public interface IGetWidget {
+    public interface IGetWidget {
 
-		Widget getW();
+        Widget getW();
 
-	}
+    }
 
-	/**
-	 * Creates a new instance of testEntryPoint
-	 */
-	public testEntryPoint() {
-	}
+    /**
+     * Creates a new instance of testEntryPoint
+     */
+    public testEntryPoint() {
+    }
 
-	@Override
-	public void onModuleLoad() {
+    @Override
+    public void onModuleLoad() {
 
-		class FormFactory implements IDataFormConstructorAbstractFactory {
+        class FormFactory implements IDataFormConstructorAbstractFactory {
 
-			public CType construct(ICallContext iContext) {
-				return new IDataFormConstructorAbstractFactory.CType();
-			}
-		}
+            public CType construct(ICallContext iContext) {
+                return new IDataFormConstructorAbstractFactory.CType();
+            }
+        }
 
-		ITableAbstractFactories tFactories = GwtGiniInjector.getI()
-				.getITableAbstractFactories();
-		tFactories.registerGetCustomValues(new CustomFactory());
-		tFactories
-				.registerDataFormConstructorAbstractFactory(new FormFactory());
-		tFactories.registerJavaMailActionFactory(new IJavaMailActionFactory() {
+        ITableAbstractFactories tFactories = GwtGiniInjector.getI()
+                .getITableAbstractFactories();
+        tFactories.registerGetCustomValues(new CustomFactory());
+        tFactories
+                .registerDataFormConstructorAbstractFactory(new FormFactory());
+        tFactories.registerJavaMailActionFactory(new IJavaMailActionFactory() {
 
-			public IJavaMailAction contruct() {
-				return (IJavaMailAction) new MailOp();
-			}
-		});
-		final WebPanelHolder.TableType tType = Utils.getParamTable();
-		Runnable onLoadCallback = new Runnable() {
+            public IJavaMailAction contruct() {
+                return (IJavaMailAction) new MailOp();
+            }
+        });
+        final WebPanelHolder.TableType tType = Utils.getParamTable();
+        Runnable onLoadCallback = new Runnable() {
 
-			@Override
-			public void run() {
-				start(tType);
-			}
-		};
-		if (tType == WebPanelHolder.TableType.GOOGLETABLE) {
-			VisualizationUtils.loadVisualizationApi(onLoadCallback,
-					Table.PACKAGE);
-		} else {
-			start(tType);
-		}
-	}
+            @Override
+            public void run() {
+                start(tType);
+            }
+        };
+        if (tType == WebPanelHolder.TableType.GOOGLETABLE) {
+            VisualizationUtils.loadVisualizationApi(onLoadCallback,
+                    Table.PACKAGE);
+        } else {
+            start(tType);
+        }
+    }
 
-	class CustomFactory implements IGetCustomValues {
+    class CustomFactory implements IGetCustomValues {
 
-		@Override
-		public IVField getSymForCombo() {
-			return null;
-		}
+        @Override
+        public IVField getSymForCombo() {
+            return null;
+        }
 
-		@Override
-		public boolean compareComboByInt() {
-			return false;
-		}
+        @Override
+        public boolean compareComboByInt() {
+            return false;
+        }
 
-		@Override
-		public String getCustomValue(String key) {
-			return null;
-		}
+        @Override
+        public String getCustomValue(String key) {
+            if (key.equals(IGetCustomValues.DATEFORMAT)) {
+                return "yyyy/MM/dd";
+            }
+            return null;
+        }
 
         @Override
         public boolean addEmptyAsDefault() {
             return false;
         }
-	}
+    }
 
-	private class ButtonTest {
-		private final String buttonTest;
-		private final IGetWidget iG;
+    private class ButtonTest {
+        private final String buttonTest;
+        private final IGetWidget iG;
 
-		ButtonTest(String buttonTest, IGetWidget iG) {
-			this.buttonTest = buttonTest;
-			this.iG = iG;
-		}
+        ButtonTest(String buttonTest, IGetWidget iG) {
+            this.buttonTest = buttonTest;
+            this.iG = iG;
+        }
 
-		public String getButtonTest() {
-			return buttonTest;
-		}
+        public String getButtonTest() {
+            return buttonTest;
+        }
 
-		public IGetWidget getiG() {
-			return iG;
-		}
+        public IGetWidget getiG() {
+            return iG;
+        }
 
-	}
+    }
 
-	private final List<ButtonTest> bList = new ArrayList<ButtonTest>();
-	private final DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
-	private Widget cWidget = null;
+    private final List<ButtonTest> bList = new ArrayList<ButtonTest>();
+    private final DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
+    private Widget cWidget = null;
 
-	/**
-	 * The entry point method, called automatically by loading a module that
-	 * declares an implementing class as an entry-point
-	 */
-	private void start(WebPanelHolder.TableType tType) {
+    /**
+     * The entry point method, called automatically by loading a module that
+     * declares an implementing class as an entry-point
+     */
+    private void start(WebPanelHolder.TableType tType) {
 
-		IGetWidget g = (IGetWidget) new TooltipTest();
-		bList.add(new ButtonTest("Tooltip", g));
-		g = (IGetWidget) new MailTest();
-		bList.add(new ButtonTest("MailTest", g));
+        IGetWidget g = (IGetWidget) new TooltipTest();
+        bList.add(new ButtonTest("Tooltip", g));
+        g = (IGetWidget) new MailTest();
+        bList.add(new ButtonTest("MailTest", g));
         g = (IGetWidget) new SeasonScrollTest();
         bList.add(new ButtonTest("ScrollControl", g));
-		VerticalPanel vB = new VerticalPanel();
+        VerticalPanel vB = new VerticalPanel();
 
-		for (final ButtonTest bu : bList) {
-			Button b = new Button(bu.getButtonTest());
-			ClickHandler ha = new ClickHandler() {
+        for (final ButtonTest bu : bList) {
+            Button b = new Button(bu.getButtonTest());
+            ClickHandler ha = new ClickHandler() {
 
-				@Override
-				public void onClick(ClickEvent event) {
-					Widget w = bu.getiG().getW();
-					if (cWidget != null) {
-						p.remove(cWidget);
-					}
-					p.add(w);
-					cWidget = w;
-				}
+                @Override
+                public void onClick(ClickEvent event) {
+                    Widget w = bu.getiG().getW();
+                    if (cWidget != null) {
+                        p.remove(cWidget);
+                    }
+                    p.add(w);
+                    cWidget = w;
+                }
 
-			};
-			b.addClickHandler(ha);
-			vB.add(b);
-		}
-		p.addWest(vB, 10);
+            };
+            b.addClickHandler(ha);
+            vB.add(b);
+        }
+        p.addWest(vB, 10);
 
-		RootLayoutPanel rp = RootLayoutPanel.get();
-		rp.add(p);
-	}
+        RootLayoutPanel rp = RootLayoutPanel.get();
+        rp.add(p);
+    }
 }
