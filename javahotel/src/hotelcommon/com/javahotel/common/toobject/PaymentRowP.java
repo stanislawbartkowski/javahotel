@@ -15,7 +15,7 @@ package com.javahotel.common.toobject;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.javahotel.common.dateutil.DateUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.math.MathUtil;
 import com.javahotel.types.DateP;
 import com.javahotel.types.DecimalP;

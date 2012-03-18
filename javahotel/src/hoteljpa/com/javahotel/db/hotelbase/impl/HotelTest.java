@@ -12,26 +12,28 @@
  */
 package com.javahotel.db.hotelbase.impl;
 
-import com.javahotel.common.dateutil.DateUtil;
-import com.javahotel.db.commands.TestGetNumber;
-import com.javahotel.remoteinterfaces.HotelT;
-import com.javahotel.remoteinterfaces.IHotelTest;
-import com.javahotel.remoteinterfaces.SessionT;
 import java.util.Date;
+
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 
+import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.javahotel.db.commands.TestGetNumber;
+import com.javahotel.remoteinterfaces.HotelT;
+import com.javahotel.remoteinterfaces.IHotelTest;
+import com.javahotel.remoteinterfaces.SessionT;
+
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @Stateless(mappedName = "hoteltestEJB")
 @TransactionAttribute(TransactionAttributeType.SUPPORTS)
 public class HotelTest implements IHotelTest {
 
-    public int getNumberOfRecord(final SessionT sessionId,
-            final int rType, final HotelT hotel) {
+    public int getNumberOfRecord(final SessionT sessionId, final int rType,
+            final HotelT hotel) {
         TestGetNumber tCommand = new TestGetNumber(sessionId, rType, hotel);
         tCommand.run();
         return tCommand.getRes();

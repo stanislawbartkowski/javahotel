@@ -21,11 +21,11 @@ import java.util.Map;
 import java.util.Set;
 
 import com.gwtmodel.table.common.ISignal;
-import com.javahotel.common.dateutil.CalendarTable;
-import com.javahotel.common.dateutil.CalendarTable.PeriodType;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.DateUtil;
-import com.javahotel.common.dateutil.PeriodT;
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.gwtmodel.table.daytimeline.CalendarTable;
+import com.gwtmodel.table.daytimeline.CalendarTable.PeriodType;
 import com.javahotel.common.dateutil.RunPeriodLoop;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 
@@ -350,7 +350,5 @@ public class ResObjectCache {
             out.addAll(p);
         }
         return out;
-
-
     }
 }

@@ -9,21 +9,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
  * See the License for the specific language governing permissions and 
  * limitations under the License.
- */
+*/
+
 package com.javahotel.common.seasonutil;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gwtmodel.table.common.PeriodT;
 import com.javahotel.common.dateutil.GetPeriods;
 import com.javahotel.common.dateutil.GetPeriods.IEqPeriodT;
-import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.dateutil.GetPeriods.StartWeek;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.SeasonPeriodT;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class CreateTableSeason {
@@ -47,8 +49,8 @@ public class CreateTableSeason {
         return out;
     }
 
-    public static List<PeriodT> createTable(
-            final OfferSeasonP oP, final StartWeek sWeek) {
+    public static List<PeriodT> createTable(final OfferSeasonP oP,
+            final StartWeek sWeek) {
         List<PeriodT> co = createC(oP, SeasonPeriodT.LOW);
         List<PeriodT> cous = GetPeriods.get(
                 new PeriodT(oP.getStartP(), oP.getEndP(), null), co);
@@ -73,7 +75,6 @@ public class CreateTableSeason {
                 cou.add(pp1);
             }
         }
-
 
         List<PeriodT> coS = createC(oP, SeasonPeriodT.SPECIAL);
         List<PeriodT> out = new ArrayList<PeriodT>();

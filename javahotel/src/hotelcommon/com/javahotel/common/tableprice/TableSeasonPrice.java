@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.javahotel.common.dateutil.DateUtil;
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.GetPeriods;
 import com.javahotel.common.dateutil.GetPeriods.StartWeek;
-import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.seasonutil.CreateTableSeason;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;

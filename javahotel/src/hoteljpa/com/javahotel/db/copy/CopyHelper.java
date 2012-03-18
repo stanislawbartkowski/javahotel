@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.gwtmodel.table.common.CUtil;
-import com.javahotel.common.dateutil.DateUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.db.context.ICommandContext;

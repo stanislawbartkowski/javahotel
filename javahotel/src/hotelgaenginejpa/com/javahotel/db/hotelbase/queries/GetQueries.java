@@ -18,10 +18,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.db.context.ICommandContext;
 import com.javahotel.db.hotelbase.jpa.BookElem;
@@ -77,13 +77,14 @@ public class GetQueries {
             break;
         case InvoiceList:
             if (param == null || param.getBookingId() == null) {
-               col = iC.getJpa().getListQuery(cla, "hotelId",
-                      iC.getRHotel().getId().getL());
-               break;
+                col = iC.getJpa().getListQuery(cla, "hotelId",
+                        iC.getRHotel().getId().getL());
+                break;
             }
             col = iC.getJpa().getListQuery(cla, "hotelId",
-                    iC.getRHotel().getId().getL(), "bookingId", param.getBookingId().getId());            
-            break;            
+                    iC.getRHotel().getId().getL(), "bookingId",
+                    param.getBookingId().getId());
+            break;
         default:
             col = iC.getJpa().getListQuery(cla, "hotelId",
                     iC.getRHotel().getId().getL());

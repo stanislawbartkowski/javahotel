@@ -19,11 +19,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.gwtmodel.table.daytimeline.CalendarTable;
+import com.gwtmodel.table.daytimeline.CalendarTable.PeriodType;
 import com.javahotel.common.command.BookingStateType;
-import com.javahotel.common.dateutil.CalendarTable;
-import com.javahotel.common.dateutil.CalendarTable.PeriodType;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.toobject.BookingStateP;
 import com.javahotel.common.toobject.ResDayObjectStateP;

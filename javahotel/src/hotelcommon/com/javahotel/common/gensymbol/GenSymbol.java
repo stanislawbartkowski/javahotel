@@ -12,11 +12,12 @@
  */
 package com.javahotel.common.gensymbol;
 
-import com.javahotel.common.dateutil.DateFormatUtil;
 import java.util.Date;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class GenSymbol {
@@ -39,6 +40,7 @@ public class GenSymbol {
      */
     private GenSymbol() {
     }
+
     private static final String RR = "YY";
     private static final String REGMM = "\\\\" + 'd' + "\\\\" + 'd';
     private static final String REGRR = REGMM + REGMM;
@@ -57,6 +59,7 @@ public class GenSymbol {
             isNN = false;
             isDD = false;
         }
+
         // Numer of digits or -1 if no digits
         int dNumber;
         boolean isNN;
@@ -77,7 +80,8 @@ public class GenSymbol {
             return -1;
         }
         char d = r.charAt(ii + 1);
-//        int no = Character.getNumericValue(d) - Character.getNumericValue('0');
+        // int no = Character.getNumericValue(d) -
+        // Character.getNumericValue('0');
         String s = "" + d;
         return Integer.parseInt(s);
     }
@@ -122,36 +126,33 @@ public class GenSymbol {
         AnalizePattern a = parsePattern(pattern);
         return s.matches(a.regExpr);
     }
-    
+
     public static String nextSymbol(final String pattern, final Date da,
             final GenSymbolData col) {
         int year = da.getYear() + 1900;
         int month = da.getMonth();
-        String yearS = DateFormatUtil.toNS(year,4);
-        String monthS = DateFormatUtil.toNS(month+1, 2);
+        String yearS = DateFormatUtil.toNS(year, 4);
+        String monthS = DateFormatUtil.toNS(month + 1, 2);
         AnalizePattern a = parsePattern(pattern);
-        int no =  -1;
+        int no = -1;
         String n = null;
         if (a.isNN) {
             no = col.getNextMaxNo();
-        }
-        else {
+        } else {
             no = col.getNextYear(year);
         }
         if (a.dNumber != -1) {
             n = DateFormatUtil.toNS(no, a.dNumber);
-        }
-        else {
+        } else {
             n = Integer.toString(no);
         }
-        String aS = pattern.replaceAll(RR,yearS);
+        String aS = pattern.replaceAll(RR, yearS);
         aS = aS.replaceAll(MM, monthS);
-        aS = aS.replaceAll(DD,n);
-        aS = aS.replaceAll(NN,n);
-        aS = aS.replaceAll(regC(D),n);
-        aS = aS.replaceAll(regC(N),n);        
+        aS = aS.replaceAll(DD, n);
+        aS = aS.replaceAll(NN, n);
+        aS = aS.replaceAll(regC(D), n);
+        aS = aS.replaceAll(regC(N), n);
         return aS;
     }
-    
-    
+
 }

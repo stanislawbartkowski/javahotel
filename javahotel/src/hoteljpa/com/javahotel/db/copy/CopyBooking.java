@@ -14,7 +14,7 @@ package com.javahotel.db.copy;
 
 import java.util.List;
 
-import com.javahotel.common.dateutil.DateUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.AddPaymentP;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
@@ -33,12 +33,10 @@ import com.javahotel.db.hotelbase.jpa.Payment;
 import com.javahotel.db.hotelbase.jpa.PaymentRow;
 import com.javahotel.db.hotelbase.jpa.ServiceDictionary;
 import com.javahotel.db.jtypes.HId;
-import com.javahotel.db.jtypes.IId;
 import com.javahotel.db.jtypes.ToLD;
 import com.javahotel.dbjpa.copybean.CopyBean;
 import com.javahotel.dbres.messid.IMessId;
 import com.javahotel.remoteinterfaces.HotelT;
-import com.javahotel.types.ILd;
 
 /**
  * 
@@ -179,7 +177,7 @@ class CopyBooking {
 
     static void copy2(final ICommandContext iC, final Booking sou,
             final BookingP dest) {
-        
+
         CopyHelper.copyDict2(iC, sou, dest, FieldList.BookingList);
         HId id = sou.getId();
         dest.setId(ToLD.toLId(id));
