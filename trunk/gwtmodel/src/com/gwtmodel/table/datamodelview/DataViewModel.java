@@ -12,16 +12,7 @@
  */
 package com.gwtmodel.table.datamodelview;
 
-import java.util.List;
-
-import com.gwtmodel.table.ICustomObject;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.InvalidateFormContainer;
-import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
@@ -32,16 +23,10 @@ import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
+import java.util.List;
 
 class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 

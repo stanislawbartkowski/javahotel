@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.controler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
@@ -23,27 +20,25 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author hotel This class gives the possibility of modifying behavior of
- *         BoxItem
+ * BoxItem
  */
 public class BoxActionMenuOptions {
 
     private static final String REMOVE_FORM_ACTION = "BoxActionMenuOptions_REMOVE_FORM_ACTION";
     public static final String REDIRECT_RESIGN = "REDIRECT_RESIGN";
-
     public static final String ASK_BEFORE_RESIGN = "ASK_BEFORE_RESING";
     public static final String ASK_BEFORE_PERSIST = "ASK_BEFORE_PERSIST";
-
     private final IDataType dType;
-
     private final static SlotTypeFactory slTypeFactory;
 
     static {
         slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
     }
-
     private final Map<String, SlotType> rMap = new HashMap<String, SlotType>();
     private final Map<String, String> sMap = new HashMap<String, String>();
 
@@ -62,8 +57,8 @@ public class BoxActionMenuOptions {
         return constructSRemoveFormDialogSlotType(dType);
     }
 
-    public SlotType constructResignButtonSlotType() {
-        return slTypeFactory.construct(new ClickButtonType(
+    public SlotType constructResignButtonSlotType(IDataType dType) {
+        return slTypeFactory.construct(dType, new ClickButtonType(
                 ClickButtonType.StandClickEnum.RESIGN));
     }
 
@@ -80,12 +75,10 @@ public class BoxActionMenuOptions {
     }
 
     public void setAskStandardResign() {
-        setAskString(BoxActionMenuOptions.ASK_BEFORE_RESIGN, MM.getL()
-                .YouResignStandard());
+        setAskString(BoxActionMenuOptions.ASK_BEFORE_RESIGN, MM.getL().YouResignStandard());
     }
 
     String getAskString(String key) {
         return sMap.get(key);
     }
-
 }

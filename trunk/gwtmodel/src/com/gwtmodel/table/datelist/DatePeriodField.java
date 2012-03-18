@@ -16,8 +16,8 @@
  */
 package com.gwtmodel.table.datelist;
 
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.FieldDataType;
+import com.gwtmodel.table.IVField;
 
 /**
  *

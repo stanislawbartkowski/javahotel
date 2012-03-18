@@ -13,12 +13,7 @@
 package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
-import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IDataPersistAction;
-import com.gwtmodel.table.factories.IFormTitleFactory;
-import com.gwtmodel.table.factories.IGetViewControllerFactory;
-import com.gwtmodel.table.factories.IHeaderListContainer;
+import com.gwtmodel.table.factories.*;
 
 public class DataListParam {
 

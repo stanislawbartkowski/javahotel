@@ -12,14 +12,13 @@
  */
 package com.gwtmodel.table.datamodelview;
 
-import java.util.List;
-
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.ISlotCustom;
+import java.util.List;
 
 /**
  * @author hotel

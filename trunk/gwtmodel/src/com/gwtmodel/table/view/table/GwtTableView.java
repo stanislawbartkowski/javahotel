@@ -12,10 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Label;
@@ -26,14 +22,10 @@ import com.google.gwt.visualization.client.Selection;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.formatters.DateFormat;
 import com.google.gwt.visualization.client.visualizations.Table;
-import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.ICommand;
-import com.gwtmodel.table.IGetSetVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.WChoosedLine;
-import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 class GwtTableView implements IGwtTableView {
 

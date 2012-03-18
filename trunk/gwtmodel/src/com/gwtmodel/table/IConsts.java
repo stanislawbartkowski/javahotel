@@ -25,4 +25,5 @@ public interface IConsts {
     int defaultDecimal = 2;
     int defaultPage = 20;
     String errorStyle = "dialog-empty-field";
+    String numberStyle = "Number";
 }

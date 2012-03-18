@@ -55,4 +55,10 @@ class ListBoxWithHelp extends GetValueLB {
     public Widget getGWidget() {
         return hP;
     }
+
+    @Override
+    public void setReadOnly(boolean readOnly) {
+        super.setReadOnly(readOnly);
+        wHelp.setReadOnly(readOnly);
+    }
 }

@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.stackpanelcontroller;
 
-import java.util.List;
-
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
@@ -23,6 +21,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.stack.IStackPanelView;
 import com.gwtmodel.table.view.stack.StackPanelFactory;
+import java.util.List;
 
 /**
  * 

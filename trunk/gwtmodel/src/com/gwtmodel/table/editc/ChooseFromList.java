@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.editc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
@@ -26,10 +23,12 @@ import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author hotel
- * 
+ *
  */
 class ChooseFromList extends AbstractSlotContainer implements IChooseRecordContainer {
 
@@ -60,7 +59,7 @@ class ChooseFromList extends AbstractSlotContainer implements IChooseRecordConta
         ListOfControlDesc cList = new ListOfControlDesc(bList);
         ControlButtonViewFactory bFactory = GwtGiniInjector.getI().getControlButtonViewFactory();
         bView = bFactory.construct(dType, cList);
-        bView.getSlContainer().registerSubscriber(sChoose,
+        bView.getSlContainer().registerSubscriber(dType, sChoose,
                 new ChooseC(dType, this));
         this.setSlContainer(bView);
     }

@@ -12,20 +12,11 @@
  */
 package com.gwtmodel.table.view.webpanel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.Utils;
@@ -38,6 +29,8 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.util.PopupTip;
 import com.gwtmodel.table.view.util.YesNoDialog;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

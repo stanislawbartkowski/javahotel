@@ -323,7 +323,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
                 new ChangeBox());
         slMediator.getSlContainer().registerSubscriber(
                 IJavaMailAction.SENDLISTMAILPROPERTIES, new CreateMail());
-        slMediator.getSlContainer().registerSubscriber(
+        slMediator.getSlContainer().registerSubscriber(dType,
                 ClickButtonType.StandClickEnum.ACCEPT, new Accept());
         slMediator.getSlContainer().registerSubscriber(
                 IJavaMailAction.SEND_RESULT, new WaitForRes());

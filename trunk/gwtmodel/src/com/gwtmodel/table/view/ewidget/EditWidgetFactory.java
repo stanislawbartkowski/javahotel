@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IDataType;
@@ -22,6 +19,8 @@ import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormLineView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditWidgetFactory {
 

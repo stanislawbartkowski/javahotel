@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,21 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.panelview;
+package com.gwtmodel.table.splitview;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface IPanelView extends ISlotable {
+/**
+ *
+ * @author perseus
+ */
+class SplitView implements ISplitView {
 
-    CellId addCellPanel(int row, int col);
+    public CellId addCellPanel(IDataType publishType, SplitType s) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-    CellId addCellPanel(IDataType publishType, int row, int col);
-
-    void createView();
-
-    void createView(String html);
+    public void createView() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
-    int CUSTOMID = 1000;
 }

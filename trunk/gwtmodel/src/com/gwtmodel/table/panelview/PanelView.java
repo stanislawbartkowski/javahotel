@@ -12,23 +12,16 @@
  */
 package com.gwtmodel.table.panelview;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
-import com.gwtmodel.table.slotmodel.SlotType;
+import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.panel.IGwtPanelView;
+import java.util.HashMap;
+import java.util.Map;
 
 class PanelView extends AbstractSlotContainer implements IPanelView {
 

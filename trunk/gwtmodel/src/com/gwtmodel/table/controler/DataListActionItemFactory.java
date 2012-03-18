@@ -17,13 +17,7 @@
 package com.gwtmodel.table.controler;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.gwtmodel.table.IClickYesNo;
-import com.gwtmodel.table.ICustomObject;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
-import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
@@ -34,25 +28,13 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.TablesFactories;
-import com.gwtmodel.table.slotmodel.ButtonAction;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.CustomObjectValue;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotCallerListener;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.slotmodel.SlU;
-import com.gwtmodel.table.slotmodel.SlotListContainer;
-import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
+import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.view.util.GetActionName;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 
 /**
- * 
+ *
  * @author hotel
  */
 class DataListActionItemFactory {
@@ -169,9 +151,9 @@ class DataListActionItemFactory {
 
     /**
      * Removes dialog from screen (important: default visibility)
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     static class ResignAction extends Signaller {
 
@@ -216,7 +198,6 @@ class DataListActionItemFactory {
                         }
 
                     }
-
                 };
                 YesNoDialog yesD = new YesNoDialog(pAsk, yes);
                 yesD.show(w);
@@ -270,7 +251,6 @@ class DataListActionItemFactory {
                         }
 
                     }
-
                 };
                 YesNoDialog yesD = new YesNoDialog(pAsk, yes);
                 yesD.show(w);
@@ -312,8 +292,7 @@ class DataListActionItemFactory {
             IVModelData perData = slContext.getVData(); // do nothing
             IVModelData pData = slControlerContainer.getGetterIVModelData(
                     dType, GetActionEnum.GetViewModelEdited, peData);
-            listParam.getDataFactory()
-                    .fromModelToPersist(dType, pData, perData);
+            listParam.getDataFactory().fromModelToPersist(dType, pData, perData);
             // result: perData
             return slContext;
         }
@@ -326,7 +305,6 @@ class DataListActionItemFactory {
             return iSlo.getSlContainer().getGetterContext(dType,
                     GetActionEnum.GetListLineChecked);
         }
-
     }
 
     IComposeController BoxActionItem(ClickButtonType.StandClickEnum action,
@@ -339,33 +317,28 @@ class DataListActionItemFactory {
         iCall.setPersistTypeEnum(persistTypeEnum);
         boolean addModifAction = false;
         switch (action) {
-        case REMOVEITEM:
-            liControls = tFactories.getControlButtonFactory()
-                    .constructRemoveDesign();
-            break;
-        case SHOWITEM:
-            liControls = tFactories.getControlButtonFactory()
-                    .constructOkButton();
-            break;
-        default:
-            liControls = tFactories.getControlButtonFactory()
-                    .constructAcceptResign();
-            addModifAction = true;
-            break;
+            case REMOVEITEM:
+                liControls = tFactories.getControlButtonFactory().constructRemoveDesign();
+                break;
+            case SHOWITEM:
+                liControls = tFactories.getControlButtonFactory().constructOkButton();
+                break;
+            default:
+                liControls = tFactories.getControlButtonFactory().constructAcceptResign();
+                addModifAction = true;
+                break;
 
         }
         CellId cId = new CellId(0);
         IComposeController fController = listParam.getfControler().construct(
                 iCall);
         if (listParam.getModifButtonFactory() != null) {
-            IDataCrudModifButtonAction bModif = listParam
-                    .getModifButtonFactory().contruct(iCall);
+            IDataCrudModifButtonAction bModif = listParam.getModifButtonFactory().contruct(iCall);
             ComposeControllerType mType = new ComposeControllerType(bModif);
             fController.registerControler(mType);
             bModif.modifButton(liControls);
         }
-        final SlotListContainer slControlerContainer = fController
-                .getSlContainer();
+        final SlotListContainer slControlerContainer = fController.getSlContainer();
         if (!contentOnly) {
             IControlButtonView cView = tFactories.getbViewFactory().construct(
                     dType, liControls);
@@ -382,11 +355,10 @@ class DataListActionItemFactory {
                     public void signal() {
                         slControlerContainer.publish(dType,
                                 new ClickButtonType(
-                                        ClickButtonType.StandClickEnum.RESIGN),
+                                ClickButtonType.StandClickEnum.RESIGN),
                                 new ButtonAction(
-                                        ButtonAction.Action.ForceButton));
+                                ButtonAction.Action.ForceButton));
                     }
-
                 };
             }
             DrawForm dForm = new DrawForm(wSize, title, action, true, null,
@@ -398,23 +370,22 @@ class DataListActionItemFactory {
                     BoxActionMenuOptions.ASK_BEFORE_PERSIST);
             ResignAction aRes = new ResignAction(dForm, null, resignAsk);
 
-            slControlerContainer.registerSubscriber(listParam.getMenuOptions()
-                    .constructRemoveFormDialogSlotType(), aRes);
+            slControlerContainer.registerSubscriber(listParam.getMenuOptions().constructRemoveFormDialogSlotType(), aRes);
 
             // redirect Resign (default: remove without any question)
             slControlerContainer.registerRedirector(
-                    listParam.getMenuOptions().constructResignButtonSlotType(),
+                    listParam.getMenuOptions().constructResignButtonSlotType(dType),
                     listParam.getMenuOptions().getSlotType(
-                            BoxActionMenuOptions.REDIRECT_RESIGN));
+                    BoxActionMenuOptions.REDIRECT_RESIGN));
 
             PersistData pData = new PersistData(persistTypeEnum, fController,
                     DataActionEnum.ValidateComposeFormAction, persistAsk);
             if (action == ClickButtonType.StandClickEnum.SHOWITEM) {
                 slControlerContainer.registerSubscriber(
-                        ClickButtonType.StandClickEnum.ACCEPT, aRes);
+                        dType, ClickButtonType.StandClickEnum.ACCEPT, aRes);
             } else {
                 slControlerContainer.registerSubscriber(
-                        ClickButtonType.StandClickEnum.ACCEPT, pData);
+                        dType, ClickButtonType.StandClickEnum.ACCEPT, pData);
             }
 
             pData = new PersistData(persistTypeEnum, fController,
@@ -439,13 +410,12 @@ class DataListActionItemFactory {
                 DataActionEnum.DefaultViewComposeFormAction, peData,
                 persistTypeEnum);
 
-        slControlerContainer
-                .publish(dType, DataActionEnum.ChangeViewComposeFormModeAction,
-                        persistTypeEnum);
+        slControlerContainer.publish(dType, DataActionEnum.ChangeViewComposeFormModeAction,
+                persistTypeEnum);
 
         slControlerContainer.registerCaller(dType,
                 GetActionEnum.GetModelToPersist, new GetterModel(
-                        slControlerContainer, peData));
+                slControlerContainer, peData));
         slControlerContainer.registerCaller(dType,
                 GetActionEnum.GetListLineChecked, new GetListLine());
         return fController;
@@ -461,8 +431,7 @@ class DataListActionItemFactory {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            ClickButtonType.StandClickEnum action = slContext.getSlType()
-                    .getButtonClick().getClickEnum();
+            ClickButtonType.StandClickEnum action = slContext.getSlType().getButtonClick().getClickEnum();
             ISlotSignalContext ret = iSlo.getSlContainer().getGetterContext(
                     dType, GetActionEnum.GetListLineChecked);
             IVModelData mModel = listParam.getDataFactory().construct(dType);
@@ -498,15 +467,15 @@ class DataListActionItemFactory {
             iSlo.getSlContainer().publish(
                     dType,
                     new ClickButtonType(
-                            ClickButtonType.StandClickEnum.MODIFITEM),
+                    ClickButtonType.StandClickEnum.MODIFITEM),
                     new ButtonAction(ButtonAction.Action.RedirectButton,
-                            new ClickButtonType(
-                                    ClickButtonType.StandClickEnum.SHOWITEM)));
+                    new ClickButtonType(
+                    ClickButtonType.StandClickEnum.SHOWITEM)));
         } else {
             iSlo.getSlContainer().publish(
                     dType,
                     new ClickButtonType(
-                            ClickButtonType.StandClickEnum.MODIFITEM),
+                    ClickButtonType.StandClickEnum.MODIFITEM),
                     new ButtonAction(b));
         }
 
@@ -521,11 +490,11 @@ class DataListActionItemFactory {
         public void signal(ISlotSignalContext slContext) {
             LogT.getLS().info(
                     LogT.getT().receivedSignalLog(
-                            slContext.getSlType().toString()));
+                    slContext.getSlType().toString()));
             PersistTypeEnum persistTypeEnum = slContext.getPersistType();
             publishP(
                     persistTypeEnum.readOnly() ? ButtonAction.Action.DisableButton
-                            : ButtonAction.Action.EnableButton,
+                    : ButtonAction.Action.EnableButton,
                     persistTypeEnum.readOnly());
         }
     }
