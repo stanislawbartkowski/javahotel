@@ -20,14 +20,15 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.daytimeline.DaySeasonScrollData;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.table.IGetCellValue;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.common.command.BookingStateType;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
+import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.common.toobject.ResObjectP;
@@ -41,17 +42,19 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
  */
 class GetResCell implements IGetCellValue {
 
-    private DaySeasonScrollData sData;
+    private IDrawPartSeasonContext sData;
     private final ResServicesCache rCache;
+    private final BookingResCache bCache;
 
-    GetResCell(ResServicesCache rCache) {
+    GetResCell(ResServicesCache rCache, BookingResCache bCache) {
         this.rCache = rCache;
+        this.bCache = bCache;
     }
 
     /**
      * @return the sData
      */
-    public DaySeasonScrollData getsData() {
+    public IDrawPartSeasonContext getsData() {
         return sData;
     }
 
@@ -59,7 +62,7 @@ class GetResCell implements IGetCellValue {
      * @param sData
      *            the sData to set
      */
-    public void setsData(DaySeasonScrollData sData) {
+    public void setsData(IDrawPartSeasonContext sData) {
         this.sData = sData;
     }
 
@@ -93,9 +96,13 @@ class GetResCell implements IGetCellValue {
         BookingStateType staT = U.getResState(p);
         SafeHtmlBuilder b = new SafeHtmlBuilder();
         if (U.isBooked(staT)) {
-            String ss = DateFormatUtil.toS(p.getD());
-            b.appendEscaped(ss);
+            // cell booked
+//            String ss = DateFormatUtil.toS(p.getD());
+            BookingP book = bCache.getBooking(p.getBookName());
+            assert book != null : LogT.getT().cannotBeNull();
+            b.appendEscaped(book.getDescription());
         } else {
+            // cell not booked - display price info
             List<ServiceDictionaryP> sLi = rCache.getServices(res);
             boolean first = true;
             for (ServiceDictionaryP pS : sLi) {
@@ -106,8 +113,8 @@ class GetResCell implements IGetCellValue {
                 b.appendEscaped(pS.getName());
                 PaymentRowP pa = rCache.getPriceForDay(pS.getName(), p.getD());
                 if (pa != null) {
-                  String sPa = Utils.DecimalToS(pa.getCustomerRate());
-                  b.appendEscaped(" : " + sPa);
+                    String sPa = Utils.DecimalToS(pa.getCustomerRate());
+                    b.appendEscaped(" : " + sPa);
                 }
             }
         }
@@ -147,4 +154,13 @@ class GetResCell implements IGetCellValue {
     ResServicesCache getrCache() {
         return rCache;
     }
+
+    /**
+     * @return the bCache
+     */
+    public BookingResCache getbCache() {
+        return bCache;
+    }
+    
+    
 }

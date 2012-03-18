@@ -24,20 +24,21 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.gwtmodel.table.daytimeline.CalendarTable;
+import com.gwtmodel.table.daytimeline.CalendarTable.PeriodType;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
+import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
+import com.gwtmodel.table.view.daytimetable.IScrollSeason;
+import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
 import com.gwtmodel.table.view.util.PopupTip;
 import com.javahotel.client.ConfigParam;
 import com.javahotel.client.M;
 import com.javahotel.client.user.season.SeasonUtil;
-import com.javahotel.client.user.widgets.stable.IDrawPartSeason;
-import com.javahotel.client.user.widgets.stable.IScrollSeason;
-import com.javahotel.client.user.widgets.stable.impl.WidgetScrollSeasonFactory;
-import com.javahotel.common.dateutil.CalendarTable;
-import com.javahotel.common.dateutil.CalendarTable.PeriodType;
-import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.GetPeriods;
-import com.javahotel.common.dateutil.PeriodT;
-import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 import com.javahotel.common.seasonutil.CreateTableSeason;
 import com.javahotel.common.toobject.OfferSeasonP;
 
@@ -60,8 +61,9 @@ class PanelSeason {
     PanelSeason(Grid g, final ComplexPanel controlP, final Date today) {
         this.g = g;
         this.controlP = controlP;
-        sCr = WidgetScrollSeasonFactory.getScrollSeason(new DrawC(),
-                DateUtil.getToday());
+        WidgetScrollSeasonFactory wFactory = GwtGiniInjector.getI()
+                .getWidgetScrollSeasonFactory();
+        sCr = wFactory.getScrollSeason(new DrawC(), DateUtil.getToday());
 
     }
 
@@ -97,7 +99,7 @@ class PanelSeason {
         }
 
         @Override
-        public void refresh(DaySeasonScrollData sData) {
+        public void refresh(IDrawPartSeasonContext sData) {
             for (int i = sData.getFirstD(); i <= sData.getLastD(); i++) {
                 Date pe = sData.getD(i);
                 Date today = sData.getTodayC();

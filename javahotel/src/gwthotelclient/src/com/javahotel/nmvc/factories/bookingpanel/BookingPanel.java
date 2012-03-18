@@ -14,7 +14,9 @@ package com.javahotel.nmvc.factories.bookingpanel;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
@@ -48,6 +50,10 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.gwtmodel.table.daytimeline.CalendarTable;
+import com.gwtmodel.table.daytimeline.CalendarTable.PeriodType;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -65,6 +71,10 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
+import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
+import com.gwtmodel.table.view.daytimetable.IScrollSeason;
+import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.ClickPopUp;
@@ -80,22 +90,14 @@ import com.javahotel.client.rdata.RData;
 import com.javahotel.client.types.BackAbstract;
 import com.javahotel.client.types.DataType;
 import com.javahotel.client.user.season.SeasonUtil;
-import com.javahotel.client.user.widgets.stable.IDrawPartSeason;
-import com.javahotel.client.user.widgets.stable.IScrollSeason;
-import com.javahotel.client.user.widgets.stable.impl.WidgetScrollSeasonFactory;
 import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.dateutil.CalendarTable;
-import com.javahotel.common.dateutil.CalendarTable.PeriodType;
-import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.GetPeriods;
-import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.rescache.ReadResParam;
-import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
 import com.javahotel.common.seasonutil.CreateTableSeason;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
@@ -124,6 +126,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     private final GetResCell rCell;
     private final ResServicesCache rCache;
     private final EWidgetFactory eFactory;
+    private final WidgetScrollSeasonFactory wFactory;
 
     // local variable - changeable area
     private IScrollSeason sCr = null;
@@ -220,8 +223,40 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             createPanel();
         }
 
+        private class ReadResName implements ISignal {
+            private final List<String> roomList;
+            private final PeriodT pe;
+
+            ReadResName(List<String> roomList, PeriodT pe) {
+                this.roomList = roomList;
+                this.pe = pe;
+            }
+
+            @Override
+            public void signal() {
+                Set<String> sRoom = new HashSet<String>();
+                for (String s : roomList) {
+                    Date d = pe.getFrom();
+                    do {
+                        ResDayObjectStateP p = rI.getR().getResState(s, d);
+                        assert p != null : LogT.getT().cannotBeNull();
+                        sRoom.add(p.getBookName());
+                        DateUtil.NextDay(d);
+                    } while (DateUtil.compareDate(d, pe.getTo()) < 0);
+                }
+                ISignal i = new ISignal() {
+
+                    @Override
+                    public void signal() {
+                        sy.signalDone();
+                    }
+                };
+                rCell.getbCache().readBooking(sRoom, i);
+            }
+        }
+
         @Override
-        public void refresh(DaySeasonScrollData sData) {
+        public void refresh(IDrawPartSeasonContext sData) {
             rCell.setsData(sData);
             Date from = sData.getD(sData.getFirstD());
             Date to = sData.getD(sData.getLastD());
@@ -235,14 +270,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             }
             // firstly re-read reservation data
             rI.getR().readResObjectState(new ReadResParam(roomList, pe), sy);
-            ISignal i = new ISignal() {
-
-                @Override
-                public void signal() {
-                    sy.signalDone();                    
-                }                                
-            };
-            rCache.createPriceCache(pe, i);            
+            rCache.createPriceCache(pe, new ReadResName(roomList, pe));
         }
 
     }
@@ -276,8 +304,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         @Override
         public void action(OfferSeasonP oP) {
             DrawSynch sy = new DrawSynch();
-            sCr = WidgetScrollSeasonFactory.getScrollSeason(new DrawC(sy),
-                    DateUtil.getToday());
+            sCr = wFactory.getScrollSeason(new DrawC(sy), DateUtil.getToday());
             List<Date> dLine = CalendarTable.listOfDates(oP.getStartP(),
                     oP.getEndP(), PeriodType.byDay);
             coP = CreateTableSeason.createTable(oP, ConfigParam.getStartWeek());
@@ -536,7 +563,6 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             new BackAbstract<BookingP>()
                     .readAbstract(DictType.BookingList, resName, new RToBill(
                             new WSize(event.getRelativeElement())));
-
         }
 
     }
@@ -651,6 +677,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     public BookingPanel(IDataType dType, CellId panelId) {
         this.dType = dType;
         eFactory = HInjector.getI().getEWidgetFactory();
+        wFactory = GwtGiniInjector.getI().getWidgetScrollSeasonFactory();
         rI = HInjector.getI().getI();
         FormField f = FFactory.construct(OfferPriceP.F.season);
         IFormLineView seasonE = f.getELine();
@@ -660,7 +687,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         IFormLineView priceE = f.getELine();
         priceS = f.getPLabel();
         rCache = new ResServicesCache(seasonE, priceE);
-        rCell = new GetResCell(rCache);
+        rCell = new GetResCell(rCache, new BookingResCache());
         iList = tFactories.getlDataFactory().construct(roomType, rCell, false,
                 true);
         IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()

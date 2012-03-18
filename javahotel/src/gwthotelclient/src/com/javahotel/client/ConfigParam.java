@@ -14,7 +14,7 @@ package com.javahotel.client;
 
 import java.util.Date;
 
-import com.javahotel.common.dateutil.DateUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.GetPeriods.StartWeek;
 import com.javahotel.common.tableprice.TableSeasonPrice.RowDetailLevel;
 

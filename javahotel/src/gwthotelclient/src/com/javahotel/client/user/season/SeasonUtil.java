@@ -17,12 +17,11 @@ import java.util.Date;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.client.M;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.DateUtil;
-import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
-import com.javahotel.common.toobject.SeasonPeriodT;
 
 /**
  * 
