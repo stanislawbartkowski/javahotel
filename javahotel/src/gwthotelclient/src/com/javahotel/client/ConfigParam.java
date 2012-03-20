@@ -35,8 +35,7 @@ public class ConfigParam {
      */
     public static Date countPayAdvanceDay() {
         Date da = DateUtil.getToday();
-        DateUtil.addDays(da, 3);
-        return da;
+        return DateUtil.addDaysD(da, 3);
     }
 
     /**

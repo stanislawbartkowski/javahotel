@@ -22,6 +22,7 @@ import java.util.Set;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.SynchronizeListSignal;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.PeriodT;
 import com.gwtmodel.table.common.dateutil.DateUtil;
@@ -77,22 +78,6 @@ class ResServicesCache {
 
     }
 
-    private class Sy extends SynchronizeList {
-
-        private final ISignal sig;
-
-        Sy(int no, ISignal sig) {
-            super(no);
-            this.sig = sig;
-        }
-
-        @Override
-        protected void doTask() {
-            sig.signal();
-        }
-
-    }
-
     private class SetRows implements ISetPaymentRows {
 
         private final SynchronizeList sy;
@@ -119,7 +104,7 @@ class ResServicesCache {
                 return p;
             }
         }
-//        assert false : LogT.getT().CellCannotBeNull();
+        // assert false : LogT.getT().CellCannotBeNull();
         return null;
     }
 
@@ -131,7 +116,7 @@ class ResServicesCache {
                 se.add(d.getName());
             }
         }
-        Sy sy = new Sy(se.size(), sig);
+        SynchronizeListSignal sy = new SynchronizeListSignal(se.size(), sig);
         Iterator<String> iS = se.iterator();
         while (iS.hasNext()) {
             String s = iS.next();
@@ -148,7 +133,7 @@ class ResServicesCache {
         for (ResObjectP p : i) {
             se.add(p.getRStandard().getName());
         }
-        Sy sy = new Sy(se.size(), sig);
+        SynchronizeListSignal sy = new SynchronizeListSignal(se.size(), sig);
         Iterator<String> iS = se.iterator();
         while (iS.hasNext()) {
             String s = iS.next();

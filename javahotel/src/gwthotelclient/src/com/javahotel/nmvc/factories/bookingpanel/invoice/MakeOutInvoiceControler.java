@@ -245,10 +245,9 @@ public class MakeOutInvoiceControler extends AbstractSlotContainer {
         Integer l = SlU.getVWidgetValue(dType, this, vNumbOfDays);
         Date dI = SlU.getVWidgetValue(dType, this, vInvoiceDate);
 
-        Date dToOfPay = null;
+        Date dToOfPay = dI;
         if ((l != null) && (dI != null)) {
-            dToOfPay = DateUtil.copyDate(dI);
-            DateUtil.addDays(dToOfPay, l.intValue());
+            dToOfPay = DateUtil.addDaysD(dToOfPay, l.intValue());
         }
         SlU.setVWidgetValue(dType, this, vTermPay, dToOfPay);
     }

@@ -14,9 +14,7 @@ package com.javahotel.nmvc.factories.bookingpanel;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
@@ -43,6 +41,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
@@ -66,13 +65,10 @@ import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
-import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
-import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
 import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
@@ -97,7 +93,6 @@ import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.dateutil.GetPeriods;
-import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.seasonutil.CreateTableSeason;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
@@ -121,10 +116,12 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     private final VerticalPanel v = new VerticalPanel();
     private final IListDataView iList;
     private final IDataPersistAction iPersist;
-    private final static int NOM = 15;
+    private final static int NOM = 12;
+//    private final static int NOM = 4;
     private final IResLocator rI;
     private final GetResCell rCell;
     private final ResServicesCache rCache;
+    private final DrawResPanel dRes;
     private final EWidgetFactory eFactory;
     private final WidgetScrollSeasonFactory wFactory;
 
@@ -183,15 +180,10 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
      * @author hotel
      * 
      */
-    private class DrawSynch extends SynchronizeList implements ISignal {
+    private class DrawSynch extends SynchronizeList {
 
         DrawSynch() {
-            super(3);
-        }
-
-        @Override
-        public void signal() {
-            signalDone();
+            super(2);
         }
 
         @Override
@@ -200,79 +192,6 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
             getSlContainer()
                     .publish(roomType, DataActionEnum.RefreshListAction);
         }
-
-    }
-
-    /**
-     * Implementation of IDrawpartSeason. Provides refreshment for scrolling
-     * 
-     * @author hotel
-     * 
-     */
-    private class DrawC implements IDrawPartSeason {
-
-        private final DrawSynch sy;
-
-        DrawC(DrawSynch sy) {
-            this.sy = sy;
-        }
-
-        @Override
-        public void setW(IGWidget w) {
-            scrollW = w.getGWidget();
-            createPanel();
-        }
-
-        private class ReadResName implements ISignal {
-            private final List<String> roomList;
-            private final PeriodT pe;
-
-            ReadResName(List<String> roomList, PeriodT pe) {
-                this.roomList = roomList;
-                this.pe = pe;
-            }
-
-            @Override
-            public void signal() {
-                Set<String> sRoom = new HashSet<String>();
-                for (String s : roomList) {
-                    Date d = pe.getFrom();
-                    do {
-                        ResDayObjectStateP p = rI.getR().getResState(s, d);
-                        assert p != null : LogT.getT().cannotBeNull();
-                        sRoom.add(p.getBookName());
-                        DateUtil.NextDay(d);
-                    } while (DateUtil.compareDate(d, pe.getTo()) < 0);
-                }
-                ISignal i = new ISignal() {
-
-                    @Override
-                    public void signal() {
-                        sy.signalDone();
-                    }
-                };
-                rCell.getbCache().readBooking(sRoom, i);
-            }
-        }
-
-        @Override
-        public void refresh(IDrawPartSeasonContext sData) {
-            rCell.setsData(sData);
-            Date from = sData.getD(sData.getFirstD());
-            Date to = sData.getD(sData.getLastD());
-            PeriodT pe = new PeriodT(from, to);
-            ISlotSignalContext sl = getSlContainer().getGetterContext(roomType,
-                    GetActionEnum.GetListData);
-            IDataListType dList = sl.getDataList();
-            List<String> roomList = new ArrayList<String>();
-            for (IVModelData v : dList.getList()) {
-                roomList.add(U.getRoomName(v));
-            }
-            // firstly re-read reservation data
-            rI.getR().readResObjectState(new ReadResParam(roomList, pe), sy);
-            rCache.createPriceCache(pe, new ReadResName(roomList, pe));
-        }
-
     }
 
     private class ReadPriceList implements RData.IVectorList<OfferPriceP> {
@@ -301,10 +220,20 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
 
     private class ReadOffer implements BackAbstract.IRunAction<OfferSeasonP> {
 
+        private class C implements ISetGWidget {
+
+            @Override
+            public void setW(IGWidget w) {
+                scrollW = w.getGWidget();
+                createPanel();
+            }
+        }
+
         @Override
         public void action(OfferSeasonP oP) {
             DrawSynch sy = new DrawSynch();
-            sCr = wFactory.getScrollSeason(new DrawC(sy), DateUtil.getToday());
+            sCr = wFactory.getScrollSeason(dRes.construct(sy, new C()),
+                    DateUtil.getToday());
             List<Date> dLine = CalendarTable.listOfDates(oP.getStartP(),
                     oP.getEndP(), PeriodType.byDay);
             coP = CreateTableSeason.createTable(oP, ConfigParam.getStartWeek());
@@ -384,7 +313,8 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
                 return U.getEmpty();
             }
             SafeHtmlBuilder b = new SafeHtmlBuilder();
-            Date da = rCell.getsData().getD(i + rCell.getsData().getFirstD());
+            int no = i + rCell.getsData().getFirstD();
+            Date da = rCell.getsData().getD(no);
             Date todayD = rCell.getsData().getTodayC();
             boolean today = DateUtil.eqDate(da, todayD);
             String na = SeasonUtil.getDateName(da);
@@ -688,6 +618,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         priceS = f.getPLabel();
         rCache = new ResServicesCache(seasonE, priceE);
         rCell = new GetResCell(rCache, new BookingResCache());
+        dRes = new DrawResPanel(roomType, this, rI, rCell, rCache);
         iList = tFactories.getlDataFactory().construct(roomType, rCell, false,
                 true);
         IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()
