@@ -158,8 +158,7 @@ public class TableSeasonPrice {
      */
     public List<PaymentRowP> getPriceRowsInOut(final String service,
             final Date checkIn, final Date checkOut, RowDetailLevel dLevel) {
-        Date d = DateUtil.copyDate(checkOut);
-        DateUtil.PrevDay(d);
+        Date d = DateUtil.PrevDayD(checkOut);
         List<PaymentRowP> pList = getPriceRows(service, checkIn, d);
         if (dLevel == RowDetailLevel.perPeriod) {
             return pList;
@@ -175,8 +174,7 @@ public class TableSeasonPrice {
                 p.setCustomerRate(pa.getCustomerRate());
                 p.setOfferRate(pa.getOfferRate());
                 aList.add(p);
-                dstart = DateUtil.copyDate(dstart);
-                DateUtil.NextDay(dstart);
+                dstart = DateUtil.NextDayD(dstart);
             } while (DateUtil.compareDate(dstart, pa.getRowTo()) != 1);
         }
         return aList;
