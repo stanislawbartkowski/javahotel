@@ -20,7 +20,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.daytimeline.DaySeasonScrollData;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.table.IGetCellValue;
@@ -28,11 +28,14 @@ import com.javahotel.client.IResLocator;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.DataUtil;
 import com.javahotel.common.command.BookingStateType;
+import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.toobject.BookingP;
+import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.PaymentRowP;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
+import com.javahotel.types.LId;
 
 /**
  * Procedure providing data for reservation columns.
@@ -82,6 +85,21 @@ class GetResCell implements IGetCellValue {
 
     }
 
+    private String getResName(BookingP p) {
+        if (!CUtil.EmptyS(p.getDescription())) {
+            return p.getDescription();
+        }
+        LId l = p.getCustomer();
+        CustomerP cu = bCache.getCustomer(l);
+        if (!CUtil.EmptyS(cu.getDescription())) {
+            return cu.getDescription();
+        }
+        if (cu.getCType() == CustomerType.Person) {
+            return cu.getFirstName() + " " + cu.getLastName();
+        }
+        return cu.getName() + " " + cu.getName1() + " " + cu.getName2();
+    }
+
     /**
      * Get value for reservation column
      */
@@ -97,10 +115,11 @@ class GetResCell implements IGetCellValue {
         SafeHtmlBuilder b = new SafeHtmlBuilder();
         if (U.isBooked(staT)) {
             // cell booked
-//            String ss = DateFormatUtil.toS(p.getD());
+            // String ss = DateFormatUtil.toS(p.getD());
             BookingP book = bCache.getBooking(p.getBookName());
             assert book != null : LogT.getT().cannotBeNull();
-            b.appendEscaped(book.getDescription());
+            String na = getResName(book);
+            b.appendEscaped(na);
         } else {
             // cell not booked - display price info
             List<ServiceDictionaryP> sLi = rCache.getServices(res);
@@ -161,6 +180,5 @@ class GetResCell implements IGetCellValue {
     public BookingResCache getbCache() {
         return bCache;
     }
-    
-    
+
 }

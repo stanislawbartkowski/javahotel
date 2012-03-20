@@ -40,8 +40,7 @@ public class DUtil {
      * @return String with info
      */
     public static String getLodgingS(final Date from, final Date to) {
-        Date d1 = DateUtil.copyDate(to);
-        DateUtil.NextDay(d1);
+        Date d1 = DateUtil.NextDayD(to);
         String s = DateFormatUtil.toS(from);
         String s1 = DateFormatUtil.toS(d1);
         String st = "Nocleg : " + s + " - " + s1;
@@ -58,8 +57,7 @@ public class DUtil {
      * @return String with info
      */
     public static String getBookingS(final Date from, final Date to) {
-        Date d1 = DateUtil.copyDate(to);
-        DateUtil.NextDay(d1);
+        Date d1 = DateUtil.NextDayD(to);
         String s = DateFormatUtil.toS(from);
         String s1 = DateFormatUtil.toS(d1);
         String st = "Rezerwacja, przyjazd : " + s + " wyjazd:" + s1;
