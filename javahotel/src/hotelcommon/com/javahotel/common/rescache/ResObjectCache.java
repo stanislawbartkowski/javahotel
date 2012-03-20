@@ -30,13 +30,12 @@ import com.javahotel.common.dateutil.RunPeriodLoop;
 import com.javahotel.common.toobject.ResDayObjectStateP;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class ResObjectCache {
 
-    private final Map<HKey, ResDayObjectStateP> hM =
-            new HashMap<HKey, ResDayObjectStateP>();
+    private final Map<HKey, ResDayObjectStateP> hM = new HashMap<HKey, ResDayObjectStateP>();
 
     public void invalidate() {
         hM.clear();
@@ -81,7 +80,7 @@ public class ResObjectCache {
                             pp = new ResDayObjectStateP();
                             pp.setFree();
                             pp.setResObject(s);
-                            pp.setD(DateUtil.copyDate(d));
+                            pp.setD(d);
                             setS(pp);
                         }
                     }
@@ -97,6 +96,7 @@ public class ResObjectCache {
 
         void setResState(ResDayObjectStateP p);
     }
+
     private final IReadResData iRead;
 
     private class HKey {
@@ -149,7 +149,8 @@ public class ResObjectCache {
 
     private boolean isCovered(final Date dFrom, final Date dTo,
             final Set<String> resList) {
-        List<Date> dLine = CalendarTable.listOfDates(dFrom, dTo, PeriodType.byDay);
+        List<Date> dLine = CalendarTable.listOfDates(dFrom, dTo,
+                PeriodType.byDay);
         for (String s : resList) {
             for (Date d : dLine) {
                 if (getS(s, d) == null) {
@@ -234,8 +235,7 @@ public class ResObjectCache {
         return mm;
     }
 
-    private ReadResParam modifResParam(final ReadResParam rP,
-            final MinMax mD) {
+    private ReadResParam modifResParam(final ReadResParam rP, final MinMax mD) {
         if (mD == null) {
             return rP;
         }
@@ -256,11 +256,9 @@ public class ResObjectCache {
             return rP;
         }
         if (c1 == -1) {
-            dTo = DateUtil.copyDate(mD.min);
-            DateUtil.PrevDay(dTo);
+            dTo = DateUtil.PrevDayD(mD.min);
         } else {
-            dFrom = DateUtil.copyDate(mD.max);
-            DateUtil.NextDay(dFrom);
+            dFrom = DateUtil.NextDayD(mD.max);
         }
         int c5 = DateUtil.compareDate(dFrom, dTo);
         if (c5 == 1) {
@@ -324,8 +322,7 @@ public class ResObjectCache {
     }
 
     public List<ResDayObjectStateP> isConflict(final ResObjectElem res) {
-        final List<ResDayObjectStateP> out =
-                new ArrayList<ResDayObjectStateP>();
+        final List<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
         RunPeriodLoop re = new RunPeriodLoop() {
 
             @Override
@@ -341,10 +338,8 @@ public class ResObjectCache {
         return out;
     }
 
-    public List<ResDayObjectStateP> isConflict(
-            final List<ResObjectElem> res) {
-        final List<ResDayObjectStateP> out =
-                new ArrayList<ResDayObjectStateP>();
+    public List<ResDayObjectStateP> isConflict(final List<ResObjectElem> res) {
+        final List<ResDayObjectStateP> out = new ArrayList<ResDayObjectStateP>();
         for (ResObjectElem e : res) {
             List<ResDayObjectStateP> p = isConflict(e);
             out.addAll(p);
