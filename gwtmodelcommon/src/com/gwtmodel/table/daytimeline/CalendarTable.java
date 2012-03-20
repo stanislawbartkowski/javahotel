@@ -19,7 +19,7 @@ import java.util.List;
 import com.gwtmodel.table.common.dateutil.DateUtil;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class CalendarTable {
@@ -33,8 +33,7 @@ public class CalendarTable {
     }
 
     private static boolean endOfMonth(final Date cal) {
-        Date d = DateUtil.copyDate(cal);
-        DateUtil.NextDay(d);
+        Date d = DateUtil.NextDayD(cal);
         int da = d.getDate();
         return da == 1;
     }
@@ -55,33 +54,33 @@ public class CalendarTable {
         return -1;
     }
 
-    public static List<Date> listOfDates(final Date first,
-            final Date last, final PeriodType pType) {
+    public static List<Date> listOfDates(final Date first, final Date last,
+            final PeriodType pType) {
         // get beginning of first week
-        Date actC = DateUtil.copyDate(first);
+        Date actC = first;
         List<Date> cDays = new ArrayList<Date>();
         boolean ladded = false;
 
         while (DateUtil.compareDate(actC, last) != 1) {
             boolean addd = false;
             switch (pType) {
-                case byMonth:
-                    addd = endOfMonth(actC);
-                    break;
-                case byWeek:
-                    addd = endOfWeek(actC);
-                    break;
-                case byDay:
-                    addd = true;
-                    break;
+            case byMonth:
+                addd = endOfMonth(actC);
+                break;
+            case byWeek:
+                addd = endOfWeek(actC);
+                break;
+            case byDay:
+                addd = true;
+                break;
             }
             if (addd) {
-                cDays.add(DateUtil.copyDate(actC));
+                cDays.add(actC);
                 if (DateUtil.eqDate(actC, last)) {
                     ladded = true;
                 }
             }
-            DateUtil.NextDay(actC);
+            actC = DateUtil.NextDayD(actC);
         }
         if (!ladded) {
             cDays.add(last);

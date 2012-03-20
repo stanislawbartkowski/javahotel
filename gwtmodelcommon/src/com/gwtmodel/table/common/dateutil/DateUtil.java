@@ -34,10 +34,12 @@ public class DateUtil {
      * @param d
      *            Date input and output (next day)
      */
-    public static void NextDay(final Date d) {
+    public static Date NextDayD(final Date di) {
+        Date d = copyDate(di);
         long ti = d.getTime();
         ti += DAY_IN_MILISECONDS;
         d.setTime(ti);
+        return d;
     }
 
     /**
@@ -46,10 +48,12 @@ public class DateUtil {
      * @param d
      *            Data input and output (previous day)
      */
-    public static void PrevDay(final Date d) {
+    public static Date PrevDayD(final Date di) {
+        Date d = copyDate(di);
         long ti = d.getTime();
         ti -= DAY_IN_MILISECONDS;
         d.setTime(ti);
+        return d;
     }
 
     /**
@@ -59,7 +63,7 @@ public class DateUtil {
      *            Date (source)
      * @return Date copy of source
      */
-    public static Date copyDate(final Date d) {
+    private static Date copyDate(final Date d) {
         return new Date(d.getTime());
     }
 
@@ -234,11 +238,13 @@ public class DateUtil {
         return d.getD();
     }
 
-    public static void addDays(final Date d, int noD) {
+    public static Date addDaysD(final Date di, int noD) {
+        Date d = copyDate(di);
         while (noD > 0) {
-            NextDay(d);
+            d = NextDayD(d);
             noD--;
         }
+        return d;
     }
 
     public static PeriodT getWider(final PeriodT pe, final PeriodT pe1) {
