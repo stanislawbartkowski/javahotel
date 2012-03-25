@@ -12,10 +12,9 @@
  */
 package com.gwtmodel.table.view.daytimetable.impl;
 
-import java.util.Date;
-
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
+import java.util.Date;
 
 
 /**

@@ -12,18 +12,7 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import com.google.gwt.cell.client.ActionCell;
-import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.DateCell;
-import com.google.gwt.cell.client.DatePickerCell;
-import com.google.gwt.cell.client.NumberCell;
-import com.google.gwt.cell.client.SelectionCell;
-import com.google.gwt.cell.client.TextInputCell;
-import com.google.gwt.cell.client.ValueUpdater;
+import com.google.gwt.cell.client.*;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -42,6 +31,9 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author hotel

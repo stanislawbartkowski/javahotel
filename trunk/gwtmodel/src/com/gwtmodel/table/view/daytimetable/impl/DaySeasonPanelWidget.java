@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.view.daytimetable.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -26,6 +23,8 @@ import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 

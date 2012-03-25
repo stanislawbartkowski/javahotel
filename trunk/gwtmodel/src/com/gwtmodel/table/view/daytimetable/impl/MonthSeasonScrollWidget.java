@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.view.daytimetable.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -27,6 +24,8 @@ import com.gwtmodel.table.daytimeline.PanelDesc;
 import com.gwtmodel.table.daytimeline.YearMonthPe;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.view.util.PopupTip;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 

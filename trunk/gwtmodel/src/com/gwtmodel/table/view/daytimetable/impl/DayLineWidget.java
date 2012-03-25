@@ -12,15 +12,14 @@
  */
 package com.gwtmodel.table.view.daytimetable.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.gwtmodel.table.daytimeline.DaySeasonScrollData;
 import com.gwtmodel.table.daytimeline.MoveSkip;
 import com.gwtmodel.table.daytimeline.PanelDesc;
 import com.gwtmodel.table.daytimeline.YearMonthPe;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -65,7 +64,7 @@ class DayLineWidget {
         return sData.getFirstD();
     }
 
-    private final void drawNames() {
+    private void drawNames() {
         dPart.refresh(iContext);
     }
 
