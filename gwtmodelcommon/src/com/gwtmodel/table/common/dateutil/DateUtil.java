@@ -12,9 +12,8 @@
  */
 package com.gwtmodel.table.common.dateutil;
 
-import java.util.Date;
-
 import com.gwtmodel.table.common.PeriodT;
+import java.util.Date;
 
 /**
  * Utilities related to date methods

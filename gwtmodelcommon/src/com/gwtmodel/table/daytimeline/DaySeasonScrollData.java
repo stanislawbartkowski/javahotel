@@ -12,10 +12,9 @@
  */
 package com.gwtmodel.table.daytimeline;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import java.util.Date;
 import java.util.List;
-
-import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 /**
  * 
