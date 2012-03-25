@@ -12,10 +12,6 @@
  */
 package com.gwtmodel.table.view.daytimetable.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IGFocusWidget;
@@ -30,6 +26,9 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 

@@ -12,13 +12,12 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVFieldSetFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVFieldSetFactory;
 
 /**
  * @author hotel
