@@ -63,9 +63,6 @@ public class CellId {
     public CellId constructNext(IDataType publishType) {
         int nId = subId + 1;
         CellId i;
-        if (mainS != null) {
-            i = new CellId(mainS, nId);
-        }
         i = new CellId(mainId, nId);
         i.dType = publishType;
         return i;

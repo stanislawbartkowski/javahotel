@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.panelview;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
@@ -20,6 +21,7 @@ import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
 import com.gwtmodel.table.view.panel.IGwtPanelView;
+import com.gwtmodel.table.view.util.CreateFormView;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,25 +30,34 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     private class PanelRowCell {
 
         private final int rowNo, cellNo;
+        private final String cellId;
 
-        PanelRowCell(int rowNo, int cellNo) {
+        PanelRowCell(int rowNo, int cellNo, String cellId) {
             this.rowNo = rowNo;
             this.cellNo = cellNo;
+            this.cellId = cellId;
         }
 
-        public int getRowNo() {
+        int getRowNo() {
             return rowNo;
         }
 
-        public int getCellNo() {
+        int getCellNo() {
             return cellNo;
+        }
+
+        /**
+         * @return the cellId
+         */
+        String getCellId() {
+            return cellId;
         }
     }
     private final Map<CellId, PanelRowCell> colM = new HashMap<CellId, PanelRowCell>();
     private CellId panelId;
     private IGwtPanelView pView;
     private final GwtPanelViewFactory gFactory;
-    private GWidget htmlWidget;
+    private HTMLPanel htmlWidget;
     private final SlotSignalContextFactory slFactory;
 
     PanelView(GwtPanelViewFactory gFactory, SlotSignalContextFactory slFactory,
@@ -66,12 +77,22 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     }
 
     @Override
-    public CellId addCellPanel(IDataType publishType, int row, int col) {
-        PanelRowCell pa = new PanelRowCell(row, col);
+    public CellId addCellPanel(int row, int col, String cellId) {
+        return addCellPanel(null, row, col, cellId);
+    }
+
+    @Override
+    public CellId addCellPanel(IDataType publishType, int row, int col, String cellId) {
+        PanelRowCell pa = new PanelRowCell(row, col, cellId);
         CellId nextId = panelId.constructNext(publishType);
         panelId = nextId;
         colM.put(nextId, pa);
         return nextId;
+    }
+
+    @Override
+    public CellId addCellPanel(IDataType publishType, int row, int col) {
+        return addCellPanel(null, row, col, null);
     }
 
     private class SetWidget implements ISlotListener {
@@ -83,7 +104,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             PanelRowCell pa = colM.get(cellId);
             assert pa != null : LogT.getT().CellShouldBeRegistered();
             IGWidget gwtWidget = slContext.getGwtWidget();
-            pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getGWidget());
+            if (htmlWidget == null) {
+                pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getGWidget());
+            } else {
+                String id = pa.cellId;
+                assert id != null : LogT.getT().CellCannotBeNull();
+                CreateFormView.replace(htmlWidget, id, gwtWidget.getGWidget());
+            }
         }
     }
 
@@ -92,38 +119,52 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             ISlotSignalContext sl = slFactory.construct(slContext.getSlType(),
-                    htmlWidget);
+                    new GWidget(htmlWidget));
             return sl;
         }
     }
 
+//    @Override
+//    public void createView(String html) {
+//        if (html == null) {
+//            createView();
+//            return;
+//        }
+//        htmlWidget = new HTMLPanel(html);
+//        ISlotCallerListener c = new GetHtml();
+//        for (CellId i : colM.keySet()) {
+//            SlotType sl = slTypeFactory.constructH(i);
+//            registerCaller(sl, c);
+//        }
+//    }
     @Override
-    public void createView(String html) {
-        if (html == null) {
-            createView();
-            return;
-        }
-        htmlWidget = new GWidget(html);
-        ISlotCallerListener c = new GetHtml();
-        for (CellId i : colM.keySet()) {
-            SlotType sl = slTypeFactory.constructH(i);
-            registerCaller(sl, c);
-        }
+    public void createView() {
+        createView(null);
     }
 
     @Override
-    public void createView() {
-        int maxR = 0;
-        int maxC = 0;
-        for (CellId i : colM.keySet()) {
-            PanelRowCell ro = colM.get(i);
-            maxR = MaxI.max(maxR, ro.getRowNo());
-            maxC = MaxI.max(maxC, ro.getCellNo());
+    public void createView(String html) {
+        ISlotCallerListener c = null;
+        if (html == null) {
+            int maxR = 0;
+            int maxC = 0;
+            for (CellId i : colM.keySet()) {
+                PanelRowCell ro = colM.get(i);
+                maxR = MaxI.max(maxR, ro.getRowNo());
+                maxC = MaxI.max(maxC, ro.getCellNo());
+            }
+            pView = gFactory.construct(maxR + 1, maxC + 1);
+        } else {
+            htmlWidget = new HTMLPanel(html);
+            c = new GetHtml();
         }
-        pView = gFactory.construct(maxR + 1, maxC + 1);
         // create subscribers
         for (CellId ii : colM.keySet()) {
             registerSubscriber(dType, ii, new SetWidget());
+            if (c != null) {
+                SlotType sl = slTypeFactory.constructH(ii);
+                registerCaller(sl, c);
+            }
         }
         // create publisher
     }
@@ -137,7 +178,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             publishType = cellId.getdType();
         }
         if (htmlWidget != null) {
-            publish(publishType, cellId, htmlWidget);
+            publish(publishType, cellId, new GWidget(htmlWidget));
         } else {
             publish(publishType, cellId, pView);
         }

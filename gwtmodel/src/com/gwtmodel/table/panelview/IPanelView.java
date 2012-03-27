@@ -20,11 +20,14 @@ public interface IPanelView extends ISlotable {
 
     CellId addCellPanel(int row, int col);
 
+    CellId addCellPanel(int row, int col, String cellId);
+
     CellId addCellPanel(IDataType publishType, int row, int col);
+
+    CellId addCellPanel(IDataType publishType, int row, int col, String cellId);
 
     void createView();
 
     void createView(String html);
-    
     int CUSTOMID = 1000;
 }

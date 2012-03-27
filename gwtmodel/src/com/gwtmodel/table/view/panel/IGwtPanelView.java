@@ -15,9 +15,7 @@ package com.gwtmodel.table.view.panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
 
-
 public interface IGwtPanelView extends IGWidget {
-    
-    void setWidget(int row,int col, Widget w);
 
+    void setWidget(int row, int col, Widget w);
 }
