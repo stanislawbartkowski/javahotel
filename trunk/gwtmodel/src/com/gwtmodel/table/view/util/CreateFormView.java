@@ -12,20 +12,15 @@
  */
 package com.gwtmodel.table.view.util;
 
-import java.util.List;
-import java.util.Set;
-
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class CreateFormView {
 
