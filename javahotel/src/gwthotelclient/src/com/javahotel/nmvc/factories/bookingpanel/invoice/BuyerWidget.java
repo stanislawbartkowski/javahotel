@@ -20,7 +20,7 @@ import java.util.Map.Entry;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.datamodelview.SignalChangeMode;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
 import com.gwtmodel.table.editc.IChangeObject;

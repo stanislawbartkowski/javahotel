@@ -18,7 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;

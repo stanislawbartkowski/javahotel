@@ -19,7 +19,7 @@ import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
@@ -46,30 +46,30 @@ import com.javahotel.nmvc.factories.persist.dict.IPersistResult;
 
 public class DataPersistLayer extends AbstractPersistLayer {
 
-    private IDataListType convertToLogin(IDataListType dataList) {
-        List<IVModelData> li = new ArrayList<IVModelData>();
-        for (IVModelData v : dataList.getList()) {
-            HModelData vda = (HModelData) v;
-            PersonP pe = (PersonP) vda.getA();
-            LoginData lo = new LoginData();
-            String name = pe.getName();
-            lo.setF(new LoginField(LoginField.F.LOGINNAME), name);
-            li.add(lo);
-        }
-        return DataListTypeFactory.construct(li);
-    }
+//    private IDataListType convertToLogin(IDataListType dataList) {
+//        List<IVModelData> li = new ArrayList<IVModelData>();
+//        for (IVModelData v : dataList.getList()) {
+//            HModelData vda = (HModelData) v;
+//            PersonP pe = (PersonP) vda.getA();
+//            LoginData lo = new LoginData();
+//            String name = pe.getName();
+//            lo.setF(new LoginField(LoginField.F.LOGINNAME), name);
+//            li.add(lo);
+//        }
+//        return DataListTypeFactory.construct(li);
+//    }
 
-    private class ReadListDict implements IVectorList<AbstractTo> {
-
-        @Override
-        public void doVList(final List<AbstractTo> val) {
-            IDataListType dataList = DataUtil.construct(val);
-            if (da.isAllPersons()) {
-                dataList = convertToLogin(dataList);
-            }
-            publish(dType, DataActionEnum.ListReadSuccessSignal, dataList);
-        }
-    }
+//    private class ReadListDict implements IVectorList<AbstractTo> {
+//
+//        @Override
+//        public void doVList(final List<AbstractTo> val) {
+//            IDataListType dataList = DataUtil.construct(val);
+//            if (da.isAllPersons()) {
+//                dataList = convertToLogin(dataList);
+//            }
+//            publish(dType, DataActionEnum.ListReadSuccessSignal, dataList);
+//        }
+//    }
 
     private class PersistRecord implements ISlotListener {
 
@@ -163,26 +163,26 @@ public class DataPersistLayer extends AbstractPersistLayer {
         }
     }
 
-    private class ReadList implements ISlotListener {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            CommandParam co = rI.getR().getHotelCommandParam();
-
-            if (da.isDictType()) {
-                co.setDict(da.getdType());
-                rI.getR().getList(RType.ListDict, co, new ReadListDict());
-            } else {
-                rI.getR().getList(da.getrType(), co, new ReadListDict());
-            }
-        }
-    }
+//    private class ReadList implements ISlotListener {
+//
+//        @Override
+//        public void signal(ISlotSignalContext slContext) {
+//            CommandParam co = rI.getR().getHotelCommandParam();
+//
+//            if (da.isDictType()) {
+//                co.setDict(da.getdType());
+//                rI.getR().getList(RType.ListDict, co, new ReadListDict());
+//            } else {
+//                rI.getR().getList(da.getrType(), co, new ReadListDict());
+//            }
+//        }
+//    }
 
     DataPersistLayer(IDataType dd, IResLocator rI,
             IHotelPersistFactory iPersistFactory) {
         super(dd, rI, iPersistFactory);
         // create subscribers - ReadList
-        registerSubscriber(dType, DataActionEnum.ReadListAction, new ReadList());
+//        registerSubscriber(dType, DataActionEnum.ReadListAction, new ReadList());
         if (da.isAllPersons() || da.isAllHotels()) {
             registerSubscriber(dType, DataActionEnum.PersistDataAction,
                     new SignalPersistPerson(iPersist));

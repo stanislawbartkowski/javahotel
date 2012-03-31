@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.login.LoginField;
 import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;

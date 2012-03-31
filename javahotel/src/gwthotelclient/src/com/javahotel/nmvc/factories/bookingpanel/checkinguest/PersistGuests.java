@@ -19,8 +19,8 @@ import java.util.Map;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;

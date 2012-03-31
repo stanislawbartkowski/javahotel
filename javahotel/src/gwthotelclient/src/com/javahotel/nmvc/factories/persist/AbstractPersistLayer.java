@@ -14,8 +14,8 @@ package com.javahotel.nmvc.factories.persist;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;

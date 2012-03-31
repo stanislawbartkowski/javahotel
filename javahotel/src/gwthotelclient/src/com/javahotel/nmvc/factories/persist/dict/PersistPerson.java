@@ -12,8 +12,8 @@
  */
 package com.javahotel.nmvc.factories.persist.dict;
 
-import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.abstractto.LoginRecord;
 import com.javahotel.client.types.DataUtil;

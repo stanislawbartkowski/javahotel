@@ -24,7 +24,7 @@ import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.factories.IDataPersistListAction;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
@@ -63,7 +63,7 @@ class PaymentRowDetails extends AbstractSlotContainer {
                 .getTableFactoriesContainer();
 
         // IDataPersistAction persistA = new DataPersistAction();
-        IDataPersistAction persistA = null;
+        IDataPersistListAction persistA = null;
         IHeaderListContainer heList = fContainer.getHeaderListFactory()
                 .construct(dType);
         IDataModelFactory dataFactory = fContainer.getDataModelFactory();

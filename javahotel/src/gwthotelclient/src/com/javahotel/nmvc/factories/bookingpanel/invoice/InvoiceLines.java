@@ -36,7 +36,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
-import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.factories.IDataPersistListAction;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
@@ -217,7 +217,7 @@ class InvoiceLines extends AbstractSlotContainer {
     }
 
     private class PersistClass extends AbstractSlotContainer implements
-            IDataPersistAction {
+            IDataPersistListAction {
 
         private class ReadList implements ISlotListener {
 

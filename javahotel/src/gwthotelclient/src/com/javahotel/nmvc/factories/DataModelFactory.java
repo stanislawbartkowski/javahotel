@@ -14,7 +14,7 @@ package com.javahotel.nmvc.factories;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.rdef.FormLineContainer;

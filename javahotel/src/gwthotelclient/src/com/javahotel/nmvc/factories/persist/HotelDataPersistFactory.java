@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.factories.IDataPersistListAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.types.DataType;
@@ -45,6 +46,11 @@ public class HotelDataPersistFactory implements IPersistFactoryAction {
             return new InvoicePersistLayer(dType, rI, iPersistFactory);
         }
         return new DataPersistLayer(dType, rI, iPersistFactory);
+    }
+
+    @Override
+    public IDataPersistListAction constructL(IDataType dType) {
+        return new DataPersistList(dType, rI);
     }
 
 }

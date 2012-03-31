@@ -15,8 +15,8 @@ package com.javahotel.nmvc.factories.bookingpanel.checkinguest;
 import java.util.List;
 
 import com.gwtmodel.table.IGetSetVField;
-import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
 import com.gwtmodel.table.editc.IChangeObject;
 import com.gwtmodel.table.editc.IEditChooseRecordContainer;
