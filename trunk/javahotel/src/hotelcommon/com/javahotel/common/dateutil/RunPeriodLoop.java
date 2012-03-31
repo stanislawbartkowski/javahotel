@@ -14,8 +14,11 @@ package com.javahotel.common.dateutil;
 
 import java.util.Date;
 
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateUtil;
+
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public abstract class RunPeriodLoop {
@@ -23,7 +26,8 @@ public abstract class RunPeriodLoop {
     protected abstract void visit(Date d);
 
     public void run(final PeriodT pe) {
-        Date d = DateUtil.copyDate(pe.getFrom());
+        // Date d = DateUtil.copyDate(pe.getFrom());
+        Date d = pe.getFrom();
         visit(d);
         if (pe.getTo() == null) {
             return;
@@ -32,9 +36,8 @@ public abstract class RunPeriodLoop {
             if (DateUtil.eqDate(d, pe.getTo())) {
                 break;
             }
-            DateUtil.NextDay(d);
+            d = DateUtil.NextDayD(d);
             visit(d);
         }
     }
 }
-
