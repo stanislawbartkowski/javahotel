@@ -68,7 +68,8 @@ public class DateFormatUtil {
         return s;
     }
 
-    public static String toTS(final Timestamp d) {
+    // TODO: remove
+    private static String toTS(final Timestamp d) {
         if (d == null) {
             return "";
         }
@@ -108,6 +109,7 @@ public class DateFormatUtil {
 
     }
 
+    // TODO: remove
     private static boolean setM(final Date dd, final String ss) {
         String a[] = ss.split(":");
         if (a.length != 3) {
@@ -141,6 +143,7 @@ public class DateFormatUtil {
         return d;
     }
 
+    // TODO: remove
     private static void toD(Date dd, int y, int m, int d) {
         dd.setYear(y - 1900);
         dd.setMonth(m - 1);
@@ -151,13 +154,15 @@ public class DateFormatUtil {
         dd.setSeconds(DateP.DEFS);
     }
 
-    public static Date toD(int y, int m, int d) {
+    // TODO: remove
+    private static Date toD(int y, int m, int d) {
         Date dd = new Date();
         toD(dd, y, m, d);
         return dd;
     }
 
-    public static Timestamp toT(final String s) {
+    // TODO remove
+    private static Timestamp toT(final String s) {
         String a[] = s.split(" ");
         if ((a.length == 0) || (a.length > 2)) {
             return null;
