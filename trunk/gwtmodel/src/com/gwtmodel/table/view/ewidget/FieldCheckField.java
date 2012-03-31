@@ -25,9 +25,12 @@ class FieldCheckField extends AbstractField {
     private final CheckBox ch;
 
     @SuppressWarnings("deprecation")
-    FieldCheckField(ITableCustomFactories tFactories, IVField v) {
+    FieldCheckField(ITableCustomFactories tFactories, IVField v, String text) {
         super(tFactories,v);
         ch = new CheckBox();
+        if (text != null) {
+          ch.setText(text);
+        }
         ch.setChecked(true);
         initWidget(ch);
     }

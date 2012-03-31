@@ -15,6 +15,7 @@ package com.gwtmodel.table.injector;
 import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
+import com.gwtmodel.table.factories.IDataPersistListAction;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IGetCustomValues;
@@ -164,6 +165,7 @@ public class WebPanelHolder {
                 IDataCrudModifButtonActionFactory crudModifButtonActionFactory) {
             this.crudModifButtonActionFactory = crudModifButtonActionFactory;
         }
+
     }
 
     public static enum TableType {

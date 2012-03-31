@@ -17,7 +17,7 @@ import com.gwtmodel.table.factories.*;
 
 public class DataListParam {
 
-    private final IDataPersistAction persistA;
+    private final IDataPersistListAction persistA;
     private final IHeaderListContainer heList;
     private final IDataModelFactory dataFactory;
     private final IFormTitleFactory formFactory;
@@ -30,7 +30,7 @@ public class DataListParam {
         return formFactory;
     }
 
-    public DataListParam(IDataType dType, IDataPersistAction persistA,
+    public DataListParam(IDataType dType, IDataPersistListAction persistA,
             IHeaderListContainer heList, IDataModelFactory dataFactory,
             IFormTitleFactory formFactory,
             IGetViewControllerFactory fControler,
@@ -59,7 +59,7 @@ public class DataListParam {
         return dType;
     }
 
-    public DataListParam(IDataType dType, IDataPersistAction persistA,
+    public DataListParam(IDataType dType, IDataPersistListAction persistA,
             IHeaderListContainer heList, IDataModelFactory dataFactory,
             IFormTitleFactory formFactory, IGetViewControllerFactory fControler) {
         this(dType, persistA, heList, dataFactory, formFactory, fControler,
@@ -78,7 +78,7 @@ public class DataListParam {
         return heList;
     }
 
-    public IDataPersistAction getPersistA() {
+    public IDataPersistListAction getPersistA() {
         return persistA;
     }
 

@@ -18,44 +18,14 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.view.util.CreateReadOnlyI;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class ValidateUtil {
-
-    private static class FormLineDataView implements IVModelData {
-        private final FormLineContainer fo;
-
-        FormLineDataView(FormLineContainer fo) {
-            this.fo = fo;
-        }
-
-        public Object getF(IVField fie) {
-            return fo.findLineView(fie).getValObj();
-        }
-
-        public void setF(IVField fie, Object o) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        public boolean isValid(IVField fie) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        public List<IVField> getF() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        public Object getCustomData() {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        public void setCustomData(Object o) {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-    };
 
     public static List<InvalidateMess> checkDate(IVModelData mData,
             IVField from, IVField to, boolean canBeEqual) {
@@ -80,7 +50,7 @@ public class ValidateUtil {
 
     public static List<InvalidateMess> checkDate(FormLineContainer fo,
             IVField from, IVField to, boolean canBeEqual) {
-        IVModelData mData = new FormLineDataView(fo);
+        IVModelData mData = CreateReadOnlyI.contructReadonlyVModel(fo);
         return checkDate(mData, from, to, canBeEqual);
     }
 
@@ -107,7 +77,7 @@ public class ValidateUtil {
 
     public static List<InvalidateMess> checkEmpty(final FormLineContainer fo,
             List<IVField> listMFie) {
-        IVModelData mData = new FormLineDataView(fo);
+        IVModelData mData = CreateReadOnlyI.contructReadonlyVModel(fo);
         return checkEmpty(mData, listMFie, new HashSet<IVField>());
     }
 

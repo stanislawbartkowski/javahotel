@@ -12,21 +12,37 @@
  */
 package com.gwtmodel.table.view.util;
 
-import com.google.gwt.user.client.ui.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
 
 public class CreateFormView {
 
     private CreateFormView() {
     }
 
+    /**
+     * Inserts one position into HTML panel. Do nothing if position not found
+     * 
+     * @param ha
+     *            HTMLpanel
+     * @param htmlId
+     *            Position id inside HTML
+     * @param w
+     *            Widget to insert Important: do nothing if position not found
+     */
     public static void replace(HTMLPanel ha, String htmlId, Widget w) {
         try {
             w.getElement().setId(htmlId);
@@ -64,8 +80,18 @@ public class CreateFormView {
         return setHtml(pa, fList);
     }
 
+    /**
+     * Creates widget grid for list of form (enter) fields
+     * 
+     * @param fList
+     *            List of fields
+     * @param add
+     *            if not null contains set of fields for add (ignore the others)
+     * @return Grid created
+     */
     public static Grid construct(final List<FormField> fList, Set<IVField> add) {
 
+        // number of rows
         int rows = 0;
         for (FormField d : fList) {
             IVField v = d.getFie();
@@ -91,14 +117,14 @@ public class CreateFormView {
                     continue;
                 }
             }
-            FormField fRange = null;
+            // FormField fRange = null;
+            List<FormField> fRange = new ArrayList<FormField>();
             for (FormField fo : fList) {
                 if (!fo.isRange()) {
                     continue;
                 }
                 if (fo.getFRange().eq(d.getFie())) {
-                    fRange = fo;
-                    break;
+                    fRange.add(fo);
                 }
             }
             Label la = new Label(d.getPLabel());
@@ -107,7 +133,7 @@ public class CreateFormView {
             }
             Widget w1;
             Widget w2;
-            if (fRange == null) {
+            if (fRange.isEmpty()) {
                 w1 = la;
                 w2 = d.getELine().getGWidget();
             } else {
@@ -116,10 +142,14 @@ public class CreateFormView {
                 vp1.add(la);
                 vp2.add(d.getELine().getGWidget());
                 w1 = vp1;
-                Label la2 = new Label(" - ");
-                vp2.add(la2);
-                vp2.add(fRange.getELine().getGWidget());
                 w2 = vp2;
+                for (FormField f : fRange) {
+                    if (f.getPLabel() != null) {
+                        Label la2 = new Label(f.getPLabel());
+                        vp2.add(la2);
+                    }
+                    vp2.add(f.getELine().getGWidget());
+                }
             }
             g.setWidget(rows, 0, w1);
             g.setWidget(rows, 1, w2);

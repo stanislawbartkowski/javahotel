@@ -41,8 +41,8 @@ public class EditWidgetFactory {
                 false, false, false, false, false, null));
     }
 
-    public IFormLineView constructCheckField(IVField v) {
-        return new FieldCheckField(tFactories, v);
+    public IFormLineView constructCheckField(IVField v, String text) {
+        return new FieldCheckField(tFactories, v, text);
     }
 
     public IFormLineView constructListValuesCombo(IVField v, IDataType dType) {
@@ -63,7 +63,8 @@ public class EditWidgetFactory {
     }
 
     private ExtendTextBox.EParam newE(boolean password, boolean area) {
-        return new ExtendTextBox.EParam(password, area, false, false, false, null);
+        return new ExtendTextBox.EParam(password, area, false, false, false,
+                null);
     }
 
     public IFormLineView constructPasswordField(IVField v) {
@@ -120,7 +121,10 @@ public class EditWidgetFactory {
     }
 
     public IFormLineView constructListValuesHelp(IVField v, IDataType dType) {
-        return new ListFieldWithHelp(tFactories, v, dType,
+        return new ListFieldWithHelp(
+                tFactories,
+                v,
+                dType,
                 new ExtendTextBox.EParam(false, false, true, false, false, null));
     }
 
@@ -131,7 +135,8 @@ public class EditWidgetFactory {
     }
 
     private ExtendTextBox.EParam newC(boolean cEnable) {
-        return new ExtendTextBox.EParam(false, false, false, true, cEnable, null);
+        return new ExtendTextBox.EParam(false, false, false, true, cEnable,
+                null);
     }
 
     public IFormLineView constructTextCheckEdit(IVField v, boolean checkenable) {
@@ -154,7 +159,8 @@ public class EditWidgetFactory {
         return new ComboBoxField(tFactories, v, createVals(ma));
     }
 
-    public IFormLineView constructListCombo(IVField v, List<String> ma, boolean addEmpty) {
+    public IFormLineView constructListCombo(IVField v, List<String> ma,
+            boolean addEmpty) {
         return new ComboBoxField(tFactories, v, createVals(ma), addEmpty);
     }
 
@@ -174,24 +180,24 @@ public class EditWidgetFactory {
             return fa.construct(v);
         }
         switch (v.getType().getType()) {
-            case DATE:
-                return construcDateBoxCalendar(v);
-            case INT:
-            case LONG:
-            case BIGDECIMAL:
-                if (v.getType().getLi() != null) {
-                    return constructListCombo(v);
-                }
-                return contructCalculatorNumber(v);
-            case ENUM:
-                return constructListComboEnum(v);
-            case BOOLEAN:
-                return constructCheckField(v);
-            default:
-                if (v.getType().getLi() != null) {
-                    return constructListCombo(v);
-                }
-                return constructTextField(v);
+        case DATE:
+            return construcDateBoxCalendar(v);
+        case INT:
+        case LONG:
+        case BIGDECIMAL:
+            if (v.getType().getLi() != null) {
+                return constructListCombo(v);
+            }
+            return contructCalculatorNumber(v);
+        case ENUM:
+            return constructListComboEnum(v);
+        case BOOLEAN:
+            return constructCheckField(v, null);
+        default:
+            if (v.getType().getLi() != null) {
+                return constructListCombo(v);
+            }
+            return constructTextField(v);
         }
 
     }

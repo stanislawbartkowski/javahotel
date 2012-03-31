@@ -14,6 +14,7 @@ package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.*;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;

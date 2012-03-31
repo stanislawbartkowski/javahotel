@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.*;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
 import com.gwtmodel.table.composecontroller.IComposeController;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;

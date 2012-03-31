@@ -39,6 +39,7 @@ public class FieldDataType {
 
     /**
      * Construct empty IGetCuctomValue interface
+     * 
      * @return IGetCustomValue - which does nothing
      */
     public static IGetCustomValue constructEmptyCustomValue() {
@@ -247,6 +248,9 @@ public class FieldDataType {
             }
         }
         return "unknown";
+    }
 
+    public boolean isBoolean() {
+        return type == T.BOOLEAN;
     }
 }

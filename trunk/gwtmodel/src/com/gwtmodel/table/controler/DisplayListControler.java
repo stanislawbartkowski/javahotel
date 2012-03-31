@@ -14,12 +14,16 @@ package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
-import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.factories.IDataPersistListAction;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.slotmodel.*;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
+import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 
 class DisplayListControler extends AbstractSlotMediatorContainer implements
         IDataControler {
@@ -31,7 +35,7 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
 
     DisplayListControler(DisplayListControlerParam cParam) {
         this.cParam = cParam;
-        IDataPersistAction persistA = cParam.getListParam().getPersistA();
+        IDataPersistListAction persistA = cParam.getListParam().getPersistA();
         IHeaderListContainer heList = cParam.getListParam().getHeList();
         // create panel View
         IPanelView pView = pViewFactory.construct(cParam.getdType(),
