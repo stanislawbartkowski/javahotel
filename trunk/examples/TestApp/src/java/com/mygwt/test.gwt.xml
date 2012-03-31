@@ -23,5 +23,6 @@
     <inherits name="com.google.gwt.http.HTTP"/>
     <inherits name="com.google.gwt.inject.Inject"/>
     <inherits name="com.gwtmodel.table" />
+    <inherits name="com.mygwt.common.testcommon" />
     <!-- Do not define servlets here, use web.xml -->
 </module>

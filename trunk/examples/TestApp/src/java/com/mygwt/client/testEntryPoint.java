@@ -41,6 +41,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.WebPanelHolder;
 import com.mygwt.client.impl.dayscroll.SeasonScrollTest;
+import com.mygwt.client.impl.find.FindFilterTest;
 import com.mygwt.client.impl.mail.MailOp;
 import com.mygwt.client.impl.mail.MailTest;
 import com.mygwt.client.impl.tiptest.TooltipTest;
@@ -156,12 +157,17 @@ public class testEntryPoint implements EntryPoint {
      */
     private void start(WebPanelHolder.TableType tType) {
 
-        IGetWidget g = (IGetWidget) new TooltipTest();
+        WebPanelHolder.setTableType(tType);
+
+        IGetWidget g = new TooltipTest();
         bList.add(new ButtonTest("Tooltip", g));
-        g = (IGetWidget) new MailTest();
-        bList.add(new ButtonTest("MailTest", g));
-        g = (IGetWidget) new SeasonScrollTest();
+        g = new MailTest();
+        bList.add(new ButtonTest("Mail Test", g));
+        g = new SeasonScrollTest();
         bList.add(new ButtonTest("ScrollControl", g));
+        g = new FindFilterTest();
+        bList.add(new ButtonTest("Find Test", g));
+
         VerticalPanel vB = new VerticalPanel();
 
         for (final ButtonTest bu : bList) {

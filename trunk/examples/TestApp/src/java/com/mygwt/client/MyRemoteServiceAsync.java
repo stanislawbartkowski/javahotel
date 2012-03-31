@@ -12,9 +12,13 @@
  */
 package com.mygwt.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.mailcommon.CListOfMailProperties;
 import com.gwtmodel.table.mailcommon.CMailToSend;
+import com.mygwt.common.data.TOItemRecord;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -24,4 +28,9 @@ public interface MyRemoteServiceAsync {
 	void getListOfMailBoxes(AsyncCallback<CListOfMailProperties> callback);
 
 	void sendMail(CMailToSend mail, AsyncCallback<String> callback);
+
+    void getItemList(AsyncCallback<List<TOItemRecord>> callback);
+
+    void ItemRecordOp(PersistTypeEnum op, TOItemRecord re,
+            AsyncCallback<Void> callback);
 }

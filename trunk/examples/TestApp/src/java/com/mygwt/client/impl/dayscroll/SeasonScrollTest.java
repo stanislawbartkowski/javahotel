@@ -45,6 +45,7 @@ public class SeasonScrollTest implements testEntryPoint.IGetWidget {
 
         @Override
         public void setW(IGWidget w) {
+            hP.clear();
             hP.add(w.getGWidget());
             hP.add(vP);
             vP.setBorderWidth(1);
