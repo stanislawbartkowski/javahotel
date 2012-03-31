@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.gwtmodel.table.common.dateutil.DateP;
 import com.gwtmodel.table.mapxml.IDataContainer;
-import com.javahotel.types.DateP;
 import com.javahotel.types.DecimalP;
 
 /**

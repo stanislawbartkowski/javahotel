@@ -15,7 +15,8 @@ package com.javahotel.common.toobject;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.javahotel.types.DateP;
+import com.gwtmodel.table.common.dateutil.DateP;
+
 
 /**
  * @author hotel
