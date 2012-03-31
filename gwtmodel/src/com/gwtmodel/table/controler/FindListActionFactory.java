@@ -12,7 +12,19 @@
  */
 package com.gwtmodel.table.controler;
 
-import com.gwtmodel.table.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gwtmodel.table.Empty;
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.FieldDataType;
+import com.gwtmodel.table.IClickYesNo;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
@@ -20,24 +32,34 @@ import com.gwtmodel.table.controler.DataListActionItemFactory.DrawForm;
 import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
-import com.gwtmodel.table.injector.*;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
-import com.gwtmodel.table.slotmodel.*;
+import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.view.util.CreateReadOnlyI;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 class FindListActionFactory {
@@ -107,7 +129,8 @@ class FindListActionFactory {
         }
 
         /**
-         * @param w the w to set
+         * @param w
+         *            the w to set
          */
         public void setW(IGWidget w) {
             this.w = w;
@@ -147,7 +170,8 @@ class FindListActionFactory {
                     }
                 }
             };
-            YesNoDialog yesDialog = new YesNoDialog(MM.getL().ClearParametersQuestion(), yes);
+            YesNoDialog yesDialog = new YesNoDialog(MM.getL()
+                    .ClearParametersQuestion(), yes);
             yesDialog.show(nF.w.getGWidget());
         }
     }
@@ -213,10 +237,55 @@ class FindListActionFactory {
     private void clearBoolean(List<FormField> li) {
         for (FormField f : li) {
             IVField fie = f.getFie();
+            FField fe = (FField) fie;
+            if (fe.isCheckField()) {
+                continue;
+            }
             if (fie.getType().getType() == FieldDataType.T.BOOLEAN) {
                 Boolean val = new Boolean(!f.isRange());
                 f.getELine().setValObj(val);
             }
+        }
+
+    }
+
+    private void modifCheck(IVModelData v, IVField from, IVField to,
+            IFormLineView icheck) {
+        boolean nullFrom = FUtils.isNullValue(v, from);
+        boolean nullTo = FUtils.isNullValue(v, to);
+        if (nullFrom || !nullTo) {
+            icheck.setReadOnly(true);
+            return;
+        }
+        icheck.setReadOnly(false);
+    }
+
+    private class Touch implements ITouchListener {
+
+        private final IVField from;
+        private final IVField to;
+        private final IFormLineView icheck;
+        private final List<FormField> liF;
+
+        @Override
+        public void onTouch() {
+            FormLineContainer fContainer = new FormLineContainer(liF);
+            IVModelData v = CreateReadOnlyI.contructReadonlyVModel(fContainer);
+            modifCheck(v, from, to, icheck);
+        }
+
+        /**
+         * @param from
+         * @param to
+         * @param icheck
+         * @param liF
+         */
+        Touch(IVField from, IVField to, IFormLineView icheck,
+                List<FormField> liF) {
+            this.from = from;
+            this.to = to;
+            this.icheck = icheck;
+            this.liF = liF;
         }
 
     }
@@ -237,13 +306,34 @@ class FindListActionFactory {
             if (found) {
                 continue;
             }
-            vLi.add(he.getFie());
-            IVField from = new FField(he.getFie(), true, he);
-            IVField to = new FField(he.getFie(), false, he);
+            IVField fe = he.getFie();
+            vLi.add(fe);
+            IVField from = new FField(fe, true, he, false);
+            IVField to = new FField(fe, false, he, false);
+            IVField check = new FField(fe, false, he, true);
+            IFormLineView icheck = null;
+            if (!fe.getType().isBoolean()) {
+                icheck = eFactory.constructCheckField(check, MM.getL()
+                        .EqualSign());
+                icheck.setValObj(new Boolean(true));
+                liF.add(new FormField(null, icheck, check, from));
+            }
             IFormLineView ifrom = eFactory.constructEditWidget(from);
             IFormLineView ito = eFactory.constructEditWidget(to);
             liF.add(new FormField(he.getHeaderString(), ifrom));
-            liF.add(new FormField(he.getHeaderString(), ito, to, from));
+            ITouchListener t = null;
+            if (icheck != null) {
+                liF.add(new FormField(null, icheck, check, from));
+                t = new Touch(from, to, icheck, liF);
+                ifrom.setOnTouch(t);
+                ito.setOnTouch(t);
+            }
+            liF.add(new FormField(null, ito, to, from));
+            // important: after adding (not before)
+            if (t != null) {
+                t.onTouch();
+            }
+
         }
         clearBoolean(liF);
         return liF;
@@ -310,12 +400,16 @@ class FindListActionFactory {
             }
 
             FormLineContainer fContainer = new FormLineContainer(liF);
-            IDataViewModel daView = vFactory.construct(eType, fContainer);
+            // 2012/03/30 : parameter added
+            IDataViewModel daView = vFactory.construct(eType, fContainer,
+                    listParam.getDataFactory());
             ListOfControlDesc bControl;
             if (isFilter()) {
-                bControl = tFactories.getControlButtonFactory().constructFilterButton();
+                bControl = tFactories.getControlButtonFactory()
+                        .constructFilterButton();
             } else {
-                bControl = tFactories.getControlButtonFactory().constructFindButton();
+                bControl = tFactories.getControlButtonFactory()
+                        .constructFindButton();
             }
 
             IControlButtonView bView = tFactories.getbViewFactory().construct(
@@ -353,26 +447,31 @@ class FindListActionFactory {
             slMediator.getSlContainer().registerSubscriber(eType,
                     ClickButtonType.StandClickEnum.RESIGN, aRes);
 
-            slMediator.getSlContainer().registerSubscriber(eType,
+            slMediator.getSlContainer().registerSubscriber(
+                    eType,
                     ClickButtonType.StandClickEnum.SETFILTER,
                     new SetFilter(slMediator, liF, dForm, li, publishSlo,
-                    publishdType, DataActionEnum.DrawListSetFilter,
-                    true, nF));
-            slMediator.getSlContainer().registerSubscriber(eType,
-                    ClickButtonType.StandClickEnum.FINDNOW,
-                    new SetFilter(slMediator, liF, dForm, li,
-                    publishSlo, publishdType,
-                    DataActionEnum.FindRowList, false, nF));
-            slMediator.getSlContainer().registerSubscriber(eType,
+                            publishdType, DataActionEnum.DrawListSetFilter,
+                            true, nF));
+            slMediator.getSlContainer()
+                    .registerSubscriber(
+                            eType,
+                            ClickButtonType.StandClickEnum.FINDNOW,
+                            new SetFilter(slMediator, liF, dForm, li,
+                                    publishSlo, publishdType,
+                                    DataActionEnum.FindRowList, false, nF));
+            slMediator.getSlContainer().registerSubscriber(
+                    eType,
                     ClickButtonType.StandClickEnum.FINDFROMBEGINNING,
                     new SetFilter(slMediator, liF, dForm, li, publishSlo,
-                    publishdType, DataActionEnum.FindRowBeginningList,
-                    false, nF));
-            slMediator.getSlContainer().registerSubscriber(eType,
+                            publishdType, DataActionEnum.FindRowBeginningList,
+                            false, nF));
+            slMediator.getSlContainer().registerSubscriber(
+                    eType,
                     ClickButtonType.StandClickEnum.FINDNEXT,
                     new SetFilter(slMediator, liF, dForm, li, publishSlo,
-                    publishdType, DataActionEnum.FindRowNextList,
-                    false, nF));
+                            publishdType, DataActionEnum.FindRowNextList,
+                            false, nF));
             slMediator.getSlContainer().registerSubscriber(eType,
                     ClickButtonType.StandClickEnum.REMOVEFILTER,
                     new RemoveFilter(dForm, publishSlo, publishdType));
@@ -388,14 +487,16 @@ class FindListActionFactory {
             slMediator.startPublish(panelId);
             if (!isFilter()) {
                 IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
-                ISignal iSig = new ISignal() {
+                if (wPanel != null) {
+                    ISignal iSig = new ISignal() {
 
-                    @Override
-                    public void signal() {
-                        dForm.hide();
-                    }
-                };
-                wPanel.setCentreHideSignal(iSig);
+                        @Override
+                        public void signal() {
+                            dForm.hide();
+                        }
+                    };
+                    wPanel.setCentreHideSignal(iSig);
+                }
             }
         }
     }

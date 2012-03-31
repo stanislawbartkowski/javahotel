@@ -12,29 +12,12 @@
  */
 package com.gwtmodel.table.factories;
 
+import com.gwtmodel.table.slotmodel.ISlotable;
+
 /**
+ * @author hotel
  * 
- * @author stanislaw.bartkowski@gmail.com
  */
-public interface ITableCustomFactories {
+public interface IDataPersistListAction extends ISlotable {
 
-    IFormTitleFactory getFormTitleFactory();
-
-    IPersistFactoryAction getPersistFactoryAction();
-
-    IHeaderListFactory getHeaderListFactory();
-
-    IDataModelFactory getDataModelFactory();
-
-    IDataValidateActionFactory getDataValidateFactory();
-
-    IGetViewControllerFactory getGetViewControllerFactory();
-
-    IGetCustomValues getGetCustomValues();
-
-    IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory();
-
-    IJavaMailActionFactory getJavaMailActionFactory();
-
-    IDataCrudModifButtonActionFactory getDataCrudModifButtonActionFactory();
 }

@@ -14,8 +14,8 @@ package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmodel.ClickButtonType;

@@ -13,6 +13,7 @@
 package com.gwtmodel.table;
 
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import java.math.BigDecimal;
@@ -278,7 +279,8 @@ public class FUtils {
             IVField from) {
         Date rD = getValueDate(row, f);
         Date fD = getValueDate(filter, from);
-        return fD.compareTo(rD);
+//        return fD.compareTo(rD);
+        return DateUtil.compareDate(fD, rD);
     }
 
     private static int compLong(IVModelData row, IVField f, IVModelData filter,
@@ -292,6 +294,13 @@ public class FUtils {
             IVModelData filter, IVField from) {
         BigDecimal rB = getValueBigDecimal(row, f);
         BigDecimal fB = getValueBigDecimal(filter, from);
+        return fB.compareTo(rB);
+    }
+
+    private static int compInteger(IVModelData row, IVField f,
+            IVModelData filter, IVField from) {
+        Integer rB = getValueInteger(row, f);
+        Integer fB = getValueInteger(filter, from);
         return fB.compareTo(rB);
     }
 
@@ -310,6 +319,9 @@ public class FUtils {
         }
         int comp;
         switch (f1.getType().getType()) {
+        case INT:
+            comp = compInteger(row1, f1, row2, f2);
+            break;
         case BIGDECIMAL:
             comp = compBigDecimal(row1, f1, row2, f2);
             break;
@@ -342,13 +354,22 @@ public class FUtils {
      *            Field in filtr container (from value)
      * @param to
      *            Field in filtr container (to value)
+     * @param checkE
+     *            Field in filtr keeping Boolean value for equality
      * @return true (holds true, inside filter) : false : outside
      */
     public static boolean inRange(IVModelData row, IVField f,
-            IVModelData filter, IVField from, IVField to) {
+            IVModelData filter, IVField from, IVField to, IVField checkE) {
         boolean emptyV = isNullValue(row, f);
         boolean emptyfrom = isNullValue(filter, from);
         boolean emptyto = isNullValue(filter, to);
+        boolean checkEqual = true;
+        if (checkE != null) {
+            Boolean checkN = getValueBoolean(filter, checkE);
+            if (checkN != null) {
+                checkEqual = checkN.booleanValue();
+            }
+        }
         if (emptyfrom && emptyto) {
             return true;
         }
@@ -359,6 +380,9 @@ public class FUtils {
         int compto = 0;
         if (!emptyfrom) {
             switch (f.getType().getType()) {
+            case INT:
+                compfrom = compInteger(row, f, filter, from);
+                break;
             case BIGDECIMAL:
                 compfrom = compBigDecimal(row, f, filter, from);
                 break;
@@ -381,6 +405,9 @@ public class FUtils {
             case BIGDECIMAL:
                 compto = compBigDecimal(row, f, filter, to);
                 break;
+            case INT:
+                compto = compInteger(row, f, filter, to);
+                break;
             case LONG:
                 compto = compLong(row, f, filter, to);
                 break;
@@ -400,7 +427,10 @@ public class FUtils {
             return (compfrom == 0 || compto == 0);
         }
         if (emptyto) {
-            return compfrom == 0;
+            if (checkEqual) {
+                return compfrom == 0;
+            }
+            return compfrom <= 0;
         }
         if (emptyfrom) {
             return true;

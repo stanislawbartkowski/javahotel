@@ -18,7 +18,7 @@ import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 
 /**
- *
+ * 
  * @author perseus
  */
 class FField implements IVField {
@@ -26,16 +26,21 @@ class FField implements IVField {
     private final IVField fie;
     private final boolean from;
     private final VListHeaderDesc v;
+    private final boolean checkField;
 
-    FField(IVField fie, boolean from, VListHeaderDesc v) {
+    FField(IVField fie, boolean from, VListHeaderDesc v, boolean checkField) {
         this.fie = fie;
         this.from = from;
         this.v = v;
+        this.checkField = checkField;
     }
 
     @Override
     public boolean eq(IVField o) {
         FField f = (FField) o;
+        if (checkField != f.isCheckField()) {
+            return false;
+        }
         if (isFrom() != f.isFrom()) {
             return false;
         }
@@ -65,6 +70,9 @@ class FField implements IVField {
 
     @Override
     public FieldDataType getType() {
+        if (checkField) {
+            return FieldDataType.constructBoolean();
+        }
         return v.getFie().getType();
     }
 
@@ -72,6 +80,13 @@ class FField implements IVField {
     public String getId() {
         assert v.getFie().getId() != null : LogT.getT().cannotBeNull();
         return v.getFie().getId();
+    }
+
+    /**
+     * @return the checkField
+     */
+    public boolean isCheckField() {
+        return checkField;
     }
 
 }

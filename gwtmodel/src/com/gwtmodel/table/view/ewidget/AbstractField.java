@@ -38,16 +38,17 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 abstract class AbstractField extends PopupTip implements IFormLineView {
 
-    protected ITouchListener iTouch;
+    protected List<ITouchListener> iTouch;
     protected Collection<IFormChangeListener> lC;
     protected final boolean isCheckBox;
     protected final boolean checkBoxVal;
     protected final ITableCustomFactories tFactories;
     protected final IVField v;
     protected final AbstractListT listT;
-    
+
     AbstractField(ITableCustomFactories tFactories, IVField v) {
         this(tFactories, v, true);
+        iTouch = new ArrayList<ITouchListener>();
     }
 
     @Override
@@ -145,7 +146,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
 
     @Override
     public void setOnTouch(final ITouchListener iTouch) {
-        this.iTouch = iTouch;
+        this.iTouch.add(iTouch);
     }
 
     @Override

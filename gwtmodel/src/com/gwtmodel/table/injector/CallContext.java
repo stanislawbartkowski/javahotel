@@ -18,7 +18,7 @@ package com.gwtmodel.table.injector;
 
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.slotmodel.ISlotable;
 

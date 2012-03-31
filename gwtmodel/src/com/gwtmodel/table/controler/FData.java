@@ -64,9 +64,10 @@ class FData extends VModelData {
 
     private boolean inRange(IVModelData row) {
         for (VListHeaderDesc v : li) {
-            FField from = new FField(v.getFie(), true, v);
-            FField to = new FField(v.getFie(), false, v);
-            if (!FUtils.inRange(row, v.getFie(), this, from, to)) {
+            FField from = new FField(v.getFie(), true, v, false);
+            FField to = new FField(v.getFie(), false, v, false);
+            IVField check = new FField(v.getFie(), false, v, true);
+            if (!FUtils.inRange(row, v.getFie(), this, from, to, check)) {
                 return false;
             }
         }

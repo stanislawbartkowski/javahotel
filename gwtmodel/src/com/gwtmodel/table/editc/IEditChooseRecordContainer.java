@@ -16,7 +16,7 @@
  */
 package com.gwtmodel.table.editc;
 
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 /**

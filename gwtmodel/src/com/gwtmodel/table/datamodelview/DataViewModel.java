@@ -14,6 +14,7 @@ package com.gwtmodel.table.datamodelview;
 
 import com.gwtmodel.table.*;
 import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -232,8 +233,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             this.dFactory = iContext.getC().getDataModelFactory();
         } else {
             this.dFactory = dFactory;
-
         }
+//        assert this.dFactory != null : LogT.getT().cannotBeNull();
         registerSubscriber(dType, DataActionEnum.ChangeViewFormToInvalidAction,
                 new InvalidateMess());
         registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,

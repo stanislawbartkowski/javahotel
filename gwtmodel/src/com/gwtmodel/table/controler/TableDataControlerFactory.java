@@ -20,7 +20,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.factories.IDataPersistListAction;
 import com.gwtmodel.table.factories.IFormTitleFactory;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
@@ -49,8 +49,8 @@ public class TableDataControlerFactory {
     }
 
     private DataListParam getParam(IDataType dType) {
-        IDataPersistAction persistA = fContainer.getPersistFactoryAction()
-                .contruct(dType);
+        IDataPersistListAction persistA = fContainer.getPersistFactoryAction()
+                .constructL(dType);
         IHeaderListContainer heList = null;
         IHeaderListFactory hFa = fContainer.getHeaderListFactory();
         if (hFa != null) {

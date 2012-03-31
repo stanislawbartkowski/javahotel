@@ -326,10 +326,11 @@ class ExtendTextBox extends AbstractField {
     @Override
     public void setOnTouch(final ITouchListener iTouch) {
         if (iTouch == null) {
-            if (super.iTouch != null) {
-                eW.removeKeyboardListener(new Touch(super.iTouch));
+            // design gap: removing all listeners
+            for (ITouchListener t : super.iTouch) {
+                eW.removeKeyboardListener(new Touch(t));
             }
-            super.setOnTouch(iTouch);
+            super.iTouch.clear();
             return;
         }
         super.setOnTouch(iTouch);
@@ -339,8 +340,8 @@ class ExtendTextBox extends AbstractField {
     @Override
     public void setValObj(Object o) {
         String va = (String) o;
-        if (iTouch != null) {
-            iTouch.onTouch();
+        for (ITouchListener t : iTouch) {
+            t.onTouch();
         }
         eW.setText(va);
         // warning: 2011/09/09 (changed to this from null)
