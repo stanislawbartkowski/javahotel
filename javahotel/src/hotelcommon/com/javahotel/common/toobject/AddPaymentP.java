@@ -13,11 +13,12 @@
 
 package com.javahotel.common.toobject;
 
-import com.javahotel.types.DateP;
-import com.javahotel.types.DecimalP;
-import com.javahotel.types.INumerable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.gwtmodel.table.common.dateutil.DateP;
+import com.javahotel.types.DecimalP;
+import com.javahotel.types.INumerable;
 
 /**
  * 

@@ -12,8 +12,9 @@
  */
 package com.javahotel.common.toobject;
 
-import com.javahotel.types.DateP;
 import java.util.Date;
+
+import com.gwtmodel.table.common.dateutil.DateP;
 
 /**
  *

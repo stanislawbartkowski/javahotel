@@ -16,11 +16,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.gwtmodel.table.common.dateutil.DateP;
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.CommandUtil;
 import com.javahotel.common.util.PUtil;
 import com.javahotel.common.util.PUtil.SumP;
-import com.javahotel.types.DateP;
 import com.javahotel.types.DecimalP;
 import com.javahotel.types.LId;
 
