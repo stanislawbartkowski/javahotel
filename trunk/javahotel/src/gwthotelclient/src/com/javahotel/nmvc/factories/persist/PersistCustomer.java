@@ -12,7 +12,7 @@
  */
 package com.javahotel.nmvc.factories.persist;
 
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.BackAbstract;
 import com.javahotel.client.types.BackAbstract.IRunAction;

@@ -13,7 +13,7 @@
 
 package com.javahotel.nmvc.factories.persist.dict;
 
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;

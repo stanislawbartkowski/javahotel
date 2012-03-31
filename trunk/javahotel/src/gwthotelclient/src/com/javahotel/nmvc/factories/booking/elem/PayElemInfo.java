@@ -18,7 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;

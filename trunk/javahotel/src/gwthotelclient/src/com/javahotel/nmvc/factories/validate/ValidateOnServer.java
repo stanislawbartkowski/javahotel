@@ -17,8 +17,8 @@ import java.util.List;
 
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.PersistTypeEnum;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlotListContainer;

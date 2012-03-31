@@ -23,7 +23,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.PersistTypeEnum;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.IFormLineView;
