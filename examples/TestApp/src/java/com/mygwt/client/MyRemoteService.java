@@ -12,17 +12,26 @@
  */
 package com.mygwt.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.mailcommon.CListOfMailProperties;
 import com.gwtmodel.table.mailcommon.CMailToSend;
+import com.mygwt.common.data.TOItemRecord;
 
 /**
  * The client side stub for the RPC service.
  */
 @RemoteServiceRelativePath("testservice")
 public interface MyRemoteService extends RemoteService {
-	CListOfMailProperties getListOfMailBoxes();
+    
+    CListOfMailProperties getListOfMailBoxes();
 
-	String sendMail(CMailToSend mail);
+    String sendMail(CMailToSend mail);
+
+    List<TOItemRecord> getItemList();
+
+    void ItemRecordOp(PersistTypeEnum op, TOItemRecord re);
 }
