@@ -12,12 +12,12 @@
  */
 package com.gwtmodel.table;
 
-import com.gwtmodel.table.factories.IDataPersistAction;
+import com.gwtmodel.table.factories.IDataPersistListAction;
 import com.gwtmodel.table.factories.IPersistFactoryAction;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 
 public class ReadDictList<T extends IDataListType> {
 
@@ -44,9 +44,9 @@ public class ReadDictList<T extends IDataListType> {
 
     public void readList(IDataType dType, IListCallBack<T> iList) {
         IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI().getTableFactoriesContainer().getPersistFactoryAction();
-        IDataPersistAction persistA = persistFactoryA.contruct(dType);
-        persistA.getSlContainer().registerSubscriber(dType,
+        IDataPersistListAction persistL = persistFactoryA.constructL(dType);
+        persistL.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.ListReadSuccessSignal, new R(iList));
-        persistA.getSlContainer().publish(dType, DataActionEnum.ReadListAction);
+        persistL.getSlContainer().publish(dType, DataActionEnum.ReadListAction);
     }
 }
