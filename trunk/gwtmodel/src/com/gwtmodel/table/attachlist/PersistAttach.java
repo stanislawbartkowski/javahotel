@@ -12,22 +12,13 @@
  */
 package com.gwtmodel.table.attachlist;
 
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.InvalidateFormContainer;
-import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.attachlist.UploadFile.ISubmitRes;
 import com.gwtmodel.table.common.IConstUtil;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.factories.IDataPersistAction;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.view.ValidateUtil;
 import java.util.ArrayList;
 import java.util.List;
