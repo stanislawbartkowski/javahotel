@@ -97,4 +97,6 @@ public interface TLogMessages extends Messages {
     String DataListCannotBeNull();
 
     String HeaderNull();
+    
+    String InternalError();
 }
