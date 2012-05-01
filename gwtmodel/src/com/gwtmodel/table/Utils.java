@@ -14,19 +14,20 @@ package com.gwtmodel.table;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import java.math.BigDecimal;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.DOM;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.WebPanelHolder;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -157,12 +158,14 @@ public class Utils {
     // Date
     public static String getDateFormat() {
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        assert c != null : LogT.getT().cannotBeNull();
         String f = c.getCustomValue(IGetCustomValues.DATEFORMAT);
         return f;
     }
 
     private static DateTimeFormat getDateTimeFormat() {
         String f = getDateFormat();
+        assert f != null : LogT.getT().cannotBeNull();
         DateTimeFormat te = DateTimeFormat.getFormat(f);
         return te;
     }
@@ -260,7 +263,7 @@ public class Utils {
     public static int CalculateNOfRows(WSize w) {
         int up = 0;
         if (w != null) {
-            up = w.getTop();
+                up = w.getTop();
         }
         int he = Window.getClientHeight();
 
@@ -281,6 +284,10 @@ public class Utils {
         NodeList<Node> li = w.getElement().getChildNodes();
         li.getItem(0);
         w.getElement().insertBefore(e, li.getItem(0));
+    }
+    
+    public static void internalErrorAlert(String s) {
+        errAlert(LogT.getT().InternalError(),s);
     }
 
     public static void errAlert(String s) {
