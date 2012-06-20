@@ -107,4 +107,16 @@ db2 start HADR on database SAMPLE as STANDBY
 ssh -X db2had1@think
 db2 start HADR on database SAMPLE as PRIMARY
 }}}
-= Step 13 Configure client =
+= Step 13 Configure command line client =
+Log in to the client machine and catalog db2had1 as remote node.
+{{{
+db2 catalog tcpip node DB2HAD1 remote think server 50008
+}}}
+Catalog database SAMPLE 
+{{{
+db2 catalog database SAMPLE at node db2had1 
+}}}
+= Summary =
+At this moment we have SAMPLE database running on db2had1 server running as primary database and SAMPLE database (being an exact copy of SAMPLE on db2had1) running as secondary. The client is ready for connecting to SAMPLE database on primary server. Pay attention that there is no need to catalog access to SAMPLE database on db2had2. All changes (DDL and DML) commited on primary server will be replicated to secondary. Any time we can switch the roles between primary and secondary.
+= Important = 
+Switching role can be executed only from command line, on demand. Recognizing node failure and activate secondary server as primary is the role of cluster management system. DB2 contains software for cluster management (TSA - Tivoli System Automation) but it requires additional installation and configuration. It can be also integrated with existing cluster management - for instance Microsoft Cluster Management for Windows environment.
