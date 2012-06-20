@@ -1,4 +1,4 @@
-#summary Simple HADR setup
+#summary Simple HADR setup on Linux box
 #labels DB2,HADR
 
 = Introduction =
