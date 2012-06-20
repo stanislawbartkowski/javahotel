@@ -1,5 +1,5 @@
+#summary Simple HADR setup
 #labels DB2,HADR
-# Simple HADR setup
 
 = Introduction =
 Below is simple instruction how to setup DB2 HADR on one machine using two DB2 instances
