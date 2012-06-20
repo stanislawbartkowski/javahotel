@@ -1,0 +1,47 @@
+#labels db2hadr
+# Simple HADR setup
+
+= Introduction =
+
+Below is simple instruction how to setup DB2 HADR on one machine using two DB2 instances
+
+= Prerequisites =
+
+HADR option is not available in free DB2 Express Edition. But can be setup with trial (90 days) DB2 version.
+
+http://www-01.ibm.com/software/data/db2/linux-unix-windows/download.html
+
+= Step 1 =
+Install DB2 and create two instances db2had1 and db2had2. Assume that db2had1 will be the primary and db2had2 the secondary instance.
+After installation pay attention to /etc/services file. On my linux (ubuntu) box the last two lines are:
+
+{{{
+db2c_db2had1    50008/tcp
+db2c_db2had2    50009/tcp
+}}}
+
+Port 50008 is a connection port for db2had1 and 50009 is a connection port for 50009. But both instances participating in HADR need additional port to communicate between them. So let's pick up first two free port starting from 60000 - on my machine they are 60004 for db2had1 and 60005 for db2had2. Although it is not necessary it is a good practise to add them also to /etc/services file - just preventing for reusing them by another software.
+
+{{{
+DB2_db2had1     60004/tcp
+DB2_db2had2     60005/tcp
+}}}
+= Step2 =
+Log in to db2had1 instance and create SAMPLE database (assume the host name for the DB2 box is 'think')
+{{{
+ssh -X db2had2@think
+db2start
+db2sampl
+}}}
+
+= Step 3 =
+
+Now we want to replicate SAMPLE database to instance db2had2 and set up HADR configuration having SAMLE database on db2had1 instance acting as primary and SAMPLE on db2had2 instance as secondary database
+
+But before doing anything we have to change logging (transaction) method from circular which is default to archival ([more about different logging method in DB2 http://publib.boulder.ibm.com/infocenter/db2luw/v9r7/index.jsp?topic=%2Fcom.ibm.db2.luw.admin.ha.doc%2Fdoc%2Fc0051343.html])
+
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
