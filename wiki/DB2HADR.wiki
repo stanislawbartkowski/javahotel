@@ -29,4 +29,4 @@ db2sampl
 Step 3
 Now we want to replicate SAMPLE database to instance db2had2 and set up HADR configuration having SAMLE database on db2had1 instance acting as primary and SAMPLE on db2had2 instance as secondary database
 
-But before doing anything we have to change logging (transaction) method from circular which is default to archival (about different logging method in DB2 http://publib.boulder.ibm.com/infocenter/db2luw/v9r7/index.jsp?topic=%2Fcom.ibm.db2.luw.admin.ha.doc%2Fdoc%2Fc0051343.html?)
+But before doing anything we have to change logging (transaction) method from circular which is default to archival ([ http://publib.boulder.ibm.com/infocenter/db2luw/v9r7/index.jsp?topic=%2Fcom.ibm.db2.luw.admin.ha.doc%2Fdoc%2Fc0051343.html about different logging method in DB2])
