@@ -69,7 +69,7 @@ db2 terminate
 db2stop
 db2start
 }}}
-= Step 5 Configure HADR on db2had1 instance=
+= Step 7 Configure HADR on db2had1 instance =
 Log in to db2had1
 {{{
 ssh -X db2had1@think
@@ -79,3 +79,32 @@ db2 update db cfg for SAMPLE using HADR_LOCAL_SVC 60004
 db2 update db cfg for SAMPLE using HADR_REMOTE_SVC 60005
 db2 update db cfg for SAMPLE using HADR_REMOTE_INST db2had2
 }}}
+= Step 8 Set up ACR on db2had1 instance=
+ACR stands for Automatic Client Reroute. It allows to switch client automatically to secondary server after primary failure.
+{{{
+db2 UPDATE ALTERNATE SERVER FOR DATABASE SAMPLE USING HOSTNAME think PORT 50009
+}}}
+= Step 9 Configure HADR on db2had2 instance =
+{{{
+ssh -X db2had2@think
+db2 update db cfg for SAMPLE using HADR_LOCAL_HOST localhost
+db2 update db cfg for SAMPLE using HADR_REMOTE_HOST localhost
+db2 update db cfg for SAMPLE using HADR_LOCAL_SVC 60005
+db2 update db cfg for SAMPLE using HADR_REMOTE_SVC 60004
+db2 update db cfg for SAMPLE using HADR_REMOTE_INST db2had1
+}}}
+= Step 10 Set up ACR in db2had2 instance =
+{{{
+db2 UPDATE ALTERNATE SERVER FOR DATABASE SAMPLE USING HOSTNAME think PORT 50008
+}}}
+= Step 11 Start db2had2 as secondary server =
+It is recommended to start standby before primary.
+{{{
+db2 start HADR on database SAMPLE as STANDBY
+}}}
+= Step 12 Start db2had1 as primary server ==
+{{{
+ssh -X db2had1@think
+db2 start HADR on database SAMPLE as PRIMARY
+}}}
+= Step 13 Configure client =
