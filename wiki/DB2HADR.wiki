@@ -22,11 +22,60 @@ DB2_db2had2     60005/tcp
 }}}
 = Step2 Create SAMPLE database on db2had1 instance =
 Log in to db2had1 instance and create SAMPLE database (assume the host name for the DB2 box is 'think')
-
+{{{
 ssh -X db2had2@think
 db2start
 db2sampl
-Step 3
+}}}
+= Step 3 Change logging method on instance db2had1 to archival =
 Now we want to replicate SAMPLE database to instance db2had2 and set up HADR configuration having SAMLE database on db2had1 instance acting as primary and SAMPLE on db2had2 instance as secondary database
 
-But before doing anything we have to change logging (transaction) method from circular which is default to archival ([http://publib.boulder.ibm.com/infocenter/db2luw/v9r7/index.jsp?topic=%2Fcom.ibm.db2.luw.admin.ha.doc%2Fdoc%2Fc0051343.html more about different logging method in DB2])
+But before doing anything we have to change logging (transactional) method from circular which is default to archival ([http://publib.boulder.ibm.com/infocenter/db2luw/v9r7/index.jsp?topic=%2Fcom.ibm.db2.luw.admin.ha.doc%2Fdoc%2Fc0051343.html more about different logging method in DB2])
+{{{
+mkdir tranlog
+db2 "UPDATE DATABASE CONFIGURATION for sample USING logarchmeth1 disk:$PWD/tranlog"
+Restart instance just in case
+db2 terminate
+db2stop
+db2start
+}}}
+= Step 4 Make a backup copy of SAMPLE database =
+{{{
+mkdir /tmp/backup
+mkdir c:\temp\backup
+db2 backup database sample to /tmp/backup
+}}}
+Give access to backup for instance db2had2
+{{{
+chmod 755 /tmp/backup
+chmod 644 /tmp/backup/*
+}}}
+= Step 5 Restore backup on instance db2had2 =
+Login to instance db2had2 and create folder for database.
+{{{
+ssh -X db2had2@think
+mkdir db2had2
+}}}
+Restore database from backup to folder just created.
+{{{
+db2 restore database sample from /tmp/backup on $PWD/db2had2
+}}}
+= Step 6 Change logging method on db2had2 instance =
+mkdir tranlog
+{{{
+db2 "UPDATE DATABASE CONFIGURATION for sample USING logarchmeth1 disk:$PWD/tranlog"
+Restart instance
+db2 terminate
+db2stop
+db2start
+}}}
+= Step 5 Configure HADR on db2had1 instance=
+Log in to db2had1
+{{{
+ssh -X db2had1@think
+db2 update db cfg for SAMPLE using HADR_LOCAL_HOST localhost
+db2 update db cfg for SAMPLE using HADR_REMOTE_HOST localhost
+db2 update db cfg for SAMPLE using HADR_LOCAL_SVC 60004
+db2 update db cfg for SAMPLE using HADR_REMOTE_SVC 60005
+db2 update db cfg for SAMPLE using HADR_REMOTE_INST db2had2
+}}}
