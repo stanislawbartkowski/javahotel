@@ -1,24 +1,26 @@
 #labels DB2,HADR
 # Simple HADR setup
 
-Introduction
+= Introduction =
 Below is simple instruction how to setup DB2 HADR on one machine using two DB2 instances
 
-Prerequisites
+= Prerequisites =
 HADR option is not available in free DB2 Express Edition. But can be setup with trial (90 days) DB2 version.
 
-http://www-01.ibm.com/software/data/db2/linux-unix-windows/download.html
+[http://www-01.ibm.com/software/data/db2/linux-unix-windows/download.html]
 
-Step 1
+= Step 1 Install DB2 and two instance =
 Install DB2 and create two instances db2had1 and db2had2. Assume that db2had1 will be the primary and db2had2 the secondary instance. After installation pay attention to /etc/services file. On my linux (ubuntu) box the last two lines are:
-
+{{{
 db2c_db2had1    50008/tcp
 db2c_db2had2    50009/tcp
+}}}
 Port 50008 is a connection port for db2had1 and 50009 is a connection port for 50009. But both instances participating in HADR need additional port to communicate between them. So let's pick up first two free port starting from 60000 - on my machine they are 60004 for db2had1 and 60005 for db2had2. Although it is not necessary it is a good practise to add them also to /etc/services file - just preventing for reusing them by another software.
-
+{{{
 DB2_db2had1     60004/tcp
 DB2_db2had2     60005/tcp
-Step2
+}}}
+= Step2 Create SAMPLE database on db2had1 instance =
 Log in to db2had1 instance and create SAMPLE database (assume the host name for the DB2 box is 'think')
 
 ssh -X db2had2@think
