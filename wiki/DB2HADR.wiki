@@ -34,7 +34,9 @@ But before doing anything we have to change logging (transactional) method from 
 {{{
 mkdir tranlog
 db2 "UPDATE DATABASE CONFIGURATION for sample USING logarchmeth1 disk:$PWD/tranlog"
+}}}
 Restart instance just in case
+{{{
 db2 terminate
 db2stop
 db2start
