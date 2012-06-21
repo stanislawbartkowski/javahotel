@@ -44,7 +44,6 @@ db2start
 = Step 4 Make a backup copy of SAMPLE database =
 {{{
 mkdir /tmp/backup
-mkdir c:\temp\backup
 db2 backup database sample to /tmp/backup
 }}}
 Give access to backup for instance db2had2
