@@ -65,7 +65,9 @@ db2 restore database sample from /tmp/backup on $PWD/db2had2
 mkdir tranlog
 {{{
 db2 "UPDATE DATABASE CONFIGURATION for sample USING logarchmeth1 disk:$PWD/tranlog"
+}}}
 Restart instance
+{{{
 db2 terminate
 db2stop
 db2start
