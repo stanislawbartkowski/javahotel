@@ -19,7 +19,6 @@ import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.view.util.CreateReadOnlyI;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

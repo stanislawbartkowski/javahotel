@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,36 +10,35 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.stack;
+package com.gwtmodel.table.stackpanelcontroller;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.IGFocusWidget;
+import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
-import java.util.List;
 
 /**
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-class StackPanelView extends AbstractPanelView {
+abstract class AbstractStackPanelController extends AbstractSlotContainer implements
+        IStackPanelController {
 
-    private final VerticalPanel vp = new VerticalPanel();
+    protected IGWidget sView;
 
-    StackPanelView(List<ControlButtonDesc> bList,
-            IControlClick click) {
-        super(click);
-        for (ControlButtonDesc bu : bList) {
-            IGFocusWidget bt = constructButton(bu);
-            bt.getGWidget().setWidth("100%");
-            vp.add(bt.getGWidget());
+    protected class CallBack implements IControlClick {
+
+        @Override
+        public void click(ControlButtonDesc bu, Widget w) {
+            publish(bu.getActionId(), w != null ? new GWidget(w) : sView);
         }
-        vp.setStyleName("stack-panel");
-
     }
 
-    public Widget getGWidget() {
-        return vp;
+    @Override
+    public void startPublish(CellId cellId) {
+        publish(dType, cellId, sView);
     }
 }

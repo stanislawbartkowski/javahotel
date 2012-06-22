@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.view.util;
 
-import java.util.List;
-
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -23,6 +21,7 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
+import java.util.List;
 
 /**
  * 
