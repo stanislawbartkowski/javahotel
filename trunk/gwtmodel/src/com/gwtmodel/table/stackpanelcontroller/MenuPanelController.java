@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -14,20 +14,24 @@ package com.gwtmodel.table.stackpanelcontroller;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
-import com.gwtmodel.table.view.stack.StackPanelFactory;
+import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.view.util.PopupCreateMenu;
 import java.util.List;
 
 /**
- * 
- * @author stanislaw.bartkowski@gmail.com
+ *
+ * @author perseus
  */
-class StackPanelController extends AbstractStackPanelController {
+//        String htmlImage = Utils.getImageHTML(IImageGallery.DOWNMENU);
+//        return PopupCreateMenu.createImageMenu(htmlImage,
+//                new ListOfControlDesc(li), new Click(), null);
+//    }
+//     String DOWNMENU = "DataViewerMax.gif";
+class MenuPanelController extends AbstractStackPanelController {
 
-
-    StackPanelController(StackPanelFactory paFactory,
-            List<ControlButtonDesc> bList, String html, IDataType dType) {
-        sView = paFactory.construct(bList, new CallBack(), html);
+    MenuPanelController(IDataType dType, String downMenuImage, List<ControlButtonDesc> li) {
         this.dType = dType;
+        this.sView = PopupCreateMenu.createImageMenu(downMenuImage,
+                new ListOfControlDesc(li), new CallBack(), null);
     }
-
 }

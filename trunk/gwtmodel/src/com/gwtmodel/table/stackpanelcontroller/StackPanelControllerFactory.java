@@ -12,13 +12,11 @@
  */
 package com.gwtmodel.table.stackpanelcontroller;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
-import com.gwtmodel.table.view.stack.StackPanelFactory;
+import java.util.List;
 
 /**
  *
@@ -27,18 +25,18 @@ import com.gwtmodel.table.view.stack.StackPanelFactory;
 
 public class StackPanelControllerFactory {
 
-    private final StackPanelFactory paFactory;
     private final StackPanelButtonFactory baFactory;
 
     @Inject
-    public StackPanelControllerFactory(StackPanelFactory paFactory,
-            StackPanelButtonFactory baFactory) {
-        this.paFactory = paFactory;
+    public StackPanelControllerFactory(StackPanelButtonFactory baFactory) {
         this.baFactory = baFactory;
     }
 
     public IStackPanelController construct(IDataType dType, List<ControlButtonDesc> bList, String html) {
         return baFactory.construct(dType, bList, html);
-//        return new StackPanelController(paFactory, bList, html, dType);
+    }
+    
+    public IStackPanelController constructDownMenu(IDataType dType, String downMenuImage, List<ControlButtonDesc> bList) {
+       return new MenuPanelController(dType,downMenuImage,bList);
     }
 }

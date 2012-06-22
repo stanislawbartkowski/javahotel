@@ -12,10 +12,11 @@
  */
 package com.gwtmodel.table.view.stack;
 
-import java.util.List;
-
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
+import java.util.List;
+
+// TODO: Remove candidate
 
 /**
  *

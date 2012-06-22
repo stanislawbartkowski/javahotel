@@ -15,7 +15,7 @@ package com.gwtmodel.table.view.controlpanel;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
 public class ContrButtonViewFactory {
@@ -29,8 +29,7 @@ public class ContrButtonViewFactory {
     }
 
     public IContrButtonView getView(final ListOfControlDesc model,
-            final IControlClick co,boolean hori) {
+            final IControlClick co, boolean hori) {
         return new ContrButtonView(model, co, hori);
     }
-
 }
