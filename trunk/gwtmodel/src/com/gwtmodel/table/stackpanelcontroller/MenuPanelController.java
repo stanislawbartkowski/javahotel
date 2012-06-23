@@ -22,11 +22,6 @@ import java.util.List;
  *
  * @author perseus
  */
-//        String htmlImage = Utils.getImageHTML(IImageGallery.DOWNMENU);
-//        return PopupCreateMenu.createImageMenu(htmlImage,
-//                new ListOfControlDesc(li), new Click(), null);
-//    }
-//     String DOWNMENU = "DataViewerMax.gif";
 class MenuPanelController extends AbstractStackPanelController {
 
     MenuPanelController(IDataType dType, String downMenuImage, List<ControlButtonDesc> li) {

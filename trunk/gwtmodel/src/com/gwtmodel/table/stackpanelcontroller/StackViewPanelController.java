@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -14,19 +14,17 @@ package com.gwtmodel.table.stackpanelcontroller;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
-import com.gwtmodel.table.view.stackvertical.StackPanelFactory;
+import com.gwtmodel.table.view.stackpanel.ViewStackPanelFactory;
 import java.util.List;
 
 /**
- * 
- * @author stanislaw.bartkowski@gmail.com
+ *
+ * @author perseus
  */
-class StackPanelController extends AbstractStackPanelController {
+class StackViewPanelController extends AbstractStackPanelController {
 
-    StackPanelController(StackPanelFactory paFactory,
-            List<ControlButtonDesc> bList, String html, IDataType dType) {
-        sView = paFactory.construct(bList, new CallBack(), html);
+    StackViewPanelController(IDataType dType, ViewStackPanelFactory fFactory, List<ControlButtonDesc> li) {
         this.dType = dType;
+        this.sView = fFactory.construct(li, new CallBack());
     }
-
 }

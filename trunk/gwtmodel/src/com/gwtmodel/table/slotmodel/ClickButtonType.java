@@ -29,6 +29,7 @@ public class ClickButtonType {
         ADDITEM, REMOVEITEM, MODIFITEM, SHOWITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
         CUSTOM, FILTRLIST, SETFILTER, REMOVEFILTER, FIND, FINDNOW, FINDNEXT, FINDFROMBEGINNING,
         CLEARFIND, CLEARFILTER,
+        MENUTITLE,
         ALL
     };
     private final StandClickEnum clickEnum;
@@ -67,6 +68,10 @@ public class ClickButtonType {
 
     public String getCustomButt() {
         return customButt;
+    }
+
+    public boolean isMenuTitle() {
+        return clickEnum == clickEnum.MENUTITLE;
     }
 
     public boolean eq(ClickButtonType bType) {

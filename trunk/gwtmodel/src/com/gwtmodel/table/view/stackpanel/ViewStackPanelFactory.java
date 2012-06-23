@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,23 +10,31 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.stackpanelcontroller;
+package com.gwtmodel.table.view.stackpanel;
 
-import com.gwtmodel.table.IDataType;
+import com.google.inject.Inject;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
+import com.gwtmodel.table.view.stackvertical.IStackPanelView;
 import com.gwtmodel.table.view.stackvertical.StackPanelFactory;
 import java.util.List;
 
 /**
- * 
- * @author stanislaw.bartkowski@gmail.com
+ *
+ * @author perseus
  */
-class StackPanelController extends AbstractStackPanelController {
+public class ViewStackPanelFactory {
+    
+    private final StackPanelFactory baFactory;
 
-    StackPanelController(StackPanelFactory paFactory,
-            List<ControlButtonDesc> bList, String html, IDataType dType) {
-        sView = paFactory.construct(bList, new CallBack(), html);
-        this.dType = dType;
+    @Inject
+    public ViewStackPanelFactory(StackPanelFactory baFactory) {
+        this.baFactory = baFactory;
     }
 
+    public IStackPanelView construct(List<ControlButtonDesc> bList,
+            IControlClick click) {
+        return new ViewStackPanel(baFactory,bList, click);
+    }
+    
 }

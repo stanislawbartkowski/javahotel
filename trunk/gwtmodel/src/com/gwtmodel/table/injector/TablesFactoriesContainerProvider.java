@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.gwtmodel.table.injector;
 
 import com.google.inject.Provider;
@@ -26,5 +25,4 @@ public class TablesFactoriesContainerProvider implements Provider<ITableCustomFa
     public ITableCustomFactories get() {
         return WebPanelHolder.getFactoriesContainer();
     }
-
 }

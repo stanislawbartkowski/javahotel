@@ -16,12 +16,11 @@
  */
 package com.gwtmodel.table.injector;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.gwtmodel.table.TLogMessages;
+import java.util.logging.Logger;
 
 /**
  * 
