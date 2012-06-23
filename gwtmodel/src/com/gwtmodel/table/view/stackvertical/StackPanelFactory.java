@@ -10,23 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.stackpanelcontroller;
+package com.gwtmodel.table.view.stackvertical;
 
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
-import com.gwtmodel.table.view.stackvertical.StackPanelFactory;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
 import java.util.List;
 
+// TODO: Remove candidate
+
 /**
- * 
+ *
  * @author stanislaw.bartkowski@gmail.com
  */
-class StackPanelController extends AbstractStackPanelController {
+public class StackPanelFactory {
 
-    StackPanelController(StackPanelFactory paFactory,
-            List<ControlButtonDesc> bList, String html, IDataType dType) {
-        sView = paFactory.construct(bList, new CallBack(), html);
-        this.dType = dType;
+    public StackPanelFactory() {
     }
 
+    public IStackPanelView construct(List<ControlButtonDesc> bList,
+            IControlClick click, String html) {
+        if (html == null) {
+            return new StackPanelView(bList, click);
+        }
+        return new StackPanelHtmlView(bList, click, html);
+    }
 }

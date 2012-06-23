@@ -12,19 +12,7 @@
  */
 package com.gwtmodel.table.injector;
 
-import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
-import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
-import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IDataPersistListAction;
-import com.gwtmodel.table.factories.IDataValidateActionFactory;
-import com.gwtmodel.table.factories.IFormTitleFactory;
-import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.IGetViewControllerFactory;
-import com.gwtmodel.table.factories.IHeaderListFactory;
-import com.gwtmodel.table.factories.IJavaMailActionFactory;
-import com.gwtmodel.table.factories.IPersistFactoryAction;
-import com.gwtmodel.table.factories.ITableAbstractFactories;
-import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.*;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
 public class WebPanelHolder {

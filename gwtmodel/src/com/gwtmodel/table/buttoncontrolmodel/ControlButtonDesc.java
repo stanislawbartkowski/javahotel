@@ -66,4 +66,7 @@ public class ControlButtonDesc {
     /**
      * @return the htmlElementName
      */
+    public boolean isMenuTitle() {
+        return actionId.isMenuTitle();
+    }
 }
