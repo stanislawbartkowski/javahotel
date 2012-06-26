@@ -37,29 +37,25 @@ import java.util.List;
 
 /**
  * @author hotel
- * 
+ *
  */
 class PresentationCellFactory {
-    
+
     PresentationCellFactory(IGetCellValue getCell) {
         this.getCell = getCell;
     }
 
     interface IGetField {
+
         Object getValObj(Integer key);
 
         void setValObj(Integer key, Object o);
     }
-
     private final EditableCol eCol = new EditableCol();
-    private final IGetCustomValues cValues = GwtGiniInjector.getI()
-            .getTableFactoriesContainer().getGetCustomValues();
-    private final DateTimeFormat fo = DateTimeFormat.getFormat(cValues
-            .getCustomValue(IGetCustomValues.DATEFORMAT));
+    private final IGetCustomValues cValues = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+    private final DateTimeFormat fo = DateTimeFormat.getFormat(cValues.getCustomValue(IGetCustomValues.DATEFORMAT));
     private final IGetCellValue getCell;
-
     private IGwtTableModel model;
-
     private final NumberCell iCell = new NumberCell(
             NumberFormat.getFormat("#####"));
     private final NumberCell nCell1 = new NumberCell(
@@ -72,19 +68,20 @@ class PresentationCellFactory {
             NumberFormat.getFormat("###########.####"));
 
     /**
-     * @param model
-     *            the model to set
+     * @param model the model to set
      */
     void setModel(IGwtTableModel model) {
         this.model = model;
     }
 
     interface TemplateDisplay extends SafeHtmlTemplates {
+
         @Template("{0}")
         SafeHtml input(String value);
     }
 
     interface TemplateButtonAction extends SafeHtmlTemplates {
+
         @Template("<strong>{0}</strong>")
         SafeHtml input(String value);
     }
@@ -136,7 +133,6 @@ class PresentationCellFactory {
             String s = FUtils.getValueOS(o, v);
             this.setViewData(key, s);
         }
-
     }
 
     private class EditStringCell extends TextInputCell implements IGetField {
@@ -275,6 +271,7 @@ class PresentationCellFactory {
     }
 
     private class TColumnEdit extends Column<Integer, String> {
+
         private final IVField iF;
 
         TColumnEdit(IVField iF, Cell<String> ce) {
@@ -291,7 +288,6 @@ class PresentationCellFactory {
             }
             return s;
         }
-
     }
 
     private class DateColumn extends Column<Integer, Date> {
@@ -398,11 +394,13 @@ class PresentationCellFactory {
             }
             // sb.appendHtmlConstant("<strong>");
             String s = FUtils.getValueS(v, iF);
+            if (s == null) {
+                return;
+            }
             // sb.appendEscaped(s);
             // sb.appendHtmlConstant("</strong>");
 
-            TemplateButtonAction template = GWT
-                    .create(TemplateButtonAction.class);
+            TemplateButtonAction template = GWT.create(TemplateButtonAction.class);
             sb.append(template.input(s));
         }
     }
@@ -423,30 +421,30 @@ class PresentationCellFactory {
     Column constructNumberCol(IVField v, boolean editable) {
         Column co = null;
         switch (v.getType().getType()) {
-        case LONG:
-            co = new LongColumn(v);
-            break;
-        case BIGDECIMAL:
-            switch (v.getType().getAfterdot()) {
-            case 0:
+            case LONG:
                 co = new LongColumn(v);
                 break;
-            case 1:
-                co = new NumberColumn1(v);
-                break;
-            case 2:
-                co = new NumberColumn2(v);
-                break;
-            case 3:
-                co = new NumberColumn3(v);
+            case BIGDECIMAL:
+                switch (v.getType().getAfterdot()) {
+                    case 0:
+                        co = new LongColumn(v);
+                        break;
+                    case 1:
+                        co = new NumberColumn1(v);
+                        break;
+                    case 2:
+                        co = new NumberColumn2(v);
+                        break;
+                    case 3:
+                        co = new NumberColumn3(v);
+                        break;
+                    default:
+                        co = new NumberColumn4(v);
+                        break;
+                }
                 break;
             default:
-                co = new NumberColumn4(v);
-                break;
-            }
-            break;
-        default:
-            assert false : LogT.getT().notExpected();
+                assert false : LogT.getT().notExpected();
         }
         return co;
 
@@ -487,5 +485,4 @@ class PresentationCellFactory {
     void setEditable(ChangeEditableRowsParam eParam) {
         eCol.addEditData(eParam);
     }
-
 }

@@ -12,11 +12,10 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import java.util.List;
-
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
+import java.util.List;
 
 /**
  * @author hotel

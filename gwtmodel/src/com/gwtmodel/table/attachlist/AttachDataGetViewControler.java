@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.attachlist;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
@@ -35,15 +32,16 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.CreateFormView;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 
+ *
  * @author perseus
  */
 class AttachDataGetViewControler implements IGetViewControllerFactory {
@@ -71,13 +69,10 @@ class AttachDataGetViewControler implements IGetViewControllerFactory {
 
     private ReturnU getUpLoad(VListHeaderContainer listHeader) {
         ReturnU u = new ReturnU();
-        EditWidgetFactory eFactory = GwtGiniInjector.getI()
-                .getEditWidgetFactory();
+        EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
-        IFormLineView dComment = eFactory
-                .constructTextField(AttachDataField.vcomment);
-        IFormLineView dfilename = eFactory
-                .constructEditFileName(AttachDataField.vfilename);
+        IFormLineView dComment = eFactory.constructTextField(AttachDataField.vcomment);
+        IFormLineView dfilename = eFactory.constructEditFileName(AttachDataField.vfilename);
         u.u = new UploadFile(dComment.getGWidget(), dfilename.getGWidget());
         VListHeaderDesc hCom = listHeader.getHeader(AttachDataField.vcomment);
         VListHeaderDesc hFile = listHeader.getHeader(AttachDataField.vfilename);
@@ -92,9 +87,10 @@ class AttachDataGetViewControler implements IGetViewControllerFactory {
     @Override
     public IComposeController construct(ICallContext iContext) {
         IDataType dType = iContext.getDType();
-        ISlotSignalContext slContext = iContext.iSlo().getSlContainer()
-                .getGetterContext(dType, GetActionEnum.GetHeaderList);
-        VListHeaderContainer listHeader = slContext.getListHeader();
+//        ISlotSignalContext slContext = iContext.iSlo().getSlContainer()
+//                .getGetterContext(dType, GetActionEnum.GetHeaderList);
+//        VListHeaderContainer listHeader = slContext.getListHeader();
+        VListHeaderContainer listHeader = SlU.getHeaderList(dType, iContext.iSlo());
         IComposeController i = fFactory.construct(dType);
         IDataFormConstructorAbstractFactory cFactory;
         PersistTypeEnum e = iContext.getPersistTypeEnum();
@@ -130,8 +126,7 @@ class AttachDataGetViewControler implements IGetViewControllerFactory {
                         @Override
                         public void construct(ISetGWidget iSet,
                                 ICallContext iContext, FormLineContainer model) {
-                            Widget w = CreateFormView.construct(model
-                                    .getfList());
+                            Widget w = CreateFormView.construct(model.getfList());
                             iSet.setW(new GWidget(w));
                         }
                     };
