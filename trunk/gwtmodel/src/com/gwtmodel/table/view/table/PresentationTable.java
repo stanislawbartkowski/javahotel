@@ -40,7 +40,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 
+ *
  * @author perseus
  */
 class PresentationTable implements IGwtTableView {
@@ -87,9 +87,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Custom function for additional style for rows. Uses java script function.
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class TStyles implements RowStyles<Integer> {
 
@@ -102,9 +102,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Raised when the whole row was selected
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class SelectionChange implements SelectionChangeEvent.Handler {
 
@@ -170,9 +170,9 @@ class PresentationTable implements IGwtTableView {
     /**
      * Implementation of AbstractCell. The only purpose is to take over
      * "clicked" event
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class A extends AbstractCell<SafeHtml> {
 
@@ -194,9 +194,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Display raw cell column. Call back function provides html (safe)
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class RawColumn extends Column<Integer, SafeHtml> {
 
@@ -293,16 +293,16 @@ class PresentationTable implements IGwtTableView {
                 co = new TColumnString(he.getFie(), fType);
             } else {
                 switch (fType.getType()) {
-                case LONG:
-                case BIGDECIMAL:
-                    co = fa.constructNumberCol(he.getFie(), editable);
-                    break;
-                case DATE:
-                    co = fa.constructDateEditCol(he.getFie(), editable);
-                    break;
-                default:
-                    co = fa.constructEditCol(he.getFie(), editable);
-                    break;
+                    case LONG:
+                    case BIGDECIMAL:
+                        co = fa.constructNumberCol(he.getFie(), editable);
+                        break;
+                    case DATE:
+                        co = fa.constructDateEditCol(he.getFie(), editable);
+                        break;
+                    default:
+                        co = fa.constructEditCol(he.getFie(), editable);
+                        break;
                 }
             }
             co.setSortable(true);
@@ -312,8 +312,7 @@ class PresentationTable implements IGwtTableView {
                 // So additional error alert is displayed to avoid confusion
                 Utils.errAlert(he.getFie().getId(), LogT.getT().HeaderNull());
             }
-            assert !he.isHidden() && he.getHeaderString() != null : LogT.getT()
-                    .cannotBeNull();
+            assert !he.isHidden() && he.getHeaderString() != null : LogT.getT().cannotBeNull();
 
             table.addColumn(co, he.getHeaderString());
 
@@ -417,13 +416,10 @@ class PresentationTable implements IGwtTableView {
     /**
      * Creates WChoosedLine for selected/clicked. It can be later retrieved.
      * Only one can be retrieved, next overwrite the previous
-     * 
-     * @param sel
-     *            Row (Integer) position
-     * @param v
-     *            Column to be clicked (if available)
-     * @param wSize
-     *            Cell position (if not null)
+     *
+     * @param sel Row (Integer) position
+     * @param v Column to be clicked (if available)
+     * @param wSize Cell position (if not null)
      * @return
      */
     private WChoosedLine pgetClicked(Integer sel, IVField v, WSize wSize) {
@@ -431,12 +427,21 @@ class PresentationTable implements IGwtTableView {
             return new WChoosedLine();
         }
         int i = sel.intValue();
-        int sta = sPager.getPageStart();
-        int inde = i - sta;
-        TableRowElement ro = table.getRowElement(inde);
         WSize w = wSize;
         // cell position not defined, take whe position of the whole row
         if (wSize == null) {
+            List<Integer> vList = table.getVisibleItems();
+            int inde = -1;
+            boolean found = false;
+            for (Integer ine : vList) {
+                inde++;
+                if (ine.equals(sel)) {
+                    found = true;
+                    break;
+                }
+            }
+            assert found : LogT.getT().RowSelectedNotFound();
+            TableRowElement ro = table.getRowElement(inde);
             w = new WSize(ro.getAbsoluteTop(), ro.getAbsoluteLeft(),
                     ro.getClientHeight(), ro.getClientWidth());
         }

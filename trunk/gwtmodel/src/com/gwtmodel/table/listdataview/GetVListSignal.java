@@ -12,9 +12,8 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import java.util.List;
-
 import com.gwtmodel.table.IGetSetVField;
+import java.util.List;
 
 /**
  * @author hotel

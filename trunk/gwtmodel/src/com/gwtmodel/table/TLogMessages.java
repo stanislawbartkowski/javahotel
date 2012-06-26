@@ -99,4 +99,6 @@ public interface TLogMessages extends Messages {
     String HeaderNull();
     
     String InternalError();
+    
+    String RowSelectedNotFound();
 }
