@@ -15,6 +15,7 @@ package com.gwtmodel.table.injector;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
+import com.gwtmodel.table.chooselist.ChooseListFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
@@ -111,4 +112,6 @@ public interface GwtTableInjector extends Ginjector {
     WidgetScrollSeasonFactory getWidgetScrollSeasonFactory();
     
     ViewStackPanelFactory getViewStackPanelFactory();
+    
+    ChooseListFactory getChooseListFactory();
 }

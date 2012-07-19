@@ -12,12 +12,11 @@
  */
 package com.gwtmodel.table.readres;
 
+import com.gwtmodel.table.ReadRequestHtml;
+import com.gwtmodel.table.ReadRequestHtml.ISetRequestText;
+import com.gwtmodel.table.Utils;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.gwtmodel.table.ReadRequestHtml;
-import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.ReadRequestHtml.ISetRequestText;
 
 class ReadRes implements IReadRes {
 

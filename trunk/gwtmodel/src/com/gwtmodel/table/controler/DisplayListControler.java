@@ -1,5 +1,5 @@
 /*
-f * Copyright 2012 stanislawbartkowski@gmail.com 
+ f * Copyright 2012 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -12,6 +12,8 @@ f * Copyright 2012 stanislawbartkowski@gmail.com
  */
 package com.gwtmodel.table.controler;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.factories.IDataPersistListAction;
@@ -19,11 +21,7 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.listdataview.IListDataView;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
 import com.gwtmodel.table.panelview.IPanelView;
-import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.*;
 
 class DisplayListControler extends AbstractSlotMediatorContainer implements
         IDataControler {
@@ -32,6 +30,20 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
     private final CellId controlId;
     private final boolean startM;
     private final DisplayListControlerParam cParam;
+
+    private class GetHTML implements ISlotCallerListener {
+
+        private  String htmlButton;
+
+        GetHTML(String htmlButton) {
+            this.htmlButton = htmlButton;
+        }
+
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            HTMLPanel ha = new HTMLPanel("div",htmlButton);
+            return slContextFactory.construct(slContext.getSlType(), new GWidget(ha));
+        }
+    }
 
     DisplayListControler(DisplayListControlerParam cParam) {
         this.cParam = cParam;
@@ -45,12 +57,10 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
         pView.createView();
         // persist layer
         // header list
-        ListDataViewFactory lDataFactory = cParam.gettFactories()
-                .getlDataFactory();
+        ListDataViewFactory lDataFactory = cParam.gettFactories().getlDataFactory();
         IListDataView daView = lDataFactory.construct(cParam.getdType(),
                 cParam.getGetCell(), true, false);
-        ControlButtonViewFactory bFactory = cParam.gettFactories()
-                .getbViewFactory();
+        ControlButtonViewFactory bFactory = cParam.gettFactories().getbViewFactory();
         IControlButtonView bView = bFactory.construct(cParam.getdType(),
                 cParam.getListButton());
         if (cParam.getMe() == null) {
@@ -71,6 +81,11 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
         if (heList != null) {
             slMediator.registerSlotContainer(-1, heList);
         }
+        if (cParam.getListButton().getHtmlFormat() != null) {
+            ISlotCallerListener l = new GetHTML(cParam.getListButton().getHtmlFormat());
+            SlotType slType = slTypeFactory.constructH(controlId);
+            slMediator.getSlContainer().registerCaller(slType, l);
+        }
     }
 
     private class DrawListAction implements ISlotListener {
@@ -90,18 +105,12 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
         }
         slMediator.getSlContainer().registerSubscriber(cParam.getdType(),
                 DataActionEnum.ListReadSuccessSignal, new DrawListAction());
-        slMediator
-                .getSlContainer()
-                .registerRedirector(
-                        cParam.gettFactories()
-                                .getSlTypeFactory()
-                                .construct(
-                                        cParam.getdType(),
-                                        DataActionEnum.RefreshAfterPersistActionSignal),
-                        cParam.gettFactories()
-                                .getSlTypeFactory()
-                                .construct(cParam.getdType(),
-                                        DataActionEnum.ReadListAction));
+        slMediator.getSlContainer().registerRedirector(
+                cParam.gettFactories().getSlTypeFactory().construct(
+                cParam.getdType(),
+                DataActionEnum.RefreshAfterPersistActionSignal),
+                cParam.gettFactories().getSlTypeFactory().construct(cParam.getdType(),
+                DataActionEnum.ReadListAction));
 
         // secondly publish
         slMediator.getSlContainer().publish(cParam.getdType(),

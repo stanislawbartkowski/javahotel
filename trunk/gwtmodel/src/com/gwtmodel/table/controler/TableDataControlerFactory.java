@@ -18,14 +18,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.factories.IDataCrudModifButtonActionFactory;
-import com.gwtmodel.table.factories.IDataModelFactory;
-import com.gwtmodel.table.factories.IDataPersistListAction;
-import com.gwtmodel.table.factories.IFormTitleFactory;
-import com.gwtmodel.table.factories.IGetViewControllerFactory;
-import com.gwtmodel.table.factories.IHeaderListContainer;
-import com.gwtmodel.table.factories.IHeaderListFactory;
-import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.*;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -49,8 +42,7 @@ public class TableDataControlerFactory {
     }
 
     private DataListParam getParam(IDataType dType) {
-        IDataPersistListAction persistA = fContainer.getPersistFactoryAction()
-                .constructL(dType);
+        IDataPersistListAction persistA = fContainer.getPersistFactoryAction().constructL(dType);
         IHeaderListContainer heList = null;
         IHeaderListFactory hFa = fContainer.getHeaderListFactory();
         if (hFa != null) {
@@ -58,10 +50,8 @@ public class TableDataControlerFactory {
         }
         IDataModelFactory dataFactory = fContainer.getDataModelFactory();
         IFormTitleFactory formFactory = fContainer.getFormTitleFactory();
-        IGetViewControllerFactory fControler = fContainer
-                .getGetViewControllerFactory();
-        IDataCrudModifButtonActionFactory modifButton = fContainer
-                .getDataCrudModifButtonActionFactory();
+        IGetViewControllerFactory fControler = fContainer.getGetViewControllerFactory();
+        IDataCrudModifButtonActionFactory modifButton = fContainer.getDataCrudModifButtonActionFactory();
         return new DataListParam(dType, persistA, heList, dataFactory,
                 formFactory, fControler, modifButton);
     }
@@ -74,15 +64,11 @@ public class TableDataControlerFactory {
     /**
      * Construct ISlotable for single record with buttons and life cycle (do not
      * run startPublish)
-     * 
-     * @param cParam
-     *            DisplayListControlerParam
-     * @param action
-     *            Action parameters like ADD, SHOW
-     * @param vData
-     *            IVModelData to use
-     * @param wSize
-     *            WSize position on the screen
+     *
+     * @param cParam DisplayListControlerParam
+     * @param action Action parameters like ADD, SHOW
+     * @param vData IVModelData to use
+     * @param wSize WSize position on the screen
      * @return ISlotable
      */
     public ISlotable constructDataControler(DisplayListControlerParam cParam,
@@ -96,13 +82,10 @@ public class TableDataControlerFactory {
      * Construct ISlotable for single record without button, content only. It is
      * a responsibility of the caller to position dialog on the screen and
      * should run startPublish
-     * 
-     * @param cParam
-     *            DisplayListControlerParam
-     * @param action
-     *            Action parameters like ADD, SHOW
-     * @param vData
-     *            IVModelData to use
+     *
+     * @param cParam DisplayListControlerParam
+     * @param action Action parameters like ADD, SHOW
+     * @param vData IVModelData to use
      * @return ISlotable
      */
     public ISlotable constructDataControler(DisplayListControlerParam cParam,
@@ -118,8 +101,8 @@ public class TableDataControlerFactory {
     }
 
     public DisplayListControlerParam constructChooseParam(IDataType dType,
-            WSize wSize, CellId panelId) {
-        ListOfControlDesc cList = cButtonFactory.constructChooseList();
+            WSize wSize, CellId panelId, String htmlFormat) {
+        ListOfControlDesc cList = cButtonFactory.constructChooseList(htmlFormat);
         return constructParam(dType, wSize, cList, panelId);
     }
 
@@ -129,7 +112,7 @@ public class TableDataControlerFactory {
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, me, null);
+                fContainer, listParam), listParam, me, null);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
@@ -138,7 +121,7 @@ public class TableDataControlerFactory {
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, me, getCell);
+                fContainer, listParam), listParam, me, getCell);
     }
 
     public DisplayListControlerParam constructParam(CellId panelId,
@@ -146,7 +129,7 @@ public class TableDataControlerFactory {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, me, getCell);
+                fContainer, listParam), listParam, me, getCell);
     }
 
     public DisplayListControlerParam constructParam(CellId panelId,
@@ -161,14 +144,14 @@ public class TableDataControlerFactory {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 null, cList, new DataListCrudControler(tFactories, fContainer,
-                        listParam), listParam, null, null);
+                listParam), listParam, null, null);
     }
 
     public DisplayListControlerParam constructParam(ListOfControlDesc cList,
             CellId panelId, DataListParam listParam, ISlotMediator me) {
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, null, null);
+                fContainer, listParam), listParam, null, null);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
@@ -176,6 +159,6 @@ public class TableDataControlerFactory {
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, wSize,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, null, null);
+                fContainer, listParam), listParam, null, null);
     }
 }

@@ -19,14 +19,27 @@ public class ListOfControlDesc {
 
     private final List<ControlButtonDesc> cList =
             new ArrayList<ControlButtonDesc>();
+    private final String htmlFormat;
 
-    public ListOfControlDesc(List<ControlButtonDesc> cList) {
+    public ListOfControlDesc(List<ControlButtonDesc> cList, String htmlFormat) {
         for (ControlButtonDesc c : cList) {
             this.cList.add(c);
         }
+        this.htmlFormat = htmlFormat;
+    }
+
+    public ListOfControlDesc(List<ControlButtonDesc> cList) {
+        this(cList, null);
     }
 
     public List<ControlButtonDesc> getcList() {
         return cList;
+    }
+
+    /**
+     * @return the htmlFormat
+     */
+    public String getHtmlFormat() {
+        return htmlFormat;
     }
 }

@@ -12,19 +12,7 @@
  */
 package com.gwtmodel.table.controler;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gwtmodel.table.Empty;
-import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.IClickYesNo;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
@@ -32,24 +20,14 @@ import com.gwtmodel.table.controler.DataListActionItemFactory.DrawForm;
 import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
-import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.injector.MM;
-import com.gwtmodel.table.injector.TablesFactories;
+import com.gwtmodel.table.injector.*;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
-import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
-import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.table.VListHeaderContainer;
 import com.gwtmodel.table.view.table.VListHeaderDesc;
@@ -57,6 +35,8 @@ import com.gwtmodel.table.view.util.CreateReadOnlyI;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 

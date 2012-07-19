@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
 class ContrButtonView implements IContrButtonView {
@@ -38,6 +38,7 @@ class ContrButtonView implements IContrButtonView {
     private final IControlClick co;
     private final Map<ClickButtonType, IGFocusWidget> iBut = new HashMap<ClickButtonType, IGFocusWidget>();
     private final Map<ClickButtonType, ControlButtonDesc> cBut = new HashMap<ClickButtonType, ControlButtonDesc>();
+    private HTMLPanel pa = null;
 
     @Override
     public void setEnable(ClickButtonType id, boolean enable) {
@@ -57,7 +58,7 @@ class ContrButtonView implements IContrButtonView {
             bList.add(e.getValue());
         }
         Widget w = gw.getGWidget();
-        HTMLPanel pa = (HTMLPanel) w;
+        pa = (HTMLPanel) w;
         CreateFormView.setHtml(pa, cList, bList);
     }
 
@@ -108,6 +109,9 @@ class ContrButtonView implements IContrButtonView {
 
     @Override
     public Widget getGWidget() {
+        if (pa != null) {
+            return pa;
+        }
         return hP;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,16 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.controlpanel;
-
-import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+package com.gwtmodel.table.chooselist;
 
 /**
  *
- * @author stanislawbartkowski@gmail.com
+ * @author perseus
  */
-public interface IControlClick {
-
-    void click(ControlButtonDesc co, Widget w);
+public interface IChooseList {
+    
 }

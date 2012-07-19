@@ -39,61 +39,60 @@ public class ControlButtonFactory {
             ClickButtonType buttonType) {
         String imageName = ControlButtonImages.getImageName(bType);
         switch (bType) {
-        case CLEARFILTER:
-        case CLEARFIND:
-            return new ControlButtonDesc(imageName, MM.getL().ClearParam(),
-                    buttonType);
-        case FIND:
-            return new ControlButtonDesc(imageName, MM.getL().SearchButton(),
-                    buttonType);
+            case CLEARFILTER:
+            case CLEARFIND:
+                return new ControlButtonDesc(imageName, MM.getL().ClearParam(),
+                        buttonType);
+            case FIND:
+                return new ControlButtonDesc(imageName, MM.getL().SearchButton(),
+                        buttonType);
 
-        case FINDFROMBEGINNING:
-            return new ControlButtonDesc(imageName, MM.getL()
-                    .SearchFromBeginning(), buttonType);
+            case FINDFROMBEGINNING:
+                return new ControlButtonDesc(imageName, MM.getL().SearchFromBeginning(), buttonType);
 
-        case FINDNOW:
-            return new ControlButtonDesc(imageName, MM.getL().SearchButton(),
-                    buttonType);
-        case FINDNEXT:
-            return new ControlButtonDesc(imageName, MM.getL().SearchNext(),
-                    buttonType);
+            case FINDNOW:
+                return new ControlButtonDesc(imageName, MM.getL().SearchButton(),
+                        buttonType);
+            case FINDNEXT:
+                return new ControlButtonDesc(imageName, MM.getL().SearchNext(),
+                        buttonType);
 
-        case SETFILTER:
-            return new ControlButtonDesc(imageName, MM.getL().SetFilter(),
-                    buttonType);
+            case SETFILTER:
+                return new ControlButtonDesc(imageName, MM.getL().SetFilter(),
+                        buttonType);
 
-        case REMOVEFILTER:
-            return new ControlButtonDesc(imageName, MM.getL().RemoveFilter(),
-                    buttonType);
+            case REMOVEFILTER:
+                return new ControlButtonDesc(imageName, MM.getL().RemoveFilter(),
+                        buttonType);
 
-        case FILTRLIST:
-            return new ControlButtonDesc(imageName, MM.getL().Filter(),
-                    buttonType);
-        case ADDITEM:
-            return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.ADDITEM), buttonType);
-        case REMOVEITEM:
-            return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.REMOVEITEM), buttonType);
-        case MODIFITEM:
-            return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.MODIFITEM), buttonType);
-        case SHOWITEM:
-            return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.SHOWITEM), buttonType);
-        case ACCEPT:
-            return new ControlButtonDesc(imageName, MM.getL().Accept(),
-                    buttonType);
-        case RESIGN:
-        case RESIGNLIST:
-            return new ControlButtonDesc(imageName, MM.getL().Resign(),
-                    buttonType);
-        case CHOOSELIST:
-            return new ControlButtonDesc(imageName, MM.getL().Choose(),
-                    buttonType);
+            case FILTRLIST:
+                return new ControlButtonDesc(imageName, MM.getL().Filter(),
+                        buttonType);
+            case ADDITEM:
+                return new ControlButtonDesc(imageName,
+                        c.getCustomValue(IGetCustomValues.ADDITEM), buttonType);
+            case REMOVEITEM:
+                return new ControlButtonDesc(imageName,
+                        c.getCustomValue(IGetCustomValues.REMOVEITEM), buttonType);
+            case MODIFITEM:
+                return new ControlButtonDesc(imageName,
+                        c.getCustomValue(IGetCustomValues.MODIFITEM), buttonType);
+            case SHOWITEM:
+                return new ControlButtonDesc(imageName,
+                        c.getCustomValue(IGetCustomValues.SHOWITEM), buttonType);
+            case ACCEPT:
+                return new ControlButtonDesc(imageName, MM.getL().Accept(),
+                        buttonType);
+            case RESIGN:
+            case RESIGNLIST:
+                return new ControlButtonDesc(imageName, MM.getL().Resign(),
+                        buttonType);
+            case CHOOSELIST:
+                return new ControlButtonDesc(imageName, MM.getL().Choose(),
+                        buttonType);
 
-        default:
-            break;
+            default:
+                break;
         }
         return null;
     }
@@ -133,17 +132,17 @@ public class ControlButtonFactory {
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
         removeButton.add(constructButt(ClickButtonType.StandClickEnum.RESIGN));
 
-        chooseButton
-                .add(constructButt(ClickButtonType.StandClickEnum.CHOOSELIST));
+        chooseButton.add(constructButt(ClickButtonType.StandClickEnum.CHOOSELIST));
         chooseButton.add(constructButt(StandClickEnum.RESIGNLIST));
+        chooseButton.add(constructButt(StandClickEnum.FILTRLIST));
+        chooseButton.add(constructButt(StandClickEnum.FIND));
 
         yesnoButton.add(new ControlButtonDesc(null, MM.getL().Yes(),
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
         yesnoButton.add(new ControlButtonDesc(null, MM.getL().No(),
                 new ClickButtonType(ClickButtonType.StandClickEnum.RESIGN)));
 
-        loginButton.add(new ControlButtonDesc(null, c
-                .getCustomValue(IGetCustomValues.LOGINBUTTON),
+        loginButton.add(new ControlButtonDesc(null, c.getCustomValue(IGetCustomValues.LOGINBUTTON),
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
 
         printButton.add(new ControlButtonDesc(null, MM.getL().Print(),
@@ -154,8 +153,7 @@ public class ControlButtonFactory {
     }
 
     public ControlButtonFactory() {
-        c = GwtGiniInjector.getI().getTableFactoriesContainer()
-                .getGetCustomValues();
+        c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         dButton = new ArrayList<ControlButtonDesc>();
 
         filtrButton = new ArrayList<ControlButtonDesc>();
@@ -192,9 +190,9 @@ public class ControlButtonFactory {
         return new ListOfControlDesc(removeButton);
     }
 
-    public ListOfControlDesc constructChooseList() {
+    public ListOfControlDesc constructChooseList(String htmlFormat) {
         setM();
-        return new ListOfControlDesc(chooseButton);
+        return new ListOfControlDesc(chooseButton, htmlFormat);
     }
 
     public ListOfControlDesc constructYesNoButton() {

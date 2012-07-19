@@ -15,6 +15,7 @@ package com.gwtmodel.table.injector;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
+import com.gwtmodel.table.chooselist.ChooseListFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
@@ -90,6 +91,7 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(EditChooseRecordFactory.class).in(Singleton.class);
         bind(SplitViewFactory.class).in(Singleton.class);
         bind(WidgetScrollSeasonFactory.class).in(Singleton.class);
-        bind(ViewStackPanelFactory.class).in(Singleton.class);        
+        bind(ViewStackPanelFactory.class).in(Singleton.class);
+        bind(ChooseListFactory.class).in(Singleton.class);
     }
 }
