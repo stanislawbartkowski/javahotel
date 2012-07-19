@@ -15,7 +15,7 @@ package com.gwtmodel.table;
 import com.google.gwt.http.client.*;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
 public class ReadRequestHtml {
@@ -35,7 +35,6 @@ public class ReadRequestHtml {
         RequestCallbackM(ISetRequestText iSet) {
             this.iSet = iSet;
         }
-
         private static final int STATUS_CODE_OK = 200;
 
         public void onError(Request request, Throwable exception) {

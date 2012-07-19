@@ -22,17 +22,17 @@ import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 
 /**
- * 
+ *
  * @author hotel
  */
-public abstract class AbstractSlotMediatorContainer extends
-        TemplateContainerSlotable<ISlotMediator> {
+public abstract class AbstractSlotMediatorContainer extends TemplateContainerSlotable<ISlotMediator> {
 
     protected final TablesFactories tFactories;
     // not final
     protected ISlotMediator slMediator;
     protected final PanelViewFactory pViewFactory;
     protected final SlotSignalContextFactory slContextFactory;
+    protected final SlotTypeFactory slTypeFactory;
 
     protected AbstractSlotMediatorContainer() {
         tFactories = GwtGiniInjector.getI().getTablesFactories();
@@ -40,6 +40,6 @@ public abstract class AbstractSlotMediatorContainer extends
         iSlot = slMediator;
         pViewFactory = tFactories.getpViewFactory();
         slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+        slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
     }
-
 }

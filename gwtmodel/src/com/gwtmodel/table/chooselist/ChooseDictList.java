@@ -10,33 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.chooselist;
 
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.*;
 
-// TODO : remove
 /**
  *
  * @author stanislaw.bartkowski@gmail.com
  */
-class ChooseDictList<T extends IVModelData> {
+class ChooseDictList implements IChooseList {
 
-    private final ICallBackWidget<T> i;
+    private final ICallBackWidget i;
     private final SlotListContainer sl;
     private final IDataType dType;
-
-    interface ICallBackWidget<T extends IVModelData> {
-
-        void setWidget(WSize ws, IGWidget w);
-
-        void setChoosed(T vData, IVField comboFie);
-
-        void setResign();
-    }
 
     private class GetChoosed implements ISlotListener {
 
@@ -48,9 +40,8 @@ class ChooseDictList<T extends IVModelData> {
                 return;
             }
             @SuppressWarnings("unchecked")
-            T t = (T) vData;
             IVField comboFie = sl.getGetterComboField(dType);
-            i.setChoosed(t, comboFie);
+            i.setChoosed(vData, comboFie);
         }
     }
 
@@ -77,12 +68,17 @@ class ChooseDictList<T extends IVModelData> {
         }
     }
 
-    private ChooseDictList(IDataType dType, WSize wSize, ICallBackWidget<T> i) {
+    ChooseDictList(IDataType dType, WSize wSize, ICallBackWidget i) {
         this.i = i;
         this.dType = dType;
         TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
+//        String s = "<button id=\"CHOOSELIST\" /> <button id=\"RESIGNLIST\" /> <button id=\"FILTRLIST\" /> <button id=\"FIND\" /> ";
+//        String s = "<table> <tr> <td id=\"CHOOSELIST\" /> <td id=\"RESIGNLIST\" /> </tr> <tr> <td id=\"FILTRLIST\" /> <td id=\"FIND\" /> </tr> </table>";
+        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+
+        String s = c.getCustomValue(IGetCustomValues.HTMLPANELFORCHOOSELIST);
         DisplayListControlerParam cParam = tFactory.constructChooseParam(dType,
-                wSize, new CellId(0), null);
+                wSize, new CellId(0), s);
 
         IDataControler iData = tFactory.constructDataControler(cParam);
 
@@ -92,6 +88,7 @@ class ChooseDictList<T extends IVModelData> {
         sl.registerSubscriber(dType, ClickButtonType.StandClickEnum.RESIGNLIST,
                 new GetResign());
         sl.registerSubscriber(dType, 0, new GetWidget(wSize));
+
         iData.startPublish(new CellId(0));
     }
 }

@@ -34,6 +34,7 @@ public interface IGetCustomValues {
     String PASSWORD = "PASSWORD";
     String LOGINBUTTON = "LOGINBUTTON";
     String DATEFORMAT = "DATEFORMAT";
+    String HTMLPANELFORCHOOSELIST = "HTMLPANELFORCHOOSELIST";
 
     String getCustomValue(String key);
 

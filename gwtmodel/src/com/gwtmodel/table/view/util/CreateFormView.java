@@ -12,21 +12,16 @@
  */
 package com.gwtmodel.table.view.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class CreateFormView {
 
@@ -35,13 +30,10 @@ public class CreateFormView {
 
     /**
      * Inserts one position into HTML panel. Do nothing if position not found
-     * 
-     * @param ha
-     *            HTMLpanel
-     * @param htmlId
-     *            Position id inside HTML
-     * @param w
-     *            Widget to insert Important: do nothing if position not found
+     *
+     * @param ha HTMLpanel
+     * @param htmlId Position id inside HTML
+     * @param w Widget to insert Important: do nothing if position not found
      */
     public static void replace(HTMLPanel ha, String htmlId, Widget w) {
         try {
@@ -58,7 +50,7 @@ public class CreateFormView {
         int i = 0;
         for (ClickButtonType c : dList) {
             IGFocusWidget b = bList.get(i++);
-            String htmlId = c.getCustomButt();
+            String htmlId = c.getHtmlElementName();
             replace(pa, htmlId, b.getGWidget());
         }
     }
@@ -82,11 +74,9 @@ public class CreateFormView {
 
     /**
      * Creates widget grid for list of form (enter) fields
-     * 
-     * @param fList
-     *            List of fields
-     * @param add
-     *            if not null contains set of fields for add (ignore the others)
+     *
+     * @param fList List of fields
+     * @param add if not null contains set of fields for add (ignore the others)
      * @return Grid created
      */
     public static Grid construct(final List<FormField> fList, Set<IVField> add) {

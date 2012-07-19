@@ -31,7 +31,6 @@ class ControlButtonView extends AbstractSlotContainer implements
         IControlButtonView, IStackPanelController {
 
     private final IContrButtonView vButton;
-
     private Map<ClickButtonType, ClickButtonType> redirMap = new HashMap<ClickButtonType, ClickButtonType>();
 
     private class Click implements IControlClick {
@@ -57,7 +56,7 @@ class ControlButtonView extends AbstractSlotContainer implements
         public void signal(ISlotSignalContext slContext) {
             LogT.getLS().info(
                     LogT.getT().receivedSignalLog(
-                            slContext.getSlType().toString()));
+                    slContext.getSlType().toString()));
             vButton.setEnable(actionId,
                     bAction.getAction() == ButtonAction.Action.EnableButton);
         }
@@ -73,16 +72,15 @@ class ControlButtonView extends AbstractSlotContainer implements
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            redirMap.put(b.getActionId(), slContext.getSlType().getbAction()
-                    .getRedirectB());
+            redirMap.put(b.getActionId(), slContext.getSlType().getbAction().getRedirectB());
         }
     }
 
     /**
      * Listener for 'force button' action
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class ForceButton implements ISlotListener {
 
@@ -97,7 +95,6 @@ class ControlButtonView extends AbstractSlotContainer implements
             vButton.emulateClick(b.getActionId());
 
         }
-
     }
 
     private void register(ButtonAction.Action bA, ControlButtonDesc b) {
@@ -127,10 +124,9 @@ class ControlButtonView extends AbstractSlotContainer implements
     @Override
     public void startPublish(CellId cellId) {
         IGWidget w = getHtmlWidget(cellId);
-        if (w == null) {
-            publish(dType, cellId, vButton);
-        } else {
+        if (w != null) {
             vButton.fillHtml(w);
         }
+        publish(dType, cellId, vButton);
     }
 }

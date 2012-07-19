@@ -19,7 +19,7 @@ import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.Utils;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
 public class ImgButtonFactory {

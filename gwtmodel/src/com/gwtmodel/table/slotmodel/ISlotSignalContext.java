@@ -12,13 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import com.gwtmodel.table.ICustomObject;
-import com.gwtmodel.table.IDataListType;
-import com.gwtmodel.table.IGWidget;
-import com.gwtmodel.table.IOkModelData;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.*;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;

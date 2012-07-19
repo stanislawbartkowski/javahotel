@@ -14,6 +14,10 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.*;
+import com.gwtmodel.table.chooselist.ChooseListFactory;
+import com.gwtmodel.table.chooselist.ICallBackWidget;
+import com.gwtmodel.table.chooselist.IChooseList;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 
 /**
  * 
@@ -32,7 +36,7 @@ abstract class ChooseListHelper {
     abstract void hide();
 
     private class ChooseD implements
-            ChooseDictList.ICallBackWidget<IVModelData> {
+            ICallBackWidget<IVModelData> {
 
         private final WidgetWithPopUpTemplate.ISetWidget iSet;
 
@@ -63,8 +67,8 @@ abstract class ChooseListHelper {
         @Override
         public void getPopUp(Widget startW,
                 WidgetWithPopUpTemplate.ISetWidget iSet) {
-            ChooseDictList cList = new ChooseDictList(dType, new WSize(startW),
-                    new ChooseD(iSet));
+                    ChooseListFactory fa = GwtGiniInjector.getI().getChooseListFactory();
+           IChooseList i = fa.constructChooseList(dType, new WSize(startW), new ChooseD(iSet));
         }
     }
 
@@ -72,7 +76,7 @@ abstract class ChooseListHelper {
         return new PopU();
     }
 
-    ChooseDictList.ICallBackWidget<IVModelData> getC(
+    ICallBackWidget<IVModelData> getC(
             WidgetWithPopUpTemplate.ISetWidget iSet) {
         return new ChooseD(iSet);
     }
