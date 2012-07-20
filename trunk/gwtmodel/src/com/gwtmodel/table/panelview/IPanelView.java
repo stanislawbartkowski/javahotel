@@ -18,13 +18,15 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 
 public interface IPanelView extends ISlotable {
 
+    CellId addCellPanel(int row, int col, boolean registerHtml);
+
     CellId addCellPanel(int row, int col);
 
     CellId addCellPanel(int row, int col, String cellId);
 
     CellId addCellPanel(IDataType publishType, int row, int col);
 
-    CellId addCellPanel(IDataType publishType, int row, int col, String cellId);
+    CellId addCellPanel(IDataType publishType, int row, int col, String cellId, boolean registerHtml);
 
     void createView();
 
