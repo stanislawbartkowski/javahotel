@@ -31,13 +31,11 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
         private final int rowNo, cellNo;
         private final String cellId;
-        private final boolean registerHtml;
 
-        PanelRowCell(int rowNo, int cellNo, String cellId, boolean registerHtml) {
+        PanelRowCell(int rowNo, int cellNo, String cellId) {
             this.rowNo = rowNo;
             this.cellNo = cellNo;
             this.cellId = cellId;
-            this.registerHtml = registerHtml;
         }
 
         int getRowNo() {
@@ -53,13 +51,6 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
          */
         String getCellId() {
             return cellId;
-        }
-
-        /**
-         * @return the registerHtml
-         */
-        public boolean isRegisterHtml() {
-            return registerHtml;
         }
     }
     private final Map<CellId, PanelRowCell> colM = new HashMap<CellId, PanelRowCell>();
@@ -81,23 +72,18 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
     }
 
     @Override
-    public CellId addCellPanel(int row, int col, boolean registerHtml) {
-        return addCellPanel(null, row, col, null, registerHtml);
-    }
-
-    @Override
     public CellId addCellPanel(int row, int col) {
-        return addCellPanel(row, col, false);
+        return addCellPanel(null, row, col, null);
     }
 
     @Override
     public CellId addCellPanel(int row, int col, String cellId) {
-        return addCellPanel(null, row, col, cellId, false);
+        return addCellPanel(null, row, col, cellId);
     }
 
     @Override
-    public CellId addCellPanel(IDataType publishType, int row, int col, String cellId, boolean registerHtml) {
-        PanelRowCell pa = new PanelRowCell(row, col, cellId, registerHtml);
+    public CellId addCellPanel(IDataType publishType, int row, int col, String cellId) {
+        PanelRowCell pa = new PanelRowCell(row, col, cellId);
         CellId nextId = panelId.constructNext(publishType);
         panelId = nextId;
         colM.put(nextId, pa);
@@ -106,7 +92,7 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
     @Override
     public CellId addCellPanel(IDataType publishType, int row, int col) {
-        return addCellPanel(null, row, col, null, false);
+        return addCellPanel(null, row, col, null);
     }
 
     private class SetWidget implements ISlotListener {
@@ -124,13 +110,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
                 String id = pa.cellId;
 //                assert id != null : LogT.getT().CellCannotBeNull();
                 if (id != null) {
-                   CreateFormView.replace(htmlWidget, id, gwtWidget.getGWidget());
+                    CreateFormView.replace(htmlWidget, id, gwtWidget.getGWidget());
                 }
             }
         }
     }
 
-    private class GetHtml implements ISlotCallerListener {
+    private class GetMainHtml implements ISlotCallerListener {
 
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
@@ -159,18 +145,13 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             pView = gFactory.construct(maxR + 1, maxC + 1);
         } else {
             htmlWidget = new HTMLPanel(html);
-            c = new GetHtml();
+            c = new GetMainHtml();
+            SlotType sl = slTypeFactory.constructMainH();
+            registerCaller(sl, c);
         }
 
         for (CellId ii : colM.keySet()) {
             registerSubscriber(dType, ii, new SetWidget());
-            if (c != null) {
-                PanelRowCell ro = colM.get(ii);
-                if (ro.isRegisterHtml()) {
-                    SlotType sl = slTypeFactory.constructH(ii);
-                    registerCaller(sl, c);
-                }
-            }
         }
         // create publisher
     }

@@ -49,6 +49,11 @@ public class SlotTypeFactory {
                 null, cellId, dType, null, null, null);
     }
 
+    public SlotType constructMainH() {
+        return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
+                null, null, GetActionEnum.GetHtmlMainForm, null, null);
+    }
+
     public SlotType constructH(CellId cellId) {
         assert cellId != null : LogT.getT().cannotBeNull();
         return new SlotType(SlotEventEnum.GetterCaller, null, null, null, null,
@@ -73,11 +78,11 @@ public class SlotTypeFactory {
                 null, null, null, dType, null, null, bAction);
     }
 
-    public SlotType construct(IDataType dType,ClickButtonType buttonClick) {
+    public SlotType construct(IDataType dType, ClickButtonType buttonClick) {
         assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick,
                 null, null, null, dType, null, null, new ButtonAction(
-                        ButtonAction.Action.ClickButton));
+                ButtonAction.Action.ClickButton));
     }
 
     public SlotType construct(String stringButton) {
