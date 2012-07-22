@@ -251,6 +251,10 @@ abstract public class AbstractSlotContainer implements ISlotable {
     protected IGWidget getHtmlWidget(CellId c) {
         return sReference.getSlContainer().getHtmlWidget(c);
     }
+    
+    protected IGWidget getMainHtmlWidget() {
+        return sReference.getSlContainer().getMainHtmlWidget();
+    }
 
     protected FormLineContainer getGetterContainer(IDataType dType) {
         return sReference.getSlContainer().getGetterContainer(dType);

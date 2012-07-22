@@ -35,7 +35,6 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private final IGwtFormView gView;
     private final IDataModelFactory dFactory;
     private final ICallContext iContext;
-
     private final SyPublish syP;
 
     private class SyPublish extends SynchronizeList {
@@ -48,7 +47,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         protected void doTask() {
-            IGWidget w = getHtmlWidget(cellId);
+            IGWidget w = getMainHtmlWidget();
             if (w == null) {
                 publish(dType, cellId, gView);
                 return;
@@ -69,24 +68,24 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     private void changeMode(PersistTypeEnum persistTypeEnum, FormField fie) {
         IFormLineView vie = fie.getELine();
         switch (persistTypeEnum) {
-        case ADD:
-            if (fie.isReadOnlyIfAdd()) {
+            case ADD:
+                if (fie.isReadOnlyIfAdd()) {
+                    vie.setReadOnly(true);
+                } else {
+                    vie.setReadOnly(false);
+                }
+                break;
+            case MODIF:
+                if (fie.isReadOnlyIfModif()) {
+                    vie.setReadOnly(true);
+                } else {
+                    vie.setReadOnly(false);
+                }
+                break;
+            case REMOVE:
+            case SHOWONLY:
                 vie.setReadOnly(true);
-            } else {
-                vie.setReadOnly(false);
-            }
-            break;
-        case MODIF:
-            if (fie.isReadOnlyIfModif()) {
-                vie.setReadOnly(true);
-            } else {
-                vie.setReadOnly(false);
-            }
-            break;
-        case REMOVE:
-        case SHOWONLY:
-            vie.setReadOnly(true);
-            break;
+                break;
         }
     }
 
@@ -151,17 +150,16 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext
-                    .getValidateError();
+            InvalidateFormContainer errContainer = (InvalidateFormContainer) slContext.getValidateError();
             gView.showInvalidate(errContainer);
         }
     }
 
     /**
      * Listener for all changes in the form
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class FormChangeListener implements IFormChangeListener {
 
@@ -200,7 +198,6 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 changeMode(cMode.getPersistTypeEnum(), f);
             }
         }
-
     }
 
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
@@ -215,8 +212,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         iContext.setiSlo(this);
         IDataFormConstructorAbstractFactory.CType ccType;
         if (abFactory == null) {
-            ccType = iContext.getC().getDataFormConstructorAbstractFactory()
-                    .construct(iContext);
+            ccType = iContext.getC().getDataFormConstructorAbstractFactory().construct(iContext);
         } else {
             ccType = abFactory.construct(iContext);
         }
@@ -226,7 +222,6 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             public void signal() {
                 syP.signalDone();
             }
-
         };
         gView = gFactory.construct(iContext, fContainer, ccType, iSig);
         if (dFactory == null) {
@@ -272,11 +267,5 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
     public void startPublish(CellId cellId) {
         syP.cellId = cellId;
         syP.signalDone();
-        // IGWidget w = getHtmlWidget(cellId);
-        // if (w == null) {
-        // publish(dType, cellId, gView);
-        // return;
-        // }
-        // gView.fillHtml(w);
     }
 }

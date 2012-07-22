@@ -123,7 +123,12 @@ class ControlButtonView extends AbstractSlotContainer implements
 
     @Override
     public void startPublish(CellId cellId) {
-        IGWidget w = getHtmlWidget(cellId);
+        IGWidget w = this.getMainHtmlWidget();
+        if (w != null) {
+            vButton.fillHtml(w);
+            return;
+        }
+        w = getHtmlWidget(cellId);
         if (w != null) {
             vButton.fillHtml(w);
         }
