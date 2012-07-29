@@ -22,10 +22,11 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
-import com.google.gwt.user.cellview.client.*;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -275,6 +276,7 @@ class PresentationTable implements IGwtTableView {
         Column co;
         for (VListHeaderDesc he : li) {
             boolean editable = he.isEditable();
+            VListHeaderDesc.ColAlign align = he.getAlign();
             if (he.getgHeader() != null) {
                 @SuppressWarnings("rawtypes")
                 Header header = he.getgHeader().getHeader();
@@ -296,6 +298,9 @@ class PresentationTable implements IGwtTableView {
                     case LONG:
                     case BIGDECIMAL:
                         co = fa.constructNumberCol(he.getFie(), editable);
+                        if (align == null) {
+                            co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+                        }
                         break;
                     case DATE:
                         co = fa.constructDateEditCol(he.getFie(), editable);
@@ -306,6 +311,19 @@ class PresentationTable implements IGwtTableView {
                 }
             }
             co.setSortable(true);
+            if (align != null) {
+                switch (align) {
+                    case LEFT:
+                        co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+                        break;
+                    case RIGHT:
+                        co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+                        break;
+                    case CENTER:
+                        co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+                        break;
+                }
+            }
             if (he.isHidden() || he.getHeaderString() == null) {
                 // Important: for some reason the assert violation cause
                 // breaking without Exception throwing

@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 
+ *
  * @author perseus
  */
 public class FUtils {
@@ -31,7 +31,6 @@ public class FUtils {
 
         Boolean toB(String s);
     }
-
     private static IBooleanConversion iBool;
 
     public static void setB(IBooleanConversion b) {
@@ -72,12 +71,9 @@ public class FUtils {
 
     /**
      * Transforms string to proper object
-     * 
-     * @param f
-     *            Object type
-     * @param s
-     *            String to be tranformed (empty or null will be returned as
-     *            null)
+     *
+     * @param f Object type
+     * @param s String to be tranformed (empty or null will be returned as null)
      * @return Object created
      */
     public static Object getValue(IVField f, String s) {
@@ -86,27 +82,27 @@ public class FUtils {
         }
         Object o;
         switch (f.getType().getType()) {
-        case BIGDECIMAL:
-            o = Utils.toBig(s);
-            break;
-        case LONG:
-            o = Utils.toLong(s);
-            break;
-        case DATE:
-            o = Utils.toD(s);
-            break;
-        case INT:
-            o = Utils.toInteger(s);
-            break;
-        case ENUM:
-            o = f.getType().getE().toEnum(s);
-            break;
-        case BOOLEAN:
-            o = iBool.toB(s);
-            break;
-        default:
-            o = s;
-            break;
+            case BIGDECIMAL:
+                o = Utils.toBig(s);
+                break;
+            case LONG:
+                o = Utils.toLong(s);
+                break;
+            case DATE:
+                o = Utils.toD(s);
+                break;
+            case INT:
+                o = Utils.toInteger(s);
+                break;
+            case ENUM:
+                o = f.getType().getE().toEnum(s);
+                break;
+            case BOOLEAN:
+                o = iBool.toB(s);
+                break;
+            default:
+                o = s;
+                break;
 
         }
         if (f.getType().getI() != null) {
@@ -118,11 +114,9 @@ public class FUtils {
 
     /**
      * Get value from IVModelData regarding also custom method
-     * 
-     * @param ii
-     *            IVModelData to get from
-     * @param f
-     *            IVField identifier
+     *
+     * @param ii IVModelData to get from
+     * @param f IVField identifier
      * @return Object
      */
     private static Object getF(IVModelData ii, IVField f) {
@@ -134,11 +128,9 @@ public class FUtils {
 
     /**
      * Get BigDecimalValue from IVModelData
-     * 
-     * @param ii
-     *            IVModelData to get from
-     * @param f
-     *            IVField identifier
+     *
+     * @param ii IVModelData to get from
+     * @param f IVField identifier
      * @return Object
      */
     public static BigDecimal getValueBigDecimal(IVModelData ii, IVField f) {
@@ -220,11 +212,9 @@ public class FUtils {
 
     /**
      * Check is field (object) is empty
-     * 
-     * @param ii
-     *            VModelData container
-     * @param f
-     *            Field description
+     *
+     * @param ii VModelData container
+     * @param f Field description
      * @return true or false (empty, not empty)
      */
     public static boolean isNullValue(IVModelData ii, IVField f) {
@@ -236,19 +226,19 @@ public class FUtils {
             return f.getType().getI().isNullCustom(o);
         }
         switch (f.getType().getType()) {
-        case BIGDECIMAL:
-            return isNullBigDecimal(ii, f);
-        case LONG:
-            return isNullLong(ii, f);
-        case INT:
-            return isNullInt(ii, f);
-        case DATE:
-            return isNullDate(ii, f);
-        case ENUM:
-            return isNullEnum(ii, f);
+            case BIGDECIMAL:
+                return isNullBigDecimal(ii, f);
+            case LONG:
+                return isNullLong(ii, f);
+            case INT:
+                return isNullInt(ii, f);
+            case DATE:
+                return isNullDate(ii, f);
+            case ENUM:
+                return isNullEnum(ii, f);
             // cannot set boolean as null
-        case BOOLEAN:
-            return false;
+            case BOOLEAN:
+                return false;
         }
         return isNullString(ii, f);
     }
@@ -279,7 +269,6 @@ public class FUtils {
             IVField from) {
         Date rD = getValueDate(row, f);
         Date fD = getValueDate(filter, from);
-//        return fD.compareTo(rD);
         return DateUtil.compareDate(fD, rD);
     }
 
@@ -319,43 +308,37 @@ public class FUtils {
         }
         int comp;
         switch (f1.getType().getType()) {
-        case INT:
-            comp = compInteger(row1, f1, row2, f2);
-            break;
-        case BIGDECIMAL:
-            comp = compBigDecimal(row1, f1, row2, f2);
-            break;
-        case LONG:
-            comp = compLong(row1, f1, row2, f2);
-            break;
-        case DATE:
-            comp = compDate(row1, f1, row2, f2);
-            break;
-        case BOOLEAN:
-            comp = compBoolean(row1, f1, row2, f2);
-            break;
-        default:
-            comp = compString(row1, f1, row2, f2, true);
-            break;
+            case INT:
+                comp = compInteger(row1, f1, row2, f2);
+                break;
+            case BIGDECIMAL:
+                comp = compBigDecimal(row1, f1, row2, f2);
+                break;
+            case LONG:
+                comp = compLong(row1, f1, row2, f2);
+                break;
+            case DATE:
+                comp = compDate(row1, f1, row2, f2);
+                break;
+            case BOOLEAN:
+                comp = compBoolean(row1, f1, row2, f2);
+                break;
+            default:
+                comp = compString(row1, f1, row2, f2, true);
+                break;
         }
         return comp;
     }
 
     /**
      * Field comparison
-     * 
-     * @param row
-     *            Row (container) to be compared
-     * @param f
-     *            Field description
-     * @param filter
-     *            Container with filtr (search) values
-     * @param from
-     *            Field in filtr container (from value)
-     * @param to
-     *            Field in filtr container (to value)
-     * @param checkE
-     *            Field in filtr keeping Boolean value for equality
+     *
+     * @param row Row (container) to be compared
+     * @param f Field description
+     * @param filter Container with filtr (search) values
+     * @param from Field in filtr container (from value)
+     * @param to Field in filtr container (to value)
+     * @param checkE Field in filtr keeping Boolean value for equality
      * @return true (holds true, inside filter) : false : outside
      */
     public static boolean inRange(IVModelData row, IVField f,
@@ -380,46 +363,46 @@ public class FUtils {
         int compto = 0;
         if (!emptyfrom) {
             switch (f.getType().getType()) {
-            case INT:
-                compfrom = compInteger(row, f, filter, from);
-                break;
-            case BIGDECIMAL:
-                compfrom = compBigDecimal(row, f, filter, from);
-                break;
-            case LONG:
-                compfrom = compLong(row, f, filter, from);
-                break;
-            case DATE:
-                compfrom = compDate(row, f, filter, from);
-                break;
-            case BOOLEAN:
-                compfrom = compBoolean(row, f, filter, from);
-                break;
-            default:
-                compfrom = compString(row, f, filter, from, true);
-                break;
+                case INT:
+                    compfrom = compInteger(row, f, filter, from);
+                    break;
+                case BIGDECIMAL:
+                    compfrom = compBigDecimal(row, f, filter, from);
+                    break;
+                case LONG:
+                    compfrom = compLong(row, f, filter, from);
+                    break;
+                case DATE:
+                    compfrom = compDate(row, f, filter, from);
+                    break;
+                case BOOLEAN:
+                    compfrom = compBoolean(row, f, filter, from);
+                    break;
+                default:
+                    compfrom = compString(row, f, filter, from, true);
+                    break;
             }
         }
         if (!emptyto) {
             switch (f.getType().getType()) {
-            case BIGDECIMAL:
-                compto = compBigDecimal(row, f, filter, to);
-                break;
-            case INT:
-                compto = compInteger(row, f, filter, to);
-                break;
-            case LONG:
-                compto = compLong(row, f, filter, to);
-                break;
-            case DATE:
-                compto = compDate(row, f, filter, to);
-                break;
-            case BOOLEAN:
-                compto = compBoolean(row, f, filter, to);
-                break;
-            default:
-                compto = compString(row, f, filter, to, false);
-                break;
+                case BIGDECIMAL:
+                    compto = compBigDecimal(row, f, filter, to);
+                    break;
+                case INT:
+                    compto = compInteger(row, f, filter, to);
+                    break;
+                case LONG:
+                    compto = compLong(row, f, filter, to);
+                    break;
+                case DATE:
+                    compto = compDate(row, f, filter, to);
+                    break;
+                case BOOLEAN:
+                    compto = compBoolean(row, f, filter, to);
+                    break;
+                default:
+                    compto = compString(row, f, filter, to, false);
+                    break;
             }
         }
         // take BOOLEAN type differently
@@ -496,11 +479,9 @@ public class FUtils {
 
     /**
      * Transforms object to string value
-     * 
-     * @param oo
-     *            Object to be transfored
-     * @param f
-     *            Object (field) description
+     *
+     * @param oo Object to be transfored
+     * @param f Object (field) description
      * @return String
      */
     public static String getValueOS(Object oo, IVField f) {
@@ -512,20 +493,20 @@ public class FUtils {
         }
         try {
             switch (f.getType().getType()) {
-            case BIGDECIMAL:
-                return getBigDecimalS(o, f);
-            case LONG:
-                return getLongS(o, f);
-            case DATE:
-                return getDateS(o, f);
-            case INT:
-                return getIntS(o, f);
-            case ENUM:
-                return getEnum(o, f);
-            case BOOLEAN:
-                return getBoolS(o, f);
-            default:
-                return getStringS(o, f);
+                case BIGDECIMAL:
+                    return getBigDecimalS(o, f);
+                case LONG:
+                    return getLongS(o, f);
+                case DATE:
+                    return getDateS(o, f);
+                case INT:
+                    return getIntS(o, f);
+                case ENUM:
+                    return getEnum(o, f);
+                case BOOLEAN:
+                    return getBoolS(o, f);
+                default:
+                    return getStringS(o, f);
             }
         } catch (java.lang.ClassCastException e) {
             Utils.errAlert(LogT.getT().errorWhileReading(f.toString()), e);
@@ -535,11 +516,9 @@ public class FUtils {
 
     /**
      * Transforms object from container to string
-     * 
-     * @param ii
-     *            Container (row)
-     * @param f
-     *            Field description
+     *
+     * @param ii Container (row)
+     * @param f Field description
      * @return String
      */
     public static String getValueS(IVModelData ii, IVField f) {
@@ -572,12 +551,12 @@ public class FUtils {
             return null;
         }
         switch (f.getType().getType()) {
-        case BIGDECIMAL:
-            return checkBigDecimal(f, s);
-        case LONG:
-            return checkLong(f, s);
-        case DATE:
-            return checkDate(f, s);
+            case BIGDECIMAL:
+                return checkBigDecimal(f, s);
+            case LONG:
+                return checkLong(f, s);
+            case DATE:
+                return checkDate(f, s);
         }
         return null;
     }
@@ -598,11 +577,9 @@ public class FUtils {
     /**
      * Check if object is of type according to FieldType Very important to be
      * performed here to avoid error propagation
-     * 
-     * @param f
-     *            Object identifier
-     * @param o
-     *            Object itself Throws exception if not valid
+     *
+     * @param f Object identifier
+     * @param o Object itself Throws exception if not valid
      */
     public static void assertType(IVField f, Object o) {
         if (o == null) {
@@ -614,28 +591,28 @@ public class FUtils {
             return;
         }
         switch (f.getType().getType()) {
-        case BIGDECIMAL:
-            assert o instanceof BigDecimal : assertTypeS(o, BigDecimal.class);
-            break;
-        case INT:
-            assert o instanceof Integer : assertTypeS(o, Integer.class);
-            break;
-        case LONG:
-            assert o instanceof Long : assertTypeS(o, Long.class);
-            break;
-        case DATE:
-            assert o instanceof Date : assertTypeS(o, Date.class);
-            break;
-        case BOOLEAN:
-            assert o instanceof Boolean : assertTypeS(o, Boolean.class);
-            break;
-        case ENUM:
-            String s = f.getType().getE().assertS(o);
-            assert s == null : s;
-            break;
-        default:
-            assert o instanceof String : assertTypeS(o, String.class);
-            break;
+            case BIGDECIMAL:
+                assert o instanceof BigDecimal : assertTypeS(o, BigDecimal.class);
+                break;
+            case INT:
+                assert o instanceof Integer : assertTypeS(o, Integer.class);
+                break;
+            case LONG:
+                assert o instanceof Long : assertTypeS(o, Long.class);
+                break;
+            case DATE:
+                assert o instanceof Date : assertTypeS(o, Date.class);
+                break;
+            case BOOLEAN:
+                assert o instanceof Boolean : assertTypeS(o, Boolean.class);
+                break;
+            case ENUM:
+                String s = f.getType().getE().assertS(o);
+                assert s == null : s;
+                break;
+            default:
+                assert o instanceof String : assertTypeS(o, String.class);
+                break;
         }
     }
 }

@@ -57,15 +57,47 @@ class PresentationCellFactory {
     private final IGetCellValue getCell;
     private IGwtTableModel model;
     private final NumberCell iCell = new NumberCell(
-            NumberFormat.getFormat("#####"));
+            NumberFormat.getFormat(getNumberFormat(0)));
     private final NumberCell nCell1 = new NumberCell(
-            NumberFormat.getFormat("###########.#"));
+            NumberFormat.getFormat(getNumberFormat(1)));
     private final NumberCell nCell2 = new NumberCell(
-            NumberFormat.getFormat("###########.##"));
+            NumberFormat.getFormat(getNumberFormat(2)));
     private final NumberCell nCell3 = new NumberCell(
-            NumberFormat.getFormat("###########.###"));
+            NumberFormat.getFormat(getNumberFormat(3)));
     private final NumberCell nCell4 = new NumberCell(
-            NumberFormat.getFormat("###########.####"));
+            NumberFormat.getFormat(getNumberFormat(4)));
+
+    private String getNumberFormat(int afterdot) {
+        String defaFormat;
+        String parName;
+        switch (afterdot) {
+            case 0:
+                defaFormat = "####0";
+                parName = IGetCustomValues.NUMBERFORMAT0;
+                break;
+            case 1:
+                defaFormat = "##########0.0";
+                parName = IGetCustomValues.NUMBERFORMAT1;
+                break;
+            case 2:
+                defaFormat = "##########0.00";
+                parName = IGetCustomValues.NUMBERFORMAT2;
+                break;
+            case 3:
+                defaFormat = "##########0.000";
+                parName = IGetCustomValues.NUMBERFORMAT3;
+                break;
+            default:
+                defaFormat = "##########0.0000";
+                parName = IGetCustomValues.NUMBERFORMAT4;
+                break;
+        }
+        String forma = cValues.getCustomValue(parName);
+        if (forma == null) {
+            forma = defaFormat;
+        }
+        return forma;
+    }
 
     /**
      * @param model the model to set

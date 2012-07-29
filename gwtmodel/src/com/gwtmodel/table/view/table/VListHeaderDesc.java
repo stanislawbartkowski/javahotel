@@ -18,12 +18,17 @@ import com.gwtmodel.table.injector.LogT;
 
 public class VListHeaderDesc {
 
+    public enum ColAlign {
+
+        LEFT, CENTER, RIGHT
+    }
     private final String headerString;
     private final IVField fie;
     private final boolean hidden;
     private final String buttonAction;
     private final IGHeader gHeader;
     private final boolean editable;
+    private final ColAlign align;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
         assert fie != null : LogT.getT().cannotBeNull();
@@ -33,6 +38,7 @@ public class VListHeaderDesc {
         this.buttonAction = null;
         this.gHeader = gHeader;
         this.editable = false;
+        this.align = null;
     }
 
     /**
@@ -50,15 +56,15 @@ public class VListHeaderDesc {
     }
 
     public VListHeaderDesc(String headerString, IVField fie) {
-        this(headerString, fie, false, null, false);
+        this(headerString, fie, false, null, false, null);
     }
 
     public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
-        this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(), false);
+        this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(), false, null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
-            String buttonAction, boolean editable) {
+            String buttonAction, boolean editable, ColAlign align) {
         assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = headerString;
         this.fie = fie;
@@ -66,10 +72,11 @@ public class VListHeaderDesc {
         this.buttonAction = buttonAction;
         this.gHeader = null;
         this.editable = editable;
+        this.align = align;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
-        this(headerString, fie, hidden, null, false);
+        this(headerString, fie, hidden, null, false, null);
     }
 
     public String getHeaderString() {
@@ -92,5 +99,12 @@ public class VListHeaderDesc {
      */
     public String getButtonAction() {
         return buttonAction;
+    }
+
+    /**
+     * @return the align
+     */
+    public ColAlign getAlign() {
+        return align;
     }
 }
