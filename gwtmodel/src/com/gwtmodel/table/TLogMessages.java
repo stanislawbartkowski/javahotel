@@ -23,7 +23,7 @@ package com.gwtmodel.table;
 import com.google.gwt.i18n.client.Messages;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
 public interface TLogMessages extends Messages {
@@ -97,8 +97,12 @@ public interface TLogMessages extends Messages {
     String DataListCannotBeNull();
 
     String HeaderNull();
-    
+
     String InternalError();
-    
+
     String RowSelectedNotFound();
+
+    String InproperWidthInColumn(String colName, String width);
+
+    String InproperColumnUnit(String colName, String unit);
 }

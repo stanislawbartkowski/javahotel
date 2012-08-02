@@ -18,7 +18,7 @@ import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
 
 abstract public class AbstractSlotContainer implements ISlotable {
 

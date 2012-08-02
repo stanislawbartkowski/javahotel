@@ -20,27 +20,28 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.gwtmodel.table.TLogMessages;
+import com.gwtmodel.table.Utils;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ *
  * @author hotel
  */
 public class LogT {
 
     private LogT() {
     }
-
     private static final Logger log = Logger.getLogger("gwt.gwtmodel.table");
     private static final Logger logS = Logger
             .getLogger("gwt.gwtmodel.table.slot");
     private final static TLogMessages sMess;
 
     public interface StrongTemplateCell extends SafeHtmlTemplates {
+
         @Template("<strong>{0}</strong>")
         SafeHtml input(String suma);
     }
-
     private final static StrongTemplateCell templateClass = GWT
             .create(StrongTemplateCell.class);
 
@@ -62,5 +63,10 @@ public class LogT {
 
     public static TLogMessages getT() {
         return sMess;
+    }
+
+    public static void errorLogE(String info, Exception e) {
+        log.log(Level.SEVERE, info, e);
+        Utils.errAlert(info, e);
     }
 }

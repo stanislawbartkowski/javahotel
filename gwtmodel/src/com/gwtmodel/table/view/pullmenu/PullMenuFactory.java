@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2010 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,21 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.table;
+package com.gwtmodel.table.view.pullmenu;
 
-import com.gwtmodel.table.tabledef.VListHeaderContainer;
-import com.gwtmodel.table.IVModelData;
-import java.util.List;
+import com.gwtmodel.table.login.menudef.MenuPullContainer;
+import com.gwtmodel.table.view.controlpanel.IContrButtonView;
+import com.gwtmodel.table.view.controlpanel.IControlClick;
 
-public interface IGwtTableModel {
+/**
+ *
+ * @author perseus
+ */
+public class PullMenuFactory {
 
-    List<IVModelData> getRows();
+    public IContrButtonView construct(MenuPullContainer menu,
+            IControlClick click) {
+        return new PullMenuView(menu, click);
 
-    VListHeaderContainer getHeaderList();
-
-    IListClicked getIClicked();
-
-    boolean containsData();
-    
-    boolean unSelectAtOnce();
+    }
 }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.table;
+package com.gwtmodel.table.tabledef;
 
 import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IVField;
@@ -29,6 +29,7 @@ public class VListHeaderDesc {
     private final IGHeader gHeader;
     private final boolean editable;
     private final ColAlign align;
+    private final String colWidth;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
         assert fie != null : LogT.getT().cannotBeNull();
@@ -39,12 +40,13 @@ public class VListHeaderDesc {
         this.gHeader = gHeader;
         this.editable = false;
         this.align = null;
+        this.colWidth = null;
     }
 
     /**
      * @return the editable
      */
-    boolean isEditable() {
+    public boolean isEditable() {
         return editable;
     }
 
@@ -56,15 +58,15 @@ public class VListHeaderDesc {
     }
 
     public VListHeaderDesc(String headerString, IVField fie) {
-        this(headerString, fie, false, null, false, null);
+        this(headerString, fie, false, null, false, null, null);
     }
 
     public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
-        this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(), false, null);
+        this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(), false, null, null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
-            String buttonAction, boolean editable, ColAlign align) {
+            String buttonAction, boolean editable, ColAlign align, String colWidth) {
         assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = headerString;
         this.fie = fie;
@@ -73,10 +75,11 @@ public class VListHeaderDesc {
         this.gHeader = null;
         this.editable = editable;
         this.align = align;
+        this.colWidth = colWidth;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
-        this(headerString, fie, hidden, null, false, null);
+        this(headerString, fie, hidden, null, false, null, null);
     }
 
     public String getHeaderString() {
@@ -106,5 +109,12 @@ public class VListHeaderDesc {
      */
     public ColAlign getAlign() {
         return align;
+    }
+
+    /**
+     * @return the colWidth
+     */
+    public String getColWidth() {
+        return colWidth;
     }
 }

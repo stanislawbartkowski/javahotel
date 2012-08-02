@@ -19,11 +19,13 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.login.menudef.MenuPullContainer;
 import com.gwtmodel.table.slotmodel.*;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
+import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -116,9 +118,12 @@ class ControlButtonView extends AbstractSlotContainer implements
                     new RedirectButton(b));
             ButtonAction fR = new ButtonAction(ButtonAction.Action.ForceButton);
             registerSubscriber(dType, b.getActionId(), fR, new ForceButton(b));
-
         }
-
+    }
+    
+    ControlButtonView(PullMenuFactory menuFactory,MenuPullContainer menu, IDataType dType) {
+        this.dType = dType;
+        vButton = menuFactory.construct(menu, new Click());        
     }
 
     @Override

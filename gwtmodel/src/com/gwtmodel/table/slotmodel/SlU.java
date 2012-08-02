@@ -32,7 +32,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
 
 /**
  * @author hotel Static utility for making bringing object more easy

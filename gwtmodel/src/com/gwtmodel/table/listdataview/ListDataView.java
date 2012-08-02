@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.*;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;

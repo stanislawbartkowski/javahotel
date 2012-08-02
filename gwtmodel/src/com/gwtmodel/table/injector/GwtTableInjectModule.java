@@ -45,6 +45,7 @@ import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.panel.GwtPanelViewFactory;
+import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
 import com.gwtmodel.table.view.stackpanel.ViewStackPanelFactory;
 import com.gwtmodel.table.view.stackvertical.StackPanelFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
@@ -93,5 +94,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(WidgetScrollSeasonFactory.class).in(Singleton.class);
         bind(ViewStackPanelFactory.class).in(Singleton.class);
         bind(ChooseListFactory.class).in(Singleton.class);
+        bind(PullMenuFactory.class).in(Singleton.class);
     }
 }

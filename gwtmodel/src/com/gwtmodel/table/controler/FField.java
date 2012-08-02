@@ -15,7 +15,7 @@ package com.gwtmodel.table.controler;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 /**
  * 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.table;
+package com.gwtmodel.table.tabledef;
 
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
@@ -23,17 +23,19 @@ public class VListHeaderContainer {
     private final String listTitle;
     private final int pageSize;
     private final String jsModifRow;
+    private final String widthDef;
 
     public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle,
-            int pageSize, String jsModifRow) {
+            int pageSize, String jsModifRow, String widthDef) {
         this.heList = heList;
         this.listTitle = listTitle;
         this.pageSize = pageSize <= 0 ? IConsts.defaultPage : pageSize;
         this.jsModifRow = jsModifRow;
+        this.widthDef = widthDef;
     }
 
     public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
-        this(heList, listTitle, IConsts.defaultPage, null);
+        this(heList, listTitle, IConsts.defaultPage, null, null);
     }
 
     public VListHeaderDesc getHeader(IVField v) {
@@ -77,5 +79,12 @@ public class VListHeaderContainer {
      */
     public String getJsModifRow() {
         return jsModifRow;
+    }
+
+    /**
+     * @return the widthDef
+     */
+    public String getWidthDef() {
+        return widthDef;
     }
 }

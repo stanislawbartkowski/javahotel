@@ -35,8 +35,8 @@ import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.view.table.IGetCellValue;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 class MemoryStringList extends AbstractSlotMediatorContainer implements
         IMemoryStringList {
@@ -55,7 +55,7 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
         VListHeaderDesc he = new VListHeaderDesc(fieldName, vString);
         heList.add(he);
         VListHeaderContainer vHeader;
-        vHeader = new VListHeaderContainer(heList, title, 0, null);
+        vHeader = new VListHeaderContainer(heList, title, 0, null, null);
         dControler.getSlContainer().publish(dType, vHeader);
     }
 
@@ -72,7 +72,6 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
         lPersistList = new MemoryListPersist(dType);
 
         IDataValidateActionFactory vFactory = new IDataValidateActionFactory() {
-
             @Override
             public IDataValidateAction construct(IDataType dType) {
                 return new ValidateS(dType);
@@ -81,12 +80,12 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
 
         IGetViewControllerFactory iGetCon = new MemoryGetController(
                 new StringFactory(vString, fieldName, title), new DataFactory(
-                        eFactory), daFactory, lPersistList, vFactory);
+                eFactory), daFactory, lPersistList, vFactory);
 
         DisplayListControlerParam cParam = tFactory.constructParam(
                 new CellId(0), new DataListParam(dType, lPersistList, null,
-                        new DataFactory(eFactory), new StringFactory(vString,
-                                fieldName, title), iGetCon), (ISlotMediator)null, (IGetCellValue) null );
+                new DataFactory(eFactory), new StringFactory(vString,
+                fieldName, title), iGetCon), (ISlotMediator) null, (IGetCellValue) null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         slMediator.registerSlotContainer(dControler);

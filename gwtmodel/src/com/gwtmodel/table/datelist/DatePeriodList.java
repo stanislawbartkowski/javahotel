@@ -40,11 +40,11 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.view.table.IGetCellValue;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 /**
- * 
+ *
  * @author hotel
  */
 class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
@@ -59,7 +59,6 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
         public void signal(ISlotSignalContext slContext) {
             // TODO: do nothing
         }
-
     }
 
     DatePeriodList(String title, IDatePeriodFactory eFactory,
@@ -78,8 +77,8 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
 
         DisplayListControlerParam cParam = tFactory.constructParam(
                 new CellId(0), new DataListParam(dType, mList, null,
-                        new DataFactory(eFactory), new DateViewFactory(title),
-                        iGetCon), (ISlotMediator)null, (IGetCellValue) null );
+                new DataFactory(eFactory), new DateViewFactory(title),
+                iGetCon), (ISlotMediator) null, (IGetCellValue) null);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         // dControler.getSlContainer().replaceContainer(this);
@@ -103,7 +102,7 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
                 DatePeriodField.F.COMMENT));
         heList.add(he);
         VListHeaderContainer vHeader;
-        vHeader = new VListHeaderContainer(heList, title, 0, null);
+        vHeader = new VListHeaderContainer(heList, title, 0, null, null);
         dControler.getSlContainer().publish(dType, vHeader);
     }
 

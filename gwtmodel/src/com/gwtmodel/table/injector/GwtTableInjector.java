@@ -40,6 +40,7 @@ import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
+import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
 import com.gwtmodel.table.view.stackpanel.ViewStackPanelFactory;
 import com.gwtmodel.table.view.stackvertical.StackPanelFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
@@ -110,8 +111,10 @@ public interface GwtTableInjector extends Ginjector {
     EditChooseRecordFactory getEditChooseRecordFactory();
 
     WidgetScrollSeasonFactory getWidgetScrollSeasonFactory();
-    
+
     ViewStackPanelFactory getViewStackPanelFactory();
-    
+
     ChooseListFactory getChooseListFactory();
+
+    PullMenuFactory getPullMenuFactory();
 }

@@ -15,19 +15,27 @@ package com.gwtmodel.table.controlbuttonview;
 import com.google.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.login.menudef.MenuPullContainer;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
+import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
 
 public class ControlButtonViewFactory {
 
     private final ContrButtonViewFactory vFactory;
+    private final PullMenuFactory menuFactory;
 
     @Inject
-    public ControlButtonViewFactory(ContrButtonViewFactory vFactory) {
+    public ControlButtonViewFactory(ContrButtonViewFactory vFactory, PullMenuFactory menuFactory) {
         this.vFactory = vFactory;
+        this.menuFactory = menuFactory;
     }
 
     public IControlButtonView construct(IDataType dType,
             ListOfControlDesc listButton) {
         return new ControlButtonView(vFactory, listButton, dType, true);
+    }
+
+    public IControlButtonView construct(IDataType dType, MenuPullContainer menu) {
+        return new ControlButtonView(menuFactory, menu, dType);
     }
 }
