@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Label;

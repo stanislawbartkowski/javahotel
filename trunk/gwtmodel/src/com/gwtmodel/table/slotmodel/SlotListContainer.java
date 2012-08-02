@@ -18,7 +18,7 @@ import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,20 +125,6 @@ public final class SlotListContainer {
                 signal(sl, slContext);
             }
 
-            // // to avoid concurrency exception
-            // List<SlotSubscriberType> li = getList(slContext.getSlType());
-            // if (li.size() == 0) {
-            // LogT.getLS().info(
-            // LogT.getT().sendSignalNotFound(
-            // slContext.getSlType().toString()));
-            // return;
-            // }
-            // for (SlotSubscriberType so : li) {
-            // LogT.getLS().info(
-            // LogT.getT().sendSignalLog(
-            // slContext.getSlType().toString()));
-            // so.getSlSignaller().signal(slContext);
-            // }
         }
     }
 

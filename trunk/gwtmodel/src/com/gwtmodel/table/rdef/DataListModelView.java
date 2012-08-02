@@ -17,7 +17,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IListClicked;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import java.util.List;
 
 /**

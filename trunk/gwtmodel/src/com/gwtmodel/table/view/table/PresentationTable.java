@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
@@ -19,6 +21,7 @@ import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -34,11 +37,13 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtmodel.table.*;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.table.PresentationCellFactory.IGetField;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  *
@@ -271,6 +276,9 @@ class PresentationTable implements IGwtTableView {
             return;
         }
         VListHeaderContainer vo = model.getHeaderList();
+        if (!CUtil.EmptyS(vo.getWidthDef())) {
+            table.setWidth(vo.getWidthDef(), true);
+        }
         List<VListHeaderDesc> li = vo.getVisHeList();
         @SuppressWarnings("rawtypes")
         Column co;
@@ -311,6 +319,7 @@ class PresentationTable implements IGwtTableView {
                 }
             }
             co.setSortable(true);
+            // align
             if (align != null) {
                 switch (align) {
                     case LEFT:
@@ -324,6 +333,33 @@ class PresentationTable implements IGwtTableView {
                         break;
                 }
             }
+            // col width
+            String width = he.getColWidth();
+            if (!CUtil.EmptyS(width)) {
+                String[] pa = width.split(";");
+                if (pa.length == 1) {
+                    table.setColumnWidth(co, pa[0]);
+                } else {
+                    double wi;
+                    try {
+                        wi = Utils.toDouble(pa[0]);
+                    } catch (NumberFormatException e) {
+                        String info = LogT.getT().InproperWidthInColumn(he.getHeaderString(), pa[0]);
+                        LogT.errorLogE(info, e);
+                        return;
+                    }
+                    Style.Unit u;
+                    try {
+                        u = Style.Unit.valueOf(pa[1]);
+                    } catch (IllegalArgumentException e) {
+                        String info = LogT.getT().InproperColumnUnit(he.getHeaderString(), pa[1]);
+                        LogT.errorLogE(info, e);
+                        return;
+                    }
+                    table.setColumnWidth(co, wi, u);
+                }
+            }
+            //
             if (he.isHidden() || he.getHeaderString() == null) {
                 // Important: for some reason the assert violation cause
                 // breaking without Exception throwing

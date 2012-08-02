@@ -12,11 +12,10 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.List;
-
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.WChoosedLine;
+import java.util.List;
 
 public interface IGwtTableView extends IGWidget {
 

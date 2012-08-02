@@ -42,6 +42,8 @@ public interface IWebPanel {
 
     void setMenuPanel(Widget pa);
 
+    void setPullDownMenu(Widget m);
+
     void setOwnerName(String owner);
 
     void IncDecCounter(boolean inc);
@@ -49,15 +51,17 @@ public interface IWebPanel {
     void setCenterSize(String size);
 
     void setUpInfo(String upinfo);
-    
+
     /**
      * Set new product name
+     *
      * @param productName New product name
      */
     void setProductName(String productName);
-    
+
     /**
      * Set title of the browser windows
+     *
      * @param newTitle New title to set
      */
     void setTitle(String newTitle);

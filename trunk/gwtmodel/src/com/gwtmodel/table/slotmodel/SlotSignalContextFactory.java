@@ -16,7 +16,7 @@ import com.gwtmodel.table.*;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
 
 public class SlotSignalContextFactory {
 

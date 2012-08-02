@@ -33,16 +33,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * @author stanislaw.bartkowski@gmail.com
  */
 class WebPanel implements IWebPanel {
 
     private final DockPanel dPanel = new DockPanel();
+    private final DockPanel middlePanel = new DockPanel();
     private final IWebPanelResources pResources;
     private final CallBackProgress bCounter;
     private String centerSize = "90%";
     private ISignal centreHideSignal = null;
+
+    private enum StatusE {
+
+        NORMAL, REPLYL, ERRORL
+    };
+    private StatusE sta = StatusE.NORMAL;
+    private final StatusL status = new StatusL(null);
+    private Widget wCenter = null;
+    private Widget wWest = null;
+    private Widget wWest1 = null;
+    private final static String HOTELHEADER_LOGOUT = "header_logout";
+    private final static String HOTELHEADER_LOGO = "header_logo";
+    private final static String HOTELHEADER_DOWNMENU = "header_downmenu";
+    private final static String HOTELHEADER_STATUSBAR = "header_statusbar";
+    private final static String HEADER_UPINFO = "header_upinfo";
+    private final HTML ha;
+    private final LogoH logo;
+    private final ICommand logOut;
+    private final Label tL; // product name
+    private final Label ownerName; // owner name
+    private final Label userName = new Label();
+    private final Label hotelName = new Label();
+    private final Label upInfo = new Label();
+    private final VerticalPanel vp = new VerticalPanel();
+    private final VerticalPanel vmenu = new VerticalPanel();
+    private HTMLPanel uPanel = null;
 
     @Override
     public void setOwnerName(String owner) {
@@ -82,30 +109,10 @@ class WebPanel implements IWebPanel {
         tL.setText(productName);
     }
 
-    private enum StatusE {
-
-        NORMAL, REPLYL, ERRORL
-    };
-    private StatusE sta = StatusE.NORMAL;
-    private final StatusL status = new StatusL(null);
-    private Widget wCenter = null;
-    private Widget wWest = null;
-    private Widget wWest1 = null;
-    private final static String HOTELHEADER_LOGOUT = "header_logout";
-    private final static String HOTELHEADER_LOGO = "header_logo";
-    private final static String HOTELHEADER_DOWNMENU = "header_downmenu";
-    private final static String HOTELHEADER_STATUSBAR = "header_statusbar";
-    private final static String HEADER_UPINFO = "header_upinfo";
-    private final HTML ha;
-    private final LogoH logo;
-    private final ICommand logOut;
-    private final Label tL; // product name
-    private final Label ownerName; // owner name
-    private final Label userName = new Label();
-    private final Label hotelName = new Label();
-    private final Label upInfo = new Label();
-    private final VerticalPanel vp = new VerticalPanel();
-    private HTMLPanel uPanel = null;
+    public void setPullDownMenu(Widget m) {
+        vmenu.clear();
+        vmenu.add(m);
+    }
 
     private void setStatusNormal() {
         status.setVisible(false);
@@ -168,26 +175,40 @@ class WebPanel implements IWebPanel {
     private void setWidth() {
         if (wCenter != null) {
             if (wWest != null) {
-                // dPanel.setCellWidth(wCenter, "90%");
-                // dPanel.setCellWidth(wCenter, "70%");
-                dPanel.setCellWidth(wCenter, centerSize);
+                dPanel.setCellWidth(middlePanel, centerSize);
             } else {
-                dPanel.setCellWidth(wCenter, "100%");
+                dPanel.setCellWidth(middlePanel, "100%");
             }
         }
     }
 
+//    @Override
+//    public void setDCenter(final Widget w) {
+//        if (wCenter != null) {
+//            dPanel.remove(wCenter);
+//            if (centreHideSignal != null) {
+//                centreHideSignal.signal();
+//            }
+//        }
+//        wCenter = w;
+//        if (w != null) {
+//            dPanel.add(w, DockPanel.CENTER);
+//            setWidth();
+//        }
+//        centreHideSignal = null;
+//    }
+    
     @Override
     public void setDCenter(final Widget w) {
         if (wCenter != null) {
-            dPanel.remove(wCenter);
+            middlePanel.remove(wCenter);
             if (centreHideSignal != null) {
                 centreHideSignal.signal();
             }
         }
         wCenter = w;
         if (w != null) {
-            dPanel.add(w, DockPanel.CENTER);
+            middlePanel.add(w, DockPanel.CENTER);
             setWidth();
         }
         centreHideSignal = null;
@@ -214,7 +235,6 @@ class WebPanel implements IWebPanel {
         @Override
         public void onMouseDown(MouseDownEvent event) {
             IClickYesNo yes = new IClickYesNo() {
-
                 @Override
                 public void click(boolean yes) {
                     if (!yes) {
@@ -280,6 +300,9 @@ class WebPanel implements IWebPanel {
 
         dPanel.add(vp, DockPanel.NORTH);
         vp.setHeight("25px");
+        
+        dPanel.add(middlePanel, DockPanel.CENTER);
+        middlePanel.add(this.vmenu,DockPanel.NORTH);
 
         List<HtmlElemDesc> hList = new ArrayList<HtmlElemDesc>();
         hList.add(new HtmlElemDesc(tL, "header_appname"));
@@ -293,7 +316,6 @@ class WebPanel implements IWebPanel {
 
         HtmlPanelFactory fa = GwtGiniInjector.getI().getHtmlPanelFactory();
         fa.getHtmlPanel(HtmlTypeEnum.MainStatus, new PanelCallback(), hList);
-
     }
 
     @Override

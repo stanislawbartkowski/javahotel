@@ -14,7 +14,7 @@ package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.*;
 import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import java.util.ArrayList;
 import java.util.List;
 

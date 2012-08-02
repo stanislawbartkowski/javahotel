@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.google.gwt.user.client.ui.*;
 import com.gwtmodel.table.*;
 import java.util.List;
