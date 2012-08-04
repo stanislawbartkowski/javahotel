@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.view.form;
 
-import java.util.List;
-
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
@@ -29,6 +27,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.ErrorLineContainer;
 import com.gwtmodel.table.view.util.CreateFormView;
+import java.util.List;
 
 class GwtFormView implements IGwtFormView {
 

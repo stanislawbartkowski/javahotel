@@ -24,7 +24,7 @@ import com.gwtmodel.table.view.ewidget.richtextoolbar.googlerichbar.RichTextTool
 import java.util.List;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
@@ -32,6 +32,21 @@ class ExtendTextBox extends AbstractField {
 
     private class EWidget implements IGWidget {
 
+//        private class SetRemoveTitle implements FocusHandler {
+//
+//            public void onFocus(FocusEvent event) {
+//                EWidget.this.setTitle(true);                
+//            }
+//        }
+        private class SetRemoveTitle implements FocusListener {
+
+            public void onFocus(Widget sender) {
+            }
+
+            public void onLostFocus(Widget sender) {
+                EWidget.this.setTitle(true);
+            }
+        }
         private final TextBoxBase tBox;
         private final RichTextArea rArea;
         private final SuggestBox sBox;
@@ -73,6 +88,11 @@ class ExtendTextBox extends AbstractField {
                     } else {
                         tBox = param.tBox;
                     }
+//                    tBox.addFocusHandler(new SetRemoveTitle());
+                    // TODO: cannot use FocusHandler because it is fired only when focus is gained
+                    // Don't know how to handle focus lost
+                    // So use deprecated FocusListener                    
+                    tBox.addFocusListener(new SetRemoveTitle());
                     if (param.suggestbox) {
                         sBox = new SuggestBox(sOracle, tBox);
                         if (param.iGet != null) {
@@ -117,9 +137,22 @@ class ExtendTextBox extends AbstractField {
         void setText(String t) {
             if (rArea == null) {
                 tBox.setText(t);
+                tBox.setTitle(t);
             } else {
                 rArea.setHTML(t);
             }
+        }
+
+        void setTitle(boolean set) {
+            if (tBox == null) {
+                return;
+            }
+            if (!set) {
+                tBox.setTitle(null);
+                return;
+            }
+            String s = tBox.getText();
+            tBox.setTitle(s);
         }
 
         void addKeyboardListener(KeyboardListener k) {
@@ -256,7 +289,6 @@ class ExtendTextBox extends AbstractField {
             return isRich;
         }
     }
-
     protected final Widget wW;
     private final EWidget eW;
     protected final HorizontalPanel hPanel;
@@ -344,6 +376,7 @@ class ExtendTextBox extends AbstractField {
             t.onTouch();
         }
         eW.setText(va);
+        eW.setTitle(true);
         // warning: 2011/09/09 (changed to this from null)
         runOnChange(this, false);
     }
@@ -391,5 +424,11 @@ class ExtendTextBox extends AbstractField {
 
     protected Widget getTextBox() {
         return eW.getGWidget();
+    }
+
+    @Override
+    public void setInvalidMess(String errmess) {
+        super.setInvalidMess(errmess);
+        eW.setTitle(errmess == null);
     }
 }
