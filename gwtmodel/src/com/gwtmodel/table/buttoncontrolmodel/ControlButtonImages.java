@@ -18,18 +18,20 @@ class ControlButtonImages {
 
     static String getImageName(ClickButtonType.StandClickEnum actionId) {
         switch (actionId) {
-            case FIND:
-                return "FindImage";
-            case FILTRLIST:
-                return "FiltrImage";
-            case ADDITEM:
-                return "AddImage";
-            case MODIFITEM:
-                return "ModifImage";
-            case REMOVEITEM:
-                return "RemoveImage";
-            case SHOWITEM:
-                return "ShowImage";
+        case FIND:
+            return "FindImage";
+        case FILTRLIST:
+            return "FiltrImage";
+        case ADDITEM:
+            return "AddImage";
+        case MODIFITEM:
+            return "ModifImage";
+        case REMOVEITEM:
+            return "RemoveImage";
+        case SHOWITEM:
+            return "ShowImage";
+        case TABLEDEFAULTMENU:
+            return "PropTabelaImage";
         }
         return null;
     }

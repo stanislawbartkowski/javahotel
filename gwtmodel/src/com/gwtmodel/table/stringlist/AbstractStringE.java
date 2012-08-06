@@ -12,10 +12,11 @@
  */
 package com.gwtmodel.table.stringlist;
 
-import com.gwtmodel.table.AbstractLpVModelData;
-import com.gwtmodel.table.IVField;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.datalisttype.AbstractLpVModelData;
 
 public abstract class AbstractStringE extends AbstractLpVModelData {
 

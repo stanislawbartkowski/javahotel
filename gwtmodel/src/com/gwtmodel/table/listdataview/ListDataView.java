@@ -12,22 +12,56 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import com.gwtmodel.table.tabledef.VListHeaderContainer;
-import com.gwtmodel.table.*;
-import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.rdef.DataListModelView;
-import com.gwtmodel.table.slotmodel.*;
-import com.gwtmodel.table.view.table.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.gwtmodel.table.CreateJson;
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.ICustomObject;
+import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGetSetVField;
+import com.gwtmodel.table.IOkModelData;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.rdef.DataListModelView;
+import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
+import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCallerListener;
+import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
+import com.gwtmodel.table.slotmodel.SlotType;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.table.IGetCellValue;
+import com.gwtmodel.table.view.table.IGwtTableModel;
+import com.gwtmodel.table.view.table.IGwtTableView;
+import com.gwtmodel.table.view.table.IModifyRowStyle;
+
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
-    private final IGwtTableView tableView;
+    private final FlowPanel vp = new FlowPanel();
+    private IGwtTableView tableView;
     private final DataListModelView listView;
     private IDataListType dataList;
     private final SlotSignalContextFactory coFactory;
+    private boolean isFilter = false;
+    private boolean isTreeNow = false;
+    private final GwtTableFactory gFactory;
+    private final IGetCellValue gValue;
+    private final boolean selectedRow;
 
     private class GetHeader implements ISlotCallerListener {
 
@@ -46,7 +80,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             listView.setHeaderList(listHeader);
             tableView.setModel(listView);
             if (listHeader.getJsModifRow() != null) {
-                tableView.setModifyRowStyle(new ModifRow(listHeader.getJsModifRow()));
+                tableView.setModifyRowStyle(new ModifRow(listHeader
+                        .getJsModifRow()));
             }
         }
     }
@@ -64,11 +99,11 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             for (IVField f : line.getF()) {
                 boolean number = false;
                 switch (f.getType().getType()) {
-                    case BIGDECIMAL:
-                    case LONG:
-                    case INT:
-                        number = true;
-                        break;
+                case BIGDECIMAL:
+                case LONG:
+                case INT:
+                    number = true;
+                    break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -113,6 +148,16 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         public void remove(int row) {
             dataList.remove(row);
         }
+
+        @Override
+        public int treeLevel(int row) {
+            return dataList.treeLevel(row);
+        }
+
+        @Override
+        public boolean isTreeEnabled() {
+            return dataList.isTreeEnabled();
+        }
     }
 
     private class DrawList implements ISlotListener {
@@ -137,6 +182,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
+            isFilter = true;
             IOkModelData iOk = slContext.getIOkModelData();
             assert iOk != null : LogT.getT().FilterCannotbeNull();
             IDataListType dList = new FilterDataListType(iOk);
@@ -186,8 +232,12 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
+            if (!isFilter) {
+                return;
+            }
             listView.setDataList(dataList);
             tableView.refresh();
+            isFilter = false;
         }
     }
 
@@ -201,11 +251,35 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private class ToTableTree implements ISlotListener {
+
+        private final boolean totree;
+
+        ToTableTree(boolean totree) {
+            this.totree = totree;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            WChoosedLine w = tableView.getClicked();
+            constructView(totree);
+            vp.clear();
+            vp.add(tableView.getGWidget());
+            tableView.setModel(listView);
+            tableView.refresh();
+            if (w != null && w.isChoosed()) {
+                tableView.setClicked(w.getChoosedLine());
+            }
+            isTreeNow = totree;
+        }
+
+    }
+
     /**
      * Delivers IVModelData indentified by position in list
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -221,9 +295,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -234,6 +308,38 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             List<IGetSetVField> vList = tableView.getVList(e.getValue());
             e = new GetVListSignal(vList);
             return coFactory.construct(slContext.getSlType(), e);
+        }
+    }
+
+    private class GetTreeViewNow implements ISlotCallerListener {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IsBooleanSignalNow si = new IsBooleanSignalNow(isTreeNow);
+            return coFactory.construct(slContext.getSlType(), si);
+        }
+
+    }
+
+    private class GetTableTreeEnabled implements ISlotCallerListener {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            boolean enabled = false;
+            if (dataList != null && dataList.isTreeEnabled()) {
+                enabled = true;
+            }
+            IsBooleanSignalNow si = new IsBooleanSignalNow(enabled);
+            return coFactory.construct(slContext.getSlType(), si);
+        }
+    }
+
+    private class GetTableIsFilter implements ISlotCallerListener {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IsBooleanSignalNow si = new IsBooleanSignalNow(isFilter);
+            return coFactory.construct(slContext.getSlType(), si);
         }
     }
 
@@ -296,13 +402,28 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private void constructView(boolean treeView) {
+        if (treeView) {
+            tableView = gFactory.constructTree(selectedRow ? new ClickList()
+                    : null);
+            isTreeNow = true;
+        } else {
+            tableView = gFactory.construct(
+                    selectedRow ? new ClickList() : null, new ClickColumn(),
+                    gValue);
+        }
+    }
+
     ListDataView(GwtTableFactory gFactory, IDataType dType,
-            IGetCellValue gValue, boolean selectedRow, boolean unSelectAtOnce) {
+            IGetCellValue gValue, boolean selectedRow, boolean unSelectAtOnce,
+            boolean treeView) {
         listView = new DataListModelView();
         listView.setUnSelectAtOnce(unSelectAtOnce);
         this.dType = dType;
-        tableView = gFactory.construct(selectedRow ? new ClickList() : null,
-                new ClickColumn(), gValue);
+        this.gFactory = gFactory;
+        this.gValue = gValue;
+        this.selectedRow = selectedRow;
+        constructView(treeView);
         coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         // subscriber
         registerSubscriber(dType, DataActionEnum.DrawListAction, new DrawList());
@@ -322,6 +443,10 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new DrawHeader());
         registerSubscriber(new CustomStringDataTypeSlot(
                 EditRowsSignal.EditSignal, dType), new ChangeEditRows());
+        registerSubscriber(ActionTableSignal.constructToTableSignal(dType),
+                new ToTableTree(false));
+        registerSubscriber(ActionTableSignal.constructToTreeSignal(dType),
+                new ToTableTree(true));
         // caller
         registerCaller(GetVDataByIntegerSignal.constructSlot(dType),
                 new GetVDataByI());
@@ -333,10 +458,19 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new GetComboField());
         registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
         registerCaller(dType, GetActionEnum.GetListData, new GetWholeList());
+        // GetTableIsFilter
+        registerCaller(IsBooleanSignalNow.constructSlotGetTreeView(dType),
+                new GetTreeViewNow());
+        registerCaller(
+                IsBooleanSignalNow.constructSlotGetTableTreeEnabled(dType),
+                new GetTableTreeEnabled());
+        registerCaller(IsBooleanSignalNow.constructSlotGetTableIsFilter(dType),
+                new GetTableIsFilter());
     }
 
     @Override
     public void startPublish(CellId cellId) {
-        publish(dType, cellId, tableView);
+        vp.add(tableView.getGWidget());
+        publish(dType, cellId, new GWidget(vp));
     }
 }

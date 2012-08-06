@@ -16,11 +16,12 @@
  */
 package com.gwtmodel.table.datelist;
 
-import com.gwtmodel.table.AbstractLpVModelData;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.Utils;
 import java.util.Date;
 import java.util.List;
+
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.datalisttype.AbstractLpVModelData;
 
 /**
  * 

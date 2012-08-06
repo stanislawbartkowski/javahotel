@@ -29,4 +29,8 @@ public class GwtTableFactory {
         }
         return null;
     }
+
+    public IGwtTableView constructTree(ICommand click) {
+        return new PresentationTree(click);
+    }
 }

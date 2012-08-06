@@ -122,7 +122,23 @@ public interface TLabels extends Constants {
     String GotoMonth();
 
     String BetweenFieldsRange();
-    
+
     String EqualSign();
+
+    String FiltrOnlyTable();
+
+    String MenuForTable();
+
+    String ChangeToTable();
+
+    String ChangeToTree();
+    
+    String OnlyForTable();
+    
+    String OnlyForTree();
+    
+    String CannotDisplayAsTree();
+    
+    String CannotSwitchToTreeWhileFilter();
 
 }

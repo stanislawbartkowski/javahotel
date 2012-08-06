@@ -37,11 +37,13 @@ public class DisplayListControlerParam {
     private final DataListParam listParam;
     private final ISlotMediator me;
     private final IGetCellValue getCell;
+    private final boolean treeView;
 
     DisplayListControlerParam(TablesFactories tFactories,
             ITableCustomFactories fContainer, WSize wSize, CellId panelId,
             ListOfControlDesc listButton, ISlotable cControler,
-            DataListParam listParam, ISlotMediator me, IGetCellValue getCell) {
+            DataListParam listParam, ISlotMediator me, IGetCellValue getCell,
+            boolean treeView) {
         this.tFactories = tFactories;
         this.fContainer = fContainer;
         this.wSize = wSize;
@@ -51,6 +53,7 @@ public class DisplayListControlerParam {
         this.listParam = listParam;
         this.me = me;
         this.getCell = getCell;
+        this.treeView = treeView;
     }
 
     /**
@@ -122,4 +125,13 @@ public class DisplayListControlerParam {
     IGetCellValue getGetCell() {
         return getCell;
     }
+
+    /**
+     * @return the treeView
+     */
+    public boolean isTreeView() {
+        return treeView;
+    }
+    
+    
 }

@@ -16,21 +16,29 @@
  */
 package com.gwtmodel.table.datelist;
 
-import com.gwtmodel.table.AbstractLpVModelData;
-import com.gwtmodel.table.DataListTypeFactory;
-import com.gwtmodel.table.IDataListType;
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.factories.IDataValidateAction;
-import com.gwtmodel.table.factories.IDataValidateActionFactory;
-import com.gwtmodel.table.slotmodel.ISlotListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.datalisttype.AbstractLpVModelData;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
+import com.gwtmodel.table.factories.IDataValidateAction;
+import com.gwtmodel.table.factories.IDataValidateActionFactory;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.slotmodel.ISlotListener;
 
 /**
  * 
  * @author hotel
  */
 public class DatePeriodListFactory {
+
+    private final DataListTypeFactory tFactory;
+
+    public DatePeriodListFactory() {
+        this.tFactory = GwtGiniInjector.getI().getDataListTypeFactory();
+    }
 
     public IDatePeriodList construct(String title, IDatePeriodFactory eFactory,
             ISlotListener setGwt, IDataValidateActionFactory vFactory) {
@@ -49,6 +57,6 @@ public class DatePeriodListFactory {
     public IDataListType construct(List<AbstractDatePeriodE> li) {
         List<AbstractLpVModelData> a = new ArrayList<AbstractLpVModelData>();
         a.addAll(li);
-        return DataListTypeFactory.constructLp(a);
+        return tFactory.constructLp(a);
     }
 }

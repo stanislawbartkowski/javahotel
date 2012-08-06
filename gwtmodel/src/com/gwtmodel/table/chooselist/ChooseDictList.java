@@ -72,8 +72,6 @@ class ChooseDictList implements IChooseList {
         this.i = i;
         this.dType = dType;
         TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
-//        String s = "<button id=\"CHOOSELIST\" /> <button id=\"RESIGNLIST\" /> <button id=\"FILTRLIST\" /> <button id=\"FIND\" /> ";
-//        String s = "<table> <tr> <td id=\"CHOOSELIST\" /> <td id=\"RESIGNLIST\" /> </tr> <tr> <td id=\"FILTRLIST\" /> <td id=\"FIND\" /> </tr> </table>";
         IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
 
         String s = c.getCustomValue(IGetCustomValues.HTMLPANELFORCHOOSELIST);

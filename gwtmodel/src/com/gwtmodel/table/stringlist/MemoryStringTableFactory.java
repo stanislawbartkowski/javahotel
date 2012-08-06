@@ -12,31 +12,35 @@
  */
 package com.gwtmodel.table.stringlist;
 
-import com.gwtmodel.table.AbstractLpVModelData;
-import com.gwtmodel.table.DataListTypeFactory;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.datalisttype.AbstractLpVModelData;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.ISlotListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MemoryStringTableFactory {
 
     private final IVField strField;
     private final IDataType strType;
+    private final DataListTypeFactory tFactory;
 
     public MemoryStringTableFactory() {
         this.strField = Empty.getFieldType();
         this.strType = Empty.getDataType();
+        tFactory = GwtGiniInjector.getI().getDataListTypeFactory();
 
     }
 
     public IDataListType construct(List<AbstractStringE> mList) {
         List<AbstractLpVModelData> a = new ArrayList<AbstractLpVModelData>();
         a.addAll(mList);
-        return DataListTypeFactory.constructLp(a);
+        return tFactory.constructLp(a);
     }
 
     public IMemoryStringList construct(String fieldName, String title,

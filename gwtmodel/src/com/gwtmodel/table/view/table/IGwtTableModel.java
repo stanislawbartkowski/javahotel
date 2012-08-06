@@ -25,6 +25,8 @@ public interface IGwtTableModel {
     IListClicked getIClicked();
 
     boolean containsData();
-    
+
     boolean unSelectAtOnce();
+
+    int treeLevel(int row);
 }

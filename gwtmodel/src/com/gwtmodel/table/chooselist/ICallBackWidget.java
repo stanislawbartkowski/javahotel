@@ -18,7 +18,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WSize;
 
 /**
- *
+ * 
  * @author perseus
  */
 public interface ICallBackWidget<T extends IVModelData> {
