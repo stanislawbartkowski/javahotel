@@ -26,17 +26,19 @@ import com.mygwt.common.data.TOItemRecord;
  * @author hotel
  * 
  */
-class ItemVData extends AVModelData {
+public class ItemVData extends AVModelData {
 
     private static final int NUMBER = 0;
     private static final int DATE = 1;
     private static final int NAME = 2;
+    private static final int ROOTLEVEL = 3;
 
     private final TOItemRecord re;
 
     static final IVField fNUMB = new VField(NUMBER);
     static final IVField fDATE = new VField(DATE);
     static final IVField fNAME = new VField(NAME);
+    static final IVField fLEVEL = new VField(ROOTLEVEL);
 
     private static class VField implements IVField {
 
@@ -60,6 +62,7 @@ class ItemVData extends AVModelData {
             case DATE:
                 return FieldDataType.constructDate();
             case NUMBER:
+            case ROOTLEVEL:
                 return FieldDataType.constructInt();
             }
             return null;
@@ -72,7 +75,7 @@ class ItemVData extends AVModelData {
 
     }
 
-    ItemVData(TOItemRecord re) {
+    public ItemVData(TOItemRecord re) {
         this.re = re;
     }
 
@@ -86,6 +89,8 @@ class ItemVData extends AVModelData {
             return re.getiDate();
         case NAME:
             return re.getiName();
+        case ROOTLEVEL:
+            return re.getRootLevel();
         }
         return null;
     }
@@ -95,11 +100,17 @@ class ItemVData extends AVModelData {
         VField v = (VField) fie;
         switch (v.t) {
         case NUMBER:
-            re.setiNumber((Integer) o); break;
+            re.setiNumber((Integer) o);
+            break;
         case DATE:
-            re.setiDate((Date) o); break;
+            re.setiDate((Date) o);
+            break;
         case NAME:
-            re.setiName((String) o); break;
+            re.setiName((String) o);
+            break;
+        case ROOTLEVEL:
+            re.setRootLevel((Integer) o);
+            break;
         }
 
     }
@@ -115,6 +126,7 @@ class ItemVData extends AVModelData {
         i.add(fDATE);
         i.add(fNAME);
         i.add(fNUMB);
+        i.add(fLEVEL);
         return i;
     }
 
@@ -124,6 +136,5 @@ class ItemVData extends AVModelData {
     public TOItemRecord getRe() {
         return re;
     }
-    
 
 }

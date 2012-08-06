@@ -16,10 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.factories.IDataPersistListAction;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
@@ -31,8 +32,10 @@ import com.mygwt.common.data.TOItemRecord;
  * @author hotel
  * 
  */
-class ItemListPersistAction extends AbstractSlotContainer implements
+public class ItemListPersistAction extends AbstractSlotContainer implements
         IDataPersistListAction {
+
+    private final DataListTypeFactory tFactory;
 
     private class ReadBack implements AsyncCallback<List<TOItemRecord>> {
 
@@ -49,7 +52,7 @@ class ItemListPersistAction extends AbstractSlotContainer implements
                 vList.add(v);
             }
             publish(dType, DataActionEnum.ListReadSuccessSignal,
-                    DataListTypeFactory.construct(vList));
+                    tFactory.construct(vList, null, ItemVData.fLEVEL));
 
         }
     }
@@ -62,9 +65,10 @@ class ItemListPersistAction extends AbstractSlotContainer implements
         }
     }
 
-    ItemListPersistAction(IDataType dType) {
+    public ItemListPersistAction(IDataType dType) {
         this.dType = dType;
         registerSubscriber(dType, DataActionEnum.ReadListAction, new ReadList());
+        tFactory = GwtGiniInjector.getI().getDataListTypeFactory();
     }
 
 }

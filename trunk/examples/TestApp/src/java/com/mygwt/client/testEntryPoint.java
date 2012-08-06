@@ -165,8 +165,11 @@ public class testEntryPoint implements EntryPoint {
         bList.add(new ButtonTest("Mail Test", g));
         g = new SeasonScrollTest();
         bList.add(new ButtonTest("ScrollControl", g));
-        g = new FindFilterTest();
+        g = new FindFilterTest(false);
         bList.add(new ButtonTest("Find Test", g));
+        g = new FindFilterTest(true);
+//        g = new TreeSample1();
+        bList.add(new ButtonTest("Tree test", g));
 
         VerticalPanel vB = new VerticalPanel();
 

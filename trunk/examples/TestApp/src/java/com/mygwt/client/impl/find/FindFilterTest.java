@@ -46,6 +46,12 @@ public class FindFilterTest implements IGetWidget {
     private final IDataType dType = Empty.getDataType();
 
     private final VerticalPanel vp = new VerticalPanel();
+    
+    private final boolean tree;
+    
+    public FindFilterTest(boolean tree) {
+        this.tree = tree;
+    }
 
     /** Listener for setting widget. */
     private class GetWidget implements ISlotListener {
@@ -97,7 +103,7 @@ public class FindFilterTest implements IGetWidget {
                 .getTableDataControlerFactory();
         CellId panelId = new CellId(0);
         DisplayListControlerParam dList = tFactory.constructParam(panelId,
-                getParam(), null, null);
+                getParam(), null, null,tree);
         ISlotable i = tFactory.constructDataControler(dList);
         SlU.registerWidgetListener0(dType, i, new GetWidget());
         i.startPublish(null);

@@ -29,6 +29,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.gwtmodel.table.DataTreeLevel;
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.common.dateutil.DateUtil;
@@ -105,6 +107,11 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
                 EntityTransaction entr = em.getTransaction();
                 for (int i = 0; i < 100; i++) {
                     ItemRecord re = new ItemRecord();
+                    int rootLevel = DataTreeLevel.toLeaf(1);
+                    if (i % 10 == 0) {
+                        rootLevel = DataTreeLevel.toNode(0);
+                    }
+                    re.setRootLevel(rootLevel);
                     re.setiDate(da);
                     re.setiNumber(i);
                     re.setiName("NAME-" + CUtil.NumbToS(i));
@@ -121,6 +128,7 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
                 te.setiDate(r.getiDate());
                 te.setiName(r.getiName());
                 te.setiNumber(r.getiNumber());
+                te.setRootLevel(r.getRootLevel());
                 tList.add(te);
             }
         } finally {
@@ -132,8 +140,7 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
     }
 
     /**
-     * Modify table.
-     * Add new, remove or modify
+     * Modify table. Add new, remove or modify
      */
     @Override
     public void ItemRecordOp(PersistTypeEnum op, TOItemRecord re) {
@@ -165,6 +172,7 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
                 }
                 ire.setiName(re.getiName());
                 ire.setiDate(re.getiDate());
+                ire.setRootLevel(re.getRootLevel());
                 em.persist(ire);
                 break;
             case REMOVE:

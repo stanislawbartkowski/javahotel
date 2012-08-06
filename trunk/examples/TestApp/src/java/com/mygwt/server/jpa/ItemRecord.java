@@ -37,6 +37,8 @@ public class ItemRecord {
     private Date iDate;
     
     private Integer iNumber;
+    
+    private Integer rootLevel;
 
     /**
      * @return the key
@@ -92,6 +94,22 @@ public class ItemRecord {
      */
     public void setiDate(Date iDate) {
         this.iDate = iDate;
-    }        
+    }
+
+    /**
+     * @return the rootLevel
+     */
+    public Integer getRootLevel() {
+        return rootLevel;
+    }
+
+    /**
+     * @param rootLevel the rootLevel to set
+     */
+    public void setRootLevel(Integer rootLevel) {
+        this.rootLevel = rootLevel;
+    }
+    
+    
 
 }
