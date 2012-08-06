@@ -44,7 +44,7 @@ import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 /**
- *
+ * 
  * @author hotel
  */
 class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
@@ -77,8 +77,9 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
 
         DisplayListControlerParam cParam = tFactory.constructParam(
                 new CellId(0), new DataListParam(dType, mList, null,
-                new DataFactory(eFactory), new DateViewFactory(title),
-                iGetCon), (ISlotMediator) null, (IGetCellValue) null);
+                        new DataFactory(eFactory), new DateViewFactory(title),
+                        iGetCon), (ISlotMediator) null, (IGetCellValue) null,
+                false);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         // dControler.getSlContainer().replaceContainer(this);
@@ -92,8 +93,8 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
         mList.setDataList(dList);
         dControler.startPublish(new CellId(0));
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        VListHeaderDesc he = new VListHeaderDesc(MM.getL().From(), new DatePeriodField(
-                DatePeriodField.F.DATEFROM));
+        VListHeaderDesc he = new VListHeaderDesc(MM.getL().From(),
+                new DatePeriodField(DatePeriodField.F.DATEFROM));
         heList.add(he);
         he = new VListHeaderDesc(MM.getL().To(), new DatePeriodField(
                 DatePeriodField.F.DATETO));

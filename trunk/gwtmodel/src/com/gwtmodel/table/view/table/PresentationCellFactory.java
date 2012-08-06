@@ -37,7 +37,7 @@ import java.util.List;
 
 /**
  * @author hotel
- *
+ * 
  */
 class PresentationCellFactory {
 
@@ -51,9 +51,12 @@ class PresentationCellFactory {
 
         void setValObj(Integer key, Object o);
     }
+
     private final EditableCol eCol = new EditableCol();
-    private final IGetCustomValues cValues = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
-    private final DateTimeFormat fo = DateTimeFormat.getFormat(cValues.getCustomValue(IGetCustomValues.DATEFORMAT));
+    private final IGetCustomValues cValues = GwtGiniInjector.getI()
+            .getTableFactoriesContainer().getGetCustomValues();
+    private final DateTimeFormat fo = DateTimeFormat.getFormat(cValues
+            .getCustomValue(IGetCustomValues.DATEFORMAT));
     private final IGetCellValue getCell;
     private IGwtTableModel model;
     private final NumberCell iCell = new NumberCell(
@@ -71,26 +74,26 @@ class PresentationCellFactory {
         String defaFormat;
         String parName;
         switch (afterdot) {
-            case 0:
-                defaFormat = "####0";
-                parName = IGetCustomValues.NUMBERFORMAT0;
-                break;
-            case 1:
-                defaFormat = "##########0.0";
-                parName = IGetCustomValues.NUMBERFORMAT1;
-                break;
-            case 2:
-                defaFormat = "##########0.00";
-                parName = IGetCustomValues.NUMBERFORMAT2;
-                break;
-            case 3:
-                defaFormat = "##########0.000";
-                parName = IGetCustomValues.NUMBERFORMAT3;
-                break;
-            default:
-                defaFormat = "##########0.0000";
-                parName = IGetCustomValues.NUMBERFORMAT4;
-                break;
+        case 0:
+            defaFormat = "####0";
+            parName = IGetCustomValues.NUMBERFORMAT0;
+            break;
+        case 1:
+            defaFormat = "##########0.0";
+            parName = IGetCustomValues.NUMBERFORMAT1;
+            break;
+        case 2:
+            defaFormat = "##########0.00";
+            parName = IGetCustomValues.NUMBERFORMAT2;
+            break;
+        case 3:
+            defaFormat = "##########0.000";
+            parName = IGetCustomValues.NUMBERFORMAT3;
+            break;
+        default:
+            defaFormat = "##########0.0000";
+            parName = IGetCustomValues.NUMBERFORMAT4;
+            break;
         }
         String forma = cValues.getCustomValue(parName);
         if (forma == null) {
@@ -100,7 +103,8 @@ class PresentationCellFactory {
     }
 
     /**
-     * @param model the model to set
+     * @param model
+     *            the model to set
      */
     void setModel(IGwtTableModel model) {
         this.model = model;
@@ -432,7 +436,8 @@ class PresentationCellFactory {
             // sb.appendEscaped(s);
             // sb.appendHtmlConstant("</strong>");
 
-            TemplateButtonAction template = GWT.create(TemplateButtonAction.class);
+            TemplateButtonAction template = GWT
+                    .create(TemplateButtonAction.class);
             sb.append(template.input(s));
         }
     }
@@ -453,30 +458,30 @@ class PresentationCellFactory {
     Column constructNumberCol(IVField v, boolean editable) {
         Column co = null;
         switch (v.getType().getType()) {
-            case LONG:
+        case LONG:
+            co = new LongColumn(v);
+            break;
+        case BIGDECIMAL:
+            switch (v.getType().getAfterdot()) {
+            case 0:
                 co = new LongColumn(v);
                 break;
-            case BIGDECIMAL:
-                switch (v.getType().getAfterdot()) {
-                    case 0:
-                        co = new LongColumn(v);
-                        break;
-                    case 1:
-                        co = new NumberColumn1(v);
-                        break;
-                    case 2:
-                        co = new NumberColumn2(v);
-                        break;
-                    case 3:
-                        co = new NumberColumn3(v);
-                        break;
-                    default:
-                        co = new NumberColumn4(v);
-                        break;
-                }
+            case 1:
+                co = new NumberColumn1(v);
+                break;
+            case 2:
+                co = new NumberColumn2(v);
+                break;
+            case 3:
+                co = new NumberColumn3(v);
                 break;
             default:
-                assert false : LogT.getT().notExpected();
+                co = new NumberColumn4(v);
+                break;
+            }
+            break;
+        default:
+            assert false : LogT.getT().notExpected();
         }
         return co;
 
@@ -516,5 +521,41 @@ class PresentationCellFactory {
 
     void setEditable(ChangeEditableRowsParam eParam) {
         eCol.addEditData(eParam);
+    }
+
+    Cell constructCell(IVField v) {
+        Cell ce;
+        switch (v.getType().getType()) {
+        case DATE:
+            ce = new DateCell(fo);
+            break;
+        case LONG:
+        case INT:
+            ce = iCell;
+            break;
+        case BIGDECIMAL:
+            switch (v.getType().getAfterdot()) {
+            case 0:
+                ce = iCell;
+                break;
+            case 1:
+                ce = nCell1;
+                break;
+            case 2:
+                ce = nCell2;
+                break;
+            case 3:
+                ce = nCell3;
+                break;
+            default:
+                ce = nCell4;
+                break;
+            }
+            break;
+        default:
+            ce = new TextCell();
+            break;
+        }
+        return ce;
     }
 }

@@ -33,15 +33,16 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
 
     private class GetHTML implements ISlotCallerListener {
 
-        private  String htmlButton;
+        private String htmlButton;
 
         GetHTML(String htmlButton) {
             this.htmlButton = htmlButton;
         }
 
         public ISlotSignalContext call(ISlotSignalContext slContext) {
-            HTMLPanel ha = new HTMLPanel("div",htmlButton);
-            return slContextFactory.construct(slContext.getSlType(), new GWidget(ha));
+            HTMLPanel ha = new HTMLPanel("div", htmlButton);
+            return slContextFactory.construct(slContext.getSlType(),
+                    new GWidget(ha));
         }
     }
 
@@ -57,10 +58,12 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
         pView.createView();
         // persist layer
         // header list
-        ListDataViewFactory lDataFactory = cParam.gettFactories().getlDataFactory();
+        ListDataViewFactory lDataFactory = cParam.gettFactories()
+                .getlDataFactory();
         IListDataView daView = lDataFactory.construct(cParam.getdType(),
-                cParam.getGetCell(), true, false);
-        ControlButtonViewFactory bFactory = cParam.gettFactories().getbViewFactory();
+                cParam.getGetCell(), true, false, cParam.isTreeView());
+        ControlButtonViewFactory bFactory = cParam.gettFactories()
+                .getbViewFactory();
         IControlButtonView bView = bFactory.construct(cParam.getdType(),
                 cParam.getListButton());
         if (cParam.getMe() == null) {
@@ -82,7 +85,8 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
             slMediator.registerSlotContainer(-1, heList);
         }
         if (cParam.getListButton().getHtmlFormat() != null) {
-            ISlotCallerListener l = new GetHTML(cParam.getListButton().getHtmlFormat());
+            ISlotCallerListener l = new GetHTML(cParam.getListButton()
+                    .getHtmlFormat());
             SlotType slType = slTypeFactory.constructH(controlId);
             slMediator.getSlContainer().registerCaller(slType, l);
         }
@@ -105,12 +109,18 @@ class DisplayListControler extends AbstractSlotMediatorContainer implements
         }
         slMediator.getSlContainer().registerSubscriber(cParam.getdType(),
                 DataActionEnum.ListReadSuccessSignal, new DrawListAction());
-        slMediator.getSlContainer().registerRedirector(
-                cParam.gettFactories().getSlTypeFactory().construct(
-                cParam.getdType(),
-                DataActionEnum.RefreshAfterPersistActionSignal),
-                cParam.gettFactories().getSlTypeFactory().construct(cParam.getdType(),
-                DataActionEnum.ReadListAction));
+        slMediator
+                .getSlContainer()
+                .registerRedirector(
+                        cParam.gettFactories()
+                                .getSlTypeFactory()
+                                .construct(
+                                        cParam.getdType(),
+                                        DataActionEnum.RefreshAfterPersistActionSignal),
+                        cParam.gettFactories()
+                                .getSlTypeFactory()
+                                .construct(cParam.getdType(),
+                                        DataActionEnum.ReadListAction));
 
         // secondly publish
         slMediator.getSlContainer().publish(cParam.getdType(),

@@ -26,18 +26,16 @@ public class ClickButtonType {
 
     public enum StandClickEnum {
 
-        ADDITEM, REMOVEITEM, MODIFITEM, SHOWITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST,
-        CUSTOM, FILTRLIST, SETFILTER, REMOVEFILTER, FIND, FINDNOW, FINDNEXT, FINDFROMBEGINNING,
-        CLEARFIND, CLEARFILTER,
-        MENUTITLE,
-        ALL
+        ADDITEM, REMOVEITEM, MODIFITEM, SHOWITEM, ACCEPT, RESIGN, CHOOSELIST, RESIGNLIST, CUSTOM, FILTRLIST, SETFILTER, REMOVEFILTER, FIND, FINDNOW, FINDNEXT, FINDFROMBEGINNING, CLEARFIND, CLEARFILTER, TABLEDEFAULTMENU, MENUTITLE, ALL
     };
+
     private final StandClickEnum clickEnum;
     private final String customButt;
     private final String htmlElementName;
 
     public ClickButtonType(StandClickEnum clickEnum, String customButt) {
-        assert clickEnum != StandClickEnum.CUSTOM : LogT.getT().mustBeConnectedToString();
+        assert clickEnum != StandClickEnum.CUSTOM : LogT.getT()
+                .mustBeConnectedToString();
         this.clickEnum = clickEnum;
         this.customButt = customButt;
         this.htmlElementName = clickEnum.name();

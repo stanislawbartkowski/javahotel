@@ -21,7 +21,7 @@ import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class DataListModelView implements IGwtTableModel {
@@ -48,7 +48,8 @@ public class DataListModelView implements IGwtTableModel {
     }
 
     /**
-     * @param dataList the dataList to set
+     * @param dataList
+     *            the dataList to set
      */
     public void setDataList(IDataListType dataList) {
         this.dataList = dataList;
@@ -76,5 +77,10 @@ public class DataListModelView implements IGwtTableModel {
 
     public void setUnSelectAtOnce(boolean unSelectAtOnce) {
         this.unSelectAtOnce = unSelectAtOnce;
+    }
+
+    @Override
+    public int treeLevel(int row) {
+        return dataList.treeLevel(row);
     }
 }

@@ -49,12 +49,15 @@ class DataListCrudControler extends AbstractSlotContainer {
                 aFactory.constructActionItem(PersistTypeEnum.SHOWONLY));
         registerSubscriber(dType, ClickButtonType.StandClickEnum.FILTRLIST,
                 fFactory.constructActionFind(
-                ClickButtonType.StandClickEnum.FILTRLIST, this, dType));
+                        ClickButtonType.StandClickEnum.FILTRLIST, this, dType));
         registerSubscriber(dType, ClickButtonType.StandClickEnum.FIND,
                 fFactory.constructActionFind(
-                ClickButtonType.StandClickEnum.FIND, this, dType));
+                        ClickButtonType.StandClickEnum.FIND, this, dType));
         registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
                 aFactory.constructChangeMode());
+        registerSubscriber(dType,
+                ClickButtonType.StandClickEnum.TABLEDEFAULTMENU,
+                fFactory.constructPropertiesListener(this, dType));
 
     }
 }

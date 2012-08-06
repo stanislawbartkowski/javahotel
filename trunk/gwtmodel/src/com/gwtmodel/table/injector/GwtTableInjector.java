@@ -20,6 +20,7 @@ import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
@@ -117,4 +118,6 @@ public interface GwtTableInjector extends Ginjector {
     ChooseListFactory getChooseListFactory();
 
     PullMenuFactory getPullMenuFactory();
+
+    DataListTypeFactory getDataListTypeFactory();
 }

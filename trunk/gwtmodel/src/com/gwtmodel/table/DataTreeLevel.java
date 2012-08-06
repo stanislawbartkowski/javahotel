@@ -10,27 +10,36 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.util;
-
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.Widget;
+package com.gwtmodel.table;
 
 /**
+ * @author hotel
  * 
- * @author stanislawbartkowski@gmail.com
  */
-public final class PopUpTip {
+public class DataTreeLevel {
 
-    public static PopupPanel getPopupTip(Widget info) {
-        PopupPanel pUp = new PopupPanel(true);
-        pUp.setWidget(info);
-        return pUp;
+    private DataTreeLevel() {
+
     }
 
-    public static PopupPanel drawPopupTip(int left, int top, Widget info) {
-        PopupPanel pUp = getPopupTip(info);
-        pUp.setPopupPosition(left, top);
-        pUp.show();
-        return pUp;
+    public static boolean isLeaf(int level) {
+        return level < IDataListType.LEAFBOUND;
     }
+
+    public static int getLevel(int level) {
+        if (!isLeaf(level)) {
+            return level - IDataListType.LEAFBOUND;
+        }
+        return level;
+    }
+
+    public static int toLeaf(int treelevel) {
+        assert treelevel < IDataListType.LEAFBOUND;
+        return treelevel;
+    }
+
+    public static int toNode(int treelevel) {
+        return treelevel + IDataListType.LEAFBOUND;
+    }
+
 }
