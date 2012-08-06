@@ -29,14 +29,14 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
 
 /**
  * @author hotel
  * 
  */
-class GetViewController implements IGetViewControllerFactory {
+public class GetViewController implements IGetViewControllerFactory {
 
     private final ComposeControllerFactory fFactory;
     private final IDataModelFactory dFactory;
@@ -77,7 +77,7 @@ class GetViewController implements IGetViewControllerFactory {
         return i;
     }
 
-    GetViewController(IDataModelFactory dFactory) {
+    public GetViewController(IDataModelFactory dFactory) {
         fFactory = GwtGiniInjector.getI().getComposeControllerFactory();
         this.dFactory = dFactory;
     }

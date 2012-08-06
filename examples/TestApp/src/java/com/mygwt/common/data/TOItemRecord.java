@@ -29,6 +29,8 @@ public class TOItemRecord implements Serializable {
     private DateP iDate;
 
     private Integer iNumber;
+    
+    private Integer rootLevel;
 
     public TOItemRecord() {
         iDate = new DateP();
@@ -79,5 +81,21 @@ public class TOItemRecord implements Serializable {
     public Integer getiNumber() {
         return iNumber;
     }
+
+    /**
+     * @return the rootLevel
+     */
+    public Integer getRootLevel() {
+        return rootLevel;
+    }
+
+    /**
+     * @param rootLevel the rootLevel to set
+     */
+    public void setRootLevel(Integer rootLevel) {
+        this.rootLevel = rootLevel;
+    }
+    
+    
 
 }

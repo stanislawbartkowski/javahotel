@@ -19,14 +19,15 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 /**
  * @author hotel
  * 
  */
-class HeaderList extends AbstractSlotContainer implements IHeaderListContainer {
+public class HeaderList extends AbstractSlotContainer implements
+        IHeaderListContainer {
 
     private final VListHeaderContainer vHeader;
 
@@ -40,10 +41,11 @@ class HeaderList extends AbstractSlotContainer implements IHeaderListContainer {
         vList.add(new VListHeaderDesc("Number", ItemVData.fNUMB));
         vList.add(new VListHeaderDesc("Date", ItemVData.fDATE));
         vList.add(new VListHeaderDesc("Name", ItemVData.fNAME));
+        vList.add(new VListHeaderDesc("Root level", ItemVData.fLEVEL));
         return vList;
     }
 
-    HeaderList(IDataType dType) {
+    public HeaderList(IDataType dType) {
         this.dType = dType;
         vHeader = new VListHeaderContainer(getHList(), "List of items");
     }
