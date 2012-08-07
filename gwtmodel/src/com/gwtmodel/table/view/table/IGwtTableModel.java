@@ -12,8 +12,8 @@
  */
 package com.gwtmodel.table.view.table;
 
-import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import java.util.List;
 
 public interface IGwtTableModel {

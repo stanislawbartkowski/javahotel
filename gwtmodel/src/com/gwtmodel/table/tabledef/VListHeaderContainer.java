@@ -24,18 +24,20 @@ public class VListHeaderContainer {
     private final int pageSize;
     private final String jsModifRow;
     private final String widthDef;
+    private final String treeHeight;
 
     public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle,
-            int pageSize, String jsModifRow, String widthDef) {
+            int pageSize, String jsModifRow, String widthDef, String treeHeight) {
         this.heList = heList;
         this.listTitle = listTitle;
         this.pageSize = pageSize <= 0 ? IConsts.defaultPage : pageSize;
         this.jsModifRow = jsModifRow;
         this.widthDef = widthDef;
+        this.treeHeight = treeHeight;
     }
 
     public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
-        this(heList, listTitle, IConsts.defaultPage, null, null);
+        this(heList, listTitle, IConsts.defaultPage, null, null,null);
     }
 
     public VListHeaderDesc getHeader(IVField v) {
@@ -87,4 +89,12 @@ public class VListHeaderContainer {
     public String getWidthDef() {
         return widthDef;
     }
+
+    /**
+     * @return the treeHeight
+     */
+    public String getTreeHeight() {
+        return treeHeight;
+    }        
+    
 }
