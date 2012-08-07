@@ -46,7 +46,7 @@ import java.util.Stack;
 
 /**
  * @author hotel
- *
+ * 
  */
 class PresentationTree implements IGwtTableView {
 
@@ -130,7 +130,7 @@ class PresentationTree implements IGwtTableView {
     /**
      * It servers to purposes: 1) Space between columns 2) Supplies to "click"
      * event to CompositeCell
-     *
+     * 
      * @param <String>
      */
     private class SpaceHasCell<String> implements HasCell<Integer, String> {
@@ -169,11 +169,12 @@ class PresentationTree implements IGwtTableView {
                 lastMSize = new WSize(event.getClientY(), event.getClientX(),
                         0, 0);
             }
-//            @Override
-//            public void render(com.google.gwt.cell.client.Cell.Context context,
-//                    Integer value, SafeHtmlBuilder sb) {
-//                sb.append(value);
-//            }
+            // @Override
+            // public void render(com.google.gwt.cell.client.Cell.Context
+            // context,
+            // Integer value, SafeHtmlBuilder sb) {
+            // sb.append(value);
+            // }
         }
 
         @Override
@@ -262,6 +263,7 @@ class PresentationTree implements IGwtTableView {
             index = -1;
             this.level = level;
         }
+
         int index;
         final int level;
     }
@@ -270,18 +272,14 @@ class PresentationTree implements IGwtTableView {
     public void setClicked(int clickedno) {
         Stack<NodeLevel> st = new Stack<NodeLevel>();
         st.push(new NodeLevel(-1));
-        int aaa = 0;
         for (int i = 0; i <= clickedno; i++) {
-            st.peek().index++;
             int treelevel = model.treeLevel(i);
             int level = DataTreeLevel.getLevel(treelevel);
-            if (level <= st.peek().level) {
-                aaa--;
+            while (level <= st.peek().level) {
                 st.pop();
-                st.peek().index++;
             }
+            st.peek().index++;
             if (!DataTreeLevel.isLeaf(treelevel)) {
-                aaa++;
                 st.push(new NodeLevel(level));
             }
         }
