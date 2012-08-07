@@ -12,10 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CompositeCell;
@@ -44,15 +40,17 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * @author hotel
- * 
+ *
  */
 class PresentationTree implements IGwtTableView {
 
     private final ICommand iClick;
-
     private final ScrollPanel sPanel = new ScrollPanel();
     private IGwtTableModel model = null;
     private WChoosedLine wChoosed;
@@ -86,7 +84,6 @@ class PresentationTree implements IGwtTableView {
                 sel.setSelected(se, false);
             }
         }
-
     }
 
     private class MyHasCell<T> implements HasCell<Integer, T> {
@@ -115,11 +112,10 @@ class PresentationTree implements IGwtTableView {
             IVModelData v = model.getRows().get(object);
             return (T) FUtils.getValue(v, fie);
         }
-
     }
-    
+
     private class SpaceCell extends AbstractCell<String> {
-        
+
         SpaceCell() {
             super("click");
         }
@@ -127,14 +123,13 @@ class PresentationTree implements IGwtTableView {
         @Override
         public void render(com.google.gwt.cell.client.Cell.Context context,
                 String value, SafeHtmlBuilder sb) {
-            sb.appendEscaped(value);            
+            sb.appendEscaped(value);
         }
     }
-    
+
     /**
-     * It servers to purposes:
-     * 1) Space between columns
-     * 2) Supplies to "click" event to CompositeCell
+     * It servers to purposes: 1) Space between columns 2) Supplies to "click"
+     * event to CompositeCell
      *
      * @param <String>
      */
@@ -152,7 +147,7 @@ class PresentationTree implements IGwtTableView {
 
         @Override
         public String getValue(Integer object) {
-            return  (String) "  ";
+            return (String) "  ";
         }
     }
 
@@ -174,13 +169,11 @@ class PresentationTree implements IGwtTableView {
                 lastMSize = new WSize(event.getClientY(), event.getClientX(),
                         0, 0);
             }
-
 //            @Override
 //            public void render(com.google.gwt.cell.client.Cell.Context context,
 //                    Integer value, SafeHtmlBuilder sb) {
 //                sb.append(value);
 //            }
-
         }
 
         @Override
@@ -232,7 +225,6 @@ class PresentationTree implements IGwtTableView {
             return new DefaultNodeInfo<java.lang.Integer>(dataProvider,
                     new MyCell(cellList));
         }
-
     }
 
     PresentationTree(ICommand iClick) {
@@ -247,14 +239,16 @@ class PresentationTree implements IGwtTableView {
 
     @Override
     public void refresh() {
-        if (!model.containsData()) {
+        if (model == null || !model.containsData()) {
             return;
         }
         TreeViewModel tmodel = new CustomTreeModel();
         tree = new CellTree(tmodel, new Integer(IDataListType.ROOT));
         sPanel.clear();
         sPanel.add(tree);
-        // sPanel.setHeight("200px");
+        if (model.getHeaderList().getTreeHeight() != null) {
+            sPanel.setHeight(model.getHeaderList().getTreeHeight());
+        }
     }
 
     @Override
@@ -263,11 +257,11 @@ class PresentationTree implements IGwtTableView {
     }
 
     private class NodeLevel {
+
         NodeLevel(int level) {
             index = -1;
             this.level = level;
         }
-
         int index;
         final int level;
     }
@@ -276,15 +270,18 @@ class PresentationTree implements IGwtTableView {
     public void setClicked(int clickedno) {
         Stack<NodeLevel> st = new Stack<NodeLevel>();
         st.push(new NodeLevel(-1));
+        int aaa = 0;
         for (int i = 0; i <= clickedno; i++) {
             st.peek().index++;
             int treelevel = model.treeLevel(i);
             int level = DataTreeLevel.getLevel(treelevel);
             if (level <= st.peek().level) {
+                aaa--;
                 st.pop();
                 st.peek().index++;
             }
             if (!DataTreeLevel.isLeaf(treelevel)) {
+                aaa++;
                 st.push(new NodeLevel(level));
             }
         }
@@ -311,6 +308,7 @@ class PresentationTree implements IGwtTableView {
     @Override
     public void setModel(IGwtTableModel model) {
         this.model = model;
+        refresh();
     }
 
     @Override
@@ -325,5 +323,4 @@ class PresentationTree implements IGwtTableView {
     public List<IGetSetVField> getVList(int rowno) {
         return null;
     }
-
 }
