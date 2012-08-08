@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 class WebPanel implements IWebPanel {
@@ -49,6 +49,7 @@ class WebPanel implements IWebPanel {
 
         NORMAL, REPLYL, ERRORL
     };
+
     private StatusE sta = StatusE.NORMAL;
     private final StatusL status = new StatusL(null);
     private Widget wCenter = null;
@@ -166,38 +167,22 @@ class WebPanel implements IWebPanel {
 
     public void initStatus() {
         switch (sta) {
-            case NORMAL:
-                setStatusNormal();
-                break;
+        case NORMAL:
+            setStatusNormal();
+            break;
+        default:
+            break;
         }
     }
 
     private void setWidth() {
-        if (wCenter != null) {
-            if (wWest != null) {
-                dPanel.setCellWidth(middlePanel, centerSize);
-            } else {
-                dPanel.setCellWidth(middlePanel, "100%");
-            }
+        if (wWest != null) {
+            dPanel.setCellWidth(middlePanel, centerSize);
+        } else {
+            dPanel.setCellWidth(middlePanel, "100%");
         }
     }
 
-//    @Override
-//    public void setDCenter(final Widget w) {
-//        if (wCenter != null) {
-//            dPanel.remove(wCenter);
-//            if (centreHideSignal != null) {
-//                centreHideSignal.signal();
-//            }
-//        }
-//        wCenter = w;
-//        if (w != null) {
-//            dPanel.add(w, DockPanel.CENTER);
-//            setWidth();
-//        }
-//        centreHideSignal = null;
-//    }
-    
     @Override
     public void setDCenter(final Widget w) {
         if (wCenter != null) {
@@ -300,9 +285,9 @@ class WebPanel implements IWebPanel {
 
         dPanel.add(vp, DockPanel.NORTH);
         vp.setHeight("25px");
-        
+
         dPanel.add(middlePanel, DockPanel.CENTER);
-        middlePanel.add(this.vmenu,DockPanel.NORTH);
+        middlePanel.add(this.vmenu, DockPanel.NORTH);
 
         List<HtmlElemDesc> hList = new ArrayList<HtmlElemDesc>();
         hList.add(new HtmlElemDesc(tL, "header_appname"));
