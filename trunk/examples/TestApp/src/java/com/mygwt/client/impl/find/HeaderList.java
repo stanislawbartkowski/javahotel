@@ -15,6 +15,7 @@ package com.mygwt.client.impl.find;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -47,7 +48,8 @@ public class HeaderList extends AbstractSlotContainer implements
 
     public HeaderList(IDataType dType) {
         this.dType = dType;
-        vHeader = new VListHeaderContainer(getHList(), "List of items");
+        vHeader = new VListHeaderContainer(getHList(), "List of items",
+                IConsts.defaultPage, null, null, "500px");
     }
 
 }
