@@ -128,11 +128,11 @@ public class TableDataControlerFactory {
 
     public DisplayListControlerParam constructParam(IDataType dType,
             ListOfControlDesc cList, CellId panelId, ISlotMediator me,
-            IGetCellValue getCell) {
+            IGetCellValue getCell,boolean toTree) {
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, me, getCell, false);
+                        fContainer, listParam), listParam, me, getCell, toTree);
     }
 
     public DisplayListControlerParam constructParam(CellId panelId,

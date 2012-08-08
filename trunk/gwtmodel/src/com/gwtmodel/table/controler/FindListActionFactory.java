@@ -71,7 +71,7 @@ import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
 /**
- * 
+ *
  * @author perseus
  */
 class FindListActionFactory {
@@ -143,8 +143,7 @@ class FindListActionFactory {
         }
 
         /**
-         * @param w
-         *            the w to set
+         * @param w the w to set
          */
         public void setW(IGWidget w) {
             this.w = w;
@@ -175,7 +174,6 @@ class FindListActionFactory {
                 return;
             }
             IClickYesNo yes = new IClickYesNo() {
-
                 public void click(boolean yes) {
                     if (yes) {
                         slMediator.getSlContainer().publish(eType,
@@ -301,7 +299,6 @@ class FindListActionFactory {
             this.icheck = icheck;
             this.liF = liF;
         }
-
     }
 
     private List<FormField> constructForm(List<VListHeaderDesc> li) {
@@ -477,7 +474,6 @@ class FindListActionFactory {
 
             String title = listParam.getFormFactory().getFormTitle(iCall);
             ISignal o = new ISignal() {
-
                 @Override
                 public void signal() {
                     remF.signal();
@@ -496,27 +492,27 @@ class FindListActionFactory {
                     eType,
                     ClickButtonType.StandClickEnum.SETFILTER,
                     new SetFilter(slMediator, liF, dForm, li, publishSlo,
-                            publishdType, DataActionEnum.DrawListSetFilter,
-                            true, nF));
+                    publishdType, DataActionEnum.DrawListSetFilter,
+                    true, nF));
             slMediator.getSlContainer()
                     .registerSubscriber(
-                            eType,
-                            ClickButtonType.StandClickEnum.FINDNOW,
-                            new SetFilter(slMediator, liF, dForm, li,
-                                    publishSlo, publishdType,
-                                    DataActionEnum.FindRowList, false, nF));
+                    eType,
+                    ClickButtonType.StandClickEnum.FINDNOW,
+                    new SetFilter(slMediator, liF, dForm, li,
+                    publishSlo, publishdType,
+                    DataActionEnum.FindRowList, false, nF));
             slMediator.getSlContainer().registerSubscriber(
                     eType,
                     ClickButtonType.StandClickEnum.FINDFROMBEGINNING,
                     new SetFilter(slMediator, liF, dForm, li, publishSlo,
-                            publishdType, DataActionEnum.FindRowBeginningList,
-                            false, nF));
+                    publishdType, DataActionEnum.FindRowBeginningList,
+                    false, nF));
             slMediator.getSlContainer().registerSubscriber(
                     eType,
                     ClickButtonType.StandClickEnum.FINDNEXT,
                     new SetFilter(slMediator, liF, dForm, li, publishSlo,
-                            publishdType, DataActionEnum.FindRowNextList,
-                            false, nF));
+                    publishdType, DataActionEnum.FindRowNextList,
+                    false, nF));
             slMediator.getSlContainer().registerSubscriber(eType,
                     ClickButtonType.StandClickEnum.REMOVEFILTER,
                     new RemoveFilter(dForm, publishSlo, publishdType));
@@ -534,7 +530,6 @@ class FindListActionFactory {
                 IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
                 if (wPanel != null) {
                     ISignal iSig = new ISignal() {
-
                         @Override
                         public void signal() {
                             dForm.hide();
@@ -547,6 +542,7 @@ class FindListActionFactory {
     }
 
     private class PropertyListener implements ISlotListener {
+
         private final ISlotable publishSlo;
         private final IDataType publishdType;
         private final static String CHANGE_TO_TREE = "CHANGE_TO_TREE";
@@ -627,17 +623,17 @@ class FindListActionFactory {
                     SlotType sl = ActionTableSignal
                             .constructToTableSignal(ddType);
                     publishSlo.getSlContainer().publish(sl);
-                    return;
                 }
             }
-
         }
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             List<ControlButtonDesc> mList = new ArrayList<ControlButtonDesc>();
-            addMenu(mList, MM.getL().ChangeToTable(), CHANGE_TO_TABLE);
-            addMenu(mList, MM.getL().ChangeToTree(), CHANGE_TO_TREE);
+            if (isTreeEnabled(publishSlo)) {
+                addMenu(mList, MM.getL().ChangeToTable(), CHANGE_TO_TABLE);
+                addMenu(mList, MM.getL().ChangeToTree(), CHANGE_TO_TREE);
+            }
             ListOfControlDesc coP = new ListOfControlDesc(mList);
             IGWidget wi = slContext.getGwtWidget();
             ControlClick co = new ControlClick();
