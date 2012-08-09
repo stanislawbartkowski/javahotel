@@ -30,6 +30,8 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.ColumnSortList;
+import com.google.gwt.user.cellview.client.ColumnSortList.ColumnSortInfo;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -59,7 +61,7 @@ import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationCellFactory.IGetField;
 
 /**
- *
+ * 
  * @author perseus
  */
 class PresentationTable implements IGwtTableView {
@@ -106,9 +108,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Custom function for additional style for rows. Uses java script function.
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class TStyles implements RowStyles<Integer> {
 
@@ -121,9 +123,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Raised when the whole row was selected
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class SelectionChange implements SelectionChangeEvent.Handler {
 
@@ -189,9 +191,9 @@ class PresentationTable implements IGwtTableView {
     /**
      * Implementation of AbstractCell. The only purpose is to take over
      * "clicked" event
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class A extends AbstractCell<SafeHtml> {
 
@@ -213,9 +215,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Display raw cell column. Call back function provides html (safe)
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class RawColumn extends Column<Integer, SafeHtml> {
 
@@ -316,34 +318,34 @@ class PresentationTable implements IGwtTableView {
                 co = new TColumnString(he.getFie(), fType);
             } else {
                 switch (fType.getType()) {
-                    case LONG:
-                    case BIGDECIMAL:
-                        co = fa.constructNumberCol(he.getFie(), editable);
-                        if (align == null) {
-                            co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-                        }
-                        break;
-                    case DATE:
-                        co = fa.constructDateEditCol(he.getFie(), editable);
-                        break;
-                    default:
-                        co = fa.constructEditCol(he.getFie(), editable);
-                        break;
+                case LONG:
+                case BIGDECIMAL:
+                    co = fa.constructNumberCol(he.getFie(), editable);
+                    if (align == null) {
+                        co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+                    }
+                    break;
+                case DATE:
+                    co = fa.constructDateEditCol(he.getFie(), editable);
+                    break;
+                default:
+                    co = fa.constructEditCol(he.getFie(), editable);
+                    break;
                 }
             }
             co.setSortable(true);
             // align
             if (align != null) {
                 switch (align) {
-                    case LEFT:
-                        co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-                        break;
-                    case RIGHT:
-                        co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-                        break;
-                    case CENTER:
-                        co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-                        break;
+                case LEFT:
+                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+                    break;
+                case RIGHT:
+                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+                    break;
+                case CENTER:
+                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+                    break;
                 }
             }
             // col width
@@ -357,7 +359,8 @@ class PresentationTable implements IGwtTableView {
                     try {
                         wi = Utils.toDouble(pa[0]);
                     } catch (NumberFormatException e) {
-                        String info = LogT.getT().InproperWidthInColumn(he.getHeaderString(), pa[0]);
+                        String info = LogT.getT().InproperWidthInColumn(
+                                he.getHeaderString(), pa[0]);
                         LogT.errorLogE(info, e);
                         return;
                     }
@@ -365,7 +368,8 @@ class PresentationTable implements IGwtTableView {
                     try {
                         u = Style.Unit.valueOf(pa[1]);
                     } catch (IllegalArgumentException e) {
-                        String info = LogT.getT().InproperColumnUnit(he.getHeaderString(), pa[1]);
+                        String info = LogT.getT().InproperColumnUnit(
+                                he.getHeaderString(), pa[1]);
                         LogT.errorLogE(info, e);
                         return;
                     }
@@ -379,7 +383,8 @@ class PresentationTable implements IGwtTableView {
                 // So additional error alert is displayed to avoid confusion
                 Utils.errAlert(he.getFie().getId(), LogT.getT().HeaderNull());
             }
-            assert !he.isHidden() && he.getHeaderString() != null : LogT.getT().cannotBeNull();
+            assert !he.isHidden() && he.getHeaderString() != null : LogT.getT()
+                    .cannotBeNull();
 
             table.addColumn(co, he.getHeaderString());
 
@@ -483,10 +488,13 @@ class PresentationTable implements IGwtTableView {
     /**
      * Creates WChoosedLine for selected/clicked. It can be later retrieved.
      * Only one can be retrieved, next overwrite the previous
-     *
-     * @param sel Row (Integer) position
-     * @param v Column to be clicked (if available)
-     * @param wSize Cell position (if not null)
+     * 
+     * @param sel
+     *            Row (Integer) position
+     * @param v
+     *            Column to be clicked (if available)
+     * @param wSize
+     *            Cell position (if not null)
      * @return
      */
     private WChoosedLine pgetClicked(Integer sel, IVField v, WSize wSize) {
@@ -603,5 +611,30 @@ class PresentationTable implements IGwtTableView {
             no++;
         }
         return vList;
+    }
+
+    @Override
+    public void removeSort() {
+        if (table == null) {
+            return;
+        }
+        ColumnSortList sortList = table.getColumnSortList();
+        if (sortList == null) {
+            return;
+        }
+        while (sortList.size() > 0) {
+            ColumnSortInfo i = sortList.get(0);
+            sortList.remove(i);
+        }
+
+    }
+
+    @Override
+    public boolean isSorted() {
+        if (table == null) {
+            return false;
+        }
+        ColumnSortList sortList = table.getColumnSortList();
+        return sortList.size() > 0;
     }
 }

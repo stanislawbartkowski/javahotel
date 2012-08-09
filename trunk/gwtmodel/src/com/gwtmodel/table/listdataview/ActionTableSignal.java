@@ -27,6 +27,7 @@ public class ActionTableSignal {
 
     private static final String CHANGE_TO_TABLE_SIGNAL = "TABLE_PUBLIC_CHANGE_TO_TABLE_SIGNAL";
     private static final String CHANGE_TO_TREE_SIGNAL = "TABLE_PUBLIC_CHANGE_TO_TREE_SIGNAL";
+    private static final String REMOVE_SORT = "TABLE_PUBLIC_REMOVE_SORT";
 
     private ActionTableSignal() {
     }
@@ -42,6 +43,13 @@ public class ActionTableSignal {
     public static SlotType constructToTreeSignal(IDataType dType) {
         CustomStringSlot slo = new CustomStringDataTypeSlot(
                 CHANGE_TO_TREE_SIGNAL, dType);
+        SlotTypeFactory tFactory = GwtGiniInjector.getI().getTablesFactories()
+                .getSlTypeFactory();
+        return tFactory.construct(slo);
+    }
+
+    public static SlotType constructRemoveSortSignal(IDataType dType) {
+        CustomStringSlot slo = new CustomStringDataTypeSlot(REMOVE_SORT, dType);
         SlotTypeFactory tFactory = GwtGiniInjector.getI().getTablesFactories()
                 .getSlTypeFactory();
         return tFactory.construct(slo);

@@ -26,6 +26,7 @@ public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
     private static final String GETISTREEVIEWNOW = "TABLE_PUBLIC_GET_TABLE_TREE_VIEW_SIGNAL_NOW";
     private static final String GETISTABLETREEENABLED = "TABLE_PUBLIC_GET_TABLE_TREE_ENABLED";
     private static final String GETISTABLEFILTER = "TABLE_PUBLIC_GET_TABLE_IS_FILTER";
+    private static final String GETISTABLESORTED = "TABLE_PUBLIC_GET_TABLE_IS_SORTED";
 
     IsBooleanSignalNow(boolean value) {
         super(value);
@@ -44,10 +45,13 @@ public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
             IDataType dType) {
         return new CustomStringDataTypeSlot(GETISTABLETREEENABLED, dType);
     }
-    
-    public static CustomStringSlot constructSlotGetTableIsFilter(
-            IDataType dType) {
+
+    public static CustomStringSlot constructSlotGetTableIsFilter(IDataType dType) {
         return new CustomStringDataTypeSlot(GETISTABLEFILTER, dType);
+    }
+
+    public static CustomStringSlot constructSlotGetTableIsSorted(IDataType dType) {
+        return new CustomStringDataTypeSlot(GETISTABLESORTED, dType);
     }
 
 }

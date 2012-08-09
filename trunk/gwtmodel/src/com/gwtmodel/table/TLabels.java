@@ -132,13 +132,17 @@ public interface TLabels extends Constants {
     String ChangeToTable();
 
     String ChangeToTree();
-    
+
     String OnlyForTable();
-    
+
     String OnlyForTree();
-    
+
     String CannotDisplayAsTree();
-    
+
     String CannotSwitchToTreeWhileFilter();
+
+    String RemoveSortOrder();
+
+    String TableIsNotSorted();
 
 }

@@ -32,7 +32,11 @@ public interface IGwtTableView extends IGWidget {
     void setModifyRowStyle(IModifyRowStyle iMod);
 
     void setEditable(ChangeEditableRowsParam eParam);
-    
+
     List<IGetSetVField> getVList(int rowno);
+
+    void removeSort();
+    
+    boolean isSorted();
 
 }
