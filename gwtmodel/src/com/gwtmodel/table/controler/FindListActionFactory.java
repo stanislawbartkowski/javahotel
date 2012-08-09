@@ -71,7 +71,7 @@ import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
 /**
- *
+ * 
  * @author perseus
  */
 class FindListActionFactory {
@@ -85,7 +85,6 @@ class FindListActionFactory {
     private final DataListParam listParam;
     private List<FormField> liFilter = null;
     private List<FormField> liFind = null;
-    private final SlotTypeFactory slTypeFactory;
 
     FindListActionFactory(TablesFactories tFactories, IDataType dType,
             DataListParam listParam) {
@@ -95,7 +94,6 @@ class FindListActionFactory {
         eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         vFactory = tFactories.getdViewFactory();
         this.listParam = listParam;
-        slTypeFactory = tFactories.getSlTypeFactory();
     }
 
     private class GetHeader implements ISlotListener {
@@ -143,7 +141,8 @@ class FindListActionFactory {
         }
 
         /**
-         * @param w the w to set
+         * @param w
+         *            the w to set
          */
         public void setW(IGWidget w) {
             this.w = w;
@@ -369,6 +368,12 @@ class FindListActionFactory {
         return isBoolProp(publishSlo, slType);
     }
 
+    private boolean isTreeSorted(ISlotable publishSlo) {
+        CustomStringSlot slType = IsBooleanSignalNow
+                .constructSlotGetTableIsSorted(ddType);
+        return isBoolProp(publishSlo, slType);
+    }
+
     private boolean isFilterOn(ISlotable publishSlo) {
         CustomStringSlot slType = IsBooleanSignalNow
                 .constructSlotGetTableIsFilter(ddType);
@@ -492,27 +497,27 @@ class FindListActionFactory {
                     eType,
                     ClickButtonType.StandClickEnum.SETFILTER,
                     new SetFilter(slMediator, liF, dForm, li, publishSlo,
-                    publishdType, DataActionEnum.DrawListSetFilter,
-                    true, nF));
+                            publishdType, DataActionEnum.DrawListSetFilter,
+                            true, nF));
             slMediator.getSlContainer()
                     .registerSubscriber(
-                    eType,
-                    ClickButtonType.StandClickEnum.FINDNOW,
-                    new SetFilter(slMediator, liF, dForm, li,
-                    publishSlo, publishdType,
-                    DataActionEnum.FindRowList, false, nF));
+                            eType,
+                            ClickButtonType.StandClickEnum.FINDNOW,
+                            new SetFilter(slMediator, liF, dForm, li,
+                                    publishSlo, publishdType,
+                                    DataActionEnum.FindRowList, false, nF));
             slMediator.getSlContainer().registerSubscriber(
                     eType,
                     ClickButtonType.StandClickEnum.FINDFROMBEGINNING,
                     new SetFilter(slMediator, liF, dForm, li, publishSlo,
-                    publishdType, DataActionEnum.FindRowBeginningList,
-                    false, nF));
+                            publishdType, DataActionEnum.FindRowBeginningList,
+                            false, nF));
             slMediator.getSlContainer().registerSubscriber(
                     eType,
                     ClickButtonType.StandClickEnum.FINDNEXT,
                     new SetFilter(slMediator, liF, dForm, li, publishSlo,
-                    publishdType, DataActionEnum.FindRowNextList,
-                    false, nF));
+                            publishdType, DataActionEnum.FindRowNextList,
+                            false, nF));
             slMediator.getSlContainer().registerSubscriber(eType,
                     ClickButtonType.StandClickEnum.REMOVEFILTER,
                     new RemoveFilter(dForm, publishSlo, publishdType));
@@ -547,6 +552,7 @@ class FindListActionFactory {
         private final IDataType publishdType;
         private final static String CHANGE_TO_TREE = "CHANGE_TO_TREE";
         private final static String CHANGE_TO_TABLE = "CHANGE_TO_TABLE";
+        private final static String REMOVE_SORT = "REMOVE_SORT";
 
         PropertyListener(ISlotable publishSlo, IDataType publishdType) {
             this.publishSlo = publishSlo;
@@ -595,6 +601,18 @@ class FindListActionFactory {
 
             public void p_click(ControlButtonDesc co, Widget w) {
                 String id = co.getActionId().getCustomButt();
+                if (id.equals(REMOVE_SORT)) {
+                    if (!isTreeSorted(publishSlo)) {
+                        OkDialog ok = new OkDialog(
+                                MM.getL().TableIsNotSorted(), null, null);
+                        ok.show(w);
+                        return;
+                    }
+                    SlotType sl = ActionTableSignal
+                            .constructRemoveSortSignal(ddType);
+                    publishSlo.getSlContainer().publish(sl);
+                    return;
+                }
                 if (id.equals(CHANGE_TO_TREE)) {
                     if (!onlyForTable(w)) {
                         return;
@@ -634,6 +652,7 @@ class FindListActionFactory {
                 addMenu(mList, MM.getL().ChangeToTable(), CHANGE_TO_TABLE);
                 addMenu(mList, MM.getL().ChangeToTree(), CHANGE_TO_TREE);
             }
+            addMenu(mList, MM.getL().RemoveSortOrder(), REMOVE_SORT);
             ListOfControlDesc coP = new ListOfControlDesc(mList);
             IGWidget wi = slContext.getGwtWidget();
             ControlClick co = new ControlClick();

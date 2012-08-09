@@ -251,7 +251,23 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class ToTableTree implements ISlotListener {
+    private abstract class ModifListener implements ISlotListener {
+
+        abstract void modif(ISlotSignalContext slContext);
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            WChoosedLine w = tableView.getClicked();
+            modif(slContext);
+            if (w != null && w.isChoosed()) {
+                tableView.setClicked(w.getChoosedLine());
+            }
+
+        }
+
+    }
+
+    private class ToTableTree extends ModifListener {
 
         private final boolean totree;
 
@@ -260,17 +276,23 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
 
         @Override
-        public void signal(ISlotSignalContext slContext) {
-            WChoosedLine w = tableView.getClicked();
+        void modif(ISlotSignalContext slContext) {
             constructView(totree);
             vp.clear();
             vp.add(tableView.getGWidget());
             tableView.setModel(listView);
             tableView.refresh();
-            if (w != null && w.isChoosed()) {
-                tableView.setClicked(w.getChoosedLine());
-            }
             isTreeNow = totree;
+        }
+
+    }
+
+    private class RemoveSort extends ModifListener {
+
+        @Override
+        void modif(ISlotSignalContext slContext) {
+            tableView.removeSort();
+            tableView.refresh();
         }
 
     }
@@ -339,6 +361,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IsBooleanSignalNow si = new IsBooleanSignalNow(isFilter);
+            return coFactory.construct(slContext.getSlType(), si);
+        }
+    }
+
+    private class GetTableIsSorted implements ISlotCallerListener {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IsBooleanSignalNow si = new IsBooleanSignalNow(tableView.isSorted());
             return coFactory.construct(slContext.getSlType(), si);
         }
     }
@@ -447,6 +478,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ToTableTree(false));
         registerSubscriber(ActionTableSignal.constructToTreeSignal(dType),
                 new ToTableTree(true));
+        registerSubscriber(ActionTableSignal.constructRemoveSortSignal(dType),
+                new RemoveSort());
         // caller
         registerCaller(GetVDataByIntegerSignal.constructSlot(dType),
                 new GetVDataByI());
@@ -466,6 +499,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new GetTableTreeEnabled());
         registerCaller(IsBooleanSignalNow.constructSlotGetTableIsFilter(dType),
                 new GetTableIsFilter());
+        registerCaller(IsBooleanSignalNow.constructSlotGetTableIsSorted(dType),
+                new GetTableIsSorted());
     }
 
     @Override

@@ -321,4 +321,22 @@ class PresentationTree implements IGwtTableView {
     public List<IGetSetVField> getVList(int rowno) {
         return null;
     }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#removeSort()
+     */
+    @Override
+    public void removeSort() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#isSorted()
+     */
+    @Override
+    public boolean isSorted() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
