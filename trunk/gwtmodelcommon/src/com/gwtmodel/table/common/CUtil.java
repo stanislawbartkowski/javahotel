@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 
+ *
  * @author perseus
  */
 public class CUtil {
@@ -63,7 +63,7 @@ public class CUtil {
         if (afterdot > 0) {
             ss = beforeS + "." + afterS;
         } else {
-            ss = beforeS;
+            ss = beforeS.trim();
         }
         return ss;
     }
@@ -133,5 +133,4 @@ public class CUtil {
         return aL;
 
     }
-
 }
