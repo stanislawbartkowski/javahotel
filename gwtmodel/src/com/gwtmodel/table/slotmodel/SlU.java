@@ -26,7 +26,8 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.controler.BoxActionMenuOptions;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.listdataview.GetVDataByIntegerSignal;
+import com.gwtmodel.table.listdataview.ActionTableSignal;
+import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -44,24 +45,32 @@ public class SlU {
 
     /**
      * Get IVModelData identified by index (integer)
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
-     * @param i index of IVModelData looked for
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param i
+     *            index of IVModelData looked for
      * @return IVModelData (throws Exception if not found)
      */
     public static IVModelData getVDataByI(IDataType dType, ISlotable iSlo, int i) {
-        IVModelData v = iSlo.getSlContainer().getGetter(GetVDataByIntegerSignal.constructSlot(dType),
-                new GetVDataByIntegerSignal(i)).getVData();
+        IVModelData v = iSlo
+                .getSlContainer()
+                .getGetter(ActionTableSignal.constructSlot(dType),
+                        new DataIntegerSignal(i)).getVData();
         return v;
     }
 
     /**
      * Get IFormLineView related to IVFiel
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
-     * @param v IVField to take IFormLineView
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param v
+     *            IVField to take IFormLineView
      * @return IVFormLineView or null
      */
     public static IFormLineView getVWidget(IDataType dType, ISlotable iSlo,
@@ -89,16 +98,18 @@ public class SlU {
 
     /**
      * Get List of IGetSetVField from list view
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
-     * @param rowNo Row number to get from list view
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param rowNo
+     *            Row number to get from list view
      * @return List of IGetSetVField
      */
     public static List<IGetSetVField> getVListFromEditTable(IDataType dType,
             ISlotable iSlo, int rowNo) {
-        ISlotCustom sl = new CustomStringDataTypeSlot(
-                GetVListSignal.GETVSIGNAL, dType);
+        ISlotCustom sl = ActionTableSignal.constructSlotGetVSignal(dType);
         ISlotSignalContext i = iSlo.getSlContainer().getGetter(sl,
                 new GetVListSignal(rowNo));
         GetVListSignal v = (GetVListSignal) i.getCustom();
@@ -107,7 +118,7 @@ public class SlU {
 
     /**
      * Get WChoosedLine from slContext
-     *
+     * 
      * @param slContext
      * @return WChooseLine
      */
@@ -118,10 +129,13 @@ public class SlU {
 
     /**
      * Get IVModelData basing on WChoosedLine
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
-     * @param w WChoosedLine
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param w
+     *            WChoosedLine
      * @return IVModelData pointed by WChoosedLine
      */
     public static IVModelData getVDataByW(IDataType dType, ISlotable iSlo,
@@ -131,11 +145,15 @@ public class SlU {
 
     /**
      * Register subscriber listening for changes in the form
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
-     * @param v IVField of the field listened to
-     * @param iSubscriber ISlotSignaller listener
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param v
+     *            IVField of the field listened to
+     * @param iSubscriber
+     *            ISlotSignaller listener
      */
     public static void registerChangeFormSubscriber(IDataType dType,
             ISlotable iSlo, IVField v, ISlotListener iSubscriber) {
@@ -145,12 +163,17 @@ public class SlU {
 
     /**
      * Publish after change in field widget
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
-     * @param fie IVield changed
-     * @param i Form widget changed
-     * @param afterFocus if change was cause by focus
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param fie
+     *            IVield changed
+     * @param i
+     *            Form widget changed
+     * @param afterFocus
+     *            if change was cause by focus
      */
     public static void publishValueChange(IDataType dType, ISlotable iSlo,
             IVField fie, IFormLineView i, boolean afterFocus) {
@@ -159,8 +182,9 @@ public class SlU {
 
     /**
      * Retrieves 'afterFocus' value from ISlotSignalContext
-     *
-     * @param slContext ISlotSignalContext
+     * 
+     * @param slContext
+     *            ISlotSignalContext
      * @return afterFocus value
      */
     public static boolean afterFocus(ISlotSignalContext slContext) {
@@ -171,10 +195,13 @@ public class SlU {
 
     /**
      * Register Widget listener
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
-     * @param c Signaller waiting for widget
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param c
+     *            Signaller waiting for widget
      */
     public static void registerWidgetListener0(IDataType dType, ISlotable iSlo,
             ISlotListener c) {
@@ -191,9 +218,11 @@ public class SlU {
 
     /**
      * Retrieves FormLineContainer from FormView
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
      * @return FormLineContainer
      */
     public static FormLineContainer getFormLineContainer(IDataType dType,
@@ -214,18 +243,25 @@ public class SlU {
 
     /**
      * Publish Valid signal but containing string to be asked before proceeding
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
-     * @param slContext ISlotSignalContext (Widget/WSize whould be preserved)
-     * @param ask String to be asked
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param slContext
+     *            ISlotSignalContext (Widget/WSize whould be preserved)
+     * @param ask
+     *            String to be asked
      */
     public static void publishValidWithAsk(IDataType dType, ISlotable iSlo,
             ISlotSignalContext slContext, String ask) {
-        SlotTypeFactory slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
-        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+        SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
+                .getSlotTypeFactory();
+        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
+                .getSlotSignalContextFactory();
 
-        SlotType sl = slTypeFactory.construct(dType, DataActionEnum.ValidSignal);
+        SlotType sl = slTypeFactory
+                .construct(dType, DataActionEnum.ValidSignal);
         CustomObjectValue<String> c = new CustomObjectValue<String>(ask);
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
         iSlo.getSlContainer().publish(slC);
@@ -233,18 +269,25 @@ public class SlU {
 
     /**
      * Publish PeristTypeEnum action
-     *
-     * @param dType IDataType
-     * @param iSlo ISlotable
-     * @param slContext ISlotSignalContext (Widget/WSize should be preserved)
-     * @param action DataActionEnum
-     * @param persistTypeEnum PersistTypeEnum
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @param slContext
+     *            ISlotSignalContext (Widget/WSize should be preserved)
+     * @param action
+     *            DataActionEnum
+     * @param persistTypeEnum
+     *            PersistTypeEnum
      */
     public static void publishActionPersist(IDataType dType, ISlotable iSlo,
             ISlotSignalContext slContext, DataActionEnum action,
             PersistTypeEnum persistTypeEnum) {
-        SlotTypeFactory slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
-        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+        SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
+                .getSlotTypeFactory();
+        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
+                .getSlotSignalContextFactory();
 
         SlotType sl = slTypeFactory.construct(dType, action);
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext,
@@ -254,8 +297,10 @@ public class SlU {
 
     public static void publishDataAction(IDataType dType, ISlotable iSlo,
             ISlotSignalContext slContext, DataActionEnum action) {
-        SlotTypeFactory slTypeFactory = GwtGiniInjector.getI().getSlotTypeFactory();
-        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
+        SlotTypeFactory slTypeFactory = GwtGiniInjector.getI()
+                .getSlotTypeFactory();
+        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
+                .getSlotSignalContextFactory();
 
         SlotType sl = slTypeFactory.construct(dType, action);
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext);
@@ -330,8 +375,10 @@ public class SlU {
 
     public static void publishActionResignWithWarning(IDataType dType,
             ISlotable iSlo, ISlotSignalContext slContext) {
-        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
-        SlotType sl = BoxActionMenuOptions.constructSRemoveFormDialogSlotType(dType);
+        SlotSignalContextFactory slContextFactory = GwtGiniInjector.getI()
+                .getSlotSignalContextFactory();
+        SlotType sl = BoxActionMenuOptions
+                .constructSRemoveFormDialogSlotType(dType);
         CustomObjectValue<String> c = new CustomObjectValue<String>(
                 "Na pewno rezygnujesz ? (Wszystkie zmiany przepadną)");
         ISlotSignalContext slC = slContextFactory.construct(sl, slContext, c);
@@ -344,8 +391,10 @@ public class SlU {
         vi.setReadOnly(!enable);
     }
 
-    public static VListHeaderContainer getHeaderList(IDataType dType, ISlotable iSlo) {
-        ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(dType, GetActionEnum.GetHeaderList);
+    public static VListHeaderContainer getHeaderList(IDataType dType,
+            ISlotable iSlo) {
+        ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(
+                dType, GetActionEnum.GetHeaderList);
         VListHeaderContainer listHeader = slContext.getListHeader();
         return listHeader;
     }

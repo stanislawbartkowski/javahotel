@@ -164,4 +164,22 @@ class TableView implements IGwtTableView {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#getPageSize()
+     */
+    @Override
+    public int getPageSize() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#setPageSize(int)
+     */
+    @Override
+    public void setPageSize(int pageSize) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
