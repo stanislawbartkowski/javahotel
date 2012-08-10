@@ -328,7 +328,7 @@ class PresentationTree implements IGwtTableView {
     @Override
     public void removeSort() {
         // TODO Auto-generated method stub
-        
+
     }
 
     /* (non-Javadoc)
@@ -338,5 +338,23 @@ class PresentationTree implements IGwtTableView {
     public boolean isSorted() {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#getPageSize()
+     */
+    @Override
+    public int getPageSize() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#setPageSize(int)
+     */
+    @Override
+    public void setPageSize(int pageSize) {
+        // TODO Auto-generated method stub
+
     }
 }

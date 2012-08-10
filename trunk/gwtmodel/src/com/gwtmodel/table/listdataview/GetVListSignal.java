@@ -19,9 +19,7 @@ import java.util.List;
  * @author hotel
  * 
  */
-public class GetVListSignal extends GetVDataByIntegerSignal {
-
-    public static final String GETVSIGNAL = "LISTDATAVIEW-GETVSIGNAL";
+public class GetVListSignal extends DataIntegerSignal {
 
     private final List<IGetSetVField> vList;
 

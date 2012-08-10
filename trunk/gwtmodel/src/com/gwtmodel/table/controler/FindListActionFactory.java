@@ -30,10 +30,13 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.controler.DataListActionItemFactory.DrawForm;
 import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
+import com.gwtmodel.table.controler.ui.ChangePageSize;
+import com.gwtmodel.table.controler.ui.ChangePageSizeDialog;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -42,6 +45,7 @@ import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.injector.TablesFactories;
 import com.gwtmodel.table.listdataview.ActionTableSignal;
+import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormField;
@@ -57,8 +61,8 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
@@ -67,6 +71,7 @@ import com.gwtmodel.table.view.util.CreateReadOnlyI;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.PopUpTip;
 import com.gwtmodel.table.view.util.PopupCreateMenu;
+import com.gwtmodel.table.view.util.PopupUtil;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
@@ -359,25 +364,34 @@ class FindListActionFactory {
 
     private boolean isTreeView(ISlotable publishSlo) {
         return isBoolProp(publishSlo,
-                IsBooleanSignalNow.constructSlotGetTreeView(ddType));
+                ActionTableSignal.constructSlotGetTreeView(ddType));
     }
 
     private boolean isTreeEnabled(ISlotable publishSlo) {
-        CustomStringSlot slType = IsBooleanSignalNow
+        CustomStringSlot slType = ActionTableSignal
                 .constructSlotGetTableTreeEnabled(ddType);
         return isBoolProp(publishSlo, slType);
     }
 
     private boolean isTreeSorted(ISlotable publishSlo) {
-        CustomStringSlot slType = IsBooleanSignalNow
+        CustomStringSlot slType = ActionTableSignal
                 .constructSlotGetTableIsSorted(ddType);
         return isBoolProp(publishSlo, slType);
     }
 
     private boolean isFilterOn(ISlotable publishSlo) {
-        CustomStringSlot slType = IsBooleanSignalNow
+        CustomStringSlot slType = ActionTableSignal
                 .constructSlotGetTableIsFilter(ddType);
         return isBoolProp(publishSlo, slType);
+    }
+
+    private int getPageSize(ISlotable publishSlo) {
+        CustomStringSlot slType = ActionTableSignal
+                .constructGetPageSizeSignal(ddType);
+        ISlotSignalContext rContext = publishSlo.getSlContainer()
+                .getGetterCustom(slType);
+        DataIntegerSignal ret = (DataIntegerSignal) rContext.getCustom();
+        return ret.getValue();
     }
 
     private class ActionFind implements ISlotListener {
@@ -553,6 +567,7 @@ class FindListActionFactory {
         private final static String CHANGE_TO_TREE = "CHANGE_TO_TREE";
         private final static String CHANGE_TO_TABLE = "CHANGE_TO_TABLE";
         private final static String REMOVE_SORT = "REMOVE_SORT";
+        private final static String CHANGE_PAGE_SIZE = "CHANGE_PAGE_SIZE";
 
         PropertyListener(ISlotable publishSlo, IDataType publishdType) {
             this.publishSlo = publishSlo;
@@ -599,9 +614,52 @@ class FindListActionFactory {
                 closeP();
             }
 
+            private class ChangePageAction implements
+                    ChangePageSizeDialog.IChangeAction {
+
+                private final int startSize;
+
+                ChangePageAction(int startSize) {
+                    this.startSize = startSize;
+                }
+
+                private void setSize(int size) {
+                    SlotType sl = ActionTableSignal
+                            .constructSetPageSizeSignal(ddType);
+                    DataIntegerSignal si = new DataIntegerSignal(size);
+                    publishSlo.getSlContainer().publish(sl, si);
+
+                }
+
+                @Override
+                public void toDefault() {
+                    setSize(startSize);
+                }
+
+                @Override
+                public void toChange(int newsize) {
+                    setSize(newsize);
+                }
+
+            }
+
             public void p_click(ControlButtonDesc co, Widget w) {
                 String id = co.getActionId().getCustomButt();
+                if (id.equals(CHANGE_PAGE_SIZE)) {
+                    if (!onlyForTable(w)) {
+                        return;
+                    }
+                    VListHeaderContainer vHeader = SlU.getHeaderList(ddType,
+                            publishSlo);
+                    ChangePageSizeDialog.doDialog(w, vHeader.getPageSize(),
+                            getPageSize(publishSlo), new ChangePageAction(
+                                    vHeader.getPageSize()));
+                    return;
+                }
                 if (id.equals(REMOVE_SORT)) {
+                    if (!onlyForTable(w)) {
+                        return;
+                    }
                     if (!isTreeSorted(publishSlo)) {
                         OkDialog ok = new OkDialog(
                                 MM.getL().TableIsNotSorted(), null, null);
@@ -653,6 +711,7 @@ class FindListActionFactory {
                 addMenu(mList, MM.getL().ChangeToTree(), CHANGE_TO_TREE);
             }
             addMenu(mList, MM.getL().RemoveSortOrder(), REMOVE_SORT);
+            addMenu(mList, MM.getL().ChangeNumberOfRows(), CHANGE_PAGE_SIZE);
             ListOfControlDesc coP = new ListOfControlDesc(mList);
             IGWidget wi = slContext.getGwtWidget();
             ControlClick co = new ControlClick();

@@ -104,6 +104,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 case INT:
                     number = true;
                     break;
+                default:
+                    break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -286,6 +288,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
 
     }
+    
+    private class ChangeTableSize extends ModifListener {
+
+        @Override
+        void modif(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            DataIntegerSignal si = (DataIntegerSignal) o;
+            tableView.setPageSize(si.getValue());
+        }
+
+    }
 
     private class RemoveSort extends ModifListener {
 
@@ -308,7 +321,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
-            GetVDataByIntegerSignal e = (GetVDataByIntegerSignal) o;
+            DataIntegerSignal e = (DataIntegerSignal) o;
             IVModelData v = dataList.getList().get(e.getValue());
             return coFactory.construct(slContext.getSlType(), v);
 
@@ -370,6 +383,16 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             IsBooleanSignalNow si = new IsBooleanSignalNow(tableView.isSorted());
+            return coFactory.construct(slContext.getSlType(), si);
+        }
+    }
+
+    private class GetTablePageSize implements ISlotCallerListener {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            DataIntegerSignal si = new DataIntegerSignal(
+                    tableView.getPageSize());
             return coFactory.construct(slContext.getSlType(), si);
         }
     }
@@ -480,11 +503,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ToTableTree(true));
         registerSubscriber(ActionTableSignal.constructRemoveSortSignal(dType),
                 new RemoveSort());
+        registerSubscriber(ActionTableSignal.constructSetPageSizeSignal(dType),
+                new ChangeTableSize());
         // caller
-        registerCaller(GetVDataByIntegerSignal.constructSlot(dType),
+        registerCaller(ActionTableSignal.constructSlot(dType),
                 new GetVDataByI());
-        registerCaller(new CustomStringDataTypeSlot(GetVListSignal.GETVSIGNAL,
-                dType), new GetVListByI());
+        registerCaller(ActionTableSignal.constructSlotGetVSignal(dType),
+                new GetVListByI());
         registerCaller(dType, GetActionEnum.GetListLineChecked,
                 new GetListData());
         registerCaller(dType, GetActionEnum.GetListComboField,
@@ -492,15 +517,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
         registerCaller(dType, GetActionEnum.GetListData, new GetWholeList());
         // GetTableIsFilter
-        registerCaller(IsBooleanSignalNow.constructSlotGetTreeView(dType),
+        registerCaller(ActionTableSignal.constructSlotGetTreeView(dType),
                 new GetTreeViewNow());
         registerCaller(
-                IsBooleanSignalNow.constructSlotGetTableTreeEnabled(dType),
+                ActionTableSignal.constructSlotGetTableTreeEnabled(dType),
                 new GetTableTreeEnabled());
-        registerCaller(IsBooleanSignalNow.constructSlotGetTableIsFilter(dType),
+        registerCaller(ActionTableSignal.constructSlotGetTableIsFilter(dType),
                 new GetTableIsFilter());
-        registerCaller(IsBooleanSignalNow.constructSlotGetTableIsSorted(dType),
+        registerCaller(ActionTableSignal.constructSlotGetTableIsSorted(dType),
                 new GetTableIsSorted());
+        registerCaller(ActionTableSignal.constructGetPageSizeSignal(dType),
+                new GetTablePageSize());
     }
 
     @Override

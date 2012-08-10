@@ -36,7 +36,11 @@ public interface IGwtTableView extends IGWidget {
     List<IGetSetVField> getVList(int rowno);
 
     void removeSort();
-    
+
     boolean isSorted();
+
+    void setPageSize(int pageSize);
+
+    int getPageSize();
 
 }

@@ -145,4 +145,16 @@ public interface TLabels extends Constants {
 
     String TableIsNotSorted();
 
+    String ChangeSizeStartValue();
+
+    String ChangeSizeCurrentValue();
+
+    String ChangeSizeRestoreStart();
+
+    String ChangeSizeChangeValue();
+
+    String ChangeSizeResing();
+
+    String ChangeNumberOfRows();
+
 }

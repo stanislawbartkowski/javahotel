@@ -637,4 +637,17 @@ class PresentationTable implements IGwtTableView {
         ColumnSortList sortList = table.getColumnSortList();
         return sortList.size() > 0;
     }
+
+    @Override
+    public int getPageSize() {
+        if (table == null) {
+            return -1;
+        }
+        return table.getPageSize();
+    }
+
+    @Override
+    public void setPageSize(int pageSize) {
+        table.setPageSize(pageSize);
+    }
 }

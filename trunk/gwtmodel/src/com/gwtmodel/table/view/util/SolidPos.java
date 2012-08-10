@@ -16,31 +16,31 @@ package com.gwtmodel.table.view.util;
  * 
  * @author perseus
  */
-public class SolidPos {
+class SolidPos {
 
     private final int startl;
     private final int startcol;
 
-    public SolidPos(int startl, int startcol) {
+    SolidPos(int startl, int startcol) {
         this.startl = startl;
         this.startcol = startcol;
     }
 
-    public SolidPos() {
+    SolidPos() {
         this(-1, -1);
     }
 
     /**
      * @return the startl
      */
-    public int getStartl() {
+    int getStartl() {
         return startl;
     }
 
     /**
      * @return the startcol
      */
-    public int getStartcol() {
+    int getStartcol() {
         return startcol;
     }
 }

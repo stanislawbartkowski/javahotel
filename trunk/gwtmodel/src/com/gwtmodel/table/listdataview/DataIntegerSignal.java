@@ -18,15 +18,10 @@ import com.gwtmodel.table.slotmodel.CustomObjectValue;
  * @author hotel
  * 
  */
-public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
+public class DataIntegerSignal extends CustomObjectValue<Integer> {
 
-    IsBooleanSignalNow(boolean value) {
-        super(value);
-    }
-
-    public boolean isBoolInfo() {
-        Boolean b = this.getValue();
-        return b.booleanValue();
+    public DataIntegerSignal(int i) {
+        super(i);
     }
 
 }
