@@ -83,4 +83,5 @@ public class DataListModelView implements IGwtTableModel {
     public int treeLevel(int row) {
         return dataList.treeLevel(row);
     }
+
 }

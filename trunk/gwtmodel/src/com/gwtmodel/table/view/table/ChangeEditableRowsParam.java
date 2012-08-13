@@ -21,26 +21,20 @@ import java.util.List;
  */
 public class ChangeEditableRowsParam {
 
-    private final int i;
+    private final int row;
     private final boolean editable;
     private final List<IVField> eList;
-
+    
     /**
      * @param i
      * @param editable
      * @param eList
      */
-    public ChangeEditableRowsParam(int i, boolean editable, List<IVField> eList) {
-        this.i = i;
+    public ChangeEditableRowsParam(int row, boolean editable,
+            List<IVField> eList) {
+        this.row = row;
         this.editable = editable;
         this.eList = eList;
-    }
-
-    /**
-     * @return the i
-     */
-    int getI() {
-        return i;
     }
 
     /**
@@ -55,6 +49,13 @@ public class ChangeEditableRowsParam {
      */
     List<IVField> geteList() {
         return eList;
+    }
+
+    /**
+     * @return the row
+     */
+    int getRow() {
+        return row;
     }
 
 }

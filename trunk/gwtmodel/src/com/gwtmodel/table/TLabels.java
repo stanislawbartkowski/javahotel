@@ -156,5 +156,7 @@ public interface TLabels extends Constants {
     String ChangeSizeResing();
 
     String ChangeNumberOfRows();
+    
+    String IngnoreDuringSearch();
 
 }

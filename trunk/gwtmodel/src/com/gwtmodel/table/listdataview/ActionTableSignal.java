@@ -36,6 +36,7 @@ public class ActionTableSignal {
     private static final String GETISTABLEFILTER = "TABLE_PUBLIC_GET_TABLE_IS_FILTER";
     private static final String GETISTABLESORTED = "TABLE_PUBLIC_GET_TABLE_IS_SORTED";
     private static final String GETVSIGNAL = "LISTDATAVIEW-GETVSIGNAL";
+    private static final String EDIT_SIGNAL = "TABLE_PUBLIC_DATALIST_ENABLE_SIGNAL_ROW";
 
     private ActionTableSignal() {
     }
@@ -75,6 +76,13 @@ public class ActionTableSignal {
         return tFactory.construct(slo);
     }
 
+    public static SlotType constructEditRowSignal(IDataType dType) {
+        CustomStringSlot slo = new CustomStringDataTypeSlot(EDIT_SIGNAL, dType);
+        SlotTypeFactory tFactory = GwtGiniInjector.getI().getTablesFactories()
+                .getSlTypeFactory();
+        return tFactory.construct(slo);
+    }
+
     public static CustomStringSlot constructSlot(IDataType dType) {
         return new CustomStringDataTypeSlot(GETINTEGERSLOTSIGNAL, dType);
     }
@@ -99,4 +107,5 @@ public class ActionTableSignal {
     public static CustomStringSlot constructSlotGetVSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(GETVSIGNAL, dType);
     }
+
 }

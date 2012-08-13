@@ -60,8 +60,8 @@ public class FormUtil {
             List<IGetSetVField> vList) {
         for (IGetSetVField v : vList) {
             if (aFrom.isValid(v.getV())) {
-              Object o = FUtils.getValue(aFrom, v.getV());
-              v.setValObj(o);
+                Object o = FUtils.getValue(aFrom, v.getV());
+                v.setValObj(o);
             }
         }
     }
@@ -103,5 +103,14 @@ public class FormUtil {
             Object val = aFrom.getF(v);
             aTo.setF(v, val);
         }
+    }
+
+    public static FormField findFormField(List<FormField> fList, IVField fie) {
+        for (FormField f : fList) {
+            if (f.getFie().eq(fie)) {
+                return f;
+            }
+        }
+        return null;
     }
 }

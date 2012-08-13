@@ -10,27 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.listdataview;
+package com.gwtmodel.table.view.table;
 
-import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
-import java.util.List;
 
 /**
  * @author hotel
  * 
  */
-public class EditRowsSignal extends ChangeEditableRowsParam implements
-        ICustomObject {
+interface ILostFocusEdit {
 
-    /**
-     * @param i
-     * @param editable
-     * @param eList
-     */
-    public EditRowsSignal(int row, boolean editable, List<IVField> eList) {
-        super(row, editable, eList);
-    }
+    void action(int row, IVField v);
 
 }

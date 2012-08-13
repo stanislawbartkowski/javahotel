@@ -27,18 +27,39 @@ class FField implements IVField {
     private final boolean from;
     private final VListHeaderDesc v;
     private final boolean checkField;
+    private final boolean ignoreField;
 
-    FField(IVField fie, boolean from, VListHeaderDesc v, boolean checkField) {
+    private FField(IVField fie, boolean from, VListHeaderDesc v, boolean checkField,
+            boolean ignoreField) {
         this.fie = fie;
         this.from = from;
         this.v = v;
         this.checkField = checkField;
+        this.ignoreField = ignoreField;
+    }
+
+    static FField constructIgnore(VListHeaderDesc h) {
+        return new FField( h.getFie(), false, h, false, true);
+    }
+    
+    static FField constructCheck(VListHeaderDesc h) {
+        return new FField( h.getFie(), false, h, true, false);
+    }
+    
+    static FField constructFrom(VListHeaderDesc h) {
+        return new FField( h.getFie(), true, h, false, false);
+    }
+    static FField constructTo(VListHeaderDesc h) {
+        return new FField( h.getFie(), false, h, false, false);
     }
 
     @Override
     public boolean eq(IVField o) {
         FField f = (FField) o;
         if (checkField != f.isCheckField()) {
+            return false;
+        }
+        if (ignoreField != f.isIgnoreField()) {
             return false;
         }
         if (isFrom() != f.isFrom()) {
@@ -70,7 +91,7 @@ class FField implements IVField {
 
     @Override
     public FieldDataType getType() {
-        if (checkField) {
+        if (checkField || ignoreField) {
             return FieldDataType.constructBoolean();
         }
         return v.getFie().getType();
@@ -87,6 +108,13 @@ class FField implements IVField {
      */
     public boolean isCheckField() {
         return checkField;
+    }
+
+    /**
+     * @return the ignoreField
+     */
+    public boolean isIgnoreField() {
+        return ignoreField;
     }
 
 }

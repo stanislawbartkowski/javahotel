@@ -184,9 +184,16 @@ public class ControlButtonFactory {
         printButton = new ArrayList<ControlButtonDesc>();
     }
 
+    public List<ControlButtonDesc> constructCrudListButtons() {
+        setM();
+        List<ControlButtonDesc> cList = new ArrayList<ControlButtonDesc>();
+        cList.addAll(dButton);
+        return cList;
+    }
+
     public ListOfControlDesc constructCrudList() {
         setM();
-        return new ListOfControlDesc(dButton);
+        return new ListOfControlDesc(constructCrudListButtons());
     }
 
     public ListOfControlDesc constructAcceptResign() {

@@ -106,6 +106,10 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
+    private boolean selectEnabled() {
+        return iClick != null;
+    }
+
     /**
      * Custom function for additional style for rows. Uses java script function.
      * 
@@ -140,7 +144,7 @@ class PresentationTable implements IGwtTableView {
             if (model.getIClicked() != null) {
                 model.getIClicked().clicked(wChoosed);
             }
-            if ((iClick != null) && !whilefind) {
+            if (selectEnabled() && !whilefind) {
                 iClick.execute();
             }
             if (model.unSelectAtOnce()) {
@@ -152,6 +156,23 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
+    private class PersistInTable implements ILostFocusEdit {
+
+        @Override
+        public void action(int row, IVField v) {
+            List<IGetSetVField> l = getVList(row);
+            for (IGetSetVField i : l) {
+                if (i.getV().eq(v)) {
+                    Object o = i.getValObj();
+                    IVModelData vD = model.getRows().get(row);
+                    vD.setF(v, o);
+                }
+            }
+
+        }
+
+    }
+
     PresentationTable(ICommand iClick, ICommand actionColumn,
             IGetCellValue gValue) {
         this.iClick = iClick;
@@ -161,13 +182,17 @@ class PresentationTable implements IGwtTableView {
         dList = dProvider.getList();
         // set selection only if iClick defined
         // thus avoid changing color while clicking
-        if (iClick != null) {
+//        if (selectEnabled()) {
             table.setSelectionModel(selectionModel);
-        }
+//        }
         sPager.setDisplay(table);
         dProvider.addDataDisplay(table);
         setEmpty();
-        fa = new PresentationCellFactory(gValue);
+        ILostFocusEdit e = null;
+        if (!selectEnabled()) {
+            e = new PersistInTable();
+        }
+        fa = new PresentationCellFactory(gValue, e);
     }
 
     private class TColumnString extends TextColumn<Integer> {
@@ -327,6 +352,10 @@ class PresentationTable implements IGwtTableView {
                     break;
                 case DATE:
                     co = fa.constructDateEditCol(he.getFie(), editable);
+                    break;
+                case BOOLEAN:
+                    co = fa.contructBooleanCol(he.getFie(), editable,
+                            !selectEnabled());
                     break;
                 default:
                     co = fa.constructEditCol(he.getFie(), editable);

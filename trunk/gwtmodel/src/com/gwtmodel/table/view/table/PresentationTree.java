@@ -92,7 +92,7 @@ class PresentationTree implements IGwtTableView {
         private final Cell ce;
 
         MyHasCell(IVField v) {
-            PresentationCellFactory cFactory = new PresentationCellFactory(null);
+            PresentationCellFactory cFactory = new PresentationCellFactory(null,null);
             this.fie = v;
             ce = cFactory.constructCell(v);
         }

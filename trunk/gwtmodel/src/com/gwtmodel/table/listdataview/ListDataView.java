@@ -495,8 +495,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new RemoveFilter());
         registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
                 new DrawHeader());
-        registerSubscriber(new CustomStringDataTypeSlot(
-                EditRowsSignal.EditSignal, dType), new ChangeEditRows());
+//        registerSubscriber(new CustomStringDataTypeSlot(
+//                EditRowsSignal.EditSignal, dType), new ChangeEditRows());
+        registerSubscriber(ActionTableSignal.constructEditRowSignal(dType), new ChangeEditRows());
         registerSubscriber(ActionTableSignal.constructToTableSignal(dType),
                 new ToTableTree(false));
         registerSubscriber(ActionTableSignal.constructToTreeSignal(dType),
