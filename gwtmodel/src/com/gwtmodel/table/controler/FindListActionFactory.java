@@ -30,12 +30,10 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.controler.DataListActionItemFactory.DrawForm;
 import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
-import com.gwtmodel.table.controler.ui.ChangePageSize;
 import com.gwtmodel.table.controler.ui.ChangePageSizeDialog;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
@@ -50,6 +48,7 @@ import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
@@ -68,10 +67,10 @@ import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.util.CreateReadOnlyI;
+import com.gwtmodel.table.view.util.FormUtil;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.gwtmodel.table.view.util.PopUpTip;
 import com.gwtmodel.table.view.util.PopupCreateMenu;
-import com.gwtmodel.table.view.util.PopupUtil;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
@@ -249,6 +248,19 @@ class FindListActionFactory {
             }
         }
     }
+    
+    private void modifLogField(IFormLineView iFrom, IFormLineView iignore) {
+        iFrom.setReadOnly(false);
+        if (iignore == null) {
+            return;
+        }
+        Boolean b = (Boolean) iignore.getValObj();
+        if (!b.booleanValue()) {
+            return;
+        }
+        iFrom.setReadOnly(true);
+    }
+
 
     private void clearBoolean(List<FormField> li) {
         for (FormField f : li) {
@@ -257,9 +269,19 @@ class FindListActionFactory {
             if (fe.isCheckField()) {
                 continue;
             }
-            if (fie.getType().getType() == FieldDataType.T.BOOLEAN) {
-                Boolean val = new Boolean(!f.isRange());
+            if (fe.isIgnoreField()) {
+                Boolean val = new Boolean(true);
                 f.getELine().setValObj(val);
+                FField fCheck = FField.constructFrom(fe.getV());
+                FormField formCheck = FormUtil.findFormField(li, fCheck);
+                val = new Boolean(false);
+                formCheck.getELine().setValObj(val);
+                modifLogField(formCheck.getELine(),f.getELine());
+                continue;
+            }
+            if (fie.getType().getType() == FieldDataType.T.BOOLEAN) {
+                // handled above
+                continue;
             }
         }
 
@@ -305,6 +327,21 @@ class FindListActionFactory {
         }
     }
 
+    private class OnLogChange implements IFormChangeListener {
+
+        private final IFormLineView iFrom;
+
+        OnLogChange(IFormLineView iFrom) {
+            this.iFrom = iFrom;
+        }
+
+        @Override
+        public void onChange(IFormLineView i, boolean afterFocus) {
+            modifLogField(iFrom, i);
+        }
+
+    }
+
     private List<FormField> constructForm(List<VListHeaderDesc> li) {
 
         List<FormField> liF = new ArrayList<FormField>();
@@ -323,9 +360,10 @@ class FindListActionFactory {
             }
             IVField fe = he.getFie();
             vLi.add(fe);
-            IVField from = new FField(fe, true, he, false);
-            IVField to = new FField(fe, false, he, false);
-            IVField check = new FField(fe, false, he, true);
+            IVField from = FField.constructFrom(he);
+            IVField to = FField.constructTo(he);
+            IVField check = FField.constructCheck(he);
+            IVField ignore = FField.constructIgnore(he);
             IFormLineView icheck = null;
             if (!fe.getType().isBoolean()) {
                 icheck = eFactory.constructCheckField(check, MM.getL()
@@ -343,7 +381,14 @@ class FindListActionFactory {
                 ifrom.setOnTouch(t);
                 ito.setOnTouch(t);
             }
-            liF.add(new FormField(null, ito, to, from));
+            if (!fe.getType().isBoolean()) {
+                liF.add(new FormField(null, ito, to, from));
+            } else {
+                icheck = eFactory.constructCheckField(ignore, MM.getL()
+                        .IngnoreDuringSearch());
+                liF.add(new FormField(null, icheck, ignore, from));
+                icheck.addChangeListener(new OnLogChange(ifrom));
+            }
             // important: after adding (not before)
             if (t != null) {
                 t.onTouch();

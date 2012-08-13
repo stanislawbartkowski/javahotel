@@ -185,4 +185,5 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     public boolean isHidden() {
         return !this.getGWidget().isVisible();
     }
+    
 }

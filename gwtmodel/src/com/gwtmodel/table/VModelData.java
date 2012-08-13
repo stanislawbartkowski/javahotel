@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Implementation of AVModelData by list of values
+ * 
  * @author perseus
  */
 public class VModelData extends AVModelData {
@@ -30,7 +31,7 @@ public class VModelData extends AVModelData {
             this.v = v;
         }
     }
-    
+
     /** List of IVFields and values. */
     private final List<V> ma = new ArrayList<V>();
 
@@ -64,7 +65,7 @@ public class VModelData extends AVModelData {
 
     @Override
     public boolean isValid(IVField fie) {
-//        return findV(fie) != null;
+        // return findV(fie) != null;
         // on purpose: isValid for all IVField
         return true;
     }

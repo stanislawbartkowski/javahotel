@@ -118,36 +118,40 @@ public class TableDataControlerFactory {
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
-            CellId panelId, ISlotMediator me,boolean toTree) {
+            CellId panelId, ISlotMediator me, boolean toTree) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, me, null, toTree);
+                        fContainer, listParam), listParam, me, null, toTree,
+                true);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
             ListOfControlDesc cList, CellId panelId, ISlotMediator me,
-            IGetCellValue getCell,boolean toTree) {
+            IGetCellValue getCell, boolean toTree) {
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, me, getCell, toTree);
+                        fContainer, listParam), listParam, me, getCell, toTree,
+                true);
     }
 
     public DisplayListControlerParam constructParam(CellId panelId,
-            DataListParam listParam, ISlotMediator me, IGetCellValue getCell,boolean treeView) {
+            DataListParam listParam, ISlotMediator me, IGetCellValue getCell,
+            boolean treeView) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, me, getCell, treeView);
+                        fContainer, listParam), listParam, me, getCell,
+                treeView, true);
     }
 
     public DisplayListControlerParam constructParam(CellId panelId,
             DataListParam listParam, ISlotable iSlo) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
-                panelId, cList, iSlo, listParam, null, null, false);
+                panelId, cList, iSlo, listParam, null, null, false, true);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType) {
@@ -155,14 +159,16 @@ public class TableDataControlerFactory {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 null, cList, new DataListCrudControler(tFactories, fContainer,
-                        listParam), listParam, null, null, false);
+                        listParam), listParam, null, null, false, true);
     }
 
     public DisplayListControlerParam constructParam(ListOfControlDesc cList,
-            CellId panelId, DataListParam listParam, ISlotMediator me) {
+            CellId panelId, DataListParam listParam, ISlotMediator me,
+            boolean selectRows) {
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, null, null, false);
+                        fContainer, listParam), listParam, null, null, false,
+                selectRows);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
@@ -170,6 +176,7 @@ public class TableDataControlerFactory {
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, wSize,
                 panelId, cList, new DataListCrudControler(tFactories,
-                        fContainer, listParam), listParam, null, null, false);
+                        fContainer, listParam), listParam, null, null, false,
+                true);
     }
 }

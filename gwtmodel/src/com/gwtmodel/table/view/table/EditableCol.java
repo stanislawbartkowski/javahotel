@@ -36,7 +36,7 @@ class EditableCol {
     }
 
     void addEditData(ChangeEditableRowsParam eParam) {
-        Set<IVField> se = eList.get(eParam.getI());
+        Set<IVField> se = eList.get(eParam.getRow());
         List<IVField> vl = eParam.geteList();
         if (!eParam.isEditable()) {
             if (se == null) {
@@ -44,14 +44,14 @@ class EditableCol {
             }
             se.removeAll(vl);
             if (se.isEmpty()) {
-                eList.remove(eParam.getI());
+                eList.remove(eParam.getRow());
             }
             return;
         }
         if (se == null) {
             se = IVFieldSetFactory.construct();
             se.addAll(vl);
-            eList.put(eParam.getI(), se);
+            eList.put(eParam.getRow(), se);
         }
         se.addAll(vl);
     }

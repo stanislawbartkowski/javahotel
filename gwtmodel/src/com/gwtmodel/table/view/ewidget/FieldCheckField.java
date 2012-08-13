@@ -12,12 +12,15 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.rdef.IFormChangeListener;
 
 /**
- *
+ * 
  * @author perseus
  */
 class FieldCheckField extends AbstractField {
@@ -26,10 +29,10 @@ class FieldCheckField extends AbstractField {
 
     @SuppressWarnings("deprecation")
     FieldCheckField(ITableCustomFactories tFactories, IVField v, String text) {
-        super(tFactories,v);
+        super(tFactories, v);
         ch = new CheckBox();
         if (text != null) {
-          ch.setText(text);
+            ch.setText(text);
         }
         ch.setChecked(true);
         initWidget(ch);
@@ -56,4 +59,27 @@ class FieldCheckField extends AbstractField {
     public void setReadOnly(boolean readOnly) {
         ch.setEnabled(!readOnly);
     }
+
+    private class BChange implements ValueChangeHandler<java.lang.Boolean> {
+
+        private final IFormChangeListener l;
+
+        BChange(final IFormChangeListener l) {
+            this.l = l;
+        }
+
+        @Override
+        public void onValueChange(ValueChangeEvent<Boolean> event) {
+            l.onChange(FieldCheckField.this, true);
+
+        }
+
+    }
+
+    @Override
+    public void addChangeListener(final IFormChangeListener l) {
+        super.addChangeListener(l);
+        ch.addValueChangeHandler(new BChange(l));
+    }
+
 }

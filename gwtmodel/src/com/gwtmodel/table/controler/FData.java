@@ -53,7 +53,19 @@ class FData extends VModelData {
     public boolean isEmpty() {
         for (IVField f : getF()) {
             if (f.getType().getType() == FieldDataType.T.BOOLEAN) {
-                continue;
+                FField fie = (FField) f;
+                if (fie.isIgnoreField()) {
+                    continue;
+                }
+                if (fie.isCheckField()) {
+                    continue;
+                }
+                FField ignore = FField.constructIgnore(fie.getV());
+                Boolean b = (Boolean) this.getF(ignore);
+                if ((b != null) && b.booleanValue()) {
+                    continue;
+                }
+                return false;
             }
             if (!FUtils.isNullValue(this, f)) {
                 return false;
@@ -63,10 +75,19 @@ class FData extends VModelData {
     }
 
     private boolean inRange(IVModelData row) {
-        for (VListHeaderDesc v : li) {
-            FField from = new FField(v.getFie(), true, v, false);
-            FField to = new FField(v.getFie(), false, v, false);
-            IVField check = new FField(v.getFie(), false, v, true);
+        for (VListHeaderDesc v : li) {            
+            FField ignore = FField.constructIgnore(v);
+            Boolean b = (Boolean) this.getF(ignore);
+            if (b != null) {
+                // boolean field because ignore exists
+                if (b.booleanValue()) {
+                    // ignore, do not participate in comparing
+                    continue;   
+                }
+            }
+            FField from = FField.constructFrom(v);
+            FField to = FField.constructTo(v);
+            IVField check = FField.constructCheck(v);
             if (!FUtils.inRange(row, v.getFie(), this, from, to, check)) {
                 return false;
             }

@@ -12,7 +12,22 @@
  */
 package com.gwtmodel.table.view.table;
 
-import com.google.gwt.cell.client.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.AbstractEditableCell;
+import com.google.gwt.cell.client.ActionCell;
+import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.DateCell;
+import com.google.gwt.cell.client.DatePickerCell;
+import com.google.gwt.cell.client.NumberCell;
+import com.google.gwt.cell.client.SelectionCell;
+import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.cell.client.TextInputCell;
+import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -21,6 +36,7 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.gwtmodel.table.FUtils;
@@ -31,9 +47,6 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author hotel
@@ -41,8 +54,12 @@ import java.util.List;
  */
 class PresentationCellFactory {
 
-    PresentationCellFactory(IGetCellValue getCell) {
+    private final IGetCellValue getCell;
+    private final ILostFocusEdit lostFocus;
+
+    PresentationCellFactory(IGetCellValue getCell, ILostFocusEdit lostFocus) {
         this.getCell = getCell;
+        this.lostFocus = lostFocus;
     }
 
     interface IGetField {
@@ -57,7 +74,6 @@ class PresentationCellFactory {
             .getTableFactoriesContainer().getGetCustomValues();
     private final DateTimeFormat fo = DateTimeFormat.getFormat(cValues
             .getCustomValue(IGetCustomValues.DATEFORMAT));
-    private final IGetCellValue getCell;
     private IGwtTableModel model;
     private final NumberCell iCell = new NumberCell(
             NumberFormat.getFormat(getNumberFormat(0)));
@@ -69,6 +85,159 @@ class PresentationCellFactory {
             NumberFormat.getFormat(getNumberFormat(3)));
     private final NumberCell nCell4 = new NumberCell(
             NumberFormat.getFormat(getNumberFormat(4)));
+    // private final CheckboxCell editcheckCell = new EditableCheckBoxCell();
+    private final Cell<Boolean> checkCell = new NoEditCheckBoxCell();
+
+    private static final SafeHtml INPUT_CHECKED = SafeHtmlUtils
+            .fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" disabled=\"disabled\" checked/>");
+    private static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils
+            .fromSafeConstant("<input type=\"checkbox\" disabled=\"disabled\" tabindex=\"-1\"/>");
+
+    // Decorator patter implemented to add "blur" event to contructor
+    // Cannot inherit CheckboxCell directly
+    private class EditCheckBoxCell extends
+            AbstractEditableCell<Boolean, Boolean> implements IGetField {
+
+        private final IVField v;
+        private final CheckboxCell checkBox;
+
+        EditCheckBoxCell(IVField v, boolean handleSelection) {
+            super("change", "keydown", "blur");
+            this.checkBox = new CheckboxCell(false, handleSelection);
+            this.v = v;
+        }
+
+        @Override
+        public Object getValObj(Integer key) {
+            Boolean b = checkBox.getViewData(key);
+            return b;
+        }
+
+        @Override
+        public void setValObj(Integer key, Object o) {
+            Boolean b = (Boolean) o;
+            checkBox.setViewData(key, b);
+        }
+
+        @Override
+        public boolean isEditing(
+                com.google.gwt.cell.client.Cell.Context context,
+                Element parent, Boolean value) {
+            return checkBox.isEditing(context, parent, value);
+        }
+
+        @Override
+        public void onBrowserEvent(Context context, Element parent,
+                Boolean value, NativeEvent event,
+                ValueUpdater<Boolean> valueUpdater) {
+            String type = event.getType();
+            checkBox.onBrowserEvent(context, parent, value, event, valueUpdater);
+            if (type.equals("blur")) {
+                if (lostFocus != null) {
+                    Object key = context.getKey();
+                    Integer i = (Integer) key;
+                    lostFocus.action(i, v);
+                }
+            }
+        }
+
+        @Override
+        public void render(com.google.gwt.cell.client.Cell.Context context,
+                Boolean value, SafeHtmlBuilder sb) {
+            Object key = context.getKey();
+            Integer i = (Integer) key;
+            boolean editenabled = eCol.isEditable(i, v);
+            if (editenabled) {
+                checkBox.render(context, value, sb);
+                return;
+            }
+
+            Boolean viewData = getViewData(key);
+            if (viewData != null && viewData.equals(value)) {
+                clearViewData(key);
+                viewData = null;
+            }
+            if (value) {
+                sb.append(INPUT_CHECKED);
+            } else {
+                sb.append(INPUT_UNCHECKED);
+            }
+
+        }
+    }
+
+    // TODO: remove
+    private class EditableCheckBoxCell extends CheckboxCell implements
+            IGetField {
+
+        private final IVField v;
+
+        EditableCheckBoxCell(IVField v, boolean handleSelection) {
+            // second parameter controls selection.
+            // but after setting to true Selecion does not work
+            // needs further investigation
+            // TODO: think over later
+            super(false, handleSelection);
+            this.v = v;
+        }
+
+        @Override
+        public void render(Context context, Boolean value, SafeHtmlBuilder sb) {
+            // Get the view data.
+            Object key = context.getKey();
+            Integer i = (Integer) key;
+            boolean editenabled = eCol.isEditable(i, v);
+            if (editenabled) {
+                super.render(context, value, sb);
+                return;
+            }
+
+            Boolean viewData = getViewData(key);
+            if (viewData != null && viewData.equals(value)) {
+                clearViewData(key);
+                viewData = null;
+            }
+            if (value) {
+                sb.append(INPUT_CHECKED);
+            } else {
+                sb.append(INPUT_UNCHECKED);
+            }
+        }
+
+        @Override
+        public void onBrowserEvent(Context context, Element parent,
+                Boolean value, NativeEvent event,
+                ValueUpdater<Boolean> valueUpdater) {
+            String type = event.getType();
+            super.onBrowserEvent(context, parent, value, event, valueUpdater);
+        }
+
+        @Override
+        public Object getValObj(Integer key) {
+            Boolean b = this.getViewData(key);
+            return b;
+        }
+
+        @Override
+        public void setValObj(Integer key, Object o) {
+            Boolean b = (Boolean) o;
+            this.setViewData(key, b);
+        }
+    }
+
+    private class NoEditCheckBoxCell extends AbstractCell<Boolean> {
+
+        @Override
+        public void render(com.google.gwt.cell.client.Cell.Context context,
+                Boolean value, SafeHtmlBuilder sb) {
+            if (value) {
+                sb.append(INPUT_CHECKED);
+            } else {
+                sb.append(INPUT_UNCHECKED);
+            }
+        }
+
+    }
 
     private String getNumberFormat(int afterdot) {
         String defaFormat;
@@ -454,6 +623,24 @@ class PresentationCellFactory {
         }
     }
 
+    private class CheckBoxColumn extends Column<Integer, Boolean> {
+
+        private final IVField iF;
+
+        CheckBoxColumn(Cell<Boolean> cell, IVField iF) {
+            super(cell);
+            this.iF = iF;
+        }
+
+        @Override
+        public Boolean getValue(Integer object) {
+            IVModelData vData = model.getRows().get(object);
+            Boolean b = FUtils.getValueBoolean(vData, iF);
+            return b;
+        }
+
+    }
+
     @SuppressWarnings("rawtypes")
     Column constructNumberCol(IVField v, boolean editable) {
         Column co = null;
@@ -504,6 +691,16 @@ class PresentationCellFactory {
         return co;
     }
 
+    Column contructBooleanCol(IVField v, boolean editable,
+            boolean handleSelection) {
+        if (editable) {
+            return new CheckBoxColumn(new EditCheckBoxCell(v, handleSelection),
+                    v);
+        }
+        return new CheckBoxColumn(checkCell, v);
+
+    }
+
     @SuppressWarnings("rawtypes")
     Column constructDateEditCol(IVField v, boolean editable) {
         if (editable) {
@@ -552,6 +749,8 @@ class PresentationCellFactory {
                 break;
             }
             break;
+        case BOOLEAN:
+            return checkCell;
         default:
             ce = new TextCell();
             break;
