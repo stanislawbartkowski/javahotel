@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.gwtmodel.table.CreateJson;
 import com.gwtmodel.table.FUtils;
@@ -35,7 +32,6 @@ import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.DataListModelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
@@ -49,6 +45,8 @@ import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.IModifyRowStyle;
+import java.util.ArrayList;
+import java.util.List;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 

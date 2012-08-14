@@ -15,5 +15,4 @@ package com.gwtmodel.table.listdataview;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 public interface IListDataView extends ISlotable {
-    
 }

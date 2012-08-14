@@ -27,6 +27,7 @@ public class CustomStringDataTypeSlot extends CustomStringSlot {
         this.dType = dType;
     }
 
+    @Override
     public boolean eq(ISlotCustom o) {
         if (!(o instanceof CustomStringDataTypeSlot)) {
             return false;
