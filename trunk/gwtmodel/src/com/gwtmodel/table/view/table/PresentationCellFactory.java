@@ -12,10 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.ActionCell;
@@ -47,10 +43,13 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author hotel
- * 
+ *
  */
 class PresentationCellFactory {
 
@@ -68,7 +67,6 @@ class PresentationCellFactory {
 
         void setValObj(Integer key, Object o);
     }
-
     private final EditableCol eCol = new EditableCol();
     private final IGetCustomValues cValues = GwtGiniInjector.getI()
             .getTableFactoriesContainer().getGetCustomValues();
@@ -87,16 +85,14 @@ class PresentationCellFactory {
             NumberFormat.getFormat(getNumberFormat(4)));
     // private final CheckboxCell editcheckCell = new EditableCheckBoxCell();
     private final Cell<Boolean> checkCell = new NoEditCheckBoxCell();
-
     private static final SafeHtml INPUT_CHECKED = SafeHtmlUtils
             .fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" disabled=\"disabled\" checked/>");
     private static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils
             .fromSafeConstant("<input type=\"checkbox\" disabled=\"disabled\" tabindex=\"-1\"/>");
 
-    // Decorator patter implemented to add "blur" event to contructor
+    // Decorator patter implemented to add "blur" event to the contructor
     // Cannot inherit CheckboxCell directly
-    private class EditCheckBoxCell extends
-            AbstractEditableCell<Boolean, Boolean> implements IGetField {
+    private class EditCheckBoxCell extends AbstractEditableCell<Boolean, Boolean> implements IGetField {
 
         private final IVField v;
         private final CheckboxCell checkBox;
@@ -105,6 +101,16 @@ class PresentationCellFactory {
             super("change", "keydown", "blur");
             this.checkBox = new CheckboxCell(false, handleSelection);
             this.v = v;
+        }
+
+        @Override
+        public boolean dependsOnSelection() {
+            return checkBox.dependsOnSelection();
+        }
+
+        @Override
+        public boolean handlesSelection() {
+            return checkBox.handlesSelection();
         }
 
         @Override
@@ -236,33 +242,32 @@ class PresentationCellFactory {
                 sb.append(INPUT_UNCHECKED);
             }
         }
-
     }
 
     private String getNumberFormat(int afterdot) {
         String defaFormat;
         String parName;
         switch (afterdot) {
-        case 0:
-            defaFormat = "####0";
-            parName = IGetCustomValues.NUMBERFORMAT0;
-            break;
-        case 1:
-            defaFormat = "##########0.0";
-            parName = IGetCustomValues.NUMBERFORMAT1;
-            break;
-        case 2:
-            defaFormat = "##########0.00";
-            parName = IGetCustomValues.NUMBERFORMAT2;
-            break;
-        case 3:
-            defaFormat = "##########0.000";
-            parName = IGetCustomValues.NUMBERFORMAT3;
-            break;
-        default:
-            defaFormat = "##########0.0000";
-            parName = IGetCustomValues.NUMBERFORMAT4;
-            break;
+            case 0:
+                defaFormat = "####0";
+                parName = IGetCustomValues.NUMBERFORMAT0;
+                break;
+            case 1:
+                defaFormat = "##########0.0";
+                parName = IGetCustomValues.NUMBERFORMAT1;
+                break;
+            case 2:
+                defaFormat = "##########0.00";
+                parName = IGetCustomValues.NUMBERFORMAT2;
+                break;
+            case 3:
+                defaFormat = "##########0.000";
+                parName = IGetCustomValues.NUMBERFORMAT3;
+                break;
+            default:
+                defaFormat = "##########0.0000";
+                parName = IGetCustomValues.NUMBERFORMAT4;
+                break;
         }
         String forma = cValues.getCustomValue(parName);
         if (forma == null) {
@@ -272,8 +277,7 @@ class PresentationCellFactory {
     }
 
     /**
-     * @param model
-     *            the model to set
+     * @param model the model to set
      */
     void setModel(IGwtTableModel model) {
         this.model = model;
@@ -638,37 +642,36 @@ class PresentationCellFactory {
             Boolean b = FUtils.getValueBoolean(vData, iF);
             return b;
         }
-
     }
 
     @SuppressWarnings("rawtypes")
     Column constructNumberCol(IVField v, boolean editable) {
         Column co = null;
         switch (v.getType().getType()) {
-        case LONG:
-            co = new LongColumn(v);
-            break;
-        case BIGDECIMAL:
-            switch (v.getType().getAfterdot()) {
-            case 0:
+            case LONG:
                 co = new LongColumn(v);
                 break;
-            case 1:
-                co = new NumberColumn1(v);
-                break;
-            case 2:
-                co = new NumberColumn2(v);
-                break;
-            case 3:
-                co = new NumberColumn3(v);
+            case BIGDECIMAL:
+                switch (v.getType().getAfterdot()) {
+                    case 0:
+                        co = new LongColumn(v);
+                        break;
+                    case 1:
+                        co = new NumberColumn1(v);
+                        break;
+                    case 2:
+                        co = new NumberColumn2(v);
+                        break;
+                    case 3:
+                        co = new NumberColumn3(v);
+                        break;
+                    default:
+                        co = new NumberColumn4(v);
+                        break;
+                }
                 break;
             default:
-                co = new NumberColumn4(v);
-                break;
-            }
-            break;
-        default:
-            assert false : LogT.getT().notExpected();
+                assert false : LogT.getT().notExpected();
         }
         return co;
 
@@ -723,37 +726,37 @@ class PresentationCellFactory {
     Cell constructCell(IVField v) {
         Cell ce;
         switch (v.getType().getType()) {
-        case DATE:
-            ce = new DateCell(fo);
-            break;
-        case LONG:
-        case INT:
-            ce = iCell;
-            break;
-        case BIGDECIMAL:
-            switch (v.getType().getAfterdot()) {
-            case 0:
+            case DATE:
+                ce = new DateCell(fo);
+                break;
+            case LONG:
+            case INT:
                 ce = iCell;
                 break;
-            case 1:
-                ce = nCell1;
+            case BIGDECIMAL:
+                switch (v.getType().getAfterdot()) {
+                    case 0:
+                        ce = iCell;
+                        break;
+                    case 1:
+                        ce = nCell1;
+                        break;
+                    case 2:
+                        ce = nCell2;
+                        break;
+                    case 3:
+                        ce = nCell3;
+                        break;
+                    default:
+                        ce = nCell4;
+                        break;
+                }
                 break;
-            case 2:
-                ce = nCell2;
-                break;
-            case 3:
-                ce = nCell3;
-                break;
+            case BOOLEAN:
+                return checkCell;
             default:
-                ce = nCell4;
+                ce = new TextCell();
                 break;
-            }
-            break;
-        case BOOLEAN:
-            return checkCell;
-        default:
-            ce = new TextCell();
-            break;
         }
         return ce;
     }

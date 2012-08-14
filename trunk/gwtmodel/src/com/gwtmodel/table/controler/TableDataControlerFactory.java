@@ -118,23 +118,23 @@ public class TableDataControlerFactory {
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
-            CellId panelId, ISlotMediator me, boolean toTree) {
+            CellId panelId, ISlotMediator me, boolean toTree,boolean selectRows) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
                         fContainer, listParam), listParam, me, null, toTree,
-                true);
+                selectRows);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
             ListOfControlDesc cList, CellId panelId, ISlotMediator me,
-            IGetCellValue getCell, boolean toTree) {
+            IGetCellValue getCell, boolean toTree, boolean selectRows) {
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
                         fContainer, listParam), listParam, me, getCell, toTree,
-                true);
+                selectRows);
     }
 
     public DisplayListControlerParam constructParam(CellId panelId,
