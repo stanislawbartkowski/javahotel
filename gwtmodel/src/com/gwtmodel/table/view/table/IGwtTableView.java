@@ -12,10 +12,12 @@
  */
 package com.gwtmodel.table.view.table;
 
+import java.util.List;
+
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.WChoosedLine;
-import java.util.List;
+import com.gwtmodel.table.WSize;
 
 public interface IGwtTableView extends IGWidget {
 
@@ -23,7 +25,9 @@ public interface IGwtTableView extends IGWidget {
 
     WChoosedLine getClicked();
 
-    void setClicked(int clickedno);
+    WSize getRowWidget(int rowno);
+
+    void setClicked(int clickedno, boolean whileFind);
 
     IGwtTableModel getViewModel();
 
@@ -42,5 +46,9 @@ public interface IGwtTableView extends IGWidget {
     void setPageSize(int pageSize);
 
     int getPageSize();
+
+    void removeRow(int rownum);
+
+    void addRow(int rownum);
 
 }

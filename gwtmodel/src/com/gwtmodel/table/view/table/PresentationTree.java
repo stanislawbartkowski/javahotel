@@ -50,7 +50,7 @@ import java.util.Stack;
  */
 class PresentationTree implements IGwtTableView {
 
-    private final ICommand iClick;
+    private final IRowClick iClick;
     private final ScrollPanel sPanel = new ScrollPanel();
     private IGwtTableModel model = null;
     private WChoosedLine wChoosed;
@@ -78,7 +78,7 @@ class PresentationTree implements IGwtTableView {
                 model.getIClicked().clicked(wChoosed);
             }
             if (iClick != null) {
-                iClick.execute();
+                iClick.execute(false);
             }
             if (model.unSelectAtOnce()) {
                 sel.setSelected(se, false);
@@ -92,7 +92,7 @@ class PresentationTree implements IGwtTableView {
         private final Cell ce;
 
         MyHasCell(IVField v) {
-            PresentationCellFactory cFactory = new PresentationCellFactory(null,null);
+            PresentationCellFactory cFactory = new PresentationCellFactory(null);
             this.fie = v;
             ce = cFactory.constructCell(v);
         }
@@ -228,7 +228,7 @@ class PresentationTree implements IGwtTableView {
         }
     }
 
-    PresentationTree(ICommand iClick) {
+    PresentationTree(IRowClick iClick) {
         this.iClick = iClick;
         setEmpty();
     }
@@ -269,7 +269,7 @@ class PresentationTree implements IGwtTableView {
     }
 
     @Override
-    public void setClicked(int clickedno) {
+    public void setClicked(int clickedno,boolean whileFind) {
         Stack<NodeLevel> st = new Stack<NodeLevel>();
         st.push(new NodeLevel(-1));
         for (int i = 0; i <= clickedno; i++) {
@@ -356,5 +356,32 @@ class PresentationTree implements IGwtTableView {
     public void setPageSize(int pageSize) {
         // TODO Auto-generated method stub
 
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#getRowWidget(int)
+     */
+    @Override
+    public WSize getRowWidget(int rowno) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#removeRow(int)
+     */
+    @Override
+    public void removeRow(int rownum) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#addRow(int)
+     */
+    @Override
+    public void addRow(int rownum) {
+        // TODO Auto-generated method stub
+        
     }
 }

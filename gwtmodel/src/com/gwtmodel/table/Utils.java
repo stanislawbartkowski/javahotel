@@ -12,6 +12,14 @@
  */
 package com.gwtmodel.table;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -27,16 +35,10 @@ import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.WebPanelHolder;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class Utils {
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T> boolean eqI(IEquatable e1, IEquatable e2) {
 
         if (e1 == null && e2 == null) {
@@ -76,7 +78,8 @@ public class Utils {
 
     public static String getResAdr(final String res) {
         String path;
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         String resF = c.getCustomValue(IGetCustomValues.RESOURCEFOLDER);
         path = GWT.getModuleBaseURL();
         if (resF == null) {
@@ -86,7 +89,8 @@ public class Utils {
     }
 
     public static String getImageAdr(final String image) {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         String folder = c.getCustomValue(IGetCustomValues.IMAGEFOLDER);
         String img;
         if (folder == null) {
@@ -102,7 +106,7 @@ public class Utils {
         return ".";
     }
 
-    public static String getImageHTML(final String imageUrl, int w, int h) {
+    public static String oldgetImageHTML(final String imageUrl, int w, int h) {
         String s = "<td><img src='" + getImageAdr(imageUrl) + "'";
         if (w != 0) {
             s += " width='" + w + "px'";
@@ -113,10 +117,23 @@ public class Utils {
         s += "></td>";
         return s;
     }
+    
+    public static String getImageHTML(final String imageUrl, int w, int h) {
+        String s = "<img src='" + getImageAdr(imageUrl) + "'";
+        if (w != 0) {
+            s += " width='" + w + "px'";
+        }
+        if (h != 0) {
+            s += " height='" + w + "px'";
+        }
+        s += ">";
+        return s;
+    }
 
     public static String getImageHTML(final String imageUrl) {
         return getImageHTML(imageUrl, 0, 0);
     }
+
     // int/long utilities
     public static final int BADNUMBER = -1;
 
@@ -157,7 +174,8 @@ public class Utils {
 
     // Date
     public static String getDateFormat() {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         assert c != null : LogT.getT().cannotBeNull();
         String f = c.getCustomValue(IGetCustomValues.DATEFORMAT);
         return f;
@@ -228,6 +246,30 @@ public class Utils {
     }
 
     public static String DecimalToS(final BigDecimal c, int afterdot) {
+        MathContext co = new MathContext(afterdot + 1);
+        BigDecimal cc = c.round(co);
+        String ss = cc.toPlainString();
+        int pos = ss.indexOf('.');
+        String aDot = "";
+        if (pos >= 0) {
+            aDot = ss.substring(pos + 1);
+            ss = ss.substring(0, pos);
+        }
+        if (afterdot <= 0) {
+            return ss;
+        }
+        if (aDot.length() > afterdot) {
+            aDot = aDot.substring(0, afterdot);
+        }
+        while (aDot.length() < afterdot) {
+            aDot += "0";
+        }
+        return ss + "." + aDot;
+    }
+
+    // TODO : remove candidate
+    private static String archDecimalToS(final BigDecimal c, int afterdot) {
+        String ss = c.toPlainString();
         int l = c.intValue();
         String sl = Integer.toString(l);
         BigDecimal re = new BigDecimal(sl);
@@ -251,13 +293,15 @@ public class Utils {
 
     // some 'log' utilities
     public static boolean TrueL(String s) {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         String yesv = c.getCustomValue(IGetCustomValues.YESVALUE);
         return CUtil.EqNS(s, yesv);
     }
 
     public static String LToS(boolean l) {
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
         if (l) {
             return c.getCustomValue(IGetCustomValues.YESVALUE);
         }
@@ -308,8 +352,8 @@ public class Utils {
     }
 
     public static native void callJs(String js) /*-{
-     $wnd.eval(js);
-     }-*/;
+		$wnd.eval(js);
+    }-*/;
 
     public static List<IVField> toList(IVField[] a) {
         // return Arrays.asList(a);
@@ -340,7 +384,8 @@ public class Utils {
         return u;
     }
 
-    public static String createURL(String u, String firstPar, String firstVal, Map<String, String> args) {
+    public static String createURL(String u, String firstPar, String firstVal,
+            Map<String, String> args) {
         String url = u + "?" + firstPar + "=" + firstVal;
         for (Entry<String, String> e : args.entrySet()) {
             String param = e.getKey();
@@ -355,12 +400,12 @@ public class Utils {
     }
 
     public static native void addScript(String s) /*-{
-     $wnd.addScript(s);
-     }-*/;
+		$wnd.addScript(s);
+    }-*/;
 
     public static native void addStyle(String s) /*-{
-     $wnd.addStyle(s);
-     }-*/;
+		$wnd.addStyle(s);
+    }-*/;
 
     /*
      * Takes in a trusted JSON String and evals it.
@@ -370,14 +415,14 @@ public class Utils {
      * @return JavaScriptObject that you can cast to an Overlay Type
      */
     public static native JavaScriptObject evalJson(String jsonStr) /*-{
-     return eval(jsonStr);
-     }-*/;
+		return eval(jsonStr);
+    }-*/;
 
     public static JavaScriptObject parseJson(String jsonStr) {
         return evalJson("(" + jsonStr + ")");
     }
 
     public static native String callJsStringFun(String jsonFun, String paramS) /*-{
-     return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
-     }-*/;
+		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
+    }-*/;
 }

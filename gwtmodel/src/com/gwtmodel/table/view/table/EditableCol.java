@@ -26,9 +26,20 @@ import java.util.Set;
 class EditableCol {
 
     private final Map<Integer, Set<IVField>> eList = new HashMap<Integer, Set<IVField>>();
+    private boolean allRows = false;
+    private ChangeEditableRowsParam eParam;
+
+    public ChangeEditableRowsParam geteParam() {
+        return eParam;
+    }
 
     boolean isEditable(Integer i, IVField v) {
-        Set<IVField> se = eList.get(i);
+        Set<IVField> se;
+        if (allRows) {
+            se = eList.get(ChangeEditableRowsParam.ALLROWS);
+        } else {
+            se = eList.get(i);
+        }
         if (se == null) {
             return false;
         }
@@ -36,6 +47,8 @@ class EditableCol {
     }
 
     void addEditData(ChangeEditableRowsParam eParam) {
+        this.eParam = eParam;
+        allRows = (eParam.getRow() == ChangeEditableRowsParam.ALLROWS);
         Set<IVField> se = eList.get(eParam.getRow());
         List<IVField> vl = eParam.geteList();
         if (!eParam.isEditable()) {

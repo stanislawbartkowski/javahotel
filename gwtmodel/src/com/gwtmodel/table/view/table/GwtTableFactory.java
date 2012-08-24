@@ -17,7 +17,7 @@ import com.gwtmodel.table.injector.WebPanelHolder;
 
 public class GwtTableFactory {
 
-    public IGwtTableView construct(ICommand click, ICommand actionColumn,
+    public IGwtTableView construct(IRowClick click, ICommand actionColumn,
             IGetCellValue gValue) {
         switch (WebPanelHolder.getTableType()) {
         case GOOGLETABLE:
@@ -30,7 +30,7 @@ public class GwtTableFactory {
         return null;
     }
 
-    public IGwtTableView constructTree(ICommand click) {
+    public IGwtTableView constructTree(IRowClick click) {
         return new PresentationTree(click);
     }
 }

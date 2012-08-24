@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.gwtmodel.table.CreateJson;
 import com.gwtmodel.table.FUtils;
@@ -27,11 +30,16 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.PersistTypeEnum;
+import com.gwtmodel.table.controlbuttonview.ButtonRedirectActivateSignal;
+import com.gwtmodel.table.controlbuttonview.ButtonRedirectSignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.DataListModelView;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
@@ -45,8 +53,8 @@ import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.IModifyRowStyle;
-import java.util.ArrayList;
-import java.util.List;
+import com.gwtmodel.table.view.table.IRowClick;
+import com.gwtmodel.table.view.table.IRowEditAction;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
@@ -60,6 +68,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private final GwtTableFactory gFactory;
     private final IGetCellValue gValue;
     private final boolean selectedRow;
+    private final HandleBeginEndLineEditing handleChange = new HandleBeginEndLineEditing();
 
     private class GetHeader implements ISlotCallerListener {
 
@@ -140,8 +149,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
 
         @Override
-        public void append(IVModelData vData) {
-            dataList.append(vData);
+        public void add(IVModelData vData) {
+            dataList.add(vData);
+        }
+
+        @Override
+        public void add(int row, IVModelData vData) {
+            dataList.add(row, vData);
         }
 
         @Override
@@ -224,7 +238,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 publish(dType, DataActionEnum.NotFoundSignal);
                 return;
             }
-            tableView.setClicked(aLine);
+            tableView.setClicked(aLine, true);
         }
     }
 
@@ -248,7 +262,88 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             ICustomObject o = slContext.getCustom();
             EditRowsSignal e = (EditRowsSignal) o;
             tableView.setEditable(e);
+            handleChange.fullChange = e.fullEdit();
+            CustomStringSlot sl = ButtonRedirectActivateSignal
+                    .constructSlotButtonRedirectActivateSignal(dType);
+            ButtonRedirectActivateSignal si = new ButtonRedirectActivateSignal(
+                    handleChange.fullChange);
+            publish(sl, si);
         }
+    }
+
+    private class RemoveRow implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            DataIntegerSignal si = (DataIntegerSignal) o;
+            int rowno = si.getValue();
+            tableView.removeRow(rowno);
+            dataList.remove(rowno);
+            // next current row
+            if (dataList.getList().isEmpty()) {
+                return;
+            }
+            if (rowno >= dataList.getList().size()) {
+                rowno = dataList.getList().size() - 1;
+            }
+            tableView.setClicked(rowno, false);
+        }
+
+    }
+
+    private class AddRow implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            DataIntegerVDataSignal dv = (DataIntegerVDataSignal) o;
+            int rowno = dv.getValue();
+            if (rowno == -1) {
+                dataList.add(dv.getV());
+            } else {
+                dataList.add(rowno, dv.getV());
+            }
+            tableView.addRow(rowno);
+            tableView.setClicked(rowno == -1 ? dataList.getList().size() - 1
+                    : rowno, false);
+        }
+    }
+
+    private class ButtonCheckFocusRedirect implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            ButtonCheckLostFocusSignal b = (ButtonCheckLostFocusSignal) o;
+            ClickButtonType bType = b.getValue();
+            SlotType slRet = ButtonCheckLostFocusSignal
+                    .constructSlotButtonCheckBackFocusSignal(dType);
+            ButtonRedirectSignal reSignal = new ButtonRedirectSignal(slRet,
+                    bType);
+            CustomStringSlot bSlot = ButtonRedirectSignal
+                    .constructSlotButtonRedirectSignal(dType);
+            publish(bSlot, reSignal);
+        }
+    }
+
+    private class ButtonCheckLostFocus implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            ButtonRedirectSignal bRedir = (ButtonRedirectSignal) o;
+            if (handleChange.prevW == null) {
+                bRedir.sendButtonSignal(ListDataView.this);
+                return;
+            }
+            CustomStringSlot sl = FinishEditRowSignal
+                    .constructSlotFinishEditRowSignal(dType);
+            FinishEditRowSignal si = new FinishEditRowSignal(
+                    handleChange.prevW, bRedir);
+            publish(sl, si);
+        }
+
     }
 
     private abstract class ModifListener implements ISlotListener {
@@ -260,9 +355,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             WChoosedLine w = tableView.getClicked();
             modif(slContext);
             if (w != null && w.isChoosed()) {
-                tableView.setClicked(w.getChoosedLine());
+                tableView.setClicked(w.getChoosedLine(), true);
             }
-
         }
 
     }
@@ -286,7 +380,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
 
     }
-    
+
     private class ChangeTableSize extends ModifListener {
 
         @Override
@@ -309,7 +403,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     }
 
     /**
-     * Delivers IVModelData indentified by position in list
+     * Delivers IVModelData identified by position in list
      * 
      * @author hotel
      * 
@@ -434,12 +528,91 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class ClickList implements ICommand {
+    private class ReceiveReturnSignalFromFinish implements ISlotListener {
 
         @Override
-        public void execute() {
-            publish(dType, DataActionEnum.TableLineClicked,
-                    constructChoosedContext());
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            FinishEditRowSignal si = (FinishEditRowSignal) o;
+            if (!si.isOkChangeLine()) {
+                tableView.setClicked(si.getValue().getChoosedLine(), true);
+                handleChange.eRow = null;
+            } else {
+                if (si.getbRedir() != null) {
+                    si.getbRedir().sendButtonSignal(ListDataView.this);
+                } else {
+                    handleChange.prevW = si.getNextW();
+                    handleChange.publishStartNext();
+                }
+            }
+        }
+
+    }
+
+    private class HandleBeginEndLineEditing {
+
+        private WChoosedLine prevW = null;
+        private EditRowActionSignal eRow = null;
+        private boolean fullChange = false;
+
+        void publishRowAction() {
+            if (eRow == null) {
+                return;
+            }
+            if (prevW == null) {
+                return;
+            }
+            if (prevW.getChoosedLine() == eRow.getRownum()) {
+                CustomStringSlot sl = EditRowActionSignal
+                        .constructSlotEditActionSignal(dType);
+                publish(sl, eRow);
+                eRow = null;
+            }
+        }
+
+        void publishStartNext() {
+            if (prevW == null) {
+                return;
+            }
+            CustomStringSlot sl = StartNextRowSignal
+                    .constructSlotStartNextRowSignal(dType);
+            StartNextRowSignal si = new StartNextRowSignal(prevW);
+            publish(sl, si);
+            publishRowAction();
+            eRow = null;
+        }
+
+        void nextClicked() {
+            WChoosedLine w = tableView.getClicked();
+            if (prevW != null && prevW.getChoosedLine() == w.getChoosedLine()) {
+                return;
+            }
+            if (prevW != null) {
+                CustomStringSlot sl = FinishEditRowSignal
+                        .constructSlotFinishEditRowSignal(dType);
+                FinishEditRowSignal si = new FinishEditRowSignal(prevW, w);
+                publish(sl, si);
+            } else {
+                prevW = w;
+                publishStartNext();
+            }
+        }
+
+    }
+
+    private class ClickList implements IRowClick {
+
+        @Override
+        public void execute(boolean whileFind) {
+            if (!whileFind) {
+                publish(dType, DataActionEnum.TableLineClicked,
+                        constructChoosedContext());
+            }
+            if (!whileFind) {
+                if (handleChange.fullChange) {
+                    handleChange.nextClicked();
+                }
+            }
         }
     }
 
@@ -452,6 +625,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                     DataActionEnum.TableCellClicked);
             publish(sl, w);
         }
+    }
+
+    private class RowActionListener implements IRowEditAction {
+
+        @Override
+        public void action(int rownum, PersistTypeEnum e) {
+            WSize w = tableView.getRowWidget(rownum);
+            handleChange.eRow = new EditRowActionSignal(rownum, e, w);
+            handleChange.publishRowAction();
+        }
+
     }
 
     private void constructView(boolean treeView) {
@@ -470,6 +654,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             IGetCellValue gValue, boolean selectedRow, boolean unSelectAtOnce,
             boolean treeView) {
         listView = new DataListModelView();
+        listView.setrAction(new RowActionListener());
         listView.setUnSelectAtOnce(unSelectAtOnce);
         this.dType = dType;
         this.gFactory = gFactory;
@@ -493,9 +678,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new RemoveFilter());
         registerSubscriber(dType, DataActionEnum.ReadHeaderContainerSignal,
                 new DrawHeader());
-//        registerSubscriber(new CustomStringDataTypeSlot(
-//                EditRowsSignal.EditSignal, dType), new ChangeEditRows());
-        registerSubscriber(ActionTableSignal.constructEditRowSignal(dType), new ChangeEditRows());
+        registerSubscriber(EditRowsSignal.constructEditRowSignal(dType),
+                new ChangeEditRows());
         registerSubscriber(ActionTableSignal.constructToTableSignal(dType),
                 new ToTableTree(false));
         registerSubscriber(ActionTableSignal.constructToTreeSignal(dType),
@@ -504,6 +688,24 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new RemoveSort());
         registerSubscriber(ActionTableSignal.constructSetPageSizeSignal(dType),
                 new ChangeTableSize());
+        registerSubscriber(
+                FinishEditRowSignal
+                        .constructSlotFinishEditRowReturnSignal(dType),
+                new ReceiveReturnSignalFromFinish());
+        registerSubscriber(
+                ButtonCheckLostFocusSignal
+                        .constructSlotButtonCheckFocusSignal(dType),
+                new ButtonCheckFocusRedirect());
+        registerSubscriber(
+                ButtonCheckLostFocusSignal
+                        .constructSlotButtonCheckBackFocusSignal(dType),
+                new ButtonCheckLostFocus());
+        registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
+                new RemoveRow());
+        registerSubscriber(
+                DataIntegerVDataSignal.constructSlotAddRowSignal(dType),
+                new AddRow());
+
         // caller
         registerCaller(ActionTableSignal.constructSlot(dType),
                 new GetVDataByI());

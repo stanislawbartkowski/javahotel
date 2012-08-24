@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.listdataview;
+package com.gwtmodel.table.controlbuttonview;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
@@ -21,16 +21,18 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
  * @author hotel
  * 
  */
-public class DataIntegerSignal extends CustomObjectValue<Integer> {
+public class ButtonRedirectActivateSignal extends CustomObjectValue<Boolean> {
 
-    public DataIntegerSignal(int i) {
-        super(i);
+    public ButtonRedirectActivateSignal(Boolean value) {
+        super(value);
     }
 
-    private final static String SIGNAL_ID_REMOVE = DataIntegerSignal.class.getName() + "PUBLIC_TABLE_REMOVE_ROW"; 
-    
-    public static CustomStringSlot constructSlotGetVSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID_REMOVE, dType);
+    private static final String SIGNAL_ID = ButtonRedirectActivateSignal.class
+            .getName() + "BUTTON_PUBLIC_REDIRECT_ACTIVATE_SIGNAL";
+
+    public static CustomStringSlot constructSlotButtonRedirectActivateSignal(
+            IDataType dType) {
+        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
     }
 
 }

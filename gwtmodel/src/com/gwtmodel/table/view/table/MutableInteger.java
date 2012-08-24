@@ -10,27 +10,45 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.listdataview;
-
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.slotmodel.CustomObjectValue;
-import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
-import com.gwtmodel.table.slotmodel.CustomStringSlot;
+package com.gwtmodel.table.view.table;
 
 /**
  * @author hotel
  * 
  */
-public class DataIntegerSignal extends CustomObjectValue<Integer> {
+class MutableInteger {
 
-    public DataIntegerSignal(int i) {
-        super(i);
+    private int val;
+
+    MutableInteger(int val) {
+        this.val = val;
     }
 
-    private final static String SIGNAL_ID_REMOVE = DataIntegerSignal.class.getName() + "PUBLIC_TABLE_REMOVE_ROW"; 
-    
-    public static CustomStringSlot constructSlotGetVSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID_REMOVE, dType);
+    MutableInteger(Integer val) {
+        this.val = val;
+    }
+
+    int intValue() {
+        return val;
+    }
+
+    void inc() {
+        val++;
+    }
+
+    void dec() {
+        val--;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        MutableInteger m = (MutableInteger) o;
+        return val == m.val;
+    }
+
+    @Override
+    public int hashCode() {
+        return new Integer(val).hashCode();
     }
 
 }

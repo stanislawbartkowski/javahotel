@@ -17,7 +17,8 @@
 package com.gwtmodel.table;
 
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.persist.IVModelDataEquable;
+import com.gwtmodel.table.memorypersist.IVModelDataEquable;
+
 import java.util.List;
 
 /**

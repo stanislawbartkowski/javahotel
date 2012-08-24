@@ -12,42 +12,43 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
-import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
-import java.util.List;
 
 /**
  * @author hotel
  * 
  */
-public class EditRowsSignal extends ChangeEditableRowsParam implements
-        ICustomObject {
+public class ButtonCheckLostFocusSignal extends
+        CustomObjectValue<ClickButtonType> {
 
     /**
-     * @param i
-     * @param editable
-     * @param eList
+     * @param value
      */
-    public EditRowsSignal(int row, boolean editable, ModifMode mode,
-            List<IVField> eList) {
-        super(row, editable, mode, eList);
-    }
-    
-    private static final String EDIT_SIGNAL =  EditRowsSignal.class.getName() + "TABLE_PUBLIC_DATALIST_ENABLE_SIGNAL_ROW";
-    
-    public static SlotType constructEditRowSignal(IDataType dType) {
-        CustomStringSlot slo = new CustomStringDataTypeSlot(EDIT_SIGNAL, dType);
-        SlotTypeFactory tFactory = GwtGiniInjector.getI().getTablesFactories()
-                .getSlTypeFactory();
-        return tFactory.construct(slo);
+    public ButtonCheckLostFocusSignal(ClickButtonType value) {
+        super(value);
     }
 
+    private static final String SIGNAL_ID = "TABLE_PUBLIC_BUTTON_CHECK_FOCUS_SIGNAL";
+    private static final String SIGNAL_ID_BACK = "TABLE_PUBLIC_BUTTON_CHECK_FOCUS_BACK_SIGNAL";
+
+    public static CustomStringSlot constructSlotButtonCheckFocusSignal(
+            IDataType dType) {
+        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+    }
+
+    static SlotType constructSlotButtonCheckBackFocusSignal(IDataType dType) {
+        CustomStringSlot slo = new CustomStringDataTypeSlot(SIGNAL_ID_BACK,
+                dType);
+        SlotTypeFactory tFactory = GwtGiniInjector.getI().getTablesFactories()
+                .getSlTypeFactory();
+        return tFactory.construct(dType, slo);
+    }
 
 }

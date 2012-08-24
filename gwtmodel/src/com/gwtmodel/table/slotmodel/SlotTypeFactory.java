@@ -82,7 +82,7 @@ public class SlotTypeFactory {
         assert dType != null : LogT.getT().dTypeCannotBeNull();
         return new SlotType(SlotEventEnum.ButtonAction, null, buttonClick,
                 null, null, null, dType, null, null, new ButtonAction(
-                ButtonAction.Action.ClickButton));
+                        ButtonAction.Action.ClickButton));
     }
 
     public SlotType construct(String stringButton) {
@@ -92,6 +92,11 @@ public class SlotTypeFactory {
     public SlotType construct(ISlotCustom iEq) {
         return new SlotType(SlotEventEnum.Custom, null, null, null, null, null,
                 null, null, iEq, null);
+    }
+
+    public SlotType construct(IDataType dType, ISlotCustom iEq) {
+        return new SlotType(SlotEventEnum.Custom, null, null, null, null, null,
+                dType, null, iEq, null);
     }
 
     public SlotType construct(IDataType dType, SlotType sl) {

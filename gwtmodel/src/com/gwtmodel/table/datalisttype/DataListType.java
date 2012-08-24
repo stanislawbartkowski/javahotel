@@ -41,8 +41,13 @@ class DataListType implements IDataListType {
     }
 
     @Override
-    public void append(IVModelData vData) {
+    public void add(IVModelData vData) {
         dList.add(vData);
+    }
+
+    @Override
+    public void add(int row, IVModelData vData) {
+        dList.add(row, vData);
     }
 
     @Override

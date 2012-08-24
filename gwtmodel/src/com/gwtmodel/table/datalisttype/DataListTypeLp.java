@@ -49,8 +49,15 @@ class DataListTypeLp extends DataListType {
     }
 
     @Override
-    public void append(IVModelData vData) {
+    public void add(IVModelData vData) {
         AbstractLpVModelData e = (AbstractLpVModelData) vData;
         addNext(e);
     }
+
+    @Override
+    public void add(int row, IVModelData vData) {
+        // TODO: implement
+        throw new UnsupportedOperationException();
+    }
+
 }

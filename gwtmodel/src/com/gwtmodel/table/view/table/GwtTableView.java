@@ -36,10 +36,10 @@ class GwtTableView implements IGwtTableView {
     private final Label header = new Label();
     private final Table ta;
     private DataTable data;
-    private final ICommand iClick;
+    private final IRowClick iClick;
     private final DateFormat df;
 
-    GwtTableView(ICommand iClick) {
+    GwtTableView(IRowClick iClick) {
         ta = new Table(null, Table.Options.create());
         ta.addSelectHandler(new H(ta));
         this.iClick = iClick;
@@ -201,7 +201,7 @@ class GwtTableView implements IGwtTableView {
     }
 
     @Override
-    public void setClicked(int clickedno) {
+    public void setClicked(int clickedno, boolean whileFind) {
         Selection selr = Selection.createRowSelection(clickedno);
         JsArray<Selection> sel = ta.getSelections();
         sel.setLength(0);
@@ -247,7 +247,7 @@ class GwtTableView implements IGwtTableView {
                 model.getIClicked().clicked(getClicked());
             }
             if (iClick != null) {
-                iClick.execute();
+                iClick.execute(false);
             }
 
         }
@@ -318,6 +318,33 @@ class GwtTableView implements IGwtTableView {
      */
     @Override
     public void setPageSize(int pageSize) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#getRowWidget(int)
+     */
+    @Override
+    public WSize getRowWidget(int rowno) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#removeRow(int)
+     */
+    @Override
+    public void removeRow(int rownum) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#addRow(int)
+     */
+    @Override
+    public void addRow(int rownum) {
         // TODO Auto-generated method stub
         
     }
