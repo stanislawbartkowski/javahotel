@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  under the License.
  */
-package com.gwtmodel.table.persist;
+package com.gwtmodel.table.memorypersist;
 
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IDataListType;
@@ -52,7 +52,7 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
             IVModelDataEquable eData = (IVModelDataEquable) pData;
             switch (persistEnumType) {
             case ADD:
-                dataList.append(pData);
+                dataList.add(pData);
                 break;
             case MODIF:
                 break;
@@ -65,6 +65,8 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
                         break;
                     }
                 }
+                break;
+            default:
                 break;
             } // switch
             publish(dType, DataActionEnum.PersistDataSuccessSignal,
