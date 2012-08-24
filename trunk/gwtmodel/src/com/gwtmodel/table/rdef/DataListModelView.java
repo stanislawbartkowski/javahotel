@@ -17,6 +17,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IListClicked;
+import com.gwtmodel.table.view.table.IRowEditAction;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class DataListModelView implements IGwtTableModel {
     private IDataListType dataList;
     private final IListClicked lClicked;
     private boolean unSelectAtOnce = false;
+    private IRowEditAction rAction;
 
     public DataListModelView() {
         this.lClicked = null;
@@ -82,6 +84,19 @@ public class DataListModelView implements IGwtTableModel {
     @Override
     public int treeLevel(int row) {
         return dataList.treeLevel(row);
+    }
+
+    /**
+     * @param rAction
+     *            the rAction to set
+     */
+    public void setrAction(IRowEditAction rAction) {
+        this.rAction = rAction;
+    }
+
+    @Override
+    public IRowEditAction getRowEditAction() {
+        return rAction;
     }
 
 }

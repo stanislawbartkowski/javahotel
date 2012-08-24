@@ -87,4 +87,18 @@ public class ClickButtonType {
         }
         return CUtil.EqNS(customButt, bType.customButt);
     }
+
+    // rewrite hashCode and equals to use it as a key for Map
+    @Override
+    public int hashCode() {
+        String b = clickEnum.toString() + customButt;
+        int h = b.hashCode();
+        return h;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        ClickButtonType b = (ClickButtonType) o;
+        return eq(b);
+    }
 }

@@ -24,12 +24,14 @@ public interface IDataListType {
 
     IVField comboField();
 
-    void append(IVModelData vData);
+    void add(IVModelData vData);
 
     void remove(int row);
 
+    void add(int row, IVModelData vData);
+
     int treeLevel(int row);
-    
+
     boolean isTreeEnabled();
 
     int LEAFBOUND = 100;

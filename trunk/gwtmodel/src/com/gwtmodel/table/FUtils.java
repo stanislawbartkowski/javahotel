@@ -25,6 +25,11 @@ import java.util.Date;
  */
 public class FUtils {
 
+    // methods only, do not construct
+    private FUtils() {
+
+    }
+
     public interface IBooleanConversion {
 
         String toS(Boolean b);
@@ -249,6 +254,8 @@ public class FUtils {
             // cannot set boolean as null
         case BOOLEAN:
             return false;
+        default:
+            break;
         }
         return isNullString(ii, f);
     }
@@ -427,10 +434,10 @@ public class FUtils {
             }
         }
         // take BOOLEAN type differently
-        // remove : 2012/08/13, test only the from element 
-//        if (f.getType().getType() == FieldDataType.T.BOOLEAN) {
-//            return (compfrom == 0 || compto == 0);
-//        }
+        // remove : 2012/08/13, test only the from element
+        // if (f.getType().getType() == FieldDataType.T.BOOLEAN) {
+        // return (compfrom == 0 || compto == 0);
+        // }
         if (emptyto) {
             if (checkEqual) {
                 return compfrom == 0;
@@ -583,6 +590,8 @@ public class FUtils {
             return checkLong(f, s);
         case DATE:
             return checkDate(f, s);
+        default:
+            break;
         }
         return null;
     }

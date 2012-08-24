@@ -29,7 +29,7 @@ class TableView implements IGwtTableView {
     private final VerticalPanel vp = new VerticalPanel();
     private int clickedNo = -1;
     private WSize wSize;
-    private final ICommand iClick;
+    private final IRowClick iClick;
 
     public void setModifyRowStyle(IModifyRowStyle iMod) {
     }
@@ -48,12 +48,12 @@ class TableView implements IGwtTableView {
                 model.getIClicked().clicked(getClicked());
             }
             if (iClick != null) {
-                iClick.execute();
+                iClick.execute(false);
             }
         }
     }
 
-    TableView(ICommand iClick) {
+    TableView(IRowClick iClick) {
         this.iClick = iClick;
         vp.add(header);
         vp.add(g);
@@ -125,7 +125,7 @@ class TableView implements IGwtTableView {
     }
 
     @Override
-    public void setClicked(int clickedno) {
+    public void setClicked(int clickedno, boolean whileFind) {
     }
 
     /* (non-Javadoc)
@@ -134,7 +134,7 @@ class TableView implements IGwtTableView {
     @Override
     public void setEditable(ChangeEditableRowsParam eParam) {
         // TODO Auto-generated method stub
-        
+
     }
 
     /* (non-Javadoc)
@@ -152,7 +152,7 @@ class TableView implements IGwtTableView {
     @Override
     public void removeSort() {
         // TODO Auto-generated method stub
-        
+
     }
 
     /* (non-Javadoc)
@@ -179,7 +179,34 @@ class TableView implements IGwtTableView {
     @Override
     public void setPageSize(int pageSize) {
         // TODO Auto-generated method stub
-        
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#getRowWidget(int)
+     */
+    @Override
+    public WSize getRowWidget(int rowno) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#removeRow(int)
+     */
+    @Override
+    public void removeRow(int rownum) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#addRow(int)
+     */
+    @Override
+    public void addRow(int rownum) {
+        // TODO Auto-generated method stub
+
     }
 
 }

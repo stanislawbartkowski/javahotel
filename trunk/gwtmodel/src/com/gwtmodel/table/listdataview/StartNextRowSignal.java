@@ -13,6 +13,7 @@
 package com.gwtmodel.table.listdataview;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
@@ -21,16 +22,17 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
  * @author hotel
  * 
  */
-public class DataIntegerSignal extends CustomObjectValue<Integer> {
+public class StartNextRowSignal extends CustomObjectValue<WChoosedLine> {
 
-    public DataIntegerSignal(int i) {
-        super(i);
+    StartNextRowSignal(WChoosedLine w) {
+        super(w);
     }
 
-    private final static String SIGNAL_ID_REMOVE = DataIntegerSignal.class.getName() + "PUBLIC_TABLE_REMOVE_ROW"; 
-    
-    public static CustomStringSlot constructSlotGetVSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID_REMOVE, dType);
+    private static final String SIGNAL_ID = "TABLE_PUBLIC_START_NEXT_ROW_SIGNAL";
+
+    public static CustomStringSlot constructSlotStartNextRowSignal(
+            IDataType dType) {
+        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
     }
 
 }

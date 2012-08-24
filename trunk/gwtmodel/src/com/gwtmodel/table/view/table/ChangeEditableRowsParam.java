@@ -21,20 +21,28 @@ import java.util.List;
  */
 public class ChangeEditableRowsParam {
 
+    public enum ModifMode {
+        ADDCHANGEDELETEMODE, CHANGEMODE, NORMALMODE
+    };
+
+    public static int ALLROWS = -1;
+
     private final int row;
     private final boolean editable;
     private final List<IVField> eList;
-    
+    private final ModifMode mode;
+
     /**
      * @param i
      * @param editable
      * @param eList
      */
-    public ChangeEditableRowsParam(int row, boolean editable,
+    public ChangeEditableRowsParam(int row, boolean editable, ModifMode mode,
             List<IVField> eList) {
         this.row = row;
         this.editable = editable;
         this.eList = eList;
+        this.mode = mode;
     }
 
     /**
@@ -56,6 +64,17 @@ public class ChangeEditableRowsParam {
      */
     int getRow() {
         return row;
+    }
+
+    /**
+     * @return the mode
+     */
+    ModifMode getMode() {
+        return mode;
+    }
+
+    public boolean fullEdit() {
+        return mode != ModifMode.NORMALMODE;
     }
 
 }

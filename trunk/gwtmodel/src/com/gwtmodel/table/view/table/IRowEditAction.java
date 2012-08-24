@@ -12,23 +12,14 @@
  */
 package com.gwtmodel.table.view.table;
 
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.tabledef.VListHeaderContainer;
-import java.util.List;
+import com.gwtmodel.table.common.PersistTypeEnum;
 
-public interface IGwtTableModel {
+/**
+ * @author hotel
+ * 
+ */
+public interface IRowEditAction {
 
-    List<IVModelData> getRows();
+    void action(int rownum, PersistTypeEnum e);
 
-    VListHeaderContainer getHeaderList();
-
-    IListClicked getIClicked();
-
-    boolean containsData();
-
-    boolean unSelectAtOnce();
-
-    int treeLevel(int row);
-
-    IRowEditAction getRowEditAction();
 }
