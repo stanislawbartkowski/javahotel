@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.persist;
+package com.gwtmodel.table.memorypersist;
 
 import com.gwtmodel.table.IEquatable;
 import com.gwtmodel.table.IVModelData;

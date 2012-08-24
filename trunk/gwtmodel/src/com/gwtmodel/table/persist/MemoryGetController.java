@@ -14,7 +14,7 @@
  *  limitations under the License.
  *  under the License.
  */
-package com.gwtmodel.table.persist;
+package com.gwtmodel.table.memorypersist;
 
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
