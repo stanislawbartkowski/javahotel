@@ -12,11 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.AbstractInputCell;
 import com.google.gwt.cell.client.ActionCell;
@@ -53,26 +48,28 @@ import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType.IEnumType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.ImageNameFactory;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.util.ClickPopUp;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author hotel
- * 
+ *
  */
 class PresentationEditCellFactory extends PresentationCellHelper {
 
     private final EditableCol eCol = new EditableCol();
     private final ILostFocusEdit lostFocus;
     private final CellTable<MutableInteger> table;
-    private static final SafeHtml INPUT_CHECKED = SafeHtmlUtils
-            .fromSafeConstant("<input type=\"checkbox\" tabindex=\"-1\" disabled=\"disabled\" checked/>");
-    private static final SafeHtml INPUT_UNCHECKED = SafeHtmlUtils
-            .fromSafeConstant("<input type=\"checkbox\" disabled=\"disabled\" tabindex=\"-1\"/>");
 
     interface IGetField {
 
@@ -87,9 +84,27 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         @Template("{0}")
         SafeHtml input(String value);
     }
+    // cannot be private
 
+    interface InputTemplate extends SafeHtmlTemplates {
+
+        @SafeHtmlTemplates.Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\" style=\"{1}\" class=\"{2}\"></input>")
+        SafeHtml input(String value, String style, String classC);
+    }
     private TemplateDisplay templateDisplay = GWT.create(TemplateDisplay.class);
     private InputTemplate templateInput = GWT.create(InputTemplate.class);
+
+    private String getS(String value) {
+        return value == null ? "" : value;
+    }
+
+    private void addInputSb(SafeHtmlBuilder sb, String value, VListHeaderDesc he) {
+        sb.append(
+                templateInput.input(
+                getS(value),
+                getS(he.getInputStyle()),
+                getS(he.getInputClass())));
+    }
 
     PresentationEditCellFactory(ILostFocusEdit lostFocus,
             CellTable<MutableInteger> table) {
@@ -99,8 +114,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
 
     // Decorator patter implemented to add "blur" event to the constructor
     // Cannot inherit CheckboxCell directly
-    private class EditCheckBoxCell extends
-            AbstractEditableCell<Boolean, Boolean> implements IGetField {
+    private class EditCheckBoxCell extends AbstractEditableCell<Boolean, Boolean> implements IGetField {
 
         private final IVField v;
         private final CheckboxCell checkBox;
@@ -232,7 +246,14 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         }
     }
 
-    private static List<HasCell<Date, ?>> createList(HasCell<Date, ?> c1,
+    /**
+     * Creates list to be used as an argument to constructor
+     *
+     * @param c1 First element
+     * @param c2 Second element
+     * @return List containing two elements
+     */
+    private List<HasCell<Date, ?>> createList(HasCell<Date, ?> c1,
             HasCell<Date, ?> c2) {
         List<HasCell<Date, ?>> rList = new ArrayList<HasCell<Date, ?>>();
         rList.add(c1);
@@ -243,15 +264,11 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     private class CellPickerDate extends CompositeCell<Date> implements
             IGetField {
 
-        private final HasDateButtonCellImage cellImage;
-        private final HasEditDateCell dateCell;
         private final EditDateCell dCell;
 
         public CellPickerDate(HasEditDateCell dateCell,
                 HasDateButtonCellImage cellImage) {
             super(createList(dateCell, cellImage));
-            this.cellImage = cellImage;
-            this.dateCell = dateCell;
             this.dCell = (EditDateCell) dateCell.getCell();
         }
 
@@ -264,7 +281,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         public void setValObj(MutableInteger key, Object o) {
             dCell.setValObj(key, o);
         }
-
     }
 
     private class HasDateButtonCellImage implements HasCell {
@@ -317,7 +333,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 pChanger.pUp = new ClickPopUp(lastRendered, dPicker);
                 pChanger.pUp.setVisible(true);
             }
-
         }
 
         @Override
@@ -334,7 +349,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         public Object getValue(Object object) {
             return object;
         }
-
     }
 
     private class DateButtonImageCell extends ActionCell<Date> {
@@ -362,8 +376,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             MutableInteger i = (MutableInteger) key;
             boolean editenabled = eCol.isEditable(i.intValue(), v);
             if (editenabled) {
-                String s = Utils.getImageHTML("Calendar.gif");
-                // add div to have them vertically
+                String s = Utils.getImageHTML(ImageNameFactory.getImageName(ImageNameFactory.ImageType.CALENDAR));
                 SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
                 sb.append(html);
             }
@@ -372,14 +385,10 @@ class PresentationEditCellFactory extends PresentationCellHelper {
 
     private class HasEditDateCell implements HasCell {
 
-        private final IVField v;
-        private final DateTimeFormat format;
         private final EditDateCell iCell;
 
-        HasEditDateCell(IVField v, DateTimeFormat format) {
-            this.v = v;
-            this.format = format;
-            iCell = new EditDateCell(v, format);
+        HasEditDateCell(VListHeaderDesc he, DateTimeFormat format) {
+            iCell = new EditDateCell(he, format);
         }
 
         @Override
@@ -396,18 +405,19 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         public Object getValue(Object object) {
             return object;
         }
-
     }
 
     private class EditDateCell extends AbstractInputCell<Date, Date> implements
             IGetField {
 
         private final IVField v;
+        private final VListHeaderDesc he;
         private final DateTimeFormat format;
 
-        EditDateCell(IVField v, DateTimeFormat format) {
+        EditDateCell(VListHeaderDesc he, DateTimeFormat format) {
             super(BrowserEvents.CHANGE);
-            this.v = v;
+            this.v = he.getFie();
+            this.he = he;
             this.format = format;
         }
 
@@ -431,15 +441,11 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 d = value;
             }
             if (editenabled) {
-                if (d == null) {
-                    sb.append(templateInput.input(""));
-                } else {
-                    sb.append(templateInput.input(format.format(d)));
-                }
-            } else {
+                String val = null;
                 if (d != null) {
-                    sb.appendEscaped(format.format(d));
+                    val = format.format(d);
                 }
+                addInputSb(sb, val, he);
             }
         }
 
@@ -465,7 +471,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             }
             lostFocus(eventType, context, v);
         }
-
     }
 
     private class xEditDateCell extends DatePickerCell implements IGetField {
@@ -496,7 +501,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 }
                 modifUpdate(key, v);
             }
-
         }
 
         /**
@@ -588,9 +592,11 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     private class EditStringCell extends TextInputCell implements IGetField {
 
         private final IVField v;
+        private final VListHeaderDesc he;
 
-        EditStringCell(IVField v) {
-            this.v = v;
+        EditStringCell(VListHeaderDesc he) {
+            this.v = he.getFie();
+            this.he = he;
         }
 
         @Override
@@ -598,6 +604,12 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             Object key = context.getKey();
             MutableInteger i = (MutableInteger) key;
             boolean editenabled = eCol.isEditable(i.intValue(), v);
+            ViewData viewData = getViewData(key);
+            if (viewData != null && viewData.getCurrentValue().equals(value)) {
+                clearViewData(key);
+                viewData = null;
+            }
+            String s = (viewData != null) ? viewData.getCurrentValue() : value;
             if (editenabled) {
                 super.render(context, value, sb);
                 return;
@@ -605,12 +617,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             // Get the view data.
             // copy and paste from TextInputCell
             // the only difference is different HTML for displaying value
-            ViewData viewData = getViewData(key);
-            if (viewData != null && viewData.getCurrentValue().equals(value)) {
-                clearViewData(key);
-                viewData = null;
-            }
-            String s = (viewData != null) ? viewData.getCurrentValue() : value;
             if (s != null) {
                 sb.append(templateDisplay.input(s));
             } else {
@@ -646,19 +652,20 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             ViewData v = new ViewData(s);
             this.setViewData(key, v);
         }
-
     }
 
     private class EditSelectionCell extends SelectionCell implements IGetField {
 
         private final IVField v;
+        private final VListHeaderDesc he;
 
         /**
          * @param options
          */
-        public EditSelectionCell(List<String> options, IVField v) {
+        public EditSelectionCell(VListHeaderDesc he, List<String> options) {
             super(options);
-            this.v = v;
+            this.v = he.getFie();
+            this.he = he;
         }
 
         @Override
@@ -704,26 +711,21 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             String eventType = event.getType();
             lostFocus(eventType, context, v);
         }
-
-    }
-
-    // cannot be private
-    interface InputTemplate extends SafeHtmlTemplates {
-        @Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\"></input>")
-        SafeHtml input(String value);
     }
 
     private class EditNumberCell extends AbstractInputCell<Number, Number>
             implements IGetField {
 
         private final IVField v;
+        private final VListHeaderDesc he;
         private final SafeHtmlRenderer<String> renderer;
         private final NumberFormat format;
         private final NumberCell noEditCell;
 
-        EditNumberCell(IVField v, NumberFormat format, NumberCell noEditCell) {
+        EditNumberCell(VListHeaderDesc he, NumberFormat format, NumberCell noEditCell) {
             super(BrowserEvents.CHANGE);
-            this.v = v;
+            this.v = he.getFie();
+            this.he = he;
             renderer = SimpleSafeHtmlRenderer.getInstance();
             this.format = format;
             this.noEditCell = noEditCell;
@@ -736,14 +738,14 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 return null;
             }
             switch (v.getType().getType()) {
-            case INT:
-                Integer i = n.intValue();
-                return i;
-            case LONG:
-                Long l = n.longValue();
-                return l;
-            default:
-                return new BigDecimal(n.doubleValue());
+                case INT:
+                    Integer i = n.intValue();
+                    return i;
+                case LONG:
+                    Long l = n.longValue();
+                    return l;
+                default:
+                    return new BigDecimal(n.doubleValue());
             }
 
         }
@@ -755,18 +757,18 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 return;
             }
             switch (v.getType().getType()) {
-            case INT:
-                Integer i = (Integer) o;
-                this.setViewData(key, i);
-                break;
-            case LONG:
-                Long l = (Long) o;
-                this.setViewData(key, l);
-                break;
-            default:
-                Number n = (Number) o;
-                this.setViewData(key, n);
-                break;
+                case INT:
+                    Integer i = (Integer) o;
+                    this.setViewData(key, i);
+                    break;
+                case LONG:
+                    Long l = (Long) o;
+                    this.setViewData(key, l);
+                    break;
+                default:
+                    Number n = (Number) o;
+                    this.setViewData(key, n);
+                    break;
             }
         }
 
@@ -809,13 +811,12 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             if (num == null) {
                 num = value;
             }
+            String val = null;
             if (num != null) {
-                sb.append(templateInput.input(format.format(num)));
-            } else {
-                sb.appendHtmlConstant("<input type=\"text\" tabindex=\"-1\"></input>");
+                val = format.format(num);
             }
+            addInputSb(sb, val, he);
         }
-
     }
 
     void setEditable(ChangeEditableRowsParam eParam) {
@@ -827,61 +828,62 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     }
 
     @SuppressWarnings("rawtypes")
-    Column constructNumberCol(IVField v) {
+    Column constructNumberCol(VListHeaderDesc he) {
         Column co = null;
+        IVField v = he.getFie();
         switch (v.getType().getType()) {
-        case LONG:
-            EditNumberCell ce = new EditNumberCell(v,
-                    NumberFormat.getFormat(getNumberFormat(0)), iCell);
-            co = new GLongColumn(ce, v);
-            break;
-        case INT:
-            EditNumberCell cce = new EditNumberCell(v,
-                    NumberFormat.getFormat(getNumberFormat(0)), iCell);
-            co = new GIntegerColumn(cce, v);
-            break;
-        case BIGDECIMAL:
-            switch (v.getType().getAfterdot()) {
-            case 0:
-                EditNumberCell ec = new EditNumberCell(v,
+            case LONG:
+                EditNumberCell ce = new EditNumberCell(he,
                         NumberFormat.getFormat(getNumberFormat(0)), iCell);
-                co = new GLongColumn(ec, v);
+                co = new GLongColumn(ce, v);
                 break;
-            case 1:
-                EditNumberCell ce1 = new EditNumberCell(v,
-                        NumberFormat.getFormat(getNumberFormat(1)), nCell1);
-                co = new NumberColumn(ce1, v);
+            case INT:
+                EditNumberCell cce = new EditNumberCell(he,
+                        NumberFormat.getFormat(getNumberFormat(0)), iCell);
+                co = new GIntegerColumn(cce, v);
                 break;
-            case 2:
-                EditNumberCell ce2 = new EditNumberCell(v,
-                        NumberFormat.getFormat(getNumberFormat(2)), nCell2);
-                co = new NumberColumn(ce2, v);
-                break;
-            case 3:
-                EditNumberCell ce3 = new EditNumberCell(v,
-                        NumberFormat.getFormat(getNumberFormat(3)), nCell3);
-                co = new NumberColumn(ce3, v);
+            case BIGDECIMAL:
+                switch (v.getType().getAfterdot()) {
+                    case 0:
+                        EditNumberCell ec = new EditNumberCell(he,
+                                NumberFormat.getFormat(getNumberFormat(0)), iCell);
+                        co = new GLongColumn(ec, v);
+                        break;
+                    case 1:
+                        EditNumberCell ce1 = new EditNumberCell(he,
+                                NumberFormat.getFormat(getNumberFormat(1)), nCell1);
+                        co = new NumberColumn(ce1, v);
+                        break;
+                    case 2:
+                        EditNumberCell ce2 = new EditNumberCell(he,
+                                NumberFormat.getFormat(getNumberFormat(2)), nCell2);
+                        co = new NumberColumn(ce2, v);
+                        break;
+                    case 3:
+                        EditNumberCell ce3 = new EditNumberCell(he,
+                                NumberFormat.getFormat(getNumberFormat(3)), nCell3);
+                        co = new NumberColumn(ce3, v);
+                        break;
+                    default:
+                        EditNumberCell ce4 = new EditNumberCell(he,
+                                NumberFormat.getFormat(getNumberFormat(4)), nCell4);
+                        co = new NumberColumn(ce4, v);
+                        break;
+                }
                 break;
             default:
-                EditNumberCell ce4 = new EditNumberCell(v,
-                        NumberFormat.getFormat(getNumberFormat(4)), nCell4);
-                co = new NumberColumn(ce4, v);
-                break;
-            }
-            break;
-        default:
-            assert false : LogT.getT().notExpected();
+                assert false : LogT.getT().notExpected();
         }
         return co;
 
     }
 
     @SuppressWarnings("rawtypes")
-    Column constructDateEditCol(IVField v) {
-        HasEditDateCell c1 = new HasEditDateCell(v, fo);
-        HasDateButtonCellImage c2 = new HasDateButtonCellImage(v, c1);
+    Column constructDateEditCol(VListHeaderDesc he) {
+        HasEditDateCell c1 = new HasEditDateCell(he, fo);
+        HasDateButtonCellImage c2 = new HasDateButtonCellImage(he.getFie(), c1);
         CellPickerDate ceCell = new CellPickerDate(c1, c2);
-        return new DateColumn(v, ceCell);
+        return new DateColumn(he.getFie(), ceCell);
     }
 
     @SuppressWarnings("rawtypes")
@@ -890,13 +892,14 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     }
 
     @SuppressWarnings("rawtypes")
-    Column constructEditTextCol(IVField v) {
+    Column constructEditTextCol(VListHeaderDesc he) {
+        IVField v = he.getFie();
         IEnumType e = v.getType().getE();
         Column co;
         if (e != null) {
-            co = new TColumnEdit(v, new EditSelectionCell(e.getValues(), v));
+            co = new TColumnEdit(v, new EditSelectionCell(he, e.getValues()));
         } else {
-            co = new TColumnEdit(v, new EditStringCell(v));
+            co = new TColumnEdit(v, new EditStringCell(he));
         }
         return co;
     }
@@ -940,7 +943,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                     model.getRowEditAction().action(object.intValue(), persist);
                 }
             }
-
         }
 
         @Override
@@ -957,7 +959,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         public Object getValue(Object object) {
             return object;
         }
-
     }
 
     @SuppressWarnings("rawtypes")
@@ -965,13 +966,13 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         // return new ImageColumn();
 
         List<HasCell> ce = new ArrayList<HasCell>();
-        ce.add(new HasCellImage("RowAddImage.gif", PersistTypeEnum.ADD));
-        ce.add(new HasCellImage("RowChangeImage.gif", PersistTypeEnum.MODIF));
-        ce.add(new HasCellImage("RowRemoveImage.gif", PersistTypeEnum.REMOVE));
+        ce.add(new HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.ADDROW), PersistTypeEnum.ADD));
+// TODO: blocked now rethink usage        
+//        ce.add(new HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.CHANGEROW), PersistTypeEnum.MODIF));
+        ce.add(new HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.DELETEROW), PersistTypeEnum.REMOVE));
         CompositeCell<MutableInteger> cCell = new CompositeCell(ce);
         Column<MutableInteger, MutableInteger> imageColumn = new Column<MutableInteger, MutableInteger>(
                 cCell) {
-
             @Override
             public MutableInteger getValue(MutableInteger object) {
                 return object;
@@ -980,5 +981,4 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         return imageColumn;
 
     }
-
 }

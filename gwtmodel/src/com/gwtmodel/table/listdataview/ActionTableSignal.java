@@ -30,7 +30,6 @@ public class ActionTableSignal {
     private static final String REMOVE_SORT = "TABLE_PUBLIC_REMOVE_SORT";
     private static final String GET_PAGE_SIZE = "TABLE_PUBLIC_GET_PAGE_SIZE";
     private static final String SET_PAGE_SIZE = "TABLE_PUBLIC_SET_PAGE_SIZE";
-    private static final String GETINTEGERSLOTSIGNAL = "GET_INTEGER_BY_SLOT_SIGNAL";
     private static final String GETISTREEVIEWNOW = "TABLE_PUBLIC_GET_TABLE_TREE_VIEW_SIGNAL_NOW";
     private static final String GETISTABLETREEENABLED = "TABLE_PUBLIC_GET_TABLE_TREE_ENABLED";
     private static final String GETISTABLEFILTER = "TABLE_PUBLIC_GET_TABLE_IS_FILTER";
@@ -75,10 +74,6 @@ public class ActionTableSignal {
         return tFactory.construct(slo);
     }
 
-
-    public static CustomStringSlot constructSlot(IDataType dType) {
-        return new CustomStringDataTypeSlot(GETINTEGERSLOTSIGNAL, dType);
-    }
 
     public static CustomStringSlot constructSlotGetTreeView(IDataType dType) {
         return new CustomStringDataTypeSlot(GETISTREEVIEWNOW, dType);
