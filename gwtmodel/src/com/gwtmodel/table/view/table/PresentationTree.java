@@ -36,6 +36,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
@@ -381,6 +382,15 @@ class PresentationTree implements IGwtTableView {
      */
     @Override
     public void addRow(int rownum) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#showInvalidate(com.gwtmodel.table.InvalidateFormContainer)
+     */
+    @Override
+    public void showInvalidate(int rowno, InvalidateFormContainer errContainer) {
         // TODO Auto-generated method stub
         
     }

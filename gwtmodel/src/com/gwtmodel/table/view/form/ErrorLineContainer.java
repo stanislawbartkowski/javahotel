@@ -12,14 +12,13 @@
  */
 package com.gwtmodel.table.view.form;
 
-import com.gwtmodel.table.IConsts;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 
 class ErrorLineContainer {
@@ -29,7 +28,8 @@ class ErrorLineContainer {
     private List<FormField> el = new ArrayList<FormField>();
 
     ErrorLineContainer() {
-        c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        c = GwtGiniInjector.getI().getTableFactoriesContainer()
+                .getGetCustomValues();
     }
 
     /**
@@ -41,18 +41,15 @@ class ErrorLineContainer {
 
     /**
      * Apply error message nad CSS style to fiekd
-     * @param re Field where error should be attached to
-     * @param m Error
+     * 
+     * @param re
+     *            Field where error should be attached to
+     * @param m
+     *            Error
      */
     void setEMess(FormField re, InvalidateMess m) {
         re.getELine().setGStyleName(IConsts.errorStyle, true);
-        String e;
-        if (m.isEmpty()) {
-            // default empty message
-            e = MM.getL().EmptyFieldMessage();
-        } else {
-            e = m.getErrmess();
-        }
+        String e = m.getErrmess();
         re.getELine().setInvalidMess(e);
         // remember the field with error message
         el.add(re);

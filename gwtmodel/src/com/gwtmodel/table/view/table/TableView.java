@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.table;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.google.gwt.user.client.ui.*;
 import com.gwtmodel.table.*;
+
 import java.util.List;
 
 /**
@@ -207,6 +208,15 @@ class TableView implements IGwtTableView {
     public void addRow(int rownum) {
         // TODO Auto-generated method stub
 
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#showInvalidate(com.gwtmodel.table.InvalidateFormContainer)
+     */
+    @Override
+    public void showInvalidate(int rowno, InvalidateFormContainer errContainer) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
