@@ -28,4 +28,13 @@ public class InvalidateFormContainer implements IValidateError {
         return errMess;
     }
 
+    public InvalidateMess findV(IVField v) {
+        for (InvalidateMess me : errMess) {
+            if (me.getFie().eq(v)) {
+                return me;
+            }
+        }
+        return null;
+    }
+
 }

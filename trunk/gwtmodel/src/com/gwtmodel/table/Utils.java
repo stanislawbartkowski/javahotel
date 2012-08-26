@@ -13,6 +13,7 @@
 package com.gwtmodel.table;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Date;
@@ -117,7 +118,7 @@ public class Utils {
         s += "></td>";
         return s;
     }
-    
+
     public static String getImageHTML(final String imageUrl, int w, int h) {
         String s = "<img src='" + getImageAdr(imageUrl) + "'";
         if (w != 0) {
@@ -246,9 +247,8 @@ public class Utils {
     }
 
     public static String DecimalToS(final BigDecimal c, int afterdot) {
-        MathContext co = new MathContext(afterdot + 1);
-        BigDecimal cc = c.round(co);
-        String ss = cc.toPlainString();
+        BigDecimal cx = c.setScale(afterdot, BigDecimal.ROUND_HALF_UP);
+        String ss = cx.toPlainString();
         int pos = ss.indexOf('.');
         String aDot = "";
         if (pos >= 0) {

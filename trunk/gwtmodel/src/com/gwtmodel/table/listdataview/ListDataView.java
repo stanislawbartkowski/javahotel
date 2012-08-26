@@ -292,6 +292,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     }
 
+    private class SetErrorLine implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            EditRowErrorSignal si = (EditRowErrorSignal) o;
+            tableView.showInvalidate(si.getValue(), si.getErrLine());
+        }
+
+    }
+
     private class AddRow implements ISlotListener {
 
         @Override
@@ -705,6 +716,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerSubscriber(
                 DataIntegerVDataSignal.constructSlotAddRowSignal(dType),
                 new AddRow());
+        registerSubscriber(
+                EditRowErrorSignal.constructSlotLineErrorSignal(dType),
+                new SetErrorLine());
 
         // caller
         registerCaller(DataIntegerSignal.constructSlotGetVSignal(dType),

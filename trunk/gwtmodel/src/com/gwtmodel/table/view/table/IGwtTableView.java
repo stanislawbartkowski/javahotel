@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
+import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 
@@ -50,5 +51,7 @@ public interface IGwtTableView extends IGWidget {
     void removeRow(int rownum);
 
     void addRow(int rownum);
+
+    void showInvalidate(int rowno, InvalidateFormContainer errContainer);
 
 }

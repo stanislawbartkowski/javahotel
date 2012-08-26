@@ -22,7 +22,7 @@ import com.gwtmodel.table.injector.LogT;
  * @author hotel
  * 
  */
-class PopUpHint {
+public class PopUpHint {
 
     private PopupPanel tup = null;
     /** Widget to be drawn. */
@@ -69,7 +69,7 @@ class PopUpHint {
         setMessage(new Label(message));
     }
 
-    void actionOver(final WSize w) {
+    public void actionOver(final WSize w) {
         if (message != null) {
             tup = PopUpTip.getPopupTip(message);
             PopupUtil.setPos(tup, w);
@@ -77,7 +77,7 @@ class PopUpHint {
         }
     }
 
-    void actionOut() {
+    public void actionOut() {
         hideUp();
     }
 

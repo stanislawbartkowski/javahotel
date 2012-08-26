@@ -12,6 +12,11 @@
  */
 package com.gwtmodel.table.view.table;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.cell.client.AbstractEditableCell;
 import com.google.gwt.cell.client.AbstractInputCell;
 import com.google.gwt.cell.client.ActionCell;
@@ -46,9 +51,12 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.datepicker.client.DatePicker;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType.IEnumType;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.ImageNameFactory;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
@@ -56,20 +64,42 @@ import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.util.ClickPopUp;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author hotel
- *
+ * 
  */
 class PresentationEditCellFactory extends PresentationCellHelper {
 
     private final EditableCol eCol = new EditableCol();
     private final ILostFocusEdit lostFocus;
     private final CellTable<MutableInteger> table;
+    private final ErrorLineInfo errorInfo = new ErrorLineInfo();
+
+    /**
+     * @return the errorInfo
+     */
+    ErrorLineInfo getErrorInfo() {
+        return errorInfo;
+    }
+
+    void setErrorLineInfo(int rowno, InvalidateFormContainer errContainer) {
+        if (errContainer == null) {
+            errorInfo.active = false;
+            table.redrawRow(rowno);
+            return;
+        }
+        errorInfo.active = true;
+        errorInfo.rowno = rowno;
+        errorInfo.errContainer = errContainer;
+        table.redrawRow(rowno);
+    }
+
+    class ErrorLineInfo {
+        boolean active = false;
+        int rowno;
+        InvalidateFormContainer errContainer;
+    }
 
     interface IGetField {
 
@@ -84,6 +114,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         @Template("{0}")
         SafeHtml input(String value);
     }
+
     // cannot be private
 
     interface InputTemplate extends SafeHtmlTemplates {
@@ -91,6 +122,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         @SafeHtmlTemplates.Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\" style=\"{1}\" class=\"{2}\"></input>")
         SafeHtml input(String value, String style, String classC);
     }
+
     private TemplateDisplay templateDisplay = GWT.create(TemplateDisplay.class);
     private InputTemplate templateInput = GWT.create(InputTemplate.class);
 
@@ -98,12 +130,20 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         return value == null ? "" : value;
     }
 
-    private void addInputSb(SafeHtmlBuilder sb, String value, VListHeaderDesc he) {
-        sb.append(
-                templateInput.input(
-                getS(value),
-                getS(he.getInputStyle()),
-                getS(he.getInputClass())));
+    private void addInputSb(SafeHtmlBuilder sb, MutableInteger i, String value,
+            VListHeaderDesc he) {
+        String sClass = null;
+        if (errorInfo.active && i.intValue() == errorInfo.rowno) {
+            InvalidateMess me = errorInfo.errContainer.findV(he.getFie());
+            if (me != null) {
+                sClass = IConsts.errorStyle + " " + getS(he.getInputClass());
+            }
+        }
+        if (sClass == null) {
+            sClass = getS(he.getInputClass());
+        }
+        sb.append(templateInput.input(getS(value), getS(he.getInputStyle()),
+                sClass));
     }
 
     PresentationEditCellFactory(ILostFocusEdit lostFocus,
@@ -114,7 +154,8 @@ class PresentationEditCellFactory extends PresentationCellHelper {
 
     // Decorator patter implemented to add "blur" event to the constructor
     // Cannot inherit CheckboxCell directly
-    private class EditCheckBoxCell extends AbstractEditableCell<Boolean, Boolean> implements IGetField {
+    private class EditCheckBoxCell extends
+            AbstractEditableCell<Boolean, Boolean> implements IGetField {
 
         private final IVField v;
         private final CheckboxCell checkBox;
@@ -248,9 +289,11 @@ class PresentationEditCellFactory extends PresentationCellHelper {
 
     /**
      * Creates list to be used as an argument to constructor
-     *
-     * @param c1 First element
-     * @param c2 Second element
+     * 
+     * @param c1
+     *            First element
+     * @param c2
+     *            Second element
      * @return List containing two elements
      */
     private List<HasCell<Date, ?>> createList(HasCell<Date, ?> c1,
@@ -376,7 +419,8 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             MutableInteger i = (MutableInteger) key;
             boolean editenabled = eCol.isEditable(i.intValue(), v);
             if (editenabled) {
-                String s = Utils.getImageHTML(ImageNameFactory.getImageName(ImageNameFactory.ImageType.CALENDAR));
+                String s = Utils.getImageHTML(ImageNameFactory
+                        .getImageName(ImageNameFactory.ImageType.CALENDAR));
                 SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
                 sb.append(html);
             }
@@ -445,7 +489,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 if (d != null) {
                     val = format.format(d);
                 }
-                addInputSb(sb, val, he);
+                addInputSb(sb, i, val, he);
             }
         }
 
@@ -592,11 +636,9 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     private class EditStringCell extends TextInputCell implements IGetField {
 
         private final IVField v;
-        private final VListHeaderDesc he;
 
         EditStringCell(VListHeaderDesc he) {
             this.v = he.getFie();
-            this.he = he;
         }
 
         @Override
@@ -722,7 +764,8 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         private final NumberFormat format;
         private final NumberCell noEditCell;
 
-        EditNumberCell(VListHeaderDesc he, NumberFormat format, NumberCell noEditCell) {
+        EditNumberCell(VListHeaderDesc he, NumberFormat format,
+                NumberCell noEditCell) {
             super(BrowserEvents.CHANGE);
             this.v = he.getFie();
             this.he = he;
@@ -738,14 +781,14 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 return null;
             }
             switch (v.getType().getType()) {
-                case INT:
-                    Integer i = n.intValue();
-                    return i;
-                case LONG:
-                    Long l = n.longValue();
-                    return l;
-                default:
-                    return new BigDecimal(n.doubleValue());
+            case INT:
+                Integer i = n.intValue();
+                return i;
+            case LONG:
+                Long l = n.longValue();
+                return l;
+            default:
+                return new BigDecimal(n.doubleValue());
             }
 
         }
@@ -757,18 +800,18 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 return;
             }
             switch (v.getType().getType()) {
-                case INT:
-                    Integer i = (Integer) o;
-                    this.setViewData(key, i);
-                    break;
-                case LONG:
-                    Long l = (Long) o;
-                    this.setViewData(key, l);
-                    break;
-                default:
-                    Number n = (Number) o;
-                    this.setViewData(key, n);
-                    break;
+            case INT:
+                Integer i = (Integer) o;
+                this.setViewData(key, i);
+                break;
+            case LONG:
+                Long l = (Long) o;
+                this.setViewData(key, l);
+                break;
+            default:
+                Number n = (Number) o;
+                this.setViewData(key, n);
+                break;
             }
         }
 
@@ -815,7 +858,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             if (num != null) {
                 val = format.format(num);
             }
-            addInputSb(sb, val, he);
+            addInputSb(sb, i, val, he);
         }
     }
 
@@ -832,47 +875,47 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         Column co = null;
         IVField v = he.getFie();
         switch (v.getType().getType()) {
-            case LONG:
-                EditNumberCell ce = new EditNumberCell(he,
+        case LONG:
+            EditNumberCell ce = new EditNumberCell(he,
+                    NumberFormat.getFormat(getNumberFormat(0)), iCell);
+            co = new GLongColumn(ce, v);
+            break;
+        case INT:
+            EditNumberCell cce = new EditNumberCell(he,
+                    NumberFormat.getFormat(getNumberFormat(0)), iCell);
+            co = new GIntegerColumn(cce, v);
+            break;
+        case BIGDECIMAL:
+            switch (v.getType().getAfterdot()) {
+            case 0:
+                EditNumberCell ec = new EditNumberCell(he,
                         NumberFormat.getFormat(getNumberFormat(0)), iCell);
-                co = new GLongColumn(ce, v);
+                co = new GLongColumn(ec, v);
                 break;
-            case INT:
-                EditNumberCell cce = new EditNumberCell(he,
-                        NumberFormat.getFormat(getNumberFormat(0)), iCell);
-                co = new GIntegerColumn(cce, v);
+            case 1:
+                EditNumberCell ce1 = new EditNumberCell(he,
+                        NumberFormat.getFormat(getNumberFormat(1)), nCell1);
+                co = new NumberColumn(ce1, v);
                 break;
-            case BIGDECIMAL:
-                switch (v.getType().getAfterdot()) {
-                    case 0:
-                        EditNumberCell ec = new EditNumberCell(he,
-                                NumberFormat.getFormat(getNumberFormat(0)), iCell);
-                        co = new GLongColumn(ec, v);
-                        break;
-                    case 1:
-                        EditNumberCell ce1 = new EditNumberCell(he,
-                                NumberFormat.getFormat(getNumberFormat(1)), nCell1);
-                        co = new NumberColumn(ce1, v);
-                        break;
-                    case 2:
-                        EditNumberCell ce2 = new EditNumberCell(he,
-                                NumberFormat.getFormat(getNumberFormat(2)), nCell2);
-                        co = new NumberColumn(ce2, v);
-                        break;
-                    case 3:
-                        EditNumberCell ce3 = new EditNumberCell(he,
-                                NumberFormat.getFormat(getNumberFormat(3)), nCell3);
-                        co = new NumberColumn(ce3, v);
-                        break;
-                    default:
-                        EditNumberCell ce4 = new EditNumberCell(he,
-                                NumberFormat.getFormat(getNumberFormat(4)), nCell4);
-                        co = new NumberColumn(ce4, v);
-                        break;
-                }
+            case 2:
+                EditNumberCell ce2 = new EditNumberCell(he,
+                        NumberFormat.getFormat(getNumberFormat(2)), nCell2);
+                co = new NumberColumn(ce2, v);
+                break;
+            case 3:
+                EditNumberCell ce3 = new EditNumberCell(he,
+                        NumberFormat.getFormat(getNumberFormat(3)), nCell3);
+                co = new NumberColumn(ce3, v);
                 break;
             default:
-                assert false : LogT.getT().notExpected();
+                EditNumberCell ce4 = new EditNumberCell(he,
+                        NumberFormat.getFormat(getNumberFormat(4)), nCell4);
+                co = new NumberColumn(ce4, v);
+                break;
+            }
+            break;
+        default:
+            assert false : LogT.getT().notExpected();
         }
         return co;
 
@@ -966,10 +1009,16 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         // return new ImageColumn();
 
         List<HasCell> ce = new ArrayList<HasCell>();
-        ce.add(new HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.ADDROW), PersistTypeEnum.ADD));
-// TODO: blocked now rethink usage        
-//        ce.add(new HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.CHANGEROW), PersistTypeEnum.MODIF));
-        ce.add(new HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.DELETEROW), PersistTypeEnum.REMOVE));
+        ce.add(new HasCellImage(ImageNameFactory
+                .getImageName(ImageNameFactory.ImageType.ADDROW),
+                PersistTypeEnum.ADD));
+        // TODO: blocked now rethink usage
+        // ce.add(new
+        // HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.CHANGEROW),
+        // PersistTypeEnum.MODIF));
+        ce.add(new HasCellImage(ImageNameFactory
+                .getImageName(ImageNameFactory.ImageType.DELETEROW),
+                PersistTypeEnum.REMOVE));
         CompositeCell<MutableInteger> cCell = new CompositeCell(ce);
         Column<MutableInteger, MutableInteger> imageColumn = new Column<MutableInteger, MutableInteger>(
                 cCell) {

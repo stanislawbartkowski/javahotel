@@ -24,6 +24,7 @@ import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.formatters.DateFormat;
 import com.google.gwt.visualization.client.visualizations.Table;
 import com.gwtmodel.table.*;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -345,6 +346,15 @@ class GwtTableView implements IGwtTableView {
      */
     @Override
     public void addRow(int rownum) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#showInvalidate(com.gwtmodel.table.InvalidateFormContainer)
+     */
+    @Override
+    public void showInvalidate(int rowno, InvalidateFormContainer errContainer) {
         // TODO Auto-generated method stub
         
     }

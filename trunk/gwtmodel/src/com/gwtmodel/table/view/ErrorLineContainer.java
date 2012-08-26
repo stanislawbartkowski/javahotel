@@ -12,11 +12,11 @@
  */
 package com.gwtmodel.table.view;
 
-import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.injector.MM;
-import com.gwtmodel.table.rdef.IFormLineView;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.rdef.IFormLineView;
 
 public class ErrorLineContainer {
 
@@ -28,12 +28,7 @@ public class ErrorLineContainer {
 
     public void setEMess(IFormLineView i, InvalidateMess m) {
         i.setGStyleName("dialog-empty-field", true);
-        String e;
-        if (m.isEmpty()) {
-            e = MM.getL().EmptyFieldMessage();
-        } else {
-            e = m.getErrmess();
-        }
+        String e = m.getErrmess();
         i.setInvalidMess(e);
         el.add(i);
     }

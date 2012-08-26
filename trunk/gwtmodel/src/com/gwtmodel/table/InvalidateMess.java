@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table;
 
+import com.gwtmodel.table.injector.MM;
+
 public class InvalidateMess {
 
     private final IVField fie;
@@ -50,6 +52,9 @@ public class InvalidateMess {
      * @return the errmess
      */
     public String getErrmess() {
+        if (empty) {
+            return MM.getL().EmptyFieldMessage();
+        }
         return errmess;
     }
 }
