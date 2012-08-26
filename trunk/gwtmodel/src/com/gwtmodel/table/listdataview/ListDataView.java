@@ -707,7 +707,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new AddRow());
 
         // caller
-        registerCaller(ActionTableSignal.constructSlot(dType),
+        registerCaller(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new GetVDataByI());
         registerCaller(ActionTableSignal.constructSlotGetVSignal(dType),
                 new GetVListByI());
