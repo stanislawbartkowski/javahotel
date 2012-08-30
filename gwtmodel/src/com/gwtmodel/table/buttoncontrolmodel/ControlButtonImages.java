@@ -32,6 +32,8 @@ class ControlButtonImages {
             return "ShowImage";
         case TABLEDEFAULTMENU:
             return "PropTabelaImage";
+        default:
+            break;
         }
         return null;
     }

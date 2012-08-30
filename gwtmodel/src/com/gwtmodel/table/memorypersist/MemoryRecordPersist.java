@@ -52,7 +52,7 @@ public class MemoryRecordPersist extends AbstractSlotContainer {
             IVModelDataEquable eData = (IVModelDataEquable) pData;
             switch (persistEnumType) {
             case ADD:
-                dataList.add(pData);
+                dataList.add(dataList.getList().size(), pData);
                 break;
             case MODIF:
                 break;

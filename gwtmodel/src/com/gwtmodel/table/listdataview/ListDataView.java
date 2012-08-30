@@ -149,11 +149,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
 
         @Override
-        public void add(IVModelData vData) {
-            dataList.add(vData);
-        }
-
-        @Override
         public void add(int row, IVModelData vData) {
             dataList.add(row, vData);
         }
@@ -278,6 +273,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             ICustomObject o = slContext.getCustom();
             DataIntegerSignal si = (DataIntegerSignal) o;
             int rowno = si.getValue();
+            handleChange.prevW = null;
             tableView.removeRow(rowno);
             dataList.remove(rowno);
             // next current row
@@ -310,14 +306,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             ICustomObject o = slContext.getCustom();
             DataIntegerVDataSignal dv = (DataIntegerVDataSignal) o;
             int rowno = dv.getValue();
-            if (rowno == -1) {
-                dataList.add(dv.getV());
-            } else {
-                dataList.add(rowno, dv.getV());
+            int row = rowno;
+            if (dv.isAfter()) {
+                row = rowno + 1;
             }
-            tableView.addRow(rowno);
-            tableView.setClicked(rowno == -1 ? dataList.getList().size() - 1
-                    : rowno, false);
+            dataList.add(row, dv.getV());
+            tableView.addRow(row);
+            tableView.setClicked(row, false);
         }
     }
 
