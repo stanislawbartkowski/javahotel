@@ -24,14 +24,20 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 public class DataIntegerVDataSignal extends DataIntegerSignal {
 
     private final IVModelData v;
+    private final boolean after;
 
-    public DataIntegerVDataSignal(int i, IVModelData v) {
+    public DataIntegerVDataSignal(int i, IVModelData v, boolean after) {
         super(i);
         this.v = v;
+        this.after = after;
     }
 
     IVModelData getV() {
         return v;
+    }
+
+    boolean isAfter() {
+        return after;
     }
 
     private final static String SIGNAL_ID = DataIntegerVDataSignal.class

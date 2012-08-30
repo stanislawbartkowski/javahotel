@@ -31,8 +31,10 @@ public class DataListTypeFactory {
 
     public IDataListType constructLp(List<AbstractLpVModelData> dList) {
         IDataListType d = new DataListTypeLp(new ArrayList<IVModelData>(), null);
+        int inde = 0;
         for (AbstractLpVModelData a : dList) {
-            d.add(a);
+            d.add(inde, a);
+            inde++;
         }
         return d;
     }

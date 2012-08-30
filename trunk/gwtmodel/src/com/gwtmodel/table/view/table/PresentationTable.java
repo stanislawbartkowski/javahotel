@@ -21,6 +21,7 @@ import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
@@ -179,7 +180,7 @@ class PresentationTable implements IGwtTableView {
 
         @Override
         public void action(int row, IVField v) {
-            List<IGetSetVField> l = getVList(row);
+            List<IGetSetVField> l = getVList(row, true);
             for (IGetSetVField i : l) {
                 if (i.getV().eq(v)) {
                     Object o = i.getValObj();
@@ -210,21 +211,18 @@ class PresentationTable implements IGwtTableView {
         }
         PresentationEditCellFactory.ErrorLineInfo errInfo = faEdit
                 .getErrorInfo();
-        GetSet g = new GetSet(i, row.intValue());
-        Object o = g.getValObj();
-        IVField v = g.getV();
-        String s = FUtils.getValueOS(o, v);
-        if (!errInfo.active) {
-            if (row.intValue() != errInfo.rowno) {
-                faEdit.setErrorLineInfo(errInfo.rowno, null);
-            } else {
-                InvalidateMess me = errInfo.errContainer.findV(v);
-                if (me != null) {
-                    s = me.getErrmess();
-                }
+        VListHeaderDesc he = model.getHeaderList().getVisHeList().get(i);
+        IVModelData vData = model.getRows().get(row.intValue());
+        String s = FUtils.getValueS(vData, he.getFie());
+        if (errInfo.active && row.equals(errInfo.key)) {
+            InvalidateMess me = errInfo.errContainer.findV(he.getFie());
+            if (me != null) {
+                s = me.getErrmess();
             }
         }
-        currentH.pHint.setMessage(s);
+        if (!CUtil.EmptyS(s)) {
+            currentH.pHint.setMessage(s);
+        }
         currentH.key = row;
         currentH.col = col;
         currentH.on = true;
@@ -240,20 +238,26 @@ class PresentationTable implements IGwtTableView {
             if (!Element.is(eventTarget)) {
                 return;
             }
-            final Element target = event.getEventTarget().cast();
+            final Element target = eventTarget.cast();
             TableCellElement targetTableCell = target.cast();
-            try {
-                int col = targetTableCell.getCellIndex();
-                boolean focuson = !e.isUnHover();
-                WSize w = new WSize(target);
-                int row = e.getHoveringRow().getSectionRowIndex();
-                MutableInteger i = table.getVisibleItem(row);
-                hovercell(i, col, w, focuson);
-            } catch (Exception ee) {
-                // do not know reason, sometimes it happens
-                // HostedModeException
-                LogT.getL().severe(ee.getLocalizedMessage());
+            // boolean isC = tableBuilder.isColumn(targetTableCell);
+            int col = -1;
+            while (targetTableCell != null) {
+                try {
+                    col = targetTableCell.getCellIndex();
+                } catch (Exception ee) {
+                    Element ele = targetTableCell.getParentElement();
+                    targetTableCell = ele.cast();
+                    continue;
+                }
+                break;
             }
+            assert targetTableCell != null : LogT.getT().cannotBeNull();
+            boolean focuson = !e.isUnHover();
+            WSize w = new WSize(target);
+            int row = e.getHoveringRow().getSectionRowIndex();
+            MutableInteger i = table.getVisibleItem(row);
+            hovercell(i, col, w, focuson);
         }
 
     }
@@ -313,7 +317,7 @@ class PresentationTable implements IGwtTableView {
 
         A(SafeHtml a) {
             // activates onBrowserEvent
-            super("click");
+            super(BrowserEvents.CLICK);
         }
 
         @Override
@@ -707,10 +711,12 @@ class PresentationTable implements IGwtTableView {
 
         private final int i;
         private final int rowno;
+        private final boolean keepNull;
 
-        private GetSet(int i, int rowno) {
+        private GetSet(int i, int rowno, boolean keepNull) {
             this.i = i;
             this.rowno = rowno;
+            this.keepNull = keepNull;
         }
 
         @Override
@@ -745,9 +751,10 @@ class PresentationTable implements IGwtTableView {
             if (iGet != null) {
                 o = iGet.getValObj(new MutableInteger(rowno));
             }
-            if (o == null) {
+            if (!keepNull && (o == null)) {
                 IVModelData v = model.getRows().get(rowno);
                 o = FUtils.getValue(v, getV());
+                int i = 0;
             }
             return o;
         }
@@ -760,17 +767,21 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
-    @Override
-    public List<IGetSetVField> getVList(int rowno) {
+    private List<IGetSetVField> getVList(int rowno, boolean keepNull) {
         int no = 0;
         List<IGetSetVField> vList = new ArrayList<IGetSetVField>();
         for (VListHeaderDesc v : model.getHeaderList().getVisHeList()) {
             if (v.isEditable()) {
-                vList.add(new GetSet(no, rowno));
+                vList.add(new GetSet(no, rowno, keepNull));
             }
             no++;
         }
         return vList;
+    }
+
+    @Override
+    public List<IGetSetVField> getVList(int rowno) {
+        return getVList(rowno, false);
     }
 
     @Override
@@ -863,9 +874,23 @@ class PresentationTable implements IGwtTableView {
         iList.add(rownum, new MutableInteger(rownum));
     }
 
+    private class GetRowNo implements PresentationEditCellFactory.IToRowNo {
+
+        @Override
+        public int row(MutableInteger key) {
+            List<MutableInteger> vList = table.getVisibleItems();
+            for (int i = 0; i < vList.size(); i++) {
+                if (vList.get(i).equals(key)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+
     @Override
     public void showInvalidate(int rowno, InvalidateFormContainer errContainer) {
-        faEdit.setErrorLineInfo(rowno, errContainer);
-
+        faEdit.setErrorLineInfo(new MutableInteger(rowno), errContainer,
+                new GetRowNo());
     }
 }

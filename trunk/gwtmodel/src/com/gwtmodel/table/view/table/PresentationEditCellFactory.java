@@ -24,7 +24,6 @@ import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.CompositeCell;
-import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
 import com.google.gwt.cell.client.NumberCell;
@@ -36,6 +35,8 @@ import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -83,22 +84,28 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         return errorInfo;
     }
 
-    void setErrorLineInfo(int rowno, InvalidateFormContainer errContainer) {
-        if (errContainer == null) {
-            errorInfo.active = false;
-            table.redrawRow(rowno);
-            return;
-        }
+    void removeErrorLineInfo() {
+        removeErrorStyle();
+    }
+
+    void setErrorLineInfo(MutableInteger key,
+            InvalidateFormContainer errContainer, IToRowNo i) {
         errorInfo.active = true;
-        errorInfo.rowno = rowno;
+        errorInfo.key = key;
         errorInfo.errContainer = errContainer;
-        table.redrawRow(rowno);
+        errorInfo.i = i;
+        table.redrawRow(i.row(key));
+    }
+
+    interface IToRowNo {
+        int row(MutableInteger key);
     }
 
     class ErrorLineInfo {
         boolean active = false;
-        int rowno;
+        MutableInteger key;
         InvalidateFormContainer errContainer;
+        IToRowNo i;
     }
 
     interface IGetField {
@@ -133,7 +140,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     private void addInputSb(SafeHtmlBuilder sb, MutableInteger i, String value,
             VListHeaderDesc he) {
         String sClass = null;
-        if (errorInfo.active && i.intValue() == errorInfo.rowno) {
+        if (errorInfo.active && i.intValue() == errorInfo.key.intValue()) {
             InvalidateMess me = errorInfo.errContainer.findV(he.getFie());
             if (me != null) {
                 sClass = IConsts.errorStyle + " " + getS(he.getInputClass());
@@ -144,6 +151,31 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         }
         sb.append(templateInput.input(getS(value), getS(he.getInputStyle()),
                 sClass));
+    }
+
+    private void removeErrorStyle() {
+        if (errorInfo.active) {
+            errorInfo.active = false;
+            int rowno = errorInfo.i.row(errorInfo.key);
+            if (rowno == -1) { return; }
+            NodeList<TableCellElement> cList = table.getRowElement(rowno)
+                    .getCells();
+            for (int i = 0; i < cList.getLength(); i++) {
+                TableCellElement el = cList.getItem(i);
+                Element elex = el.getFirstChildElement();
+                assert elex != null : LogT.getT().cannotBeNull();
+                Element ele = elex.getFirstChildElement();
+                assert ele != null : LogT.getT().cannotBeNull();
+                // assuming that it is HTML describing inner cell
+                String cl = ele.getClassName();
+                int x = cl.indexOf(IConsts.errorStyle);
+                if (x != -1) {
+                    // remove error class attribute
+                    cl = cl.replace(IConsts.errorStyle, "");
+                    ele.setClassName(cl);
+                }
+            }
+        }
     }
 
     PresentationEditCellFactory(ILostFocusEdit lostFocus,
@@ -202,7 +234,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 ValueUpdater<Boolean> valueUpdater) {
             String type = event.getType();
             checkBox.onBrowserEvent(context, parent, value, event, valueUpdater);
-            lostFocus(type, context, v);
+            afterChange(type, context, v);
         }
 
         @Override
@@ -226,64 +258,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 sb.append(INPUT_UNCHECKED);
             }
 
-        }
-    }
-
-    // TODO: remove
-    private class EditableCheckBoxCell extends CheckboxCell implements
-            IGetField {
-
-        private final IVField v;
-
-        EditableCheckBoxCell(IVField v, boolean handleSelection) {
-            // second parameter controls selection.
-            // but after setting to true Selecion does not work
-            // needs further investigation
-            // TODO: think over later
-            super(false, handleSelection);
-            this.v = v;
-        }
-
-        @Override
-        public void render(Context context, Boolean value, SafeHtmlBuilder sb) {
-            // Get the view data.
-            Object key = context.getKey();
-            MutableInteger i = (MutableInteger) key;
-            boolean editenabled = eCol.isEditable(i.intValue(), v);
-            if (editenabled) {
-                super.render(context, value, sb);
-                return;
-            }
-
-            Boolean viewData = getViewData(key);
-            if (viewData != null && viewData.equals(value)) {
-                clearViewData(key);
-                viewData = null;
-            }
-            if (value) {
-                sb.append(INPUT_CHECKED);
-            } else {
-                sb.append(INPUT_UNCHECKED);
-            }
-        }
-
-        @Override
-        public void onBrowserEvent(Context context, Element parent,
-                Boolean value, NativeEvent event,
-                ValueUpdater<Boolean> valueUpdater) {
-            super.onBrowserEvent(context, parent, value, event, valueUpdater);
-        }
-
-        @Override
-        public Object getValObj(MutableInteger key) {
-            Boolean b = this.getViewData(key);
-            return b;
-        }
-
-        @Override
-        public void setValObj(MutableInteger key, Object o) {
-            Boolean b = (Boolean) o;
-            this.setViewData(key, b);
         }
     }
 
@@ -355,6 +329,8 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                     if (lastContext != null) {
                         eCell.setValObj((MutableInteger) lastContext.getKey(),
                                 date);
+                        modifUpdate(lastContext.getKey(), v);
+                        removeErrorStyle();
                         table.redrawRow(lastContext.getIndex());
                     }
                     pUp.setVisible(false);
@@ -459,7 +435,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         private final DateTimeFormat format;
 
         EditDateCell(VListHeaderDesc he, DateTimeFormat format) {
-            super(BrowserEvents.CHANGE);
+            super(BrowserEvents.CHANGE, BrowserEvents.KEYPRESS);
             this.v = he.getFie();
             this.he = he;
             this.format = format;
@@ -484,12 +460,19 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             if (d == null) {
                 d = value;
             }
+            String val = null;
+            if (d != null) {
+                val = format.format(d);
+            }
             if (editenabled) {
-                String val = null;
-                if (d != null) {
-                    val = format.format(d);
-                }
                 addInputSb(sb, i, val, he);
+            } else {
+                if (val != null) {
+                    sb.append(templateDisplay.input(val));
+                } else {
+                    sb.appendHtmlConstant("");
+                }
+
             }
         }
 
@@ -513,90 +496,10 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 } catch (IllegalArgumentException ee) {
                 }
             }
-            lostFocus(eventType, context, v);
-        }
-    }
-
-    private class xEditDateCell extends DatePickerCell implements IGetField {
-
-        private final IVField v;
-        private final DateTimeFormat format;
-
-        xEditDateCell(IVField v, DateTimeFormat format) {
-            super(format);
-            this.v = v;
-            this.format = format;
-        }
-
-        private class myUpdater implements ValueUpdater<Date> {
-
-            private final ValueUpdater<Date> updater;
-            private final Object key;
-
-            myUpdater(ValueUpdater<Date> updater, Object key) {
-                this.updater = updater;
-                this.key = key;
+            if (eventType.equals(BrowserEvents.KEYPRESS)) {
+                removeErrorStyle();
             }
-
-            @Override
-            public void update(Date value) {
-                if (updater != null) {
-                    updater.update(value);
-                }
-                modifUpdate(key, v);
-            }
-        }
-
-        /**
-         * Override this method to avoid popping up date picker if not enable
-         * edit mode
-         */
-        @Override
-        public void onBrowserEvent(Context context, Element parent, Date value,
-                NativeEvent event, ValueUpdater<Date> valueUpdater) {
-            Object key = context.getKey();
-            MutableInteger i = (MutableInteger) key;
-            boolean editenabled = eCol.isEditable(i.intValue(), v);
-            // block date picker if not edit mode
-            myUpdater myU = new myUpdater(valueUpdater, context.getKey());
-            if (BrowserEvents.CLICK.equals(event.getType())) {
-                if (editenabled) {
-                    super.onBrowserEvent(context, parent, value, event, myU);
-                }
-            } else {
-                super.onBrowserEvent(context, parent, value, event, myU);
-            }
-        }
-
-        @Override
-        public void render(Context context, Date value, SafeHtmlBuilder sb) {
-            Object key = context.getKey();
-            MutableInteger i = (MutableInteger) key;
-            boolean editenabled = eCol.isEditable(i.intValue(), v);
-            if (editenabled) {
-                super.render(context, value, sb);
-                return;
-            }
-            // Get the view data.
-            // copy and paste from TextInputCell
-            // the only difference is different HTML for displaying value
-            Date d = getViewData(key);
-            if (d == null) {
-                d = value;
-            }
-            if (d != null) {
-                sb.appendEscaped(format.format(d));
-            }
-        }
-
-        @Override
-        public Object getValObj(MutableInteger key) {
-            return getViewData(key);
-        }
-
-        @Override
-        public void setValObj(MutableInteger key, Object o) {
-            this.setViewData(key, (Date) o);
+            afterChange(eventType, context, v);
         }
     }
 
@@ -627,8 +530,8 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         }
     }
 
-    private void lostFocus(String eventType, Context context, IVField v) {
-        if (eventType.equals(BrowserEvents.BLUR)) {
+    private void afterChange(String eventType, Context context, IVField v) {
+        if (eventType.equals(BrowserEvents.CHANGE)) {
             modifUpdate(context.getKey(), v);
         }
     }
@@ -636,9 +539,11 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     private class EditStringCell extends TextInputCell implements IGetField {
 
         private final IVField v;
+        private final VListHeaderDesc he;
 
         EditStringCell(VListHeaderDesc he) {
             this.v = he.getFie();
+            this.he = he;
         }
 
         @Override
@@ -653,7 +558,8 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             }
             String s = (viewData != null) ? viewData.getCurrentValue() : value;
             if (editenabled) {
-                super.render(context, value, sb);
+                addInputSb(sb, i, s, he);
+                // super.render(context, value, sb);
                 return;
             }
             // Get the view data.
@@ -672,7 +578,11 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 ValueUpdater<String> valueUpdater) {
             super.onBrowserEvent(context, parent, value, event, valueUpdater);
             String eventType = event.getType();
-            lostFocus(eventType, context, v);
+            afterChange(eventType, context, v);
+            // only because KEYUP is consumed in TextInputCell
+            if (eventType.equals(BrowserEvents.KEYUP)) {
+                removeErrorStyle();
+            }
         }
 
         @Override
@@ -751,12 +661,16 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 ValueUpdater<String> valueUpdater) {
             super.onBrowserEvent(context, parent, value, event, valueUpdater);
             String eventType = event.getType();
-            lostFocus(eventType, context, v);
+            afterChange(eventType, context, v);
         }
     }
 
-    private class EditNumberCell extends AbstractInputCell<Number, Number>
-            implements IGetField {
+    class NumberViewState {
+        Number num = null;
+    }
+
+    private class EditNumberCell extends
+            AbstractInputCell<Number, NumberViewState> implements IGetField {
 
         private final IVField v;
         private final VListHeaderDesc he;
@@ -766,7 +680,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
 
         EditNumberCell(VListHeaderDesc he, NumberFormat format,
                 NumberCell noEditCell) {
-            super(BrowserEvents.CHANGE);
+            super(BrowserEvents.CHANGE, BrowserEvents.KEYPRESS);
             this.v = he.getFie();
             this.he = he;
             renderer = SimpleSafeHtmlRenderer.getInstance();
@@ -776,43 +690,42 @@ class PresentationEditCellFactory extends PresentationCellHelper {
 
         @Override
         public Object getValObj(MutableInteger key) {
-            Number n = this.getViewData(key);
-            if (n == null) {
+            NumberViewState n = this.getViewData(key);
+            if ((n == null) || (n.num == null)) {
                 return null;
             }
             switch (v.getType().getType()) {
             case INT:
-                Integer i = n.intValue();
+                Integer i = n.num.intValue();
                 return i;
             case LONG:
-                Long l = n.longValue();
+                Long l = n.num.longValue();
                 return l;
             default:
-                return new BigDecimal(n.doubleValue());
+                return new BigDecimal(n.num.doubleValue());
             }
 
         }
 
         @Override
         public void setValObj(MutableInteger key, Object o) {
-            if (o == null) {
-                this.setViewData(key, null);
-                return;
+            NumberViewState num = new NumberViewState();
+            if (o != null) {
+                switch (v.getType().getType()) {
+                case INT:
+                    Integer i = (Integer) o;
+                    num.num = i;
+                    break;
+                case LONG:
+                    Long l = (Long) o;
+                    num.num = l;
+                    break;
+                default:
+                    num.num = (Number) o;
+                    break;
+                }
             }
-            switch (v.getType().getType()) {
-            case INT:
-                Integer i = (Integer) o;
-                this.setViewData(key, i);
-                break;
-            case LONG:
-                Long l = (Long) o;
-                this.setViewData(key, l);
-                break;
-            default:
-                Number n = (Number) o;
-                this.setViewData(key, n);
-                break;
-            }
+            this.setViewData(key, num);
         }
 
         @Override
@@ -825,19 +738,27 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 InputElement e = super.getInputElement(parent).cast();
                 String s = e.getValue();
                 Object key = context.getKey();
-                try {
-                    Number num = format.parse(s);
-                    setViewData(key, num);
-                } catch (NumberFormatException ee) {
-                    Number num = this.getViewData(key);
-                    String prevs = "";
-                    if (num != null) {
-                        prevs = format.format(num);
+                NumberViewState num = new NumberViewState();
+                if (CUtil.EmptyS(s)) {
+                    setViewData(key, num); // empty value
+                } else {
+                    try {
+                        num.num = format.parse(s);
+                        setViewData(key, num);
+                    } catch (NumberFormatException ee) {
+                        num = this.getViewData(key);
+                        String prevs = "";
+                        if ((num != null) && (num.num != null)) {
+                            prevs = format.format(num.num);
+                        }
+                        e.setValue(prevs);
                     }
-                    e.setValue(prevs);
                 }
             }
-            lostFocus(eventType, context, v);
+            afterChange(eventType, context, v);
+            if (eventType.equals(BrowserEvents.KEYPRESS)) {
+                removeErrorStyle();
+            }
         }
 
         @Override
@@ -850,13 +771,15 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 noEditCell.render(context, value, sb);
                 return;
             }
-            Number num = this.getViewData(key);
+            NumberViewState num = this.getViewData(key);
             if (num == null) {
-                num = value;
+                num = new NumberViewState();
+                num.num = value;
             }
             String val = null;
-            if (num != null) {
-                val = format.format(num);
+            if (num.num != null) {
+                val = Utils.DecimalToS(new BigDecimal(num.num.doubleValue()), v
+                        .getType().getAfterdot());
             }
             addInputSb(sb, i, val, he);
         }

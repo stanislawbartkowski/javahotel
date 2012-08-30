@@ -48,16 +48,11 @@ class DataListTypeLp extends DataListType {
         dList.add(e); // not dList.append !
     }
 
-    @Override
-    public void add(IVModelData vData) {
-        AbstractLpVModelData e = (AbstractLpVModelData) vData;
-        addNext(e);
-    }
-
+    // ignore row, add element always at the end
     @Override
     public void add(int row, IVModelData vData) {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        AbstractLpVModelData e = (AbstractLpVModelData) vData;
+        addNext(e);
     }
 
 }

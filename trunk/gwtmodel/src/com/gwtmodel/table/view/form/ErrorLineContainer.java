@@ -17,20 +17,12 @@ import java.util.List;
 
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
 
 class ErrorLineContainer {
 
-    private final IGetCustomValues c;
     /** Contains all fields with error messages. */
     private List<FormField> el = new ArrayList<FormField>();
-
-    ErrorLineContainer() {
-        c = GwtGiniInjector.getI().getTableFactoriesContainer()
-                .getGetCustomValues();
-    }
 
     /**
      * Clear error messages list
