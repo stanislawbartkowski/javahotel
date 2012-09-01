@@ -74,6 +74,7 @@ import com.gwtmodel.table.view.util.PopUpHint;
  */
 class PresentationTable implements IGwtTableView {
 
+    private final INewEditLineFocus iEditFocus;
     /**
      * Call back when line is clicked.
      */
@@ -145,6 +146,22 @@ class PresentationTable implements IGwtTableView {
         }
     }
 
+    private void setNewEditFocusLine(WChoosedLine w) {
+        if (iEditFocus == null) {
+            return;
+        }
+        iEditFocus.lineClicked(w);
+    }
+
+    private class StartEditLine implements
+            PresentationEditCellFactory.IStartEditRow {
+
+        @Override
+        public void setEditRow(MutableInteger row) {
+            setNewEditFocusLine(pgetClicked(row, null, null));
+        }
+    }
+
     /**
      * Raised when the whole row was selected
      * 
@@ -166,6 +183,7 @@ class PresentationTable implements IGwtTableView {
             }
             if (selectEnabled()) {
                 iClick.execute(whilefind);
+                setNewEditFocusLine(wChoosed);
             }
             if (model.unSelectAtOnce()) {
                 selectionModel.setSelected(sel, false);
@@ -263,7 +281,8 @@ class PresentationTable implements IGwtTableView {
     }
 
     PresentationTable(IRowClick iClick, ICommand actionColumn,
-            IGetCellValue gValue) {
+            IGetCellValue gValue, INewEditLineFocus iEditFocus) {
+        this.iEditFocus = iEditFocus;
         this.iClick = iClick;
         this.iActionColumn = actionColumn;
         this.gValue = gValue;
@@ -284,7 +303,7 @@ class PresentationTable implements IGwtTableView {
         e = new PersistInTable();
         // }
         fa = new PresentationCellFactory(gValue);
-        faEdit = new PresentationEditCellFactory(e, table);
+        faEdit = new PresentationEditCellFactory(e, table, new StartEditLine());
         table.addRowHoverHandler(new RowHover());
     }
 

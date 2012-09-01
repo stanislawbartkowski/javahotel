@@ -53,6 +53,7 @@ import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.IModifyRowStyle;
+import com.gwtmodel.table.view.table.INewEditLineFocus;
 import com.gwtmodel.table.view.table.IRowClick;
 import com.gwtmodel.table.view.table.IRowEditAction;
 
@@ -588,8 +589,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             eRow = null;
         }
 
-        void nextClicked() {
-            WChoosedLine w = tableView.getClicked();
+        void nextClicked(WChoosedLine w) {
             if (prevW != null && prevW.getChoosedLine() == w.getChoosedLine()) {
                 return;
             }
@@ -606,6 +606,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     }
 
+    private class NewEditLineFocus implements INewEditLineFocus {
+
+        @Override
+        public void lineClicked(WChoosedLine newRow) {
+            if (handleChange.fullChange) {
+                handleChange.nextClicked(newRow);
+            }
+        }
+
+    }
+
     private class ClickList implements IRowClick {
 
         @Override
@@ -613,11 +624,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             if (!whileFind) {
                 publish(dType, DataActionEnum.TableLineClicked,
                         constructChoosedContext());
-            }
-            if (!whileFind) {
-                if (handleChange.fullChange) {
-                    handleChange.nextClicked();
-                }
             }
         }
     }
@@ -652,7 +658,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         } else {
             tableView = gFactory.construct(
                     selectedRow ? new ClickList() : null, new ClickColumn(),
-                    gValue);
+                    gValue, new NewEditLineFocus());
         }
     }
 

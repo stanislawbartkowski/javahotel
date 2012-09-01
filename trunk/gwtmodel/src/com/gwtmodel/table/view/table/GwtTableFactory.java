@@ -18,14 +18,15 @@ import com.gwtmodel.table.injector.WebPanelHolder;
 public class GwtTableFactory {
 
     public IGwtTableView construct(IRowClick click, ICommand actionColumn,
-            IGetCellValue gValue) {
+            IGetCellValue gValue, INewEditLineFocus iLineFocus) {
         switch (WebPanelHolder.getTableType()) {
         case GOOGLETABLE:
             return new GwtTableView(click);
         case GRIDTABLE:
             return new TableView(click);
         case PRESETABLE:
-            return new PresentationTable(click, actionColumn, gValue);
+            return new PresentationTable(click, actionColumn, gValue,
+                    iLineFocus);
         }
         return null;
     }
