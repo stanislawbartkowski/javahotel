@@ -20,13 +20,15 @@ import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.mailcommon.CListOfMailProperties;
 import com.gwtmodel.table.mailcommon.CMailToSend;
 import com.mygwt.common.data.TOItemRecord;
+import com.mygwt.common.data.TOMarkRecord;
+import com.mygwt.common.data.ToEditRecord;
 
 /**
  * The client side stub for the RPC service.
  */
 @RemoteServiceRelativePath("testservice")
 public interface MyRemoteService extends RemoteService {
-    
+
     CListOfMailProperties getListOfMailBoxes();
 
     String sendMail(CMailToSend mail);
@@ -34,4 +36,14 @@ public interface MyRemoteService extends RemoteService {
     List<TOItemRecord> getItemList();
 
     void ItemRecordOp(PersistTypeEnum op, TOItemRecord re);
+
+    List<TOMarkRecord> getItemMarkList();
+
+    void ItemMarkRecordOp(PersistTypeEnum op, TOMarkRecord re);
+    
+    List<ToEditRecord> getItemEditList();
+    
+    void ItemEditRecordOp(PersistTypeEnum op, ToEditRecord re);
+    
+    void saveEditItemList(List<ToEditRecord> rList);
 }

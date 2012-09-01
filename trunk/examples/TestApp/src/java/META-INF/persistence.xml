@@ -7,6 +7,8 @@
     <persistence-unit name="transactions-optional">
         <provider>org.datanucleus.api.jpa.PersistenceProviderImpl</provider>
         <class>com.mygwt.server.jpa.ItemRecord</class>
+        <class>com.mygwt.server.jpa.MarkRekord</class>
+        <class>com.mygwt.server.jpa.EditRecord</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>        
         <properties>
             <property name="datanucleus.NontransactionalRead" value="true"/>

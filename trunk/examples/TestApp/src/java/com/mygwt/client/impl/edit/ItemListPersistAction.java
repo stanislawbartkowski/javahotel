@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.mygwt.client.impl.find;
+package com.mygwt.client.impl.edit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.mygwt.client.RemoteService;
-import com.mygwt.common.data.TOItemRecord;
+import com.mygwt.common.data.ToEditRecord;
 
 /**
  * @author hotel
@@ -37,7 +37,7 @@ class ItemListPersistAction extends AbstractSlotContainer implements
 
     private final DataListTypeFactory tFactory;
 
-    private class ReadBack implements AsyncCallback<List<TOItemRecord>> {
+    private class ReadBack implements AsyncCallback<List<ToEditRecord>> {
 
         @Override
         public void onFailure(Throwable caught) {
@@ -45,14 +45,14 @@ class ItemListPersistAction extends AbstractSlotContainer implements
         }
 
         @Override
-        public void onSuccess(List<TOItemRecord> result) {
+        public void onSuccess(List<ToEditRecord> result) {
             List<IVModelData> vList = new ArrayList<IVModelData>();
-            for (TOItemRecord to : result) {
+            for (ToEditRecord to : result) {
                 IVModelData v = new ItemVData(to);
                 vList.add(v);
             }
             publish(dType, DataActionEnum.ListReadSuccessSignal,
-                    tFactory.construct(vList, null, ItemVData.fLEVEL));
+                    tFactory.construct(vList, null, ItemVData.fID));
 
         }
     }
@@ -61,7 +61,7 @@ class ItemListPersistAction extends AbstractSlotContainer implements
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            RemoteService.getA().getItemList(new ReadBack());
+            RemoteService.getA().getItemEditList(new ReadBack());
         }
     }
 

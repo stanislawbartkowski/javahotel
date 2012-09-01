@@ -19,18 +19,32 @@ import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.mailcommon.CListOfMailProperties;
 import com.gwtmodel.table.mailcommon.CMailToSend;
 import com.mygwt.common.data.TOItemRecord;
+import com.mygwt.common.data.TOMarkRecord;
+import com.mygwt.common.data.ToEditRecord;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface MyRemoteServiceAsync {
 
-	void getListOfMailBoxes(AsyncCallback<CListOfMailProperties> callback);
+    void getListOfMailBoxes(AsyncCallback<CListOfMailProperties> callback);
 
-	void sendMail(CMailToSend mail, AsyncCallback<String> callback);
+    void sendMail(CMailToSend mail, AsyncCallback<String> callback);
 
     void getItemList(AsyncCallback<List<TOItemRecord>> callback);
 
     void ItemRecordOp(PersistTypeEnum op, TOItemRecord re,
             AsyncCallback<Void> callback);
+
+    void getItemMarkList(AsyncCallback<List<TOMarkRecord>> callback);
+
+    void ItemMarkRecordOp(PersistTypeEnum op, TOMarkRecord re,
+            AsyncCallback<Void> callback);
+
+    void ItemEditRecordOp(PersistTypeEnum op, ToEditRecord re,
+            AsyncCallback<Void> callback);
+
+    void getItemEditList(AsyncCallback<List<ToEditRecord>> callback);
+
+    void saveEditItemList(List<ToEditRecord> rList, AsyncCallback<Void> callback);
 }

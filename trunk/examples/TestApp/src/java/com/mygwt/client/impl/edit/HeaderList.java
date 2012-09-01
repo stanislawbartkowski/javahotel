@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.mygwt.client.impl.find;
+package com.mygwt.client.impl.edit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +27,7 @@ import com.gwtmodel.table.tabledef.VListHeaderDesc;
  * @author hotel
  * 
  */
-class HeaderList extends AbstractSlotContainer implements
-        IHeaderListContainer {
+class HeaderList extends AbstractSlotContainer implements IHeaderListContainer {
 
     private final VListHeaderContainer vHeader;
 
@@ -39,16 +38,22 @@ class HeaderList extends AbstractSlotContainer implements
 
     static List<VListHeaderDesc> getHList() {
         List<VListHeaderDesc> vList = new ArrayList<VListHeaderDesc>();
-        vList.add(new VListHeaderDesc("Number", ItemVData.fNUMB));
-        vList.add(new VListHeaderDesc("Date", ItemVData.fDATE));
-        vList.add(new VListHeaderDesc("Name", ItemVData.fNAME));
-        vList.add(new VListHeaderDesc("Root level", ItemVData.fLEVEL));
+        vList.add(new VListHeaderDesc("Id", ItemVData.fID, false, null, true,
+                null, null, null, null));
+        vList.add(new VListHeaderDesc("Number", ItemVData.fNUMB, false, null,
+                true, null, null, null, null));
+        vList.add(new VListHeaderDesc("Date", ItemVData.fDATE, false, null,
+                true, null, null, null, null));
+        vList.add(new VListHeaderDesc("Name", ItemVData.fNAME, false, null,
+                true, null, null, null, null));
+        vList.add(new VListHeaderDesc("Mark", ItemVData.fMARK, false, null,
+                true, null, null, null, null));
         return vList;
     }
 
     public HeaderList(IDataType dType) {
         this.dType = dType;
-        vHeader = new VListHeaderContainer(getHList(), "List of items",
+        vHeader = new VListHeaderContainer(getHList(), "List of edit items",
                 IConsts.defaultPage, null, null, "500px");
     }
 
