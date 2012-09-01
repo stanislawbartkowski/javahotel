@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.mygwt.client.impl.find;
+package com.mygwt.client.impl.edit;
 
 import java.util.ArrayList;
 import java.util.List;

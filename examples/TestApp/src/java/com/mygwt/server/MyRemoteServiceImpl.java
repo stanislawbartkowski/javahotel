@@ -17,6 +17,7 @@ import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +31,6 @@ import javax.persistence.Query;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.gwtmodel.table.DataTreeLevel;
-import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.common.dateutil.DateUtil;
@@ -40,8 +40,12 @@ import com.gwtmodel.util.FileUtil;
 import com.gwtmodel.util.SendMail;
 import com.mygwt.client.MyRemoteService;
 import com.mygwt.common.data.TOItemRecord;
+import com.mygwt.common.data.TOMarkRecord;
+import com.mygwt.common.data.ToEditRecord;
 import com.mygwt.server.jpa.EMF;
+import com.mygwt.server.jpa.EditRecord;
 import com.mygwt.server.jpa.ItemRecord;
+import com.mygwt.server.jpa.MarkRekord;
 
 @SuppressWarnings("serial")
 public class MyRemoteServiceImpl extends RemoteServiceServlet implements
@@ -189,6 +193,211 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
             em.close();
         }
 
+    }
+
+    /* (non-Javadoc)
+     * @see com.mygwt.client.MyRemoteService#getItemMarkList()
+     */
+    @Override
+    public List<TOMarkRecord> getItemMarkList() {
+        EntityManager em = null;
+        List<TOMarkRecord> tList = new ArrayList<TOMarkRecord>();
+        try {
+            em = EMF.get().createEntityManager();
+            Query query = em.createQuery("SELECT ir FROM MarkRekord ir");
+            List rList = query.getResultList();
+            if (rList.isEmpty()) {
+                rList = new ArrayList();
+                Date da = DateUtil.getToday();
+                EntityTransaction entr = em.getTransaction();
+                for (int i = 0; i < 5; i++) {
+                    MarkRekord re = new MarkRekord();
+                    re.setMarked(false);
+                    re.setEditMark(false);
+                    re.setiDate(da);
+                    re.setNumber(i);
+                    re.setiName("NAME-" + CUtil.NumbToS(i));
+                    rList.add(re);
+                    entr.begin();
+                    em.persist(re);
+                    entr.commit();
+                    da = DateUtil.NextDayD(da);
+                }
+            }
+            for (Object o : rList) {
+                MarkRekord r = (MarkRekord) o;
+                TOMarkRecord te = new TOMarkRecord();
+                te.setiDate(r.getiDate());
+                te.setiName(r.getiName());
+                te.setNumber(r.getNumber());
+                te.setMarked(r.isMarked());
+                te.setEditMark(r.isEditMark());
+                tList.add(te);
+            }
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return tList;
+    }
+
+    /* (non-Javadoc)
+     * @see com.mygwt.client.MyRemoteService#ItemMarkRecordOp(com.gwtmodel.table.common.PersistTypeEnum, com.mygwt.common.data.TOMarkRecord)
+     */
+    @Override
+    public void ItemMarkRecordOp(PersistTypeEnum op, TOMarkRecord re) {
+        EntityManager em = null;
+        try {
+            em = EMF.get().createEntityManager();
+            EntityTransaction entr = em.getTransaction();
+
+            Query q = em
+                    .createQuery("SELECT ir FROM MarkRekord ir WHERE ir.number = :iNumber");
+            q.setParameter("iNumber", re.getNumber());
+            Object result = null;
+            try {
+                result = q.getSingleResult();
+            } catch (NoResultException e) {
+                // nothing
+            }
+            entr.begin();
+
+            switch (op) {
+            case ADD:
+            case MODIF:
+                MarkRekord ire;
+                if (result == null) {
+                    ire = new MarkRekord();
+                    ire.setNumber(re.getNumber());
+                } else {
+                    ire = (MarkRekord) result;
+                }
+                ire.setiName(re.getiName());
+                ire.setiDate(re.getiDate());
+                ire.setMarked(re.isMarked());
+                ire.setEditMark(re.isMarked());
+                em.persist(ire);
+                break;
+            case REMOVE:
+                if (result != null) {
+                    em.remove(result);
+                }
+                break;
+            }
+            entr.commit();
+            em.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.close();
+        }
+
+    }
+
+    @Override
+    public List<ToEditRecord> getItemEditList() {
+        EntityManager em = null;
+        List<ToEditRecord> tList = new ArrayList<ToEditRecord>();
+        try {
+            em = EMF.get().createEntityManager();
+            Query query = em.createQuery("SELECT ir FROM EditRecord ir");
+            List rList = query.getResultList();
+            if (rList.isEmpty()) {
+                rList = new ArrayList();
+                Date da = DateUtil.getToday();
+                EntityTransaction entr = em.getTransaction();
+                for (int i = 0; i < 5; i++) {
+                    EditRecord re = new EditRecord();
+                    re.setMark(false);
+                    re.setDate(da);
+                    re.setName("NAME " + i);
+                    re.setRecId(i);
+                    re.setNumber(new BigDecimal(i));
+                    rList.add(re);
+                    entr.begin();
+                    em.persist(re);
+                    entr.commit();
+                    da = DateUtil.NextDayD(da);
+                }
+            }
+            for (Object o : rList) {
+                EditRecord r = (EditRecord) o;
+                ToEditRecord te = new ToEditRecord();
+                te.setDate(r.getDate());
+                te.setName(r.getName());
+                te.setMark(r.isMark());
+                te.setNumber(r.getNumber());
+                te.setRecId(r.getRecId());
+                tList.add(te);
+            }
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+        return tList;
+    }
+
+    private void toER(EditRecord ire, ToEditRecord re) {
+        ire.setDate(re.getDate());
+        ire.setMark(re.isMark());
+        ire.setName(re.getName());
+        ire.setNumber(re.getNumber());
+    }
+
+    @Override
+    public void ItemEditRecordOp(PersistTypeEnum op, ToEditRecord re) {
+        EntityManager em = null;
+        try {
+            em = EMF.get().createEntityManager();
+            EntityTransaction entr = em.getTransaction();
+
+            Query q = em
+                    .createQuery("SELECT ir FROM EditRecord ir WHERE ir.recId = :iNumber");
+            q.setParameter("iNumber", re.getRecId());
+            Object result = null;
+            try {
+                result = q.getSingleResult();
+            } catch (NoResultException e) {
+                // nothing
+            }
+            entr.begin();
+
+            switch (op) {
+            case ADD:
+            case MODIF:
+                EditRecord ire;
+                if (result == null) {
+                    ire = new EditRecord();
+                    ire.setRecId(re.getRecId());
+                } else {
+                    ire = (EditRecord) result;
+                }
+                toER(ire, re);
+                em.persist(ire);
+                break;
+            case REMOVE:
+                if (result != null) {
+                    em.remove(result);
+                }
+                break;
+            }
+            entr.commit();
+            em.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.close();
+        }
+
+    }
+
+    @Override
+    public void saveEditItemList(List<ToEditRecord> rList) {
+        for (ToEditRecord re : rList) {
+            ItemEditRecordOp(PersistTypeEnum.ADD, re);
+        }
     }
 
 }

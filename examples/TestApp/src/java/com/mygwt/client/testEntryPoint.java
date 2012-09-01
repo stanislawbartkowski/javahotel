@@ -41,9 +41,11 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.WebPanelHolder;
 import com.mygwt.client.impl.dayscroll.SeasonScrollTest;
+import com.mygwt.client.impl.edit.EditTest;
 import com.mygwt.client.impl.find.FindFilterTest;
 import com.mygwt.client.impl.mail.MailOp;
 import com.mygwt.client.impl.mail.MailTest;
+import com.mygwt.client.impl.mark.MarkTest;
 import com.mygwt.client.impl.tiptest.TooltipTest;
 
 /**
@@ -170,6 +172,10 @@ public class testEntryPoint implements EntryPoint {
         g = new FindFilterTest(true);
 //        g = new TreeSample1();
         bList.add(new ButtonTest("Tree test", g));
+        g = new MarkTest();        
+        bList.add(new ButtonTest("Mark row test", g));
+        g = new EditTest();        
+        bList.add(new ButtonTest("Edit rows test", g));
 
         VerticalPanel vB = new VerticalPanel();
 
