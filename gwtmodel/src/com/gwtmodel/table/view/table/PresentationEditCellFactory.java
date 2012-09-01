@@ -76,6 +76,21 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     private final ILostFocusEdit lostFocus;
     private final CellTable<MutableInteger> table;
     private final ErrorLineInfo errorInfo = new ErrorLineInfo();
+    private final IStartEditRow iStartEdit;
+
+    interface IStartEditRow {
+
+        void setEditRow(MutableInteger row);
+
+    }
+
+    private void setEditLine(Context context) {
+        Object key = context.getKey();
+        MutableInteger i = (MutableInteger) key;
+        if (iStartEdit != null) {
+            iStartEdit.setEditRow(i);
+        }
+    }
 
     /**
      * @return the errorInfo
@@ -157,7 +172,9 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         if (errorInfo.active) {
             errorInfo.active = false;
             int rowno = errorInfo.i.row(errorInfo.key);
-            if (rowno == -1) { return; }
+            if (rowno == -1) {
+                return;
+            }
             NodeList<TableCellElement> cList = table.getRowElement(rowno)
                     .getCells();
             for (int i = 0; i < cList.getLength(); i++) {
@@ -179,9 +196,10 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     }
 
     PresentationEditCellFactory(ILostFocusEdit lostFocus,
-            CellTable<MutableInteger> table) {
+            CellTable<MutableInteger> table, IStartEditRow iStartEdit) {
         this.lostFocus = lostFocus;
         this.table = table;
+        this.iStartEdit = iStartEdit;
     }
 
     // Decorator patter implemented to add "blur" event to the constructor
@@ -576,6 +594,9 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         public void onBrowserEvent(Context context, Element parent,
                 String value, NativeEvent event,
                 ValueUpdater<String> valueUpdater) {
+            if (isEditing(context, parent, value)) {
+                setEditLine(context);
+            }
             super.onBrowserEvent(context, parent, value, event, valueUpdater);
             String eventType = event.getType();
             afterChange(eventType, context, v);
@@ -732,6 +753,9 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         public void onBrowserEvent(Context context, Element parent,
                 Number value, NativeEvent event,
                 ValueUpdater<Number> valueUpdater) {
+            if (isEditing(context, parent, value)) {
+                setEditLine(context);
+            }
             super.onBrowserEvent(context, parent, value, event, valueUpdater);
             String eventType = event.getType();
             if (eventType.equals(BrowserEvents.CHANGE)) {
@@ -932,16 +956,16 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         // return new ImageColumn();
 
         List<HasCell> ce = new ArrayList<HasCell>();
-        ce.add(new HasCellImage(ImageNameFactory
-                .getImageName(ImageNameFactory.ImageType.ADDROW),
-                PersistTypeEnum.ADD));
-        // TODO: blocked now rethink usage
+        // TODO: blocked now, re-think the usage
         // ce.add(new
         // HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.CHANGEROW),
         // PersistTypeEnum.MODIF));
         ce.add(new HasCellImage(ImageNameFactory
                 .getImageName(ImageNameFactory.ImageType.DELETEROW),
                 PersistTypeEnum.REMOVE));
+        ce.add(new HasCellImage(ImageNameFactory
+                .getImageName(ImageNameFactory.ImageType.ADDROW),
+                PersistTypeEnum.ADD));
         CompositeCell<MutableInteger> cCell = new CompositeCell(ce);
         Column<MutableInteger, MutableInteger> imageColumn = new Column<MutableInteger, MutableInteger>(
                 cCell) {
