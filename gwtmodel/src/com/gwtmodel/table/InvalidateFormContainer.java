@@ -12,9 +12,8 @@
  */
 package com.gwtmodel.table;
 
-import java.util.List;
-
 import com.gwtmodel.table.slotmodel.IValidateError;
+import java.util.List;
 
 public class InvalidateFormContainer implements IValidateError {
 
