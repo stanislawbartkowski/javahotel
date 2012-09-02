@@ -13,7 +13,7 @@
 package com.gwtmodel.table.factories.mailtest;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.injector.MM;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *
  * @author perseus
  */
 public class MailTestFactory {
@@ -39,7 +39,7 @@ public class MailTestFactory {
     }
 
     public IMailTest construct(IDataType dt, MailToSend mSend,
-            ListOfControlDesc ldesc, boolean showPost, IGWidget wi) {
+            ListOfControlDesc ldesc, boolean showPost, WSize wi) {
         return new MailTest(dt, mSend, ldesc, showPost, wi);
     }
 }

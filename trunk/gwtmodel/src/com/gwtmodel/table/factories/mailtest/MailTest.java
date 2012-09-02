@@ -67,7 +67,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
     private final MailToSend startM;
     private final boolean text;
     private final boolean showPost;
-    private final IGWidget wi;
+    private final WSize wi;
 
     private class Wait extends ModalDialog {
 
@@ -270,7 +270,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         w.setL(startM.getBoxName(), startM.getTo(), startM.getHeader());
         Map<String, String> ma = maPr.getM(startM.getBoxName());
         startM.setBox(ma);
-        w.show(wi.getGWidget());
+        w.show(wi);
         slMediator.getSlContainer().publish(IJavaMailAction.SEND_MAIL, startM);
     }
 
@@ -289,7 +289,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
     }
 
     MailTest(IDataType dt, MailToSend startM, ListOfControlDesc ldesc,
-            boolean showPost, IGWidget wi) {
+            boolean showPost, WSize wi) {
         this.dType = dt;
         this.startM = startM;
         this.showPost = showPost;
