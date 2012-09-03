@@ -13,7 +13,7 @@
 package com.gwtmodel.table;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class ImageNameFactory {
@@ -23,19 +23,21 @@ public class ImageNameFactory {
 
     public enum ImageType {
 
-        CALENDAR, ADDROW, CHANGEROW, DELETEROW
+        CALENDAR, ADDROW, CHANGEROW, DELETEROW, ADDBEFOREROW
     }
 
     public static String getImageName(ImageType iType) {
         switch (iType) {
-            case CALENDAR:
-                return "Calendar.gif";
-            case ADDROW:
-                return "RowAddImage.gif";
-            case CHANGEROW:
-                return "RowChangeImage.gif";
-            case DELETEROW:
-                return "RowRemoveImage.gif";
+        case CALENDAR:
+            return "Calendar.gif";
+        case ADDROW:
+            return "RowAddImage.gif";
+        case ADDBEFOREROW:
+            return "RowBeforeAddImage.gif";
+        case CHANGEROW:
+            return "RowChangeImage.gif";
+        case DELETEROW:
+            return "RowRemoveImage.gif";
         }
         return null;
     }
