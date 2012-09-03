@@ -897,16 +897,21 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     private class ButtonImageCell extends ActionCell<MutableInteger> {
 
         private final String imageName;
+        private final boolean forFirstOnly;
 
-        ButtonImageCell(String imageName,
+        ButtonImageCell(String imageName, boolean forFirstOnly,
                 ActionCell.Delegate<MutableInteger> delegate) {
             super("", delegate);
+            this.forFirstOnly = forFirstOnly;
             this.imageName = imageName;
         }
 
         @Override
         public void render(Context context, MutableInteger value,
                 SafeHtmlBuilder sb) {
+            if (forFirstOnly && value.intValue() != 0) {
+                return;
+            }
             String s = Utils.getImageHTML(imageName, 12, 12);
             // add div to have them vertically
             SafeHtml html = SafeHtmlUtils.fromTrustedString("<div>" + s
@@ -937,7 +942,8 @@ class PresentationEditCellFactory extends PresentationCellHelper {
 
         @Override
         public Cell getCell() {
-            return new ButtonImageCell(imageName, new Delegate());
+            return new ButtonImageCell(imageName,
+                    persist == PersistTypeEnum.ADDBEFORE, new Delegate());
         }
 
         @Override
@@ -960,6 +966,9 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         // ce.add(new
         // HasCellImage(ImageNameFactory.getImageName(ImageNameFactory.ImageType.CHANGEROW),
         // PersistTypeEnum.MODIF));
+        ce.add(new HasCellImage(ImageNameFactory
+                .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW),
+                PersistTypeEnum.ADDBEFORE));
         ce.add(new HasCellImage(ImageNameFactory
                 .getImageName(ImageNameFactory.ImageType.DELETEROW),
                 PersistTypeEnum.REMOVE));
