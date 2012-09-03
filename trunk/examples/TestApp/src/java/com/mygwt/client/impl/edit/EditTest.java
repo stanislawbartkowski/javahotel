@@ -181,7 +181,7 @@ public class EditTest implements testEntryPoint.IGetWidget {
                     if (!yes) {
                         return;
                     }
-                    if (si.getE() != PersistTypeEnum.ADD) {
+                    if (si.getE() == PersistTypeEnum.REMOVE) {
                         CustomStringSlot sl = DataIntegerSignal
                                 .constructSlotGetVSignal(dType);
                         i.getSlContainer().publish(sl,
@@ -189,23 +189,14 @@ public class EditTest implements testEntryPoint.IGetWidget {
                         return;
 
                     }
-                    IClickYesNo nyes = new IClickYesNo() {
-
-                        @Override
-                        public void click(boolean yes) {
-                            CustomStringSlot sl = DataIntegerVDataSignal
-                                    .constructSlotAddRowSignal(dType);
-                            ItemVData v = new ItemVData();
-                            DataIntegerVDataSignal sig = new DataIntegerVDataSignal(
-                                    si.getRownum(), v, !yes);
-                            i.getSlContainer().publish(sl, sig);
-                        }
-                    };
-                    YesNoDialog askafter = new YesNoDialog(
-                            "Add new row before (yes) or after (no) the selected row ?",
-                            nyes);
-                    askafter.show(si.getW());
+                    CustomStringSlot sl = DataIntegerVDataSignal
+                            .constructSlotAddRowSignal(dType);
+                    ItemVData v = new ItemVData();
+                    DataIntegerVDataSignal sig = new DataIntegerVDataSignal(
+                            si.getRownum(), v, si.getE() == PersistTypeEnum.ADD);
+                    i.getSlContainer().publish(sl, sig);
                 }
+
             };
             YesNoDialog yesD = new YesNoDialog(s, yes);
             yesD.show(si.getW());

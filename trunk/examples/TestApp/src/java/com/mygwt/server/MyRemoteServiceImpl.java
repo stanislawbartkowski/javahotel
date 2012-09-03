@@ -393,8 +393,22 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
 
     }
 
+    private void removeAll() {
+        EntityManager  em = EMF.get().createEntityManager();
+        Query query = em.createQuery("SELECT ir FROM EditRecord ir");
+        List rList = query.getResultList();
+        EntityTransaction entr = em.getTransaction();
+        for (Object o : rList) {
+            entr.begin();
+            em.remove(o);
+            entr.commit();
+        }
+        em.close();
+    }
+
     @Override
     public void saveEditItemList(List<ToEditRecord> rList) {
+        removeAll();
         for (ToEditRecord re : rList) {
             ItemEditRecordOp(PersistTypeEnum.ADD, re);
         }
