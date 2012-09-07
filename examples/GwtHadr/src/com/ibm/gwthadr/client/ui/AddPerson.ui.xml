@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:style>
+		.panel {
+			background-color: ivory;
+		}
+	</ui:style>
+
+	<g:FlowPanel styleName="{style.panel}">
+		<g:Grid>
+			<g:row>
+				<g:customCell>
+					<g:Label text="First name"/>
+				</g:customCell>
+				<g:customCell>
+					<g:TextBox ui:field="firstName"/>
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell>
+					<g:Label text="Family name"/>
+				</g:customCell>
+				<g:customCell>
+					<g:TextBox ui:field="familyName"/>
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+		<g:Button text="Submit" ui:field="button"/>
+		<g:Label ui:field="errorLabel"/>
+	</g:FlowPanel>
+</ui:UiBinder>
