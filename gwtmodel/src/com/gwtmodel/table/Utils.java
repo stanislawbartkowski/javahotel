@@ -39,7 +39,7 @@ import com.gwtmodel.table.injector.WebPanelHolder;
 
 public class Utils {
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static <T> boolean eqI(IEquatable e1, IEquatable e2) {
 
         if (e1 == null && e2 == null) {
@@ -107,18 +107,6 @@ public class Utils {
         return ".";
     }
 
-    public static String oldgetImageHTML(final String imageUrl, int w, int h) {
-        String s = "<td><img src='" + getImageAdr(imageUrl) + "'";
-        if (w != 0) {
-            s += " width='" + w + "px'";
-        }
-        if (h != 0) {
-            s += " height='" + w + "px'";
-        }
-        s += "></td>";
-        return s;
-    }
-
     public static String getImageHTML(final String imageUrl, int w, int h) {
         String s = "<img src='" + getImageAdr(imageUrl) + "'";
         if (w != 0) {
@@ -134,7 +122,6 @@ public class Utils {
     public static String getImageHTML(final String imageUrl) {
         return getImageHTML(imageUrl, 0, 0);
     }
-
     // int/long utilities
     public static final int BADNUMBER = -1;
 
@@ -220,11 +207,19 @@ public class Utils {
 
     // BigDecimal
     public static BigDecimal toBig(final String s) {
+        return toBig(s, -1);
+    }
+
+    public static BigDecimal toBig(final String s, int afterdot) {
         if (CUtil.EmptyS(s)) {
             return null;
         }
         try {
-            return new BigDecimal(s);
+            BigDecimal c = new BigDecimal(s);
+            if (afterdot != -1) {
+                c = c.setScale(afterdot, BigDecimal.ROUND_HALF_UP);
+            }
+            return c;
         } catch (NumberFormatException e) {
             return null;
         }
@@ -265,18 +260,6 @@ public class Utils {
             aDot += "0";
         }
         return ss + "." + aDot;
-    }
-
-    // TODO : remove candidate
-    private static String archDecimalToS(final BigDecimal c, int afterdot) {
-        String ss = c.toPlainString();
-        int l = c.intValue();
-        String sl = Integer.toString(l);
-        BigDecimal re = new BigDecimal(sl);
-        int rest = c.subtract(re).unscaledValue().intValue();
-        String sr = CUtil.toNS(rest, afterdot);
-        String st = sl + "." + sr;
-        return st;
     }
 
     public static String DecimalToS(final BigDecimal c) {
@@ -352,8 +335,8 @@ public class Utils {
     }
 
     public static native void callJs(String js) /*-{
-		$wnd.eval(js);
-    }-*/;
+     $wnd.eval(js);
+     }-*/;
 
     public static List<IVField> toList(IVField[] a) {
         // return Arrays.asList(a);
@@ -400,12 +383,12 @@ public class Utils {
     }
 
     public static native void addScript(String s) /*-{
-		$wnd.addScript(s);
-    }-*/;
+     $wnd.addScript(s);
+     }-*/;
 
     public static native void addStyle(String s) /*-{
-		$wnd.addStyle(s);
-    }-*/;
+     $wnd.addStyle(s);
+     }-*/;
 
     /*
      * Takes in a trusted JSON String and evals it.
@@ -415,14 +398,14 @@ public class Utils {
      * @return JavaScriptObject that you can cast to an Overlay Type
      */
     public static native JavaScriptObject evalJson(String jsonStr) /*-{
-		return eval(jsonStr);
-    }-*/;
+     return eval(jsonStr);
+     }-*/;
 
     public static JavaScriptObject parseJson(String jsonStr) {
         return evalJson("(" + jsonStr + ")");
     }
 
     public static native String callJsStringFun(String jsonFun, String paramS) /*-{
-		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
-    }-*/;
+     return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
+     }-*/;
 }

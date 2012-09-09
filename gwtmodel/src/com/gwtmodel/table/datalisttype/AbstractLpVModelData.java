@@ -16,12 +16,11 @@
  */
 package com.gwtmodel.table.datalisttype;
 
-import java.util.List;
-
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.memorypersist.IVModelDataEquable;
+import java.util.List;
 
 /**
  *

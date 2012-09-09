@@ -41,9 +41,9 @@ class ControlButtonView extends AbstractSlotContainer implements
         IControlButtonView, IStackPanelController {
 
     private final IContrButtonView vButton;
-    private Map<ClickButtonType, ClickButtonType> redirMap = new HashMap<ClickButtonType, ClickButtonType>();
+    private final Map<ClickButtonType, ClickButtonType> redirMap = new HashMap<ClickButtonType, ClickButtonType>();
 
-    private Map<ClickButtonType, ButtonRedirectSignal> redirRMap = new HashMap<ClickButtonType, ButtonRedirectSignal>();
+    private final Map<ClickButtonType, ButtonRedirectSignal> redirRMap = new HashMap<ClickButtonType, ButtonRedirectSignal>();
     private boolean redirActivated = false;
 
     private class Click implements IControlClick {
@@ -54,7 +54,7 @@ class ControlButtonView extends AbstractSlotContainer implements
                 ButtonRedirectSignal bRedir = redirRMap.get(co.getActionId());
                 if (bRedir != null) {
                     // TODO: not nice, fixing reference kept locally
-                    // better to make a close and set attribute in the clone
+                    // better to make a clone and set attribute in the clone
                     bRedir.setW(new GWidget(w));
                     publish(bRedir.getSl(), bRedir);
                     return;

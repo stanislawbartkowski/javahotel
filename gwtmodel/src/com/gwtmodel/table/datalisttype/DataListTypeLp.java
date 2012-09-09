@@ -16,12 +16,11 @@
  */
 package com.gwtmodel.table.datalisttype;
 
-import java.util.List;
-
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.GetMaxUtil;
 import com.gwtmodel.table.common.GetMaxUtil.IGetLp;
+import java.util.List;
 
 /**
  * 

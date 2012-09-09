@@ -23,20 +23,26 @@ import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
 /**
  * @author hotel
- * 
+ *
  */
-public class ButtonCheckLostFocusSignal extends
-        CustomObjectValue<ClickButtonType> {
+public class ButtonCheckLostFocusSignal extends CustomObjectValue<ClickButtonType> {
+
+    private final IDataType buttondType;
 
     /**
      * @param value
      */
     public ButtonCheckLostFocusSignal(ClickButtonType value) {
         super(value);
+        this.buttondType = null;
     }
 
-    private static final String SIGNAL_ID = "TABLE_PUBLIC_BUTTON_CHECK_FOCUS_SIGNAL";
-    private static final String SIGNAL_ID_BACK = "TABLE_PUBLIC_BUTTON_CHECK_FOCUS_BACK_SIGNAL";
+    public ButtonCheckLostFocusSignal(ClickButtonType value, IDataType buttondType) {
+        super(value);
+        this.buttondType = buttondType;
+    }
+    private static final String SIGNAL_ID = ButtonCheckLostFocusSignal.class.getName() + "_TABLE_PUBLIC_BUTTON_CHECK_FOCUS_SIGNAL";
+    private static final String SIGNAL_ID_BACK = ButtonCheckLostFocusSignal.class.getName() + "TABLE_PUBLIC_BUTTON_CHECK_FOCUS_BACK_SIGNAL";
 
     public static CustomStringSlot constructSlotButtonCheckFocusSignal(
             IDataType dType) {
@@ -51,4 +57,10 @@ public class ButtonCheckLostFocusSignal extends
         return tFactory.construct(dType, slo);
     }
 
+    /**
+     * @return the buttondType
+     */
+    IDataType getButtondType() {
+        return buttondType;
+    }
 }
