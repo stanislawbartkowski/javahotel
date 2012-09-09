@@ -23,17 +23,19 @@ import com.gwtmodel.table.slotmodel.SlotType;
 
 /**
  * @author hotel
- * 
+ *
  */
 public class ButtonRedirectSignal implements ICustomObject {
 
     private final SlotType sl;
+    private final IDataType buttType;
     private final ClickButtonType bType;
     private GWidget w;
 
-    public ButtonRedirectSignal(SlotType sl, ClickButtonType bType) {
+    public ButtonRedirectSignal(SlotType sl, IDataType buttType, ClickButtonType bType) {
         this.sl = sl;
         this.bType = bType;
+        this.buttType = buttType;
     }
 
     /**
@@ -51,22 +53,19 @@ public class ButtonRedirectSignal implements ICustomObject {
     }
 
     /**
-     * @param w
-     *            the w to set
+     * @param w the w to set
      */
     void setW(GWidget w) {
         this.w = w;
     }
 
     public void sendButtonSignal(ISlotable i) {
-        i.getSlContainer().publish(sl.getdType(), bType, w);
+        i.getSlContainer().publish(buttType, bType, w);
     }
-
     private static final String SIGNAL_ID = "BUTTON_PUBLIC_REDIRECT_SIGNAL";
 
     public static CustomStringSlot constructSlotButtonRedirectSignal(
             IDataType dType) {
         return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
     }
-
 }

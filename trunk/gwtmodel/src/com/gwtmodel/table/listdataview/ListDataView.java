@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.gwtmodel.table.CreateJson;
 import com.gwtmodel.table.FUtils;
@@ -56,6 +53,8 @@ import com.gwtmodel.table.view.table.IModifyRowStyle;
 import com.gwtmodel.table.view.table.INewEditLineFocus;
 import com.gwtmodel.table.view.table.IRowClick;
 import com.gwtmodel.table.view.table.IRowEditAction;
+import java.util.ArrayList;
+import java.util.List;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
@@ -70,6 +69,16 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private final IGetCellValue gValue;
     private final boolean selectedRow;
     private final HandleBeginEndLineEditing handleChange = new HandleBeginEndLineEditing();
+    private final List<IDataType> activateRedirect = new ArrayList<IDataType>();
+
+    private void addActivateRedirect(IDataType rType) {
+        for (IDataType d : activateRedirect) {
+            if (d.eq(rType)) {
+                return;
+            }
+        }
+        activateRedirect.add(rType);
+    }
 
     private class GetHeader implements ISlotCallerListener {
 
@@ -107,13 +116,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             for (IVField f : line.getF()) {
                 boolean number = false;
                 switch (f.getType().getType()) {
-                case BIGDECIMAL:
-                case LONG:
-                case INT:
-                    number = true;
-                    break;
-                default:
-                    break;
+                    case BIGDECIMAL:
+                    case LONG:
+                    case INT:
+                        number = true;
+                        break;
+                    default:
+                        break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -259,11 +268,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             EditRowsSignal e = (EditRowsSignal) o;
             tableView.setEditable(e);
             handleChange.fullChange = e.fullEdit();
-            CustomStringSlot sl = ButtonRedirectActivateSignal
-                    .constructSlotButtonRedirectActivateSignal(dType);
-            ButtonRedirectActivateSignal si = new ButtonRedirectActivateSignal(
-                    handleChange.fullChange);
-            publish(sl, si);
+            for (IDataType d : activateRedirect) {
+                CustomStringSlot sl = ButtonRedirectActivateSignal
+                        .constructSlotButtonRedirectActivateSignal(d);
+                ButtonRedirectActivateSignal si = new ButtonRedirectActivateSignal(
+                        handleChange.fullChange);
+                publish(sl, si);
+            }
         }
     }
 
@@ -286,7 +297,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             }
             tableView.setClicked(rowno, false);
         }
-
     }
 
     private class SetErrorLine implements ISlotListener {
@@ -297,7 +307,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             EditRowErrorSignal si = (EditRowErrorSignal) o;
             tableView.showInvalidate(si.getValue(), si.getErrLine());
         }
-
     }
 
     private class AddRow implements ISlotListener {
@@ -324,12 +333,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             ICustomObject o = slContext.getCustom();
             ButtonCheckLostFocusSignal b = (ButtonCheckLostFocusSignal) o;
             ClickButtonType bType = b.getValue();
+            IDataType buType = b.getButtondType();
+            if (buType == null) {
+                buType = dType;
+            }
+            addActivateRedirect(buType);
             SlotType slRet = ButtonCheckLostFocusSignal
                     .constructSlotButtonCheckBackFocusSignal(dType);
-            ButtonRedirectSignal reSignal = new ButtonRedirectSignal(slRet,
+            ButtonRedirectSignal reSignal = new ButtonRedirectSignal(slRet, buType,
                     bType);
             CustomStringSlot bSlot = ButtonRedirectSignal
-                    .constructSlotButtonRedirectSignal(dType);
+                    .constructSlotButtonRedirectSignal(buType);
             publish(bSlot, reSignal);
         }
     }
@@ -350,7 +364,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                     handleChange.prevW, bRedir);
             publish(sl, si);
         }
-
     }
 
     private abstract class ModifListener implements ISlotListener {
@@ -365,7 +378,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 tableView.setClicked(w.getChoosedLine(), true);
             }
         }
-
     }
 
     private class ToTableTree extends ModifListener {
@@ -385,7 +397,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             tableView.refresh();
             isTreeNow = totree;
         }
-
     }
 
     private class ChangeTableSize extends ModifListener {
@@ -396,7 +407,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             DataIntegerSignal si = (DataIntegerSignal) o;
             tableView.setPageSize(si.getValue());
         }
-
     }
 
     private class RemoveSort extends ModifListener {
@@ -406,14 +416,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             tableView.removeSort();
             tableView.refresh();
         }
-
     }
 
     /**
      * Delivers IVModelData identified by position in list
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -429,9 +438,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -452,7 +461,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             IsBooleanSignalNow si = new IsBooleanSignalNow(isTreeNow);
             return coFactory.construct(slContext.getSlType(), si);
         }
-
     }
 
     private class GetTableTreeEnabled implements ISlotCallerListener {
@@ -553,7 +561,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 }
             }
         }
-
     }
 
     private class HandleBeginEndLineEditing {
@@ -603,7 +610,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 publishStartNext();
             }
         }
-
     }
 
     private class NewEditLineFocus implements INewEditLineFocus {
@@ -614,7 +620,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 handleChange.nextClicked(newRow);
             }
         }
-
     }
 
     private class ClickList implements IRowClick {
@@ -647,7 +652,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             handleChange.eRow = new EditRowActionSignal(rownum, e, w);
             handleChange.publishRowAction();
         }
-
     }
 
     private void constructView(boolean treeView) {
@@ -702,15 +706,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ChangeTableSize());
         registerSubscriber(
                 FinishEditRowSignal
-                        .constructSlotFinishEditRowReturnSignal(dType),
+                .constructSlotFinishEditRowReturnSignal(dType),
                 new ReceiveReturnSignalFromFinish());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                        .constructSlotButtonCheckFocusSignal(dType),
+                .constructSlotButtonCheckFocusSignal(dType),
                 new ButtonCheckFocusRedirect());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                        .constructSlotButtonCheckBackFocusSignal(dType),
+                .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
         registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new RemoveRow());
