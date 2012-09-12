@@ -158,5 +158,11 @@ public interface TLabels extends Constants {
     String ChangeNumberOfRows();
     
     String IngnoreDuringSearch();
+    
+    String WrapLines();
+    
+    String EndButton();
+    
+    String RestoreInitialValue();
 
 }

@@ -31,10 +31,12 @@ import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.CellTableBuilder;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.ColumnSortList.ColumnSortInfo;
+import com.google.gwt.user.cellview.client.DefaultCellTableBuilder;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.RowHoverEvent;
 import com.google.gwt.user.cellview.client.RowStyles;
@@ -74,6 +76,8 @@ import com.gwtmodel.table.view.util.PopUpHint;
  */
 class PresentationTable implements IGwtTableView {
 
+    private DefaultCellTableBuilder d;
+
     private final INewEditLineFocus iEditFocus;
     /**
      * Call back when line is clicked.
@@ -108,6 +112,7 @@ class PresentationTable implements IGwtTableView {
     private IModifyRowStyle iModRow = null;
     private final PresentationCellFactory fa;
     private final PresentationEditCellFactory faEdit;
+    private final MyCellTableBuilder<MutableInteger> sBuilder;
 
     private class CurrentHoverTip {
 
@@ -305,6 +310,9 @@ class PresentationTable implements IGwtTableView {
         fa = new PresentationCellFactory(gValue);
         faEdit = new PresentationEditCellFactory(e, table, new StartEditLine());
         table.addRowHoverHandler(new RowHover());
+        sBuilder = new MyCellTableBuilder(table);
+        table.setTableBuilder(sBuilder);
+
     }
 
     private class TColumnString extends TextColumn<Integer> {
@@ -434,6 +442,7 @@ class PresentationTable implements IGwtTableView {
         List<VListHeaderDesc> li = vo.getVisHeList();
         @SuppressWarnings("rawtypes")
         Column co;
+        // int colNo = 0;
         for (VListHeaderDesc he : li) {
             boolean editable = he.isEditable();
             VListHeaderDesc.ColAlign align = he.getAlign();
@@ -545,6 +554,8 @@ class PresentationTable implements IGwtTableView {
                     .cannotBeNull();
 
             table.addColumn(co, he.getHeaderString());
+            // table.addColumnStyleName(colNo,"myStyle");
+            // colNo ++;
 
             ListHandler<MutableInteger> columnSortHandler = new ListHandler<MutableInteger>(
                     dList);
@@ -911,5 +922,19 @@ class PresentationTable implements IGwtTableView {
     public void showInvalidate(int rowno, InvalidateFormContainer errContainer) {
         faEdit.setErrorLineInfo(new MutableInteger(rowno), errContainer,
                 new GetRowNo());
+    }
+
+    @Override
+    public void setNoWrap(boolean noWrap) {
+        sBuilder.setAddNoWrap(noWrap);
+        table.redraw();
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#isNoWrap()
+     */
+    @Override
+    public boolean isNoWrap() {
+        return sBuilder.isAddNoWrap();
     }
 }

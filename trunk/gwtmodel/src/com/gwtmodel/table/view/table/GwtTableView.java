@@ -359,4 +359,22 @@ class GwtTableView implements IGwtTableView {
         
     }
 
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#setNoWrap(boolean)
+     */
+    @Override
+    public void setNoWrap(boolean noWrap) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#isNoWrap()
+     */
+    @Override
+    public boolean isNoWrap() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

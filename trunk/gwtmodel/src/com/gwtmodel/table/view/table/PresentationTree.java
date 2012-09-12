@@ -12,6 +12,10 @@
  */
 package com.gwtmodel.table.view.table;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CompositeCell;
@@ -31,7 +35,6 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
 import com.gwtmodel.table.DataTreeLevel;
 import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
@@ -41,9 +44,6 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
 
 /**
  * @author hotel
@@ -393,5 +393,23 @@ class PresentationTree implements IGwtTableView {
     public void showInvalidate(int rowno, InvalidateFormContainer errContainer) {
         // TODO Auto-generated method stub
         
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#setNoWrap(boolean)
+     */
+    @Override
+    public void setNoWrap(boolean noWrap) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#isNoWrap()
+     */
+    @Override
+    public boolean isNoWrap() {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

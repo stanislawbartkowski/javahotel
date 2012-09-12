@@ -12,7 +12,10 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
 /**
  * @author hotel
@@ -20,13 +23,26 @@ import com.gwtmodel.table.slotmodel.CustomObjectValue;
  */
 public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
 
-    IsBooleanSignalNow(boolean value) {
+    private static final String GETLINEWRAP = IsBooleanSignalNow.class
+            .getName() + "TABLE_PUBLIC_GETLINEWRAP";
+    private static final String SETLINEWRAP = IsBooleanSignalNow.class
+            .getName() + "TABLE_PUBLIC_SETLINEWRAP";
+
+    public IsBooleanSignalNow(boolean value) {
         super(value);
     }
 
     public boolean isBoolInfo() {
         Boolean b = this.getValue();
         return b.booleanValue();
+    }
+
+    public static CustomStringSlot constructSlotSetLineWrap(IDataType dType) {
+        return new CustomStringDataTypeSlot(SETLINEWRAP, dType);
+    }
+
+    public static CustomStringSlot constructSlotGetLineWrap(IDataType dType) {
+        return new CustomStringDataTypeSlot(GETLINEWRAP, dType);
     }
 
 }

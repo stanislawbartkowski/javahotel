@@ -54,4 +54,8 @@ public interface IGwtTableView extends IGWidget {
 
     void showInvalidate(int rowno, InvalidateFormContainer errContainer);
 
+    void setNoWrap(boolean noWrap);
+    
+    boolean isNoWrap();
+
 }
