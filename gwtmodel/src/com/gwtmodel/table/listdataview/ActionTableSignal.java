@@ -74,7 +74,6 @@ public class ActionTableSignal {
         return tFactory.construct(slo);
     }
 
-
     public static CustomStringSlot constructSlotGetTreeView(IDataType dType) {
         return new CustomStringDataTypeSlot(GETISTREEVIEWNOW, dType);
     }

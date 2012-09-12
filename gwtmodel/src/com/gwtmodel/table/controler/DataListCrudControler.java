@@ -55,9 +55,9 @@ class DataListCrudControler extends AbstractSlotContainer {
                         ClickButtonType.StandClickEnum.FIND, this, dType));
         registerSubscriber(dType, DataActionEnum.ChangeViewFormModeAction,
                 aFactory.constructChangeMode());
+        PropertyListenerDialog pDialog = new PropertyListenerDialog(dType);
         registerSubscriber(dType,
                 ClickButtonType.StandClickEnum.TABLEDEFAULTMENU,
-                fFactory.constructPropertiesListener(this, dType));
-
+                pDialog.constructPropertyListener(this, dType));
     }
 }

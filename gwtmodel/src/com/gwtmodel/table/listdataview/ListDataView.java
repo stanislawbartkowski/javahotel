@@ -116,13 +116,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             for (IVField f : line.getF()) {
                 boolean number = false;
                 switch (f.getType().getType()) {
-                    case BIGDECIMAL:
-                    case LONG:
-                    case INT:
-                        number = true;
-                        break;
-                    default:
-                        break;
+                case BIGDECIMAL:
+                case LONG:
+                case INT:
+                    number = true;
+                    break;
+                default:
+                    break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -340,8 +340,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             addActivateRedirect(buType);
             SlotType slRet = ButtonCheckLostFocusSignal
                     .constructSlotButtonCheckBackFocusSignal(dType);
-            ButtonRedirectSignal reSignal = new ButtonRedirectSignal(slRet, buType,
-                    bType);
+            ButtonRedirectSignal reSignal = new ButtonRedirectSignal(slRet,
+                    buType, bType);
             CustomStringSlot bSlot = ButtonRedirectSignal
                     .constructSlotButtonRedirectSignal(buType);
             publish(bSlot, reSignal);
@@ -399,6 +399,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private class SetLineWrap extends ModifListener {
+
+        @Override
+        void modif(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            IsBooleanSignalNow sig = (IsBooleanSignalNow) o;
+            boolean wrap = sig.isBoolInfo();
+            tableView.setNoWrap(!wrap);
+        }
+    }
+
     private class ChangeTableSize extends ModifListener {
 
         @Override
@@ -420,9 +431,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers IVModelData identified by position in list
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -438,9 +449,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -541,6 +552,17 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             return coFactory.construct(slContext.getSlType(), dataList);
         }
+    }
+
+    private class GetLineWrap implements ISlotCallerListener {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            boolean nowrap = tableView.isNoWrap();
+            IsBooleanSignalNow si = new IsBooleanSignalNow(!nowrap);
+            return coFactory.construct(slContext.getSlType(), si);
+        }
+
     }
 
     private class ReceiveReturnSignalFromFinish implements ISlotListener {
@@ -706,15 +728,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ChangeTableSize());
         registerSubscriber(
                 FinishEditRowSignal
-                .constructSlotFinishEditRowReturnSignal(dType),
+                        .constructSlotFinishEditRowReturnSignal(dType),
                 new ReceiveReturnSignalFromFinish());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckFocusSignal(dType),
+                        .constructSlotButtonCheckFocusSignal(dType),
                 new ButtonCheckFocusRedirect());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckBackFocusSignal(dType),
+                        .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
         registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new RemoveRow());
@@ -724,6 +746,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerSubscriber(
                 EditRowErrorSignal.constructSlotLineErrorSignal(dType),
                 new SetErrorLine());
+        registerSubscriber(IsBooleanSignalNow.constructSlotSetLineWrap(dType),
+                new SetLineWrap());
 
         // caller
         registerCaller(DataIntegerSignal.constructSlotGetVSignal(dType),
@@ -736,7 +760,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new GetComboField());
         registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
         registerCaller(dType, GetActionEnum.GetListData, new GetWholeList());
-        // GetTableIsFilter
         registerCaller(ActionTableSignal.constructSlotGetTreeView(dType),
                 new GetTreeViewNow());
         registerCaller(
@@ -748,6 +771,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new GetTableIsSorted());
         registerCaller(ActionTableSignal.constructGetPageSizeSignal(dType),
                 new GetTablePageSize());
+        registerCaller(IsBooleanSignalNow.constructSlotGetLineWrap(dType),
+                new GetLineWrap());
     }
 
     @Override

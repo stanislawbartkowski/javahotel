@@ -18,8 +18,8 @@
 				<g:customCell>
 					<g:TextBox width="30px" ui:field="startPageSize" readOnly="true"/>
 				</g:customCell>
-				<g:customCell>
-					<g:Button text='Przywróć wartość początkową' ui:field="RestoreButton"/>
+				<g:customCell> 
+					<g:Button text='{cc.RestoreInitialValue}' ui:field="RestoreButton"/>
 				</g:customCell>
 			</g:row>
 			<g:row>

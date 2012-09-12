@@ -15,9 +15,6 @@ package com.gwtmodel.table.controler;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
@@ -28,13 +25,11 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
-import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.controler.DataListActionItemFactory.DrawForm;
 import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
-import com.gwtmodel.table.controler.ui.ChangePageSizeDialog;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -42,9 +37,6 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.injector.TablesFactories;
-import com.gwtmodel.table.listdataview.ActionTableSignal;
-import com.gwtmodel.table.listdataview.DataIntegerSignal;
-import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -54,23 +46,17 @@ import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
-import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.slotmodel.SlU;
-import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
-import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.util.CreateReadOnlyI;
 import com.gwtmodel.table.view.util.FormUtil;
 import com.gwtmodel.table.view.util.OkDialog;
-import com.gwtmodel.table.view.util.PopUpTip;
-import com.gwtmodel.table.view.util.PopupCreateMenu;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
@@ -248,7 +234,7 @@ class FindListActionFactory {
             }
         }
     }
-    
+
     private void modifLogField(IFormLineView iFrom, IFormLineView iignore) {
         iFrom.setReadOnly(false);
         if (iignore == null) {
@@ -260,7 +246,6 @@ class FindListActionFactory {
         }
         iFrom.setReadOnly(true);
     }
-
 
     private void clearBoolean(List<FormField> li) {
         for (FormField f : li) {
@@ -276,7 +261,7 @@ class FindListActionFactory {
                 FormField formCheck = FormUtil.findFormField(li, fCheck);
                 val = new Boolean(false);
                 formCheck.getELine().setValObj(val);
-                modifLogField(formCheck.getELine(),f.getELine());
+                modifLogField(formCheck.getELine(), f.getELine());
                 continue;
             }
             if (fie.getType().getType() == FieldDataType.T.BOOLEAN) {
@@ -399,46 +384,6 @@ class FindListActionFactory {
         return liF;
     }
 
-    private boolean isBoolProp(ISlotable publishSlo, CustomStringSlot slType) {
-        ISlotSignalContext rContext = publishSlo.getSlContainer()
-                .getGetterCustom(slType);
-        IsBooleanSignalNow ret = (IsBooleanSignalNow) rContext.getCustom();
-        return ret.isBoolInfo();
-
-    }
-
-    private boolean isTreeView(ISlotable publishSlo) {
-        return isBoolProp(publishSlo,
-                ActionTableSignal.constructSlotGetTreeView(ddType));
-    }
-
-    private boolean isTreeEnabled(ISlotable publishSlo) {
-        CustomStringSlot slType = ActionTableSignal
-                .constructSlotGetTableTreeEnabled(ddType);
-        return isBoolProp(publishSlo, slType);
-    }
-
-    private boolean isTreeSorted(ISlotable publishSlo) {
-        CustomStringSlot slType = ActionTableSignal
-                .constructSlotGetTableIsSorted(ddType);
-        return isBoolProp(publishSlo, slType);
-    }
-
-    private boolean isFilterOn(ISlotable publishSlo) {
-        CustomStringSlot slType = ActionTableSignal
-                .constructSlotGetTableIsFilter(ddType);
-        return isBoolProp(publishSlo, slType);
-    }
-
-    private int getPageSize(ISlotable publishSlo) {
-        CustomStringSlot slType = ActionTableSignal
-                .constructGetPageSizeSignal(ddType);
-        ISlotSignalContext rContext = publishSlo.getSlContainer()
-                .getGetterCustom(slType);
-        DataIntegerSignal ret = (DataIntegerSignal) rContext.getCustom();
-        return ret.getValue();
-    }
-
     private class ActionFind implements ISlotListener {
 
         private final ClickButtonType.StandClickEnum action;
@@ -480,7 +425,7 @@ class FindListActionFactory {
             }
             IGWidget wi = slContext.getGwtWidget();
             WSize wSize = new WSize(wi.getGWidget());
-            if (isFilter() && isTreeView(publishSlo)) {
+            if (isFilter() && TUtil.isTreeView(publishSlo, ddType)) {
                 OkDialog ok = new OkDialog(MM.getL().FiltrOnlyTable(), null,
                         null);
                 ok.show(wSize);
@@ -603,173 +548,6 @@ class FindListActionFactory {
                 }
             }
         }
-    }
-
-    private class PropertyListener implements ISlotListener {
-
-        private final ISlotable publishSlo;
-        private final IDataType publishdType;
-        private final static String CHANGE_TO_TREE = "CHANGE_TO_TREE";
-        private final static String CHANGE_TO_TABLE = "CHANGE_TO_TABLE";
-        private final static String REMOVE_SORT = "REMOVE_SORT";
-        private final static String CHANGE_PAGE_SIZE = "CHANGE_PAGE_SIZE";
-
-        PropertyListener(ISlotable publishSlo, IDataType publishdType) {
-            this.publishSlo = publishSlo;
-            this.publishdType = publishdType;
-        }
-
-        private boolean onlyForTable(Widget w) {
-            if (isTreeView(publishSlo)) {
-                OkDialog ok = new OkDialog(MM.getL().OnlyForTable(), null, null);
-                ok.show(w);
-                return false;
-            }
-            return true;
-        }
-
-        private boolean onlyForTree(Widget w) {
-            if (!isTreeView(publishSlo)) {
-                OkDialog ok = new OkDialog(MM.getL().OnlyForTree(), null, null);
-                ok.show(w);
-                return false;
-            }
-            return true;
-        }
-
-        private void addMenu(List<ControlButtonDesc> mList, String id,
-                String displayName) {
-            ControlButtonDesc bu = new ControlButtonDesc(id, displayName);
-            mList.add(bu);
-        }
-
-        private class ControlClick implements IControlClick {
-
-            private PopupPanel up;
-
-            private void closeP() {
-                if (up != null) {
-                    up.hide();
-                }
-            }
-
-            @Override
-            public void click(ControlButtonDesc co, Widget w) {
-                p_click(co, w);
-                closeP();
-            }
-
-            private class ChangePageAction implements
-                    ChangePageSizeDialog.IChangeAction {
-
-                private final int startSize;
-
-                ChangePageAction(int startSize) {
-                    this.startSize = startSize;
-                }
-
-                private void setSize(int size) {
-                    SlotType sl = ActionTableSignal
-                            .constructSetPageSizeSignal(ddType);
-                    DataIntegerSignal si = new DataIntegerSignal(size);
-                    publishSlo.getSlContainer().publish(sl, si);
-
-                }
-
-                @Override
-                public void toDefault() {
-                    setSize(startSize);
-                }
-
-                @Override
-                public void toChange(int newsize) {
-                    setSize(newsize);
-                }
-
-            }
-
-            public void p_click(ControlButtonDesc co, Widget w) {
-                String id = co.getActionId().getCustomButt();
-                if (id.equals(CHANGE_PAGE_SIZE)) {
-                    if (!onlyForTable(w)) {
-                        return;
-                    }
-                    VListHeaderContainer vHeader = SlU.getHeaderList(ddType,
-                            publishSlo);
-                    ChangePageSizeDialog.doDialog(w, vHeader.getPageSize(),
-                            getPageSize(publishSlo), new ChangePageAction(
-                                    vHeader.getPageSize()));
-                    return;
-                }
-                if (id.equals(REMOVE_SORT)) {
-                    if (!onlyForTable(w)) {
-                        return;
-                    }
-                    if (!isTreeSorted(publishSlo)) {
-                        OkDialog ok = new OkDialog(
-                                MM.getL().TableIsNotSorted(), null, null);
-                        ok.show(w);
-                        return;
-                    }
-                    SlotType sl = ActionTableSignal
-                            .constructRemoveSortSignal(ddType);
-                    publishSlo.getSlContainer().publish(sl);
-                    return;
-                }
-                if (id.equals(CHANGE_TO_TREE)) {
-                    if (!onlyForTable(w)) {
-                        return;
-                    }
-                    if (!isTreeEnabled(publishSlo)) {
-                        OkDialog ok = new OkDialog(MM.getL()
-                                .CannotDisplayAsTree(), null, null);
-                        ok.show(w);
-                        return;
-                    }
-                    if (isFilterOn(publishSlo)) {
-                        OkDialog ok = new OkDialog(MM.getL()
-                                .CannotSwitchToTreeWhileFilter(), null, null);
-                        ok.show(w);
-                        return;
-                    }
-                    SlotType sl = ActionTableSignal
-                            .constructToTreeSignal(ddType);
-                    publishSlo.getSlContainer().publish(sl);
-                    return;
-                }
-                if (id.equals(CHANGE_TO_TABLE)) {
-                    if (!onlyForTree(w)) {
-                        return;
-                    }
-                    SlotType sl = ActionTableSignal
-                            .constructToTableSignal(ddType);
-                    publishSlo.getSlContainer().publish(sl);
-                }
-            }
-        }
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            List<ControlButtonDesc> mList = new ArrayList<ControlButtonDesc>();
-            if (isTreeEnabled(publishSlo)) {
-                addMenu(mList, MM.getL().ChangeToTable(), CHANGE_TO_TABLE);
-                addMenu(mList, MM.getL().ChangeToTree(), CHANGE_TO_TREE);
-            }
-            addMenu(mList, MM.getL().RemoveSortOrder(), REMOVE_SORT);
-            addMenu(mList, MM.getL().ChangeNumberOfRows(), CHANGE_PAGE_SIZE);
-            ListOfControlDesc coP = new ListOfControlDesc(mList);
-            IGWidget wi = slContext.getGwtWidget();
-            ControlClick co = new ControlClick();
-            MenuBar mp = PopupCreateMenu.createMenu(coP, co, wi.getGWidget());
-            co.up = PopUpTip.drawPopupTip(wi.getGWidget().getAbsoluteLeft(), wi
-                    .getGWidget().getAbsoluteTop()
-                    + wi.getGWidget().getOffsetHeight(), mp);
-        }
-    }
-
-    ISlotListener constructPropertiesListener(ISlotable publishSlo,
-            IDataType publishdType) {
-        return new PropertyListener(publishSlo, publishdType);
     }
 
     ISlotListener constructActionFind(ClickButtonType.StandClickEnum eNum,

@@ -13,11 +13,9 @@
 package com.gwtmodel.table.controler.ui;
 
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ICommand;
-import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.util.PopupUtil;
 
 /**
@@ -91,7 +89,7 @@ public class ChangePageSizeDialog {
 
     }
 
-    public static void doDialog(Widget w, int startSize, int currentSize,
+    public static void doDialog(WSize w, int startSize, int currentSize,
             IChangeAction i) {
         ChangePageSize pUp = new ChangePageSize();
         pUp.startPageSize.setText(CUtil.NumbToS(startSize));
