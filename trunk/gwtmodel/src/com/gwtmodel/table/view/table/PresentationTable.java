@@ -31,12 +31,10 @@ import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.CellTableBuilder;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.ColumnSortList.ColumnSortInfo;
-import com.google.gwt.user.cellview.client.DefaultCellTableBuilder;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.RowHoverEvent;
 import com.google.gwt.user.cellview.client.RowStyles;
@@ -55,6 +53,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -75,8 +74,6 @@ import com.gwtmodel.table.view.util.PopUpHint;
  * @author perseus
  */
 class PresentationTable implements IGwtTableView {
-
-    private DefaultCellTableBuilder d;
 
     private final INewEditLineFocus iEditFocus;
     /**
@@ -112,7 +109,7 @@ class PresentationTable implements IGwtTableView {
     private IModifyRowStyle iModRow = null;
     private final PresentationCellFactory fa;
     private final PresentationEditCellFactory faEdit;
-    private final MyCellTableBuilder<MutableInteger> sBuilder;
+    private boolean noWrap = true;
 
     private class CurrentHoverTip {
 
@@ -217,6 +214,12 @@ class PresentationTable implements IGwtTableView {
 
     private void hovercell(MutableInteger row, int col, WSize w, boolean focuson) {
 
+        if (noWrap) {
+            return;
+        }
+        if (faEdit.geteParam() != null) {
+            return;
+        }
         if (!focuson) {
             if (currentH.on) {
                 currentH.on = false;
@@ -227,7 +230,6 @@ class PresentationTable implements IGwtTableView {
         if (currentH.on) {
             currentH.pHint.actionOut();
         }
-        // String s = "row=" + row.intValue() + " col = " + col;
         int i = toVColNo(col);
         if (i == -1) {
             return;
@@ -310,9 +312,6 @@ class PresentationTable implements IGwtTableView {
         fa = new PresentationCellFactory(gValue);
         faEdit = new PresentationEditCellFactory(e, table, new StartEditLine());
         table.addRowHoverHandler(new RowHover());
-        sBuilder = new MyCellTableBuilder(table);
-        table.setTableBuilder(sBuilder);
-
     }
 
     private class TColumnString extends TextColumn<Integer> {
@@ -561,6 +560,7 @@ class PresentationTable implements IGwtTableView {
                     dList);
             columnSortHandler.setComparator(co, new CoComparator(he));
             table.addColumnSortHandler(columnSortHandler);
+            // co.setCellStyleNames("no_wrap_cell_style");
         }
         columnC = true;
     }
@@ -926,15 +926,16 @@ class PresentationTable implements IGwtTableView {
 
     @Override
     public void setNoWrap(boolean noWrap) {
-        sBuilder.setAddNoWrap(noWrap);
+        this.noWrap = noWrap;
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            Column<MutableInteger, ?> co = table.getColumn(i);
+            co.setCellStyleNames(noWrap ? "" : IConsts.nowrapStyle);
+        }
         table.redraw();
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#isNoWrap()
-     */
     @Override
     public boolean isNoWrap() {
-        return sBuilder.isAddNoWrap();
+        return noWrap;
     }
 }
