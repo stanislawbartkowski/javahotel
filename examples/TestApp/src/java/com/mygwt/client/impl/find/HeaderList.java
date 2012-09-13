@@ -49,7 +49,7 @@ class HeaderList extends AbstractSlotContainer implements
     public HeaderList(IDataType dType) {
         this.dType = dType;
         vHeader = new VListHeaderContainer(getHList(), "List of items",
-                IConsts.defaultPage, null, null, "500px");
+                IConsts.defaultPage, null, "500px", "500px");
     }
 
 }
