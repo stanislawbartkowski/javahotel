@@ -17,7 +17,7 @@
 package com.gwtmodel.table;
 
 /**
- *
+ * 
  * @author hotel
  */
 public interface IConsts {
@@ -26,4 +26,5 @@ public interface IConsts {
     int defaultPage = 20;
     String errorStyle = "dialog-empty-field";
     String numberStyle = "Number";
+    String nowrapStyle = "no_wrap_cell_style";
 }
