@@ -63,3 +63,8 @@
 .day-scroll-panel .today {
    background-color:#FFDDDD;
 }
+/* ---------------------- */
+
+.no_wrap_cell_style {
+  white-space: nowrap;
+}
