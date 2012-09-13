@@ -405,8 +405,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         void modif(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
             IsBooleanSignalNow sig = (IsBooleanSignalNow) o;
-            boolean wrap = sig.isBoolInfo();
-            tableView.setNoWrap(!wrap);
+            boolean noWrap = sig.isBoolInfo();
+            tableView.setNoWrap(noWrap);
         }
     }
 
@@ -559,7 +559,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             boolean nowrap = tableView.isNoWrap();
-            IsBooleanSignalNow si = new IsBooleanSignalNow(!nowrap);
+            IsBooleanSignalNow si = new IsBooleanSignalNow(nowrap);
             return coFactory.construct(slContext.getSlType(), si);
         }
 
@@ -746,7 +746,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerSubscriber(
                 EditRowErrorSignal.constructSlotLineErrorSignal(dType),
                 new SetErrorLine());
-        registerSubscriber(IsBooleanSignalNow.constructSlotSetLineWrap(dType),
+        registerSubscriber(IsBooleanSignalNow.constructSlotSetLineNoWrap(dType),
                 new SetLineWrap());
 
         // caller
@@ -771,7 +771,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new GetTableIsSorted());
         registerCaller(ActionTableSignal.constructGetPageSizeSignal(dType),
                 new GetTablePageSize());
-        registerCaller(IsBooleanSignalNow.constructSlotGetLineWrap(dType),
+        registerCaller(IsBooleanSignalNow.constructSlotGetLineNoWrap(dType),
                 new GetLineWrap());
     }
 

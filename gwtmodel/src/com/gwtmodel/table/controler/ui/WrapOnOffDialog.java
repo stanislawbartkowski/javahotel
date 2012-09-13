@@ -28,7 +28,7 @@ public class WrapOnOffDialog {
     }
 
     public interface IChangeWrap {
-        void action(boolean wrap);
+        void action(boolean Wrap);
     }
 
     private static class BChange implements

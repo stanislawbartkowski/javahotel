@@ -73,8 +73,8 @@ class PropertyListenerDialog {
 
     private boolean isWrapOn(ISlotable publishSlo) {
         CustomStringSlot slType = IsBooleanSignalNow
-                .constructSlotGetLineWrap(ddType);
-        return TUtil.isBoolProp(publishSlo, slType);
+                .constructSlotGetLineNoWrap(ddType);
+        return !TUtil.isBoolProp(publishSlo, slType);
     }
 
     private int getPageSize(ISlotable publishSlo) {
@@ -104,10 +104,10 @@ class PropertyListenerDialog {
         private class ChangeWrap implements WrapOnOffDialog.IChangeWrap {
 
             @Override
-            public void action(boolean wrap) {
+            public void action(boolean wrapOn) {
                 CustomStringSlot slType = IsBooleanSignalNow
-                        .constructSlotSetLineWrap(ddType);
-                IsBooleanSignalNow sig = new IsBooleanSignalNow(wrap);
+                        .constructSlotSetLineNoWrap(ddType);
+                IsBooleanSignalNow sig = new IsBooleanSignalNow(!wrapOn);
                 publishSlo.getSlContainer().publish(slType, sig);
             }
 
