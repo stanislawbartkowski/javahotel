@@ -19,14 +19,14 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
 /**
  * @author hotel
- * 
+ *
  */
 public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
 
-    private static final String GETLINEWRAP = IsBooleanSignalNow.class
-            .getName() + "TABLE_PUBLIC_GETLINEWRAP";
-    private static final String SETLINEWRAP = IsBooleanSignalNow.class
-            .getName() + "TABLE_PUBLIC_SETLINEWRAP";
+    private static final String GETLINENOWRAP = IsBooleanSignalNow.class
+            .getName() + "TABLE_PUBLIC_GETLINENOWRAP";
+    private static final String SETLINENOWRAP = IsBooleanSignalNow.class
+            .getName() + "TABLE_PUBLIC_SETLINENOWRAP";
 
     public IsBooleanSignalNow(boolean value) {
         super(value);
@@ -37,12 +37,11 @@ public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
         return b.booleanValue();
     }
 
-    public static CustomStringSlot constructSlotSetLineWrap(IDataType dType) {
-        return new CustomStringDataTypeSlot(SETLINEWRAP, dType);
+    public static CustomStringSlot constructSlotSetLineNoWrap(IDataType dType) {
+        return new CustomStringDataTypeSlot(SETLINENOWRAP, dType);
     }
 
-    public static CustomStringSlot constructSlotGetLineWrap(IDataType dType) {
-        return new CustomStringDataTypeSlot(GETLINEWRAP, dType);
+    public static CustomStringSlot constructSlotGetLineNoWrap(IDataType dType) {
+        return new CustomStringDataTypeSlot(GETLINENOWRAP, dType);
     }
-
 }
