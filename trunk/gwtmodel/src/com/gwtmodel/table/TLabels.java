@@ -164,5 +164,11 @@ public interface TLabels extends Constants {
     String EndButton();
     
     String RestoreInitialValue();
+    
+    String AddRowAtTheBeginning();
+    
+    String AddRowAfter();
+    
+    String RemoveRow();
 
 }

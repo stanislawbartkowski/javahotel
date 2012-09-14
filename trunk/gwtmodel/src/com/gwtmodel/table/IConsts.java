@@ -27,4 +27,6 @@ public interface IConsts {
     String errorStyle = "dialog-empty-field";
     String numberStyle = "Number";
     String nowrapStyle = "no_wrap_cell_style";
+    int actionImageWidth = 12;
+    int actionImageHeight = 12;
 }

@@ -595,6 +595,12 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             if (eRow == null) {
                 return;
             }
+            if (eRow.getE() == PersistTypeEnum.ADDBEFORE) {
+                CustomStringSlot sl = EditRowActionSignal
+                        .constructSlotEditActionSignal(dType);
+                publish(sl, eRow);
+                eRow = null;
+            }
             if (prevW == null) {
                 return;
             }
@@ -746,7 +752,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerSubscriber(
                 EditRowErrorSignal.constructSlotLineErrorSignal(dType),
                 new SetErrorLine());
-        registerSubscriber(IsBooleanSignalNow.constructSlotSetLineNoWrap(dType),
+        registerSubscriber(
+                IsBooleanSignalNow.constructSlotSetLineNoWrap(dType),
                 new SetLineWrap());
 
         // caller
