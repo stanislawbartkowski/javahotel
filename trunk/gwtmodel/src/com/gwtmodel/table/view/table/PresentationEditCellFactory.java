@@ -72,7 +72,7 @@ import com.gwtmodel.table.view.util.ClickPopUp;
 
 /**
  * @author hotel
- * 
+ *
  */
 class PresentationEditCellFactory extends PresentationCellHelper {
 
@@ -81,6 +81,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     private final CellTable<MutableInteger> table;
     private final ErrorLineInfo errorInfo = new ErrorLineInfo();
     private final IStartEditRow iStartEdit;
+    private final PresentationTable pTable;
 
     interface IStartEditRow {
 
@@ -148,7 +149,6 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         @SafeHtmlTemplates.Template("<input type=\"text\" value=\"{0}\" tabindex=\"-1\" style=\"{1}\" class=\"{2}\"></input>")
         SafeHtml input(String value, String style, String classC);
     }
-
     private TemplateDisplay templateDisplay = GWT.create(TemplateDisplay.class);
     private InputTemplate templateInput = GWT.create(InputTemplate.class);
 
@@ -200,16 +200,16 @@ class PresentationEditCellFactory extends PresentationCellHelper {
     }
 
     PresentationEditCellFactory(ILostFocusEdit lostFocus,
-            CellTable<MutableInteger> table, IStartEditRow iStartEdit) {
+            CellTable<MutableInteger> table, IStartEditRow iStartEdit, PresentationTable pTable) {
         this.lostFocus = lostFocus;
         this.table = table;
         this.iStartEdit = iStartEdit;
+        this.pTable = pTable;
     }
 
     // Decorator patter implemented to add "blur" event to the constructor
     // Cannot inherit CheckboxCell directly
-    private class EditCheckBoxCell extends
-            AbstractEditableCell<Boolean, Boolean> implements IGetField {
+    private class EditCheckBoxCell extends AbstractEditableCell<Boolean, Boolean> implements IGetField {
 
         private final IVField v;
         private final CheckboxCell checkBox;
@@ -285,11 +285,9 @@ class PresentationEditCellFactory extends PresentationCellHelper {
 
     /**
      * Creates list to be used as an argument to constructor
-     * 
-     * @param c1
-     *            First element
-     * @param c2
-     *            Second element
+     *
+     * @param c1 First element
+     * @param c2 Second element
      * @return List containing two elements
      */
     private List<HasCell<Date, ?>> createList(HasCell<Date, ?> c1,
@@ -695,8 +693,7 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         Number num = null;
     }
 
-    private class EditNumberCell extends
-            AbstractInputCell<Number, NumberViewState> implements IGetField {
+    private class EditNumberCell extends AbstractInputCell<Number, NumberViewState> implements IGetField {
 
         private final IVField v;
         private final VListHeaderDesc he;
@@ -722,14 +719,14 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 return null;
             }
             switch (v.getType().getType()) {
-            case INT:
-                Integer i = n.num.intValue();
-                return i;
-            case LONG:
-                Long l = n.num.longValue();
-                return l;
-            default:
-                return new BigDecimal(n.num.doubleValue());
+                case INT:
+                    Integer i = n.num.intValue();
+                    return i;
+                case LONG:
+                    Long l = n.num.longValue();
+                    return l;
+                default:
+                    return new BigDecimal(n.num.doubleValue());
             }
 
         }
@@ -739,17 +736,17 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             NumberViewState num = new NumberViewState();
             if (o != null) {
                 switch (v.getType().getType()) {
-                case INT:
-                    Integer i = (Integer) o;
-                    num.num = i;
-                    break;
-                case LONG:
-                    Long l = (Long) o;
-                    num.num = l;
-                    break;
-                default:
-                    num.num = (Number) o;
-                    break;
+                    case INT:
+                        Integer i = (Integer) o;
+                        num.num = i;
+                        break;
+                    case LONG:
+                        Long l = (Long) o;
+                        num.num = l;
+                        break;
+                    default:
+                        num.num = (Number) o;
+                        break;
                 }
             }
             this.setViewData(key, num);
@@ -819,40 +816,40 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         Column co = null;
         IVField v = he.getFie();
         switch (v.getType().getType()) {
-        case LONG:
-            EditNumberCell ce = new EditNumberCell(he, iCell, 0);
-            co = new GLongColumn(ce, v);
-            break;
-        case INT:
-            EditNumberCell cce = new EditNumberCell(he, iCell, 0);
-            co = new GIntegerColumn(cce, v);
-            break;
-        case BIGDECIMAL:
-            switch (v.getType().getAfterdot()) {
-            case 0:
-                EditNumberCell ec = new EditNumberCell(he, iCell, 0);
-                co = new GLongColumn(ec, v);
+            case LONG:
+                EditNumberCell ce = new EditNumberCell(he, iCell, 0);
+                co = new GLongColumn(ce, v);
                 break;
-            case 1:
-                EditNumberCell ce1 = new EditNumberCell(he, nCell1, 1);
-                co = new NumberColumn(ce1, v);
+            case INT:
+                EditNumberCell cce = new EditNumberCell(he, iCell, 0);
+                co = new GIntegerColumn(cce, v);
                 break;
-            case 2:
-                EditNumberCell ce2 = new EditNumberCell(he, nCell2, 2);
-                co = new NumberColumn(ce2, v);
-                break;
-            case 3:
-                EditNumberCell ce3 = new EditNumberCell(he, nCell3, 3);
-                co = new NumberColumn(ce3, v);
+            case BIGDECIMAL:
+                switch (v.getType().getAfterdot()) {
+                    case 0:
+                        EditNumberCell ec = new EditNumberCell(he, iCell, 0);
+                        co = new GLongColumn(ec, v);
+                        break;
+                    case 1:
+                        EditNumberCell ce1 = new EditNumberCell(he, nCell1, 1);
+                        co = new NumberColumn(ce1, v);
+                        break;
+                    case 2:
+                        EditNumberCell ce2 = new EditNumberCell(he, nCell2, 2);
+                        co = new NumberColumn(ce2, v);
+                        break;
+                    case 3:
+                        EditNumberCell ce3 = new EditNumberCell(he, nCell3, 3);
+                        co = new NumberColumn(ce3, v);
+                        break;
+                    default:
+                        EditNumberCell ce4 = new EditNumberCell(he, nCell4, 4);
+                        co = new NumberColumn(ce4, v);
+                        break;
+                }
                 break;
             default:
-                EditNumberCell ce4 = new EditNumberCell(he, nCell4, 4);
-                co = new NumberColumn(ce4, v);
-                break;
-            }
-            break;
-        default:
-            assert false : LogT.getT().notExpected();
+                assert false : LogT.getT().notExpected();
         }
         return co;
 
@@ -888,21 +885,21 @@ class PresentationEditCellFactory extends PresentationCellHelper {
         String imageName = null;
         String title = null;
         switch (persist) {
-        case ADDBEFORE:
-            imageName = ImageNameFactory
-                    .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW);
-            title = MM.getL().AddRowAtTheBeginning();
-            break;
-        case ADD:
-            imageName = ImageNameFactory
-                    .getImageName(ImageNameFactory.ImageType.ADDROW);
-            title = MM.getL().AddRowAfter();
-            break;
-        case REMOVE:
-            imageName = ImageNameFactory
-                    .getImageName(ImageNameFactory.ImageType.DELETEROW);
-            title = MM.getL().RemoveRow();
-            break;
+            case ADDBEFORE:
+                imageName = ImageNameFactory
+                        .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW);
+                title = MM.getL().AddRowAtTheBeginning();
+                break;
+            case ADD:
+                imageName = ImageNameFactory
+                        .getImageName(ImageNameFactory.ImageType.ADDROW);
+                title = MM.getL().AddRowAfter();
+                break;
+            case REMOVE:
+                imageName = ImageNameFactory
+                        .getImageName(ImageNameFactory.ImageType.DELETEROW);
+                title = MM.getL().RemoveRow();
+                break;
         }
         String s = Utils.getImageHTML(imageName, IConsts.actionImageHeight,
                 IConsts.actionImageWidth);
@@ -945,7 +942,8 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             @Override
             public void execute(MutableInteger object) {
                 if (model.getRowEditAction() != null) {
-                    model.getRowEditAction().action(object.intValue(), persist);
+                    WSize w = pTable.getRowWidget(object.intValue());
+                    model.getRowEditAction().action(w, object.intValue(), persist);
                 }
             }
         }
@@ -989,12 +987,16 @@ class PresentationEditCellFactory extends PresentationCellHelper {
 
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private class ElemContainer {
+
+        Element elem;
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
     void addActionColumn() {
         Column imColumn = constructControlColumn();
 
         Cell headercell = new ClickableTextCell() {
-
             @Override
             public void render(Cell.Context context, SafeHtml value,
                     SafeHtmlBuilder sb) {
@@ -1003,18 +1005,25 @@ class PresentationEditCellFactory extends PresentationCellHelper {
             }
         };
 
+        final ElemContainer elemX = new ElemContainer();
         Header head = new Header(headercell) {
-
             @Override
             public Object getValue() {
                 return null;
+            }
+
+            @Override
+            public void onBrowserEvent(Cell.Context context, Element elem, NativeEvent event) {
+                elemX.elem = elem;
+                super.onBrowserEvent(context, elem, event);
             }
         };
         head.setUpdater(new ValueUpdater<String>() {
             @Override
             public void update(String value) {
                 if (model.getRowEditAction() != null) {
-                    model.getRowEditAction().action(0,
+                    WSize w = new WSize(elemX.elem);
+                    model.getRowEditAction().action(w, 0,
                             PersistTypeEnum.ADDBEFORE);
                 }
             }
