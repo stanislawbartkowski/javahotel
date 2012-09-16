@@ -116,13 +116,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             for (IVField f : line.getF()) {
                 boolean number = false;
                 switch (f.getType().getType()) {
-                case BIGDECIMAL:
-                case LONG:
-                case INT:
-                    number = true;
-                    break;
-                default:
-                    break;
+                    case BIGDECIMAL:
+                    case LONG:
+                    case INT:
+                        number = true;
+                        break;
+                    default:
+                        break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -431,9 +431,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers IVModelData identified by position in list
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -449,9 +449,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -562,7 +562,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             IsBooleanSignalNow si = new IsBooleanSignalNow(nowrap);
             return coFactory.construct(slContext.getSlType(), si);
         }
-
     }
 
     private class ReceiveReturnSignalFromFinish implements ISlotListener {
@@ -675,8 +674,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private class RowActionListener implements IRowEditAction {
 
         @Override
-        public void action(int rownum, PersistTypeEnum e) {
-            WSize w = tableView.getRowWidget(rownum);
+        public void action(WSize w, int rownum, PersistTypeEnum e) {
+//            WSize w = tableView.getRowWidget(rownum);
             handleChange.eRow = new EditRowActionSignal(rownum, e, w);
             handleChange.publishRowAction();
         }
@@ -734,15 +733,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ChangeTableSize());
         registerSubscriber(
                 FinishEditRowSignal
-                        .constructSlotFinishEditRowReturnSignal(dType),
+                .constructSlotFinishEditRowReturnSignal(dType),
                 new ReceiveReturnSignalFromFinish());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                        .constructSlotButtonCheckFocusSignal(dType),
+                .constructSlotButtonCheckFocusSignal(dType),
                 new ButtonCheckFocusRedirect());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                        .constructSlotButtonCheckBackFocusSignal(dType),
+                .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
         registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new RemoveRow());

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.PersistTypeEnum;
 
 /**
@@ -20,6 +21,6 @@ import com.gwtmodel.table.common.PersistTypeEnum;
  */
 public interface IRowEditAction {
 
-    void action(int rownum, PersistTypeEnum e);
+    void action(WSize w,int rownum, PersistTypeEnum e);
 
 }
