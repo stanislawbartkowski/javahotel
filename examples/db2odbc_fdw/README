@@ -34,6 +34,8 @@ The following parameter can be set on a ODBC foreign table:
 
 sql_query:	User defined SQL statement for querying the foreign table.
 
+IMPORTANT: columns read from query are mapped to foreign table definition from left to write. Mapping
+is based on column order, not column name.
 
 The following parameter can be set on a user mapping for a ODBC
 foreign server:
@@ -52,30 +54,18 @@ CREATE SERVER db2odbc_server
 	FOREIGN DATA WRAPPER db2odbc_fdw 
 	OPTIONS (dsn 'TSAMPLE');
 
-CREATE FOREIGN TABLE odbc_table (
-	db_id integer, 
-	db_name varchar(255), 
-	db_desc text, 
-	db_users float4, 
-	db_createdtime timestamp
+CREATE FOREIGN TABLE sample_emp (
+  empno char(6),
+  firstname varchar(12)
 ) 
-	SERVER odbc_server
-	OPTIONS (
-		database 'myplace',
-		schema 'test', 
-		table 'dblist', 
-		sql_query 'select description,id,name,created_datetime,sd,users from `test`.`dblist`',
-		sql_count 'select count(id) from `test`.`dblist`',
-		db_id 'id', 
-		db_name 'name',
-		db_desc 'description',
-		db_users 'users',
-		db_createdtime 'created_datetime'
-	);
+ SERVER db2odbc_server
+ OPTIONS (
+   sql_query 'select * from emp'
+ );
 
 CREATE USER MAPPING FOR postgres
-	SERVER odbc_server
-	OPTIONS (username 'root', password '');
+	SERVER db2odbc_server
+	OPTIONS (username 'db2inst3', password 'db2inst3');
 
 
 -- 
