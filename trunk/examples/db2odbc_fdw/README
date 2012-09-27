@@ -67,7 +67,5 @@ CREATE USER MAPPING FOR postgres
 	SERVER db2odbc_server
 	OPTIONS (username 'db2inst3', password 'db2inst3');
 
-
--- 
-Zheng Yang
-zhengyang4k@gmail.com
+---------------------------
+stanislawbartkowski@gmail.com
