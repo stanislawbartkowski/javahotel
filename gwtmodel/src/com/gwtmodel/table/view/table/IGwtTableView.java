@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
@@ -57,5 +58,7 @@ public interface IGwtTableView extends IGWidget {
     void setNoWrap(boolean noWrap);
     
     boolean isNoWrap();
+    
+    void setSortColumn(IVField col, boolean inc);
 
 }

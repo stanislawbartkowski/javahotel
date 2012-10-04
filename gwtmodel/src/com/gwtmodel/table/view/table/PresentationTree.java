@@ -323,93 +323,69 @@ class PresentationTree implements IGwtTableView {
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#removeSort()
-     */
     @Override
     public void removeSort() {
         // TODO Auto-generated method stub
 
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#isSorted()
-     */
     @Override
     public boolean isSorted() {
         // TODO Auto-generated method stub
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#getPageSize()
-     */
     @Override
     public int getPageSize() {
         // TODO Auto-generated method stub
         return 0;
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#setPageSize(int)
-     */
     @Override
     public void setPageSize(int pageSize) {
         // TODO Auto-generated method stub
 
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#getRowWidget(int)
-     */
     @Override
     public WSize getRowWidget(int rowno) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#removeRow(int)
-     */
     @Override
     public void removeRow(int rownum) {
         // TODO Auto-generated method stub
         
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#addRow(int)
-     */
     @Override
     public void addRow(int rownum) {
         // TODO Auto-generated method stub
         
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#showInvalidate(com.gwtmodel.table.InvalidateFormContainer)
-     */
     @Override
     public void showInvalidate(int rowno, InvalidateFormContainer errContainer) {
         // TODO Auto-generated method stub
         
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#setNoWrap(boolean)
-     */
     @Override
     public void setNoWrap(boolean noWrap) {
         // TODO Auto-generated method stub
         
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#isNoWrap()
-     */
     @Override
     public boolean isNoWrap() {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public void setSortColumn(IVField col, boolean inc) {
+        // TODO Auto-generated method stub
+        
     }
 }
