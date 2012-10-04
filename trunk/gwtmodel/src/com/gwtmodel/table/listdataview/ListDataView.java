@@ -399,6 +399,18 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private class SetSortColumn implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject o = slContext.getCustom();
+            SetSortColumnSignal si = (SetSortColumnSignal) o;
+            IVField col = si.getValue();
+            tableView.setSortColumn(col, si.isInc());
+        }
+
+    }
+
     private class SetLineWrap extends ModifListener {
 
         @Override
@@ -754,6 +766,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerSubscriber(
                 IsBooleanSignalNow.constructSlotSetLineNoWrap(dType),
                 new SetLineWrap());
+        registerSubscriber(
+                SetSortColumnSignal.constructSlotSetSortColumnSignal(dType),
+                new SetSortColumn());
 
         // caller
         registerCaller(DataIntegerSignal.constructSlotGetVSignal(dType),

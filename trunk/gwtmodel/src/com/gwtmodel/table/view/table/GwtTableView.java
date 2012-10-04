@@ -377,4 +377,13 @@ class GwtTableView implements IGwtTableView {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#setSortColumn(com.gwtmodel.table.IVField)
+     */
+    @Override
+    public void setSortColumn(IVField col, boolean inc) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
