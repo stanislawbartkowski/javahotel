@@ -43,6 +43,7 @@ import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -275,7 +276,7 @@ class PresentationTable implements IGwtTableView {
             }
             final Element target = eventTarget.cast();
             TableCellElement targetTableCell = target.cast();
-            // boolean isC = tableBuilder.isColumn(targetTableCell);
+//            boolean isC = tableBuilder.isColumn(targetTableCell);
             int col = -1;
             while (targetTableCell != null) {
                 try {
@@ -288,6 +289,11 @@ class PresentationTable implements IGwtTableView {
                 break;
             }
             assert targetTableCell != null : LogT.getT().cannotBeNull();
+            // important : test if col is not undefined
+            if (Utils.isUndefined(col)) {
+                LogT.getL().fine(LogT.getT().ColumnCellUndefined());
+                return;
+            }
             boolean focuson = !e.isUnHover();
             WSize w = new WSize(target);
             int row = e.getHoveringRow().getSectionRowIndex();

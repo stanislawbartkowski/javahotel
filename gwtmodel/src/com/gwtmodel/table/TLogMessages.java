@@ -107,4 +107,6 @@ public interface TLogMessages extends Messages {
     String InproperColumnUnit(String colName, String unit);
 
     String ValueNotExpectedHere();
+    
+    String ColumnCellUndefined();
 }

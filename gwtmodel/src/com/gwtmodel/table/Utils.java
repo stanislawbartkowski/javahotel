@@ -39,7 +39,7 @@ import com.gwtmodel.table.injector.WebPanelHolder;
 
 public class Utils {
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static <T> boolean eqI(IEquatable e1, IEquatable e2) {
 
         if (e1 == null && e2 == null) {
@@ -122,6 +122,7 @@ public class Utils {
     public static String getImageHTML(final String imageUrl) {
         return getImageHTML(imageUrl, 0, 0);
     }
+
     // int/long utilities
     public static final int BADNUMBER = -1;
 
@@ -291,6 +292,25 @@ public class Utils {
         return c.getCustomValue(IGetCustomValues.NOVALUE);
     }
 
+    // import : test if int is not undefined
+    // in Java one cannot have int undefined
+    // but in JS it is possible (while returning from JS native)
+    // the quick way is to try change it to Integer
+    /**
+     * Check if int is undefined
+     * 
+     * @param i
+     *            Integer
+     * @return true: if undefined
+     */
+    public static boolean isUndefined(int i) {
+        Integer ii = new Integer(i);
+        if (ii.toString().equals("undefined")) {
+            return true;
+        }
+        return false;
+    }
+
     // -------------
     public static int CalculateNOfRows(WSize w) {
         int up = 0;
@@ -335,8 +355,8 @@ public class Utils {
     }
 
     public static native void callJs(String js) /*-{
-     $wnd.eval(js);
-     }-*/;
+		$wnd.eval(js);
+    }-*/;
 
     public static List<IVField> toList(IVField[] a) {
         // return Arrays.asList(a);
@@ -383,12 +403,12 @@ public class Utils {
     }
 
     public static native void addScript(String s) /*-{
-     $wnd.addScript(s);
-     }-*/;
+		$wnd.addScript(s);
+    }-*/;
 
     public static native void addStyle(String s) /*-{
-     $wnd.addStyle(s);
-     }-*/;
+		$wnd.addStyle(s);
+    }-*/;
 
     /*
      * Takes in a trusted JSON String and evals it.
@@ -398,14 +418,14 @@ public class Utils {
      * @return JavaScriptObject that you can cast to an Overlay Type
      */
     public static native JavaScriptObject evalJson(String jsonStr) /*-{
-     return eval(jsonStr);
-     }-*/;
+		return eval(jsonStr);
+    }-*/;
 
     public static JavaScriptObject parseJson(String jsonStr) {
         return evalJson("(" + jsonStr + ")");
     }
 
     public static native String callJsStringFun(String jsonFun, String paramS) /*-{
-     return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
-     }-*/;
+		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
+    }-*/;
 }
