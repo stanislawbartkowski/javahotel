@@ -21,7 +21,7 @@ import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
 /**
  * @author hotel
- * 
+ *
  */
 public class ActionTableSignal {
 
@@ -94,5 +94,4 @@ public class ActionTableSignal {
     public static CustomStringSlot constructSlotGetVSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(GETVSIGNAL, dType);
     }
-
 }

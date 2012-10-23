@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.controlbuttonview;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.ICustomObject;
@@ -36,13 +33,14 @@ import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 class ControlButtonView extends AbstractSlotContainer implements
         IControlButtonView, IStackPanelController {
 
     private final IContrButtonView vButton;
     private final Map<ClickButtonType, ClickButtonType> redirMap = new HashMap<ClickButtonType, ClickButtonType>();
-
     private final Map<ClickButtonType, ButtonRedirectSignal> redirRMap = new HashMap<ClickButtonType, ButtonRedirectSignal>();
     private boolean redirActivated = false;
 
@@ -79,7 +77,7 @@ class ControlButtonView extends AbstractSlotContainer implements
         public void signal(ISlotSignalContext slContext) {
             LogT.getLS().info(
                     LogT.getT().receivedSignalLog(
-                            slContext.getSlType().toString()));
+                    slContext.getSlType().toString()));
             vButton.setEnable(actionId,
                     bAction.getAction() == ButtonAction.Action.EnableButton);
         }
@@ -102,9 +100,9 @@ class ControlButtonView extends AbstractSlotContainer implements
 
     /**
      * Listener for 'force button' action
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class ForceButton implements ISlotListener {
 
@@ -129,7 +127,6 @@ class ControlButtonView extends AbstractSlotContainer implements
             ButtonRedirectSignal bu = (ButtonRedirectSignal) c;
             redirRMap.put(bu.getbType(), bu);
         }
-
     }
 
     private class RedirectActivateSignal implements ISlotListener {
@@ -140,7 +137,6 @@ class ControlButtonView extends AbstractSlotContainer implements
             ButtonRedirectActivateSignal bu = (ButtonRedirectActivateSignal) c;
             redirActivated = bu.getValue();
         }
-
     }
 
     private void register(ButtonAction.Action bA, ControlButtonDesc b) {
@@ -181,13 +177,18 @@ class ControlButtonView extends AbstractSlotContainer implements
     @Override
     public void startPublish(CellId cellId) {
         IGWidget w = this.getMainHtmlWidget();
+        if (vButton != null) {
+            CustomStringSlot cSlot = ButtonSendListOfButtons.constructSlotSendListOfButtons(dType);
+            ButtonSendListOfButtons sl = new ButtonSendListOfButtons(vButton);
+            publish(cSlot, sl);
+        }
         if (w != null) {
-            vButton.fillHtml(w);
+            vButton.setHtml(w);
             return;
         }
         w = getHtmlWidget(cellId);
         if (w != null) {
-            vButton.fillHtml(w);
+            vButton.setHtml(w);
         }
         publish(dType, cellId, vButton);
     }

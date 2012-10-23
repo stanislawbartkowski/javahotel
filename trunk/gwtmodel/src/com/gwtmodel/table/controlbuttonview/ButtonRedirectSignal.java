@@ -62,7 +62,7 @@ public class ButtonRedirectSignal implements ICustomObject {
     public void sendButtonSignal(ISlotable i) {
         i.getSlContainer().publish(buttType, bType, w);
     }
-    private static final String SIGNAL_ID = "BUTTON_PUBLIC_REDIRECT_SIGNAL";
+    private static final String SIGNAL_ID = ButtonRedirectSignal.class.getName() + "BUTTON_PUBLIC_REDIRECT_SIGNAL";
 
     public static CustomStringSlot constructSlotButtonRedirectSignal(
             IDataType dType) {

@@ -15,6 +15,7 @@ package com.gwtmodel.table.datamodelview;
 import com.gwtmodel.table.*;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.PersistTypeEnum;
+import com.gwtmodel.table.controlbuttonview.ButtonSendListOfButtons;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -25,6 +26,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.*;
+import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.form.GwtFormViewFactory;
 import com.gwtmodel.table.view.form.IGwtFormView;
 import java.util.List;
@@ -200,6 +202,26 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
+    private class GetListOfControls implements ISlotListener {
+
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject i = slContext.getCustom();
+            ButtonSendListOfButtons l = (ButtonSendListOfButtons) i;
+            IContrButtonView cList = l.getValue();
+            gView.setButtonList(cList);
+        }
+    }
+
+    private class ChangeTabPanel implements ISlotListener {
+
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject i = slContext.getCustom();
+            ChangeTabSignal l = (ChangeTabSignal) i;
+            String tabId = l.getValue();
+            gView.changeToTab(tabId);
+        }
+    }
+
     DataViewModel(GwtFormViewFactory gFactory, IDataType dType,
             FormLineContainer fContainer, IDataModelFactory dFactory,
             IDataFormConstructorAbstractFactory abFactory) {
@@ -217,7 +239,6 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             ccType = abFactory.construct(iContext);
         }
         ISignal iSig = new ISignal() {
-
             @Override
             public void signal() {
                 syP.signalDone();
@@ -242,6 +263,11 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 new SetHtmlId());
         registerSubscriber(SignalChangeMode.constructSlot(dType),
                 new CustomChangeMode());
+        registerSubscriber(ButtonSendListOfButtons.constructSlotSendListOfButtons(dType),
+                new GetListOfControls());
+        registerSubscriber(ChangeTabSignal.constructSlot(dType),
+                new ChangeTabPanel());
+
         registerCaller(dType, GetActionEnum.GetViewModelEdited,
                 new GetterModel());
         registerCaller(dType, GetActionEnum.GetFormFieldWidget,

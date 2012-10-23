@@ -26,9 +26,10 @@ public class FormField {
     private final IVField fRange;
     private String htmlId;
     private boolean disabled;
+    private final String tabId;
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
-            IVField fRange, boolean readOnlyIfModif, boolean readOnlyIfAdd) {
+            IVField fRange, boolean readOnlyIfModif, boolean readOnlyIfAdd, String tabId) {
         this.pLabel = p;
         if (e == null) {
             assert fie != null : LogT.getT().cannotBeNull();
@@ -41,11 +42,12 @@ public class FormField {
         this.readOnlyIfModif = readOnlyIfModif;
         this.readOnlyIfAdd = readOnlyIfAdd;
         this.fRange = fRange;
+        this.tabId = tabId;
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
             boolean readOnlyIfModif, boolean readOnlyIfAdd) {
-        this(p, e, fie, null, readOnlyIfModif, readOnlyIfAdd);
+        this(p, e, fie, null, readOnlyIfModif, readOnlyIfAdd, null);
 
     }
 
@@ -57,20 +59,20 @@ public class FormField {
     }
 
     public FormField(final String p, final IVField fie) {
-        this(p, null, fie, null, false, false);
+        this(p, null, fie, null, false, false, null);
     }
 
     public FormField(final String p, final IFormLineView e) {
-        this(p, e, null, null, false, false);
+        this(p, e, null, null, false, false, null);
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
             IVField fRange) {
-        this(p, e, fie, fRange, false, false);
+        this(p, e, fie, fRange, false, false, null);
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie) {
-        this(p, e, fie, null, false, false);
+        this(p, e, fie, null, false, false, null);
     }
 
     public boolean isReadOnlyIfModif() {
@@ -115,8 +117,7 @@ public class FormField {
     }
 
     /**
-     * @param htmlId
-     *            the htmlId to set
+     * @param htmlId the htmlId to set
      */
     public void setHtmlId(String htmlId) {
         this.htmlId = htmlId;
@@ -130,10 +131,17 @@ public class FormField {
     }
 
     /**
-     * @param disabled
-     *            the disabled to set
+     * @param disabled the disabled to set
      */
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
     }
+
+    /**
+     * @return the tabId
+     */
+    public String getTabId() {
+        return tabId;
+    }
+        
 }

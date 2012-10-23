@@ -50,15 +50,20 @@ class ContrButtonView implements IContrButtonView {
     }
 
     @Override
-    public void fillHtml(IGWidget gw) {
+    public void setHtml(IGWidget gw) {
+        Widget w = gw.getGWidget();
+        pa = (HTMLPanel) w;
+        fillHtml(pa);
+    }
+
+    @Override
+    public void fillHtml(HTMLPanel pa) {
         List<ClickButtonType> cList = new ArrayList<ClickButtonType>();
         List<IGFocusWidget> bList = new ArrayList<IGFocusWidget>();
         for (Entry<ClickButtonType, IGFocusWidget> e : iBut.entrySet()) {
             cList.add(e.getKey());
             bList.add(e.getValue());
         }
-        Widget w = gw.getGWidget();
-        pa = (HTMLPanel) w;
         CreateFormView.setHtml(pa, cList, bList);
     }
 
