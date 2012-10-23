@@ -12,18 +12,21 @@
  */
 package com.gwtmodel.table.view.controlpanel;
 
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
 public interface IContrButtonView extends IGWidget {
 
     void setEnable(ClickButtonType actionId, boolean enable);
 
-    void fillHtml(IGWidget g);
+    void setHtml(IGWidget g);
+
+    void fillHtml(HTMLPanel pa);
 
     void emulateClick(ClickButtonType actionId);
 }

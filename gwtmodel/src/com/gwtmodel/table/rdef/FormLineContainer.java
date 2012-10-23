@@ -12,19 +12,19 @@
  */
 package com.gwtmodel.table.rdef;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FormLineContainer {
 
     private final List<FormField> fList;
     private final String html;
+    private final List<FormTabPanelDef> tabList;
 
     public FormLineContainer(List<FormField> fList) {
-        this(fList, null);
+        this(fList, null, null);
     }
 
     public FormField findFormField(IVField v) {
@@ -44,14 +44,15 @@ public class FormLineContainer {
         return f.getELine();
     }
 
-    public FormLineContainer(List<FormField> fList, String html) {
+    public FormLineContainer(List<FormField> fList, String html, List<FormTabPanelDef> tabList) {
         this.fList = fList;
         this.html = html;
+        this.tabList = tabList;
     }
 
     /**
      * Get list of IGetSetVField related for FormContainer
-     * 
+     *
      * @return List
      */
     public List<IGetSetVField> getvList() {
@@ -75,5 +76,16 @@ public class FormLineContainer {
      */
     public String getHtml() {
         return html;
+    }
+
+    /**
+     * @return the tabList
+     */
+    public List<FormTabPanelDef> getTabList() {
+        return tabList;
+    }
+
+    public boolean isTabPanel() {
+        return tabList != null;
     }
 }

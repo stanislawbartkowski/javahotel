@@ -13,6 +13,7 @@
 package com.gwtmodel.table.view.pullmenu;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
@@ -34,13 +35,22 @@ class PullMenuView implements IContrButtonView {
     private final IControlClick click;
     private final MenuBar mbar;
 
+    @Override
     public void setEnable(ClickButtonType actionId, boolean enable) {
     }
 
-    public void fillHtml(IGWidget g) {
+    @Override
+    public void emulateClick(ClickButtonType actionId) {
     }
 
-    public void emulateClick(ClickButtonType actionId) {
+    @Override
+    public void setHtml(IGWidget g) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void fillHtml(HTMLPanel pa) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private class MenuCommand implements Command {
@@ -78,6 +88,7 @@ class PullMenuView implements IContrButtonView {
         addMenu(mbar, menu.getMenu());
     }
 
+    @Override
     public Widget getGWidget() {
         return mbar;
     }

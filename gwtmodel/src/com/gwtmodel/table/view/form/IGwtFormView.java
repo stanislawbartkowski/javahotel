@@ -14,6 +14,7 @@ package com.gwtmodel.table.view.form;
 
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 
 public interface IGwtFormView extends IGWidget {
 
@@ -22,4 +23,8 @@ public interface IGwtFormView extends IGWidget {
     void fillHtml(IGWidget g);
 
     void setHtmlId(String is, IGWidget g);
+
+    void setButtonList(IContrButtonView cList);
+
+    void changeToTab(String tabId);
 }
