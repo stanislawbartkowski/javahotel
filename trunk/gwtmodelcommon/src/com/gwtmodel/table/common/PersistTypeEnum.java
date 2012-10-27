@@ -14,7 +14,7 @@ package com.gwtmodel.table.common;
 
 public enum PersistTypeEnum {
 
-    ADD, MODIF, REMOVE, SHOWONLY;
+    ADD, MODIF, REMOVE, SHOWONLY, ADDBEFORE;
 
     public boolean readOnly() {
         return this == REMOVE || this == SHOWONLY;
