@@ -231,8 +231,22 @@ class GwtFormView implements IGwtFormView {
 
     @Override
     public void setHtmlId(String id, IGWidget g) {
-        HTMLPanel pa = (HTMLPanel) gg;
-        CreateFormView.replace(pa, id, g.getGWidget());
+        if (gg instanceof HTMLPanel) {
+            HTMLPanel pa = (HTMLPanel) gg;
+            CreateFormView.replace(pa, id, g.getGWidget());
+        }
+        if (tPanel != null) {
+            int i = -1;
+            for (FormTabPanelDef de : fContainer.getTabList()) {
+                i++;
+                if (de.getHtmlDef() == null) {
+                    continue;
+                }
+                Widget w = tPanel.getWidget(i);
+                HTMLPanel pa = (HTMLPanel) w;
+                CreateFormView.replace(pa, id, g.getGWidget());
+            }
+        }
     }
 
     public void setButtonList(IContrButtonView cList) {

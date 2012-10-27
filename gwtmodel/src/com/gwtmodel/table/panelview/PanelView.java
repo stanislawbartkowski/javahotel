@@ -104,14 +104,18 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             PanelRowCell pa = colM.get(cellId);
             assert pa != null : LogT.getT().CellShouldBeRegistered();
             IGWidget gwtWidget = slContext.getGwtWidget();
+            String id = pa.getCellId();
             if (htmlWidget == null) {
                 pView.setWidget(pa.rowNo, pa.cellNo, gwtWidget.getGWidget());
             } else {
-                String id = pa.cellId;
-//                assert id != null : LogT.getT().CellCannotBeNull();
                 if (id != null) {
                     CreateFormView.replace(htmlWidget, id, gwtWidget.getGWidget());
                 }
+            }
+            if (id != null) {
+                CustomStringSlot cSlot = SendPanelElemSignal.constructSlotSendPanelElem(dType);
+                SendPanelElemSignal sl = new SendPanelElemSignal(id, gwtWidget);
+                publish(cSlot, sl);
             }
         }
     }

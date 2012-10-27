@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.view.grid;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
@@ -25,6 +22,8 @@ import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.ErrorLineContainer;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
+import java.math.BigDecimal;
+import java.util.List;
 
 class GridView implements IGridView {
 

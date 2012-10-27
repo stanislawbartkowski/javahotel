@@ -21,6 +21,7 @@ import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.panelview.SendPanelElemSignal;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -212,6 +213,15 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
         }
     }
 
+    private class GetElemPanel implements ISlotListener {
+
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject i = slContext.getCustom();
+            SendPanelElemSignal l = (SendPanelElemSignal) i;
+            gView.setHtmlId(l.getHtmlId(), l.getGwtWidget());
+        }
+    }
+
     private class ChangeTabPanel implements ISlotListener {
 
         public void signal(ISlotSignalContext slContext) {
@@ -265,6 +275,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
                 new CustomChangeMode());
         registerSubscriber(ButtonSendListOfButtons.constructSlotSendListOfButtons(dType),
                 new GetListOfControls());
+        registerSubscriber(SendPanelElemSignal.constructSlotSendPanelElem(dType), new GetElemPanel());
         registerSubscriber(ChangeTabSignal.constructSlot(dType),
                 new ChangeTabPanel());
 
