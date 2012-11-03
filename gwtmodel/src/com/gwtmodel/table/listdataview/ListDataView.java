@@ -408,7 +408,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             IVField col = si.getValue();
             tableView.setSortColumn(col, si.isInc());
         }
-
     }
 
     private class SetLineWrap extends ModifListener {
@@ -611,6 +610,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                         .constructSlotEditActionSignal(dType);
                 publish(sl, eRow);
                 eRow = null;
+                return;
             }
             if (prevW == null) {
                 return;
