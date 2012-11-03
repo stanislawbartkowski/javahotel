@@ -185,7 +185,11 @@ class PresentationEditCellFactory extends PresentationCellHelper {
                 Element elex = el.getFirstChildElement();
                 assert elex != null : LogT.getT().cannotBeNull();
                 Element ele = elex.getFirstChildElement();
-                assert ele != null : LogT.getT().cannotBeNull();
+                // assert ele != null : LogT.getT().cannotBeNull();
+                // it is possible for a cell do not have inner element
+                if (ele == null) {
+                    continue;
+                }
                 // assuming that it is HTML describing inner cell
                 String cl = ele.getClassName();
                 int x = cl.indexOf(IConsts.errorStyle);

@@ -12,23 +12,21 @@
  */
 package com.gwtmodel.table.view.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility class for copying data between view and model
- * 
+ *
  * @author hotel
- * 
+ *
  */
-
 public class FormUtil {
 
     private FormUtil() {
@@ -50,11 +48,9 @@ public class FormUtil {
 
     /**
      * Copies values from model to view
-     * 
-     * @param aFrom
-     *            IVModelData to copy from
-     * @param vList
-     *            Destination view
+     *
+     * @param aFrom IVModelData to copy from
+     * @param vList Destination view
      */
     public static void copyFromDataToView(IVModelData aFrom,
             List<IGetSetVField> vList) {
@@ -68,11 +64,9 @@ public class FormUtil {
 
     /**
      * Copies values from view to model data
-     * 
-     * @param fContainer
-     *            Source view
-     * @param aTo
-     *            Destination model data
+     *
+     * @param fContainer Source view
+     * @param aTo Destination model data
      */
     public static void copyFromViewToData(FormLineContainer fContainer,
             IVModelData aTo) {
