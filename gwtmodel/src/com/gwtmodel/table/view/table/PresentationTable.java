@@ -43,7 +43,6 @@ import com.google.gwt.user.cellview.client.SimplePager.Resources;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -225,12 +224,6 @@ class PresentationTable implements IGwtTableView {
 
     private void hovercell(MutableInteger row, int col, WSize w, boolean focuson) {
 
-        if (!noWrap) {
-            return;
-        }
-        if (faEdit.geteParam() != null) {
-            return;
-        }
         if (!focuson) {
             if (currentH.on) {
                 currentH.on = false;
@@ -249,16 +242,30 @@ class PresentationTable implements IGwtTableView {
                 .getErrorInfo();
         VListHeaderDesc he = model.getHeaderList().getVisHeList().get(i);
         IVModelData vData = model.getRows().get(row.intValue());
-        String s = FUtils.getValueS(vData, he.getFie());
+        String s = null;
+        if (noWrap && faEdit.geteParam() == null) {
+            // hint related to cell content only if no wrapping and not editing
+            s = FUtils.getValueS(vData, he.getFie());
+        }
         if (errInfo.active && row.equals(errInfo.key)) {
             InvalidateMess me = errInfo.errContainer.findV(he.getFie());
             if (me != null) {
                 s = me.getErrmess();
             }
         }
-        if (!CUtil.EmptyS(s)) {
+//        if (!CUtil.EmptyS(s)) {
             currentH.pHint.setMessage(s);
+//        }
+
+        /*
+        if (faEdit.geteParam() != null) {
+            return;
         }
+        if (!noWrap) {
+            return;
+        }
+        */
+
         currentH.key = row;
         currentH.col = col;
         currentH.on = true;
@@ -276,7 +283,7 @@ class PresentationTable implements IGwtTableView {
             }
             final Element target = eventTarget.cast();
             TableCellElement targetTableCell = target.cast();
-//            boolean isC = tableBuilder.isColumn(targetTableCell);
+            // boolean isC = tableBuilder.isColumn(targetTableCell);
             int col = -1;
             while (targetTableCell != null) {
                 try {
