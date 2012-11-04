@@ -116,7 +116,9 @@ class PresentationTable implements IGwtTableView {
 
     private class CurrentHoverTip {
 
+        @SuppressWarnings("unused")
         MutableInteger key;
+        @SuppressWarnings("unused")
         int col;
         boolean on = false;
         PopUpHint pHint = new PopUpHint();
@@ -253,9 +255,9 @@ class PresentationTable implements IGwtTableView {
                 s = me.getErrmess();
             }
         }
-//        if (!CUtil.EmptyS(s)) {
-            currentH.pHint.setMessage(s);
-//        }
+        // if (!CUtil.EmptyS(s)) {
+        currentH.pHint.setMessage(s);
+        // }
 
         /*
         if (faEdit.geteParam() != null) {
@@ -756,6 +758,7 @@ class PresentationTable implements IGwtTableView {
         }
         whilefind = whileFind;
         selectionModel.setSelected(new MutableInteger(clickedno), true);
+        // selectionModel.
         // added 2012/08/20
         whilefind = false;
     }
@@ -927,6 +930,9 @@ class PresentationTable implements IGwtTableView {
         List<MutableInteger> iList = dProvider.getList();
         for (MutableInteger i : iList) {
             if (i.intValue() == rownum) {
+                // unselect before removing
+                // it is necessary to trigger selecting the same row next time
+                selectionModel.setSelected(new MutableInteger(rownum), false);
                 iList.remove(i);
                 break;
             }
@@ -942,15 +948,24 @@ class PresentationTable implements IGwtTableView {
     public void addRow(int rownum) {
         List<MutableInteger> iList = dProvider.getList();
         if (rownum == -1) {
-            iList.add(new MutableInteger(iList.size()));
-            return;
-        }
-        for (MutableInteger i : iList) {
-            if (i.intValue() >= rownum) {
-                i.inc();
+            // add new at the end of table
+            MutableInteger addN = new MutableInteger(iList.size());
+            iList.add(addN);
+        } else {
+            // add in the the middle
+            // modify key values increasing by one after insertion
+            for (MutableInteger i : iList) {
+                if (i.intValue() >= rownum) {
+                    i.inc();
+                }
             }
+            // add new element to provider
+            iList.add(rownum, new MutableInteger(rownum));
         }
-        iList.add(rownum, new MutableInteger(rownum));
+        // redraw table
+        // it is possible the all value are left in the widget screen
+        // refreshing should drop this values
+        // table.redraw();
     }
 
     private class GetRowNo implements PresentationEditCellFactory.IToRowNo {
