@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.gwtmodel.table.CreateJson;
 import com.gwtmodel.table.FUtils;
@@ -53,8 +56,6 @@ import com.gwtmodel.table.view.table.IModifyRowStyle;
 import com.gwtmodel.table.view.table.INewEditLineFocus;
 import com.gwtmodel.table.view.table.IRowClick;
 import com.gwtmodel.table.view.table.IRowEditAction;
-import java.util.ArrayList;
-import java.util.List;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
@@ -116,13 +117,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             for (IVField f : line.getF()) {
                 boolean number = false;
                 switch (f.getType().getType()) {
-                    case BIGDECIMAL:
-                    case LONG:
-                    case INT:
-                        number = true;
-                        break;
-                    default:
-                        break;
+                case BIGDECIMAL:
+                case LONG:
+                case INT:
+                    number = true;
+                    break;
+                default:
+                    break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -322,6 +323,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             }
             dataList.add(row, dv.getV());
             tableView.addRow(row);
+
+            // refresh row just added
+            List<IGetSetVField> vList = tableView.getVList(row);
+            for (IGetSetVField e : vList) {
+                // run field after field
+                IVField v = e.getV();
+                Object val = dv.getV().getF(v);
+                e.setValObj(val);
+            }
             tableView.setClicked(row, false);
         }
     }
@@ -442,9 +452,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers IVModelData identified by position in list
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -460,9 +470,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -687,7 +697,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void action(WSize w, int rownum, PersistTypeEnum e) {
-//            WSize w = tableView.getRowWidget(rownum);
+            // WSize w = tableView.getRowWidget(rownum);
             handleChange.eRow = new EditRowActionSignal(rownum, e, w);
             handleChange.publishRowAction();
         }
@@ -745,15 +755,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ChangeTableSize());
         registerSubscriber(
                 FinishEditRowSignal
-                .constructSlotFinishEditRowReturnSignal(dType),
+                        .constructSlotFinishEditRowReturnSignal(dType),
                 new ReceiveReturnSignalFromFinish());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckFocusSignal(dType),
+                        .constructSlotButtonCheckFocusSignal(dType),
                 new ButtonCheckFocusRedirect());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckBackFocusSignal(dType),
+                        .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
         registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new RemoveRow());
