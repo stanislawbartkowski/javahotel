@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.tabledef;
 
-import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.injector.LogT;
 
@@ -36,6 +35,7 @@ public class VListHeaderDesc {
 
         LEFT, CENTER, RIGHT
     }
+
     private final String headerString;
     private final IVField fie;
     private final boolean hidden;
@@ -46,6 +46,7 @@ public class VListHeaderDesc {
     private final String colWidth;
     private final String inputClass;
     private final String inputStyle;
+    private final IColumnImageSelect iColSelect;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
         assert fie != null : LogT.getT().cannotBeNull();
@@ -59,6 +60,7 @@ public class VListHeaderDesc {
         this.colWidth = null;
         this.inputClass = null;
         this.inputStyle = null;
+        this.iColSelect = null;
     }
 
     /**
@@ -76,15 +78,19 @@ public class VListHeaderDesc {
     }
 
     public VListHeaderDesc(String headerString, IVField fie) {
-        this(headerString, fie, false, null, false, null, null,null,null);
+        this(headerString, fie, false, null, false, null, null, null, null,
+                null);
     }
 
     public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
-        this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(), false, null, null,null,null);
+        this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(),
+                false, null, null, null, null, null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
-            String buttonAction, boolean editable, ColAlign align, String colWidth, String inputClass, String inputStyle) {
+            String buttonAction, boolean editable, ColAlign align,
+            String colWidth, String inputClass, String inputStyle,
+            IColumnImageSelect iColSelect) {
         assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = headerString;
         this.fie = fie;
@@ -96,10 +102,12 @@ public class VListHeaderDesc {
         this.colWidth = colWidth;
         this.inputClass = inputClass;
         this.inputStyle = inputStyle;
+        this.iColSelect = iColSelect;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
-        this(headerString, fie, hidden, null, false, null, null,null,null);
+        this(headerString, fie, hidden, null, false, null, null, null, null,
+                null);
     }
 
     public String getHeaderString() {
@@ -137,6 +145,12 @@ public class VListHeaderDesc {
     public String getColWidth() {
         return colWidth;
     }
-    
-    
+
+    /**
+     * @return the iColSelect
+     */
+    public IColumnImageSelect getiColSelect() {
+        return iColSelect;
+    }
+
 }

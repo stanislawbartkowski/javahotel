@@ -66,7 +66,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
-import com.gwtmodel.table.view.table.PresentationEditCellFactory.IGetField;
+import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
 import com.gwtmodel.table.view.util.PopUpHint;
 
 /**
