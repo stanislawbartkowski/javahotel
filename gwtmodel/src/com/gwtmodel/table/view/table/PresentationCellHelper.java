@@ -54,7 +54,7 @@ abstract class PresentationCellHelper {
     protected final NumberCell nCell4 = new NumberCell(
             NumberFormat.getFormat(getNumberFormat(4)));
 
-    void setModel(IGwtTableModel model) {
+    protected void setGModel(IGwtTableModel model) {
         this.model = model;
     }
 
@@ -187,5 +187,7 @@ abstract class PresentationCellHelper {
             return new BigDecimal(val);
         }
     }
+    
+    
 
 }
