@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
@@ -32,13 +29,17 @@ import com.google.gwt.user.cellview.client.Column;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author hotel
- * 
+ *
  */
 class PresentationImageChooseFactory extends PresentationEditCellHelper {
 
@@ -105,7 +106,6 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
                     removeErrorStyle();
                     table.redrawRow(lastContext.getIndex());
                 }
-
             }
 
             @Override
@@ -162,9 +162,12 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
             MutableInteger i = (MutableInteger) key;
             boolean editenabled = eCol.isEditable(i.intValue(), v);
             if (editenabled) {
-                // String s = Utils.getImageHTML(ImageNameFactory
-                // .getImageName(ImageNameFactory.ImageType.CALENDAR));
-                String s = Utils.getImageHTML(he.getiColSelect().getImage());
+                String ima = he.getiColSelect().getImage();
+                if (ima == null) {
+                    IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+                    ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP) + ".gif";
+                }
+                String s = Utils.getImageHTML(ima);
                 SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
                 sb.append(html);
             }
@@ -209,5 +212,4 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
         CellPickerString ceCell = new CellPickerString(c1, c2);
         return new TColumnEdit(he.getFie(), ceCell);
     }
-
 }
