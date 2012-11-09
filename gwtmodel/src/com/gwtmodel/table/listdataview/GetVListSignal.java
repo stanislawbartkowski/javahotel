@@ -23,7 +23,7 @@ public class GetVListSignal extends DataIntegerSignal {
 
     private final List<IGetSetVField> vList;
 
-    public GetVListSignal(List<IGetSetVField> vList) {
+    GetVListSignal(List<IGetSetVField> vList) {
         super(-1);
         this.vList = vList;
     }
