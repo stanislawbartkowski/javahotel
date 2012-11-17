@@ -835,7 +835,6 @@ class PresentationTable implements IGwtTableView {
             if (!keepNull && (o == null)) {
                 IVModelData v = model.getRows().get(rowno);
                 o = FUtils.getValue(v, getV());
-                int i = 0;
             }
             return o;
         }
