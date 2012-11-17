@@ -13,10 +13,9 @@
 package com.gwtmodel.table.view.table;
 
 import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.TextInputCell;
 import com.google.gwt.cell.client.ValueUpdater;
-import com.google.gwt.cell.client.Cell.Context;
-import com.google.gwt.cell.client.TextInputCell.ViewData;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
@@ -195,8 +194,8 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
 
     protected class EditStringCell extends TextInputCell implements IGetField {
 
-        private final IVField v;
-        private final VListHeaderDesc he;
+        protected final IVField v;
+        protected final VListHeaderDesc he;
 
         EditStringCell(VListHeaderDesc he) {
             this.v = he.getFie();
