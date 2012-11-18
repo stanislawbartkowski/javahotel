@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 
+ *
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
@@ -69,7 +69,6 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
             listT = null;
         } else {
             IGetList iGet = new IGetList() {
-
                 public List<IMapEntry> getL() {
                     return v.getType().getLi().getList();
                 }
@@ -185,5 +184,10 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     public boolean isHidden() {
         return !this.getGWidget().isVisible();
     }
-    
+
+    protected void onTouch() {
+        for (ITouchListener t : iTouch) {
+            t.onTouch();
+        }
+    }
 }

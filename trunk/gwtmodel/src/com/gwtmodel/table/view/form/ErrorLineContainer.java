@@ -12,12 +12,11 @@
  */
 package com.gwtmodel.table.view.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.rdef.FormField;
+import java.util.ArrayList;
+import java.util.List;
 
 class ErrorLineContainer {
 
