@@ -110,6 +110,7 @@ class GetValueLB extends AbstractField implements IValueLB {
 
             @Override
             public void onChange(Widget sender) {
+                onTouch();
                 runOnChange(GetValueLB.this, true);
             }
         };

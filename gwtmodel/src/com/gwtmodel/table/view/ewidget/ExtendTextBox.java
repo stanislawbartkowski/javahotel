@@ -32,12 +32,6 @@ class ExtendTextBox extends AbstractField {
 
     private class EWidget implements IGWidget {
 
-//        private class SetRemoveTitle implements FocusHandler {
-//
-//            public void onFocus(FocusEvent event) {
-//                EWidget.this.setTitle(true);                
-//            }
-//        }
         private class SetRemoveTitle implements FocusListener {
 
             public void onFocus(Widget sender) {
@@ -372,9 +366,7 @@ class ExtendTextBox extends AbstractField {
     @Override
     public void setValObj(Object o) {
         String va = (String) o;
-        for (ITouchListener t : iTouch) {
-            t.onTouch();
-        }
+        onTouch();
         eW.setText(va);
         eW.setTitle(true);
         // warning: 2011/09/09 (changed to this from null)
