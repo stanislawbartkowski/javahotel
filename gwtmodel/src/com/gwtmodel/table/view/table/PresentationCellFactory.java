@@ -40,9 +40,13 @@ class PresentationCellFactory extends PresentationCellHelper {
     PresentationCellFactory(IGetCellValue getCell) {
         this.getCell = getCell;
     }
-    
+
     void setModel(IGwtTableModel model) {
         setGModel(model);
+    }
+
+    IGwtTableModel getModel() {
+        return model;
     }
 
     private final Cell<Boolean> checkCell = new NoEditCheckBoxCell();

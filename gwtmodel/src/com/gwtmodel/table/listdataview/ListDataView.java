@@ -104,6 +104,16 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private class DrawFooter implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IVModelData v = slContext.getVData();
+            tableView.refreshFooter(v);
+        }
+
+    }
+
     private class ModifRow implements IModifyRowStyle {
 
         private final String jsFun;
@@ -735,6 +745,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 false, false));
         registerSubscriber(dType, DataActionEnum.FindRowBeginningList,
                 new FindRow(false, true));
+        registerSubscriber(dType, DataActionEnum.DrawFooterAction,
+                new DrawFooter());
         registerSubscriber(dType, DataActionEnum.FindRowNextList, new FindRow(
                 true, false));
         registerSubscriber(dType, DataActionEnum.DrawListSetFilter,
