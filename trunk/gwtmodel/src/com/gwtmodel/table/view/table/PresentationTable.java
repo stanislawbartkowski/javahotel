@@ -109,6 +109,7 @@ class PresentationTable implements IGwtTableView {
     private IModifyRowStyle iModRow = null;
     private final PresentationCellFactory fa;
     private final PresentationEditCellFactory faEdit;
+    private final PresentationFooterFactory footFactory;
     private boolean noWrap = false;
 
     private IVField sortCol = null;
@@ -334,6 +335,7 @@ class PresentationTable implements IGwtTableView {
         e = new PersistInTable();
         // }
         fa = new PresentationCellFactory(gValue);
+        footFactory = new PresentationFooterFactory(fa);
         faEdit = new PresentationEditCellFactory(e, table, new StartEditLine(),
                 this);
         table.addRowHoverHandler(new RowHover());
@@ -469,7 +471,6 @@ class PresentationTable implements IGwtTableView {
         // int colNo = 0;
         for (VListHeaderDesc he : li) {
             boolean editable = he.isEditable();
-            VListHeaderDesc.ColAlign align = he.getAlign();
             if (he.getgHeader() != null) {
                 @SuppressWarnings("rawtypes")
                 Header header = he.getgHeader().getHeader();
@@ -495,9 +496,6 @@ class PresentationTable implements IGwtTableView {
                         co = faEdit.constructNumberCol(he);
                     } else {
                         co = fa.constructNumberCol(he.getFie());
-                    }
-                    if (align == null) {
-                        co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
                     }
                     break;
                 case DATE:
@@ -526,18 +524,16 @@ class PresentationTable implements IGwtTableView {
             }
             co.setSortable(true);
             // align
-            if (align != null) {
-                switch (align) {
-                case LEFT:
-                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-                    break;
-                case RIGHT:
-                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-                    break;
-                case CENTER:
-                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-                    break;
-                }
+            switch (AlignCol.getCo(he)) {
+            case LEFT:
+                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+                break;
+            case RIGHT:
+                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+                break;
+            case CENTER:
+                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+                break;
             }
             // col width
             String width = he.getColWidth();
@@ -577,9 +573,13 @@ class PresentationTable implements IGwtTableView {
             assert !he.isHidden() && he.getHeaderString() != null : LogT.getT()
                     .cannotBeNull();
 
-            table.addColumn(co, he.getHeaderString());
-            // table.addColumnStyleName(colNo,"myStyle");
-            // colNo ++;
+            if (he.isWithFooter()) {
+                table.addColumn(co, footFactory.constructHeader(he),
+                        footFactory.constructFooter(he));
+            } else {
+//                table.addColumn(co, he.getHeaderString());
+                table.addColumn(co, footFactory.constructHeader(he));
+            }
 
             ListHandler<MutableInteger> columnSortHandler = new ListHandler<MutableInteger>(
                     dList);
@@ -1004,5 +1004,13 @@ class PresentationTable implements IGwtTableView {
         sortCol = col;
         sortInc = inc;
         setSortCol();
+    }
+
+    @Override
+    public void refreshFooter(IVModelData footerV) {
+        footFactory.setFooterV(footerV);
+        if (table != null) {
+            table.redrawFooters();
+        }
     }
 }

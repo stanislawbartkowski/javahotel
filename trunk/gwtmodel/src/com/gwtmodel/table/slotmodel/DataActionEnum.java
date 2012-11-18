@@ -85,5 +85,7 @@ public enum DataActionEnum {
     /** After FormDialog is displayed. */
     AfterDrawViewFormAction,
     /** After ChangeMode is executed. */
-    AfterChangeModeFormAction
+    AfterChangeModeFormAction,
+    /** Draw footer. */
+    DrawFooterAction
 }

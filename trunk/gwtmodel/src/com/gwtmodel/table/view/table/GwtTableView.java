@@ -386,4 +386,13 @@ class GwtTableView implements IGwtTableView {
         
     }
 
+    /* (non-Javadoc)
+     * @see com.gwtmodel.table.view.table.IGwtTableView#refreshFooter(com.gwtmodel.table.IVModelData)
+     */
+    @Override
+    public void refreshFooter(IVModelData footer) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
