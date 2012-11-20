@@ -54,7 +54,8 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
         VListHeaderDesc he = new VListHeaderDesc(fieldName, vString);
         heList.add(he);
         VListHeaderContainer vHeader;
-        vHeader = new VListHeaderContainer(heList, title, 0, null, null, null);
+        vHeader = new VListHeaderContainer(heList, title, 0, null, null, null,
+                null);
         dControler.getSlContainer().publish(dType, vHeader);
     }
 
@@ -79,12 +80,12 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
 
         IGetViewControllerFactory iGetCon = new MemoryGetController(
                 new StringFactory(vString, fieldName, title), new DataFactory(
-                eFactory), daFactory, lPersistList, vFactory);
+                        eFactory), daFactory, lPersistList, vFactory);
 
         DisplayListControlerParam cParam = tFactory.constructParam(
                 new CellId(0), new DataListParam(dType, lPersistList, null,
-                new DataFactory(eFactory), new StringFactory(vString,
-                fieldName, title), iGetCon),
+                        new DataFactory(eFactory), new StringFactory(vString,
+                                fieldName, title), iGetCon),
                 (ISlotMediator) null, (IGetCellValue) null, false);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);

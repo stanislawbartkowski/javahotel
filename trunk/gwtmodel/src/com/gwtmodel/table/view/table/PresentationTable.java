@@ -64,6 +64,7 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
@@ -524,7 +525,7 @@ class PresentationTable implements IGwtTableView {
             }
             co.setSortable(true);
             // align
-            switch (AlignCol.getCo(he)) {
+            switch (AlignCol.getCo(he.getAlign(), he.getFie().getType())) {
             case LEFT:
                 co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
                 break;
@@ -573,11 +574,21 @@ class PresentationTable implements IGwtTableView {
             assert !he.isHidden() && he.getHeaderString() != null : LogT.getT()
                     .cannotBeNull();
 
-            if (he.isWithFooter()) {
+            VFooterDesc footer = null;
+            if (vo.getFoList() != null) {
+                for (VFooterDesc fo : vo.getFoList()) {
+                    if (fo.getFie().eq(he.getFie())) {
+                        footer = fo;
+                        break;
+                    }
+                }
+            }
+
+            if (footer != null) {
                 table.addColumn(co, footFactory.constructHeader(he),
-                        footFactory.constructFooter(he));
+                        footFactory.constructFooter(footer));
             } else {
-//                table.addColumn(co, he.getHeaderString());
+                // table.addColumn(co, he.getHeaderString());
                 table.addColumn(co, footFactory.constructHeader(he));
             }
 

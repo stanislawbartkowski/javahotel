@@ -10,34 +10,29 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.table;
+package com.gwtmodel.table.tabledef;
 
 import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import com.gwtmodel.table.IVField;
 
 /**
  * @author hotel
  * 
  */
-class AlignCol {
+public class VFooterDesc extends VListHeaderDesc {
 
-    private AlignCol() {
+    private final FieldDataType fType;
 
+    public VFooterDesc(IVField fie, ColAlign align, FieldDataType fType) {
+        super(null, fie, false, null, false, align, null, null, null, null);
+        this.fType = fType;
     }
 
-    static VListHeaderDesc.ColAlign getCo(VListHeaderDesc.ColAlign align,
-            FieldDataType dType) {
-        if (align != null) {
-            return align;
-        }
-        switch (dType.getType()) {
-        case LONG:
-        case BIGDECIMAL:
-        case INT:
-            return VListHeaderDesc.ColAlign.RIGHT;
-        default:
-            return VListHeaderDesc.ColAlign.LEFT;
-        }
+    /**
+     * @return the fType
+     */
+    public FieldDataType getfType() {
+        return fType;
     }
 
 }
