@@ -20,6 +20,7 @@ import java.util.List;
 public class VListHeaderContainer {
 
     private final List<VListHeaderDesc> heList;
+    private final List<VFooterDesc> foList;
     private final String listTitle;
     private final int pageSize;
     private final String jsModifRow;
@@ -27,17 +28,19 @@ public class VListHeaderContainer {
     private final String treeHeight;
 
     public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle,
-            int pageSize, String jsModifRow, String widthDef, String treeHeight) {
+            int pageSize, String jsModifRow, String widthDef,
+            String treeHeight, List<VFooterDesc> foList) {
         this.heList = heList;
         this.listTitle = listTitle;
         this.pageSize = pageSize <= 0 ? IConsts.defaultPage : pageSize;
         this.jsModifRow = jsModifRow;
         this.widthDef = widthDef;
         this.treeHeight = treeHeight;
+        this.foList = foList;
     }
 
     public VListHeaderContainer(List<VListHeaderDesc> heList, String listTitle) {
-        this(heList, listTitle, IConsts.defaultPage, null, null,null);
+        this(heList, listTitle, IConsts.defaultPage, null, null, null, null);
     }
 
     public VListHeaderDesc getHeader(IVField v) {
@@ -95,6 +98,15 @@ public class VListHeaderContainer {
      */
     public String getTreeHeight() {
         return treeHeight;
-    }        
+    }
+
+    /**
+     * @return the foList
+     */
+    public List<VFooterDesc> getFoList() {
+        return foList;
+    }
     
+    
+
 }

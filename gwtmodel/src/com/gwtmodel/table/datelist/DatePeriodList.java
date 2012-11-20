@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author hotel
  */
 class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
@@ -76,8 +76,8 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
 
         DisplayListControlerParam cParam = tFactory.constructParam(
                 new CellId(0), new DataListParam(dType, mList, null,
-                new DataFactory(eFactory), new DateViewFactory(title),
-                iGetCon), (ISlotMediator) null, (IGetCellValue) null,
+                        new DataFactory(eFactory), new DateViewFactory(title),
+                        iGetCon), (ISlotMediator) null, (IGetCellValue) null,
                 false);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
@@ -102,7 +102,8 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
                 DatePeriodField.F.COMMENT));
         heList.add(he);
         VListHeaderContainer vHeader;
-        vHeader = new VListHeaderContainer(heList, title, 0, null, null, null);
+        vHeader = new VListHeaderContainer(heList, title, 0, null, null, null,
+                null);
         dControler.getSlContainer().publish(dType, vHeader);
     }
 

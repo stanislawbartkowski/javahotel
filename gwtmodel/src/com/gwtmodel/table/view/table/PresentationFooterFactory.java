@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
@@ -21,9 +20,10 @@ import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
-import com.gwtmodel.table.view.table.PresentationEditCellHelper.InputTemplate;
 
 /**
  * @author hotel
@@ -31,6 +31,7 @@ import com.gwtmodel.table.view.table.PresentationEditCellHelper.InputTemplate;
  */
 class PresentationFooterFactory {
 
+    @SuppressWarnings("unused")
     private final PresentationCellFactory cFactory;
     private IVModelData footerV;
 
@@ -47,27 +48,28 @@ class PresentationFooterFactory {
 
     private InputTemplate headerInput = GWT.create(InputTemplate.class);
 
-    private SafeHtml getHtml(VListHeaderDesc he, String value) {
-        String align = null;
-        switch (AlignCol.getCo(he)) {
+    private SafeHtml getHtml(VListHeaderDesc.ColAlign align,
+            FieldDataType dType, String value) {
+        String ali = null;
+        switch (AlignCol.getCo(align, dType)) {
         case LEFT:
-            align = "left";
+            ali = "left";
             break;
         case CENTER:
-            align = "center";
+            ali = "center";
             break;
         case RIGHT:
-            align = "right";
+            ali = "right";
             break;
         }
-        return headerInput.input(align, value);
+        return headerInput.input(ali, value);
     }
 
     private class FooterH extends Header<SafeHtml> {
 
-        private final VListHeaderDesc he;
+        private final VFooterDesc he;
 
-        FooterH(VListHeaderDesc he) {
+        FooterH(VFooterDesc he) {
             super(new SafeHtmlCell());
             this.he = he;
         }
@@ -79,67 +81,18 @@ class PresentationFooterFactory {
             }
             Object o = footerV.getF(he.getFie());
             String val = FUtils.getValueOS(o, he.getFie());
-            return getHtml(he, val);
+            return getHtml(he.getAlign(), he.getfType(), val);
         }
 
-    }
-
-    private class StringFooter<T> extends Header<T> {
-
-        private final VListHeaderDesc he;
-
-        public StringFooter(Cell<T> cell, VListHeaderDesc he) {
-            super(cell);
-            this.he = he;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public T getValue() {
-            if (footerV == null) {
-                return null;
-            }
-            return (T) footerV.getF(he.getFie());
-        }
-
-    }
-
-    // SafeHtmlHeader header = new SafeHtmlHeader(new SafeHtml() {
-
-    // @Override
-    // public String asString() {
-    // return "<p style=\"text-align:center;\">My Column Header</p>";
-    // }
-    // });
-
-    // myCellTable.addColumn( myCol, header);
-
-    Header<?> XconstructHeader(VListHeaderDesc he) {
-        return new TextHeader(he.getHeaderString());
     }
 
     Header<?> constructHeader(VListHeaderDesc he) {
-        return new SafeHtmlHeader(getHtml(he, he.getHeaderString()));
+        return new SafeHtmlHeader(getHtml(he.getAlign(), he.getFie().getType(),
+                he.getHeaderString()));
     }
 
-    Header<?> constructFooter(VListHeaderDesc he) {
+    Header<?> constructFooter(VFooterDesc he) {
         return new FooterH(he);
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    Header<?> OldconstructFooter(VListHeaderDesc he) {
-        Header<?> hea = new StringFooter(cFactory.constructCell(he.getFie()),
-                he);
-        hea.setHeaderStyleNames("footer_right_align");
-        SafeHtmlHeader header = new SafeHtmlHeader(new SafeHtml() {
-
-            @Override
-            public String asString() {
-                return "<p style=\"text-align:center;\">My Column Header</p>";
-            }
-        });
-
-        return header;
     }
 
     /**
