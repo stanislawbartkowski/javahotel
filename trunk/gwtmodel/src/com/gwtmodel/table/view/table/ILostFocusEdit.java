@@ -18,7 +18,7 @@ import com.gwtmodel.table.IVField;
  * @author hotel
  * 
  */
-interface ILostFocusEdit {
+public interface ILostFocusEdit {
 
     void action(int row, IVField v);
 

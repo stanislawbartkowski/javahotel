@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.List;
-
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVField;
@@ -21,6 +19,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
+import java.util.List;
 
 public interface IGwtTableView extends IGWidget {
 

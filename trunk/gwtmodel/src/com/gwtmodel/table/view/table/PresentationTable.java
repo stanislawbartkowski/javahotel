@@ -12,10 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
@@ -69,9 +65,12 @@ import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
 import com.gwtmodel.table.view.util.PopUpHint;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
- * 
+ *
  * @author perseus
  */
 class PresentationTable implements IGwtTableView {
@@ -112,9 +111,9 @@ class PresentationTable implements IGwtTableView {
     private final PresentationEditCellFactory faEdit;
     private final PresentationFooterFactory footFactory;
     private boolean noWrap = false;
-
     private IVField sortCol = null;
     private boolean sortInc;
+    private final ILostFocusEdit lostFocus;
 
     private class CurrentHoverTip {
 
@@ -125,7 +124,6 @@ class PresentationTable implements IGwtTableView {
         boolean on = false;
         PopUpHint pHint = new PopUpHint();
     }
-
     private final CurrentHoverTip currentH = new CurrentHoverTip();
 
     public void setModifyRowStyle(IModifyRowStyle iMod) {
@@ -149,9 +147,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Custom function for additional style for rows. Uses java script function.
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class TStyles implements RowStyles<MutableInteger> {
 
@@ -180,9 +178,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Raised when the whole row was selected
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class SelectionChange implements SelectionChangeEvent.Handler {
 
@@ -222,7 +220,9 @@ class PresentationTable implements IGwtTableView {
                     vD.setF(v, o);
                 }
             }
-
+            if (lostFocus != null) {
+                lostFocus.action(row, v);
+            }
         }
     }
 
@@ -262,13 +262,13 @@ class PresentationTable implements IGwtTableView {
         // }
 
         /*
-        if (faEdit.geteParam() != null) {
-            return;
-        }
-        if (!noWrap) {
-            return;
-        }
-        */
+         if (faEdit.geteParam() != null) {
+         return;
+         }
+         if (!noWrap) {
+         return;
+         }
+         */
 
         currentH.key = row;
         currentH.col = col;
@@ -314,9 +314,10 @@ class PresentationTable implements IGwtTableView {
     }
 
     PresentationTable(IRowClick iClick, ICommand actionColumn,
-            IGetCellValue gValue, INewEditLineFocus iEditFocus) {
+            IGetCellValue gValue, INewEditLineFocus iEditFocus, ILostFocusEdit lostFocus) {
         this.iEditFocus = iEditFocus;
         this.iClick = iClick;
+        this.lostFocus = lostFocus;
         this.iActionColumn = actionColumn;
         this.gValue = gValue;
         selectionModel.addSelectionChangeHandler(new SelectionChange());
@@ -363,9 +364,9 @@ class PresentationTable implements IGwtTableView {
     /**
      * Implementation of AbstractCell. The only purpose is to take over
      * "clicked" event
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class A extends AbstractCell<SafeHtml> {
 
@@ -387,9 +388,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Display raw cell column. Call back function provides html (safe)
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class RawColumn extends Column<MutableInteger, SafeHtml> {
 
@@ -490,51 +491,51 @@ class PresentationTable implements IGwtTableView {
                 co = new TColumnString(he.getFie(), fType);
             } else {
                 switch (fType.getType()) {
-                case LONG:
-                case BIGDECIMAL:
-                case INT:
-                    if (editable) {
-                        co = faEdit.constructNumberCol(he);
-                    } else {
-                        co = fa.constructNumberCol(he.getFie());
-                    }
-                    break;
-                case DATE:
-                    if (editable) {
-                        co = faEdit.constructDateEditCol(he);
-                    } else {
-                        co = fa.constructDateEditCol(he.getFie());
-                    }
-                    break;
-                case BOOLEAN:
-                    if (editable) {
-                        co = faEdit.contructBooleanCol(he.getFie(),
-                                !selectEnabled());
-                    } else {
-                        co = fa.contructBooleanCol(he.getFie());
-                    }
-                    break;
-                default:
-                    if (editable) {
-                        co = faEdit.constructEditTextCol(he);
-                    } else {
-                        co = fa.constructTextCol(he.getFie());
-                    }
-                    break;
+                    case LONG:
+                    case BIGDECIMAL:
+                    case INT:
+                        if (editable) {
+                            co = faEdit.constructNumberCol(he);
+                        } else {
+                            co = fa.constructNumberCol(he.getFie());
+                        }
+                        break;
+                    case DATE:
+                        if (editable) {
+                            co = faEdit.constructDateEditCol(he);
+                        } else {
+                            co = fa.constructDateEditCol(he.getFie());
+                        }
+                        break;
+                    case BOOLEAN:
+                        if (editable) {
+                            co = faEdit.contructBooleanCol(he.getFie(),
+                                    !selectEnabled());
+                        } else {
+                            co = fa.contructBooleanCol(he.getFie());
+                        }
+                        break;
+                    default:
+                        if (editable) {
+                            co = faEdit.constructEditTextCol(he);
+                        } else {
+                            co = fa.constructTextCol(he.getFie());
+                        }
+                        break;
                 }
             }
             co.setSortable(true);
             // align
             switch (AlignCol.getCo(he.getAlign(), he.getFie().getType())) {
-            case LEFT:
-                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-                break;
-            case RIGHT:
-                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-                break;
-            case CENTER:
-                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-                break;
+                case LEFT:
+                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+                    break;
+                case RIGHT:
+                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+                    break;
+                case CENTER:
+                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+                    break;
             }
             // col width
             String width = he.getColWidth();
@@ -719,13 +720,10 @@ class PresentationTable implements IGwtTableView {
     /**
      * Creates WChoosedLine for selected/clicked. It can be later retrieved.
      * Only one can be retrieved, next overwrite the previous
-     * 
-     * @param sel
-     *            Row (Integer) position
-     * @param v
-     *            Column to be clicked (if available)
-     * @param wSize
-     *            Cell position (if not null)
+     *
+     * @param sel Row (Integer) position
+     * @param v Column to be clicked (if available)
+     * @param wSize Cell position (if not null)
      * @return
      */
     private WChoosedLine pgetClicked(MutableInteger sel, IVField v, WSize wSize) {
