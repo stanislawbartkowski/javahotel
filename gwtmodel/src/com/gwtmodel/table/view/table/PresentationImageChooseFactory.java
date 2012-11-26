@@ -212,4 +212,5 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
         CellPickerString ceCell = new CellPickerString(c1, c2);
         return new TColumnEdit(he.getFie(), ceCell);
     }
+    
 }
