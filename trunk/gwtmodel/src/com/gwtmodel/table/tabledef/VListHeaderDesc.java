@@ -47,6 +47,7 @@ public class VListHeaderDesc {
     private final String inputClass;
     private final String inputStyle;
     private final IColumnImageSelect iColSelect;
+    private final IColumnImage iColImage;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
         assert fie != null : LogT.getT().cannotBeNull();
@@ -61,6 +62,7 @@ public class VListHeaderDesc {
         this.inputClass = null;
         this.inputStyle = null;
         this.iColSelect = null;
+        this.iColImage = null;
     }
 
     /**
@@ -79,18 +81,18 @@ public class VListHeaderDesc {
 
     public VListHeaderDesc(String headerString, IVField fie) {
         this(headerString, fie, false, null, false, null, null, null, null,
-                null);
+                null, null);
     }
 
     public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
         this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(),
-                false, null, null, null, null, null);
+                false, null, null, null, null, null, null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
             String buttonAction, boolean editable, ColAlign align,
             String colWidth, String inputClass, String inputStyle,
-            IColumnImageSelect iColSelect) {
+            IColumnImageSelect iColSelect, IColumnImage iColImage) {
         assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = headerString;
         this.fie = fie;
@@ -103,11 +105,12 @@ public class VListHeaderDesc {
         this.inputClass = inputClass;
         this.inputStyle = inputStyle;
         this.iColSelect = iColSelect;
+        this.iColImage = iColImage;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
         this(headerString, fie, hidden, null, false, null, null, null, null,
-                null);
+                null, null);
     }
 
     public String getHeaderString() {
@@ -151,6 +154,13 @@ public class VListHeaderDesc {
      */
     public IColumnImageSelect getiColSelect() {
         return iColSelect;
+    }
+
+    /**
+     * @return the iColImage
+     */
+    public IColumnImage getiColImage() {
+        return iColImage;
     }
 
 }

@@ -12,28 +12,18 @@
  */
 package com.gwtmodel.table.tabledef;
 
-import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.WSize;
 
 /**
  * @author hotel
  * 
  */
-public class VFooterDesc extends VListHeaderDesc {
+public interface IColumnImage {
 
-    private final FieldDataType fType;
+    String[] getImageButton();
 
-    public VFooterDesc(IVField fie, ColAlign align, FieldDataType fType) {
-        super(null, fie, false, null, false, align, null, null, null, null,
-                null);
-        this.fType = fType;
-    }
+    boolean getImageActive(int row, int imno);
 
-    /**
-     * @return the fType
-     */
-    public FieldDataType getfType() {
-        return fType;
-    }
+    void click(WSize w, int row, int imno);
 
 }

@@ -41,6 +41,7 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.tabledef.IColumnImage;
 import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
@@ -55,6 +56,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
     private final PresentationImageChooseFactory iFactory;
     private final PresentationNumbEditFactory nFactory;
     private final PresentationCheckEditFactory checkFactory;
+    private final PresentationImageButtonFactory imaFactory;
 
     interface IStartEditRow {
 
@@ -67,6 +69,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         iFactory.setGModel(model);
         nFactory.setGModel(model);
         checkFactory.setGModel(model);
+        imaFactory.setGModel(model);
     }
 
     /**
@@ -98,10 +101,11 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
                 lostFocus, eCol, iStartEdit);
         nFactory = new PresentationNumbEditFactory(errorInfo, table, lostFocus,
                 eCol, iStartEdit);
-        checkFactory = new  PresentationCheckEditFactory(errorInfo, table, lostFocus,
-                eCol, iStartEdit);
+        checkFactory = new PresentationCheckEditFactory(errorInfo, table,
+                lostFocus, eCol, iStartEdit);
+        imaFactory = new PresentationImageButtonFactory(errorInfo, table,
+                lostFocus, eCol, iStartEdit);
     }
-
 
     private class EditSelectionCell extends SelectionCell implements IGetField {
 
@@ -181,7 +185,6 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         return dFactory.constructDateEditCol(he);
     }
 
-    
     @SuppressWarnings("rawtypes")
     Column contructBooleanCol(IVField v, boolean handleSelection) {
         return checkFactory.contructBooleanCol(v, handleSelection);
@@ -192,8 +195,11 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         IVField v = he.getFie();
         IEnumType e = v.getType().getE();
         IColumnImageSelect cSelect = he.getiColSelect();
+        IColumnImage iImage = he.getiColImage();
         Column co;
-        if (cSelect != null) {
+        if (iImage != null) {
+            co = imaFactory.constructImageButton(he);
+        } else if (cSelect != null) {
             co = iFactory.construct(he);
         } else {
             if (e != null) {
