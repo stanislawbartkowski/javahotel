@@ -90,6 +90,7 @@ class GwtTableView implements IGwtTableView {
         }
     }
 
+    @SuppressWarnings("incomplete-switch")
     private ColumnType getCType(VListHeaderDesc c) {
         switch (c.getFie().getType().getType()) {
             case BOOLEAN:

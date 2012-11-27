@@ -70,7 +70,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 class PresentationTable implements IGwtTableView {
@@ -124,6 +124,7 @@ class PresentationTable implements IGwtTableView {
         boolean on = false;
         PopUpHint pHint = new PopUpHint();
     }
+
     private final CurrentHoverTip currentH = new CurrentHoverTip();
 
     public void setModifyRowStyle(IModifyRowStyle iMod) {
@@ -147,9 +148,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Custom function for additional style for rows. Uses java script function.
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class TStyles implements RowStyles<MutableInteger> {
 
@@ -178,9 +179,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Raised when the whole row was selected
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class SelectionChange implements SelectionChangeEvent.Handler {
 
@@ -314,7 +315,8 @@ class PresentationTable implements IGwtTableView {
     }
 
     PresentationTable(IRowClick iClick, ICommand actionColumn,
-            IGetCellValue gValue, INewEditLineFocus iEditFocus, ILostFocusEdit lostFocus) {
+            IGetCellValue gValue, INewEditLineFocus iEditFocus,
+            ILostFocusEdit lostFocus, IColumnImage iIma) {
         this.iEditFocus = iEditFocus;
         this.iClick = iClick;
         this.lostFocus = lostFocus;
@@ -339,7 +341,7 @@ class PresentationTable implements IGwtTableView {
         fa = new PresentationCellFactory(gValue);
         footFactory = new PresentationFooterFactory(fa);
         faEdit = new PresentationEditCellFactory(e, table, new StartEditLine(),
-                this);
+                this, iIma);
         table.addRowHoverHandler(new RowHover());
     }
 
@@ -364,9 +366,9 @@ class PresentationTable implements IGwtTableView {
     /**
      * Implementation of AbstractCell. The only purpose is to take over
      * "clicked" event
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class A extends AbstractCell<SafeHtml> {
 
@@ -388,9 +390,9 @@ class PresentationTable implements IGwtTableView {
 
     /**
      * Display raw cell column. Call back function provides html (safe)
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class RawColumn extends Column<MutableInteger, SafeHtml> {
 
@@ -491,51 +493,51 @@ class PresentationTable implements IGwtTableView {
                 co = new TColumnString(he.getFie(), fType);
             } else {
                 switch (fType.getType()) {
-                    case LONG:
-                    case BIGDECIMAL:
-                    case INT:
-                        if (editable) {
-                            co = faEdit.constructNumberCol(he);
-                        } else {
-                            co = fa.constructNumberCol(he.getFie());
-                        }
-                        break;
-                    case DATE:
-                        if (editable) {
-                            co = faEdit.constructDateEditCol(he);
-                        } else {
-                            co = fa.constructDateEditCol(he.getFie());
-                        }
-                        break;
-                    case BOOLEAN:
-                        if (editable) {
-                            co = faEdit.contructBooleanCol(he.getFie(),
-                                    !selectEnabled());
-                        } else {
-                            co = fa.contructBooleanCol(he.getFie());
-                        }
-                        break;
-                    default:
-                        if (editable) {
-                            co = faEdit.constructEditTextCol(he);
-                        } else {
-                            co = fa.constructTextCol(he.getFie());
-                        }
-                        break;
+                case LONG:
+                case BIGDECIMAL:
+                case INT:
+                    if (editable) {
+                        co = faEdit.constructNumberCol(he);
+                    } else {
+                        co = fa.constructNumberCol(he.getFie());
+                    }
+                    break;
+                case DATE:
+                    if (editable) {
+                        co = faEdit.constructDateEditCol(he);
+                    } else {
+                        co = fa.constructDateEditCol(he.getFie());
+                    }
+                    break;
+                case BOOLEAN:
+                    if (editable) {
+                        co = faEdit.contructBooleanCol(he.getFie(),
+                                !selectEnabled());
+                    } else {
+                        co = fa.contructBooleanCol(he.getFie());
+                    }
+                    break;
+                default:
+                    if (editable || he.isImageCol()) {
+                        co = faEdit.constructEditTextCol(he);
+                    } else {
+                        co = fa.constructTextCol(he.getFie());
+                    }
+                    break;
                 }
             }
             co.setSortable(true);
             // align
             switch (AlignCol.getCo(he.getAlign(), he.getFie().getType())) {
-                case LEFT:
-                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-                    break;
-                case RIGHT:
-                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-                    break;
-                case CENTER:
-                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-                    break;
+            case LEFT:
+                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+                break;
+            case RIGHT:
+                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+                break;
+            case CENTER:
+                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+                break;
             }
             // col width
             String width = he.getColWidth();
@@ -720,10 +722,13 @@ class PresentationTable implements IGwtTableView {
     /**
      * Creates WChoosedLine for selected/clicked. It can be later retrieved.
      * Only one can be retrieved, next overwrite the previous
-     *
-     * @param sel Row (Integer) position
-     * @param v Column to be clicked (if available)
-     * @param wSize Cell position (if not null)
+     * 
+     * @param sel
+     *            Row (Integer) position
+     * @param v
+     *            Column to be clicked (if available)
+     * @param wSize
+     *            Cell position (if not null)
      * @return
      */
     private WChoosedLine pgetClicked(MutableInteger sel, IVField v, WSize wSize) {

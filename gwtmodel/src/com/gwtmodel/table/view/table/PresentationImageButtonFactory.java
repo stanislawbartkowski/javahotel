@@ -33,7 +33,6 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.tabledef.IColumnImage;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
 
@@ -43,10 +42,13 @@ import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
  */
 class PresentationImageButtonFactory extends PresentationEditCellHelper {
 
+    private final IColumnImage iIma;
+
     PresentationImageButtonFactory(ErrorLineInfo errorInfo,
             CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
-            EditableCol eCol, IStartEditRow iStartEdit) {
+            EditableCol eCol, IStartEditRow iStartEdit, IColumnImage iIma) {
         super(errorInfo, table, lostFocus, eCol, iStartEdit);
+        this.iIma = iIma;
     }
 
     @SuppressWarnings({ "rawtypes", "unused" })
@@ -93,10 +95,7 @@ class PresentationImageButtonFactory extends PresentationEditCellHelper {
 
         @Override
         public void execute(Object object) {
-            boolean active = he.getiColImage().getImageActive(rowno, imno);
-            if (active) {
-                he.getiColImage().click(lastRendered, rowno, imno);
-            }
+            iIma.click(lastRendered, rowno, he.getFie(), imno);
         }
 
     }
@@ -134,27 +133,23 @@ class PresentationImageButtonFactory extends PresentationEditCellHelper {
             Object key = context.getKey();
             MutableInteger i = (MutableInteger) key;
             int rowno = i.intValue();
-            boolean editenabled = eCol.isEditable(rowno, v);
-            boolean active = he.getiColImage().getImageActive(rowno, no);
-            if (editenabled && active) {
-                String ima = he.getiColImage().getImageButton()[no];
-                if (ima == null) {
-                    IGetCustomValues c = GwtGiniInjector.getI()
-                            .getTableFactoriesContainer().getGetCustomValues();
-                    ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP)
-                            + ".gif";
-                }
-                String s = Utils.getImageHTML(ima);
-                SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
-                sb.append(html);
+            String ima = iIma.getImageButton(rowno, v)[no];
+            if (ima == null) {
+                IGetCustomValues c = GwtGiniInjector.getI()
+                        .getTableFactoriesContainer().getGetCustomValues();
+                ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP)
+                        + ".gif";
             }
+            String s = Utils.getImageHTML(ima);
+            SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
+            sb.append(html);
         }
     }
 
     private List<HasCell<?, ?>> createList(VListHeaderDesc he) {
-        IColumnImage i = he.getiColImage();
+        int imNo = he.getImageNo();
         List<HasCell<?, ?>> rList = new ArrayList<HasCell<?, ?>>();
-        for (int no = 0; no < i.getImageButton().length; no++) {
+        for (int no = 0; no < imNo; no++) {
             HasButtonCellImage h = new HasButtonCellImage(he, no);
             rList.add(h);
 

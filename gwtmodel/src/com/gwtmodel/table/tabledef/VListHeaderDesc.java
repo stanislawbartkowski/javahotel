@@ -47,7 +47,7 @@ public class VListHeaderDesc {
     private final String inputClass;
     private final String inputStyle;
     private final IColumnImageSelect iColSelect;
-    private final IColumnImage iColImage;
+    private final int imageNo;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
         assert fie != null : LogT.getT().cannotBeNull();
@@ -62,7 +62,7 @@ public class VListHeaderDesc {
         this.inputClass = null;
         this.inputStyle = null;
         this.iColSelect = null;
-        this.iColImage = null;
+        this.imageNo = 0;
     }
 
     /**
@@ -81,18 +81,18 @@ public class VListHeaderDesc {
 
     public VListHeaderDesc(String headerString, IVField fie) {
         this(headerString, fie, false, null, false, null, null, null, null,
-                null, null);
+                null, 0);
     }
 
     public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
         this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(),
-                false, null, null, null, null, null, null);
+                false, null, null, null, null, null, 0);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
             String buttonAction, boolean editable, ColAlign align,
             String colWidth, String inputClass, String inputStyle,
-            IColumnImageSelect iColSelect, IColumnImage iColImage) {
+            IColumnImageSelect iColSelect, int imageNo) {
         assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = headerString;
         this.fie = fie;
@@ -105,12 +105,12 @@ public class VListHeaderDesc {
         this.inputClass = inputClass;
         this.inputStyle = inputStyle;
         this.iColSelect = iColSelect;
-        this.iColImage = iColImage;
+        this.imageNo = imageNo;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
         this(headerString, fie, hidden, null, false, null, null, null, null,
-                null, null);
+                null, 0);
     }
 
     public String getHeaderString() {
@@ -157,10 +157,14 @@ public class VListHeaderDesc {
     }
 
     /**
-     * @return the iColImage
+     * @return the imageNo
      */
-    public IColumnImage getiColImage() {
-        return iColImage;
+    public int getImageNo() {
+        return imageNo;
+    }
+
+    public boolean isImageCol() {
+        return imageNo > 0;
     }
 
 }

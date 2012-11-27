@@ -10,15 +10,19 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.daytimetable;
+package com.gwtmodel.table.view.table;
 
-import com.gwtmodel.table.ISetGWidget;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.WSize;
 
 /**
+ * @author hotel
  * 
- * @author stanislawbartkowski@gmail.com
  */
-public interface IDrawPartSeason extends ISetGWidget {
+public interface IColumnImage {
 
-    void refresh(IDrawPartSeasonContext sData);
+    String[] getImageButton(int row, IVField v);
+
+    void click(WSize w, int row, IVField v, int imno);
+
 }

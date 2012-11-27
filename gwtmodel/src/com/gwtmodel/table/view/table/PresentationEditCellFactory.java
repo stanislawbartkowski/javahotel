@@ -41,7 +41,6 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.MM;
-import com.gwtmodel.table.tabledef.IColumnImage;
 import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
@@ -91,7 +90,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
 
     PresentationEditCellFactory(ILostFocusEdit lostFocus,
             CellTable<MutableInteger> table, IStartEditRow iStartEdit,
-            PresentationTable pTable) {
+            PresentationTable pTable,IColumnImage iIma) {
         super(new ErrorLineInfo(), table, lostFocus, new EditableCol(),
                 iStartEdit);
         this.pTable = pTable;
@@ -104,7 +103,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         checkFactory = new PresentationCheckEditFactory(errorInfo, table,
                 lostFocus, eCol, iStartEdit);
         imaFactory = new PresentationImageButtonFactory(errorInfo, table,
-                lostFocus, eCol, iStartEdit);
+                lostFocus, eCol, iStartEdit,iIma);
     }
 
     private class EditSelectionCell extends SelectionCell implements IGetField {
@@ -195,9 +194,9 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         IVField v = he.getFie();
         IEnumType e = v.getType().getE();
         IColumnImageSelect cSelect = he.getiColSelect();
-        IColumnImage iImage = he.getiColImage();
+        boolean isColImage = he.isImageCol();
         Column co;
-        if (iImage != null) {
+        if (isColImage) {
             co = imaFactory.constructImageButton(he);
         } else if (cSelect != null) {
             co = iFactory.construct(he);
