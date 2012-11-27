@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.gwtmodel.table.CreateJson;
 import com.gwtmodel.table.FUtils;
@@ -46,6 +49,7 @@ import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.table.IColumnImage;
 import com.gwtmodel.table.view.table.IGetCellValue;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
@@ -54,8 +58,6 @@ import com.gwtmodel.table.view.table.IModifyRowStyle;
 import com.gwtmodel.table.view.table.INewEditLineFocus;
 import com.gwtmodel.table.view.table.IRowClick;
 import com.gwtmodel.table.view.table.IRowEditAction;
-import java.util.ArrayList;
-import java.util.List;
 
 class ListDataView extends AbstractSlotContainer implements IListDataView {
 
@@ -126,13 +128,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             for (IVField f : line.getF()) {
                 boolean number = false;
                 switch (f.getType().getType()) {
-                    case BIGDECIMAL:
-                    case LONG:
-                    case INT:
-                        number = true;
-                        break;
-                    default:
-                        break;
+                case BIGDECIMAL:
+                case LONG:
+                case INT:
+                    number = true;
+                    break;
+                default:
+                    break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -461,9 +463,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers IVModelData identified by position in list
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -479,9 +481,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -718,9 +720,34 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
             WSize w = tableView.getRowWidget(row);
             ChangeFieldEditSignal sig = new ChangeFieldEditSignal(row, v, w);
-            CustomStringSlot sl = ChangeFieldEditSignal.constructSlotChangeEditSignal(dType);
+            CustomStringSlot sl = ChangeFieldEditSignal
+                    .constructSlotChangeEditSignal(dType);
             publish(sl, sig);
         }
+    }
+
+    private class ImageColumnAction implements IColumnImage {
+
+        @Override
+        public String[] getImageButton(int row, IVField v) {
+            CustomStringSlot sl = GetImageColSignal
+                    .constructSlotGetTableIsFilter(dType);
+            GetImageColSignal sig = new GetImageColSignal(row, v);
+            ISlotSignalContext slContext = getSlContainer().getGetter(sl, sig);
+            GetImageColSignalReturn slRe = (GetImageColSignalReturn) slContext
+                    .getCustom();
+            return slRe.getImageList();
+        }
+
+        @Override
+        public void click(WSize w, int row, IVField v, int imno) {
+            CustomStringSlot sl = ClickColumnImageSignal
+                    .constructSlotClickColumnSignal(dType);
+            ClickColumnImageSignal sig = new ClickColumnImageSignal(w, row, v,
+                    imno);
+            publish(sl, sig);
+        }
+
     }
 
     private void constructView(boolean treeView) {
@@ -731,7 +758,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         } else {
             tableView = gFactory.construct(
                     selectedRow ? new ClickList() : null, new ClickColumn(),
-                    gValue, new NewEditLineFocus(), new LostFocus());
+                    gValue, new NewEditLineFocus(), new LostFocus(),
+                    new ImageColumnAction());
         }
     }
 
@@ -777,15 +805,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ChangeTableSize());
         registerSubscriber(
                 FinishEditRowSignal
-                .constructSlotFinishEditRowReturnSignal(dType),
+                        .constructSlotFinishEditRowReturnSignal(dType),
                 new ReceiveReturnSignalFromFinish());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckFocusSignal(dType),
+                        .constructSlotButtonCheckFocusSignal(dType),
                 new ButtonCheckFocusRedirect());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckBackFocusSignal(dType),
+                        .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
         registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new RemoveRow());

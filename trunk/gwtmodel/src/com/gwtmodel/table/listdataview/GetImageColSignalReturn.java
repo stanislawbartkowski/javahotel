@@ -10,20 +10,27 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.tabledef;
+package com.gwtmodel.table.listdataview;
 
-import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.ICustomObject;
 
 /**
  * @author hotel
  * 
  */
-public interface IColumnImage {
+public class GetImageColSignalReturn implements ICustomObject {
 
-    String[] getImageButton();
+    private final String[] imageList;
 
-    boolean getImageActive(int row, int imno);
+    public GetImageColSignalReturn(String[] imageList) {
+        this.imageList = imageList;
+    }
 
-    void click(WSize w, int row, int imno);
+    /**
+     * @return the imageList
+     */
+    public String[] getImageList() {
+        return imageList;
+    }
 
 }

@@ -24,8 +24,7 @@ public class VFooterDesc extends VListHeaderDesc {
     private final FieldDataType fType;
 
     public VFooterDesc(IVField fie, ColAlign align, FieldDataType fType) {
-        super(null, fie, false, null, false, align, null, null, null, null,
-                null);
+        super(null, fie, false, null, false, align, null, null, null, null, 0);
         this.fType = fType;
     }
 
