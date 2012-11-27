@@ -128,13 +128,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             for (IVField f : line.getF()) {
                 boolean number = false;
                 switch (f.getType().getType()) {
-                case BIGDECIMAL:
-                case LONG:
-                case INT:
-                    number = true;
-                    break;
-                default:
-                    break;
+                    case BIGDECIMAL:
+                    case LONG:
+                    case INT:
+                        number = true;
+                        break;
+                    default:
+                        break;
                 }
                 String name = f.getId();
                 String val = FUtils.getValueS(line, f);
@@ -463,9 +463,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers IVModelData identified by position in list
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -481,9 +481,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -730,8 +730,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public String[] getImageButton(int row, IVField v) {
-            CustomStringSlot sl = GetImageColSignal
-                    .constructSlotGetTableIsFilter(dType);
+            CustomStringSlot sl = GetImageColSignal.constructSlotGetImageCol(dType);
             GetImageColSignal sig = new GetImageColSignal(row, v);
             ISlotSignalContext slContext = getSlContainer().getGetter(sl, sig);
             GetImageColSignalReturn slRe = (GetImageColSignalReturn) slContext
@@ -747,7 +746,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                     imno);
             publish(sl, sig);
         }
-
     }
 
     private void constructView(boolean treeView) {
@@ -805,15 +803,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ChangeTableSize());
         registerSubscriber(
                 FinishEditRowSignal
-                        .constructSlotFinishEditRowReturnSignal(dType),
+                .constructSlotFinishEditRowReturnSignal(dType),
                 new ReceiveReturnSignalFromFinish());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                        .constructSlotButtonCheckFocusSignal(dType),
+                .constructSlotButtonCheckFocusSignal(dType),
                 new ButtonCheckFocusRedirect());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                        .constructSlotButtonCheckBackFocusSignal(dType),
+                .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
         registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new RemoveRow());

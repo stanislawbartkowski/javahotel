@@ -19,7 +19,7 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
 /**
  * @author hotel
- * 
+ *
  */
 public class GetImageColSignal extends DataIntegerSignal {
 
@@ -36,12 +36,10 @@ public class GetImageColSignal extends DataIntegerSignal {
     public IVField getV() {
         return v;
     }
-
     private static final String SIGNAL_ID = GetImageColSignal.class.getName()
             + "TABLE_PUBLIC_GET_IMAGE_COL";
 
-    public static CustomStringSlot constructSlotGetTableIsFilter(IDataType dType) {
+    public static CustomStringSlot constructSlotGetImageCol(IDataType dType) {
         return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
     }
-
 }
