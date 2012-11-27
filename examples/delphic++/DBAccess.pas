@@ -29,20 +29,21 @@ type
     { Get TSQLStoredProc assuming default schema. }
     function getSP(procName: String): TSQLStoredProc; Overload;
 
-     { Constructs TSQLQuery class connect to database. }
+    { Constructs TSQLQuery class connect to database. }
     function getQ(statement: String): TSQLQuery;
 
     { Get current database type. }
-    function getT : DatabaseType;
+    function getT: DatabaseType;
 
   private
-     procedure ConnectOracle;
-     procedure ConnectDB2;
+    procedure ConnectOracle;
+    procedure ConnectDB2;
+
   var
     Conn: TSQLConnection;
     T: DatabaseType;
 
- end;
+  end;
 
 implementation
 
@@ -59,7 +60,7 @@ end;
 
 procedure DBConnect.ConnectOracle;
 begin
- With Conn do
+  With Conn do
   begin
     Conn.DriverName := 'Oracle';
     Params.Values['USER_NAME'] := 'testuser';
@@ -73,13 +74,14 @@ begin
   With Conn do
   begin
     DriverName := 'DB2';
-//    VendorLib := 'db2cli.dll';
-//    LibraryName := 'dbxdb2.dll';
-//    GetDriverFunc := 'getSQLDriverDB2';
+    // VendorLib := 'db2cli.dll';
+    // LibraryName := 'dbxdb2.dll';
+    // GetDriverFunc := 'getSQLDriverDB2';
     Params.Values['USER_NAME'] := 'db2inst1';
     Params.Values['PASSWORD'] := 'db2inst1';
     Params.Values['DATABASE'] := 'asample';
-  end;end;
+  end;
+end;
 
 { Connect to database regarding database type (Oracle or DB2) }
 procedure DBConnect.connect;
