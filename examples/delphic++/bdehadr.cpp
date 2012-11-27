@@ -14,8 +14,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-#pragma hdrstop
-#pragma argsused
 
 #include <tchar.h>
 #include <stdio.h>
