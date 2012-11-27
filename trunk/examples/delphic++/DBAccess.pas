@@ -25,11 +25,14 @@ type
     { Get TSQLStoredProc class connected to database. }
     function getSP(packName: String; procName: String): TSQLStoredProc;
       Overload;
+
+    { Get TSQLStoredProc assuming default schema. }
     function getSP(procName: String): TSQLStoredProc; Overload;
 
      { Constructs TSQLQuery class connect to database. }
     function getQ(statement: String): TSQLQuery;
 
+    { Get current database type. }
     function getT : DatabaseType;
 
   private
@@ -61,9 +64,7 @@ begin
     Conn.DriverName := 'Oracle';
     Params.Values['USER_NAME'] := 'testuser';
     Params.Values['PASSWORD'] := 'testuser';
-//    Params.Values['DATABASE'] := 'TESTUSER';
     Params.Values['DATABASE'] := 'think:1521/testdb';
-//    think:1521/testdb
   end;
 End;
 
@@ -80,6 +81,7 @@ begin
     Params.Values['DATABASE'] := 'asample';
   end;end;
 
+{ Connect to database regarding database type (Oracle or DB2) }
 procedure DBConnect.connect;
 begin
   case T of
@@ -91,6 +93,7 @@ begin
   Conn.Open;
 end;
 
+{ Disconnect. }
 procedure DBConnect.disconnect;
 begin
   Conn.Close;
@@ -111,6 +114,7 @@ begin
       Oracle:
         ParamCheck := true;
       DB2:
+        { For some reason attempting pl/sql like packages requires false. }
         ParamCheck := false;
     end;
     Params.Clear;
@@ -123,6 +127,7 @@ begin
   result := getSP('', procName);
 end;
 
+{ Disconnect }
 function DBConnect.getQ(statement: String): TSQLQuery;
 var
   Q: TSQLQuery;
