@@ -12,7 +12,7 @@ uses
   Generics.Collections;
 
 type
-{ Keep rowid, but one can use UnicodeStrings directly. }
+  { Keep rowid, but one can use UnicodeStrings directly. }
   row13 = record
     rowid: UnicodeString;
     constructor Create(r: UnicodeString);
@@ -69,7 +69,7 @@ var
   Q: TSQLQuery;
   i: integer;
 begin
-{ rowid for oracle and rid() for db2. }
+  { rowid for oracle and rid() for db2. }
   case DBTest.getT of
     Oracle:
       Q := DBTest.getQ('UPDATE TEST13 SET NUMB = 6 WHERE ROWID = :ROWID');
@@ -137,11 +137,11 @@ begin
 end;
 
 { Test scenario:
-1. Populate the table by calling POPULATETABLE procedure
-2. Check that there are some 13s in the table\
-3. Collect rowids with 13s
-4. Replace 13 with 6
-5. Check that number of rows with 13s is 0 now
+  1. Populate the table by calling POPULATETABLE procedure
+  2. Check that there are some 13s in the table\
+  3. Collect rowids with 13s
+  4. Replace 13 with 6
+  5. Check that number of rows with 13s is 0 now
 }
 procedure TestDBTest.Test13;
 var
