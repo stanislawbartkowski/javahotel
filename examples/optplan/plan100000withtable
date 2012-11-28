@@ -1,0 +1,249 @@
+Connecting to the Database.
+DB2 Universal Database Version 10.1, 5622-044 (c) Copyright IBM Corp. 1991, 2011
+Licensed Material - Program Property of IBM
+IBM DATABASE 2 Explain Table Format Tool
+
+
+
+******************** EXPLAIN INSTANCE ********************
+
+DB2_VERSION:       10.01.1
+SOURCE_NAME:       SQLC2J23
+SOURCE_SCHEMA:     NULLID  
+SOURCE_VERSION:       
+EXPLAIN_TIME:      2012-11-12-16.17.29.975922
+EXPLAIN_REQUESTER: DB2INST3
+
+Database Context:
+----------------
+	Parallelism:          None
+	CPU Speed:            1.220223e-06
+	Comm Speed:           0
+	Buffer Pool size:     1000
+	Sort Heap size:       256
+	Database Heap size:   1200
+	Lock List size:       4096
+	Maximum Lock List:    10
+	Average Applications: 1
+	Locks Available:      13107
+
+Package Context:
+---------------
+	SQL Type:           Dynamic
+	Optimization Level: 5
+	Blocking:           Block All Cursors
+	Isolation Level:    Cursor Stability
+
+
+
+---------------- STATEMENT 1  SECTION 203 ----------------
+	QUERYNO:       1
+	QUERYTAG:                          
+	Statement Type:   Select
+	Updatable:        No
+	Deletable:        No
+	Query Degree:     1
+
+Profile Information:
+--------------------
+OPT_PROF: (Optimization Profile Name)
+	DB2INST3.SELECT_SIMPLE_OPTIMIZER
+STMTPROF: (Statement Profile Name)
+	Guidelines for simple select
+
+Original Statement:
+------------------
+select 
+  * 
+from 
+  testts 
+where 
+  ide=10
+
+
+Optimized Statement:
+-------------------
+SELECT 
+  10 AS "IDE",
+  Q1.NAME AS "NAME" 
+FROM 
+  DB2INST3.TESTTS AS Q1 
+WHERE 
+  (Q1.IDE = 10)
+
+Access Plan:
+-----------
+	Total Cost: 		665.297
+	Query Degree:		1
+
+      Rows 
+     RETURN
+     (   1)
+      Cost 
+       I/O 
+       |
+        1 
+     TBSCAN
+     (   2)
+     665.297 
+       430 
+       |
+     100011 
+ TABLE: DB2INST3
+     TESTTS
+       Q1
+
+
+
+Extended Diagnostic Information:
+--------------------------------
+
+No extended Diagnostic Information for this statement.
+
+
+Plan Details:
+-------------
+
+
+	1) RETURN: (Return Result)
+		Cumulative Total Cost: 		665.297
+		Cumulative CPU Cost: 		2.19425e+08
+		Cumulative I/O Cost: 		430
+		Cumulative Re-Total Cost: 	264.453
+		Cumulative Re-CPU Cost: 	2.16726e+08
+		Cumulative Re-I/O Cost: 	0
+		Cumulative First Row Cost: 	665.29
+		Estimated Bufferpool Buffers: 	430
+
+		Arguments:
+		---------
+		BLDLEVEL: (Build level)
+			DB2 v10.1.0.1 : s120826
+		ENVVAR  : (Environment Variable)
+			DB2_COMPATIBILITY_VECTOR=ORA
+		ENVVAR  : (Environment Variable)
+			DB2_OPTPROFILE=YES
+		HEAPUSE : (Maximum Statement Heap Usage)
+			64 Pages
+		PREPTIME: (Statement prepare time)
+			       119 milliseconds
+		STMTHEAP: (Statement heap size)
+			2048
+
+		Input Streams:
+		-------------
+			2) From Operator #2
+
+				Estimated number of rows: 	1
+				Number of columns: 		2
+				Subquery predicate ID: 		Not Applicable
+
+				Column Names:
+				------------
+				+Q2.NAME+Q2.IDE
+
+
+	2) TBSCAN: (Table Scan)
+		Cumulative Total Cost: 		665.297
+		Cumulative CPU Cost: 		2.19425e+08
+		Cumulative I/O Cost: 		430
+		Cumulative Re-Total Cost: 	264.453
+		Cumulative Re-CPU Cost: 	2.16726e+08
+		Cumulative Re-I/O Cost: 	0
+		Cumulative First Row Cost: 	665.29
+		Estimated Bufferpool Buffers: 	430
+
+		Arguments:
+		---------
+		CUR_COMM: (Currently Committed)
+			TRUE
+		LCKAVOID: (Lock Avoidance)
+			TRUE
+		MAXPAGES: (Maximum pages for prefetch)
+			ALL
+		PREFETCH: (Type of Prefetch)
+			SEQUENTIAL          
+		ROWLOCK : (Row Lock intent)
+			SHARE (CS/RS)
+		SCANDIR : (Scan Direction)
+			FORWARD
+		SKIP_INS: (Skip Inserted Rows)
+			TRUE
+		SPEED   : (Assumed speed of scan, in sharing structures)
+			FAST
+		TABLOCK : (Table Lock intent)
+			INTENT SHARE
+		TBISOLVL: (Table access Isolation Level)
+			CURSOR STABILITY
+		THROTTLE: (Scan may be throttled, for scan sharing)
+			TRUE
+		VISIBLE : (May be included in scan sharing structures)
+			TRUE
+		WRAPPING: (Scan may start anywhere and wrap)
+			TRUE
+
+		Predicates:
+		----------
+		2) Sargable Predicate, 
+			Comparison Operator: 		Equal (=)
+			Subquery Input Required: 	No
+			Filter Factor: 			9.9989e-06
+
+			Predicate Text:
+			--------------
+			(Q1.IDE = 10)
+
+
+
+		Input Streams:
+		-------------
+			1) From Object DB2INST3.TESTTS
+
+				Estimated number of rows: 	100011
+				Number of columns: 		3
+				Subquery predicate ID: 		Not Applicable
+
+				Column Names:
+				------------
+				+Q1.$RID$+Q1.NAME+Q1.IDE
+
+
+		Output Streams:
+		--------------
+			2) To Operator #1
+
+				Estimated number of rows: 	1
+				Number of columns: 		2
+				Subquery predicate ID: 		Not Applicable
+
+				Column Names:
+				------------
+				+Q2.NAME+Q2.IDE
+
+
+Objects Used in Access Plan:
+---------------------------
+
+	Schema: DB2INST3
+	Name: 	TESTTS
+	Type: 	Table
+			Time of creation: 		2012-11-09-16.07.35.678585
+			Last statistics update: 	2012-11-12-16.17.17.994805
+			Number of columns: 		2
+			Number of rows: 		100011
+			Width of rows: 			31
+			Number of buffer pool pages: 	430
+			Number of data partitions: 	1
+			Distinct row values: 		No
+			Tablespace name: 		IBMDB2SAMPLEREL
+			Tablespace overhead: 		6.725000
+			Tablespace transfer rate: 	0.080000
+			Source for statistics: 		Single Node
+			Prefetch page count: 		32
+			Container extent page count: 	32
+			Table overflow record count: 	0
+			Table Active Blocks: 		-1
+			Average Row Compression Ratio: 	0
+			Percentage Rows Compressed: 	0
+			Average Compressed Row Size: 	0
+
