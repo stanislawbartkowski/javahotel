@@ -1,4 +1,5 @@
 unit DBAccess;
+{ Simple unit which encapsulates some database access methods }
 
 interface
 
@@ -35,6 +36,8 @@ type
     { Get current database type. }
     function getT: DatabaseType;
 
+    procedure executeSQLNoWait(Q: TSQLQuery; withOpen : boolean);
+
   private
     procedure ConnectOracle;
     procedure ConnectDB2;
@@ -58,6 +61,51 @@ begin
   result := T;
 end;
 
+procedure DBConnect.executeSQLNoWait(Q: TSQLQuery; withOpen : boolean);
+var
+  timeout: integer;
+  QQ: TSQLQuery;
+  inn : boolean;
+begin
+  case T of
+    DB2:
+      begin
+        QQ := getQ('SELECT CURRENT LOCK  TIMEOUT AS C FROM DUAL');
+        with QQ do
+        begin
+          ExecSql;
+          Open;
+          timeout := FieldByName('C').AsInteger;
+          Close();
+        end;
+        QQ := getQ('SET CURRENT LOCK TIMEOUT 0');
+        QQ.ExecSQL;
+        QQ.Close;
+
+        { In case of exception TIMEOUT will not be restored.
+          Find better implementation for real environment. }
+
+        {  Run statement now. }
+        Q.ExecSQL;
+        if (withOpen) then Q.Open;
+        inn := Conn.InTransaction;
+
+        { restore original value }
+        QQ := getQ('SET CURRENT LOCK TIMEOUT ' + IntToStr(timeout));
+        QQ.ExecSql;
+        QQ.Close;
+      end;
+    Oracle:
+      with Q do
+      begin
+        { IMPORTANT: run executeSQLNoWait only once for the statement. Find better
+          solution for real environment. }
+        SQL.Add(' NOWAIT');
+        ExecSql();
+      end;
+  end;
+end;
+
 procedure DBConnect.ConnectOracle;
 begin
   With Conn do
@@ -77,9 +125,14 @@ begin
     // VendorLib := 'db2cli.dll';
     // LibraryName := 'dbxdb2.dll';
     // GetDriverFunc := 'getSQLDriverDB2';
+{
     Params.Values['USER_NAME'] := 'db2inst1';
     Params.Values['PASSWORD'] := 'db2inst1';
     Params.Values['DATABASE'] := 'asample';
+}
+    Params.Values['USER_NAME'] := 'db2inst3';
+    Params.Values['PASSWORD'] := 'db2inst3';
+    Params.Values['DATABASE'] := 'sample';
   end;
 end;
 
@@ -129,17 +182,15 @@ begin
   result := getSP('', procName);
 end;
 
-{ Disconnect }
 function DBConnect.getQ(statement: String): TSQLQuery;
 var
   Q: TSQLQuery;
 begin
-
   Q := TSQLQuery.Create(nil);
   with Q do
   begin
     SQLConnection := Conn;
-    Q.SQL.Add(statement);
+    SQL.Add(statement);
   end;
   result := Q;
 end;
