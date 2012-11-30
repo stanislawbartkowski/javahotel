@@ -13,10 +13,11 @@
 package com.gwtmodel.table.slotmodel;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.injector.LogT;
 
 /**
  * @author hotel
- * 
+ *
  */
 public class CustomStringDataTypeSlot extends CustomStringSlot {
 
@@ -25,6 +26,7 @@ public class CustomStringDataTypeSlot extends CustomStringSlot {
     public CustomStringDataTypeSlot(String s, IDataType dType) {
         super(s);
         this.dType = dType;
+        assert dType != null : LogT.getT().cannotBeNull();
     }
 
     @Override
@@ -39,5 +41,4 @@ public class CustomStringDataTypeSlot extends CustomStringSlot {
         CustomStringDataTypeSlot cc = (CustomStringDataTypeSlot) o;
         return dType.eq(cc.dType);
     }
-
 }

@@ -12,6 +12,7 @@
  */
 package com.gwtmodel.table;
 
+import com.gwtmodel.table.common.CUtil;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -66,6 +67,7 @@ public class CreateJson {
             } else {
                 if (e.getValue().isNumber()) {
                     val = e.getValue().getVal();
+                    if (CUtil.EmptyS(val)) { val = "null"; }
                 } else {
                     String s = e.getValue().getVal();
                     // escape all "

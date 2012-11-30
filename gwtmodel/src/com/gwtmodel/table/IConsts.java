@@ -17,7 +17,7 @@
 package com.gwtmodel.table;
 
 /**
- * 
+ *
  * @author hotel
  */
 public interface IConsts {
@@ -29,4 +29,5 @@ public interface IConsts {
     String nowrapStyle = "no_wrap_cell_style";
     int actionImageWidth = 12;
     int actionImageHeight = 12;
+    String DEFJSONROW = "row";
 }
