@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.gwtmodel.table.CreateJSonForIVData;
 import com.gwtmodel.table.CreateJson;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.GWidget;
@@ -124,25 +125,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
 
         public String newRowStyle(IVModelData line) {
-            CreateJson s = new CreateJson("row");
-            for (IVField f : line.getF()) {
-                boolean number = false;
-                switch (f.getType().getType()) {
-                    case BIGDECIMAL:
-                    case LONG:
-                    case INT:
-                        number = true;
-                        break;
-                    default:
-                        break;
-                }
-                String name = f.getId();
-                String val = FUtils.getValueS(line, f);
-                s.addElem(name, val, number);
-            }
-            String param = s.createJsonString();
-            String m = Utils.callJsStringFun(jsFun, param);
-            return m;
+            return CreateJSonForIVData.construct(line);
         }
     }
 
