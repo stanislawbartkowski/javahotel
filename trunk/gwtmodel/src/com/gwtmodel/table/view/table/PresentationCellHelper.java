@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -27,6 +24,8 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @author hotel
