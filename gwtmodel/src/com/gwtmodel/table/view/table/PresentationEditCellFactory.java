@@ -59,7 +59,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
 
     interface IStartEditRow {
 
-        void setEditRow(MutableInteger row);
+        void setEditRow(MutableInteger row, WSize w);
     }
 
     void setModel(IGwtTableModel model) {

@@ -33,13 +33,14 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
 
 /**
  * @author hotel
- * 
+ *
  */
 abstract class PresentationEditCellHelper extends PresentationCellHelper {
 
@@ -78,9 +79,7 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         @Template("{0}")
         SafeHtml input(String value);
     }
-
     private InputTemplate templateInput = GWT.create(InputTemplate.class);
-
     protected TemplateDisplay templateDisplay = GWT
             .create(TemplateDisplay.class);
 
@@ -163,14 +162,14 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         }
     }
 
-    protected void setEditLine(Context context) {
+    protected void setEditLine(Context context, WSize w) {
         Object key = context.getKey();
         MutableInteger i = (MutableInteger) key;
         if (iStartEdit != null) {
-            iStartEdit.setEditRow(i);
+            iStartEdit.setEditRow(i, w);
         }
     }
-    
+
     protected class TColumnEdit extends Column<MutableInteger, String> {
 
         private final IVField iF;
@@ -190,7 +189,6 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
             return s;
         }
     }
-
 
     protected class EditStringCell extends TextInputCell implements IGetField {
 
@@ -233,7 +231,7 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
                 String value, NativeEvent event,
                 ValueUpdater<String> valueUpdater) {
             if (isEditing(context, parent, value)) {
-                setEditLine(context);
+                setEditLine(context, new WSize(parent));
             }
             super.onBrowserEvent(context, parent, value, event, valueUpdater);
             String eventType = event.getType();
@@ -264,5 +262,4 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
             this.setViewData(key, v);
         }
     }
-
 }
