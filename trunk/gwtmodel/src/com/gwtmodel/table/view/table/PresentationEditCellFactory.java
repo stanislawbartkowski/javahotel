@@ -12,9 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.ClickableTextCell;
@@ -43,6 +40,8 @@ import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author hotel
