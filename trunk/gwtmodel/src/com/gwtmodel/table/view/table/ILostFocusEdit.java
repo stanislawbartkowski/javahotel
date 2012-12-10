@@ -20,6 +20,6 @@ import com.gwtmodel.table.IVField;
  */
 public interface ILostFocusEdit {
 
-    void action(int row, IVField v);
+    void action(boolean before, int row, IVField v);
 
 }

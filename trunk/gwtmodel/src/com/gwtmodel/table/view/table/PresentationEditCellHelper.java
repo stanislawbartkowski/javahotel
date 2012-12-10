@@ -40,7 +40,7 @@ import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
 
 /**
  * @author hotel
- *
+ * 
  */
 abstract class PresentationEditCellHelper extends PresentationCellHelper {
 
@@ -79,6 +79,7 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         @Template("{0}")
         SafeHtml input(String value);
     }
+
     private InputTemplate templateInput = GWT.create(InputTemplate.class);
     protected TemplateDisplay templateDisplay = GWT
             .create(TemplateDisplay.class);
@@ -149,16 +150,19 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         }
     }
 
-    protected void modifUpdate(Object key, IVField v) {
+    protected void modifUpdate(boolean before, Object key, IVField v) {
         if (lostFocus != null) {
             MutableInteger i = (MutableInteger) key;
-            lostFocus.action(i.intValue(), v);
+            lostFocus.action(before, i.intValue(), v);
         }
     }
 
     protected void afterChange(String eventType, Context context, IVField v) {
         if (eventType.equals(BrowserEvents.CHANGE)) {
-            modifUpdate(context.getKey(), v);
+            modifUpdate(false, context.getKey(), v);
+        }
+        if (eventType.equals(BrowserEvents.FOCUS)) {
+            modifUpdate(true, context.getKey(), v);
         }
     }
 
@@ -237,6 +241,9 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
             String eventType = event.getType();
             afterChange(eventType, context, v);
             // only because KEYUP is consumed in TextInputCell
+            if (eventType.equals(BrowserEvents.FOCUS)) {
+                int a = 0;
+            }
             if (eventType.equals(BrowserEvents.KEYUP)) {
                 removeErrorStyle();
             }

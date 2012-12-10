@@ -54,8 +54,8 @@ class PresentationDateEditFactory extends PresentationEditCellHelper {
 
     PresentationDateEditFactory(ErrorLineInfo errorInfo,
             CellTable<MutableInteger> table, ILostFocusEdit lostFocus,
-            EditableCol eCol,IStartEditRow iStartEdit) {
-        super(errorInfo, table, lostFocus, eCol,iStartEdit);
+            EditableCol eCol, IStartEditRow iStartEdit) {
+        super(errorInfo, table, lostFocus, eCol, iStartEdit);
     }
 
     private class EditDateCell extends AbstractInputCell<Date, Date> implements
@@ -189,7 +189,7 @@ class PresentationDateEditFactory extends PresentationEditCellHelper {
                     if (lastContext != null) {
                         eCell.setValObj((MutableInteger) lastContext.getKey(),
                                 date);
-                        modifUpdate(lastContext.getKey(), v);
+                        modifUpdate(false, lastContext.getKey(), v);
                         removeErrorStyle();
                         table.redrawRow(lastContext.getIndex());
                     }

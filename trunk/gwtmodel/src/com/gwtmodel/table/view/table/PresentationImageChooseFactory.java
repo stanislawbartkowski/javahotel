@@ -39,7 +39,7 @@ import java.util.List;
 
 /**
  * @author hotel
- *
+ * 
  */
 class PresentationImageChooseFactory extends PresentationEditCellHelper {
 
@@ -102,7 +102,7 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
                 public void setString(String s) {
                     EditStringCell eCell = (EditStringCell) hasString.getCell();
                     eCell.setValObj((MutableInteger) lastContext.getKey(), s);
-                    modifUpdate(lastContext.getKey(), v);
+                    modifUpdate(false, lastContext.getKey(), v);
                     removeErrorStyle();
                     table.redrawRow(lastContext.getIndex());
                 }
@@ -149,8 +149,9 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
         }
 
         @Override
-        public void onBrowserEvent(Context context, Element parent, String value,
-                NativeEvent event, ValueUpdater<String> valueUpdater) {
+        public void onBrowserEvent(Context context, Element parent,
+                String value, NativeEvent event,
+                ValueUpdater<String> valueUpdater) {
             delegate.lastRendered = new WSize(parent);
             delegate.lastContext = context;
             super.onBrowserEvent(context, parent, value, event, valueUpdater);
@@ -164,8 +165,10 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
             if (editenabled) {
                 String ima = he.getiColSelect().getImage();
                 if (ima == null) {
-                    IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
-                    ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP) + ".gif";
+                    IGetCustomValues c = GwtGiniInjector.getI()
+                            .getTableFactoriesContainer().getGetCustomValues();
+                    ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP)
+                            + ".gif";
                 }
                 String s = Utils.getImageHTML(ima);
                 SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
@@ -212,5 +215,5 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
         CellPickerString ceCell = new CellPickerString(c1, c2);
         return new TColumnEdit(he.getFie(), ceCell);
     }
-    
+
 }

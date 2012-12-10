@@ -19,20 +19,24 @@ import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class ChangeFieldEditSignal extends DataIntegerSignal {
 
     private final IVField v;
     private final WSize w;
+    private final boolean before;
 
-    ChangeFieldEditSignal(int rownum, IVField v, WSize w) {
+    ChangeFieldEditSignal(boolean before, int rownum, IVField v, WSize w) {
         super(rownum);
         this.v = v;
         this.w = w;
+        this.before = before;
     }
-    private final static String SIGNAL_CHANGE_FIELD = ChangeFieldEditSignal.class.getName() + "PUBLIC_TABLE_CHANGE_FIELD";
+
+    private final static String SIGNAL_CHANGE_FIELD = ChangeFieldEditSignal.class
+            .getName() + "PUBLIC_TABLE_CHANGE_FIELD";
 
     public static CustomStringSlot constructSlotChangeEditSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(SIGNAL_CHANGE_FIELD, dType);
@@ -51,4 +55,13 @@ public class ChangeFieldEditSignal extends DataIntegerSignal {
     public WSize getW() {
         return w;
     }
+
+    /**
+     * @return the before
+     */
+    public boolean isBefore() {
+        return before;
+    }
+    
+    
 }
