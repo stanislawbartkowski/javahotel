@@ -446,9 +446,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers IVModelData identified by position in list
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -464,9 +464,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -699,10 +699,11 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     private class LostFocus implements ILostFocusEdit {
 
-        public void action(int row, IVField v) {
+        public void action(boolean before, int row, IVField v) {
 
             WSize w = tableView.getRowWidget(row);
-            ChangeFieldEditSignal sig = new ChangeFieldEditSignal(row, v, w);
+            ChangeFieldEditSignal sig = new ChangeFieldEditSignal(before, row,
+                    v, w);
             CustomStringSlot sl = ChangeFieldEditSignal
                     .constructSlotChangeEditSignal(dType);
             publish(sl, sig);
@@ -713,7 +714,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public String[] getImageButton(int row, IVField v) {
-            CustomStringSlot sl = GetImageColSignal.constructSlotGetImageCol(dType);
+            CustomStringSlot sl = GetImageColSignal
+                    .constructSlotGetImageCol(dType);
             GetImageColSignal sig = new GetImageColSignal(row, v);
             ISlotSignalContext slContext = getSlContainer().getGetter(sl, sig);
             GetImageColSignalReturn slRe = (GetImageColSignalReturn) slContext
@@ -786,15 +788,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ChangeTableSize());
         registerSubscriber(
                 FinishEditRowSignal
-                .constructSlotFinishEditRowReturnSignal(dType),
+                        .constructSlotFinishEditRowReturnSignal(dType),
                 new ReceiveReturnSignalFromFinish());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckFocusSignal(dType),
+                        .constructSlotButtonCheckFocusSignal(dType),
                 new ButtonCheckFocusRedirect());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckBackFocusSignal(dType),
+                        .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
         registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new RemoveRow());
