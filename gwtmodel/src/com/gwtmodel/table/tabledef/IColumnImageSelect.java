@@ -16,11 +16,12 @@ import com.gwtmodel.table.WSize;
 
 /**
  * @author hotel
- * 
+ *
  */
 public interface IColumnImageSelect {
 
     interface IExecuteSetString {
+
         void setString(String s);
     }
 
@@ -28,6 +29,5 @@ public interface IColumnImageSelect {
 
     String getImageHint();
 
-    void executeImage(String val, WSize w, IExecuteSetString i);
-
+    void executeImage(String val, int row, WSize w, IExecuteSetString i);
 }

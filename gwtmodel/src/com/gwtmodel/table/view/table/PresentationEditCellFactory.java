@@ -28,9 +28,13 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
+import com.gwtmodel.table.AbstractListT;
+import com.gwtmodel.table.AbstractListT.IGetList;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType.IEnumType;
+import com.gwtmodel.table.FieldDataType.IGetListValues;
 import com.gwtmodel.table.IConsts;
+import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.ImageNameFactory;
 import com.gwtmodel.table.InvalidateFormContainer;
@@ -45,7 +49,7 @@ import java.util.List;
 
 /**
  * @author hotel
- * 
+ *
  */
 class PresentationEditCellFactory extends PresentationEditCellHelper {
 
@@ -89,7 +93,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
 
     PresentationEditCellFactory(ILostFocusEdit lostFocus,
             CellTable<MutableInteger> table, IStartEditRow iStartEdit,
-            PresentationTable pTable,IColumnImage iIma) {
+            PresentationTable pTable, IColumnImage iIma) {
         super(new ErrorLineInfo(), table, lostFocus, new EditableCol(),
                 iStartEdit);
         this.pTable = pTable;
@@ -102,7 +106,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         checkFactory = new PresentationCheckEditFactory(errorInfo, table,
                 lostFocus, eCol, iStartEdit);
         imaFactory = new PresentationImageButtonFactory(errorInfo, table,
-                lostFocus, eCol, iStartEdit,iIma);
+                lostFocus, eCol, iStartEdit, iIma);
     }
 
     private class EditSelectionCell extends SelectionCell implements IGetField {
@@ -110,14 +114,16 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         private final IVField v;
         @SuppressWarnings("unused")
         private final VListHeaderDesc he;
+        private final AbstractListT listT;
 
         /**
          * @param options
          */
-        public EditSelectionCell(VListHeaderDesc he, List<String> options) {
+        public EditSelectionCell(VListHeaderDesc he, List<String> options, AbstractListT listT) {
             super(options);
             this.v = he.getFie();
             this.he = he;
+            this.listT = listT;
         }
 
         @Override
@@ -142,6 +148,9 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
             if (s == null) {
                 return null;
             }
+            if (listT != null) {
+                s = listT.getValue(s);
+            }
             return FUtils.getValue(v, s);
         }
 
@@ -151,7 +160,11 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
                 this.setViewData(key, null);
                 return;
             }
-            String s = FUtils.getValueOS(o, v);
+            Object oo = o;
+            if (listT != null) {
+                oo = listT.getValueS((String) o);
+            }
+            String s = FUtils.getValueOS(oo, v);
             this.setViewData(key, s);
         }
 
@@ -190,8 +203,23 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
 
     @SuppressWarnings("rawtypes")
     Column constructEditTextCol(VListHeaderDesc he) {
-        IVField v = he.getFie();
+        final IVField v = he.getFie();
+        List<String> lis = null;
+        IGetListValues li = v.getType().getLi();
         IEnumType e = v.getType().getE();
+        AbstractListT listT = null;
+        if (e != null) {
+            lis = e.getValues();
+        } else if (li != null) {
+            IGetList iGet = new IGetList() {
+                public List<IMapEntry> getL() {
+                    return v.getType().getLi().getList();
+                }
+            };
+            listT = new AbstractListT(iGet) {
+            };
+            lis = listT.getListVal();
+        }
         IColumnImageSelect cSelect = he.getiColSelect();
         boolean isColImage = he.isImageCol();
         Column co;
@@ -200,9 +228,9 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         } else if (cSelect != null) {
             co = iFactory.construct(he);
         } else {
-            if (e != null) {
+            if (lis != null) {
                 co = new TColumnEdit(v,
-                        new EditSelectionCell(he, e.getValues()));
+                        new EditSelectionCell(he, lis, listT));
             } else {
                 co = new TColumnEdit(v, new EditStringCell(he));
             }
@@ -215,21 +243,21 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         String imageName = null;
         String title = null;
         switch (persist) {
-        case ADDBEFORE:
-            imageName = ImageNameFactory
-                    .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW);
-            title = MM.getL().AddRowAtTheBeginning();
-            break;
-        case ADD:
-            imageName = ImageNameFactory
-                    .getImageName(ImageNameFactory.ImageType.ADDROW);
-            title = MM.getL().AddRowAfter();
-            break;
-        case REMOVE:
-            imageName = ImageNameFactory
-                    .getImageName(ImageNameFactory.ImageType.DELETEROW);
-            title = MM.getL().RemoveRow();
-            break;
+            case ADDBEFORE:
+                imageName = ImageNameFactory
+                        .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW);
+                title = MM.getL().AddRowAtTheBeginning();
+                break;
+            case ADD:
+                imageName = ImageNameFactory
+                        .getImageName(ImageNameFactory.ImageType.ADDROW);
+                title = MM.getL().AddRowAfter();
+                break;
+            case REMOVE:
+                imageName = ImageNameFactory
+                        .getImageName(ImageNameFactory.ImageType.DELETEROW);
+                title = MM.getL().RemoveRow();
+                break;
         }
         String s = Utils.getImageHTML(imageName, IConsts.actionImageHeight,
                 IConsts.actionImageWidth);
@@ -296,7 +324,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         }
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private Column constructControlColumn() {
         // return new ImageColumn();
 
@@ -324,7 +352,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         Element elem;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     void addActionColumn() {
         Column imColumn = constructControlColumn();
 

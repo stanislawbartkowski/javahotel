@@ -39,7 +39,7 @@ import java.util.List;
 
 /**
  * @author hotel
- * 
+ *
  */
 class PresentationImageChooseFactory extends PresentationEditCellHelper {
 
@@ -114,7 +114,7 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
                     return;
                 }
                 IColumnImageSelect.IExecuteSetString i = new SetString();
-                he.getiColSelect().executeImage(object, lastRendered, i);
+                he.getiColSelect().executeImage(object, lastContext.getIndex(), lastRendered, i);
             }
         }
 
@@ -215,5 +215,4 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
         CellPickerString ceCell = new CellPickerString(c1, c2);
         return new TColumnEdit(he.getFie(), ceCell);
     }
-
 }
