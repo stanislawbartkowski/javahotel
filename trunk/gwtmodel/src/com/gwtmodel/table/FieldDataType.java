@@ -13,9 +13,8 @@
 package com.gwtmodel.table;
 
 import com.gwtmodel.table.common.CUtil;
-import java.util.List;
-
 import com.gwtmodel.table.rdef.IFormLineView;
+import java.util.List;
 
 /**
  * 
