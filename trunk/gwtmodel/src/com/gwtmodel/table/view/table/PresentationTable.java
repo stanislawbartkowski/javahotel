@@ -211,7 +211,7 @@ class PresentationTable implements IGwtTableView {
     private class PersistInTable implements ILostFocusEdit {
 
         @Override
-        public void action(boolean before, int row, IVField v) {
+        public void action(boolean before, int row, IVField v, WSize w) {
             if (!before) {
                 List<IGetSetVField> l = getVList(row, true);
                 for (IGetSetVField i : l) {
@@ -223,7 +223,7 @@ class PresentationTable implements IGwtTableView {
                 }
             }
             if (lostFocus != null) {
-                lostFocus.action(before, row, v);
+                lostFocus.action(before, row, v, w);
             }
         }
     }
@@ -935,8 +935,14 @@ class PresentationTable implements IGwtTableView {
         }
         assert found : LogT.getT().RowSelectedNotFound();
         TableRowElement ro = table.getRowElement(inde);
-        WSize w = new WSize(ro.getAbsoluteTop(), ro.getAbsoluteLeft(),
-                ro.getClientHeight(), ro.getClientWidth());
+        WSize w;
+        if (ro == null) {
+            w = new WSize(table.getAbsoluteTop(), table.getAbsoluteLeft(),
+                    0, 0);
+        } else {
+            w = new WSize(ro.getAbsoluteTop(), ro.getAbsoluteLeft(),
+                    ro.getClientHeight(), ro.getClientWidth());
+        }
         return w;
     }
 

@@ -12,10 +12,6 @@
  */
 package com.gwtmodel.table.view.table;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.google.gwt.cell.client.AbstractInputCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
@@ -45,10 +41,13 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
 import com.gwtmodel.table.view.util.ClickPopUp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author hotel
- * 
+ *
  */
 class PresentationDateEditFactory extends PresentationEditCellHelper {
 
@@ -130,7 +129,7 @@ class PresentationDateEditFactory extends PresentationEditCellHelper {
             if (eventType.equals(BrowserEvents.KEYPRESS)) {
                 removeErrorStyle();
             }
-            afterChange(eventType, context, v);
+            afterChange(eventType, context, v, new WSize(parent));
         }
     }
 
@@ -189,7 +188,7 @@ class PresentationDateEditFactory extends PresentationEditCellHelper {
                     if (lastContext != null) {
                         eCell.setValObj((MutableInteger) lastContext.getKey(),
                                 date);
-                        modifUpdate(false, lastContext.getKey(), v);
+                        modifUpdate(false, lastContext.getKey(), v, null);
                         removeErrorStyle();
                         table.redrawRow(lastContext.getIndex());
                     }
@@ -265,11 +264,9 @@ class PresentationDateEditFactory extends PresentationEditCellHelper {
 
     /**
      * Creates list to be used as an argument to constructor
-     * 
-     * @param c1
-     *            First element
-     * @param c2
-     *            Second element
+     *
+     * @param c1 First element
+     * @param c2 Second element
      * @return List containing two elements
      */
     private List<HasCell<Date, ?>> createList(HasCell<Date, ?> c1,
@@ -310,5 +307,4 @@ class PresentationDateEditFactory extends PresentationEditCellHelper {
         CellPickerDate ceCell = new CellPickerDate(c1, c2);
         return new DateColumn(he.getFie(), ceCell);
     }
-
 }

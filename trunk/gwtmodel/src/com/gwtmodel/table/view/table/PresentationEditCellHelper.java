@@ -40,7 +40,7 @@ import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
 
 /**
  * @author hotel
- * 
+ *
  */
 abstract class PresentationEditCellHelper extends PresentationCellHelper {
 
@@ -79,7 +79,6 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         @Template("{0}")
         SafeHtml input(String value);
     }
-
     private InputTemplate templateInput = GWT.create(InputTemplate.class);
     protected TemplateDisplay templateDisplay = GWT
             .create(TemplateDisplay.class);
@@ -150,19 +149,19 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         }
     }
 
-    protected void modifUpdate(boolean before, Object key, IVField v) {
+    protected void modifUpdate(boolean before, Object key, IVField v, WSize w) {
         if (lostFocus != null) {
             MutableInteger i = (MutableInteger) key;
-            lostFocus.action(before, i.intValue(), v);
+            lostFocus.action(before, i.intValue(), v, w);
         }
     }
 
-    protected void afterChange(String eventType, Context context, IVField v) {
+    protected void afterChange(String eventType, Context context, IVField v, WSize w) {
         if (eventType.equals(BrowserEvents.CHANGE)) {
-            modifUpdate(false, context.getKey(), v);
+            modifUpdate(false, context.getKey(), v, w);
         }
         if (eventType.equals(BrowserEvents.FOCUS)) {
-            modifUpdate(true, context.getKey(), v);
+            modifUpdate(true, context.getKey(), v, w);
         }
     }
 
@@ -239,11 +238,8 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
             }
             super.onBrowserEvent(context, parent, value, event, valueUpdater);
             String eventType = event.getType();
-            afterChange(eventType, context, v);
+            afterChange(eventType, context, v, new WSize(parent));
             // only because KEYUP is consumed in TextInputCell
-            if (eventType.equals(BrowserEvents.FOCUS)) {
-                int a = 0;
-            }
             if (eventType.equals(BrowserEvents.KEYUP)) {
                 removeErrorStyle();
             }
@@ -265,8 +261,8 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
                 return;
             }
             String s = (String) o;
-            ViewData v = new ViewData(s);
-            this.setViewData(key, v);
+            ViewData vv = new ViewData(s);
+            this.setViewData(key, vv);
         }
     }
 }

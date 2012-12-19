@@ -13,13 +13,13 @@
 package com.gwtmodel.table.view.table;
 
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.WSize;
 
 /**
  * @author hotel
- * 
+ *
  */
 public interface ILostFocusEdit {
 
-    void action(boolean before, int row, IVField v);
-
+    void action(boolean before, int row, IVField v, WSize w);
 }

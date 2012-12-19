@@ -22,6 +22,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
 
 /**
@@ -86,7 +87,7 @@ class PresentationCheckEditFactory extends PresentationEditCellHelper {
                 ValueUpdater<Boolean> valueUpdater) {
             String type = event.getType();
             checkBox.onBrowserEvent(context, parent, value, event, valueUpdater);
-            afterChange(type, context, v);
+            afterChange(type, context, v, new WSize(parent));
         }
 
         @Override

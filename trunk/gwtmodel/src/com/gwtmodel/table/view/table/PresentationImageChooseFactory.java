@@ -102,7 +102,7 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
                 public void setString(String s) {
                     EditStringCell eCell = (EditStringCell) hasString.getCell();
                     eCell.setValObj((MutableInteger) lastContext.getKey(), s);
-                    modifUpdate(false, lastContext.getKey(), v);
+                    modifUpdate(false, lastContext.getKey(), v, lastRendered);
                     removeErrorStyle();
                     table.redrawRow(lastContext.getIndex());
                 }
