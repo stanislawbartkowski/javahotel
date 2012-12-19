@@ -109,4 +109,6 @@ public interface TLogMessages extends Messages {
     String ValueNotExpectedHere();
     
     String ColumnCellUndefined();
+    
+    String SelectListCannotBeEmpty();
 }

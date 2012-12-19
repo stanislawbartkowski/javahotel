@@ -18,7 +18,6 @@ import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.CompositeCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
-import com.google.gwt.cell.client.SelectionCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -30,7 +29,6 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.AbstractListT.IGetList;
-import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType.IEnumType;
 import com.gwtmodel.table.FieldDataType.IGetListValues;
 import com.gwtmodel.table.IConsts;
@@ -59,6 +57,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
     private final PresentationNumbEditFactory nFactory;
     private final PresentationCheckEditFactory checkFactory;
     private final PresentationImageButtonFactory imaFactory;
+    private final PresentationEditSelectionCellFactory selFactory;
 
     interface IStartEditRow {
 
@@ -72,6 +71,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         nFactory.setGModel(model);
         checkFactory.setGModel(model);
         imaFactory.setGModel(model);
+        selFactory.setGModel(model);
     }
 
     /**
@@ -107,75 +107,8 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
                 lostFocus, eCol, iStartEdit);
         imaFactory = new PresentationImageButtonFactory(errorInfo, table,
                 lostFocus, eCol, iStartEdit, iIma);
-    }
-
-    private class EditSelectionCell extends SelectionCell implements IGetField {
-
-        private final IVField v;
-        @SuppressWarnings("unused")
-        private final VListHeaderDesc he;
-        private final AbstractListT listT;
-
-        /**
-         * @param options
-         */
-        public EditSelectionCell(VListHeaderDesc he, List<String> options, AbstractListT listT) {
-            super(options);
-            this.v = he.getFie();
-            this.he = he;
-            this.listT = listT;
-        }
-
-        @Override
-        public void render(Context context, String value, SafeHtmlBuilder sb) {
-            Object key = context.getKey();
-            MutableInteger i = (MutableInteger) key;
-            boolean editenabled = eCol.isEditable(i.intValue(), v);
-            if (editenabled) {
-                super.render(context, value, sb);
-                return;
-            }
-            String s = this.getViewData(key);
-            if (s == null) {
-                s = value;
-            }
-            sb.append(templateDisplay.input(s));
-        }
-
-        @Override
-        public Object getValObj(MutableInteger key) {
-            String s = this.getViewData(key);
-            if (s == null) {
-                return null;
-            }
-            if (listT != null) {
-                s = listT.getValue(s);
-            }
-            return FUtils.getValue(v, s);
-        }
-
-        @Override
-        public void setValObj(MutableInteger key, Object o) {
-            if (o == null) {
-                this.setViewData(key, null);
-                return;
-            }
-            Object oo = o;
-            if (listT != null) {
-                oo = listT.getValueS((String) o);
-            }
-            String s = FUtils.getValueOS(oo, v);
-            this.setViewData(key, s);
-        }
-
-        @Override
-        public void onBrowserEvent(Context context, Element parent,
-                String value, NativeEvent event,
-                ValueUpdater<String> valueUpdater) {
-            super.onBrowserEvent(context, parent, value, event, valueUpdater);
-            String eventType = event.getType();
-            afterChange(eventType, context, v);
-        }
+        selFactory = new PresentationEditSelectionCellFactory(errorInfo, table,
+                lostFocus, eCol, iStartEdit);
     }
 
     void setEditable(ChangeEditableRowsParam eParam) {
@@ -229,8 +162,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
             co = iFactory.construct(he);
         } else {
             if (lis != null) {
-                co = new TColumnEdit(v,
-                        new EditSelectionCell(he, lis, listT));
+                co = selFactory.constructSeletionCol(he, lis, listT);
             } else {
                 co = new TColumnEdit(v, new EditStringCell(he));
             }

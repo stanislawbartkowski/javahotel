@@ -446,9 +446,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers IVModelData identified by position in list
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -464,9 +464,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     * 
+     *
      * @author hotel
-     * 
+     *
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -699,9 +699,11 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     private class LostFocus implements ILostFocusEdit {
 
-        public void action(boolean before, int row, IVField v) {
+        public void action(boolean before, int row, IVField v, WSize w) {
 
-            WSize w = tableView.getRowWidget(row);
+            if (w == null) {
+                w = tableView.getRowWidget(row);
+            }
             ChangeFieldEditSignal sig = new ChangeFieldEditSignal(before, row,
                     v, w);
             CustomStringSlot sl = ChangeFieldEditSignal
@@ -788,15 +790,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ChangeTableSize());
         registerSubscriber(
                 FinishEditRowSignal
-                        .constructSlotFinishEditRowReturnSignal(dType),
+                .constructSlotFinishEditRowReturnSignal(dType),
                 new ReceiveReturnSignalFromFinish());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                        .constructSlotButtonCheckFocusSignal(dType),
+                .constructSlotButtonCheckFocusSignal(dType),
                 new ButtonCheckFocusRedirect());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                        .constructSlotButtonCheckBackFocusSignal(dType),
+                .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
         registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new RemoveRow());
