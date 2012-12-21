@@ -17,8 +17,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.gwtmodel.table.CreateJSonForIVData;
-import com.gwtmodel.table.CreateJson;
-import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
@@ -28,7 +26,7 @@ import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.PersistTypeEnum;
@@ -44,6 +42,7 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCallerListener;
+import com.gwtmodel.table.slotmodel.ISlotCustom;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
@@ -74,6 +73,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private final boolean selectedRow;
     private final HandleBeginEndLineEditing handleChange = new HandleBeginEndLineEditing();
     private final List<IDataType> activateRedirect = new ArrayList<IDataType>();
+
+    private final EditAfterFocusSynchronizer editSynch = new EditAfterFocusSynchronizer();
 
     private void addActivateRedirect(IDataType rType) {
         for (IDataType d : activateRedirect) {
@@ -446,9 +447,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers IVModelData identified by position in list
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVDataByI implements ISlotCallerListener {
 
@@ -464,9 +465,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
     /**
      * Delivers List of IGetSetVield from table view
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class GetVListByI implements ISlotCallerListener {
 
@@ -693,19 +694,53 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         public void action(WSize w, int rownum, PersistTypeEnum e) {
             // WSize w = tableView.getRowWidget(rownum);
             handleChange.eRow = new EditRowActionSignal(rownum, e, w);
-            handleChange.publishRowAction();
+            editSynch.setWaitForPublish();
+            editSynch.runDoneIfPossible();
+            // handleChange.publishRowAction();
         }
+    }
+
+    private class EditAfterFocusSynchronizer extends SynchronizeList {
+
+        private boolean waitForPublish = false;
+
+        EditAfterFocusSynchronizer() {
+            super(0);
+        }
+
+        @Override
+        protected void doTask() {
+            if (waitForPublish) {
+                handleChange.publishRowAction();
+            }
+            waitForPublish = false;
+        }
+
+        void setWaitForPublish() {
+            waitForPublish = true;
+        }
+    }
+
+    private class LostFocusFinished implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            editSynch.signalDone();
+
+        }
+
     }
 
     private class LostFocus implements ILostFocusEdit {
 
         public void action(boolean before, int row, IVField v, WSize w) {
 
+            editSynch.signalUndone();
             if (w == null) {
                 w = tableView.getRowWidget(row);
             }
-            ChangeFieldEditSignal sig = new ChangeFieldEditSignal(before, row,
-                    v, w);
+            ChangeFieldEditSignal sig = new ChangeFieldEditSignal(dType,
+                    before, row, v, w);
             CustomStringSlot sl = ChangeFieldEditSignal
                     .constructSlotChangeEditSignal(dType);
             publish(sl, sig);
@@ -727,7 +762,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void click(WSize w, int row, IVField v, int imno) {
-            CustomStringSlot sl = ClickColumnImageSignal
+            ISlotCustom sl = ClickColumnImageSignal
                     .constructSlotClickColumnSignal(dType);
             ClickColumnImageSignal sig = new ClickColumnImageSignal(w, row, v,
                     imno);
@@ -790,15 +825,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new ChangeTableSize());
         registerSubscriber(
                 FinishEditRowSignal
-                .constructSlotFinishEditRowReturnSignal(dType),
+                        .constructSlotFinishEditRowReturnSignal(dType),
                 new ReceiveReturnSignalFromFinish());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckFocusSignal(dType),
+                        .constructSlotButtonCheckFocusSignal(dType),
                 new ButtonCheckFocusRedirect());
         registerSubscriber(
                 ButtonCheckLostFocusSignal
-                .constructSlotButtonCheckBackFocusSignal(dType),
+                        .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
         registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new RemoveRow());
@@ -814,6 +849,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerSubscriber(
                 SetSortColumnSignal.constructSlotSetSortColumnSignal(dType),
                 new SetSortColumn());
+        registerSubscriber(
+                ChangeFieldEditSignal.constructReturnChangeSlotSignal(dType),
+                new LostFocusFinished());
 
         // caller
         registerCaller(DataIntegerSignal.constructSlotGetVSignal(dType),

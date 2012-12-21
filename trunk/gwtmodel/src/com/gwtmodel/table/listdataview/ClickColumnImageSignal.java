@@ -16,7 +16,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
-import com.gwtmodel.table.slotmodel.CustomStringSlot;
+import com.gwtmodel.table.slotmodel.ISlotCustom;
 
 /**
  * @author hotel
@@ -59,7 +59,7 @@ public class ClickColumnImageSignal extends DataIntegerSignal {
     private static final String SIGNAL_ID = ClickColumnImageSignal.class
             .getName() + "TABLE_PUBLIC_CLICK_IMAGE_COL";
 
-    public static CustomStringSlot constructSlotClickColumnSignal(
+    public static ISlotCustom constructSlotClickColumnSignal(
             IDataType dType) {
         return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
     }
