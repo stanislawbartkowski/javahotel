@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -13,8 +13,10 @@
 package com.javahotel.common.dateutil;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
+import com.gwtmodel.table.common.PeriodT;
 
 /**
  *

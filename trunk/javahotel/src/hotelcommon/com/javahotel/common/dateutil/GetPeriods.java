@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -71,12 +71,12 @@ public class GetPeriods {
         for (PeriodT pr : pout) {
             Date lfrom;
             if (beg != null) {
-//                lfrom = DateUtil.copyDate(beg.getTo());
+                // lfrom = DateUtil.copyDate(beg.getTo());
                 lfrom = DateUtil.NextDayD(beg.getTo());
             } else {
                 lfrom = pe.getFrom();
             }
-//            Date lto = DateUtil.copyDate(pr.getFrom());
+            // Date lto = DateUtil.copyDate(pr.getFrom());
             Date lto = DateUtil.PrevDayD(pr.getFrom());
             beg = pr;
             if (DateUtil.compareDate(lto, lfrom) == -1) {
@@ -89,7 +89,7 @@ public class GetPeriods {
         if (beg == null) {
             out.add(pe);
         } else {
-//            Date lto = DateUtil.copyDate(beg.getTo());
+            // Date lto = DateUtil.copyDate(beg.getTo());
             Date lto = DateUtil.NextDayD(beg.getTo());
             if (DateUtil.compareDate(lto, pe.getTo()) != 1) {
                 out.add(new PeriodT(lto, pe.getTo(), pe.getI()));
@@ -116,7 +116,7 @@ public class GetPeriods {
         for (PeriodT p : sou) {
             if (prev != null) {
                 if (i.eq(prev, p)) {
-//                    Date dto = DateUtil.copyDate(prev.getTo());
+                    // Date dto = DateUtil.copyDate(prev.getTo());
                     Date dto = DateUtil.NextDayD(prev.getTo());
                     Date dfrom = p.getFrom();
 
@@ -166,19 +166,19 @@ public class GetPeriods {
             final StartWeek sWeek) {
         Date first = pe.getFrom();
         Date last = pe.getTo();
-//        Date actC = DateUtil.copyDate(first);
-        Date actC = first; 
+        // Date actC = DateUtil.copyDate(first);
+        Date actC = first;
         List<PeriodT> cDays = new ArrayList<PeriodT>();
         Date begW = null;
         while (DateUtil.compareDate(actC, last) != 1) {
             int dOfWeek = actC.getDay();
             if (startW(dOfWeek, sWeek)) {
-//                begW = DateUtil.copyDate(actC);
+                // begW = DateUtil.copyDate(actC);
                 begW = actC;
             }
             if (endW(dOfWeek, sWeek)) {
                 if (begW == null) {
-//                    begW = DateUtil.copyDate(first);
+                    // begW = DateUtil.copyDate(first);
                     begW = first;
                 }
                 cDays.add(new PeriodT(begW, actC, pe.getI()));
