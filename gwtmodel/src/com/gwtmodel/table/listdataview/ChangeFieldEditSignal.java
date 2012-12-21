@@ -17,6 +17,8 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
+import com.gwtmodel.table.slotmodel.ISlotCustom;
+import com.gwtmodel.table.slotmodel.ISlotable;
 
 /**
  * 
@@ -27,12 +29,15 @@ public class ChangeFieldEditSignal extends DataIntegerSignal {
     private final IVField v;
     private final WSize w;
     private final boolean before;
+    private final IDataType dType;
 
-    ChangeFieldEditSignal(boolean before, int rownum, IVField v, WSize w) {
+    ChangeFieldEditSignal(IDataType dType, boolean before, int rownum,
+            IVField v, WSize w) {
         super(rownum);
         this.v = v;
         this.w = w;
         this.before = before;
+        this.dType = dType;
     }
 
     private final static String SIGNAL_CHANGE_FIELD = ChangeFieldEditSignal.class
@@ -62,6 +67,17 @@ public class ChangeFieldEditSignal extends DataIntegerSignal {
     public boolean isBefore() {
         return before;
     }
-    
-    
+
+    private static final String RET_SIGNAL_ID = ChangeFieldEditSignal.class
+            .getName() + "TABLE_PUBLIC_RETURN_CHANGE_FOCUS+SIGNAL";
+
+    static ISlotCustom constructReturnChangeSlotSignal(IDataType dType) {
+        return new CustomStringDataTypeSlot(RET_SIGNAL_ID, dType);
+    }
+
+    public void signalFinishChangeSignal(ISlotable s) {
+        ISlotCustom sl = constructReturnChangeSlotSignal(dType);
+        s.getSlContainer().publish(sl, this);
+    }
+
 }

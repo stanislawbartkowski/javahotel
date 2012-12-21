@@ -59,6 +59,18 @@ public abstract class SynchronizeList {
      */
     public void signalDone() {
         actSync++;
+        runDoneIfPossible();
+    }
+
+    /**
+     * Signal undone, decrease the counter
+     */
+
+    public void signalUndone() {
+        actSync--;
+    }
+
+    public void runDoneIfPossible() {
         if (signalledAlready()) {
             doTask();
         }
