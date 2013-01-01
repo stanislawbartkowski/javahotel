@@ -1,0 +1,278 @@
+[default]
+calltest: setup
+calltest:test1
+calltest:test2
+calltest:test3
+calltest:test4
+calltest:test5
+calltest:test6
+calltest:test7
+
+[default]
+calltest: setup
+calltest:test7
+
+[test1]
+-- value modification after releasing to 0
+-- modification to decrease
+calltest: deliveroneitem
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P002',-1,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+END
+calltest: modifyforrelease
+sql: UPDATE TEMP_ITEM_IDS_LIST SET VALUE  = VALUE + .1 WHERE SESSIONID=%(sessid)s
+sql: 
+BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus',NULL);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(NULL,OPID);
+END
+commit:
+verify: SELECT * FROM RES
+isnotnull OPID
+verify: SELECT * FROM ITEMDASHBOARD
+eof
+verify: SELECT * FROM OPERATIONLINE WHERE OPERATION = (SELECT MAX(ID) FROM OPERATION) ORDER BY SEQNUMBER 
+equal seqnumber 0, isnull amount , isnull amountavailable, equal value -.1 
+equal seqnumber 1, equal amount -1, equal amountavailable -1, equal value -1.9
+eof
+sql: {CALL REFRESH_DASHBOARD_TABLE() }
+commit:
+verify: SELECT * FROM ITEMDASHBOARD
+eof
+
+[test2]
+-- value modification after releasing to 0
+-- modification to increase
+calltest: deliveroneitem
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P002',-1,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+END
+calltest: modifyforrelease
+sql: UPDATE TEMP_ITEM_IDS_LIST SET VALUE  = VALUE - .1 WHERE SESSIONID=%(sessid)s
+sql: 
+BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus',NULL);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(NULL,OPID);
+END
+verify: SELECT * FROM RES
+isnotnull OPID
+verify: SELECT * FROM ITEMDASHBOARD
+eof
+verify: SELECT * FROM OPERATIONLINE WHERE OPERATION = (SELECT MAX(ID) FROM OPERATION) ORDER BY SEQNUMBER 
+equal seqnumber 0, isnull amount , isnull amountavailable, equal value 0.1 
+equal seqnumber 1, equal amount -1, equal amountavailable -1, equal value -2.1
+eof
+sql: {CALL REFRESH_DASHBOARD_TABLE() }
+commit:
+verify: SELECT * FROM ITEMDASHBOARD
+eof
+
+[test3]
+-- test failing during operation_op
+calltest: clear
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',1,2)
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,2,'P002',5,3.4)
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,3,'P003',10,17.7)
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  DECLARE OK INT;
+  CALL GET_ITEM_IDS_FOR_DELIVERY(%(sessid)s,OK);
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+END
+commit:
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',-1,NULL)
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,2,'P002',-2,NULL)
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,3,'P003',-3,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(OK,NULL);
+END
+verify: SELECT * FROM RES
+equal OK 1
+calltest: modifyforrelease
+-- now increase one beyond
+sql: UPDATE TEMP_ITEM_IDS_LIST SET AMOUNTRESERVED = -11, AMOUNT = -11 WHERE SESSIONID=%(sessid)s AND SEQNUMBER=2;
+-- now should fail
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus',NULL);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(NULL,OPID);
+END
+verify: SELECT * FROM RES
+isnull OPID
+-- now commit ! very important
+-- make sure that rollback has been released
+commit:
+verify: SELECT COUNT(*) AS C FROM OPERATION
+equal C 1
+verify: SELECT COUNT(*) AS C FROM OPERATIONLINE
+equal C 3
+verify: SELECT * FROM ITEMDASHBOARD WHERE ITEMID = (SELECT ID FROM ITEM WHERE ITEMCODE='P001')
+equal currentamount 1, equal currentavailable 1, equal currentvalue 2
+eof
+verify: SELECT * FROM ITEMDASHBOARD WHERE ITEMID = (SELECT ID FROM ITEM WHERE ITEMCODE='P002')
+equal currentamount 5, equal currentavailable 5, equal currentvalue 3.4
+eof
+verify: SELECT * FROM ITEMDASHBOARD WHERE ITEMID = (SELECT ID FROM ITEM WHERE ITEMCODE='P003')
+equal currentamount 10, equal currentavailable 10, equal currentvalue 17.7
+eof
+
+[deliverseveral]
+-- now test release from server deliverys of the same item
+calltest: clear
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',1,2)
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,2,'P001',5,3.4)
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,3,'P001',10,17.7)
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  DECLARE OK INT;
+  CALL GET_ITEM_IDS_FOR_DELIVERY(%(sessid)s,OK);
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+END
+commit:
+verify: SELECT COUNT(*) AS C FROM ITEMDASHBOARD
+equal C 3
+verify: SELECT COUNT(*) AS C FROM ITEMDASHBOARD WHERE ITEMID = (SELECT ID FROM ITEM WHERE ITEMCODE='P001')
+equal C 3
+-- for some does not work in unixODBC
+-- sum of DECIMAL
+--verify: SELECT SUM(CURRENTAVAILABLE) FROM ITEMDASHBOARD WHERE ITEMID = (SELECT ID FROM ITEM WHERE ITEMCODE='P001')
+--equal C 3
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+
+[test4]
+-- now test release from server deliverys of the same item
+calltest: deliverseveral
+-- now relase item but shoud fail
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',-17,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(OK,NULL);
+END
+-- failure expected
+verify: SELECT * FROM RES
+equal OK 0
+verify: SELECT * FROM TEMP_ITEM_IDS_LIST WHERE SESSIONID=%(sessid)s
+equal AMOUNTRESERVED 16, equal AMOUNT -17 
+eof
+
+[test5]
+-- now test release from server deliverys of the same item
+calltest: deliverseveral
+-- now relase item as should be successull
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',-3,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(OK,NULL);
+END
+verify: SELECT * FROM RES
+equal OK 1
+verify: SELECT * FROM TEMP_ITEM_IDS_LIST WHERE SESSIONID=%(sessid)s
+equal AMOUNT -1, equal value -2
+equal AMOUNT -2, equal value -1.36
+eof
+calltest: modifyforrelease
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus',NULL);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(NULL,OPID);
+END
+verify: SELECT * FROM RES
+isnotnull OPID
+verify: SELECT COUNT(*) AS C FROM ITEMDASHBOARD
+equal C 2
+-- now again
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',-7,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(OK,NULL);
+END
+verify: SELECT * FROM RES
+equal OK 1
+calltest: modifyforrelease
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus',NULL);
+END
+verify: SELECT * FROM ITEMDASHBOARD
+equal currentamount 6 , equal currentavailable 6
+eof
+
+[test6]
+-- test for 2 with value 2.01
+calltest: clear
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',2,2.01)
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  DECLARE OK INT;
+  CALL GET_ITEM_IDS_FOR_DELIVERY(%(sessid)s,OK);
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+END
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+-- now release first
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',-2,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+END
+calltest: modifyforrelease
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus',NULL);
+END
+commit:
+verify: SELECT COUNT(*) AS C FROM ITEMDASHBOARD
+equal C 0
+verify: SELECT * FROM OPERATIONLINE ORDER BY ID,SEQNUMBER
+equal value 2.01
+equal value -0.01
+equal value -2.00
+eof
+
+[test7]
+-- test specific values
+-- deliver : amount: 34.47 value:4.67
+-- release: amount: 33.75  (negative value after substraction)
+calltest: clear
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',34.47,4.67)
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  DECLARE OK INT;
+  CALL GET_ITEM_IDS_FOR_DELIVERY(%(sessid)s,OK);
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+END
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',-33.75,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+END
+calltest: modifyforrelease
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus',NULL);
+END
+verify: SELECT * FROM ITEMDASHBOARD
+equal currentamount 0.72 , equal currentvalue 0.28
+eof

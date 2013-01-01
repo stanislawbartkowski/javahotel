@@ -1,0 +1,1 @@
+select * from (select itemid, sum(currentamount) as a from itemdashboard group by itemid) full outer join (select * from testsummary where amount is not null and amount > 0) on itemid = item where a != amount;

@@ -1,0 +1,261 @@
+[default]
+calltest: setup
+calltest: test1
+calltest: test2
+calltest: test3
+calltest: test4
+calltest: test5
+calltest: test6
+calltest: test7
+calltest: test8
+calltest: test9
+calltest: test10
+calltest: test11
+
+[x-default]
+calltest: setup
+calltest: test11
+
+
+[test1]
+-- test for exception handling
+-- step1: invalid person
+-- step2: invalid store name
+-- step3: not items to deliver
+calltest: clear
+sqlexception(75000): BEGIN
+  DECLARE ID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,ID,'NoPerson','Saturn');
+END
+sqlexception(75000): BEGIN
+  DECLARE ID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,ID,'Augustus','NoPlace');
+END
+sqlexception(75000): BEGIN
+  DECLARE ID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,ID,'Augustus','Saturn');
+END
+
+[test2]
+-- test for simple delivery
+-- deliver one item 
+-- verify: OPERATION, OPERATIONLINE, DASHBOARD
+calltest: clear
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P002',1,2)
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  DECLARE OK INT;
+  DELETE FROM RES;
+  CALL GET_ITEM_IDS_FOR_DELIVERY(%(sessid)s,OK);
+  IF OK = 1 THEN 
+    CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+    INSERT INTO RES VALUES(NULL, OPID);
+  END IF;
+END
+verify: SELECT * FROM RES
+isnotnull OPID
+verify: SELECT COUNT(*) AS C FROM OPERATION
+equal C 1
+verify: SELECT COUNT(*) AS C FROM OPERATIONLINE
+equal C 1
+verify: SELECT * FROM ITEMDASHBOARD
+isnotnull ITEMID, isnotnull DELIVERYLINE, equal CURRENTAMOUNT 1, equal CURRENTAVAILABLE 1, equal CURRENTVALUE 2
+eof
+
+[test3]
+-- test for GET_ITEM_IDS_FOR_DELIVERY
+-- exception throws in case of not negative
+calltest: deliveroneitem
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P002',1.1,NULL)
+sqlexceptionexpected:(75000) BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+END
+
+[test4]
+-- test for GET_ITEM_IDS_FOR_DELIVERY
+-- trying to reserve more then in the store
+-- failed expected
+calltest: deliveroneitem
+-- try to reserve more then in the store
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P002',-1.1,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(OK,NULL);
+END
+verify: SELECT * FROM RES
+-- not succesfull expected
+equal OK 0
+verify: SELECT * FROM TEMP_ITEM_IDS_LIST WHERE SESSIONID=%(sessid)s ORDER BY SEQNUMBER 
+equal SEQNUMBER 0 , isnotnull ITEMID, equal amount -1.1, equal amountreserved 1, isnull value
+eof
+
+[test5]
+-- test for two items one succesfull and the second not
+
+calltest: clear
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',1,2)
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,2,'P002',10,11)
+sql: BEGIN
+  DECLARE OPID BIGINT;
+  DECLARE OK INT;
+  CALL GET_ITEM_IDS_FOR_DELIVERY(%(sessid)s,OK);
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+END
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+-- try to reserve more then in the store
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P001',-1.1,NULL)
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,2,'P002',-9,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(OK,NULL);
+END
+verify: SELECT * FROM RES
+-- not succesfull expected
+equal OK 0
+verify: SELECT * FROM TEMP_ITEM_IDS_LIST WHERE SESSIONID=%(sessid)s ORDER BY SEQNUMBER 
+-- first not succesfull
+equal SEQNUMBER 0 , isnotnull ITEMID, equal amount -1.1, equal amountreserved 1, isnull value, isnull operationline
+-- second successfull
+equal SEQNUMBER 1 , isnotnull ITEMID, equal amount -9, isnull amountreserved , equal value -9.9, isnotnull operationline
+eof
+
+
+[test6]
+-- test for GET_ITEM_IDS_FOR_DELIVERY
+-- try to reserve equal numer
+-- success expected
+calltest: deliveroneitem
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P002',-1,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(OK,NULL);
+END
+verify: SELECT * FROM RES
+-- success expected
+equal OK 1
+verify: SELECT * FROM TEMP_ITEM_IDS_LIST WHERE SESSIONID=%(sessid)s ORDER BY SEQNUMBER 
+equal SEQNUMBER 0 , isnotnull ITEMID, equal amount -1, isnull amountreserved, equal value -2, isnotnull operationline
+
+[test7]
+-- relase succesfully
+-- deliver item and release item 
+-- item is released completely, it should be reduced to 0
+calltest: deliveroneitem
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P002',-1,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+END
+calltest: modifyforrelease
+sql: 
+BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(NULL,OPID);
+END
+verify: SELECT * FROM RES
+isnotnull OPID
+verify: SELECT COUNT(*) AS C FROM ITEMDASHBOARD
+equal C 0
+
+[test8]
+-- reservation succesfull
+-- deliver item and reserve it
+-- current amount and value should not change
+-- only current available should be 0
+calltest: deliveroneitem
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P002',-1,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+END
+calltest: modifyforreservation
+sql: 
+BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(NULL,OPID);
+END
+verify: SELECT * FROM RES
+isnotnull OPID
+verify: SELECT * FROM ITEMDASHBOARD
+equal currentamount 1, equal currentavailable 0, equal currentvalue 2
+eof
+
+[test9]
+-- try to reserve item which is reserved only
+calltest: test8
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+sql: INSERT INTO TEMP_ITEM_CODES_LIST VALUES(%(sessid)s,1,'P002',-1,NULL)
+sql: BEGIN
+  DECLARE OK INT;
+  CALL GET_ITEMS_FOR_RESERVATION(%(sessid)s,OK);
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(OK,NULL);
+END
+verify: SELECT * FROM RES
+equal ok 0
+
+[test10]
+-- try to release item just delivered
+-- dahsboard should be empty afterwards
+calltest: test8
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+sql: 
+BEGIN
+   DECLARE SEQ INT DEFAULT 0;
+   FOR forloop AS curs CURSOR FOR
+    SELECT * FROM OPERATIONLINE WHERE AMOUNT IS NULL AND AMOUNTAVAILABLE < 0
+   DO
+     INSERT INTO TEMP_ITEM_IDS_LIST VALUES(%(sessid)s,SEQ,ITEM,ID,AMOUNTAVAILABLE,NULL,NULL);
+     SET SEQ = SEQ + 1;
+   END FOR;
+END
+sql: 
+BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(NULL,OPID);
+END
+verify: SELECT * FROM RES
+isnotnull OPID
+verify: SELECT COUNT(*) AS C FROM ITEMDASHBOARD
+equal C 0
+
+[test11]
+-- revoke reservation
+calltest: test8
+sql: { CALL CLEAR_TEMP_SESSION(%(sessid)s) }
+sql: 
+BEGIN
+   DECLARE SEQ INT DEFAULT 0;
+   FOR forloop AS curs CURSOR FOR
+    SELECT * FROM OPERATIONLINE WHERE AMOUNT IS NULL AND AMOUNTAVAILABLE < 0
+   DO
+     INSERT INTO TEMP_ITEM_IDS_LIST VALUES(%(sessid)s,SEQ,ITEM,ID,NULL,0-AMOUNTAVAILABLE,NULL);
+     SET SEQ = SEQ + 1;
+   END FOR;
+END
+sql:
+BEGIN
+  DECLARE OPID BIGINT;
+  CALL OPERATION_OP(%(sessid)s,OPID,'Augustus','Saturn');
+  DELETE FROM RES;
+  INSERT INTO RES VALUES(NULL,OPID);
+END
+verify: SELECT * FROM RES
+isnotnull OPID
+verify: SELECT * FROM ITEMDASHBOARD
+equal currentamount 1, equal currentavailable 1, equal currentvalue 2
+eof
+

@@ -1,0 +1,25 @@
+1) load sample data
+db2 import from store_names.txt of DEL insert into STORE
+db2 import from person_names.txt of DEL insert into PERSON
+db2 import from item_names.txt of DEL insert into ITEM
+
+2) mass test
+
+(*)
+db2 -tvf before_mass_test.sql
+
+(*)
+run from one or more connections command like
+
+python TestMain.py /sessionid/ /sampleno/
+
+/sessionid/ - string identifying session (different for all sessions)
+/sampleno/ - numer of sample runs
+ 
+example: python TestMain.py D11111 500
+
+When all tests finish run statemant:
+(*)
+db2 -tsvf after_mass_test.sql
+
+If ok then statement should yield 0 lines
