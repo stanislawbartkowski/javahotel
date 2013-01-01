@@ -1,0 +1,5 @@
+1) create tables, ddl code
+db2 -tvf ddl_code.sql
+
+2) deploy sql code
+db2 -td@ -svf sqlserver_code.sql
