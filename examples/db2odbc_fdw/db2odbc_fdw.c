@@ -4,7 +4,7 @@
  * 
  * Author: stanislawbartkowski@gmail.com
  * 
- * Copyright (c) 2010-2012, PostgreSQL Global Development Group
+ * Copyright (c) 2010-2013, PostgreSQL Global Development Group
  *
  * IDENTIFICATION
  *		  db2odbc_fdw/db2odbc_fdw
@@ -53,8 +53,28 @@ typedef struct db2PrivateData {
     SQLHSTMT stmt;
     SQLSMALLINT no_columns;
     db2ColumnDesc *columnsbuf;
+    char *cached;
     char **values;
 } db2PrivateData;
+
+// ---------------------------------------
+// connection cache entry
+// ---------------------------------------
+
+#define DSN_MAX_LEN 128
+
+typedef struct db2ConnectionCacheEntry {
+   char dsn_name[DSN_MAX_LEN];
+   Oid userId;
+   SQLHENV env;
+   SQLHDBC dbc;
+   struct db2ConnectionCacheEntry *next;
+} db2ConnectionCacheEntry;
+
+static db2ConnectionCacheEntry *cache = NULL; // initialize as null
+   
+// ----------------------------------------
+
 
 /*
  * Describes the valid options for objects that use this wrapper.
@@ -66,9 +86,13 @@ typedef struct db2FdwOption {
 } db2FdwOption;
 
 #define DSN "dsn"
+#define CACHED "cached"
 #define USERNAME "username"
 #define PASSWORD "password"
 #define QUERY "sql_query" 
+
+
+#define ANYERROR -1
 
 /*
  * Array of valid options
@@ -77,6 +101,7 @@ typedef struct db2FdwOption {
 static struct db2FdwOption valid_options[] ={
     /* Foreign server options */
     { DSN, ForeignServerRelationId, true},
+    { CACHED, ForeignServerRelationId, false},
 
     /* Foreign table options */
     { QUERY, ForeignTableRelationId, true},
@@ -93,9 +118,12 @@ static void lognotice(const char *s) {
     elog(NOTICE, s);
 }
 
-// uncomment to detailed debug
+// uncomment to have detailed information as in debug logging only
 #define N DEBUG5
-// #define N NOTICE
+
+// uncomment NOTICE to receice detailed information as default
+//#define N NOTICE
+
 
 static void logdebug(const char *s) {
     elog(N, s);
@@ -120,6 +148,72 @@ static void logdebug1(const char *s, const char *par) {
 static void logdebug2(const char *s, const char *par1, const char *par2) {
     elog(N, s, par1, par2);
 }
+
+// logging level for connection info
+// #define NCONNECTION NOTICE
+#define NCONNECTION DEBUG5
+
+static void logdebugconnection(const char *s) {
+    elog(NCONNECTION, s);
+}
+
+static void logdebug2connection(const char *s, const char *par1, const char *par2) {
+    elog(NCONNECTION, s, par1, par2);
+}
+
+static void logdebug1connection(const char *s, const char *par) {
+    elog(NCONNECTION, s, par);
+}
+
+static void logdebugiconnection(const char *s, long p) {
+    char temp[255];
+    sprintf(temp, s, p);
+    elog(N, temp);
+}
+
+// -------------------------------------------
+// cache handling
+// IMPORTANT: THREAD unsafe
+// I do not know what about multithreading in postgres
+// but this code (working with static variable) is NOT thread safe
+// some synchronization is needed
+// -------------------------------------------
+
+static db2ConnectionCacheEntry *findConnection(const char *dsn, Oid userId) {
+  
+  db2ConnectionCacheEntry *e;
+  for (e = cache; e != NULL; e = e->next) {
+    if ((strcmp(e->dsn_name,dsn) == 0) && e->userId == userId) { return e; }
+  }
+  return NULL;
+}
+
+static void addNewConnection(const char *dsn,Oid userId, SQLHENV env, SQLHDBC dbc) {
+   db2ConnectionCacheEntry *e = malloc(sizeof(db2ConnectionCacheEntry));
+   strncpy(e->dsn_name,dsn,DSN_MAX_LEN-1);
+   e->userId = userId;
+   e->env = env;
+   e->dbc = dbc;
+   e->next = cache;
+   cache = e;
+}
+
+static void removeConnection(SQLHDBC dbc) {
+  
+  db2ConnectionCacheEntry *prev = NULL,*e;
+  logdebugconnection("Try remove connection from cache");
+  for (e = cache; e != NULL; e = e->next) {
+    if (e->dbc == dbc) {
+      if (prev == NULL) { cache = e->next; }
+      else { prev->next = e->next; }
+    SQLFreeHandle(SQL_HANDLE_DBC, e->dbc);
+    SQLFreeHandle(SQL_HANDLE_ENV, e->env);
+    free(e);
+    logdebugconnection("Connection removed from cache succesfully");
+    }
+  }
+}
+
 
 /*
  * SQL functions*/
@@ -278,15 +372,16 @@ static void list_drivers() {
             (SQLCHAR *) dsn, sizeof (dsn), &dsn_ret,
             (SQLCHAR *) desc, sizeof (desc), &desc_ret))) {
         direction = SQL_FETCH_NEXT;
-        logdebug2("%s - %s", dsn, desc);
+        logdebug2connection("%s - %s", dsn, desc);
     }
     SQLFreeHandle(SQL_HANDLE_ENV, env);
-    logdebug("end of list drivers");
+    logdebugconnection("end of list drivers");
 }
 
 static void extract_error(char *fn,
         SQLHANDLE handle,
-        SQLSMALLINT type) {
+        SQLSMALLINT type,
+	SQLINTEGER *outnative) {
     SQLINTEGER i = 0;
     SQLINTEGER native;
     SQLCHAR state[ 7 ];
@@ -300,11 +395,18 @@ static void extract_error(char *fn,
             "%s\n",
             fn);
 
+    if (outnative != NULL) {
+      *outnative = ANYERROR;
+    }
     do {
         ret = SQLGetDiagRec(type, handle, ++i, state, &native, text,
                 sizeof (text), &len);
-        if (SQL_SUCCEEDED(ret))
-            elog(NOTICE, "%s:%ld:%ld:%s\n", state, (long int) i, (long int) native, text);
+        if (SQL_SUCCEEDED(ret)) {
+            elog(NOTICE, "SQLSTATE:%s : %ld : %ld : %s\n", state, (long int) i, (long int) native, text);
+	    if (outnative != NULL && *outnative == ANYERROR) {
+	      *outnative = native;
+	    }
+	}
     }    while (ret == SQL_SUCCESS);
 }
 
@@ -320,6 +422,7 @@ static void getConnection(db2PrivateData *data, Oid foreigntableid, char **query
     char *dsn;
     char *username;
     char *password;
+    char *cached = NULL;
 
 
     table = GetForeignTable(foreigntableid);
@@ -335,59 +438,83 @@ static void getConnection(db2PrivateData *data, Oid foreigntableid, char **query
         DefElem *def = (DefElem *) lfirst(lc);
         if (strcmp(def->defname, DSN) == 0) {
             dsn = defGetString(def);
-            logdebug1("DSN: %s", dsn);
+            logdebug1connection("DSN: %s", dsn);
+            continue;
+        }
+        if (strcmp(def->defname, CACHED) == 0) {
+            cached = defGetString(def);
+            logdebug1connection("CACHED: %s", cached);
             continue;
         }
         if (strcmp(def->defname, PASSWORD) == 0) {
             password = defGetString(def);
-            logdebug1("PASSWORD: %s", password);
+            logdebug1connection("PASSWORD: %s", password);
             continue;
         }
         if (strcmp(def->defname, USERNAME) == 0) {
             username = defGetString(def);
-            logdebug1("USERNAME: %s", username);
+            logdebug1connection("USERNAME: %s", username);
             continue;
         }
         if (strcmp(def->defname, QUERY) == 0) {
             *query = defGetString(def);
-            logdebug1("QUERY: %s", *query);
+            logdebug1connection("QUERY: %s", *query);
             continue;
         }
     }
-    /* Allocate an environment handle */
-    ret = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &data->env);
-    if (!SQL_SUCCEEDED(ret)) {
-        lognotice("Cannot allocate SQL_HANDLE_ENV");
-    }
-    ret = SQLSetEnvAttr(data->env, SQL_ATTR_ODBC_VERSION, (void *) SQL_OV_ODBC3, 0);
-    if (!SQL_SUCCEEDED(ret)) {
+    
+    data->cached = cached;
+    db2ConnectionCacheEntry* e  = findConnection(dsn,GetUserId());
+    if (e != NULL) {
+      logdebugconnection("Connection data received from cache");
+      data->env = e->env;
+      data->dbc = e->dbc;
+    } 
+    else {    
+      /* Allocate an environment handle */
+      ret = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &data->env);
+      if (!SQL_SUCCEEDED(ret)) {
+          lognotice("Cannot allocate SQL_HANDLE_ENV");
+      }
+      ret = SQLSetEnvAttr(data->env, SQL_ATTR_ODBC_VERSION, (void *) SQL_OV_ODBC3, 0);
+      if (!SQL_SUCCEEDED(ret)) {
         lognotice("Cannot set SQL_ATTR_ODBC_VERSION");
-        extract_error("SQL_ATTR_ODBC_VERSION", data->env, SQL_HANDLE_ENV);
-    }
-    ret = SQLAllocHandle(SQL_HANDLE_DBC, data->env, &data->dbc);
-    if (!SQL_SUCCEEDED(ret)) {
-        lognotice("Cannot allocate SQL_HANDLE_DBC");
-        extract_error("SQLAllocHandle SQL_HANDLE_DBC", data->env, SQL_HANDLE_ENV);
-    }
-
-    ret = SQLConnect(data->dbc, dsn, SQL_NTS, username, SQL_NTS, password, SQL_NTS);
-    if (SQL_SUCCEEDED(ret)) {
-        logdebug("Successfully connected to driver");
-    }
-    else {
-        extract_error("SQLDriverConnect", data->dbc, SQL_HANDLE_DBC);
-        ereport(ERROR,
-                (errcode(ERRCODE_FDW_UNABLE_TO_ESTABLISH_CONNECTION),
-                errmsg("cannot connect to odbc dsn %s", conn_str.data),
-                errhint("Check connection data or make sure that target database is online")
-                ));
+        extract_error("SQL_ATTR_ODBC_VERSION", data->env, SQL_HANDLE_ENV,NULL);
+      }
+      ret = SQLAllocHandle(SQL_HANDLE_DBC, data->env, &data->dbc);
+      if (!SQL_SUCCEEDED(ret)) {
+         lognotice("Cannot allocate SQL_HANDLE_DBC");
+         extract_error("SQLAllocHandle SQL_HANDLE_DBC", data->env, SQL_HANDLE_ENV,NULL);
+      }
+      ret = SQLConnect(data->dbc, dsn, SQL_NTS, username, SQL_NTS, password, SQL_NTS);
+      if (SQL_SUCCEEDED(ret)) {
+          logdebugconnection("Successfully connected to driver");
+      }
+      else {
+          extract_error("SQLDriverConnect", data->dbc, SQL_HANDLE_DBC,NULL);
+          ereport(ERROR,
+                  (errcode(ERRCODE_FDW_UNABLE_TO_ESTABLISH_CONNECTION),
+                   errmsg("cannot connect to odbc dsn %s", dsn),
+                   errhint("Check connection data or make sure that target database is online")
+                  ));
+      }
+      if (cached != NULL) {
+	logdebugconnection("Add connection data to cache");
+	addNewConnection(dsn,GetUserId(),data->env,data->dbc);
+      }
     }
 }
 
 static void closeConnection(db2PrivateData *data) {
-    SQLDisconnect(data->dbc);
-    SQLFreeHandle(SQL_HANDLE_DBC, data->dbc);
-    SQLFreeHandle(SQL_HANDLE_ENV, data->env);
+    if (data->cached == NULL) {
+      logdebugconnection("Disconnect");
+      SQLDisconnect(data->dbc);
+      SQLFreeHandle(SQL_HANDLE_DBC, data->dbc);
+      SQLFreeHandle(SQL_HANDLE_ENV, data->env);
+    }
+    else {
+      logdebugconnection("Do not disconnect, hashed");
+    }
 }
 
 /*
@@ -416,6 +543,8 @@ db2_ExplainForeignScan(ForeignScanState *node, ExplainState *es) {
     logdebug("db2_ExplainForeignScan");
 }
 
+#define RETRYNUMB 2
+
 /*
  * file_fixed_lengthBeginForeignScan
  *		Initiate access to the file
@@ -426,25 +555,65 @@ db2_BeginForeignScan(ForeignScanState *node, int eflags) {
     list_drivers();
     db2PrivateData *data;
     char *query;
+    int retry = 0;
+    SQLRETURN ret;
+    SQLINTEGER native;
+    long int lcached;
+    
     data = (db2PrivateData *) palloc(sizeof (db2PrivateData));
-    getConnection(data, RelationGetRelid(node->ss.ss_currentRelation), &query);
-    SQLAllocHandle(SQL_HANDLE_STMT, data->dbc, &data->stmt);
-    /* Retrieve a list of rows */
-    SQLRETURN ret = SQLExecDirect(data->stmt, (SQLCHAR *) query, SQL_NTS);
-    if (SQL_SUCCEEDED(ret)) {
-        logdebug("SQLExecDirect");
-    } else {
-        extract_error("Error while executing query", data->stmt, SQL_HANDLE_STMT);
-        ereport(ERROR,
-                (errcode(ERRCODE_FDW_ERROR),
-                errmsg("Cannot execute query %s", query),
-                errhint("Check query syntax")
-                ));
+    
+    int failure = 1;
+    // it is 
+    while (retry < RETRYNUMB) {
+      getConnection(data, RelationGetRelid(node->ss.ss_currentRelation), &query);
+      SQLAllocHandle(SQL_HANDLE_STMT, data->dbc, &data->stmt);
+      /* Retrieve a list of rows */
+      ret = SQLExecDirect(data->stmt, (SQLCHAR *) query, SQL_NTS);
+      if (SQL_SUCCEEDED(ret)) {
+         logdebug("SQLExecDirect");
+	 // OK
+	 failure = 0;
+	 break;
+      } else {
+	  retry++;
+          extract_error("Error while executing query", data->stmt, SQL_HANDLE_STMT,&native);
+	  if (data->cached == NULL) {
+	    logdebugconnection("Not cached, failed");
+	    break; 
+	  }
+	  logdebugiconnection("Error native code: %ld",native);
+	  // remove from cache
+	  removeConnection(data->dbc);
+	  // try retry
+	  lcached = atol(data->cached);
+	  
+	  if (lcached == 0) { 
+	     lcached = ANYERROR; 
+	     logdebugconnection("Cached is 0 (may an error), ANYERROR is assumed");
+	  }
+	  if (lcached == ANYERROR) {
+	     logdebugconnection("ANYERROR assuemed, try again"); 
+	     continue;   
+	  }
+	  if (lcached != native) {
+	    logdebugconnection("Native code not valid for retry, fail");
+	    break;
+	  }
+          logdebugconnection("Native code valid for retry, try again");	  
+      }
+    } // while
+    
+    if (failure == 1) {
+          ereport(ERROR,
+                  (errcode(ERRCODE_FDW_ERROR),
+                  errmsg("Cannot execute query %s", query),
+                  errhint("Check query syntax")
+                  ));
     }
 
     ret = SQLNumResultCols(data->stmt, &data->no_columns);
     if (!SQL_SUCCEEDED(ret)) {
-        extract_error("SQLNumResultCols", data->stmt, SQL_HANDLE_STMT);
+        extract_error("SQLNumResultCols", data->stmt, SQL_HANDLE_STMT,NULL);
         ereport(ERROR,
                 (errcode(ERRCODE_FDW_ERROR),
                 errmsg("Cannot retrieve number of columns %s", query),
@@ -472,7 +641,7 @@ db2_BeginForeignScan(ForeignScanState *node, int eflags) {
                 &DecimalDigitsPtr,
                 &NullablePtr);
         if (!SQL_SUCCEEDED(ret)) {
-            extract_error("SQLDescribeCol", data->stmt, SQL_HANDLE_STMT);
+            extract_error("SQLDescribeCol", data->stmt, SQL_HANDLE_STMT,NULL);
             ereport(ERROR,
                     (errcode(ERRCODE_FDW_ERROR),
                     errmsg("Cannot retrieve column description for query %s", query),
@@ -516,7 +685,7 @@ db2_IterateForeignScan(ForeignScanState *node) {
         return NULL;
     }
     if (!SQL_SUCCEEDED(ret)) {
-        extract_error("SQLFetch", data->stmt, SQL_HANDLE_STMT);
+        extract_error("SQLFetch", data->stmt, SQL_HANDLE_STMT,NULL);
         ereport(ERROR,
                 (errcode(ERRCODE_FDW_ERROR),
                 errmsg("Cannot fetch next row"),
@@ -546,7 +715,7 @@ db2_IterateForeignScan(ForeignScanState *node) {
             }
         }
         if (!SQL_SUCCEEDED(ret)) {
-            extract_error("SQLGetData", data->stmt, SQL_HANDLE_STMT);
+            extract_error("SQLGetData", data->stmt, SQL_HANDLE_STMT,NULL);
             ereport(ERROR,
                     (errcode(ERRCODE_FDW_ERROR),
                     errmsg("Cannot get data for next column"),

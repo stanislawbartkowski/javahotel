@@ -15,7 +15,7 @@ A list of driver managers is available here: http://en.wikipedia.org/wiki/Open_D
 
 Once that's done, the extension can be built with:
 
-PATH=/usr/local/pgsql91/bin/:$PATH make USE_PGXS=1 make
+PATH=/usr/local/pgsql91/bin/:$PATH make USE_PGXS=1 
 sudo PATH=/usr/local/pgsql91/bin/:$PATH make USE_PGXS=1 install
 
 (assuming you have PostgreSQL 9.1 in /usr/local/pgsql91).
@@ -66,6 +66,39 @@ CREATE FOREIGN TABLE sample_emp (
 CREATE USER MAPPING FOR postgres
 	SERVER db2odbc_server
 	OPTIONS (username 'db2inst3', password 'db2inst3');
+
+-------
+Cached connection:
+
+'cached' parameter : native code causing connection retry.
+
+CREATE SERVER db2odbc_servercached 
+        FOREIGN DATA WRAPPER db2odbc_fdw 
+        OPTIONS (dsn 'TSAMPLE' , cached '-30081');
+
+
+CREATE FOREIGN TABLE cached_sample_emp (
+  empno char(6),
+  firstname varchar(12)
+) 
+ SERVER db2odbc_servercached
+ OPTIONS (
+   sql_query 'select * from emp fetch first 10 rows only'
+ );
+
+CREATE USER MAPPING FOR sb
+        SERVER db2odbc_servercached
+        OPTIONS (username 'db2inst2', password 'db2inst2');
+
+----------
+Additional
+
+Do not forget give access to foreign server to other users if necessary
+
+Example:
+
+
+GRANT ALL PRIVILEGES ON FOREIGN SERVER db2odbc_server TO  PUBLIC;
 
 ---------------------------
 stanislawbartkowski@gmail.com
