@@ -18,7 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.VSField;
 import com.gwtmodel.table.login.LoginField;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.javahotel.client.M;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataType;
@@ -120,7 +120,8 @@ class ColListFactory {
                 dList = null;
                 VListHeaderDesc bAction = new VListHeaderDesc("Pokaż",
                         VSField.createVString(AdvancePayment.CHOOSE_STRING),
-                        false, AdvancePayment.CHOOSE_STRING, false);
+                        false, AdvancePayment.CHOOSE_STRING, false, null, null,
+                        null, null, null, 0);
 
                 fList = new IField[] { BookingP.F.dateOp,
                         BookingP.F.validationAmount, BookingP.F.validationDate };
@@ -128,7 +129,8 @@ class ColListFactory {
                 String na = "Zapłata";
                 IVField f = VSField.createVDecimal(AdvancePayment.PAY_STRING);
                 VListHeaderDesc bPayment = new VListHeaderDesc(na, f, false,
-                        AdvancePayment.PAY_STRING, false);
+                        AdvancePayment.PAY_STRING, false, null, null, null,
+                        null, null, 0);
 
                 List<VListHeaderDesc> li = FFactory.constructH(null, fList);
                 li.add(0, bAction);
@@ -192,7 +194,8 @@ class ColListFactory {
                 IVField f = VSField
                         .createVDecimal(BookingElemContainer.BOOKINGELEMPAY);
                 VListHeaderDesc bPayment = new VListHeaderDesc(na, f, false,
-                        BookingElemContainer.BOOKINGELEMPAY, false);
+                        BookingElemContainer.BOOKINGELEMPAY, false, null, null,
+                        null, null, null, 0);
                 List<VListHeaderDesc> li = FFactory.constructH(dList, fList);
                 li.add(bPayment);
                 return li;

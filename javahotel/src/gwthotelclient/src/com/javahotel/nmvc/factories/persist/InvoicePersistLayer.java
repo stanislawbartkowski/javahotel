@@ -15,11 +15,12 @@ package com.javahotel.nmvc.factories.persist;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.PersistTypeEnum;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
@@ -49,7 +50,10 @@ public class InvoicePersistLayer extends AbstractPersistLayer {
                 InvoicePVData p = new InvoicePVData(a);
                 dvList.add(p);
             }
-            IDataListType dataList = DataListTypeFactory.construct(dvList);
+            DataListTypeFactory taFactory = GwtGiniInjector.getI()
+                    .getDataListTypeFactory();
+
+            IDataListType dataList = taFactory.construct(dvList);
             publish(dType, DataActionEnum.ListReadSuccessSignal, dataList);
         }
     }

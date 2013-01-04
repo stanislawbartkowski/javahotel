@@ -15,11 +15,12 @@ package com.javahotel.nmvc.factories.persist;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.factories.IDataPersistListAction;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -56,7 +57,9 @@ class DataPersistList extends AbstractSlotContainer implements
             lo.setF(new LoginField(LoginField.F.LOGINNAME), name);
             li.add(lo);
         }
-        return DataListTypeFactory.construct(li);
+        DataListTypeFactory taFactory = GwtGiniInjector.getI()
+                .getDataListTypeFactory();
+        return taFactory.construct(li);
     }
 
     private class ReadListDict implements IVectorList<AbstractTo> {

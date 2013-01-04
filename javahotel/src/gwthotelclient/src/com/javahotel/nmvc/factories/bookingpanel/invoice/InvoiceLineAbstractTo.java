@@ -13,7 +13,7 @@
 package com.javahotel.nmvc.factories.bookingpanel.invoice;
 
 import com.gwtmodel.table.VModelData;
-import com.gwtmodel.table.persist.IVModelDataEquable;
+import com.gwtmodel.table.memorypersist.IVModelDataEquable;
 
 /**
  * @author hotel

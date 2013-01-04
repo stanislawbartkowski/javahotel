@@ -23,11 +23,9 @@ import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.AbstractListT.IGetList;
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.MapEntryFactory;
@@ -36,6 +34,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.factories.IDataPersistListAction;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -51,8 +50,9 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.IGHeader;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.javahotel.client.abstractto.InvoicePVData;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
@@ -224,7 +224,9 @@ class InvoiceLines extends AbstractSlotContainer {
             @Override
             public void signal(ISlotSignalContext slContext) {
                 List<IVModelData> dList = new ArrayList<IVModelData>();
-                IDataListType listType = DataListTypeFactory.construct(dList);
+                DataListTypeFactory taFactory = GwtGiniInjector.getI()
+                        .getDataListTypeFactory();
+                IDataListType listType = taFactory.construct(dList);
                 for (BookElemP bElem : bo.getBooklist()) {
                     for (PaymentRowP rowP : bElem.getPaymentrows()) {
                         ServiceDictionaryP se = iService.getService(bElem
@@ -324,7 +326,7 @@ class InvoiceLines extends AbstractSlotContainer {
         DataListParam lParam = new DataListParam(dType, new PersistClass(),
                 new HeaderList(), null, null, null, null);
         DisplayListControlerParam dList = tFactory.constructParam(cList,
-                panelId, lParam, null);
+                panelId, lParam, null, false);
         i = tFactory.constructDataControler(dList);
         registerCaller(dType, GetActionEnum.GetViewModelEdited, new SetGetter());
         registerCaller(dType, GetActionEnum.GetModelToPersist, new SetGetter());

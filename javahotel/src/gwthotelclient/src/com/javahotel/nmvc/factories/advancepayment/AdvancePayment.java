@@ -135,7 +135,7 @@ public class AdvancePayment extends AbstractSlotContainer {
 
         ListOfControlDesc cList = new ListOfControlDesc(dButton);
         DisplayListControlerParam dList = tFactory.constructParam(dType, cList,
-                panelId, (ISlotMediator) null, new GetCell());
+                panelId, (ISlotMediator) null, new GetCell(), false, false);
         i = tFactory.constructDataControler(dList);
         i.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.TableCellClicked, new ClickCust());

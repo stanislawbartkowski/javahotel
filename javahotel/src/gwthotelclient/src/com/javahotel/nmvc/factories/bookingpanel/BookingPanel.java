@@ -39,7 +39,6 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
@@ -68,11 +67,12 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.tabledef.IGHeader;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
 import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.ClickPopUp;
 import com.gwtmodel.table.view.util.EventPopUpHint;
 import com.gwtmodel.table.view.util.IEventName;
@@ -117,7 +117,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
     private final IListDataView iList;
     private final IDataPersistAction iPersist;
     private final static int NOM = 12;
-//    private final static int NOM = 4;
+    // private final static int NOM = 4;
     private final IResLocator rI;
     private final GetResCell rCell;
     private final ResServicesCache rCache;
@@ -620,7 +620,7 @@ public class BookingPanel extends AbstractSlotMediatorContainer {
         rCell = new GetResCell(rCache, new BookingResCache());
         dRes = new DrawResPanel(roomType, this, rI, rCell, rCache);
         iList = tFactories.getlDataFactory().construct(roomType, rCell, false,
-                true);
+                true, false);
         IPersistFactoryAction persistFactoryA = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getPersistFactoryAction();
         iPersist = persistFactoryA.contruct(roomType);

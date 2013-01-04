@@ -15,8 +15,6 @@ package com.javahotel.nmvc.factories.advancepayment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.AbstractLpVModelData;
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
@@ -28,6 +26,8 @@ import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.datalisttype.AbstractLpVModelData;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
@@ -39,9 +39,9 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.persist.IMemoryListModel;
-import com.gwtmodel.table.persist.MemoryGetController;
-import com.gwtmodel.table.persist.MemoryListPersist;
+import com.gwtmodel.table.memorypersist.IMemoryListModel;
+import com.gwtmodel.table.memorypersist.MemoryGetController;
+import com.gwtmodel.table.memorypersist.MemoryListPersist;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
@@ -52,10 +52,10 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.table.IGetCellValue;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
 import com.gwtmodel.table.view.util.SetVPanelGwt;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.types.DataUtil;
@@ -91,7 +91,9 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
             for (PaymentP pa : p.getPayments()) {
                 li.add(VModelDataFactory.constructLp(pa));
             }
-            lPersistList.setDataList(DataListTypeFactory.constructLp(li));
+            DataListTypeFactory taFactory = GwtGiniInjector.getI()
+                    .getDataListTypeFactory();
+            lPersistList.setDataList(taFactory.constructLp(li));
             dControler.startPublish(new CellId(0));
         }
     }
@@ -204,7 +206,7 @@ class AddPaymentWidget extends AbstractSlotMediatorContainer {
         DisplayListControlerParam cParam = tFactory.constructParam(cI,
                 new DataListParam(dType, lPersistList, null, iDataModelFactory,
                         new GetTitleFactory(), iGetCon), (ISlotMediator) null,
-                (IGetCellValue) null);
+                (IGetCellValue) null, false);
         dControler = tFactory.constructDataControler(cParam);
         slMediator.registerSlotContainer(dControler);
         slMediator.registerSlotContainer(new HeaderListContainer(dType));

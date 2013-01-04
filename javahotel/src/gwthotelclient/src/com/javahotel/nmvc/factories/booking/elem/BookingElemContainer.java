@@ -17,8 +17,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.safehtml.shared.SafeHtml;
-import com.gwtmodel.table.AbstractLpVModelData;
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
@@ -36,6 +34,8 @@ import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.IDataControler;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
+import com.gwtmodel.table.datalisttype.AbstractLpVModelData;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateActionFactory;
@@ -47,9 +47,9 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.persist.IMemoryListModel;
-import com.gwtmodel.table.persist.MemoryGetController;
-import com.gwtmodel.table.persist.MemoryListPersist;
+import com.gwtmodel.table.memorypersist.IMemoryListModel;
+import com.gwtmodel.table.memorypersist.MemoryGetController;
+import com.gwtmodel.table.memorypersist.MemoryListPersist;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -118,7 +118,9 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
                 }
             }
         }
-        lPersistList.setDataList(DataListTypeFactory.constructLp(li));
+        DataListTypeFactory taFactory = GwtGiniInjector.getI()
+                .getDataListTypeFactory();
+        lPersistList.setDataList(taFactory.constructLp(li));
         dControler.startPublish(new CellId(0));
 
     }
@@ -244,11 +246,11 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
             return null;
         }
     }
-    
+
     private class GetW implements ISlotListener {
-        
+
         private final WSize wSi;
-        
+
         GetW(WSize wSi) {
             this.wSi = wSi;
         }
@@ -256,9 +258,9 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
         @Override
         public void signal(ISlotSignalContext slContext) {
             IGWidget w = slContext.getGwtWidget();
-            ClickPopUp p = new ClickPopUp(wSi,w.getGWidget());
+            ClickPopUp p = new ClickPopUp(wSi, w.getGWidget());
         }
-        
+
     }
 
     private class ClickedSum implements ISlotListener {
@@ -277,17 +279,22 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
         }
 
     }
-    
+
     private class RefreshAfterPersist implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            if (isFlat) { return ; }
+            if (isFlat) {
+                return;
+            }
 
             ISlotable i = BookingElemContainer.this;
-            IFormLineView f = SlU.getFormLineView(bType, new VField(BookingP.F.customerPrice), i);
-            IFormLineView fin = SlU.getFormLineView(bType, new VField(BookingP.F.checkIn), i);
-            IFormLineView fout = SlU.getFormLineView(bType, new VField(BookingP.F.checkOut), i);
+            IFormLineView f = SlU.getFormLineView(bType, new VField(
+                    BookingP.F.customerPrice), i);
+            IFormLineView fin = SlU.getFormLineView(bType, new VField(
+                    BookingP.F.checkIn), i);
+            IFormLineView fout = SlU.getFormLineView(bType, new VField(
+                    BookingP.F.checkOut), i);
             IDataListType li = lPersistList.getDataList();
             Date dMin = null;
             Date dMax = null;
@@ -299,25 +306,25 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
                 PUtil.SumP s = PUtil.getPrice(pLi);
                 if (sumP == null) {
                     sumP = s;
-                }
-                else {
+                } else {
                     PUtil.addS(sumP, s);
                 }
-                if (dMin == null) { dMin = e.getCheckIn(); }
-                else {
-                    dMin = DateUtil.getMinDate(dMin,e.getCheckIn());
+                if (dMin == null) {
+                    dMin = e.getCheckIn();
+                } else {
+                    dMin = DateUtil.getMinDate(dMin, e.getCheckIn());
                 }
-                if (dMax == null) { dMax = e.getCheckOut(); }
-                else {
-                    dMax = DateUtil.getMaxDate(dMax,e.getCheckOut());
+                if (dMax == null) {
+                    dMax = e.getCheckOut();
+                } else {
+                    dMax = DateUtil.getMaxDate(dMax, e.getCheckOut());
                 }
-            f.setValObj(sumP.sumCustomer);
-            fin.setValObj(dMin);
-            fout.setValObj(dMax);
+                f.setValObj(sumP.sumCustomer);
+                fin.setValObj(dMin);
+                fout.setValObj(dMax);
             }
         }
-        
-        
+
     }
 
     /**
@@ -374,7 +381,7 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
 
         DisplayListControlerParam cParam = tFactory.constructParam(cI,
                 new DataListParam(dType, lPersistList, null, iDataModelFactory,
-                        tiFactory, iGetCon), null, new GetCell());
+                        tiFactory, iGetCon), null, new GetCell(), false);
         IHeaderListFactory he = tFactories.getHeaderListFactory();
         dControler = tFactory.constructDataControler(cParam);
         slMediator.registerSlotContainer(dControler);
@@ -390,7 +397,8 @@ public class BookingElemContainer extends AbstractSlotMediatorContainer {
         slMediator.getSlContainer().registerSubscriber(dType,
                 DataActionEnum.TableCellClicked, new ClickedSum());
         lPersistList.getSlContainer().registerSubscriber(dType,
-                DataActionEnum.RefreshAfterPersistActionSignal, new  RefreshAfterPersist());
+                DataActionEnum.RefreshAfterPersistActionSignal,
+                new RefreshAfterPersist());
 
     }
 

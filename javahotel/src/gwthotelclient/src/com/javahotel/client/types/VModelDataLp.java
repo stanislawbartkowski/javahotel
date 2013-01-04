@@ -14,8 +14,8 @@ package com.javahotel.client.types;
 
 import java.util.List;
 
-import com.gwtmodel.table.AbstractLpVModelData;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.datalisttype.AbstractLpVModelData;
 import com.javahotel.common.toobject.AbstractTo;
 
 /**

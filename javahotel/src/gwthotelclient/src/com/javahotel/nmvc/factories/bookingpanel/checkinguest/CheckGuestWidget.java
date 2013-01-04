@@ -22,17 +22,16 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.TextHeader;
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IGHeader;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.controler.BoxActionMenuOptions;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
@@ -48,8 +47,10 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotType;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.IGHeader;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import com.gwtmodel.table.view.table.ChangeEditableRowsParam.ModifMode;
 import com.javahotel.client.abstractto.IAbstractFactory;
 import com.javahotel.client.gename.FFactory;
 import com.javahotel.client.injector.HInjector;
@@ -136,7 +137,9 @@ class CheckGuestWidget extends AbstractSlotContainer {
                     vlist.add(VModelDataFactory.construct(g));
                 }
             }
-            IDataListType dList = DataListTypeFactory.construct(vlist);
+            DataListTypeFactory taFactory = GwtGiniInjector.getI()
+                    .getDataListTypeFactory();
+            IDataListType dList = taFactory.construct(vlist);
             iList.getSlContainer().publish(dType,
                     DataActionEnum.DrawListAction, dList);
         }
@@ -181,14 +184,17 @@ class CheckGuestWidget extends AbstractSlotContainer {
                 @Override
                 public void update(int index, Integer object, Boolean value) {
                     EditRowsSignal e = new EditRowsSignal(object.intValue(),
-                            value.booleanValue(), DataUtil.toList(eList));
+                            value.booleanValue(), ModifMode.NORMALMODE,
+                            DataUtil.toList(eList));
                     IVModelData v = SlU.getVDataByI(dType, iList,
                             object.intValue());
                     AbstractToCheckGuest a = DataUtil.getData(v);
                     a.setEditable(value.booleanValue());
-                    iList.getSlContainer().publish(
-                            new CustomStringDataTypeSlot(
-                                    EditRowsSignal.EditSignal, dType), e);
+
+                    SlotType sl = EditRowsSignal.constructEditRowSignal(dType);
+                    iList.getSlContainer().publish(sl, e);
+                    // new CustomStringDataTypeSlot(
+                    // EditRowsSignal.EditSignal, dType), e);
                 }
 
             });
@@ -274,7 +280,7 @@ class CheckGuestWidget extends AbstractSlotContainer {
         VListHeaderDesc bAction = new VListHeaderDesc(MM.getL().ChooseNow(),
                 new VField(AbstractToCheckGuest.F.ChooseC, FieldDataType
                         .constructString()), false,
-                AbstractToCheckGuest.chooseCust, false);
+                AbstractToCheckGuest.chooseCust, false, null, null);
         fList.add(3, bAction);
 
         // Create header and publish
@@ -314,7 +320,7 @@ class CheckGuestWidget extends AbstractSlotContainer {
         pe.setSlContainer(iList);
         this.setSlContainer(iList);
         getSlContainer().registerSubscriber(slType, new ResignSignaller());
-        
+
     }
 
     @Override
