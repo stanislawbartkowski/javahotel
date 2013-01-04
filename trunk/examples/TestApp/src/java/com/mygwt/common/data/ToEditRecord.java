@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -18,10 +18,10 @@ import java.util.Date;
 
 /**
  * @author hotel
- *
+ * 
  */
 public class ToEditRecord implements Serializable {
-    
+
     private int recId;
 
     /**
@@ -32,19 +32,22 @@ public class ToEditRecord implements Serializable {
     }
 
     /**
-     * @param recId the recId to set
+     * @param recId
+     *            the recId to set
      */
     public void setRecId(int recId) {
         this.recId = recId;
     }
 
     private boolean mark;
-    
+
     private String name;
-    
+
     private Date date;
-    
+
     private BigDecimal number;
+
+    private String nameS;
 
     /**
      * @return the mark
@@ -54,7 +57,8 @@ public class ToEditRecord implements Serializable {
     }
 
     /**
-     * @param mark the mark to set
+     * @param mark
+     *            the mark to set
      */
     public void setMark(boolean mark) {
         this.mark = mark;
@@ -68,7 +72,8 @@ public class ToEditRecord implements Serializable {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -82,7 +87,8 @@ public class ToEditRecord implements Serializable {
     }
 
     /**
-     * @param date the date to set
+     * @param date
+     *            the date to set
      */
     public void setDate(Date date) {
         this.date = date;
@@ -96,11 +102,26 @@ public class ToEditRecord implements Serializable {
     }
 
     /**
-     * @param number the number to set
+     * @param number
+     *            the number to set
      */
     public void setNumber(BigDecimal number) {
         this.number = number;
     }
 
-    
+    /**
+     * @return the nameS
+     */
+    public String getNameS() {
+        return nameS;
+    }
+
+    /**
+     * @param nameS
+     *            the nameS to set
+     */
+    public void setNameS(String nameS) {
+        this.nameS = nameS;
+    }
+
 }

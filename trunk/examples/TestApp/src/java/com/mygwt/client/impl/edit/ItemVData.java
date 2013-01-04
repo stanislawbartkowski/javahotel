@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -22,7 +22,6 @@ import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
-import com.mygwt.common.data.TOItemRecord;
 import com.mygwt.common.data.ToEditRecord;
 
 /**
@@ -36,6 +35,7 @@ public class ItemVData extends AVModelData {
     private static final int NAME = 2;
     private static final int ID = 3;
     private static final int MARK = 4;
+    private static final int NAMES = 5;
 
     private final ToEditRecord re;
 
@@ -44,6 +44,7 @@ public class ItemVData extends AVModelData {
     static final IVField fDATE = new VField(DATE);
     static final IVField fNAME = new VField(NAME);
     static final IVField fMARK = new VField(MARK);
+    static final IVField fNAMES = new VField(NAMES);
 
     private static class VField implements IVField {
 
@@ -63,6 +64,7 @@ public class ItemVData extends AVModelData {
         public FieldDataType getType() {
             switch (t) {
             case NAME:
+            case NAMES:
                 return FieldDataType.constructString();
             case DATE:
                 return FieldDataType.constructDate();
@@ -101,6 +103,8 @@ public class ItemVData extends AVModelData {
             return re.getDate();
         case NAME:
             return re.getName();
+        case NAMES:
+            return re.getNameS();
         case ID:
             return re.getRecId();
         case MARK:
@@ -121,6 +125,9 @@ public class ItemVData extends AVModelData {
             break;
         case NAME:
             re.setName((String) o);
+            break;
+        case NAMES:
+            re.setNameS((String) o);
             break;
         case ID:
             assert o != null : LogT.getT().cannotBeNull();
@@ -143,6 +150,7 @@ public class ItemVData extends AVModelData {
         List<IVField> i = new ArrayList<IVField>();
         i.add(fDATE);
         i.add(fNAME);
+        i.add(fNAMES);
         i.add(fNUMB);
         i.add(fID);
         i.add(fMARK);

@@ -68,3 +68,7 @@
 .no_wrap_cell_style {
   white-space: nowrap;
 }
+
+.footer_right_align {
+  text-align:right;
+}
