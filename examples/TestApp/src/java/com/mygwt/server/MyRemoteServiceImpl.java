@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -329,6 +329,7 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
                 te.setMark(r.isMark());
                 te.setNumber(r.getNumber());
                 te.setRecId(r.getRecId());
+                te.setNameS(r.getNameS());
                 tList.add(te);
             }
         } finally {
@@ -344,6 +345,7 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
         ire.setMark(re.isMark());
         ire.setName(re.getName());
         ire.setNumber(re.getNumber());
+        ire.setNameS(re.getNameS());
     }
 
     @Override
@@ -394,7 +396,7 @@ public class MyRemoteServiceImpl extends RemoteServiceServlet implements
     }
 
     private void removeAll() {
-        EntityManager  em = EMF.get().createEntityManager();
+        EntityManager em = EMF.get().createEntityManager();
         Query query = em.createQuery("SELECT ir FROM EditRecord ir");
         List rList = query.getResultList();
         EntityTransaction entr = em.getTransaction();

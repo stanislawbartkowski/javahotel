@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -53,7 +53,7 @@ class ItemListPersistAction extends AbstractSlotContainer implements
             }
             publish(dType, DataActionEnum.ListReadSuccessSignal,
                     tFactory.construct(vList, null, ItemVData.fID));
-
+            RefreshSum.refreshSum(dType, ItemListPersistAction.this);
         }
     }
 

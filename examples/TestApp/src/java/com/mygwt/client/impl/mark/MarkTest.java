@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -35,7 +35,6 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.listdataview.ActionTableSignal;
 import com.gwtmodel.table.listdataview.EditRowsSignal;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -117,6 +116,7 @@ public class MarkTest implements testEntryPoint.IGetWidget {
             IDataListType iData = SlU.getIDataListType(dType, iSlo);
             List<IVField> eList = new ArrayList<IVField>();
             eList.add(ItemVData.fEDITMARKED);
+            eList.add(ItemVData.fNAME);
             EditRowsSignal si = new EditRowsSignal(
                     ChangeEditableRowsParam.ALLROWS, true,
                     ChangeEditableRowsParam.ModifMode.NORMALMODE, eList);

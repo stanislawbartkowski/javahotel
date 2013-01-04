@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IClickYesNo;
+import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
@@ -42,6 +43,7 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
+import com.gwtmodel.table.listdataview.ChangeFieldEditSignal;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.DataIntegerVDataSignal;
 import com.gwtmodel.table.listdataview.EditRowActionSignal;
@@ -138,6 +140,7 @@ public class EditTest implements testEntryPoint.IGetWidget {
             eList.add(ItemVData.fMARK);
             eList.add(ItemVData.fNUMB);
             eList.add(ItemVData.fNAME);
+            eList.add(ItemVData.fNAMES);
             EditRowsSignal si = new EditRowsSignal(
                     ChangeEditableRowsParam.ALLROWS, true,
                     ChangeEditableRowsParam.ModifMode.ADDCHANGEDELETEMODE,
@@ -186,6 +189,7 @@ public class EditTest implements testEntryPoint.IGetWidget {
                                 .constructSlotGetVSignal(dType);
                         i.getSlContainer().publish(sl,
                                 new DataIntegerSignal(si.getRownum()));
+                        RefreshSum.refreshSum(dType, i);
                         return;
 
                     }
@@ -280,6 +284,7 @@ public class EditTest implements testEntryPoint.IGetWidget {
                         .getChoosedLine(), new InvalidateFormContainer(emptyL));
                 i.getSlContainer().publish(sl, sig);
             }
+            RefreshSum.refreshSum(dType, i);
 
         }
 
@@ -341,6 +346,23 @@ public class EditTest implements testEntryPoint.IGetWidget {
 
     }
 
+    private class AfterChangeFocus implements ISlotListener {
+
+        private final ISlotable i;
+
+        AfterChangeFocus(ISlotable i) {
+            this.i = i;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject cu = slContext.getCustom();
+            ChangeFieldEditSignal ch = (ChangeFieldEditSignal) cu;
+            ch.signalFinishChangeSignal(i);
+        }
+
+    }
+
     @Override
     public Widget getW() {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
@@ -366,6 +388,9 @@ public class EditTest implements testEntryPoint.IGetWidget {
         i.getSlContainer().registerSubscriber(dType,
                 new ClickButtonType(SAVEEDIT), new SaveEdit(i));
 
+        i.getSlContainer().registerSubscriber(
+                ChangeFieldEditSignal.constructSlotChangeEditSignal(dType),
+                new AfterChangeFocus(i));
         i.getSlContainer().registerSubscriber(
                 EditRowActionSignal.constructSlotEditActionSignal(dType),
                 new RowAction(i));
