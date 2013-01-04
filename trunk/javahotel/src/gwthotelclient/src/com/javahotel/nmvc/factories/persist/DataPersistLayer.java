@@ -12,16 +12,9 @@
  */
 package com.javahotel.nmvc.factories.persist;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gwtmodel.table.DataListTypeFactory;
-import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.PersistTypeEnum;
-import com.gwtmodel.table.login.LoginData;
-import com.gwtmodel.table.login.LoginField;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
@@ -30,16 +23,12 @@ import com.gwtmodel.table.view.callback.CommonCallBackNo;
 import com.javahotel.client.GWTGetService;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.PersonHotelRoles;
-import com.javahotel.client.rdata.RData.IVectorList;
 import com.javahotel.client.types.AccessRoles;
-import com.javahotel.client.types.DataUtil;
 import com.javahotel.client.types.HModelData;
 import com.javahotel.client.types.VModelDataFactory;
-import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ReturnPersist;
 import com.javahotel.common.toobject.AbstractTo;
-import com.javahotel.common.toobject.PersonP;
 import com.javahotel.nmvc.factories.persist.dict.IHotelPersistFactory;
 import com.javahotel.nmvc.factories.persist.dict.IPersistRecord;
 import com.javahotel.nmvc.factories.persist.dict.IPersistResult;

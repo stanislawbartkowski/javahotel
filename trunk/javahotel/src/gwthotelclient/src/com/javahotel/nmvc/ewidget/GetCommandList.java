@@ -15,11 +15,12 @@ package com.javahotel.nmvc.ewidget;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.javahotel.client.IResLocator;
 import com.javahotel.client.rdata.RData;
 import com.javahotel.client.types.VField;
@@ -54,8 +55,9 @@ class GetCommandList implements IGetDataList {
             for (AbstractTo a : val) {
                 dList.add(VModelDataFactory.construct(a));
             }
-            IDataListType dataList = DataListTypeFactory.construct(dList,
-                    new VField(f));
+            DataListTypeFactory taFactory = GwtGiniInjector.getI()
+                    .getDataListTypeFactory();
+            IDataListType dataList = taFactory.construct(dList, new VField(f));
             iCallBack.set(dataList);
         }
     }
@@ -68,7 +70,7 @@ class GetCommandList implements IGetDataList {
         this.f = f;
         this.dictList = null;
     }
-    
+
     GetCommandList(final IResLocator rI, List<? extends AbstractTo> dictList) {
         this.rI = rI;
         this.r = null;
@@ -81,10 +83,9 @@ class GetCommandList implements IGetDataList {
     public void call(IGetDataListCallBack iCallBack) {
         R rR = new R(f, iCallBack);
         if (dictList == null) {
-          rI.getR().getList(r, p, rR);
-        }
-        else {
-            rR.doVList(dictList);               
+            rI.getR().getList(r, p, rR);
+        } else {
+            rR.doVList(dictList);
         }
     }
 

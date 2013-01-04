@@ -85,7 +85,7 @@ class PaymentRowDetails extends AbstractSlotContainer {
 
         CellId cI = new CellId(0);
         DisplayListControlerParam lParam = taFactory.constructParam(cList, cI,
-                dLiParam, null);
+                dLiParam, null, false);
         return taFactory.constructDataControler(lParam);
     }
 

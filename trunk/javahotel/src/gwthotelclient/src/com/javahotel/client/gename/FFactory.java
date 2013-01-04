@@ -20,7 +20,7 @@ import java.util.Set;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.javahotel.client.injector.HInjector;
 import com.javahotel.client.types.VField;
 import com.javahotel.common.toobject.IField;
@@ -119,12 +119,12 @@ public class FFactory {
         if (dList != null) {
             for (IField f : dList) {
                 v.add(new VListHeaderDesc(i.getName(f), new VField(f), hidden,
-                        buttonAction, isEditable(f, editable)));
+                        buttonAction, isEditable(f, editable), null, null));
             }
         }
         for (IField f : ft) {
             v.add(new VListHeaderDesc(i.getName(f), new VField(f), hidden,
-                    buttonAction, isEditable(f, editable)));
+                    buttonAction, isEditable(f, editable), null, null));
         }
         return v;
     }

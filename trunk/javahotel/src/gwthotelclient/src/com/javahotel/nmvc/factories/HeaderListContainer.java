@@ -18,8 +18,8 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
-import com.gwtmodel.table.view.table.VListHeaderContainer;
-import com.gwtmodel.table.view.table.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderContainer;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.javahotel.client.types.DataType;
 
 class HeaderListContainer extends AbstractSlotContainer implements
@@ -32,7 +32,7 @@ class HeaderListContainer extends AbstractSlotContainer implements
         publish(dType, vHeader);
     }
 
-    HeaderListContainer(IDataType dType,ColListFactory cList) {
+    HeaderListContainer(IDataType dType, ColListFactory cList) {
         this.dType = dType;
         DataType da = (DataType) dType;
         String title = cList.getTitle(da);

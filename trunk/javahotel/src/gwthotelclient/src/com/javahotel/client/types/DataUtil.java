@@ -18,12 +18,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.gwtmodel.table.DataListTypeFactory;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.common.PersistTypeEnum;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.login.LoginData;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -80,7 +81,9 @@ public class DataUtil {
         for (AbstractTo a : dList) {
             dvList.add(VModelDataFactory.construct(a));
         }
-        return DataListTypeFactory.construct(dvList);
+        DataListTypeFactory taFactory = GwtGiniInjector.getI()
+                .getDataListTypeFactory();
+        return taFactory.construct(dvList);
     }
 
     public static PersistType persistTo(PersistTypeEnum persisEnumType) {
