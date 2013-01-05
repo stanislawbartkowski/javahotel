@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.CommandParam;
@@ -32,7 +34,6 @@ import com.javahotel.common.command.PaymentMethod;
 import com.javahotel.common.command.RRoom;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ServiceType;
-import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
@@ -92,6 +93,7 @@ abstract public class TestHelper extends LocalDataStoreTestEnvironment {
     public static void setiSetup(ISetUpTestEnvironment iSetup) {
         TestHelper.iSetupx = iSetup;
     }
+    
 
     protected void setUpG() {
         // if (iSetup != null) {
@@ -224,13 +226,13 @@ abstract public class TestHelper extends LocalDataStoreTestEnvironment {
         List<RemarkP> rCol = new ArrayList<RemarkP>();
         RemarkP r1 = new RemarkP();
         r1.setRemark("rybka");
-        r1.setAddDate(DateFormatUtil.toT("2008/01/01"));
+        r1.setAddDate(DUtil.toT("2008/01/01"));
         r1.setLp(new Integer(1));
         rCol.add(r1);
         r1 = new RemarkP();
         r1.setRemark("rurka");
         r1.setLp(new Integer(2));
-        r1.setAddDate(DateFormatUtil.toT("2008/02/01"));
+        r1.setAddDate(DUtil.toT("2008/02/01"));
         rCol.add(r1);
         cP.setRemarks(rCol);
         cP = getpersistName(DictType.CustomerList, cP, "K001");
@@ -358,13 +360,13 @@ abstract public class TestHelper extends LocalDataStoreTestEnvironment {
             List<RemarkP> rCol = new ArrayList<RemarkP>();
             RemarkP r1 = new RemarkP();
             r1.setRemark("rybka");
-            r1.setAddDate(DateFormatUtil.toT("2008/01/01"));
+            r1.setAddDate(DUtil.toT("2008/01/01"));
             r1.setLp(new Integer(1));
             rCol.add(r1);
             r1 = new RemarkP();
             r1.setRemark("rurka");
             r1.setLp(new Integer(2));
-            r1.setAddDate(DateFormatUtil.toT("2008/02/01"));
+            r1.setAddDate(DUtil.toT("2008/02/01"));
             rCol.add(r1);
             cP.setRemarks(rCol);
             a = cP;
@@ -376,13 +378,13 @@ abstract public class TestHelper extends LocalDataStoreTestEnvironment {
             List<RemarkP> rCol1 = new ArrayList<RemarkP>();
             RemarkP r2 = new RemarkP();
             r2.setRemark("rybka");
-            r2.setAddDate(DateFormatUtil.toT("2008/01/01"));
+            r2.setAddDate(DUtil.toT("2008/01/01"));
             r2.setLp(new Integer(1));
             rCol1.add(r2);
             r1 = new RemarkP();
             r1.setRemark("rurka");
             r1.setLp(new Integer(2));
-            r1.setAddDate(DateFormatUtil.toT("2008/02/01"));
+            r1.setAddDate(DUtil.toT("2008/02/01"));
             rCol1.add(r1);
             cP1.setRemarks(rCol1);
             cP = getpersistName(DictType.CustomerList, cP1, "K002");

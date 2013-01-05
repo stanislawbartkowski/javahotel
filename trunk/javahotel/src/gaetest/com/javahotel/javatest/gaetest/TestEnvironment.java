@@ -49,4 +49,13 @@ class TestEnvironment implements ApiProxy.Environment {
     public Map<String, Object> getAttributes() {
         return new HashMap<String, Object>();
     }
+
+    /* (non-Javadoc)
+     * @see com.google.apphosting.api.ApiProxy.Environment#getRemainingMillis()
+     */
+    @Override
+    public long getRemainingMillis() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }

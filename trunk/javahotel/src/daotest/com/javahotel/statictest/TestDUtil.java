@@ -12,12 +12,14 @@
  */
 package com.javahotel.statictest;
 
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.DateUtil;
-import com.javahotel.common.dateutil.PeriodT;
-import com.javahotel.types.DateP;
+import static org.junit.Assert.assertEquals;
+
 import java.util.Date;
-import static org.junit.Assert.*;
+
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateP;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 
 
 /**

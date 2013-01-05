@@ -12,22 +12,27 @@
  */
 package com.javahotel.statictest;
 
-import com.javahotel.common.dateutil.CalendarTable;
-import com.javahotel.common.dateutil.CalendarTable.PeriodType;
-import com.javahotel.common.dateutil.CountPixel;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.DateUtil;
-import com.javahotel.common.dateutil.GetPeriods;
-import com.javahotel.common.dateutil.PeriodT;
-import com.javahotel.common.dateutil.GetPeriods.StartWeek;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.javahotel.common.dateutil.CalendarTable;
+import com.javahotel.common.dateutil.CalendarTable.PeriodType;
+import com.javahotel.common.dateutil.CountPixel;
+import com.javahotel.common.dateutil.GetPeriods;
+import com.javahotel.common.dateutil.GetPeriods.StartWeek;
 
 public class TestSuite1 {
 

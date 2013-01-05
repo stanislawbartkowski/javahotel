@@ -12,24 +12,27 @@
  */
 package com.javahotel.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.command.CustomerType;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.PersonTitle;
-import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.CustomerP;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.PhoneNumberP;
 import com.javahotel.common.toobject.RemarkP;
-
 import com.javahotel.remoteinterfaces.HotelT;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class TestSuite9 extends TestHelper {
@@ -44,7 +47,8 @@ public class TestSuite9 extends TestHelper {
         cust.setCountry("PL");
         cust.setName("P003");
         hot.persistDic(seu, DictType.CustomerList, cust);
-        List<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.CustomerList,
+                new HotelT(HOTEL1));
         assertNotNull(res);
         assertEquals(1, res.size());
         cust = null;
@@ -76,12 +80,12 @@ public class TestSuite9 extends TestHelper {
         List<RemarkP> rCol = new ArrayList<RemarkP>();
         RemarkP r1 = new RemarkP();
         r1.setRemark("rybka");
-        r1.setAddDate(DateFormatUtil.toT("2008/10/10"));
+        r1.setAddDate(DUtil.toT("2008/10/10"));
         r1.setLp(new Integer(1));
         rCol.add(r1);
         r1 = new RemarkP();
         r1.setRemark("rurka");
-        r1.setAddDate(DateFormatUtil.toT("2008/10/11"));
+        r1.setAddDate(DUtil.toT("2008/10/11"));
         r1.setLp(new Integer(2));
         rCol.add(r1);
         cust.setRemarks(rCol);
@@ -101,14 +105,14 @@ public class TestSuite9 extends TestHelper {
             String s = DateFormatUtil.toS(re.getAddDate());
             String reM = re.getRemark();
             switch (no) {
-                case 1:
-                    assertEquals("2008/10/10", s);
-                    assertEquals("rybka", reM);
-                    break;
-                case 2:
-                    assertEquals("2008/10/11", s);
-                    assertEquals("rurka", reM);
-                    break;
+            case 1:
+                assertEquals("2008/10/10", s);
+                assertEquals("rybka", reM);
+                break;
+            case 2:
+                assertEquals("2008/10/11", s);
+                assertEquals("rurka", reM);
+                break;
             }
         }
 
@@ -116,7 +120,7 @@ public class TestSuite9 extends TestHelper {
         rCol = cust.getRemarks();
         r1 = new RemarkP();
         r1.setRemark("rureczka");
-        r1.setAddDate(DateFormatUtil.toT("2008/10/14 12:13:14"));
+        r1.setAddDate(DUtil.toT("2008/10/14 12:13:14"));
         r1.setLp(new Integer(3));
         rCol.add(r1);
         hot.persistDic(seu, DictType.CustomerList, cust);
@@ -127,21 +131,21 @@ public class TestSuite9 extends TestHelper {
         for (RemarkP re : cust.getRemarks()) {
             no++;
             String s = DateFormatUtil.toS(re.getAddDate());
-            String ss = DateFormatUtil.toTS(re.getAddDate());
+            String ss = DUtil.toTS(re.getAddDate());
             String reM = re.getRemark();
             switch (no) {
-                case 1:
-                    assertEquals("2008/10/10", s);
-                    assertEquals("rybka", reM);
-                    break;
-                case 2:
-                    assertEquals("2008/10/11", s);
-                    assertEquals("rurka", reM);
-                    break;
-                case 3:
-                    assertEquals("2008/10/14 12:13:14", ss);
-                    assertEquals("rureczka", reM);
-                    break;
+            case 1:
+                assertEquals("2008/10/10", s);
+                assertEquals("rybka", reM);
+                break;
+            case 2:
+                assertEquals("2008/10/11", s);
+                assertEquals("rurka", reM);
+                break;
+            case 3:
+                assertEquals("2008/10/14 12:13:14", ss);
+                assertEquals("rureczka", reM);
+                break;
             }
         }
 
@@ -162,7 +166,8 @@ public class TestSuite9 extends TestHelper {
         col.add(ph);
         cust.setPhones(col);
         hot.persistDic(seu, DictType.CustomerList, cust);
-        List<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.CustomerList,
+                new HotelT(HOTEL1));
         assertNotNull(res);
         assertEquals(1, res.size());
         cust = null;
@@ -191,7 +196,8 @@ public class TestSuite9 extends TestHelper {
         col.add(ph);
         cust.setAccounts(col);
         hot.persistDic(seu, DictType.CustomerList, cust);
-        List<DictionaryP> res = getDicList(se, DictType.CustomerList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.CustomerList,
+                new HotelT(HOTEL1));
         assertNotNull(res);
         assertEquals(1, res.size());
         cust = null;

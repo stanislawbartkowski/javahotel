@@ -15,60 +15,57 @@ package com.javahotel.test;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookingP;
 
 public class TestSuite28 extends TestHelper {
 
+    @Test
+    public void Test1() {
+        loginuser();
+        BookingP bok = createB();
+        bok.setValidationAmount(new BigDecimal(100));
+        bok.setValidationDate(D("2008/03/07"));
+        bok = getpersistName(DictType.BookingList, bok, "BOK0001");
 
-	@Test
-	public void Test1() {
-		loginuser();
-		BookingP bok = createB();
-		bok.setValidationAmount(new BigDecimal(100));
-		bok.setValidationDate(D("2008/03/07"));
-		bok = getpersistName(DictType.BookingList, bok, "BOK0001");
-		
         bok.setValidationAmount(new BigDecimal(200));
         bok.setValidationDate(D("2008/03/08"));
-		bok = getpersistName(DictType.BookingList, bok, "BOK0002");
+        bok = getpersistName(DictType.BookingList, bok, "BOK0002");
 
-		bok.setValidationAmount(new BigDecimal(300));
-		bok.setValidationDate(D("2008/03/09"));
-		bok = getpersistName(DictType.BookingList, bok, "BOK0003");
-		
-		bok.setValidationAmount(new BigDecimal(400));
-		bok.setValidationDate(D("2008/03/10"));
-		bok = getpersistName(DictType.BookingList, bok, "BOK0004");
+        bok.setValidationAmount(new BigDecimal(300));
+        bok.setValidationDate(D("2008/03/09"));
+        bok = getpersistName(DictType.BookingList, bok, "BOK0003");
 
-		
-		CommandParam par = new CommandParam();
-		par.setHotel(HOTEL1);
-		par.setDateFrom(DateFormatUtil.toD("2008/03/07"));
-		par.setDateTo(DateFormatUtil.toD("2008/03/09"));
-		List<AbstractTo> res = list.getList(se, RType.DownPayments, par);
-		assertEquals(3, res.size());
-		
-		par = new CommandParam();
-		par.setHotel(HOTEL1);
-		par.setDateFrom(DateFormatUtil.toD("2008/03/08"));
-		res = list.getList(se, RType.DownPayments, par);
-		assertEquals(3, res.size());
+        bok.setValidationAmount(new BigDecimal(400));
+        bok.setValidationDate(D("2008/03/10"));
+        bok = getpersistName(DictType.BookingList, bok, "BOK0004");
 
-		par = new CommandParam();
-		par.setHotel(HOTEL1);
-		par.setDateTo(DateFormatUtil.toD("2008/03/08"));
-		res = list.getList(se, RType.DownPayments, par);
-		assertEquals(2, res.size());
-	}
+        CommandParam par = new CommandParam();
+        par.setHotel(HOTEL1);
+        par.setDateFrom(DateFormatUtil.toD("2008/03/07"));
+        par.setDateTo(DateFormatUtil.toD("2008/03/09"));
+        List<AbstractTo> res = list.getList(se, RType.DownPayments, par);
+        assertEquals(3, res.size());
+
+        par = new CommandParam();
+        par.setHotel(HOTEL1);
+        par.setDateFrom(DateFormatUtil.toD("2008/03/08"));
+        res = list.getList(se, RType.DownPayments, par);
+        assertEquals(3, res.size());
+
+        par = new CommandParam();
+        par.setHotel(HOTEL1);
+        par.setDateTo(DateFormatUtil.toD("2008/03/08"));
+        res = list.getList(se, RType.DownPayments, par);
+        assertEquals(2, res.size());
+    }
 
 }

@@ -12,18 +12,21 @@
  */
 package com.javahotel.statictest;
 
-import com.javahotel.common.dateutil.DateUtil;
-import com.javahotel.common.dateutil.PeriodT;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Test;
+
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.dateutil.GetPeriods.StartWeek;
 import com.javahotel.common.seasonutil.CreateTableSeason;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.SeasonPeriodT;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *

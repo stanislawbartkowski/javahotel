@@ -16,7 +16,6 @@ package com.javahotel.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,12 +23,12 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.command.BookingEnumTypes;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.CustomerP;
@@ -37,12 +36,10 @@ import com.javahotel.common.toobject.GuestP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
-import com.javahotel.common.util.GetMaxUtil;
 import com.javahotel.types.LId;
 
-
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class TestSuite26 extends TestHelper {
@@ -62,13 +59,14 @@ public class TestSuite26 extends TestHelper {
         BookElemP be = new BookElemP();
         ResObjectP rO = getResObject("1p");
         be.setResObject("1p");
-        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, HOTEL1);
+        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(
+                DictType.ServiceDict, HOTEL1);
         servi = getpersistName(DictType.ServiceDict, servi, "LUX");
         be.setService("LUX");
         be.setCheckIn(DateFormatUtil.toD("2008/02/07"));
         be.setCheckOut(DateFormatUtil.toD("2008/02/08"));
         modifPaymentRow(be);
-        
+
         List<BookElemP> colE = new ArrayList<BookElemP>();
         colE.add(be);
         bok.setBooklist(colE);
@@ -76,23 +74,22 @@ public class TestSuite26 extends TestHelper {
         ReturnPersist ret = hot.persistDic(se, DictType.BookingList, bok);
         System.out.println(ret.getIdName());
 
-
         CommandParam par = new CommandParam();
-        CustomerP cust = (CustomerP) getDict(DictType.CustomerList,HOTEL1);
-        cust = getpersistName(DictType.CustomerList,cust,"P001");
+        CustomerP cust = (CustomerP) getDict(DictType.CustomerList, HOTEL1);
+        cust = getpersistName(DictType.CustomerList, cust, "P001");
         GuestP guest = new GuestP();
         guest.setCheckIn(D("2009/02/07"));
         guest.setCheckOut(D("2009/02/08"));
         guest.setCustomer(cust.getId());
-        
+
         List<GuestP> guests = new ArrayList<GuestP>();
         guests.add(guest);
-        Map<String,List<GuestP>> ma = new HashMap<String,List<GuestP>>();
-        ma.put("1p",guests);
+        Map<String, List<GuestP>> ma = new HashMap<String, List<GuestP>>();
+        ma.put("1p", guests);
         par.setGuests(ma);
         par.setHotel(HOTEL1);
         par.setReservName(ret.getIdName());
-        hotop.hotelOp(se, HotelOpType.PersistGuests,par);
+        hotop.hotelOp(se, HotelOpType.PersistGuests, par);
 
         bok = getOneNameN(DictType.BookingList, ret.getIdName());
         for (BookElemP b : bok.getBooklist()) {
@@ -105,24 +102,24 @@ public class TestSuite26 extends TestHelper {
             LId id = g.getCustomer();
             CustomerP cu = getById(DictType.CustomerList, id);
             System.out.println(cu.getName());
-            assertEquals("P001",cu.getName());
+            assertEquals("P001", cu.getName());
         }
 
         par = new CommandParam();
-        cust = (CustomerP) getDict(DictType.CustomerList,HOTEL1);
-        cust = getpersistName(DictType.CustomerList,cust,"P003");
+        cust = (CustomerP) getDict(DictType.CustomerList, HOTEL1);
+        cust = getpersistName(DictType.CustomerList, cust, "P003");
         guest = new GuestP();
         guest.setCustomer(cust.getId());
         guest.setCheckIn(D("2009/02/07"));
         guest.setCheckOut(D("2009/02/08"));
         guests = new ArrayList<GuestP>();
         guests.add(guest);
-        ma = new HashMap<String,List<GuestP>>();
-        ma.put("1p",guests);
+        ma = new HashMap<String, List<GuestP>>();
+        ma.put("1p", guests);
         par.setGuests(ma);
         par.setHotel(HOTEL1);
         par.setReservName(ret.getIdName());
-        hotop.hotelOp(se, HotelOpType.PersistGuests,par);
+        hotop.hotelOp(se, HotelOpType.PersistGuests, par);
 
         bok = getOneNameN(DictType.BookingList, ret.getIdName());
         be = null;
@@ -136,9 +133,9 @@ public class TestSuite26 extends TestHelper {
             LId id = g.getCustomer();
             CustomerP cu = getById(DictType.CustomerList, id);
             System.out.println(cu.getName());
-            assertEquals("P003",cu.getName());
+            assertEquals("P003", cu.getName());
         }
-    
+
     }
 
 }

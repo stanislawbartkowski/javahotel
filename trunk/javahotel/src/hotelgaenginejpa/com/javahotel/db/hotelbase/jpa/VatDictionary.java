@@ -20,13 +20,14 @@ import javax.persistence.Entity;
 import com.javahotel.db.hotelbase.types.IHotelDictionary;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @Entity
-@KeyObject(keyField="hotelId",objectField="hotel")
-public class VatDictionary extends AbstractDictionary implements IHotelDictionary {
- 
+@KeyObject(keyField = "hotelId", objectField = "hotel")
+public class VatDictionary extends AbstractDictionary implements
+        IHotelDictionary {
+
     @Basic
     private BigDecimal vatPercent;
     @Basic(optional = false)

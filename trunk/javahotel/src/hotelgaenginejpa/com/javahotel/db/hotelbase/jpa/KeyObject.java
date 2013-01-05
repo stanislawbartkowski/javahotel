@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @interface KeyObject {
-	String keyField();
+    String keyField();
 
-	String objectField();
+    String objectField();
 }

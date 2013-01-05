@@ -12,13 +12,16 @@
  */
 package com.javahotel.statictest;
 
-import com.javahotel.common.dateutil.PeriodT;
-import com.javahotel.common.dateutil.GetPeriodsTemplate;
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import com.gwtmodel.table.common.PeriodT;
+import com.javahotel.common.dateutil.GetPeriodsTemplate;
 
 /**
  *

@@ -12,14 +12,16 @@
  */
 package com.javahotel.test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.command.DictType;
-import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.OfferPriceP;
@@ -28,8 +30,6 @@ import com.javahotel.common.toobject.ResObjectP;
 import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.remoteinterfaces.HotelT;
 import com.javahotel.remoteinterfaces.IHotelTest;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author hotel

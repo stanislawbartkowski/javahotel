@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.ServiceType;
-import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.OfferPriceP;
 import com.javahotel.common.toobject.OfferSeasonP;
@@ -36,7 +36,7 @@ import com.javahotel.common.toobject.VatDictionaryP;
 import com.javahotel.remoteinterfaces.HotelT;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class TestSuite8 extends TestHelper {
@@ -72,16 +72,17 @@ public class TestSuite8 extends TestHelper {
         OfferPriceP oP = new OfferPriceP();
         oP.setName("PODST");
         oP.setSeason("GL");
-//        oP.setService("DOST");
+        // oP.setService("DOST");
         oP.setHotel(sP.getHotel());
         hot.persistDic(seu, DictType.PriceListDict, oP);
 
-        List<DictionaryP> col = getDicList(seu, DictType.PriceListDict, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(seu, DictType.PriceListDict,
+                new HotelT(HOTEL1));
         assertEquals(1, col.size());
         for (DictionaryP p : col) {
             OfferPriceP ooP = (OfferPriceP) p;
             assertEquals("PODST", p.getName());
-//            assertEquals("DOST",ooP.getService());
+            // assertEquals("DOST",ooP.getService());
             assertEquals("GL", ooP.getSeason());
         }
     }
@@ -90,7 +91,8 @@ public class TestSuite8 extends TestHelper {
     public void Test2() {
         Test1();
         System.out.println("Price list podlist");
-        List<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict,
+                new HotelT(HOTEL1));
         OfferSeasonP oP = null;
         for (DictionaryP p : col) {
             oP = (OfferSeasonP) p;
@@ -150,7 +152,7 @@ public class TestSuite8 extends TestHelper {
         for (OfferServicePriceP o : colP) {
             ospp = o;
         }
-       assertEquals("DOST",ospp.getService());
+        assertEquals("DOST", ospp.getService());
         for (OfferSpecialPriceP p : ospp.getSpecialprice()) {
             assertEquals(new Long(1), p.getSpecialperiod());
             eqBig(new BigDecimal("123"), p.getPrice());
@@ -158,4 +160,3 @@ public class TestSuite8 extends TestHelper {
 
     }
 }
-

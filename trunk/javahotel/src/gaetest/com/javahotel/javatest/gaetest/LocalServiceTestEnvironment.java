@@ -35,7 +35,7 @@ public class LocalServiceTestEnvironment {
 
     public void afterTest() {
         // not strictly necessary to null these out but there's no harm either
-        helper.tearDown();
+//        helper.tearDown();
         ApiProxy.setDelegate(null);
         ApiProxy.setEnvironmentForCurrentThread(null);
 //        helper.tearDown();

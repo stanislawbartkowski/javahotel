@@ -21,11 +21,11 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.DateUtil;
-import com.javahotel.common.dateutil.PeriodT;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;
 import com.javahotel.common.toobject.DictionaryP;
@@ -36,7 +36,7 @@ import com.javahotel.common.toobject.ServiceDictionaryP;
 import com.javahotel.remoteinterfaces.HotelT;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class TestSuite20 extends TestHelper {
@@ -79,7 +79,8 @@ public class TestSuite20 extends TestHelper {
             be.setPaymentrows(colP);
             ReturnPersist ret = hot.persistResBookingReturn(se, bok);
 
-            System.out.println(DateFormatUtil.toS(dpocz) + " - " + DateFormatUtil.toS(dkon));
+            System.out.println(DateFormatUtil.toS(dpocz) + " - "
+                    + DateFormatUtil.toS(dkon));
             System.out.println(name + " " + ret.getIdName());
         }
     }
@@ -112,19 +113,20 @@ public class TestSuite20 extends TestHelper {
         ResObjectP rO = getResObject("1p");
         be.setResObject("1p");
         modifPaymentRow(be);
-        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(DictType.ServiceDict, HOTEL1);
+        ServiceDictionaryP servi = (ServiceDictionaryP) getDict(
+                DictType.ServiceDict, HOTEL1);
         servi = getpersistName(DictType.ServiceDict, servi, HOTEL1);
 
-//        runB("Thread 1", 50);
+        // runB("Thread 1", 50);
 
         PeriodT per[] = new PeriodT[50];
         Date dpocz = D("2008/10/01");
         for (int i = 0; i < per.length; i++) {
-            Date dkon = DateUtil.copyDate(dpocz);
-            DateUtil.NextDay(dkon);
+            // Date dkon = DateUtil.copyDate(dpocz);
+            Date dkon = DateUtil.NextDayD(dpocz);
             per[i] = new PeriodT(dpocz, dkon);
-            dpocz = DateUtil.copyDate(dkon);
-            DateUtil.NextDay(dpocz);
+            // dpocz = DateUtil.copyDate(dkon);
+            dpocz = DateUtil.NextDayD(dkon);
         }
 
         AddB ta[] = new AddB[10];
@@ -137,7 +139,8 @@ public class TestSuite20 extends TestHelper {
             ta[i].join();
         }
 
-        List<DictionaryP> res = getDicList(se, DictType.BookingList, new HotelT(HOTEL1));
+        List<DictionaryP> res = getDicList(se, DictType.BookingList,
+                new HotelT(HOTEL1));
         assertEquals(50, res.size());
         int no100 = 0;
         for (DictionaryP pe : res) {

@@ -21,12 +21,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.google.appengine.api.datastore.Key;
- 
+
 @Entity
 public class GroupD {
 
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Key id;
     @ManyToOne(optional = false)
     @JoinColumn(name = "nameid", nullable = false)
@@ -60,4 +60,3 @@ public class GroupD {
         this.name = name;
     }
 }
-

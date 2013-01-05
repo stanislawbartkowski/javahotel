@@ -13,19 +13,24 @@
 package com.javahotel.statictest;
 
 //import static org.junit.Assert.*;
-import com.javahotel.common.dateutil.CalendarTable;
-import com.javahotel.common.dateutil.CalendarTable.PeriodType;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.DateUtil;
-import com.javahotel.common.scrollseason.model.DaySeasonScrollData;
-import com.javahotel.common.scrollseason.model.PanelDesc;
-import com.javahotel.common.scrollseason.model.MoveSkip;
-import com.javahotel.common.scrollseason.model.MonthSeasonScrollData;
-import com.javahotel.common.scrollseason.model.YearMonthPe;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 import java.util.List;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.gwtmodel.table.daytimeline.DaySeasonScrollData;
+import com.gwtmodel.table.daytimeline.MonthSeasonScrollData;
+import com.gwtmodel.table.daytimeline.MoveSkip;
+import com.gwtmodel.table.daytimeline.PanelDesc;
+import com.gwtmodel.table.daytimeline.YearMonthPe;
+import com.javahotel.common.dateutil.CalendarTable;
+import com.javahotel.common.dateutil.CalendarTable.PeriodType;
 
 /**
  *

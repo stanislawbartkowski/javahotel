@@ -21,10 +21,10 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.RType;
-import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BankAccountP;
 import com.javahotel.common.toobject.BookingP;
@@ -111,7 +111,7 @@ public class TestSuite35 extends TestHelper {
         for (int i=0; i < 50; i++) {
             RemarkP re  = new RemarkP();
             re.setRemark("rema" + i);
-            re.setAddDate(DateFormatUtil.toT("2011/10/15 11:30:14"));
+            re.setAddDate(DUtil.toT("2011/10/15 11:30:14"));
             re.setLp(i+1);
             rList.add(re);
         }
