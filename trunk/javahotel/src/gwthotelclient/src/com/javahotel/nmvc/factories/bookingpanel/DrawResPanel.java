@@ -28,10 +28,8 @@ import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.PeriodT;
 import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.javahotel.client.IResLocator;
@@ -120,9 +118,10 @@ class DrawResPanel {
             Date from = sData.getD(sData.getFirstD());
             Date to = sData.getD(sData.getLastD());
             final PeriodT pe = new PeriodT(from, DateUtil.NextDayD(to));
-            ISlotSignalContext sl = iSlo.getSlContainer().getGetterContext(
-                    roomType, GetActionEnum.GetListData);
-            IDataListType dList = sl.getDataList();
+            IDataListType dList = SlU.getIDataListType(roomType, iSlo);
+            // ISlotSignalContext sl = iSlo.getSlContainer().getGetterContext(
+            // roomType, GetActionEnum.GetListData);
+            // IDataListType dList = sl.getDataList();
             final List<String> roomList = new ArrayList<String>();
             for (IVModelData v : dList.getList()) {
                 roomList.add(U.getRoomName(v));
