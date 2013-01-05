@@ -108,6 +108,13 @@ public class VListHeaderDesc {
         this.imageNo = imageNo;
     }
 
+    public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
+            String buttonAction, boolean editable, ColAlign align,
+            String colWidth) {
+        this(headerString, fie, hidden, buttonAction, editable, align,
+                colWidth, null, null, null, 0);
+    }
+
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
         this(headerString, fie, hidden, null, false, null, null, null, null,
                 null, 0);
