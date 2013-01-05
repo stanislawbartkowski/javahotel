@@ -20,12 +20,12 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.DateUtil;
 import com.javahotel.common.toobject.BookingP;
 
 /**

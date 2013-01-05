@@ -22,13 +22,13 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.command.BookingStateType;
 import com.javahotel.common.command.CommandParam;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.command.HotelOpType;
 import com.javahotel.common.command.RType;
 import com.javahotel.common.command.ReturnPersist;
-import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.common.toobject.AbstractTo;
 import com.javahotel.common.toobject.BookElemP;
 import com.javahotel.common.toobject.BookingP;

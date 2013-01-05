@@ -20,6 +20,7 @@ import org.junit.runners.Suite;
  * @author stanislawbartkowski@gmail.com
  */
 @RunWith(Suite.class)
+
 @Suite.SuiteClasses(
 {
     
@@ -64,6 +65,8 @@ import org.junit.runners.Suite;
 //    TestSuite21.class
 })
 
-//@Suite.SuiteClasses({TestSuite4.class})
+/*
+@Suite.SuiteClasses({TestSuite2.class})
+*/
 public class RunSuite {
 }

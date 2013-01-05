@@ -12,14 +12,19 @@
  */
 
 package com.javahotel.statictest;
-import com.javahotel.common.dateutil.DateFormatUtil;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.junit.Test;
+
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.gensymbol.GenSymbol;
 import com.javahotel.common.gensymbol.GenSymbolData;
 import com.javahotel.common.gensymbol.GenSymbolData.SymbolContainer;
-import java.util.ArrayList;
-import java.util.Date;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 
 /**

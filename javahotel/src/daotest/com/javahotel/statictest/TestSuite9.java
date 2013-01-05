@@ -13,21 +13,26 @@
 
 package com.javahotel.statictest;
 
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.PeriodT;
-import com.javahotel.common.toobject.BookingStateP;
-import com.javahotel.common.toobject.ResDayObjectStateP;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Test;
+
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.rescache.ResObjectCache;
 import com.javahotel.common.rescache.ResObjectCache.IReadResCallBack;
 import com.javahotel.common.rescache.ResObjectCache.IReadResData;
 import com.javahotel.common.rescache.ResObjectCache.ISetResState;
 import com.javahotel.common.rescache.ResObjectElem;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import com.javahotel.common.toobject.BookingStateP;
+import com.javahotel.common.toobject.ResDayObjectStateP;
 
 /**
  *

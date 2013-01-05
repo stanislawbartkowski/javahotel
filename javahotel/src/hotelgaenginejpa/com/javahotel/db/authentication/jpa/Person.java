@@ -27,38 +27,38 @@ import com.google.appengine.api.datastore.Key;
 
 @Entity
 public class Person {
- 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Key id;
-	@Basic(optional = false)
-	private String name;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "nameid")
-	private Collection<GroupD> group;
-	@Basic
-	private String password;
 
-	public String getName() {
-		return name;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Key id;
+    @Basic(optional = false)
+    private String name;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "nameid")
+    private Collection<GroupD> group;
+    @Basic
+    private String password;
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Collection<GroupD> getGroup() {
-		return group;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public void setGroup(final List<GroupD> group) {
-		this.group = group;
-	}
+    public Collection<GroupD> getGroup() {
+        return group;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setGroup(final List<GroupD> group) {
+        this.group = group;
+    }
 
-	public void setPassword(final String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(final String password) {
+        this.password = password;
+    }
 }

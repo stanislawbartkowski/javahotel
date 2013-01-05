@@ -24,8 +24,8 @@ import java.util.List;
 import org.junit.Test;
 
 import com.gwtmodel.table.common.ISignal;
-import com.javahotel.common.dateutil.DateFormatUtil;
-import com.javahotel.common.dateutil.PeriodT;
+import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.rescache.ReadResParam;
 import com.javahotel.common.rescache.ResObjectCache;
 import com.javahotel.common.rescache.ResObjectCache.IReadResCallBack;

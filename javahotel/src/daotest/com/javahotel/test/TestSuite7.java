@@ -12,20 +12,24 @@
  */
 package com.javahotel.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.javahotel.common.command.DictType;
 import com.javahotel.common.toobject.DictionaryP;
 import com.javahotel.common.toobject.OfferSeasonP;
 import com.javahotel.common.toobject.OfferSeasonPeriodP;
 import com.javahotel.common.toobject.SeasonPeriodT;
-import com.javahotel.common.dateutil.DateFormatUtil;
 import com.javahotel.remoteinterfaces.HotelT;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class TestSuite7 extends TestHelper {
@@ -40,7 +44,8 @@ public class TestSuite7 extends TestHelper {
         sep.setStartP(DateFormatUtil.toD("2008/01/01"));
         sep.setEndP(DateFormatUtil.toD("2008/10/02"));
         hot.persistDic(seu, DictType.OffSeasonDict, sep);
-        List<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict,
+                new HotelT(HOTEL1));
         assertEquals(1, col.size());
         for (DictionaryP d : col) {
             sep = (OfferSeasonP) d;
@@ -136,7 +141,8 @@ public class TestSuite7 extends TestHelper {
 
         hot.persistDic(seu, DictType.OffSeasonDict, sep);
 
-        List<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict, new HotelT(HOTEL1));
+        List<DictionaryP> col = getDicList(seu, DictType.OffSeasonDict,
+                new HotelT(HOTEL1));
         assertEquals(1, col.size());
         for (DictionaryP d : col) {
             sep = (OfferSeasonP) d;
@@ -183,12 +189,11 @@ public class TestSuite7 extends TestHelper {
             for (OfferSeasonPeriodP pep : seL) {
                 if (pep.getPId().longValue() == 3) {
                     pp = pep;
-                   String s = DateFormatUtil.toS(pep.getStartP());
-                   assertEquals("2008/05/13", s);                    
+                    String s = DateFormatUtil.toS(pep.getStartP());
+                    assertEquals("2008/05/13", s);
                 }
             }
             assertNotNull(pp);
-       }
+        }
     }
 }
-

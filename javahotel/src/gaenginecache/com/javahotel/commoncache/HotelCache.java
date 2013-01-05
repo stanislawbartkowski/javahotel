@@ -20,50 +20,51 @@ import com.javahotel.dbutil.log.GetLogger;
 
 public class HotelCache {
 
-	private HotelCache() {
-	}
+    private HotelCache() {
+    }
 
-	// private static Cache cache;
-	private static MemcacheService cache;
-	static final GetLogger lo = new GetLogger("com.javahotel.enginecache");
+    // private static Cache cache;
+    private static MemcacheService cache;
+    static final GetLogger lo = new GetLogger("com.javahotel.enginecache");
 
-	static {
-		cache = MemcacheServiceFactory.getMemcacheService();
-	}
+    static {
+        cache = MemcacheServiceFactory.getMemcacheService();
+    }
 
-	public static Object get(String key) {
-		return cache.get(key);
-	}
+    public static Object get(String key) {
+        return cache.get(key);
+    }
 
-	public static Object getE(String key) {
-		Object o = cache.get(key);
-		if (o == null) {
-			lo.getL().log(Level.SEVERE, "", new HotelCacheEntryNotFound(key + " entry not found"));
-		}
-		return o;
-	}
+    public static Object getE(String key) {
+        Object o = cache.get(key);
+        if (o == null) {
+            lo.getL().log(Level.SEVERE, "",
+                    new HotelCacheEntryNotFound(key + " entry not found"));
+        }
+        return o;
+    }
 
-	public static void put(String key, Object o) {
-		cache.put(key, o);
-	}
+    public static void put(String key, Object o) {
+        cache.put(key, o);
+    }
 
-	public static void remove(String key) {
-		cache.delete(key);
-	}
+    public static void remove(String key) {
+        cache.delete(key);
+    }
 
-	public static long inc(String iKey, boolean plus) {
-		long de;
-		if (plus) {
-			de = 1;
-		} else {
-			de = -1;
-		}
-		Long l = cache.increment(iKey, de);
-		if (l == null) {
-			cache.put(iKey, de);
-			return de;
-		}
-		return l;
-	}
+    public static long inc(String iKey, boolean plus) {
+        long de;
+        if (plus) {
+            de = 1;
+        } else {
+            de = -1;
+        }
+        Long l = cache.increment(iKey, de);
+        if (l == null) {
+            cache.put(iKey, de);
+            return de;
+        }
+        return l;
+    }
 
 }

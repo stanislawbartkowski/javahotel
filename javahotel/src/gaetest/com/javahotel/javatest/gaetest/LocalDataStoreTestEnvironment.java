@@ -14,8 +14,6 @@ package com.javahotel.javatest.gaetest;
 
 import com.google.appengine.api.datastore.dev.LocalDatastoreService;
 import com.google.appengine.tools.development.ApiProxyLocal;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.apphosting.api.ApiProxy;
 
 public class LocalDataStoreTestEnvironment extends LocalServiceTestEnvironment {
