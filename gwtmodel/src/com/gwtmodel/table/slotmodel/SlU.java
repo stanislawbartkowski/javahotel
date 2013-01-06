@@ -24,6 +24,7 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.controler.BoxActionMenuOptions;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.listdataview.ActionTableSignal;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
@@ -234,10 +235,22 @@ public class SlU {
         return iSlo.getSlContainer().getGetterFormLine(dType, fie);
     }
 
+    /**
+     * Get IDataListType from iSlotable
+     * 
+     * @param dType
+     *            IDataType
+     * @param iSlo
+     *            ISlotable
+     * @return IDataListType (should be not null)
+     */
+
     public static IDataListType getIDataListType(IDataType dType, ISlotable iSlo) {
         ISlotSignalContext sl = iSlo.getSlContainer().getGetterContext(dType,
                 GetActionEnum.GetListData);
-        return sl.getDataList();
+        IDataListType iList = sl.getDataList();
+        assert iList != null : LogT.getT().cannotBeNull();
+        return iList;
     }
 
     /**
