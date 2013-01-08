@@ -1,0 +1,3 @@
+
+def getVal() :
+  return "abcdcef"
