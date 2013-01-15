@@ -12,12 +12,14 @@
  */
 package com.gwtmodel.table;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * 
@@ -369,7 +371,7 @@ public class FUtils {
         boolean emptyV = isNullValue(row, f);
         boolean emptyfrom = isNullValue(filter, from);
         boolean emptyto;
-        if (f.getType().getType() == FieldDataType.T.BOOLEAN) {
+        if (f.getType().getType() == TT.BOOLEAN) {
             emptyto = true;
         } else {
             emptyto = isNullValue(filter, to);

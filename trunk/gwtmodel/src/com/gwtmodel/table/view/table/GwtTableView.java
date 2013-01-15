@@ -12,7 +12,10 @@
  */
 package com.gwtmodel.table.view.table;
 
-import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Label;
@@ -23,11 +26,16 @@ import com.google.gwt.visualization.client.Selection;
 import com.google.gwt.visualization.client.events.SelectHandler;
 import com.google.gwt.visualization.client.formatters.DateFormat;
 import com.google.gwt.visualization.client.visualizations.Table;
-import com.gwtmodel.table.*;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.IGetSetVField;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.common.TT;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 class GwtTableView implements IGwtTableView {
 
@@ -123,7 +131,7 @@ class GwtTableView implements IGwtTableView {
         // important: should be set after drawing rows, not before
         int colNo = 0;
         for (VListHeaderDesc c : co) {
-            if (c.getFie().getType().getType() == FieldDataType.T.DATE) {
+            if (c.getFie().getType().getType() == TT.DATE) {
                 df.format(data, colNo);
             }
             colNo++;

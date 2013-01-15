@@ -12,11 +12,17 @@
  */
 package com.gwtmodel.table.controler;
 
-import com.gwtmodel.table.*;
-import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.IOkModelData;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.VModelData;
+import com.gwtmodel.table.common.TT;
+import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
 /**
  * Class for keeping data for 'Find' and 'Filter' functionality
@@ -52,7 +58,7 @@ class FData extends VModelData {
      */
     public boolean isEmpty() {
         for (IVField f : getF()) {
-            if (f.getType().getType() == FieldDataType.T.BOOLEAN) {
+            if (f.getType().getType() == TT.BOOLEAN) {
                 FField fie = (FField) f;
                 if (fie.isIgnoreField()) {
                     continue;
@@ -75,14 +81,14 @@ class FData extends VModelData {
     }
 
     private boolean inRange(IVModelData row) {
-        for (VListHeaderDesc v : li) {            
+        for (VListHeaderDesc v : li) {
             FField ignore = FField.constructIgnore(v);
             Boolean b = (Boolean) this.getF(ignore);
             if (b != null) {
                 // boolean field because ignore exists
                 if (b.booleanValue()) {
                     // ignore, do not participate in comparing
-                    continue;   
+                    continue;
                 }
             }
             FField from = FField.constructFrom(v);
