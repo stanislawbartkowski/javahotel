@@ -17,7 +17,6 @@ import java.util.List;
 
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.FUtils;
-import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
@@ -27,6 +26,7 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.controler.DataListActionItemFactory.DrawForm;
 import com.gwtmodel.table.controler.DataListActionItemFactory.ResignAction;
@@ -264,7 +264,7 @@ class FindListActionFactory {
                 modifLogField(formCheck.getELine(), f.getELine());
                 continue;
             }
-            if (fie.getType().getType() == FieldDataType.T.BOOLEAN) {
+            if (fie.getType().getType() == TT.BOOLEAN) {
                 // handled above
                 continue;
             }

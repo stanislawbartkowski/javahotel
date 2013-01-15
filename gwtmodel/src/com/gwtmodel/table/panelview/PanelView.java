@@ -92,7 +92,9 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
 
     @Override
     public CellId addCellPanel(IDataType publishType, int row, int col) {
-        return addCellPanel(null, row, col, null);
+//        return addCellPanel(null, row, col, null);
+      // 2013/01/15 -- replace publishType (null previously)
+      return addCellPanel(publishType, row, col, null);
     }
 
     private class SetWidget implements ISlotListener {
@@ -102,6 +104,8 @@ class PanelView extends AbstractSlotContainer implements IPanelView {
             CellId cellId = slContext.getSlType().getCellId();
             assert cellId != null : LogT.getT().CellCannotBeNull();
             PanelRowCell pa = colM.get(cellId);
+            // 2012/01/15 introduced to allow several panels
+            if (pa == null) { return; }
             assert pa != null : LogT.getT().CellShouldBeRegistered();
             IGWidget gwtWidget = slContext.getGwtWidget();
             String id = pa.getCellId();
