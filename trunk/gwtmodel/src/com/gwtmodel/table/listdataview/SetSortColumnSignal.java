@@ -40,7 +40,7 @@ public class SetSortColumnSignal extends CustomObjectValue<IVField> {
 
     public static CustomStringSlot constructSlotSetSortColumnSignal(
             IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 
 }

@@ -38,10 +38,10 @@ public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
     }
 
     public static CustomStringSlot constructSlotSetLineNoWrap(IDataType dType) {
-        return new CustomStringDataTypeSlot(SETLINENOWRAP, dType);
+        return new CustomStringDataTypeSlot(dType, SETLINENOWRAP);
     }
 
     public static CustomStringSlot constructSlotGetLineNoWrap(IDataType dType) {
-        return new CustomStringDataTypeSlot(GETLINENOWRAP, dType);
+        return new CustomStringDataTypeSlot(dType, GETLINENOWRAP);
     }
 }

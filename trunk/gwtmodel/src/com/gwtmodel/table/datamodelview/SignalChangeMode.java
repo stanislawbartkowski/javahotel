@@ -54,6 +54,6 @@ public class SignalChangeMode implements ICustomObject {
     }
 
     public static ISlotCustom constructSlot(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_CHANGE_MODE, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_CHANGE_MODE);
     }
 }

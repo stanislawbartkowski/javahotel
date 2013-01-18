@@ -66,7 +66,7 @@ public class EditTableActionSignal implements ICustomObject {
 
     public static CustomStringSlot constructSlotEditTableActionSignal(
             IDataType dType) {
-        return new CustomStringDataTypeSlot(EDIT_TABLE_ACTION_SIGNAL, dType);
+        return new CustomStringDataTypeSlot(dType, EDIT_TABLE_ACTION_SIGNAL);
     }
 
 }

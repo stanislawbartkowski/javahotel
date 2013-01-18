@@ -31,6 +31,6 @@ public class ButtonSendListOfButtons extends CustomObjectValue<IContrButtonView>
 
     public static CustomStringSlot constructSlotSendListOfButtons(
             IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 }

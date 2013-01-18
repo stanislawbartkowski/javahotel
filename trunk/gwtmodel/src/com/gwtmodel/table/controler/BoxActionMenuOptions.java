@@ -50,7 +50,7 @@ public class BoxActionMenuOptions {
 
     public static SlotType constructSRemoveFormDialogSlotType(IDataType dType) {
         return slTypeFactory.construct(new CustomStringDataTypeSlot(
-                REMOVE_FORM_ACTION, dType));
+                dType, REMOVE_FORM_ACTION));
     }
 
     public SlotType constructRemoveFormDialogSlotType() {

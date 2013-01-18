@@ -44,7 +44,7 @@ public class ChangeFieldEditSignal extends DataIntegerSignal {
             .getName() + "PUBLIC_TABLE_CHANGE_FIELD";
 
     public static CustomStringSlot constructSlotChangeEditSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_CHANGE_FIELD, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_CHANGE_FIELD);
     }
 
     /**
@@ -72,7 +72,7 @@ public class ChangeFieldEditSignal extends DataIntegerSignal {
             .getName() + "TABLE_PUBLIC_RETURN_CHANGE_FOCUS+SIGNAL";
 
     static ISlotCustom constructReturnChangeSlotSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(RET_SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, RET_SIGNAL_ID);
     }
 
     public void signalFinishChangeSignal(ISlotable s) {

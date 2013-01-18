@@ -51,12 +51,12 @@ public class ButtonCheckLostFocusSignal extends
 
     public static CustomStringSlot constructSlotButtonCheckFocusSignal(
             IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 
     static SlotType constructSlotButtonCheckBackFocusSignal(IDataType dType) {
-        CustomStringSlot slo = new CustomStringDataTypeSlot(SIGNAL_ID_BACK,
-                dType);
+        CustomStringSlot slo = new CustomStringDataTypeSlot(dType,
+                SIGNAL_ID_BACK);
         SlotTypeFactory tFactory = GwtGiniInjector.getI().getTablesFactories()
                 .getSlTypeFactory();
         return tFactory.construct(dType, slo);
