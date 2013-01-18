@@ -61,7 +61,7 @@ public class EditRowActionSignal implements ICustomObject {
     private static final String EDIT_ROW_ACTION_SIGNAL = "TABLE_PUBLIC_EDIT_ROW_ACTION_SIGNAL";
     
     public static CustomStringSlot constructSlotEditActionSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(EDIT_ROW_ACTION_SIGNAL, dType);
+        return new CustomStringDataTypeSlot(dType, EDIT_ROW_ACTION_SIGNAL);
     }
 
     

@@ -61,7 +61,7 @@ public class ClickColumnImageSignal extends DataIntegerSignal {
 
     public static ISlotCustom constructSlotClickColumnSignal(
             IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 
 }

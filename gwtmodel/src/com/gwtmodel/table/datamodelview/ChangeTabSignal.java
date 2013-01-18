@@ -29,6 +29,6 @@ public class ChangeTabSignal extends CustomObjectValue<String> {
     private static final String SIGNAL_CHANGE_TAB = SignalChangeMode.class.getName() + "SET_TAB_PANEL";
 
     public static ISlotCustom constructSlot(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_CHANGE_TAB, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_CHANGE_TAB);
     }
 }

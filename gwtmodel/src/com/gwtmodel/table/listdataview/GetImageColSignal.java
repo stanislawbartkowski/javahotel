@@ -40,6 +40,6 @@ public class GetImageColSignal extends DataIntegerSignal {
             + "TABLE_PUBLIC_GET_IMAGE_COL";
 
     public static CustomStringSlot constructSlotGetImageCol(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 }

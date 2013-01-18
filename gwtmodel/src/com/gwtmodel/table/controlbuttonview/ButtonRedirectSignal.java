@@ -66,6 +66,6 @@ public class ButtonRedirectSignal implements ICustomObject {
 
     public static CustomStringSlot constructSlotButtonRedirectSignal(
             IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 }

@@ -23,7 +23,7 @@ public class CustomStringDataTypeSlot extends CustomStringSlot {
 
     private final IDataType dType;
 
-    public CustomStringDataTypeSlot(String s, IDataType dType) {
+    public CustomStringDataTypeSlot(IDataType dType, String s) {
         super(s);
         this.dType = dType;
         assert dType != null : LogT.getT().cannotBeNull();

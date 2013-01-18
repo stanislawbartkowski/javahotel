@@ -44,7 +44,7 @@ public class DataIntegerVDataSignal extends DataIntegerSignal {
             .getName() + "PUBLIC_TABLE_ADD_ROWV";
 
     public static CustomStringSlot constructSlotAddRowSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 
 }

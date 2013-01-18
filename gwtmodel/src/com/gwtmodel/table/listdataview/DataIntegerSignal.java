@@ -30,10 +30,10 @@ public class DataIntegerSignal extends CustomObjectValue<Integer> {
     private final static String SIGNAL_ID_GET = DataIntegerSignal.class.getName() + "PUBLIC_TABLE_GET_ROW";
 
     public static CustomStringSlot constructSlotRemoveVSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID_REMOVE, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID_REMOVE);
     }
 
     public static CustomStringSlot constructSlotGetVSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID_GET, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID_GET);
     }
 }

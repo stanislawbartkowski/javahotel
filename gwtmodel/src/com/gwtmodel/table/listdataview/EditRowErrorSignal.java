@@ -41,7 +41,7 @@ public class EditRowErrorSignal extends DataIntegerSignal {
             + "TABLE_PUBLIC_SET_LINE_ERROR";
 
     public static CustomStringSlot constructSlotLineErrorSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 
 }

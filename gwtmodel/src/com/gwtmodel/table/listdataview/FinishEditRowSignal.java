@@ -69,12 +69,12 @@ public class FinishEditRowSignal extends CustomObjectValue<WChoosedLine> {
 
     public static CustomStringSlot constructSlotFinishEditRowSignal(
             IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 
     public static CustomStringSlot constructSlotFinishEditRowReturnSignal(
             IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_RETURN_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_RETURN_ID);
     }
 
 }

@@ -55,7 +55,7 @@ public class SignalSetHtmlId implements ICustomObject {
     }
 
     public static ISlotCustom constructSlot(IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_SET, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_SET);
     }
 
 }

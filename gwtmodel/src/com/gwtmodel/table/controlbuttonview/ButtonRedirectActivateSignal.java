@@ -32,7 +32,7 @@ public class ButtonRedirectActivateSignal extends CustomObjectValue<Boolean> {
 
     public static CustomStringSlot constructSlotButtonRedirectActivateSignal(
             IDataType dType) {
-        return new CustomStringDataTypeSlot(SIGNAL_ID, dType);
+        return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 
 }
