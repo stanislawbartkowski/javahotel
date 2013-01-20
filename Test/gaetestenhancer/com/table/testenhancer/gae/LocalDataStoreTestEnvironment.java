@@ -15,7 +15,7 @@ package com.table.testenhancer.gae;
 import com.google.appengine.api.datastore.dev.LocalDatastoreService;
 import com.google.appengine.tools.development.ApiProxyLocal;
 import com.google.apphosting.api.ApiProxy;
-import com.table.testenhancer.ITestEnhancer;
+import com.gwtmodel.testenhancer.ITestEnhancer;
 
 public class LocalDataStoreTestEnvironment extends LocalServiceTestEnvironment implements ITestEnhancer {
 
