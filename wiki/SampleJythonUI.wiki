@@ -13,7 +13,7 @@ There are four applications to create : two web applications and two JUnit tests
 
 = Prerequisites ==
 
-|| Package || Web page, download || Purpose ||
+|| *Package* || *Web page, download* || *Purpose* ||
 || Tomcat 7 || http://tomcat.apache.org/ || Web container for not GAE application ||
 || EclipseLink || http://www.eclipse.org/eclipselink/ || Datastore provider for not GAE application ||
 || Guice || http://code.google.com/p/google-guice/ || Lightweight dependency injector for application assembly ||
@@ -29,7 +29,7 @@ There are four applications to create : two web applications and two JUnit tests
 
 Packages names are related to source code http://code.google.com/p/javahotel/source/browse/#svn%2Ftrunk
 
-|| Package || Description || TestGAE || TestJPA || SampleWebGae || SampleWebTomcat ||
+|| *Package* || *Description* || *TestGAE* || *TestJPA* || *SampleWebGae* || *SampleWebTomcat* ||
 || Cache/gwtcachegae || MemCache (GAE) implementation of Cache || X || || X || ||
 || GwtUI/gwtuiserver || Server part of GwtUI || X || X || X || X ||
 || GwtUI/gwtuiclient || Client part of GwtUI || || || X || X ||
@@ -61,7 +61,7 @@ Packages names are related to source code http://code.google.com/p/javahotel/sou
 
 Deployment
 
-|| Package || Jars || SampleWebGae || SampleWebTomcat ||
+|| *Package* || *Jars* || *SampleWebGae* || *SampleWebTomcat* ||
 || Guice || guice-3.0.jar aopalliance.jar javax.inject.jar || X || X ||
 || Objectify || objectify-4.0b1.jar || X || ||
 || Jython || jython-standalone-2.5.3.jar || X || X ||
