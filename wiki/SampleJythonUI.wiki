@@ -1,14 +1,29 @@
-#summary One-sentence summary of this page.
+#summary This page describes how to set up a sample JythonUI application in Eclipse
 #labels Jython,GWT,Objectify
 
 = Introduction =
 
-Add your content here.
+There are four applications to create : two web applications and two JUnit tests. All application shares the same code with some differences. This page describes how to setup Eclipse project and how to assemble deployment for Web application.
+
+|| Application || Description ||
+|| TestGae || JUnit for GAE based data store ||
+|| TestJPA || Junit for JPA (Apache Derby) data store. All test cases are the same || SampleWebGae || Sample Google App Engine application ||
+|| SampleWebTomcat || Sample Tomcat application (Apache Derby data store) || 
+
+= Prerequisites ==
+
+|| Package || Web page, download || Purpose ||
+|| Tomcat 7 || http://tomcat.apache.org/ || Web container for not GAE application ||
+|| EclipseLink || http://www.eclipse.org/eclipselink/ || Datastore provider for not GAE application ||
+|| Guice || http://code.google.com/p/google-guice/ || Lightweight dependency injector for application assembly ||
+|| GIN (GWT Injection) || https://code.google.com/p/google-gin/ || Dependency injector for GWT (client) ||
+|| Objectify || http:///code.google.com/p/objectify-appengine || Lightweight framework for Google App Engine ||
+|| FileUpload || http://commons.apache.org/fileupload/ || Prerequisite for some utilities ||
+|| JavaMail || http://www.oracle.com/technetwork/java/javamail/index.html || Prerequisite for some utilities, necessary for not GAE application ||
+|| Jython || http://www.jython.org/ || Intepreted language for creating business logic outside java ||
+|| Apache Derby || http://db.apache.org/derby/ || Datastore for not GAE application ||
 
 
 = Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Packages name are related to source 
