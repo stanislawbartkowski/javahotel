@@ -1,0 +1,99 @@
+/* 
+    Document   : jythonui.css
+    Author     : hotel
+    Description:
+        Purpose of the stylesheet follows.
+*/ 
+/* -----------------------*/
+.dialog-empty-field {
+	border: 2px;
+	border-style: solid;
+	border-color: #ff6666;
+}
+
+/* ---------------------- */
+.error-reply {
+	background-color: red;
+	width:100%;
+}
+
+.wait-reply {
+	background-color: #b5fede;
+	width:100%;
+	color: blue;
+}
+
+/* ---------------------- */
+/* month scroll           */
+/* ---------------------- */
+.month-scroll-panel {
+	border: 2px solid #66CCFF; 
+	margin: 10px;
+}
+
+.month-scroll-panel td {
+   background-color:#E5ECF9;
+   padding: 2px;
+   width : 100x;
+}
+
+.month-scroll-panel td:hover {
+   outline: #aaaaaa dotted thick;
+   outline-width: 2px;
+}
+
+.month-scroll-panel .today {
+   background-color:#FFDDDD;
+}
+
+/* --------------------- */
+/* days panel            */
+/* --------------------- */
+
+.day-scroll-panel {
+	border: 2px solid #66CCFF; 
+	margin: 10px;
+}
+
+.day-scroll-panel td {
+   background-color:#E5ECF9;
+   padding: 2px;
+   width : 80px;
+}
+
+.day-scroll-panel td:hover {
+   outline: #aaaaaa dotted thick;
+   outline-width: 2px;
+}
+
+.day-scroll-panel .today {
+   background-color:#FFDDDD;
+}
+
+/* ------------------- */
+/* season color        */
+/* ------------------- */
+
+.day_high_season {
+   background-color:#CCCCFF;
+}
+
+.day_low_season {
+   background-color:#CCFFCC
+}
+		
+.day_special_season {
+   background-color:#FFCCCC
+}
+
+.day_lowweekend_season {
+   background-color:#CCFFFF
+}
+
+.day_highweekend_season {
+   background-color:#DDFFFF
+}
+
+.day_today {
+   background-color:#FFDDDD;
+}
