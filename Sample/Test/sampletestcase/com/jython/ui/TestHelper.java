@@ -13,7 +13,6 @@
 package com.jython.ui;
 
 import static org.junit.Assert.assertEquals;
-
 import guice.ServiceInjector;
 
 import java.math.BigDecimal;
@@ -21,10 +20,9 @@ import java.math.BigDecimal;
 import org.junit.After;
 import org.junit.Before;
 
-
+import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
-import com.table.testenhancer.ITestEnhancer;
 
 /**
  * @author hotel

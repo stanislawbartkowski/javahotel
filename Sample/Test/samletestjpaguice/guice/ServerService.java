@@ -12,19 +12,18 @@
  */
 package guice;
 
-import guice.cache.TestCache;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.ICommonCache;
+import com.gwtmodel.mapcache.SimpleMapCache;
+import com.gwtmodel.testenhancer.ITestEnhancer;
+import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jython.ui.ServerProperties;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.JythonUiServerProvider;
-import com.table.testenhancer.ITestEnhancer;
-import com.table.testenhancer.notgae.TestEnhancer;
 
 /**
  * @author hotel
@@ -41,7 +40,7 @@ public class ServerService {
             bind(IJythonUIServer.class)
                     .toProvider(JythonUiServerProvider.class).in(
                             Singleton.class);
-            bind(ICommonCache.class).to(TestCache.class).in(
+            bind(ICommonCache.class).to(SimpleMapCache.class).in(
                     Singleton.class);
             bind(ITestEnhancer.class).to(TestEnhancer.class);
         }

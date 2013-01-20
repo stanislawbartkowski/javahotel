@@ -31,7 +31,6 @@
   <set-property name="gwt.logging.popupHandler" value="DISABLED" />
   <set-property name="gwt.logging.enabled" value="FALSE"/> 
   <set-property name="gwt.logging.consoleHandler" value="DISABLED"/>
-  <inherits name='com.google.gwt.visualization.Visualization'/>
   <inherits name="com.google.gwt.user.theme.standard.Standard"/>
   <inherits name="com.google.gwt.http.HTTP"/>
   <inherits name="com.google.gwt.inject.Inject"/>

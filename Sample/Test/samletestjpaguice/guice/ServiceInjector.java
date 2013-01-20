@@ -15,9 +15,9 @@ package guice;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
-import com.table.testenhancer.ITestEnhancer;
 
 /**
  * @author hotel

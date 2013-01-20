@@ -16,13 +16,13 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.commoncache.ICommonCache;
+import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.ServerProperties;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.JythonUiServerProvider;
-import com.table.testenhancer.ITestEnhancer;
 import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
 
 /**

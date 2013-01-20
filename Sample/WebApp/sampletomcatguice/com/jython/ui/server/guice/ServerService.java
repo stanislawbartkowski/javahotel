@@ -15,9 +15,9 @@ package com.jython.ui.server.guice;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.ICommonCache;
+import com.gwtmodel.mapcache.SimpleMapCache;
 import com.jython.ui.server.ServerProperties;
 import com.jython.ui.server.datastore.IPersonOp;
-import com.jython.ui.server.guice.cache.ServerCache;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -38,7 +38,7 @@ public class ServerService {
             bind(IJythonUIServer.class)
                     .toProvider(JythonUiServerProvider.class).in(
                             Singleton.class);
-            bind(ICommonCache.class).to(ServerCache.class).in(
+            bind(ICommonCache.class).to(SimpleMapCache.class).in(
                     Singleton.class);
         }
     }
