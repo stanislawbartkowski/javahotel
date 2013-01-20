@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.jythongwt.dialogxsd.com" xmlns="http://www.jythongwt.dialogxsd.com"
+	elementFormDefault="qualified">
+
+	<xs:simpleType name="typeName">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="string" />
+			<xs:enumeration value="bool" />
+			<xs:enumeration value="decimal" />
+			<xs:enumeration value="long" />
+			<xs:enumeration value="date" />
+			<xs:enumeration value="datetime" />
+			<xs:enumeration value="int" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="emptyT">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:group name="buttonG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="buttonattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+	</xs:attributeGroup>
+	
+	<xs:group name="dialogG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="before" type="emptyT" />
+			<xs:element minOccurs="0" name="parent" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+	
+	<xs:attributeGroup name="dialogattrG">
+		<xs:attribute name="before" type="emptyT" />
+		<xs:attribute name="parent" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:group name="listG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="elemformat" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="listattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="elemformat" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:group name="jythonG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="import" type="xs:string" />
+			<xs:element minOccurs="0" name="method" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="jythonattrG">
+		<xs:attribute name="import" type="xs:string" />
+		<xs:attribute name="method" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:group name="fieldG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="type" type="typeName" />
+			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="notempty" type="emptyT"/>
+			<xs:element minOccurs="0" name="hidden" type="emptyT"/>
+			<xs:element minOccurs="0" name="readonly" type="emptyT"/>
+			<xs:element minOccurs="0" name="readonlyadd" type="emptyT"/>
+			<xs:element minOccurs="0" name="readonlychange" type="emptyT"/>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="fieldattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="type" type="typeName" />
+		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
+		<xs:attribute name="notempty" type="emptyT"/>
+		<xs:attribute name="hidden" type="emptyT"/>
+		<xs:attribute name="readonly" type="emptyT"/>
+		<xs:attribute name="readonlyadd" type="emptyT"/>
+		<xs:attribute name="readonlychange" type="emptyT"/>
+	</xs:attributeGroup>
+
+
+	<xs:element name="dialog">
+		<xs:complexType>
+			<xs:sequence>
+			    <xs:group ref="dialogG" />
+
+				<xs:element minOccurs="0" name="jython">
+					<xs:complexType>
+						<xs:group ref="jythonG" />
+						<xs:attributeGroup ref="jythonattrG" />
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="0" name="leftmenu">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="button">
+								<xs:complexType>
+									<xs:group ref="buttonG" />
+									<xs:attributeGroup ref="buttonattrG" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="0" name="form">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="field">
+								<xs:complexType>
+									<xs:group ref="fieldG" />
+									<xs:attributeGroup ref="fieldattrG" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="list">
+					<xs:complexType>
+					
+						<xs:sequence>
+							<xs:group ref="listG" />
+							<xs:element minOccurs="1" name="columns">
+								<xs:complexType>
+									<xs:sequence minOccurs="1" maxOccurs="unbounded">
+										<xs:element name="column">
+											<xs:complexType>
+												<xs:group ref="fieldG" />
+												<xs:attributeGroup ref="fieldattrG" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attributeGroup ref="listattrG" />
+					</xs:complexType>
+					
+				</xs:element>
+
+			</xs:sequence>
+			<xs:attributeGroup ref="dialogattrG" />
+		</xs:complexType>
+	</xs:element>
+
+
+</xs:schema>
+
