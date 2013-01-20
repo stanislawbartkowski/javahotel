@@ -28,113 +28,113 @@ import javax.mail.internet.MimeMessage;
  */
 public class SendMail {
 
-    public static final String PROTOCOL = "mail.transport.protocol";
-    public static final String USER = "mail.smtp.user";
-    public static final String PASSWORD = "mail.smtp.password";
-    public static final String HOST = "mail.smtp.host";
-    public static final String MAIL_FROM = "mail.from";
-    public static final String PROP_FILE_NAME = "property.file.name";
-    private static final String GAEMAIL = "gae";
-    public static final String MAILDEBUG = "mail.debug";
+	public static final String PROTOCOL = "mail.transport.protocol";
+	public static final String USER = "mail.smtp.user";
+	public static final String PASSWORD = "mail.smtp.password";
+	public static final String HOST = "mail.smtp.host";
+	public static final String MAIL_FROM = "mail.from";
+	public static final String PROP_FILE_NAME = "property.file.name";
+	private static final String GAEMAIL = "gae";
+	public static final String MAILDEBUG = "mail.debug";
 
-    private SendMail() {
-    }
+	private SendMail() {
+	}
 
-    private static class T implements TransportListener {
+	private static class T implements TransportListener {
 
-        private String errMess = null;
+		private String errMess = null;
 
-        public void messageDelivered(TransportEvent e) {
-        }
+		public void messageDelivered(TransportEvent e) {
+		}
 
-        public void messageNotDelivered(TransportEvent e) {
-            errMess = "Poczta nie dostarczona do skrzynki";
-        }
+		public void messageNotDelivered(TransportEvent e) {
+			errMess = "Poczta nie dostarczona do skrzynki";
+		}
 
-        public void messagePartiallyDelivered(TransportEvent e) {
-            errMess = "Poczta dostarczona do niektórych odbiorców";
-        }
+		public void messagePartiallyDelivered(TransportEvent e) {
+			errMess = "Poczta dostarczona do niektórych odbiorców";
+		}
 
-        /**
-         * @return the errMess
-         */
-        public String getErrMess() {
-            return errMess;
-        }
-    }
+		/**
+		 * @return the errMess
+		 */
+		public String getErrMess() {
+			return errMess;
+		}
+	}
 
-    private static void postmail(T li, boolean text, Properties props,
-            String recipients[], String subject, String message, String from)
-            throws MessagingException {
+	private static void postmail(T li, boolean text, Properties props,
+			String recipients[], String subject, String message, String from)
+			throws MessagingException {
 
-        // create some properties and get the default Session
-        Session session = Session.getDefaultInstance(props, null);
-        String debug = props.getProperty(MAILDEBUG);
+		// create some properties and get the default Session
+		Session session = Session.getDefaultInstance(props, null);
+		String debug = props.getProperty(MAILDEBUG);
 
-        if (debug != null) {
-            session.setDebug(true);
-        }
+		if (debug != null) {
+			session.setDebug(true);
+		}
 
-        // create a message
-        Message msg = new MimeMessage(session);
+		// create a message
+		Message msg = new MimeMessage(session);
 
-        // set the from and to address
-        if (from == null) {
-            from = props.getProperty(MAIL_FROM);
-        }
-        InternetAddress addressFrom = new InternetAddress(from);
-        msg.setFrom(addressFrom);
+		// set the from and to address
+		if (from == null) {
+			from = props.getProperty(MAIL_FROM);
+		}
+		InternetAddress addressFrom = new InternetAddress(from);
+		msg.setFrom(addressFrom);
 
-        InternetAddress[] addressTo = new InternetAddress[recipients.length];
-        for (int i = 0; i < recipients.length; i++) {
-            addressTo[i] = new InternetAddress(recipients[i]);
-        }
-        msg.setRecipients(Message.RecipientType.TO, addressTo);
+		InternetAddress[] addressTo = new InternetAddress[recipients.length];
+		for (int i = 0; i < recipients.length; i++) {
+			addressTo[i] = new InternetAddress(recipients[i]);
+		}
+		msg.setRecipients(Message.RecipientType.TO, addressTo);
 
-        // Setting the Subject and Content Type
-        msg.setSubject(subject);
-        if (text) {
-            msg.setContent(message, "text/plain;charset=UTF-8");
-        } else {
-            msg.setContent(message, "text/html;charset=UTF-8");
-        }
+		// Setting the Subject and Content Type
+		msg.setSubject(subject);
+		if (text) {
+			msg.setContent(message, "text/plain;charset=UTF-8");
+		} else {
+			msg.setContent(message, "text/html;charset=UTF-8");
+		}
 
-        String protocol = props.getProperty(PROTOCOL);
-        if (protocol.equalsIgnoreCase(GAEMAIL)) {
-            Transport.send(msg);
-        } else {
+		String protocol = props.getProperty(PROTOCOL);
+		if (protocol.equalsIgnoreCase(GAEMAIL)) {
+			Transport.send(msg);
+		} else {
 
-            Transport transport = session.getTransport(props
-                    .getProperty(PROTOCOL));
-            transport.connect(props.getProperty(HOST), props.getProperty(USER),
-                    props.getProperty(PASSWORD));
-            transport.addTransportListener(li);
-            transport.sendMessage(msg, msg.getAllRecipients());
-            transport.close();
-        }
-    }
+			Transport transport = session.getTransport(props
+					.getProperty(PROTOCOL));
+			transport.connect(props.getProperty(HOST), props.getProperty(USER),
+					props.getProperty(PASSWORD));
+			transport.addTransportListener(li);
+			transport.sendMessage(msg, msg.getAllRecipients());
+			transport.close();
+		}
+	}
 
-    public static String postMail(boolean text, Properties props,
-            String recipients[], String subject, String message, String from) {
-        T li = new T();
-        try {
-            postmail(li, text, props, recipients, subject, message, from);
-        } catch (MessagingException ex) {
-            // PerseusJavaUtil.getLog().log(Level.SEVERE, null, ex);
-            return ex.getMessage();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return e.getMessage();
-        }
-        if (li.getErrMess() != null) {
-            return li.getErrMess();
-        }
-        return null;
-    }
+	public static String postMail(boolean text, Properties props,
+			String recipients[], String subject, String message, String from) {
+		T li = new T();
+		try {
+			postmail(li, text, props, recipients, subject, message, from);
+		} catch (MessagingException ex) {
+			// PerseusJavaUtil.getLog().log(Level.SEVERE, null, ex);
+			return ex.getMessage();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		if (li.getErrMess() != null) {
+			return li.getErrMess();
+		}
+		return null;
+	}
 
-    public static String postMail(boolean text, Properties props,
-            String recipient, String subject, String message, String from) {
-        return postMail(text, props, new String[] { recipient }, subject,
-                message, from);
-    }
+	public static String postMail(boolean text, Properties props,
+			String recipient, String subject, String message, String from) {
+		return postMail(text, props, new String[] { recipient }, subject,
+				message, from);
+	}
 }
