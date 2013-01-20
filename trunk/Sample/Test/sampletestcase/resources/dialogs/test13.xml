@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+ 
+
+ <jython>
+   <import>from testpack import testclasslist</import>
+   <method>testclasslist.dialogaction1({0},{1})</method>
+ </jython>  
+
+
+ <list id="lista" displayname="List of entries">
+ <elemformat>elem1.xml</elemformat>
+ <columns>
+ <column id="id" type="int"/>
+ <column id="name"/>
+ </columns>
+ </list>
+
+</dialog>

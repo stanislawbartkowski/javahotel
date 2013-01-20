@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+ 
+ <jython>
+   <import>from testpack import testclassbig</import>
+   <method>testclassbig.dialogaction({0},{1})</method>
+ </jython>  
+
+ <form>
+   <field id="glob1" />
+   <field id="globdecimal" type="decimal" afterdot="4" />
+ </form>  
+
+
+</dialog>
