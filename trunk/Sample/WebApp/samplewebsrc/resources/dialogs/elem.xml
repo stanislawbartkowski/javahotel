@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<displayname>Person</displayname>
+<parent>list.xml</parent>
+</dialog>
