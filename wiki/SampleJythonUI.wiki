@@ -59,7 +59,7 @@ Packages names are related to source code http://code.google.com/p/javahotel/sou
 || Jython || || X || X || X || X ||
 || Apache Derby || || || || X || X ||
 
-Deployment
+= Deployment =
 
 || *Package* || *Jars* || *SampleWebGae* || *SampleWebTomcat* ||
 || Guice || guice-3.0.jar aopalliance.jar javax.inject.jar || X || X ||
