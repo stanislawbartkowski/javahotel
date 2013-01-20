@@ -49,3 +49,12 @@ Packages names are related to source code http://code.google.com/p/javahotel/sou
 || Sample/WebApp/sampletomcatwar || Example of war directory for Tomcat web application || || || || ||
 || Sample/WebApp/samplewebsrc || Web application code || || || X || X ||
 || Test/gaetestenhancer || GAE stubs to execute test code || X || || || ||
+|| || || || || ||
+|| EclipseLink || || || X || || X ||
+|| GIN || || || || || X || X ||
+|| Guice || || X || X || X || X ||
+|| Objectify || || X || X || || ||
+|| Fileupload || || X || X || X || X ||
+|| JavaMail || || || || X || X ||
+|| Jython || || X || X || X || X ||
+|| Apache Derby || || || || X || X ||
