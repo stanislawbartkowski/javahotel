@@ -51,10 +51,19 @@ Packages names are related to source code http://code.google.com/p/javahotel/sou
 || Test/gaetestenhancer || GAE stubs to execute test code || X || || || ||
 || || || || || ||
 || EclipseLink || || || X || || X ||
-|| GIN || || || || || X || X ||
+|| GIN || || || || X || X ||
 || Guice || || X || X || X || X ||
 || Objectify || || X || X || || ||
 || Fileupload || || X || X || X || X ||
 || JavaMail || || || || X || X ||
 || Jython || || X || X || X || X ||
 || Apache Derby || || || || X || X ||
+
+Deployment
+
+|| Package || Jars || SampleWebGae || SampleWebTomcat ||
+|| Guice || guice-3.0.jar aopalliance.jar javax.inject.jar || X || X ||
+|| Objectify || objectify-4.0b1.jar || X || ||
+|| Jython || jython-standalone-2.5.3.jar || X || X ||
+|| Apache Derby || derby.jar || || X ||
+|| EclipseLink || eclipselink.jar javax.persistence_1.0.0.jar || || X ||
