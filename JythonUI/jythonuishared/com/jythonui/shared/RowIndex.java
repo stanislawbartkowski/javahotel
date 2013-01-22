@@ -54,7 +54,14 @@ public class RowIndex {
     public FieldItem getI(String id) {
         return fArray[iMap.get(id)];
     }
-    
+
+    /**
+     * If RowIndex (column) contains field
+     * 
+     * @param id
+     *            Column name
+     * @return true: exists false: otherwise
+     */
     public boolean isField(String id) {
         return iMap.containsKey(id);
     }
@@ -72,7 +79,7 @@ public class RowIndex {
         r.setRowSize(rowSize());
         for (int i = 0; i < fArray.length; i++) {
             FieldValue v = new FieldValue();
-            v.setValue(fArray[i].getFieldType(), null,fArray[i].getAfterDot());
+            v.setValue(fArray[i].getFieldType(), null, fArray[i].getAfterDot());
             r.setRow(i, v);
         }
         return r;
