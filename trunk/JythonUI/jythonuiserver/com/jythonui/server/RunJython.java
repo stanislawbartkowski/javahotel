@@ -21,11 +21,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,22 +60,38 @@ import com.jythonui.shared.RowIndex;
 /**
  * @author hotel
  * 
+ *         Interface between Java code and Jython Call Jython actions and
+ *         pass/gets back client data
  */
 class RunJython {
 
+    /** Logger. */
     static final private Logger log = Logger.getLogger(RunJython.class
             .getName());
 
+    /**
+     * Put debug message to logger
+     * 
+     * @param mess
+     *            Debug message
+     */
     static private void putDebug(String mess) {
         log.log(Level.FINE, mess);
     }
 
-    private static final PyObject JLISTMAP = toString(ICommonConsts.JLISTMAP);
-
+    /**
+     * Writes error message and throws unchecked exception
+     * 
+     * @param mess
+     *            Fatal error message
+     */
     static private void error(String mess) {
         log.log(Level.SEVERE, mess);
         throw new JythonUIFatal(mess);
     }
+
+    /** Constant Jython string. */
+    private static final PyObject JLISTMAP = toString(ICommonConsts.JLISTMAP);
 
     private static Map<PyObject, PyObject> toPythonMap(DialogVariables v) {
         Map<PyObject, PyObject> m = new HashMap<PyObject, PyObject>();
@@ -205,6 +223,9 @@ class RunJython {
                 RowContent row = rI.constructRow();
                 for (String s : v.getFields()) {
                     FieldValue valF = v.getValue(s);
+                    if (!rI.isField(s)) {
+                        error(s + " : column not defined(" + d.getId() + ")");
+                    }
                     rI.setRowField(row, s, valF);
                 }
                 lRows.addRow(row);
@@ -326,8 +347,43 @@ class RunJython {
         }
     }
 
+    /**
+     * Add new path to Jython sys.path if not added already
+     * 
+     * @param interp
+     *            PythonIntepreter
+     * @param addPath
+     *            Path to add if not added
+     */
+
+    static private void addIfNotExisttoPath(PythonInterpreter interp,
+            String addPath) {
+        interp.exec("import sys; GG = sys.path");
+        PyObject po = interp.get("GG");
+        PyList pyList = (PyList) po;
+        ListIterator iL = pyList.listIterator();
+        boolean exist = false;
+        while (iL.hasNext()) {
+            String path = (String) iL.next();
+            if (path.equals(addPath)) {
+                exist = true;
+                break;
+            }
+        }
+        if (!exist) {
+            interp.exec("import sys");
+            // interp.exec("print sys.path");
+            putDebug("append sys.path = " + addPath);
+            interp.exec("sys.path.append('" + addPath + "')");
+        }
+
+    }
+
     static void executeJython(IJythonUIServerProperties p, MCached mCached,
             DialogVariables v, DialogFormat d, String actionId) {
+        // checked by experience that if file.encoding is not null then
+        // Jython cannot be started in Development Mode
+        // but it works as expected after deploying to Google App Engine
         System.getProperties().remove("file.encoding");
         String importJ = d.getJythonImport();
         putDebug("import jython = " + importJ);
@@ -337,6 +393,10 @@ class RunJython {
             error("methodJ is null - null pointer expected");
         }
 
+        /*
+         * According to Jython documentation PythonInterpreter is thread
+         * confined. So this code is thread safe.
+         */
         PythonInterpreter interp;
         if (mCached.isCached()) {
             // Checked by experience that default PythonIntepreter constructor
@@ -348,18 +408,12 @@ class RunJython {
             // Constructor with parameters forces package recompiling
             // but there is a performance penalty
             interp = new PythonInterpreter(null, new PySystemState());
+            interp.cleanup();
         }
-        interp.cleanup();
-        URL ur = p.getPackageDirectory();
-        String sRe = ur.getFile();
-        interp.exec("import sys");
-        // interp.exec("print sys.path");
-        putDebug("append sys.path = " + sRe);
-        interp.exec("sys.path.append('" + sRe + "')");
-        if (importJ != null) {
-            interp.exec(importJ);
-        }
-        // interp.exec("from testpack import testclass");
+
+        // check sys.path
+        addIfNotExisttoPath(interp, p.getPackageDirectory().getFile());
+
         Map<PyObject, PyObject> pMap = toPythonMap(v);
         addListToMap(pMap, d, v);
         PyDictionary pyMap = new PyDictionary(pMap);
@@ -368,6 +422,9 @@ class RunJython {
         interp.set("AA", actionId);
 
         String s = MessageFormat.format(methodJ, "AA", "GG");
+        if (importJ != null) {
+            s = importJ + "; " + s;
+        }
         putDebug(s);
         interp.exec(s);
         toDialogVariables(d.getFieldList(), v, pyMap);

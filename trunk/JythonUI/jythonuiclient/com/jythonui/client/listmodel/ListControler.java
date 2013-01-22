@@ -75,7 +75,10 @@ class ListControler {
 
     private static String getFormHeader(RowListDataManager rM, IDataType da) {
         ListFormat fo = rM.getFormat(da);
-        String tName = fo.getfElem().getDisplayName();
+        String tName = null;
+        if (fo.getfElem() != null) {
+            tName = fo.getfElem().getDisplayName();
+        }
         if (tName == null) {
             tName = fo.getDisplayName();
         }
