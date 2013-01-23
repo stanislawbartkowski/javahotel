@@ -22,5 +22,6 @@ public interface JMessages extends Messages {
 
     String ErrorNoValue(String key);
     String ListDoesNotHaveELem(String listId,String attrName);
+    String UnknownAction(String action, String param);
     
 }

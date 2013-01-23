@@ -17,8 +17,11 @@ import java.util.List;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.WChoosedLine;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
@@ -41,6 +44,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
+import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.variables.IVariablesContainer;
@@ -125,7 +129,7 @@ class ListControler {
                         }
                     }
                 };
-                PerformVariableAction.perform(arg, iCon, rM, vis);
+                PerformVariableAction.perform(null, arg, iCon, rM, vis, null);
 
             }
 
@@ -216,8 +220,28 @@ class ListControler {
                 formFactory, fControler, null);
     }
 
+    private static class ActionClicked implements ISlotListener {
+
+        private final IPerformClickAction iClick;
+
+        ActionClicked(IPerformClickAction iClick) {
+            this.iClick = iClick;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject i = slContext.getCustom();
+            WChoosedLine wC = (WChoosedLine) i;
+
+            IVField fie = wC.getvField();
+            WSize w = wC.getwSize();
+            iClick.click(fie.getId(), w);
+        }
+
+    }
+
     static ISlotable contruct(RowListDataManager rM, IDataType da,
-            CellId panelId, IVariablesContainer iCon) {
+            CellId panelId, IVariablesContainer iCon, IPerformClickAction iClick) {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
 
@@ -228,6 +252,8 @@ class ListControler {
         DisplayListControlerParam dList = tFactory.constructParam(cButton,
                 panelId, getParam(rM, da, iCon), null, false);
         ISlotable i = tFactory.constructDataControler(dList);
+        i.getSlContainer().registerSubscriber(da,
+                DataActionEnum.TableCellClicked, new ActionClicked(iClick));
         return i;
     }
 

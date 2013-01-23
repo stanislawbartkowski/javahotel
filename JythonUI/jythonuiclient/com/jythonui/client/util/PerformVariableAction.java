@@ -13,7 +13,10 @@
 package com.jythonui.client.util;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.client.M;
 import com.jythonui.client.dialog.RunAction;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.variables.IVariablesContainer;
@@ -35,8 +38,9 @@ public class PerformVariableAction {
         void accept(IDataType da, ListOfRows lRows);
     }
 
-    public static void perform(DialogVariables arg, IVariablesContainer iCon,
-            RowListDataManager liManager, VisitList vis) {
+    public static void perform(ISendCloseAction iClose, DialogVariables arg,
+            IVariablesContainer iCon, RowListDataManager liManager,
+            VisitList vis, WSize w) {
         iCon.setVariablesToForm(arg);
         // lists
         for (IDataType da : liManager.getList()) {
@@ -44,10 +48,36 @@ public class PerformVariableAction {
             ListOfRows lRows = arg.getList(s);
             vis.accept(da, lRows);
         }
-        String mainDialog = arg.getValueS(ICommonConsts.JMAINDIALOG);
-        if (!CUtil.EmptyS(mainDialog)) {
-            new RunAction().start(mainDialog);
+        String dDialog = arg.getValueS(ICommonConsts.JMAINDIALOG);
+        if (!CUtil.EmptyS(dDialog)) {
+            // a little trick but allows code reuse
+            performAction(iClose, ICommonConsts.JMAINDIALOG, dDialog, w, iCon);
         }
+        dDialog = arg.getValueS(ICommonConsts.JUPDIALOG);
+        if (!CUtil.EmptyS(dDialog)) {
+            performAction(iClose, ICommonConsts.JUPDIALOG, dDialog, w, iCon);
+        }
+        if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
+            performAction(iClose, ICommonConsts.JCLOSEDIALOG, null, w, iCon);
+        }
+    }
+
+    public static void performAction(ISendCloseAction iClose, String action,
+            String param, WSize w, IVariablesContainer iCon) {
+        if (action.equals(ICommonConsts.JMAINDIALOG)) {
+            new RunAction().start(param);
+            return;
+        }
+        if (action.equals(ICommonConsts.JUPDIALOG)) {
+            new RunAction().upDialog(param, w, iCon);
+            return;
+        }
+        if (action.equals(ICommonConsts.JCLOSEDIALOG)) {
+            if (iClose != null)
+                iClose.closeAction();
+            return;
+        }
+        Utils.errAlert(M.M().UnknownAction(action, param));
     }
 
 }

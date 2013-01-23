@@ -12,7 +12,6 @@
  */
 package com.jythonui.client.dialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -20,7 +19,6 @@ import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ISlotListener;
@@ -28,12 +26,9 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.stackpanelcontroller.IStackPanelController;
 import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
-import com.gwtmodel.table.view.callback.ICommonCallBackFactory;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
-import com.jythonui.client.M;
-import com.jythonui.client.variables.IVariablesContainer;
+import com.jythonui.client.util.CreateForm;
 import com.jythonui.shared.ButtonItem;
-import com.jythonui.shared.DialogVariables;
 
 /**
  * @author hotel
@@ -41,47 +36,7 @@ import com.jythonui.shared.DialogVariables;
  */
 public class LeftMenu {
 
-
     private final static IDataType leftMenuD = Empty.getDataType();
-
-    private ControlButtonDesc constructButton(ButtonItem b) {
-
-        String id = b.getId();
-        String dName = b.getDisplayName();
-        return new ControlButtonDesc(dName, id);
-    }
-
-    private List<ControlButtonDesc> constructBList(List<ButtonItem> iList) {
-        List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
-        for (ButtonItem b : iList) {
-            bList.add(constructButton(b));
-        }
-        return bList;
-
-    }
-
-    private class CButton implements ISlotListener {
-
-        private final String dialogName;
-        private final IVariablesContainer iCon;
-        private final ICommonCallBackFactory<DialogVariables> cBack;
-
-        CButton(IVariablesContainer iCon,
-                ICommonCallBackFactory<DialogVariables> cBack, String dialogName) {
-            this.dialogName = dialogName;
-            this.iCon = iCon;
-            this.cBack = cBack;
-        }
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            String id = slContext.getSlType().getButtonClick().getCustomButt();
-            assert id != null : LogT.getT().cannotBeNull();
-            DialogVariables v = iCon.getVariables();
-            M.JR().runAction(v, dialogName, id, cBack.construct());
-        }
-
-    }
 
     private class GetWidget implements ISlotListener {
 
@@ -93,19 +48,16 @@ public class LeftMenu {
         }
     }
 
-    void createLeftButton(IVariablesContainer iCon,
-            ICommonCallBackFactory<DialogVariables> backFactory,
-            String dialogName, List<ButtonItem> buttList) {
+    void createLeftButton(ISlotListener clickButton, List<ButtonItem> buttList) {
         if (buttList != null) {
-            List<ControlButtonDesc> bList = constructBList(buttList);
+            List<ControlButtonDesc> bList = CreateForm.constructBList(buttList);
             StackPanelControllerFactory sFactory = GwtGiniInjector.getI()
                     .getStackPanelControllerFactory();
             IStackPanelController iSlo = sFactory.construct(leftMenuD, bList,
                     null);
             SlU.registerWidgetListener0(leftMenuD, iSlo, new GetWidget());
             iSlo.getSlContainer().registerSubscriber(leftMenuD,
-                    ClickButtonType.StandClickEnum.ALL,
-                    new CButton(iCon, backFactory, dialogName));
+                    ClickButtonType.StandClickEnum.ALL, clickButton);
             CellId cId = new CellId(0);
             iSlo.startPublish(cId);
         }

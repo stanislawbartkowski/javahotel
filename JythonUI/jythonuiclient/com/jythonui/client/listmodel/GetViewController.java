@@ -25,6 +25,7 @@ import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
@@ -34,7 +35,6 @@ import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.DialogContainer;
-import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.VerifyEmpty;
 import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IVariablesContainer;
@@ -124,12 +124,10 @@ class GetViewController implements IGetViewControllerFactory {
                 case REMOVE:
                     eCrud = ICommonConsts.CRUD_REMOVE;
                     break;
+                default:
+                    assert false : LogT.getT().notExpected();
+                    break;
                 }
-                // v.setValueS(ICommonConsts.JCRUD_ACTION, eCrud);
-                // ListFormat li = rM.getFormat(dType);
-                // v.setValueS(ICommonConsts.JLIST_NAME, li.getId());
-                // ExecuteAction.action(v, li.getfElem().getId(),
-                // ICommonConsts.CRUDACTION, new JBack(e));
                 ListFormat li = rM.getFormat(dType);
                 ListUtils.executeCrudAction(v, li, li.getfElem().getId(),
                         eCrud, new JBack(e));

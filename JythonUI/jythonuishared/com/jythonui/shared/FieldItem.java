@@ -79,4 +79,8 @@ public class FieldItem extends ElemDescription {
         return isAttr(ICommonConsts.READONLYCHANGE);
     }
 
+    public String getActionId() {
+        return getAttr(ICommonConsts.ACTIONID);
+    }
+
 }

@@ -38,32 +38,60 @@ import com.jythonui.shared.ListFormat;
 /**
  * @author hotel
  * 
+ *         Reads XML with dialog description and return DialogFormat class
  */
 class ReadDialog {
 
+    /** Logger. */
     static final private Logger log = Logger.getLogger(ReadDialog.class
             .getName());
 
+    /**
+     * Logs error message and throws unchecked exception at the same time.
+     * 
+     * @param mess
+     *            Error message
+     */
     static private void errorLog(String mess) {
         log.log(Level.SEVERE, mess);
         throw new JythonUIFatal(mess);
     }
 
+    /**
+     * @author hotel
+     * 
+     *         SAX handler
+     */
     private static class MyHandler extends DefaultHandler {
 
+        /** DialogFormat class being built. */
         private DialogFormat dFormat = null;
+
+        /** Tags recognized for a particular element. */
+        /* It duplicated to some extend xsd schema which also forces XML format. */
         private final String[] dialogTag = { ICommonConsts.BEFORE,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT,
                 ICommonConsts.METHOD, ICommonConsts.PARENT };
         private final String[] buttonTag = { ICommonConsts.ID,
-                ICommonConsts.DISPLAYNAME };
+                ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
+                ICommonConsts.ACTIONPARAM, ICommonConsts.IMPORT,
+                ICommonConsts.METHOD };
         private final String[] fieldTag = { ICommonConsts.ID,
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
-                ICommonConsts.DISPLAYNAME, ICommonConsts.NOTEMPTY,
-                ICommonConsts.READONLY, ICommonConsts.HIDDEN,
-                ICommonConsts.READONLYADD, ICommonConsts.READONLYCHANGE };
+                ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,
+                ICommonConsts.NOTEMPTY, ICommonConsts.READONLY,
+                ICommonConsts.HIDDEN, ICommonConsts.READONLYADD,
+                ICommonConsts.READONLYCHANGE };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT };
+        /** Currently recognized set ,of tags. */
+        /*
+         * Important: it is assumed that tags describing element goes first
+         * before subelements.
+         */
+        /* This invariant is enforced by xsd schema. */
+        private final String[] allowedActions = { ICommonConsts.JMAINDIALOG,
+                ICommonConsts.JUPDIALOG, ICommonConsts.JCLOSEDIALOG };
         private String[] currentT;
         private StringBuffer buf;
         private ElemDescription bDescr = null;
@@ -90,7 +118,9 @@ class ReadDialog {
                 fList = new ArrayList<FieldItem>();
                 getAttribute = true;
             }
-            if (qName.equals(ICommonConsts.LEFTMENU)) {
+            if (qName.equals(ICommonConsts.LEFTMENU)
+                    || qName.equals(ICommonConsts.BUTTONS)
+                    || qName.equals(ICommonConsts.ACTIONS)) {
                 bList = new ArrayList<ButtonItem>();
                 return;
             }
@@ -98,7 +128,8 @@ class ReadDialog {
                 fList = new ArrayList<FieldItem>();
                 return;
             }
-            if (qName.equals(ICommonConsts.BUTTON)) {
+            if (qName.equals(ICommonConsts.BUTTON)
+                    || qName.equals(ICommonConsts.ACTION)) {
                 bDescr = new ButtonItem();
                 currentT = buttonTag;
                 getAttribute = true;
@@ -141,8 +172,31 @@ class ReadDialog {
             if (dFormat == null) {
                 return;
             }
-            if (qName.equals(ICommonConsts.BUTTON)) {
+            if (qName.equals(ICommonConsts.BUTTON)
+                    || qName.equals(ICommonConsts.ACTION)) {
                 ButtonItem bI = (ButtonItem) bDescr;
+                if (bI.isAction()) {
+                    boolean found = false;
+                    for (int i = 0; i < allowedActions.length; i++) {
+                        if (bI.getAction().equals(allowedActions[i])) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        // prepared error message
+                        String list = null;
+                        for (int i = 0; i < allowedActions.length; i++) {
+                            if (list == null)
+                                list = allowedActions[i];
+                            else
+                                list = list + " , " + allowedActions[i];
+                        } // for
+                        errorLog(bI.getAction()
+                                + " unrecognized action. Expected action names: "
+                                + list);
+                    }
+                }
                 if (bList != null) {
                     bList.add(bI);
                 }
@@ -165,8 +219,18 @@ class ReadDialog {
                 bList = null;
                 return;
             }
+            if (qName.equals(ICommonConsts.BUTTONS)) {
+                dFormat.setButtonList(bList);
+                bList = null;
+                return;
+            }
+            if (qName.equals(ICommonConsts.ACTIONS)) {
+                dFormat.setActionList(bList);
+                bList = null;
+                return;
+            }
             if (qName.equals(ICommonConsts.FORM)) {
-                dFormat.setActionList(fList);
+                dFormat.setFieldList(fList);
                 fList = null;
                 return;
             }

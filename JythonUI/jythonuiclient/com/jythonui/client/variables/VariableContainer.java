@@ -17,14 +17,18 @@ import java.util.List;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
+import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.JUtils;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
@@ -39,42 +43,50 @@ class VariableContainer implements IVariablesContainer {
     private class FormContainer {
         ISlotable iSlo;
         IDataType dType;
+        RowListDataManager liManager;
     }
 
     private final List<FormContainer> fList = new ArrayList<FormContainer>();
 
     @Override
-    public void addFormVariables(ISlotable iSlo, IDataType dType) {
+    public void addFormVariables(ISlotable iSlo, IDataType dType,
+            RowListDataManager liManager) {
         FormContainer f = new FormContainer();
         f.iSlo = iSlo;
         f.dType = dType;
+        f.liManager = liManager;
         fList.add(f);
 
     }
 
-    private void setVariable(DialogVariables v, IVField vv, FormContainer f) {
-        IFormLineView i = SlU.getVWidget(f.dType, f.iSlo, vv);
-        Object o = i.getValObj();
-        FieldValue fVal = new FieldValue();
-        fVal.setValue(vv.getType().getType(), o, fVal.getAfterdot());
-        v.setValue(vv.getId(), fVal);
+    private static void setVariables(DialogVariables v, IVModelData vData) {
+        if (vData == null) { return; }
+        for (IVField fie : vData.getF()) {
+            Object o = vData.getF(fie);
+            if (o == null) {
+                continue;
+            }
+            FieldValue fVal = new FieldValue();
+            fVal.setValue(fie.getType().getType(), o, fie.getType()
+                    .getAfterdot());
+            v.setValue(fie.getId(), fVal);
+        }
     }
 
     @Override
     public DialogVariables getVariables() {
         DialogVariables v = new DialogVariables();
         for (FormContainer f : fList) {
-            FormLineContainer fC = SlU.getFormLineContainer(f.dType, f.iSlo);
-            for (FormField ff : fC.getfList()) {
-                IVField v1 = ff.getFie();
-                IVField v2 = ff.getFRange();
-                setVariable(v, v1, f);
-                if (v2 != null) {
-                    setVariable(v, v2, f);
-                }
+            IVModelData vData = new VModelData();
+            vData = f.iSlo.getSlContainer().getGetterIVModelData(f.dType,
+                    GetActionEnum.GetViewModelEdited, vData);
+            setVariables(v, vData);
+            for (IDataType dType : f.liManager.getList()) {
+                vData = f.iSlo.getSlContainer().getGetterIVModelData(dType,
+                        GetActionEnum.GetListLineChecked);
+                setVariables(v, vData);
             }
         }
-
         return v;
     }
 
@@ -108,5 +120,34 @@ class VariableContainer implements IVariablesContainer {
             };
             JUtils.visitListOfFields(var, ICommonConsts.JCOPY, vis);
         }
+    }
+
+    private void setVariableToForm(ISlotable iSlo, IDataType dType,
+            DialogVariables v, IVField vv) {
+        FieldValue val = v.getValue(vv.getId());
+        if (val == null) {
+            return;
+        }
+        IFormLineView i = SlU.getVWidget(dType, iSlo, vv);
+        if (i == null) {
+            return;
+        }
+        i.setValObj(val.getValue());
+    }
+
+    @Override
+    public void copyCurrentVariablesToForm(ISlotable iSlo, IDataType dType) {
+        DialogVariables var = getVariables();
+        FormLineContainer fC = SlU.getFormLineContainer(dType, iSlo);
+        for (FormField ff : fC.getfList()) {
+            IVField v1 = ff.getFie();
+            IVField v2 = ff.getFRange();
+            setVariableToForm(iSlo, dType, var, v1);
+            if (v2 != null) {
+                setVariableToForm(iSlo, dType, var, v2);
+            }
+
+        }
+
     }
 }

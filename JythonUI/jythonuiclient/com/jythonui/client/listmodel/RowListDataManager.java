@@ -23,6 +23,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
@@ -39,11 +40,11 @@ public class RowListDataManager {
     private final Map<IDataType, ListFormat> lMap = new HashMap<IDataType, ListFormat>();
     private final Map<IDataType, RowIndex> rMap = new HashMap<IDataType, RowIndex>();
     private final String dialogName;
-    
+
     public RowListDataManager(String dialogName) {
         this.dialogName = dialogName;
     }
-    
+
     /**
      * @return the dialogName
      */
@@ -51,15 +52,13 @@ public class RowListDataManager {
         return dialogName;
     }
 
-
-
     public void addList(IDataType di, String lId, ListFormat fo) {
         listMap.put(di, lId);
         lMap.put(di, fo);
         rMap.put(di, new RowIndex(fo.getColumns()));
     }
 
-    ListFormat getFormat(IDataType da) {
+    public ListFormat getFormat(IDataType da) {
         return lMap.get(da);
     }
 
@@ -87,8 +86,8 @@ public class RowListDataManager {
     }
 
     public ISlotable constructListControler(IDataType da, CellId panelId,
-            IVariablesContainer iCon) {
-        return ListControler.contruct(this, da, panelId, iCon);
+            IVariablesContainer iCon, IPerformClickAction iAction) {
+        return ListControler.contruct(this, da, panelId, iCon, iAction);
     }
 
     IVModelData contructE(IDataType da) {
