@@ -14,7 +14,7 @@ def dialogaction(action,var) :
     list = []
     
     for s in seq : 
-       print s.id
+#       print s.id
        elem = {}
        elem["key"] = s.id
        elem["pnumber"] = s.getPersonNumb()
@@ -31,10 +31,9 @@ def dialogaction(action,var) :
   print pname," ",pnumb
     
   if action == "crud_add"  :
-    key = var["key"]
     pname = var["pname"]
     pnumb = var["pnumber"]
-    print key," ",pname," ",pnumb
+    print pname," ",pnumb
     if action == "crud_add" :
        p = op.findPersonByNumb(pnumb)
        if p != None :
@@ -44,6 +43,7 @@ def dialogaction(action,var) :
        p.setPersonNumb(pnumb)
        p.setPersonName(pname)
        op.savePerson(p)
+       return
 
   key = var["key"]      
   if action == "crud_remove" or action == "crud_change" :
@@ -55,4 +55,7 @@ def dialogaction(action,var) :
        else : op.changePerson(p)
      
       
+def inaction(action,var) :
+   print "inaction",var
+
     

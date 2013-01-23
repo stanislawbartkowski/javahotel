@@ -10,8 +10,13 @@
 
 <leftmenu>
   <button id="main" displayname="Main form"/>
-  <button id="list" displayname="List"/>
+  <button id="list" displayname="List" actiontype="JMAIN_DIALOG" actionparam="list.xml"/>
+  <button id="updialog" displayname="Dialog" actiontype="JUP_DIALOG" actionparam="updialog.xml"/>
 </leftmenu>
+
+<buttons>
+  <button id="tomain" displayname="Main dialog"/>
+</buttons>
 
  <form>
    <field id="glob1" />
