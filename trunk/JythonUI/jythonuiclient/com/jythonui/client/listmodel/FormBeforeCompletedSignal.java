@@ -27,9 +27,10 @@ class FormBeforeCompletedSignal extends CustomObjectValue<ListOfRows> {
     FormBeforeCompletedSignal(ListOfRows listOfRows) {
         super(listOfRows);
     }
-    
-    private static final String COMPLETED_SIGNAL =  FormBeforeCompletedSignal.class.getName();
-    
+
+    private static final String COMPLETED_SIGNAL = FormBeforeCompletedSignal.class
+            .getName();
+
     static CustomStringSlot constructSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, COMPLETED_SIGNAL);
     }

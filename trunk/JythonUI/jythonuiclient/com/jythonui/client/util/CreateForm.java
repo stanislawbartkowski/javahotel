@@ -16,13 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import com.gwtmodel.table.tabledef.VListHeaderDesc.ColAlign;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
+import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ListFormat;
@@ -72,11 +75,26 @@ public class CreateForm {
         for (FieldItem f : l.getColumns()) {
             IVField vf = VField.construct(f);
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
-                    f.isHidden());
+                    f.isHidden(), f.getActionId(), false, null, null);
             heList.add(v);
         }
         String lName = l.getDisplayName();
         return new VListHeaderContainer(heList, lName);
+    }
+
+    private static ControlButtonDesc constructButton(ButtonItem b) {
+
+        String id = b.getId();
+        String dName = b.getDisplayName();
+        return new ControlButtonDesc(dName, id);
+    }
+
+    public static List<ControlButtonDesc> constructBList(List<ButtonItem> iList) {
+        List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
+        for (ButtonItem b : iList) {
+            bList.add(constructButton(b));
+        }
+        return bList;
     }
 
 }

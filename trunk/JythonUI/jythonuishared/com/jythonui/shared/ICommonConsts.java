@@ -15,6 +15,7 @@ package com.jythonui.shared;
 /**
  * @author hotel
  * 
+ *         Shared constants
  */
 public interface ICommonConsts {
 
@@ -57,4 +58,12 @@ public interface ICommonConsts {
     String PARENT = "parent";
     String JERROR = "JERROR_";
     String JMAINDIALOG = "JMAIN_DIALOG";
+    String ACTIONTYPE = "actiontype";
+    String ACTIONPARAM = "actionparam";
+    String BUTTONS = "buttons";
+    String JUPDIALOG = "JUP_DIALOG";
+    String JCLOSEDIALOG = "JCLOSE_DIALOG";
+    String ACTIONS = "actions";
+    String ACTION = "action";
+    String ACTIONID = "actionid";
 }

@@ -26,6 +26,10 @@ public class DialogFormat extends ElemDescription {
 
     private List<ListFormat> listList;
 
+    private List<ButtonItem> buttonList;
+
+    private List<ButtonItem> actionList;
+
     /**
      * @return the actionList
      */
@@ -38,14 +42,6 @@ public class DialogFormat extends ElemDescription {
      *            the fieldList to set
      */
     public void setFieldList(List<FieldItem> fieldList) {
-        this.fieldList = fieldList;
-    }
-
-    /**
-     * @param actionList
-     *            the actionList to set
-     */
-    public void setActionList(List<FieldItem> fieldList) {
         this.fieldList = fieldList;
     }
 
@@ -73,6 +69,7 @@ public class DialogFormat extends ElemDescription {
     }
 
     public static <T extends ElemDescription> T findE(List<T> eList, String id) {
+        if (eList == null) { return null; }
         for (T e : eList) {
             if (e.eqId(id)) {
                 return e;
@@ -103,6 +100,22 @@ public class DialogFormat extends ElemDescription {
 
     public String getParent() {
         return getAttr(ICommonConsts.PARENT);
+    }
+
+    public List<ButtonItem> getButtonList() {
+        return buttonList;
+    }
+
+    public void setButtonList(List<ButtonItem> buttonList) {
+        this.buttonList = buttonList;
+    }
+
+    public List<ButtonItem> getActionList() {
+        return actionList;
+    }
+
+    public void setActionList(List<ButtonItem> actionList) {
+        this.actionList = actionList;
     }
 
 }

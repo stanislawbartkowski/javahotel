@@ -23,14 +23,20 @@
 
 	<xs:group name="buttonG">
 		<xs:sequence>
+			<xs:group ref="jythonG" minOccurs="0" />
 			<xs:element minOccurs="0" name="id" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="actiontype" type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
 	<xs:attributeGroup name="buttonattrG">
+		<xs:attributeGroup ref="jythonattrG" />
 		<xs:attribute name="id" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="actiontype" type="xs:string" />
+		<xs:attribute name="actionparam" type="xs:string" />
 	</xs:attributeGroup>
 	
 	<xs:group name="dialogG">
@@ -79,6 +85,7 @@
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="type" type="typeName" />
 			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="actionid" type="xs:string" />			
 			<xs:element minOccurs="0" name="notempty" type="emptyT"/>
 			<xs:element minOccurs="0" name="hidden" type="emptyT"/>
 			<xs:element minOccurs="0" name="readonly" type="emptyT"/>
@@ -90,6 +97,7 @@
 	<xs:attributeGroup name="fieldattrG">
 		<xs:attribute name="id" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="actionid" type="xs:string" />
 		<xs:attribute name="type" type="typeName" />
 		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
 		<xs:attribute name="notempty" type="emptyT"/>
@@ -113,6 +121,32 @@
 				</xs:element>
 
 				<xs:element minOccurs="0" name="leftmenu">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="button">
+								<xs:complexType>
+									<xs:group ref="buttonG" />
+									<xs:attributeGroup ref="buttonattrG" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="0" name="actions">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="action">
+								<xs:complexType>
+									<xs:group ref="buttonG" />
+									<xs:attributeGroup ref="buttonattrG" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="0" name="buttons">
 					<xs:complexType>
 						<xs:sequence minOccurs="1" maxOccurs="unbounded">
 							<xs:element name="button">

@@ -14,9 +14,20 @@ package com.jythonui.shared;
 
 /**
  * @author hotel
- *
+ * 
  */
 public class ButtonItem extends ElemDescription {
-    
+
+    public boolean isAction() {
+        return isAttr(ICommonConsts.ACTIONTYPE);
+    }
+
+    public String getAction() {
+        return getAttr(ICommonConsts.ACTIONTYPE);
+    }
+
+    public String getActionParam() {
+        return getAttr(ICommonConsts.ACTIONPARAM);
+    }
 
 }
