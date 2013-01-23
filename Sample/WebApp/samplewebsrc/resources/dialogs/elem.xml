@@ -2,4 +2,9 @@
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 <displayname>Person</displayname>
 <parent>list.xml</parent>
+
+<buttons>
+  <button id="test" displayname="Test" actiontype="JUP_DIALOG" actionparam="inelem.xml"/>
+</buttons>
+
 </dialog>
