@@ -19,15 +19,15 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 
 /**
  * @author hotel
- *
+ * 
  */
 class LabelEdit extends ExtendTextBox {
 
     final private Label pL;
 
-    public LabelEdit(ITableCustomFactories tFactories, IVField v,EParam param,
+    public LabelEdit(ITableCustomFactories tFactories, IVField v, EParam param,
             final String lN) {
-        super(tFactories,v,param);
+        super(tFactories, v, param);
         pL = new Label(lN);
         hPanel.setSpacing(1);
         hPanel.insert(pL, 0);
@@ -35,4 +35,3 @@ class LabelEdit extends ExtendTextBox {
         hPanel.setCellVerticalAlignment(getTextBox(), al);
     }
 }
-

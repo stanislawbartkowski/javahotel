@@ -107,10 +107,7 @@ public class RadioBoxString extends AbstractField {
     }
 
     private void setRadio(List<String> sList, boolean enable) {
-//        IVField sym = tFactories.getGetCustomValues().getSymForCombo();
-//        assert sym != null : LogT.getT().cannotBeNull();
         for (String s : sList) {
-//            String s = FUtils.getValueS(vv, sym);
             CheckBox c = new CheckBox(s);
             c.setEnabled(enable);
             CC cc = new CC(s, c);
@@ -119,37 +116,22 @@ public class RadioBoxString extends AbstractField {
         }
         sync.signalDone();
     }
-    
+
     private class R extends ReadR {
 
         private final boolean enable;
-        
+
         R(boolean enable) {
             super(tFactories);
             this.enable = enable;
         }
-        
+
         @Override
         void setList(List<String> rList) {
-//            throw new UnsupportedOperationException("Not supported yet.");
-            setRadio(rList,enable);
+            setRadio(rList, enable);
         }
-        
-    }
 
-//    private class R implements IGetDataListCallBack {
-//
-//        private final boolean enable;
-//
-//        R(final boolean penable) {
-//            this.enable = penable;
-//        }
-//
-//        @Override
-//        public void set(IDataListType dataList) {
-//            setRadio(dataList, enable);
-//        }
-//    }
+    }
 
     RadioBoxString(ITableCustomFactories tFactories, IVField v,
             IGetDataList iGet, final boolean enable) {
@@ -174,7 +156,7 @@ public class RadioBoxString extends AbstractField {
         sync.reset();
         aL.clear();
         vP.clear();
-        iGet.call(new R(false));
+        iGet.call(v, new R(false));
     }
 
     @Override

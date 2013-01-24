@@ -51,15 +51,15 @@ public class EditWidgetFactory {
         return lB;
     }
 
-    public IFormLineView constructListValuesCombo(IVField v, IGetDataList iGet) {
-        GetValueLB lB = new GetValueLB(tFactories, v);
-        AddBoxValues.addValues(iGet, lB);
+    public IFormLineView constructListValuesCombo(IVField v, IGetDataList iGet, boolean addEmpty) {
+        GetValueLB lB = new GetValueLB(tFactories, v, addEmpty);
+        AddBoxValues.addValues(v, iGet, lB);
         return lB;
     }
 
     public void setComboList(IFormLineView i, IGetDataList iGet) {
         GetValueLB lB = (GetValueLB) i;
-        AddBoxValues.addValues(iGet, lB);
+        AddBoxValues.addValues(i.getV(), iGet, lB);
     }
 
     private ExtendTextBox.EParam newE(boolean password, boolean area) {

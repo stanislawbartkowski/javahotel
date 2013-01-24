@@ -130,6 +130,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    // filtered decorator for IDataListType
     private class FilterDataListType implements IDataListType {
 
         private final IOkModelData iOk;
@@ -172,6 +173,11 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public boolean isTreeEnabled() {
             return dataList.isTreeEnabled();
+        }
+
+        @Override
+        public IVField displayComboField() {
+            return dataList.displayComboField();
         }
     }
 

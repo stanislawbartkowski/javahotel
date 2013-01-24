@@ -24,6 +24,8 @@ public interface IDataListType {
 
     IVField comboField();
 
+    IVField displayComboField();
+
     void remove(int row);
 
     void add(int row, IVModelData vData);

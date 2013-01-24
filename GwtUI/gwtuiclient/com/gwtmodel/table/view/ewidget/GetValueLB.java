@@ -22,7 +22,7 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
@@ -31,6 +31,7 @@ class GetValueLB extends AbstractField implements IValueLB {
     final protected ListBox lB = new ListBox();
     private String beforeVal = null;
     private final boolean addEmpty;
+    private List<String> idList = null;
 
     GetValueLB(ITableCustomFactories tFactories, IVField v, boolean addEmpty) {
         super(tFactories, v);
@@ -51,7 +52,11 @@ class GetValueLB extends AbstractField implements IValueLB {
             // return null;
             s = beforeVal;
         } else {
-            s = lB.getItemText(i);
+            if (idList != null) {
+                s = idList.get(i);
+            } else {
+                s = lB.getItemText(i);
+            }
         }
         return s;
     }
@@ -78,13 +83,22 @@ class GetValueLB extends AbstractField implements IValueLB {
             beforeVal = s;
             return;
         }
-        for (int i = 0; i < lB.getItemCount(); i++) {
-            String val = lB.getItemText(i);
-            if (val.equals(s)) {
-                lB.setSelectedIndex(i);
-                return;
+        if (idList != null) {
+            for (int i = 0; i < idList.size(); i++) {
+                String val = idList.get(i);
+                if (val.equals(s)) {
+                    lB.setSelectedIndex(i);
+                    return;
+                }
             }
-        }
+        } else
+            for (int i = 0; i < lB.getItemCount(); i++) {
+                String val = lB.getItemText(i);
+                if (val.equals(s)) {
+                    lB.setSelectedIndex(i);
+                    return;
+                }
+            }
         setEmpty();
     }
 
@@ -145,5 +159,15 @@ class GetValueLB extends AbstractField implements IValueLB {
     @Override
     public Widget getGWidget() {
         return this;
+    }
+
+    @Override
+    public void setIdList(List<String> li) {
+        this.idList = li;
+    }
+
+    @Override
+    public boolean addEmpty() {
+        return addEmpty;
     }
 }

@@ -12,7 +12,23 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.google.gwt.user.client.ui.*;
+import java.util.List;
+
+import com.google.gwt.user.client.ui.ChangeListener;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.FocusListener;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.KeyboardListener;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RichTextArea;
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.TextBoxBase;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
@@ -21,10 +37,9 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.ewidget.richtextoolbar.googlerichbar.RichTextToolbar;
-import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
@@ -41,6 +56,7 @@ class ExtendTextBox extends AbstractField {
                 EWidget.this.setTitle(true);
             }
         }
+
         private final TextBoxBase tBox;
         private final RichTextArea rArea;
         private final SuggestBox sBox;
@@ -82,15 +98,16 @@ class ExtendTextBox extends AbstractField {
                     } else {
                         tBox = param.tBox;
                     }
-//                    tBox.addFocusHandler(new SetRemoveTitle());
-                    // TODO: cannot use FocusHandler because it is fired only when focus is gained
+                    // tBox.addFocusHandler(new SetRemoveTitle());
+                    // TODO: cannot use FocusHandler because it is fired only
+                    // when focus is gained
                     // Don't know how to handle focus lost
-                    // So use deprecated FocusListener                    
+                    // So use deprecated FocusListener
                     tBox.addFocusListener(new SetRemoveTitle());
                     if (param.suggestbox) {
                         sBox = new SuggestBox(sOracle, tBox);
                         if (param.iGet != null) {
-                            param.iGet.call(new R());
+                            param.iGet.call(v, new R());
                         }
                         // tBox.addFocusHandler(new Focus());
                     } else {
@@ -283,6 +300,7 @@ class ExtendTextBox extends AbstractField {
             return isRich;
         }
     }
+
     protected final Widget wW;
     private final EWidget eW;
     protected final HorizontalPanel hPanel;
