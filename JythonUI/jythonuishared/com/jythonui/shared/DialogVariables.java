@@ -29,6 +29,8 @@ public class DialogVariables implements Serializable {
     private Map<String, FieldValue> vList = new HashMap<String, FieldValue>();
     private Map<String, ListOfRows> rowList = new HashMap<String, ListOfRows>();
 
+    private Map<String, ListOfRows> enumList = new HashMap<String, ListOfRows>();
+
     public FieldValue getValue(String fId) {
         return vList.get(fId);
     }
@@ -80,5 +82,17 @@ public class DialogVariables implements Serializable {
     public ListOfRows getList(String id) {
         return rowList.get(id);
     }
+
+    public Map<String, ListOfRows> getEnumList() {
+        return enumList;
+    }
+
+    public void setEnumList(Map<String, ListOfRows> enumList) {
+        this.enumList = enumList;
+    }
+    
+    
+    
+    
 
 }

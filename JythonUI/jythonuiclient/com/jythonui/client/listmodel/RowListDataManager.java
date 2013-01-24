@@ -24,6 +24,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.jythonui.client.dialog.IPerformClickAction;
+import com.jythonui.client.util.RowVModelData;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;

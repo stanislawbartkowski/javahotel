@@ -63,9 +63,10 @@ class VariableContainer implements IVariablesContainer {
         if (vData == null) { return; }
         for (IVField fie : vData.getF()) {
             Object o = vData.getF(fie);
-            if (o == null) {
-                continue;
-            }
+// pass empty as null (None)            
+//            if (o == null) {
+//                continue;
+//            }
             FieldValue fVal = new FieldValue();
             fVal.setValue(fie.getType().getType(), o, fie.getType()
                     .getAfterdot());

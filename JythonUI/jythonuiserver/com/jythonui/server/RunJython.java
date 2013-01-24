@@ -14,20 +14,17 @@ package com.jythonui.server;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,9 +42,11 @@ import org.python.core.PySystemState;
 import org.python.core.PyTuple;
 import org.python.util.PythonInterpreter;
 
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
@@ -56,6 +55,8 @@ import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
+import com.jythonui.shared.TypedefDescr;
+import com.jythonui.shared.TypesDescr;
 
 /**
  * @author hotel
@@ -209,7 +210,7 @@ class RunJython {
             }
             ListFormat lForm = d.findList(listId);
             if (lForm == null) {
-                error(ICommonConsts.JLISTMAP + " cannot find list: " + listId);
+                error(d.getId() + " " + ICommonConsts.JLISTMAP + " cannot find list: " + listId);
             }
             RowIndex rI = new RowIndex(lForm.getColumns());
             ListOfRows lRows = new ListOfRows();
@@ -379,8 +380,8 @@ class RunJython {
 
     }
 
-    static void executeJython(IJythonUIServerProperties p, MCached mCached,
-            DialogVariables v, DialogFormat d, String actionId) {
+    private static void executeJythonforDialog(IJythonUIServerProperties p,
+            MCached mCached, DialogVariables v, DialogFormat d, String actionId) {
         // checked by experience that if file.encoding is not null then
         // Jython cannot be started in Development Mode
         // but it works as expected after deploying to Google App Engine
@@ -390,7 +391,7 @@ class RunJython {
         String methodJ = d.getJythonMethod();
         putDebug("method jython = " + methodJ);
         if (methodJ == null) {
-            error("methodJ is null - null pointer expected");
+            error("methodJ cannot be null");
         }
 
         /*
@@ -433,6 +434,69 @@ class RunJython {
             extractList((PyDictionary) o, v, d);
         }
 
+    }
+
+    private static void copyAttr(ElemDescription dest, ElemDescription sou,
+            String attrName) {
+        String val = sou.getAttr(attrName);
+        if (!CUtil.EmptyS(val)) {
+            dest.setAttr(attrName, val);
+        }
+    }
+
+    private static void executeForType(IJythonUIServerProperties p,
+            MCached mCached, DialogVariables v, DialogFormat d, String idType) {
+        if (d.getTypeList() == null) {
+            return;
+        }
+        for (TypesDescr t : d.getTypeList()) {
+            if (v.getEnumList().containsKey(idType)) {
+                return;
+            }
+            TypedefDescr ty = DialogFormat.findE(t.getTypeList(), idType);
+            DialogVariables va = new DialogVariables();
+            DialogFormat dd = new DialogFormat();
+            copyAttr(dd, t, ICommonConsts.IMPORT);
+            copyAttr(dd, t, ICommonConsts.METHOD);
+            copyAttr(dd, ty, ICommonConsts.IMPORT);
+            copyAttr(dd, ty, ICommonConsts.METHOD);
+            ListFormat li = new ListFormat();
+            li.setId(ty.getId());
+            li.setColumns(ty.construct());
+            dd.getListList().add(li);
+            executeJythonforDialog(p, mCached, va, dd, idType);
+            v.getEnumList().putAll(va.getRowList());
+            return;
+        }
+        error(idType + " unrecognized custom type");
+    }
+
+    static private void executeForField(IJythonUIServerProperties p,
+            MCached mCached, DialogVariables v, DialogFormat d,
+            List<FieldItem> fList) {
+        for (FieldItem i : fList) {
+            String t = i.getCustom();
+            if (CUtil.EmptyS(t)) {
+                continue;
+            }
+            executeForType(p, mCached, v, d, t);
+        }
+    }
+
+    static private void executeForEnum(IJythonUIServerProperties p,
+            MCached mCached, DialogVariables v, DialogFormat d) {
+        executeForField(p, mCached, v, d, d.getFieldList());
+        for (ListFormat li : d.getListList()) {
+            executeForField(p, mCached, v, d, li.getColumns());
+        }
+    }
+
+    static void executeJython(IJythonUIServerProperties p, MCached mCached,
+            DialogVariables v, DialogFormat d, String actionId) {
+        executeJythonforDialog(p, mCached, v, d, actionId);
+        if (actionId.equals(ICommonConsts.BEFORE)) {
+            executeForEnum(p, mCached, v, d);
+        }
     }
 
 }

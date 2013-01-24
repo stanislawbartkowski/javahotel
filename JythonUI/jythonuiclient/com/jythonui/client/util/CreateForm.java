@@ -15,14 +15,17 @@ package com.jythonui.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
-import com.gwtmodel.table.tabledef.VListHeaderDesc.ColAlign;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.ButtonItem;
@@ -47,16 +50,26 @@ public class CreateForm {
         return name;
     }
 
-    public static FormLineContainer construct(DialogFormat d) {
-        return construct(d.getFieldList());
+    public static FormLineContainer construct(DialogFormat d,
+            IGetDataList iGet, EnumTypesList eList) {
+        return construct(d.getFieldList(), iGet, eList);
     }
 
-    public static FormLineContainer construct(List<FieldItem> iList) {
+    private static FormLineContainer construct(List<FieldItem> iList,
+            IGetDataList iGet, EnumTypesList eList) {
+        EditWidgetFactory eFactory = GwtGiniInjector.getI()
+                .getEditWidgetFactory();
         List<FormField> fList = new ArrayList<FormField>();
         for (FieldItem f : iList) {
             String name = getDisplayName(f);
             IVField vf = VField.construct(f);
-            IFormLineView v = EWidgetFactory.construct(vf);
+            IFormLineView v;
+            if (!CUtil.EmptyS(f.getCustom())) {
+                eList.add(vf, f.getCustom());
+                v = eFactory.constructListValuesCombo(vf, iGet,!f.isNotEmpty());
+            } else {
+                v = eFactory.constructEditWidget(vf);
+            }
             if (f.isHidden()) {
                 v.setHidden(true);
             }

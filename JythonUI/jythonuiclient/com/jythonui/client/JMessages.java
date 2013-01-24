@@ -16,12 +16,16 @@ import com.google.gwt.i18n.client.Messages;
 
 /**
  * @author hotel
- *
+ * 
  */
 public interface JMessages extends Messages {
 
     String ErrorNoValue(String key);
-    String ListDoesNotHaveELem(String listId,String attrName);
+
+    String ListDoesNotHaveELem(String listId, String attrName);
+
     String UnknownAction(String action, String param);
-    
+
+    String CustomTypeNotDefine();
+
 }

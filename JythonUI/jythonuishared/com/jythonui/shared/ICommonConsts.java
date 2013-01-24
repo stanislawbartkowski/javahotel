@@ -60,10 +60,23 @@ public interface ICommonConsts {
     String JMAINDIALOG = "JMAIN_DIALOG";
     String ACTIONTYPE = "actiontype";
     String ACTIONPARAM = "actionparam";
+    String ACTIONPARAM1 = "actionparam1";
     String BUTTONS = "buttons";
     String JUPDIALOG = "JUP_DIALOG";
     String JCLOSEDIALOG = "JCLOSE_DIALOG";
     String ACTIONS = "actions";
     String ACTION = "action";
     String ACTIONID = "actionid";
+    String JOKMESSAGE = "JOK_MESSAGE";
+    String JERRORMESSAGE = "JERROR_MESSAGE";
+    String JOKMESSAGE_TITLE = "JOK_MESSAGE_TITLE";
+    String JERRORMESSAGE_TITLE = "JERROR_MESSAGE_TITLE";
+    String TYPES = "types";
+    String COMBOID = "comboid";
+    String TYPEDEFS = "typedefs";
+    String TYPEDEF = "typedef";
+    String CUSTOMTYPE = "custom:";
+    String SIGNALCHANGE = "signalchange";
+    String SIGNALCHANGEFIELD = "changefield";
+    String SIGNALAFTERFOCUS = "changeafterfocus";
 }

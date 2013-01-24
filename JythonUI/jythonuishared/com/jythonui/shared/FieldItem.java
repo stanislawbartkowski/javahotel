@@ -33,9 +33,24 @@ public class FieldItem extends ElemDescription {
         return CUtil.getNumb(t.trim());
     }
 
+    public String getCustom() {
+        String t = getTypeName();
+        if (CUtil.EmptyS(t)) {
+            return null;
+        }
+        int p = t.indexOf(ICommonConsts.CUSTOMTYPE);
+        if (p != 0) {
+            return null;
+        }
+        return t.substring(ICommonConsts.CUSTOMTYPE.length());
+    }
+
     public TT getFieldType() {
         String t = getTypeName();
         if (CUtil.EmptyS(t) || CUtil.EqNS(t, ICommonConsts.STRINGTYPE)) {
+            return TT.STRING;
+        }
+        if (getCustom() != null) {
             return TT.STRING;
         }
         if (CUtil.EqNS(t, ICommonConsts.BOOLTYPE)) {
@@ -81,6 +96,10 @@ public class FieldItem extends ElemDescription {
 
     public String getActionId() {
         return getAttr(ICommonConsts.ACTIONID);
+    }
+    
+    public boolean isSignalChange() {
+        return isAttr(ICommonConsts.SIGNALCHANGE);
     }
 
 }

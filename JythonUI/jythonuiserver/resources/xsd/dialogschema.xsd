@@ -5,13 +5,7 @@
 
 	<xs:simpleType name="typeName">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="string" />
-			<xs:enumeration value="bool" />
-			<xs:enumeration value="decimal" />
-			<xs:enumeration value="long" />
-			<xs:enumeration value="date" />
-			<xs:enumeration value="datetime" />
-			<xs:enumeration value="int" />
+			<xs:pattern value="int|string|bool|decimal|long|date|datetime|int|custom:.*" />
 		</xs:restriction>
 	</xs:simpleType>
 	
@@ -28,6 +22,7 @@
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="actiontype" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam1" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -37,6 +32,7 @@
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="actiontype" type="xs:string" />
 		<xs:attribute name="actionparam" type="xs:string" />
+		<xs:attribute name="actionparam1" type="xs:string" />
 	</xs:attributeGroup>
 	
 	<xs:group name="dialogG">
@@ -44,6 +40,7 @@
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="before" type="emptyT" />
 			<xs:element minOccurs="0" name="parent" type="xs:string" />
+			<xs:element minOccurs="0" name="types" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 	
@@ -51,6 +48,7 @@
 		<xs:attribute name="before" type="emptyT" />
 		<xs:attribute name="parent" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="types" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:group name="listG">
@@ -91,6 +89,7 @@
 			<xs:element minOccurs="0" name="readonly" type="emptyT"/>
 			<xs:element minOccurs="0" name="readonlyadd" type="emptyT"/>
 			<xs:element minOccurs="0" name="readonlychange" type="emptyT"/>
+			<xs:element minOccurs="0" name="signalchange" type="emptyT"/>
 		</xs:sequence>
 	</xs:group>
 
@@ -105,6 +104,7 @@
 		<xs:attribute name="readonly" type="emptyT"/>
 		<xs:attribute name="readonlyadd" type="emptyT"/>
 		<xs:attribute name="readonlychange" type="emptyT"/>
+		<xs:attribute name="signalchange" type="emptyT"/>		
 	</xs:attributeGroup>
 
 

@@ -12,10 +12,13 @@
  */
 package com.jythonui.client.util;
 
+import java.util.Map.Entry;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.view.util.OkDialog;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.RunAction;
 import com.jythonui.client.listmodel.RowListDataManager;
@@ -36,6 +39,8 @@ public class PerformVariableAction {
 
     public interface VisitList {
         void accept(IDataType da, ListOfRows lRows);
+
+        void acceptTypes(String typeName, ListOfRows lRows);
     }
 
     public static void perform(ISendCloseAction iClose, DialogVariables arg,
@@ -48,28 +53,45 @@ public class PerformVariableAction {
             ListOfRows lRows = arg.getList(s);
             vis.accept(da, lRows);
         }
-        String dDialog = arg.getValueS(ICommonConsts.JMAINDIALOG);
-        if (!CUtil.EmptyS(dDialog)) {
-            // a little trick but allows code reuse
-            performAction(iClose, ICommonConsts.JMAINDIALOG, dDialog, w, iCon);
+        for (Entry<String, ListOfRows> e : arg.getEnumList().entrySet()) {
+            vis.acceptTypes(e.getKey(), e.getValue());
         }
-        dDialog = arg.getValueS(ICommonConsts.JUPDIALOG);
-        if (!CUtil.EmptyS(dDialog)) {
-            performAction(iClose, ICommonConsts.JUPDIALOG, dDialog, w, iCon);
+
+        // it a little tricky but this way allows code reuse with performAction
+        String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG,
+                ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE };
+        String[] param = { null, null, ICommonConsts.JOKMESSAGE_TITLE,
+                ICommonConsts.JERRORMESSAGE_TITLE };
+        for (int i = 0; i < kom.length; i++) {
+            String p = arg.getValueS(kom[i]);
+            String par = null;
+            if (param[i] != null) {
+                par = arg.getValueS(param[i]);
+            }
+            if (!CUtil.EmptyS(p))
+                performAction(iClose, kom[i], p, par, w, iCon);
         }
         if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
-            performAction(iClose, ICommonConsts.JCLOSEDIALOG, null, w, iCon);
+            performAction(iClose, ICommonConsts.JCLOSEDIALOG, null, null, w,
+                    iCon);
         }
     }
 
     public static void performAction(ISendCloseAction iClose, String action,
-            String param, WSize w, IVariablesContainer iCon) {
+            String param, String param1, WSize w, IVariablesContainer iCon) {
         if (action.equals(ICommonConsts.JMAINDIALOG)) {
             new RunAction().start(param);
             return;
         }
         if (action.equals(ICommonConsts.JUPDIALOG)) {
             new RunAction().upDialog(param, w, iCon);
+            return;
+        }
+        if (action.equals(ICommonConsts.JOKMESSAGE)
+                || action.equals(ICommonConsts.JERRORMESSAGE)) {
+            OkDialog ok = new OkDialog(param, param1);
+            ok.show(w);
+            // new RunAction().upDialog(param, w, iCon);
             return;
         }
         if (action.equals(ICommonConsts.JCLOSEDIALOG)) {

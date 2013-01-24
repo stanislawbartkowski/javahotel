@@ -12,7 +12,18 @@
  */
 package com.jythonui.client.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.datalisttype.DataListTypeFactory;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.ListOfRows;
+import com.jythonui.shared.RowContent;
+import com.jythonui.shared.RowIndex;
 
 /**
  * @author hotel
@@ -34,6 +45,20 @@ public class JUtils {
                 String fie = key.substring(prefix.length());
                 i.action(fie, key);
             }
+    }
+
+    public static IDataListType constructList(RowIndex rI, ListOfRows rL,
+            IVField comboField, IVField displayFie) {
+        DataListTypeFactory lFactory = GwtGiniInjector.getI()
+                .getDataListTypeFactory();
+
+        List<IVModelData> rList = new ArrayList<IVModelData>();
+        if (rL != null)
+            for (RowContent t : rL.getRowList()) {
+                RowVModelData r = new RowVModelData(rI, t);
+                rList.add(r);
+            }
+        return lFactory.construct(rList, comboField, displayFie);
     }
 
 }
