@@ -26,10 +26,12 @@ import javax.xml.transform.stream.StreamSource;
 import org.xml.sax.SAXException;
 
 import com.gwtmodel.mapxml.VerifyXML;
+import com.gwtmodel.table.common.CUtil;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.TypesDescr;
 
 /**
  * @author hotel
@@ -44,6 +46,7 @@ class GetDialog {
     private static final String RESOURCES = "resources";
     private static final String XSDDIR = "xsd";
     private static final String DIALOGXSD = "dialogschema.xsd";
+    private static final String TYPESXSD = "typedefschema.xsd";
 
     static final private Logger log = Logger.getLogger(GetDialog.class
             .getName());
@@ -132,6 +135,17 @@ class GetDialog {
                     ValidateDialogFormat.validate(d);
                 }
             }
+            String typesName = d.getAttr(ICommonConsts.TYPES);
+            if (!CUtil.EmptyS(typesName)) {
+                if (verify) {
+                    u = getURLSchema(TYPESXSD);
+                    sou = getXML(p, typesName);
+                    VerifyXML.verify(u, new StreamSource(sou));
+                }
+                sou = getXML(p, typesName);
+                TypesDescr types = ReadTypes.parseDocument(sou);
+                d.getTypeList().add(types);
+            }
             // now check elemformat for lists
             if (d.getListList() != null) {
                 for (ListFormat l : d.getListList()) {
@@ -140,10 +154,11 @@ class GetDialog {
                         DialogFormat dElem = getDialogDirectly(p, mCached,
                                 l.getElemFormat(), verify);
                         boolean wasmodified = false;
-                        if (dElem.getFieldList() == null) {
+                        if (dElem.getFieldList().isEmpty()) {
                             // if there is no field list in the XML
                             // then copy parent column list
-                            dElem.setFieldList(l.getColumns());
+                            // dElem.setFieldList(l.getColumns());
+                            dElem.getFieldList().addAll(l.getColumns());
                             putDebug(l.getElemFormat()
                                     + " copy list of columns from "
                                     + dialogName);

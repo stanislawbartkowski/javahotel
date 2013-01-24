@@ -14,8 +14,12 @@ package com.jythonui.client.dialog;
 
 import java.util.List;
 
+import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IGetDataListCallBack;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WSize;
@@ -30,18 +34,22 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
+import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.jythonui.client.M;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.CreateForm;
+import com.jythonui.client.util.EnumTypesList;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.PerformVariableAction;
@@ -51,6 +59,7 @@ import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
@@ -124,6 +133,54 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     }
 
+    private class GetEnumList implements IGetDataList {
+
+        private final EnumTypesList eList;
+
+        GetEnumList(EnumTypesList eList) {
+            this.eList = eList;
+        }
+
+        @Override
+        public void call(IVField v, IGetDataListCallBack iCallBack) {
+            eList.add(v, iCallBack);
+        }
+
+    }
+
+    private class ChangeField implements ISlotListener {
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IFormLineView i = slContext.getChangedValue();
+            IVField fie = i.getV();
+            ICustomObject cu = slContext.getCustom();
+            CustomObjectValue<Boolean> coB = (CustomObjectValue<Boolean>) cu;
+            String fieldid = fie.getId();
+            FieldItem fItem = d.findFieldItem(fieldid);
+            if (fItem == null) {
+                return;
+            }
+            if (!fItem.isSignalChange()) {
+                return;
+            }
+            DialogVariables v = iCon.getVariables();
+            v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, fieldid);
+            FieldValue val = new FieldValue();
+            val.setValue(coB.getValue());
+            v.setValue(ICommonConsts.SIGNALAFTERFOCUS, val);
+            M.JR()
+                    .runAction(
+                            v,
+                            d.getId(),
+                            ICommonConsts.SIGNALCHANGE,
+                            new BackClass(null, false,
+                                    new WSize(i.getGWidget()), null));
+        }
+
+    }
+
     @Override
     public void startPublish(CellId cId) {
 
@@ -132,8 +189,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         IPanelView pView = pViewFactory.construct(dType, cId);
         boolean emptyView = true;
         int pLine = 0;
+        EnumTypesList eList = new EnumTypesList(d);
         if (d.getFieldList() != null) {
-            FormLineContainer fContainer = CreateForm.construct(d);
+            FormLineContainer fContainer = CreateForm.construct(d,
+                    new GetEnumList(eList), eList);
 
             DataViewModelFactory daFactory = GwtGiniInjector.getI()
                     .getDataViewModelFactory();
@@ -145,6 +204,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             CellId dId = pView.addCellPanel(dType, pLine, 0);
             slMediator.registerSlotContainer(dId, daModel);
             iCon.copyCurrentVariablesToForm(slMediator, dType);
+            SlU.registerChangeFormSubscriber(dType, slMediator, (IVField) null,
+                    new ChangeField());
             emptyView = false;
             pLine = 1;
         }
@@ -185,11 +246,15 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         slMediator.startPublish(cId);
         if (d.isBefore()) {
             ExecuteAction.action(iCon, d.getId(), ICommonConsts.BEFORE,
-                    new BackClass(null));
+                    new BackClass(null, true, null, eList));
+        } else {
+            // display empty list
+            for (IDataType da : liManager.getList()) {
+                liManager.publishBeforeForm(slMediator, da, null);
+            }
         }
         CustomStringSlot sig = SendDialogFormSignal.constructSignal(dType);
         slMediator.getSlContainer().publish(sig, new SendDialogFormSignal(d));
-
     }
 
     private class CloseDialog implements ISendCloseAction {
@@ -215,12 +280,13 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             if (bItem.isAction()) {
                 String action = bItem.getAction();
                 String param = bItem.getActionParam();
+                String param1 = bItem.getAttr(ICommonConsts.ACTIONPARAM1);
                 PerformVariableAction.performAction(new CloseDialog(id),
-                        action, param, w, iCon);
+                        action, param, param1, w, iCon);
                 return;
             }
         DialogVariables v = iCon.getVariables();
-        M.JR().runAction(v, d.getId(), id, new BackClass(id));
+        M.JR().runAction(v, d.getId(), id, new BackClass(id, false, w, null));
     }
 
     private class ActionButton implements IPerformClickAction {
@@ -245,9 +311,15 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     private class BackClass extends CommonCallBack<DialogVariables> {
 
         private final String id;
+        private final boolean before;
+        private final WSize w;
+        private final EnumTypesList eList;
 
-        BackClass(String id) {
+        BackClass(String id, boolean before, WSize w, EnumTypesList eList) {
             this.id = id;
+            this.before = before;
+            this.w = w;
+            this.eList = eList;
         }
 
         @Override
@@ -256,13 +328,23 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
                 @Override
                 public void accept(IDataType da, ListOfRows lRows) {
+                    // at the beginning send null list to have list header
+                    // displayed
+                    if (!before && lRows == null) {
+                        return;
+                    }
                     liManager.publishBeforeForm(slMediator, da, lRows);
+                }
+
+                @Override
+                public void acceptTypes(String typeName, ListOfRows lRows) {
+                    eList.add(typeName, lRows);
+
                 }
             };
             PerformVariableAction.perform(new CloseDialog(id), arg, iCon,
-                    liManager, vis, null);
+                    liManager, vis, w);
         }
-
     }
 
     private class DataModel extends AbstractDataModel {

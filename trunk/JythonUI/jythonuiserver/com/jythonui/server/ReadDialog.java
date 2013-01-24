@@ -71,17 +71,17 @@ class ReadDialog {
         /* It duplicated to some extend xsd schema which also forces XML format. */
         private final String[] dialogTag = { ICommonConsts.BEFORE,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT,
-                ICommonConsts.METHOD, ICommonConsts.PARENT };
+                ICommonConsts.METHOD, ICommonConsts.PARENT, ICommonConsts.TYPES };
         private final String[] buttonTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
-                ICommonConsts.ACTIONPARAM, ICommonConsts.IMPORT,
-                ICommonConsts.METHOD };
+                ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
+                ICommonConsts.IMPORT, ICommonConsts.METHOD };
         private final String[] fieldTag = { ICommonConsts.ID,
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
                 ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,
                 ICommonConsts.NOTEMPTY, ICommonConsts.READONLY,
                 ICommonConsts.HIDDEN, ICommonConsts.READONLYADD,
-                ICommonConsts.READONLYCHANGE };
+                ICommonConsts.READONLYCHANGE, ICommonConsts.SIGNALCHANGE };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT };
         /** Currently recognized set ,of tags. */
@@ -91,7 +91,8 @@ class ReadDialog {
          */
         /* This invariant is enforced by xsd schema. */
         private final String[] allowedActions = { ICommonConsts.JMAINDIALOG,
-                ICommonConsts.JUPDIALOG, ICommonConsts.JCLOSEDIALOG };
+                ICommonConsts.JUPDIALOG, ICommonConsts.JCLOSEDIALOG,
+                ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE };
         private String[] currentT;
         private StringBuffer buf;
         private ElemDescription bDescr = null;
@@ -139,10 +140,6 @@ class ReadDialog {
                 ListFormat li = (ListFormat) bDescr;
                 li.setColumns(fList);
                 List<ListFormat> foList = dFormat.getListList();
-                if (foList == null) {
-                    foList = new ArrayList<ListFormat>();
-                    dFormat.setListList(foList);
-                }
                 foList.add(li);
                 return;
             }
@@ -154,15 +151,7 @@ class ReadDialog {
                 // pass to getting attributes (no return)
             }
             if (getAttribute && bDescr != null) {
-                for (int i = 0; i < attributes.getLength(); i++) {
-                    String key = attributes.getQName(i);
-                    for (int k = 0; k < currentT.length; k++)
-                        if (key.equals(currentT[k])) {
-                            String val = attributes.getValue(i);
-                            bDescr.setAttr(key, val);
-                            break;
-                        }
-                }
+                SaxUtil.readAttr(bDescr, attributes, currentT);
             }
         }
 
@@ -215,33 +204,26 @@ class ReadDialog {
                 return;
             }
             if (qName.equals(ICommonConsts.LEFTMENU)) {
-                dFormat.setLeftButtonList(bList);
+                dFormat.getLeftButtonList().addAll(bList);
                 bList = null;
                 return;
             }
             if (qName.equals(ICommonConsts.BUTTONS)) {
-                dFormat.setButtonList(bList);
+                dFormat.getButtonList().addAll(bList);
                 bList = null;
                 return;
             }
             if (qName.equals(ICommonConsts.ACTIONS)) {
-                dFormat.setActionList(bList);
+                dFormat.getActionList().addAll(bList);
                 bList = null;
                 return;
             }
             if (qName.equals(ICommonConsts.FORM)) {
-                dFormat.setFieldList(fList);
+                dFormat.getFieldList().addAll(fList);
                 fList = null;
                 return;
             }
-            if (bDescr != null) {
-                for (int i = 0; i < currentT.length; i++) {
-                    if (currentT[i].equals(qName)) {
-                        bDescr.setAttr(qName, buf.toString());
-                        return;
-                    }
-                }
-            }
+            SaxUtil.readVal(bDescr, qName, currentT, buf);
         }
 
         @Override

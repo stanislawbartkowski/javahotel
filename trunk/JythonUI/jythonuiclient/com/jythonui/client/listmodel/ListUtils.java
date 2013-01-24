@@ -12,21 +12,15 @@
  */
 package com.jythonui.client.listmodel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.datalisttype.DataListTypeFactory;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.jythonui.client.util.ExecuteAction;
+import com.jythonui.client.util.JUtils;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
-import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
 
 /**
@@ -41,17 +35,8 @@ class ListUtils {
 
     static IDataListType constructList(IDataType da, RowListDataManager rM,
             ListOfRows rL) {
-        DataListTypeFactory lFactory = GwtGiniInjector.getI()
-                .getDataListTypeFactory();
-
-        List<IVModelData> rList = new ArrayList<IVModelData>();
         RowIndex rI = rM.getR(da);
-        if (rL != null)
-            for (RowContent t : rL.getRowList()) {
-                RowVModelData r = new RowVModelData(rI, t);
-                rList.add(r);
-            }
-        return lFactory.construct(rList);
+        return JUtils.constructList(rI, rL, null, null);
     }
 
     static void executeCrudAction(DialogVariables v, ListFormat li,

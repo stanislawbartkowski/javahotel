@@ -128,6 +128,11 @@ class ListControler {
                             sy.signalDone();
                         }
                     }
+
+                    @Override
+                    public void acceptTypes(String typeName, ListOfRows lRows) {
+                        // do nothing, not expected here
+                    }
                 };
                 PerformVariableAction.perform(null, arg, iCon, rM, vis, null);
 

@@ -49,7 +49,7 @@ public class LeftMenu {
     }
 
     void createLeftButton(ISlotListener clickButton, List<ButtonItem> buttList) {
-        if (buttList != null) {
+        if (!buttList.isEmpty()) {
             List<ControlButtonDesc> bList = CreateForm.constructBList(buttList);
             StackPanelControllerFactory sFactory = GwtGiniInjector.getI()
                     .getStackPanelControllerFactory();

@@ -12,6 +12,7 @@
  */
 package com.jythonui.shared;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,15 +21,17 @@ import java.util.List;
  */
 public class DialogFormat extends ElemDescription {
 
-    private List<FieldItem> fieldList;
+    private List<FieldItem> fieldList = new ArrayList<FieldItem>();
 
-    private List<ButtonItem> leftButtonList;
+    private List<ButtonItem> leftButtonList = new ArrayList<ButtonItem>();
 
-    private List<ListFormat> listList;
+    private List<ListFormat> listList = new ArrayList<ListFormat>();
 
-    private List<ButtonItem> buttonList;
+    private List<ButtonItem> buttonList = new ArrayList<ButtonItem>();
 
-    private List<ButtonItem> actionList;
+    private List<ButtonItem> actionList = new ArrayList<ButtonItem>();
+
+    private List<TypesDescr> typeList = new ArrayList<TypesDescr>();
 
     /**
      * @return the actionList
@@ -38,26 +41,10 @@ public class DialogFormat extends ElemDescription {
     }
 
     /**
-     * @param fieldList
-     *            the fieldList to set
-     */
-    public void setFieldList(List<FieldItem> fieldList) {
-        this.fieldList = fieldList;
-    }
-
-    /**
      * @return the leftButtonList
      */
     public List<ButtonItem> getLeftButtonList() {
         return leftButtonList;
-    }
-
-    /**
-     * @param leftButtonList
-     *            the leftButtonList to set
-     */
-    public void setLeftButtonList(List<ButtonItem> leftButtonList) {
-        this.leftButtonList = leftButtonList;
     }
 
     public String getJythonMethod() {
@@ -69,7 +56,9 @@ public class DialogFormat extends ElemDescription {
     }
 
     public static <T extends ElemDescription> T findE(List<T> eList, String id) {
-        if (eList == null) { return null; }
+        if (eList == null) {
+            return null;
+        }
         for (T e : eList) {
             if (e.eqId(id)) {
                 return e;
@@ -80,10 +69,6 @@ public class DialogFormat extends ElemDescription {
 
     public FieldItem findFieldItem(String id) {
         return findE(fieldList, id);
-    }
-
-    public void setListList(List<ListFormat> lList) {
-        this.listList = lList;
     }
 
     public List<ListFormat> getListList() {
@@ -106,16 +91,22 @@ public class DialogFormat extends ElemDescription {
         return buttonList;
     }
 
-    public void setButtonList(List<ButtonItem> buttonList) {
-        this.buttonList = buttonList;
-    }
-
     public List<ButtonItem> getActionList() {
         return actionList;
     }
 
-    public void setActionList(List<ButtonItem> actionList) {
-        this.actionList = actionList;
+    public List<TypesDescr> getTypeList() {
+        return typeList;
+    }
+
+    public TypedefDescr findCustomType(String customType) {
+        for (TypesDescr ty : typeList) {
+            TypedefDescr te = findE(ty.getTypeList(), customType);
+            if (te != null) {
+                return te;
+            }
+        }
+        return null;
     }
 
 }
