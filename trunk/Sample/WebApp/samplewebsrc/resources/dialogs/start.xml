@@ -12,6 +12,9 @@
   <button id="main" displayname="Main form"/>
   <button id="list" displayname="List" actiontype="JMAIN_DIALOG" actionparam="list.xml"/>
   <button id="updialog" displayname="Dialog" actiontype="JUP_DIALOG" actionparam="updialog.xml"/>
+  <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
+  <button id="errmessage" displayname="Err Message" actiontype="JERROR_MESSAGE" actionparam="Terrible error" actionparam1="Fatal" />
+  <button id="dcombo" displayname="Combo dialog" actiontype="JMAIN_DIALOG" actionparam="dialcombo.xml" />
 </leftmenu>
 
 <buttons>
