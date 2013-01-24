@@ -18,7 +18,7 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.view.util.PopupUtil;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
@@ -33,6 +33,7 @@ class WidgetWithPopUpTemplate {
 
         void getPopUp(Widget startW, ISetWidget iSet);
     }
+
     final private ISetWidget is = new ISetWidget() {
 
         public void setWidget(Widget w) {
@@ -65,8 +66,8 @@ class WidgetWithPopUpTemplate {
         pUp.hide();
     }
 
-    WidgetWithPopUpTemplate(ITableCustomFactories tFactories, HorizontalPanel hPanel,
-            String image, IGetP i) {
+    WidgetWithPopUpTemplate(ITableCustomFactories tFactories,
+            HorizontalPanel hPanel, String image, IGetP i) {
         this.iGet = i;
         this.hPanel = hPanel;
         String iPath = Utils.getImageHTML(image + ".gif");

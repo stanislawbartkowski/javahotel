@@ -27,11 +27,13 @@ class DataListType implements IDataListType {
     protected final List<IVModelData> dList;
     private final IVField comboFie;
     private final IVField levelFie;
+    private final IVField displayFie;
 
-    DataListType(List<IVModelData> dList, IVField comboFie, IVField levelFie) {
+    DataListType(List<IVModelData> dList, IVField comboFie, IVField levelFie, IVField displayFie) {
         this.dList = dList;
         this.comboFie = comboFie;
         this.levelFie = levelFie;
+        this.displayFie = displayFie;
     }
 
     @Override
@@ -66,5 +68,10 @@ class DataListType implements IDataListType {
     @Override
     public boolean isTreeEnabled() {
         return levelFie != null;
+    }
+
+    @Override
+    public IVField displayComboField() {
+        return displayFie;
     }
 }

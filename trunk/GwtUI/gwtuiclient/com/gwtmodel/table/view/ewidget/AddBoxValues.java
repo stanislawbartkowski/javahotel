@@ -34,10 +34,28 @@ class AddBoxValues {
                 firstS = s;
             }
         }
+        List<String> displayLi = null;
+        IVField displayV = dList.displayComboField();
+        if (displayV != null) {
+            if (e.addEmpty()) {
+                li.add(0, "");
+            }
+            displayLi = new ArrayList<String>();
+            for (int i = 0; i < FUtils.getRowNumber(dList); i++) {
+                IVModelData vData = FUtils.getRow(dList, i);
+                String s = FUtils.getValueS(vData, displayV);
+                displayLi.add(s);
+            }
+        }
+
         String be = e.getBeforeVal();
         Object o = e.getValObj();
         String av = FUtils.getValueOS(o, e.getV());
-        e.setList(li);
+        if (displayLi != null) {
+            e.setList(displayLi);
+            e.setIdList(li);
+        } else
+            e.setList(li);
         if (be != null) {
             e.setValObj(be);
         } else {
@@ -80,7 +98,7 @@ class AddBoxValues {
         }
     }
 
-    static void addValues(IGetDataList iGet, final IValueLB e) {
-        iGet.call(new RR(e));
+    static void addValues(IVField v, IGetDataList iGet, final IValueLB e) {
+        iGet.call(v, new RR(e));
     }
 }

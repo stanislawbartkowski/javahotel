@@ -29,7 +29,7 @@ import java.util.List;
 class DataListTypeLp extends DataListType {
 
     DataListTypeLp(List<IVModelData> dList, IVField comboFie) {
-        super(dList, comboFie, null);
+        super(dList, comboFie, null, null);
     }
 
     void addNext(AbstractLpVModelData e) {

@@ -25,7 +25,7 @@ import java.util.List;
 public class DataListTypeFactory {
 
     public IDataListType construct(List<IVModelData> dList) {
-        return new DataListType(dList, null, null);
+        return new DataListType(dList, null, null, null);
     }
 
     public IDataListType constructLp(List<AbstractLpVModelData> dList) {
@@ -38,12 +38,13 @@ public class DataListTypeFactory {
         return d;
     }
 
-    public IDataListType construct(List<IVModelData> dList, IVField comboFie) {
-        return new DataListType(dList, comboFie, null);
+    public IDataListType construct(List<IVModelData> dList, IVField comboFie,
+            IVField displayFie) {
+        return new DataListType(dList, comboFie, null, displayFie);
     }
 
-    public IDataListType construct(List<IVModelData> dList, IVField comboFie,
-            IVField treeLevel) {
-        return new DataListType(dList, comboFie, treeLevel);
+    public IDataListType constructTree(List<IVModelData> dList,
+            IVField comboFie, IVField treeLevel) {
+        return new DataListType(dList, comboFie, treeLevel, null);
     }
 }
