@@ -15,6 +15,7 @@
   <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
   <button id="errmessage" displayname="Err Message" actiontype="JERROR_MESSAGE" actionparam="Terrible error" actionparam1="Fatal" />
   <button id="dcombo" displayname="Combo dialog" actiontype="JMAIN_DIALOG" actionparam="dialcombo.xml" />
+  <button id="dhelper" displayname="Helper dialog" actiontype="JMAIN_DIALOG" actionparam="helperdialog.xml" />
 </leftmenu>
 
 <buttons>

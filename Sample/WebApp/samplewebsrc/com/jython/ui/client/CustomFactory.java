@@ -42,7 +42,9 @@ class CustomFactory implements IGetCustomValues {
         if (key.equals(IGetCustomValues.IMAGEFOLDER)) {
             return "img";
         }
-
+        if (key.equals(IGetCustomValues.IMAGEFORLISTHELP)) {
+            return "arrow-down-default.gif";
+        }
         return null;
     }
 
