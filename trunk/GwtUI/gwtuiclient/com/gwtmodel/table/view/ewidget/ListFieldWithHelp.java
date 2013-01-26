@@ -44,10 +44,10 @@ class ListFieldWithHelp extends ExtendTextBox {
             IDataType dType, ExtendTextBox.EParam p) {
         super(tFactories, v, p);
         cHelper = new RHelp(dType);
-        IGetCustomValues c =
-                GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
 
-        wHelp = new WidgetWithPopUpTemplate(tFactories, hPanel,
+        wHelp = new WidgetWithPopUpTemplate(v, hPanel,
                 c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
                 cHelper.getI());
     }

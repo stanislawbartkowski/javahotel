@@ -66,21 +66,11 @@ public class IVFieldSetFactory {
                 i = list.iterator();
             }
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.util.Iterator#hasNext()
-             */
             @Override
             public boolean hasNext() {
                 return i.hasNext();
             }
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.util.Iterator#next()
-             */
             @Override
             public IVField next() {
                 IVFieldWrapper w = i.next();
@@ -90,11 +80,6 @@ public class IVFieldSetFactory {
                 return w.o;
             }
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see java.util.Iterator#remove()
-             */
             @Override
             public void remove() {
                 i.remove();
@@ -102,74 +87,39 @@ public class IVFieldSetFactory {
 
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#size()
-         */
         @Override
         public int size() {
             return list.size();
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#isEmpty()
-         */
         @Override
         public boolean isEmpty() {
             return list.isEmpty();
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#contains(java.lang.Object)
-         */
         @Override
         public boolean contains(Object o) {
             IVField v = (IVField) o;
             return list.contains(new IVFieldWrapper(v));
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#iterator()
-         */
         @Override
         public Iterator<IVField> iterator() {
             return new FieldSetIterator();
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#toArray()
-         */
         @Override
         public Object[] toArray() {
             // TODO Auto-generated method stub
             return null;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#toArray(T[])
-         */
         @Override
         public <T> T[] toArray(T[] a) {
             // TODO Auto-generated method stub
             return null;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#add(java.lang.Object)
-         */
         @Override
         public boolean add(IVField e) {
             IVFieldWrapper w = new IVFieldWrapper(e);
@@ -180,11 +130,6 @@ public class IVFieldSetFactory {
             return true;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#remove(java.lang.Object)
-         */
         @Override
         public boolean remove(Object o) {
             IVFieldWrapper w = new IVFieldWrapper((IVField) o);
@@ -219,51 +164,26 @@ public class IVFieldSetFactory {
             return li;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#containsAll(java.util.Collection)
-         */
         @Override
         public boolean containsAll(Collection<?> c) {
             return list.containsAll(construct(c, false));
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#addAll(java.util.Collection)
-         */
         @Override
         public boolean addAll(Collection<? extends IVField> c) {
             return list.addAll(construct(c, true));
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#retainAll(java.util.Collection)
-         */
         @Override
         public boolean retainAll(Collection<?> c) {
             return list.retainAll(construct(c, false));
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#removeAll(java.util.Collection)
-         */
         @Override
         public boolean removeAll(Collection<?> c) {
             return list.removeAll(construct(c, false));
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see java.util.Set#clear()
-         */
         @Override
         public void clear() {
             list.clear();

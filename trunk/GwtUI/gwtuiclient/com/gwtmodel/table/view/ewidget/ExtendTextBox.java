@@ -220,40 +220,16 @@ class ExtendTextBox extends AbstractField {
         private final IGetDataList iGet;
         private final TextBoxBase tBox;
 
-        EParam(boolean password, boolean area, boolean panel, boolean checkBox,
-                boolean enable, TextBoxBase tBox) {
+        EParam(boolean password, boolean panel, boolean checkBox, boolean area,
+                boolean enable, boolean isRich, boolean suggestbox,
+                IGetDataList iGet, TextBoxBase tBox) {
             this.password = password;
             this.panel = panel;
             this.checkBox = checkBox;
             this.area = area;
             this.enable = enable;
-            this.isRich = false;
-            this.suggestbox = false;
-            iGet = null;
-            this.tBox = tBox;
-        }
-
-        EParam(boolean checkBox, boolean enable) {
-            this.password = false;
-            this.panel = false;
-            this.checkBox = checkBox;
-            this.area = false;
-            this.enable = enable;
-            this.isRich = true;
-            this.suggestbox = false;
-            iGet = null;
-            this.tBox = null;
-        }
-
-        EParam(boolean area, boolean checkBox, boolean enable,
-                IGetDataList iGet, TextBoxBase tBox) {
-            this.password = false;
-            this.panel = false;
-            this.checkBox = checkBox;
-            this.area = area;
-            this.enable = enable;
-            this.isRich = false;
-            this.suggestbox = true;
+            this.isRich = isRich;
+            this.suggestbox = suggestbox;
             this.iGet = iGet;
             this.tBox = tBox;
         }

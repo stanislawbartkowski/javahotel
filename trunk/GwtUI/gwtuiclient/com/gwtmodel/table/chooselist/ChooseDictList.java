@@ -39,7 +39,6 @@ class ChooseDictList implements IChooseList {
             if (vData == null) {
                 return;
             }
-            @SuppressWarnings("unchecked")
             IVField comboFie = sl.getGetterComboField(dType);
             i.setChoosed(vData, comboFie);
         }
