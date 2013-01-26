@@ -29,8 +29,10 @@ import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.IJythonUIClient;
 import com.jythonui.client.M;
+import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogVariables;
 
 /**
  * @author hotel
@@ -135,16 +137,23 @@ public class RunAction implements IJythonUIClient {
         private final IDataType dType;
         private final ISlotListener getW;
         private final IVariablesContainer iCon;
+        private final ISendCloseAction iClose;
+        private final DialogVariables addV;
 
-        StartBack(IDataType dType, ISlotListener getW, IVariablesContainer iCon) {
+        StartBack(IDataType dType, ISlotListener getW,
+                IVariablesContainer iCon, ISendCloseAction iClose,
+                DialogVariables addV) {
             this.dType = dType;
             this.getW = getW;
             this.iCon = iCon;
+            this.iClose = iClose;
+            this.addV = addV;
         }
 
         @Override
         public void onMySuccess(DialogFormat arg) {
-            DialogContainer d = new DialogContainer(dType, arg, iCon);
+            DialogContainer d = new DialogContainer(dType, arg, iCon, iClose,
+                    addV);
             d.getSlContainer().registerSubscriber(
                     SendDialogFormSignal.constructSignal(dType),
                     new GetDialog());
@@ -160,7 +169,7 @@ public class RunAction implements IJythonUIClient {
     public void start(String startdialogName) {
         IDataType dType = DataType.construct(startdialogName);
         M.JR().getDialogFormat(startdialogName,
-                new StartBack(dType, new GetCenterWidget(), null));
+                new StartBack(dType, new GetCenterWidget(), null, null, null));
     }
 
     /**
@@ -177,7 +186,16 @@ public class RunAction implements IJythonUIClient {
         IDataType dType = DataType.construct(dialogName);
 
         M.JR().getDialogFormat(dialogName,
-                new StartBack(dType, new GetUpWidget(w), iCon));
+                new StartBack(dType, new GetUpWidget(w), iCon, null, null));
+    }
+
+    public void getHelperDialog(String dialogName, ISlotListener sl,
+            IVariablesContainer iCon, ISendCloseAction iClose,
+            DialogVariables addV) {
+        IDataType dType = DataType.construct(dialogName);
+
+        M.JR().getDialogFormat(dialogName,
+                new StartBack(dType, sl, iCon, iClose, addV));
     }
 
 }

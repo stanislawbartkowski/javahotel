@@ -50,4 +50,8 @@ public class ListFormat extends ElemDescription {
         this.fElem = fElem;
     }
 
+    public String getStandButt() {
+        return getAttr(ICommonConsts.STANDBUTT);
+    }
+
 }

@@ -12,6 +12,7 @@
  */
 package com.jythonui.client.listmodel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtmodel.table.ICustomObject;
@@ -25,6 +26,7 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
@@ -37,6 +39,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -249,10 +252,49 @@ class ListControler {
             CellId panelId, IVariablesContainer iCon, IPerformClickAction iClick) {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
+        ControlButtonFactory buFactory = GwtGiniInjector.getI()
+                .getControlButtonFactory();
 
         ControlButtonFactory bFactory = GwtGiniInjector.getI()
                 .getControlButtonFactory();
-        List<ControlButtonDesc> cList = bFactory.constructCrudListButtons();
+        ListFormat li = rM.getFormat(da);
+        List<ControlButtonDesc> crudList = bFactory.constructCrudListButtons();
+        List<ControlButtonDesc> cList;
+        if (!CUtil.EmptyS(li.getStandButt())) {
+            String[] liButton = li.getStandButt().split(",");
+            cList = new ArrayList<ControlButtonDesc>();
+            for (String s : liButton) {
+                StandClickEnum bu = null;
+                if (s.equals(ICommonConsts.BUTT_ADD)) {
+                    bu = StandClickEnum.ADDITEM;
+                }
+                if (s.equals(ICommonConsts.BUTT_REMOVE)) {
+                    bu = StandClickEnum.REMOVEITEM;
+                }
+                if (s.equals(ICommonConsts.BUTT_MODIF)) {
+                    bu = StandClickEnum.MODIFITEM;
+                }
+                if (s.equals(ICommonConsts.BUTT_SHOW)) {
+                    bu = StandClickEnum.SHOWITEM;
+                }
+                if (s.equals(ICommonConsts.BUTT_TOOLS)) {
+                    bu = StandClickEnum.TABLEDEFAULTMENU;
+                }
+                if (s.equals(ICommonConsts.BUTT_FILTER)) {
+                    bu = StandClickEnum.FILTRLIST;
+                }
+                if (s.equals(ICommonConsts.BUTT_FIND)) {
+                    bu = StandClickEnum.FIND;
+                }
+                if (bu == null) {
+                    continue;
+                }
+                ControlButtonDesc b = buFactory.constructButt(bu);
+                cList.add(b);
+            }
+        } else {
+            cList = crudList;
+        }
         ListOfControlDesc cButton = new ListOfControlDesc(cList);
         DisplayListControlerParam dList = tFactory.constructParam(cButton,
                 panelId, getParam(rM, da, iCon), null, false);

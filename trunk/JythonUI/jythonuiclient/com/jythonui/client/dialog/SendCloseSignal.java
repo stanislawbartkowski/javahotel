@@ -10,26 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.variables;
+package com.jythonui.client.dialog;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.slotmodel.ISlotable;
-import com.jythonui.client.listmodel.RowListDataManager;
-import com.jythonui.shared.DialogVariables;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
-/**
- * @author hotel
- * 
- */
-public interface IVariablesContainer {
+class SendCloseSignal extends CustomObjectValue<String> {
 
-    void addFormVariables(ISlotable iSlo, IDataType dType,
-            RowListDataManager liManager, DialogVariables addV);
+    SendCloseSignal(String b) {
+        super(b);
+    }
 
-    DialogVariables getVariables();
+    private static final String CLOSE_SIGNAL = SendCloseSignal.class.getName()
+            + "_CLOSE_DIALOG";
 
-    void setVariablesToForm(DialogVariables v);
-
-    void copyCurrentVariablesToForm(ISlotable iSlo, IDataType dType);
+    static CustomStringSlot constructSignal(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, CLOSE_SIGNAL);
+    }
 
 }

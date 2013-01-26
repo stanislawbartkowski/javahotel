@@ -15,6 +15,7 @@ package com.jythonui.client.listmodel;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
@@ -60,12 +61,13 @@ class GetViewController implements IGetViewControllerFactory {
 
             @Override
             public void signal(ISlotSignalContext slContext) {
-                IVModelData v = rM.contructE(dType);
+//                IVModelData v = rM.contructE(dType);
+                IVModelData v = new VModelData();
                 v = getGetterIVModelData(dType,
                         GetActionEnum.GetViewModelEdited, v);
                 ListFormat li = rM.getFormat(dType);
                 if (VerifyEmpty.isEmpty(dType, v, ValidateAction.this,
-                        li.getColumns())) {
+                        li.getfElem().getFieldList())) {
                     return;
                 }
                 SlU.publishDataAction(dType, ValidateAction.this, slContext,
@@ -156,7 +158,8 @@ class GetViewController implements IGetViewControllerFactory {
             return null;
         }
         IComposeController i = fFactory.construct(da, dFactory);
-        DialogContainer sLo = new DialogContainer(da, li.getfElem(), iCon);
+        DialogContainer sLo = new DialogContainer(da, li.getfElem(), iCon,
+                null, null);
         ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
         i.registerControler(cType);
 

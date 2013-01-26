@@ -97,9 +97,13 @@ public class FieldItem extends ElemDescription {
     public String getActionId() {
         return getAttr(ICommonConsts.ACTIONID);
     }
-    
+
     public boolean isSignalChange() {
         return isAttr(ICommonConsts.SIGNALCHANGE);
+    }
+
+    public boolean isHelper() {
+        return isAttr(ICommonConsts.HELPER);
     }
 
 }
