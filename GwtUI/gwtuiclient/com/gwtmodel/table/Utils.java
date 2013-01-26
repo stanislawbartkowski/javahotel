@@ -96,6 +96,8 @@ public class Utils {
         } else {
             img = addPath(folder, image);
         }
+        if (!img.contains("."))
+            img = img + ".gif";
         String path = getResAdr(img);
         return path;
     }

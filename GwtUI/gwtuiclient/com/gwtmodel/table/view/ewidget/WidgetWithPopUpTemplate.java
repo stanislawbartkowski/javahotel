@@ -12,9 +12,19 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.ISetGWidget;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.editc.IRequestForGWidget;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.view.util.PopupUtil;
 
 /**
@@ -24,38 +34,42 @@ import com.gwtmodel.table.view.util.PopupUtil;
 @SuppressWarnings("deprecation")
 class WidgetWithPopUpTemplate {
 
-    interface ISetWidget {
+    final private ISetGWidget is = new ISetGWidget() {
 
-        void setWidget(Widget w);
-    }
-
-    interface IGetP {
-
-        void getPopUp(Widget startW, ISetWidget iSet);
-    }
-
-    final private ISetWidget is = new ISetWidget() {
-
-        public void setWidget(Widget w) {
+        @Override
+        public void setW(IGWidget w) {
             pUp = new PopupPanel(true);
             PopupUtil.setPos(pUp, hPanel);
-            pUp.add(w);
+            pUp.add(w.getGWidget());
             pUp.show();
+
         }
     };
+    private final IVField v;
     private final HorizontalPanel hPanel;
     private PopupPanel pUp = null;
-    private final IGetP iGet;
+    private final IRequestForGWidget iGet;
     private final HTML dB;
     private boolean isReadOnly = false;
+
     final private ClickListener cL = new ClickListener() {
 
         public void onClick(final Widget arg0) {
             if (isReadOnly) {
                 return;
             }
+
+            ICommand close = new ICommand() {
+
+                @Override
+                public void execute() {
+                    hide();
+
+                }
+
+            };
             if (pUp == null) {
-                iGet.getPopUp(arg0, is);
+                iGet.run(v, new WSize(arg0), is, close);
             } else {
                 pUp.show();
             }
@@ -66,11 +80,13 @@ class WidgetWithPopUpTemplate {
         pUp.hide();
     }
 
-    WidgetWithPopUpTemplate(ITableCustomFactories tFactories,
-            HorizontalPanel hPanel, String image, IGetP i) {
+    WidgetWithPopUpTemplate(IVField v, HorizontalPanel hPanel, String image,
+            IRequestForGWidget i) {
+        this.v = v;
+        assert image != null : LogT.getT().cannotBeNull();
         this.iGet = i;
         this.hPanel = hPanel;
-        String iPath = Utils.getImageHTML(image + ".gif");
+        String iPath = Utils.getImageHTML(image);
         dB = new HTML(iPath);
         hPanel.add(dB);
         dB.addClickListener(cL);

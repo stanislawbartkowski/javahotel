@@ -47,8 +47,11 @@ class ListBoxWithHelp extends GetValueLB {
         super(tFactories, v);
         cHelper = new RHelp(dType);
         hP.add(super.getGWidget());
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
-        wHelp = new WidgetWithPopUpTemplate(tFactories, hP, c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), cHelper.getI());
+        IGetCustomValues c = GwtGiniInjector.getI()
+                .getTableFactoriesContainer().getGetCustomValues();
+        wHelp = new WidgetWithPopUpTemplate(v, hP,
+                c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
+                cHelper.getI());
     }
 
     @Override

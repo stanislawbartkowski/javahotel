@@ -23,6 +23,7 @@ import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
+import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.factories.IJavaMailAction;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -137,9 +138,11 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         IFormLineView hView = wFactory.constructTextField(v2);
         IFormLineView cView;
         if (text) {
-            cView = wFactory.constructTextArea(v3);
+            // text area
+            cView = wFactory.constructTextField(v3,null,null,true,false);
         } else {
-            cView = wFactory.constructRichTextArea(v3);
+            // richtext
+            cView = wFactory.constructTextField(v3,null,null,false,true);
         }
         IFormLineView tView = wFactory.constructTextField(v4);
         IFormLineView fromView = wFactory.constructTextField(v5);

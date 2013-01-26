@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import java.util.Date;
+
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -19,8 +21,6 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
-import com.gwtmodel.table.rdef.ITouchListener;
-import java.util.Date;
 
 /**
  * DabeBox field, wrapper around DateBox
