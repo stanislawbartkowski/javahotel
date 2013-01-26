@@ -14,11 +14,13 @@ package com.jythonui.client.dialog;
 
 import java.util.List;
 
+import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IGetDataListCallBack;
+import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.VModelData;
@@ -29,6 +31,7 @@ import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
+import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
@@ -73,9 +76,12 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     private final RowListDataManager liManager;
     private DialogFormat d;
     private final IVariablesContainer iCon;
+    private final ISendCloseAction iClose;
+    private final DialogVariables addV;
 
     public DialogContainer(IDataType dType, DialogFormat d,
-            IVariablesContainer pCon) {
+            IVariablesContainer pCon, ISendCloseAction iClose,
+            DialogVariables addV) {
         this.d = d;
         this.dType = dType;
         liManager = new RowListDataManager(d.getId());
@@ -90,6 +96,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             // clone
             this.iCon = VariableContainerFactory.clone(pCon);
         }
+        this.iClose = iClose;
+        this.addV = addV;
     }
 
     private class CButton implements ISlotListener {
@@ -181,6 +189,52 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     }
 
+    private class GetHelperWidget implements ISlotListener {
+
+        private final ISetGWidget setW;
+
+        GetHelperWidget(ISetGWidget setW) {
+            this.setW = setW;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IGWidget w = slContext.getGwtWidget();
+            setW.setW(w);
+        }
+
+    }
+
+    private class HelperW implements IRequestForGWidget {
+
+        private class Close implements ISendCloseAction {
+
+            private final ICommand close;
+
+            Close(ICommand close) {
+                this.close = close;
+            }
+
+            @Override
+            public void closeAction() {
+                close.execute();
+            }
+
+        }
+
+        @Override
+        public void run(IVField v, WSize w, ISetGWidget setW, ICommand close) {
+            String fieldid = v.getId();
+            FieldItem fItem = d.findFieldItem(fieldid);
+            String dialog = fItem.getAttr(ICommonConsts.HELPER);
+            DialogVariables var = new DialogVariables();
+            var.setValueS(ICommonConsts.SIGNALCHANGEFIELD, fieldid);
+            new RunAction().getHelperDialog(dialog, new GetHelperWidget(setW),
+                    iCon, new Close(close), var);
+        }
+
+    }
+
     @Override
     public void startPublish(CellId cId) {
 
@@ -192,7 +246,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         EnumTypesList eList = new EnumTypesList(d);
         if (d.getFieldList() != null) {
             FormLineContainer fContainer = CreateForm.construct(d,
-                    new GetEnumList(eList), eList);
+                    new GetEnumList(eList), eList, new HelperW());
 
             DataViewModelFactory daFactory = GwtGiniInjector.getI()
                     .getDataViewModelFactory();
@@ -237,7 +291,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                         constructCButton(d.getLeftButtonList()));
                 emptyView = false;
             }
-        iCon.addFormVariables(slMediator, dType, liManager);
+        iCon.addFormVariables(slMediator, dType, liManager, addV);
 
         if (!emptyView) {
             pView.createView();
@@ -270,6 +324,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             SendCloseSignal sig = new SendCloseSignal(id);
             slMediator.getSlContainer().publish(
                     SendCloseSignal.constructSignal(dType), sig);
+            if (iClose != null) {
+                iClose.closeAction();
+            }
         }
 
     }

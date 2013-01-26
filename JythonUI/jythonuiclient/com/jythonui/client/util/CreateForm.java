@@ -19,6 +19,7 @@ import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -51,12 +52,12 @@ public class CreateForm {
     }
 
     public static FormLineContainer construct(DialogFormat d,
-            IGetDataList iGet, EnumTypesList eList) {
-        return construct(d.getFieldList(), iGet, eList);
+            IGetDataList iGet, EnumTypesList eList, IRequestForGWidget iHelper) {
+        return construct(d.getFieldList(), iGet, eList, iHelper);
     }
 
     private static FormLineContainer construct(List<FieldItem> iList,
-            IGetDataList iGet, EnumTypesList eList) {
+            IGetDataList iGet, EnumTypesList eList, IRequestForGWidget iHelper) {
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
         List<FormField> fList = new ArrayList<FormField>();
@@ -66,9 +67,14 @@ public class CreateForm {
             IFormLineView v;
             if (!CUtil.EmptyS(f.getCustom())) {
                 eList.add(vf, f.getCustom());
-                v = eFactory.constructListValuesCombo(vf, iGet,!f.isNotEmpty());
+                v = eFactory
+                        .constructListValuesCombo(vf, iGet, !f.isNotEmpty());
             } else {
-                v = eFactory.constructEditWidget(vf);
+                if (f.isHelper()) {
+                    v = eFactory.constructTextField(vf, null, iHelper,false,false);
+                } else {
+                    v = eFactory.constructEditWidget(vf);
+                }
             }
             if (f.isHidden()) {
                 v.setHidden(true);

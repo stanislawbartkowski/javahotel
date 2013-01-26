@@ -10,26 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.variables;
+package com.jythonui.client.dialog;
 
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.slotmodel.ISlotable;
-import com.jythonui.client.listmodel.RowListDataManager;
-import com.jythonui.shared.DialogVariables;
+import com.gwtmodel.table.WSize;
 
-/**
- * @author hotel
- * 
- */
-public interface IVariablesContainer {
+public interface IPerformClickAction {
 
-    void addFormVariables(ISlotable iSlo, IDataType dType,
-            RowListDataManager liManager, DialogVariables addV);
-
-    DialogVariables getVariables();
-
-    void setVariablesToForm(DialogVariables v);
-
-    void copyCurrentVariablesToForm(ISlotable iSlo, IDataType dType);
+    void click(String id, WSize w);
 
 }

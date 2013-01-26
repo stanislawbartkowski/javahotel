@@ -46,6 +46,12 @@ public class DialogVariables implements Serializable {
         vList.put(fId, v);
     }
 
+    public void setValueB(String fId, boolean b) {
+        FieldValue val = new FieldValue();
+        val.setValue(b);
+        vList.put(fId, val);
+    }
+
     public void setValueS(String fId, String v) {
         FieldValue val = new FieldValue();
         val.setValue(v);
@@ -90,9 +96,5 @@ public class DialogVariables implements Serializable {
     public void setEnumList(Map<String, ListOfRows> enumList) {
         this.enumList = enumList;
     }
-    
-    
-    
-    
 
 }

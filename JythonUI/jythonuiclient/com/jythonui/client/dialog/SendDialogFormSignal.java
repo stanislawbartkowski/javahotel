@@ -10,26 +10,29 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.variables;
+package com.jythonui.client.dialog;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.slotmodel.ISlotable;
-import com.jythonui.client.listmodel.RowListDataManager;
-import com.jythonui.shared.DialogVariables;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
+import com.jythonui.shared.DialogFormat;
 
 /**
  * @author hotel
  * 
  */
-public interface IVariablesContainer {
+class SendDialogFormSignal extends CustomObjectValue<DialogFormat> {
 
-    void addFormVariables(ISlotable iSlo, IDataType dType,
-            RowListDataManager liManager, DialogVariables addV);
+    SendDialogFormSignal(DialogFormat d) {
+        super(d);
+    }
 
-    DialogVariables getVariables();
+    private static final String DIALOG_SIGNAL = SendDialogFormSignal.class
+            .getName() + "_SEND_DIALOG";
 
-    void setVariablesToForm(DialogVariables v);
-
-    void copyCurrentVariablesToForm(ISlotable iSlo, IDataType dType);
+    static CustomStringSlot constructSignal(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, DIALOG_SIGNAL);
+    }
 
 }

@@ -81,10 +81,12 @@ class ReadDialog {
                 ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,
                 ICommonConsts.NOTEMPTY, ICommonConsts.READONLY,
                 ICommonConsts.HIDDEN, ICommonConsts.READONLYADD,
-                ICommonConsts.READONLYCHANGE, ICommonConsts.SIGNALCHANGE };
+                ICommonConsts.READONLYCHANGE, ICommonConsts.SIGNALCHANGE,
+                ICommonConsts.HELPER };
         private final String[] listTag = { ICommonConsts.ID,
-                ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT };
-        /** Currently recognized set ,of tags. */
+                ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
+                ICommonConsts.STANDBUTT };
+        /** Currently recognized set of tags. */
         /*
          * Important: it is assumed that tags describing element goes first
          * before subelements.

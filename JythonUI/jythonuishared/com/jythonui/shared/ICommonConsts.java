@@ -79,4 +79,14 @@ public interface ICommonConsts {
     String SIGNALCHANGE = "signalchange";
     String SIGNALCHANGEFIELD = "changefield";
     String SIGNALAFTERFOCUS = "changeafterfocus";
+    String HELPER = "helper";
+    String LINESET = "_lineset";
+    String STANDBUTT = "standbutt";
+    String BUTT_TOOLS = "TOOLS";
+    String BUTT_ADD = "ADD";
+    String BUTT_MODIF = "MODIF";
+    String BUTT_REMOVE = "REMOVE";
+    String BUTT_SHOW = "SHOW";
+    String BUTT_FIND = "FIND";
+    String BUTT_FILTER = "FILTER";
 }

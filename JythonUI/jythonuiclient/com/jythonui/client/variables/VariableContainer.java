@@ -44,29 +44,33 @@ class VariableContainer implements IVariablesContainer {
         ISlotable iSlo;
         IDataType dType;
         RowListDataManager liManager;
+        DialogVariables addVar;
     }
 
     private final List<FormContainer> fList = new ArrayList<FormContainer>();
 
     @Override
     public void addFormVariables(ISlotable iSlo, IDataType dType,
-            RowListDataManager liManager) {
+            RowListDataManager liManager, DialogVariables addVar) {
         FormContainer f = new FormContainer();
         f.iSlo = iSlo;
         f.dType = dType;
         f.liManager = liManager;
+        f.addVar = addVar;
         fList.add(f);
 
     }
 
     private static void setVariables(DialogVariables v, IVModelData vData) {
-        if (vData == null) { return; }
+        if (vData == null) {
+            return;
+        }
         for (IVField fie : vData.getF()) {
             Object o = vData.getF(fie);
-// pass empty as null (None)            
-//            if (o == null) {
-//                continue;
-//            }
+            // pass empty as null (None)
+            // if (o == null) {
+            // continue;
+            // }
             FieldValue fVal = new FieldValue();
             fVal.setValue(fie.getType().getType(), o, fie.getType()
                     .getAfterdot());
@@ -85,7 +89,18 @@ class VariableContainer implements IVariablesContainer {
             for (IDataType dType : f.liManager.getList()) {
                 vData = f.iSlo.getSlContainer().getGetterIVModelData(dType,
                         GetActionEnum.GetListLineChecked);
+                boolean setLine = vData != null;
+                FieldValue val = new FieldValue();
+                val.setValue(setLine);
+                v.setValue(f.liManager.getLId(dType) + ICommonConsts.LINESET,
+                        val);
                 setVariables(v, vData);
+            }
+            if (f.addVar != null) {
+                for (String fie : f.addVar.getFields()) {
+                    FieldValue val = f.addVar.getValue(fie);
+                    v.setValue(fie, val);
+                }
             }
         }
         return v;
@@ -113,10 +128,11 @@ class VariableContainer implements IVariablesContainer {
                         return;
                     }
                     VField v = VField.construct(fie, val.getType());
-                    // TODO: check if JCOPY value is define in the form
-                    // otherwise throw alert or exception
-                    SlU.setVWidgetValue(fo.dType, fo.iSlo, v, val.getValue());
-
+                    IFormLineView i = SlU.getVWidget(fo.dType, fo.iSlo, v);
+                    if (i == null) {
+                        return;
+                    }
+                    i.setValObj(val.getValue());
                 }
             };
             JUtils.visitListOfFields(var, ICommonConsts.JCOPY, vis);
