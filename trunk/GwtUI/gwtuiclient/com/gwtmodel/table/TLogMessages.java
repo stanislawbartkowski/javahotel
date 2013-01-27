@@ -111,4 +111,6 @@ public interface TLogMessages extends Messages {
     String ColumnCellUndefined();
     
     String SelectListCannotBeEmpty();
+    
+    String NotImplemented();
 }
