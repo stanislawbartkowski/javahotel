@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+ 
+ <types>typesenum.xml</types>
+ 
+  <jython>
+   <import>from testpack import testclass</import>
+   <method>testclass.dialogaction({0},{1})</method>
+ </jython>  
+ 
+ 
+ <form>
+   <field id="glob" />
+   <field id="globenum" type="custom:tenum" />
+ </form>  
+ 
+ </dialog>
