@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Next elem</displayname>
+
+<jython>
+   <import>from testpack import list</import>
+   <method>list.inaction({0},{1})</method>
+ </jython>  
+ 
+<buttons>
+  <button id="close" displayname="Close" actiontype="JCLOSE_DIALOG"/>
+</buttons>
+
+ <form>
+   <field id="glob1" />
+   <field id="pname" displayname="Name"/>
+   
+ </form>  
+ 
+</dialog>

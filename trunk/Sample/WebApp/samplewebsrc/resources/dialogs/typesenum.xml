@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<typedefs xmlns="http://www.jythongwt.typedefxsd.com">
+
+     <jython>
+       <import>from testpack import packenum</import>
+      </jython>    
+
+  <typedef id="tenum" type="combo" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>packenum.dialogaction({0},{1})</method>
+      </jython>    
+ 
+   </typedef>
+  
+</typedefs>

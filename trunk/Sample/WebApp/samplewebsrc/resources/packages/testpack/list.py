@@ -39,10 +39,16 @@ def dialogaction(action,var) :
        if p != None :
          var["JERROR_pnumber"] = "Duplicated number, person number should be unique"
          return  
+       if not var["JCRUD_AFTERCONF"] :
+         var["JYESNO_MESSAGE"] = "Are you ready to add new elem ?"
+         var["JMESSAGE_TITLE"] = "Ask for something"
+         print "var kom ",var["JYESNO_MESSAGE"]
+         return
        p = op.construct()
        p.setPersonNumb(pnumb)
        p.setPersonName(pname)
        op.savePerson(p)
+       var["JCLOSE_DIALOG"] = True
        return
 
   key = var["key"]      
@@ -53,7 +59,7 @@ def dialogaction(action,var) :
        p.setPersonName(pname)
        if action == "crud_remove" : op.removePerson(p)
        else : op.changePerson(p)
-     
+       var["JCLOSE_DIALOG"] = True
       
 def inaction(action,var) :
    print "inaction",var
