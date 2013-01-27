@@ -94,7 +94,8 @@ class ReadDialog {
         /* This invariant is enforced by xsd schema. */
         private final String[] allowedActions = { ICommonConsts.JMAINDIALOG,
                 ICommonConsts.JUPDIALOG, ICommonConsts.JCLOSEDIALOG,
-                ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE };
+                ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
+                ICommonConsts.JYESNOMESSAGE };
         private String[] currentT;
         private StringBuffer buf;
         private ElemDescription bDescr = null;

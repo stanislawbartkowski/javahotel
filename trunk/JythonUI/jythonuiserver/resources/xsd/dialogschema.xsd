@@ -29,6 +29,7 @@
 			<xs:element minOccurs="0" name="actiontype" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam1" type="xs:string" />
+			<xs:element minOccurs="0" name="actionparam2" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -39,6 +40,7 @@
 		<xs:attribute name="actiontype" type="xs:string" />
 		<xs:attribute name="actionparam" type="xs:string" />
 		<xs:attribute name="actionparam1" type="xs:string" />
+		<xs:attribute name="actionparam2" type="xs:string" />
 	</xs:attributeGroup>
 	
 	<xs:group name="dialogG">

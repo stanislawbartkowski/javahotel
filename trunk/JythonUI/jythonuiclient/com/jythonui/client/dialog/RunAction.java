@@ -14,6 +14,7 @@ package com.jythonui.client.dialog;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.SynchronizeList;
