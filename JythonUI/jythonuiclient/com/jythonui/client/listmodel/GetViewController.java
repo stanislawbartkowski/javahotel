@@ -12,10 +12,12 @@
  */
 package com.jythonui.client.listmodel;
 
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.VModelData;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
@@ -34,14 +36,20 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.view.callback.ICommonCallBackFactory;
+import com.gwtmodel.table.view.util.YesNoDialog;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.DialogContainer;
+import com.jythonui.client.util.ISendCloseAction;
+import com.jythonui.client.util.IYesNoAction;
+import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.util.VerifyEmpty;
 import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.ListOfRows;
 
 /**
  * @author hotel
@@ -61,13 +69,12 @@ class GetViewController implements IGetViewControllerFactory {
 
             @Override
             public void signal(ISlotSignalContext slContext) {
-//                IVModelData v = rM.contructE(dType);
                 IVModelData v = new VModelData();
                 v = getGetterIVModelData(dType,
                         GetActionEnum.GetViewModelEdited, v);
                 ListFormat li = rM.getFormat(dType);
-                if (VerifyEmpty.isEmpty(dType, v, ValidateAction.this,
-                        li.getfElem().getFieldList())) {
+                if (VerifyEmpty.isEmpty(dType, v, ValidateAction.this, li
+                        .getfElem().getFieldList())) {
                     return;
                 }
                 SlU.publishDataAction(dType, ValidateAction.this, slContext,
@@ -85,17 +92,89 @@ class GetViewController implements IGetViewControllerFactory {
 
     }
 
+    private interface executeCrud {
+
+        void action(boolean afterConfirm, CommonCallBack<DialogVariables> back);
+
+    }
+
     private class ItemDataPersistAction extends AbstractSlotContainer implements
             IDataPersistAction {
 
         private final DialogContainer dC;
 
+        private class CommandCrud implements executeCrud {
+
+            private final DialogVariables v;
+            private final ListFormat li;
+            private final String eCrud;
+
+            CommandCrud(DialogVariables v, ListFormat li, String eCrud) {
+                this.v = v;
+                this.li = li;
+                this.eCrud = eCrud;
+            }
+
+            @Override
+            public void action(boolean afterConfirm,
+                    CommonCallBack<DialogVariables> back) {
+                v.setValueB(ICommonConsts.JCRUD_AFTERCONF, afterConfirm);
+                ListUtils.executeCrudAction(v, li, li.getfElem().getId(),
+                        eCrud, back);
+            }
+
+        }
+
         private class JBack extends CommonCallBack<DialogVariables> {
 
             private final PersistTypeEnum e;
+            private final WSize w;
+            private final executeCrud exe;
+            private final ICommonCallBackFactory<DialogVariables> bFactory;
 
-            JBack(PersistTypeEnum e) {
+            private class CloseD implements ISendCloseAction {
+
+                @Override
+                public void closeAction() {
+                    publish(dType, DataActionEnum.PersistDataSuccessSignal, e);
+                }
+            }
+
+            private class YesNo implements IYesNoAction {
+
+                @Override
+                public void answer(String content, String title, String param1) {
+                    IClickYesNo i = new IClickYesNo() {
+
+                        @Override
+                        public void click(boolean yes) {
+                            if (yes)
+                                exe.action(true, bFactory.construct());
+                        }
+                    };
+                    YesNoDialog yesD = new YesNoDialog(content, title, i);
+                    yesD.show(w);
+                }
+            }
+
+            private class Vis implements PerformVariableAction.VisitList {
+
+                @Override
+                public void accept(IDataType da, ListOfRows lRows) {
+                }
+
+                @Override
+                public void acceptTypes(String typeName, ListOfRows lRows) {
+                }
+
+            }
+
+            JBack(PersistTypeEnum e, WSize w, executeCrud exe,
+                    ICommonCallBackFactory<DialogVariables> bFactory) {
                 this.e = e;
+                this.w = w;
+                this.exe = exe;
+                this.bFactory = bFactory;
             }
 
             @Override
@@ -104,7 +183,8 @@ class GetViewController implements IGetViewControllerFactory {
                         .isError(dType, arg, ItemDataPersistAction.this)) {
                     return;
                 }
-                publish(dType, DataActionEnum.PersistDataSuccessSignal, e);
+                PerformVariableAction.perform(new YesNo(), new CloseD(), arg,
+                        iCon, rM, new Vis(), w);
             }
         }
 
@@ -112,7 +192,8 @@ class GetViewController implements IGetViewControllerFactory {
 
             @Override
             public void signal(ISlotSignalContext slContext) {
-                PersistTypeEnum e = slContext.getPersistType();
+                final PersistTypeEnum e = slContext.getPersistType();
+                final WSize w = new WSize(slContext.getGwtWidget());
                 IVariablesContainer iCon = dC.getiCon();
                 DialogVariables v = iCon.getVariables();
                 String eCrud = null;
@@ -131,8 +212,17 @@ class GetViewController implements IGetViewControllerFactory {
                     break;
                 }
                 ListFormat li = rM.getFormat(dType);
-                ListUtils.executeCrudAction(v, li, li.getfElem().getId(),
-                        eCrud, new JBack(e));
+                final executeCrud exe = new CommandCrud(v, li, eCrud);
+
+                ICommonCallBackFactory<DialogVariables> bFact = new ICommonCallBackFactory<DialogVariables>() {
+
+                    @Override
+                    public CommonCallBack<DialogVariables> construct() {
+                        return new JBack(e, w, exe, this);
+                    }
+
+                };
+                exe.action(false, bFact.construct());
             }
 
         }

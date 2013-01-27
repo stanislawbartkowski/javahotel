@@ -137,7 +137,7 @@ class ListControler {
                         // do nothing, not expected here
                     }
                 };
-                PerformVariableAction.perform(null, arg, iCon, rM, vis, null);
+                PerformVariableAction.perform(null,null, arg, iCon, rM, vis, null);
 
             }
 

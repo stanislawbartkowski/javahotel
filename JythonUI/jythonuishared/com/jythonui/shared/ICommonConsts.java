@@ -61,6 +61,7 @@ public interface ICommonConsts {
     String ACTIONTYPE = "actiontype";
     String ACTIONPARAM = "actionparam";
     String ACTIONPARAM1 = "actionparam1";
+    String ACTIONPARAM2 = "actionparam2";
     String BUTTONS = "buttons";
     String JUPDIALOG = "JUP_DIALOG";
     String JCLOSEDIALOG = "JCLOSE_DIALOG";
@@ -68,9 +69,11 @@ public interface ICommonConsts {
     String ACTION = "action";
     String ACTIONID = "actionid";
     String JOKMESSAGE = "JOK_MESSAGE";
+    String JYESNOMESSAGE = "JYESNO_MESSAGE";
     String JERRORMESSAGE = "JERROR_MESSAGE";
-    String JOKMESSAGE_TITLE = "JOK_MESSAGE_TITLE";
-    String JERRORMESSAGE_TITLE = "JERROR_MESSAGE_TITLE";
+    String JMESSAGE_TITLE = "JMESSAGE_TITLE";
+    String JAFTERDIALOGACTION = "JAFTERDIALOG_ACTION";
+    String JCRUD_AFTERCONF = "JCRUD_AFTERCONF";
     String TYPES = "types";
     String COMBOID = "comboid";
     String TYPEDEFS = "typedefs";

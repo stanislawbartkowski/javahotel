@@ -43,9 +43,9 @@ public class PerformVariableAction {
         void acceptTypes(String typeName, ListOfRows lRows);
     }
 
-    public static void perform(ISendCloseAction iClose, DialogVariables arg,
-            IVariablesContainer iCon, RowListDataManager liManager,
-            VisitList vis, WSize w) {
+    public static void perform(IYesNoAction iYesno, ISendCloseAction iClose,
+            DialogVariables arg, IVariablesContainer iCon,
+            RowListDataManager liManager, VisitList vis, WSize w) {
         iCon.setVariablesToForm(arg);
         // lists
         for (IDataType da : liManager.getList()) {
@@ -59,26 +59,35 @@ public class PerformVariableAction {
 
         // it a little tricky but this way allows code reuse with performAction
         String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG,
-                ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE };
-        String[] param = { null, null, ICommonConsts.JOKMESSAGE_TITLE,
-                ICommonConsts.JERRORMESSAGE_TITLE };
+                ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
+                ICommonConsts.JYESNOMESSAGE };
+        String[] param = { null, null, ICommonConsts.JMESSAGE_TITLE,
+                ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE };
+        String[] param2 = { null, null, null, null,
+                ICommonConsts.JAFTERDIALOGACTION };
         for (int i = 0; i < kom.length; i++) {
             String p = arg.getValueS(kom[i]);
             String par = null;
+            String par2 = null;
             if (param[i] != null) {
                 par = arg.getValueS(param[i]);
             }
+            if (param2[i] != null) {
+                par2 = arg.getValueS(param[i]);
+            }
             if (!CUtil.EmptyS(p))
-                performAction(iClose, kom[i], p, par, w, iCon);
+                performAction(iYesno, iClose, kom[i], p, par, par2, w, iCon);
         }
         if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
-            performAction(iClose, ICommonConsts.JCLOSEDIALOG, null, null, w,
-                    iCon);
+            performAction(null, iClose, ICommonConsts.JCLOSEDIALOG, null, null,
+                    null, w, iCon);
         }
     }
 
-    public static void performAction(ISendCloseAction iClose, String action,
-            String param, String param1, WSize w, IVariablesContainer iCon) {
+    public static void performAction(final IYesNoAction iYesno,
+            ISendCloseAction iClose, String action, String param,
+            String param1, final String param2, WSize w,
+            IVariablesContainer iCon) {
         if (action.equals(ICommonConsts.JMAINDIALOG)) {
             new RunAction().start(param);
             return;
@@ -91,7 +100,12 @@ public class PerformVariableAction {
                 || action.equals(ICommonConsts.JERRORMESSAGE)) {
             OkDialog ok = new OkDialog(param, param1);
             ok.show(w);
-            // new RunAction().upDialog(param, w, iCon);
+            return;
+        }
+        if (action.equals(ICommonConsts.JYESNOMESSAGE)) {
+            if (iYesno != null) {
+                iYesno.answer(param, param1, param2);
+            }
             return;
         }
         if (action.equals(ICommonConsts.JCLOSEDIALOG)) {

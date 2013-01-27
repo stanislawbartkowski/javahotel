@@ -464,6 +464,11 @@ class RunJython {
             li.setId(ty.getId());
             li.setColumns(ty.construct());
             dd.getListList().add(li);
+            // copy values (variables only)
+            for (String f: v.getFields()) {
+                FieldValue val = v.getValue(f);
+                va.setValue(f, val);
+            }
             executeJythonforDialog(p, mCached, va, dd, idType);
             v.getEnumList().putAll(va.getRowList());
             return;

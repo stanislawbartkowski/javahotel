@@ -14,6 +14,7 @@ package com.jythonui.client.dialog;
 
 import java.util.List;
 
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
@@ -23,6 +24,7 @@ import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
@@ -55,6 +57,7 @@ import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.EnumTypesList;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.ISendCloseAction;
+import com.jythonui.client.util.IYesNoAction;
 import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
@@ -311,6 +314,15 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         slMediator.getSlContainer().publish(sig, new SendDialogFormSignal(d));
     }
 
+    private class YesNoDialog implements IYesNoAction {
+
+        @Override
+        public void answer(String content, String title, String param1) {
+            Utils.errAlert(content + " " + param1, LogT.getT().NotImplemented());           
+        }
+
+    }
+
     private class CloseDialog implements ISendCloseAction {
 
         private final String id;
@@ -338,8 +350,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 String action = bItem.getAction();
                 String param = bItem.getActionParam();
                 String param1 = bItem.getAttr(ICommonConsts.ACTIONPARAM1);
-                PerformVariableAction.performAction(new CloseDialog(id),
-                        action, param, param1, w, iCon);
+                String param2 = bItem.getAttr(ICommonConsts.ACTIONPARAM2);
+                PerformVariableAction.performAction(new YesNoDialog(),
+                        new CloseDialog(id), action, param, param1, param2, w,
+                        iCon);
                 return;
             }
         DialogVariables v = iCon.getVariables();
@@ -399,8 +413,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
                 }
             };
-            PerformVariableAction.perform(new CloseDialog(id), arg, iCon,
-                    liManager, vis, w);
+            PerformVariableAction.perform(new YesNoDialog(),
+                    new CloseDialog(id), arg, iCon, liManager, vis, w);
         }
     }
 
