@@ -12,5 +12,13 @@
       </jython>    
  
    </typedef>
+
+  <typedef id="tehelper" type="helper" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>packenum.dialogaction({0},{1})</method>
+      </jython>    
+ 
+   </typedef>
   
 </typedefs>
