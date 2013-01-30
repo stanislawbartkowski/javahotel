@@ -82,7 +82,7 @@ class ReadDialog {
                 ICommonConsts.NOTEMPTY, ICommonConsts.READONLY,
                 ICommonConsts.HIDDEN, ICommonConsts.READONLYADD,
                 ICommonConsts.READONLYCHANGE, ICommonConsts.SIGNALCHANGE,
-                ICommonConsts.HELPER };
+                ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT };

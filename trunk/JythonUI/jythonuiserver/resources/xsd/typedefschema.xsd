@@ -6,6 +6,7 @@
 	<xs:simpleType name="typeName">
      	<xs:restriction base="xs:string">
 			<xs:enumeration value="combo" />
+			<xs:enumeration value="helper" />
 		</xs:restriction>
 	</xs:simpleType>
 	

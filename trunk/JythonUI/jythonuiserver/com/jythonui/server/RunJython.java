@@ -210,7 +210,8 @@ class RunJython {
             }
             ListFormat lForm = d.findList(listId);
             if (lForm == null) {
-                error(d.getId() + " " + ICommonConsts.JLISTMAP + " cannot find list: " + listId);
+                error(d.getId() + " " + ICommonConsts.JLISTMAP
+                        + " cannot find list: " + listId);
             }
             RowIndex rI = new RowIndex(lForm.getColumns());
             ListOfRows lRows = new ListOfRows();
@@ -327,6 +328,9 @@ class RunJython {
                                 + " not implemented yet");
                     }
             } else {
+                if (val == null) {
+                    error(keyS + " cannot be null for unknown variable");
+                }
                 if (val instanceof String) {
                     String valS = (String) val;
                     f.setValue(valS);
@@ -385,7 +389,7 @@ class RunJython {
         // checked by experience that if file.encoding is not null then
         // Jython cannot be started in Development Mode
         // but it works as expected after deploying to Google App Engine
-        System.getProperties().remove("file.encoding");
+        // System.getProperties().remove("file.encoding");
         String importJ = d.getJythonImport();
         putDebug("import jython = " + importJ);
         String methodJ = d.getJythonMethod();
@@ -445,7 +449,8 @@ class RunJython {
     }
 
     private static void executeForType(IJythonUIServerProperties p,
-            MCached mCached, DialogVariables v, DialogFormat d, String idType) {
+            MCached mCached, DialogVariables v, DialogFormat d, String idType,
+            boolean comboNow) {
         if (d.getTypeList() == null) {
             return;
         }
@@ -454,6 +459,12 @@ class RunJython {
                 return;
             }
             TypedefDescr ty = DialogFormat.findE(t.getTypeList(), idType);
+            if (ty.isHelperType() && comboNow) {
+                continue;
+            }
+            if (ty.isComboType() && !comboNow) {
+                continue;
+            }
             DialogVariables va = new DialogVariables();
             DialogFormat dd = new DialogFormat();
             copyAttr(dd, t, ICommonConsts.IMPORT);
@@ -465,7 +476,7 @@ class RunJython {
             li.setColumns(ty.construct());
             dd.getListList().add(li);
             // copy values (variables only)
-            for (String f: v.getFields()) {
+            for (String f : v.getFields()) {
                 FieldValue val = v.getValue(f);
                 va.setValue(f, val);
             }
@@ -484,7 +495,7 @@ class RunJython {
             if (CUtil.EmptyS(t)) {
                 continue;
             }
-            executeForType(p, mCached, v, d, t);
+            executeForType(p, mCached, v, d, t, true);
         }
     }
 
@@ -496,8 +507,15 @@ class RunJython {
         }
     }
 
+    // entry point
+
     static void executeJython(IJythonUIServerProperties p, MCached mCached,
             DialogVariables v, DialogFormat d, String actionId) {
+        String cu = FieldItem.getCustomT(actionId);
+        if (!CUtil.EmptyS(cu)) {
+            executeForType(p, mCached, v, d, cu, false);
+            return;
+        }
         executeJythonforDialog(p, mCached, v, d, actionId);
         if (actionId.equals(ICommonConsts.BEFORE)) {
             executeForEnum(p, mCached, v, d);

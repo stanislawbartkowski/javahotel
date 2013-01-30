@@ -92,4 +92,7 @@ public interface ICommonConsts {
     String BUTT_SHOW = "SHOW";
     String BUTT_FIND = "FIND";
     String BUTT_FILTER = "FILTER";
+    String JCRUD_DIALOG = "JCRUD_DIALOG";
+    String HELPERREFRESH = "helperrefresh";
+    String COMBOTYPE = "combo";
 }

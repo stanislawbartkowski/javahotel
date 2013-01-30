@@ -95,6 +95,7 @@
 			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="actionid" type="xs:string" />
 			<xs:element minOccurs="0" name="helper" type="xs:string" />						
+			<xs:element minOccurs="0" name="helperrefresh" type="emptyT"/>
 			<xs:element minOccurs="0" name="notempty" type="emptyT"/>
 			<xs:element minOccurs="0" name="hidden" type="emptyT"/>
 			<xs:element minOccurs="0" name="readonly" type="emptyT"/>
@@ -109,6 +110,7 @@
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="actionid" type="xs:string" />
 		<xs:attribute name="helper" type="xs:string" />
+		<xs:attribute name="helperrefresh" type="emptyT" />		
 		<xs:attribute name="type" type="typeName" />
 		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
 		<xs:attribute name="notempty" type="emptyT"/>

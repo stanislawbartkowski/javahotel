@@ -62,6 +62,25 @@ class GetViewController implements IGetViewControllerFactory {
     private final RowListDataManager rM;
     private final IVariablesContainer iCon;
 
+    private String getCrudId(PersistTypeEnum e) {
+        String eCrud = null;
+        switch (e) {
+        case ADD:
+            eCrud = ICommonConsts.CRUD_ADD;
+            break;
+        case MODIF:
+            eCrud = ICommonConsts.CRUD_CHANGE;
+            break;
+        case REMOVE:
+            eCrud = ICommonConsts.CRUD_REMOVE;
+            break;
+        default:
+            assert false : LogT.getT().notExpected();
+            break;
+        }
+        return eCrud;
+    }
+
     private class ValidateAction extends AbstractSlotContainer implements
             IDataValidateAction {
 
@@ -196,21 +215,7 @@ class GetViewController implements IGetViewControllerFactory {
                 final WSize w = new WSize(slContext.getGwtWidget());
                 IVariablesContainer iCon = dC.getiCon();
                 DialogVariables v = iCon.getVariables();
-                String eCrud = null;
-                switch (e) {
-                case ADD:
-                    eCrud = ICommonConsts.CRUD_ADD;
-                    break;
-                case MODIF:
-                    eCrud = ICommonConsts.CRUD_CHANGE;
-                    break;
-                case REMOVE:
-                    eCrud = ICommonConsts.CRUD_REMOVE;
-                    break;
-                default:
-                    assert false : LogT.getT().notExpected();
-                    break;
-                }
+                String eCrud = getCrudId(e);
                 ListFormat li = rM.getFormat(dType);
                 final executeCrud exe = new CommandCrud(v, li, eCrud);
 
@@ -248,8 +253,13 @@ class GetViewController implements IGetViewControllerFactory {
             return null;
         }
         IComposeController i = fFactory.construct(da, dFactory);
+
+        DialogVariables addV = new DialogVariables();
+        String eCrud = getCrudId(iContext.getPersistTypeEnum());
+        addV.setValueS(ICommonConsts.JCRUD_DIALOG, eCrud);
+
         DialogContainer sLo = new DialogContainer(da, li.getfElem(), iCon,
-                null, null);
+                null, addV);
         ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
         i.registerControler(cType);
 
