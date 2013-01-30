@@ -12,14 +12,13 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
@@ -52,7 +51,7 @@ public class Test12 extends TestHelper {
         assertNotNull(d);
         assertNotNull(d.getTypeList());
         assertEquals(1, d.getTypeList().size());
-        assertEquals(1, d.getTypeList().get(0).getTypeList().size());
+        assertEquals(2, d.getTypeList().get(0).getTypeList().size());
         DialogVariables v = new DialogVariables();
         iServer.runAction(v, "test26.xml", ICommonConsts.BEFORE);
         ListOfRows ro = v.getEnumList().get("tenum");
@@ -79,4 +78,19 @@ public class Test12 extends TestHelper {
         System.out.println(li.getStandButt());
     }
 
+    
+    @Test
+    public void test4() {
+        DialogFormat d = iServer.findDialog("test28.xml");
+        assertNotNull(d);
+        FieldItem f = d.findFieldItem("glob1");
+        assertNotNull(f);
+        assertTrue(f.isHelperRefresh());
+        assertTrue(f.isHelper());
+        
+        f = d.findFieldItem("glob2");
+        assertNotNull(f);
+        assertFalse(f.isHelperRefresh());
+        assertTrue(f.isHelper());
+    }
 }
