@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * 
  * @author perseus
  */
 class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
@@ -85,6 +85,7 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
             super(MM.getL().SendingHeader());
             create();
         }
+
         private Label box = new Label();
         private Label to = new Label();
         private Label header = new Label();
@@ -139,10 +140,12 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         IFormLineView cView;
         if (text) {
             // text area
-            cView = wFactory.constructTextField(v3,null,null,true,false);
+            cView = wFactory.constructTextField(v3, null, null, true, false,
+                    false);
         } else {
             // richtext
-            cView = wFactory.constructTextField(v3,null,null,false,true);
+            cView = wFactory.constructTextField(v3, null, null, false, true,
+                    false);
         }
         IFormLineView tView = wFactory.constructTextField(v4);
         IFormLineView fromView = wFactory.constructTextField(v5);
@@ -255,7 +258,8 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
             li.add(v3);
             li.add(v4);
             li.add(v5);
-            List<InvalidateMess> lMess = ValidateUtil.checkEmpty(fContainer, li);
+            List<InvalidateMess> lMess = ValidateUtil
+                    .checkEmpty(fContainer, li);
             if (lMess != null) {
                 slMediator.getSlContainer().publish(dType,
                         DataActionEnum.ChangeViewFormToInvalidAction,
@@ -305,7 +309,8 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
         cuFactories = GwtGiniInjector.getI().getTableFactoriesContainer();
         wFactory = GwtGiniInjector.getI().getEditWidgetFactory();
         dFactory = tFactories.getdViewFactory();
-        IJavaMailAction mAction = cuFactories.getJavaMailActionFactory().contruct();
+        IJavaMailAction mAction = cuFactories.getJavaMailActionFactory()
+                .contruct();
         slMediator.registerSlotContainer(mAction);
 
         CellId cId = new CellId(1);

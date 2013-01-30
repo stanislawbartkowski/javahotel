@@ -23,13 +23,14 @@ class EditTextFieldWithHelper extends ExtendTextBox {
     private final WidgetWithPopUpTemplate wHelp;
 
     EditTextFieldWithHelper(ITableCustomFactories tFactories, IVField v,
-            ExtendTextBox.EParam p, IRequestForGWidget i) {
+            ExtendTextBox.EParam p, IRequestForGWidget i, boolean refreshAlways) {
         super(tFactories, v, p);
         IGetCustomValues c = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getGetCustomValues();
 
         wHelp = new WidgetWithPopUpTemplate(v, hPanel,
-                c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), i);
+                c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), i,
+                refreshAlways);
     }
 
     @Override

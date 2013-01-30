@@ -51,6 +51,7 @@ class WidgetWithPopUpTemplate {
     private final IRequestForGWidget iGet;
     private final HTML dB;
     private boolean isReadOnly = false;
+    private final boolean refreshAlways;
 
     final private ClickListener cL = new ClickListener() {
 
@@ -68,7 +69,7 @@ class WidgetWithPopUpTemplate {
                 }
 
             };
-            if (pUp == null) {
+            if ((pUp == null) || refreshAlways) {
                 iGet.run(v, new WSize(arg0), is, close);
             } else {
                 pUp.show();
@@ -81,11 +82,12 @@ class WidgetWithPopUpTemplate {
     }
 
     WidgetWithPopUpTemplate(IVField v, HorizontalPanel hPanel, String image,
-            IRequestForGWidget i) {
+            IRequestForGWidget i, boolean refreshAlways) {
         this.v = v;
         assert image != null : LogT.getT().cannotBeNull();
         this.iGet = i;
         this.hPanel = hPanel;
+        this.refreshAlways = refreshAlways;
         String iPath = Utils.getImageHTML(image);
         dB = new HTML(iPath);
         hPanel.add(dB);
