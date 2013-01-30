@@ -69,7 +69,6 @@ public class EditWidgetFactory {
         return lB;
     }
 
-    
     @SuppressWarnings("unused")
     private void setComboList(IFormLineView i, IGetDataList iGet) {
         GetValueLB lB = (GetValueLB) i;
@@ -88,22 +87,23 @@ public class EditWidgetFactory {
 
     // used
     public IFormLineView constructTextField(IVField v) {
-        return constructTextField(v, null, null,false,false);
+        return constructTextField(v, null, null, false, false, false);
     }
 
     // used
     public IFormLineView constructTextField(IVField v, IGetDataList iGet,
-            IRequestForGWidget iHelper, boolean textarea, boolean richtext) {
+            IRequestForGWidget iHelper, boolean textarea, boolean richtext,
+            boolean refreshAlways) {
         ExtendTextBox.EParam e;
         boolean panel = (iGet != null || iHelper != null);
-        e = new ExtendTextBox.EParam(false, panel, false, textarea, false, richtext,
-                false, iGet, null);
+        e = new ExtendTextBox.EParam(false, panel, false, textarea, false,
+                richtext, false, iGet, null);
         if (iHelper == null)
             return new ExtendTextBox(tFactories, v, e);
-        return new EditTextFieldWithHelper(tFactories, v, e, iHelper);
+        return new EditTextFieldWithHelper(tFactories, v, e, iHelper,
+                refreshAlways);
     }
 
-    
     @SuppressWarnings("unused")
     private IFormLineView constructLabelTextEdit(IVField v, String la) {
         return new LabelEdit(tFactories, v, newE(false, false), la);
@@ -119,38 +119,41 @@ public class EditWidgetFactory {
         return new ComboBoxField(tFactories, v, wy);
     }
 
-    
     @SuppressWarnings("unused")
     private IFormLineView constructRadioSelectField(IVField v) {
         return new RadioBoxField(tFactories, v);
     }
+
     // EParam(boolean password, boolean panel, boolean checkBox, boolean area,
     // boolean enable, boolean isRich, boolean suggestbox,
     // IGetDataList iGet, TextBoxBase tBox) {
-    
-//    public IFormLineView constructListValuesHelp(IVField v, IDataType dType) {
-//        return new ListFieldWithHelp(
-//                tFactories,
-//                v,
-//                dType,
-//                new ExtendTextBox.EParam(false, false, true, false, false, null));
-//    }
+
+    // public IFormLineView constructListValuesHelp(IVField v, IDataType dType)
+    // {
+    // return new ListFieldWithHelp(
+    // tFactories,
+    // v,
+    // dType,
+    // new ExtendTextBox.EParam(false, false, true, false, false, null));
+    // }
 
     @SuppressWarnings("unused")
-    private IFormLineView constructListComboValuesHelp(IVField v, IDataType dType) {
+    private IFormLineView constructListComboValuesHelp(IVField v,
+            IDataType dType) {
         GetValueLB lB = new ListBoxWithHelp(tFactories, v, dType);
         AddBoxValues.addValues(dType, lB);
         return lB;
     }
 
-//    private ExtendTextBox.EParam newC(boolean cEnable) {
-//        return new ExtendTextBox.EParam(false, false, false, true, cEnable,
-//                null);
-//    }
+    // private ExtendTextBox.EParam newC(boolean cEnable) {
+    // return new ExtendTextBox.EParam(false, false, false, true, cEnable,
+    // null);
+    // }
 
-//    public IFormLineView constructTextCheckEdit(IVField v, boolean checkenable) {
-//        return new ExtendTextBox(tFactories, v, newC(checkenable));
-//    }
+    // public IFormLineView constructTextCheckEdit(IVField v, boolean
+    // checkenable) {
+    // return new ExtendTextBox(tFactories, v, newC(checkenable));
+    // }
 
     // used
     public IFormLineView constructEditFileName(IVField v) {
@@ -170,7 +173,6 @@ public class EditWidgetFactory {
         return new ComboBoxField(tFactories, v, createVals(ma));
     }
 
-    
     @SuppressWarnings("unused")
     private IFormLineView constructListCombo(IVField v, List<String> ma,
             boolean addEmpty) {

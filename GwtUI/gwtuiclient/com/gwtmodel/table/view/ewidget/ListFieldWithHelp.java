@@ -49,6 +49,6 @@ class ListFieldWithHelp extends ExtendTextBox {
 
         wHelp = new WidgetWithPopUpTemplate(v, hPanel,
                 c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
-                cHelper.getI());
+                cHelper.getI(), false);
     }
 }

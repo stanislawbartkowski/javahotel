@@ -51,7 +51,7 @@ class ListBoxWithHelp extends GetValueLB {
                 .getTableFactoriesContainer().getGetCustomValues();
         wHelp = new WidgetWithPopUpTemplate(v, hP,
                 c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
-                cHelper.getI());
+                cHelper.getI(), false);
     }
 
     @Override
