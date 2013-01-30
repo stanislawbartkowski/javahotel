@@ -17,6 +17,14 @@ import java.util.List;
 
 public class TypedefDescr extends ElemDescription {
 
+    public boolean isComboType() {
+        return getAttr(ICommonConsts.TYPE).equals(ICommonConsts.COMBOTYPE);
+    }
+
+    public boolean isHelperType() {
+        return getAttr(ICommonConsts.TYPE).equals(ICommonConsts.HELPER);
+    }
+
     public List<FieldItem> construct() {
         String id = getAttr(ICommonConsts.COMBOID);
         String dName = getDisplayName();

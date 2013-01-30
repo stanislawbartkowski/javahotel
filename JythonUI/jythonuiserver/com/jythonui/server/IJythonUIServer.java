@@ -26,7 +26,4 @@ public interface IJythonUIServer {
     DialogVariables runAction(DialogVariables v, String dialogName,
             String actionId);
     
-    
-
-
 }

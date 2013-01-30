@@ -21,7 +21,7 @@ import com.gwtmodel.table.common.TT;
  */
 public class FieldItem extends ElemDescription {
 
-    private String getTypeName() {
+    public String getTypeName() {
         return getAttr(ICommonConsts.TYPE);
     }
 
@@ -33,16 +33,20 @@ public class FieldItem extends ElemDescription {
         return CUtil.getNumb(t.trim());
     }
 
-    public String getCustom() {
-        String t = getTypeName();
-        if (CUtil.EmptyS(t)) {
-            return null;
-        }
+    public static String getCustomT(String t) {
         int p = t.indexOf(ICommonConsts.CUSTOMTYPE);
         if (p != 0) {
             return null;
         }
         return t.substring(ICommonConsts.CUSTOMTYPE.length());
+    }
+
+    public String getCustom() {
+        String t = getTypeName();
+        if (CUtil.EmptyS(t)) {
+            return null;
+        }
+        return getCustomT(t);
     }
 
     public TT getFieldType() {
@@ -104,6 +108,10 @@ public class FieldItem extends ElemDescription {
 
     public boolean isHelper() {
         return isAttr(ICommonConsts.HELPER);
+    }
+
+    public boolean isHelperRefresh() {
+        return isAttr(ICommonConsts.HELPERREFRESH);
     }
 
 }

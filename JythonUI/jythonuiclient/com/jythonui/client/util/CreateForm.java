@@ -71,7 +71,8 @@ public class CreateForm {
                         .constructListValuesCombo(vf, iGet, !f.isNotEmpty());
             } else {
                 if (f.isHelper()) {
-                    v = eFactory.constructTextField(vf, null, iHelper,false,false);
+                    v = eFactory.constructTextField(vf, null, iHelper, false,
+                            false, f.isHelperRefresh());
                 } else {
                     v = eFactory.constructEditWidget(vf);
                 }
