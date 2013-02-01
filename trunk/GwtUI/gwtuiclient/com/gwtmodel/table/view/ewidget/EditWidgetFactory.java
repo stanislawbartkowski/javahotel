@@ -80,6 +80,14 @@ public class EditWidgetFactory {
                 false, false, null, null);
     }
 
+    public IFormLineView constructHelperList(IVField v, IDataType dType,
+            boolean refreshAlways) {
+        ExtendTextBox.EParam e = new ExtendTextBox.EParam(false, true, false,
+                false, false, false, false, null, null);
+        return new ListFieldWithHelp(tFactories, v, dType, e, refreshAlways);
+
+    }
+
     // used
     public IFormLineView constructPasswordField(IVField v) {
         return new ExtendTextBox(tFactories, v, newE(true, false));

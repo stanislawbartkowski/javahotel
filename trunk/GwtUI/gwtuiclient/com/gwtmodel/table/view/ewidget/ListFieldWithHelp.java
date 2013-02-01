@@ -41,7 +41,7 @@ class ListFieldWithHelp extends ExtendTextBox {
     }
 
     ListFieldWithHelp(ITableCustomFactories tFactories, IVField v,
-            IDataType dType, ExtendTextBox.EParam p) {
+            IDataType dType, ExtendTextBox.EParam p, boolean refreshAlways) {
         super(tFactories, v, p);
         cHelper = new RHelp(dType);
         IGetCustomValues c = GwtGiniInjector.getI()
@@ -49,6 +49,6 @@ class ListFieldWithHelp extends ExtendTextBox {
 
         wHelp = new WidgetWithPopUpTemplate(v, hPanel,
                 c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
-                cHelper.getI(), false);
+                cHelper.getI(), refreshAlways);
     }
 }
