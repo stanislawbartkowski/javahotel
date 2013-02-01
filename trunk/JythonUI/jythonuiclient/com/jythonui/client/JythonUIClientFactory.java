@@ -12,9 +12,9 @@
  */
 package com.jythonui.client;
 
+import com.jythonui.client.dialog.CreateFactory;
 import com.jythonui.client.dialog.LeftMenu;
 import com.jythonui.client.dialog.RunAction;
-
 
 /**
  * @author hotel
@@ -26,6 +26,7 @@ public class JythonUIClientFactory {
     }
 
     public static IJythonUIClient construct(IJythonUIClientResources p) {
+        CreateFactory.create();
         M.setJR(p);
         M.setLeftMenu(new LeftMenu());
         return new RunAction();

@@ -51,7 +51,9 @@ public class FieldItem extends ElemDescription {
 
     public TT getFieldType() {
         String t = getTypeName();
-        if (CUtil.EmptyS(t) || CUtil.EqNS(t, ICommonConsts.STRINGTYPE)) {
+        if (CUtil.EmptyS(t) || CUtil.EqNS(t, ICommonConsts.STRINGTYPE)
+                || CUtil.EqNS(t, ICommonConsts.TEXTAREA)
+                || CUtil.EqNS(t, ICommonConsts.RICHTEXT)) {
             return TT.STRING;
         }
         if (getCustom() != null) {
@@ -112,6 +114,14 @@ public class FieldItem extends ElemDescription {
 
     public boolean isHelperRefresh() {
         return isAttr(ICommonConsts.HELPERREFRESH);
+    }
+
+    public boolean isTextArea() {
+        return CUtil.EqNS(getTypeName(), ICommonConsts.TEXTAREA);
+    }
+
+    public boolean isRichText() {
+        return CUtil.EqNS(getTypeName(), ICommonConsts.RICHTEXT);
     }
 
 }

@@ -14,7 +14,6 @@ package com.jythonui.client.dialog;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.SynchronizeList;
@@ -122,7 +121,7 @@ public class RunAction implements IJythonUIClient {
         @Override
         public void signal(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
-            SendCloseSignal sig = (SendCloseSignal) o;
+//            SendCloseSignal sig = (SendCloseSignal) o;
             if (sy.mDial != null) {
                 sy.mDial.hide();
                 // release reference
@@ -168,7 +167,7 @@ public class RunAction implements IJythonUIClient {
 
     @Override
     public void start(String startdialogName) {
-        IDataType dType = DataType.construct(startdialogName);
+        IDataType dType = DataType.construct(startdialogName, null);
         M.JR().getDialogFormat(startdialogName,
                 new StartBack(dType, new GetCenterWidget(), null, null, null));
     }
@@ -184,7 +183,7 @@ public class RunAction implements IJythonUIClient {
      *            Variable top copy from
      */
     public void upDialog(String dialogName, WSize w, IVariablesContainer iCon) {
-        IDataType dType = DataType.construct(dialogName);
+        IDataType dType = DataType.construct(dialogName, null);
 
         M.JR().getDialogFormat(dialogName,
                 new StartBack(dType, new GetUpWidget(w), iCon, null, null));
@@ -193,7 +192,7 @@ public class RunAction implements IJythonUIClient {
     public void getHelperDialog(String dialogName, ISlotListener sl,
             IVariablesContainer iCon, ISendCloseAction iClose,
             DialogVariables addV) {
-        IDataType dType = DataType.construct(dialogName);
+        IDataType dType = DataType.construct(dialogName, null);
 
         M.JR().getDialogFormat(dialogName,
                 new StartBack(dType, sl, iCon, iClose, addV));

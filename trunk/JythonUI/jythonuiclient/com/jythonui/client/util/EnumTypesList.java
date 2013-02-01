@@ -65,7 +65,7 @@ public class EnumTypesList {
 
         @Override
         protected void doTask() {
-            List<FieldItem> fList = type.construct();
+            List<FieldItem> fList = type.getListOfColumns();
             RowIndex rI = new RowIndex(fList);
             String comboField = type.getAttr(ICommonConsts.COMBOID);
             IVField v = VField.construct(comboField);

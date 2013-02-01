@@ -460,10 +460,10 @@ class RunJython {
             }
             TypedefDescr ty = DialogFormat.findE(t.getTypeList(), idType);
             if (ty.isHelperType() && comboNow) {
-                continue;
+                return;
             }
             if (ty.isComboType() && !comboNow) {
-                continue;
+                return;
             }
             DialogVariables va = new DialogVariables();
             DialogFormat dd = new DialogFormat();
@@ -473,7 +473,7 @@ class RunJython {
             copyAttr(dd, ty, ICommonConsts.METHOD);
             ListFormat li = new ListFormat();
             li.setId(ty.getId());
-            li.setColumns(ty.construct());
+            li.getColumns().addAll(ty.getListOfColumns());
             dd.getListList().add(li);
             // copy values (variables only)
             for (String f : v.getFields()) {

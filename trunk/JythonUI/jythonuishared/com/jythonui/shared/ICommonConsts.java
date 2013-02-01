@@ -95,4 +95,6 @@ public interface ICommonConsts {
     String JCRUD_DIALOG = "JCRUD_DIALOG";
     String HELPERREFRESH = "helperrefresh";
     String COMBOTYPE = "combo";
+    String TEXTAREA = "textarea";
+    String RICHTEXT = "richtext";
 }

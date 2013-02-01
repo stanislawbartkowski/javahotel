@@ -21,13 +21,15 @@ import com.gwtmodel.table.IDataType;
 class DataType implements IDataType {
 
     private final String id;
+    private final DialogContainer d;
 
-    private DataType(String id) {
+    private DataType(String id, DialogContainer d) {
         this.id = id;
+        this.d = d;
     }
 
-    static IDataType construct(String id) {
-        return new DataType(id);
+    static IDataType construct(String id, DialogContainer d) {
+        return new DataType(id, d);
     }
 
     @Override
@@ -35,9 +37,9 @@ class DataType implements IDataType {
         DataType d = (DataType) o;
         return id.equals(d.id);
     }
-    
-    public
-    @Override boolean equals(Object o) {
+
+    public @Override
+    boolean equals(Object o) {
         IDataType d = (IDataType) o;
         return eq(d);
     }
@@ -47,4 +49,12 @@ class DataType implements IDataType {
         return id.hashCode();
     }
 
+    DialogContainer getD() {
+        return d;
+    }
+
+    String getId() {
+        return id;
+    }
+    
 }

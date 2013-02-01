@@ -22,4 +22,8 @@ public class JythonUIFatal extends RuntimeException {
         super(mess);
     }
 
+    public JythonUIFatal(Throwable e) {
+        super(e);
+    }
+
 }

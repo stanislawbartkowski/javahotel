@@ -14,7 +14,7 @@ package com.jythonui.client.dialog;
 
 import java.util.List;
 
-import com.gwtmodel.table.IClickYesNo;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
@@ -56,6 +56,7 @@ import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.EnumTypesList;
 import com.jythonui.client.util.ExecuteAction;
+import com.jythonui.client.util.IConstructCustomDataType;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
 import com.jythonui.client.util.PerformVariableAction;
@@ -238,6 +239,15 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     }
 
+    private class DTypeFactory implements IConstructCustomDataType {
+
+        @Override
+        public IDataType construct(String customType) {
+            return DataType.construct(customType, DialogContainer.this);
+        }
+
+    }
+
     @Override
     public void startPublish(CellId cId) {
 
@@ -249,7 +259,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         EnumTypesList eList = new EnumTypesList(d);
         if (d.getFieldList() != null) {
             FormLineContainer fContainer = CreateForm.construct(d,
-                    new GetEnumList(eList), eList, new HelperW());
+                    new GetEnumList(eList), eList, new HelperW(),
+                    new DTypeFactory());
 
             DataViewModelFactory daFactory = GwtGiniInjector.getI()
                     .getDataViewModelFactory();
@@ -283,7 +294,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         if (d.getListList() != null)
             for (ListFormat f : d.getListList()) {
                 String id = f.getId();
-                IDataType da = DataType.construct(id);
+                IDataType da = DataType.construct(id, this);
                 liManager.addList(da, id, f);
                 CellId panelId = pView.addCellPanel(dType, pLine++, 0);
                 ISlotable i = liManager.constructListControler(da, panelId,
@@ -302,8 +313,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         }
         slMediator.startPublish(cId);
         if (d.isBefore()) {
-            ExecuteAction.action(iCon, d.getId(), ICommonConsts.BEFORE,
-                    new BackClass(null, true, null, eList));
+            // ExecuteAction.action(iCon, d.getId(), ICommonConsts.BEFORE,
+            // new BackClass(null, true, null, eList));
+            executeAction(ICommonConsts.BEFORE, new BackClass(null, true, null,
+                    eList));
         } else {
             // display empty list
             for (IDataType da : liManager.getList()) {
@@ -318,7 +331,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
         @Override
         public void answer(String content, String title, String param1) {
-            Utils.errAlert(content + " " + param1, LogT.getT().NotImplemented());           
+            Utils.errAlert(content + " " + param1, LogT.getT().NotImplemented());
         }
 
     }
@@ -431,6 +444,14 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
      */
     public IVariablesContainer getiCon() {
         return iCon;
+    }
+
+    void executeAction(String actionId, AsyncCallback<DialogVariables> callback) {
+        ExecuteAction.action(iCon, d.getId(), actionId, callback);
+    }
+
+    DialogFormat getD() {
+        return d;
     }
 
 }
