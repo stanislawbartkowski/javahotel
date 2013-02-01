@@ -15,7 +15,11 @@ package com.jythonui.shared;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.common.CUtil;
+
 public class TypedefDescr extends ElemDescription {
+
+    private List<FieldItem> lColumns = new ArrayList<FieldItem>();
 
     public boolean isComboType() {
         return getAttr(ICommonConsts.TYPE).equals(ICommonConsts.COMBOTYPE);
@@ -25,17 +29,30 @@ public class TypedefDescr extends ElemDescription {
         return getAttr(ICommonConsts.TYPE).equals(ICommonConsts.HELPER);
     }
 
-    public List<FieldItem> construct() {
-        String id = getAttr(ICommonConsts.COMBOID);
+    public String getComboId() {
+        return getAttr(ICommonConsts.COMBOID);
+    }
+
+    public List<FieldItem> getListOfColumns() {
+        if (!lColumns.isEmpty()) {
+            return lColumns;
+        }
+        String id = getComboId();
         String dName = getDisplayName();
         List<FieldItem> fList = new ArrayList<FieldItem>();
         FieldItem f = new FieldItem();
         f.setId(id);
         fList.add(f);
-        f = new FieldItem();
-        f.setId(dName);
-        fList.add(f);
+        if (!CUtil.EmptyS(dName)) {
+            f = new FieldItem();
+            f.setId(dName);
+            fList.add(f);
+        }
         return fList;
+    }
+
+    public List<FieldItem> getColumns() {
+        return lColumns;
     }
 
 }

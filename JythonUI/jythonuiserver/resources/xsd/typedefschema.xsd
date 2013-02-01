@@ -48,6 +48,18 @@
 		<xs:attribute name="comboid" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
 	</xs:attributeGroup>
+	
+	<xs:group name="columnG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+	    </xs:sequence>
+	</xs:group>
+	
+	<xs:attributeGroup name="columnattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+    </xs:attributeGroup>	    
 
 	<xs:element name="typedefs">
 		<xs:complexType>
@@ -56,12 +68,32 @@
 				<xs:sequence minOccurs="1" maxOccurs="unbounded">
 				  <xs:element name="typedef">
 					<xs:complexType>
-						<xs:group ref="typedefG" />
-						<xs:attributeGroup ref="typedefattrG" />
-					</xs:complexType>
-  				  </xs:element>
-				</xs:sequence>  
-             </xs:sequence>
+					
+					  <xs:sequence>
+					  
+ 						<xs:group ref="typedefG" /> 
+                        					
+				    	<xs:element minOccurs="0" name="columns">
+     					  <xs:complexType>
+						     <xs:sequence minOccurs="1" maxOccurs="unbounded">
+							 <xs:element name="column">
+								<xs:complexType>
+									<xs:group ref="columnG" />
+									<xs:attributeGroup ref="columnattrG" />
+								</xs:complexType>
+							</xs:element>
+						    </xs:sequence>
+					      </xs:complexType>
+				        </xs:element>
+
+				     </xs:sequence> 
+						
+				      <xs:attributeGroup ref="typedefattrG" />
+	  		        </xs:complexType>
+  			      </xs:element>
+			    </xs:sequence>  
+			    
+           </xs:sequence>
         </xs:complexType>
     </xs:element>      
 	

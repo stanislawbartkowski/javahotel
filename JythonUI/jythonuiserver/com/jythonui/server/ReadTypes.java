@@ -14,7 +14,6 @@ package com.jythonui.server;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -26,6 +25,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.jythonui.shared.ElemDescription;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.TypedefDescr;
 import com.jythonui.shared.TypesDescr;
@@ -36,11 +36,14 @@ class ReadTypes {
 
         /** DialogFormat class being built. */
         private TypesDescr dTypes = null;
+        private TypedefDescr aType = null;
         private ElemDescription bDescr = null;
         private String tagElem[] = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT,
                 ICommonConsts.METHOD, ICommonConsts.TYPE, ICommonConsts.COMBOID };
         private StringBuffer buf;
+        private String colElem[] = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME };
+        private String[] aElem;
 
         @Override
         public void startElement(String uri, String localName, String qName,
@@ -50,14 +53,22 @@ class ReadTypes {
             if (qName.equals(ICommonConsts.TYPEDEFS)) {
                 dTypes = new TypesDescr();
                 bDescr = dTypes;
+                aElem = tagElem;
                 getAttribute = true;
             }
             if (qName.equals(ICommonConsts.TYPEDEF)) {
-                bDescr = new TypedefDescr();
+                aType = new TypedefDescr();
+                bDescr = aType;
+                aElem = tagElem;
                 getAttribute = true;
             }
+            if (qName.equals(ICommonConsts.COLUMN)) {
+                bDescr = new FieldItem();
+                aElem = colElem;
+                getAttribute = true;                
+            }
             if (getAttribute) {
-                SaxUtil.readAttr(bDescr, attributes, tagElem);
+                SaxUtil.readAttr(bDescr, attributes, aElem);
             }
         }
 
@@ -69,14 +80,14 @@ class ReadTypes {
             }
             if (qName.equals(ICommonConsts.TYPEDEF)) {
                 List<TypedefDescr> tList = dTypes.getTypeList();
-                if (tList == null) {
-                    tList = new ArrayList<TypedefDescr>();
-                    dTypes.setTypeList(tList);
-                }
-                tList.add((TypedefDescr) bDescr);
-                bDescr = null;
+                tList.add(aType);
+                return;
             }
-            SaxUtil.readVal(bDescr, qName, tagElem, buf);
+            if (qName.equals(ICommonConsts.COLUMN)) {
+                aType.getColumns().add((FieldItem) bDescr);
+                return;
+            }
+            SaxUtil.readVal(bDescr, qName, aElem, buf);
         }
 
         @Override

@@ -12,18 +12,15 @@
  */
 package com.jythonui.shared;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TypesDescr extends ElemDescription {
     
-    private List<TypedefDescr> typeList;
+    private List<TypedefDescr> typeList = new ArrayList<TypedefDescr>();
 
     public List<TypedefDescr> getTypeList() {
         return typeList;
-    }
-
-    public void setTypeList(List<TypedefDescr> typeList) {
-        this.typeList = typeList;
     }
 
 }

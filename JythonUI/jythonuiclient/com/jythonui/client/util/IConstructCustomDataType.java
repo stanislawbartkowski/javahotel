@@ -10,24 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client;
+package com.jythonui.client.util;
 
-import com.google.gwt.i18n.client.Messages;
+import com.gwtmodel.table.IDataType;
 
-/**
- * @author hotel
- * 
- */
-public interface JMessages extends Messages {
-
-    String ErrorNoValue(String key);
-
-    String ListDoesNotHaveELem(String listId, String attrName);
-
-    String UnknownAction(String action, String param);
-
-    String CustomTypeNotDefine();
-    
-    String CannotFindCustomType(String typeName);
+public interface IConstructCustomDataType {
+   
+    IDataType construct(String customType);
 
 }

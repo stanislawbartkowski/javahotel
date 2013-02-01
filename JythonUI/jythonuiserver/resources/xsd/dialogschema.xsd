@@ -5,7 +5,7 @@
 
 	<xs:simpleType name="typeName">
 		<xs:restriction base="xs:string">
-			<xs:pattern value="int|string|bool|decimal|long|date|datetime|int|custom:.*" />
+			<xs:pattern value="int|string|textarea|richtext|bool|decimal|long|date|datetime|int|custom:.*" />
 		</xs:restriction>
 	</xs:simpleType>
 	

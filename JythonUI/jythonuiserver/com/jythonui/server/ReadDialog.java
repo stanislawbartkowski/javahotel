@@ -141,7 +141,6 @@ class ReadDialog {
             }
             if (qName.equals(ICommonConsts.COLUMNS)) {
                 ListFormat li = (ListFormat) bDescr;
-                li.setColumns(fList);
                 List<ListFormat> foList = dFormat.getListList();
                 foList.add(li);
                 return;
@@ -221,11 +220,18 @@ class ReadDialog {
                 bList = null;
                 return;
             }
+            if (qName.equals(ICommonConsts.COLUMNS)) {
+                ListFormat li = dFormat.getListList().get(dFormat.getListList().size()-1);
+                li.getColumns().addAll(fList);
+                return;
+            }
+
             if (qName.equals(ICommonConsts.FORM)) {
                 dFormat.getFieldList().addAll(fList);
                 fList = null;
                 return;
             }
+
             SaxUtil.readVal(bDescr, qName, currentT, buf);
         }
 

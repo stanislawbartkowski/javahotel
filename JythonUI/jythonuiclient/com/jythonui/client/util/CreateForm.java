@@ -15,8 +15,10 @@ package com.jythonui.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editc.IRequestForGWidget;
@@ -33,6 +35,7 @@ import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.TypedefDescr;
 
 /**
  * @author hotel
@@ -52,12 +55,9 @@ public class CreateForm {
     }
 
     public static FormLineContainer construct(DialogFormat d,
-            IGetDataList iGet, EnumTypesList eList, IRequestForGWidget iHelper) {
-        return construct(d.getFieldList(), iGet, eList, iHelper);
-    }
-
-    private static FormLineContainer construct(List<FieldItem> iList,
-            IGetDataList iGet, EnumTypesList eList, IRequestForGWidget iHelper) {
+            IGetDataList iGet, EnumTypesList eList, IRequestForGWidget iHelper,
+            IConstructCustomDataType fType) {
+        List<FieldItem> iList = d.getFieldList();
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
         List<FormField> fList = new ArrayList<FormField>();
@@ -66,16 +66,29 @@ public class CreateForm {
             IVField vf = VField.construct(f);
             IFormLineView v;
             if (!CUtil.EmptyS(f.getCustom())) {
-                eList.add(vf, f.getCustom());
-                v = eFactory
-                        .constructListValuesCombo(vf, iGet, !f.isNotEmpty());
+                TypedefDescr te = d.findCustomType(f.getCustom());
+                if (te == null) {
+                    Utils.errAlert(f.getCustom(),
+                            M.M().CannotFindCustomType(f.getTypeName()));
+                }
+                if (te.isComboType()) {
+                    eList.add(vf, f.getCustom());
+                    v = eFactory.constructListValuesCombo(vf, iGet,
+                            !f.isNotEmpty());
+                } else {
+                    IDataType dType = fType.construct(f.getTypeName());
+                    v = eFactory.constructHelperList(vf, dType,
+                            f.isHelperRefresh());
+                }
             } else {
-                if (f.isHelper()) {
-                    v = eFactory.constructTextField(vf, null, iHelper, false,
-                            false, f.isHelperRefresh());
+                if (f.isHelper() || f.isTextArea() || f.isRichText()) {
+                    v = eFactory.constructTextField(vf, null,
+                            f.isHelper() ? iHelper : null, f.isTextArea(),
+                            f.isRichText(), f.isHelperRefresh());
                 } else {
                     v = eFactory.constructEditWidget(vf);
                 }
+
             }
             if (f.isHidden()) {
                 v.setHidden(true);

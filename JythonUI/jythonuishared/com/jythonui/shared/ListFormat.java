@@ -12,6 +12,7 @@
  */
 package com.jythonui.shared;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,15 +21,11 @@ import java.util.List;
  */
 public class ListFormat extends ElemDescription {
 
-    private List<FieldItem> colList;
+    private List<FieldItem> colList = new ArrayList<FieldItem>();
     private DialogFormat fElem;
 
     public String getElemFormat() {
         return getAttr(ICommonConsts.ELEMFORMAT);
-    }
-
-    public void setColumns(List<FieldItem> colList) {
-        this.colList = colList;
     }
 
     public List<FieldItem> getColumns() {

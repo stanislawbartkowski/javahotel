@@ -62,6 +62,7 @@ class GetDialog {
 
     private static void logError(Throwable e) {
         log.log(Level.SEVERE, "", e);
+        throw new JythonUIFatal(e);
     }
 
     static private URL getURLSchema(String schemaname) {
