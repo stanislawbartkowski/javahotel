@@ -56,8 +56,6 @@ public class WebJythonUi implements EntryPoint {
         ITableAbstractFactories tFactories = GwtGiniInjector.getI()
                 .getITableAbstractFactories();
         tFactories.registerGetCustomValues(new CustomFactory());
-        tFactories
-                .registerDataFormConstructorAbstractFactory(new FormFactory());
 
         startW();
         iClient.start(START);
