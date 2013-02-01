@@ -13,11 +13,18 @@
  
    </typedef>
 
-  <typedef id="tehelper" type="helper" comboid="id" displayname = "name">
+  <typedef id="tehelper" type="helper" comboid="id" displayname = "List of ids">
   
      <jython>
         <method>packenum.dialogaction({0},{1})</method>
       </jython>    
+      
+      
+      <columns>
+      <column id="id" displayname="Id" />
+      <column id="name" displayname="Name" />
+      <column id="val" displayname="Value" />
+      </columns>
  
    </typedef>
   
