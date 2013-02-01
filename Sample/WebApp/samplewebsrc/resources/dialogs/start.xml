@@ -16,6 +16,7 @@
   <button id="errmessage" displayname="Err Message" actiontype="JERROR_MESSAGE" actionparam="Terrible error" actionparam1="Fatal" />
   <button id="dcombo" displayname="Combo dialog" actiontype="JMAIN_DIALOG" actionparam="dialcombo.xml" />
   <button id="dhelper" displayname="Helper dialog" actiontype="JMAIN_DIALOG" actionparam="helperdialog.xml" />
+  <button id="dtext" displayname="Text area" actiontype="JMAIN_DIALOG" actionparam="textdialog.xml" />
 </leftmenu>
 
 <buttons>

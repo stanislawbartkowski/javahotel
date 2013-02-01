@@ -32,3 +32,6 @@ def dialogaction(action,var) :
     var['globdate'] = datetime.date(2001,11,5);
     var['JCOPY_globdate'] = True
   
+  
+def textaction(action,var) :
+  print "text",action

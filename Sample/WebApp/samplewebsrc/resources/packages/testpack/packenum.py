@@ -23,3 +23,22 @@ def dialogaction(action,var) :
   map = {}
   map[action] = seq
   var["JLIST_MAP"] = map  
+
+  
+def helperaction(action,var) :
+
+  print "helperaction",action
+  for k in var.keys() : 
+    print k, var[k]
+    
+  seq = []
+  for i in range(100) :
+        rec = {}
+        rec['id'] = str(i)
+        rec['name'] = 'helper ' + str(i)
+        seq.append(rec)
+        
+  map = {}
+  map[action] = seq
+  var["JLIST_MAP"] = map  
+    

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+ 
+ <jython>
+   <import>from testpack import main</import>
+   <method>main.textaction({0},{1})</method>
+ </jython>  
+ 
+ <form>
+   <field id="textf" type="textarea" />   
+   <field id="text4" type="richtext" />   
+ </form>  
+
+
+</dialog>
