@@ -73,12 +73,21 @@ public class Test13 extends TestHelper {
         assertNotNull(f);
         assertEquals(TT.STRING, f.getFieldType());
         assertTrue(f.isTextArea());
+        assertNull(f.getFrom());
 
         f = d.findFieldItem("glob3");
         assertNotNull(f);
         assertEquals(TT.STRING, f.getFieldType());
         assertFalse(f.isTextArea());
         assertTrue(f.isRichText());
+    }
+
+    @Test
+    public void test5() {
+        DialogFormat d = iServer.findDialog("test29.xml");
+        assertNotNull(d);
+        FieldItem f = d.findFieldItem("glob2");
+        assertEquals("glob", f.getFrom());
     }
 
 }

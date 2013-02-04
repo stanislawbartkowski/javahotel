@@ -35,3 +35,12 @@ def dialogaction(action,var) :
   
 def textaction(action,var) :
   print "text",action
+  if action == "before" :
+#    var["timed"] = datetime.datetime(2017,01,13,20,45,14)
+#    var['JCOPY_timed'] = True
+   pass
+
+  if action == "butt" :
+    for k in var.keys() : 
+      print k,var[k]
+        

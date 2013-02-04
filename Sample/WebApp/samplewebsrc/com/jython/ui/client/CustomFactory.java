@@ -36,6 +36,9 @@ class CustomFactory implements IGetCustomValues {
         if (key.equals(IGetCustomValues.DATEFORMAT)) {
             return "yyyy/MM/dd";
         }
+        if (key.equals(IGetCustomValues.DATETIMEFORMAT)) {
+            return "yyyy/MM/dd HH:mm:ss";
+        }
         if (key.equals(IGetCustomValues.RESOURCEFOLDER)) {
             return "res";
         }

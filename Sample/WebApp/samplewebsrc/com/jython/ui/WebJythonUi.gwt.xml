@@ -38,5 +38,4 @@
   <inherits name="com.jythonui.jythonuiclient" />
   <inherits name="com.jythonui.jythonuicommon" />
   
-
 </module>

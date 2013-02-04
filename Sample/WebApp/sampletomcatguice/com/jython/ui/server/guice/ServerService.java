@@ -35,11 +35,11 @@ public class ServerService {
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
+            bind(ICommonCache.class).to(SimpleMapCache.class).in(
+                    Singleton.class);
             bind(IJythonUIServer.class)
                     .toProvider(JythonUiServerProvider.class).in(
                             Singleton.class);
-            bind(ICommonCache.class).to(SimpleMapCache.class).in(
-                    Singleton.class);
         }
     }
 

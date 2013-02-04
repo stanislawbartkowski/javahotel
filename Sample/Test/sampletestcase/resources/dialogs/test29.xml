@@ -13,6 +13,7 @@
  <form>
    <field id="glob" />
    <field id="globhelper" type="custom:tehelper" />
+   <field id="glob2" from="glob" type="custom:tehelper" />
  </form>  
  
  </dialog>
