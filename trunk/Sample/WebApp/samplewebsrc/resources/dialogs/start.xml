@@ -17,6 +17,7 @@
   <button id="dcombo" displayname="Combo dialog" actiontype="JMAIN_DIALOG" actionparam="dialcombo.xml" />
   <button id="dhelper" displayname="Helper dialog" actiontype="JMAIN_DIALOG" actionparam="helperdialog.xml" />
   <button id="dtext" displayname="Text area" actiontype="JMAIN_DIALOG" actionparam="textdialog.xml" />
+  <button id="dlist" displayname="Time list" actiontype="JMAIN_DIALOG" actionparam="timelist.xml" />
 </leftmenu>
 
 <buttons>
