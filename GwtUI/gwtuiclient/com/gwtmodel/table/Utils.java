@@ -13,6 +13,7 @@
 package com.gwtmodel.table;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -160,24 +161,24 @@ public class Utils {
         }
     }
 
-    // Date
-    public static String getDateFormat() {
+    private static String getCValue(String key) {
         IGetCustomValues c = GwtGiniInjector.getI()
                 .getTableFactoriesContainer().getGetCustomValues();
         assert c != null : LogT.getT().cannotBeNull();
-        String f = c.getCustomValue(IGetCustomValues.DATEFORMAT);
+        String f = c.getCustomValue(key);
         return f;
+
     }
 
-    private static DateTimeFormat getDateTimeFormat() {
-        String f = getDateFormat();
+    private static DateTimeFormat getDateFormat(String key) {
+        String f = getCValue(key);
         assert f != null : LogT.getT().cannotBeNull();
         DateTimeFormat te = DateTimeFormat.getFormat(f);
         return te;
     }
 
     public static Date toD(String s) {
-        DateTimeFormat te = getDateTimeFormat();
+        DateTimeFormat te = getDateFormat(IGetCustomValues.DATEFORMAT);
         try {
             return te.parseStrict(s);
         } catch (IllegalArgumentException e) {
@@ -189,7 +190,28 @@ public class Utils {
         if (d == null) {
             return null;
         }
-        DateTimeFormat te = getDateTimeFormat();
+        DateTimeFormat te = getDateFormat(IGetCustomValues.DATEFORMAT);
+        return te.format(d);
+    }
+
+    public static Timestamp toDT(String s) {
+        DateTimeFormat te = getDateFormat(IGetCustomValues.DATETIMEFORMAT);
+        Date d;
+        try {
+            d = te.parseStrict(s);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+        Timestamp t = new Timestamp(d.getTime());
+        return t;
+    }
+
+    public static String toS(Timestamp t) {
+        if (t == null) {
+            return null;
+        }
+        DateTimeFormat te = getDateFormat(IGetCustomValues.DATETIMEFORMAT);
+        Date d = new Date(t.getTime());
         return te.format(d);
     }
 

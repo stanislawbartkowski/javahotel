@@ -13,6 +13,7 @@
 package com.gwtmodel.table;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import com.gwtmodel.table.common.CUtil;
@@ -102,6 +103,9 @@ public class FUtils {
         case DATE:
             o = Utils.toD(s);
             break;
+        case DATETIME:
+            o = Utils.toDT(s);
+            break;
         case INT:
             o = Utils.toInteger(s);
             break;
@@ -172,6 +176,12 @@ public class FUtils {
         return (Date) val;
     }
 
+    public static Timestamp getValueTimestamp(IVModelData ii, IVField f) {
+        Object val = getF(ii, f);
+        assertType(f, val);
+        return (Timestamp) val;
+    }
+
     public static String getValueString(IVModelData ii, IVField f) {
         Object val = getF(ii, f);
         assertType(f, val);
@@ -217,6 +227,10 @@ public class FUtils {
         return getValueDate(ii, f) == null;
     }
 
+    private static boolean isNullTimestamp(IVModelData ii, IVField f) {
+        return getValueTimestamp(ii, f) == null;
+    }
+
     private static boolean isNullString(IVModelData ii, IVField f) {
         return CUtil.EmptyS(getValueString(ii, f));
     }
@@ -251,6 +265,8 @@ public class FUtils {
             return isNullInt(ii, f);
         case DATE:
             return isNullDate(ii, f);
+        case DATETIME:
+            return isNullTimestamp(ii, f);
         case ENUM:
             return isNullEnum(ii, f);
             // cannot set boolean as null
@@ -289,6 +305,13 @@ public class FUtils {
         Date rD = getValueDate(row, f);
         Date fD = getValueDate(filter, from);
         return DateUtil.compareDate(fD, rD);
+    }
+
+    private static int compTimestamp(IVModelData row, IVField f,
+            IVModelData filter, IVField from) {
+        Timestamp rD = getValueTimestamp(row, f);
+        Timestamp fD = getValueTimestamp(filter, from);
+        return DateUtil.compareTimestamp(fD, rD);
     }
 
     private static int compLong(IVModelData row, IVField f, IVModelData filter,
@@ -338,6 +361,9 @@ public class FUtils {
             break;
         case DATE:
             comp = compDate(row1, f1, row2, f2);
+            break;
+        case DATETIME:
+            comp = compTimestamp(row1, f1, row2, f2);
             break;
         case BOOLEAN:
             comp = compBoolean(row1, f1, row2, f2);
@@ -405,6 +431,9 @@ public class FUtils {
             case DATE:
                 compfrom = compDate(row, f, filter, from);
                 break;
+            case DATETIME:
+                compfrom = compTimestamp(row, f, filter, from);
+                break;
             case BOOLEAN:
                 compfrom = compBoolean(row, f, filter, from);
                 break;
@@ -426,6 +455,9 @@ public class FUtils {
                 break;
             case DATE:
                 compto = compDate(row, f, filter, to);
+                break;
+            case DATETIME:
+                compto = compTimestamp(row, f, filter, to);
                 break;
             case BOOLEAN:
                 compto = compBoolean(row, f, filter, to);
@@ -459,6 +491,11 @@ public class FUtils {
 
     private static String getDateS(Object o, IVField f) {
         Date d = (Date) o;
+        return Utils.toS(d);
+    }
+
+    private static String getTimestampS(Object o, IVField f) {
+        Timestamp d = (Timestamp) o;
         return Utils.toS(d);
     }
 
@@ -532,6 +569,8 @@ public class FUtils {
                 return getLongS(o, f);
             case DATE:
                 return getDateS(o, f);
+            case DATETIME:
+                return getTimestampS(o, f);
             case INT:
                 return getIntS(o, f);
             case ENUM:
@@ -641,6 +680,9 @@ public class FUtils {
             break;
         case DATE:
             assert o instanceof Date : assertTypeS(o, Date.class);
+            break;
+        case DATETIME:
+            assert o instanceof Timestamp : assertTypeS(o, Timestamp.class);
             break;
         case BOOLEAN:
             assert o instanceof Boolean : assertTypeS(o, Boolean.class);

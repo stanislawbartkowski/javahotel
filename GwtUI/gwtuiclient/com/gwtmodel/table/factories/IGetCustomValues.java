@@ -17,6 +17,7 @@ import com.gwtmodel.table.IVField;
 public interface IGetCustomValues {
 
     IVField getSymForCombo();
+
     String IMAGEFORLISTHELP = "IMAGEFORLISTHEP";
     String IMAGEFOLDER = "IMAGEFOLDER";
     String RESOURCEFOLDER = "RESOURCEFOLDER";
@@ -34,6 +35,7 @@ public interface IGetCustomValues {
     String PASSWORD = "PASSWORD";
     String LOGINBUTTON = "LOGINBUTTON";
     String DATEFORMAT = "DATEFORMAT";
+    String DATETIMEFORMAT = "DATETIMEFORMAT";
     String HTMLPANELFORCHOOSELIST = "HTMLPANELFORCHOOSELIST";
     String NUMBERFORMAT0 = "NUMBERFORMAT0";
     String NUMBERFORMAT1 = "NUMBERFORMAT1";

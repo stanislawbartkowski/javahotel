@@ -98,6 +98,9 @@ public class EditWidgetFactory {
         return constructTextField(v, null, null, false, false, false);
     }
 
+    
+//    HourMinutePicker hourMinutePicker = new HourMinutePicker(PickerFormat._12_HOUR);
+//    RootPanel.get().add(hourMinutePicker);
     // used
     public IFormLineView constructTextField(IVField v, IGetDataList iGet,
             IRequestForGWidget iHelper, boolean textarea, boolean richtext,
@@ -203,6 +206,8 @@ public class EditWidgetFactory {
             return fa.construct(v);
         }
         switch (v.getType().getType()) {
+        case DATETIME:
+            return new DateTimePicker(tFactories, v);
         case DATE:
             return construcDateBoxCalendar(v);
         case INT:
