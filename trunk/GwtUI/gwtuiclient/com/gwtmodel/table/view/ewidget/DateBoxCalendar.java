@@ -67,7 +67,7 @@ class DateBoxCalendar extends AbstractField {
     }
 
     @SuppressWarnings("rawtypes")
-    protected class TouchValueChange implements ValueChangeHandler {
+    private class TouchValueChange implements ValueChangeHandler {
 
         @Override
         public void onValueChange(ValueChangeEvent event) {

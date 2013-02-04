@@ -12,8 +12,10 @@
  */
 package com.gwtmodel.table.common.dateutil;
 
-import com.gwtmodel.table.common.PeriodT;
+import java.sql.Timestamp;
 import java.util.Date;
+
+import com.gwtmodel.table.common.PeriodT;
 
 /**
  * Utilities related to date methods
@@ -79,6 +81,28 @@ public class DateUtil {
         return compareDate(d1, d2) == 0;
     }
 
+    private static int dCompare(int y1, int y2, int m1, int m2, int dd1, int dd2) {
+        if (y1 != y2) {
+            if (y1 < y2) {
+                return -1;
+            }
+            return 1;
+        }
+        if (m1 != m2) {
+            if (m1 < m2) {
+                return -1;
+            }
+            return 1;
+        }
+        if (dd1 != dd2) {
+            if (dd1 < dd2) {
+                return -1;
+            }
+            return 1;
+        }
+        return 0;
+    }
+
     /**
      * Test if two dates are equal and also check for nul
      * 
@@ -101,6 +125,16 @@ public class DateUtil {
         return eqDate(d1, d2);
     }
 
+    @SuppressWarnings("deprecation")
+    public static int compareTimestamp(final Timestamp d1, final Timestamp d2) {
+        int res = compareDate(d1, d2);
+        if (res != 0) {
+            return res;
+        }
+        return dCompare(d1.getHours(), d2.getHours(), d1.getMinutes(),
+                d2.getMinutes(), d1.getSeconds(), d2.getSeconds());
+    }
+
     /**
      * Compare two dates (day)
      * 
@@ -114,31 +148,8 @@ public class DateUtil {
 
     @SuppressWarnings("deprecation")
     public static int compareDate(final Date d1, final Date d2) {
-        int y1 = d1.getYear();
-        int y2 = d2.getYear();
-        if (y1 != y2) {
-            if (y1 < y2) {
-                return -1;
-            }
-            return 1;
-        }
-        int m1 = d1.getMonth();
-        int m2 = d2.getMonth();
-        if (m1 != m2) {
-            if (m1 < m2) {
-                return -1;
-            }
-            return 1;
-        }
-        int dd1 = d1.getDate();
-        int dd2 = d2.getDate();
-        if (dd1 != dd2) {
-            if (dd1 < dd2) {
-                return -1;
-            }
-            return 1;
-        }
-        return 0;
+        return dCompare(d1.getYear(), d2.getYear(), d1.getMonth(),
+                d2.getMonth(), d1.getDate(), d2.getDate());
     }
 
     /**
