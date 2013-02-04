@@ -82,7 +82,8 @@ class ReadDialog {
                 ICommonConsts.NOTEMPTY, ICommonConsts.READONLY,
                 ICommonConsts.HIDDEN, ICommonConsts.READONLYADD,
                 ICommonConsts.READONLYCHANGE, ICommonConsts.SIGNALCHANGE,
-                ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH };
+                ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH,
+                ICommonConsts.FROM };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT };
@@ -221,7 +222,8 @@ class ReadDialog {
                 return;
             }
             if (qName.equals(ICommonConsts.COLUMNS)) {
-                ListFormat li = dFormat.getListList().get(dFormat.getListList().size()-1);
+                ListFormat li = dFormat.getListList().get(
+                        dFormat.getListList().size() - 1);
                 li.getColumns().addAll(fList);
                 return;
             }
