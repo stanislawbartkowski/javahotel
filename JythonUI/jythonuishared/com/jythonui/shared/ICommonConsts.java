@@ -97,4 +97,5 @@ public interface ICommonConsts {
     String COMBOTYPE = "combo";
     String TEXTAREA = "textarea";
     String RICHTEXT = "richtext";
+    String FROM = "from";
 }

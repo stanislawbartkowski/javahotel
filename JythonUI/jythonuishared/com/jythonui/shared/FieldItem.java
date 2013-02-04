@@ -124,4 +124,8 @@ public class FieldItem extends ElemDescription {
         return CUtil.EqNS(getTypeName(), ICommonConsts.RICHTEXT);
     }
 
+    public String getFrom() {
+        return getAttr(ICommonConsts.FROM);
+    }
+
 }
