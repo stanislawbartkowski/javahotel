@@ -30,14 +30,14 @@ import com.jythonui.shared.FieldItem;
  * @author hotel
  * 
  */
-public class VerifyEmpty {
+class VerifyEmpty {
 
     private VerifyEmpty() {
 
     }
 
-    public static boolean isEmpty(IDataType dType, IVModelData vData,
-            ISlotable iSlo, List<FieldItem> fList) {
+    static boolean isEmpty(IDataType dType, IVModelData vData,
+            ISlotable iSlo, List<FieldItem> fList, DataActionEnum errSig) {
         List<IVField> eList = new ArrayList<IVField>();
         for (FieldItem i : fList)
             if (i.isNotEmpty()) {
@@ -46,12 +46,11 @@ public class VerifyEmpty {
             }
         List<InvalidateMess> err = ValidateUtil.checkEmpty(vData, eList);
         if (err != null) {
-            iSlo.getSlContainer().publish(dType, DataActionEnum.InvalidSignal,
+            iSlo.getSlContainer().publish(dType, errSig,
                     new InvalidateFormContainer(err));
             return true;
         }
         return false;
-
     }
 
 }

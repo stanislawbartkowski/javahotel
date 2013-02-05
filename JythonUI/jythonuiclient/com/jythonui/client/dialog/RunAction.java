@@ -120,7 +120,7 @@ public class RunAction implements IJythonUIClient {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            ICustomObject o = slContext.getCustom();
+//            ICustomObject o = slContext.getCustom();
 //            SendCloseSignal sig = (SendCloseSignal) o;
             if (sy.mDial != null) {
                 sy.mDial.hide();

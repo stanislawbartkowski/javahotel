@@ -23,6 +23,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -34,6 +35,7 @@ import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.TypedefDescr;
 
@@ -62,7 +64,6 @@ public class CreateForm {
                 .getEditWidgetFactory();
         List<FormField> fList = new ArrayList<FormField>();
         for (FieldItem f : iList) {
-            String name = getDisplayName(f);
             IVField vf = VField.construct(f);
             IFormLineView v;
             if (!CUtil.EmptyS(f.getCustom())) {
@@ -96,8 +97,25 @@ public class CreateForm {
             if (f.isReadOnly()) {
                 v.setReadOnly(true);
             }
-            FormField fie = new FormField(name, v, vf, f.isReadOnlyChange(),
-                    f.isReadOnlyAdd());
+
+            String name = null;
+            IVField fRange = null;
+            if (!CUtil.EmptyS(f.getFrom())) {
+                if (CUtil.EmptyS(f.getDisplayName())) {
+                    name = MM.getL().BetweenFieldsRange();
+                }
+                FieldItem ff = d.findFieldItem(f.getFrom());
+                if (ff == null) {
+                    Utils.errAlert(M.M().CannotFindFromField(
+                            ICommonConsts.FROM, f.getFrom()));
+                } else
+                    fRange = VField.construct(ff);
+            }
+            if (name == null)
+                name = getDisplayName(f);
+
+            FormField fie = new FormField(name, v, vf, fRange,
+                    f.isReadOnlyChange(), f.isReadOnlyAdd());
             fList.add(fie);
         }
         return new FormLineContainer(fList);

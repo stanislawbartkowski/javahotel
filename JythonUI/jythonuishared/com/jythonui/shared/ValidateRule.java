@@ -10,30 +10,8 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client;
+package com.jythonui.shared;
 
-import com.google.gwt.i18n.client.Messages;
-
-/**
- * @author hotel
- * 
- */
-public interface JMessages extends Messages {
-
-    String ErrorNoValue(String key);
-
-    String ListDoesNotHaveELem(String listId, String attrName);
-
-    String UnknownAction(String action, String param);
-
-    String CustomTypeNotDefine();
-    
-    String CannotFindCustomType(String typeName);
-    
-    String CannotFindFromField(String from,String fid);
-    
-    String ValidateAttributeNotDefined(String id);
-    
-    String ValidateFieldNotFound(String id,String fid);
+public class ValidateRule extends ElemDescription {
 
 }

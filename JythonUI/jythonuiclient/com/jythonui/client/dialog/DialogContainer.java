@@ -45,6 +45,7 @@ import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
@@ -60,6 +61,7 @@ import com.jythonui.client.util.IConstructCustomDataType;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
 import com.jythonui.client.util.PerformVariableAction;
+import com.jythonui.client.util.ValidateForm;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
 import com.jythonui.shared.ButtonItem;
@@ -358,6 +360,11 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     private void runAction(String id, WSize w, List<ButtonItem> bList) {
         ButtonItem bItem = DialogFormat.findE(bList, id);
+        if (bItem.isValidateAction()) {
+            if (!ValidateForm.validateV(dType, DialogContainer.this, d,
+                    DataActionEnum.ChangeViewFormToInvalidAction))
+                return;
+        }
         if (bItem != null)
             if (bItem.isAction()) {
                 String action = bItem.getAction();

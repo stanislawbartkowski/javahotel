@@ -8,6 +8,16 @@
 			<xs:pattern value="int|string|textarea|richtext|bool|decimal|long|date|datetime|int|custom:.*" />
 		</xs:restriction>
 	</xs:simpleType>
+
+	<xs:simpleType name="typeOpVal">
+		<xs:restriction base="xs:string">
+            <xs:enumeration value="eq"/>
+            <xs:enumeration value="le"/>
+            <xs:enumeration value="lt"/>
+            <xs:enumeration value="gt"/>
+            <xs:enumeration value="ge"/>
+		</xs:restriction>
+	</xs:simpleType>
 	
 	<xs:simpleType name="listStand">
 		<xs:restriction base="xs:string">
@@ -21,22 +31,41 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:attributeGroup name="validateattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="op" type="typeOpVal" />
+		<xs:attribute name="id1" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:group name="validateG">
+		<xs:sequence>
+		  <xs:element minOccurs="0" name="id" type="xs:string" />
+		  <xs:element minOccurs="0" name="op" type="typeOpVal" />
+		  <xs:element minOccurs="0" name="id1" type="xs:string" />
+		  <xs:element minOccurs="0" name="displayname" type="xs:string" />	
+		</xs:sequence>
+	</xs:group>
+		
 	<xs:group name="buttonG">
 		<xs:sequence>
 			<xs:group ref="jythonG" minOccurs="0" />
 			<xs:element minOccurs="0" name="id" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="validate" type="emptyT" />			
 			<xs:element minOccurs="0" name="actiontype" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam1" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam2" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
+	
 
 	<xs:attributeGroup name="buttonattrG">
 		<xs:attributeGroup ref="jythonattrG" />
 		<xs:attribute name="id" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="validate" type="emptyT" />
 		<xs:attribute name="actiontype" type="xs:string" />
 		<xs:attribute name="actionparam" type="xs:string" />
 		<xs:attribute name="actionparam1" type="xs:string" />
@@ -182,6 +211,19 @@
 								<xs:complexType>
 									<xs:group ref="fieldG" />
 									<xs:attributeGroup ref="fieldattrG" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="0" name="validaterules">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="validate">
+								<xs:complexType>
+									<xs:group ref="validateG" />
+									<xs:attributeGroup ref="validateattrG" />
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>

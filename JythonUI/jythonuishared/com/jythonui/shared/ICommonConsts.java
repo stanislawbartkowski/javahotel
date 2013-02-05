@@ -98,4 +98,8 @@ public interface ICommonConsts {
     String TEXTAREA = "textarea";
     String RICHTEXT = "richtext";
     String FROM = "from";
+    String VALIDATE = "validate";
+    String VALIDATERULES = "validaterules";
+    String VALIDATEOP = "op";
+    String VALIDATEID1 = "id1";
 }
