@@ -25,13 +25,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 class AttachViewFactory {
 
-    public FormLineContainer construct(ICallContext iContext, VListHeaderContainer listHeader) {
-        EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+    public FormLineContainer construct(ICallContext iContext,
+            VListHeaderContainer listHeader) {
+        EditWidgetFactory eFactory = GwtGiniInjector.getI()
+                .getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
         IVField vcomment = new AttachDataField(AttachDataField.F.COMMENT);
         IVField vfilename = new AttachDataField(AttachDataField.F.FILENAME);
@@ -40,12 +42,17 @@ class AttachViewFactory {
         IFormLineView dadd = eFactory.construcDateBoxCalendar(vadddate);
         IFormLineView dfilename = eFactory.constructTextField(vfilename);
         VListHeaderDesc hCom = listHeader.getHeader(AttachDataField.vcomment);
-        VListHeaderDesc hdataDod = listHeader.getHeader(AttachDataField.vadddate);
-        VListHeaderDesc hFileName = listHeader.getHeader(AttachDataField.vfilename);
+        VListHeaderDesc hdataDod = listHeader
+                .getHeader(AttachDataField.vadddate);
+        VListHeaderDesc hFileName = listHeader
+                .getHeader(AttachDataField.vfilename);
 
-        di.add(new FormField(hCom.getHeaderString(), dComment, null, false, true));
-        di.add(new FormField(hdataDod.getHeaderString(), dadd, null, true, true));
-        di.add(new FormField(hFileName.getHeaderString(), dfilename, null, true, true));
+        di.add(new FormField(hCom.getHeaderString(), dComment, null, null,
+                false, true));
+        di.add(new FormField(hdataDod.getHeaderString(), dadd, null, null,
+                true, true));
+        di.add(new FormField(hFileName.getHeaderString(), dfilename, null,
+                null, true, true));
         return new FormLineContainer(di);
     }
 }

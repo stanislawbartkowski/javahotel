@@ -28,7 +28,7 @@ public class ValidateUtil {
 
     public static List<InvalidateMess> checkDate(IVModelData mData,
             IVField from, IVField to, boolean canBeEqual) {
-        int comp = FUtils.compareValue(mData, to, mData, from);
+        int comp = FUtils.compareValue(mData, to, mData, from, true);
         if (comp < 0) {
             return null;
         }
