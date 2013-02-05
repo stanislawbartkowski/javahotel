@@ -14,9 +14,7 @@ package com.jythonui.client.listmodel;
 
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.composecontroller.ComposeControllerFactory;
@@ -31,7 +29,6 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
@@ -43,7 +40,7 @@ import com.jythonui.client.dialog.DialogContainer;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
 import com.jythonui.client.util.PerformVariableAction;
-import com.jythonui.client.util.VerifyEmpty;
+import com.jythonui.client.util.ValidateForm;
 import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
@@ -88,14 +85,10 @@ class GetViewController implements IGetViewControllerFactory {
 
             @Override
             public void signal(ISlotSignalContext slContext) {
-                IVModelData v = new VModelData();
-                v = getGetterIVModelData(dType,
-                        GetActionEnum.GetViewModelEdited, v);
                 ListFormat li = rM.getFormat(dType);
-                if (VerifyEmpty.isEmpty(dType, v, ValidateAction.this, li
-                        .getfElem().getFieldList())) {
+                if (!ValidateForm.validateV(dType, ValidateAction.this,
+                        li.getfElem(), DataActionEnum.InvalidSignal))
                     return;
-                }
                 SlU.publishDataAction(dType, ValidateAction.this, slContext,
                         DataActionEnum.PersistDataAction);
             }

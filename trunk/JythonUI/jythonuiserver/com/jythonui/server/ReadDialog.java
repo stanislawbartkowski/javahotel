@@ -34,6 +34,7 @@ import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.ValidateRule;
 
 /**
  * @author hotel
@@ -75,7 +76,8 @@ class ReadDialog {
         private final String[] buttonTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
-                ICommonConsts.IMPORT, ICommonConsts.METHOD };
+                ICommonConsts.IMPORT, ICommonConsts.METHOD,
+                ICommonConsts.VALIDATE };
         private final String[] fieldTag = { ICommonConsts.ID,
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
                 ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,
@@ -87,6 +89,10 @@ class ReadDialog {
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT };
+        private final String[] valTag = { ICommonConsts.ID,
+                ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
+                ICommonConsts.VALIDATEID1 };
+
         /** Currently recognized set of tags. */
         /*
          * Important: it is assumed that tags describing element goes first
@@ -102,6 +108,7 @@ class ReadDialog {
         private ElemDescription bDescr = null;
         private List<ButtonItem> bList = null;
         private List<FieldItem> fList = null;
+        private List<ValidateRule> valList = null;
 
         @Override
         public void startElement(String uri, String localName, String qName,
@@ -152,6 +159,15 @@ class ReadDialog {
                 currentT = fieldTag;
                 getAttribute = true;
                 // pass to getting attributes (no return)
+            }
+            if (qName.equals(ICommonConsts.VALIDATERULES)) {
+                valList = dFormat.getValList();
+                return;
+            }
+            if (qName.equals(ICommonConsts.VALIDATE)) {
+                bDescr = new ValidateRule();
+                currentT = valTag;
+                getAttribute = true;
             }
             if (getAttribute && bDescr != null) {
                 SaxUtil.readAttr(bDescr, attributes, currentT);
@@ -231,6 +247,13 @@ class ReadDialog {
             if (qName.equals(ICommonConsts.FORM)) {
                 dFormat.getFieldList().addAll(fList);
                 fList = null;
+                return;
+            }
+            if (qName.equals(ICommonConsts.VALIDATE)) {
+                valList.add((ValidateRule) bDescr);
+                return;
+            }
+            if (qName.equals(ICommonConsts.VALIDATERULES)) {
                 return;
             }
 

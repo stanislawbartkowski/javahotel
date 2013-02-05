@@ -30,4 +30,8 @@ public class ButtonItem extends ElemDescription {
         return getAttr(ICommonConsts.ACTIONPARAM);
     }
 
+    public boolean isValidateAction() {
+        return isAttr(ICommonConsts.VALIDATE);
+    }
+
 }
