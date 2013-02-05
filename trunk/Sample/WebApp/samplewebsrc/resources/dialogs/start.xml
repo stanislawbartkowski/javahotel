@@ -18,6 +18,7 @@
   <button id="dhelper" displayname="Helper dialog" actiontype="JMAIN_DIALOG" actionparam="helperdialog.xml" />
   <button id="dtext" displayname="Text area" actiontype="JMAIN_DIALOG" actionparam="textdialog.xml" />
   <button id="dlist" displayname="Time list" actiontype="JMAIN_DIALOG" actionparam="timelist.xml" />
+  <button id="dialog1" displayname="Next dialog" actiontype="JMAIN_DIALOG" actionparam="dialog1.xml" />
 </leftmenu>
 
 <buttons>
