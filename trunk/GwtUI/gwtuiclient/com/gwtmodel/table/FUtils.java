@@ -286,9 +286,13 @@ public class FUtils {
     }
 
     private static int compString(IVModelData row, IVField f,
-            IVModelData filter, IVField from, boolean first) {
-        String rS = getValueString(row, f).toUpperCase();
-        String fS = getValueString(filter, from).toUpperCase();
+            IVModelData filter, IVField from, boolean first, boolean ignorecase) {
+        String rS = getValueString(row, f);
+        String fS = getValueString(filter, from);
+        if (ignorecase) {
+            rS = rS.toUpperCase();
+            fS = fS.toUpperCase();
+        }
         if (first) {
             if (rS.indexOf(fS) != -1) {
                 return 0;
@@ -336,7 +340,7 @@ public class FUtils {
     }
 
     public static int compareValue(IVModelData row1, IVField f1,
-            IVModelData row2, IVField f2) {
+            IVModelData row2, IVField f2, boolean ignorecase) {
         boolean empty1 = isNullValue(row1, f1);
         boolean empty2 = isNullValue(row2, f2);
         if (empty1 && empty2) {
@@ -369,7 +373,7 @@ public class FUtils {
             comp = compBoolean(row1, f1, row2, f2);
             break;
         default:
-            comp = compString(row1, f1, row2, f2, true);
+            comp = compString(row1, f1, row2, f2, true, ignorecase);
             break;
         }
         return comp;
@@ -438,7 +442,7 @@ public class FUtils {
                 compfrom = compBoolean(row, f, filter, from);
                 break;
             default:
-                compfrom = compString(row, f, filter, from, true);
+                compfrom = compString(row, f, filter, from, true, true);
                 break;
             }
         }
@@ -463,7 +467,7 @@ public class FUtils {
                 compto = compBoolean(row, f, filter, to);
                 break;
             default:
-                compto = compString(row, f, filter, to, false);
+                compto = compString(row, f, filter, to, false, true);
                 break;
             }
         }

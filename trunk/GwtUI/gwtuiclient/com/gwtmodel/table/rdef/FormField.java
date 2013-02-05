@@ -46,8 +46,8 @@ public class FormField {
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
-            boolean readOnlyIfModif, boolean readOnlyIfAdd) {
-        this(p, e, fie, null, readOnlyIfModif, readOnlyIfAdd, null);
+            IVField fRange, boolean readOnlyIfModif, boolean readOnlyIfAdd) {
+        this(p, e, fie, fRange, readOnlyIfModif, readOnlyIfAdd, null);
 
     }
 
