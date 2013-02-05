@@ -12,11 +12,16 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import com.gwtmodel.table.common.TT;
+import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
@@ -88,6 +93,15 @@ public class Test13 extends TestHelper {
         assertNotNull(d);
         FieldItem f = d.findFieldItem("glob2");
         assertEquals("glob", f.getFrom());
+    }
+
+    @Test
+    public void test6() {
+        DialogFormat d = iServer.findDialog("test31.xml");
+        assertNotNull(d);
+        ButtonItem b = DialogFormat.findE(d.getButtonList(), "ID");
+        assertNotNull(b);
+        assertTrue(b.isValidateAction());
     }
 
 }
