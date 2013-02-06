@@ -98,6 +98,12 @@
    background-color:#FFDDDD;
 }
 
+/* ---------------------- */
+
+.no_wrap_cell_style {
+  white-space: nowrap;
+}
+
 
 /* time picker */
 .timepickr-main { float: left; position: relative; }
