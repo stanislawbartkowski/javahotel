@@ -183,10 +183,10 @@ abstract class PresentationCellHelper {
         public Number getValue(MutableInteger object) {
             IVModelData vData = model.getRows().get(object.intValue());
             Integer val = FUtils.getValueInteger(vData, v);
+            if (val == null)
+                return null;
             return new BigDecimal(val);
         }
     }
-    
-    
 
 }
