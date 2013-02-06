@@ -360,12 +360,12 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     private void runAction(String id, WSize w, List<ButtonItem> bList) {
         ButtonItem bItem = DialogFormat.findE(bList, id);
-        if (bItem.isValidateAction()) {
-            if (!ValidateForm.validateV(dType, DialogContainer.this, d,
-                    DataActionEnum.ChangeViewFormToInvalidAction))
-                return;
-        }
-        if (bItem != null)
+        if (bItem != null) {
+            if (bItem.isValidateAction()) {
+                if (!ValidateForm.validateV(dType, DialogContainer.this, d,
+                        DataActionEnum.ChangeViewFormToInvalidAction))
+                    return;
+            }
             if (bItem.isAction()) {
                 String action = bItem.getAction();
                 String param = bItem.getActionParam();
@@ -376,6 +376,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                         iCon);
                 return;
             }
+        }
         DialogVariables v = iCon.getVariables();
         M.JR().runAction(v, d.getId(), id, new BackClass(id, false, w, null));
     }

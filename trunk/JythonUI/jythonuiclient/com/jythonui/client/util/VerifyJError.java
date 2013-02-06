@@ -18,10 +18,13 @@ import java.util.List;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 
 /**
@@ -42,8 +45,14 @@ public class VerifyJError {
 
             @Override
             public void action(String fie, String field) {
+                if (field.equals(ICommonConsts.JERRORMESSAGE)) { return; }
                 String errS = v.getValue(field).getValueS();
-                VField vv = VField.construct(fie, v.getValue(fie));
+                FieldValue val = v.getValue(fie);
+                if (val == null) {
+                    Utils.errAlert(M.M().NoFieldRelatedToError(fie, field));
+                    return;
+                }
+                VField vv = VField.construct(fie, val);
                 err.add(new InvalidateMess(vv, errS));
             }
         };
