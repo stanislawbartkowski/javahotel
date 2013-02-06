@@ -35,5 +35,7 @@ public interface JMessages extends Messages {
     String ValidateAttributeNotDefined(String id);
     
     String ValidateFieldNotFound(String id,String fid);
+    
+    String NoFieldRelatedToError(String id, String fie);
 
 }
