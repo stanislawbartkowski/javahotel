@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+ <jython>
+   <import>from testpack import testchunk</import>
+   <method>testchunk.dialogaction({0},{1})</method>
+ </jython>  
+ 
+ <list id="list" pagesize="15" chunked="" >
+   <standbutt>FILTER,SHOW</standbutt>
+   <columns>
+   <column id="id" type="long" width="15%" />
+   <column id="pnumber" align="L" />
+   <column id="pname" />
+   </columns>
+ </list>
+
+
+</dialog>
