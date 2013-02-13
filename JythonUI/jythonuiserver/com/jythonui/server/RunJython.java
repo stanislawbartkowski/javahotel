@@ -194,7 +194,7 @@ class RunJython {
     }
 
     private static void extractList(PyDictionary pyMap, DialogVariables vOut,
-            DialogFormat d) {
+            DialogFormat d, String actionId) {
         PyObject item = pyMap.iteritems();
         PyIterator iter = (PyIterator) item;
         PyObject next;
@@ -203,7 +203,13 @@ class RunJython {
             Object key = tu.get(0);
             Object val = tu.get(1);
             String listId = (String) key;
-            PyList pList = (PyList) val;
+            int size = -1;
+            PyList pList = null;
+            if (val instanceof Integer) {
+                size = ((Integer) val).intValue();
+            } else {
+                pList = (PyList) val;
+            }
             if (d.getListList() == null) {
                 error(listId + " dialog " + d.getId()
                         + " does not contain any list definition");
@@ -215,22 +221,37 @@ class RunJython {
             }
             RowIndex rI = new RowIndex(lForm.getColumns());
             ListOfRows lRows = new ListOfRows();
-            @SuppressWarnings("rawtypes")
-            ListIterator i = pList.listIterator();
-            while (i.hasNext()) {
-                Object e = i.next();
-                PyDictionary vMap = (PyDictionary) e;
-                DialogVariables v = new DialogVariables();
-                toDialogVariables(lForm.getColumns(), v, vMap);
-                RowContent row = rI.constructRow();
-                for (String s : v.getFields()) {
-                    FieldValue valF = v.getValue(s);
-                    if (!rI.isField(s)) {
-                        error(s + " : column not defined(" + d.getId() + ")");
-                    }
-                    rI.setRowField(row, s, valF);
+
+            if (pList == null) {
+                if (!lForm.isChunked()) {
+                    error(d.getId() + " " + lForm.getId()
+                            + " list is not chunked. Sequence of rows expected");
+                } else {
+                    lRows.setSize(size);
                 }
-                lRows.addRow(row);
+            } else {
+                if (lForm.isChunked() && actionId.equals(ICommonConsts.BEFORE)) {
+                    error(d.getId() + " " + lForm.getId()
+                            + " list is chunked. Sequence size is expected");
+                }
+                @SuppressWarnings("rawtypes")
+                ListIterator i = pList.listIterator();
+                while (i.hasNext()) {
+                    Object e = i.next();
+                    PyDictionary vMap = (PyDictionary) e;
+                    DialogVariables v = new DialogVariables();
+                    toDialogVariables(lForm.getColumns(), v, vMap);
+                    RowContent row = rI.constructRow();
+                    for (String s : v.getFields()) {
+                        FieldValue valF = v.getValue(s);
+                        if (!rI.isField(s)) {
+                            error(s + " : column not defined(" + d.getId()
+                                    + ")");
+                        }
+                        rI.setRowField(row, s, valF);
+                    }
+                    lRows.addRow(row);
+                }
             }
             vOut.setRowList(listId, lRows);
         }
@@ -279,7 +300,14 @@ class RunJython {
                         f.setValue((Boolean) val);
                         break;
                     case INT:
-                        f.setValue((Integer) val);
+                        Integer inte;
+                        if (val instanceof Integer) {
+                            inte = (Integer) val;
+                        } else {
+                            BigInteger b = (BigInteger) val;
+                            inte = b.intValue();
+                        }
+                        f.setValue(inte);
                         break;
                     case LONG:
                         Long lV = null;
@@ -435,7 +463,7 @@ class RunJython {
         toDialogVariables(d.getFieldList(), v, pyMap);
         if (pyMap.has_key(JLISTMAP)) {
             PyObject o = pyMap.__getitem__(JLISTMAP);
-            extractList((PyDictionary) o, v, d);
+            extractList((PyDictionary) o, v, d, actionId);
         }
 
     }

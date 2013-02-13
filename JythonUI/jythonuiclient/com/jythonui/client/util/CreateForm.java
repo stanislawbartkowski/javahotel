@@ -125,12 +125,24 @@ public class CreateForm {
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
         for (FieldItem f : l.getColumns()) {
             IVField vf = VField.construct(f);
+            VListHeaderDesc.ColAlign al = null;
+            if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNL)) {
+                al = VListHeaderDesc.ColAlign.LEFT;
+            }
+            if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNR)) {
+                al = VListHeaderDesc.ColAlign.RIGHT;
+            }
+            if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNC)) {
+                al = VListHeaderDesc.ColAlign.CENTER;
+            }
+            
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
-                    f.isHidden(), f.getActionId(), false, null, null);
+                    f.isHidden(), f.getActionId(), false, al, f.getWidth());
             heList.add(v);
         }
         String lName = l.getDisplayName();
-        return new VListHeaderContainer(heList, lName);
+        
+        return new VListHeaderContainer(heList, lName,l.getPageSize(),null,l.getWidth(),null,null);
     }
 
     private static ControlButtonDesc constructButton(ButtonItem b) {

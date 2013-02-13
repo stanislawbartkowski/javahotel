@@ -18,6 +18,7 @@ import java.util.List;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
@@ -37,13 +38,18 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.listdataview.ActionTableSignal;
+import com.gwtmodel.table.listdataview.DataIntegerSignal;
+import com.gwtmodel.table.listdataview.ReadChunkSignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
@@ -108,10 +114,19 @@ class ListControler {
 
             @Override
             protected void doTask() {
-                IDataListType dList = ListUtils.constructList(dType, rM,
-                        lOfRows);
-                getSlContainer().publish(dType,
-                        DataActionEnum.ListReadSuccessSignal, dList);
+                ListFormat fo = rM.getFormat(dType);
+                if (fo.isChunked()) {
+                    int size = lOfRows.getSize();
+                    CustomStringSlot slot = DataIntegerSignal
+                            .constructSlotSetTableSize(dType);
+                    DataIntegerSignal sig = new DataIntegerSignal(size);
+                    getSlContainer().publish(slot, sig);
+                } else {
+                    IDataListType dList = ListUtils.constructList(dType, rM,
+                            lOfRows);
+                    getSlContainer().publish(dType,
+                            DataActionEnum.ListReadSuccessSignal, dList);
+                }
             }
 
         }
@@ -137,7 +152,8 @@ class ListControler {
                         // do nothing, not expected here
                     }
                 };
-                PerformVariableAction.perform(null,null, arg, iCon, rM, vis, null);
+                PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
+                        null);
 
             }
 
@@ -248,6 +264,84 @@ class ListControler {
 
     }
 
+    private static class ReadInChunk implements ISlotListener {
+
+        private final IDataType dType;
+        private final IVariablesContainer iCon;
+        private final RowListDataManager rM;
+
+        ReadInChunk(IDataType dType, IVariablesContainer iCon,
+                RowListDataManager rM) {
+            this.dType = dType;
+            this.iCon = iCon;
+            this.rM = rM;
+        }
+
+        private class ReadRowsChunk extends CommonCallBack<DialogVariables> {
+
+            private final ReadChunkSignal r;
+
+            ReadRowsChunk(ReadChunkSignal r) {
+                this.r = r;
+            }
+
+            @Override
+            public void onMySuccess(DialogVariables arg) {
+                PerformVariableAction.VisitList vis = new PerformVariableAction.VisitList() {
+
+                    @Override
+                    public void accept(IDataType da, ListOfRows lRows) {
+                        if (da.eq(dType)) {
+                            IDataListType dList = ListUtils.constructList(
+                                    dType, rM, lRows);
+                            r.signalRowsRead(dList.getList());
+                        }
+                    }
+
+                    @Override
+                    public void acceptTypes(String typeName, ListOfRows lRows) {
+                        // do nothing, not expected here
+                    }
+                };
+                PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
+                        null);
+
+            }
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject i = slContext.getCustom();
+            ReadChunkSignal r = (ReadChunkSignal) i;
+            int start = r.getStart();
+            int size = r.getSize();
+            DialogVariables v = iCon.getVariables();
+            v.setValueL(ICommonConsts.JLIST_READCHUNKSTART, start);
+            v.setValueL(ICommonConsts.JLIST_READCHUNKLENGTH, size);
+            IVField fSort = r.getfSort();
+            if (fSort == null)
+                v.setValueS(ICommonConsts.JLIST_SORTLIST, null);
+
+            else
+                v.setValueS(ICommonConsts.JLIST_SORTLIST, fSort.getId());
+            v.setValueB(ICommonConsts.JLIST_SORTASC, r.isAsc());
+            ListFormat li = rM.getFormat(dType);
+            ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                    ICommonConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
+        }
+
+    }
+
+    static private class GetListSize implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            IOkModelData iOk = slContext.getIOkModelData();
+
+        }
+
+    }
+
     static ISlotable contruct(RowListDataManager rM, IDataType da,
             CellId panelId, IVariablesContainer iCon, IPerformClickAction iClick) {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
@@ -297,10 +391,15 @@ class ListControler {
         }
         ListOfControlDesc cButton = new ListOfControlDesc(cList);
         DisplayListControlerParam dList = tFactory.constructParam(cButton,
-                panelId, getParam(rM, da, iCon), null, false);
+                panelId, getParam(rM, da, iCon), null, false, li.isChunked());
         ISlotable i = tFactory.constructDataControler(dList);
+        CustomStringSlot sl = ReadChunkSignal.constructReadChunkSignal(da);
+        i.getSlContainer()
+                .registerSubscriber(sl, new ReadInChunk(da, iCon, rM));
         i.getSlContainer().registerSubscriber(da,
                 DataActionEnum.TableCellClicked, new ActionClicked(iClick));
+        i.getSlContainer().registerSubscriber(da, DataActionEnum.GetListSize,
+                new GetListSize());
         return i;
     }
 

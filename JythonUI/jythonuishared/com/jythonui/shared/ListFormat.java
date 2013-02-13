@@ -15,6 +15,8 @@ package com.jythonui.shared;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.common.CUtil;
+
 /**
  * @author hotel
  * 
@@ -49,6 +51,18 @@ public class ListFormat extends ElemDescription {
 
     public String getStandButt() {
         return getAttr(ICommonConsts.STANDBUTT);
+    }
+
+    public int getPageSize() {
+        if (CUtil.EmptyS(getAttr(ICommonConsts.PAGESIZE))) {
+            return -1;
+        }
+        return CUtil.getInteger(getAttr(ICommonConsts.PAGESIZE));
+
+    }
+
+    public boolean isChunked() {
+        return isAttr(ICommonConsts.CHUNKED);
     }
 
 }

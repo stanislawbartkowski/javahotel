@@ -18,6 +18,14 @@
             <xs:enumeration value="ge"/>
 		</xs:restriction>
 	</xs:simpleType>
+
+	<xs:simpleType name="typeAlign">
+		<xs:restriction base="xs:string">
+            <xs:enumeration value="L"/>
+            <xs:enumeration value="R"/>
+            <xs:enumeration value="C"/>
+		</xs:restriction>
+	</xs:simpleType>
 	
 	<xs:simpleType name="listStand">
 		<xs:restriction base="xs:string">
@@ -94,6 +102,9 @@
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="elemformat" type="xs:string" />
 			<xs:element minOccurs="0" name="standbutt" type="listStand" />
+			<xs:element minOccurs="0" name="pagesize" type="xs:positiveInteger" />
+			<xs:element minOccurs="0" name="width" type="xs:string" />
+			<xs:element minOccurs="0" name="chunked" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -102,6 +113,9 @@
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="elemformat" type="xs:string" />
 		<xs:attribute name="standbutt" type="listStand" />
+		<xs:attribute name="pagesize" type="xs:positiveInteger" />
+		<xs:attribute name="width" type="xs:string" />
+		<xs:attribute name="chunked" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="jythonG">
@@ -124,7 +138,9 @@
 			<xs:element minOccurs="0" name="type" type="typeName" />
 			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="actionid" type="xs:string" />
-			<xs:element minOccurs="0" name="helper" type="xs:string" />						
+			<xs:element minOccurs="0" name="helper" type="xs:string" />
+			<xs:element minOccurs="0" name="width" type="xs:string" />
+			<xs:element minOccurs="0" name="align" type="typeAlign" />									
 			<xs:element minOccurs="0" name="helperrefresh" type="emptyT"/>
 			<xs:element minOccurs="0" name="notempty" type="emptyT"/>
 			<xs:element minOccurs="0" name="hidden" type="emptyT"/>
@@ -141,6 +157,8 @@
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="actionid" type="xs:string" />
 		<xs:attribute name="helper" type="xs:string" />
+		<xs:attribute name="width" type="xs:string" />
+		<xs:attribute name="align" type="typeAlign" />
 		<xs:attribute name="helperrefresh" type="emptyT" />		
 		<xs:attribute name="type" type="typeName" />
 		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />

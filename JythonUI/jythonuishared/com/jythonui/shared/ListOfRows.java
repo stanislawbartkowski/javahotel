@@ -24,6 +24,8 @@ public class ListOfRows implements Serializable {
 
     private List<RowContent> rowList = new ArrayList<RowContent>();
 
+    private int size = -1;
+
     /**
      * @return the rowList
      */
@@ -33,6 +35,14 @@ public class ListOfRows implements Serializable {
 
     public void addRow(RowContent r) {
         rowList.add(r);
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
 }

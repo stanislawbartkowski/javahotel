@@ -85,10 +85,11 @@ class ReadDialog {
                 ICommonConsts.HIDDEN, ICommonConsts.READONLYADD,
                 ICommonConsts.READONLYCHANGE, ICommonConsts.SIGNALCHANGE,
                 ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH,
-                ICommonConsts.FROM };
+                ICommonConsts.FROM, ICommonConsts.WIDTH, ICommonConsts.ALIGN };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
-                ICommonConsts.STANDBUTT };
+                ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE,
+                ICommonConsts.WIDTH, ICommonConsts.CHUNKED };
         private final String[] valTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
                 ICommonConsts.VALIDATEID1 };

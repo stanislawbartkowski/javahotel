@@ -58,7 +58,7 @@ public class DialogVariables implements Serializable {
         vList.put(fId, val);
     }
 
-    public void setValueL(String fId, Long l) {
+    public void setValueL(String fId, long l) {
         FieldValue val = new FieldValue();
         val.setValue(l);
         vList.put(fId, val);
