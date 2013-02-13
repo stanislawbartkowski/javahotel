@@ -87,5 +87,7 @@ public enum DataActionEnum {
     /** After ChangeMode is executed. */
     AfterChangeModeFormAction,
     /** Draw footer. */
-    DrawFooterAction
+    DrawFooterAction,
+    /** Get list size. */
+    GetListSize
 }

@@ -19,15 +19,20 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
 /**
  * @author hotel
- *
+ * 
  */
 public class DataIntegerSignal extends CustomObjectValue<Integer> {
 
     public DataIntegerSignal(int i) {
         super(i);
     }
-    private final static String SIGNAL_ID_REMOVE = DataIntegerSignal.class.getName() + "PUBLIC_TABLE_REMOVE_ROW";
-    private final static String SIGNAL_ID_GET = DataIntegerSignal.class.getName() + "PUBLIC_TABLE_GET_ROW";
+
+    private final static String SIGNAL_ID_REMOVE = DataIntegerSignal.class
+            .getName() + "PUBLIC_TABLE_REMOVE_ROW";
+    private final static String SIGNAL_ID_GET = DataIntegerSignal.class
+            .getName() + "PUBLIC_TABLE_GET_ROW";
+    private final static String SIGNAL_SET_SIZE = DataIntegerSignal.class
+            .getName() + "PUBLIC_TABLE_SET_SIZE";
 
     public static CustomStringSlot constructSlotRemoveVSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, SIGNAL_ID_REMOVE);
@@ -36,4 +41,9 @@ public class DataIntegerSignal extends CustomObjectValue<Integer> {
     public static CustomStringSlot constructSlotGetVSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, SIGNAL_ID_GET);
     }
+
+    public static CustomStringSlot constructSlotSetTableSize(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, SIGNAL_SET_SIZE);
+    }
+
 }

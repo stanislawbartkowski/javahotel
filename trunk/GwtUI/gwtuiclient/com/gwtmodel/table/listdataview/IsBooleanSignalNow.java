@@ -19,7 +19,7 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
 /**
  * @author hotel
- *
+ * 
  */
 public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
 
@@ -27,6 +27,16 @@ public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
             .getName() + "TABLE_PUBLIC_GETLINENOWRAP";
     private static final String SETLINENOWRAP = IsBooleanSignalNow.class
             .getName() + "TABLE_PUBLIC_SETLINENOWRAP";
+    private static final String GETASYNCPROVIDER = IsBooleanSignalNow.class
+            .getName() + "TABLE_PUBLIC_GETASYCNPROVIDER";
+    private static final String GETISTABLEFILTER = IsBooleanSignalNow.class
+            .getName() + "TABLE_PUBLIC_GET_TABLE_IS_FILTER";
+    private static final String GETISTABLETREEENABLED = IsBooleanSignalNow.class
+            .getName() + "TABLE_PUBLIC_GET_TABLE_TREE_ENABLED";
+    private static final String GETISTREEVIEWNOW = IsBooleanSignalNow.class
+            .getName() + "TABLE_PUBLIC_GET_TABLE_TREE_VIEW_SIGNAL_NOW";
+    private static final String GETISTABLESORTED = IsBooleanSignalNow.class
+            .getName() + "TABLE_PUBLIC_GET_TABLE_IS_SORTED";
 
     public IsBooleanSignalNow(boolean value) {
         super(value);
@@ -44,4 +54,26 @@ public class IsBooleanSignalNow extends CustomObjectValue<Boolean> {
     public static CustomStringSlot constructSlotGetLineNoWrap(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, GETLINENOWRAP);
     }
+
+    public static CustomStringSlot constructSlotAsyncProvider(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, GETASYNCPROVIDER);
+    }
+
+    public static CustomStringSlot constructSlotGetTableIsFilter(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, GETISTABLEFILTER);
+    }
+
+    public static CustomStringSlot constructSlotGetTableTreeEnabled(
+            IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, GETISTABLETREEENABLED);
+    }
+
+    public static CustomStringSlot constructSlotGetTreeView(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, GETISTREEVIEWNOW);
+    }
+
+    public static CustomStringSlot constructSlotGetTableIsSorted(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, GETISTABLESORTED);
+    }
+
 }

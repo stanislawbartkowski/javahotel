@@ -110,7 +110,7 @@ class PresentationTree implements IGwtTableView {
 
         @Override
         public T getValue(Integer object) {
-            IVModelData v = model.getRows().get(object);
+            IVModelData v = model.get(object);
             return (T) FUtils.getValue(v, fie);
         }
     }
@@ -190,7 +190,6 @@ class PresentationTree implements IGwtTableView {
 
         @Override
         public <T> NodeInfo<?> getNodeInfo(T value) {
-            List<IVModelData> vl = model.getRows();
             Integer i = (Integer) value;
             int level;
             if (i.intValue() == IDataListType.ROOT) {
@@ -200,7 +199,7 @@ class PresentationTree implements IGwtTableView {
                 level = DataTreeLevel.getLevel(model.treeLevel(i));
             }
             ListDataProvider<java.lang.Integer> dataProvider = new ListDataProvider<java.lang.Integer>();
-            for (i++; i < vl.size(); i++) {
+            for (i++; i < model.getSize(); i++) {
                 int llevel = DataTreeLevel.getLevel(model.treeLevel(i));
                 if (level + 1 == llevel) {
                     dataProvider.getList().add(new java.lang.Integer(i));
@@ -270,7 +269,7 @@ class PresentationTree implements IGwtTableView {
     }
 
     @Override
-    public void setClicked(int clickedno,boolean whileFind) {
+    public void setClicked(int clickedno, boolean whileFind) {
         Stack<NodeLevel> st = new Stack<NodeLevel>();
         st.push(new NodeLevel(-1));
         for (int i = 0; i <= clickedno; i++) {
@@ -356,25 +355,25 @@ class PresentationTree implements IGwtTableView {
     @Override
     public void removeRow(int rownum) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void addRow(int rownum) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void showInvalidate(int rowno, InvalidateFormContainer errContainer) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setNoWrap(boolean noWrap) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -386,16 +385,20 @@ class PresentationTree implements IGwtTableView {
     @Override
     public void setSortColumn(IVField col, boolean inc) {
         // TODO Auto-generated method stub
-        
+
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.view.table.IGwtTableView#refreshFooter(com.gwtmodel.table.IVModelData)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.gwtmodel.table.view.table.IGwtTableView#refreshFooter(com.gwtmodel
+     * .table.IVModelData)
      */
     @Override
     public void refreshFooter(IVModelData footer) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

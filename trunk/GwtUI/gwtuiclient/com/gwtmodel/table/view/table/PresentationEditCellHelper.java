@@ -184,7 +184,7 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
 
         @Override
         public String getValue(MutableInteger object) {
-            IVModelData v = model.getRows().get(object.intValue());
+            IVModelData v = model.get(object.intValue());
             String s = FUtils.getValueS(v, iF);
             if (s == null) {
                 return "";

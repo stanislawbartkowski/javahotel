@@ -27,12 +27,13 @@ public class ListDataViewFactory {
     }
 
     public IListDataView construct(IDataType dType) {
-        return construct(dType, null, true, false, false);
+        return construct(dType, null, true, false, false, false);
     }
 
     public IListDataView construct(IDataType dType, IGetCellValue getCell,
-            boolean selectedRow, boolean unSelectAtOnce, boolean treeView) {
+            boolean selectedRow, boolean unSelectAtOnce, boolean treeView,
+            boolean async) {
         return new ListDataView(gFactory, dType, getCell, selectedRow,
-                unSelectAtOnce, treeView);
+                unSelectAtOnce, treeView, async);
     }
 }

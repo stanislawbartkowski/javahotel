@@ -21,7 +21,7 @@ import com.gwtmodel.table.slotmodel.SlotTypeFactory;
 
 /**
  * @author hotel
- *
+ * 
  */
 public class ActionTableSignal {
 
@@ -30,26 +30,21 @@ public class ActionTableSignal {
     private static final String REMOVE_SORT = "TABLE_PUBLIC_REMOVE_SORT";
     private static final String GET_PAGE_SIZE = "TABLE_PUBLIC_GET_PAGE_SIZE";
     private static final String SET_PAGE_SIZE = "TABLE_PUBLIC_SET_PAGE_SIZE";
-    private static final String GETISTREEVIEWNOW = "TABLE_PUBLIC_GET_TABLE_TREE_VIEW_SIGNAL_NOW";
-    private static final String GETISTABLETREEENABLED = "TABLE_PUBLIC_GET_TABLE_TREE_ENABLED";
-    private static final String GETISTABLEFILTER = "TABLE_PUBLIC_GET_TABLE_IS_FILTER";
-    private static final String GETISTABLESORTED = "TABLE_PUBLIC_GET_TABLE_IS_SORTED";
-    private static final String GETVSIGNAL = "TABLE_PUBLIC_LISTDATAVIEW-GETVSIGNAL";
 
     private ActionTableSignal() {
     }
 
     public static SlotType constructToTableSignal(IDataType dType) {
-        CustomStringSlot slo = new CustomStringDataTypeSlot(
-                dType, CHANGE_TO_TABLE_SIGNAL);
+        CustomStringSlot slo = new CustomStringDataTypeSlot(dType,
+                CHANGE_TO_TABLE_SIGNAL);
         SlotTypeFactory tFactory = GwtGiniInjector.getI().getTablesFactories()
                 .getSlTypeFactory();
         return tFactory.construct(slo);
     }
 
     public static SlotType constructToTreeSignal(IDataType dType) {
-        CustomStringSlot slo = new CustomStringDataTypeSlot(
-                dType, CHANGE_TO_TREE_SIGNAL);
+        CustomStringSlot slo = new CustomStringDataTypeSlot(dType,
+                CHANGE_TO_TREE_SIGNAL);
         SlotTypeFactory tFactory = GwtGiniInjector.getI().getTablesFactories()
                 .getSlTypeFactory();
         return tFactory.construct(slo);
@@ -74,24 +69,5 @@ public class ActionTableSignal {
         return tFactory.construct(slo);
     }
 
-    public static CustomStringSlot constructSlotGetTreeView(IDataType dType) {
-        return new CustomStringDataTypeSlot(dType, GETISTREEVIEWNOW);
-    }
 
-    public static CustomStringSlot constructSlotGetTableTreeEnabled(
-            IDataType dType) {
-        return new CustomStringDataTypeSlot(dType, GETISTABLETREEENABLED);
-    }
-
-    public static CustomStringSlot constructSlotGetTableIsFilter(IDataType dType) {
-        return new CustomStringDataTypeSlot(dType, GETISTABLEFILTER);
-    }
-
-    public static CustomStringSlot constructSlotGetTableIsSorted(IDataType dType) {
-        return new CustomStringDataTypeSlot(dType, GETISTABLESORTED);
-    }
-
-    public static CustomStringSlot constructSlotGetVSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(dType, GETVSIGNAL);
-    }
 }

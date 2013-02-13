@@ -68,7 +68,7 @@ abstract class PresentationCellHelper {
 
         @Override
         public Boolean getValue(MutableInteger object) {
-            IVModelData vData = model.getRows().get(object.intValue());
+            IVModelData vData = model.get(object.intValue());
             Boolean b = FUtils.getValueBoolean(vData, iF);
             return b;
         }
@@ -85,7 +85,7 @@ abstract class PresentationCellHelper {
 
         @Override
         public Date getValue(MutableInteger object) {
-            IVModelData vData = model.getRows().get(object.intValue());
+            IVModelData vData = model.get(object.intValue());
             return FUtils.getValueDate(vData, v);
         }
     }
@@ -133,7 +133,7 @@ abstract class PresentationCellHelper {
 
         @Override
         public Number getValue(MutableInteger object) {
-            IVModelData vData = model.getRows().get(object.intValue());
+            IVModelData vData = model.get(object.intValue());
             BigDecimal b = FUtils.getValueBigDecimal(vData, v);
             return b;
         }
@@ -150,7 +150,7 @@ abstract class PresentationCellHelper {
 
         @Override
         public Long getValue(MutableInteger object) {
-            IVModelData vData = model.getRows().get(object.intValue());
+            IVModelData vData = model.get(object.intValue());
             return FUtils.getValueLong(vData, v);
         }
     }
@@ -181,7 +181,7 @@ abstract class PresentationCellHelper {
 
         @Override
         public Number getValue(MutableInteger object) {
-            IVModelData vData = model.getRows().get(object.intValue());
+            IVModelData vData = model.get(object.intValue());
             Integer val = FUtils.getValueInteger(vData, v);
             if (val == null)
                 return null;

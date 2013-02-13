@@ -39,12 +39,13 @@ public class DisplayListControlerParam {
     private final IGetCellValue getCell;
     private final boolean treeView;
     private final boolean selectRows;
+    private final boolean asyncRow;
 
     DisplayListControlerParam(TablesFactories tFactories,
             ITableCustomFactories fContainer, WSize wSize, CellId panelId,
             ListOfControlDesc listButton, ISlotable cControler,
             DataListParam listParam, ISlotMediator me, IGetCellValue getCell,
-            boolean treeView, boolean selectRows) {
+            boolean treeView, boolean selectRows, boolean asyncRow) {
         this.tFactories = tFactories;
         this.fContainer = fContainer;
         this.wSize = wSize;
@@ -56,6 +57,7 @@ public class DisplayListControlerParam {
         this.getCell = getCell;
         this.treeView = treeView;
         this.selectRows = selectRows;
+        this.asyncRow = asyncRow;
     }
 
     /**
@@ -140,6 +142,10 @@ public class DisplayListControlerParam {
      */
     public boolean isSelectRows() {
         return selectRows;
+    }
+
+    boolean isAsyncRow() {
+        return asyncRow;
     }
 
 }

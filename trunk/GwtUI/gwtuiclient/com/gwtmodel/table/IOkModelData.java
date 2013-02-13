@@ -12,11 +12,26 @@
  */
 package com.gwtmodel.table;
 
+import java.util.List;
+
 /**
- *
+ * 
  * @author perseus
  */
 public interface IOkModelData {
 
+    interface ValidationData {
+
+        boolean isCheck();
+
+        IVField getF();
+
+        Object getValFrom();
+
+        Object getValTo();
+    }
+
     boolean OkData(IVModelData row);
+
+    List<ValidationData> getValList();
 }

@@ -80,6 +80,67 @@ class FData extends VModelData {
         return true;
     }
 
+    private class CompData implements IOkModelData.ValidationData {
+
+        private final boolean check;
+        private final IVField f;
+        private final Object fromVal;
+        private final Object toVal;
+
+        CompData(boolean check, IVField f, Object fromVal, Object toVal) {
+            this.check = check;
+            this.f = f;
+            this.fromVal = fromVal;
+            this.toVal = toVal;
+        }
+
+        @Override
+        public boolean isCheck() {
+            return check;
+        }
+
+        @Override
+        public IVField getF() {
+            return f;
+        }
+
+        @Override
+        public Object getValFrom() {
+            return fromVal;
+        }
+
+        @Override
+        public Object getValTo() {
+            return toVal;
+        }
+
+    }
+
+    private List<IOkModelData.ValidationData> constructData() {
+        List<IOkModelData.ValidationData> vList = new ArrayList<IOkModelData.ValidationData>();
+        for (VListHeaderDesc v : li) {
+            FField ignore = FField.constructIgnore(v);
+            Boolean b = (Boolean) this.getF(ignore);
+            if (b != null) {
+                // boolean field because ignore exists
+                if (b.booleanValue()) {
+                    // ignore, do not participate in comparing
+                    continue;
+                }
+            }
+
+            FField from = FField.constructFrom(v);
+            FField to = FField.constructTo(v);
+            IVField check = FField.constructCheck(v);
+            Boolean checkN = FUtils.getValueBoolean(this, check);
+            Object fromVal = FUtils.getValue(this, from);
+            Object toVal = FUtils.getValue(this, to);
+            CompData c = new CompData(checkN, v.getFie(), fromVal, toVal);
+            vList.add(c);
+        }
+        return vList;
+    }
+
     private boolean inRange(IVModelData row) {
         for (VListHeaderDesc v : li) {
             FField ignore = FField.constructIgnore(v);
@@ -105,6 +166,11 @@ class FData extends VModelData {
 
         public boolean OkData(IVModelData row) {
             return inRange(row);
+        }
+
+        @Override
+        public List<ValidationData> getValList() {
+            return constructData();
         }
     }
 

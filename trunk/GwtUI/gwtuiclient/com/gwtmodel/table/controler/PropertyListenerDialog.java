@@ -54,19 +54,19 @@ class PropertyListenerDialog {
     }
 
     private boolean isTreeEnabled(ISlotable publishSlo) {
-        CustomStringSlot slType = ActionTableSignal
+        CustomStringSlot slType = IsBooleanSignalNow
                 .constructSlotGetTableTreeEnabled(ddType);
         return TUtil.isBoolProp(publishSlo, slType);
     }
 
     private boolean isTreeSorted(ISlotable publishSlo) {
-        CustomStringSlot slType = ActionTableSignal
+        CustomStringSlot slType = IsBooleanSignalNow
                 .constructSlotGetTableIsSorted(ddType);
         return TUtil.isBoolProp(publishSlo, slType);
     }
 
     private boolean isFilterOn(ISlotable publishSlo) {
-        CustomStringSlot slType = ActionTableSignal
+        CustomStringSlot slType = IsBooleanSignalNow
                 .constructSlotGetTableIsFilter(ddType);
         return TUtil.isBoolProp(publishSlo, slType);
     }
