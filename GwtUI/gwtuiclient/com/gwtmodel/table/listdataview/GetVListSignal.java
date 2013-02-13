@@ -12,7 +12,11 @@
  */
 package com.gwtmodel.table.listdataview;
 
+import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetSetVField;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
+
 import java.util.List;
 
 /**
@@ -38,6 +42,13 @@ public class GetVListSignal extends DataIntegerSignal {
      */
     public List<IGetSetVField> getvList() {
         return vList;
+    }
+
+    private static final String GETVSIGNAL = GetVListSignal.class.getName()
+            + "TABLE_PUBLIC_LISTDATAVIEW-GETVSIGNAL";
+
+    public static CustomStringSlot constructSlotGetVSignal(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, GETVSIGNAL);
     }
 
 }

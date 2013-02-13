@@ -24,6 +24,7 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IOkModelData;
+import com.gwtmodel.table.ISuccess;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
@@ -34,7 +35,7 @@ import com.gwtmodel.table.controlbuttonview.ButtonRedirectActivateSignal;
 import com.gwtmodel.table.controlbuttonview.ButtonRedirectSignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.rdef.DataListModelView;
+import com.gwtmodel.table.listdataview.DataListModelView.Chunk;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -67,10 +68,12 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private IDataListType dataList;
     private final SlotSignalContextFactory coFactory;
     private boolean isFilter = false;
+    private IOkModelData iOk;
     private boolean isTreeNow = false;
     private final GwtTableFactory gFactory;
     private final IGetCellValue gValue;
     private final boolean selectedRow;
+    private final boolean async;
     private final HandleBeginEndLineEditing handleChange = new HandleBeginEndLineEditing();
     private final List<IDataType> activateRedirect = new ArrayList<IDataType>();
 
@@ -191,6 +194,18 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private class DrawListBySize implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            ICustomObject i = slContext.getCustom();
+            DataIntegerSignal sig = (DataIntegerSignal) i;
+            listView.setSize(sig.getValue());
+            tableView.refresh();
+        }
+
+    }
+
     private class RefreshList implements ISlotListener {
 
         @Override
@@ -199,13 +214,21 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private void publishGetListSize() {
+        publish(dType, DataActionEnum.GetListSize, iOk);
+    }
+
     private class SetFilter implements ISlotListener {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             isFilter = true;
-            IOkModelData iOk = slContext.getIOkModelData();
+            iOk = slContext.getIOkModelData();
             assert iOk != null : LogT.getT().FilterCannotbeNull();
+            if (async) {
+                publishGetListSize();
+                return;
+            }
             IDataListType dList = new FilterDataListType(iOk);
             listView.setDataList(dList);
             tableView.refresh();
@@ -231,14 +254,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             if (w.isChoosed() && !begin) {
                 aLine = w.getChoosedLine() - 1;
             }
-            List<IVModelData> li = tableView.getViewModel().getRows();
             if (next) {
                 aLine++;
             }
             boolean found = false;
             // order in while predicate evaluation is important !
-            while (!found && (++aLine < li.size())) {
-                IVModelData v = li.get(aLine);
+            while (!found && (++aLine < tableView.getViewModel().getSize())) {
+                IVModelData v = tableView.getViewModel().get(aLine);
                 found = iOk.OkData(v);
             }
             if (!found) {
@@ -256,9 +278,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             if (!isFilter) {
                 return;
             }
+            isFilter = false;
+            if (async) {
+                publishGetListSize();
+                return;
+            }
             listView.setDataList(dataList);
             tableView.refresh();
-            isFilter = false;
         }
     }
 
@@ -401,7 +427,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         void modif(ISlotSignalContext slContext) {
-            constructView(totree);
+            constructView(totree, async);
             vp.clear();
             vp.add(tableView.getGWidget());
             tableView.setModel(listView);
@@ -553,7 +579,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         IVField v = null;
         if (w.isChoosed()) {
             wSize = w.getwSize();
-            vData = tableView.getViewModel().getRows().get(w.getChoosedLine());
+            vData = tableView.getViewModel().get(w.getChoosedLine());
             v = w.getvField();
         }
         return construct(dType, GetActionEnum.GetListLineChecked, vData, wSize,
@@ -582,6 +608,15 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             boolean nowrap = tableView.isNoWrap();
             IsBooleanSignalNow si = new IsBooleanSignalNow(nowrap);
+            return coFactory.construct(slContext.getSlType(), si);
+        }
+    }
+
+    private class GetAsyncProvider implements ISlotCallerListener {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            IsBooleanSignalNow si = new IsBooleanSignalNow(async);
             return coFactory.construct(slContext.getSlType(), si);
         }
     }
@@ -776,7 +811,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private void constructView(boolean treeView) {
+    private void constructView(boolean treeView, boolean async) {
         if (treeView) {
             tableView = gFactory.constructTree(selectedRow ? new ClickList()
                     : null);
@@ -785,21 +820,53 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
             tableView = gFactory.construct(
                     selectedRow ? new ClickList() : null, new ClickColumn(),
                     gValue, new NewEditLineFocus(), new LostFocus(),
-                    new ImageColumnAction());
+                    new ImageColumnAction(), async);
+        }
+    }
+
+    private class ReadChunk implements DataListModelView.IReadChunk {
+
+        private class BackRead implements ISuccess {
+
+            private final Chunk c;
+            private ReadChunkSignal r;
+
+            BackRead(Chunk c) {
+                this.c = c;
+            }
+
+            @Override
+            public void success() {
+                c.vList = r.getvList();
+                c.signal.success();
+            }
+
+        }
+
+        @Override
+        public void readChunk(Chunk c) {
+            BackRead b = new BackRead(c);
+            ReadChunkSignal r = new ReadChunkSignal(c.start, c.len, c.fSort,
+                    c.asc, b, isFilter ? iOk : null);
+            b.r = r;
+            CustomStringSlot sl = ReadChunkSignal
+                    .constructReadChunkSignal(dType);
+            publish(sl, r);
         }
     }
 
     ListDataView(GwtTableFactory gFactory, IDataType dType,
             IGetCellValue gValue, boolean selectedRow, boolean unSelectAtOnce,
-            boolean treeView) {
-        listView = new DataListModelView();
+            boolean treeView, boolean async) {
+        listView = new DataListModelView(new ReadChunk());
         listView.setrAction(new RowActionListener());
         listView.setUnSelectAtOnce(unSelectAtOnce);
         this.dType = dType;
         this.gFactory = gFactory;
         this.gValue = gValue;
         this.selectedRow = selectedRow;
-        constructView(treeView);
+        this.async = async;
+        constructView(treeView, async);
         coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
         // subscriber
         registerSubscriber(dType, DataActionEnum.DrawListAction, new DrawList());
@@ -858,11 +925,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         registerSubscriber(
                 ChangeFieldEditSignal.constructReturnChangeSlotSignal(dType),
                 new LostFocusFinished());
+        registerSubscriber(DataIntegerSignal.constructSlotSetTableSize(dType),
+                new DrawListBySize());
 
         // caller
         registerCaller(DataIntegerSignal.constructSlotGetVSignal(dType),
                 new GetVDataByI());
-        registerCaller(ActionTableSignal.constructSlotGetVSignal(dType),
+        registerCaller(GetVListSignal.constructSlotGetVSignal(dType),
                 new GetVListByI());
         registerCaller(dType, GetActionEnum.GetListLineChecked,
                 new GetListData());
@@ -870,19 +939,21 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new GetComboField());
         registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
         registerCaller(dType, GetActionEnum.GetListData, new GetWholeList());
-        registerCaller(ActionTableSignal.constructSlotGetTreeView(dType),
+        registerCaller(IsBooleanSignalNow.constructSlotGetTreeView(dType),
                 new GetTreeViewNow());
         registerCaller(
-                ActionTableSignal.constructSlotGetTableTreeEnabled(dType),
+                IsBooleanSignalNow.constructSlotGetTableTreeEnabled(dType),
                 new GetTableTreeEnabled());
-        registerCaller(ActionTableSignal.constructSlotGetTableIsFilter(dType),
+        registerCaller(IsBooleanSignalNow.constructSlotGetTableIsFilter(dType),
                 new GetTableIsFilter());
-        registerCaller(ActionTableSignal.constructSlotGetTableIsSorted(dType),
+        registerCaller(IsBooleanSignalNow.constructSlotGetTableIsSorted(dType),
                 new GetTableIsSorted());
         registerCaller(ActionTableSignal.constructGetPageSizeSignal(dType),
                 new GetTablePageSize());
         registerCaller(IsBooleanSignalNow.constructSlotGetLineNoWrap(dType),
                 new GetLineWrap());
+        registerCaller(IsBooleanSignalNow.constructSlotAsyncProvider(dType),
+                new GetAsyncProvider());
     }
 
     @Override

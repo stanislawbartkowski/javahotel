@@ -12,13 +12,19 @@
  */
 package com.gwtmodel.table.view.table;
 
+import com.gwtmodel.table.ISuccess;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
-import java.util.List;
 
 public interface IGwtTableModel {
 
-    List<IVModelData> getRows();
+    void readChunkRange(int startw, int rangew, IVField sortC, boolean asc,
+            ISuccess signal);
+
+    IVModelData get(int row);
+
+    long getSize();
 
     VListHeaderContainer getHeaderList();
 

@@ -86,7 +86,7 @@ class MemoryStringList extends AbstractSlotMediatorContainer implements
                 new CellId(0), new DataListParam(dType, lPersistList, null,
                         new DataFactory(eFactory), new StringFactory(vString,
                                 fieldName, title), iGetCon),
-                (ISlotMediator) null, (IGetCellValue) null, false);
+                (ISlotMediator) null, (IGetCellValue) null, false, false);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         slMediator.registerSlotContainer(dControler);

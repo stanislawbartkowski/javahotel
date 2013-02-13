@@ -37,6 +37,7 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.injector.TablesFactories;
+import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -431,6 +432,15 @@ class FindListActionFactory {
                 ok.show(wSize);
                 return;
             }
+            if (!isFilter()
+                    && TUtil.isBoolProp(publishSlo, IsBooleanSignalNow
+                            .constructSlotAsyncProvider(ddType))) {
+                OkDialog ok = new OkDialog(
+                        MM.getL().CannotRunFindInAsycnMode(), null, null);
+                ok.show(wSize);
+                return;
+            }
+
             final ISignal remF = new Re();
             List<VListHeaderDesc> li = gHeader.listHeader.getVisHeList();
             List<FormField> liF;

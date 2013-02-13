@@ -12,6 +12,10 @@
  */
 package com.gwtmodel.table.view.table;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
@@ -43,7 +47,10 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.AsyncDataProvider;
+import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtmodel.table.FUtils;
@@ -51,6 +58,7 @@ import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGetSetVField;
+import com.gwtmodel.table.ISuccess;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
@@ -65,9 +73,6 @@ import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
 import com.gwtmodel.table.view.util.PopUpHint;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * 
@@ -104,7 +109,7 @@ class PresentationTable implements IGwtTableView {
             true);
     private final VerticalPanel vPanel = new VerticalPanel();
     private final ListDataProvider<MutableInteger> dProvider = new ListDataProvider<MutableInteger>();
-    private final List<MutableInteger> dList;
+    private final AsyncDataProvider<MutableInteger> aProvider = new MyAsyncProvider();
     private boolean whilefind = false;
     private IModifyRowStyle iModRow = null;
     private final PresentationCellFactory fa;
@@ -114,6 +119,50 @@ class PresentationTable implements IGwtTableView {
     private IVField sortCol = null;
     private boolean sortInc;
     private final ILostFocusEdit lostFocus;
+    private final boolean async;
+
+    private class MyAsyncProvider extends AsyncDataProvider<MutableInteger> {
+
+        @Override
+        protected void onRangeChanged(HasData<MutableInteger> display) {
+            // Get the new range.
+            final Range range = display.getVisibleRange();
+            final int start = range.getStart();
+            final int length = range.getLength();
+            ISuccess iSignal = new ISuccess() {
+
+                @Override
+                public void success() {
+                    List<MutableInteger> mList = new ArrayList<MutableInteger>();
+                    for (int i = 0; i < length; i++)
+                        mList.add(new MutableInteger(i + start));
+                    updateRowData(start, mList);
+                }
+            };
+            ColumnSortList sList = table.getColumnSortList();
+            boolean asc = false;
+            IVField sFie = null;
+            if (sList.size() > 0) {
+                asc = sList.get(0).isAscending();
+                Column cSort = sList.get(0).getColumn();
+                for (int i = 0; i < table.getColumnCount(); i++) {
+                    Column<MutableInteger, ?> co = table.getColumn(i);
+                    // compare references !
+                    if (co == cSort) {
+                        VListHeaderDesc v = model.getHeaderList()
+                                .getVisHeList().get(i);
+                        sFie = v.getFie();
+                        break;
+                    }
+                }
+                if (sFie == null) {
+                    Utils.errAlert(LogT.getT().CannotRecgonizeSortColumn());
+                    return;
+                }
+            }
+            model.readChunkRange(start, length, sFie, asc, iSignal);
+        }
+    }
 
     private class CurrentHoverTip {
 
@@ -156,7 +205,7 @@ class PresentationTable implements IGwtTableView {
 
         // tr.wait-reply
         public String getStyleNames(MutableInteger row, int rowIndex) {
-            IVModelData v = model.getRows().get(row.intValue());
+            IVModelData v = model.get(row.intValue());
             return iModRow.newRowStyle(v);
         }
     }
@@ -218,7 +267,7 @@ class PresentationTable implements IGwtTableView {
                 for (IGetSetVField i : l) {
                     if (i.getV().eq(v)) {
                         Object o = i.getValObj();
-                        IVModelData vD = model.getRows().get(row);
+                        IVModelData vD = model.get(row);
                         vD.setF(v, o);
                     }
                 }
@@ -248,7 +297,7 @@ class PresentationTable implements IGwtTableView {
         PresentationEditCellFactory.ErrorLineInfo errInfo = faEdit
                 .getErrorInfo();
         VListHeaderDesc he = model.getHeaderList().getVisHeList().get(i);
-        IVModelData vData = model.getRows().get(row.intValue());
+        IVModelData vData = model.get(row.intValue());
         String s = null;
         if (noWrap && faEdit.geteParam() == null) {
             // hint related to cell content only if no wrapping and not editing
@@ -313,14 +362,15 @@ class PresentationTable implements IGwtTableView {
 
     PresentationTable(IRowClick iClick, ICommand actionColumn,
             IGetCellValue gValue, INewEditLineFocus iEditFocus,
-            ILostFocusEdit lostFocus, IColumnImage iIma) {
+            ILostFocusEdit lostFocus, IColumnImage iIma, boolean async) {
         this.iEditFocus = iEditFocus;
         this.iClick = iClick;
         this.lostFocus = lostFocus;
         this.iActionColumn = actionColumn;
         this.gValue = gValue;
+        this.async = async;
         selectionModel.addSelectionChangeHandler(new SelectionChange());
-        dList = dProvider.getList();
+        // dList = dProvider.getList();
         // set selection only if iClick defined
         // thus avoid changing color while clicking
         // TODO: consider later
@@ -328,7 +378,9 @@ class PresentationTable implements IGwtTableView {
         table.setSelectionModel(selectionModel);
         // }
         sPager.setDisplay(table);
-        dProvider.addDataDisplay(table);
+        if (!async) {
+            dProvider.addDataDisplay(table);
+        }
         setEmpty();
         ILostFocusEdit e = null;
         // if (!selectEnabled()) {
@@ -354,7 +406,7 @@ class PresentationTable implements IGwtTableView {
 
         @Override
         public String getValue(Integer object) {
-            IVModelData v = model.getRows().get(object);
+            IVModelData v = model.get(object);
             String key = FUtils.getValueS(v, iF);
             return fType.convertToString(key);
         }
@@ -402,13 +454,13 @@ class PresentationTable implements IGwtTableView {
 
         @Override
         public String getCellStyleNames(Context context, MutableInteger object) {
-            IVModelData v = model.getRows().get(object.intValue());
+            IVModelData v = model.get(object.intValue());
             return gValue.getCellStyleNames(v, fie);
         }
 
         @Override
         public SafeHtml getValue(MutableInteger object) {
-            IVModelData v = model.getRows().get(object.intValue());
+            IVModelData v = model.get(object.intValue());
             return gValue.getValue(v, fie);
         }
 
@@ -433,8 +485,8 @@ class PresentationTable implements IGwtTableView {
         }
 
         public int compare(MutableInteger o1, MutableInteger o2) {
-            IVModelData v1 = model.getRows().get(o1.intValue());
-            IVModelData v2 = model.getRows().get(o2.intValue());
+            IVModelData v1 = model.get(o1.intValue());
+            IVModelData v2 = model.get(o2.intValue());
             return FUtils.compareValue(v1, he.getFie(), v2, he.getFie(), true);
         }
     }
@@ -596,10 +648,16 @@ class PresentationTable implements IGwtTableView {
                 table.addColumn(co, footFactory.constructHeader(he));
             }
 
-            ListHandler<MutableInteger> columnSortHandler = new ListHandler<MutableInteger>(
-                    dList);
-            columnSortHandler.setComparator(co, new CoComparator(he));
-            table.addColumnSortHandler(columnSortHandler);
+            if (!async) {
+                ListHandler<MutableInteger> columnSortHandler = new ListHandler<MutableInteger>(
+                        dProvider.getList());
+                columnSortHandler.setComparator(co, new CoComparator(he));
+                table.addColumnSortHandler(columnSortHandler);
+            } else {
+                ColumnSortEvent.AsyncHandler sortHandler = new ColumnSortEvent.AsyncHandler(
+                        table);
+                table.addColumnSortHandler(sortHandler);
+            }
             // ColumnSortEvent.fire(myTable, myTable.getColumnSortList());
         } // for
         columnC = true;
@@ -636,9 +694,14 @@ class PresentationTable implements IGwtTableView {
             table.setRowCount(0, true);
             return;
         }
-        dList.clear();
-        for (int i = 0; i < model.getRows().size(); i++) {
-            dList.add(new MutableInteger(i));
+        if (async) {
+            table.setRowCount((int) model.getSize(), true);
+            aProvider.addDataDisplay(table);
+        } else {
+            dProvider.getList().clear();
+            for (int i = 0; i < model.getSize(); i++) {
+                dProvider.getList().add(new MutableInteger(i));
+            }
         }
         int size = model.getHeaderList().getPageSize();
         if (size != 0) {
@@ -656,7 +719,7 @@ class PresentationTable implements IGwtTableView {
             nNo = 2;
         }
         boolean addPager = false;
-        if ((size != 0) && dList.size() > size) {
+        if ((size != 0) && model.getSize() > size) {
             nNo++;
             addPager = true;
         }
@@ -701,7 +764,7 @@ class PresentationTable implements IGwtTableView {
             return new P(0, 0);
         }
         int li = wChoosed.getChoosedLine();
-        if (li >= dList.size()) {
+        if (li >= model.getSize()) {
             table.setPageStart(0);
             setEmpty();
             return new P(0, 0);
@@ -848,7 +911,7 @@ class PresentationTable implements IGwtTableView {
                 o = iGet.getValObj(new MutableInteger(rowno));
             }
             if (!keepNull && (o == null)) {
-                IVModelData v = model.getRows().get(rowno);
+                IVModelData v = model.get(rowno);
                 o = FUtils.getValue(v, getV());
             }
             return o;

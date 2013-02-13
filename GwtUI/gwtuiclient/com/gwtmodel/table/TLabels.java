@@ -156,19 +156,21 @@ public interface TLabels extends Constants {
     String ChangeSizeResing();
 
     String ChangeNumberOfRows();
-    
+
     String IngnoreDuringSearch();
-    
+
     String WrapLines();
-    
+
     String EndButton();
-    
+
     String RestoreInitialValue();
-    
+
     String AddRowAtTheBeginning();
-    
+
     String AddRowAfter();
-    
+
     String RemoveRow();
+
+    String CannotRunFindInAsycnMode();
 
 }

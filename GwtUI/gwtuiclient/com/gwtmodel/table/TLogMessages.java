@@ -107,10 +107,14 @@ public interface TLogMessages extends Messages {
     String InproperColumnUnit(String colName, String unit);
 
     String ValueNotExpectedHere();
-    
+
     String ColumnCellUndefined();
-    
+
     String SelectListCannotBeEmpty();
-    
+
     String NotImplemented();
+
+    String CannotFindChunkForIndex(int i);
+    
+    String CannotRecgonizeSortColumn();
 }

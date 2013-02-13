@@ -78,7 +78,7 @@ class AttachDataView extends AbstractSlotContainer implements IAttachDataView {
         cList.getcList().add(b);
 
         DisplayListControlerParam cParam = tFactory.constructParam(cList,
-                new CellId(0), dParam, null,true);
+                new CellId(0), dParam, null, true, false);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         ISlotable iSlo = new DownloadFile(dType, new ClickButtonType(DOWNLOAD));

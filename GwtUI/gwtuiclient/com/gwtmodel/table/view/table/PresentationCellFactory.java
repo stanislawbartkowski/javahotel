@@ -32,7 +32,7 @@ import com.gwtmodel.table.injector.LogT;
 
 /**
  * @author hotel
- *
+ * 
  */
 class PresentationCellFactory extends PresentationCellHelper {
 
@@ -49,6 +49,7 @@ class PresentationCellFactory extends PresentationCellHelper {
     IGwtTableModel getModel() {
         return model;
     }
+
     private final Cell<Boolean> checkCell = new NoEditCheckBoxCell();
 
     private class NoEditCheckBoxCell extends AbstractCell<Boolean> {
@@ -69,6 +70,7 @@ class PresentationCellFactory extends PresentationCellHelper {
         @Template("<strong>{0}</strong>")
         SafeHtml input(String value);
     }
+
     // cannot be private
 
     interface TemplateEmptyButtonAction extends SafeHtmlTemplates {
@@ -87,7 +89,7 @@ class PresentationCellFactory extends PresentationCellHelper {
 
         @Override
         public String getValue(MutableInteger object) {
-            IVModelData v = model.getRows().get(object.intValue());
+            IVModelData v = model.get(object.intValue());
             return FUtils.getValueS(v, iF);
         }
     }
@@ -108,7 +110,7 @@ class PresentationCellFactory extends PresentationCellHelper {
         @Override
         public void render(Cell.Context context, MutableInteger value,
                 SafeHtmlBuilder sb) {
-            IVModelData v = model.getRows().get(value.intValue());
+            IVModelData v = model.get(value.intValue());
             if (getCell != null) {
                 SafeHtml sa = getCell.getValue(v, iF);
                 if (sa != null) {
@@ -149,33 +151,33 @@ class PresentationCellFactory extends PresentationCellHelper {
     Column constructNumberCol(IVField v) {
         Column co = null;
         switch (v.getType().getType()) {
-            case LONG:
+        case LONG:
+            co = new LongColumn(v);
+            break;
+        case INT:
+            co = new IntegerColumn(v);
+            break;
+        case BIGDECIMAL:
+            switch (v.getType().getAfterdot()) {
+            case 0:
                 co = new LongColumn(v);
                 break;
-            case INT:
-                co = new IntegerColumn(v);
+            case 1:
+                co = new NumberColumn(nCell1, v);
                 break;
-            case BIGDECIMAL:
-                switch (v.getType().getAfterdot()) {
-                    case 0:
-                        co = new LongColumn(v);
-                        break;
-                    case 1:
-                        co = new NumberColumn(nCell1, v);
-                        break;
-                    case 2:
-                        co = new NumberColumn(nCell2, v);
-                        break;
-                    case 3:
-                        co = new NumberColumn(nCell3, v);
-                        break;
-                    default:
-                        co = new NumberColumn(nCell4, v);
-                        break;
-                }
+            case 2:
+                co = new NumberColumn(nCell2, v);
+                break;
+            case 3:
+                co = new NumberColumn(nCell3, v);
                 break;
             default:
-                assert false : LogT.getT().notExpected();
+                co = new NumberColumn(nCell4, v);
+                break;
+            }
+            break;
+        default:
+            assert false : LogT.getT().notExpected();
         }
         return co;
 
@@ -207,37 +209,37 @@ class PresentationCellFactory extends PresentationCellHelper {
     Cell constructCell(IVField v) {
         Cell ce;
         switch (v.getType().getType()) {
-            case DATE:
-                ce = new DateCell(fo);
-                break;
-            case LONG:
-            case INT:
+        case DATE:
+            ce = new DateCell(fo);
+            break;
+        case LONG:
+        case INT:
+            ce = iCell;
+            break;
+        case BIGDECIMAL:
+            switch (v.getType().getAfterdot()) {
+            case 0:
                 ce = iCell;
                 break;
-            case BIGDECIMAL:
-                switch (v.getType().getAfterdot()) {
-                    case 0:
-                        ce = iCell;
-                        break;
-                    case 1:
-                        ce = nCell1;
-                        break;
-                    case 2:
-                        ce = nCell2;
-                        break;
-                    case 3:
-                        ce = nCell3;
-                        break;
-                    default:
-                        ce = nCell4;
-                        break;
-                }
+            case 1:
+                ce = nCell1;
                 break;
-            case BOOLEAN:
-                return checkCell;
+            case 2:
+                ce = nCell2;
+                break;
+            case 3:
+                ce = nCell3;
+                break;
             default:
-                ce = new TextCell();
+                ce = nCell4;
                 break;
+            }
+            break;
+        case BOOLEAN:
+            return checkCell;
+        default:
+            ce = new TextCell();
+            break;
         }
         return ce;
     }

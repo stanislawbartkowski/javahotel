@@ -118,40 +118,42 @@ public class TableDataControlerFactory {
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
-            CellId panelId, ISlotMediator me, boolean toTree,boolean selectRows) {
+            CellId panelId, ISlotMediator me, boolean toTree,
+            boolean selectRows, boolean asyncRow) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
                         fContainer, listParam), listParam, me, null, toTree,
-                selectRows);
+                selectRows, asyncRow);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
             ListOfControlDesc cList, CellId panelId, ISlotMediator me,
-            IGetCellValue getCell, boolean toTree, boolean selectRows) {
+            IGetCellValue getCell, boolean toTree, boolean selectRows,
+            boolean asyncRow) {
         DataListParam listParam = getParam(dType);
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
                         fContainer, listParam), listParam, me, getCell, toTree,
-                selectRows);
+                selectRows, asyncRow);
     }
 
     public DisplayListControlerParam constructParam(CellId panelId,
             DataListParam listParam, ISlotMediator me, IGetCellValue getCell,
-            boolean treeView) {
+            boolean treeView, boolean asyncRow) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
                         fContainer, listParam), listParam, me, getCell,
-                treeView, true);
+                treeView, true, asyncRow);
     }
 
     public DisplayListControlerParam constructParam(CellId panelId,
             DataListParam listParam, ISlotable iSlo) {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
-                panelId, cList, iSlo, listParam, null, null, false, true);
+                panelId, cList, iSlo, listParam, null, null, false, true, false);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType) {
@@ -159,16 +161,16 @@ public class TableDataControlerFactory {
         ListOfControlDesc cList = cButtonFactory.constructCrudList();
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 null, cList, new DataListCrudControler(tFactories, fContainer,
-                        listParam), listParam, null, null, false, true);
+                        listParam), listParam, null, null, false, true, false);
     }
 
     public DisplayListControlerParam constructParam(ListOfControlDesc cList,
             CellId panelId, DataListParam listParam, ISlotMediator me,
-            boolean selectRows) {
+            boolean selectRows, boolean asyncRow) {
         return new DisplayListControlerParam(tFactories, fContainer, null,
                 panelId, cList, new DataListCrudControler(tFactories,
                         fContainer, listParam), listParam, null, null, false,
-                selectRows);
+                selectRows, asyncRow);
     }
 
     public DisplayListControlerParam constructParam(IDataType dType,
@@ -177,6 +179,6 @@ public class TableDataControlerFactory {
         return new DisplayListControlerParam(tFactories, fContainer, wSize,
                 panelId, cList, new DataListCrudControler(tFactories,
                         fContainer, listParam), listParam, null, null, false,
-                true);
+                true, false);
     }
 }

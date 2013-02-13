@@ -109,7 +109,7 @@ public class SlU {
      */
     public static List<IGetSetVField> getVListFromEditTable(IDataType dType,
             ISlotable iSlo, int rowNo) {
-        ISlotCustom sl = ActionTableSignal.constructSlotGetVSignal(dType);
+        ISlotCustom sl = GetVListSignal.constructSlotGetVSignal(dType);
         ISlotSignalContext i = iSlo.getSlContainer().getGetter(sl,
                 new GetVListSignal(rowNo));
         GetVListSignal v = (GetVListSignal) i.getCustom();

@@ -78,7 +78,7 @@ class DatePeriodList extends AbstractSlotContainer implements IDatePeriodList {
                 new CellId(0), new DataListParam(dType, mList, null,
                         new DataFactory(eFactory), new DateViewFactory(title),
                         iGetCon), (ISlotMediator) null, (IGetCellValue) null,
-                false);
+                false, false);
         dControler = tFactory.constructDataControler(cParam);
         dControler.getSlContainer().registerSubscriber(dType, 0, setGwt);
         // dControler.getSlContainer().replaceContainer(this);
