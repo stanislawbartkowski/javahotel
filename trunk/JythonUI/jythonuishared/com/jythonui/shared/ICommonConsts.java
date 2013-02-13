@@ -102,4 +102,18 @@ public interface ICommonConsts {
     String VALIDATERULES = "validaterules";
     String VALIDATEOP = "op";
     String VALIDATEID1 = "id1";
+    String WIDTH = "width";
+    String PAGESIZE = "pagesize";
+    String ALIGN = "align";
+    String ALIGNL = "L";
+    String ALIGNR = "R";
+    String ALIGNC = "C";
+    String CHUNKED = "chunked";
+    String JLISTSIZE = "JLIST_SIZE";
+    String JLIST_READCHUNK = "readchunk";
+    String JLIST_READCHUNKSTART = "JLIST_FROM";
+    String JLIST_READCHUNKLENGTH = "JLIST_LENGTH";
+    String JLIST_SORTLIST = "JLIST_SORTLIST";
+    String JLIST_SORTASC = "JLIST_SORTASC";
+    String JLIST_GETSIZE = "listgetsize";
 }

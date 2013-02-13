@@ -54,5 +54,9 @@ public abstract class ElemDescription implements Serializable {
     protected boolean isAttr(String attr) {
         return getAttr(attr) != null;
     }
+    
+    public String getWidth() {
+        return getAttr(ICommonConsts.WIDTH);
+    }
 
 }
