@@ -12,19 +12,20 @@
  */
 package com.gwtmodel.table.login;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.IDataValidateAction;
-import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LoginViewFactory {
 
@@ -32,23 +33,21 @@ public class LoginViewFactory {
     }
 
     public static FormLineContainer construct() {
-        EditWidgetFactory eFactory = GwtGiniInjector.getI().
-                getEditWidgetFactory();
+        EditWidgetFactory eFactory = GwtGiniInjector.getI()
+                .getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
         IVField loginV = new LoginField(LoginField.F.LOGINNAME);
         IFormLineView loginName = eFactory.constructTextField(loginV);
-        di.add(new FormField(c.getCustomValue(c.LOGINMAME), loginName));
+        di.add(new FormField(MM.getL().Login(), loginName));
         IVField passwordV = new LoginField(LoginField.F.PASSWORD);
         IFormLineView password = eFactory.constructPasswordField(passwordV);
-        di.add(new FormField(c.getCustomValue(c.PASSWORD), password));
+        di.add(new FormField(MM.getL().Password(), password));
         return new FormLineContainer(di);
     }
 
     public static ILoginDataView contructView(CellId cellId, IDataType dType,
-            FormLineContainer lContainer,
-            IDataModelFactory dFactory, IDataValidateAction vAction) {
-        return new LoginDataView(cellId, dType, lContainer, dFactory,
-                vAction);
+            FormLineContainer lContainer, IDataModelFactory dFactory,
+            IDataValidateAction vAction) {
+        return new LoginDataView(cellId, dType, lContainer, dFactory, vAction);
     }
 }

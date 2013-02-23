@@ -52,7 +52,7 @@ class FData extends VModelData {
     }
 
     /**
-     * Check if any data have been entered
+     * Check if any data has been entered
      * 
      * @return true: nothing, is empty false: not empty
      */
@@ -133,9 +133,19 @@ class FData extends VModelData {
             FField to = FField.constructTo(v);
             IVField check = FField.constructCheck(v);
             Boolean checkN = FUtils.getValueBoolean(this, check);
+            Object toVal = null;
+            if (!FUtils.isNullValue(this, to)) {
+                toVal = FUtils.getValue(this, to);
+            }
+            if (FUtils.isNullValue(this, from) && toVal == null) {
+                continue;
+            }
             Object fromVal = FUtils.getValue(this, from);
-            Object toVal = FUtils.getValue(this, to);
-            CompData c = new CompData(checkN, v.getFie(), fromVal, toVal);
+            boolean eqV = false;
+            if (toVal == null && checkN != null) {
+                eqV = checkN.booleanValue();
+            }
+            CompData c = new CompData(eqV, v.getFie(), fromVal, toVal);
             vList.add(c);
         }
         return vList;

@@ -17,7 +17,7 @@
 package com.gwtmodel.table;
 
 /**
- *
+ * 
  * @author hotel
  */
 public interface IConsts {
@@ -30,4 +30,5 @@ public interface IConsts {
     int actionImageWidth = 12;
     int actionImageHeight = 12;
     String DEFJSONROW = "row";
+    int CHUNK_SIZE = 100;
 }

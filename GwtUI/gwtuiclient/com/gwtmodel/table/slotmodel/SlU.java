@@ -12,12 +12,15 @@
  */
 package com.gwtmodel.table.slotmodel;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
+import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WChoosedLine;
@@ -25,7 +28,6 @@ import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.controler.BoxActionMenuOptions;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.listdataview.ActionTableSignal;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.GetVListSignal;
 import com.gwtmodel.table.rdef.FormLineContainer;
@@ -33,7 +35,6 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
-import java.util.List;
 
 /**
  * @author hotel Static utility for making bringing object more easy
@@ -415,5 +416,12 @@ public class SlU {
             IVModelData footerV) {
         iSlo.getSlContainer().publish(dType, DataActionEnum.DrawFooterAction,
                 footerV);
+    }
+
+    public static IOkModelData getOkModelData(IDataType dType, ISlotable iSlo) {
+        ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(
+                dType, GetActionEnum.GetFilterData);
+        return slContext.getIOkModelData();
+
     }
 }
