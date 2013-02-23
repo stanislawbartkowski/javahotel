@@ -35,7 +35,7 @@ import com.gwtmodel.table.controlbuttonview.ButtonRedirectActivateSignal;
 import com.gwtmodel.table.controlbuttonview.ButtonRedirectSignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.listdataview.DataListModelView.Chunk;
+import com.gwtmodel.table.listdataview.ChunkReader.Chunk;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -76,6 +76,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private final boolean async;
     private final HandleBeginEndLineEditing handleChange = new HandleBeginEndLineEditing();
     private final List<IDataType> activateRedirect = new ArrayList<IDataType>();
+    private final ChunkReader cReader;
 
     private final EditAfterFocusSynchronizer editSynch = new EditAfterFocusSynchronizer();
 
@@ -214,8 +215,13 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private IOkModelData getiOk() {
+        return isFilter ? iOk : null;
+    }
+
     private void publishGetListSize() {
-        publish(dType, DataActionEnum.GetListSize, iOk);
+        cReader.signalClearCache();
+        publish(dType, DataActionEnum.GetListSize, getiOk());
     }
 
     private class SetFilter implements ISlotListener {
@@ -602,6 +608,14 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
+    private class GetFilterData implements ISlotCallerListener {
+
+        @Override
+        public ISlotSignalContext call(ISlotSignalContext slContext) {
+            return coFactory.construct(slContext.getSlType(), getiOk());
+        }
+    }
+
     private class GetLineWrap implements ISlotCallerListener {
 
         @Override
@@ -824,7 +838,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
     }
 
-    private class ReadChunk implements DataListModelView.IReadChunk {
+    private class ReadChunk implements ChunkReader.IReadChunk {
 
         private class BackRead implements ISuccess {
 
@@ -837,6 +851,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
             @Override
             public void success() {
+                cReader.clearIfSignalled(c);
                 c.vList = r.getvList();
                 c.signal.success();
             }
@@ -847,7 +862,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         public void readChunk(Chunk c) {
             BackRead b = new BackRead(c);
             ReadChunkSignal r = new ReadChunkSignal(c.start, c.len, c.fSort,
-                    c.asc, b, isFilter ? iOk : null);
+                    c.asc, b, getiOk());
             b.r = r;
             CustomStringSlot sl = ReadChunkSignal
                     .constructReadChunkSignal(dType);
@@ -858,7 +873,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     ListDataView(GwtTableFactory gFactory, IDataType dType,
             IGetCellValue gValue, boolean selectedRow, boolean unSelectAtOnce,
             boolean treeView, boolean async) {
-        listView = new DataListModelView(new ReadChunk());
+        cReader = new ChunkReader(new ReadChunk());
+        listView = new DataListModelView(cReader);
         listView.setrAction(new RowActionListener());
         listView.setUnSelectAtOnce(unSelectAtOnce);
         this.dType = dType;
@@ -939,6 +955,8 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 new GetComboField());
         registerCaller(dType, GetActionEnum.GetHeaderList, new GetHeader());
         registerCaller(dType, GetActionEnum.GetListData, new GetWholeList());
+        registerCaller(dType, GetActionEnum.GetFilterData, new GetFilterData());
+
         registerCaller(IsBooleanSignalNow.constructSlotGetTreeView(dType),
                 new GetTreeViewNow());
         registerCaller(

@@ -39,5 +39,7 @@ public enum GetActionEnum {
     /** GetHeaderDef */
     GetHeaderList,
     /** IDataListType. */
-    GetListData
+    GetListData,
+    /** GetFilterOkData. */
+    GetFilterData
 }

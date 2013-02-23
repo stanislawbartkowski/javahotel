@@ -67,6 +67,7 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
@@ -128,7 +129,9 @@ class PresentationTable implements IGwtTableView {
             // Get the new range.
             final Range range = display.getVisibleRange();
             final int start = range.getStart();
-            final int length = range.getLength();
+            final int length = MaxI.min((int) model.getSize() - start,
+                    range.getLength());
+
             ISuccess iSignal = new ISuccess() {
 
                 @Override
@@ -694,19 +697,31 @@ class PresentationTable implements IGwtTableView {
             table.setRowCount(0, true);
             return;
         }
+        int size = model.getHeaderList().getPageSize();
+        if (size != 0) {
+            table.setPageSize(size);
+        }
         if (async) {
+            // removing and adding table is necessary to force redraw
+            int no = sPager.getPage();
+            sPager.setPage(0);
             table.setRowCount((int) model.getSize(), true);
+            if (aProvider.getDataDisplays().contains(table)) {
+                aProvider.removeDataDisplay(table);
+            }
             aProvider.addDataDisplay(table);
+            // table.setRowCount((int) model.getSize(), true);
+            table.redraw();
         } else {
             dProvider.getList().clear();
             for (int i = 0; i < model.getSize(); i++) {
                 dProvider.getList().add(new MutableInteger(i));
             }
         }
-        int size = model.getHeaderList().getPageSize();
-        if (size != 0) {
-            table.setPageSize(size);
-        }
+        // int size = model.getHeaderList().getPageSize();
+        // if (size != 0) {
+        // table.setPageSize(size);
+        // }
         table.setPageStart(setSelected().pStart);
         int aNo = vPanel.getWidgetCount();
         String title = model.getHeaderList().getListTitle();

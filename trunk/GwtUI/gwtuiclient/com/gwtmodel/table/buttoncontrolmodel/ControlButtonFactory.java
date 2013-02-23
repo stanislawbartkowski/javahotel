@@ -12,13 +12,13 @@
  */
 package com.gwtmodel.table.buttoncontrolmodel;
 
-import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.injector.GwtGiniInjector;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ControlButtonFactory {
 
@@ -32,12 +32,13 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> printButton;
     private final List<ControlButtonDesc> filtrButton;
     private final List<ControlButtonDesc> findButton;
-    private final IGetCustomValues c;
+    // private final IGetCustomValues c;
     private boolean wasset = false;
 
     public ControlButtonDesc constructButt(StandClickEnum bType,
             ClickButtonType buttonType) {
         String imageName = ControlButtonImages.getImageName(bType);
+        Map<String, String> mAction = MM.getL().ActionName();
         switch (bType) {
         case TABLEDEFAULTMENU:
             return new ControlButtonDesc(imageName, MM.getL().MenuForTable(),
@@ -75,16 +76,16 @@ public class ControlButtonFactory {
                     buttonType);
         case ADDITEM:
             return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.ADDITEM), buttonType);
+                    mAction.get(StandClickEnum.ADDITEM.name()), buttonType);
         case REMOVEITEM:
             return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.REMOVEITEM), buttonType);
+                    mAction.get(StandClickEnum.REMOVEITEM.name()), buttonType);
         case MODIFITEM:
             return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.MODIFITEM), buttonType);
+                    mAction.get(StandClickEnum.MODIFITEM.name()), buttonType);
         case SHOWITEM:
             return new ControlButtonDesc(imageName,
-                    c.getCustomValue(IGetCustomValues.SHOWITEM), buttonType);
+                    mAction.get(StandClickEnum.SHOWITEM.name()), buttonType);
         case ACCEPT:
             return new ControlButtonDesc(imageName, MM.getL().Accept(),
                     buttonType);
@@ -149,8 +150,7 @@ public class ControlButtonFactory {
         yesnoButton.add(new ControlButtonDesc(null, MM.getL().No(),
                 new ClickButtonType(ClickButtonType.StandClickEnum.RESIGN)));
 
-        loginButton.add(new ControlButtonDesc(null, c
-                .getCustomValue(IGetCustomValues.LOGINBUTTON),
+        loginButton.add(new ControlButtonDesc(null, MM.getL().Login(),
                 new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
 
         printButton.add(new ControlButtonDesc(null, MM.getL().Print(),
@@ -161,8 +161,6 @@ public class ControlButtonFactory {
     }
 
     public ControlButtonFactory() {
-        c = GwtGiniInjector.getI().getTableFactoriesContainer()
-                .getGetCustomValues();
         dButton = new ArrayList<ControlButtonDesc>();
 
         filtrButton = new ArrayList<ControlButtonDesc>();

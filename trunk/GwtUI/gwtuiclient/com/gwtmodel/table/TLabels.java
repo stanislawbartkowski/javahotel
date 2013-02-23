@@ -172,5 +172,9 @@ public interface TLabels extends Constants {
     String RemoveRow();
 
     String CannotRunFindInAsycnMode();
+    
+    String Login();
+    
+    String Password();
 
 }
