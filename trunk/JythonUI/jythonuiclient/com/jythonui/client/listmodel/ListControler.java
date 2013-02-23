@@ -22,6 +22,7 @@ import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
@@ -38,7 +39,6 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
-import com.gwtmodel.table.listdataview.ActionTableSignal;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
 import com.gwtmodel.table.listdataview.ReadChunkSignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
@@ -49,12 +49,14 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.slotmodel.SlotType;
+import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
+import com.jythonui.client.M;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.util.CreateForm;
+import com.jythonui.client.util.CreateSearchVar;
 import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
@@ -115,6 +117,10 @@ class ListControler {
             @Override
             protected void doTask() {
                 ListFormat fo = rM.getFormat(dType);
+                if (lOfRows == null) {
+//                    Utils.errAlert(M.M().NoInfoOnList(fo.getId()));
+                    return;
+                }
                 if (fo.isChunked()) {
                     int size = lOfRows.getSize();
                     CustomStringSlot slot = DataIntegerSignal
@@ -166,6 +172,9 @@ class ListControler {
                 if (sy.signalledAlready()) {
                     DialogVariables v = iCon.getVariables();
                     ListFormat li = rM.getFormat(dType);
+                    IOkModelData iOk = SlU.getOkModelData(dType,
+                            DataListPersistAction.this);
+                    CreateSearchVar.addSearchVar(v, li, iOk);
                     ListUtils.executeCrudAction(v, li, rM.getDialogName(),
                             ICommonConsts.CRUD_READLIST, new ReadListAgain());
 
@@ -188,6 +197,20 @@ class ListControler {
 
         }
 
+        private class GetListSize implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                IOkModelData iOk = slContext.getIOkModelData();
+                DialogVariables v = iCon.getVariables();
+                ListFormat li = rM.getFormat(dType);
+                CreateSearchVar.addSearchVar(v, li, iOk);
+                ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                        ICommonConsts.JLIST_GETSIZE, new ReadListAgain());
+            }
+
+        }
+
         DataListPersistAction(IDataType d, RowListDataManager rM,
                 IVariablesContainer iCon) {
             this.dType = d;
@@ -197,6 +220,9 @@ class ListControler {
                     new ReadList());
             registerSubscriber(FormBeforeCompletedSignal.constructSignal(d),
                     new FormBeforeCompleted());
+            registerSubscriber(dType, DataActionEnum.GetListSize,
+                    new GetListSize());
+
         }
 
     }
@@ -326,18 +352,9 @@ class ListControler {
                 v.setValueS(ICommonConsts.JLIST_SORTLIST, fSort.getId());
             v.setValueB(ICommonConsts.JLIST_SORTASC, r.isAsc());
             ListFormat li = rM.getFormat(dType);
+            CreateSearchVar.addSearchVar(v, li, r.getOkData());
             ListUtils.executeCrudAction(v, li, rM.getDialogName(),
                     ICommonConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
-        }
-
-    }
-
-    static private class GetListSize implements ISlotListener {
-
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            IOkModelData iOk = slContext.getIOkModelData();
-
         }
 
     }
@@ -398,8 +415,6 @@ class ListControler {
                 .registerSubscriber(sl, new ReadInChunk(da, iCon, rM));
         i.getSlContainer().registerSubscriber(da,
                 DataActionEnum.TableCellClicked, new ActionClicked(iClick));
-        i.getSlContainer().registerSubscriber(da, DataActionEnum.GetListSize,
-                new GetListSize());
         return i;
     }
 

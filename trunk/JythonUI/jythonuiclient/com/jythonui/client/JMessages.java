@@ -27,15 +27,15 @@ public interface JMessages extends Messages {
     String UnknownAction(String action, String param);
 
     String CustomTypeNotDefine();
-    
+
     String CannotFindCustomType(String typeName);
-    
-    String CannotFindFromField(String from,String fid);
-    
+
+    String CannotFindFromField(String from, String fid);
+
     String ValidateAttributeNotDefined(String id);
-    
-    String ValidateFieldNotFound(String id,String fid);
-    
+
+    String ValidateFieldNotFound(String id, String fid);
+
     String NoFieldRelatedToError(String id, String fie);
 
 }

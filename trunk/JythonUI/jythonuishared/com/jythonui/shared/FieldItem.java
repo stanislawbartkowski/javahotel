@@ -53,7 +53,8 @@ public class FieldItem extends ElemDescription {
         String t = getTypeName();
         if (CUtil.EmptyS(t) || CUtil.EqNS(t, ICommonConsts.STRINGTYPE)
                 || CUtil.EqNS(t, ICommonConsts.TEXTAREA)
-                || CUtil.EqNS(t, ICommonConsts.RICHTEXT)) {
+                || CUtil.EqNS(t, ICommonConsts.RICHTEXT)
+                || CUtil.EqNS(t, ICommonConsts.PASSWORD)) {
             return TT.STRING;
         }
         if (getCustom() != null) {
@@ -122,6 +123,10 @@ public class FieldItem extends ElemDescription {
 
     public boolean isRichText() {
         return CUtil.EqNS(getTypeName(), ICommonConsts.RICHTEXT);
+    }
+
+    public boolean isPassword() {
+        return CUtil.EqNS(getTypeName(), ICommonConsts.PASSWORD);
     }
 
     public String getFrom() {

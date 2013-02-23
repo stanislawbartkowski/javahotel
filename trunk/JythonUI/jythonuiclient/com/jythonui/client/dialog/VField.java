@@ -72,4 +72,15 @@ public class VField implements IVField {
         return id;
     }
 
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        VField v = (VField) o;
+        return eq(v);
+    }
+
 }
