@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
@@ -79,9 +80,9 @@ public class Test14 extends TestHelper {
         v.setValueL(ICommonConsts.JLIST_READCHUNKLENGTH, 30);
         iServer.runAction(v, "test35.xml", ICommonConsts.JLIST_READCHUNK);
         ro = v.getList("list");
-        assertEquals(30,ro.getRowList().size());
+        assertEquals(30, ro.getRowList().size());
     }
-    
+
     @Test
     public void test4() {
         DialogFormat d = iServer.findDialog("test35.xml");
@@ -92,5 +93,15 @@ public class Test14 extends TestHelper {
         assertNotNull(ro);
         assertEquals(74, ro.getSize());
         assertTrue(ro.getRowList().isEmpty());
+    }
+
+    @Test
+    public void test5() {
+        DialogFormat d = iServer.findDialog("test36.xml");
+        assertNotNull(d);
+        FieldItem f = d.findFieldItem("pass");
+        assertNotNull(f);
+        assertTrue(f.isPassword());
+        assertEquals(TT.STRING, f.getFieldType());
     }
 }

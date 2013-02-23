@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+ <jython>
+   <import>from testpack import testchunk</import>
+   <method>testchunk.dialogaction({0},{1})</method>
+ </jython>  
+ 
+ <form>
+   <field id="glob1" />
+   <field id="globbool" type="bool" />
+   <field id="globint" type="int" displayname="Integer value" />
+   <field id="pass" type="password" displayname="Password" />
+ </form>  
+
+</dialog>
