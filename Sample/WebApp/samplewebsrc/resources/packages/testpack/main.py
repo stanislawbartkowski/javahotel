@@ -2,6 +2,7 @@ import datetime
 
 def dialogaction(action,var) :
   print "test",action
+  print len
     
   if action == "main" :
     var["JMAIN_DIALOG"] = "start.xml"  

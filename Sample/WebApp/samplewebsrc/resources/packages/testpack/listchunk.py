@@ -1,5 +1,37 @@
 import datetime
 
+_SIZE=26
+
+def __getlist(var) :
+            
+      blist = []
+      for i in range(_SIZE) :
+         if var["JSEARCH_SET_id"] :
+           ifrom = var["JSEARCH_FROM_id"]
+           ito = var["JSEARCH_TO_id"]
+           ieq = var["JSEARCH_EQ_id"]
+           if ifrom != None :
+             if ieq and ifrom != i : continue
+             if i < ifrom : continue
+             if ito != None:
+               if i > ito : continue
+
+         name = str(i) + ": name"            
+         
+         if var["JSEARCH_SET_name"] :
+           ifrom = var["JSEARCH_FROM_name"]
+           ito = var["JSEARCH_TO_name"]
+           ieq = var["JSEARCH_EQ_name"]
+           if ifrom != None :
+             if ieq and ifrom != name : continue
+             if name < ifrom : continue
+             if ito != None:
+               if name > ito : continue
+             
+         blist.append((i,name))
+         
+      return blist  
+
 def dialogaction(action,var) :
 
   print "list",action
@@ -9,35 +41,42 @@ def dialogaction(action,var) :
 
   if action == "before" :
       map={}   
-      map["list"] = 200
+#      map["list"] = 200
+      map["list"] = _SIZE  
+      var["JLIST_MAP"] = map
+      
+  if action == "listgetsize" :    
+      blist = __getlist(var)
+      print len(blist)
+      map={}   
+      map["list"] = len(blist)
       var["JLIST_MAP"] = map
       
   if action == "readchunk" :
       start = var["JLIST_FROM"]
-      len = var["JLIST_LENGTH"]
+      size = var["JLIST_LENGTH"]
       sort = var["JLIST_SORTLIST"]
       asc = var["JLIST_SORTASC"]
-      
+      list = __getlist(var)
       
       blist = []
-      for i in range(200) :
-         f = i
-         if sort :
-           if sort == "name" : f =  str(i) + ": name"
-         blist.append((f,i))
+      for (i,name) in list :
+        f = i 
+        if sort :
+          if sort == "name" : f =  name
+        v = {}
+        v["id"] = i
+        v["name"] = name  
+        blist.append((f,v))
         
-      if sort :
-        blist.sort()
-        if not asc : blist.reverse()
-        
+      if sort :  
+         blist.sort()
+         if not asc : blist.reverse()
+      
+
       list = []
-      for elem in blist[start:start+len] :
-        print elem
-        i = elem[1]
-        rec = {}
-        rec["id"] = i
-        rec["name"] = str(i) + ": name"
-        list.append(rec)
+      for (i,v) in blist[start:start+size] :
+         list.append(v)
           
       map={}   
       map["list"] = list
