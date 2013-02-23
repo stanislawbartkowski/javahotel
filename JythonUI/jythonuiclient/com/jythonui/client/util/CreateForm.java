@@ -82,7 +82,9 @@ public class CreateForm {
                             f.isHelperRefresh());
                 }
             } else {
-                if (f.isHelper() || f.isTextArea() || f.isRichText()) {
+                if (f.isPassword()) {
+                    v = eFactory.constructPasswordField(vf);
+                } else if (f.isHelper() || f.isTextArea() || f.isRichText()) {
                     v = eFactory.constructTextField(vf, null,
                             f.isHelper() ? iHelper : null, f.isTextArea(),
                             f.isRichText(), f.isHelperRefresh());
@@ -135,14 +137,15 @@ public class CreateForm {
             if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNC)) {
                 al = VListHeaderDesc.ColAlign.CENTER;
             }
-            
+
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
                     f.isHidden(), f.getActionId(), false, al, f.getWidth());
             heList.add(v);
         }
         String lName = l.getDisplayName();
-        
-        return new VListHeaderContainer(heList, lName,l.getPageSize(),null,l.getWidth(),null,null);
+
+        return new VListHeaderContainer(heList, lName, l.getPageSize(), null,
+                l.getWidth(), null, null);
     }
 
     private static ControlButtonDesc constructButton(ButtonItem b) {

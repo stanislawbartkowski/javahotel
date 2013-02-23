@@ -116,4 +116,10 @@ public interface ICommonConsts {
     String JLIST_SORTLIST = "JLIST_SORTLIST";
     String JLIST_SORTASC = "JLIST_SORTASC";
     String JLIST_GETSIZE = "listgetsize";
+    String JSEARCH_FROM = "JSEARCH_FROM_";
+    String JSEARCH_TO = "JSEARCH_TO_";
+    String JSEARCH_EQ = "JSEARCH_EQ_";
+    String JFILTR_SEARCH = "JSEARCH_FILTR";
+    String JSEARCH_SET = "JSEARCH_SET_";
+    String PASSWORD = "password";
 }
