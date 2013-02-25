@@ -53,6 +53,7 @@ public interface ICommonConsts {
     String CRUD_ADD = "crud_add";
     String CRUD_REMOVE = "crud_remove";
     String CRUD_CHANGE = "crud_change";
+    String CRUD_SHOW = "crud_show";
     String CRUD_READLIST = "crud_readlist";
     String JLIST_NAME = "JLIST_NAME";
     String PARENT = "parent";
