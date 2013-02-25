@@ -17,9 +17,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.gwtmodel.table.GFocusWidgetFactory;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public class ImgButtonFactory {
@@ -30,6 +32,7 @@ public class ImgButtonFactory {
     public static IGFocusWidget getButton(String bId, String bName, String img) {
         Button but;
         IGFocusWidget w;
+        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
         if (img != null) {
             String imageFile;
             if (img.indexOf('.') == -1) {
@@ -40,9 +43,9 @@ public class ImgButtonFactory {
             String h = Utils.getImageHTML(imageFile);
             but = new Button();
             but.setHTML(h);
-            w = GFocusWidgetFactory.construct(but, bName);
+            w = GFocusWidgetFactory.construct(but, iMess.getMessage(bName));
         } else {
-            but = new Button(bName);
+            but = new Button(iMess.getMessage(bName));
             w = GFocusWidgetFactory.construct(but);
         }
         if (bId != null) {

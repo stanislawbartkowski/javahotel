@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
@@ -32,12 +34,12 @@ public class ControlButtonFactory {
     private final List<ControlButtonDesc> printButton;
     private final List<ControlButtonDesc> filtrButton;
     private final List<ControlButtonDesc> findButton;
-    // private final IGetCustomValues c;
     private boolean wasset = false;
+    private final IGetCustomValues cValues;
 
     public ControlButtonDesc constructButt(StandClickEnum bType,
             ClickButtonType buttonType) {
-        String imageName = ControlButtonImages.getImageName(bType);
+        String imageName = ControlButtonImages.getImageName(cValues, bType);
         Map<String, String> mAction = MM.getL().ActionName();
         switch (bType) {
         case TABLEDEFAULTMENU:
@@ -161,6 +163,8 @@ public class ControlButtonFactory {
     }
 
     public ControlButtonFactory() {
+        cValues = GwtGiniInjector.getI().getCustomValues();
+
         dButton = new ArrayList<ControlButtonDesc>();
 
         filtrButton = new ArrayList<ControlButtonDesc>();

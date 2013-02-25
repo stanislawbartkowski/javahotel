@@ -13,6 +13,8 @@
 package com.gwtmodel.table.view.webpanel;
 
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.factories.IWebPanelResources;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 
 /**
  *
@@ -20,7 +22,8 @@ import com.gwtmodel.table.ICommand;
  */
 public class WebPanelFactory {
 
-    public IWebPanel construct(IWebPanelResources pResources, ICommand logOut) {
+    public IWebPanel construct(ICommand logOut) {
+        IWebPanelResources pResources = GwtGiniInjector.getI().getWebPanelResources();
         return new WebPanel(pResources, logOut);
     }
 }

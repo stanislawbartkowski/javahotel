@@ -12,25 +12,35 @@
  */
 package com.gwtmodel.table.view.webpanel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.htmlview.HtmlElemDesc;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.htmlview.HtmlTypeEnum;
 import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.view.util.PopupTip;
 import com.gwtmodel.table.view.util.YesNoDialog;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -45,13 +55,7 @@ class WebPanel implements IWebPanel {
     private String centerSize = "90%";
     private ISignal centreHideSignal = null;
 
-    private enum StatusE {
-
-        NORMAL, REPLYL, ERRORL
-    };
-
-    private StatusE sta = StatusE.NORMAL;
-    private final StatusL status = new StatusL(null);
+    private final StatusL statusl;
     private Widget wCenter = null;
     private Widget wWest = null;
     private Widget wWest1 = null;
@@ -115,64 +119,54 @@ class WebPanel implements IWebPanel {
         vmenu.add(m);
     }
 
-    private void setStatusNormal() {
-        status.setVisible(false);
-        sta = StatusE.NORMAL;
-    }
-
-    private void toReplayL() {
-        if (sta == StatusE.REPLYL) {
-            return;
-        }
-        sta = StatusE.REPLYL;
-        status.setVisible(true);
-        status.l.setText(null);
-        status.setStyleName("wait-reply");
-    }
-
     @Override
-    public Label getReplyL() {
-        toReplayL();
-        return status.l;
-    }
-
-    @Override
-    public void clearReply() {
-        setStatusNormal();
+    public void setReplay(int replNo) {
+        if (replNo == 1) {
+            statusl.setProgres();
+            statusl.setStatus(true);
+        } else if (replNo == 0)
+            statusl.setStatus(false);
     }
 
     private class StatusL extends PopupTip {
 
-        final Label l = new Label("");
+        private final VerticalPanel vp = new VerticalPanel();
+        private final Image progress = new Image();
+        private final Label l = new Label();
 
-        StatusL(String errmess) {
-            initWidget(l);
-            setMessage(errmess);
+        StatusL() {
+            String ima = pResources.getRes(IWebPanelResources.PROGRESSICON);
+            String url = Utils.getImageAdr(ima);
+            progress.setUrl(url);
+            initWidget(vp);
+            l.setText(Utils.getEmptytyLabel());
+        }
+
+        void setProgres() {
+            removeStyleName("error-reply");
+            vp.clear();
+            vp.add(progress);
+        }
+
+        void setError(String errMess) {
+            vp.clear();
+            vp.add(l);
+            setVisible(true);
+            setMessage(errMess);
             setStyleName("error-reply");
-            // setMouse();
+        }
+
+        void setStatus(boolean visible) {
+            setVisible(visible);
         }
     }
 
     @Override
     public void setErrorL(String errmess) {
-        if (sta == StatusE.ERRORL) {
-            return;
-        }
-        sta = StatusE.ERRORL;
-        status.setVisible(true);
-        status.l.setText(Utils.getEmptytyLabel());
-        status.setMessage(errmess);
-        status.setStyleName("error-reply");
+        statusl.setError(errmess);
     }
 
-    public void initStatus() {
-        switch (sta) {
-        case NORMAL:
-            setStatusNormal();
-            break;
-        default:
-            break;
-        }
+    private void initStatus() {
     }
 
     private void setWidth() {
@@ -228,9 +222,10 @@ class WebPanel implements IWebPanel {
                     logOut.execute();
                 }
             };
-            YesNoDialog yesD = new YesNoDialog(
-                    pResources.getRes(IWebPanelResources.LOGOUTQUESTION), null,
-                    yes);
+            String q = pResources.getRes(IWebPanelResources.LOGOUTQUESTION);
+            if (q == null)
+                q = MM.getL().LogOutQuestion();
+            YesNoDialog yesD = new YesNoDialog(q, null, yes);
             yesD.show(ha);
         }
     }
@@ -259,7 +254,7 @@ class WebPanel implements IWebPanel {
             ha = new HTML(h);
             initWidget(ha);
             VerticalPanel vp = new VerticalPanel();
-            vp.add(new Label(pResources.getRes(IWebPanelResources.WERSJA)));
+            vp.add(new Label(pResources.getRes(IWebPanelResources.VERSION)));
             vp.add(new Label(LogT.getT().GWTVersion(GWT.getVersion())));
             setMessage(vp);
         }
@@ -267,7 +262,8 @@ class WebPanel implements IWebPanel {
 
     WebPanel(IWebPanelResources pResources, ICommand logOut) {
         this.pResources = pResources;
-        bCounter = new CallBackProgress(this, pResources);
+        statusl = new StatusL();
+        bCounter = new CallBackProgress(this);
         Window.setTitle(pResources.getRes(IWebPanelResources.TITLE));
         this.logOut = logOut;
         tL = new Label(pResources.getRes(IWebPanelResources.PRODUCTNAME));
@@ -296,7 +292,7 @@ class WebPanel implements IWebPanel {
         hList.add(new HtmlElemDesc(hotelName, "header_ename"));
         hList.add(new HtmlElemDesc(ha, HOTELHEADER_LOGOUT));
         hList.add(new HtmlElemDesc(logo, HOTELHEADER_LOGO));
-        hList.add(new HtmlElemDesc(status, HOTELHEADER_STATUSBAR));
+        hList.add(new HtmlElemDesc(statusl, HOTELHEADER_STATUSBAR));
         hList.add(new HtmlElemDesc(upInfo, HEADER_UPINFO));
 
         HtmlPanelFactory fa = GwtGiniInjector.getI().getHtmlPanelFactory();

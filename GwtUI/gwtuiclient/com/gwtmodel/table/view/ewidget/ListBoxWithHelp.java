@@ -43,14 +43,12 @@ class ListBoxWithHelp extends GetValueLB {
         }
     }
 
-    ListBoxWithHelp(ITableCustomFactories tFactories, IVField v, IDataType dType) {
-        super(tFactories, v);
+    ListBoxWithHelp(IGetCustomValues cValues, IVField v, IDataType dType) {
+        super(cValues, v);
         cHelper = new RHelp(dType);
         hP.add(super.getGWidget());
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
         wHelp = new WidgetWithPopUpTemplate(v, hP,
-                c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
+                cValues.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP),
                 cHelper.getI(), false);
     }
 

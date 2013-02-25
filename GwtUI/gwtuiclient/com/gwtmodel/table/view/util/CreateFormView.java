@@ -12,16 +12,23 @@
  */
 package com.gwtmodel.table.view.util;
 
-import com.google.gwt.user.client.ui.*;
-import com.gwtmodel.table.IGFocusWidget;
-import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.common.CUtil;
-import com.gwtmodel.table.rdef.FormField;
-import com.gwtmodel.table.slotmodel.ClickButtonType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IGFocusWidget;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 
 public class CreateFormView {
 
@@ -30,15 +37,18 @@ public class CreateFormView {
 
     /**
      * Inserts one position into HTML panel. Do nothing if position not found
-     *
-     * @param ha HTMLpanel
-     * @param htmlId Position id inside HTML
-     * @param w Widget to insert Important: do nothing if position not found
+     * 
+     * @param ha
+     *            HTMLpanel
+     * @param htmlId
+     *            Position id inside HTML
+     * @param w
+     *            Widget to insert Important: do nothing if position not found
      */
     public static void replace(HTMLPanel ha, String htmlId, Widget w) {
         try {
             w.getElement().setId(htmlId);
-//            ha.add(w, htmlId);
+            // ha.add(w, htmlId);
             ha.addAndReplaceElement(w, htmlId);
         } catch (NoSuchElementException e) {
             // expected
@@ -75,13 +85,16 @@ public class CreateFormView {
 
     /**
      * Creates widget grid for list of form (enter) fields
-     *
-     * @param fList List of fields
-     * @param add if not null contains set of fields for add (ignore the others)
+     * 
+     * @param fList
+     *            List of fields
+     * @param add
+     *            if not null contains set of fields for add (ignore the others)
      * @return Grid created
      */
     public static Grid construct(final List<FormField> fList, Set<IVField> add) {
 
+        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
         // number of rows
         int rows = 0;
         for (FormField d : fList) {
@@ -108,6 +121,8 @@ public class CreateFormView {
                     continue;
                 }
             }
+            String mLabel = iMess.getMessage(d.getPLabel());
+
             // FormField fRange = null;
             List<FormField> fRange = new ArrayList<FormField>();
             for (FormField fo : fList) {
@@ -118,7 +133,7 @@ public class CreateFormView {
                     fRange.add(fo);
                 }
             }
-            Label la = new Label(d.getPLabel());
+            Label la = new Label(mLabel);
             if (d.getELine().isHidden()) {
                 la.setVisible(false);
             }
@@ -136,7 +151,7 @@ public class CreateFormView {
                 w2 = vp2;
                 for (FormField f : fRange) {
                     if (f.getPLabel() != null) {
-                        Label la2 = new Label(f.getPLabel());
+                        Label la2 = new Label(mLabel);
                         vp2.add(la2);
                     }
                     vp2.add(f.getELine().getGWidget());

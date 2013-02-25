@@ -22,6 +22,8 @@ import com.google.gwt.user.cellview.client.TextHeader;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 
@@ -34,6 +36,8 @@ class PresentationFooterFactory {
     @SuppressWarnings("unused")
     private final PresentationCellFactory cFactory;
     private IVModelData footerV;
+    private IGetStandardMessage iMess = GwtGiniInjector.getI()
+            .getStandardMessage();
 
     PresentationFooterFactory(PresentationCellFactory cFactory) {
         this.cFactory = cFactory;
@@ -87,8 +91,9 @@ class PresentationFooterFactory {
     }
 
     Header<?> constructHeader(VListHeaderDesc he) {
+        String headerText = iMess.getMessage(he.getHeaderString());
         return new SafeHtmlHeader(getHtml(he.getAlign(), he.getFie().getType(),
-                he.getHeaderString()));
+                headerText));
     }
 
     Header<?> constructFooter(VFooterDesc he) {

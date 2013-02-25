@@ -33,6 +33,7 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
@@ -66,7 +67,7 @@ class ExtendTextBox extends AbstractField {
         private class R extends ReadR {
 
             R() {
-                super(tFactories);
+                super(cValues);
             }
 
             @Override
@@ -283,9 +284,8 @@ class ExtendTextBox extends AbstractField {
     protected final CheckBox check;
     protected final boolean isArea;
 
-    protected ExtendTextBox(ITableCustomFactories tFactories, IVField v,
-            EParam param) {
-        super(tFactories, v);
+    protected ExtendTextBox(IGetCustomValues cValues, IVField v, EParam param) {
+        super(cValues, v);
         this.isArea = param.isArea();
         eW = new EWidget(param);
         eW.setName(v.getId());

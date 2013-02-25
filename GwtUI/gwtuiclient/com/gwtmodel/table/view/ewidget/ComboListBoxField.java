@@ -14,16 +14,16 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.IGetCustomValues;
 
 /**
- *
+ * 
  * @author perseus
  */
 class ComboListBoxField extends GetValueLB {
 
-    ComboListBoxField(ITableCustomFactories tFactories, IVField v) {
-        super(tFactories, v);
+    ComboListBoxField(IGetCustomValues cValues, IVField v) {
+        super(cValues, v);
         setList(listT.getListVal());
     }
 

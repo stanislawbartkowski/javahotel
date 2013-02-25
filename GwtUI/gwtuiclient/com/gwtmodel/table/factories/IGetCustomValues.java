@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.factories;
 
+import java.util.Map;
+
 import com.gwtmodel.table.IVField;
 
 public interface IGetCustomValues {
@@ -35,10 +37,21 @@ public interface IGetCustomValues {
     String NUMBERFORMAT2 = "NUMBERFORMAT2";
     String NUMBERFORMAT3 = "NUMBERFORMAT3";
     String NUMBERFORMAT4 = "NUMBERFORMAT4";
+    String FINDIMAGE = "FIND";
+    String FILTRIMAGE = "FILTR";
+    String ADDITEMIMAGE = "ADDITEMIMAGE";
+    String MODIFITEMIMAGE = "MODIFITEMIMAGE";
+    String REMOVEITEMIMAGE = "REMOVEITEM";
+    String SHOWITEMIMAGE = "SHOWITEMIMAGE";
+    String PROPIMAGE = "PROPIMAGE";
+    String CLOSEIMAGE = "CLOSEIMAGE";
+    String EXPANDIMAGE = "EXPANDIMAGE";
 
     String getCustomValue(String key);
 
     boolean compareComboByInt();
 
     boolean addEmptyAsDefault();
+
+    Map<String, String> getStandMessages();
 }

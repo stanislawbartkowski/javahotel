@@ -18,6 +18,7 @@ import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +32,8 @@ class RadioBoxField extends AbstractField {
     private final VerticalPanel vP;
     private final List<RadioButton> ra;
 
-    RadioBoxField(ITableCustomFactories tFactories, IVField v) {
-        super(tFactories, v);
+    RadioBoxField(IGetCustomValues cValues, IVField v) {
+        super(cValues, v);
         vP = new VerticalPanel();
         ra = new ArrayList<RadioButton>();
         for (String s : listT.getListVal()) {

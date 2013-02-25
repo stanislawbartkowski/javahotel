@@ -34,8 +34,7 @@ import java.util.Date;
 abstract class PresentationCellHelper {
 
     protected IGwtTableModel model = null;
-    protected final IGetCustomValues cValues = GwtGiniInjector.getI()
-            .getTableFactoriesContainer().getGetCustomValues();
+    protected final IGetCustomValues cValues = GwtGiniInjector.getI().getCustomValues();
     protected final DateTimeFormat fo = DateTimeFormat.getFormat(cValues
             .getCustomValue(IGetCustomValues.DATEFORMAT));
     protected static final SafeHtml INPUT_CHECKED = SafeHtmlUtils

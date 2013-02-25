@@ -15,7 +15,7 @@ package com.gwtmodel.table.view.ewidget;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.IGetCustomValues;
 
 /**
  * @author hotel
@@ -25,9 +25,9 @@ class LabelEdit extends ExtendTextBox {
 
     final private Label pL;
 
-    public LabelEdit(ITableCustomFactories tFactories, IVField v, EParam param,
+    public LabelEdit(IGetCustomValues cValues, IVField v, EParam param,
             final String lN) {
-        super(tFactories, v, param);
+        super(cValues, v, param);
         pL = new Label(lN);
         hPanel.setSpacing(1);
         hPanel.insert(pL, 0);

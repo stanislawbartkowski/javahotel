@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +123,7 @@ public class RadioBoxString extends AbstractField {
         private final boolean enable;
 
         R(boolean enable) {
-            super(tFactories);
+            super(cValues);
             this.enable = enable;
         }
 
@@ -133,9 +134,9 @@ public class RadioBoxString extends AbstractField {
 
     }
 
-    RadioBoxString(ITableCustomFactories tFactories, IVField v,
+    RadioBoxString(IGetCustomValues cValues, IVField v,
             IGetDataList iGet, final boolean enable) {
-        super(tFactories, v);
+        super(cValues, v);
         this.iGet = iGet;
         sync = new SyncC();
         sync.setEnable(enable);

@@ -165,8 +165,7 @@ class PresentationImageChooseFactory extends PresentationEditCellHelper {
             if (editenabled) {
                 String ima = he.getiColSelect().getImage();
                 if (ima == null) {
-                    IGetCustomValues c = GwtGiniInjector.getI()
-                            .getTableFactoriesContainer().getGetCustomValues();
+                    IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
                     ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP)
                             + ".gif";
                 }

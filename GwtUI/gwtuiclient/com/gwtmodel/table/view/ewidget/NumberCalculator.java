@@ -15,7 +15,7 @@ package com.gwtmodel.table.view.ewidget;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.IGetCustomValues;
 
 /**
  * 
@@ -23,9 +23,8 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
  */
 class NumberCalculator extends ExtendTextBox {
 
-    NumberCalculator(ITableCustomFactories tFactories, IVField v,
-            ExtendTextBox.EParam p) {
-        super(tFactories, v, p);
+    NumberCalculator(IGetCustomValues cValues, IVField v, ExtendTextBox.EParam p) {
+        super(cValues, v, p);
         wW.addStyleName(IConsts.numberStyle);
     }
 

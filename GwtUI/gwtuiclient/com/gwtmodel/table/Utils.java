@@ -77,8 +77,7 @@ public class Utils {
 
     public static String getResAdr(final String res) {
         String path;
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
         String resF = c.getCustomValue(IGetCustomValues.RESOURCEFOLDER);
         path = GWT.getModuleBaseURL();
         if (resF == null) {
@@ -88,8 +87,7 @@ public class Utils {
     }
 
     public static String getImageAdr(final String image) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
         String folder = c.getCustomValue(IGetCustomValues.IMAGEFOLDER);
         String img;
         if (folder == null) {
@@ -162,8 +160,7 @@ public class Utils {
     }
 
     private static String getCValue(String key) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
         assert c != null : LogT.getT().cannotBeNull();
         String f = c.getCustomValue(key);
         return f;
@@ -298,18 +295,16 @@ public class Utils {
 
     // some 'log' utilities
     public static boolean TrueL(String s) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
         String yesv = c.getCustomValue(IGetCustomValues.YESVALUE);
         return CUtil.EqNS(s, yesv);
     }
 
     public static String LToS(boolean l) {
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
-        if (l) {
+        IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
+        if (l)
             return c.getCustomValue(IGetCustomValues.YESVALUE);
-        }
+
         return c.getCustomValue(IGetCustomValues.NOVALUE);
     }
 
