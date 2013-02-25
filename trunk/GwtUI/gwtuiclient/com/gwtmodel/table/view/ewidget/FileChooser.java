@@ -14,7 +14,7 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.google.gwt.user.client.ui.FileUpload;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.IGetCustomValues;
 
 /**
  *
@@ -24,8 +24,8 @@ class FileChooser extends AbstractField {
 
     private final FileUpload fEdit;
 
-    FileChooser(ITableCustomFactories tFactories, final IVField v) {
-        super(tFactories, v, true);
+    FileChooser(IGetCustomValues cValues, final IVField v) {
+        super(cValues, v, true);
         this.fEdit = new FileUpload();
         this.fEdit.setName(v.getId());
         initWidget(this.fEdit);

@@ -30,11 +30,13 @@ public interface ITableCustomFactories {
 
     IGetViewControllerFactory getGetViewControllerFactory();
 
-    IGetCustomValues getGetCustomValues();
+    IGetCustomValues getGetCustomValuesNotDefault();
 
     IDataFormConstructorAbstractFactory getDataFormConstructorAbstractFactory();
 
     IJavaMailActionFactory getJavaMailActionFactory();
 
     IDataCrudModifButtonActionFactory getDataCrudModifButtonActionFactory();
+
+    IWebPanelResources getWebPanelResourcesNotDefault();
 }

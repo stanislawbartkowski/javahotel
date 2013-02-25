@@ -12,22 +12,27 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.gwtmodel.table.*;
-import com.gwtmodel.table.factories.ITableCustomFactories;
-import com.gwtmodel.table.injector.LogT;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IGetDataListCallBack;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.LogT;
+
 /**
- *
+ * 
  * @author perseus
  */
 abstract class ReadR implements IGetDataListCallBack {
 
-    private final ITableCustomFactories tFactories;
+    private final IGetCustomValues cValues;
 
-    ReadR(ITableCustomFactories tFactories) {
-        this.tFactories = tFactories;
+    ReadR(IGetCustomValues cValues) {
+        this.cValues = cValues;
     }
 
     abstract void setList(List<String> rList);
@@ -37,7 +42,7 @@ abstract class ReadR implements IGetDataListCallBack {
         List<String> sList = new ArrayList<String>();
         IVField sym = dataList.comboField();
         if (sym == null) {
-          sym = tFactories.getGetCustomValues().getSymForCombo();
+            sym = cValues.getSymForCombo();
         }
         assert sym != null : LogT.getT().cannotBeNull();
         for (IVModelData vv : dataList.getList()) {

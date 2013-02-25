@@ -14,7 +14,6 @@ package com.gwtmodel.table.view.callback;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 
@@ -97,9 +96,7 @@ public abstract class CommonCallBack<T> implements AsyncCallback<T> {
                 return;
             }
         }
-        ITableCustomFactories fa = GwtGiniInjector.getI()
-                .getTableFactoriesContainer();
-        IGetCustomValues va = fa.getGetCustomValues();
+        IGetCustomValues va = GwtGiniInjector.getI().getCustomValues();
         String cMessage = va.getCustomValue(IGetCustomValues.COMMERROR);
         if (caught.getMessage() != null) {
             cMessage += " " + caught.getMessage();

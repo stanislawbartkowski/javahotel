@@ -21,6 +21,7 @@ import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.AbstractListT.IGetList;
 import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -32,7 +33,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 @SuppressWarnings("deprecation")
@@ -42,12 +43,12 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     protected Collection<IFormChangeListener> lC;
     protected final boolean isCheckBox;
     protected final boolean checkBoxVal;
-    protected final ITableCustomFactories tFactories;
+    protected final IGetCustomValues cValues;
     protected final IVField v;
     protected final AbstractListT listT;
 
-    AbstractField(ITableCustomFactories tFactories, IVField v) {
-        this(tFactories, v, true);
+    AbstractField(IGetCustomValues cValues, IVField v) {
+        this(cValues, v, true);
         iTouch = new ArrayList<ITouchListener>();
     }
 
@@ -56,10 +57,9 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         return v;
     }
 
-    AbstractField(ITableCustomFactories tFactories, final IVField v,
-            boolean checkenable) {
+    AbstractField(IGetCustomValues cValues, final IVField v, boolean checkenable) {
         assert v != null : LogT.getT().cannotBeNull();
-        this.tFactories = tFactories;
+        this.cValues = cValues;
         iTouch = null;
         lC = null;
         checkBoxVal = checkenable;

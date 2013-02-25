@@ -16,7 +16,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 
 /**
@@ -28,8 +28,8 @@ class FieldCheckField extends AbstractField {
     private final CheckBox ch;
 
     @SuppressWarnings("deprecation")
-    FieldCheckField(ITableCustomFactories tFactories, IVField v, String text) {
-        super(tFactories, v);
+    FieldCheckField(IGetCustomValues cValues, IVField v, String text) {
+        super(cValues, v);
         ch = new CheckBox();
         if (text != null) {
             ch.setText(text);

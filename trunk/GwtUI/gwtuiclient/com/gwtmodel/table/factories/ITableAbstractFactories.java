@@ -29,10 +29,13 @@ public interface ITableAbstractFactories {
 
     void registerGetCustomValues(IGetCustomValues iGetCustomValues);
 
-    void registerDataFormConstructorAbstractFactory(IDataFormConstructorAbstractFactory cFactory);
+    void registerDataFormConstructorAbstractFactory(
+            IDataFormConstructorAbstractFactory cFactory);
 
     void registerJavaMailActionFactory(IJavaMailActionFactory mAction);
 
     void registerDataCrudModifButtonActionFactory(
             IDataCrudModifButtonActionFactory crudModifButtonAction);
+
+    void registerWebPanelResources(IWebPanelResources wPanel);
 }

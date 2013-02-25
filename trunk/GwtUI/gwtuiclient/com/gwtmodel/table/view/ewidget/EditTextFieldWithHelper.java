@@ -15,18 +15,16 @@ package com.gwtmodel.table.view.ewidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 
 class EditTextFieldWithHelper extends ExtendTextBox {
 
     private final WidgetWithPopUpTemplate wHelp;
 
-    EditTextFieldWithHelper(ITableCustomFactories tFactories, IVField v,
+    EditTextFieldWithHelper(IGetCustomValues cValues, IVField v,
             ExtendTextBox.EParam p, IRequestForGWidget i, boolean refreshAlways) {
-        super(tFactories, v, p);
-        IGetCustomValues c = GwtGiniInjector.getI()
-                .getTableFactoriesContainer().getGetCustomValues();
+        super(cValues, v, p);
+        IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 
         wHelp = new WidgetWithPopUpTemplate(v, hPanel,
                 c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), i,

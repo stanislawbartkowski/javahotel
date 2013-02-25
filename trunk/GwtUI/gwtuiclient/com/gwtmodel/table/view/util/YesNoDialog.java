@@ -29,7 +29,7 @@ import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public class YesNoDialog extends ModalDialog {
@@ -45,13 +45,11 @@ public class YesNoDialog extends ModalDialog {
         this(ask, null, yes);
     }
 
-    public YesNoDialog(String ask, String title,
-            final IClickYesNo yes) {
+    public YesNoDialog(String ask, String title, final IClickYesNo yes) {
         super(new VerticalPanel(), null);
         this.ask = ask;
         if (title == null) {
-            ITableCustomFactories fa = GwtGiniInjector.getI().getTableFactoriesContainer();
-            IGetCustomValues va = fa.getGetCustomValues();
+            IGetCustomValues va = GwtGiniInjector.getI().getCustomValues();
             title = va.getCustomValue(IGetCustomValues.QUESTION);
         }
         setTitle(title);
@@ -67,7 +65,8 @@ public class YesNoDialog extends ModalDialog {
 
         create(closeC);
 
-        ControlButtonFactory fa = GwtGiniInjector.getI().getControlButtonFactory();
+        ControlButtonFactory fa = GwtGiniInjector.getI()
+                .getControlButtonFactory();
         ListOfControlDesc yesB = fa.constructYesNoButton();
 
         IControlClick cli = new IControlClick() {
@@ -75,11 +74,14 @@ public class YesNoDialog extends ModalDialog {
             @Override
             public void click(ControlButtonDesc co, Widget w) {
                 hide();
-                yes.click(co.getActionId().eq(new ClickButtonType(ClickButtonType.StandClickEnum.ACCEPT)));
+                yes.click(co.getActionId().eq(
+                        new ClickButtonType(
+                                ClickButtonType.StandClickEnum.ACCEPT)));
             }
         };
 
-        ContrButtonViewFactory ba = GwtGiniInjector.getI().getContrButtonViewFactory();
+        ContrButtonViewFactory ba = GwtGiniInjector.getI()
+                .getContrButtonViewFactory();
         IContrButtonView vButton = ba.getView(yesB, cli);
 
         vP.add(vButton.getGWidget());

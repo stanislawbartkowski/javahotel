@@ -11,24 +11,26 @@
  * limitations under the License.
  */
 
-package com.gwtmodel.table.view.webpanel;
+package com.gwtmodel.table.factories;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public interface IWebPanelResources {
-    
+
     String TITLE = "Title";
     String PRODUCTNAME = "ProductName";
     String OWNERNAME = "OwnerName";
     String IMAGELOGOUT = "LogOut";
     String IIMAGEPRODCUT = "ImageProduct";
-    String WERSJA = "Wersja";
+    String VERSION = "Version";
     String LOGOUTQUESTION = "LogoutQuestion";
-    String COUNTER = "Cunter";
-    
-    String getRes(String res);
+    String STATUSHTML = "StatusHtml";
+    String SCROLLWITHDATE = "ScrollWithDate";
+    String SCROLLWITHOUTDATE = "ScrollWithoutDate";
+    String PROGRESSICON = "PROGRESSICON";
 
+    String getRes(String res);
 
 }

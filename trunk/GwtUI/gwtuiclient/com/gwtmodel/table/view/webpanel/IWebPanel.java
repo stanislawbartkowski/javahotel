@@ -17,16 +17,18 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.ISignal;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public interface IWebPanel {
 
     void setErrorL(String errmess);
 
-    void clearReply();
+    // void clearReply();
 
-    Label getReplyL();
+    // Label getReplyL();
+
+    void setReplay(int replNo);
 
     void setUserData(String user, String data);
 
@@ -54,15 +56,17 @@ public interface IWebPanel {
 
     /**
      * Set new product name
-     *
-     * @param productName New product name
+     * 
+     * @param productName
+     *            New product name
      */
     void setProductName(String productName);
 
     /**
      * Set title of the browser windows
-     *
-     * @param newTitle New title to set
+     * 
+     * @param newTitle
+     *            New title to set
      */
     void setTitle(String newTitle);
 }

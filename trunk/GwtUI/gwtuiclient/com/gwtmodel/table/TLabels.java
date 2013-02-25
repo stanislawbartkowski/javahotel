@@ -176,5 +176,11 @@ public interface TLabels extends Constants {
     String Login();
     
     String Password();
+    
+    String Close();
+    
+    String User();
+    
+    String LogOutQuestion();
 
 }

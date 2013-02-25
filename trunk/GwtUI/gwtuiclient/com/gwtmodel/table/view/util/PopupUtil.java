@@ -12,26 +12,38 @@
  */
 package com.gwtmodel.table.view.util;
 
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.ISignal;
+import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 
 /**
  * 
  * @author stanislaw.bartkowski@gmail.com
  */
+@SuppressWarnings("deprecation")
 public class PopupUtil {
 
-    @SuppressWarnings("deprecation")
     public static void addClose(final Panel hP, final ISignal i,
             final MenuBar menu, final MenuBar bmenu) {
+        IGetCustomValues cValues = GwtGiniInjector.getI().getCustomValues();
         HorizontalPanel hC = new HorizontalPanel();
         hC.setWidth("100%");
         HorizontalPanel hG = new HorizontalPanel();
-        HTML w = new HTML(Utils.getImageHTML("DataViewerClose.gif"));
+        HTML w = new HTML(Utils.getImageHTML(cValues
+                .getCustomValue(IGetCustomValues.CLOSEIMAGE)));
         if (menu != null) {
-            bmenu.addItem(Utils.getImageHTML("DataViewerMax.gif"), true, menu);
+            bmenu.addItem(Utils.getImageHTML(cValues
+                    .getCustomValue(IGetCustomValues.EXPANDIMAGE)), true, menu);
             hG.add(bmenu);
         }
         hG.add(w);
@@ -46,14 +58,14 @@ public class PopupUtil {
                 HasHorizontalAlignment.ALIGN_RIGHT);
 
         hP.add(hC);
-    }        
+    }
 
     public static void setPos(final PopupPanel pUp, final WSize w) {
         int t = w.getTop() + w.getHeight();
         int l = w.getLeft();
         pUp.setPopupPosition(l, t);
     }
-    
+
     public static void setPos(final PopupPanel pUp, final Widget w) {
         setPos(pUp, new WSize(w));
     }

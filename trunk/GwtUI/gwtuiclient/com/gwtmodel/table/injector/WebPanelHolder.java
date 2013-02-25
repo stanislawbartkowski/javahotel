@@ -30,6 +30,7 @@ public class WebPanelHolder {
         private IDataFormConstructorAbstractFactory formFactory;
         private IJavaMailActionFactory maActionFactory;
         private IDataCrudModifButtonActionFactory crudModifButtonActionFactory;
+        private IWebPanelResources iWebPanelResource;
 
         private TableFactoriesContainer() {
         }
@@ -103,11 +104,6 @@ public class WebPanelHolder {
         }
 
         @Override
-        public IGetCustomValues getGetCustomValues() {
-            return iGetCustomValues;
-        }
-
-        @Override
         public void registerDataFormConstructorAbstractFactory(
                 IDataFormConstructorAbstractFactory cFactory) {
             formFactory = cFactory;
@@ -135,6 +131,22 @@ public class WebPanelHolder {
         public void registerDataCrudModifButtonActionFactory(
                 IDataCrudModifButtonActionFactory crudModifButtonActionFactory) {
             this.crudModifButtonActionFactory = crudModifButtonActionFactory;
+        }
+
+        @Override
+        public IGetCustomValues getGetCustomValuesNotDefault() {
+            return iGetCustomValues;
+        }
+
+        @Override
+        public IWebPanelResources getWebPanelResourcesNotDefault() {
+            return this.iWebPanelResource;
+        }
+
+        @Override
+        public void registerWebPanelResources(IWebPanelResources wPanel) {
+            this.iWebPanelResource = wPanel;
+
         }
 
     }

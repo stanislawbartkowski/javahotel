@@ -24,8 +24,12 @@ import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.factories.ITableCustomFactories;
+import com.gwtmodel.table.factories.IWebPanelResources;
+import com.gwtmodel.table.factories.customvalues.CustomValuesProvider;
+import com.gwtmodel.table.factories.customvalues.WebPanelResources;
 import com.gwtmodel.table.factories.mailtest.MailTestFactory;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
@@ -36,6 +40,8 @@ import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
 import com.gwtmodel.table.slotmodel.SlotListContainer;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;
 import com.gwtmodel.table.slotmodel.SlotTypeFactory;
+import com.gwtmodel.table.smessage.GetStandardMessage;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.splitview.SplitViewFactory;
 import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
@@ -68,8 +74,10 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(SlotListContainer.class);
         bind(TableDataControlerFactory.class).in(Singleton.class);
         bind(GwtFormViewFactory.class).in(Singleton.class);
-        bind(ITableAbstractFactories.class).toProvider(TableAbstractFactoriesProvider.class);
-        bind(ITableCustomFactories.class).toProvider(TablesFactoriesContainerProvider.class);
+        bind(ITableAbstractFactories.class).toProvider(
+                TableAbstractFactoriesProvider.class);
+        bind(ITableCustomFactories.class).toProvider(
+                TablesFactoriesContainerProvider.class);
         bind(DataViewModelFactory.class).in(Singleton.class);
         bind(ControlButtonFactory.class).in(Singleton.class);
         bind(ComposeControllerFactory.class).in(Singleton.class);
@@ -97,5 +105,11 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(ChooseListFactory.class).in(Singleton.class);
         bind(PullMenuFactory.class).in(Singleton.class);
         bind(DataListTypeFactory.class).in(Singleton.class);
+        bind(IGetStandardMessage.class).to(GetStandardMessage.class).in(
+                Singleton.class);
+        bind(IGetCustomValues.class).to(CustomValuesProvider.class).in(
+                Singleton.class);
+        bind(IWebPanelResources.class).to(WebPanelResources.class).in(
+                Singleton.class);
     }
 }

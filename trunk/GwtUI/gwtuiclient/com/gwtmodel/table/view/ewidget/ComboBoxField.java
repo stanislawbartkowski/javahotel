@@ -14,12 +14,13 @@ package com.gwtmodel.table.view.ewidget;
 
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 class ComboBoxField extends GetValueLB {
@@ -34,14 +35,15 @@ class ComboBoxField extends GetValueLB {
         setList(val);
     }
 
-    ComboBoxField(ITableCustomFactories tFactories, IVField v, List<ComboVal> wy, boolean addEmpty) {
-        super(tFactories, v, addEmpty);
+    ComboBoxField(IGetCustomValues cValues, IVField v, List<ComboVal> wy,
+            boolean addEmpty) {
+        super(cValues, v, addEmpty);
         this.wy = wy;
         init();
     }
 
-    ComboBoxField(ITableCustomFactories tFactories, IVField v, List<ComboVal> wy) {
-        super(tFactories, v);
+    ComboBoxField(IGetCustomValues cValues, IVField v, List<ComboVal> wy) {
+        super(cValues, v);
         this.wy = wy;
         init();
     }

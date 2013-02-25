@@ -20,14 +20,13 @@ import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class OkDialog extends ModalDialog {
@@ -54,13 +53,11 @@ public class OkDialog extends ModalDialog {
         }
     }
 
-    public OkDialog(String kom, String title,
-            final ISignal ok) {
+    public OkDialog(String kom, String title, final ISignal ok) {
         super(new VerticalPanel(), null);
         this.kom = kom;
         if (title == null) {
-            ITableCustomFactories fa = GwtGiniInjector.getI().getTableFactoriesContainer();
-            IGetCustomValues va = fa.getGetCustomValues();
+            IGetCustomValues va = GwtGiniInjector.getI().getCustomValues();
             title = va.getCustomValue(IGetCustomValues.INFO);
         }
         setTitle(title);
@@ -75,7 +72,8 @@ public class OkDialog extends ModalDialog {
 
         create(co);
 
-        ControlButtonFactory fa = GwtGiniInjector.getI().getControlButtonFactory();
+        ControlButtonFactory fa = GwtGiniInjector.getI()
+                .getControlButtonFactory();
         ListOfControlDesc yesB = fa.constructOkButton();
 
         IControlClick cli = new IControlClick() {
@@ -86,7 +84,8 @@ public class OkDialog extends ModalDialog {
             }
         };
 
-        ContrButtonViewFactory ba = GwtGiniInjector.getI().getContrButtonViewFactory();
+        ContrButtonViewFactory ba = GwtGiniInjector.getI()
+                .getContrButtonViewFactory();
         IContrButtonView vButton = ba.getView(yesB, cli);
 
         vP.add(vButton.getGWidget());

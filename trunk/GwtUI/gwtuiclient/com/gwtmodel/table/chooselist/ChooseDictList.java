@@ -21,7 +21,7 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.*;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 class ChooseDictList implements IChooseList {
@@ -70,8 +70,9 @@ class ChooseDictList implements IChooseList {
     ChooseDictList(IDataType dType, WSize wSize, ICallBackWidget i) {
         this.i = i;
         this.dType = dType;
-        TableDataControlerFactory tFactory = GwtGiniInjector.getI().getTableDataControlerFactory();
-        IGetCustomValues c = GwtGiniInjector.getI().getTableFactoriesContainer().getGetCustomValues();
+        TableDataControlerFactory tFactory = GwtGiniInjector.getI()
+                .getTableDataControlerFactory();
+        IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 
         String s = c.getCustomValue(IGetCustomValues.HTMLPANELFORCHOOSELIST);
         DisplayListControlerParam cParam = tFactory.constructChooseParam(dType,

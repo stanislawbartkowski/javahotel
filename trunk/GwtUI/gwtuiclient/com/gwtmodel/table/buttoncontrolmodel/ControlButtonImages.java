@@ -12,26 +12,28 @@
  */
 package com.gwtmodel.table.buttoncontrolmodel;
 
+import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 
 class ControlButtonImages {
 
-    static String getImageName(ClickButtonType.StandClickEnum actionId) {
+    static String getImageName(IGetCustomValues cValues,
+            ClickButtonType.StandClickEnum actionId) {
         switch (actionId) {
         case FIND:
-            return "FindImage";
+            return cValues.getCustomValue(IGetCustomValues.FINDIMAGE);
         case FILTRLIST:
-            return "FiltrImage";
+            return cValues.getCustomValue(IGetCustomValues.FILTRIMAGE);
         case ADDITEM:
-            return "AddImage";
+            return cValues.getCustomValue(IGetCustomValues.ADDITEMIMAGE);
         case MODIFITEM:
-            return "ModifImage";
+            return cValues.getCustomValue(IGetCustomValues.MODIFITEMIMAGE);
         case REMOVEITEM:
-            return "RemoveImage";
+            return cValues.getCustomValue(IGetCustomValues.REMOVEITEMIMAGE);
         case SHOWITEM:
-            return "ShowImage";
+            return cValues.getCustomValue(IGetCustomValues.SHOWITEMIMAGE);
         case TABLEDEFAULTMENU:
-            return "PropTabelaImage";
+            return cValues.getCustomValue(IGetCustomValues.PROPIMAGE);
         default:
             break;
         }

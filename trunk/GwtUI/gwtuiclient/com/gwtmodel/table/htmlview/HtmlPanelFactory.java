@@ -12,35 +12,40 @@
  */
 package com.gwtmodel.table.htmlview;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.inject.Inject;
+import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.readres.IReadRes;
 import com.gwtmodel.table.readres.ISetResText;
 import com.gwtmodel.table.readres.ReadResFactory;
-import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class HtmlPanelFactory {
 
     private final ReadResFactory rFactory;
+    private final IWebPanelResources wResources;
 
     @Inject
-    public HtmlPanelFactory(ReadResFactory rFactory) {
+    public HtmlPanelFactory(ReadResFactory rFactory,
+            IWebPanelResources wResources) {
         this.rFactory = rFactory;
+        this.wResources = wResources;
 
     }
 
     private String getResName(HtmlTypeEnum e) {
         switch (e) {
-            case MainStatus:
-                return "header.html";
-            case scrollWithDate:
-                return "scrollWithDate.html";
-            case scrollWithoutDate:
-                return "scrollWithoutDate.html";
+        case MainStatus:
+            return wResources.getRes(IWebPanelResources.STATUSHTML);
+        case scrollWithDate:
+            return wResources.getRes(IWebPanelResources.SCROLLWITHDATE);
+        case scrollWithoutDate:
+            return wResources.getRes(IWebPanelResources.SCROLLWITHOUTDATE);
         }
         return null;
     }
@@ -67,15 +72,15 @@ public class HtmlPanelFactory {
         }
     }
 
-    public void getHtmlPanel(String resName,
-            IHtmlPanelCallBack c, List<HtmlElemDesc> hList) {
+    public void getHtmlPanel(String resName, IHtmlPanelCallBack c,
+            List<HtmlElemDesc> hList) {
         IReadRes iRes = rFactory.getReadRes();
         iRes.readRes(new HtmlCallBack(c, hList), resName);
 
     }
 
-    public void getHtmlPanel(HtmlTypeEnum e,
-            IHtmlPanelCallBack c, List<HtmlElemDesc> hList) {
+    public void getHtmlPanel(HtmlTypeEnum e, IHtmlPanelCallBack c,
+            List<HtmlElemDesc> hList) {
         String resName = getResName(e);
         getHtmlPanel(resName, c, hList);
     }
