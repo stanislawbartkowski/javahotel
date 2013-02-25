@@ -15,7 +15,7 @@ package com.jython.ui.client;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gwtmodel.table.view.webpanel.IWebPanelResources;
+import com.gwtmodel.table.factories.IWebPanelResources;
 
 class WebPanelResources implements IWebPanelResources {
 
@@ -23,13 +23,9 @@ class WebPanelResources implements IWebPanelResources {
 
     WebPanelResources() {
         ma.put(TITLE, "Example of Jython UI");
-        ma.put(IMAGELOGOUT, IImageGallery.LOGOUT);
-        ma.put(IIMAGEPRODCUT, IImageGallery.LOGHOTEL);
-        ma.put(PRODUCTNAME, "Test and demo");
-        ma.put(OWNERNAME, "Demo version");
-        ma.put(WERSJA, "Jython UI sample");
-        ma.put(LOGOUTQUESTION, "Do you really want to log out ?");
-        ma.put(COUNTER, "");
+        ma.put(PRODUCTNAME, "Jython UI demo");
+        ma.put(OWNERNAME, "Demo");
+        ma.put(VERSION, "Jython sample v 1.0");
     }
 
     public String getRes(String res) {
