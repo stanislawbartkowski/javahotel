@@ -53,17 +53,17 @@ public class WebJythonUi implements EntryPoint {
 
     public void onModuleLoad() {
 
-        ITableAbstractFactories tFactories = GwtGiniInjector.getI()
-                .getITableAbstractFactories();
-        tFactories.registerGetCustomValues(new CustomFactory());
-
         startW();
         iClient.start(START);
     }
 
     private void startW() {
+        ITableAbstractFactories tFactories = GwtGiniInjector.getI()
+                .getITableAbstractFactories();
+        tFactories.registerWebPanelResources(new WebPanelResources());
+
         WebPanelFactory wFactory = GwtGiniInjector.getI().getWebPanelFactory();
-        IWebPanel wPan = wFactory.construct(new WebPanelResources(), null);
+        IWebPanel wPan = wFactory.construct(null);
         WebPanelHolder.setWebPanel(wPan);
         RootPanel.get().add(wPan.getWidget());
     }
