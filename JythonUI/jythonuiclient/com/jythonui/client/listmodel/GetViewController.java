@@ -71,6 +71,9 @@ class GetViewController implements IGetViewControllerFactory {
         case REMOVE:
             eCrud = ICommonConsts.CRUD_REMOVE;
             break;
+        case SHOWONLY:
+            eCrud = ICommonConsts.CRUD_SHOW;
+            break;
         default:
             assert false : LogT.getT().notExpected();
             break;
