@@ -417,7 +417,7 @@ class RunJython {
         // checked by experience that if file.encoding is not null then
         // Jython cannot be started in Development Mode
         // but it works as expected after deploying to Google App Engine
-        // System.getProperties().remove("file.encoding");
+        System.getProperties().remove("file.encoding");
         String importJ = d.getJythonImport();
         putDebug("import jython = " + importJ);
         String methodJ = d.getJythonMethod();
