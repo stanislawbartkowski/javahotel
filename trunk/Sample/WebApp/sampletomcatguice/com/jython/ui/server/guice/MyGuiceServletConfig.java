@@ -12,33 +12,13 @@
  */
 package com.jython.ui.server.guice;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.jython.ui.server.datastore.IPersonOp;
-import com.jythonui.server.IJythonUIServer;
+import com.google.inject.servlet.GuiceServletContextListener;
 
-/**
- * @author hotel
- * 
- */
-public class ServiceInjector {
+public class MyGuiceServletConfig extends GuiceServletContextListener {
 
-    private static final Injector injector;
-
-    static {
-        injector = Guice.createInjector(new ServerService.ServiceModule());
+    @Override
+    protected Injector getInjector() {
+        return ServiceInjector.getInjector();
     }
-
-    public static IPersonOp constructPersonOp() {
-        return injector.getInstance(IPersonOp.class);
-    }
-
-    public static IJythonUIServer contructJythonUiServer() {
-        return injector.getInstance(IJythonUIServer.class);
-    }
-
-    public static Injector getInjector() {
-        return injector;
-    }
-
 }

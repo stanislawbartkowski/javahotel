@@ -37,4 +37,8 @@ public class ServiceInjector {
         return injector.getInstance(IJythonUIServer.class);
     }
 
+    public static Injector getInjector() {
+        return injector;
+    }
+
 }
