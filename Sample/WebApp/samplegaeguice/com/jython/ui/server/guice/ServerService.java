@@ -16,12 +16,15 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.commoncache.ICommonCache;
-import com.jython.ui.server.ServerProperties;
+import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.JythonUiServerProvider;
+import com.jythonui.server.defa.IsCached;
+import com.jythonui.server.defa.ServerProperties;
+import com.jythonui.server.service.Holder;
 
 /**
  * @author hotel
@@ -32,6 +35,7 @@ public class ServerService {
     public static class ServiceModule extends AbstractModule {
         @Override
         protected void configure() {
+            bind(IsCached.class).to(Cached.class).in(Singleton.class);
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
@@ -40,6 +44,7 @@ public class ServerService {
                             Singleton.class);
             bind(ICommonCache.class).toProvider(CommonCacheFactory.class).in(
                     Singleton.class);
+            requestStaticInjection(Holder.class);
         }
     }
 

@@ -12,34 +12,10 @@
  */
 package com.jython.ui.server;
 
-import java.net.URL;
-
 import com.gwtmodel.containertype.ContainerInfo;
-import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.IsCached;
 
-/**
- * @author hotel
- * 
- */
-public class ServerProperties implements IJythonUIServerProperties {
-
-    private final String RESOURCES = "resources";
-    private final String DIALOGDIR = "dialogs";
-    private final String PACKAGEDIR = "packages";
-
-    @Override
-    public URL getDialogDirectory() {
-        URL ur = GreetingServiceImpl.class.getClassLoader().getResource(
-                RESOURCES + "/" + DIALOGDIR);
-        return ur;
-    }
-
-    @Override
-    public URL getPackageDirectory() {
-        URL ur = GreetingServiceImpl.class.getClassLoader().getResource(
-                RESOURCES + "/" + PACKAGEDIR);
-        return ur;
-    }
+public class Cached implements IsCached {
 
     @Override
     public boolean isCached() {
