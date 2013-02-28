@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.datamodelview;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataFormConstructorAbstractFactory;
 import com.gwtmodel.table.factories.IDataModelFactory;

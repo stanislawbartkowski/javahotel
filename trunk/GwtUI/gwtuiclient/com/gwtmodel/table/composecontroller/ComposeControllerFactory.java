@@ -12,7 +12,8 @@
  */
 package com.gwtmodel.table.composecontroller;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.factories.ITableCustomFactories;

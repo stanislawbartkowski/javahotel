@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.controler;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WSize;

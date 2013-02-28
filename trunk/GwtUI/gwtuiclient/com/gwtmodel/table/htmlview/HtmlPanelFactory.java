@@ -15,7 +15,7 @@ package com.gwtmodel.table.htmlview;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.readres.IReadRes;
 import com.gwtmodel.table.readres.ISetResText;

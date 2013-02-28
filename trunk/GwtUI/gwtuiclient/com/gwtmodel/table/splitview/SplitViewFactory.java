@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.splitview;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.SlotSignalContextFactory;

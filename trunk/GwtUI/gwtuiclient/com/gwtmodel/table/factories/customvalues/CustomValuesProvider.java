@@ -17,9 +17,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.google.gwt.user.client.ui.HTML;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 
