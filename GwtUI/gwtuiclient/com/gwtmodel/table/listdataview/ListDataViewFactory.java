@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.listdataview;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.IGetCellValue;

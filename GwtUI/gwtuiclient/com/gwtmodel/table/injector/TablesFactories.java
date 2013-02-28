@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.injector;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;

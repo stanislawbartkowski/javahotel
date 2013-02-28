@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.view.checkstring;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;

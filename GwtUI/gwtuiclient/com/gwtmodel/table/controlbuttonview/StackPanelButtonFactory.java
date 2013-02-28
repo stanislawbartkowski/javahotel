@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.controlbuttonview;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;

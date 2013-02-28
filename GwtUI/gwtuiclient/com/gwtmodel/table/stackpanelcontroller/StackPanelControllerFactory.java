@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.stackpanelcontroller;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;

@@ -14,7 +14,7 @@ package com.gwtmodel.table.view.grid;
 
 import java.math.BigDecimal;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 public class GridViewFactory {

@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.slotmodel;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.gwtmodel.table.*;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.injector.LogT;
