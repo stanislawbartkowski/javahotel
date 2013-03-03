@@ -3,7 +3,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.jython.ui.server.GreetingServiceImpl</servlet-class>
+    <servlet-class>com.jythonui.server.service.JythonServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -13,7 +13,7 @@
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>WebJythonUi.html</welcome-file>
+    <welcome-file>TomcatJPAApplication.html</welcome-file>
   </welcome-file-list>
 
   <servlet>
@@ -24,10 +24,9 @@
       <param-value/>
     </init-param>
   </servlet>
-
-  <servlet-mapping>
-    <servlet-name>SystemServiceServlet</servlet-name>
-    <url-pattern>/_ah/spi/*</url-pattern>
-  </servlet-mapping>
+  
+  <listener>
+    <listener-class>com.jython.ui.server.guice.MyGuiceServletConfig</listener-class>
+  </listener>
 
 </web-app>
