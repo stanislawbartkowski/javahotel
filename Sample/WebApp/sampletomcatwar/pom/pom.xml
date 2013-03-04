@@ -1,0 +1,308 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>sb.test.application</groupId>
+    <artifactId>tomcat.test.application</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    
+    <name>tomcat test application</name>
+    <url>http://maven.apache.org</url>
+    
+    <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <!-- custom -->
+      <outclasses>${project.basedir}/output/classes</outclasses>
+      <samplewebsrc>${project.basedir}/webapp/samplewebsrc</samplewebsrc>
+      <samplewebapp>${project.basedir}/webapp</samplewebapp>
+      <guiclient>${project.basedir}/gwtui/gwtuiclient</guiclient>
+      <guishared>${project.basedir}/gwtui/gwtuishared</guishared>
+      <guiserver>${project.basedir}/gwtui/gwtuiserver</guiserver>
+      <jythonclient>${project.basedir}/jythonui/jythonuiclient</jythonclient>
+      <jythonshared>${project.basedir}/jythonui/jythonuishared</jythonshared>
+      <jythonserver>${project.basedir}/jythonui/jythonuiserver</jythonserver>
+      <guiguice>${project.basedir}/webapp/sampletomcatguice</guiguice>
+      <sampledbjpa>${project.basedir}/webapp/sampledbjpa</sampledbjpa>
+      <sampledbmodel>${project.basedir}/webapp/sampledbmodel</sampledbmodel>
+      <outwar>${project.basedir}/war</outwar>
+    </properties>
+    
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+        <scope>test</scope>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt-user</artifactId>
+        <version>2.5.0</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt-dev</artifactId>
+        <version>2.5.0</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.google.gwt.inject</groupId>
+        <artifactId>gin</artifactId>
+        <version>2.0.0</version>
+        <classifier/>
+      </dependency>
+      
+      <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>1</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.google.inject</groupId>
+        <artifactId>guice</artifactId>
+        <version>3.0</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.google.inject.extensions</groupId>
+        <artifactId>guice-assistedinject</artifactId>
+        <version>3.0</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>aopalliance</groupId>
+        <artifactId>aopalliance</artifactId>
+        <version>1.0</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>org.python</groupId>
+        <artifactId>jython-standalone</artifactId>
+        <version>2.5.2</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>1.4</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <version>1.2.2</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.googlecode.gwt-validation</groupId>
+        <artifactId>gwt-validation</artifactId>
+        <version>2.0</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.googlecode.gwt-validation</groupId>
+        <artifactId>gwt-validation</artifactId>
+        <version>2.0</version>
+        <classifier>sources</classifier>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.google.inject.extensions</groupId>
+        <artifactId>guice-servlet</artifactId>
+        <version>3.0</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt-servlet</artifactId>
+        <version>2.5.0</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>javax.persistence</groupId>
+        <artifactId>persistence-api</artifactId>
+        <version>1.0.2</version>
+      </dependency>
+      
+      
+    </dependencies>
+    
+    <build>
+      <plugins> 
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-plugin</artifactId>
+          <version>1.7</version>
+          
+          <executions>
+            <execution>
+              <id>checkout_gwtui</id>
+              <configuration>
+                <connectionUrl>scm:svn:https://javahotel.googlecode.com/svn/trunk/GwtUI</connectionUrl>
+                <checkoutDirectory>${project.basedir}/gwtui</checkoutDirectory>
+              </configuration>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>checkout</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>checkout_jythonui</id>
+              <configuration>
+                <connectionUrl>scm:svn:https://javahotel.googlecode.com/svn/trunk/JythonUI</connectionUrl>
+                <checkoutDirectory>${project.basedir}/jythonui</checkoutDirectory>
+              </configuration>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>checkout</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>checkout_webapp</id>
+              <configuration>
+                <connectionUrl>scm:svn:https://javahotel.googlecode.com/svn/trunk/Sample/WebApp</connectionUrl>
+                <checkoutDirectory>${project.basedir}/webapp</checkoutDirectory>
+              </configuration>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>checkout</goal>
+              </goals>
+            </execution>
+          </executions>
+          
+        </plugin>
+        
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.7</version>
+          <executions>
+            
+            <execution>
+              <id>compile.java</id>
+              <phase>compile</phase>
+              <configuration>
+                <target>
+                  <property name="gwt-user" value="${com.google.gwt:gwt-user:jar}"/>
+                  <delete dir="${outclasses}" />
+                  <mkdir dir="${outclasses}" />
+                  <echo message="guiclient ${guiclient}" />
+                  <echo message="gwt user ${gwt-user}" />
+                  <javac fork="true" srcdir="${samplewebsrc}:${guiclient}:${guishared}:${jythonclient}:${jythonshared}:${guiserver}:${jythonserver}:${guiguice}:${sampledbmodel}:${sampledbjpa}" destdir="${outclasses}"
+                                       source="1.6" target="1.6">
+                    <classpath> 
+                      <path refid="maven.dependency.classpath" /> 
+                    </classpath>
+                    source="1.2"
+         target="1.2"
+                  </javac>
+                </target>
+              </configuration>
+              <goals>
+                <goal>run</goal>
+              </goals>
+              
+            </execution>
+            
+            <execution>
+              <id>compile.gwt</id>
+              <phase>compile</phase>
+              <configuration>
+                <target>
+                  <java fork="true" classname="com.google.gwt.dev.Compiler">
+                    <jvmarg value="-Xmx512M"/>
+                    <classpath>
+                      <pathelement location="${com.google.gwt:gwt-user:jar}"/>
+                      <pathelement location="${com.google.gwt:gwt-dev:jar}"/>
+                      <pathelement location="${com.google.inject:guice:jar}"/>
+                      <pathelement location="${com.google.gwt.inject:gin:jar}"/>
+                      <pathelement location="${javax.inject:javax.inject:jar}"/>
+                      <pathelement location="${com.google.inject.extensions:guice-assistedinject:jar}"/>
+                      <pathelement location="${aopalliance:aopalliance:jar}"/>
+                      <pathelement location="${com.googlecode.gwt-validation:gwt-validation:jar:sources}"/>
+                      <pathelement location="${com.googlecode.gwt-validation:gwt-validation:jar}"/>
+                      
+                      <pathelement location="${samplewebsrc}"/>
+                      <pathelement location="${guiclient}"/>
+                      <pathelement location="${guishared}" />
+                      <pathelement location="${jythonclient}"/>  
+                      <pathelement location="${jythonshared}"/>                         
+                      <pathelement location="${outclasses}"/>
+                    </classpath>
+                    <arg line="com.jython.ui.WebJythonUi"/>
+                  </java>   
+                </target>
+              </configuration>
+              <goals>
+                <goal>run</goal>
+              </goals>
+            </execution>
+            
+            <execution>
+              <id>assemble.gwt</id>
+              <phase>compile</phase>
+              <configuration>
+                <target>  
+                  <copy todir="${outwar}/WEB-INF/classes">
+                    <fileset dir="${outclasses}"/>
+                  </copy>
+                  <copy todir="${outwar}">
+                    <fileset dir="${samplewebapp}/sampletomcatwar"/>
+                  </copy>
+                  
+                  <copy todir="${outwar}/WEB-INF/lib">
+                    <fileset file="${aopalliance:aopalliance:jar}"/>
+                  </copy>
+                  
+                  <copy todir="${outwar}/WEB-INF/lib">
+                    <fileset file="${com.google.inject:guice:jar}"/>
+                  </copy>
+                  
+                  <copy todir="${outwar}/WEB-INF/lib">
+                    <fileset file="${com.google.inject.extensions:guice-servlet:jar}"/>
+                  </copy>
+                  
+                  <copy todir="${outwar}/WEB-INF/lib">
+                    <fileset file="${com.google.gwt:gwt-servlet:jar}"/>
+                  </copy>
+                  
+                  <copy todir="${outwar}/WEB-INF/lib">
+                    <fileset file="${org.python:jython-standalone:jar}"/>
+                  </copy>
+                  
+                  <copy todir="${outwar}/WEB-INF/classes/resources">
+                    <fileset dir="${samplewebsrc}/resources"/>
+                  </copy>
+                  
+                  <copy todir="${outwar}/WEB-INF/classes/META-INF">
+                    <fileset dir="${guiguice}/META-INF"/>
+                  </copy>
+                  
+                  <copy todir="${outwar}/WEB-INF/classes/resources">
+                    <fileset dir="${jythonserver}/resources"/>
+                  </copy>
+                  
+                  <jar destfile="target/webjython.war" basedir="war"/>
+                  
+                </target>
+              </configuration>
+              <goals>
+                <goal>run</goal>
+              </goals>
+              
+            </execution>
+            
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+    
+    
+  </project>
+  
