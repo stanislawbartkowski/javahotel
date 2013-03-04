@@ -13,7 +13,7 @@
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>TomcatJPAApplication.html</welcome-file>
+    <welcome-file>WebJythonUi.html</welcome-file>
   </welcome-file-list>
 
   <servlet>
