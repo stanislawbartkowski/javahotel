@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>List of stored procedures</displayname>
+
+<before/>
+
+ <jython>
+   <import>from schedpack import proclist</import>
+   <method>proclist.dialogaction({0},{1})</method>
+ </jython>  
+
+
+<list id="list" displayname="List of stored procedures" >
+<standbutt>SHOW,FIND,FILTER</standbutt>
+<columns>
+<column id="procname" displayname="Stored procedure" />
+</columns>
+</list>
+
+</dialog>

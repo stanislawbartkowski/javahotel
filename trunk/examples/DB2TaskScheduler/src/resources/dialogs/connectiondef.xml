@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<before/>
+ 
+ <jython>
+   <import>from schedpack import sched</import>
+   <method>sched.connectionaction({0},{1})</method>
+ </jython>  
+
+<list id="list" displayname="List of datasources"  elemformat="datasource.xml" >
+ <columns>
+   <column id="datasource" actionid="connect" displayname="Datasource name"/>
+   <column id="port" type="long" displayname="Port number"/>
+   <column id="database" displayname="Database"/>
+   <column id="host" displayname="Host"/>
+   <column id="user" displayname="@user" />
+   <column id="password" hidden="" />   
+ </columns>
+ </list>
+
+ 
+</dialog>
+

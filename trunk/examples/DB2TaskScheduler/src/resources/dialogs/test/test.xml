@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+ 
+ <jython>
+   <import>from schedpack.test import testmod</import>
+   <method>testmod.dialogaction({0},{1})</method>
+ </jython>  
+
+<list id="list" displayname="List of Datasources" >
+ <columns>
+ <column id="datasource" />
+ <column id="port" type="long"/>
+ <column id="database"/>
+ <column id="host" />
+ </columns>
+ </list>
+
+
+ 
+</dialog>

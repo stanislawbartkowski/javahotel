@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Test description</displayname>
+
+<before/>
+
+<parent>tasklist.xml</parent>
+
+ <types>typesenum.xml</types>
+
+ <jython>
+ <method>sched.taskdescraction({0},{1})</method>
+</jython>
+
+ <form>
+   <field id="name" displayname="Task name" notempty="" readonlychange="" />
+   <field id="schema" displayname="Schema" notempty="" readonlychange="" type="custom:schemas" signalchange="" />
+   <field id="proc" displayname="Stored procedure" type="custom:spprocs" helperrefresh="" notempty="" readonlychange="" />
+   <field id="param" displayname="Procedure params" type="textarea" readonlychange="" />
+   <field id="begintime" displayname="Begin time" type="datetime" />
+   <field id="endtime" displayname="End time" type="datetime" />
+   <field id="maxi" displayname="Max invocations" type="int" />
+   <field id="schedule" displayname="Schedule" />
+   <field id="remarks" displayname="Remarks" type="textarea" />
+   
+ </form>  
+ 
+  <validaterules> 
+   <validate id="begintime" op="le" id1="endtime" displayname="Begin time cannot be later then the end time !" />
+ </validaterules>
+ 
+
+
+</dialog>
