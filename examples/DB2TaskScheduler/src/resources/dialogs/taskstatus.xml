@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+ <before/>
+
+ <types>typesenum.xml</types>
+ 
+ <jython>
+   <import>from schedpack import sched</import>
+   <method>sched.taskstatusaction({0},{1})</method>
+ </jython>
+
+<actions> 
+ <action id="showtask" actiontype="JUP_DIALOG" actionparam="showtask.xml"/>  
+</actions> 
+ 
+ <form>
+   <field id="datasource" type="custom:datasources" notempty="" signalchange="" />
+ </form>  
+ 
+
+<list id="list" displayname="Task status" chunked="">
+<standbutt>TOOLS,FIND,FILTER</standbutt>
+ <columns>
+   <column id="name" displayname="Task name" actionid="showtask"/>
+   <column id="taskid" displayname="Task id" type="long" />
+   <column id="status" displayname="Status" />
+   <column id="invocation" displayname="Invocation" type="int" />
+   <column id="begintime" displayname="Begin time" type="datetime" />
+   <column id="endtime" displayname="End time" type="datetime" />
+   <column id="agentid" displayname="Agent id" type="long" />
+   <column id="sqlcode" displayname="Sql code" type="int" />
+   <column id="sqlstate" displayname="Sql state" />
+   <column id="rc" displayname="Rc" type="int" />
+ </columns>
+ </list>
+
+ 
+</dialog>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Task description</displayname>
+
+<before/>
+
+ <jython>
+  <import>from schedpack import sched</import>
+  <method>sched.showtask({0},{1})</method>
+</jython>
+
+<buttons>
+<button id="close" displayname="@close" actiontype="JCLOSE_DIALOG" />
+</buttons>
+
+ <form>
+   <field id="name" displayname="Task name" readonly="" />
+   <field id="schema" displayname="Schema" readonly=""/>
+   <field id="proc" displayname="Stored procedure" readonly=""/>
+   <field id="param" displayname="Procedure params" type="textarea" readonly="" />
+   <field id="begintime" displayname="Begin time" type="datetime" readonly=""/>
+   <field id="updatetime" displayname="Last update time" type="datetime" readonly=""/>
+   <field id="endtime" displayname="End time" type="datetime" readonly=""/>
+   <field id="maxi" displayname="Max invocations" type="int" readonly=""/>
+   <field id="schedule" displayname="Schedule" readonly=""/>
+   <field id="remarks" displayname="Remarks" type="textarea" readonly="" />
+   
+ </form>  
+ 
+</dialog>

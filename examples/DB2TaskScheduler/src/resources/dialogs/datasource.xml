@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Datasource properties</displayname>
+
+<parent>connectiondef.xml</parent>
+
+<buttons>
+  <button id="connect" displayname="Test connection"/>
+</buttons>
+
+<form>
+   <field id="datasource" actionid="connect" displayname="Datasource name" notempty=""/>
+   <field id="port" type="long" displayname="Port number" notempty="" />
+   <field id="database" displayname="Database" notempty=""/>
+   <field id="host" displayname="Host" notempty="" />
+   <field id="user" displayname="@user" />
+   <field id="password" displayname="@password" type="password" />   
+</form>
+
+</dialog>
