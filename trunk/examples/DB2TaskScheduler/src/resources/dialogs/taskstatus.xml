@@ -6,8 +6,8 @@
  <types>typesenum.xml</types>
  
  <jython>
-   <import>from schedpack import sched</import>
-   <method>sched.taskstatusaction({0},{1})</method>
+   <import>from schedpack import taskstatuslist</import>
+   <method>taskstatuslist.taskstatusaction({0},{1})</method>
  </jython>
 
 <actions> 
@@ -20,7 +20,7 @@
  
 
 <list id="list" displayname="Task status" chunked="">
-<standbutt>TOOLS,FIND,FILTER</standbutt>
+<standbutt>TOOLS,FILTER</standbutt>
  <columns>
    <column id="name" displayname="Task name" actionid="showtask"/>
    <column id="taskid" displayname="Task id" type="long" />

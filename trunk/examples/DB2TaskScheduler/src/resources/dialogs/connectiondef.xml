@@ -4,8 +4,8 @@
 <before/>
  
  <jython>
-   <import>from schedpack import sched</import>
-   <method>sched.connectionaction({0},{1})</method>
+   <import>from schedpack import datasourcelist</import>
+   <method>datasourcelist.connectionaction({0},{1})</method>
  </jython>  
 
 <list id="list" displayname="List of datasources"  elemformat="datasource.xml" >

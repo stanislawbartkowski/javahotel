@@ -2,13 +2,13 @@
 <typedefs xmlns="http://www.jythongwt.typedefxsd.com">
 
      <jython>
-       <import>from schedpack import sched</import>
+       <import>from schedpack import typedef</import>
       </jython>    
 
   <typedef id="datasources" type="combo" comboid="id" displayname="name" >
   
      <jython>
-        <method>sched.connectiontypeaction({0},{1})</method>
+        <method>typedef.connectiontypeaction({0},{1})</method>
       </jython>    
  
    </typedef>
@@ -16,7 +16,7 @@
   <typedef id="schemas" type="combo" comboid="id">
   
      <jython>
-        <method>sched.schemasaction({0},{1})</method>
+        <method>typedef.schemasaction({0},{1})</method>
       </jython>    
  
    </typedef>
