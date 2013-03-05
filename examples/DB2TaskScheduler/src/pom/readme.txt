@@ -3,7 +3,7 @@
 ------------------------------------------
 
 -----------------------------------------
-Tomcat
+Tomcat and Glassfish
 ------------------------------------------
 
 * Prerequisites
@@ -11,4 +11,5 @@ Tomcat
    db2jcc4.jar : should be available on classpath (can be linked in Linux environment)
    
 * deploy
-* http://think:8080/db2jobscheduler/
+* http://{host}:{port}/db2jobscheduler/
+

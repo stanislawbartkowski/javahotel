@@ -64,6 +64,7 @@ def executeall(var,query,param=None) :
         conn.close()
 
 def executeproc(ds,proc,param) :
+    print proc,param
     c = None
     conn = None
     tran = False
@@ -145,9 +146,13 @@ def executesql(var,sql,param = None) :
       errormessage(ds,var,e,sql)
       return None
      
-     
 def getsize(var,sql, par=None) :
       result = executesql(var,"SELECT COUNT(*) " +  sql,par)
       v = result[0]
       cou = v[0]
-      return cou     
+      return cou
+      
+def is_tasklist(var) :
+  result = executesql(var,"SELECT * FROM SYSCAT.TABLES WHERE TABSCHEMA='SYSTOOLS' AND TABNAME='ADMIN_TASK_LIST'")
+  if result == None : return False
+  return len(result) <> 0           
