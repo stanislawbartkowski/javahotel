@@ -150,6 +150,7 @@ def getsize(var,sql, par=None) :
       result = executesql(var,"SELECT COUNT(*) " +  sql,par)
       v = result[0]
       cou = v[0]
+      print "size=",cou
       return cou
       
 def is_tasklist(var) :
