@@ -106,3 +106,17 @@ def tasklistaction(action,var) :
     var["JLIST_MAP"] = map 
     if action == "signalchange" : util.savedefadatasource (var)
                 
+def showtask(action,var) :
+
+    util.logaction(action,var)        
+    
+    da = DataSource()
+    
+    if action == "before" :
+       name = var["name"] 
+       result = db2action.executesql(var,"SELECT * from SYSTOOLS.ADMIN_TASK_LIST WHERE NAME=?",[name])
+       r = result[0]
+       rec = __torec(r)
+       for key in rec :
+         var[key] = rec[key]
+         var["JCOPY_" + key] = True
