@@ -1,13 +1,16 @@
-#summary One-sentence summary of this page.
+#This page describes general idea behind MVP JythonUI framework
 
 = Introduction =
 
-Add your content here.
+The purpose is to create convenient implementation of MVP (Model/View/Presenter) http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter framework.
+ * View. XML files defining content of the page (window, dialog). It provides default layout (simplistic although functional) and allows also defining more customized view (HTML panel layout).
+ * Model. Framework written in GWT/Java (client side) and Server/Java. Takes data from the Presenter and display it using XML Views. Also picks up events from the View, gets current data and raises proper method in the Presenter.
+ * Presenter. Resides at the server side. Acts as an interface between background repository (for instance database) and UI. Provides action for View (user) events and implements all business logic. Provides also response to the user event (data and actions).
 
+= Development =
+
+Development requires defining XML file (user interface contents and buttons) and Presenter implementation written in Jython. Jython is interpreted language and does not require recompiling. This way way the development of View and Presenter can be done without typical J2EE/Java development. On the other hand Jython the advantage of Jython is easy access to Java libraries so all richness of Java is available for Jython development.
+Framework acts as a "middleware" between View and Presenter. Creates user interface using View (XML files) and fills it with the date taken from the presenter. After user action (for instance clicking the button) sends all data to the Presenter and raises proper method at the server side. 
+Current version support Jython only. It is planned in the future to allow also client customization (View enahancement by means of JavaScript code) and additional language for the server side (Presenter). For instances: C Python (by means of JNI) and Java itself.
 
 = Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
