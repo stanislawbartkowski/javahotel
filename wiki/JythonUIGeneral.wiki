@@ -19,4 +19,4 @@ Current version support Jython only. It is planned in the future to allow also c
 || JUP_DIALOG || Name of the XML file with the dialog  || || || Displays dialog as popup, modal dialog ||
 || JMAIN_DIALOG || Name of the XML file with the dialog || || || Displays dialog in main window, removes previous main dialog ||
 || JOK_MESSAGE || Window content || Window title || || Displays simple OK message ||
-|| JERROR_MESSAGE || Windows content || Windows title || || Displays simple OK message but windows is decorated as "error" message ||
+|| JERROR_MESSAGE || Window content || Window title || || Displays simple OK message but windows is decorated as "error" message ||
