@@ -12,12 +12,12 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.ITableCustomFactories;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
