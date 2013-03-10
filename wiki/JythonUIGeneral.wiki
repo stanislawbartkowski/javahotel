@@ -24,7 +24,7 @@ Current version support Jython only. It is planned in the future to allow also c
 || JMAIN_DIALOG || Name of the XML file with the dialog || || || Displays dialog in main window, removes previous main dialog ||
 || JOK_MESSAGE || Window content || Window title || || Displays simple OK message ||
 || JERROR_MESSAGE || Window content || Window title || || Displays simple OK message but window is decorated as "error" message ||
-|| JYESNO_MESSAGE || Window content || Window title || Action identifier. Action receives information is user action was yes/no || Displays Yes/No message windows ||
+|| JYESNO_MESSAGE || Window content || Window title || Action identifier. Action receives information is user action was yes/no. Boolean variable JYESANSWER holds true/false value || Displays Yes/No message windows ||
 || JCLOSE_DIALOG || || || || Opposite to JUP_DIALOG. Closes modal dialog and returns to upper dialog ||
 
 === Action in Jython code ===
@@ -60,3 +60,28 @@ Jython equivalence:
   var['JMAIN_DIALOG'] = True
   var['actionparam'] = 'list.xml'
 }}}
+
+=== Sample related to JYESNO_MESSAGE ==
+
+XML file:
+<code language="xml">
+<dialog>
+...
+ <buttons>
+ <button id="clearPersons" displayname="Clear all" actiontype="JYESNO_MESSAGE" actionparam="Do you really want to remove all persons now ?" actionparam1="Warning before removing" actionparam2="clearpersons" />
+ </buttons>
+...
+<dialog>
+</code>
+
+Jython code:
+<code language="python">
+
+def dialogaction(action,var) :
+    
+  if action == "clearpersons" :
+     yes = var['JYESANSWER']
+     if yes : do_seomethin_if_yes_answer 
+     else : do_somenthing_if_no_answer
+
+</code>
