@@ -36,6 +36,8 @@ class FieldCheckField extends AbstractField {
         }
         ch.setChecked(true);
         initWidget(ch);
+        // set html element name
+        ch.setName(v.getId());
     }
 
     @SuppressWarnings("deprecation")
