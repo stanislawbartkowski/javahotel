@@ -1,5 +1,21 @@
 from com.jython.ui.server.guice import ServiceInjector
 
+def __create_list(op, var) :
+    seq = op.getAllPersons()
+    list = []
+    
+    for s in seq : 
+       elem = {}
+       elem["key"] = s.id
+       elem["pnumber"] = s.getPersonNumb()
+       elem["pname"] = s.getPersonName()
+       list.append(elem)
+       
+    map={}   
+    map["list"] = list
+    var["JLIST_MAP"] = map
+  
+
 def dialogaction(action,var) :
 
   print "list",action
@@ -10,21 +26,23 @@ def dialogaction(action,var) :
   op = ServiceInjector.constructPersonOp()
           
   if action == "before" or action == "crud_readlist" :
-    seq = op.getAllPersons()
-    list = []
-    
-    for s in seq : 
-#       print s.id
-       elem = {}
-       elem["key"] = s.id
-       elem["pnumber"] = s.getPersonNumb()
-       elem["pname"] = s.getPersonName()
-       list.append(elem)
-       
-    map={}   
-    map["list"] = list
-    var["JLIST_MAP"] = map  
+    __create_list(op,var)
     return
+    
+  if action == "clearpersons" :
+     yes = var['JYESANSWER']
+     if not yes : return
+     op.clearAll()
+     for i in range(100) :
+       numb = str(i)
+       name = 'NAME ' + numb
+       p = op.construct()
+       p.setPersonNumb(numb)
+       p.setPersonName(name)
+       op.savePerson(p)
+     __create_list(op,var)  
+     return
+     
       
   pname = var["pname"]
   pnumb = var["pnumber"]
@@ -54,6 +72,7 @@ def dialogaction(action,var) :
   key = var["key"]      
   if action == "crud_remove" or action == "crud_change" :
        p = op.construct()
+       print key,pnumb,pname
        p.setId(key)
        p.setPersonNumb(pnumb)
        p.setPersonName(pname)

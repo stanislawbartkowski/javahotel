@@ -1,14 +1,22 @@
 import datetime
 
 def dialogaction(action,var) :
+
   print "test",action
-  print len
     
   if action == "main" :
     var["JMAIN_DIALOG"] = "start.xml"  
     
   if action == "list" :
     var["JMAIN_DIALOG"] = "list.xml"  
+    
+  if action == 'tomain' :
+    seq = ['glob1','globbool','globint','globdecimal','globdate','globdatetime']
+    for s in seq :
+      print s,var[s]
+    var['JUP_DIALOG'] = 'copymain.xml'
+      
+        
     
   if action == "before" :
     for k in var.keys() : 
@@ -32,6 +40,10 @@ def dialogaction(action,var) :
   
     var['globdate'] = datetime.date(2001,11,5);
     var['JCOPY_globdate'] = True
+    
+    ti = datetime.datetime(2017,01,13,20,45,14)
+    var['globdatetime'] = ti
+    var['JCOPY_globdatetime'] = True
   
   
 def textaction(action,var) :

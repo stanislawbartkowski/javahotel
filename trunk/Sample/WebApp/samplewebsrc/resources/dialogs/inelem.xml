@@ -3,18 +3,14 @@
 
 <displayname>Next elem</displayname>
 
-<jython>
-   <import>from testpack import list</import>
-   <method>list.inaction({0},{1})</method>
- </jython>  
- 
 <buttons>
   <button id="close" displayname="Close" actiontype="JCLOSE_DIALOG"/>
 </buttons>
 
  <form>
-   <field id="glob1" />
-   <field id="pname" displayname="Name"/>
+   <field id="glob1" displayname="glob name" readonly="" />
+   <field id="pnumber" displayname="Numb" readonly=""/>
+   <field id="pname" displayname="Name" readonly="" />
    
  </form>  
  
