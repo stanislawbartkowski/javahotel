@@ -15,6 +15,7 @@ package com.jythonui.client.dialog;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
@@ -24,7 +25,6 @@ import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
@@ -52,6 +52,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
+import com.gwtmodel.table.view.util.YesNoDialog;
 import com.jythonui.client.M;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.CreateForm;
@@ -329,13 +330,27 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         slMediator.getSlContainer().publish(sig, new SendDialogFormSignal(d));
     }
 
-    private class YesNoDialog implements IYesNoAction {
+    private class HandleYesNoDialog implements IYesNoAction {
 
         @Override
-        public void answer(String content, String title, String param1) {
-            Utils.errAlert(content + " " + param1, LogT.getT().NotImplemented());
-        }
+        public void answer(String content, String title, final String param1,
+                final WSize w) {
+            IClickYesNo i = new IClickYesNo() {
 
+                @Override
+                public void click(boolean yes) {
+                    DialogVariables v = iCon.getVariables();
+                    v.setValueB(ICommonConsts.JYESANSWER, yes);
+                    M.JR().runAction(v, d.getId(), param1,
+                            new BackClass(param1, false, w, null));
+
+                }
+
+            };
+
+            YesNoDialog yes = new YesNoDialog(content, title, i);
+            yes.show(w);
+        }
     }
 
     private class CloseDialog implements ISendCloseAction {
@@ -371,14 +386,18 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 String param = bItem.getActionParam();
                 String param1 = bItem.getAttr(ICommonConsts.ACTIONPARAM1);
                 String param2 = bItem.getAttr(ICommonConsts.ACTIONPARAM2);
-                PerformVariableAction.performAction(new YesNoDialog(),
+                PerformVariableAction.performAction(new HandleYesNoDialog(),
                         new CloseDialog(id), action, param, param1, param2, w,
                         iCon);
                 return;
             }
+            DialogVariables v = iCon.getVariables();
+            M.JR().runAction(v, d.getId(), id,
+                    new BackClass(id, false, w, null));
         }
-        DialogVariables v = iCon.getVariables();
-        M.JR().runAction(v, d.getId(), id, new BackClass(id, false, w, null));
+        // DialogVariables v = iCon.getVariables();
+        // M.JR().runAction(v, d.getId(), id, new BackClass(id, false, w,
+        // null));
     }
 
     private class ActionButton implements IPerformClickAction {
@@ -434,7 +453,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
                 }
             };
-            PerformVariableAction.perform(new YesNoDialog(),
+            PerformVariableAction.perform(new HandleYesNoDialog(),
                     new CloseDialog(id), arg, iCon, liManager, vis, w);
         }
     }

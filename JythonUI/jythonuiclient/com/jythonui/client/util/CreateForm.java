@@ -66,6 +66,7 @@ public class CreateForm {
         for (FieldItem f : iList) {
             IVField vf = VField.construct(f);
             IFormLineView v;
+            String htmlId = f.getHtmlId();
             if (!CUtil.EmptyS(f.getCustom())) {
                 TypedefDescr te = d.findCustomType(f.getCustom());
                 if (te == null) {
@@ -75,21 +76,21 @@ public class CreateForm {
                 if (te.isComboType()) {
                     eList.add(vf, f.getCustom());
                     v = eFactory.constructListValuesCombo(vf, iGet,
-                            !f.isNotEmpty());
+                            !f.isNotEmpty(), htmlId);
                 } else {
                     IDataType dType = fType.construct(f.getTypeName());
                     v = eFactory.constructHelperList(vf, dType,
-                            f.isHelperRefresh());
+                            f.isHelperRefresh(), htmlId);
                 }
             } else {
                 if (f.isPassword()) {
-                    v = eFactory.constructPasswordField(vf);
+                    v = eFactory.constructPasswordField(vf, htmlId);
                 } else if (f.isHelper() || f.isTextArea() || f.isRichText()) {
                     v = eFactory.constructTextField(vf, null,
                             f.isHelper() ? iHelper : null, f.isTextArea(),
-                            f.isRichText(), f.isHelperRefresh());
+                            f.isRichText(), f.isHelperRefresh(), htmlId);
                 } else {
-                    v = eFactory.constructEditWidget(vf);
+                    v = eFactory.constructEditWidget(vf, htmlId);
                 }
 
             }
