@@ -100,7 +100,7 @@ def dialogaction(action,var) :
 === Before and crud_readlist ===
 "Before" is called once at the beginning to populate list for the first time. "crud_readlist" is called any time when list requires refreshing after adding, removing or changing an item.
 
-Examples
+Example
 <code language="python">
 
 def __create_list(op, var) :
@@ -126,3 +126,50 @@ def dialogaction(action,var) :
     __create_list(op,var)
     return
 </code>
+
+=== crud_add, crud_modif and crud_remove ===
+
+These action are called after user clicked "Accept" in appropriate window. These action should validate data and/or perform any background logic related to the action.
+There are the following options available:
+ # Invalid data. Data entered are invalid and action should return error message.
+ # Data is valid but additional confirmation is required before completing the task
+ # Data is valid and not confirmation is required. Action should be performed and list refreshing is necessary.
+ # User answered "Yes" after conformation. Action should be performed and list refreshing is necessary.
+
+=== Invalid data ===
+Action should not set "JCLOSE_DIALOG" variable. Instead appropriate "JERROR_field" variable should be set with proper message text to display.
+Example, assuming that pnumber field is invalid.
+<code language="python">
+
+  if action == "crud_add" :
+     if duplicated :
+          var["JERROR_pnumber"] = "Duplicated number, person number        should be unique"
+          return
+</code>
+
+=== Confirmation is required ===
+If additional confirmation is required before completing the action the two variables should be set.
+ # JYESNO_MSSSAGE : should contain content of the yes/no window
+ # JMESSAGE_TITLE : the title of the yes/no window
+
+Example:
+<code language="python">
+  if action == "crud_add" and not var["JCRUD_AFTERCONF"] :
+     var["JYESNO_MESSAGE"] = "Are you ready to add new elem ?"
+     var["JMESSAGE_TITLE"] = "Ask for something"
+     return
+</code>
+
+=== User answered "yes" after confirmation ===
+Action is called and "JCRUD_AFTERCONF" variable is set to True. Action should performed necessary logic and set "JCLOSE_DIALOG" at the end.
+
+<code language="python">
+  if action == "crud_add" and var["JCRUD_AFTERCONF"] :
+    .... do adding
+    var["JCLOSE_DIALOG"] = True
+    return
+</code>
+
+== Data is valid and no confirmation is required ==
+As above but no JCRUD_AFTERCONF checking is required. If conformation is not used then "JCRUD_AFTERCONF" variable is always set to False. Action should set "JCLOSE_DIALOG" variable to True.
+
