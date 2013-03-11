@@ -85,3 +85,44 @@ def dialogaction(action,var) :
      else : do_somenthing_if_no_answer
 
 </code>
+
+== CRUD actions ==
+
+=== List of actions ===
+
+|| Action name || Description ||
+|| before || General action, should set list of items ||
+|| crud_readlist || Call after every crud action, should retrieve list of items, similar to before. But 'before' is called only once at the beginning. ||
+|| crud_add || Called when user clicked "Accept" in the "Add item" dialog. ||
+|| crud_remove || Called when user clicked "Accept" in the "Remove item" window || 
+|| crud_modif || Called when user clicked "Accept" in the "Modif item" window ||
+
+=== Before and crud_readlist ===
+"Before" is called once at the beginning to populate list for the first time. "crud_readlist" is called any time when list requires refreshing after adding, removing or changing an item.
+
+Examples
+<code language="python">
+
+def __create_list(op, var) :
+    seq = op.getAllPersons()
+    list = []
+    
+    for s in seq : 
+       elem = {}
+       elem["key"] = s.id
+       elem["pnumber"] = s.getPersonNumb()
+       elem["pname"] = s.getPersonName()
+       list.append(elem)
+       
+    map={}   
+    map["list"] = list
+    var["JLIST_MAP"] = map
+
+def dialogaction(action,var) :
+    
+  op = ServiceInjector.constructPersonOp()
+          
+  if action == "before" or action == "crud_readlist" :
+    __create_list(op,var)
+    return
+</code>
