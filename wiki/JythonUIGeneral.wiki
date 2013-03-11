@@ -170,6 +170,5 @@ Action is called and "JCRUD_AFTERCONF" variable is set to True. Action should pe
     return
 </code>
 
-== Data is valid and no confirmation is required ==
+=== Data is valid and no confirmation is required ===
 As above but no JCRUD_AFTERCONF checking is required. If conformation is not used then "JCRUD_AFTERCONF" variable is always set to False. Action should set "JCLOSE_DIALOG" variable to True.
-
