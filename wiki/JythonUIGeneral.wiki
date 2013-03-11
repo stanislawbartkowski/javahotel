@@ -1,5 +1,7 @@
 #This page describes general idea behind MVP JythonUI framework
 
+<wiki:toc max_depth="3*" />
+
 = Introduction =
 
 The purpose is to create convenient implementation of MVP (Model/View/Presenter) http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter framework.
