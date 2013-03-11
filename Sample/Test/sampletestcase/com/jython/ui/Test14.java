@@ -12,10 +12,7 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -103,5 +100,17 @@ public class Test14 extends TestHelper {
         assertNotNull(f);
         assertTrue(f.isPassword());
         assertEquals(TT.STRING, f.getFieldType());
+    }
+    
+    @Test
+    public void test6() {
+        DialogFormat d = iServer.findDialog("test37.xml");
+        assertNotNull(d);
+        FieldItem f = d.findFieldItem("glob");
+        assertNotNull(f);
+        assertFalse(f.isHtmlId());
+        f = d.findFieldItem("globenum");
+        assertTrue(f.isHtmlId());
+        assertEquals("globhtmlid",f.getHtmlId());
     }
 }

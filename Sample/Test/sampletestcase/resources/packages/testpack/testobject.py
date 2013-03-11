@@ -47,7 +47,7 @@ def dialogaction(action,var) :
     map={}   
     map["list"] = list
     var["JLIST_MAP"] = map  
-       
+           
        
        
   

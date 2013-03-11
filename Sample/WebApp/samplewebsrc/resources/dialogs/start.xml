@@ -10,10 +10,12 @@
 
 <leftmenu>
   <button id="main" displayname="Main form"/>
-  <button id="list" displayname="List" actiontype="JMAIN_DIALOG" actionparam="list.xml"/>
-  <button id="updialog" displayname="Dialog" actiontype="JUP_DIALOG" actionparam="updialog.xml"/>
+  
   <button id="okmessage" displayname="Ok Message" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
   <button id="errmessage" displayname="Err Message" actiontype="JERROR_MESSAGE" actionparam="Terrible error" actionparam1="Fatal" />
+
+  <button id="list" displayname="List" actiontype="JMAIN_DIALOG" actionparam="list.xml"/>
+  <button id="updialog" displayname="Dialog" actiontype="JUP_DIALOG" actionparam="updialog.xml"/>
   <button id="dcombo" displayname="Combo dialog" actiontype="JMAIN_DIALOG" actionparam="dialcombo.xml" />
   <button id="dhelper" displayname="Helper dialog" actiontype="JMAIN_DIALOG" actionparam="helperdialog.xml" />
   <button id="dtext" displayname="Text area" actiontype="JMAIN_DIALOG" actionparam="textdialog.xml" />
@@ -24,7 +26,7 @@
 </leftmenu>
 
 <buttons>
-  <button id="tomain" displayname="Main dialog"/>
+  <button id="tomain" displayname="Popup dialog"/>
 </buttons>
 
  <form>
@@ -34,6 +36,7 @@
    <field id="globlong" type="int" displayname="Long value" />
    <field id="globdecimal" type="decimal" afterdot="2" displayname="Decimal" />
    <field id="globdate" type="date" displayname="Date" />
+   <field id="globdatetime" type="datetime" displayname="Date and time" />   
  </form>  
  
 </dialog>
