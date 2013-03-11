@@ -17,8 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.ITableCustomFactories;
-import com.gwtmodel.table.injector.GwtGiniInjector;
 
 class ListBoxWithHelp extends GetValueLB {
 
@@ -43,8 +41,9 @@ class ListBoxWithHelp extends GetValueLB {
         }
     }
 
-    ListBoxWithHelp(IGetCustomValues cValues, IVField v, IDataType dType) {
-        super(cValues, v);
+    ListBoxWithHelp(IGetCustomValues cValues, IVField v, IDataType dType,
+            String htmlName) {
+        super(cValues, v, htmlName);
         cHelper = new RHelp(dType);
         hP.add(super.getGWidget());
         wHelp = new WidgetWithPopUpTemplate(v, hP,

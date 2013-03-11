@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author hotel
  */
 class DateViewFactory implements IFormTitleFactory, IFormDefFactory {
@@ -43,14 +43,15 @@ class DateViewFactory implements IFormTitleFactory, IFormDefFactory {
 
     @Override
     public FormLineContainer construct(ICallContext iContext) {
-        EditWidgetFactory eFactory = GwtGiniInjector.getI().getEditWidgetFactory();
+        EditWidgetFactory eFactory = GwtGiniInjector.getI()
+                .getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
         IVField vfrom = new DatePeriodField(DatePeriodField.F.DATEFROM);
         IVField vto = new DatePeriodField(DatePeriodField.F.DATETO);
         IVField vcomment = new DatePeriodField(DatePeriodField.F.COMMENT);
-        IFormLineView dFrom = eFactory.construcDateBoxCalendar(vfrom);
-        IFormLineView dTo = eFactory.construcDateBoxCalendar(vto);
-        IFormLineView comment = eFactory.constructTextField(vcomment);
+        IFormLineView dFrom = eFactory.construcDateBoxCalendar(vfrom, null);
+        IFormLineView dTo = eFactory.construcDateBoxCalendar(vto, null);
+        IFormLineView comment = eFactory.constructTextField(vcomment, null);
         di.add(new FormField(MM.getL().From(), dFrom));
         di.add(new FormField(MM.getL().To(), dTo));
         di.add(new FormField(MM.getL().Description(), comment));

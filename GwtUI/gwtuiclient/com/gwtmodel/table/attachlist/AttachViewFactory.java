@@ -38,9 +38,9 @@ class AttachViewFactory {
         IVField vcomment = new AttachDataField(AttachDataField.F.COMMENT);
         IVField vfilename = new AttachDataField(AttachDataField.F.FILENAME);
         IVField vadddate = new AttachDataField(AttachDataField.F.ADDDATE);
-        IFormLineView dComment = eFactory.constructEditWidget(vcomment);
-        IFormLineView dadd = eFactory.construcDateBoxCalendar(vadddate);
-        IFormLineView dfilename = eFactory.constructTextField(vfilename);
+        IFormLineView dComment = eFactory.constructEditWidget(vcomment, null);
+        IFormLineView dadd = eFactory.construcDateBoxCalendar(vadddate, null);
+        IFormLineView dfilename = eFactory.constructTextField(vfilename, null);
         VListHeaderDesc hCom = listHeader.getHeader(AttachDataField.vcomment);
         VListHeaderDesc hdataDod = listHeader
                 .getHeader(AttachDataField.vadddate);

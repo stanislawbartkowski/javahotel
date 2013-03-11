@@ -30,7 +30,7 @@ class CheckDictModel implements ICheckDictModel {
     private final RadioBoxString serv;
 
     CheckDictModel(EditWidgetFactory eFactory, IVField v, IGetDataList iGet) {
-        serv = eFactory.constructRadioBoxString(v, iGet, true);
+        serv = eFactory.constructRadioBoxString(v, iGet, true, null);
     }
 
     @Override

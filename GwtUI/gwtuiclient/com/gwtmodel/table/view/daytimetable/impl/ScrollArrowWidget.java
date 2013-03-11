@@ -98,7 +98,7 @@ class ScrollArrowWidget {
 
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
-        dDate = eFactory.construcDateBoxCalendar(Empty.getFieldType());
+        dDate = eFactory.construcDateBoxCalendar(Empty.getFieldType(), null);
         dDate.addChangeListener(new ChangeD());
         List<HtmlElemDesc> li = new ArrayList<HtmlElemDesc>();
         li.add(new HtmlElemDesc(begP.getGWidget(), scrollBegId));

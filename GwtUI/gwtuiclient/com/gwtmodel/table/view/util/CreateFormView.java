@@ -68,7 +68,7 @@ public class CreateFormView {
 
     public static void setHtml(HTMLPanel pa, List<FormField> fList) {
         for (FormField d : fList) {
-            String htmlId = d.getHtmlId();
+            String htmlId = d.getELine().getHtmlName();
             if (CUtil.EmptyS(htmlId)) {
                 continue;
             }

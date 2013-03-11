@@ -36,14 +36,15 @@ class ComboBoxField extends GetValueLB {
     }
 
     ComboBoxField(IGetCustomValues cValues, IVField v, List<ComboVal> wy,
-            boolean addEmpty) {
-        super(cValues, v, addEmpty);
+            boolean addEmpty, String htmlName) {
+        super(cValues, v, addEmpty, htmlName);
         this.wy = wy;
         init();
     }
 
-    ComboBoxField(IGetCustomValues cValues, IVField v, List<ComboVal> wy) {
-        super(cValues, v);
+    ComboBoxField(IGetCustomValues cValues, IVField v, List<ComboVal> wy,
+            String htmlName) {
+        super(cValues, v, htmlName);
         this.wy = wy;
         init();
     }

@@ -12,30 +12,31 @@
  */
 package com.gwtmodel.table.rdef;
 
-
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
 
-public interface IFormLineView extends IGetSetVField,IGWidget {
-    
+public interface IFormLineView extends IGetSetVField, IGWidget {
+
     int NOCHOOSECHECK = 0;
     int CHOOSECHECKTRUE = 1;
     int CHOOSECHECKFALSE = 2;
 
     void addChangeListener(IFormChangeListener cListener);
-    
+
     void setReadOnly(boolean readOnly);
 
     void setHidden(boolean hidden);
 
     boolean isHidden();
-    
+
     void setInvalidMess(String errmess);
-    
+
     void setGStyleName(String styleMess, boolean set);
-    
+
     void setOnTouch(ITouchListener lTouch);
-        
+
     int getChooseResult();
+
+    String getHtmlName();
 
 }

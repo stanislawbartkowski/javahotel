@@ -22,8 +22,9 @@ class EditTextFieldWithHelper extends ExtendTextBox {
     private final WidgetWithPopUpTemplate wHelp;
 
     EditTextFieldWithHelper(IGetCustomValues cValues, IVField v,
-            ExtendTextBox.EParam p, IRequestForGWidget i, boolean refreshAlways) {
-        super(cValues, v, p);
+            ExtendTextBox.EParam p, IRequestForGWidget i,
+            boolean refreshAlways, String htmlName) {
+        super(cValues, v, p, htmlName);
         IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
 
         wHelp = new WidgetWithPopUpTemplate(v, hPanel,
