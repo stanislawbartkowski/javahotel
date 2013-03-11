@@ -71,6 +71,7 @@ public interface ICommonConsts {
     String ACTIONID = "actionid";
     String JOKMESSAGE = "JOK_MESSAGE";
     String JYESNOMESSAGE = "JYESNO_MESSAGE";
+    String JYESANSWER = "JYESANSWER";
     String JERRORMESSAGE = "JERROR_MESSAGE";
     String JMESSAGE_TITLE = "JMESSAGE_TITLE";
     String JAFTERDIALOGACTION = "JAFTERDIALOG_ACTION";
@@ -123,4 +124,5 @@ public interface ICommonConsts {
     String JFILTR_SEARCH = "JSEARCH_FILTR";
     String JSEARCH_SET = "JSEARCH_SET_";
     String PASSWORD = "password";
+    String HTMLID = "htmlid";
 }

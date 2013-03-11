@@ -133,6 +133,7 @@
 	<xs:group name="fieldG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="htmlid" type="xs:string" />			
 			<xs:element minOccurs="0" name="from" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="type" type="typeName" />
@@ -153,6 +154,7 @@
 
 	<xs:attributeGroup name="fieldattrG">
 		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="htmlid" type="xs:string" />
 		<xs:attribute name="from" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="actionid" type="xs:string" />

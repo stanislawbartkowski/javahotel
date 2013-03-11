@@ -104,7 +104,7 @@ public class PerformVariableAction {
         }
         if (action.equals(ICommonConsts.JYESNOMESSAGE)) {
             if (iYesno != null) {
-                iYesno.answer(param, param1, param2);
+                iYesno.answer(param, param1, param2, w);
             }
             return;
         }

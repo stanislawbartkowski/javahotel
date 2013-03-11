@@ -158,7 +158,8 @@ class GetViewController implements IGetViewControllerFactory {
             private class YesNo implements IYesNoAction {
 
                 @Override
-                public void answer(String content, String title, String param1) {
+                public void answer(String content, String title, String param1,
+                        WSize ww) {
                     IClickYesNo i = new IClickYesNo() {
 
                         @Override
