@@ -12,10 +12,23 @@
  */
 package com.gwtmodel.table.factories.mailtest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.gwtmodel.table.*;
+import com.gwtmodel.table.GWidget;
+import com.gwtmodel.table.IClickYesNo;
+import com.gwtmodel.table.ICustomObject;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.VSField;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
@@ -23,7 +36,6 @@ import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
 import com.gwtmodel.table.datamodelview.IDataViewModel;
-import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.factories.IJavaMailAction;
 import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
@@ -35,14 +47,16 @@ import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.slotmodel.*;
+import com.gwtmodel.table.slotmodel.AbstractSlotMediatorContainer;
+import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotListener;
+import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.view.ValidateUtil;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.util.YesNoDialog;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 
@@ -135,20 +149,20 @@ class MailTest extends AbstractSlotMediatorContainer implements IMailTest {
             }
             li.add(na);
         }
-        IFormLineView dView = wFactory.constructListCombo(v1, li);
-        IFormLineView hView = wFactory.constructTextField(v2);
+        IFormLineView dView = wFactory.constructListCombo(v1, li, null);
+        IFormLineView hView = wFactory.constructTextField(v2, null);
         IFormLineView cView;
         if (text) {
             // text area
             cView = wFactory.constructTextField(v3, null, null, true, false,
-                    false);
+                    false, null);
         } else {
             // richtext
             cView = wFactory.constructTextField(v3, null, null, false, true,
-                    false);
+                    false, null);
         }
-        IFormLineView tView = wFactory.constructTextField(v4);
-        IFormLineView fromView = wFactory.constructTextField(v5);
+        IFormLineView tView = wFactory.constructTextField(v4, null);
+        IFormLineView fromView = wFactory.constructTextField(v5, null);
         if (startM != null) {
             cView.setValObj(startM.getContent());
             dView.setValObj(startM.getBoxName());

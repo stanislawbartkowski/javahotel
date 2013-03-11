@@ -24,18 +24,18 @@ public class FormField {
     private final boolean readOnlyIfModif;
     private final boolean readOnlyIfAdd;
     private final IVField fRange;
-    private String htmlId;
     private boolean disabled;
     private final String tabId;
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
-            IVField fRange, boolean readOnlyIfModif, boolean readOnlyIfAdd, String tabId) {
+            IVField fRange, boolean readOnlyIfModif, boolean readOnlyIfAdd,
+            String tabId) {
         this.pLabel = p;
         if (e == null) {
             assert fie != null : LogT.getT().cannotBeNull();
             EditWidgetFactory eFactory = GwtGiniInjector.getI()
                     .getEditWidgetFactory();
-            this.eLine = eFactory.constructEditWidget(fie);
+            this.eLine = eFactory.constructEditWidget(fie, null);
         } else {
             this.eLine = e;
         }
@@ -110,20 +110,6 @@ public class FormField {
     }
 
     /**
-     * @return the htmlId
-     */
-    public String getHtmlId() {
-        return htmlId;
-    }
-
-    /**
-     * @param htmlId the htmlId to set
-     */
-    public void setHtmlId(String htmlId) {
-        this.htmlId = htmlId;
-    }
-
-    /**
      * @return the disabled
      */
     public boolean isDisabled() {
@@ -131,7 +117,8 @@ public class FormField {
     }
 
     /**
-     * @param disabled the disabled to set
+     * @param disabled
+     *            the disabled to set
      */
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
@@ -143,5 +130,5 @@ public class FormField {
     public String getTabId() {
         return tabId;
     }
-        
+
 }

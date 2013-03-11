@@ -18,7 +18,6 @@ import java.util.Date;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.view.ewidget.hourminutepicker.HourMinutePicker;
@@ -75,11 +74,11 @@ class DateTimePicker extends AbstractField {
     }
 
     @SuppressWarnings({ "unchecked" })
-    DateTimePicker(IGetCustomValues cValues, IVField v) {
-        super(cValues, v);
+    DateTimePicker(IGetCustomValues cValues, IVField v, String htmlName) {
+        super(cValues, v, htmlName);
         hourMinutePicker = new HourMinutePicker(PickerFormat._24_HOUR,
                 new PickerChange());
-        dBox = new DateBoxCalendar(cValues, v);
+        dBox = new DateBoxCalendar(cValues, v, htmlName);
         h = new HorizontalPanel();
         h.add(dBox);
         h.add(hourMinutePicker);

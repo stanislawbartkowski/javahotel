@@ -353,12 +353,14 @@ class FindListActionFactory {
             IFormLineView icheck = null;
             if (!fe.getType().isBoolean()) {
                 icheck = eFactory.constructCheckField(check, MM.getL()
-                        .EqualSign());
+                        .EqualSign(), null);
                 icheck.setValObj(new Boolean(true));
                 liF.add(new FormField(null, icheck, check, from));
             }
-            IFormLineView ifrom = eFactory.constructEditWidget(from);
-            IFormLineView ito = eFactory.constructEditWidget(to);
+            IFormLineView ifrom = eFactory.constructEditWidget(from, null);
+            // modify htmlId for 'to' field
+            String htmlToName = to.getId() + "-1";
+            IFormLineView ito = eFactory.constructEditWidget(to, htmlToName);
             liF.add(new FormField(he.getHeaderString(), ifrom));
             ITouchListener t = null;
             if (icheck != null) {
@@ -371,7 +373,7 @@ class FindListActionFactory {
                 liF.add(new FormField(null, ito, to, from));
             } else {
                 icheck = eFactory.constructCheckField(ignore, MM.getL()
-                        .IngnoreDuringSearch());
+                        .IngnoreDuringSearch(), null);
                 liF.add(new FormField(null, icheck, ignore, from));
                 icheck.addChangeListener(new OnLogChange(ifrom));
             }

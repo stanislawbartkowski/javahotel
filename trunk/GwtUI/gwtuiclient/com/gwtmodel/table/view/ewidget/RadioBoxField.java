@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.FUtils;
@@ -19,12 +22,9 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.ITableCustomFactories;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 class RadioBoxField extends AbstractField {
@@ -32,12 +32,12 @@ class RadioBoxField extends AbstractField {
     private final VerticalPanel vP;
     private final List<RadioButton> ra;
 
-    RadioBoxField(IGetCustomValues cValues, IVField v) {
-        super(cValues, v);
+    RadioBoxField(IGetCustomValues cValues, IVField v, String htmlName) {
+        super(cValues, v, htmlName);
         vP = new VerticalPanel();
         ra = new ArrayList<RadioButton>();
         for (String s : listT.getListVal()) {
-            RadioButton r = new RadioButton(v.getId(), s);
+            RadioButton r = new RadioButton(getHtmlName(), s);
             Utils.setId(r, s);
             vP.add(r);
             ra.add(r);

@@ -23,8 +23,9 @@ import com.gwtmodel.table.factories.IGetCustomValues;
  */
 class NumberCalculator extends ExtendTextBox {
 
-    NumberCalculator(IGetCustomValues cValues, IVField v, ExtendTextBox.EParam p) {
-        super(cValues, v, p);
+    NumberCalculator(IGetCustomValues cValues, IVField v,
+            ExtendTextBox.EParam p, String htmlName) {
+        super(cValues, v, p, htmlName);
         wW.addStyleName(IConsts.numberStyle);
     }
 

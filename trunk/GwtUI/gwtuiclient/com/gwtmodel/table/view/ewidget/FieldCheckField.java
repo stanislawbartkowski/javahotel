@@ -28,8 +28,9 @@ class FieldCheckField extends AbstractField {
     private final CheckBox ch;
 
     @SuppressWarnings("deprecation")
-    FieldCheckField(IGetCustomValues cValues, IVField v, String text) {
-        super(cValues, v);
+    FieldCheckField(IGetCustomValues cValues, IVField v, String text,
+            String htmlName) {
+        super(cValues, v, htmlName);
         ch = new CheckBox();
         if (text != null) {
             ch.setText(text);
@@ -37,7 +38,7 @@ class FieldCheckField extends AbstractField {
         ch.setChecked(true);
         initWidget(ch);
         // set html element name
-        ch.setName(v.getId());
+        ch.setName(getHtmlName());
     }
 
     @SuppressWarnings("deprecation")

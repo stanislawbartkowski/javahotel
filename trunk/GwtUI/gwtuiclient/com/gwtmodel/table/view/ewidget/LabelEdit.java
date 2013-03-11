@@ -26,8 +26,8 @@ class LabelEdit extends ExtendTextBox {
     final private Label pL;
 
     public LabelEdit(IGetCustomValues cValues, IVField v, EParam param,
-            final String lN) {
-        super(cValues, v, param);
+            final String lN, String htmlName) {
+        super(cValues, v, param, htmlName);
         pL = new Label(lN);
         hPanel.setSpacing(1);
         hPanel.insert(pL, 0);

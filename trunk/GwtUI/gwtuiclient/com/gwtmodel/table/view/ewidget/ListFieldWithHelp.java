@@ -39,8 +39,8 @@ class ListFieldWithHelp extends ExtendTextBox {
     }
 
     ListFieldWithHelp(IGetCustomValues cValues, IVField v, IDataType dType,
-            ExtendTextBox.EParam p, boolean refreshAlways) {
-        super(cValues, v, p);
+            ExtendTextBox.EParam p, boolean refreshAlways, String htmlName) {
+        super(cValues, v, p, htmlName);
         cHelper = new RHelp(dType);
 
         wHelp = new WidgetWithPopUpTemplate(v, hPanel,

@@ -12,15 +12,15 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormChangeListener;
-import java.util.List;
 
 /**
  * 
@@ -34,15 +34,16 @@ class GetValueLB extends AbstractField implements IValueLB {
     private final boolean addEmpty;
     private List<String> idList = null;
 
-    GetValueLB(IGetCustomValues cValues, IVField v, boolean addEmpty) {
-        super(cValues, v);
+    GetValueLB(IGetCustomValues cValues, IVField v, boolean addEmpty,
+            String htmlName) {
+        super(cValues, v, htmlName);
         initWidget(lB);
-        lB.setName(v.getId());
+        lB.setName(getHtmlName());
         this.addEmpty = addEmpty;
     }
 
-    GetValueLB(IGetCustomValues cValues, IVField v) {
-        this(cValues, v, cValues.addEmptyAsDefault());
+    GetValueLB(IGetCustomValues cValues, IVField v, String htmlName) {
+        this(cValues, v, cValues.addEmptyAsDefault(), htmlName);
     }
 
     protected String getValS() {

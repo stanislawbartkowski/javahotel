@@ -22,8 +22,8 @@ import com.gwtmodel.table.factories.IGetCustomValues;
  */
 class ComboListBoxField extends GetValueLB {
 
-    ComboListBoxField(IGetCustomValues cValues, IVField v) {
-        super(cValues, v);
+    ComboListBoxField(IGetCustomValues cValues, IVField v, String htmlName) {
+        super(cValues, v, htmlName);
         setList(listT.getListVal());
     }
 

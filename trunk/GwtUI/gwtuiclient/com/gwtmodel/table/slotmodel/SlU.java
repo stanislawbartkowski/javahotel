@@ -380,6 +380,11 @@ public class SlU {
         public int getChooseResult() {
             return 0;
         }
+
+        @Override
+        public String getHtmlName() {
+            return null;
+        }
     }
 
     public static IFormLineView contructObjectValue(Object val) {

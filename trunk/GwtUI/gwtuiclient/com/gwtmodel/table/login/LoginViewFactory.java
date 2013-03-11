@@ -37,10 +37,11 @@ public class LoginViewFactory {
                 .getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
         IVField loginV = new LoginField(LoginField.F.LOGINNAME);
-        IFormLineView loginName = eFactory.constructTextField(loginV);
+        IFormLineView loginName = eFactory.constructTextField(loginV, null);
         di.add(new FormField(MM.getL().Login(), loginName));
         IVField passwordV = new LoginField(LoginField.F.PASSWORD);
-        IFormLineView password = eFactory.constructPasswordField(passwordV);
+        IFormLineView password = eFactory.constructPasswordField(passwordV,
+                null);
         di.add(new FormField(MM.getL().Password(), password));
         return new FormLineContainer(di);
     }

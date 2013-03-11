@@ -25,6 +25,7 @@ import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.AbstractListT.IGetList;
 import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.IFormChangeListener;
@@ -45,10 +46,11 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     protected final boolean checkBoxVal;
     protected final IGetCustomValues cValues;
     protected final IVField v;
+    private final String htmlName;
     protected final AbstractListT listT;
 
-    AbstractField(IGetCustomValues cValues, IVField v) {
-        this(cValues, v, true);
+    AbstractField(IGetCustomValues cValues, IVField v, String htmlName) {
+        this(cValues, v, true, htmlName);
         iTouch = new ArrayList<ITouchListener>();
     }
 
@@ -57,13 +59,15 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         return v;
     }
 
-    AbstractField(IGetCustomValues cValues, final IVField v, boolean checkenable) {
+    AbstractField(IGetCustomValues cValues, final IVField v,
+            boolean checkenable, String htmlName) {
         assert v != null : LogT.getT().cannotBeNull();
         this.cValues = cValues;
         iTouch = null;
         lC = null;
         checkBoxVal = checkenable;
         isCheckBox = true;
+        this.htmlName = htmlName;
         this.v = v;
         if (v.getType().getLi() == null) {
             listT = null;
@@ -189,5 +193,13 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         for (ITouchListener t : iTouch) {
             t.onTouch();
         }
+    }
+
+    @Override
+    public String getHtmlName() {
+        if (!CUtil.EmptyS(htmlName)) {
+            return htmlName;
+        }
+        return v.getId();
     }
 }

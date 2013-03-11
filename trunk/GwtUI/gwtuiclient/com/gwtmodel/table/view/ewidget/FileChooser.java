@@ -17,17 +17,17 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
 
 /**
- *
+ * 
  * @author perseus
  */
 class FileChooser extends AbstractField {
 
     private final FileUpload fEdit;
 
-    FileChooser(IGetCustomValues cValues, final IVField v) {
-        super(cValues, v, true);
+    FileChooser(IGetCustomValues cValues, final IVField v, String htmlName) {
+        super(cValues, v, true, htmlName);
         this.fEdit = new FileUpload();
-        this.fEdit.setName(v.getId());
+        this.fEdit.setName(getHtmlName());
         initWidget(this.fEdit);
     }
 

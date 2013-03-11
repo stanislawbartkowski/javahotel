@@ -16,31 +16,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.factories.IGetCustomValues;
-import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.rdef.IFormLineView;
 
 public class EditWidgetFactory {
 
-    private final ITableCustomFactories tFactories;
     private final IGetCustomValues cValues;
 
     @Inject
-    public EditWidgetFactory(ITableCustomFactories tFactories,
-            IGetCustomValues cValues) {
-        this.tFactories = tFactories;
+    public EditWidgetFactory(IGetCustomValues cValues) {
         this.cValues = cValues;
     }
 
     // used
     public RadioBoxString constructRadioBoxString(IVField v, IGetDataList iGet,
-            final boolean enable) {
-        return new RadioBoxString(cValues, v, iGet, enable);
+            final boolean enable, String htmlName) {
+        return new RadioBoxString(cValues, v, iGet, enable, htmlName);
     }
 
     // EParam(boolean password, boolean panel, boolean checkBox, boolean area,
@@ -48,27 +45,29 @@ public class EditWidgetFactory {
     // IGetDataList iGet, TextBoxBase tBox) {
 
     // used
-    public IFormLineView contructCalculatorNumber(IVField v) {
+    public IFormLineView contructCalculatorNumber(IVField v, String htmlName) {
         return new NumberCalculator(cValues, v, new ExtendTextBox.EParam(false,
-                false, false, false, false, false, false, null, null));
+                false, false, false, false, false, false, null, null), htmlName);
     }
 
     // used
-    public IFormLineView constructCheckField(IVField v, String text) {
-        return new FieldCheckField(cValues, v, text);
+    public IFormLineView constructCheckField(IVField v, String text,
+            String htmlName) {
+        return new FieldCheckField(cValues, v, text, htmlName);
     }
 
     @SuppressWarnings("unused")
-    private IFormLineView constructListValuesCombo(IVField v, IDataType dType) {
-        GetValueLB lB = new GetValueLB(cValues, v);
+    private IFormLineView constructListValuesCombo(IVField v, IDataType dType,
+            String htmlName) {
+        GetValueLB lB = new GetValueLB(cValues, v, htmlName);
         AddBoxValues.addValues(dType, lB);
         return lB;
     }
 
     // used
     public IFormLineView constructListValuesCombo(IVField v, IGetDataList iGet,
-            boolean addEmpty) {
-        GetValueLB lB = new GetValueLB(cValues, v, addEmpty);
+            boolean addEmpty, String htmlName) {
+        GetValueLB lB = new GetValueLB(cValues, v, addEmpty, htmlName);
         AddBoxValues.addValues(v, iGet, lB);
         return lB;
     }
@@ -85,21 +84,22 @@ public class EditWidgetFactory {
     }
 
     public IFormLineView constructHelperList(IVField v, IDataType dType,
-            boolean refreshAlways) {
+            boolean refreshAlways, String htmlName) {
         ExtendTextBox.EParam e = new ExtendTextBox.EParam(false, true, false,
                 false, false, false, false, null, null);
-        return new ListFieldWithHelp(cValues, v, dType, e, refreshAlways);
+        return new ListFieldWithHelp(cValues, v, dType, e, refreshAlways,
+                htmlName);
 
     }
 
     // used
-    public IFormLineView constructPasswordField(IVField v) {
-        return new ExtendTextBox(cValues, v, newE(true, false));
+    public IFormLineView constructPasswordField(IVField v, String htmlName) {
+        return new ExtendTextBox(cValues, v, newE(true, false), htmlName);
     }
 
     // used
-    public IFormLineView constructTextField(IVField v) {
-        return constructTextField(v, null, null, false, false, false);
+    public IFormLineView constructTextField(IVField v, String htmlName) {
+        return constructTextField(v, null, null, false, false, false, htmlName);
     }
 
     // HourMinutePicker hourMinutePicker = new
@@ -108,35 +108,37 @@ public class EditWidgetFactory {
     // used
     public IFormLineView constructTextField(IVField v, IGetDataList iGet,
             IRequestForGWidget iHelper, boolean textarea, boolean richtext,
-            boolean refreshAlways) {
+            boolean refreshAlways, String htmlName) {
         ExtendTextBox.EParam e;
         boolean panel = (iGet != null || iHelper != null);
         e = new ExtendTextBox.EParam(false, panel, false, textarea, false,
                 richtext, false, iGet, null);
         if (iHelper == null)
-            return new ExtendTextBox(cValues, v, e);
+            return new ExtendTextBox(cValues, v, e, htmlName);
         return new EditTextFieldWithHelper(cValues, v, e, iHelper,
-                refreshAlways);
+                refreshAlways, htmlName);
     }
 
     @SuppressWarnings("unused")
-    private IFormLineView constructLabelTextEdit(IVField v, String la) {
-        return new LabelEdit(cValues, v, newE(false, false), la);
+    private IFormLineView constructLabelTextEdit(IVField v, String la,
+            String htmlName) {
+        return new LabelEdit(cValues, v, newE(false, false), la, htmlName);
     }
 
     // used
-    public IFormLineView construcDateBoxCalendar(IVField v) {
-        return new DateBoxCalendar(cValues, v);
+    public IFormLineView construcDateBoxCalendar(IVField v, String htmlName) {
+        return new DateBoxCalendar(cValues, v, htmlName);
     }
 
     @SuppressWarnings("unused")
-    private IFormLineView constructBoxSelectField(IVField v, List<ComboVal> wy) {
-        return new ComboBoxField(cValues, v, wy);
+    private IFormLineView constructBoxSelectField(IVField v, List<ComboVal> wy,
+            String htmlName) {
+        return new ComboBoxField(cValues, v, wy, htmlName);
     }
 
     @SuppressWarnings("unused")
-    private IFormLineView constructRadioSelectField(IVField v) {
-        return new RadioBoxField(cValues, v);
+    private IFormLineView constructRadioSelectField(IVField v, String htmlName) {
+        return new RadioBoxField(cValues, v, htmlName);
     }
 
     // EParam(boolean password, boolean panel, boolean checkBox, boolean area,
@@ -154,8 +156,8 @@ public class EditWidgetFactory {
 
     @SuppressWarnings("unused")
     private IFormLineView constructListComboValuesHelp(IVField v,
-            IDataType dType) {
-        GetValueLB lB = new ListBoxWithHelp(cValues, v, dType);
+            IDataType dType, String htmlName) {
+        GetValueLB lB = new ListBoxWithHelp(cValues, v, dType, htmlName);
         AddBoxValues.addValues(dType, lB);
         return lB;
     }
@@ -171,8 +173,8 @@ public class EditWidgetFactory {
     // }
 
     // used
-    public IFormLineView constructEditFileName(IVField v) {
-        return new FileChooser(cValues, v);
+    public IFormLineView constructEditFileName(IVField v, String htmlName) {
+        return new FileChooser(cValues, v, htmlName);
     }
 
     private List<ComboVal> createVals(List<String> ma) {
@@ -184,52 +186,53 @@ public class EditWidgetFactory {
     }
 
     // used
-    public IFormLineView constructListCombo(IVField v, List<String> ma) {
-        return new ComboBoxField(cValues, v, createVals(ma));
+    public IFormLineView constructListCombo(IVField v, List<String> ma,
+            String htmlName) {
+        return new ComboBoxField(cValues, v, createVals(ma), htmlName);
     }
 
     @SuppressWarnings("unused")
     private IFormLineView constructListCombo(IVField v, List<String> ma,
-            boolean addEmpty) {
-        return new ComboBoxField(cValues, v, createVals(ma), addEmpty);
+            boolean addEmpty, String htmlName) {
+        return new ComboBoxField(cValues, v, createVals(ma), addEmpty, htmlName);
     }
 
-    private IFormLineView constructListCombo(IVField v) {
-        return new ComboListBoxField(cValues, v);
+    private IFormLineView constructListCombo(IVField v, String htmlName) {
+        return new ComboListBoxField(cValues, v, htmlName);
     }
 
-    private IFormLineView constructListComboEnum(IVField v) {
+    private IFormLineView constructListComboEnum(IVField v, String htmlName) {
         List<String> la = new ArrayList<String>();
         la.addAll(v.getType().getE().getValues());
-        return constructListCombo(v, la);
+        return constructListCombo(v, la, htmlName);
     }
 
-    public IFormLineView constructEditWidget(IVField v) {
+    public IFormLineView constructEditWidget(IVField v, String htmlName) {
         FieldDataType.IFormLineViewFactory fa = v.getType().getiFactory();
         if (fa != null) {
             return fa.construct(v);
         }
         switch (v.getType().getType()) {
         case DATETIME:
-            return new DateTimePicker(cValues, v);
+            return new DateTimePicker(cValues, v, htmlName);
         case DATE:
-            return construcDateBoxCalendar(v);
+            return construcDateBoxCalendar(v, htmlName);
         case INT:
         case LONG:
         case BIGDECIMAL:
             if (v.getType().getLi() != null) {
-                return constructListCombo(v);
+                return constructListCombo(v, htmlName);
             }
-            return contructCalculatorNumber(v);
+            return contructCalculatorNumber(v, htmlName);
         case ENUM:
-            return constructListComboEnum(v);
+            return constructListComboEnum(v, htmlName);
         case BOOLEAN:
-            return constructCheckField(v, null);
+            return constructCheckField(v, null, htmlName);
         default:
             if (v.getType().getLi() != null) {
-                return constructListCombo(v);
+                return constructListCombo(v, htmlName);
             }
-            return constructTextField(v);
+            return constructTextField(v, htmlName);
         }
 
     }
