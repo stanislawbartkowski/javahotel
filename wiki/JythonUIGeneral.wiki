@@ -229,13 +229,14 @@ Examples:
 <!-- common jython definition -->
      <jython>
        <import>from {package} import {module}</import>
+       <method>{module}.{method}({0},{1})
       </jython>    
 
 <!-- more the one typedef -->
   <typedef id="{type identifier}" type="combo|helper" comboid="{id}" displayname = "{name}">
   
 
-<!-- hython definition, overwrites common -->
+<!-- jython definition, overwrites common -->
 
      <jython>
         <method>{module}.{method}({0},{1})</method>
@@ -243,4 +244,50 @@ Examples:
  
    </typedef>
 </typedefs>
+</code>
+
+Example:
+<code language="xml">
+<?xml version="1.0"?>
+<typedefs xmlns="http://www.jythongwt.typedefxsd.com">
+
+     <jython>
+       <import>from testpack import packenum</import>
+      </jython>    
+
+  <typedef id="tenum" type="combo" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>packenum.dialogaction({0},{1})</method>
+      </jython>    
+ 
+   </typedef>
+
+  <typedef id="tehelper" type="helper" comboid="id" displayname = "List of ids">
+  
+     <jython>
+        <method>packenum.helperaction({0},{1})</method>
+      </jython>
+      
+      <columns>
+        <column id="id" displayname="Id" />
+        <column id="name" displayname="Name" />
+      </columns>  
+ 
+   </typedef>
+  
+</typedefs>
+
+</code>
+
+Explanation:
+First 'typedef' defines 'combo' type. The type name is 'teenum'. Jython code providing values is called as: 
+<code language='python'>
+from testpack import packenum
+packenum.dialogaction(action,var)
+</code>
+The second defines helper. After clicking on the helper image a dialog is displayed allowing choosing the value. The type name is 'tehelper'
+<code language='python'>
+from testpack import packenum
+packenum.helperaction(action,var)
 </code>
