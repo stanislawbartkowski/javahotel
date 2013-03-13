@@ -233,7 +233,7 @@ Examples:
       </jython>    
 
 <!-- more the one typedef -->
-  <typedef id="{type identifier}" type="combo|helper" comboid="{id}" displayname = "{name}">
+  <typedef id="{type identifier}" type="combo" comboid="{id}" displayname = "{name}">
   
 
 <!-- jython definition, overwrites common -->
@@ -243,6 +243,24 @@ Examples:
       </jython>    
  
    </typedef>
+
+  <typedef id="{type identifier}" type="helper" comboid="{id}" displayname = "{name}">
+  
+
+<!-- jython definition, overwrites common -->
+
+     <jython>
+        <method>{module}.{method}({0},{1})</method>
+      </jython>    
+
+      <columns>
+        <column id="{id1}" displayname="display name 1" />
+        <column id="{id2}" displayname="display name 2" />
+        .............
+      </columns>  
+ 
+   </typedef>
+
 </typedefs>
 </code>
 
@@ -280,13 +298,15 @@ Example:
 
 </code>
 
+'enum' define standard combo field, 'helper' define list with the values to select. After clicking on the helper image a list is displayed allowing choosing the value. The 'columns' tag defines list of columns visible. 'comboid' attribute define the 'id' of the column which is copied to the form field. The type name is 'tehelper'
+
 Explanation:
 First 'typedef' defines 'combo' type. The type name is 'teenum'. Jython code providing values is called as: 
 <code language='python'>
 from testpack import packenum
 packenum.dialogaction(action,var)
 </code>
-The second defines helper. After clicking on the helper image a dialog is displayed allowing choosing the value. The type name is 'tehelper'
+The second defines selection helper. The type name is 'tehelper'. After clicking on the helper image a list with 'id' and 'name' columns. The 'columns' tag defines list of columns visible. 'comboid' attribute define the 'id' of the column which is copied to the form field. The type name is 'tehelper'
 <code language='python'>
 from testpack import packenum
 packenum.helperaction(action,var)
