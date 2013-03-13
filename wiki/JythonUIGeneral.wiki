@@ -174,3 +174,46 @@ Action is called and "JCRUD_AFTERCONF" variable is set to True. Action should pe
 
 === Data is valid and no confirmation is required ===
 As above but no JCRUD_AFTERCONF checking is required. If conformation is not used then "JCRUD_AFTERCONF" variable is always set to False. Action should set "JCLOSE_DIALOG" variable to True.
+
+== Move data from Jython to GUI ==
+
+=== Fields in form ===
+ 
+<code language="python" >
+  var['{name of the field}'] = {value}
+  var["JCOPY_{name of the field}] = True
+</code>
+
+The first line set the new value and the second causes that this value is moved to the GUI form. Important: 'var' map is used to transport data from GUI to Jython and vice versa. As default the 'JCOPY_'+{name} is not set to True. One has to explicitly point which field should be refreshed after returning 'var' map to GUI.
+The following value types are supported:
+|| Type || Example ||
+|| String || var['name'] = 'Abraham Lincol' ||
+|| Boolean || var['ok'] = True ||
+|| int value || var['position'] = 567 ||
+|| long value || var['id'] = 345k54321122L ||
+|| date || import datetime; var['start_from'] =  datetime.date(2001,11,5); ||
+|| datetime || import datetime; var['modif_time'] = datetime.datetime(2017,01,13,20,45,14); ||
+
+=== List for form ===
+It is possible to move more then one list to the form.
+<code language="python" >
+    map={}   
+    map[{list name in the form}] = {sequence}
+    var["JLIST_MAP"] = map
+</code>
+
+'JLIST_MAP' contains map of lists. Key in the list is the name of the list in GUI form and the value is the sequence having list content.
+Examples:
+<code language="python" >
+   list = []
+    
+    for i in range(100) : 
+       elem = {}
+       elem["key"] = i
+       elem["pnumber"] = str(i)
+       list.append(elem)
+       
+    map={}   
+    map["list"] = list
+    var["JLIST_MAP"] = map
+</code>
