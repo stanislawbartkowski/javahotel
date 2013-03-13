@@ -177,7 +177,7 @@ As above but no JCRUD_AFTERCONF checking is required. If conformation is not use
 
 == Move data from Jython to GUI ==
 
-=== Fields in form ===
+=== Fields values to form ===
  
 <code language="python" >
   var['{name of the field}'] = {value}
@@ -194,7 +194,7 @@ The following value types are supported:
 || date || import datetime; var['start_from'] =  datetime.date(2001,11,5); ||
 || datetime || import datetime; var['modif_time'] = datetime.datetime(2017,01,13,20,45,14); ||
 
-=== List for form ===
+=== Lists to form ===
 It is possible to move more then one list to the form.
 <code language="python" >
     map={}   
@@ -216,4 +216,31 @@ Examples:
     map={}   
     map["list"] = list
     var["JLIST_MAP"] = map
+</code>
+
+== Custom (reusable) types with helper and enums ==
+
+=== XML file with the definition ===
+
+<code language="xml">
+<?xml version="1.0"?>
+<typedefs xmlns="http://www.jythongwt.typedefxsd.com">
+
+<!-- common jython definition -->
+     <jython>
+       <import>from {package} import {module}</import>
+      </jython>    
+
+<!-- more the one typedef -->
+  <typedef id="{type identifier}" type="combo|helper" comboid="{id}" displayname = "{name}">
+  
+
+<!-- hython definition, overwrites common -->
+
+     <jython>
+        <method>{module}.{method}({0},{1})</method>
+      </jython>    
+ 
+   </typedef>
+</typedefs>
 </code>
