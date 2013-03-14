@@ -332,6 +332,7 @@ packenum.helperaction(action,var)
 In the XML dialog file using the custom type a 'types' tag should a file name with custom types definition. In the 'form' definition a field should be preceded with 'custom:' name.
 
 Example:
+{{{
 <code language="xml">
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
@@ -362,3 +363,4 @@ Example:
 
 </dialog>
 </code>
+}}}
