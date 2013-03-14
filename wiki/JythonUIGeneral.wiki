@@ -364,3 +364,105 @@ Example:
 </dialog>
 </code>
 }}}
+
+== Helper assigned to one dialog ==
+
+=== XML dialog file ===
+
+It is possible to add helper to a field in the dialog without defining it as separate custom type. It is enabled by 'helper' attribute. The value of this attribute is a file name of the helper dialog. Dialog is displayed as modal windows. In order to rewrite the new value to the field the help dialog should be closed having var'JCOPY_{field}' set to True and var[{fiel id}] having new value.
+
+{{{
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+.......
+ 
+ <form>
+<!-- The 'helper' attribute enables helper for this field -->
+   <field id={field id} displayname={display} helper={helper dialog} />
+/>
+ </form>  
+
+....
+</dialog>
+}}}
+
+Example:
+The dialog below has two fields with helpers. One helper is defined by 'helper.xml' file and the second by 'helplist.xml".
+
+
+{{{
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Combo Dialog</displayname>
+
+ <before/>
+ 
+  <jython>
+   <import>from testpack import helperpa</import>
+   <method>helperpa.dialogaction({0},{1})</method>
+ </jython>  
+ 
+ <buttons>
+  <button id="testcombo" displayname="Test" />
+</buttons>
+ 
+ 
+ <form>
+   <field id="helpid" displayname="Help" helper="helper.xml" />
+   <field id="helplist" displayname="Help list" helper="helperlist.xml" />
+ </form>  
+
+
+</dialog>
+}}}
+
+=== Helper XML dialog file ===
+The helper dialog is exactly like any other dialog. The only difference is in the case of "positive" exit meaning that new value should be set to the helper field.
+<code language="python">
+  if action == "copy" :
+      var[{field with helper}] = {new value}
+      var['JCOPY_'{field id with helper}] = True
+      var["JCLOSE_DIALOG"] = True
+</code>
+
+Example:
+helper.xml file 
+{{{
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<displayname>Person</displayname>
+
+  <jython>
+   <import>from testpack import helperpa</import>
+   <method>helperpa.dialogaction({0},{1})</method>
+ </jython>  
+
+<buttons>
+  <button id="copy" displayname="Copy" />
+</buttons>
+
+<form>
+   <field id="fieldid" />
+ </form>  
+ 
+
+</dialog>
+}}}
+
+Jython code:
+<code language="python">
+def dialogaction(action,var) :
+
+  print "helperpa",action
+  for k in var.keys() : 
+    print k, var[k]
+  
+  
+  if action == "copy" :
+      var['helpid'] = var['fieldid']
+      var['JCOPY_helpid'] = True
+      var["JCLOSE_DIALOG"] = True
+
+</code>
