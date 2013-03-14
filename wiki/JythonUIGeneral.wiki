@@ -222,7 +222,7 @@ Examples:
 
 === XML file with the definition ===
 
-<code language="xml">
+{{{
 <?xml version="1.0"?>
 <typedefs xmlns="http://www.jythongwt.typedefxsd.com">
 
@@ -262,10 +262,10 @@ Examples:
    </typedef>
 
 </typedefs>
-</code>
+}}}
 
 Example:
-<code language="xml">
+{{{
 <?xml version="1.0"?>
 <typedefs xmlns="http://www.jythongwt.typedefxsd.com">
 
@@ -296,7 +296,7 @@ Example:
   
 </typedefs>
 
-</code>
+}}}
 
 'enum' define standard combo field, 'helper' define list with the values to select. After clicking on the helper image a list is displayed allowing choosing the value. The 'columns' tag defines list of columns visible. 'comboid' attribute define the 'id' of the column which is copied to the form field. The type name is 'tehelper'
 
@@ -313,7 +313,7 @@ packenum.helperaction(action,var)
 </code>
 
 === Usage ===
-<code language="xml">
+{{{
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
 <!-- XML file name with typed definition used -->
@@ -327,7 +327,7 @@ packenum.helperaction(action,var)
 
 </dialog>
 
-</code>
+}}}
 
 In the XML dialog file using the custom type a 'types' tag should a file name with custom types definition. In the 'form' definition a field should be preceded with 'custom:' name.
 
