@@ -311,3 +311,54 @@ The second defines selection helper. The type name is 'tehelper'. After clicking
 from testpack import packenum
 packenum.helperaction(action,var)
 </code>
+
+=== Usage ===
+<code language="xml">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<!-- XML file name with typed definition used -->
+ <types>{file name}</types>
+ 
+ <form>
+<!-- type name should be preceded with 'custom:' text -->
+   <field id="combof" type="custom:{type id}" signalchange="" />
+   
+ </form>  
+
+</dialog>
+
+</code>
+
+In the XML dialog file using the custom type a 'types' tag should a file name with custom types definition. In the 'form' definition a field should be preceded with 'custom:' name.
+
+Example:
+<code language="xml">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Combo Dialog</displayname>
+
+ <before/>
+
+ <types>typesenum.xml</types>
+ 
+  <jython>
+   <import>from testpack import packenum</import>
+   <method>packenum.dialogaction({0},{1})</method>
+ </jython>  
+ 
+ <buttons>
+  <button id="testcombo" displayname="Test" />
+</buttons>
+ 
+ 
+ <form>
+   <field id="combof" type="custom:tenum" signalchange="" />
+   
+   <field id="comboenum" type="custom:tehelper" />
+   
+   <field id="outcombof" readonly="" />
+ </form>  
+
+
+</dialog>
+</code>
