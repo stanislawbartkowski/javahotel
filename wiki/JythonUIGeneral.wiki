@@ -528,3 +528,7 @@ Example. If both fields are not empty then the first date cannot be later then t
  </validaterules>
 
 }}}
+
+== Reading list in pages (chunks) ==
+
+As a default all list is transported to the client side and cached there. But it is not possible for very big list (although it is difficult to say what "big" means here). 
