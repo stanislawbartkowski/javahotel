@@ -16,6 +16,9 @@
  <form>
    <field id="name1" displayname="Person name" notempty="" />
    <field id="name2" from="name1" notempty=""/>
+   
+   <field id="name1_out" readonly="" />
+   <field id="name2_out" readonly=""/>
  </form> 
  
   <validaterules>

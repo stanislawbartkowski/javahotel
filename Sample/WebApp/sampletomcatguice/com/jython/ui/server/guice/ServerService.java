@@ -12,18 +12,16 @@
  */
 package com.jython.ui.server.guice;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.SimpleMapCache;
 import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.datastore.PersonOp;
-import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.JythonUiServerProvider;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
+import com.jythonui.server.guice.JythonServerService;
 import com.jythonui.server.service.Holder;
 
 /**
@@ -32,18 +30,16 @@ import com.jythonui.server.service.Holder;
  */
 public class ServerService {
 
-    public static class ServiceModule extends AbstractModule {
+    public static class ServiceModule extends JythonServerService.JythonServiceModule {
         @Override
         protected void configure() {
+            configureJythonUi();
             bind(IsCached.class).to(Cached.class).in(Singleton.class);
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
             bind(ICommonCache.class).to(SimpleMapCache.class).in(
                     Singleton.class);
-            bind(IJythonUIServer.class)
-                    .toProvider(JythonUiServerProvider.class).in(
-                            Singleton.class);
             requestStaticInjection(Holder.class);
         }
     }

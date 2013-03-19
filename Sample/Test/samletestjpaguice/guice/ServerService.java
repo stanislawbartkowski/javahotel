@@ -12,7 +12,6 @@
  */
 package guice;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.SimpleMapCache;
@@ -21,9 +20,8 @@ import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jython.ui.ServerProperties;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.datastore.PersonOp;
-import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.JythonUiServerProvider;
+import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 
 /**
  * @author hotel
@@ -31,15 +29,13 @@ import com.jythonui.server.JythonUiServerProvider;
  */
 public class ServerService {
 
-    public static class ServiceModule extends AbstractModule {
+    public static class ServiceModule extends JythonServiceModule {
         @Override
         protected void configure() {
+            configureJythonUi();
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
-            bind(IJythonUIServer.class)
-                    .toProvider(JythonUiServerProvider.class).in(
-                            Singleton.class);
             bind(ICommonCache.class).to(SimpleMapCache.class).in(
                     Singleton.class);
             bind(ITestEnhancer.class).to(TestEnhancer.class);

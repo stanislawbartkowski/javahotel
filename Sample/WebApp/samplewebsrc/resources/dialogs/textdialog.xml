@@ -16,6 +16,11 @@
    <field id="timed" type="datetime" displayname="Date and time" />
    <field id="textf" type="textarea" />   
    <field id="text4" type="richtext" />   
+   
+   <field id="timed_out" type="datetime" readonly="" />
+   <field id="textf_out" readonly="" />
+   <field id="text4_out" readonly="" />
+   
  </form>  
 
 
