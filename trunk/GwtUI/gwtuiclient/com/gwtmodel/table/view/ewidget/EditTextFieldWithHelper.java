@@ -29,7 +29,7 @@ class EditTextFieldWithHelper extends ExtendTextBox {
 
         wHelp = new WidgetWithPopUpTemplate(v, hPanel,
                 c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP), i,
-                refreshAlways);
+                refreshAlways, getHtmlName());
     }
 
     @Override

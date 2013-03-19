@@ -29,6 +29,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
@@ -105,7 +106,8 @@ public class Utils {
         return ".";
     }
 
-    public static String getImageHTML(final String imageUrl, int w, int h) {
+    public static String getImageHTML(final String imageUrl, int w, int h,
+            String name) {
         String s = "<img src='" + getImageAdr(imageUrl) + "'";
         if (w != 0) {
             s += " width='" + w + "px'";
@@ -113,12 +115,19 @@ public class Utils {
         if (h != 0) {
             s += " height='" + w + "px'";
         }
+        if (name != null) {
+            s += " name='" + name + "'";
+        }
         s += ">";
         return s;
     }
 
     public static String getImageHTML(final String imageUrl) {
-        return getImageHTML(imageUrl, 0, 0);
+        return getImageHTML(imageUrl, 0, 0, null);
+    }
+
+    public static String getImageHTML(final String imageUrl, String name) {
+        return getImageHTML(imageUrl, 0, 0, name);
     }
 
     // int/long utilities
@@ -352,6 +361,11 @@ public class Utils {
         NodeList<Node> li = w.getElement().getChildNodes();
         li.getItem(0);
         w.getElement().insertBefore(e, li.getItem(0));
+    }
+
+    public static void setName(UIObject o, String name) {
+        o.getElement().setAttribute("name", name);
+
     }
 
     public static void internalErrorAlert(String s) {

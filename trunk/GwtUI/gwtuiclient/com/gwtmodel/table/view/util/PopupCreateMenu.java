@@ -12,16 +12,18 @@
  */
 package com.gwtmodel.table.view.util;
 
+import java.util.List;
+
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
-import java.util.List;
 
 /**
  * 
@@ -57,7 +59,9 @@ public class PopupCreateMenu {
             menu = new MenuBar(true);
             for (ControlButtonDesc b : cL) {
                 BCall bc = new BCall(b, w, cli);
-                menu.addItem(b.getDisplayName(), bc);
+                // add menu item 'html name' to select it easier by selenium
+                MenuItem i = menu.addItem(b.getDisplayName(), bc);
+                i.getElement().setId(b.getActionId().getHtmlElementName());
             }
         }
         return menu;
