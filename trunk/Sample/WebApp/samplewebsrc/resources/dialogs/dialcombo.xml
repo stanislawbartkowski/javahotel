@@ -21,6 +21,8 @@
    <field id="combof" type="custom:tenum" signalchange="" />
    
    <field id="comboenum" type="custom:tehelper" />
+   
+   <field id="outcombof" readonly="" />
  </form>  
 
 

@@ -11,6 +11,9 @@ def dialogaction(action,var) :
     return   
     
   if action == "signalchange" :
+    s = var["combof"]
+    var['outcombof'] = s;
+    var['JCOPY_outcombof'] = True
     return  
     
   seq = []

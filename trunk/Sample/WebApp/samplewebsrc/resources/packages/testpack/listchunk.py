@@ -1,6 +1,6 @@
 import datetime
 
-_SIZE=26
+_SIZE=93
 
 def __getlist(var) :
             

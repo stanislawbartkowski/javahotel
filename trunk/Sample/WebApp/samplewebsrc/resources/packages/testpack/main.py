@@ -49,11 +49,16 @@ def dialogaction(action,var) :
 def textaction(action,var) :
   print "text",action
   if action == "before" :
-#    var["timed"] = datetime.datetime(2017,01,13,20,45,14)
-#    var['JCOPY_timed'] = True
-   pass
+    var["timed"] = datetime.datetime(2017,01,13,20,45,14)
+    var['JCOPY_timed'] = True
 
   if action == "butt" :
     for k in var.keys() : 
       print k,var[k]
+    seq = ['timed','textf','text4']
+    for n in seq :
+      var['JCOPY_' + n + '_out'] = True
+      var[n + '_out'] = var[n]
+      
+        
         

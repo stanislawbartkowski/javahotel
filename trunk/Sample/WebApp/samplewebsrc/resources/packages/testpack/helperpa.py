@@ -8,7 +8,7 @@ def dialogaction(action,var) :
   
   
   if action == "copy" :
-      var['helpid'] = 'aaaa'
+      var['helpid'] = var['fieldid']
       var['JCOPY_helpid'] = True
       var["JCLOSE_DIALOG"] = True
       
