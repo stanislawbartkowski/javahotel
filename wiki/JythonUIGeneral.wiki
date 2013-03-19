@@ -1,5 +1,5 @@
 #This page describes general idea behind MVP JythonUI framework
-v
+
 <wiki:toc max_depth="3*" />
 
 = Introduction =
