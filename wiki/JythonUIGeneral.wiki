@@ -485,9 +485,10 @@ It is enabled by "notempty" attribute. Example:
 ...
 </dialog>
 }}}
-This client checks if field is not empty and displays error message if it is not.
+This client checks if a field is not empty and displays error message if it is not.
 === Relationships between fields ===
-This validation allows perform some tests testing relationship between two fields.
+This validation allows perform some tests testing relationship between two fields. In order to perform the validation both fields should be nonempty. Otherwise the comparison is not executed and assumed to be "valid". 
+The validation is performed at the client side. If it fails then server action is not raised.
 {{{
 <dialog>
 
@@ -501,4 +502,29 @@ This validation allows perform some tests testing relationship between two field
 </validaterules>
 
 </dialog>
+}}}
+
+The following comparison operators are recognized.
+|| Operator || Meaning ||
+|| eq || Both fields should be equal ||
+|| le || The first field should be less or equal the second ||
+|| lt || The first field should be less then the second ||
+|| gt || The first field should be greater the the second ||
+|| ge || The first field should be greater or equal the second ||
+
+Example. If both fields are not empty then the first date cannot be later then the second.
+{{{
+<dialog>
+...
+ <form>
+...
+   <field id="begintime" displayname="Begin time" type="datetime" />
+   <field id="endtime" displayname="End time" type="datetime" />
+..   
+ </form>  
+ 
+  <validaterules> 
+   <validate id="begintime" op="le" id1="endtime" displayname="Begin time cannot be later then the end time !" />
+ </validaterules>
+
 }}}
