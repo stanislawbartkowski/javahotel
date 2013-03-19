@@ -47,7 +47,7 @@ import java.util.List;
 
 /**
  * @author hotel
- *
+ * 
  */
 class PresentationEditCellFactory extends PresentationEditCellHelper {
 
@@ -175,24 +175,24 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         String imageName = null;
         String title = null;
         switch (persist) {
-            case ADDBEFORE:
-                imageName = ImageNameFactory
-                        .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW);
-                title = MM.getL().AddRowAtTheBeginning();
-                break;
-            case ADD:
-                imageName = ImageNameFactory
-                        .getImageName(ImageNameFactory.ImageType.ADDROW);
-                title = MM.getL().AddRowAfter();
-                break;
-            case REMOVE:
-                imageName = ImageNameFactory
-                        .getImageName(ImageNameFactory.ImageType.DELETEROW);
-                title = MM.getL().RemoveRow();
-                break;
+        case ADDBEFORE:
+            imageName = ImageNameFactory
+                    .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW);
+            title = MM.getL().AddRowAtTheBeginning();
+            break;
+        case ADD:
+            imageName = ImageNameFactory
+                    .getImageName(ImageNameFactory.ImageType.ADDROW);
+            title = MM.getL().AddRowAfter();
+            break;
+        case REMOVE:
+            imageName = ImageNameFactory
+                    .getImageName(ImageNameFactory.ImageType.DELETEROW);
+            title = MM.getL().RemoveRow();
+            break;
         }
         String s = Utils.getImageHTML(imageName, IConsts.actionImageHeight,
-                IConsts.actionImageWidth);
+                IConsts.actionImageWidth, null);
         // add div to have them vertically
 
         SafeHtml html = SafeHtmlUtils.fromTrustedString("<div title=\"" + title
@@ -256,7 +256,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         }
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private Column constructControlColumn() {
         // return new ImageColumn();
 
@@ -284,7 +284,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         Element elem;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     void addActionColumn() {
         Column imColumn = constructControlColumn();
 

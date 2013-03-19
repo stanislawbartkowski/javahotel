@@ -82,13 +82,17 @@ class WidgetWithPopUpTemplate {
     }
 
     WidgetWithPopUpTemplate(IVField v, HorizontalPanel hPanel, String image,
-            IRequestForGWidget i, boolean refreshAlways) {
+            IRequestForGWidget i, boolean refreshAlways, String htmlName) {
         this.v = v;
         assert image != null : LogT.getT().cannotBeNull();
         this.iGet = i;
         this.hPanel = hPanel;
         this.refreshAlways = refreshAlways;
-        String iPath = Utils.getImageHTML(image);
+        String hName = htmlName;
+        if (hName != null) {
+            hName += "-helper";
+        }
+        String iPath = Utils.getImageHTML(image, hName);
         dB = new HTML(iPath);
         hPanel.add(dB);
         dB.addClickListener(cL);

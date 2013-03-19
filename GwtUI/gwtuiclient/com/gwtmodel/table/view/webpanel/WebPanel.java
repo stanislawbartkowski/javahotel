@@ -269,14 +269,17 @@ class WebPanel implements IWebPanel {
         tL = new Label(pResources.getRes(IWebPanelResources.PRODUCTNAME));
         ownerName = new Label(pResources.getRes(IWebPanelResources.OWNERNAME));
 
-        String h = Utils.getImageHTML(
-                pResources.getRes(IWebPanelResources.IMAGELOGOUT), 20, 20);
+        String h = Utils
+                .getImageHTML(
+                        pResources.getRes(IWebPanelResources.IMAGELOGOUT), 20,
+                        20, null);
         ha = new HTML(h);
 
         ha.addMouseDownHandler(new ClickLogOut());
 
         h = Utils.getImageHTML(
-                pResources.getRes(IWebPanelResources.IIMAGEPRODCUT), 20, 20);
+                pResources.getRes(IWebPanelResources.IIMAGEPRODCUT), 20, 20,
+                null);
         logo = new LogoH(h);
 
         dPanel.add(vp, DockPanel.NORTH);
