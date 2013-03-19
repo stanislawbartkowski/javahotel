@@ -12,17 +12,15 @@
  */
 package com.jythonui.db2.scheduler.injector;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.SimpleMapCache;
-import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.JythonUiServerProvider;
 import com.jythonui.server.defa.Cached;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
+import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.service.Holder;
 
 /**
@@ -31,17 +29,15 @@ import com.jythonui.server.service.Holder;
  */
 public class ServerService {
 
-    public static class ServiceModule extends AbstractModule {
+    public static class ServiceModule extends JythonServiceModule {
         @Override
         protected void configure() {
+            configureJythonUi();
             bind(boolean.class).annotatedWith(Names.named("CachedNow"))
                     .toInstance(false);
             bind(IsCached.class).to(Cached.class).in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
-            bind(IJythonUIServer.class)
-                    .toProvider(JythonUiServerProvider.class).in(
-                            Singleton.class);
             bind(ICommonCache.class).to(SimpleMapCache.class).in(
                     Singleton.class);
             requestStaticInjection(Holder.class);
