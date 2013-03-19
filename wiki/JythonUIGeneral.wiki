@@ -466,3 +466,39 @@ def dialogaction(action,var) :
       var["JCLOSE_DIALOG"] = True
 
 </code>
+
+== Validation ==
+The validation can be performed in Jython backup code. But some simple and most common validation can be checked immediately at the server side. 
+ * Field is not empty.
+ * Simple relationship between two field: less then, less or equal etc. For instance: test the beginning date is not greater then the ending date.
+Automatic client side validation is triggered in two scenarios:
+ * In dialog being the part of CRUD list, after clicking the "Accept" button.
+ * In others dialog windows only if button ha"validate" attribute. This way the validation is not performed when the user clicks "Cancel" button.
+=== Validation "not empty" ===
+It is enabled by "notempty" attribute. Example:
+{{{
+<dialog>
+ 
+<form>
+  <field id={id} ... notempty="" />
+
+...
+</dialog>
+}}}
+This client checks if field is not empty and displays error message if it is not.
+=== Relationships between fields ===
+This validation allows perform some tests testing relationship between two fields.
+{{{
+<dialog>
+
+<forms>
+...
+<forms>
+
+<validaterules>
+    <validate id={id1} op={op} id1={id2} displayname={Error text if not valid} />
+.....
+</validaterules>
+
+</dialog>
+}}}
