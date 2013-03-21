@@ -532,3 +532,20 @@ Example. If both fields are not empty then the first date cannot be later then t
 == Reading list in pages (chunks) ==
 
 As a default all list is transported to the client side and cached there. But it is not possible for very big list (although it is difficult to say what "big" means here). 
+From user point of view the only difference between list moved to the browser in one piece and list moved in chunks is that there is a delay between while moving from one page to the next page.
+Unfortunately, handling the chunked lists in the Jython support code is more complicated. Not only reading list in pages should be supported but also sorting and filtering.
+
+=== XML definition ===
+'chunked' attributed defines chunked list.
+
+Example:
+{{{
+ <list id="list" displayname="List of chunks" chunked="" elemformat="elemchunk.xml">
+}}}
+
+=== Jython handling of chunked list ===
+
+|| Action || Description ||
+|| before || Raised before displaying anything. 'list' property values should contain number of all elements in the list (instead of the list content ||
+|| listgetsize || Similar like 'before' but it is raised any time when number of displayed elements could be changed. E.g after changing the order and filter ||
+|| readchunk || Should provide the part of the list 'from' - 'to'. '
