@@ -556,8 +556,11 @@ Map variables:
 || JLIST_LENGTH || Integer || The number of lines to be retrieved ||
 || JLIST_SORTLIST || Dependent on the column || If None then list is not sorted. If not None then the column name being sorted ||
 || JLIST_SORTASC || Boolean || Is meaningful only if JLIST_SORTLINE is not None. True means that the sort order is ascending (the top line is the smallest). False means that the sort order is descending (the top line is the greatest) ||
-|| JSEARCH_SET__field_id__ || Boolean || If True then filter is applied to this field ||
-|| JSEARCH_FROM_(field id) || Dependent on the field type || Is meaningful only if JSEARCH_SET_{field_id} is True. The value of 'from' field in the filter definition ||
-|| JSEARCH_TO_{field_id} ||  Dependent on the field type || Is meaningful only ifJSEARCH_SET_{field_id} is True. The value of 'to' field in the filter definition ||
-|| JSEARCH_EQ_{field_id} || Boolean || Is meaningful only ifJSEARCH_SET_{field_id} is True. The value of 'equal' field in the filter definition || 
+|| JSEARCH_SET{field_id} || Boolean || If True then filter is applied to this field ||
+|| JSEARCH_FROM{field_id} || Dependent on the field type || Is meaningful only if JSEARCH_SET{field_id} is True. The value of 'from' field in the filter definition ||
+|| JSEARCH_TO{field_id} ||  Dependent on the field type || Is meaningful only ifJSEARCH_SET{field_id} is True. The value of 'to' field in the filter definition ||
+|| JSEARCH_EQ{field_id} || Boolean || Is meaningful only if JSEARCH_SET{field_id} is True. The value of 'equal' field in the filter definition || 
 
+
+Sample:
+http://code.google.com/p/javahotel/source/browse/trunk/Sample/WebApp/samplewebsrc/resources/packages/testpack/listchunk.py
