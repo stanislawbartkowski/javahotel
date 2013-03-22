@@ -536,7 +536,7 @@ From user point of view the only difference between list moved to the browser in
 Unfortunately, handling the chunked lists in the Jython support code is more complicated. Not only reading list in pages should be supported but also sorting and filtering.
 
 === XML definition ===
-'chunked' attributed defines chunked list.
+'chunked' attribute defines chunked list.
 
 Example:
 {{{
@@ -548,4 +548,16 @@ Example:
 || Action || Description ||
 || before || Raised before displaying anything. 'list' property values should contain number of all elements in the list (instead of the list content ||
 || listgetsize || Similar like 'before' but it is raised any time when number of displayed elements could be changed. E.g after changing the order and filter ||
-|| readchunk || Should provide the part of the list 'from' - 'to'. '
+|| readchunk || Should provide the part of the list 'from' - 'number of lines . Should take into account also filtering and sorting ||
+
+Map variables:
+|| Jython map variable || Type || Description ||
+|| JLIST_FROM || Integer || The row number of the first line (starting from 0) ||
+|| JLIST_LENGTH || Integer || The number of lines to be retrieved ||
+|| JLIST_SORTLIST || Dependent on the column || If None then list is not sorted. If not None then the column name being sorted ||
+|| JLIST_SORTASC || Boolean || Is meaningful only if JLIST_SORTLINE is not None. True means that the sort order is ascending (the top line is the smallest). False means that the sort order is descending (the top line is the greatest) ||
+|| JSEARCH_SET__field_id__ || Boolean || If True then filter is applied to this field ||
+|| JSEARCH_FROM_(field id) || Dependent on the field type || Is meaningful only if JSEARCH_SET_{field_id} is True. The value of 'from' field in the filter definition ||
+|| JSEARCH_TO_{field_id} ||  Dependent on the field type || Is meaningful only ifJSEARCH_SET_{field_id} is True. The value of 'to' field in the filter definition ||
+|| JSEARCH_EQ_{field_id} || Boolean || Is meaningful only ifJSEARCH_SET_{field_id} is True. The value of 'equal' field in the filter definition || 
+
