@@ -1,0 +1,36 @@
+[alias]
+TOMAINBUTTON:id=tomain
+CHECKBOOL:globbool
+GLOBINT:globint
+ADDITEM:ADDITEM
+ACCEPT:ACCEPT
+RESIGN:RESIGN
+FIND:FIND
+FINDFROMBEGINNING:FINDFROMBEGINNING
+REMOVEITEM:REMOVEITEM
+MODIFITEM:MODIFITEM
+YESBUTTON://button[@id='ACCEPT' and text()='Yes']
+CHOOSELIST:CHOOSELIST
+SHOWITEM:SHOWITEM
+OK:ACCEPT
+TOOL:TABLEDEFAULTMENU
+REMOVESORT:REMOVE_SORT
+FILTRLIST:FILTRLIST
+SETFILTER:SETFILTER
+
+
+FIRSTLISTBUTTON://img[@aria-label='First page']
+LASTLISTBUTTON://img[@aria-label='Last page' and @aria-disabled='false']
+LASTLISTBUTTONDISABLED://img[@aria-label='Last page' and @aria-disabled='true']
+NEXTLISTBUTTON://img[@aria-label='Next page']
+PREVTLISTBUTTON://img[@aria-label='Previous page']
+
+HEADERSORT2://table/thead/tr/th[2]
+
+
+[waitforwindow]
+-- wait untill dialog is formed
+waitFor:#TOMAINBUTTON
+waitFor:#GLOBINT
+waitFor:#CHECKBOOL
+sleep:1

@@ -1,0 +1,44 @@
+[alias]
+DHELPER:id=dhelper
+LINE11://div[text()='NAME 11']
+[start]
+call:waitforwindow
+---
+click:#DHELPER
+waitFor:helpid
+-- click helper icon
+click:helpid-helper
+-- wait
+waitFor:fieldid
+type:fieldid|Hello
+-- click copy(select)
+click:copy
+waitForNot:copy
+-- test if value is inserted
+verEqual:helpid|Hello
+
+-- now test the second helper
+waitFor:helplist
+-- click helper icon
+click:helplist-helper
+waitFor:#LINE11
+sleep:1
+-- now click on 'show icon'
+-- expected: do nothing, no line is selected
+click:#SHOWITEM
+-- now click/select line
+click:#LINE11
+click:#SHOWITEM
+-- windows shoud popup
+waitFor:pnumber
+verEqual:pnumber|11
+click:#ACCEPT
+--- now select line
+click:select
+-- select button (and all helper window) should dissappear
+waitForNot:select
+waitFor:helplist
+sleep:1
+-- verify if selected row has been copied
+verEqual:helplist|11
+
