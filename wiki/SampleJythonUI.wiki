@@ -9,20 +9,20 @@ There are four applications to create : two web applications and two JUnit tests
 || TestGae || JUnit for GAE based data store ||
 || TestJPA || Junit for JPA (Apache Derby) data store. All test cases are the same || 
 || SampleWebGae || Sample Google App Engine application ||
-|| SampleWebTomcat || Sample Tomcat application (Apache Derby data store) || 
+|| SampleWebTomcat || Sample Tomcat application (Apache Derby data store). Also run in Glassfish container || 
 
 = Prerequisites ==
 
 || *Package* || *Web page, download* || *Purpose* ||
 || Tomcat 7 || http://tomcat.apache.org/ || Web container for not GAE application ||
-|| EclipseLink || http://www.eclipse.org/eclipselink/ || Datastore provider for not GAE application ||
+|| EclipseLink || http://www.eclipse.org/eclipselink/ || Datastore provider for not GAE application. Also not necessary for Glassfish implementation ||
 || Guice || http://code.google.com/p/google-guice/ || Lightweight dependency injector for application assembly ||
 || GIN (GWT Injection) || https://code.google.com/p/google-gin/ || Dependency injector for GWT (client) ||
 || Objectify || http:///code.google.com/p/objectify-appengine || Lightweight framework for Google App Engine ||
 || FileUpload || http://commons.apache.org/fileupload/ || Prerequisite for some utilities ||
 || JavaMail || http://www.oracle.com/technetwork/java/javamail/index.html || Prerequisite for some utilities, necessary for not GAE application ||
 || Jython || http://www.jython.org/ || Intepreted language for creating business logic outside java ||
-|| Apache Derby || http://db.apache.org/derby/ || Datastore for not GAE application ||
+|| Apache Derby || http://db.apache.org/derby/ || Datastore for not GAE application. Not necessary for Glasshish. ||
 
 
 = Details =
