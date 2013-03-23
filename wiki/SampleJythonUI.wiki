@@ -14,6 +14,7 @@ There are four applications to create : two web applications and two JUnit tests
 = Prerequisites ==
 
 || *Package* || *Web page, download* || *Purpose* ||
+|| Glassfish || http://glassfish.java.net/ || Open source JEE container ||
 || Tomcat 7 || http://tomcat.apache.org/ || Web container for not GAE application ||
 || EclipseLink || http://www.eclipse.org/eclipselink/ || Datastore provider for not GAE application. Also not necessary for Glassfish implementation ||
 || Guice || http://code.google.com/p/google-guice/ || Lightweight dependency injector for application assembly ||
