@@ -30,7 +30,7 @@ public class WebPanelResources implements IWebPanelResources {
         this.iFactories = iFactories;
         ma.put(TITLE, "Default title");
         ma.put(IMAGELOGOUT, "default_logout.png");
-        ma.put(IIMAGEPRODCUT, "default_logo.png");
+        ma.put(IIMAGEPRODUCT, "default_logo.png");
         ma.put(PRODUCTNAME, "Default application");
         ma.put(OWNERNAME, "Default owner");
         ma.put(VERSION, "Version default");

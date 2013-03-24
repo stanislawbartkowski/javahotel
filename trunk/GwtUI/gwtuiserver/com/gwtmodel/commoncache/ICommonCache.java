@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.commoncache;
 
+import java.io.InvalidClassException;
+
 
 /**
  * @author hotel
@@ -19,20 +21,10 @@ package com.gwtmodel.commoncache;
  */
 public interface ICommonCache {
 
-    Object get(String key);
-
-    // TODO: remove
-    Object getE(String key);
+    Object get(String key) throws InvalidClassException;
 
     void put(String key, Object o);
 
     void remove(String key);
-
-    // TODO: remove
-    long inc(String iKey, boolean plus);
-    
-    
-    // TODO: remove
-    void clearAll();
 
 }

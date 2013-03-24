@@ -19,25 +19,16 @@ import com.gwtmodel.commoncache.ICommonCache;
 
 /**
  * @author hotel
- *
+ * 
  */
 public class SimpleMapCache implements ICommonCache {
-    
+
     // thread safe
-    private final static Map<String,Object> cMap = new ConcurrentHashMap<String,Object>();
+    private final static Map<String, Object> cMap = new ConcurrentHashMap<String, Object>();
 
     @Override
     public Object get(String key) {
         return cMap.get(key);
-    }
-
-    @Override
-    public Object getE(String key) {
-        Object o = get(key);
-        if (o == null) {
-            throw new RuntimeException(key + " cannot find in cache");
-        }
-        return o;
     }
 
     @Override
@@ -48,18 +39,7 @@ public class SimpleMapCache implements ICommonCache {
     @Override
     public void remove(String key) {
         cMap.remove(key);
-        
-    }
 
-    @Override
-    public long inc(String iKey, boolean plus) {
-        // ignore now
-        return 0;
-    }
-
-    @Override
-    public void clearAll() {
-        cMap.clear();
     }
 
 }
