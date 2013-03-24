@@ -18,7 +18,9 @@ import com.gwtmodel.mapcache.SimpleMapCache;
 import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.datastore.PersonOp;
+import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.guice.JythonServerService;
@@ -30,7 +32,8 @@ import com.jythonui.server.service.Holder;
  */
 public class ServerService {
 
-    public static class ServiceModule extends JythonServerService.JythonServiceModule {
+    public static class ServiceModule extends
+            JythonServerService.JythonServiceModule {
         @Override
         protected void configure() {
             configureJythonUi();
@@ -39,6 +42,8 @@ public class ServerService {
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
             bind(ICommonCache.class).to(SimpleMapCache.class).in(
+                    Singleton.class);
+            bind(IJythonClientRes.class).to(GetClientProperties.class).in(
                     Singleton.class);
             requestStaticInjection(Holder.class);
         }
