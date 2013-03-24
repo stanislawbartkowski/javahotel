@@ -12,6 +12,8 @@
  */
 package com.jythonui.client.service;
 
+import java.util.Map;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.jythonui.shared.DialogFormat;
@@ -22,8 +24,11 @@ import com.jythonui.shared.DialogVariables;
  */
 @RemoteServiceRelativePath("greet")
 public interface JythonService extends RemoteService {
+
     DialogFormat getDialogFormat(String name);
 
     DialogVariables runAction(DialogVariables v, String name, String actionId);
+
+    Map<String, String> getClientRes();
 
 }

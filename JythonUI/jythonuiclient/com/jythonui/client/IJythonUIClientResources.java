@@ -12,6 +12,8 @@
  */
 package com.jythonui.client;
 
+import java.util.Map;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
@@ -26,5 +28,7 @@ public interface IJythonUIClientResources {
 
     void runAction(DialogVariables v, String name, String actionId,
             AsyncCallback<DialogVariables> callback);
+    
+    void getClientRes(AsyncCallback<Map<String,String>> res);
 
 }
