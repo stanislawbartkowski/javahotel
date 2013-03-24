@@ -13,42 +13,14 @@
 package com.jythonui.db2.scheduler.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.gwtmodel.table.factories.ITableAbstractFactories;
-import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.injector.WebPanelHolder;
-import com.gwtmodel.table.view.webpanel.IWebPanel;
-import com.gwtmodel.table.view.webpanel.WebPanelFactory;
-import com.jythonui.client.IJythonUIClient;
-import com.jythonui.client.JythonUIClientFactory;
-import com.jythonui.client.service.JResource;
+import com.jythonui.client.JythonClientStart;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class DB2TaskScheduler implements EntryPoint {
 
-    private final IJythonUIClient iClient;
-    private static final String START = "start.xml";
-
-    public DB2TaskScheduler() {
-        iClient = JythonUIClientFactory.construct(new JResource());
-    }
-
     public void onModuleLoad() {
-
-        ITableAbstractFactories tFactories = GwtGiniInjector.getI()
-                .getITableAbstractFactories();
-        tFactories.registerWebPanelResources(new WebPanelResources());
-
-        startW();
-        iClient.start(START);
-    }
-
-    private void startW() {
-        WebPanelFactory wFactory = GwtGiniInjector.getI().getWebPanelFactory();
-        IWebPanel wPan = wFactory.construct(null);
-        WebPanelHolder.setWebPanel(wPan);
-        RootPanel.get().add(wPan.getWidget());
+        JythonClientStart.start(null);
     }
 }
