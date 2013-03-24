@@ -278,7 +278,7 @@ class WebPanel implements IWebPanel {
         ha.addMouseDownHandler(new ClickLogOut());
 
         h = Utils.getImageHTML(
-                pResources.getRes(IWebPanelResources.IIMAGEPRODCUT), 20, 20,
+                pResources.getRes(IWebPanelResources.IIMAGEPRODUCT), 20, 20,
                 null);
         logo = new LogoH(h);
 

@@ -30,6 +30,7 @@ public class LoginData extends AVModelData {
     public String getPassword() {
         return password;
     }
+
     private String loginName;
     private String password;
     private String repassword;
@@ -67,10 +68,10 @@ public class LoginData extends AVModelData {
 
     @Override
     public List<IVField> getF() {
-        IVField[] e = {new LoginField(LoginField.F.LOGINNAME),
-            new LoginField(LoginField.F.PASSWORD),
-            new LoginField(LoginField.F.REPASSWORD),
-            new LoginField(LoginField.F.OTHER)};
+        IVField[] e = { new LoginField(LoginField.F.LOGINNAME),
+                new LoginField(LoginField.F.PASSWORD),
+                new LoginField(LoginField.F.REPASSWORD),
+                new LoginField(LoginField.F.OTHER) };
         return Utils.toList(e);
     }
 

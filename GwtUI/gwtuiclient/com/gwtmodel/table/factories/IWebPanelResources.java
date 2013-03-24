@@ -23,7 +23,7 @@ public interface IWebPanelResources {
     String PRODUCTNAME = "ProductName";
     String OWNERNAME = "OwnerName";
     String IMAGELOGOUT = "LogOut";
-    String IIMAGEPRODCUT = "ImageProduct";
+    String IIMAGEPRODUCT = "ImageProduct";
     String VERSION = "Version";
     String LOGOUTQUESTION = "LogoutQuestion";
     String STATUSHTML = "StatusHtml";
