@@ -14,6 +14,7 @@ package com.jythonui.server.service;
 
 import javax.inject.Inject;
 
+import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 
 public class Holder {
@@ -21,8 +22,15 @@ public class Holder {
     @Inject
     private static IJythonUIServer iServer;
 
+    @Inject
+    private static IJythonClientRes iClient;
+
     public static IJythonUIServer getiServer() {
         return iServer;
+    }
+
+    public static IJythonClientRes getiClient() {
+        return iClient;
     }
 
 }

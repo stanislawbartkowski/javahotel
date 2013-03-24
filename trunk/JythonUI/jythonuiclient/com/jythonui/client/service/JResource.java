@@ -12,6 +12,8 @@
  */
 package com.jythonui.client.service;
 
+import java.util.Map;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.jythonui.client.IJythonUIClientResources;
@@ -34,6 +36,12 @@ public class JResource implements IJythonUIClientResources {
     public void runAction(DialogVariables v, String name, String actionId,
             AsyncCallback<DialogVariables> callback) {
         jythonService.runAction(v, name, actionId, callback);
+    }
+
+    @Override
+    public void getClientRes(AsyncCallback<Map<String, String>> res) {
+        jythonService.getClientRes(res);
+
     }
 
 }

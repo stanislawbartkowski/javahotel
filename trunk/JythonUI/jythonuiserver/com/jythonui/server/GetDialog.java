@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidClassException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,9 +93,16 @@ class GetDialog {
             String dialogName, boolean verify) {
         DialogFormat d;
         if (mCached.isCached()) {
-            d = (DialogFormat) mCached.getC().get(dialogName);
-            if (d != null) {
-                return d;
+            try {
+                d = (DialogFormat) mCached.getC().get(dialogName);
+                if (d != null) {
+                    return d;
+                }
+                // this exception is expected if there is a cache entry
+                // containing value from the previous version. In this case
+                // simply remove the entry.
+            } catch (InvalidClassException e) {
+                mCached.getC().remove(dialogName);
             }
         }
         d = getDialogDirectly(p, mCached, dialogName, verify);

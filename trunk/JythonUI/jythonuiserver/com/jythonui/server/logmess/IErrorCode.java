@@ -10,23 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.service;
+package com.jythonui.server.logmess;
 
-import java.util.Map;
+public interface IErrorCode {
+    String ERRORCODE1 = "E0001";
+    String ERRORCODE2 = "E0002";
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.jythonui.shared.DialogFormat;
-import com.jythonui.shared.DialogVariables;
-
-/**
- * The async counterpart of <code>GreetingService</code>.
- */
-public interface JythonServiceAsync {
-
-    void getDialogFormat(String name, AsyncCallback<DialogFormat> callback);
-
-    void runAction(DialogVariables v, String name, String actionId,
-            AsyncCallback<DialogVariables> callback);
-
-    void getClientRes(AsyncCallback<Map<String, String>> callback);
 }

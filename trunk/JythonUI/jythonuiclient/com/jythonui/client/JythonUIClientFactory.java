@@ -20,12 +20,12 @@ import com.jythonui.client.dialog.RunAction;
  * @author hotel
  * 
  */
-public class JythonUIClientFactory {
+class JythonUIClientFactory {
 
     private JythonUIClientFactory() {
     }
 
-    public static IJythonUIClient construct(IJythonUIClientResources p) {
+    static IJythonUIClient construct(IJythonUIClientResources p) {
         CreateFactory.create();
         M.setJR(p);
         M.setLeftMenu(new LeftMenu());

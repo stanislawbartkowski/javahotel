@@ -125,4 +125,11 @@ public interface ICommonConsts {
     String JSEARCH_SET = "JSEARCH_SET_";
     String PASSWORD = "password";
     String HTMLID = "htmlid";
+
+    String APP_TITLE = "Title";
+    String APP_PRODUCTNAME = "ProductName";
+    String APP_OWNERNAME = "OwnerName";
+    String APP_VERSION = "Version";
+    String APP_FILENAME = "app.properties";
+    String APP_PRODUCTIMAGE = "ProductImage";
 }

@@ -37,5 +37,7 @@ public interface JMessages extends Messages {
     String ValidateFieldNotFound(String id, String fid);
 
     String NoFieldRelatedToError(String id, String fie);
+    
+    String cannotLoadClientResource();
 
 }
