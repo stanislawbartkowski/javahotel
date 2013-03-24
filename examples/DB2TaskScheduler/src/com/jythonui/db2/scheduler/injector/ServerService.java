@@ -16,8 +16,10 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.SimpleMapCache;
+import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.Cached;
+import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
@@ -39,6 +41,8 @@ public class ServerService {
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
             bind(ICommonCache.class).to(SimpleMapCache.class).in(
+                    Singleton.class);
+            bind(IJythonClientRes.class).to(GetClientProperties.class).in(
                     Singleton.class);
             requestStaticInjection(Holder.class);
         }
