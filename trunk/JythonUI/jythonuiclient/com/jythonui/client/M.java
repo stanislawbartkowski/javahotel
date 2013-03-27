@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
 import com.jythonui.client.dialog.LeftMenu;
+import com.jythonui.client.service.JythonService;
+import com.jythonui.client.service.JythonServiceAsync;
 import com.jythonui.client.variables.IVariablesContainer;
 
 /**
@@ -28,8 +30,13 @@ public class M {
     private static final JMessages jMess = (JMessages) GWT
             .create(JMessages.class);
     private static final Logger logS = Logger.getLogger("com.jythonui.client");
-    private static IJythonUIClientResources iJ;
+    private static final JythonServiceAsync jythonService = GWT
+            .create(JythonService.class);
     private static LeftMenu leftMenu;
+
+    private static String userName;
+
+    private static String secToken;
 
     public static JLabel J() {
         return jLab;
@@ -53,12 +60,8 @@ public class M {
         i = ii;
     }
 
-    public static IJythonUIClientResources JR() {
-        return iJ;
-    }
-
-    static void setJR(IJythonUIClientResources i) {
-        iJ = i;
+    public static JythonServiceAsync JR() {
+        return jythonService;
     }
 
     static void setLeftMenu(LeftMenu l) {
@@ -67,6 +70,22 @@ public class M {
 
     public static LeftMenu getLeftMenu() {
         return leftMenu;
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static void setUserName(String userName) {
+        M.userName = userName;
+    }
+
+    public static String getSecToken() {
+        return secToken;
+    }
+
+    public static void setSecToken(String secToken) {
+        M.secToken = secToken;
     }
 
 }

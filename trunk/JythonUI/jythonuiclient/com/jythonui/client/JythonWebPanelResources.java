@@ -16,21 +16,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.gwtmodel.table.factories.IWebPanelResources;
+import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.ICommonConsts;
 
 class JythonWebPanelResources implements IWebPanelResources {
 
     private final Map<String, String> ma = new HashMap<String, String>();
 
-    private void putRes(String key, String rkey, Map<String, String> res) {
-        String val = res.get(rkey);
+    private void putRes(String key, String rkey, ClientProp res) {
+        String val = res.getAttr(rkey);
         if (val == null) {
             return;
         }
         ma.put(key, val);
     }
 
-    JythonWebPanelResources(Map<String, String> res) {
+    JythonWebPanelResources(ClientProp res) {
         putRes(TITLE, ICommonConsts.APP_TITLE, res);
         putRes(PRODUCTNAME, ICommonConsts.APP_PRODUCTNAME, res);
         putRes(OWNERNAME, ICommonConsts.APP_OWNERNAME, res);

@@ -12,10 +12,10 @@
  */
 package com.jythonui.server;
 
-import java.util.Map;
+import com.jythonui.shared.ClientProp;
 
 public interface IJythonClientRes {
     
-    Map<String,String> getClientRes();
+    ClientProp getClientRes();
 
 }

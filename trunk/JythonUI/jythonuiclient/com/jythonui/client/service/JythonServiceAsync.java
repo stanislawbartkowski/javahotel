@@ -12,9 +12,8 @@
  */
 package com.jythonui.client.service;
 
-import java.util.Map;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 
@@ -28,5 +27,9 @@ public interface JythonServiceAsync {
     void runAction(DialogVariables v, String name, String actionId,
             AsyncCallback<DialogVariables> callback);
 
-    void getClientRes(AsyncCallback<Map<String, String>> callback);
+    void getClientRes(AsyncCallback<ClientProp> callback);
+
+    void login(String user, String password, AsyncCallback<String> callback);
+
+    void logout(String token, AsyncCallback<Void> callback);
 }

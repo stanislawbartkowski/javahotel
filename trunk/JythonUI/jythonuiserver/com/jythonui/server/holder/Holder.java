@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.service;
+package com.jythonui.server.holder;
 
 import javax.inject.Inject;
 
@@ -24,6 +24,16 @@ public class Holder {
 
     @Inject
     private static IJythonClientRes iClient;
+
+    private static boolean auth = false;
+
+    public static boolean isAuth() {
+        return auth;
+    }
+
+    public static void setAuth(boolean pauth) {
+        auth = pauth;
+    }
 
     public static IJythonUIServer getiServer() {
         return iServer;
