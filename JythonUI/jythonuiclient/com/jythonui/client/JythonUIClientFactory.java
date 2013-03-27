@@ -25,9 +25,8 @@ class JythonUIClientFactory {
     private JythonUIClientFactory() {
     }
 
-    static IJythonUIClient construct(IJythonUIClientResources p) {
+    static IJythonUIClient construct() {
         CreateFactory.create();
-        M.setJR(p);
         M.setLeftMenu(new LeftMenu());
         return new RunAction();
     }

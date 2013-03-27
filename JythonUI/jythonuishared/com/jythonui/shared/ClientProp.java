@@ -10,25 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client;
 
-import java.util.Map;
+package com.jythonui.shared;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.jythonui.shared.DialogFormat;
-import com.jythonui.shared.DialogVariables;
+import com.gwtmodel.table.common.CUtil;
 
-/**
- * @author hotel
- *
- */
-public interface IJythonUIClientResources {
-    
-    void getDialogFormat(String name, AsyncCallback<DialogFormat> callback);
+public class ClientProp extends ElemDescription {
 
-    void runAction(DialogVariables v, String name, String actionId,
-            AsyncCallback<DialogVariables> callback);
-    
-    void getClientRes(AsyncCallback<Map<String,String>> res);
+    public boolean isAuthenticate() {
+        String s = this.getAttr(ICommonConsts.AUTHENTICATE);
+        if (CUtil.EmptyS(s))
+            return false;
+        return CUtil.EqNS(s, ICommonConsts.YESAUTHENTICATE);
+    }
 
 }

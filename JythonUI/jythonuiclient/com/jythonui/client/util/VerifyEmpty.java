@@ -22,7 +22,7 @@ import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.view.ValidateUtil;
+import com.gwtmodel.table.validate.ValidateUtil;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.FieldItem;
 

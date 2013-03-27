@@ -17,23 +17,35 @@ import java.util.Map;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.WebPanelHolder;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.WebPanelFactory;
-import com.jythonui.client.service.JResource;
+import com.jythonui.client.login.LoginPage;
+import com.jythonui.shared.ClientProp;
+import com.jythonui.shared.ICommonConsts;
 
 public class JythonClientStart {
     private static final String START = "start.xml";
 
-    private static final IJythonUIClientResources iRes = new JResource();
     private static final IJythonUIClient iClient = JythonUIClientFactory
-            .construct(iRes);
+            .construct();
 
-    private static class ResBack implements AsyncCallback<Map<String, String>> {
+    private static class ResBack implements AsyncCallback<ClientProp> {
 
         private final String startX;
+
+        private class AfterLogin implements ICommand {
+
+            @Override
+            public void execute() {
+                iClient.start(startX == null ? START : startX);
+            }
+
+        }
 
         ResBack(String startX) {
             this.startX = startX;
@@ -51,12 +63,40 @@ public class JythonClientStart {
 
         }
 
+        private class LogOut implements ICommand {
+
+            private final boolean auth;
+
+            LogOut(boolean auth) {
+                this.auth = auth;
+            }
+
+            @Override
+            public void execute() {
+                IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
+                wPanel.setWest1(null);
+                wPanel.setWest(null);
+                wPanel.setUserData(null, null);
+                startBegin(auth);
+            }
+
+        }
+
+        private void startBegin(boolean auth) {
+            ICommand co = new AfterLogin();
+            if (auth) {
+                LoginPage.login(co);
+            } else
+                co.execute();
+        }
+
         @Override
-        public void onSuccess(Map<String, String> result) {
+        public void onSuccess(ClientProp result) {
             if (result == null) {
                 drawError();
                 return;
             }
+            boolean auth = result.isAuthenticate();
             ITableAbstractFactories tFactories = GwtGiniInjector.getI()
                     .getITableAbstractFactories();
             tFactories.registerWebPanelResources(new JythonWebPanelResources(
@@ -64,16 +104,16 @@ public class JythonClientStart {
 
             WebPanelFactory wFactory = GwtGiniInjector.getI()
                     .getWebPanelFactory();
-            IWebPanel wPan = wFactory.construct(null);
+            IWebPanel wPan = wFactory.construct(new LogOut(auth));
             WebPanelHolder.setWebPanel(wPan);
             RootPanel.get().add(wPan.getWidget());
-            iClient.start(startX == null ? START : startX);
+            startBegin(auth);
         }
 
     }
 
     public static void start(String startXML) {
-        iRes.getClientRes(new ResBack(startXML));
+        M.JR().getClientRes(new ResBack(startXML));
     }
 
 }

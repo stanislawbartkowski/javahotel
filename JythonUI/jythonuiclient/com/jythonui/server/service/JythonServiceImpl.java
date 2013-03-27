@@ -12,12 +12,13 @@
  */
 package com.jythonui.server.service;
 
-import java.util.Map;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.jythonui.client.service.JythonService;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.holder.Holder;
+import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 
@@ -42,9 +43,19 @@ public class JythonServiceImpl extends RemoteServiceServlet implements
     }
 
     @Override
-    public Map<String, String> getClientRes() {
+    public ClientProp getClientRes() {
         IJythonClientRes iClient = Holder.getiClient();
         return iClient.getClientRes();
+
+    }
+
+    @Override
+    public String login(String user, String password) {
+        return "AAAA";
+    }
+
+    @Override
+    public void logout(String token) {
 
     }
 

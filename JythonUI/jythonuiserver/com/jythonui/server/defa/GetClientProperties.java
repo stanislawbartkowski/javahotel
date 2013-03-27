@@ -15,16 +15,16 @@ package com.jythonui.server.defa;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jythonui.server.IJythonClientRes;
+import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.logmess.LogMess;
+import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.ICommonConsts;
 
 public class GetClientProperties implements IJythonClientRes {
@@ -33,26 +33,32 @@ public class GetClientProperties implements IJythonClientRes {
             .getLogger(GetClientProperties.class.getName());
 
     @Override
-    public Map<String, String> getClientRes() {
+    public ClientProp getClientRes() {
         InputStream i = GetClientProperties.class.getClassLoader()
                 .getResourceAsStream(ICommonConsts.APP_FILENAME);
         if (i == null) {
-            log.log(Level.SEVERE,LogMess.getMess(IErrorCode.ERRORCODE1, ILogMess.CANNOTFINDRESOURCEFILE,ICommonConsts.APP_FILENAME));
+            log.log(Level.SEVERE, LogMess
+                    .getMess(IErrorCode.ERRORCODE1,
+                            ILogMess.CANNOTFINDRESOURCEFILE,
+                            ICommonConsts.APP_FILENAME));
             return null;
         }
         Properties prop = new Properties();
         try {
             prop.load(i);
         } catch (IOException e) {
-            log.log(Level.SEVERE, LogMess.getMess(IErrorCode.ERRORCODE2, ILogMess.ERRORWHILEREADINGRESOURCEFILE, ICommonConsts.APP_FILENAME), e);
+            log.log(Level.SEVERE, LogMess.getMess(IErrorCode.ERRORCODE2,
+                    ILogMess.ERRORWHILEREADINGRESOURCEFILE,
+                    ICommonConsts.APP_FILENAME), e);
             return null;
         }
-        Map<String, String> map = new HashMap<String, String>();
+        ClientProp map = new ClientProp();
         Enumeration e = prop.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
-            map.put(key, prop.getProperty(key));
+            map.setAttr(key, prop.getProperty(key));
         }
+        Holder.setAuth(map.isAuthenticate());
         return map;
     }
 }
