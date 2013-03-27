@@ -12,6 +12,7 @@
  */
 package com.jython.ui.server.guice;
 
+
 import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.SimpleMapCache;
@@ -24,7 +25,7 @@ import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.guice.JythonServerService;
-import com.jythonui.server.service.Holder;
+import com.jythonui.server.holder.Holder;
 
 /**
  * @author hotel
