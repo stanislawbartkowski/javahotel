@@ -29,16 +29,13 @@ import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 public class LoginViewFactory {
 
-    private LoginViewFactory() {
-    }
-
-    public static FormLineContainer construct() {
+    public FormLineContainer construct() {
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
         List<FormField> di = new ArrayList<FormField>();
         IVField loginV = new LoginField(LoginField.F.LOGINNAME);
         IFormLineView loginName = eFactory.constructTextField(loginV, null);
-        di.add(new FormField(MM.getL().Login(), loginName));
+        di.add(new FormField(MM.getL().User(), loginName));
         IVField passwordV = new LoginField(LoginField.F.PASSWORD);
         IFormLineView password = eFactory.constructPasswordField(passwordV,
                 null);
@@ -46,7 +43,7 @@ public class LoginViewFactory {
         return new FormLineContainer(di);
     }
 
-    public static ILoginDataView contructView(CellId cellId, IDataType dType,
+    public ILoginDataView contructView(CellId cellId, IDataType dType,
             FormLineContainer lContainer, IDataModelFactory dFactory,
             IDataValidateAction vAction) {
         return new LoginDataView(cellId, dType, lContainer, dFactory, vAction);

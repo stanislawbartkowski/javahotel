@@ -29,7 +29,7 @@ import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.FormTabPanelDef;
 import com.gwtmodel.table.rdef.ITouchListener;
-import com.gwtmodel.table.view.ErrorLineContainer;
+import com.gwtmodel.table.validate.ErrorLineContainer;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.util.CreateFormView;
 import java.util.ArrayList;

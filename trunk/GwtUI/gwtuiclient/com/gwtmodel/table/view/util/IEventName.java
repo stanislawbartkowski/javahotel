@@ -16,7 +16,7 @@ package com.gwtmodel.table.view.util;
  * @author hotel
  * 
  */
-public interface IEventName {
+interface IEventName {
 
     String CLICK = "click";
 

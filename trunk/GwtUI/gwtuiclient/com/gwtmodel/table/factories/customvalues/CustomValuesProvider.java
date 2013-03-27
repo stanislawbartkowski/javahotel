@@ -43,6 +43,8 @@ public class CustomValuesProvider implements IGetCustomValues {
         cMap.put(IGetCustomValues.IMAGEFORLISTHELP, "default_helpicon");
         cMap.put(IGetCustomValues.CLOSEIMAGE, "default_closeicon");
         cMap.put(IGetCustomValues.EXPANDIMAGE, "default_expandicon");
+        cMap.put(IGetCustomValues.YESVALUE, "Y");
+        cMap.put(IGetCustomValues.NOVALUE, "N");
     }
 
     @Override

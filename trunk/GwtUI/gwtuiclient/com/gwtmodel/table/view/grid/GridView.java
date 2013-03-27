@@ -20,7 +20,7 @@ import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
-import com.gwtmodel.table.view.ErrorLineContainer;
+import com.gwtmodel.table.validate.ErrorLineContainer;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import java.math.BigDecimal;
 import java.util.List;
