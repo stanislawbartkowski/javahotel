@@ -28,7 +28,7 @@ import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotListener;
-import com.gwtmodel.table.view.ValidateUtil;
+import com.gwtmodel.table.validate.ValidateUtil;
 
 class ValidateS extends AbstractSlotContainer implements IDataValidateAction {
 

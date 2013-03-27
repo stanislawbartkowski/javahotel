@@ -19,7 +19,8 @@ package com.gwtmodel.table.datelist;
 import com.gwtmodel.table.*;
 import com.gwtmodel.table.factories.IDataValidateAction;
 import com.gwtmodel.table.slotmodel.*;
-import com.gwtmodel.table.view.ValidateUtil;
+import com.gwtmodel.table.validate.ValidateUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 

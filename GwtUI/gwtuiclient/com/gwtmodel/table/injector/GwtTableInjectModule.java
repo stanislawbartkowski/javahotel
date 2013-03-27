@@ -33,6 +33,7 @@ import com.gwtmodel.table.factories.customvalues.WebPanelResources;
 import com.gwtmodel.table.factories.mailtest.MailTestFactory;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.listdataview.ListDataViewFactory;
+import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.readres.ReadResFactory;
 import com.gwtmodel.table.slotmediator.ISlotMediator;
@@ -111,5 +112,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
                 Singleton.class);
         bind(IWebPanelResources.class).to(WebPanelResources.class).in(
                 Singleton.class);
+        bind(LoginViewFactory.class).in(Singleton.class);
     }
 }

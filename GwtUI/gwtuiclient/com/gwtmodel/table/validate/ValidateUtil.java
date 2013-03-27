@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view;
+package com.gwtmodel.table.validate;
 
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
@@ -72,6 +72,15 @@ public class ValidateUtil {
     public static List<InvalidateMess> checkEmpty(IVModelData mData,
             List<IVField> listMFie) {
         return checkEmpty(mData, listMFie, new HashSet<IVField>());
+    }
+
+    public static List<InvalidateMess> checkEmpty(IVModelData mData,
+            IVField... fields) {
+        List<IVField> vList = new ArrayList<IVField>();
+        for (IVField f : fields) {
+            vList.add(f);
+        }
+        return checkEmpty(mData, vList);
     }
 
     public static List<InvalidateMess> checkEmpty(final FormLineContainer fo,

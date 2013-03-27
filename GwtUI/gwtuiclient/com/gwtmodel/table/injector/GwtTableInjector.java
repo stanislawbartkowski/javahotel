@@ -30,6 +30,7 @@ import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.factories.mailtest.MailTestFactory;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
+import com.gwtmodel.table.login.LoginViewFactory;
 import com.gwtmodel.table.panelview.PanelViewFactory;
 import com.gwtmodel.table.readres.ReadResFactory;
 import com.gwtmodel.table.slotmediator.SlotMediatorFactory;
@@ -129,4 +130,6 @@ public interface GwtTableInjector extends Ginjector {
     IGetCustomValues getCustomValues();
 
     IWebPanelResources getWebPanelResources();
+
+    LoginViewFactory getLoginViewFactory();
 }
