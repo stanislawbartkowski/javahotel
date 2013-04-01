@@ -10,26 +10,29 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.jythonui.shared;
 
-import com.gwtmodel.table.common.CUtil;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ClientProp extends ElemDescription {
+public class SecurityInfo extends DialSecurityInfo {
 
-    public boolean isAuthenticate() {
-        String s = this.getAttr(ICommonConsts.AUTHENTICATE);
-        if (CUtil.EmptyS(s))
-            return false;
-        return CUtil.EqNS(s, ICommonConsts.YESAUTHENTICATE);
+    private Map<String, DialSecurityInfo> lSecur = new HashMap<String, DialSecurityInfo>();
+
+    public Map<String, DialSecurityInfo> getlSecur() {
+        return lSecur;
+    }
+    
+    // default
+    public SecurityInfo() {
+        
     }
 
-    public boolean isLoginPage() {
-        return isAttr(ICommonConsts.LOGINPAGE);
-    }
-
-    public String getLoginPage() {
-        return getAttr(ICommonConsts.LOGINPAGE);
+    public SecurityInfo(DialSecurityInfo dInfo) {
+        this.buttonAccess = dInfo.buttonAccess;
+        this.buttonReadOnly = dInfo.buttonReadOnly;
+        this.fieldAccess = dInfo.fieldAccess;
+        this.fieldReadOnly = dInfo.fieldReadOnly;
     }
 
 }

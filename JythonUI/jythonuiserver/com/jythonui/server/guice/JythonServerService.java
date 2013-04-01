@@ -16,6 +16,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.JythonUiServerProvider;
+import com.jythonui.server.defa.SecurityCache;
+import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.security.ISessionCache;
+import com.jythonui.server.security.impl.SecurityJython;
 
 /**
  * @author hotel
@@ -24,11 +28,13 @@ import com.jythonui.server.JythonUiServerProvider;
 public class JythonServerService {
 
     public abstract static class JythonServiceModule extends AbstractModule {
-       
+
         protected void configureJythonUi() {
             bind(IJythonUIServer.class)
                     .toProvider(JythonUiServerProvider.class).in(
                             Singleton.class);
+            bind(ISecurity.class).to(SecurityJython.class).in(Singleton.class);
+            bind(ISessionCache.class).to(SecurityCache.class).in(Singleton.class);            
         }
     }
 

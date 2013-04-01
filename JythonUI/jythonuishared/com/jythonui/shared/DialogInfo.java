@@ -10,26 +10,31 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-
 package com.jythonui.shared;
 
-import com.gwtmodel.table.common.CUtil;
+import java.io.Serializable;
 
-public class ClientProp extends ElemDescription {
+public class DialogInfo implements Serializable {
 
-    public boolean isAuthenticate() {
-        String s = this.getAttr(ICommonConsts.AUTHENTICATE);
-        if (CUtil.EmptyS(s))
-            return false;
-        return CUtil.EqNS(s, ICommonConsts.YESAUTHENTICATE);
+    private DialogFormat dialog;
+    private SecurityInfo security;
+    
+    // default constructor
+    public DialogInfo() {
+        
     }
 
-    public boolean isLoginPage() {
-        return isAttr(ICommonConsts.LOGINPAGE);
+    public DialogInfo(DialogFormat dialog, SecurityInfo security) {
+        this.dialog = dialog;
+        this.security = security;
     }
 
-    public String getLoginPage() {
-        return getAttr(ICommonConsts.LOGINPAGE);
+    public DialogFormat getDialog() {
+        return dialog;
+    }
+
+    public SecurityInfo getSecurity() {
+        return security;
     }
 
 }

@@ -43,10 +43,13 @@ import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.util.ValidateForm;
 import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IVariablesContainer;
+import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
+import com.jythonui.shared.SecurityInfo;
 
 /**
  * @author hotel
@@ -255,7 +258,11 @@ class GetViewController implements IGetViewControllerFactory {
         String eCrud = getCrudId(iContext.getPersistTypeEnum());
         addV.setValueS(ICommonConsts.JCRUD_DIALOG, eCrud);
 
-        DialogContainer sLo = new DialogContainer(da, li.getfElem(), iCon,
+        DialogInfo dInfo = rM.getDialogInfo();
+        DialogFormat dElem = li.getfElem();
+        SecurityInfo elemSec = new SecurityInfo(dInfo.getSecurity().getlSecur().get(dElem.getId()));
+        DialogInfo elemInfo = new DialogInfo(dElem,elemSec);
+        DialogContainer sLo = new DialogContainer(da, elemInfo, iCon,
                 null, addV);
         ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
         i.registerControler(cType);

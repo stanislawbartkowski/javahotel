@@ -19,7 +19,7 @@ import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.shared.ClientProp;
-import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 
 /**
@@ -30,9 +30,9 @@ public class JythonServiceImpl extends RemoteServiceServlet implements
         JythonService {
 
     @Override
-    public DialogFormat getDialogFormat(String name) {
+    public DialogInfo getDialogFormat(String token, String name) {
         IJythonUIServer iServer = Holder.getiServer();
-        return iServer.findDialog(name);
+        return iServer.findDialog(token, name);
     }
 
     @Override

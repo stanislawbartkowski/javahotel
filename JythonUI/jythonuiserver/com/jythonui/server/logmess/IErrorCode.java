@@ -15,5 +15,10 @@ package com.jythonui.server.logmess;
 public interface IErrorCode {
     String ERRORCODE1 = "E0001";
     String ERRORCODE2 = "E0002";
-
+    String ERRORCODE3 = "E0003";
+    String ERRORCODE4 = "E0004";
+    String ERRORCODE5 = "E0005";
+    String ERRORCODE6 = "E0006";
+    String ERRORCODE7 = "E0007";
+    String ERRORCODE8 = "E0008";
 }

@@ -13,6 +13,7 @@
 package com.jythonui.client.util;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.gwtmodel.table.common.CUtil;
 import com.jythonui.client.M;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
@@ -29,11 +30,15 @@ public class ExecuteAction {
     public static void action(IVariablesContainer iCon, String name,
             String actionId, AsyncCallback<DialogVariables> callback) {
         DialogVariables v = iCon.getVariables();
-        M.JR().runAction(v, name, actionId, callback);
+        // M.JR().runAction(v, name, actionId, callback);
+        action(v, name, actionId, callback);
     }
 
     public static void action(DialogVariables v, String name, String actionId,
             AsyncCallback<DialogVariables> callback) {
+        String token = M.getSecToken();
+        if (!CUtil.EmptyS(token))
+            v.setSecurityToken(token);
         M.JR().runAction(v, name, actionId, callback);
     }
 

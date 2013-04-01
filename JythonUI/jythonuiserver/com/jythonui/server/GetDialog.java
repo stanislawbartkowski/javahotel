@@ -28,10 +28,17 @@ import org.xml.sax.SAXException;
 
 import com.gwtmodel.mapxml.VerifyXML;
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.holder.Holder;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.server.logmess.LogMess;
+import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.SecurityInfo;
 import com.jythonui.shared.TypesDescr;
 
 /**
@@ -90,8 +97,13 @@ class GetDialog {
     }
 
     static DialogFormat getDialog(IJythonUIServerProperties p, MCached mCached,
-            String dialogName, boolean verify) {
+            String token, String dialogName, boolean verify) {
         DialogFormat d;
+        if (Holder.isAuth() && CUtil.EmptyS(token)) {
+            log.severe(LogMess.getMess(IErrorCode.ERRORCODE8,
+                    ILogMess.AUTOENABLEDNOTOKEN, dialogName));
+            return null;
+        }
         if (mCached.isCached()) {
             try {
                 d = (DialogFormat) mCached.getC().get(dialogName);
@@ -108,7 +120,8 @@ class GetDialog {
         d = getDialogDirectly(p, mCached, dialogName, verify);
         String dParentName = d.getParent();
         if (dParentName != null) {
-            DialogFormat dParent = getDialog(p, mCached, dParentName, false);
+            DialogFormat dParent = getDialog(p, mCached, token,
+                    dParentName, false);
             for (ListFormat lo : dParent.getListList()) {
                 if (lo.getfElem() != null
                         && lo.getfElem().getId().equals(dialogName)) {

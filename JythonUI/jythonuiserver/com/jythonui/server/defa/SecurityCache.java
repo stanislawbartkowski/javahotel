@@ -10,35 +10,39 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.defa;
+
+import java.io.InvalidClassException;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 
 import com.gwtmodel.commoncache.ICommonCache;
-import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.security.ISessionCache;
 
-/**
- * @author hotel
- * 
- */
-public class JythonUiServerProvider implements Provider<IJythonUIServer> {
+public class SecurityCache implements ISessionCache {
 
-    private final IJythonUIServerProperties i;
-    private final ICommonCache mCache;
-    private final ISecurity iSec;
+    private final ICommonCache iCache;
 
     @Inject
-    public JythonUiServerProvider(IJythonUIServerProperties i,
-            ICommonCache mCache, ISecurity iSec) {
-        this.i = i;
-        this.mCache = mCache;
-        this.iSec = iSec;
+    public SecurityCache(ICommonCache iCache) {
+        this.iCache = iCache;
     }
 
     @Override
-    public IJythonUIServer get() {
-        return new JythonUIServer(i, mCache, iSec);
+    public Object get(String key) throws InvalidClassException {
+        return iCache.get(key);
+    }
+
+    @Override
+    public void put(String key, Object o) {
+        iCache.put(key, o);
+
+    }
+
+    @Override
+    public void remove(String key) {
+        iCache.remove(key);
+
     }
 
 }
