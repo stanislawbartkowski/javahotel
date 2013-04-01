@@ -30,7 +30,7 @@ public class Test11 extends TestHelper {
 
     @Test
     public void test1() {
-        DialogFormat d = iServer.findDialog("test20.xml");
+        DialogFormat d = findDialog("test20.xml");
         assertNotNull(d);
         assertNotNull(d.getDisplayName());
         assertEquals("Dialog title", d.getDisplayName());
@@ -39,7 +39,7 @@ public class Test11 extends TestHelper {
 
     @Test
     public void test2() {
-        DialogFormat d = iServer.findDialog("test21.xml");
+        DialogFormat d = findDialog("test21.xml");
         assertNotNull(d);
         FieldItem f = d.findFieldItem("glob1");
         assertTrue(f.isReadOnlyChange());
@@ -49,7 +49,7 @@ public class Test11 extends TestHelper {
 
     @Test
     public void test3() {
-        DialogFormat d = iServer.findDialog("test22.xml");
+        DialogFormat d = findDialog("test22.xml");
         assertNotNull(d);
         assertNotNull(d.getLeftButtonList());
         int no = 0;
@@ -69,7 +69,7 @@ public class Test11 extends TestHelper {
 
     @Test
     public void test4() {
-        DialogFormat d = iServer.findDialog("test23.xml");
+        DialogFormat d = findDialog("test23.xml");
         assertNotNull(d);
         assertNotNull(d.getLeftButtonList());
         assertEquals(2,d.getLeftButtonList().size());
@@ -79,7 +79,7 @@ public class Test11 extends TestHelper {
 
     @Test
     public void test5() {
-        DialogFormat d = iServer.findDialog("test24.xml");
+        DialogFormat d = findDialog("test24.xml");
         assertNotNull(d);
         assertNotNull(d.getLeftButtonList());
         assertEquals(2,d.getLeftButtonList().size());

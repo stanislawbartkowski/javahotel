@@ -37,7 +37,7 @@ public class Test5 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue("Firm worldwide");
         v.setValue("company", val);
-        DialogFormat d = iServer.findDialog("test11.xml");
+        DialogFormat d = findDialog("test11.xml");
         assertNotNull(d);
         ListFormat li = d.findList("lista1");
         assertNotNull(li);
@@ -80,7 +80,7 @@ public class Test5 extends TestHelper {
     public void test2() {
         FieldValue val = new FieldValue();
         DialogVariables v = new DialogVariables();
-        DialogFormat d = iServer.findDialog("test11.xml");
+        DialogFormat d = findDialog("test11.xml");
         assertNotNull(d);
         ListFormat li = d.findList("lista1");
         assertNotNull(li);
@@ -119,7 +119,7 @@ public class Test5 extends TestHelper {
     @Test
     public void test3() {
         DialogVariables v = new DialogVariables();
-        DialogFormat d = iServer.findDialog("test12.xml");
+        DialogFormat d = findDialog("test12.xml");
         assertNotNull(d);
         ListFormat li = d.findList("lista");
         assertNotNull(li);
@@ -140,7 +140,7 @@ public class Test5 extends TestHelper {
     
     @Test
     public void test4() {
-        DialogFormat d = iServer.findDialog("test11.xml");
+        DialogFormat d = findDialog("test11.xml");
         assertNotNull(d);
         assertEquals(2,d.getFieldList().size());
         for (FieldItem i : d.getFieldList()) {

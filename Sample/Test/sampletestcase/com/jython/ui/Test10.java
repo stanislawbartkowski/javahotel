@@ -68,7 +68,7 @@ public class Test10 extends TestHelper {
     @Test
     public void test3() {
         po.clearAll();
-        DialogFormat d = iServer.findDialog("test18.xml");
+        DialogFormat d = findDialog("test18.xml");
         assertNotNull(d);
         IPerson p = po.construct();
         p.setPersonName("John Kovalsky");

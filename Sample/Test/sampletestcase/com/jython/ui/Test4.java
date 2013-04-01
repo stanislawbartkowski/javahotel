@@ -27,7 +27,7 @@ public class Test4 extends TestHelper {
 
     @Test
     public void test1() {
-        DialogFormat d = iServer.findDialog("test9.xml");
+        DialogFormat d = findDialog("test9.xml");
         assertNotNull(d);
         assertNotNull(d.getListList());
         assertEquals(1,d.getListList().size());
@@ -45,7 +45,7 @@ public class Test4 extends TestHelper {
 
     @Test
     public void test2() {
-        DialogFormat d = iServer.findDialog("test10.xml");
+        DialogFormat d = findDialog("test10.xml");
         assertNotNull(d);
         assertNotNull(d.getListList());
         assertEquals(2,d.getListList().size());

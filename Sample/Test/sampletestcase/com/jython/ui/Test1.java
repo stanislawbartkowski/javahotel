@@ -30,7 +30,7 @@ public class Test1 extends TestHelper {
     public void test() {
         DialogFormat d = null;
         try {
-            d = iServer.findDialog("startnonexisting.xml");
+            d = findDialog("startnonexisting.xml");
         } catch (Exception e) {
         }
         ;
@@ -39,7 +39,7 @@ public class Test1 extends TestHelper {
 
     @Test
     public void test1() {
-        DialogFormat d = iServer.findDialog("start1.xml");
+        DialogFormat d = findDialog("start1.xml");
         assertNotNull(d);
         assertTrue(d.isBefore());
         assertNotNull(d.getLeftButtonList());
@@ -49,7 +49,7 @@ public class Test1 extends TestHelper {
     public void test2() {
         DialogFormat d = null;
         try {
-            d = iServer.findDialog("test2.xml");
+            d = findDialog("test2.xml");
         } catch (Exception e) {
         }
         ;

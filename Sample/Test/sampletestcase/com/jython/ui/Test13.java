@@ -33,7 +33,7 @@ public class Test13 extends TestHelper {
 
     @Test
     public void test1() {
-        DialogFormat d = iServer.findDialog("test29.xml");
+        DialogFormat d = findDialog("test29.xml");
         assertNotNull(d);
         DialogVariables v = new DialogVariables();
         iServer.runAction(v, "test26.xml", ICommonConsts.BEFORE);
@@ -46,7 +46,7 @@ public class Test13 extends TestHelper {
 
     @Test
     public void test2() {
-        DialogFormat d = iServer.findDialog("test29.xml");
+        DialogFormat d = findDialog("test29.xml");
         assertNotNull(d);
         FieldItem f = d.findFieldItem("globhelper");
         DialogVariables v = new DialogVariables();
@@ -58,7 +58,7 @@ public class Test13 extends TestHelper {
 
     @Test
     public void test3() {
-        DialogFormat d = iServer.findDialog("test29.xml");
+        DialogFormat d = findDialog("test29.xml");
         assertNotNull(d);
         TypedefDescr ty = d.findCustomType("tehelper");
         assertNotNull(ty);
@@ -67,7 +67,7 @@ public class Test13 extends TestHelper {
 
     @Test
     public void test4() {
-        DialogFormat d = iServer.findDialog("test30.xml");
+        DialogFormat d = findDialog("test30.xml");
         assertNotNull(d);
         FieldItem f = d.findFieldItem("glob1");
         assertNotNull(f);
@@ -89,7 +89,7 @@ public class Test13 extends TestHelper {
 
     @Test
     public void test5() {
-        DialogFormat d = iServer.findDialog("test29.xml");
+        DialogFormat d = findDialog("test29.xml");
         assertNotNull(d);
         FieldItem f = d.findFieldItem("glob2");
         assertEquals("glob", f.getFrom());
@@ -97,7 +97,7 @@ public class Test13 extends TestHelper {
 
     @Test
     public void test6() {
-        DialogFormat d = iServer.findDialog("test31.xml");
+        DialogFormat d = findDialog("test31.xml");
         assertNotNull(d);
         ButtonItem b = DialogFormat.findE(d.getButtonList(), "ID");
         assertNotNull(b);

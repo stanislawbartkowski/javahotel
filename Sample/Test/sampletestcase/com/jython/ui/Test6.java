@@ -27,7 +27,7 @@ public class Test6 extends TestHelper{
     
     @Test
     public void test1() {
-        DialogFormat d = iServer.findDialog("test13.xml");
+        DialogFormat d = findDialog("test13.xml");
         assertNotNull(d);
         DialogFormat elem = d.getListList().get(0).getfElem();
         assertNotNull(elem);
@@ -38,7 +38,7 @@ public class Test6 extends TestHelper{
     
     @Test
     public void test2() {
-        DialogFormat d = iServer.findDialog("test14.xml");
+        DialogFormat d = findDialog("test14.xml");
         assertNotNull(d);
         DialogFormat elem = d.getListList().get(0).getfElem();
         assertNotNull(elem);
@@ -55,7 +55,7 @@ public class Test6 extends TestHelper{
 
     @Test
     public void test3() {
-        DialogFormat d = iServer.findDialog("test15.xml");
+        DialogFormat d = findDialog("test15.xml");
         assertNotNull(d);
         assertEquals(2,d.getFieldList().size());
         int no = 0;
@@ -79,9 +79,9 @@ public class Test6 extends TestHelper{
     
     @Test
     public void test4() {
-        DialogFormat d = iServer.findDialog("test16.xml");
+        DialogFormat d = findDialog("test16.xml");
         assertNotNull(d);
-        d = iServer.findDialog("elem3.xml");
+        d = findDialog("elem3.xml");
         assertNotNull(d);
         assertNotNull(d.getFieldList());
         assertNotNull(d.getJythonImport());
@@ -90,14 +90,14 @@ public class Test6 extends TestHelper{
     
     @Test
     public void test5() {
-        DialogFormat d = iServer.findDialog("test17.xml");
+        DialogFormat d = findDialog("test17.xml");
         assertNotNull(d);
-        d = iServer.findDialog("elem4.xml");
+        d = findDialog("elem4.xml");
         assertNotNull(d);
         assertNotNull(d.getFieldList());
         assertNotNull(d.getJythonImport());
         assertNotNull(d.getJythonMethod());        
-        d = iServer.findDialog("elem5.xml");
+        d = findDialog("elem5.xml");
         assertNotNull(d);
         assertNotNull(d.getFieldList());
         assertNotNull(d.getJythonImport());

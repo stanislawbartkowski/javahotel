@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<before/>
+ 
+ <jython>
+   <import>from testpack import authen</import>
+   <method>authen.dialogaction({0},{1})</method>
+ </jython>  
+
+
+ <form>
+   <field id="firstname" displayname="First name" />
+   <field id="lastname" displayname="Last name" />
+ </form>  
+ 
+</dialog>
