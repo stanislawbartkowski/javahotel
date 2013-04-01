@@ -23,6 +23,9 @@ import org.junit.Before;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.security.ISecurity;
+import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
 
 /**
  * @author hotel
@@ -33,19 +36,23 @@ public class TestHelper {
     protected final IJythonUIServer iServer;
     protected final ITestEnhancer iTest;
     protected final IPersonOp po;
+    protected final ISecurity iSec;
 
-    
+    protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
+    protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
+
     public TestHelper() {
         iServer = ServiceInjector.contructJythonUiServer();
         iTest = ServiceInjector.constructITestEnhancer();
         po = ServiceInjector.constructPersonOp();
+        iSec = ServiceInjector.constructSecurity();
     }
-    
+
     @Before
     public void setUp() {
         iTest.beforeTest();
     }
-    
+
     @After
     public void tearDown() {
         iTest.afterTest();
@@ -55,6 +62,13 @@ public class TestHelper {
         BigDecimal c = new BigDecimal(f).setScale(afterdot,
                 BigDecimal.ROUND_HALF_UP);
         assertEquals(c, b);
+    }
+
+    protected DialogFormat findDialog(String dialogName) {
+        DialogInfo d = iServer.findDialog(null, dialogName);
+        if (d == null)
+            return null;
+        return d.getDialog();
     }
 
 }

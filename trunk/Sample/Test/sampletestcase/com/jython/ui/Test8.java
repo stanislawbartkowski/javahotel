@@ -71,7 +71,7 @@ public class Test8 extends TestHelper {
 
     @Test
     public void test3() {
-        DialogFormat d = iServer.findDialog("test18.xml");
+        DialogFormat d = findDialog("test18.xml");
         assertNotNull(d);
 
         po.clearAll();
