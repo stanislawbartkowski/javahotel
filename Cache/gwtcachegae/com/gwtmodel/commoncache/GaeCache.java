@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.commoncache;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.appengine.api.memcache.MemcacheService;
@@ -32,45 +31,19 @@ class GaeCache implements ICommonCache {
         cache = MemcacheServiceFactory.getMemcacheService();
     }
 
+    @Override
     public Object get(String key) {
         return cache.get(key);
     }
 
-    public Object getE(String key) {
-        Object o = cache.get(key);
-        if (o == null) {
-            lo.log(Level.SEVERE, "", new RuntimeException(key
-                    + " entry not found"));
-        }
-        return o;
-    }
-
+    @Override
     public void put(String key, Object o) {
         cache.put(key, o);
     }
 
+    @Override
     public void remove(String key) {
         cache.delete(key);
-    }
-
-    public long inc(String iKey, boolean plus) {
-        long de;
-        if (plus) {
-            de = 1;
-        } else {
-            de = -1;
-        }
-        Long l = cache.increment(iKey, de);
-        if (l == null) {
-            cache.put(iKey, de);
-            return de;
-        }
-        return l;
-    }
-
-    @Override
-    public void clearAll() {
-        cache.clearAll();
     }
 
 }
