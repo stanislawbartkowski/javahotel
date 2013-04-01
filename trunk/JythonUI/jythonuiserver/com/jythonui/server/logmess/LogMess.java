@@ -38,7 +38,13 @@ public class LogMess {
     public static String getMess(String errCode, String key, String... params) {
         readProp();
         String m = mess.getProperty(key);
+        if (errCode == null)
+            return MessageFormat.format(m, params);
         return errCode + " " + MessageFormat.format(m, params);
+    }
+
+    public static String getMessN(String key, String... params) {
+        return getMess(null, key, params);
     }
 
 }

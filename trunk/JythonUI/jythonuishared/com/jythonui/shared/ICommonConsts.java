@@ -127,6 +127,9 @@ public interface ICommonConsts {
     String HTMLID = "htmlid";
     String AUTHENTICATE = "Authenticate";
     String YESAUTHENTICATE = "Y";
+    String SECREADONLY = "secreadonly";
+    String SECACCESS = "secaccess";
+    String J_SECURITYTOKEN = "J_SECURITYTOKEN";
 
     String APP_TITLE = "Title";
     String APP_PRODUCTNAME = "ProductName";
@@ -134,4 +137,15 @@ public interface ICommonConsts {
     String APP_VERSION = "Version";
     String APP_FILENAME = "app.properties";
     String APP_PRODUCTIMAGE = "ProductImage";
+
+    String PERMDELIMITER = "!";
+    String UPERM = "u:";
+    String RPERM = "r:";
+    String PPERM = "p:";
+
+    String SECURITYTOKEN = "SECURITY_TOKEN";
+
+    String LOGINPAGE = "Login";
+    String LOGINDELIMITER = ",";
+    String STARTPAGE = "start";
 }

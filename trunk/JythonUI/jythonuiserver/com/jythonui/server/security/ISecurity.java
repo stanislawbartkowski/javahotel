@@ -10,26 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.jythonui.server.security;
 
-package com.jythonui.shared;
+public interface ISecurity {
 
-import com.gwtmodel.table.common.CUtil;
+    String authenticateToken(String realm, String userName, String password);
 
-public class ClientProp extends ElemDescription {
+    void logout(String token);
 
-    public boolean isAuthenticate() {
-        String s = this.getAttr(ICommonConsts.AUTHENTICATE);
-        if (CUtil.EmptyS(s))
-            return false;
-        return CUtil.EqNS(s, ICommonConsts.YESAUTHENTICATE);
-    }
+    boolean validToken(String token);
 
-    public boolean isLoginPage() {
-        return isAttr(ICommonConsts.LOGINPAGE);
-    }
-
-    public String getLoginPage() {
-        return getAttr(ICommonConsts.LOGINPAGE);
-    }
+    boolean isAuthorized(String token, String permission);
 
 }

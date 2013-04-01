@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.WebPanelHolder;
@@ -36,13 +37,13 @@ public class JythonClientStart {
 
     private static class ResBack implements AsyncCallback<ClientProp> {
 
-        private final String startX;
+        private String startX;
 
         private class AfterLogin implements ICommand {
 
             @Override
             public void execute() {
-                iClient.start(startX == null ? START : startX);
+                iClient.start(startX);
             }
 
         }
@@ -96,17 +97,44 @@ public class JythonClientStart {
                 drawError();
                 return;
             }
+            // resolve root dialog
+            if (CUtil.EmptyS(startX)) {
+                startX = Utils.getURLParam(ICommonConsts.STARTPAGE);
+            }
+            if (CUtil.EmptyS(startX)) {
+                startX = START;
+            }
+            // resolve if authentication is required
             boolean auth = result.isAuthenticate();
+            if (!auth) {
+                // not global authentication
+                String authPages = result.getLoginPage();
+                if (!CUtil.EmptyS(authPages)) {
+                    // verify if starting page on the list of pages requiring
+                    // authentication
+                    String[] pList = authPages
+                            .split(ICommonConsts.LOGINDELIMITER);
+                    for (String s : pList) {
+                        if (s.equals(startX)) {
+                            auth = true;
+                        }
+                    }
+                }
+            }
+
+            // initialize several factories
             ITableAbstractFactories tFactories = GwtGiniInjector.getI()
                     .getITableAbstractFactories();
             tFactories.registerWebPanelResources(new JythonWebPanelResources(
                     result));
 
+            // construct WebPanel handler
             WebPanelFactory wFactory = GwtGiniInjector.getI()
                     .getWebPanelFactory();
             IWebPanel wPan = wFactory.construct(new LogOut(auth));
             WebPanelHolder.setWebPanel(wPan);
             RootPanel.get().add(wPan.getWidget());
+            // start running
             startBegin(auth);
         }
 

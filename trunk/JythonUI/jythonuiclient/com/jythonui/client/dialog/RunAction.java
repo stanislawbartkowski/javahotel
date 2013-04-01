@@ -32,6 +32,7 @@ import com.jythonui.client.M;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 
 /**
@@ -132,7 +133,7 @@ public class RunAction implements IJythonUIClient {
 
     }
 
-    private class StartBack extends CommonCallBack<DialogFormat> {
+    private class StartBack extends CommonCallBack<DialogInfo> {
 
         private final IDataType dType;
         private final ISlotListener getW;
@@ -151,7 +152,7 @@ public class RunAction implements IJythonUIClient {
         }
 
         @Override
-        public void onMySuccess(DialogFormat arg) {
+        public void onMySuccess(DialogInfo arg) {
             DialogContainer d = new DialogContainer(dType, arg, iCon, iClose,
                     addV);
             d.getSlContainer().registerSubscriber(
@@ -168,7 +169,7 @@ public class RunAction implements IJythonUIClient {
     @Override
     public void start(String startdialogName) {
         IDataType dType = DataType.construct(startdialogName, null);
-        M.JR().getDialogFormat(startdialogName,
+        M.JR().getDialogFormat(M.getSecToken(),startdialogName,
                 new StartBack(dType, new GetCenterWidget(), null, null, null));
     }
 
@@ -185,7 +186,7 @@ public class RunAction implements IJythonUIClient {
     public void upDialog(String dialogName, WSize w, IVariablesContainer iCon) {
         IDataType dType = DataType.construct(dialogName, null);
 
-        M.JR().getDialogFormat(dialogName,
+        M.JR().getDialogFormat(M.getSecToken(),dialogName,
                 new StartBack(dType, new GetUpWidget(w), iCon, null, null));
     }
 
@@ -194,7 +195,7 @@ public class RunAction implements IJythonUIClient {
             DialogVariables addV) {
         IDataType dType = DataType.construct(dialogName, null);
 
-        M.JR().getDialogFormat(dialogName,
+        M.JR().getDialogFormat(M.getSecToken(),dialogName,
                 new StartBack(dType, sl, iCon, iClose, addV));
     }
 

@@ -26,6 +26,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.util.RowVModelData;
 import com.jythonui.client.variables.IVariablesContainer;
+import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowIndex;
@@ -40,17 +41,21 @@ public class RowListDataManager {
     private final Map<IDataType, String> listMap = new HashMap<IDataType, String>();
     private final Map<IDataType, ListFormat> lMap = new HashMap<IDataType, ListFormat>();
     private final Map<IDataType, RowIndex> rMap = new HashMap<IDataType, RowIndex>();
-    private final String dialogName;
+    private final DialogInfo dialogInfo;
 
-    public RowListDataManager(String dialogName) {
-        this.dialogName = dialogName;
+    public RowListDataManager(DialogInfo dialogInfo) {
+        this.dialogInfo = dialogInfo;
     }
 
     /**
      * @return the dialogName
      */
+    DialogInfo getDialogInfo() {
+        return dialogInfo;
+    }
+
     String getDialogName() {
-        return dialogName;
+        return dialogInfo.getDialog().getId();
     }
 
     public void addList(IDataType di, String lId, ListFormat fo) {

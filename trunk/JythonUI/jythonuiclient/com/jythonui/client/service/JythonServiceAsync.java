@@ -15,6 +15,7 @@ package com.jythonui.client.service;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 
 /**
@@ -22,7 +23,8 @@ import com.jythonui.shared.DialogVariables;
  */
 public interface JythonServiceAsync {
 
-    void getDialogFormat(String name, AsyncCallback<DialogFormat> callback);
+    void getDialogFormat(String token, String name,
+            AsyncCallback<DialogInfo> callback);
 
     void runAction(DialogVariables v, String name, String actionId,
             AsyncCallback<DialogVariables> callback);

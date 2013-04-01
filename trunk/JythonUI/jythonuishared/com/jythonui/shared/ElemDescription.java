@@ -67,4 +67,20 @@ public abstract class ElemDescription implements Serializable {
         return isAttr(ICommonConsts.HTMLID);
     }
 
+    public boolean isSecAccess() {
+        return isAttr(ICommonConsts.SECACCESS);
+    }
+
+    public String getSecAccess() {
+        return getAttr(ICommonConsts.SECACCESS);
+    }
+
+    public boolean isSecReadOnly() {
+        return isAttr(ICommonConsts.SECREADONLY);
+    }
+
+    public String getSecReadOnly() {
+        return getAttr(ICommonConsts.SECREADONLY);
+    }
+
 }

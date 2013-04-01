@@ -67,6 +67,7 @@ import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
@@ -81,17 +82,19 @@ import com.jythonui.shared.ListOfRows;
 public class DialogContainer extends AbstractSlotMediatorContainer {
 
     private final RowListDataManager liManager;
+    private DialogInfo info;
     private DialogFormat d;
     private final IVariablesContainer iCon;
     private final ISendCloseAction iClose;
     private final DialogVariables addV;
 
-    public DialogContainer(IDataType dType, DialogFormat d,
+    public DialogContainer(IDataType dType, DialogInfo info,
             IVariablesContainer pCon, ISendCloseAction iClose,
             DialogVariables addV) {
-        this.d = d;
+        this.info = info;
+        this.d = info.getDialog();
         this.dType = dType;
-        liManager = new RowListDataManager(d.getId());
+        liManager = new RowListDataManager(info);
         if (pCon == null) {
             if (M.getVar() == null) {
                 iCon = VariableContainerFactory.construct();
@@ -185,11 +188,15 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             FieldValue val = new FieldValue();
             val.setValue(coB.getValue());
             v.setValue(ICommonConsts.SIGNALAFTERFOCUS, val);
-            M.JR()
-                    .runAction(
-                            v,
-                            d.getId(),
-                            ICommonConsts.SIGNALCHANGE,
+            // M.JR()
+            // .runAction(
+            // v,
+            // d.getId(),
+            // ICommonConsts.SIGNALCHANGE,
+            // new BackClass(null, false,
+            // new WSize(i.getGWidget()), null));
+            ExecuteAction
+                    .action(v, d.getId(), ICommonConsts.SIGNALCHANGE,
                             new BackClass(null, false,
                                     new WSize(i.getGWidget()), null));
         }
@@ -341,8 +348,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 public void click(boolean yes) {
                     DialogVariables v = iCon.getVariables();
                     v.setValueB(ICommonConsts.JYESANSWER, yes);
-                    M.JR().runAction(v, d.getId(), param1,
-                            new BackClass(param1, false, w, null));
+                    // M.JR().runAction(v, d.getId(), param1,
+                    // new BackClass(param1, false, w, null));
+                    ExecuteAction.action(v, d.getId(), param1, new BackClass(
+                            param1, false, w, null));
 
                 }
 
@@ -391,9 +400,11 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                         iCon);
                 return;
             }
-            DialogVariables v = iCon.getVariables();
-            M.JR().runAction(v, d.getId(), id,
-                    new BackClass(id, false, w, null));
+            // DialogVariables v = iCon.getVariables();
+            // M.JR().runAction(v, d.getId(), id,
+            // new BackClass(id, false, w, null));
+            ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
+                    w, null));
         }
         // DialogVariables v = iCon.getVariables();
         // M.JR().runAction(v, d.getId(), id, new BackClass(id, false, w,

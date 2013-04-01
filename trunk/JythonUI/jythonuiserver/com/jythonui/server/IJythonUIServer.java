@@ -12,7 +12,7 @@
  */
 package com.jythonui.server;
 
-import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 
 /**
@@ -21,7 +21,7 @@ import com.jythonui.shared.DialogVariables;
  */
 public interface IJythonUIServer {
 
-    DialogFormat findDialog(String dialogName);
+    DialogInfo findDialog(String token, String dialogName);
 
     DialogVariables runAction(DialogVariables v, String dialogName,
             String actionId);
