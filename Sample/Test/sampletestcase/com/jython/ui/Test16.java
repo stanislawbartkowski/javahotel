@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.jythonui.server.holder.Holder;
+import com.jythonui.shared.DialSecurityInfo;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 
@@ -24,6 +25,7 @@ public class Test16 extends TestHelper {
 
     @Test
     public void test1() {
+        Holder.setAuth(false);
         DialogFormat d = findDialog("test38.xml");
         assertNotNull(d);
         Holder.setAuth(true);
@@ -57,6 +59,8 @@ public class Test16 extends TestHelper {
         assertEquals(2,i.getSecurity().getFieldAccess().size());
         assertEquals(0,i.getSecurity().getFieldReadOnly().size());
         assertTrue(i.getSecurity().getFieldAccess().contains("globenum"));
+        assertEquals(DialSecurityInfo.AccessType.ACCESS,i.getSecurity().fieldAccess("globenum"));
+        assertEquals(DialSecurityInfo.AccessType.ACCESS,i.getSecurity().fieldAccess("glob"));
         iSec.logout(t);
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
@@ -66,6 +70,8 @@ public class Test16 extends TestHelper {
         assertEquals(0,i.getSecurity().getButtonReadOnly().size());
         // only one is accessible
         assertEquals(1,i.getSecurity().getFieldAccess().size());
+        assertEquals(DialSecurityInfo.AccessType.NOACCESS,i.getSecurity().fieldAccess("globenum"));
+        assertEquals(DialSecurityInfo.AccessType.ACCESS,i.getSecurity().fieldAccess("glob"));
         assertEquals(0,i.getSecurity().getFieldReadOnly().size());
         // glob only
         assertTrue(i.getSecurity().getFieldAccess().contains("glob"));
@@ -91,9 +97,12 @@ public class Test16 extends TestHelper {
         assertNotNull(i);
         assertEquals(1,i.getSecurity().getButtonAccess().size());
         assertTrue(i.getSecurity().getButtonAccess().contains("ID1"));
+        assertEquals(DialSecurityInfo.AccessType.ACCESS,i.getSecurity().buttonAccess("ID1"));
         // one read only
         assertEquals(1,i.getSecurity().getButtonReadOnly().size());
         assertTrue(i.getSecurity().getButtonReadOnly().contains("ID"));
+        assertEquals(DialSecurityInfo.AccessType.READONLY,i.getSecurity().buttonAccess("ID"));
+
         // both are accessible
         assertEquals(3,i.getSecurity().getFieldAccess().size());
         assertEquals(0,i.getSecurity().getFieldReadOnly().size());        
