@@ -20,22 +20,39 @@ public class ControlButtonDesc {
     private final String displayName;
     private final ClickButtonType actionId;
     private final boolean textimage;
+    private final boolean enabled;
 
     public ControlButtonDesc(final String imageHtml, final String displayName,
-            final ClickButtonType actionId) {
+            final ClickButtonType actionId, boolean enabled) {
         this.imageHtml = imageHtml;
         this.displayName = displayName;
         this.actionId = actionId;
         textimage = false;
+        this.enabled = enabled;
+    }
+
+    public ControlButtonDesc(final String imageHtml, final String displayName,
+            final ClickButtonType actionId) {
+        this(imageHtml, displayName, actionId, true);
     }
 
     public ControlButtonDesc(final String contrName,
             final ClickButtonType actionId) {
-        this(null, contrName, actionId);
+        this(null, contrName, actionId, true);
+    }
+
+    public ControlButtonDesc(final String contrName,
+            final ClickButtonType actionId, boolean enabled) {
+        this(null, contrName, actionId, enabled);
     }
 
     public ControlButtonDesc(final String contrName, String actionId) {
-        this(null, contrName, new ClickButtonType(actionId));
+        this(null, contrName, new ClickButtonType(actionId), true);
+    }
+
+    public ControlButtonDesc(final String contrName, String actionId,
+            boolean enabled) {
+        this(null, contrName, new ClickButtonType(actionId), enabled);
     }
 
     public boolean isTextimage() {
@@ -69,4 +86,9 @@ public class ControlButtonDesc {
     public boolean isMenuTitle() {
         return actionId.isMenuTitle();
     }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
 }

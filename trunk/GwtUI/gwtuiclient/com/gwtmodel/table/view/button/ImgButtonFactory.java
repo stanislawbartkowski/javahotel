@@ -34,13 +34,7 @@ public class ImgButtonFactory {
         IGFocusWidget w;
         IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
         if (img != null) {
-            String imageFile;
-            if (img.indexOf('.') == -1) {
-                imageFile = img + ".gif";
-            } else {
-                imageFile = img;
-            }
-            String h = Utils.getImageHTML(imageFile);
+            String h = Utils.getImageHTML(img);
             but = new Button();
             but.setHTML(h);
             w = GFocusWidgetFactory.construct(but, iMess.getMessage(bName));
@@ -57,7 +51,7 @@ public class ImgButtonFactory {
     public static IGFocusWidget getButtonTextImage(String bId, String bName,
             String img) {
         String ht = "<table><tr>";
-        String h = Utils.getImageHTML(img + ".gif");
+        String h = Utils.getImageHTML(img);
         ht += h;
         Label la = new Label(bName);
         ht += "<td>" + la.getElement().getInnerHTML() + "</td>";

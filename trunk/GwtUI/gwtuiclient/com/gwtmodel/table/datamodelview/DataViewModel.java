@@ -70,6 +70,7 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
 
     private void changeMode(PersistTypeEnum persistTypeEnum, FormField fie) {
         IFormLineView vie = fie.getELine();
+        if (fie.isModeSetAlready()) return;
         switch (persistTypeEnum) {
             case ADD:
                 if (fie.isReadOnlyIfAdd()) {
@@ -89,6 +90,8 @@ class DataViewModel extends AbstractSlotContainer implements IDataViewModel {
             case SHOWONLY:
                 vie.setReadOnly(true);
                 break;
+        default:
+            break;
         }
     }
 
