@@ -38,6 +38,7 @@ public class JythonClientStart {
     private static class ResBack implements AsyncCallback<ClientProp> {
 
         private String startX;
+        private String shiroRealm;
 
         private class AfterLogin implements ICommand {
 
@@ -86,7 +87,7 @@ public class JythonClientStart {
         private void startBegin(boolean auth) {
             ICommand co = new AfterLogin();
             if (auth) {
-                LoginPage.login(co);
+                LoginPage.login(shiroRealm, co);
             } else
                 co.execute();
         }
@@ -104,6 +105,7 @@ public class JythonClientStart {
             if (CUtil.EmptyS(startX)) {
                 startX = START;
             }
+            shiroRealm = result.getAttr(ICommonConsts.SHIROREALM);
             // resolve if authentication is required
             boolean auth = result.isAuthenticate();
             if (!auth) {

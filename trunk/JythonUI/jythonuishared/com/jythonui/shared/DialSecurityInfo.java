@@ -17,11 +17,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DialSecurityInfo implements Serializable {
-    
+
     protected Set<String> fieldAccess = new HashSet<String>();
     protected Set<String> fieldReadOnly = new HashSet<String>();
     protected Set<String> buttonAccess = new HashSet<String>();
     protected Set<String> buttonReadOnly = new HashSet<String>();
+
+    public enum AccessType {
+        ACCESS, READONLY, NOACCESS;
+    }
+
+    private static AccessType accessType(String id, Set<String> saccess,
+            Set<String> sreadonly) {
+        if (saccess.contains(id))
+            return AccessType.ACCESS;
+        if (sreadonly.contains(id))
+            return AccessType.READONLY;
+        return AccessType.NOACCESS;
+    }
+
+    public AccessType fieldAccess(String id) {
+        return accessType(id, fieldAccess, fieldReadOnly);
+    }
+
+    public AccessType buttonAccess(String id) {
+        return accessType(id, buttonAccess, buttonReadOnly);
+    }
 
     public Set<String> getFieldAccess() {
         return fieldAccess;

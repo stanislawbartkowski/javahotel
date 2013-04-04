@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.security.ISecurity;
 
 public class Holder {
 
@@ -24,6 +25,9 @@ public class Holder {
 
     @Inject
     private static IJythonClientRes iClient;
+
+    @Inject
+    private static ISecurity iSec;
 
     private static boolean auth = false;
 
@@ -41,6 +45,10 @@ public class Holder {
 
     public static IJythonClientRes getiClient() {
         return iClient;
+    }
+
+    public static ISecurity getiSec() {
+        return iSec;
     }
 
 }

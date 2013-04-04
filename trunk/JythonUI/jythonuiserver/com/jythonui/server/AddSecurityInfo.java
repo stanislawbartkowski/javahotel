@@ -58,7 +58,7 @@ class AddSecurityInfo {
                 continue;
             }
             if (!e.isSecReadOnly()) // no access
-                continue; 
+                continue;
             // read only code
             if (iSec.isAuthorized(token, e.getSecReadOnly())) {
                 // read only access
@@ -74,6 +74,8 @@ class AddSecurityInfo {
                 d.getFieldList());
         scanList(iSec, token, sInfo.getButtonAccess(),
                 sInfo.getButtonReadOnly(), d.getButtonList());
+        scanList(iSec, token, sInfo.getButtonAccess(),
+                sInfo.getButtonReadOnly(), d.getLeftButtonList());
         return sInfo;
     }
 

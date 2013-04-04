@@ -116,7 +116,7 @@ class ListControler {
             protected void doTask() {
                 ListFormat fo = rM.getFormat(dType);
                 if (lOfRows == null) {
-//                    Utils.errAlert(M.M().NoInfoOnList(fo.getId()));
+                    // Utils.errAlert(M.M().NoInfoOnList(fo.getId()));
                     return;
                 }
                 if (fo.isChunked()) {
@@ -238,7 +238,8 @@ class ListControler {
         @Override
         public void startPublish(CellId cellId) {
             ListFormat fo = rM.getFormat(dType);
-            VListHeaderContainer vHeader = CreateForm.constructColumns(fo);
+            VListHeaderContainer vHeader = CreateForm.constructColumns(rM
+                    .getDialogInfo().getSecurity(), fo);
             publish(dType, vHeader);
         }
 

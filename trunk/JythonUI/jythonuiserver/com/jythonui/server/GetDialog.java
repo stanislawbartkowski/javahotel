@@ -32,13 +32,10 @@ import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.logmess.LogMess;
-import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
-import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
-import com.jythonui.shared.SecurityInfo;
 import com.jythonui.shared.TypesDescr;
 
 /**
@@ -128,8 +125,9 @@ class GetDialog {
                     return lo.getfElem();
                 }
             }
-            error(dParentName + " is parent in the " + dialogName
-                    + " but there is no such a dialog in the parent specified");
+//            error(dParentName + " is parent in the " + dialogName
+//                    + " but there is no such a dialog in the parent specified");
+            error(LogMess.getMess(IErrorCode.ERRORCODE9, ILogMess.ELEMDOESNOTMATCHPARENT, dParentName,dialogName));
         }
         if (d != null)
             if (mCached.isCached()) {

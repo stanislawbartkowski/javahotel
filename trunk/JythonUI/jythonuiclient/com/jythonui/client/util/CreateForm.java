@@ -33,10 +33,13 @@ import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.DialSecurityInfo;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.SecurityInfo;
 import com.jythonui.shared.TypedefDescr;
 
 /**
@@ -56,9 +59,10 @@ public class CreateForm {
         return name;
     }
 
-    public static FormLineContainer construct(DialogFormat d,
+    public static FormLineContainer construct(DialogInfo dInfo,
             IGetDataList iGet, EnumTypesList eList, IRequestForGWidget iHelper,
             IConstructCustomDataType fType) {
+        DialogFormat d = dInfo.getDialog();
         List<FieldItem> iList = d.getFieldList();
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
@@ -67,6 +71,8 @@ public class CreateForm {
             IVField vf = VField.construct(f);
             IFormLineView v;
             String htmlId = f.getHtmlId();
+            DialSecurityInfo.AccessType secType = dInfo.getSecurity()
+                    .fieldAccess(f.getId());
             if (!CUtil.EmptyS(f.getCustom())) {
                 TypedefDescr te = d.findCustomType(f.getCustom());
                 if (te == null) {
@@ -94,11 +100,16 @@ public class CreateForm {
                 }
 
             }
-            if (f.isHidden()) {
+            boolean modeSetAlready = false;
+            if (f.isHidden()
+                    || (secType == DialSecurityInfo.AccessType.NOACCESS)) {
                 v.setHidden(true);
+                modeSetAlready = true;
             }
-            if (f.isReadOnly()) {
+            if (f.isReadOnly()
+                    || (secType == DialSecurityInfo.AccessType.READONLY)) {
                 v.setReadOnly(true);
+                modeSetAlready = true;
             }
 
             String name = null;
@@ -118,14 +129,16 @@ public class CreateForm {
                 name = getDisplayName(f);
 
             FormField fie = new FormField(name, v, vf, fRange,
-                    f.isReadOnlyChange(), f.isReadOnlyAdd());
+                    f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready);
             fList.add(fie);
         }
         return new FormLineContainer(fList);
     }
 
-    public static VListHeaderContainer constructColumns(ListFormat l) {
+    public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
+            ListFormat l) {
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
+        DialSecurityInfo lInfo = sInfo.getlSecur().get(l.getId());
         for (FieldItem f : l.getColumns()) {
             IVField vf = VField.construct(f);
             VListHeaderDesc.ColAlign al = null;
@@ -139,8 +152,13 @@ public class CreateForm {
                 al = VListHeaderDesc.ColAlign.CENTER;
             }
 
+            boolean isHidden = f.isHidden();
+            DialSecurityInfo.AccessType secType = lInfo.fieldAccess(f.getId());
+            if (secType == DialSecurityInfo.AccessType.NOACCESS) {
+                isHidden = true;
+            }
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
-                    f.isHidden(), f.getActionId(), false, al, f.getWidth());
+                    isHidden, f.getActionId(), false, al, f.getWidth());
             heList.add(v);
         }
         String lName = l.getDisplayName();
@@ -149,17 +167,23 @@ public class CreateForm {
                 l.getWidth(), null, null);
     }
 
-    private static ControlButtonDesc constructButton(ButtonItem b) {
+    private static ControlButtonDesc constructButton(ButtonItem b,
+            boolean enabled) {
 
         String id = b.getId();
         String dName = b.getDisplayName();
-        return new ControlButtonDesc(dName, id);
+        return new ControlButtonDesc(dName, id, enabled);
     }
 
-    public static List<ControlButtonDesc> constructBList(List<ButtonItem> iList) {
+    public static List<ControlButtonDesc> constructBList(SecurityInfo sInfo,
+            List<ButtonItem> iList) {
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         for (ButtonItem b : iList) {
-            bList.add(constructButton(b));
+            DialSecurityInfo.AccessType aType = sInfo.buttonAccess(b.getId());
+            if (aType == DialSecurityInfo.AccessType.NOACCESS)
+                continue;
+            bList.add(constructButton(b,
+                    aType == DialSecurityInfo.AccessType.ACCESS));
         }
         return bList;
     }

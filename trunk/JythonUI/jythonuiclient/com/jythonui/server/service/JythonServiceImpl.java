@@ -12,12 +12,12 @@
  */
 package com.jythonui.server.service;
 
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.jythonui.client.service.JythonService;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
@@ -50,13 +50,15 @@ public class JythonServiceImpl extends RemoteServiceServlet implements
     }
 
     @Override
-    public String login(String user, String password) {
-        return "AAAA";
+    public String login(String shiroRealm, String user, String password) {
+        ISecurity iSec = Holder.getiSec();
+        return iSec.authenticateToken(shiroRealm, user, password);
     }
 
     @Override
     public void logout(String token) {
-
+        ISecurity iSec = Holder.getiSec();
+        iSec.logout(token);
     }
 
 }

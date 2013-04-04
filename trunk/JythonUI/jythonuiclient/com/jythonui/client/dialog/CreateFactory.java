@@ -79,7 +79,7 @@ public class CreateFactory {
                     ListFormat l = new ListFormat();
                     l.getColumns().addAll(te.getListOfColumns());
                     l.setAttr(ICommonConsts.DISPLAYNAME, te.getDisplayName());
-                    VListHeaderContainer vHeader = CreateForm.constructColumns(l);                    
+                    VListHeaderContainer vHeader = CreateForm.constructColumns(d.getD().getInfo().getSecurity(),l);                    
                     publish(dType, vHeader);
                 }
 

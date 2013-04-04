@@ -30,7 +30,7 @@ public interface JythonService extends RemoteService {
 
     ClientProp getClientRes();
     
-    String login(String user, String password);
+    String login(String shiroRealm,String user, String password);
     
     void logout(String token);
 

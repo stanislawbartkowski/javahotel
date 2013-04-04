@@ -21,4 +21,5 @@ public interface IErrorCode {
     String ERRORCODE6 = "E0006";
     String ERRORCODE7 = "E0007";
     String ERRORCODE8 = "E0008";
+    String ERRORCODE9 = "E0009";
 }
