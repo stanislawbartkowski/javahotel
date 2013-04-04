@@ -7,11 +7,27 @@
    <import>from testpack import authen</import>
    <method>authen.dialogaction({0},{1})</method>
  </jython>  
+ 
+ <leftmenu>
+<button id="showlist" displayname="List" actiontype="JMAIN_DIALOG" actionparam="authlist.xml" />
+</leftmenu> 
 
+<buttons>
+<button id="copy" displayname="Copy" />
+<button id="copyup" displayname="Copy Up" secaccess="u:user" secreadonly="u:viewer" actiontype="JOK_MESSAGE" actionparam="Top secret" actionparam1="Title" />
+</buttons>
 
  <form>
-   <field id="firstname" displayname="First name" />
-   <field id="lastname" displayname="Last name" />
+   <field id="firstname" displayname="First name (all)" />
+   <field id="lastname" displayname="Last name (user can edit)" secaccess="u:user" secreadonly="u:viewer!u:guest" />
+   <field id="secret" displayname="Secret (user can edit,viewer can look at, guest no )" secaccess="u:user" secreadonly="u:viewer" />
+   
+   <field id="copyfirstname" displayname="First name" readonly=""/>
+   <field id="copylastname" displayname="Last name" secaccess="u:user" secreadonly="u:viewer!u:guest" readonly=""/>
+   <field id="copysecret" displayname="Secret" secaccess="u:user" secreadonly="u:viewer" readonly="" />
+   
  </form>  
+ 
+ 
  
 </dialog>
