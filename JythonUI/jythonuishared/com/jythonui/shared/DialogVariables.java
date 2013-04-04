@@ -31,8 +31,6 @@ public class DialogVariables implements Serializable {
 
     private Map<String, ListOfRows> enumList = new HashMap<String, ListOfRows>();
 
-    private String securityToken;
-
     public FieldValue getValue(String fId) {
         return vList.get(fId);
     }
@@ -75,6 +73,10 @@ public class DialogVariables implements Serializable {
         }
         return l;
     }
+    
+    public void setSecurityToken(String token) {
+        setValueS(ICommonConsts.SECURITYTOKEN,token);
+    }
 
     /**
      * @return the rowList
@@ -97,14 +99,6 @@ public class DialogVariables implements Serializable {
 
     public void setEnumList(Map<String, ListOfRows> enumList) {
         this.enumList = enumList;
-    }
-
-    public String getSecurityToken() {
-        return securityToken;
-    }
-
-    public void setSecurityToken(String securityToken) {
-        this.securityToken = securityToken;
     }
 
 }

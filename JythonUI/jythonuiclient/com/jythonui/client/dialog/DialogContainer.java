@@ -82,8 +82,8 @@ import com.jythonui.shared.ListOfRows;
 public class DialogContainer extends AbstractSlotMediatorContainer {
 
     private final RowListDataManager liManager;
-    private DialogInfo info;
-    private DialogFormat d;
+    private final DialogInfo info;
+    private final DialogFormat d;
     private final IVariablesContainer iCon;
     private final ISendCloseAction iClose;
     private final DialogVariables addV;
@@ -262,13 +262,14 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     public void startPublish(CellId cId) {
 
         M.getLeftMenu().createLeftButton(
-                constructCButton(d.getLeftButtonList()), d.getLeftButtonList());
+                constructCButton(d.getLeftButtonList()), info.getSecurity(),
+                d.getLeftButtonList());
         IPanelView pView = pViewFactory.construct(dType, cId);
         boolean emptyView = true;
         int pLine = 0;
         EnumTypesList eList = new EnumTypesList(d);
         if (d.getFieldList() != null) {
-            FormLineContainer fContainer = CreateForm.construct(d,
+            FormLineContainer fContainer = CreateForm.construct(info,
                     new GetEnumList(eList), eList, new HelperW(),
                     new DTypeFactory());
 
@@ -288,8 +289,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             pLine = 1;
         }
         if (d.getButtonList() != null) {
-            List<ControlButtonDesc> bList = CreateForm.constructBList(d
-                    .getButtonList());
+            List<ControlButtonDesc> bList = CreateForm.constructBList(
+                    info.getSecurity(), d.getButtonList());
             ListOfControlDesc deList = new ListOfControlDesc(bList);
             ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
                     .getControlButtonViewFactory();
@@ -403,12 +404,16 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             // DialogVariables v = iCon.getVariables();
             // M.JR().runAction(v, d.getId(), id,
             // new BackClass(id, false, w, null));
-            ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
-                    w, null));
+            // ExecuteAction.action(iCon, d.getId(), id, new BackClass(id,
+            // false,
+            // w, null));
         }
         // DialogVariables v = iCon.getVariables();
         // M.JR().runAction(v, d.getId(), id, new BackClass(id, false, w,
         // null));
+        // 2012-04-03 : in order to add action from list
+        ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false, w,
+                null));
     }
 
     private class ActionButton implements IPerformClickAction {
@@ -490,6 +495,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     DialogFormat getD() {
         return d;
+    }
+
+    public DialogInfo getInfo() {
+        return info;
     }
 
 }

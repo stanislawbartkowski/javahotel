@@ -148,4 +148,5 @@ public interface ICommonConsts {
     String LOGINPAGE = "Login";
     String LOGINDELIMITER = ",";
     String STARTPAGE = "start";
+    String SHIROREALM = "Shirorealm";
 }

@@ -25,9 +25,8 @@ public class SecurityInfo extends DialSecurityInfo {
     
     // default
     public SecurityInfo() {
-        
     }
-
+    
     public SecurityInfo(DialSecurityInfo dInfo) {
         this.buttonAccess = dInfo.buttonAccess;
         this.buttonReadOnly = dInfo.buttonReadOnly;

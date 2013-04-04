@@ -53,6 +53,7 @@ public class LoginPage {
             IDataValidateAction {
 
         private final ICommand ok;
+        private final String shiroRealm;
 
         private class LoginValid extends CommonCallBack<String> {
 
@@ -105,14 +106,15 @@ public class LoginPage {
                 }
                 String sLogin = (String) lData.getF(login);
                 String sPass = (String) lData.getF(password);
-                M.JR().login(sLogin, sPass, new LoginValid(sLogin));
+                M.JR().login(shiroRealm, sLogin, sPass, new LoginValid(sLogin));
             }
 
         }
 
-        DataValidate(IDataType dType, ICommand ok) {
+        DataValidate(IDataType dType, String shiroRealm, ICommand ok) {
             this.dType = dType;
             this.ok = ok;
+            this.shiroRealm = shiroRealm;
             this.getSlContainer().registerSubscriber(dType,
                     ClickButtonType.StandClickEnum.ACCEPT, new LoginButton());
         }
@@ -129,7 +131,7 @@ public class LoginPage {
         }
     }
 
-    public static void login(ICommand ok) {
+    public static void login(String shiroRealm, ICommand ok) {
         IDataType dType = Empty.getDataType();
         CellId ce = new CellId(0);
         LoginViewFactory lFactory = GwtGiniInjector.getI()
@@ -137,7 +139,7 @@ public class LoginPage {
         LoginDataModelFactory logFactory = new LoginDataModelFactory();
         FormLineContainer lForm = lFactory.construct();
         ILoginDataView lView = lFactory.contructView(ce, dType, lForm,
-                logFactory, new DataValidate(dType, ok));
+                logFactory, new DataValidate(dType, shiroRealm, ok));
         SlU.registerWidgetListener0(dType, lView, new GetWidget());
         lView.startPublish(null);
 

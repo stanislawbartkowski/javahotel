@@ -17,6 +17,7 @@ import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.SecurityInfo;
 
@@ -46,7 +47,8 @@ class JythonUIServer implements IJythonUIServer {
         SecurityInfo si = AddSecurityInfo.create(iSec, token, d);
         for (ListFormat li : d.getListList()) {
             DialogFormat dElem = li.getfElem();
-            if (dElem == null) continue;
+            if (dElem == null)
+                continue;
             SecurityInfo sl = AddSecurityInfo.create(iSec, token, dElem);
             si.getlSecur().put(li.getId(), sl);
         }
@@ -56,7 +58,8 @@ class JythonUIServer implements IJythonUIServer {
     @Override
     public DialogVariables runAction(DialogVariables v, String dialogName,
             String actionId) {
-        DialogFormat d = GetDialog.getDialog(p, mCached, v.getSecurityToken(),
+        String securityToken = v.getValueS(ICommonConsts.SECURITYTOKEN);
+        DialogFormat d = GetDialog.getDialog(p, mCached, securityToken,
                 dialogName, false);
         RunJython.executeJython(p, mCached, v, d, actionId);
         return v;
