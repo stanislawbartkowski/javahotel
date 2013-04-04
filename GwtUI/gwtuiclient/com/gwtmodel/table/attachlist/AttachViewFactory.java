@@ -48,11 +48,11 @@ class AttachViewFactory {
                 .getHeader(AttachDataField.vfilename);
 
         di.add(new FormField(hCom.getHeaderString(), dComment, null, null,
-                false, true));
+                false, true, false));
         di.add(new FormField(hdataDod.getHeaderString(), dadd, null, null,
-                true, true));
+                true, true, false));
         di.add(new FormField(hFileName.getHeaderString(), dfilename, null,
-                null, true, true));
+                null, true, true, false));
         return new FormLineContainer(di);
     }
 }

@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 class ContrButtonView implements IContrButtonView {
@@ -105,7 +105,11 @@ class ContrButtonView implements IContrButtonView {
             if (!hori) {
                 but.getGWidget().setWidth("100%");
             }
-            but.addClickHandler(new Click(b));
+            if (!b.isEnabled())
+                but.setEnabled(false);
+            else {
+                but.addClickHandler(new Click(b));
+            }
             hP.add(but.getGWidget());
             iBut.put(b.getActionId(), but);
             cBut.put(b.getActionId(), b);
