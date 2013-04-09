@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<before/>
+ 
+ <jython>
+   <import>from testpack import list</import>
+   <method>list.dialogaction({0},{1})</method>
+ </jython>  
+  
+ <list id="list" displayname="List of persons" elemformat="authelem.xml">
+ <columns>
+ <column id="key" displayname="storeKey" type="long" hidden="$!sec.u('user')"/>
+ <column id="pnumber" displayname="Number" actionid="show"/>
+ <column id="pname" displayname="Name" />
+ </columns>
+ </list>
+
+
+</dialog>

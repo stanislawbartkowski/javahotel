@@ -12,12 +12,15 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import com.jythonui.server.holder.Holder;
-import com.jythonui.shared.DialSecurityInfo;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 
@@ -33,94 +36,86 @@ public class Test16 extends TestHelper {
         d = findDialog("test38.xml");
         assertNull(d);
     }
-    
+
     @Test
     public void test2() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet", "ludicrousspeed");
+        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+                "ludicrousspeed");
         assertNotNull(t);
         Holder.setAuth(true);
         DialogInfo i = iServer.findDialog(t, "test38.xml");
         assertNotNull(i);
-        assertEquals(0,i.getSecurity().getButtonAccess().size());
-        assertEquals(0,i.getSecurity().getButtonReadOnly().size());
-        assertEquals(2,i.getSecurity().getFieldAccess().size());
-        assertEquals(0,i.getSecurity().getFieldReadOnly().size());
+        assertEquals(1, i.getSecurity().getFieldSec().get("glob").size());
+        assertEquals(3, i.getSecurity().getFieldSec().get("globenum").size());
+        assertEquals(0, i.getSecurity().getButtSec().size());
     }
-    
+
     @Test
     public void test3() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet", "ludicrousspeed");
+        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+                "ludicrousspeed");
         assertNotNull(t);
         DialogInfo i = iServer.findDialog(t, "test39.xml");
         assertNotNull(i);
-        assertEquals(0,i.getSecurity().getButtonAccess().size());
-        assertEquals(0,i.getSecurity().getButtonReadOnly().size());
-        // both are accessible
-        assertEquals(2,i.getSecurity().getFieldAccess().size());
-        assertEquals(0,i.getSecurity().getFieldReadOnly().size());
-        assertTrue(i.getSecurity().getFieldAccess().contains("globenum"));
-        assertEquals(DialSecurityInfo.AccessType.ACCESS,i.getSecurity().fieldAccess("globenum"));
-        assertEquals(DialSecurityInfo.AccessType.ACCESS,i.getSecurity().fieldAccess("glob"));
+        // before eyes of darkhelmet not hidden
+        assertFalse(i.getSecurity().getFieldSec().get("globenum")
+                .contains("hidden"));
+        assertFalse(i.getSecurity().isFieldHidden(
+                i.getDialog().findFieldItem("globenum")));
         iSec.logout(t);
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = iServer.findDialog(t, "test39.xml");
         assertNotNull(i);
-        assertEquals(0,i.getSecurity().getButtonAccess().size());
-        assertEquals(0,i.getSecurity().getButtonReadOnly().size());
-        // only one is accessible
-        assertEquals(1,i.getSecurity().getFieldAccess().size());
-        assertEquals(DialSecurityInfo.AccessType.NOACCESS,i.getSecurity().fieldAccess("globenum"));
-        assertEquals(DialSecurityInfo.AccessType.ACCESS,i.getSecurity().fieldAccess("glob"));
-        assertEquals(0,i.getSecurity().getFieldReadOnly().size());
-        // glob only
-        assertTrue(i.getSecurity().getFieldAccess().contains("glob"));
-        iSec.logout(t);        
-    }    
-    
+        // hidden before other mortals
+        assertTrue(i.getSecurity().getFieldSec().get("globenum")
+                .contains("hidden"));
+        assertTrue(i.getSecurity().isFieldHidden(
+                i.getDialog().findFieldItem("globenum")));
+        iSec.logout(t);
+    }
+
     @Test
     public void test4() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet", "ludicrousspeed");
+        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+                "ludicrousspeed");
         assertNotNull(t);
         DialogInfo i = iServer.findDialog(t, "test40.xml");
         assertNotNull(i);
-        assertEquals(2,i.getSecurity().getButtonAccess().size());
-        assertEquals(0,i.getSecurity().getButtonReadOnly().size());
-        // both are accessible
-        assertEquals(3,i.getSecurity().getFieldAccess().size());
-        assertEquals(0,i.getSecurity().getFieldReadOnly().size());        
+        // before darkhelmet neither hidden nor readonly
+        assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
+        assertFalse(i.getSecurity().isButtHidden(
+                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
+        assertFalse(i.getSecurity().getButtSec().get("ID").contains("readonly"));
+        assertFalse(i.getSecurity().isButtReadOnly(
+                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
         iSec.logout(t);
-        
+        //
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = iServer.findDialog(t, "test40.xml");
         assertNotNull(i);
-        assertEquals(1,i.getSecurity().getButtonAccess().size());
-        assertTrue(i.getSecurity().getButtonAccess().contains("ID1"));
-        assertEquals(DialSecurityInfo.AccessType.ACCESS,i.getSecurity().buttonAccess("ID1"));
-        // one read only
-        assertEquals(1,i.getSecurity().getButtonReadOnly().size());
-        assertTrue(i.getSecurity().getButtonReadOnly().contains("ID"));
-        assertEquals(DialSecurityInfo.AccessType.READONLY,i.getSecurity().buttonAccess("ID"));
-
-        // both are accessible
-        assertEquals(3,i.getSecurity().getFieldAccess().size());
-        assertEquals(0,i.getSecurity().getFieldReadOnly().size());        
+        // lonestarr : hidden but readonly
+        assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
+        assertFalse(i.getSecurity().isButtHidden(
+                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
+        assertTrue(i.getSecurity().getButtSec().get("ID").contains("readonly"));
+        assertTrue(i.getSecurity().isButtReadOnly(
+                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
         iSec.logout(t);
-        
+        iSec.logout(t);
+        //
         t = iSec.authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t);
         i = iServer.findDialog(t, "test40.xml");
         assertNotNull(i);
-        // only on accessible
-        assertEquals(1,i.getSecurity().getButtonAccess().size());
-        // 0 read only
-        assertEquals(0,i.getSecurity().getButtonReadOnly().size());
-        // both are accessible
-        assertEquals(3,i.getSecurity().getFieldAccess().size());
-        assertEquals(0,i.getSecurity().getFieldReadOnly().size());        
-        iSec.logout(t);
-        
+        // other hidden and not readonly
+        assertTrue(i.getSecurity().getButtSec().get("ID").contains("hidden"));
+        assertTrue(i.getSecurity().isButtHidden(
+                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
+        assertFalse(i.getSecurity().getButtSec().get("ID").contains("readonly"));
+        assertFalse(i.getSecurity().isButtReadOnly(
+                DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
     }
 
 }

@@ -11,8 +11,8 @@
  
  
  <form>
-   <field id="glob" />
-   <field id="globenum" type="custom:tenum" htmlid="globhtmlid" secaccess="u:darkhelmet" />
+   <field id="glob" readonly="" />
+   <field id="globenum" type="custom:tenum" htmlid="globhtmlid" hidden="$!sec.u('darkhelmet')" />
  </form>  
  
  </dialog>
