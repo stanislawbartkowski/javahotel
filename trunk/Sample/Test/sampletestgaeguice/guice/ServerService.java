@@ -23,6 +23,7 @@ import com.jython.ui.server.datastore.gae.PersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.JythonUiServerProvider;
+import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
 
 /**
@@ -31,15 +32,13 @@ import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
  */
 public class ServerService {
 
-    public static class ServiceModule extends AbstractModule {
+    public static class ServiceModule extends JythonServiceModule {
         @Override
         protected void configure() {
+            configureJythonUi();
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
-            bind(IJythonUIServer.class)
-                    .toProvider(JythonUiServerProvider.class).in(
-                            Singleton.class);
             bind(ICommonCache.class).toProvider(CommonCacheFactory.class).in(
                     Singleton.class);
             bind(ITestEnhancer.class).to(LocalDataStoreTestEnvironment.class);

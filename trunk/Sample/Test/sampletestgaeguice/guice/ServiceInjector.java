@@ -12,12 +12,12 @@
  */
 package guice;
 
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.security.ISecurity;
 
 /**
  * @author hotel
@@ -38,9 +38,13 @@ public class ServiceInjector {
     public static IJythonUIServer contructJythonUiServer() {
         return injector.getInstance(IJythonUIServer.class);
     }
-    
+
     public static ITestEnhancer constructITestEnhancer() {
         return injector.getInstance(ITestEnhancer.class);
+    }
+
+    public static ISecurity constructSecurity() {
+        return injector.getInstance(ISecurity.class);
     }
 
 }

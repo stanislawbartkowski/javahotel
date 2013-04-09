@@ -98,19 +98,19 @@ public class Test15 extends TestHelper {
         assertNotNull(t);
         boolean ok = iSec.isAuthorized(t, "ff:aaaa");
         assertFalse(ok);
-        assertFalse(iSec.isAuthorized(t, "u:wrongdoinguser"));
-        assertTrue(iSec.isAuthorized(t, "u:darkhelmet"));
-        assertTrue(iSec.isAuthorized(t, "u:imwrong!u:darkhelmet"));
+        assertFalse(iSec.isAuthorized(t, "sec.u('wrongdoinguser')"));
+        assertTrue(iSec.isAuthorized(t, "sec.u('darkhelmet')"));
+        assertTrue(iSec.isAuthorized(t, "sec.u('imwrong') || sec.u('darkhelmet')"));
         assertFalse(iSec.isAuthorized("falsetoken", "u:darkhelmet"));
         iSec.logout(t);
         t = iSec.authenticateToken(realm, "lonestarr", "vespa");
         assertNotNull(t);
-        assertTrue(iSec.isAuthorized(t, "r:schwartz"));
+        assertTrue(iSec.isAuthorized(t, "sec.r('schwartz')"));
         System.out.println("May the Schwartz be with you!");
 
-        assertTrue(iSec.isAuthorized(t, "p:lightsaber:weild"));
+        assertTrue(iSec.isAuthorized(t, "sec.p('lightsaber:weild')"));
         System.out.println("You may use a lightsaber ring.  Use it wisely.");
-        assertTrue(iSec.isAuthorized(t, "p:winnebago:drive:eagle5"));
+        assertTrue(iSec.isAuthorized(t, "sec.p('winnebago:drive:eagle5')"));
         System.out
                 .println("You are permitted to 'drive' the winnebago with license plate (id) 'eagle5'.  "
                         + "Here are the keys - have fun!");
@@ -120,11 +120,11 @@ public class Test15 extends TestHelper {
     private void runTestNext1(String realm) {
         String t = iSec.authenticateToken(realm, "lonestarr", "vespa");
         assertNotNull(t);
-        assertTrue(iSec.isAuthorized(t, "r:schwartz"));
+        assertTrue(iSec.isAuthorized(t, "sec.r('schwartz')"));
         System.out.println("May the Schwartz be with you!");
         iSec.logout(t);
         // try again after logging out
-        assertFalse(iSec.isAuthorized(t, "r:schwartz"));
+        assertFalse(iSec.isAuthorized(t, "sec.r('schwartz')"));
         // False expected
     }
 
@@ -164,12 +164,12 @@ public class Test15 extends TestHelper {
     private void runTestNext2(String realm) {
         String t1 = iSec.authenticateToken(realm, "lonestarr", "vespa");
         assertNotNull(t1);    
-        assertTrue(iSec.isAuthorized(t1, "r:schwartz"));
+        assertTrue(iSec.isAuthorized(t1, "sec.r('schwartz')"));
         // presidentskroob = 12345, president
         String t2 = iSec.authenticateToken(realm, "presidentskroob", "12345");
         assertNotNull(t2);   
-        assertTrue(iSec.isAuthorized(t1, "r:schwartz"));
-        assertFalse(iSec.isAuthorized(t2, "r:schwartz"));
+        assertTrue(iSec.isAuthorized(t1, "sec.r('schwartz')"));
+        assertFalse(iSec.isAuthorized(t2, "sec.r('schwartz')"));
     }
     
     @Test
@@ -182,5 +182,31 @@ public class Test15 extends TestHelper {
         createDB();
         runTestNext2(derbyIni);
     }
+
+    private void runTestNext3(String realm) {
+        String t1 = iSec.authenticateToken(realm, "lonestarr", "vespa");
+        assertNotNull(t1);    
+        assertTrue(iSec.isAuthorized(t1, "!sec.r('admin')"));
+        // negative
+        assertTrue(iSec.isAuthorized(t1, "!sec.u('darkhelmet')"));
+        assertFalse(iSec.isAuthorized(t1, "!sec.u('lonestarr')"));
+        assertTrue(iSec.isAuthorized(t1, "sec.u('lonestarr')"));
+        assertTrue(iSec.isAuthorized(t1, "sec.p('winnebago:drive:eagle5')"));
+        assertFalse(iSec.isAuthorized(t1, "!sec.p('winnebago:drive:eagle5')"));
+
+    }
+    
+    
+    @Test
+    public void test9() {
+        runTestNext3(realmIni);
+    }
+    
+    @Test
+    public void test10() {
+        createDB();
+        runTestNext3(derbyIni);
+    }
+
 
 }

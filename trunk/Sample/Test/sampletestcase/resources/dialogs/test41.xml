@@ -11,7 +11,7 @@
  <list id="lista" displayname="List of entries">
  <elemformat>elem41.xml</elemformat>
  <columns>
- <column id="id" type="int" secaccess="u:darkhelmet" />
+ <column id="id" type="int" hidden="$!sec.u('darkhelmet')" />
  <column id="name"/>
  </columns>
  </list>

@@ -12,16 +12,18 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import com.jythonui.shared.DialSecurityInfo;
+import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
+import com.jythonui.shared.ListFormat;
 
 public class Test17 extends TestHelper {
 
@@ -34,10 +36,8 @@ public class Test17 extends TestHelper {
         assertNotNull(i);
         DialSecurityInfo elem = i.getSecurity().getlSecur().get("lista");
         assertNotNull(elem);
-        assertEquals(0, elem.getButtonAccess().size());
-        assertEquals(0, elem.getButtonReadOnly().size());
-        assertEquals(2, elem.getFieldAccess().size());
-        assertEquals(0, elem.getFieldReadOnly().size());
+        assertFalse(elem.getFieldSec().get("id")
+                .contains("hidden"));
 
         String t1 = iSec.authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t1);
@@ -45,15 +45,13 @@ public class Test17 extends TestHelper {
         assertNotNull(i);
         elem = i.getSecurity().getlSecur().get("lista");
         assertNotNull(elem);
-        assertEquals(0, elem.getButtonAccess().size());
-        assertEquals(0, elem.getButtonReadOnly().size());
-        assertEquals(1, elem.getFieldAccess().size());
-        assertEquals(0, elem.getFieldReadOnly().size());
+        assertTrue(elem.getFieldSec().get("id")
+                .contains("hidden"));
         iSec.logout(t);
         iSec.logout(t1);
 
     }
-    
+
     @Test
     public void test2() {
         String t = iSec.authenticateToken(realmIni, "darkhelmet",
@@ -74,18 +72,51 @@ public class Test17 extends TestHelper {
         assertNotNull(t);
         DialogInfo i = iServer.findDialog(t, "test43.xml");
         assertNotNull(i);
-        assertEquals(3,i.getDialog().getLeftButtonList().size());
-        assertEquals(3, i.getSecurity().getButtonAccess().size());
-        assertEquals(0, i.getSecurity().getButtonReadOnly().size());        
+        assertFalse(i.getSecurity().getButtSec().get("ID")
+                .contains("hidden"));
+        assertFalse(i.getSecurity().getButtSec().get("ID1")
+                .contains("hidden"));
+        assertFalse(i.getSecurity().getButtSec().get("ID1")
+                .contains("readonly"));
+
         iSec.logout(t);
         
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = iServer.findDialog(t, "test43.xml");
-        assertEquals(1, i.getSecurity().getButtonAccess().size());
-        assertEquals(1, i.getSecurity().getButtonReadOnly().size());        
+        assertTrue(i.getSecurity().getButtSec().get("ID")
+                .contains("hidden"));
+        assertFalse(i.getSecurity().getButtSec().get("ID1")
+                .contains("hidden"));
+        assertTrue(i.getSecurity().getButtSec().get("ID1")
+                .contains("readonly"));
+        
         iSec.logout(t);
 
+    }
+    
+    @Test
+    public void test4() {
+        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+                "ludicrousspeed");
+        assertNotNull(t);
+        DialogInfo i = iServer.findDialog(t, "test44.xml");
+        assertNotNull(i);
+        DialSecurityInfo sI = i.getSecurity().getListSecur().get("list");
+        assertNotNull(sI);
+        ListFormat li = i.getDialog().findList("list");
+        assertFalse(sI.isFieldHidden(DialogFormat.findE(li.getColumns(),"id")));
+        iSec.logout(t);
+        
+        t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
+        assertNotNull(t);
+        i = iServer.findDialog(t, "test44.xml");
+        assertNotNull(i);
+        sI = i.getSecurity().getListSecur().get("list");
+        assertNotNull(sI);
+        li = i.getDialog().findList("list");
+        assertTrue(sI.isFieldHidden(DialogFormat.findE(li.getColumns(),"id")));
+        iSec.logout(t);
     }
 
 }
