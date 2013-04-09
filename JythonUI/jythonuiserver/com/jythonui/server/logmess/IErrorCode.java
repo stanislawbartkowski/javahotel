@@ -22,4 +22,12 @@ public interface IErrorCode {
     String ERRORCODE7 = "E0007";
     String ERRORCODE8 = "E0008";
     String ERRORCODE9 = "E0009";
+    String ERRORCODE10 = "E0010";
+    String ERRORCODE11 = "E0011";
+    String ERRORCODE12 = "E0012";
+    String ERRORCODE13 = "E0013";
+    String ERRORCODE14 = "E0014";
+    String ERRORCODE15 = "E0015";
+    String ERRORCODE16 = "E0016";
+    String ERRORCODE17 = "E0017";
 }

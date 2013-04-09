@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import org.apache.shiro.subject.Subject;
 
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.security.ISecurityResolver;
 import com.jythonui.server.security.ISessionCache;
 
 public class SecurityJython implements ISecurity {
@@ -27,10 +28,12 @@ public class SecurityJython implements ISecurity {
             .getName());
 
     private final SubjectCache cCache;
+    private final ISecurityResolver iResolver;
 
     @Inject
-    public SecurityJython(ISessionCache iCache) {
+    public SecurityJython(ISessionCache iCache, ISecurityResolver iResolver) {
         cCache = new SubjectCache(iCache);
+        this.iResolver = iResolver;
     }
 
     @Override
@@ -61,23 +64,7 @@ public class SecurityJython implements ISecurity {
             log.severe(token + " invalid token, not authorized");
             return false;
         }
-        PermissionResolver.S res = PermissionResolver
-                .resolvePermission(permission);
-        for (String st : res.users) {
-            if (st.equals(currentUser.getPrincipal()))
-                return true;
-        }
-        for (String st : res.roles) {
-            if (currentUser.hasRole(st)) {
-                return true;
-            }
-        }
-        for (String st : res.permission) {
-            if (currentUser.isPermitted(st)) {
-                return true;
-            }
-        }
-        return false;
+        return iResolver.isAuthorized(currentUser, permission);
     }
 
 }

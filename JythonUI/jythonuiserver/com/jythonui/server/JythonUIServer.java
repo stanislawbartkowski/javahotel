@@ -46,7 +46,13 @@ class JythonUIServer implements IJythonUIServer {
             return null;
         SecurityInfo si = AddSecurityInfo.create(iSec, token, d);
         for (ListFormat li : d.getListList()) {
+            // columns
+            SecurityInfo sList = AddSecurityInfo.createForColumns(iSec, token,
+                    li);
+            si.getListSecur().put(li.getId(), sList);
+            // crud dialog
             DialogFormat dElem = li.getfElem();
+            // ignore if not exist
             if (dElem == null)
                 continue;
             SecurityInfo sl = AddSecurityInfo.create(iSec, token, dElem);

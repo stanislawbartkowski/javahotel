@@ -14,6 +14,7 @@ package com.jythonui.shared;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.gwtmodel.table.common.CUtil;
@@ -31,8 +32,44 @@ public abstract class ElemDescription implements Serializable {
         attr.put(key, value);
     }
 
+    public Iterator<String> getKeys() {
+        return attr.keySet().iterator();
+    }
+
+    private int findSecurity(String s) {
+        if (CUtil.EmptyS(s))
+            return -1;
+        int startp = 0;
+        int len = s.length();
+
+        while (true) {
+            int pos = s.indexOf(ICommonConsts.PERMSIGN, startp);
+            if (pos == -1)
+                return -1;
+            if (pos == len - 1)
+                return -1; // empty security
+            if (s.charAt(pos + 1) != ICommonConsts.PERMSIGN)
+                return pos;
+            // double (escaped) $
+            startp = pos + 2;
+        }
+    }
+
     public String getAttr(String key) {
-        return attr.get(key);
+        String val = attr.get(key);
+        int sec = findSecurity(val);
+        if (sec == -1)
+            return val; // no security string
+        if (sec == 0) return "";
+        return val.substring(0, sec - 1); // remove security part
+    }
+
+    public String getSecuriyPart(String key) {
+        String val = attr.get(key);
+        int sec = findSecurity(val);
+        if (sec == -1)
+            return null;
+        return val.substring(sec + 1);
     }
 
     public String getId() {
@@ -65,22 +102,6 @@ public abstract class ElemDescription implements Serializable {
 
     public boolean isHtmlId() {
         return isAttr(ICommonConsts.HTMLID);
-    }
-
-    public boolean isSecAccess() {
-        return isAttr(ICommonConsts.SECACCESS);
-    }
-
-    public String getSecAccess() {
-        return getAttr(ICommonConsts.SECACCESS);
-    }
-
-    public boolean isSecReadOnly() {
-        return isAttr(ICommonConsts.SECREADONLY);
-    }
-
-    public String getSecReadOnly() {
-        return getAttr(ICommonConsts.SECREADONLY);
     }
 
 }

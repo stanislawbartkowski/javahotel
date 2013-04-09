@@ -65,9 +65,16 @@ class GetDialog {
         throw new JythonUIFatal(mess);
     }
 
-    private static void logError(Throwable e) {
-        log.log(Level.SEVERE, "", e);
-        throw new JythonUIFatal(e);
+    private static void parseError(String errCode, String param, Throwable e) {
+        log.log(Level.SEVERE,
+                LogMess.getMess(errCode, ILogMess.DIALOGXMLPARSERROR, param), e);
+        throw new JythonUIFatal(LogMess.getMess(errCode,
+                ILogMess.DIALOGXMLPARSERROR, param), e);
+    }
+
+    private static void error(String errCode, String logMess, String param) {
+        log.severe(LogMess.getMess(errCode, logMess, param));
+        throw new JythonUIFatal(LogMess.getMess(errCode, logMess, param));
     }
 
     static private URL getURLSchema(String schemaname) {
@@ -75,7 +82,8 @@ class GetDialog {
         URL ur = ReadDialog.class.getClassLoader().getResource(
                 RESOURCES + "/" + XSDDIR + "/" + schemaname);
         if (ur == null) {
-            error("Schema not found, null exception expected");
+            error(LogMess.getMess(IErrorCode.ERRORCODE16,
+                    ILogMess.SCHEMANOTFOUND));
         }
         return ur;
     }
@@ -84,7 +92,8 @@ class GetDialog {
             throws FileNotFoundException {
         putDebug("Search dialog " + name);
         if (p.getDialogDirectory() == null) {
-            error("DialogDirectory null, null exception expected");
+            error(LogMess.getMess(IErrorCode.ERRORCODE17,
+                    ILogMess.DIALOGDIRECTORYNULL));
         }
         String dDir = p.getDialogDirectory().getPath();
         dDir = dDir + "/" + name;
@@ -117,17 +126,18 @@ class GetDialog {
         d = getDialogDirectly(p, mCached, dialogName, verify);
         String dParentName = d.getParent();
         if (dParentName != null) {
-            DialogFormat dParent = getDialog(p, mCached, token,
-                    dParentName, false);
+            DialogFormat dParent = getDialog(p, mCached, token, dParentName,
+                    false);
             for (ListFormat lo : dParent.getListList()) {
                 if (lo.getfElem() != null
                         && lo.getfElem().getId().equals(dialogName)) {
                     return lo.getfElem();
                 }
             }
-//            error(dParentName + " is parent in the " + dialogName
-//                    + " but there is no such a dialog in the parent specified");
-            error(LogMess.getMess(IErrorCode.ERRORCODE9, ILogMess.ELEMDOESNOTMATCHPARENT, dParentName,dialogName));
+            // error(dParentName + " is parent in the " + dialogName
+            // + " but there is no such a dialog in the parent specified");
+            error(LogMess.getMess(IErrorCode.ERRORCODE9,
+                    ILogMess.ELEMDOESNOTMATCHPARENT, dParentName, dialogName));
         }
         if (d != null)
             if (mCached.isCached()) {
@@ -217,14 +227,14 @@ class GetDialog {
             }
 
         } catch (SAXException e) {
-            logError(e);
+            parseError(IErrorCode.ERRORCODE12, dialogName, e);
         } catch (IOException e) {
-            logError(e);
+            parseError(IErrorCode.ERRORCODE13, dialogName, e);
         } catch (ParserConfigurationException e) {
-            logError(e);
+            parseError(IErrorCode.ERRORCODE14, dialogName, e);
         }
         if (d == null) {
-            error(dialogName + " not found ");
+            error(IErrorCode.ERRORCODE15, ILogMess.DIALOGNOTFOUND, dialogName);
         } else {
             if (mCached.isCached()) {
                 mCached.getC().put(dialogName, d);
