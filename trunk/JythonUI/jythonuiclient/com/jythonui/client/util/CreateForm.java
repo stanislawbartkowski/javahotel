@@ -71,8 +71,6 @@ public class CreateForm {
             IVField vf = VField.construct(f);
             IFormLineView v;
             String htmlId = f.getHtmlId();
-            DialSecurityInfo.AccessType secType = dInfo.getSecurity()
-                    .fieldAccess(f.getId());
             if (!CUtil.EmptyS(f.getCustom())) {
                 TypedefDescr te = d.findCustomType(f.getCustom());
                 if (te == null) {
@@ -101,13 +99,11 @@ public class CreateForm {
 
             }
             boolean modeSetAlready = false;
-            if (f.isHidden()
-                    || (secType == DialSecurityInfo.AccessType.NOACCESS)) {
+            if (dInfo.getSecurity().isFieldHidden(f)) {
                 v.setHidden(true);
                 modeSetAlready = true;
             }
-            if (f.isReadOnly()
-                    || (secType == DialSecurityInfo.AccessType.READONLY)) {
+            if (dInfo.getSecurity().isFieldReadOnly(f)) {
                 v.setReadOnly(true);
                 modeSetAlready = true;
             }
@@ -138,7 +134,7 @@ public class CreateForm {
     public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
             ListFormat l) {
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        DialSecurityInfo lInfo = sInfo.getlSecur().get(l.getId());
+        DialSecurityInfo lInfo = sInfo.getListSecur().get(l.getId());
         for (FieldItem f : l.getColumns()) {
             IVField vf = VField.construct(f);
             VListHeaderDesc.ColAlign al = null;
@@ -151,14 +147,9 @@ public class CreateForm {
             if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNC)) {
                 al = VListHeaderDesc.ColAlign.CENTER;
             }
-
-            boolean isHidden = f.isHidden();
-            DialSecurityInfo.AccessType secType = lInfo.fieldAccess(f.getId());
-            if (secType == DialSecurityInfo.AccessType.NOACCESS) {
-                isHidden = true;
-            }
+            // TODO: can be null for combo, check it later
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
-                    isHidden, f.getActionId(), false, al, f.getWidth());
+                    lInfo == null ? false : lInfo.isFieldHidden(f), f.getActionId(), false, al, f.getWidth());
             heList.add(v);
         }
         String lName = l.getDisplayName();
@@ -179,11 +170,9 @@ public class CreateForm {
             List<ButtonItem> iList) {
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         for (ButtonItem b : iList) {
-            DialSecurityInfo.AccessType aType = sInfo.buttonAccess(b.getId());
-            if (aType == DialSecurityInfo.AccessType.NOACCESS)
+            if (sInfo.isButtHidden(b))
                 continue;
-            bList.add(constructButton(b,
-                    aType == DialSecurityInfo.AccessType.ACCESS));
+            bList.add(constructButton(b, !sInfo.isButtReadOnly(b)));
         }
         return bList;
     }

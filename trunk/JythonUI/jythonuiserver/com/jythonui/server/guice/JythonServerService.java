@@ -18,8 +18,10 @@ import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.JythonUiServerProvider;
 import com.jythonui.server.defa.SecurityCache;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.security.ISecurityResolver;
 import com.jythonui.server.security.ISessionCache;
 import com.jythonui.server.security.impl.SecurityJython;
+import com.jythonui.server.security.resolver.SecurityResolver;
 
 /**
  * @author hotel
@@ -34,7 +36,8 @@ public class JythonServerService {
                     .toProvider(JythonUiServerProvider.class).in(
                             Singleton.class);
             bind(ISecurity.class).to(SecurityJython.class).in(Singleton.class);
-            bind(ISessionCache.class).to(SecurityCache.class).in(Singleton.class);            
+            bind(ISessionCache.class).to(SecurityCache.class).in(Singleton.class);
+            bind(ISecurityResolver.class).to(SecurityResolver.class).in(Singleton.class);
         }
     }
 

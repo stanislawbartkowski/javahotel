@@ -18,20 +18,23 @@ import java.util.Map;
 public class SecurityInfo extends DialSecurityInfo {
 
     private Map<String, DialSecurityInfo> lSecur = new HashMap<String, DialSecurityInfo>();
+    private Map<String, DialSecurityInfo> listSecur = new HashMap<String, DialSecurityInfo>();
 
     public Map<String, DialSecurityInfo> getlSecur() {
         return lSecur;
     }
     
+    public Map<String, DialSecurityInfo> getListSecur() {
+        return listSecur;
+    }
+
     // default
     public SecurityInfo() {
     }
-    
+
     public SecurityInfo(DialSecurityInfo dInfo) {
-        this.buttonAccess = dInfo.buttonAccess;
-        this.buttonReadOnly = dInfo.buttonReadOnly;
-        this.fieldAccess = dInfo.fieldAccess;
-        this.fieldReadOnly = dInfo.fieldReadOnly;
+        this.buttSec = dInfo.buttSec;
+        this.fieldSec = dInfo.fieldSec;
     }
 
 }

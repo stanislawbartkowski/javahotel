@@ -77,8 +77,8 @@ class ReadDialog {
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
                 ICommonConsts.ACTIONPARAM2, ICommonConsts.IMPORT,
-                ICommonConsts.METHOD, ICommonConsts.VALIDATE,
-                ICommonConsts.SECACCESS, ICommonConsts.SECREADONLY };
+                ICommonConsts.HIDDEN, ICommonConsts.READONLY,
+                ICommonConsts.METHOD, ICommonConsts.VALIDATE };
         private final String[] fieldTag = { ICommonConsts.ID,
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
                 ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,
@@ -87,8 +87,7 @@ class ReadDialog {
                 ICommonConsts.READONLYCHANGE, ICommonConsts.SIGNALCHANGE,
                 ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH,
                 ICommonConsts.FROM, ICommonConsts.WIDTH, ICommonConsts.ALIGN,
-                ICommonConsts.HTMLID, ICommonConsts.SECACCESS,
-                ICommonConsts.SECREADONLY };
+                ICommonConsts.HTMLID };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE,

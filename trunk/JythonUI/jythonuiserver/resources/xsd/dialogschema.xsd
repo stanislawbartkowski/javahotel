@@ -35,7 +35,7 @@
 
 	<xs:simpleType name="emptyT">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="" />
+			<xs:pattern value="(\$.*)|()" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -65,8 +65,8 @@
 			<xs:element minOccurs="0" name="actionparam" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam1" type="xs:string" />
 			<xs:element minOccurs="0" name="actionparam2" type="xs:string" />
-			<xs:element minOccurs="0" name="secaccess" type="xs:string"/>
-			<xs:element minOccurs="0" name="secreadonly" type="xs:string"/>			
+			<xs:element minOccurs="0" name="hidden" type="emptyT"/>
+			<xs:element minOccurs="0" name="readonly" type="emptyT"/>
 		</xs:sequence>
 	</xs:group>
 	
@@ -80,9 +80,8 @@
 		<xs:attribute name="actionparam" type="xs:string" />
 		<xs:attribute name="actionparam1" type="xs:string" />
 		<xs:attribute name="actionparam2" type="xs:string" />
-     	<xs:attribute name="secaccess" type="xs:string"/>		
-		<xs:attribute name="secreadonly" type="xs:string"/>		
-		
+		<xs:attribute name="hidden" type="emptyT"/>
+		<xs:attribute name="readonly" type="emptyT"/>
 	</xs:attributeGroup>
 	
 	<xs:group name="dialogG">
@@ -147,8 +146,6 @@
 			<xs:element minOccurs="0" name="helper" type="xs:string" />
 			<xs:element minOccurs="0" name="width" type="xs:string" />
 			<xs:element minOccurs="0" name="align" type="typeAlign" />									
-			<xs:element minOccurs="0" name="secaccess" type="xs:string"/>
-			<xs:element minOccurs="0" name="secreadonly" type="xs:string"/>
 			<xs:element minOccurs="0" name="helperrefresh" type="emptyT"/>
 			<xs:element minOccurs="0" name="notempty" type="emptyT"/>
 			<xs:element minOccurs="0" name="hidden" type="emptyT"/>
@@ -168,8 +165,6 @@
 		<xs:attribute name="helper" type="xs:string" />
 		<xs:attribute name="width" type="xs:string" />
 		<xs:attribute name="align" type="typeAlign" />
-		<xs:attribute name="secaccess" type="xs:string"/>		
-		<xs:attribute name="secreadonly" type="xs:string"/>		
 		<xs:attribute name="helperrefresh" type="emptyT" />		
 		<xs:attribute name="type" type="typeName" />
 		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />

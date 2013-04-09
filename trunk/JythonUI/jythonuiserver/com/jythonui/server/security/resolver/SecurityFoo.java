@@ -10,24 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.shared;
+package com.jythonui.server.security.resolver;
 
-/**
- * @author hotel
- * 
- */
-public class JythonUIFatal extends RuntimeException {
+import java.util.logging.Logger;
 
-    public JythonUIFatal(String mess) {
-        super(mess);
+import org.apache.shiro.subject.Subject;
+
+public class SecurityFoo {
+    
+    private final Subject currentUser;
+
+    public SecurityFoo(Subject currentUser) {
+        this.currentUser = currentUser;
     }
 
-    public JythonUIFatal(Throwable e) {
-        super(e);
+    public boolean u(String user) {
+        return user.equals(currentUser.getPrincipal());
     }
 
-    public JythonUIFatal(String mess, Throwable e) {
-        super(mess, e);
+    public boolean r(String role) {
+        return currentUser.hasRole(role);
+    }
+
+    public boolean p(String permission) {
+        return currentUser.isPermitted(permission);
     }
 
 }

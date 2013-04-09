@@ -10,24 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.shared;
+package com.jythonui.server.security;
 
-/**
- * @author hotel
- * 
- */
-public class JythonUIFatal extends RuntimeException {
+import org.apache.shiro.subject.Subject;
 
-    public JythonUIFatal(String mess) {
-        super(mess);
-    }
+public interface ISecurityResolver {
 
-    public JythonUIFatal(Throwable e) {
-        super(e);
-    }
-
-    public JythonUIFatal(String mess, Throwable e) {
-        super(mess, e);
-    }
+    boolean isAuthorized(Subject currentUser, String permission);
 
 }

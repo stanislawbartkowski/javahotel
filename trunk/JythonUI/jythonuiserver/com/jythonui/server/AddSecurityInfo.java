@@ -12,13 +12,17 @@
  */
 package com.jythonui.server;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.shared.DialSecurityInfo;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ElemDescription;
+import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.SecurityInfo;
 
 class AddSecurityInfo {
@@ -27,55 +31,31 @@ class AddSecurityInfo {
     }
 
     private static void scanList(ISecurity iSec, String token,
-            Set<String> accessSet, Set<String> readonlySet,
-            List<? extends ElemDescription> list) {
+            Map<String, Set<String>> secM, List<? extends ElemDescription> list) {
         for (ElemDescription e : list) {
-            if (CUtil.EmptyS(token)) {
-                // no security token, full access
-                accessSet.add(e.getId());
-                continue;
+            String id = e.getId();
+            Iterator<String> i = e.getKeys();
+            while (i.hasNext()) {
+                String key = i.next();
+                String sec = e.getSecuriyPart(key);
+                if (CUtil.EmptyS(sec) || (iSec.isAuthorized(token, sec)))
+                    DialSecurityInfo.setSec(secM, id, key);
             }
-            if (!e.isSecAccess()) {
-                // access code is not set
-                if (!e.isSecReadOnly()) {
-                    // if no access code and no read only code full access
-                    accessSet.add(e.getId());
-                    continue;
-                }
-                // no access code but read only code
-                if (iSec.isAuthorized(token, e.getSecReadOnly())) {
-                    // read only access
-                    readonlySet.add(e.getId());
-                }
-                // no access code, read only code and read only not permitted
-                // not access at all
-                continue;
-            }
-            // access code
-            if (iSec.isAuthorized(token, e.getSecAccess())) {
-                // access permitted
-                accessSet.add(e.getId());
-                continue;
-            }
-            if (!e.isSecReadOnly()) // no access
-                continue;
-            // read only code
-            if (iSec.isAuthorized(token, e.getSecReadOnly())) {
-                // read only access
-                readonlySet.add(e.getId());
-            }
-        } // for
-
+        }
     }
 
     static SecurityInfo create(ISecurity iSec, String token, DialogFormat d) {
         SecurityInfo sInfo = new SecurityInfo();
-        scanList(iSec, token, sInfo.getFieldAccess(), sInfo.getFieldReadOnly(),
-                d.getFieldList());
-        scanList(iSec, token, sInfo.getButtonAccess(),
-                sInfo.getButtonReadOnly(), d.getButtonList());
-        scanList(iSec, token, sInfo.getButtonAccess(),
-                sInfo.getButtonReadOnly(), d.getLeftButtonList());
+        scanList(iSec, token, sInfo.getFieldSec(), d.getFieldList());
+        scanList(iSec, token, sInfo.getButtSec(), d.getButtonList());
+        scanList(iSec, token, sInfo.getButtSec(), d.getLeftButtonList());
+        return sInfo;
+    }
+
+    static SecurityInfo createForColumns(ISecurity iSec, String token,
+            ListFormat li) {
+        SecurityInfo sInfo = new SecurityInfo();
+        scanList(iSec, token, sInfo.getFieldSec(), li.getColumns());
         return sInfo;
     }
 
