@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.commoncache;
 
-import java.util.logging.Logger;
-
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
@@ -22,13 +20,13 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
  * 
  */
 class GaeCache implements ICommonCache {
-    // private static Cache cache;
 
     private final MemcacheService cache;
-    static final Logger lo = Logger.getLogger(GaeCache.class.getName());
+    private final String nameSpace;
 
-    GaeCache() {
-        cache = MemcacheServiceFactory.getMemcacheService();
+    GaeCache(String nameSpace) {
+        this.nameSpace = nameSpace;
+        cache = MemcacheServiceFactory.getMemcacheService(nameSpace);
     }
 
     @Override
