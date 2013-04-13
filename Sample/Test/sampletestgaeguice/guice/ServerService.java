@@ -12,18 +12,17 @@
  */
 package guice;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.CommonCacheFactory;
-import com.gwtmodel.commoncache.ICommonCache;
+import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.ServerProperties;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
-import com.jythonui.server.IJythonUIServer;
+import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.JythonUiServerProvider;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
+import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
 
 /**
@@ -39,9 +38,11 @@ public class ServerService {
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
-            bind(ICommonCache.class).toProvider(CommonCacheFactory.class).in(
-                    Singleton.class);
             bind(ITestEnhancer.class).to(LocalDataStoreTestEnvironment.class);
+            bind(IStorageRegistryFactory.class)
+                    .to(StorageRegistryFactory.class).in(Singleton.class);
+            bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
+                    Singleton.class);
         }
     }
 

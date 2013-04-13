@@ -10,22 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui;
+package com.jythonui.datastore;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import javax.inject.Provider;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-/**
- * @author hotel
- * 
- */
-@RunWith(Suite.class)
-@SuiteClasses({ Test1.class, Test2.class, Test3.class, Test4.class,
-        Test5.class, Test6.class, Test7.class, Test8.class, Test9.class,
-        Test10.class, Test11.class, Test12.class, Test13.class, Test14.class,
-        Test15.class, Test16.class, Test17.class })
-// @SuiteClasses({ Test17.class })
-public class AllTests {
+public class EntityManagerFactoryProvider implements Provider<EntityManagerFactory >{
+
+    private static EntityManagerFactory factory;
+    
+    private static final String PERSISTENCE_UNIT_NAME = "person";
+
+    public EntityManagerFactoryProvider() {
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    }
+
+    @Override
+    public EntityManagerFactory get() {
+        return factory;
+    }
+    
 
 }

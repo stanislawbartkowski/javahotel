@@ -14,6 +14,7 @@ package com.jythonui.datastore;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -29,11 +30,16 @@ import com.jython.ui.server.datastore.IPersonOp;
  */
 public class PersonOp implements IPersonOp {
 
-    private static final String PERSISTENCE_UNIT_NAME = "person";
-    private static EntityManagerFactory factory;
+    // private static final String PERSISTENCE_UNIT_NAME = "person";
+    // private static EntityManagerFactory factory;
 
-    public PersonOp() {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    private final EntityManagerFactory factory;
+
+    @Inject
+    public PersonOp(EntityManagerFactory factory) {
+        this.factory = factory;
+        // factory =
+        // Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     }
 
     private EntityManager getEM() {
@@ -150,6 +156,5 @@ public class PersonOp implements IPersonOp {
     public IPerson construct() {
         return new Person();
     }
-
 
 }
