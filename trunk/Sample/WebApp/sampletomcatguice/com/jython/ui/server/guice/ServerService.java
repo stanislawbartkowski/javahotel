@@ -12,12 +12,12 @@
  */
 package com.jython.ui.server.guice;
 
-
 import com.google.inject.Singleton;
-import com.gwtmodel.commoncache.ICommonCache;
-import com.gwtmodel.mapcache.SimpleMapCache;
+import com.gwtmodel.mapcache.ICommonCacheFactory;
+import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IPersonOp;
+import com.jython.ui.server.jpastoragekey.StorageRegistryFactory;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -26,6 +26,7 @@ import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.guice.JythonServerService;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.registry.IStorageRegistryFactory;
 
 /**
  * @author hotel
@@ -42,10 +43,12 @@ public class ServerService {
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
-            bind(ICommonCache.class).to(SimpleMapCache.class).in(
-                    Singleton.class);
             bind(IJythonClientRes.class).to(GetClientProperties.class).in(
                     Singleton.class);
+            bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
+                    Singleton.class);
+            bind(IStorageRegistryFactory.class)
+                    .to(StorageRegistryFactory.class).in(Singleton.class);
             requestStaticInjection(Holder.class);
         }
     }
