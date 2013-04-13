@@ -12,8 +12,6 @@
  */
 package com.jythonui.client;
 
-import java.util.Map;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;

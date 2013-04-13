@@ -14,12 +14,19 @@ package com.jythonui.server.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.gwtmodel.commoncache.ICommonCache;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.JythonUiServerProvider;
-import com.jythonui.server.defa.SecurityCache;
+import com.jythonui.server.defa.CommonCacheProvider;
+import com.jythonui.server.defa.SecurityMemCacheProvider;
+import com.jythonui.server.defa.SecurityPersistentStorageProvider;
+import com.jythonui.server.registry.object.ObjectRegistryFactory;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
-import com.jythonui.server.security.ISessionCache;
+import com.jythonui.server.security.ISecuritySessionCache;
+import com.jythonui.server.security.cache.ISecuritySessionMemCache;
+import com.jythonui.server.security.cache.ISecuritySessionPersistent;
+import com.jythonui.server.security.cache.impl.SecuritySessionStore;
 import com.jythonui.server.security.impl.SecurityJython;
 import com.jythonui.server.security.resolver.SecurityResolver;
 
@@ -36,8 +43,19 @@ public class JythonServerService {
                     .toProvider(JythonUiServerProvider.class).in(
                             Singleton.class);
             bind(ISecurity.class).to(SecurityJython.class).in(Singleton.class);
-            bind(ISessionCache.class).to(SecurityCache.class).in(Singleton.class);
-            bind(ISecurityResolver.class).to(SecurityResolver.class).in(Singleton.class);
+            bind(ISecuritySessionCache.class).to(SecuritySessionStore.class)
+                    .in(Singleton.class);
+            bind(ISecurityResolver.class).to(SecurityResolver.class).in(
+                    Singleton.class);
+            bind(ObjectRegistryFactory.class).in(Singleton.class);
+            bind(ISecuritySessionPersistent.class).toProvider(
+                    SecurityPersistentStorageProvider.class)
+                    .in(Singleton.class);
+            bind(ICommonCache.class).toProvider(CommonCacheProvider.class).in(
+                    Singleton.class);
+            bind(ISecuritySessionMemCache.class).toProvider(
+                    SecurityMemCacheProvider.class).in(Singleton.class);
+
         }
     }
 
