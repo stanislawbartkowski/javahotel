@@ -18,9 +18,12 @@ import javax.inject.Inject;
 
 import org.apache.shiro.subject.Subject;
 
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.server.logmess.LogMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
-import com.jythonui.server.security.ISessionCache;
+import com.jythonui.server.security.ISecuritySessionCache;
 
 public class SecurityJython implements ISecurity {
 
@@ -31,7 +34,8 @@ public class SecurityJython implements ISecurity {
     private final ISecurityResolver iResolver;
 
     @Inject
-    public SecurityJython(ISessionCache iCache, ISecurityResolver iResolver) {
+    public SecurityJython(ISecuritySessionCache iCache,
+            ISecurityResolver iResolver) {
         cCache = new SubjectCache(iCache);
         this.iResolver = iResolver;
     }
@@ -61,7 +65,8 @@ public class SecurityJython implements ISecurity {
     public boolean isAuthorized(String token, String permission) {
         Subject currentUser = cCache.getSubject(token);
         if (currentUser == null) {
-            log.severe(token + " invalid token, not authorized");
+            log.severe(LogMess.getMess(IErrorCode.ERRORCODE21,
+                    ILogMess.INVALIDTOKEN, token));
             return false;
         }
         return iResolver.isAuthorized(currentUser, permission);

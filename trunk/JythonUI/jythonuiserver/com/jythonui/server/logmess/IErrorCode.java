@@ -30,4 +30,8 @@ public interface IErrorCode {
     String ERRORCODE15 = "E0015";
     String ERRORCODE16 = "E0016";
     String ERRORCODE17 = "E0017";
+    String ERRORCODE18 = "E0018";
+    String ERRORCODE19 = "E0019";
+    String ERRORCODE20 = "E0020";
+    String ERRORCODE21 = "E0021";
 }

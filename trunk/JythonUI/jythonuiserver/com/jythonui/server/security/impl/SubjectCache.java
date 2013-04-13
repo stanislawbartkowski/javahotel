@@ -31,11 +31,11 @@ import org.apache.shiro.util.Factory;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.logmess.LogMess;
-import com.jythonui.server.security.ISessionCache;
+import com.jythonui.server.security.ISecuritySessionCache;
 
 class SubjectCache {
 
-    private final ISessionCache iCache;
+    private final ISecuritySessionCache iCache;
 
     class CurrentSubject {
         SessionEntry se;
@@ -47,7 +47,7 @@ class SubjectCache {
     private static final Logger log = Logger.getLogger(SubjectCache.class
             .getName());
 
-    SubjectCache(ISessionCache iCache) {
+    SubjectCache(ISecuritySessionCache iCache) {
         this.iCache = iCache;
     }
 
