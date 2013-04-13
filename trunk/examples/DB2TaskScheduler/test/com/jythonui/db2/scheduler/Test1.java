@@ -13,11 +13,10 @@ import com.jythonui.shared.RowIndex;
 
 public class Test1 extends TestHelper {
 
-    
     @Test
     public void test1() {
         DialogFormat d = null;
-        d = iJ.findDialog(D);
+        d = getD(D);
         assertNotNull(d);
         DialogVariables v = new DialogVariables();
         iJ.runAction(v, D, "readlist");
@@ -27,14 +26,14 @@ public class Test1 extends TestHelper {
 
     @Test
     public void test2() {
-        DialogFormat d = iJ.findDialog(D);
+        DialogFormat d = getD(D);
         DialogVariables v = new DialogVariables();
         v.setValueS("datasource", "aix");
         v.setValueS("host", "192.168.1.1");
         v.setValueS("database", "SAMPLE");
-        v.setValueL("port",50000L);
+        v.setValueL("port", 50000L);
         v.setValueB("list_lineset", false);
-        
+
         iJ.runAction(v, D, "writedatasource");
         v = new DialogVariables();
         iJ.runAction(v, D, "readlist");
@@ -48,23 +47,23 @@ public class Test1 extends TestHelper {
             System.out.println(s);
             if (s.equals("aix")) {
                 Long l = rI.get(r, "port").getValueL();
-                assertEquals(50000L,l.longValue());
+                assertEquals(50000L, l.longValue());
                 found = true;
             }
         }
-        assertTrue(found);   
+        assertTrue(found);
     }
-    
+
     @Test
     public void test3() {
         test2();
-        DialogFormat d = iJ.findDialog(D);
+        DialogFormat d = getD(D);
         DialogVariables v = new DialogVariables();
         v.setValueS("datasource", "linux");
         v.setValueS("host", "192.168.1.2");
         v.setValueS("database", "SAMPLE");
-        v.setValueL("port",50004L);
-        
+        v.setValueL("port", 50004L);
+
         iJ.runAction(v, D, "writedatasource");
         v = new DialogVariables();
         iJ.runAction(v, D, "readlist");
@@ -78,17 +77,17 @@ public class Test1 extends TestHelper {
             System.out.println(s);
             if (s.equals("aix")) {
                 Long l = rI.get(r, "port").getValueL();
-                assertEquals(50000L,l.longValue());
+                assertEquals(50000L, l.longValue());
                 no++;
             }
             if (s.equals("linux")) {
                 Long l = rI.get(r, "port").getValueL();
-                assertEquals(50004L,l.longValue());
+                assertEquals(50004L, l.longValue());
                 no++;
             }
         }
-        assertEquals(2,no); 
-        
+        assertEquals(2, no);
+
         v = new DialogVariables();
         v.setValueS("datasource", "aix");
         iJ.runAction(v, D, "deletedatasource");
@@ -105,11 +104,11 @@ public class Test1 extends TestHelper {
             }
             if (s.equals("linux")) {
                 Long l = rI.get(r, "port").getValueL();
-                assertEquals(50004L,l.longValue());
+                assertEquals(50004L, l.longValue());
                 no++;
             }
         }
-        assertEquals(1,no); 
+        assertEquals(1, no);
     }
 
 }
