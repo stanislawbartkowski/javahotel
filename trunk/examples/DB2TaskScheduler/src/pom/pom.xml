@@ -291,12 +291,15 @@
                     <copy todir="${outwar}/WEB-INF/classes/resources">
                       <fileset dir="${sampledb2}/resources"/>
                     </copy>
-                    
+ 
+                    <copy todir="${outwar}/WEB-INF/classes">
+                      <fileset file="${sampledb2}/app.properties"/>
+                    </copy>
+ 
                     <copy todir="${outwar}/WEB-INF/classes/resources">
                       <fileset dir="${jythonserver}/resources"/>
                     </copy>
-                    
-                    
+                                        
                     <jar destfile="target/db2jobscheduler.war" basedir="war"/>
                     
                   </target>
