@@ -10,19 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.commoncache;
+package com.jython.ui.server.jpastoragekey;
 
-import com.gwtmodel.mapcache.ICommonCacheFactory;
+import javax.inject.Inject;
+import javax.persistence.EntityManagerFactory;
 
-/**
- * @author hotel
- * 
- */
-public class CommonCacheFactory implements ICommonCacheFactory {
+import com.jythonui.server.registry.IStorageRegistry;
+import com.jythonui.server.registry.IStorageRegistryFactory;
+
+public class StorageRegistryFactory implements IStorageRegistryFactory {
+    
+    private final EntityManagerFactory factory;
+    
+    @Inject
+    public StorageRegistryFactory(EntityManagerFactory factory) {
+        this.factory = factory;
+    }
 
     @Override
-    public ICommonCache construct(String cName) {
-        return new GaeCache(cName);
+    public IStorageRegistry construct(String realm) {
+        return new StorageJpaRegistry(realm, factory);
     }
 
 }

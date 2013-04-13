@@ -1,0 +1,129 @@
+/*
+ * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
+package com.jython.ui.server.jpastoragekey;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+
+import com.jython.ui.server.jpastoragekey.entity.RegistryEntry;
+import com.jythonui.server.registry.IStorageRegistry;
+
+class StorageJpaRegistry implements IStorageRegistry {
+
+    private final String realm;
+    private final EntityManagerFactory factory;
+
+    StorageJpaRegistry(String realm, EntityManagerFactory factory) {
+        this.realm = realm;
+        this.factory = factory;
+    }
+
+    private abstract class doTransaction {
+
+        abstract void dosth(EntityManager em);
+
+        void executeTran() {
+            EntityManager em = factory.createEntityManager();
+            em.getTransaction().begin();
+            boolean commited = false;
+            try {
+                dosth(em);
+                em.getTransaction().commit();
+                commited = true;
+            } finally {
+                if (!commited)
+                    em.getTransaction().rollback();
+                em.close();
+            }
+        }
+
+    }
+
+    @Override
+    public byte[] getEntry(String key) {
+        EntityManager em = factory.createEntityManager();
+        Query q = em.createNamedQuery("findRegistryEntry");
+        q.setParameter(1, realm);
+        q.setParameter(2, key);
+        try {
+            RegistryEntry e = (RegistryEntry) q.getSingleResult();
+            if (e == null)
+                return null;
+            return e.getValue();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    private class Put extends doTransaction {
+
+        private final byte[] value;
+        private final String key;
+
+        Put(String key, byte[] value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        void dosth(EntityManager em) {
+            RegistryEntry e = new RegistryEntry();
+            e.setRegistryRealm(realm);
+            e.setRegistryEntry(key);
+            e.setValue(value);
+            em.persist(e);
+        }
+
+    }
+
+    @Override
+    public void putEntry(String key, byte[] value) {
+        Put command = new Put(key, value);
+        command.executeTran();
+    }
+
+    class Remove extends doTransaction {
+
+        private final String key;
+
+        Remove(String key) {
+            this.key = key;
+        }
+
+        @Override
+        void dosth(EntityManager em) {
+            Query q = em.createNamedQuery("findRegistryEntry");
+            q.setParameter(1, realm);
+            q.setParameter(2, key);
+            try {
+                RegistryEntry e = (RegistryEntry) q.getSingleResult();
+                if (e != null)
+                    em.remove(e);
+            } catch (NoResultException e) {
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void removeEntry(String key) {
+        Remove command = new Remove(key);
+        command.executeTran();
+
+    }
+
+}
