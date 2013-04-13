@@ -12,33 +12,13 @@
  */
 package com.gwtmodel.mapcache;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.gwtmodel.commoncache.ICommonCache;
 
-/**
- * @author hotel
- * 
- */
-class SimpleMapCache implements ICommonCache {
-
-    // thread safe
-    private final static Map<String, Object> cMap = new ConcurrentHashMap<String, Object>();
+public class SimpleMapCacheFactory implements ICommonCacheFactory {
 
     @Override
-    public Object get(String key) {
-        return cMap.get(key);
-    }
-
-    @Override
-    public void put(String key, Object o) {
-        cMap.put(key, o);
-    }
-
-    @Override
-    public void remove(String key) {
-        cMap.remove(key);
+    public ICommonCache construct(String cName) {
+        return new SimpleMapCache();
 
     }
 
