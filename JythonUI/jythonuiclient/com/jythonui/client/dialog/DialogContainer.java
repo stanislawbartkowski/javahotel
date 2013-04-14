@@ -146,7 +146,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             assert fie != null : LogT.getT().cannotBeNull();
             String actionId = fie.getActionId();
             assert actionId != null : LogT.getT().cannotBeNull();
-            runAction(actionId, w, d.getActionList());
+            // runAction(actionId, w, d.getActionList());
+            ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
+                    w, null));
+
         }
 
     }
@@ -351,6 +354,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     v.setValueB(ICommonConsts.JYESANSWER, yes);
                     // M.JR().runAction(v, d.getId(), param1,
                     // new BackClass(param1, false, w, null));
+                    // 2012/04/14
                     ExecuteAction.action(v, d.getId(), param1, new BackClass(
                             param1, false, w, null));
 
@@ -385,6 +389,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     private void runAction(String id, WSize w, List<ButtonItem> bList) {
         ButtonItem bItem = DialogFormat.findE(bList, id);
+        // it can be call from several places
+        // so filter out not relevant
         if (bItem != null) {
             if (bItem.isValidateAction()) {
                 if (!ValidateForm.validateV(dType, DialogContainer.this, d,
@@ -401,19 +407,14 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                         iCon);
                 return;
             }
-            // DialogVariables v = iCon.getVariables();
-            // M.JR().runAction(v, d.getId(), id,
-            // new BackClass(id, false, w, null));
-            // ExecuteAction.action(iCon, d.getId(), id, new BackClass(id,
-            // false,
-            // w, null));
+            ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
+                    w, null));
         }
-        // DialogVariables v = iCon.getVariables();
-        // M.JR().runAction(v, d.getId(), id, new BackClass(id, false, w,
-        // null));
         // 2012-04-03 : in order to add action from list
-        ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false, w,
-                null));
+        // 2012-04-14 : cannot be at that place
+        // not relevant should be weeded out
+        // ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false, w,
+        // null));
     }
 
     private class ActionButton implements IPerformClickAction {
