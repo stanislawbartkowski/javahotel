@@ -31,4 +31,5 @@ public interface IConsts {
     int actionImageHeight = 12;
     String DEFJSONROW = "row";
     int CHUNK_SIZE = 100;
+    String LOGOUTHTMLNAME = "logout";
 }

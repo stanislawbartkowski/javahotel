@@ -16,9 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -29,7 +30,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.htmlview.HtmlElemDesc;
@@ -64,7 +67,7 @@ class WebPanel implements IWebPanel {
     private final static String HOTELHEADER_DOWNMENU = "header_downmenu";
     private final static String HOTELHEADER_STATUSBAR = "header_statusbar";
     private final static String HEADER_UPINFO = "header_upinfo";
-    private final HTML ha;
+    private final Button outButt;
     private final LogoH logo;
     private final ICommand logOut;
     private final Label tL; // product name
@@ -209,10 +212,10 @@ class WebPanel implements IWebPanel {
         wWest1 = w;
     }
 
-    private class ClickLogOut implements MouseDownHandler {
+    private class ClickLogOut implements ClickHandler {
 
         @Override
-        public void onMouseDown(MouseDownEvent event) {
+        public void onClick(ClickEvent event) {
             IClickYesNo yes = new IClickYesNo() {
                 @Override
                 public void click(boolean yes) {
@@ -226,12 +229,12 @@ class WebPanel implements IWebPanel {
             if (q == null)
                 q = MM.getL().LogOutQuestion();
             YesNoDialog yesD = new YesNoDialog(q, null, yes);
-            yesD.show(ha);
+            yesD.show(new WSize(event.getRelativeElement()));
         }
     }
 
     private void setOut(boolean visible) {
-        ha.setVisible(visible);
+        outButt.setVisible(visible);
     }
 
     private class PanelCallback implements IHtmlPanelCallBack {
@@ -240,9 +243,9 @@ class WebPanel implements IWebPanel {
         public void setHtmlPanel(Panel ha) {
             uPanel = (HTMLPanel) ha;
             initStatus();
-            vp.add(uPanel);
+            dPanel.add(uPanel, DockPanel.NORTH);
+            uPanel.setHeight("25px");
             setOut(false);
-
         }
     }
 
@@ -269,21 +272,12 @@ class WebPanel implements IWebPanel {
         tL = new Label(pResources.getRes(IWebPanelResources.PRODUCTNAME));
         ownerName = new Label(pResources.getRes(IWebPanelResources.OWNERNAME));
 
-        String h = Utils
-                .getImageHTML(
-                        pResources.getRes(IWebPanelResources.IMAGELOGOUT), 20,
-                        20, null);
-        ha = new HTML(h);
-
-        ha.addMouseDownHandler(new ClickLogOut());
-
-        h = Utils.getImageHTML(
+        String h = Utils.getImageHTML(
                 pResources.getRes(IWebPanelResources.IIMAGEPRODUCT), 20, 20,
                 null);
         logo = new LogoH(h);
 
         dPanel.add(vp, DockPanel.NORTH);
-        vp.setHeight("25px");
 
         dPanel.add(middlePanel, DockPanel.CENTER);
         middlePanel.add(this.vmenu, DockPanel.NORTH);
@@ -293,7 +287,13 @@ class WebPanel implements IWebPanel {
         hList.add(new HtmlElemDesc(ownerName, "header_ownername"));
         hList.add(new HtmlElemDesc(userName, "header_user"));
         hList.add(new HtmlElemDesc(hotelName, "header_ename"));
-        hList.add(new HtmlElemDesc(ha, HOTELHEADER_LOGOUT));
+        String hout = Utils.getImageHTML(
+                pResources.getRes(IWebPanelResources.IMAGELOGOUT), 20, 20,
+                IConsts.LOGOUTHTMLNAME);
+        outButt = new Button();
+        outButt.setHTML(hout);
+        outButt.addClickHandler(new ClickLogOut());
+        hList.add(new HtmlElemDesc(outButt, HOTELHEADER_LOGOUT));
         hList.add(new HtmlElemDesc(logo, HOTELHEADER_LOGO));
         hList.add(new HtmlElemDesc(statusl, HOTELHEADER_STATUSBAR));
         hList.add(new HtmlElemDesc(upInfo, HEADER_UPINFO));
@@ -325,6 +325,6 @@ class WebPanel implements IWebPanel {
         if (hotel != null) {
             hotelName.setText(hotel);
         }
-        setOut(true);
+        setOut(user != null ? true : false);
     }
 }
