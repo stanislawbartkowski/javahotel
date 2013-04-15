@@ -12,12 +12,15 @@
  */
 package com.jython.ui.server.guice;
 
+import javax.persistence.EntityManagerFactory;
+
 import com.google.inject.Singleton;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.jpastoragekey.StorageRegistryFactory;
+import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -50,6 +53,8 @@ public class ServerService {
             bind(IStorageRegistryFactory.class)
                     .to(StorageRegistryFactory.class).in(Singleton.class);
             requestStaticInjection(Holder.class);
+            bind(EntityManagerFactory.class).toProvider(
+                    EntityManagerFactoryProvider.class).in(Singleton.class);
         }
     }
 
