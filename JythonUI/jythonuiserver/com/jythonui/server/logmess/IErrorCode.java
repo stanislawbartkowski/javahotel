@@ -34,4 +34,7 @@ public interface IErrorCode {
     String ERRORCODE19 = "E0019";
     String ERRORCODE20 = "E0020";
     String ERRORCODE21 = "E0021";
+    String ERRORCODE22 = "E0022";
+    String ERRORCODE23 = "E0023";
+    String ERRORCODE24 = "E0024";
 }
