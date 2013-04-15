@@ -25,6 +25,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 
@@ -94,7 +95,12 @@ class SubjectCache {
             log.info(LogMess.getMess(IErrorCode.ERRORCODE6,
                     ILogMess.AUTHENTICATEOTHERERROR, se.getUser()));
             return null;
+        } catch (UnknownSessionException ae) {
+            log.info(LogMess.getMess(IErrorCode.ERRORCODE22,
+                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser()));
+            return null;
         }
+
         log.info(LogMess.getMessN(ILogMess.OKAUTHENTICATED));
         if (tokenS == null) {
             UUID i = UUID.randomUUID();
@@ -120,7 +126,8 @@ class SubjectCache {
         try {
             e = (SessionEntry) iCache.get(token);
         } catch (InvalidClassException ee) {
-            log.log(Level.SEVERE, "Cannot cast entry", e);
+            log.log(Level.SEVERE, LogMess.getMess(IErrorCode.ERRORCODE24,
+                    ILogMess.CANNOTCASTENTRY), e);
             iCache.remove(token);
         }
         if (e == null) {
@@ -147,8 +154,9 @@ class SubjectCache {
         log.info("Authenticate again");
         Result res = authenticate(se, token);
         if (res == null) {
-            log.severe("Cannot authenticate again " + se.getUser() + " "
-                    + se.getRealm());
+            log.severe(LogMess.getMess(IErrorCode.ERRORCODE23,
+                    ILogMess.CANNOTAUTHENTICATEAGAIN, se.getUser(),
+                    se.getRealm()));
             return null;
         }
         return res.sub;
