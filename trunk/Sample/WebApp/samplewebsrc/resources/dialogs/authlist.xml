@@ -7,6 +7,11 @@
    <import>from testpack import list</import>
    <method>list.dialogaction({0},{1})</method>
  </jython>  
+ 
+  <buttons>
+ <button id="clearpersons" displayname="Clear all" actiontype="JYESNO_MESSAGE" actionparam="Do you really want to remove all persons now ?" actionparam1="Warning before removing" actionparam2="clearpersons" />
+ </buttons>
+ 
   
  <list id="list" displayname="List of persons" elemformat="authelem.xml">
  <columns>
