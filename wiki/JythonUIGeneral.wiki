@@ -578,7 +578,7 @@ File app.properties contains general information about an application, including
 ||Version || Version, information displayed in the upper left corner of the status bar || Version 1.0 Date: 16/04/2013 ||
 || Authenticated || Y/N (default N). If Y then non-authorized access is forbidden. All access requires authentication token || ||
 || Login || List of starting pages (, as deliminator) requiring authentication || start.xml ||
-|| Shirorealm || Name of the shiro realm used for authentication || classpath:resources/shiro/shiro.ini ||
+|| Shirorealm || Name of the shiro realm used for authentication || classpath:resources/shiro/shiro.ini || 
 
 Sample of app.properties.  https://code.google.com/p/javahotel/source/browse/trunk/Sample/WebApp/samplewebsrc/app.properties
 This example does not put strict security access. Entrance via page authenticate.xml requires authentication (login name/password).
@@ -590,3 +590,11 @@ Additional info.
  * Authenticate=Y put strictly restricted access. Any access requires being authenticated. 
  * Login. Defines list of start pages forcing authentication. If Autenticate=N and the page is not on Login list then this page will not be available at all
 
+== Shiro realm ==
+As authentication and authorization engine Shiro is used. More information about shiro : http://shiro.apache.org/configuration.html.
+Only standalone (not Web) API is used. The following Shiro methods are used.
+|| Action || JavaDoc || Method used
+|| Realm configuration || http://shiro.apache.org/static/1.2.1/apidocs/org/apache/shiro/config/IniSecurityManagerFactory.html || IniSecurityManagerFactory(String iniResourcePath) ||
+|| Authentication (login) || http://shiro.apache.org/static/1.2.1/apidocs/org/apache/shiro/subject/Subject.html || Subject.login(AuthenticationToken token) ||
+|| Authorization (roles) || || Subject.hasRole(String roleIdentifier) ||
+|| Authorization (permission) || || Subject.isPermitted(String permission) ||
