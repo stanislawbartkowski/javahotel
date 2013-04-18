@@ -564,3 +564,29 @@ Map variables:
 
 Sample:
 http://code.google.com/p/javahotel/source/browse/trunk/Sample/WebApp/samplewebsrc/resources/packages/testpack/listchunk.py
+
+= Security =
+
+== app.properties ==
+File app.properties contains general information about an application, including security specification. The following properties are available.
+
+
+|| Property || Value || Example ||
+|| Title || Title of the browser window || Example of Jython UI ||
+|| ProductName || Product name, information displayed in the status bar || Jython UI demo ||
+|| OnwerName || Owner name, information display in the status bar || Demo ||
+||Version || Version, information displayed in the upper left corner of the status bar || Version 1.0 Date: 16/04/2013 ||
+|| Authenticated || Y/N (default N). If Y then non-authorized access is forbidden. All access requires authentication token || ||
+|| Login || List of starting pages (, as deliminator) requiring authentication || start.xml ||
+|| Shirorealm || Name of the shiro realm used for authentication || classpath:resources/shiro/shiro.ini ||
+
+Sample of app.properties.  https://code.google.com/p/javahotel/source/browse/trunk/Sample/WebApp/samplewebsrc/app.properties
+This example does not put strict security access. Entrance via page authenticate.xml requires authentication (login name/password).
+Another example:
+https://code.google.com/p/javahotel/source/browse/trunk/examples/DB2TaskScheduler/src/app.properties
+No security at all.
+
+Additional info.
+ * Authenticate=Y put strictly restricted access. Any access requires being authenticated. 
+ * Login. Defines list of start pages forcing authentication. If Autenticate=N and the page is not on Login list then this page will not be available at all
+
