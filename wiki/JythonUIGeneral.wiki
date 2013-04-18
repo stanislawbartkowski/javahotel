@@ -580,11 +580,8 @@ File app.properties contains general information about an application, including
 || Login || List of starting pages (, as deliminator) requiring authentication || start.xml ||
 || Shirorealm || Name of the shiro realm used for authentication || classpath:resources/shiro/shiro.ini || 
 
-Sample of app.properties.  https://code.google.com/p/javahotel/source/browse/trunk/Sample/WebApp/samplewebsrc/app.properties
-This example does not put strict security access. Entrance via page authenticate.xml requires authentication (login name/password).
-Another example:
-https://code.google.com/p/javahotel/source/browse/trunk/examples/DB2TaskScheduler/src/app.properties
-No security at all.
+Sample of app.properties.      *  *https://code.google.com/p/javahotel/source/browse/trunk/Sample/WebApp/samplewebsrc/app.properties This example does not put strict security access. Entrance via page authenticate.xml requires authentication (login name/password).
+ * https://code.google.com/p/javahotel/source/browse/trunk/examples/DB2TaskScheduler/src/app.properties  No security at all.
 
 Additional info.
  * Authenticate=Y put strictly restricted access. Any access requires being authenticated. 
