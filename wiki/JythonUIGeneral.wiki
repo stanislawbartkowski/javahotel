@@ -593,8 +593,58 @@ Additional info.
 == Shiro realm ==
 As authentication and authorization engine Shiro is used. More information about shiro : http://shiro.apache.org/configuration.html.
 Only standalone (not Web) API is used. The following Shiro methods are used.
-|| Action || JavaDoc || Method used
+|| Action || JavaDoc || Method used ||
 || Realm configuration || http://shiro.apache.org/static/1.2.1/apidocs/org/apache/shiro/config/IniSecurityManagerFactory.html || IniSecurityManagerFactory(String iniResourcePath) ||
 || Authentication (login) || http://shiro.apache.org/static/1.2.1/apidocs/org/apache/shiro/subject/Subject.html || Subject.login(AuthenticationToken token) ||
 || Authorization (roles) || || Subject.hasRole(String roleIdentifier) ||
 || Authorization (permission) || || Subject.isPermitted(String permission) ||
+
+== Authorization, Jexl and permission string ==
+
+After the user is authenticated it is possible to restrict his/her access to some resources. The access can be limited by using user name, role (group of users) and permission. The 'Jexl' boolean expression (evaluated to True/False) is used to validate access.
+Jexl - http://commons.apache.org/proper/commons-jexl/.
+The following functions can be used for creating access expression.
+|| Method name || Description || Example ||
+|| sec.u("string") || Returns True if current user name is the same as the parameter || sec.u('darkhelmet') ||
+|| sec.r("string") || Returns True if current user has the role defined by the parameter || sec.r('mightyknight') ||
+|| sec.p("string") || Returns True if current user has the permission define by the parameter || sec.p('lightsaber:weild') ||
+
+Using methods described above it is possible to create an Jexl boolean expression which evaluates to True/False of current user.
+
+Example
+ * Give access to the user 'darkhelmet' only. sec.u('darkhelmet')
+ * Give access to the user 'darkhelmet' and all belonging to 'schwartz' role. sec.u('darkhelmet') and sec.r('schwartz')
+
+== Authorization, static way ==
+Hides or makes read only access to some fields in dialog forms, columns in the list or buttons.
+Access expression can be attached to two attributes: 'hidden' and 'readonly'. The format is as follows:
+ * hidden="" or readonly="" (empty value). Evaluates to 'True' for all users.
+ * hidden="$<Jexl expression>" or readonly="$<Jexl expression>". Is True only if Jexl access expression evaluates to True for current user.
+
+Example:
+Editable only for 'darkhelmet' user. For 'schwartz' role the field is readonly. Hidden for the rest of the world.
+* hidden="$!sec.u('darkhelmet') and !sec.r('schwartz')"
+* readonly="$!sec.u(darkhelmet') and sec.r('schwartz')"
+
+For 'darkhelmet' user neither hidden nor readonly evaluates to True. So the field is visible and editable.
+For 'schwartz' role 'hidden' evaluates to False. 'readonly' evaluates to True. So the field is visible but not editable.
+For outside world 'hidden' evaluates to True. So the field is not visible ('readonly' attribute is not important in this case).
+
+== Authorization, programmatic way ==
+It is also possible to verify authorization from 'jython' code. 
+
+Example:
+
+<code language="python>
+from guice import ServiceInjector
+
+def dialogaction(action,var) :
+  iSec = ServiceInjector.constructSecurity()
+  token = var["SECURITY_TOKEN"]
+  ok = iSec.isAuthorized(token,"sec.u('darkhelmet')")
+  var["OK"] = ok
+</code>
+
+ * ServiceInjector.constructSecurity() returns handler for security class.
+ * var["SECURITY_TOKEN"] returns security token for current user. This token is used as a parameter to security method.
+ * isAuthorized(token,"string") is used to validate access for current user. This method returns True/False for authorization string being the parameter.
