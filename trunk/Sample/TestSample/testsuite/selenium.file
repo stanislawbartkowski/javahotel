@@ -25,7 +25,16 @@ LASTLISTBUTTONDISABLED://img[@aria-label='Last page' and @aria-disabled='true']
 NEXTLISTBUTTON://img[@aria-label='Next page']
 PREVTLISTBUTTON://img[@aria-label='Previous page']
 
+--LOGOUT://td[@class='logoout']
+--LOGOUT://img[@width='20px']
+-- img width="20px"
+LOGOUT:logout
+
 HEADERSORT2://table/thead/tr/th[2]
+
+LOGINNAME:LOGINNAME
+PASSWORD:PASSWORD
+LOGON:ACCEPT
 
 
 [waitforwindow]
@@ -34,3 +43,8 @@ waitFor:#TOMAINBUTTON
 waitFor:#GLOBINT
 waitFor:#CHECKBOOL
 sleep:1
+
+[waitforlogin]
+waitFor:#LOGINNAME
+waitFor:#PASSWORD
+

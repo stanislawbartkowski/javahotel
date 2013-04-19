@@ -1,0 +1,62 @@
+[alias]
+LIST:showlist
+CLEARPERSONS:clearpersons
+LINE3://div[text()='NAME 3']
+TD4://tr[4]/td/div
+HIDDEN3://input[@name='key' and @aria-hidden='true']
+[start]
+call:waitforlogin
+sleep:1
+isPresent:#LOGON
+type:#LOGINNAME|guest
+type:#PASSWORD|guest
+click:#LOGON
+----
+waitFor:#LIST
+click:#LIST
+sleep:3
+waitFor:#CLEARPERSONS
+click:#CLEARPERSONS
+---
+sleep:1
+waitFor:#ACCEPT
+click:#ACCEPT
+waitFor:#LINE3
+click:#TD4
+sleep:5
+click:#MODIFITEM
+sleep:1
+waitFor:#ACCEPT
+-- secret is hidden
+waitFor:#HIDDEN3
+click:#RESIGN
+sleep:5
+-- change to user
+click:#LOGOUT
+waitFor:#ACCEPT
+click:#ACCEPT
+call:waitforlogin
+sleep:1
+isPresent:#LOGON
+type:#LOGINNAME|user
+type:#PASSWORD|user
+click:#LOGON
+waitFor:#LIST
+click:#LIST
+sleep:3
+waitFor:#CLEARPERSONS
+click:#CLEARPERSONS
+sleep:1
+waitFor:#ACCEPT
+click:#ACCEPT
+waitFor:#LINE3
+click:#TD4
+sleep:5
+click:#MODIFITEM
+sleep:1
+waitFor:#ACCEPT
+sleep:5
+-- secret is NOT hidden
+waitForNot:#HIDDEN3
+click:#RESIGN
+
