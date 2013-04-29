@@ -12,7 +12,7 @@
  */
 package com.gwtmodel.table.view.grid;
 
-public class GridViewType {
+class GridViewType {
 
     public enum GridType {
         DECIMAL, BOOLEAN;
@@ -26,24 +26,24 @@ public class GridViewType {
 
     private final boolean colHeaders;
 
-    public GridType getgType() {
+    GridType getgType() {
         return gType;
     }
 
-    public boolean isHorizontal() {
+    boolean isHorizontal() {
         return horizontal;
     }
 
-    public boolean isRowBeginning() {
+    boolean isRowBeginning() {
         return rowBeginning;
     }
 
-    public boolean isColHeaders() {
+    boolean isColHeaders() {
         return colHeaders;
     }
 
-    public GridViewType(GridType gType, boolean horizontal,
-            boolean rowBeginning, boolean colHeaders) {
+    GridViewType(GridType gType, boolean horizontal, boolean rowBeginning,
+            boolean colHeaders) {
         this.gType = gType;
         this.horizontal = horizontal;
         this.rowBeginning = rowBeginning;

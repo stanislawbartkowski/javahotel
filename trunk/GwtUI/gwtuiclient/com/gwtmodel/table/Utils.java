@@ -376,6 +376,11 @@ public class Utils {
         Window.alert(s);
     }
 
+    public static void errAlertB(String s) {
+        Window.alert(s);
+        assert false : s;
+    }
+
     public static void errAlert(String s1, String s2) {
         errAlert(s1 + " " + s2);
     }
