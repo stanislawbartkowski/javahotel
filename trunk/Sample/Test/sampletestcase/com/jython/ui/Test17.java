@@ -12,9 +12,7 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -34,10 +32,10 @@ public class Test17 extends TestHelper {
         assertNotNull(t);
         DialogInfo i = iServer.findDialog(t, "test41.xml");
         assertNotNull(i);
+        assertEquals(0, i.getDialog().getCheckList().size());
         DialSecurityInfo elem = i.getSecurity().getlSecur().get("lista");
         assertNotNull(elem);
-        assertFalse(elem.getFieldSec().get("id")
-                .contains("hidden"));
+        assertFalse(elem.getFieldSec().get("id").contains("hidden"));
 
         String t1 = iSec.authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t1);
@@ -45,8 +43,7 @@ public class Test17 extends TestHelper {
         assertNotNull(i);
         elem = i.getSecurity().getlSecur().get("lista");
         assertNotNull(elem);
-        assertTrue(elem.getFieldSec().get("id")
-                .contains("hidden"));
+        assertTrue(elem.getFieldSec().get("id").contains("hidden"));
         iSec.logout(t);
         iSec.logout(t1);
 
@@ -64,7 +61,7 @@ public class Test17 extends TestHelper {
         assertTrue(val.getValueB());
         iSec.logout(t);
     }
-    
+
     @Test
     public void test3() {
         String t = iSec.authenticateToken(realmIni, "darkhelmet",
@@ -72,29 +69,24 @@ public class Test17 extends TestHelper {
         assertNotNull(t);
         DialogInfo i = iServer.findDialog(t, "test43.xml");
         assertNotNull(i);
-        assertFalse(i.getSecurity().getButtSec().get("ID")
-                .contains("hidden"));
-        assertFalse(i.getSecurity().getButtSec().get("ID1")
-                .contains("hidden"));
+        assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
+        assertFalse(i.getSecurity().getButtSec().get("ID1").contains("hidden"));
         assertFalse(i.getSecurity().getButtSec().get("ID1")
                 .contains("readonly"));
 
         iSec.logout(t);
-        
+
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = iServer.findDialog(t, "test43.xml");
-        assertTrue(i.getSecurity().getButtSec().get("ID")
-                .contains("hidden"));
-        assertFalse(i.getSecurity().getButtSec().get("ID1")
-                .contains("hidden"));
-        assertTrue(i.getSecurity().getButtSec().get("ID1")
-                .contains("readonly"));
-        
+        assertTrue(i.getSecurity().getButtSec().get("ID").contains("hidden"));
+        assertFalse(i.getSecurity().getButtSec().get("ID1").contains("hidden"));
+        assertTrue(i.getSecurity().getButtSec().get("ID1").contains("readonly"));
+
         iSec.logout(t);
 
     }
-    
+
     @Test
     public void test4() {
         String t = iSec.authenticateToken(realmIni, "darkhelmet",
@@ -105,9 +97,9 @@ public class Test17 extends TestHelper {
         DialSecurityInfo sI = i.getSecurity().getListSecur().get("list");
         assertNotNull(sI);
         ListFormat li = i.getDialog().findList("list");
-        assertFalse(sI.isFieldHidden(DialogFormat.findE(li.getColumns(),"id")));
+        assertFalse(sI.isFieldHidden(DialogFormat.findE(li.getColumns(), "id")));
         iSec.logout(t);
-        
+
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = iServer.findDialog(t, "test44.xml");
@@ -115,7 +107,7 @@ public class Test17 extends TestHelper {
         sI = i.getSecurity().getListSecur().get("list");
         assertNotNull(sI);
         li = i.getDialog().findList("list");
-        assertTrue(sI.isFieldHidden(DialogFormat.findE(li.getColumns(),"id")));
+        assertTrue(sI.isFieldHidden(DialogFormat.findE(li.getColumns(), "id")));
         iSec.logout(t);
     }
 

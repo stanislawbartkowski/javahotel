@@ -43,6 +43,7 @@ public class ServerService {
                     .to(StorageRegistryFactory.class).in(Singleton.class);
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
                     Singleton.class);
+            requestStatic();
         }
     }
 

@@ -23,6 +23,7 @@ import org.junit.Before;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -51,6 +52,7 @@ public class TestHelper {
     @Before
     public void setUp() {
         iTest.beforeTest();
+        Holder.setAuth(false);
     }
 
     @After

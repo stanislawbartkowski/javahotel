@@ -23,6 +23,7 @@
   <button id="dialog1" displayname="Next dialog" actiontype="JMAIN_DIALOG" actionparam="dialog1.xml" />
   <button id="listw" displayname="List" actiontype="JMAIN_DIALOG" actionparam="listw.xml" />
   <button id="list chunk" displayname="List chunk" actiontype="JMAIN_DIALOG" actionparam="listchunk.xml" />
+  <button id="check list" displayname="Check list" actiontype="JMAIN_DIALOG" actionparam="checklist.xml" />
 </leftmenu>
 
 <buttons>
