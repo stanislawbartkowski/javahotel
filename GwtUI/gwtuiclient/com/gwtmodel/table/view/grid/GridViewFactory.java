@@ -26,10 +26,6 @@ public class GridViewFactory {
         this.eFactory = eFactory;
     }
 
-    public IGridView construct(GridViewType gType) {
-        return new GridView(eFactory, gType);
-    }
-
     private class Decimal extends GridView implements IGridViewDecimal {
 
         Decimal(GridViewType gType) {
