@@ -28,6 +28,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.CheckList;
+import com.jythonui.shared.CheckListElem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
@@ -95,6 +97,9 @@ class ReadDialog {
         private final String[] valTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
                 ICommonConsts.VALIDATEID1 };
+        private final String[] checklistTag = { ICommonConsts.ID,
+                ICommonConsts.DISPLAYNAME };
+        private final String[] elemchecklistTag = checklistTag;
 
         /** Currently recognized set of tags. */
         /*
@@ -112,6 +117,7 @@ class ReadDialog {
         private List<ButtonItem> bList = null;
         private List<FieldItem> fList = null;
         private List<ValidateRule> valList = null;
+        private CheckList checkList = null;
 
         @Override
         public void startElement(String uri, String localName, String qName,
@@ -172,6 +178,24 @@ class ReadDialog {
                 currentT = valTag;
                 getAttribute = true;
             }
+            if (qName.equals(ICommonConsts.CHECKLIST)) {
+                checkList = new CheckList();
+                bDescr = checkList;
+                currentT = checklistTag;
+                getAttribute = true;
+            }
+            if (qName.equals(ICommonConsts.CHECKLISTLINES) && checkList != null) {
+                bDescr = checkList.getLines();
+                currentT = elemchecklistTag;
+                getAttribute = true;
+            }
+            if (qName.equals(ICommonConsts.CHECKLISTCOLUMNS)
+                    && checkList != null) {
+                bDescr = checkList.getColumns();
+                currentT = elemchecklistTag;
+                getAttribute = true;
+            }
+
             if (getAttribute && bDescr != null) {
                 SaxUtil.readAttr(bDescr, attributes, currentT);
             }
@@ -259,7 +283,10 @@ class ReadDialog {
             if (qName.equals(ICommonConsts.VALIDATERULES)) {
                 return;
             }
-
+            if (qName.equals(ICommonConsts.CHECKLIST) && checkList != null) {
+                dFormat.getCheckList().add(checkList);
+                return;
+            }
             SaxUtil.readVal(bDescr, qName, currentT, buf);
         }
 

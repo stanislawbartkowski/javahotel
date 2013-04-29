@@ -22,9 +22,10 @@ import org.apache.commons.jexl2.JexlException;
 import org.apache.commons.jexl2.MapContext;
 import org.apache.shiro.subject.Subject;
 
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.logmess.LogMess;
 import com.jythonui.server.security.ISecurityResolver;
 
 public class SecurityResolver implements ISecurityResolver {
@@ -42,8 +43,9 @@ public class SecurityResolver implements ISecurityResolver {
         try {
             e = jexl.createExpression(jexlExp);
         } catch (JexlException j) {
-            log.log(Level.SEVERE, LogMess.getMess(IErrorCode.ERRORCODE7,
-                    ILogMess.JEXLERROR, permission), j);
+            log.log(Level.SEVERE,
+                    Holder.getM().getMess(IErrorCode.ERRORCODE7,
+                            ILogMess.JEXLERROR, permission), j);
             return false;
         }
 
@@ -54,12 +56,12 @@ public class SecurityResolver implements ISecurityResolver {
         // Now evaluate the expression, getting the result
         Object o = e.evaluate(jc);
         if (o == null) {
-            log.severe(LogMess.getMess(IErrorCode.ERRORCODE11,
+            log.severe(Holder.getM().getMess(IErrorCode.ERRORCODE11,
                     ILogMess.JEXLERROREVALUATION, permission));
             return false;
         }
         if (!(o instanceof Boolean)) {
-            log.severe(LogMess.getMess(IErrorCode.ERRORCODE10,
+            log.severe(Holder.getM().getMess(IErrorCode.ERRORCODE10,
                     ILogMess.JEXLERRORNOTBOOLEAN, permission));
             return false;
         }

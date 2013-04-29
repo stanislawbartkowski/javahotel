@@ -51,6 +51,8 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.view.grid.GridViewFactory;
+import com.gwtmodel.table.view.grid.IGridViewBoolean;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.jythonui.client.M;
@@ -66,6 +68,7 @@ import com.jythonui.client.util.ValidateForm;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
 import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
@@ -87,6 +90,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     private final IVariablesContainer iCon;
     private final ISendCloseAction iClose;
     private final DialogVariables addV;
+    // not safe !
+    private final FormGridManager gManager;
 
     public DialogContainer(IDataType dType, DialogInfo info,
             IVariablesContainer pCon, ISendCloseAction iClose,
@@ -108,6 +113,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         }
         this.iClose = iClose;
         this.addV = addV;
+        gManager = new FormGridManager(this, dType);
     }
 
     private class CButton implements ISlotListener {
@@ -271,7 +277,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         boolean emptyView = true;
         int pLine = 0;
         EnumTypesList eList = new EnumTypesList(d);
-        if (d.getFieldList() != null) {
+        if (!d.getFieldList().isEmpty()) {
             FormLineContainer fContainer = CreateForm.construct(info,
                     new GetEnumList(eList), eList, new HelperW(),
                     new DTypeFactory());
@@ -291,7 +297,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             emptyView = false;
             pLine = 1;
         }
-        if (d.getButtonList() != null) {
+        if (!d.getButtonList().isEmpty()) {
             List<ControlButtonDesc> bList = CreateForm.constructBList(
                     info.getSecurity(), d.getButtonList());
             ListOfControlDesc deList = new ListOfControlDesc(bList);
@@ -305,7 +311,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     constructCButton(d.getButtonList()));
             pLine++;
         }
-        if (d.getListList() != null)
+        if (!d.getListList().isEmpty())
             for (ListFormat f : d.getListList()) {
                 String id = f.getId();
                 IDataType da = DataType.construct(id, this);
@@ -319,7 +325,18 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                         constructCButton(d.getLeftButtonList()));
                 emptyView = false;
             }
-        iCon.addFormVariables(slMediator, dType, liManager, addV);
+        if (!d.getCheckList().isEmpty())
+            for (CheckList c : d.getCheckList()) {
+                String id = c.getId();
+                IDataType dat = DataType.construct(id, this);
+                gManager.addDataType(id, dat);
+                CellId panelId = pView.addCellPanel(dType, pLine++, 0);
+                slMediator.registerSlotContainer(panelId,
+                        gManager.constructSlotable(id));
+                emptyView = false;
+            }
+
+        iCon.addFormVariables(slMediator, dType, liManager, gManager, addV);
 
         if (!emptyView) {
             pView.createView();
@@ -327,8 +344,6 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         }
         slMediator.startPublish(cId);
         if (d.isBefore()) {
-            // ExecuteAction.action(iCon, d.getId(), ICommonConsts.BEFORE,
-            // new BackClass(null, true, null, eList));
             executeAction(ICommonConsts.BEFORE, new BackClass(null, true, null,
                     eList));
         } else {
@@ -472,6 +487,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             };
             PerformVariableAction.perform(new HandleYesNoDialog(),
                     new CloseDialog(id), arg, iCon, liManager, vis, w);
+            if (!arg.getCheckVariables().isEmpty()) {
+                gManager.addLinesAndColumns(id, arg);
+            }
         }
     }
 

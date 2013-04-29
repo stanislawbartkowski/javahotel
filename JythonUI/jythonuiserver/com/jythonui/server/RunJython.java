@@ -44,6 +44,12 @@ import org.python.util.PythonInterpreter;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
+import com.jythonui.server.holder.Holder;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.shared.CheckList;
+import com.jythonui.shared.CheckListElem;
+import com.jythonui.shared.DialogCheckVariables;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.ElemDescription;
@@ -65,6 +71,9 @@ import com.jythonui.shared.TypesDescr;
  *         pass/gets back client data
  */
 class RunJython {
+
+    private final static String GGTempVariable = "GG";
+    private final static String AATempVariable = "AA";
 
     /** Logger. */
     static final private Logger log = Logger.getLogger(RunJython.class
@@ -93,6 +102,7 @@ class RunJython {
 
     /** Constant Jython string. */
     private static final PyObject JLISTMAP = toString(ICommonConsts.JLISTMAP);
+    private static final PyObject JCHECKMAP = toString(ICommonConsts.JCHECKLISTMAP);
 
     private static Map<PyObject, PyObject> toPythonMap(DialogVariables v) {
         Map<PyObject, PyObject> m = new HashMap<PyObject, PyObject>();
@@ -105,15 +115,17 @@ class RunJython {
                 switch (val.getType()) {
                 case STRING:
                     String valS = val.getValueS();
-                    if (valS == null) {
-                        error(s + " string value cannot be null");
-                    }
+                    if (valS == null)
+                        error(Holder.getM().getMess(IErrorCode.ERRORCODE36,
+                                ILogMess.STRINGVALUECANNOTBENULL, s));
+
                     valP = new PyString(valS);
                     break;
                 case BOOLEAN:
                     Boolean b = val.getValueB();
                     if (b == null) {
-                        error(s + " boolean type but not null value expected");
+                        error(Holder.getM().getMess(IErrorCode.ERRORCODE37,
+                                ILogMess.BOOLEANVALUECANNOTBENULL, s));
                     }
                     valP = new PyBoolean(b.booleanValue());
                     break;
@@ -140,8 +152,9 @@ class RunJython {
                     valP = ti;
                     break;
                 default:
-                    error(s + " type:" + val.getType().toString()
-                            + " not implemented yet");
+                    error(Holder.getM().getMess(IErrorCode.ERRORCODE33,
+                            ILogMess.TYPEMAPNOTIMPLEMENTS, s,
+                            val.getType().toString()));
                     break;
                 }
             m.put(toString(s), valP);
@@ -163,6 +176,19 @@ class RunJython {
         return new PyString(s);
     }
 
+    private static PyList createList(List<FieldItem> cList, ListOfRows rList) {
+        Collection<PyDictionary> c = new ArrayList<PyDictionary>();
+        RowIndex rI = new RowIndex(cList);
+        for (RowContent row : rList.getRowList()) {
+            DialogVariables var = toVariables(rI, row);
+            Map<PyObject, PyObject> ma = toPythonMap(var);
+            PyDictionary pMa = new PyDictionary(ma);
+            c.add(pMa);
+        }
+        PyList pList = new PyList(c);
+        return pList;
+    }
+
     private static void addListToMap(Map<PyObject, PyObject> pMap,
             DialogFormat d, DialogVariables v) {
         Map<String, ListOfRows> rowList = v.getRowList();
@@ -174,51 +200,124 @@ class RunJython {
                 .iterator();
         while (iter.hasNext()) {
             Entry<String, ListOfRows> e = iter.next();
-            Collection<PyDictionary> c = new ArrayList<PyDictionary>();
             ListFormat fList = d.findList(e.getKey());
-            if (fList == null) {
-                error(e.getKey() + " list not found in dialog definition");
-            }
-            RowIndex rI = new RowIndex(fList.getColumns());
-            for (RowContent row : e.getValue().getRowList()) {
-                DialogVariables var = toVariables(rI, row);
-                Map<PyObject, PyObject> ma = toPythonMap(var);
-                PyDictionary pMa = new PyDictionary(ma);
-                c.add(pMa);
-            }
-            PyList pList = new PyList(c);
+            if (fList == null)
+                error(Holder.getM().getMess(IErrorCode.ERRORCODE34, d.getId(),
+                        ILogMess.LISTNOTFOUND, e.getKey()));
+            PyList pList = createList(fList.getColumns(), e.getValue());
             m.put(toString(e.getKey()), pList);
         }
         PyDictionary pyMap = new PyDictionary(m);
         pMap.put(JLISTMAP, pyMap);
     }
 
-    private static void extractList(PyDictionary pyMap, DialogVariables vOut,
-            DialogFormat d, String actionId) {
-        PyObject item = pyMap.iteritems();
-        PyIterator iter = (PyIterator) item;
-        PyObject next;
-        while ((next = iter.__iternext__()) != null) {
-            PyTuple tu = (PyTuple) next;
-            Object key = tu.get(0);
-            Object val = tu.get(1);
-            String listId = (String) key;
-            int size = -1;
-            PyList pList = null;
-            if (val instanceof Integer) {
-                size = ((Integer) val).intValue();
-            } else {
-                pList = (PyList) val;
+    private static void addCheckListToMap(Map<PyObject, PyObject> pMap,
+            DialogFormat d, DialogVariables v) {
+        if (v.getCheckVariables().isEmpty())
+            return;
+        Map<PyObject, PyObject> pyMap = new HashMap<PyObject, PyObject>();
+        for (String checkS : v.getCheckVariables().keySet()) {
+            Map<PyObject, PyObject> m = new HashMap<PyObject, PyObject>();
+            DialogCheckVariables var = v.getCheckVariables().get(checkS);
+            CheckList cList = DialogFormat.findE(d.getCheckList(), checkS);
+            for (String s : var.getVal().keySet()) {
+                if (cList == null)
+                    error(Holder.getM().getMess(IErrorCode.ERRORCODE35,
+                            ILogMess.CANNOTFINDCHECKLIST,
+                            ICommonConsts.JCHECKLISTMAP, s));
+                PyList pList = createList(cList.constructValLine(), var
+                        .getVal().get(s));
+                m.put(toString(s), pList);
             }
-            if (d.getListList() == null) {
-                error(listId + " dialog " + d.getId()
-                        + " does not contain any list definition");
+            PyDictionary elemMap = new PyDictionary(m);
+            pyMap.put(toString(checkS), elemMap);
+        }
+        pMap.put(JCHECKMAP, new PyDictionary(pyMap));
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static void extractListFromSeq(ListOfRows lRows, RowIndex rI,
+            PyList pList, DialogFormat d) {
+        ListIterator i = pList.listIterator();
+        while (i.hasNext()) {
+            Object e = i.next();
+            PyDictionary vMap = (PyDictionary) e;
+            DialogVariables v = new DialogVariables();
+            toDialogVariables(rI.getColList(), v, vMap);
+            RowContent row = rI.constructRow();
+            for (String s : v.getFields()) {
+                FieldValue valF = v.getValue(s);
+                if (!rI.isField(s)) {
+                    error(Holder.getM().getMess(IErrorCode.ERRORCODE28,
+                            ILogMess.COLUMNNOTDEFINED, s, d.getId()));
+                }
+                rI.setRowField(row, s, valF);
             }
+            lRows.addRow(row);
+        }
+    }
+
+    private static abstract class IterateMap {
+        private final PyDictionary pyMap;
+        private final boolean intExpected;
+        private final boolean mapExpected;
+        protected int intFound;
+        protected PyDictionary fMap;
+
+        IterateMap(PyDictionary pyMap, boolean intExpected, boolean mapExpected) {
+            this.pyMap = pyMap;
+            this.intExpected = intExpected;
+            this.mapExpected = mapExpected;
+        }
+
+        abstract void visit(String listId, PyList pList);
+
+        void runMap() {
+            PyObject item = pyMap.iteritems();
+            PyIterator iter = (PyIterator) item;
+            PyObject next;
+            while ((next = iter.__iternext__()) != null) {
+                PyTuple tu = (PyTuple) next;
+                Object key = tu.get(0);
+                Object val = tu.get(1);
+                String listId = (String) key;
+                PyList pList = null;
+                if (mapExpected && val instanceof PyDictionary) {
+                    fMap = (PyDictionary) val;
+                } else if (intExpected && val instanceof Integer) {
+                    intFound = ((Integer) val).intValue();
+                } else {
+                    pList = (PyList) val;
+                }
+                visit(listId, pList);
+            }
+        }
+    }
+
+    private static class ExtractList extends IterateMap {
+
+        private final DialogFormat d;
+        private final String actionId;
+        private final DialogVariables vOut;
+
+        ExtractList(PyDictionary pyMap, DialogFormat d, String actionId,
+                DialogVariables vOut) {
+            super(pyMap, true, false);
+            this.d = d;
+            this.actionId = actionId;
+            this.vOut = vOut;
+        }
+
+        @Override
+        void visit(String listId, PyList pList) {
+            if (d.getListList().isEmpty())
+                error(Holder.getM().getMess(IErrorCode.ERRORCODE38,
+                        ILogMess.EMPTYLISTDEFINITION, listId, d.getId()));
+
             ListFormat lForm = d.findList(listId);
-            if (lForm == null) {
-                error(d.getId() + " " + ICommonConsts.JLISTMAP
-                        + " cannot find list: " + listId);
-            }
+            if (lForm == null)
+                error(Holder.getM().getMess(IErrorCode.ERRORCODE39, d.getId(),
+                        listId));
             RowIndex rI = new RowIndex(lForm.getColumns());
             ListOfRows lRows = new ListOfRows();
 
@@ -227,33 +326,90 @@ class RunJython {
                     error(d.getId() + " " + lForm.getId()
                             + " list is not chunked. Sequence of rows expected");
                 } else {
-                    lRows.setSize(size);
+                    lRows.setSize(intFound);
                 }
             } else {
                 if (lForm.isChunked() && actionId.equals(ICommonConsts.BEFORE)) {
                     error(d.getId() + " " + lForm.getId()
                             + " list is chunked. Sequence size is expected");
                 }
-                @SuppressWarnings("rawtypes")
-                ListIterator i = pList.listIterator();
-                while (i.hasNext()) {
-                    Object e = i.next();
-                    PyDictionary vMap = (PyDictionary) e;
-                    DialogVariables v = new DialogVariables();
-                    toDialogVariables(lForm.getColumns(), v, vMap);
-                    RowContent row = rI.constructRow();
-                    for (String s : v.getFields()) {
-                        FieldValue valF = v.getValue(s);
-                        if (!rI.isField(s)) {
-                            error(s + " : column not defined(" + d.getId()
-                                    + ")");
-                        }
-                        rI.setRowField(row, s, valF);
-                    }
-                    lRows.addRow(row);
-                }
+                extractListFromSeq(lRows, rI, pList, d);
             }
             vOut.setRowList(listId, lRows);
+        }
+
+    }
+
+    private static void extractList(PyDictionary pyMap, DialogVariables vOut,
+            DialogFormat d, String actionId) {
+        ExtractList eList = new ExtractList(pyMap, d, actionId, vOut);
+        eList.runMap();
+    }
+
+    private static class ExtractCheckList extends IterateMap {
+
+        private final DialogFormat d;
+        private final DialogVariables vOut;
+
+        ExtractCheckList(PyDictionary pyMap, DialogFormat d,
+                DialogVariables vOut) {
+            super(pyMap, false, true);
+            this.d = d;
+            this.vOut = vOut;
+        }
+
+        private class ExtractListContent extends IterateMap {
+
+            private final String checkId;
+
+            ExtractListContent(PyDictionary pyMap, String checkId) {
+                super(pyMap, false, false);
+                this.checkId = checkId;
+            }
+
+            @Override
+            void visit(String listId, PyList pList) {
+                CheckList cList = DialogFormat.findE(d.getCheckList(), checkId);
+                if (cList == null) {
+                    error(Holder.getM().getMess(IErrorCode.ERRORCODE31,
+                            ILogMess.CANNOTFINDCHECKLIST,
+                            ICommonConsts.JCHECKLISTMAP, listId));
+                }
+                CheckListElem cElem = null;
+                ListOfRows lRows = null;
+                DialogCheckVariables checkVariables = vOut.getCheckVariables()
+                        .get(checkId);
+                if (checkVariables == null) {
+                    checkVariables = new DialogCheckVariables();
+                    vOut.getCheckVariables().put(checkId, checkVariables);
+                }
+
+                if (listId.equals(ICommonConsts.CHECKLISTLINES)) {
+                    cElem = cList.getLines();
+                    lRows = checkVariables.getLines();
+                }
+                if (listId.equals(ICommonConsts.CHECKLISTCOLUMNS)) {
+                    cElem = cList.getColumns();
+                    lRows = checkVariables.getColumns();
+                }
+                if (cElem != null) {
+                    RowIndex rI = new RowIndex(cElem.constructCol());
+                    extractListFromSeq(lRows, rI, pList, d);
+                    return;
+                }
+                RowIndex rI = new RowIndex(cList.constructValLine());
+                lRows = new ListOfRows();
+                extractListFromSeq(lRows, rI, pList, d);
+
+                checkVariables.getVal().put(listId, lRows);
+            }
+
+        }
+
+        @Override
+        void visit(String listId, PyList pList) {
+            ExtractListContent extract = new ExtractListContent(fMap, listId);
+            extract.runMap();
         }
 
     }
@@ -270,7 +426,9 @@ class RunJython {
             if (key.equals(ICommonConsts.JLISTMAP)) {
                 continue;
             }
-
+            if (key.equals(ICommonConsts.JCHECKLISTMAP)) {
+                continue;
+            }
             String keyS = (String) key;
             TT fType = null;
             FieldValue valFF = v.getValue(keyS);
@@ -316,9 +474,10 @@ class RunJython {
                         } else if (val instanceof BigInteger) {
                             BigInteger bi = (BigInteger) val;
                             lV = bi.longValue();
-                        } else {
-                            error(keyS + " expected Integer or BigInteger here");
-                        }
+                        } else
+                            error(Holder.getM().getMess(IErrorCode.ERRORCODE40,
+                                    ILogMess.INTEGERORBITINTEGEREXPECTED, keyS));
+
                         f.setValue(lV);
                         break;
                     case BIGDECIMAL:
@@ -329,9 +488,10 @@ class RunJython {
                             bV = new BigDecimal((BigInteger) val);
                         } else if (val instanceof Double) {
                             bV = new BigDecimal((Double) val);
-                        } else {
-                            error(keyS + " expected Integer or BigInteger here");
-                        }
+                        } else
+                            error(Holder.getM().getMess(IErrorCode.ERRORCODE41,
+                                    ILogMess.INTEGERORBITINTEGEREXPECTED, keyS));
+
                         BigDecimal bx = bV.setScale(afterdot,
                                 BigDecimal.ROUND_HALF_UP);
                         f.setValue(bx, afterdot);
@@ -352,12 +512,14 @@ class RunJython {
                         f.setValue(ti);
                         break;
                     default:
-                        error(keyS + " type:" + fType.toString()
-                                + " not implemented yet");
+                        error(Holder.getM().getMess(IErrorCode.ERRORCODE32,
+                                ILogMess.TYPEMAPNOTIMPLEMENTS, keyS,
+                                fType.toString()));
                     }
             } else {
                 if (val == null) {
-                    error(keyS + " cannot be null for unknown variable");
+                    error(Holder.getM().getMess(IErrorCode.ERRORCODE30,
+                            ILogMess.VALUECANNOTBENULL, keyS));
                 }
                 if (val instanceof String) {
                     String valS = (String) val;
@@ -372,8 +534,8 @@ class RunJython {
                     Long valL = (Long) val;
                     f.setValue(valL);
                 } else {
-                    error(keyS
-                            + " the type for this variable is not implemented");
+                    error(Holder.getM().getMess(IErrorCode.ERRORCODE29,
+                            ILogMess.TYPENOTIMPLEMENTED, keyS));
                 }
             }
             v.setValue(keyS, f);
@@ -391,8 +553,8 @@ class RunJython {
 
     static private void addIfNotExisttoPath(PythonInterpreter interp,
             String addPath) {
-        interp.exec("import sys; GG = sys.path");
-        PyObject po = interp.get("GG");
+        interp.exec("import sys; " + GGTempVariable + "= sys.path");
+        PyObject po = interp.get(GGTempVariable);
         PyList pyList = (PyList) po;
         ListIterator iL = pyList.listIterator();
         boolean exist = false;
@@ -449,12 +611,14 @@ class RunJython {
 
         Map<PyObject, PyObject> pMap = toPythonMap(v);
         addListToMap(pMap, d, v);
+        addCheckListToMap(pMap, d, v);
         PyDictionary pyMap = new PyDictionary(pMap);
 
-        interp.set("GG", pyMap);
-        interp.set("AA", actionId);
+        interp.set(GGTempVariable, pyMap);
+        interp.set(AATempVariable, actionId);
 
-        String s = MessageFormat.format(methodJ, "AA", "GG");
+        String s = MessageFormat
+                .format(methodJ, AATempVariable, GGTempVariable);
         if (importJ != null) {
             s = importJ + "; " + s;
         }
@@ -465,15 +629,18 @@ class RunJython {
             PyObject o = pyMap.__getitem__(JLISTMAP);
             extractList((PyDictionary) o, v, d, actionId);
         }
-
+        if (pyMap.has_key(JCHECKMAP)) {
+            PyObject o = pyMap.__getitem__(JCHECKMAP);
+            ExtractCheckList e = new ExtractCheckList((PyDictionary) o, d, v);
+            e.runMap();
+        }
     }
 
     private static void copyAttr(ElemDescription dest, ElemDescription sou,
             String attrName) {
         String val = sou.getAttr(attrName);
-        if (!CUtil.EmptyS(val)) {
+        if (!CUtil.EmptyS(val))
             dest.setAttr(attrName, val);
-        }
     }
 
     private static void executeForType(IJythonUIServerProperties p,

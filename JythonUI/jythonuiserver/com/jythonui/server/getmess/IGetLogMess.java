@@ -10,15 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.getmess;
 
-public interface IConsts {
-    String SECURITYMEMNAME = "SecurityCache";
-    String SECURITYREGISTRY = "SecurityRegistry";
-    String COMMONCACHENAME = "CommonCache";
+public interface IGetLogMess {
 
-    String JYTHONMESSSERVER = "jythonservermess";
+    String getMess(String errCode, String key, String... params);
 
-    String STORAGEREGISTRYENTITYMANAGERFACTORY = "storageregistryentitymanagerfactory";
-
+    String getMessN(String key, String... params);
 }

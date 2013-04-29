@@ -13,9 +13,12 @@
 package com.jythonui.server.holder;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.security.ISecurity;
 
 public class Holder {
@@ -28,6 +31,10 @@ public class Holder {
 
     @Inject
     private static ISecurity iSec;
+
+    @Inject
+    @Named(IConsts.JYTHONMESSSERVER)
+    private static IGetLogMess logMess;
 
     private static boolean auth = false;
 
@@ -49,6 +56,10 @@ public class Holder {
 
     public static ISecurity getiSec() {
         return iSec;
+    }
+
+    public static IGetLogMess getM() {
+        return logMess;
     }
 
 }

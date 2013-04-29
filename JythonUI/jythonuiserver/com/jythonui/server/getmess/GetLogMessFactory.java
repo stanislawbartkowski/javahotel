@@ -10,28 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.registry.object;
+package com.jythonui.server.getmess;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import java.util.Properties;
 
-import com.gwtmodel.commoncache.ICommonCache;
-import com.jythonui.server.IConsts;
-import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.registry.IStorageRegistry;
+public class GetLogMessFactory {
 
-public class ObjectRegistryFactory {
-
-    private final IGetLogMess gMess;
-
-    @Inject
-    public ObjectRegistryFactory(
-            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
-        this.gMess = gMess;
+    private GetLogMessFactory() {
     }
 
-    public ICommonCache construct(IStorageRegistry iRegistry) {
-        return new ObjectRegistry(iRegistry, gMess);
+    public static IGetLogMess construct(Properties prop) {
+        return new GetLogMess(prop);
+
     }
 
 }

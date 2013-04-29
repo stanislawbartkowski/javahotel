@@ -16,27 +16,28 @@ import org.xml.sax.Attributes;
 
 import com.jythonui.shared.ElemDescription;
 
-class SaxUtil {
+public class SaxUtil {
 
-    static void readAttr(ElemDescription bDescr, Attributes attributes,
+    public static void readAttr(ElemDescription bDescr, Attributes attributes,
             String[] currentT) {
         for (int i = 0; i < attributes.getLength(); i++) {
             String key = attributes.getQName(i);
-            for (int k = 0; k < currentT.length; k++)
-                if (key.equals(currentT[k])) {
+            for (String s : currentT) {
+                if (key.equals(s.toLowerCase())) {
                     String val = attributes.getValue(i);
-                    bDescr.setAttr(key, val);
+                    bDescr.setAttr(s, val);
                     break;
                 }
+            }
         }
     }
 
-    static void readVal(ElemDescription bDescr, String qName,
+    public static void readVal(ElemDescription bDescr, String qName,
             String[] currentT, StringBuffer buf) {
         if (bDescr != null) {
-            for (int i = 0; i < currentT.length; i++) {
-                if (currentT[i].equals(qName)) {
-                    bDescr.setAttr(qName, buf.toString());
+            for (String s : currentT) {
+                if (s.toLowerCase().equals(qName)) {
+                    bDescr.setAttr(s, buf.toString());
                     return;
                 }
             }

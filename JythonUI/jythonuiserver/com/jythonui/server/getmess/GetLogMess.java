@@ -10,40 +10,27 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.logmess;
+package com.jythonui.server.getmess;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Properties;
 
-public class LogMess {
+class GetLogMess implements IGetLogMess {
 
-    private static Properties mess = null;
-    private static final String fileName = "resources/mess/mess.properties";
+    private final Properties mess;
 
-    private static void readProp() {
-        if (mess != null)
-            return;
-        mess = new Properties();
-        InputStream i = LogMess.class.getClassLoader().getResourceAsStream(
-                fileName);
-        try {
-            mess.load(i);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    GetLogMess(Properties mess) {
+        this.mess = mess;
     }
 
-    public static String getMess(String errCode, String key, String... params) {
-        readProp();
+    public String getMess(String errCode, String key, String... params) {
         String m = mess.getProperty(key);
         if (errCode == null)
             return MessageFormat.format(m, params);
         return errCode + " " + MessageFormat.format(m, params);
     }
 
-    public static String getMessN(String key, String... params) {
+    public String getMessN(String key, String... params) {
         return getMess(null, key, params);
     }
 

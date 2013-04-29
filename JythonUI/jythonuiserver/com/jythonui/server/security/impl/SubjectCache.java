@@ -29,14 +29,16 @@ import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.logmess.LogMess;
 import com.jythonui.server.security.ISecuritySessionCache;
 
 class SubjectCache {
 
     private final ISecuritySessionCache iCache;
+    private final IGetLogMess gMess;
 
     class CurrentSubject {
         SessionEntry se;
@@ -48,12 +50,13 @@ class SubjectCache {
     private static final Logger log = Logger.getLogger(SubjectCache.class
             .getName());
 
-    SubjectCache(ISecuritySessionCache iCache) {
+    SubjectCache(ISecuritySessionCache iCache, IGetLogMess gMess) {
         this.iCache = iCache;
+        this.gMess = gMess;
     }
 
     private static SecurityManager constructManager(String realm) {
-        log.info(LogMess.getMessN(ILogMess.REALMINITIALZATION, realm));
+        log.info(Holder.getM().getMessN(ILogMess.REALMINITIALZATION, realm));
         Factory<SecurityManager> factory = new IniSecurityManagerFactory(realm);
         SecurityManager securityManager = factory.getInstance();
         return securityManager;
@@ -75,33 +78,33 @@ class SubjectCache {
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(se.getUser(),
                 se.getPassword());
-        log.info(LogMess.getMessN(ILogMess.AUTHENTICATEUSER, se.getUser(),
+        log.info(gMess.getMessN(ILogMess.AUTHENTICATEUSER, se.getUser(),
                 se.getRealm()));
         try {
             currentUser.login(token);
         } catch (UnknownAccountException uae) {
-            log.info(LogMess.getMess(IErrorCode.ERRORCODE3,
+            log.info(gMess.getMess(IErrorCode.ERRORCODE3,
                     ILogMess.AUTHENTICATENOUSER, se.getUser()));
             return null;
         } catch (IncorrectCredentialsException ice) {
-            log.info(LogMess.getMess(IErrorCode.ERRORCODE4,
+            log.info(gMess.getMess(IErrorCode.ERRORCODE4,
                     ILogMess.AUTHENTICATEINCORECTPASSWORD, se.getUser()));
             return null;
         } catch (LockedAccountException lae) {
-            log.info(LogMess.getMess(IErrorCode.ERRORCODE5,
+            log.info(gMess.getMess(IErrorCode.ERRORCODE5,
                     ILogMess.AUTHENTOCATELOCKED, se.getUser()));
             return null;
         } catch (AuthenticationException ae) {
-            log.info(LogMess.getMess(IErrorCode.ERRORCODE6,
+            log.info(gMess.getMess(IErrorCode.ERRORCODE6,
                     ILogMess.AUTHENTICATEOTHERERROR, se.getUser()));
             return null;
         } catch (UnknownSessionException ae) {
-            log.info(LogMess.getMess(IErrorCode.ERRORCODE22,
+            log.info(gMess.getMess(IErrorCode.ERRORCODE22,
                     ILogMess.AUTHENTICATEOTHERERROR, se.getUser()));
             return null;
         }
 
-        log.info(LogMess.getMessN(ILogMess.OKAUTHENTICATED));
+        log.info(gMess.getMessN(ILogMess.OKAUTHENTICATED));
         if (tokenS == null) {
             UUID i = UUID.randomUUID();
             tokenS = i.toString();
@@ -126,7 +129,7 @@ class SubjectCache {
         try {
             e = (SessionEntry) iCache.get(token);
         } catch (InvalidClassException ee) {
-            log.log(Level.SEVERE, LogMess.getMess(IErrorCode.ERRORCODE24,
+            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE24,
                     ILogMess.CANNOTCASTENTRY), e);
             iCache.remove(token);
         }
@@ -154,7 +157,7 @@ class SubjectCache {
         log.info("Authenticate again");
         Result res = authenticate(se, token);
         if (res == null) {
-            log.severe(LogMess.getMess(IErrorCode.ERRORCODE23,
+            log.severe(gMess.getMess(IErrorCode.ERRORCODE23,
                     ILogMess.CANNOTAUTHENTICATEAGAIN, se.getUser(),
                     se.getRealm()));
             return null;

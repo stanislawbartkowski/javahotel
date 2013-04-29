@@ -15,12 +15,14 @@ package com.jythonui.server.security.impl;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.apache.shiro.subject.Subject;
 
+import com.jythonui.server.IConsts;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.logmess.LogMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
 import com.jythonui.server.security.ISecuritySessionCache;
@@ -29,15 +31,18 @@ public class SecurityJython implements ISecurity {
 
     private static final Logger log = Logger.getLogger(SecurityJython.class
             .getName());
+    private final IGetLogMess gMess;
 
     private final SubjectCache cCache;
     private final ISecurityResolver iResolver;
 
     @Inject
     public SecurityJython(ISecuritySessionCache iCache,
-            ISecurityResolver iResolver) {
-        cCache = new SubjectCache(iCache);
+            ISecurityResolver iResolver,
+            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+        cCache = new SubjectCache(iCache, gMess);
         this.iResolver = iResolver;
+        this.gMess = gMess;
     }
 
     @Override
@@ -65,7 +70,7 @@ public class SecurityJython implements ISecurity {
     public boolean isAuthorized(String token, String permission) {
         Subject currentUser = cCache.getSubject(token);
         if (currentUser == null) {
-            log.severe(LogMess.getMess(IErrorCode.ERRORCODE21,
+            log.severe(gMess.getMess(IErrorCode.ERRORCODE21,
                     ILogMess.INVALIDTOKEN, token));
             return false;
         }

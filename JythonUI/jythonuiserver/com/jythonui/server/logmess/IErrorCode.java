@@ -37,4 +37,21 @@ public interface IErrorCode {
     String ERRORCODE22 = "E0022";
     String ERRORCODE23 = "E0023";
     String ERRORCODE24 = "E0024";
+    String ERRORCODE25 = "E0025";
+    String ERRORCODE26 = "E0026";
+    String ERRORCODE27 = "E0027";
+    String ERRORCODE28 = "E0028";
+    String ERRORCODE29 = "E0029";
+    String ERRORCODE30 = "E0030";
+    String ERRORCODE31 = "E0031";
+    String ERRORCODE32 = "E0032";
+    String ERRORCODE33 = "E0033";
+    String ERRORCODE34 = "E0034";
+    String ERRORCODE35 = "E0035";
+    String ERRORCODE36 = "E0036";
+    String ERRORCODE37 = "E0037";
+    String ERRORCODE38 = "E0038";
+    String ERRORCODE39 = "E0039";
+    String ERRORCODE40 = "E0040";
+    String ERRORCODE41 = "E0041";
 }

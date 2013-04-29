@@ -98,10 +98,19 @@ public class JythonClientStart {
             }
             // resolve root dialog
             if (CUtil.EmptyS(startX)) {
-                startX = Utils.getURLParam(ICommonConsts.STARTPAGE);
+                startX = Utils.getURLParam(ICommonConsts.STARTPAGEQUERY);
             }
             if (CUtil.EmptyS(startX)) {
                 startX = START;
+            }
+            String startPages = result.getAttr(ICommonConsts.STARTPAGES);
+            boolean okStart = false;
+            if (!CUtil.EmptyS(startPages)) {
+                String[] listS = startPages.split(ICommonConsts.LOGINDELIMITER);
+                for (String s : listS) {
+                    if (s.equals(startX))
+                        okStart = true;
+                }
             }
             shiroRealm = result.getAttr(ICommonConsts.SHIROREALM);
             // resolve if authentication is required
@@ -121,6 +130,12 @@ public class JythonClientStart {
                     }
                 }
             }
+            if (!okStart && !auth) {
+                String mess = M.M().CannotStartWithThisPage(startX);
+                Utils.errAlert(mess);
+                assert false : mess;
+            }
+
 
             // initialize several factories
             ITableAbstractFactories tFactories = GwtGiniInjector.getI()

@@ -21,20 +21,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.gwtmodel.commoncache.ICommonCache;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.logmess.LogMess;
 import com.jythonui.server.registry.IStorageRegistry;
 
 class ObjectRegistry implements ICommonCache {
 
     private final IStorageRegistry iRegistry;
+    private final IGetLogMess gMess;
+
     private static final Logger log = Logger.getLogger(ObjectRegistry.class
             .getName());
 
-    ObjectRegistry(IStorageRegistry iRegistry) {
+    ObjectRegistry(IStorageRegistry iRegistry, IGetLogMess gMess) {
         this.iRegistry = iRegistry;
-
+        this.gMess = gMess;
     }
 
     @Override
@@ -50,11 +52,11 @@ class ObjectRegistry implements ICommonCache {
             inp.close();
             return val;
         } catch (IOException e) {
-            log.log(Level.SEVERE, LogMess.getMess(IErrorCode.ERRORCODE19,
+            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE19,
                     ILogMess.GETOBJECTREGISTRYERROR, key), e);
 
         } catch (ClassNotFoundException e) {
-            log.log(Level.SEVERE, LogMess.getMess(IErrorCode.ERRORCODE20,
+            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE20,
                     ILogMess.GETOBJECTREGISTRYERROR, key), e);
         }
         return null;
@@ -69,7 +71,7 @@ class ObjectRegistry implements ICommonCache {
             outP.writeObject(o);
             outP.close();
         } catch (IOException e) {
-            log.log(Level.SEVERE, LogMess.getMess(IErrorCode.ERRORCODE18,
+            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE18,
                     ILogMess.PUTOBJECTREGISTRYERROR, key), e);
             return;
         }
