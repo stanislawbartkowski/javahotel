@@ -13,8 +13,10 @@
 package com.jython.ui.server.jpastoragekey;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManagerFactory;
 
+import com.jythonui.server.IConsts;
 import com.jythonui.server.registry.IStorageRegistry;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 
@@ -23,7 +25,7 @@ public class StorageRegistryFactory implements IStorageRegistryFactory {
     private final EntityManagerFactory factory;
     
     @Inject
-    public StorageRegistryFactory(EntityManagerFactory factory) {
+    public StorageRegistryFactory(@Named(IConsts.STORAGEREGISTRYENTITYMANAGERFACTORY) EntityManagerFactory factory) {
         this.factory = factory;
     }
 
