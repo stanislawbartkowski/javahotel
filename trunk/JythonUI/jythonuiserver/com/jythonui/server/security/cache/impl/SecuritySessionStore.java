@@ -17,9 +17,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import com.jythonui.server.IConsts;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.logmess.LogMess;
 import com.jythonui.server.security.ISecuritySessionCache;
 import com.jythonui.server.security.cache.ISecuritySessionMemCache;
 import com.jythonui.server.security.cache.ISecuritySessionPersistent;
@@ -28,15 +30,18 @@ public class SecuritySessionStore implements ISecuritySessionCache {
 
     private final ISecuritySessionMemCache iMemCache;
     private final ISecuritySessionPersistent iPersistent;
+    private final IGetLogMess gMess;
 
     private static final Logger log = Logger
             .getLogger(SecuritySessionStore.class.getName());
 
     @Inject
     public SecuritySessionStore(ISecuritySessionMemCache iMemCache,
-            ISecuritySessionPersistent iPersistent) {
+            ISecuritySessionPersistent iPersistent,
+            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
         this.iMemCache = iMemCache;
         this.iPersistent = iPersistent;
+        this.gMess = gMess;
     }
 
     @Override
@@ -48,7 +53,7 @@ public class SecuritySessionStore implements ISecuritySessionCache {
         if (val == null)
             return null;
         // add value to cache again
-        log.log(Level.FINE, LogMess.getMessN(ILogMess.PUTINCACHEAGAIN, key));
+        log.log(Level.FINE, gMess.getMessN(ILogMess.PUTINCACHEAGAIN, key));
         iMemCache.put(key, val);
         return val;
     }

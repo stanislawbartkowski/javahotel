@@ -19,11 +19,15 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.logmess.LogMess;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.ICommonConsts;
 
@@ -31,13 +35,20 @@ public class GetClientProperties implements IJythonClientRes {
 
     static final private Logger log = Logger
             .getLogger(GetClientProperties.class.getName());
+    private final IGetLogMess gMess;
+
+    @Inject
+    public GetClientProperties(
+            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+        this.gMess = gMess;
+    }
 
     @Override
     public ClientProp getClientRes() {
         InputStream i = GetClientProperties.class.getClassLoader()
                 .getResourceAsStream(ICommonConsts.APP_FILENAME);
         if (i == null) {
-            log.log(Level.SEVERE, LogMess
+            log.log(Level.SEVERE, gMess
                     .getMess(IErrorCode.ERRORCODE1,
                             ILogMess.CANNOTFINDRESOURCEFILE,
                             ICommonConsts.APP_FILENAME));
@@ -47,7 +58,7 @@ public class GetClientProperties implements IJythonClientRes {
         try {
             prop.load(i);
         } catch (IOException e) {
-            log.log(Level.SEVERE, LogMess.getMess(IErrorCode.ERRORCODE2,
+            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE2,
                     ILogMess.ERRORWHILEREADINGRESOURCEFILE,
                     ICommonConsts.APP_FILENAME), e);
             return null;

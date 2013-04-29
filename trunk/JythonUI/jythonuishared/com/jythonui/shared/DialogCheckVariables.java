@@ -10,28 +10,29 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.registry.object;
+package com.jythonui.shared;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.gwtmodel.commoncache.ICommonCache;
-import com.jythonui.server.IConsts;
-import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.registry.IStorageRegistry;
+public class DialogCheckVariables implements Serializable {
 
-public class ObjectRegistryFactory {
+    private ListOfRows lines = new ListOfRows();
+    private ListOfRows columns = new ListOfRows();
 
-    private final IGetLogMess gMess;
+    private Map<String, ListOfRows> val = new HashMap<String, ListOfRows>();
 
-    @Inject
-    public ObjectRegistryFactory(
-            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
-        this.gMess = gMess;
+    public ListOfRows getLines() {
+        return lines;
     }
 
-    public ICommonCache construct(IStorageRegistry iRegistry) {
-        return new ObjectRegistry(iRegistry, gMess);
+    public ListOfRows getColumns() {
+        return columns;
+    }
+
+    public Map<String, ListOfRows> getVal() {
+        return val;
     }
 
 }

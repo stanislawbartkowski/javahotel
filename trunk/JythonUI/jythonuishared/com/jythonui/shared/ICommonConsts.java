@@ -44,6 +44,7 @@ public interface ICommonConsts {
     String AFTERDOT = "afterdot";
     int DEFAULTAFTERDOT = 2;
     String JLISTMAP = "JLIST_MAP";
+    String JCHECKLISTMAP = "JCHECK_MAP";
     String ELEMFORMAT = "elemformat";
     String NOTEMPTY = "notempty";
     String HIDDEN = "hidden";
@@ -127,9 +128,11 @@ public interface ICommonConsts {
     String HTMLID = "htmlid";
     String AUTHENTICATE = "Authenticate";
     String YESAUTHENTICATE = "Y";
-    // String SECREADONLY = "secreadonly";
-    // String SECACCESS = "secaccess";
     String J_SECURITYTOKEN = "J_SECURITYTOKEN";
+    String CHECKLIST = "checklist";
+    String CHECKLISTLINES = "lines";
+    String CHECKLISTCOLUMNS = "columns";
+    String CHECKLINEVALUE = "val";
 
     String APP_TITLE = "Title";
     String APP_PRODUCTNAME = "ProductName";
@@ -144,6 +147,10 @@ public interface ICommonConsts {
 
     String LOGINPAGE = "Login";
     String LOGINDELIMITER = ",";
-    String STARTPAGE = "start";
+    String STARTPAGEQUERY = "start";
     String SHIROREALM = "Shirorealm";
+    String STARTPAGES = "Start";
+
+    String RESOURCES = "resources";
+
 }

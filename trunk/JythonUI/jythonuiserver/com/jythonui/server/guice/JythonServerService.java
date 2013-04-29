@@ -14,12 +14,19 @@ package com.jythonui.server.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
+import com.jythonui.server.IConsts;
+import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.JythonUiServerProvider;
 import com.jythonui.server.defa.CommonCacheProvider;
+import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.SecurityMemCacheProvider;
 import com.jythonui.server.defa.SecurityPersistentStorageProvider;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.holder.Holder;
+import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.registry.object.ObjectRegistryFactory;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
@@ -55,7 +62,14 @@ public class JythonServerService {
                     Singleton.class);
             bind(ISecuritySessionMemCache.class).toProvider(
                     SecurityMemCacheProvider.class).in(Singleton.class);
-
+            bind(IGetLogMess.class)
+                    .annotatedWith(Names.named(IConsts.JYTHONMESSSERVER))
+                    .toProvider(MessProvider.class).in(Singleton.class);
+            bind(IJythonClientRes.class).to(GetClientProperties.class).in(Singleton.class);
+        }
+        
+        protected void requestStatic() {
+            requestStaticInjection(Holder.class);
         }
     }
 

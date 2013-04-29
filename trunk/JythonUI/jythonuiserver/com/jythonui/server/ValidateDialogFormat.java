@@ -19,6 +19,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.holder.Holder;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
@@ -45,7 +48,8 @@ class ValidateDialogFormat {
 
     private static void idNotNull(String tag, ElemDescription e) {
         if (CUtil.EmptyS(e.getId())) {
-            error(tag + " cannot be empty");
+            error(Holder.getM().getMess(IErrorCode.ERRORCODE25,
+                    ILogMess.CANNOTBEEMPTY, tag));
         }
     }
 
@@ -55,28 +59,25 @@ class ValidateDialogFormat {
         for (ElemDescription e : eList) {
             idNotNull(lTag + " " + eTag, e);
             String id = e.getId();
-            if (sId.contains(id)) {
-                error(lTag + " " + eTag + " : duplicated " + ICommonConsts.ID
-                        + " value duplicated:" + id);
-            }
+            if (sId.contains(id))
+                error(Holder.getM().getMess(IErrorCode.ERRORCODE26,
+                        ILogMess.TAGVALUEDUPLICATED, lTag, eTag,
+                        ICommonConsts.ID, id));
+
             sId.add(id);
         }
     }
 
     static void validate(DialogFormat d) {
-        if (d.getLeftButtonList() != null) {
-            validateL(ICommonConsts.LEFTMENU, ICommonConsts.BUTTON,
-                    d.getLeftButtonList());
-        }
-        if (d.getFieldList() != null) {
-            validateL(ICommonConsts.FORM, ICommonConsts.FIELD, d.getFieldList());
-        }
-        if (d.getListList() != null) {
-            for (ListFormat l : d.getListList()) {
-                idNotNull(ICommonConsts.LIST, l);
-                validateL(ICommonConsts.COLUMNS, ICommonConsts.COLUMN,
-                        l.getColumns());
-            }
+        validateL(ICommonConsts.LEFTMENU, ICommonConsts.BUTTON,
+                d.getLeftButtonList());
+        validateL(ICommonConsts.CHECKLIST, ICommonConsts.CHECKLIST,
+                d.getCheckList());
+        validateL(ICommonConsts.FORM, ICommonConsts.FIELD, d.getFieldList());
+        for (ListFormat l : d.getListList()) {
+            idNotNull(ICommonConsts.LIST, l);
+            validateL(ICommonConsts.COLUMNS, ICommonConsts.COLUMN,
+                    l.getColumns());
         }
         if ((d.getFieldList() != null) && (d.getListList() != null)) {
             Set<String> sId = new HashSet<String>();
@@ -85,14 +86,12 @@ class ValidateDialogFormat {
             }
             for (ListFormat l : d.getListList()) {
                 String id = l.getId();
-                if (sId.contains(id)) {
-                    error(ICommonConsts.LIST
-                            + "duplicated itentifier like one of "
-                            + ICommonConsts.FIELD + " duplicated value : " + id);
-                }
+                if (sId.contains(id))
+                    error(Holder.getM().getMess(IErrorCode.ERRORCODE27,
+                            ILogMess.TAGDUPLICATEDITENDTIFIER, l.getId(),
+                            ICommonConsts.FIELD, id));
                 sId.add(id);
             }
         }
     }
-
 }

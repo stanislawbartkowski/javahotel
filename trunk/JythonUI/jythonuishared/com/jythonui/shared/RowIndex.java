@@ -85,4 +85,10 @@ public class RowIndex {
         return r;
     }
 
+    public List<FieldItem> getColList() {
+        return colList;
+    }
+    
+    
+
 }

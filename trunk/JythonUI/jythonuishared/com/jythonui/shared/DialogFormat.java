@@ -35,6 +35,8 @@ public class DialogFormat extends ElemDescription {
 
     private List<ValidateRule> valList = new ArrayList<ValidateRule>();
 
+    private List<CheckList> checkList = new ArrayList<CheckList>();
+
     /**
      * @return the actionList
      */
@@ -103,6 +105,10 @@ public class DialogFormat extends ElemDescription {
 
     public List<ValidateRule> getValList() {
         return valList;
+    }
+
+    public List<CheckList> getCheckList() {
+        return checkList;
     }
 
     public TypedefDescr findCustomType(String customType) {

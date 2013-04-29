@@ -27,6 +27,7 @@ import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.jythonui.client.M;
+import com.jythonui.client.dialog.FormGridManager;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.JUtils;
@@ -45,18 +46,21 @@ class VariableContainer implements IVariablesContainer {
         IDataType dType;
         RowListDataManager liManager;
         DialogVariables addVar;
+        FormGridManager gManager;
     }
 
     private final List<FormContainer> fList = new ArrayList<FormContainer>();
 
     @Override
     public void addFormVariables(ISlotable iSlo, IDataType dType,
-            RowListDataManager liManager, DialogVariables addVar) {
+            RowListDataManager liManager, FormGridManager gManager,
+            DialogVariables addVar) {
         FormContainer f = new FormContainer();
         f.iSlo = iSlo;
         f.dType = dType;
         f.liManager = liManager;
         f.addVar = addVar;
+        f.gManager = gManager;
         fList.add(f);
 
     }
@@ -102,6 +106,7 @@ class VariableContainer implements IVariablesContainer {
                     v.setValue(fie, val);
                 }
             }
+            f.gManager.addValues(v);
         }
         return v;
     }

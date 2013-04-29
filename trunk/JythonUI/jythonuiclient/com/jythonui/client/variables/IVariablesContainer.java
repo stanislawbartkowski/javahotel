@@ -14,6 +14,7 @@ package com.jythonui.client.variables;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.jythonui.client.dialog.FormGridManager;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.shared.DialogVariables;
 
@@ -24,7 +25,7 @@ import com.jythonui.shared.DialogVariables;
 public interface IVariablesContainer {
 
     void addFormVariables(ISlotable iSlo, IDataType dType,
-            RowListDataManager liManager, DialogVariables addV);
+            RowListDataManager liManager, FormGridManager gManager, DialogVariables addV);
 
     DialogVariables getVariables();
 

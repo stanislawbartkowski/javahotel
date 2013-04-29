@@ -37,7 +37,17 @@ public interface JMessages extends Messages {
     String ValidateFieldNotFound(String id, String fid);
 
     String NoFieldRelatedToError(String id, String fie);
-    
+
     String cannotLoadClientResource();
+
+    String CannotStartWithThisPage(String page);
+
+    String NoCheckList(String id);
+
+    String CheckListWithoutLinesOrColumns(String id);
+
+    String CannotFindRowInCheckRows(String checkId, String id);
+    
+    String CannotFindColInCheckColumns(String checkId, String id);
 
 }
