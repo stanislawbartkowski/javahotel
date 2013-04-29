@@ -15,6 +15,7 @@ package guice;
 import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.gwtmodel.testenhancer.ITestEnhancer;
@@ -24,6 +25,7 @@ import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.jpastoragekey.StorageRegistryFactory;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.registry.IStorageRegistryFactory;
@@ -42,12 +44,18 @@ public class ServerService {
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
             bind(ITestEnhancer.class).to(TestEnhancer.class);
+            bind(EntityManagerFactory.class)
+                    .annotatedWith(
+                            Names.named(IConsts.STORAGEREGISTRYENTITYMANAGERFACTORY))
+                    .toProvider(EntityManagerFactoryProvider.class)
+                    .in(Singleton.class);
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
                     Singleton.class);
             bind(IStorageRegistryFactory.class)
                     .to(StorageRegistryFactory.class).in(Singleton.class);
+            requestStatic();
         }
     }
 
