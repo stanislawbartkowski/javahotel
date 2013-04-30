@@ -565,6 +565,41 @@ Map variables:
 Sample:
 http://code.google.com/p/javahotel/source/browse/trunk/Sample/WebApp/samplewebsrc/resources/packages/testpack/listchunk.py
 
+== Check list (grid) ==
+
+=== Information ===
+Allows to create two dimensional matrix with lines and columns and check/uncheck elements. Matrix definition (lines and columns) is created dynamically. 
+
+=== XML definition ===
+{{{
+ <checklist id="<id>" displayname="<title>">
+ </checklist> 
+}}}
+
+"id" should be unique.  It is possible to have more then one check list in the whole dialog. A dialog containing "check list" element should execute "before" action to get the definition of lines and columns for check matrix
+
+Example:
+ <checklist id="check" displayname="Permissions">
+ </checklist> 
+
+=== Jython handling ===
+
+Values related to check list are stored in var["JCHECK_MAP"]. Then all values related to particular check list are stored in var["JCHECK_MAP"][<check list id>]
+
+Jython code is raised in three different context
+ * Defining of lines and columns
+ * Setting values to the elements
+ * Reading the current setting
+
+==== Defining of lines and columns ====
+
+Definition of lines and column should be provided in "before" action. var["JCHECK_MAP"][<check list id>]["lines"] contains lines (rows) definition and var["JCHECK_MAP"][<check list id>]["columns"] contains columns definition.
+Definition of lines and columns is a list (sequence) of maps:
+
+|| Key || Decription ||
+|| id || Lines/columns identifier. Used for setting and getting values || displayname || Name/text displayed on the screen ||
+
+
 = Security =
 
 == app.properties ==
