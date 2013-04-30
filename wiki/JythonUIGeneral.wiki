@@ -593,11 +593,54 @@ Jython code is raised in three different context
 
 ==== Defining of lines and columns ====
 
-Definition of lines and column should be provided in "before" action. var["JCHECK_MAP"][<check list id>]["lines"] contains lines (rows) definition and var["JCHECK_MAP"][<check list id>]["columns"] contains columns definition.
+Definition of lines and column should be provided in "before" action. var["JCHECK_MAP"][<check list id>]["lines"] contains lines (rows) definition and var["JCHECK_MAP"][<check list id>]["columns"] contains columns definition. 
 Definition of lines and columns is a list (sequence) of maps:
 
 || Key || Decription ||
-|| id || Lines/columns identifier. Used for setting and getting values || displayname || Name/text displayed on the screen ||
+|| id || Lines/columns identifier. Used for setting and getting values ||
+|| displayname || Name/text displayed on the screen ||
+
+Example
+<code language="python">
+
+      checkmap = {}
+      
+      seq = []
+      m = {}
+      m["id"] = "hotel1"
+      m["displayname"] = "Hotel One"
+      seq.append(m)
+      m = {}
+      m["id"] = "hotel2"
+      m["displayname"] = "Hotel Two"
+      seq.append(m)
+      checkmap["lines"] = seq
+      
+      li = [["man","Manager"],["acc","Accountant"],["adm","Administrator"],["rec","Receptionist"]]
+      
+      seq = []
+      for l in li :
+          m = {}
+          m["id"] = l[0]
+          m["displayname"] = l[1]
+          seq.append(m)
+      checkmap["columns"] = seq
+
+      map = {}
+      map["check"] = checkmap
+      var["JCHECK_MAP"] = map 
+
+</code>
+  
+=== Setting values to the check list elements ===
+
+Setting values can be done in "before" action (together with lines and column definition) or in any other action. All values related to a single line are stored in sequence var["JCHECK_MAP"][<check list id>][<line id>]. An element in a sequence is a map
+|| Key || Description ||
+|| "id" || Column id ||
+|| "val" || Boolean value. True means that element is checked and False that element is unchecked ||
+
+
+
 
 
 = Security =
