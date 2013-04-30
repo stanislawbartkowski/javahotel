@@ -37,15 +37,14 @@ def dialogaction(action,var) :
       seq.append(m)
       checkmap["lines"] = seq
       
+      li = [["man","Manager"],["acc","Accountant"],["adm","Administrator"],["rec","Receptionist"]]
+      
       seq = []
-      m = {}
-      m["id"] = "man"
-      m["displayname"] = "Manager"
-      seq.append(m)
-      m = {}
-      m["id"] = "acc"
-      m["displayname"] = "Accountant"
-      seq.append(m)
+      for l in li :
+          m = {}
+          m["id"] = l[0]
+          m["displayname"] = l[1]
+          seq.append(m)
       checkmap["columns"] = seq
       
       seq = []
