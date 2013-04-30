@@ -108,6 +108,7 @@ class ContrButtonView implements IContrButtonView {
             if (!b.isEnabled())
                 but.setEnabled(false);
             else {
+                but.setEnabled(true);
                 but.addClickHandler(new Click(b));
             }
             hP.add(but.getGWidget());
