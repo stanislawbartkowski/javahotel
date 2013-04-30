@@ -1,0 +1,22 @@
+[alias]
+CHECK:check list
+HOTEL1:hotel1
+HOTEL2:hotel2
+CLICK:check
+--//*[@id="gwt-uid-12"]
+HOTEL2MAN://*[@id="gwt-uid-6"]
+HOTEL2REC://*[@id="gwt-uid-9"]
+[start]
+call:waitforwindow
+click:#CHECK
+waitFor:#HOTEL1
+verEqual:#HOTEL1|man
+verEqual:#HOTEL2|acc
+click:#HOTEL2MAN
+click:#HOTEL2REC
+sleep:5
+click:#CLICK
+sleep:5
+verEqual:#HOTEL1|man
+verEqual:#HOTEL2|man acc rec
+
