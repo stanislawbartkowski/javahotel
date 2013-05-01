@@ -591,7 +591,7 @@ Jython code is raised in three different context
  * Setting values to the elements
  * Reading the current setting
 
-==== Defining of lines and columns ====
+==== Defining the lines and columns ====
 
 Definition of lines and column should be provided in "before" action. var["JCHECK_MAP"][<check list id>]["lines"] contains lines (rows) definition and var["JCHECK_MAP"][<check list id>]["columns"] contains columns definition. 
 Definition of lines and columns is a list (sequence) of maps:
@@ -639,8 +639,22 @@ Setting values can be done in "before" action (together with lines and column de
 || "id" || Column id ||
 || "val" || Boolean value. True means that element is checked and False that element is unchecked ||
 
+Values for every line is stored as a sequence of of values for every column. For instance:
+Lines: "hotel1", "hotel2"
+Columns: "man", "acc", "adm", "rec"
 
+Key value: var["JCHECK_MAP"]["check"]["hotel1"] contains sequence of values: {{"id" : "man","val" : true },{"id" : "acc","val" : false }}
+It defines that element ("hotel1","man") is checked and element("hotel1","acc") is unchecked.
 
+Important: values for element not included are regarded as having value "false" (unchecked).
+
+=== Getting values ===
+
+If dialog definition contains <checklist> clause that every Jython action contains list of values for this <checklist>. The values are defined available in data structure described above.
+For instance: var["JCHECK_MAP"]["check"]["hotel1"] contains list of values for line "hotel1".
+
+Examples:
+https://code.google.com/p/javahotel/source/browse/trunk/Sample/WebApp/samplewebsrc/resources/packages/testpack/checklist.py  
 
 
 = Security =
