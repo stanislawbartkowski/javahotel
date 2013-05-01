@@ -579,8 +579,10 @@ Allows to create two dimensional matrix with lines and columns and check/uncheck
 "id" should be unique.  It is possible to have more then one check list in the whole dialog. A dialog containing "check list" element should execute "before" action to get the definition of lines and columns for check matrix
 
 Example:
+{{{
  <checklist id="check" displayname="Permissions">
  </checklist> 
+}}}
 
 === Jython handling ===
 
