@@ -17,6 +17,70 @@ Current version support Jython only. It is planned in the future to allow also c
 
 = Details =
 
+== Dialogs definition in xml file ==
+
+Dialog xml file defines active elements in the user interface : fields entered, buttons, display elements. Framework creates default layout. Future version will allow custom layout in shape of html panel. One dialog can navigate to other dialog.
+
+XSD file defining a dialog is available here:
+https://code.google.com/p/javahotel/source/browse/trunk/JythonUI/jythonuiserver/resources/xsd/dialogschema.xsd
+
+The general structure is as follows:
+{{{
+
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<before/>
+
+<parent>
+   { parent name}
+</parent>
+
+<displayname>
+   { dialog name, title }
+</displayname>
+
+<types>
+  { xml file with types definiton }
+</types>
+
+<jython>
+  { jython backing method }
+</jython>
+
+<leftmenu>
+  { definition of left menu }
+</leftmenu>
+
+<actions>
+  { definition of actions available }
+</actions>
+
+<buttons>
+  { definition of buttons available }
+</buttons>
+
+<form>
+  { form definition }
+</form>
+
+<validaterules>
+  { validate rule for form }
+</validaterules>
+
+<list>
+ { definition of list }
+</list>
+
+<checklist>
+ { definition of check list }
+</checklist>
+
+</dialog>
+
+}}}
+
+
 == Actions ==
 
 === Action list ===
