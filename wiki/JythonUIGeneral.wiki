@@ -80,6 +80,33 @@ The general structure is as follows:
 
 }}}
 
+|| Element || Content || Description || Multiplicity || Details ||
+|| before || Empty|| If exists than before action is raised || 0..1 || ||
+
+== Buttons ==
+
+{{{
+<buttons>
+  <button> .. </button>
+  ....
+</buttons>
+}}}
+
+buttons tag encloses list of buttons. At least one button should be defined.
+
+Attributes or nested elements in the button tag
+
+|| Tag || Mandatory || Default || Content || Description ||
+|| id || yes || || Button identifier || Every button should have distinct id ||
+|| displayname || No || Empty name || Button title ||
+|| validate || No || No validate || Empty || If exists then clicking the button raises form validation. If not exists than validation is not raised (in case of Resing button) ||
+|| actiontype || No || || ||
+|| actionparam || No || || ||
+|| actionparam1 || No || || ||
+|| actionparam2 || No || || ||
+|| hidden || No || Not hidden || Empty || If exists then button is not visible and not clickable ||
+|| readonly || No || Active || Empty || if exists then button is visible but not clickable ||
+
 
 == Actions ==
 
