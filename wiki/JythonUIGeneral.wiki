@@ -652,8 +652,11 @@ Important: values for element not included are regarded as having value "false" 
 
 === Getting values ===
 
-If dialog definition contains <checklist> clause that every Jython action contains list of values for this <checklist>. The values are defined available in data structure described above.
+If dialog definition contains checklist clause that every Jython action contains list of values for this check list. The values are available in data structure described above. The same data structure is used for setting and getting values.
+
 For instance: var["JCHECK_MAP"]["check"]["hotel1"] contains list of values for line "hotel1".
+
+Important: Unlike other elements values for check list are set automatically without specifying anything like "JCOPY_". In order to avoid values setting one shoud remove var["JCHECK_MAP"] from 'var' variable.
 
 Examples:
 https://code.google.com/p/javahotel/source/browse/trunk/Sample/WebApp/samplewebsrc/resources/packages/testpack/checklist.py  
