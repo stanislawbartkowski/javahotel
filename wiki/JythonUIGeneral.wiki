@@ -188,7 +188,7 @@ def dialogaction(action,var) :
 || crud_readlist || Call after every crud action, should retrieve list of items, similar to before. But 'before' is called only once at the beginning. ||
 || crud_add || Called when user clicked "Accept" in the "Add item" dialog. ||
 || crud_remove || Called when user clicked "Accept" in the "Remove item" window || 
-|| crud_modif || Called when user clicked "Accept" in the "Modif item" window ||
+|| crud_change || Called when user clicked "Accept" in the "Modif item" window ||
 
 === Before and crud_readlist ===
 "Before" is called once at the beginning to populate list for the first time. "crud_readlist" is called any time when list requires refreshing after adding, removing or changing an item.
@@ -220,7 +220,7 @@ def dialogaction(action,var) :
     return
 </code>
 
-=== crud_add, crud_modif and crud_remove ===
+=== crud_add, crud_change and crud_remove ===
 
 These action are called after user clicked "Accept" in appropriate window. These action should validate data and/or perform any background logic related to the action.
 There are the following options available:
