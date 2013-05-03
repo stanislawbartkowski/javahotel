@@ -53,5 +53,5 @@ public interface IGetCustomValues {
 
     boolean addEmptyAsDefault();
 
-    Map<String, String> getStandMessages();
+    String getStandMessage(String key);
 }

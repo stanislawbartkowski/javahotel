@@ -85,11 +85,11 @@ public class CustomValuesProvider implements IGetCustomValues {
     }
 
     @Override
-    public Map<String, String> getStandMessages() {
+    public String getStandMessage(String key) {
         IGetCustomValues c = iFactories.getGetCustomValuesNotDefault();
         if (c == null)
             return null;
-        return c.getStandMessages();
+        return c.getStandMessage(key);
     }
 
 }
