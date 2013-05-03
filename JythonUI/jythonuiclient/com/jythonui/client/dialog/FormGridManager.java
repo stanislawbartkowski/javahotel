@@ -149,7 +149,7 @@ public class FormGridManager {
                 readLines(rCols.cols, colsNames, cCheck.getColumns(),
                         c.getColumns());
                 rMap.put(s, rCols);
-                gView.setCols("XXXXX", colsNames);
+                gView.setCols(cCheck.getDisplayName(), colsNames);
                 gView.setRowBeginning(linesNames);
                 gView.setColNo(colsNames.size());
                 gView.setRowNo(linesNames.size());
@@ -174,7 +174,8 @@ public class FormGridManager {
                     gView.setRowBoolean(rowL, colL, val);
                 }
             }
-
+            if (cCheck.isReadOnly())
+                gView.setReadOnly(true);
         }
 
     }
@@ -187,7 +188,8 @@ public class FormGridManager {
             CheckList cCheck = DialogFormat.findE(d.getCheckList(), s);
             assert cCheck != null;
             RowsCols rCol = rMap.get(s);
-            if (rCol == null) continue;
+            if (rCol == null)
+                continue;
             DialogCheckVariables c = new DialogCheckVariables();
             int rowL = 0;
             RowIndex rI = new RowIndex(cCheck.constructValLine());

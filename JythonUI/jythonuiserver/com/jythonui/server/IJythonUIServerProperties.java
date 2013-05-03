@@ -20,10 +20,12 @@ import java.net.URL;
  */
 public interface IJythonUIServerProperties {
 
-    URL getDialogDirectory();
+    String getDialogDirectory();
 
-    URL getPackageDirectory();
-    
+    String getPackageDirectory();
+
+    String getBundleBase();
+
     boolean isCached();
 
 }

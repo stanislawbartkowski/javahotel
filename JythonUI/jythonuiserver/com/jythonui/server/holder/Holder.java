@@ -38,6 +38,12 @@ public class Holder {
 
     private static boolean auth = false;
 
+    @Inject
+    @Named(IConsts.APPMESS)
+    private static IGetLogMess appMess;
+
+    private static final ThreadLocal<String> locale = new ThreadLocal<String>();
+
     public static boolean isAuth() {
         return auth;
     }
@@ -60,6 +66,18 @@ public class Holder {
 
     public static IGetLogMess getM() {
         return logMess;
+    }
+
+    public static void SetLocale(String s) {
+        locale.set(s);
+    }
+
+    public static String getLocale() {
+        return locale.get();
+    }
+
+    public static IGetLogMess getAppMess() {
+        return appMess;
     }
 
 }

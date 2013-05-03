@@ -17,6 +17,16 @@ import com.gwtmodel.table.common.CUtil;
 
 public class ClientProp extends ElemDescription {
 
+    private CustomMessages customM = null;
+
+    public CustomMessages getCustomM() {
+        return customM;
+    }
+
+    public void setCustomM(CustomMessages customM) {
+        this.customM = customM;
+    }
+
     public boolean isAuthenticate() {
         String s = this.getAttr(ICommonConsts.AUTHENTICATE);
         if (CUtil.EmptyS(s))
@@ -31,5 +41,7 @@ public class ClientProp extends ElemDescription {
     public String getLoginPage() {
         return getAttr(ICommonConsts.LOGINPAGE);
     }
+    
+    
 
 }

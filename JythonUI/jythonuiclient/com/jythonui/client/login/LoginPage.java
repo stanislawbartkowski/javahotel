@@ -80,6 +80,7 @@ public class LoginPage {
                 M.setSecToken(arg);
                 IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
                 wPanel.setUserData(user, null);
+                wPanel.setDCenter(null);
                 ok.execute();
             }
 

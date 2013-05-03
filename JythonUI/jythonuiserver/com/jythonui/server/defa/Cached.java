@@ -15,12 +15,14 @@ package com.jythonui.server.defa;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.jythonui.server.IConsts;
+
 public class Cached implements IsCached {
 
     private final boolean cached;
 
     @Inject
-    public Cached(@Named("CachedNow") boolean c) {
+    public Cached(@Named(IConsts.CACHEDNOW) boolean c) {
         this.cached = c;
     }
 

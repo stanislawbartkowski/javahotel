@@ -182,12 +182,14 @@
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="readonly" type="emptyT" />			
 		</xs:sequence>
 	</xs:group>
 
 	<xs:attributeGroup name="checklistattrG">
 		<xs:attribute name="id" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="readonly" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="checkG">

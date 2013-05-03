@@ -585,7 +585,8 @@ class RunJython {
         String methodJ = d.getJythonMethod();
         putDebug("method jython = " + methodJ);
         if (methodJ == null) {
-            error("methodJ cannot be null");
+            error(Holder.getM().getMess(IErrorCode.ERRORCODE42,
+                    ILogMess.METHODNOTDEFINED, d.getId(), actionId));
         }
 
         /*
@@ -607,7 +608,7 @@ class RunJython {
         }
 
         // check sys.path
-        addIfNotExisttoPath(interp, p.getPackageDirectory().getFile());
+        addIfNotExisttoPath(interp, p.getPackageDirectory());
 
         Map<PyObject, PyObject> pMap = toPythonMap(v);
         addListToMap(pMap, d, v);

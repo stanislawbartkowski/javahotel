@@ -51,8 +51,6 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.callback.CommonCallBack;
-import com.gwtmodel.table.view.grid.GridViewFactory;
-import com.gwtmodel.table.view.grid.IGridViewBoolean;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.jythonui.client.M;
@@ -64,6 +62,7 @@ import com.jythonui.client.util.IConstructCustomDataType;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
 import com.jythonui.client.util.PerformVariableAction;
+import com.jythonui.client.util.RegisterCustom;
 import com.jythonui.client.util.ValidateForm;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
@@ -114,6 +113,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         this.iClose = iClose;
         this.addV = addV;
         gManager = new FormGridManager(this, dType);
+        RegisterCustom.registerCustom(info.getCustMess());
+
     }
 
     private class CButton implements ISlotListener {
@@ -310,6 +311,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     ClickButtonType.StandClickEnum.ALL,
                     constructCButton(d.getButtonList()));
             pLine++;
+            emptyView = false;
         }
         if (!d.getListList().isEmpty())
             for (ListFormat f : d.getListList()) {

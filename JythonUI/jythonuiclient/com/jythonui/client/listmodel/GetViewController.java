@@ -262,7 +262,7 @@ class GetViewController implements IGetViewControllerFactory {
         DialogFormat dElem = li.getfElem();
         SecurityInfo elemSec = new SecurityInfo(dInfo.getSecurity().getlSecur()
                 .get(li.getId()));
-        DialogInfo elemInfo = new DialogInfo(dElem, elemSec);
+        DialogInfo elemInfo = new DialogInfo(dElem, elemSec, null);
         DialogContainer sLo = new DialogContainer(da, elemInfo, iCon, null,
                 addV);
         ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);

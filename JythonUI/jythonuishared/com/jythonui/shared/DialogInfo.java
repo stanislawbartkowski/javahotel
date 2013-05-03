@@ -13,25 +13,22 @@
 package com.jythonui.shared;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.gwtmodel.table.common.CUtil;
 
 public class DialogInfo implements Serializable {
 
     private DialogFormat dialog;
     private SecurityInfo security;
+    private CustomMessages custMess;
 
     // default constructor
     public DialogInfo() {
-
     }
 
-    public DialogInfo(DialogFormat dialog, SecurityInfo security) {
+    public DialogInfo(DialogFormat dialog, SecurityInfo security,
+            CustomMessages custMess) {
         this.dialog = dialog;
         this.security = security;
+        this.custMess = custMess;
     }
 
     public DialogFormat getDialog() {
@@ -41,4 +38,9 @@ public class DialogInfo implements Serializable {
     public SecurityInfo getSecurity() {
         return security;
     }
+
+    public CustomMessages getCustMess() {
+        return custMess;
+    }
+
 }
