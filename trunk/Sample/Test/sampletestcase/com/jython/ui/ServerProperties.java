@@ -15,6 +15,7 @@ package com.jython.ui;
 import java.net.URL;
 
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.JythonUiServerProvider;
 
 /**
  * @author hotel
@@ -25,23 +26,30 @@ public class ServerProperties implements IJythonUIServerProperties {
     private final String RESOURCES = "resources";
     private final String DIALOGDIR = "dialogs";
     private final String PACKAGEDIR = "packages";
+    private final String MESS = "bundle";
 
-    @Override
-    public URL getDialogDirectory() {
-        URL ur = TestHelper.class.getClassLoader().getResource(
-                RESOURCES + "/" + DIALOGDIR);
-        return ur;
+    private String getResource(String dir) {
+        return TestHelper.class.getClassLoader()
+                .getResource(RESOURCES + "/" + dir).getPath();
     }
 
     @Override
-    public URL getPackageDirectory() {
-        URL ur = TestHelper.class.getClassLoader().getResource(
-                RESOURCES + "/" + PACKAGEDIR);
-        return ur;
+    public String getDialogDirectory() {
+        return getResource(DIALOGDIR);
+    }
+
+    @Override
+    public String getPackageDirectory() {
+        return getResource(PACKAGEDIR);
     }
 
     @Override
     public boolean isCached() {
         return true;
+    }
+
+    @Override
+    public String getBundleBase() {
+        return getResource(MESS);
     }
 }

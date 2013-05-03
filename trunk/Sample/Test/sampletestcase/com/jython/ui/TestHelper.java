@@ -23,6 +23,7 @@ import org.junit.Before;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
@@ -38,6 +39,7 @@ public class TestHelper {
     protected final ITestEnhancer iTest;
     protected final IPersonOp po;
     protected final ISecurity iSec;
+    protected final IGetLogMess appMess;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -47,6 +49,7 @@ public class TestHelper {
         iTest = ServiceInjector.constructITestEnhancer();
         po = ServiceInjector.constructPersonOp();
         iSec = ServiceInjector.constructSecurity();
+        appMess = Holder.getAppMess();
     }
 
     @Before
