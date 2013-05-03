@@ -12,8 +12,6 @@
  */
 package com.jythonui.server.defa;
 
-import java.net.URL;
-
 import javax.inject.Inject;
 
 import com.jythonui.server.IJythonUIServerProperties;
@@ -28,6 +26,7 @@ public class ServerProperties implements IJythonUIServerProperties {
     private final String RESOURCES = "resources";
     private final String DIALOGDIR = "dialogs";
     private final String PACKAGEDIR = "packages";
+    private final String MESS = "bundle/messages";
     private final IsCached isC;
 
     @Inject
@@ -35,16 +34,19 @@ public class ServerProperties implements IJythonUIServerProperties {
         this.isC = isC;
     }
 
-    @Override
-    public URL getDialogDirectory() {
-        return JythonUiServerProvider.class.getClassLoader().getResource(
-                RESOURCES + "/" + DIALOGDIR);
+    private String getResource(String dir) {
+        return JythonUiServerProvider.class.getClassLoader()
+                .getResource(RESOURCES + "/" + dir).getPath();
     }
 
     @Override
-    public URL getPackageDirectory() {
-        return JythonUiServerProvider.class.getClassLoader().getResource(
-                RESOURCES + "/" + PACKAGEDIR);
+    public String getDialogDirectory() {
+        return getResource(DIALOGDIR);
+    }
+
+    @Override
+    public String getPackageDirectory() {
+        return getResource(PACKAGEDIR);
     }
 
     @Override
@@ -52,6 +54,12 @@ public class ServerProperties implements IJythonUIServerProperties {
         if (isC == null)
             return false;
         return isC.isCached();
+    }
+
+    @Override
+    public String getBundleBase() {
+        return getResource(MESS);
+
     }
 
 }

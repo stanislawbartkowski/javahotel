@@ -103,5 +103,10 @@ public abstract class ElemDescription implements Serializable {
     public boolean isHtmlId() {
         return isAttr(ICommonConsts.HTMLID);
     }
+    
+    public boolean isReadOnly() {
+        return isAttr(ICommonConsts.READONLY);
+    }
+
 
 }

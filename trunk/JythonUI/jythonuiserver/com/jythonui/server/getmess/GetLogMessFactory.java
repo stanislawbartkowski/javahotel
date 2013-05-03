@@ -20,8 +20,12 @@ public class GetLogMessFactory {
     }
 
     public static IGetLogMess construct(Properties prop) {
-        return new GetLogMess(prop);
+        return new GetLogMess(prop, null);
 
+    }
+
+    public static IGetLogMess construct(Properties prop, Properties defa) {
+        return new GetLogMess(prop, defa);
     }
 
 }

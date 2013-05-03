@@ -89,10 +89,6 @@ public class FieldItem extends ElemDescription {
         return isAttr(ICommonConsts.HIDDEN);
     }
 
-    public boolean isReadOnly() {
-        return isAttr(ICommonConsts.READONLY);
-    }
-
     public boolean isReadOnlyAdd() {
         return isAttr(ICommonConsts.READONLYADD);
     }

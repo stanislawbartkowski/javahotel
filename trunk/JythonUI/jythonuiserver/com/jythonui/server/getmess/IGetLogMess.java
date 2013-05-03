@@ -12,9 +12,13 @@
  */
 package com.jythonui.server.getmess;
 
+import com.jythonui.shared.CustomMessages;
+
 public interface IGetLogMess {
 
     String getMess(String errCode, String key, String... params);
 
     String getMessN(String key, String... params);
+    
+    CustomMessages getCustomMess();
 }

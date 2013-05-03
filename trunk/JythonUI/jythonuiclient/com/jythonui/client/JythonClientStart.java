@@ -19,11 +19,13 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
+import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.WebPanelHolder;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.WebPanelFactory;
 import com.jythonui.client.login.LoginPage;
+import com.jythonui.client.util.RegisterCustom;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.ICommonConsts;
 
@@ -136,12 +138,12 @@ public class JythonClientStart {
                 assert false : mess;
             }
 
-
             // initialize several factories
             ITableAbstractFactories tFactories = GwtGiniInjector.getI()
                     .getITableAbstractFactories();
             tFactories.registerWebPanelResources(new JythonWebPanelResources(
                     result));
+            RegisterCustom.registerCustom(result);
 
             // construct WebPanel handler
             WebPanelFactory wFactory = GwtGiniInjector.getI()

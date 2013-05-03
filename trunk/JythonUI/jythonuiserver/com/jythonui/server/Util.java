@@ -12,15 +12,24 @@
  */
 package com.jythonui.server;
 
-public interface IConsts {
-    String SECURITYMEMNAME = "SecurityCache";
-    String SECURITYREGISTRY = "SecurityRegistry";
-    String COMMONCACHENAME = "CommonCache";
-    String CACHEDNOW = "CachedNow";
-    String APPMESS = "AppBundle";
+import java.util.Enumeration;
+import java.util.Properties;
 
-    String JYTHONMESSSERVER = "jythonservermess";
+import com.jythonui.shared.ElemDescription;
 
-    String STORAGEREGISTRYENTITYMANAGERFACTORY = "storageregistryentitymanagerfactory";
+public class Util {
+
+    private Util() {
+
+    }
+
+    public static void toElem(ElemDescription dest, Properties prop) {
+        Enumeration e = prop.keys();
+        while (e.hasMoreElements()) {
+            String key = (String) e.nextElement();
+            dest.setAttr(key, prop.getProperty(key));
+        }
+
+    }
 
 }

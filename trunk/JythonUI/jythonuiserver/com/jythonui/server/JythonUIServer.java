@@ -13,7 +13,9 @@
 package com.jythonui.server;
 
 import com.gwtmodel.commoncache.ICommonCache;
+import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
@@ -45,6 +47,9 @@ class JythonUIServer implements IJythonUIServer {
         if (d == null)
             return null;
         SecurityInfo si = AddSecurityInfo.create(iSec, token, d);
+        CustomMessages custMess = null;
+        if (!p.isCached())
+            custMess = Holder.getAppMess().getCustomMess();
         for (ListFormat li : d.getListList()) {
             // columns
             SecurityInfo sList = AddSecurityInfo.createForColumns(iSec, token,
@@ -58,7 +63,7 @@ class JythonUIServer implements IJythonUIServer {
             SecurityInfo sl = AddSecurityInfo.create(iSec, token, dElem);
             si.getlSecur().put(li.getId(), sl);
         }
-        return new DialogInfo(d, si);
+        return new DialogInfo(d, si, custMess);
     }
 
     @Override

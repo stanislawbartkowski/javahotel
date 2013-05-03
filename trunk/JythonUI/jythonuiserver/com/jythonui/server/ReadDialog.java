@@ -29,7 +29,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.CheckList;
-import com.jythonui.shared.CheckListElem;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
@@ -98,7 +97,7 @@ class ReadDialog {
                 ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
                 ICommonConsts.VALIDATEID1 };
         private final String[] checklistTag = { ICommonConsts.ID,
-                ICommonConsts.DISPLAYNAME };
+                ICommonConsts.DISPLAYNAME, ICommonConsts.READONLY };
         private final String[] elemchecklistTag = checklistTag;
 
         /** Currently recognized set of tags. */

@@ -14,7 +14,6 @@ package com.jythonui.server.defa;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,11 +23,13 @@ import javax.inject.Named;
 
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
+import com.jythonui.server.Util;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.ClientProp;
+import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.ICommonConsts;
 
 public class GetClientProperties implements IJythonClientRes {
@@ -64,12 +65,11 @@ public class GetClientProperties implements IJythonClientRes {
             return null;
         }
         ClientProp map = new ClientProp();
-        Enumeration e = prop.keys();
-        while (e.hasMoreElements()) {
-            String key = (String) e.nextElement();
-            map.setAttr(key, prop.getProperty(key));
-        }
+        Util.toElem(map, prop);
         Holder.setAuth(map.isAuthenticate());
+        IGetLogMess custMess = Holder.getAppMess();
+        CustomMessages mess = custMess.getCustomMess();
+        if (mess != null) map.setCustomM(mess);
         return map;
     }
 }

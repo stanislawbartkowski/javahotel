@@ -10,17 +10,8 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.shared;
 
-public interface IConsts {
-    String SECURITYMEMNAME = "SecurityCache";
-    String SECURITYREGISTRY = "SecurityRegistry";
-    String COMMONCACHENAME = "CommonCache";
-    String CACHEDNOW = "CachedNow";
-    String APPMESS = "AppBundle";
-
-    String JYTHONMESSSERVER = "jythonservermess";
-
-    String STORAGEREGISTRYENTITYMANAGERFACTORY = "storageregistryentitymanagerfactory";
+public class CustomMessages extends ElemDescription {
 
 }

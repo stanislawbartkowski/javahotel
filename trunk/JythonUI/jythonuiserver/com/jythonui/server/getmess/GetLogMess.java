@@ -13,18 +13,26 @@
 package com.jythonui.server.getmess;
 
 import java.text.MessageFormat;
+import java.util.Enumeration;
 import java.util.Properties;
+import com.jythonui.server.Util;
+
+import com.jythonui.shared.CustomMessages;
 
 class GetLogMess implements IGetLogMess {
 
     private final Properties mess;
+    private final Properties messdefa;
 
-    GetLogMess(Properties mess) {
+    GetLogMess(Properties mess, Properties messdefa) {
         this.mess = mess;
+        this.messdefa = messdefa;
     }
 
     public String getMess(String errCode, String key, String... params) {
         String m = mess.getProperty(key);
+        if (m == null && messdefa != null)
+            m = messdefa.getProperty(key);
         if (errCode == null)
             return MessageFormat.format(m, params);
         return errCode + " " + MessageFormat.format(m, params);
@@ -32,6 +40,15 @@ class GetLogMess implements IGetLogMess {
 
     public String getMessN(String key, String... params) {
         return getMess(null, key, params);
+    }
+
+    @Override
+    public CustomMessages getCustomMess() {
+        CustomMessages cust = new CustomMessages();
+        Util.toElem(cust, mess);
+        if (messdefa != null)
+            Util.toElem(cust, messdefa);
+        return cust;
     }
 
 }

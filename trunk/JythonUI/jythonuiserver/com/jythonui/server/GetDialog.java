@@ -94,7 +94,7 @@ class GetDialog {
             error(Holder.getM().getMess(IErrorCode.ERRORCODE17,
                     ILogMess.DIALOGDIRECTORYNULL));
         }
-        String dDir = p.getDialogDirectory().getPath();
+        String dDir = p.getDialogDirectory();
         dDir = dDir + "/" + name;
         putDebug(dDir);
         InputStream s = new FileInputStream(dDir);

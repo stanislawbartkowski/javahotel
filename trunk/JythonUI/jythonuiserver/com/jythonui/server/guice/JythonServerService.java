@@ -28,6 +28,7 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.registry.object.ObjectRegistryFactory;
+import com.jythonui.server.resbundle.Mess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
 import com.jythonui.server.security.ISecuritySessionCache;
@@ -62,12 +63,15 @@ public class JythonServerService {
                     Singleton.class);
             bind(ISecuritySessionMemCache.class).toProvider(
                     SecurityMemCacheProvider.class).in(Singleton.class);
+            bind(IGetLogMess.class).annotatedWith(Names.named(IConsts.APPMESS))
+                    .to(Mess.class).in(Singleton.class);
             bind(IGetLogMess.class)
                     .annotatedWith(Names.named(IConsts.JYTHONMESSSERVER))
                     .toProvider(MessProvider.class).in(Singleton.class);
-            bind(IJythonClientRes.class).to(GetClientProperties.class).in(Singleton.class);
+            bind(IJythonClientRes.class).to(GetClientProperties.class).in(
+                    Singleton.class);
         }
-        
+
         protected void requestStatic() {
             requestStaticInjection(Holder.class);
         }
