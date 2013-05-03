@@ -68,7 +68,9 @@ import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.MaxI;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
@@ -121,6 +123,8 @@ class PresentationTable implements IGwtTableView {
     private boolean sortInc;
     private final ILostFocusEdit lostFocus;
     private final boolean async;
+    private IGetStandardMessage iMess = GwtGiniInjector.getI()
+            .getStandardMessage();
 
     private class MyAsyncProvider extends AsyncDataProvider<MutableInteger> {
 
@@ -727,7 +731,7 @@ class PresentationTable implements IGwtTableView {
         String title = model.getHeaderList().getListTitle();
         Label lTitle = null;
         if (title != null) {
-            lTitle = new Label(title);
+            lTitle = new Label(iMess.getMessage(title));
         }
         int nNo = 1;
         if (lTitle != null) {

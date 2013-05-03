@@ -62,10 +62,7 @@ public class GetStandardMessage implements IGetStandardMessage {
             key = sou.substring(2);
         else
             key = sou.substring(1);
-        Map<String, String> cMap = custValues.getStandMessages();
-        String val = null;
-        if (cMap != null)
-            val = cMap.get(key);
+        String val = custValues.getStandMessage(key);
         if (val == null)
             val = cValues.get(key);
         if (val == null) {

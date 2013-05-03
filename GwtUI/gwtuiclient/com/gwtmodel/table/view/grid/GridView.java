@@ -18,8 +18,10 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.validate.ErrorLineContainer;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import java.math.BigDecimal;
@@ -37,6 +39,8 @@ class GridView implements IGridView {
     private String rowTitle = null;
     private S synch = new S();
     private ErrorLineContainer eError = null;
+    private IGetStandardMessage iMess = GwtGiniInjector.getI()
+            .getStandardMessage();
 
     private void drawCols() {
         if (colTitles == null) {
@@ -168,6 +172,10 @@ class GridView implements IGridView {
 
     @Override
     public void setCols(String rowTitle, List<String> cols) {
+        if (rowTitle != null)
+            this.rowTitle = iMess.getMessage(rowTitle);
+        else
+            this.rowTitle = null;
         this.colTitles = cols;
         if (this.colNo == -1) {
             setColNo(colTitles.size());
