@@ -21,7 +21,7 @@ import java.util.Map;
  *
  */
 /**
- * This class is not transportable and can contain final attributes
+ * This class is not serializable and can contain final attributes
  * 
  * @author hotel
  * 
@@ -79,7 +79,8 @@ public class RowIndex {
         r.setRowSize(rowSize());
         for (int i = 0; i < fArray.length; i++) {
             FieldValue v = new FieldValue();
-            v.setValue(fArray[i].getFieldType(), null, fArray[i].getAfterDot());
+            FieldItem fi = fArray[i];
+            v.setValue(fi.getFieldType(), null, fi.getAfterDot());
             r.setRow(i, v);
         }
         return r;
@@ -88,7 +89,5 @@ public class RowIndex {
     public List<FieldItem> getColList() {
         return colList;
     }
-    
-    
 
 }

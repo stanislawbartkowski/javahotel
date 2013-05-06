@@ -19,7 +19,6 @@ import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
-import com.gwtmodel.table.factories.ITableCustomFactories;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.WebPanelHolder;
 import com.gwtmodel.table.view.webpanel.IWebPanel;

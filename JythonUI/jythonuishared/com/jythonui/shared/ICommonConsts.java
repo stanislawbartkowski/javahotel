@@ -42,6 +42,7 @@ public interface ICommonConsts {
     String INTTYPE = "int";
     String LONGTYPE = "long";
     String AFTERDOT = "afterdot";
+    String DEFVALUE = "defvalue";
     int DEFAULTAFTERDOT = 2;
     String JLISTMAP = "JLIST_MAP";
     String JCHECKLISTMAP = "JCHECK_MAP";
@@ -152,5 +153,8 @@ public interface ICommonConsts {
     String STARTPAGES = "Start";
 
     String RESOURCES = "resources";
+
+    String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
+    String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
 
 }

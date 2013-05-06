@@ -13,10 +13,17 @@
 package com.jythonui.client.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.gwtmodel.table.AVModelData;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
@@ -31,20 +38,34 @@ public class RowVModelData extends AVModelData {
 
     private final RowIndex rI;
     private final RowContent row;
+    private final Set<String> defVal = new HashSet<String>();
+    private final Map<String, String> defValS = new HashMap<String, String>();
+    private IGetStandardMessage iMess = GwtGiniInjector.getI()
+            .getStandardMessage();
 
     public RowVModelData(RowIndex rI) {
-        this.rI = rI;
-        row = rI.constructRow();
+        this(rI, rI.constructRow());
     }
 
     public RowVModelData(RowIndex rI, RowContent row) {
         this.rI = rI;
         this.row = row;
+        for (FieldItem i : rI.getColList())
+            if (i.isDefValue()) {
+                defVal.add(i.getId());
+                defValS.put(i.getId(), iMess.getMessage(i.getDefValue()));
+            }
+
     }
 
     @Override
     public Object getF(IVField fie) {
-        return rI.get(row, fie.getId()).getValue();
+        Object o = rI.get(row, fie.getId()).getValue();
+        if (o != null)
+            return o;
+        if (!defVal.contains(fie.getId()))
+            return o;
+        return FUtils.getValue(fie, defValS.get(fie.getId()));
     }
 
     @Override

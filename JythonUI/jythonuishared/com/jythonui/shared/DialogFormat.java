@@ -121,4 +121,8 @@ public class DialogFormat extends ElemDescription {
         return null;
     }
 
+    public CheckList findCheckList(String id) {
+        return findE(checkList, id);
+    }
+
 }
