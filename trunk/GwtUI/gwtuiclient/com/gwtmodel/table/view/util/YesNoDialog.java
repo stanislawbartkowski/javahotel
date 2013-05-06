@@ -23,6 +23,7 @@ import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
@@ -34,6 +35,8 @@ import com.gwtmodel.table.view.controlpanel.IControlClick;
 public class YesNoDialog extends ModalDialog {
 
     private final String ask;
+    private IGetStandardMessage iMess = GwtGiniInjector.getI()
+            .getStandardMessage();
 
     @Override
     protected void addVP(VerticalPanel vp) {
@@ -46,7 +49,7 @@ public class YesNoDialog extends ModalDialog {
 
     public YesNoDialog(String ask, String title, final IClickYesNo yes) {
         super(new VerticalPanel(), null);
-        this.ask = ask;
+        this.ask = iMess.getMessage(ask);
         if (title == null) {
             IGetCustomValues va = GwtGiniInjector.getI().getCustomValues();
             title = va.getCustomValue(IGetCustomValues.QUESTION);

@@ -341,6 +341,11 @@ public class FUtils {
 
     public static int compareValue(IVModelData row1, IVField f1,
             IVModelData row2, IVField f2, boolean ignorecase) {
+        return compareValue(row1, f1, row2, f2, ignorecase, true);
+    }
+
+    public static int compareValue(IVModelData row1, IVField f1,
+            IVModelData row2, IVField f2, boolean ignorecase, boolean first) {
         boolean empty1 = isNullValue(row1, f1);
         boolean empty2 = isNullValue(row2, f2);
         if (empty1 && empty2) {
@@ -373,7 +378,7 @@ public class FUtils {
             comp = compBoolean(row1, f1, row2, f2);
             break;
         default:
-            comp = compString(row1, f1, row2, f2, true, ignorecase);
+            comp = compString(row1, f1, row2, f2, first, ignorecase);
             break;
         }
         return comp;

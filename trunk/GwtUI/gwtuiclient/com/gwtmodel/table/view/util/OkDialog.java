@@ -21,6 +21,7 @@ import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
@@ -32,6 +33,8 @@ import com.gwtmodel.table.view.controlpanel.IControlClick;
 public class OkDialog extends ModalDialog {
 
     private final String kom;
+    private IGetStandardMessage iMess = GwtGiniInjector.getI()
+            .getStandardMessage();
 
     @Override
     protected void addVP(VerticalPanel vp) {
@@ -55,7 +58,7 @@ public class OkDialog extends ModalDialog {
 
     public OkDialog(String kom, String title, final ISignal ok) {
         super(new VerticalPanel(), null);
-        this.kom = kom;
+        this.kom = iMess.getMessage(kom);
         if (title == null) {
             IGetCustomValues va = GwtGiniInjector.getI().getCustomValues();
             title = va.getCustomValue(IGetCustomValues.INFO);

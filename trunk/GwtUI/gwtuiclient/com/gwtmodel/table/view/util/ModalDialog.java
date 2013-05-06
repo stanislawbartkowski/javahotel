@@ -21,6 +21,8 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.MaxI;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 
 abstract public class ModalDialog {
 
@@ -28,7 +30,8 @@ abstract public class ModalDialog {
     protected final VerticalPanel vP;
     private String title;
     private ISignal iClose = null;
-    
+    private IGetStandardMessage iMess = GwtGiniInjector.getI()
+            .getStandardMessage();
 
     private class CloseClick implements ISignal {
 
@@ -48,9 +51,7 @@ abstract public class ModalDialog {
     }
 
     public ModalDialog(String title) {
-        vP = new VerticalPanel();
-        this.title = title;
-        dBox = new DialogBox(false, true);
+        this(new VerticalPanel(), title, true);
     }
 
     public ModalDialog(VerticalPanel vP, String title) {
@@ -59,7 +60,7 @@ abstract public class ModalDialog {
 
     public ModalDialog(VerticalPanel vP, String title, boolean modal) {
         this.vP = vP;
-        this.title = title;
+        this.title = iMess.getMessage(title);
         dBox = new DialogBox(false, modal);
     }
 
@@ -68,8 +69,8 @@ abstract public class ModalDialog {
     }
 
     public void setTitle(String title) {
-        this.title = title;
-        dBox.setText(title);
+        this.title = iMess.getMessage(title);
+        dBox.setText(this.title);
     }
 
     protected void create() {
