@@ -40,7 +40,7 @@ public class ValidateForm {
 
     }
 
-    enum Op {
+    private enum Op {
         lt, eq, gt, ge, le
     }
 
@@ -103,7 +103,7 @@ public class ValidateForm {
             if (FUtils.isNullValue(v, v2)) {
                 continue;
             }
-            int comp = FUtils.compareValue(v, v2, v, v1, false);
+            int comp = FUtils.compareValue(v, v2, v, v1, false, false);
             switch (o) {
             case lt:
                 if (comp == -1)

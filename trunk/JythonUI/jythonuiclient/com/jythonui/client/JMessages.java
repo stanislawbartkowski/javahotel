@@ -47,7 +47,13 @@ public interface JMessages extends Messages {
     String CheckListWithoutLinesOrColumns(String id);
 
     String CannotFindRowInCheckRows(String checkId, String id);
-    
+
     String CannotFindColInCheckColumns(String checkId, String id);
+
+    String InproperFormatCheckSet(String id, String j);
+
+    String CannotFindCheckList(String s, String checkid);
+    
+    String CheckListActionNotExpected(String s, String a);
 
 }

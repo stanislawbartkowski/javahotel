@@ -25,6 +25,7 @@ import com.gwtmodel.table.IGetDataListCallBack;
 import com.gwtmodel.table.ISetGWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
@@ -61,6 +62,7 @@ import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.IConstructCustomDataType;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
+import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.util.RegisterCustom;
 import com.jythonui.client.util.ValidateForm;
@@ -153,10 +155,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             assert fie != null : LogT.getT().cannotBeNull();
             String actionId = fie.getActionId();
             assert actionId != null : LogT.getT().cannotBeNull();
-            // runAction(actionId, w, d.getActionList());
-            ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
+            ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(id, false,
                     w, null));
-
         }
 
     }
@@ -371,10 +371,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     v.setValueB(ICommonConsts.JYESANSWER, yes);
                     // M.JR().runAction(v, d.getId(), param1,
                     // new BackClass(param1, false, w, null));
-                    // 2012/04/14
+                    // 2013/04/14
                     ExecuteAction.action(v, d.getId(), param1, new BackClass(
                             param1, false, w, null));
-
                 }
 
             };
@@ -468,7 +467,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         }
 
         @Override
-        public void onMySuccess(DialogVariables arg) {
+        public void onMySuccess(final DialogVariables arg) {
             PerformVariableAction.VisitList vis = new PerformVariableAction.VisitList() {
 
                 @Override
@@ -492,6 +491,37 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             if (!arg.getCheckVariables().isEmpty()) {
                 gManager.addLinesAndColumns(id, arg);
             }
+            JUtils.IVisitor visC = new JUtils.IVisitor() {
+
+                @Override
+                public void action(String fie, String field) {
+                    String[] li = fie.split("_");
+                    if (li.length != 2) {
+                        String mess = M.M().InproperFormatCheckSet(field,
+                                ICommonConsts.JSETATTRCHECK);
+                        Utils.errAlertB(mess);
+                    }
+                    String checkid = li[0];
+                    String action = li[1];
+                    CheckList cList = d.findCheckList(checkid);
+                    if (cList == null) {
+                        String mess = M.M().CannotFindCheckList(field, checkid);
+                        Utils.errAlertB(mess);
+                    }
+                    if (!action.equals(ICommonConsts.READONLY)) {
+                        String mess = M.M().CheckListActionNotExpected(field,
+                                action);
+                        Utils.errAlertB(mess);
+                    }
+                    String valS = ICommonConsts.JVALATTRCHECK + checkid + "_"
+                            + action;
+                    FieldValue val = arg.getValue(valS);
+                    gManager.modifAttr(checkid, action, val);
+
+                }
+            };
+            JUtils.visitListOfFields(arg, ICommonConsts.JSETATTRCHECK, visC);
+
         }
     }
 

@@ -133,4 +133,12 @@ public class FieldItem extends ElemDescription {
         return getAttr(ICommonConsts.ALIGN);
     }
 
+    public String getDefValue() {
+        return getAttr(ICommonConsts.DEFVALUE);
+    }
+
+    public boolean isDefValue() {
+        return isAttr(ICommonConsts.DEFVALUE);
+    }
+
 }

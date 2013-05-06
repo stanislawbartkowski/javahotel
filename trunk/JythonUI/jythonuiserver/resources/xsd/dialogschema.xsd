@@ -96,9 +96,9 @@
 	</xs:group>
 
 	<xs:attributeGroup name="dialogattrG">
+		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="before" type="emptyT" />
 		<xs:attribute name="parent" type="xs:string" />
-		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="types" type="xs:string" />
 	</xs:attributeGroup>
 
@@ -142,6 +142,7 @@
 			<xs:element minOccurs="0" name="htmlid" type="xs:string" />
 			<xs:element minOccurs="0" name="from" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="defvalue" type="xs:string" />
 			<xs:element minOccurs="0" name="type" type="typeName" />
 			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="actionid" type="xs:string" />
@@ -163,6 +164,7 @@
 		<xs:attribute name="htmlid" type="xs:string" />
 		<xs:attribute name="from" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="defvalue" type="xs:string" />
 		<xs:attribute name="actionid" type="xs:string" />
 		<xs:attribute name="helper" type="xs:string" />
 		<xs:attribute name="width" type="xs:string" />

@@ -23,7 +23,6 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
-import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.grid.IGridViewBoolean;
 import com.jythonui.client.M;
@@ -213,5 +212,14 @@ public class FormGridManager {
             }
             v.getCheckVariables().put(s, c);
         }
+    }
+
+    void modifAttr(String checkId, String action, FieldValue val) {
+        IGridViewBoolean g = gData.get(checkId);
+        if (g == null)
+            return;
+        if (!action.equals(ICommonConsts.READONLY))
+            return;
+        g.setReadOnly(val != null);
     }
 }
