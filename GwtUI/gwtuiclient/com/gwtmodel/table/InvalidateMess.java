@@ -12,18 +12,25 @@
  */
 package com.gwtmodel.table;
 
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 
 public class InvalidateMess {
 
     private final IVField fie;
     private final boolean empty;
     private final String errmess;
+    private IGetStandardMessage iMess = GwtGiniInjector.getI()
+            .getStandardMessage();
 
     public InvalidateMess(final IVField fie, final boolean e, final String err) {
         this.fie = fie;
         this.empty = e;
-        this.errmess = err;
+        if (err != null)
+            this.errmess = iMess.getMessage(err);
+        else
+            this.errmess = null;
     }
 
     public InvalidateMess(final IVField fie, final String err) {

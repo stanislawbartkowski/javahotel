@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * @author hotel This class gives the possibility of modifying behavior of
- * BoxItem
+ *         BoxItem
  */
 public class BoxActionMenuOptions {
 
@@ -49,8 +49,8 @@ public class BoxActionMenuOptions {
     }
 
     public static SlotType constructSRemoveFormDialogSlotType(IDataType dType) {
-        return slTypeFactory.construct(new CustomStringDataTypeSlot(
-                dType, REMOVE_FORM_ACTION));
+        return slTypeFactory.construct(new CustomStringDataTypeSlot(dType,
+                REMOVE_FORM_ACTION));
     }
 
     public SlotType constructRemoveFormDialogSlotType() {
@@ -75,7 +75,8 @@ public class BoxActionMenuOptions {
     }
 
     public void setAskStandardResign() {
-        setAskString(BoxActionMenuOptions.ASK_BEFORE_RESIGN, MM.getL().YouResignStandard());
+        setAskString(BoxActionMenuOptions.ASK_BEFORE_RESIGN, MM.getL()
+                .YouResignStandard());
     }
 
     String getAskString(String key) {
