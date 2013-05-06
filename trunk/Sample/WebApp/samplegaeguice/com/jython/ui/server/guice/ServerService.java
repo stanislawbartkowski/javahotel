@@ -25,7 +25,6 @@ import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
-import com.jythonui.server.holder.Holder;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 
 /**

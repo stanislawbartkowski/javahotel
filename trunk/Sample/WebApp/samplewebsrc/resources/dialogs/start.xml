@@ -24,6 +24,7 @@
   <button id="listw" displayname="List" actiontype="JMAIN_DIALOG" actionparam="listw.xml" />
   <button id="list chunk" displayname="List chunk" actiontype="JMAIN_DIALOG" actionparam="listchunk.xml" />
   <button id="check list" displayname="Check list" actiontype="JMAIN_DIALOG" actionparam="checklist.xml" />
+  <button id="actionlist" displayname="Action list" actiontype="JMAIN_DIALOG" actionparam="actionlist.xml" />
 </leftmenu>
 
 <buttons>

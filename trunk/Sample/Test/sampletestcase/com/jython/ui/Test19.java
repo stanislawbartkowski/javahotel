@@ -12,11 +12,14 @@
  */
 package com.jython.ui;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import com.jythonui.server.holder.Holder;
-
-import static org.junit.Assert.assertEquals;
+import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.ListFormat;
 
 public class Test19 extends TestHelper {
 
@@ -38,6 +41,21 @@ public class Test19 extends TestHelper {
         assertEquals("pl message", mess);
         System.out.println(Holder.getLocale());
         assertEquals("pl",Holder.getLocale());
+    }
+    
+    
+    @Test
+    public void test2() {
+        DialogFormat d = findDialog("test46.xml");
+        assertNotNull(d);
+        ListFormat li = d.findList("lista");
+        assertNotNull(li);
+        FieldItem i = DialogFormat.findE(li.getColumns(), "id");
+        assertNotNull(i);
+        assertEquals("changepassword",i.getDefValue());
+        i = DialogFormat.findE(li.getColumns(), "name");
+        assertNotNull(i);
+        assertNull(i.getDefValue());
     }
 
 }
