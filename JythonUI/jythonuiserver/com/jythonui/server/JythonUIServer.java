@@ -19,8 +19,8 @@ import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
-import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.RequestContext;
 import com.jythonui.shared.SecurityInfo;
 
 /**
@@ -41,7 +41,9 @@ class JythonUIServer implements IJythonUIServer {
     }
 
     @Override
-    public DialogInfo findDialog(String token, String dialogName) {
+    public DialogInfo findDialog(RequestContext context, String dialogName) {
+        Util.setLocale(context);
+        String token = context.getToken();
         DialogFormat d = GetDialog.getDialog(p, mCached, token, dialogName,
                 true);
         if (d == null)
@@ -67,9 +69,15 @@ class JythonUIServer implements IJythonUIServer {
     }
 
     @Override
-    public DialogVariables runAction(DialogVariables v, String dialogName,
-            String actionId) {
-        String securityToken = v.getValueS(ICommonConsts.SECURITYTOKEN);
+    public DialogVariables runAction(RequestContext context, DialogVariables v,
+            String dialogName, String actionId) {
+        Util.setLocale(context);
+        String locale = context.getLocale();
+        String securityToken = context.getToken();
+        v.setSecurityToken(securityToken);
+        v.setLocale(locale);
+        // String securityToken = v.getValueS(ICommonConsts.SECURITYTOKEN);
+        // String local = v.getValueS(ICommonConsts.GWT_LOCALE);
         DialogFormat d = GetDialog.getDialog(p, mCached, securityToken,
                 dialogName, false);
         RunJython.executeJython(p, mCached, v, d, actionId);

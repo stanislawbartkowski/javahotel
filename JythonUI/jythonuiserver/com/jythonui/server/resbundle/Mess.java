@@ -15,7 +15,6 @@ package com.jythonui.server.resbundle;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +42,10 @@ public class Mess implements IGetLogMess {
         throw new JythonUIFatal(mess, e);
     }
 
+    static private void debug(String mess) {
+        log.fine(mess);
+    }
+
     @Inject
     public Mess(IJythonUIServerProperties iRes) {
         this.iRes = iRes;
@@ -64,9 +67,11 @@ public class Mess implements IGetLogMess {
             String propdefaS = iRes.getBundleBase() + "/messages.properties";
             String propS = null;
             String loc = Holder.getLocale();
+            debug("setMess locale=" + loc);
             if (loc != null) {
                 propS = iRes.getBundleBase() + "/messages_"
                         + Holder.getLocale() + ".properties";
+                debug("locale not null "  + propS);
             }
             Properties defa = null;
             Properties prop = null;
@@ -79,6 +84,7 @@ public class Mess implements IGetLogMess {
                                       // catch
                     } catch (FileNotFoundException e) {
                         // expected, do nothing
+                        debug(propS + " not found");
                     }
                 }
                 FileInputStream i = new FileInputStream(propdefaS);
@@ -91,8 +97,11 @@ public class Mess implements IGetLogMess {
             }
             if (prop == null)
                 iMess = GetLogMessFactory.construct(defa);
-            else
+            else {
                 iMess = GetLogMessFactory.construct(prop, defa);
+                debug("combine : " + propS + " " + propdefaS);
+
+            }
             lastloca = loc;
         }
     }
@@ -111,7 +120,8 @@ public class Mess implements IGetLogMess {
 
     @Override
     public CustomMessages getCustomMess() {
-        if (iRes.getBundleBase() == null) return null;
+        if (iRes.getBundleBase() == null)
+            return null;
         setMess();
         return iMess.getCustomMess();
     }

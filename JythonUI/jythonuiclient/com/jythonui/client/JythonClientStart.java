@@ -25,6 +25,7 @@ import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.gwtmodel.table.view.webpanel.WebPanelFactory;
 import com.jythonui.client.login.LoginPage;
 import com.jythonui.client.util.RegisterCustom;
+import com.jythonui.client.util.RequestContextFactory;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.ICommonConsts;
 
@@ -157,7 +158,8 @@ public class JythonClientStart {
     }
 
     public static void start(String startXML) {
-        M.JR().getClientRes(new ResBack(startXML));
+        M.JR().getClientRes(RequestContextFactory.construct(),
+                new ResBack(startXML));
     }
 
 }

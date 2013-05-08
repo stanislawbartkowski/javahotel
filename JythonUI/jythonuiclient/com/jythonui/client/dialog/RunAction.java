@@ -30,6 +30,7 @@ import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.IJythonUIClient;
 import com.jythonui.client.M;
 import com.jythonui.client.util.ISendCloseAction;
+import com.jythonui.client.util.RequestContextFactory;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -121,8 +122,8 @@ public class RunAction implements IJythonUIClient {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-//            ICustomObject o = slContext.getCustom();
-//            SendCloseSignal sig = (SendCloseSignal) o;
+            // ICustomObject o = slContext.getCustom();
+            // SendCloseSignal sig = (SendCloseSignal) o;
             if (sy.mDial != null) {
                 sy.mDial.hide();
                 // release reference
@@ -169,24 +170,25 @@ public class RunAction implements IJythonUIClient {
     @Override
     public void start(String startdialogName) {
         IDataType dType = DataType.construct(startdialogName, null);
-        M.JR().getDialogFormat(M.getSecToken(),startdialogName,
+        M.JR().getDialogFormat(RequestContextFactory.construct(),
+                startdialogName,
                 new StartBack(dType, new GetCenterWidget(), null, null, null));
     }
 
     /**
-     * Starts modal dialog, next dialog in stack fo dialogs
+     * Starts modal dialog, next dialog in stack to dialogs
      * 
      * @param dialogName
      *            Dialog name
      * @param w
-     *            WSize to position model dialog onthe screen
+     *            WSize to position model dialog on the screen
      * @param iCon
      *            Variable top copy from
      */
     public void upDialog(String dialogName, WSize w, IVariablesContainer iCon) {
         IDataType dType = DataType.construct(dialogName, null);
 
-        M.JR().getDialogFormat(M.getSecToken(),dialogName,
+        M.JR().getDialogFormat(RequestContextFactory.construct(), dialogName,
                 new StartBack(dType, new GetUpWidget(w), iCon, null, null));
     }
 
@@ -195,7 +197,7 @@ public class RunAction implements IJythonUIClient {
             DialogVariables addV) {
         IDataType dType = DataType.construct(dialogName, null);
 
-        M.JR().getDialogFormat(M.getSecToken(),dialogName,
+        M.JR().getDialogFormat(RequestContextFactory.construct(), dialogName,
                 new StartBack(dType, sl, iCon, iClose, addV));
     }
 

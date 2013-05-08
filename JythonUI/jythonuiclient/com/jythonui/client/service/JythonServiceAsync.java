@@ -16,19 +16,20 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.RequestContext;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface JythonServiceAsync {
 
-    void getDialogFormat(String token, String name,
+    void getDialogFormat(RequestContext context, String name,
             AsyncCallback<DialogInfo> callback);
 
-    void runAction(DialogVariables v, String name, String actionId,
-            AsyncCallback<DialogVariables> callback);
+    void runAction(RequestContext context, DialogVariables v, String name,
+            String actionId, AsyncCallback<DialogVariables> callback);
 
-    void getClientRes(AsyncCallback<ClientProp> callback);
+    void getClientRes(RequestContext context, AsyncCallback<ClientProp> callback);
 
     void login(String shiroRealm, String user, String password,
             AsyncCallback<String> callback);

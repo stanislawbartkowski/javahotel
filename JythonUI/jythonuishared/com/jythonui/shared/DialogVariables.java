@@ -79,7 +79,11 @@ public class DialogVariables implements Serializable {
     public void setSecurityToken(String token) {
         setValueS(ICommonConsts.SECURITYTOKEN, token);
     }
-
+    
+    public void setLocale(String locale) {
+        setValueS(ICommonConsts.GWT_LOCALE,locale);
+    }
+    
     /**
      * @return the rowList
      */

@@ -10,21 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.shared;
 
-import com.jythonui.shared.DialogInfo;
-import com.jythonui.shared.DialogVariables;
-import com.jythonui.shared.RequestContext;
+import java.io.Serializable;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServer {
+public class RequestContext implements Serializable {
 
-    DialogInfo findDialog(RequestContext context, String dialogName);
+    private String token;
 
-    DialogVariables runAction(RequestContext context, DialogVariables v,
-            String dialogName, String actionId);
+    private String locale;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
 
 }

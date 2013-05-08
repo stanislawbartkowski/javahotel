@@ -10,21 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.client.util;
 
-import com.jythonui.shared.DialogInfo;
-import com.jythonui.shared.DialogVariables;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.common.CUtil;
+import com.jythonui.client.M;
 import com.jythonui.shared.RequestContext;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServer {
+public class RequestContextFactory {
 
-    DialogInfo findDialog(RequestContext context, String dialogName);
+    private RequestContextFactory() {
 
-    DialogVariables runAction(RequestContext context, DialogVariables v,
-            String dialogName, String actionId);
+    }
+
+    public static RequestContext construct() {
+        RequestContext req = new RequestContext();
+        String token = M.getSecToken();
+        if (!CUtil.EmptyS(token))
+            req.setToken(token);
+        String loca = Utils.getLocale();
+        if (loca != null)
+            req.setLocale(loca);
+        return req;
+    }
 
 }
