@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from adminpack import admin</import>
+		<method>admin.hotelaction({0},{1})</method>
+	</jython>
+
+
+	<list id="hotels" displayname="@lofhotels" elemformat="admin/hotel.xml">
+		<columns>
+			<column id="name" displayname="@name" />
+			<column id="descr" displayname="@description" />
+		</columns>
+	</list>
+
+</dialog>
