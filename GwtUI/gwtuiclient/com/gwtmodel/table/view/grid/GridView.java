@@ -51,7 +51,7 @@ class GridView implements IGridView {
         }
         for (int i = 0; i < colNo; i++) {
             C c = getC(-1, i);
-            g.setText(c.row, c.col, colTitles.get(i));
+            g.setText(c.row, c.col, iMess.getMessage(colTitles.get(i)));
         }
     }
 
@@ -64,7 +64,7 @@ class GridView implements IGridView {
         }
         for (int i = 0; i < rowNo; i++) {
             C c = getC(i, -1);
-            g.setText(c.row, c.col, rowTitles.get(i));
+            g.setText(c.row, c.col, iMess.getMessage(rowTitles.get(i)));
         }
     }
 

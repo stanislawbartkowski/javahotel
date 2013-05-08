@@ -26,6 +26,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
@@ -449,4 +450,13 @@ public class Utils {
     public static native String callJsStringFun(String jsonFun, String paramS) /*-{
 		return $wnd.eval(jsonFun + '(\'' + paramS + '\')');
     }-*/;
+
+    public static String getLocale() {
+        String loca = LocaleInfo.getCurrentLocale().getLocaleName();
+        if ("default".equals(loca))
+            return null;
+        if ("en".equals(loca))
+            return null;
+        return loca;
+    }
 }
