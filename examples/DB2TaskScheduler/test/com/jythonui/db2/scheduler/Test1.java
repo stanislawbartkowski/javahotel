@@ -19,7 +19,7 @@ public class Test1 extends TestHelper {
         d = getD(D);
         assertNotNull(d);
         DialogVariables v = new DialogVariables();
-        iJ.runAction(v, D, "readlist");
+        runAction(v, D, "readlist");
         ListOfRows li = v.getList("list");
         assertNotNull(li);
     }
@@ -34,9 +34,9 @@ public class Test1 extends TestHelper {
         v.setValueL("port", 50000L);
         v.setValueB("list_lineset", false);
 
-        iJ.runAction(v, D, "writedatasource");
+        runAction(v, D, "writedatasource");
         v = new DialogVariables();
-        iJ.runAction(v, D, "readlist");
+        runAction(v, D, "readlist");
         ListOfRows li = v.getList("list");
         assertNotNull(li);
         ListFormat list = d.findList("list");
@@ -64,9 +64,9 @@ public class Test1 extends TestHelper {
         v.setValueS("database", "SAMPLE");
         v.setValueL("port", 50004L);
 
-        iJ.runAction(v, D, "writedatasource");
+        runAction(v, D, "writedatasource");
         v = new DialogVariables();
-        iJ.runAction(v, D, "readlist");
+        runAction(v, D, "readlist");
         ListOfRows li = v.getList("list");
         assertNotNull(li);
         ListFormat list = d.findList("list");
@@ -90,9 +90,9 @@ public class Test1 extends TestHelper {
 
         v = new DialogVariables();
         v.setValueS("datasource", "aix");
-        iJ.runAction(v, D, "deletedatasource");
+        runAction(v, D, "deletedatasource");
         v = new DialogVariables();
-        iJ.runAction(v, D, "readlist");
+        runAction(v, D, "readlist");
         li = v.getList("list");
         assertNotNull(li);
         no = 0;
