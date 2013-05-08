@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from adminpack import admin</import>
+		<method>admin.useraction({0},{1})</method>
+	</jython>
+
+
+	<list id="users" displayname="@lofusers" elemformat="admin/user.xml">
+		<columns>
+			<column id="name" displayname="@name" />
+			<column id="descr" displayname="@description" />
+			<column id="change" displayname="" actionid="changepassword" defvalue="@changepassword" />
+		</columns>
+	</list>
+
+</dialog>
