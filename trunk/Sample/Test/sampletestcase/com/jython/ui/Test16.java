@@ -43,7 +43,7 @@ public class Test16 extends TestHelper {
                 "ludicrousspeed");
         assertNotNull(t);
         Holder.setAuth(true);
-        DialogInfo i = iServer.findDialog(t, "test38.xml");
+        DialogInfo i = findDialog(t, "test38.xml");
         assertNotNull(i);
         assertEquals(1, i.getSecurity().getFieldSec().get("glob").size());
         assertEquals(3, i.getSecurity().getFieldSec().get("globenum").size());
@@ -55,7 +55,7 @@ public class Test16 extends TestHelper {
         String t = iSec.authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
-        DialogInfo i = iServer.findDialog(t, "test39.xml");
+        DialogInfo i = findDialog(t, "test39.xml");
         assertNotNull(i);
         // before eyes of darkhelmet not hidden
         assertFalse(i.getSecurity().getFieldSec().get("globenum")
@@ -65,7 +65,7 @@ public class Test16 extends TestHelper {
         iSec.logout(t);
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
-        i = iServer.findDialog(t, "test39.xml");
+        i = findDialog(t, "test39.xml");
         assertNotNull(i);
         // hidden before other mortals
         assertTrue(i.getSecurity().getFieldSec().get("globenum")
@@ -80,7 +80,7 @@ public class Test16 extends TestHelper {
         String t = iSec.authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
-        DialogInfo i = iServer.findDialog(t, "test40.xml");
+        DialogInfo i = findDialog(t, "test40.xml");
         assertNotNull(i);
         // before darkhelmet neither hidden nor readonly
         assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
@@ -93,7 +93,7 @@ public class Test16 extends TestHelper {
         //
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
-        i = iServer.findDialog(t, "test40.xml");
+        i = findDialog(t, "test40.xml");
         assertNotNull(i);
         // lonestarr : hidden but readonly
         assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
@@ -107,7 +107,7 @@ public class Test16 extends TestHelper {
         //
         t = iSec.authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t);
-        i = iServer.findDialog(t, "test40.xml");
+        i = findDialog(t, "test40.xml");
         assertNotNull(i);
         // other hidden and not readonly
         assertTrue(i.getSecurity().getButtSec().get("ID").contains("hidden"));

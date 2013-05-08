@@ -28,6 +28,8 @@ import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
+import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.RequestContext;
 
 /**
  * @author hotel
@@ -70,10 +72,28 @@ public class TestHelper {
     }
 
     protected DialogFormat findDialog(String dialogName) {
-        DialogInfo d = iServer.findDialog(null, dialogName);
+        DialogInfo d = iServer.findDialog(new RequestContext(), dialogName);
         if (d == null)
             return null;
         return d.getDialog();
+    }
+    
+    protected DialogInfo findDialog(String token, String dialogName) {
+        RequestContext req = new RequestContext();
+        req.setToken(token);
+        return iServer.findDialog(req, dialogName);
+    }
+
+    protected void runAction(DialogVariables v, String dialogName,
+            String actionId) {
+        iServer.runAction(new RequestContext(), v, dialogName, actionId);
+    }
+    
+    protected void runAction(String token, DialogVariables v, String dialogName,
+            String actionId) {
+        RequestContext req = new RequestContext();
+        req.setToken(token);
+        iServer.runAction(req, v, dialogName, actionId);
     }
 
 }

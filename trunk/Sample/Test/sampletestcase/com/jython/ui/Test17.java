@@ -30,7 +30,7 @@ public class Test17 extends TestHelper {
         String t = iSec.authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
-        DialogInfo i = iServer.findDialog(t, "test41.xml");
+        DialogInfo i = findDialog(t, "test41.xml");
         assertNotNull(i);
         assertEquals(0, i.getDialog().getCheckList().size());
         DialSecurityInfo elem = i.getSecurity().getlSecur().get("lista");
@@ -39,7 +39,7 @@ public class Test17 extends TestHelper {
 
         String t1 = iSec.authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t1);
-        i = iServer.findDialog(t1, "test41.xml");
+        i = findDialog(t1, "test41.xml");
         assertNotNull(i);
         elem = i.getSecurity().getlSecur().get("lista");
         assertNotNull(elem);
@@ -55,8 +55,7 @@ public class Test17 extends TestHelper {
                 "ludicrousspeed");
         assertNotNull(t);
         DialogVariables v = new DialogVariables();
-        v.setSecurityToken(t);
-        iServer.runAction(v, "test42.xml", "testsecu");
+        runAction(t,v, "test42.xml", "testsecu");
         FieldValue val = v.getValue("OK");
         assertTrue(val.getValueB());
         iSec.logout(t);
@@ -67,7 +66,7 @@ public class Test17 extends TestHelper {
         String t = iSec.authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
-        DialogInfo i = iServer.findDialog(t, "test43.xml");
+        DialogInfo i = findDialog(t, "test43.xml");
         assertNotNull(i);
         assertFalse(i.getSecurity().getButtSec().get("ID").contains("hidden"));
         assertFalse(i.getSecurity().getButtSec().get("ID1").contains("hidden"));
@@ -78,7 +77,7 @@ public class Test17 extends TestHelper {
 
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
-        i = iServer.findDialog(t, "test43.xml");
+        i = findDialog(t, "test43.xml");
         assertTrue(i.getSecurity().getButtSec().get("ID").contains("hidden"));
         assertFalse(i.getSecurity().getButtSec().get("ID1").contains("hidden"));
         assertTrue(i.getSecurity().getButtSec().get("ID1").contains("readonly"));
@@ -92,7 +91,7 @@ public class Test17 extends TestHelper {
         String t = iSec.authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
-        DialogInfo i = iServer.findDialog(t, "test44.xml");
+        DialogInfo i = findDialog(t, "test44.xml");
         assertNotNull(i);
         DialSecurityInfo sI = i.getSecurity().getListSecur().get("list");
         assertNotNull(sI);
@@ -102,7 +101,7 @@ public class Test17 extends TestHelper {
 
         t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
-        i = iServer.findDialog(t, "test44.xml");
+        i = findDialog(t, "test44.xml");
         assertNotNull(i);
         sI = i.getSecurity().getListSecur().get("list");
         assertNotNull(sI);

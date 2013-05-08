@@ -12,11 +12,14 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
 import com.jythonui.server.holder.Holder;
+import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ListFormat;
@@ -32,6 +35,13 @@ public class Test19 extends TestHelper {
         mess = appMess.getMessN("MESS1");
         System.out.println(mess);
         assertEquals("app message", mess);
+        
+        CustomMessages cmess = appMess.getCustomMess();
+        String val = cmess.getAttr("MESSPL");
+        System.out.println(val);
+        assertEquals("english message",val);
+
+        
         Holder.SetLocale("pl");
         mess = appMess.getMessN("MESS1");
         System.out.println(mess);
@@ -41,6 +51,11 @@ public class Test19 extends TestHelper {
         assertEquals("pl message", mess);
         System.out.println(Holder.getLocale());
         assertEquals("pl",Holder.getLocale());
+        
+        cmess = appMess.getCustomMess();
+        val = cmess.getAttr("MESSPL");
+        System.out.println(val);
+        assertEquals("pl message",val);
     }
     
     

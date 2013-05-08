@@ -39,7 +39,8 @@ public class Test12 extends TestHelper {
         for (TypesDescr t : d.getTypeList()) {
             for (TypedefDescr ty : t.getTypeList()) {
                 System.out.println(ty.getId());
-                if (ty.eqId("datasource")) ok = true;
+                if (ty.eqId("datasource"))
+                    ok = true;
             }
         }
         assertTrue(ok);
@@ -53,21 +54,21 @@ public class Test12 extends TestHelper {
         assertEquals(1, d.getTypeList().size());
         assertEquals(2, d.getTypeList().get(0).getTypeList().size());
         DialogVariables v = new DialogVariables();
-        iServer.runAction(v, "test26.xml", ICommonConsts.BEFORE);
+        runAction(v, "test26.xml", ICommonConsts.BEFORE);
         ListOfRows ro = v.getEnumList().get("tenum");
         assertNotNull(ro);
-        assertEquals(100,ro.getRowList().size());
+        assertEquals(100, ro.getRowList().size());
         for (RowContent r : ro.getRowList()) {
-           String s = r.getRow(0).getValueS();
-           System.out.println(s);
-           String name = r.getRow(1).getValueS();
-           System.out.println(name);
-           assertNotNull(s);
-           assertNotNull(name);
+            String s = r.getRow(0).getValueS();
+            System.out.println(s);
+            String name = r.getRow(1).getValueS();
+            System.out.println(name);
+            assertNotNull(s);
+            assertNotNull(name);
         }
-        assertEquals(0,v.getRowList().size());
+        assertEquals(0, v.getRowList().size());
     }
-    
+
     @Test
     public void test3() {
         DialogFormat d = findDialog("test27.xml");
@@ -78,7 +79,6 @@ public class Test12 extends TestHelper {
         System.out.println(li.getStandButt());
     }
 
-    
     @Test
     public void test4() {
         DialogFormat d = findDialog("test28.xml");
@@ -87,7 +87,7 @@ public class Test12 extends TestHelper {
         assertNotNull(f);
         assertTrue(f.isHelperRefresh());
         assertTrue(f.isHelper());
-        
+
         f = d.findFieldItem("glob2");
         assertNotNull(f);
         assertFalse(f.isHelperRefresh());

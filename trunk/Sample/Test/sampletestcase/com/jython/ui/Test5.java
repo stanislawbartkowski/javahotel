@@ -53,7 +53,7 @@ public class Test5 extends TestHelper {
         list.addRow(row);
         v.setRowList("lista1", list);
 
-        iServer.runAction(v, "test11.xml", "writelist");
+        runAction(v, "test11.xml", "writelist");
         FieldValue ok = v.getValue("OK");
         assertNotNull(ok);
         Boolean b = ok.getValueB();
@@ -93,7 +93,7 @@ public class Test5 extends TestHelper {
         list.addRow(row);
         v.setRowList("lista1", list);
 
-        iServer.runAction(v, "test11.xml", "checkList");
+        runAction(v, "test11.xml", "checkList");
         FieldValue ok = v.getValue("OK");
         assertNotNull(ok);
         Boolean b = ok.getValueB();
@@ -125,7 +125,7 @@ public class Test5 extends TestHelper {
         assertNotNull(li);
         RowIndex rI = new RowIndex(li.getColumns());
 
-        iServer.runAction(v, "test12.xml", "createList");
+        runAction(v, "test12.xml", "createList");
         ListOfRows l = v.getRowList().get("lista");
         assertNotNull(l);
         assertEquals(100, l.getRowList().size());

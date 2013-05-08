@@ -27,7 +27,7 @@ public class Test2 extends TestHelper {
     @Test
     public void test1() {
         DialogVariables v = new DialogVariables();
-        iServer.runAction(v, "test3.xml", "before");
+        runAction(v, "test3.xml", "before");
         FieldValue val = v.getValue("glob1");
         assertNotNull(val);
         assertEquals(val.getValueS(), "aaaa");
@@ -43,7 +43,7 @@ public class Test2 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue((Integer)null);
         v.setValue("globint", val);
-        iServer.runAction(v, "test4.xml", "before");
+        runAction(v, "test4.xml", "before");
         val = v.getValue("globint");
         assertNotNull(val);
         assertNull(val.getValueI());
@@ -55,7 +55,7 @@ public class Test2 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue((Integer)null);
         v.setValue("globint", val);
-        iServer.runAction(v, "test4.xml", "testnone");
+        runAction(v, "test4.xml", "testnone");
         val = v.getValue("result");
         assertNotNull(val);
         assertEquals("IsNone",val.getValueS());   
@@ -67,7 +67,7 @@ public class Test2 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue((Integer)1);
         v.setValue("globint", val);
-        iServer.runAction(v, "test4.xml", "inc");
+        runAction(v, "test4.xml", "inc");
         val = v.getValue("globint");
         assertNotNull(val);
         assertEquals((Integer)2,val.getValueI());
@@ -79,7 +79,7 @@ public class Test2 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue((Long)1l);
         v.setValue("globlong", val);
-        iServer.runAction(v, "test5.xml", "retlong");
+        runAction(v, "test5.xml", "retlong");
         val = v.getValue("globlong");
         assertNotNull(val);
         assertEquals((Long)1l,val.getValueL());
@@ -91,7 +91,7 @@ public class Test2 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue((Long)1l);
         v.setValue("globlong", val);
-        iServer.runAction(v, "test5.xml", "setvalue");
+        runAction(v, "test5.xml", "setvalue");
         val = v.getValue("globlong");
         assertNotNull(val);
         assertEquals((Long)99l,val.getValueL());

@@ -43,7 +43,7 @@ public class Test18 extends TestHelper {
         DialogFormat d = findDialog("test45.xml");
         assertNotNull(d);
         DialogVariables v = new DialogVariables();
-        iServer.runAction(v, "test45.xml", "before");
+        runAction(v, "test45.xml", "before");
         DialogCheckVariables var = v.getCheckVariables().get("check");
         assertNotNull(var);
         ListOfRows l = var.getLines();
@@ -159,7 +159,7 @@ public class Test18 extends TestHelper {
         DialogCheckVariables var = new DialogCheckVariables();
         var.getVal().put("hotel1", lRows);
         v.getCheckVariables().put("check", var);
-        iServer.runAction(v, "test45.xml", "dosth");
+        runAction(v, "test45.xml", "dosth");
         FieldValue resV = v.getValue("OKTEST");
         assertNotNull(resV);
         assertTrue(resV.getValueB());
