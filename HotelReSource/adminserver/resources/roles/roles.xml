@@ -1,5 +1,0 @@
-<roles>
-	<role name="admin" description="@administrator" />
-	<role name="rec" description="@receptionist" />
-	<role name="man" description="@manager" />
-</roles>
