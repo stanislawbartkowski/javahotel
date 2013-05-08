@@ -14,8 +14,8 @@ public class Test2 extends TestHelper {
         DialogFormat d = getD(D);
         DialogVariables v = new DialogVariables();
         v = new DialogVariables();
-        iJ.runAction(v, D, "cleardefapar");
-        iJ.runAction(v, D, "readdefaparam");
+        runAction(v, D, "cleardefapar");
+        runAction(v, D, "readdefaparam");
         String s = v.getValueS("par1");
         System.out.println(s);
         assertEquals(s, "");
@@ -29,8 +29,8 @@ public class Test2 extends TestHelper {
         test1();
         DialogFormat d = getD(D);
         DialogVariables v = new DialogVariables();
-        iJ.runAction(v, D, "writedefaparam");
-        iJ.runAction(v, D, "readdefaparam");
+        runAction(v, D, "writedefaparam");
+        runAction(v, D, "readdefaparam");
         String s = v.getValueS("par1");
         System.out.println(s);
         assertEquals(s, "val1");
