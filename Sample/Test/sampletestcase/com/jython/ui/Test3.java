@@ -37,17 +37,17 @@ public class Test3 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue(new BigDecimal(1.1),4);
         v.setValue("globdecimal", val);
-        iServer.runAction(v, "test6.xml", "name");
+        runAction(v, "test6.xml", "name");
         val = v.getValue("globdecimal");
         assertNotNull(val);
         equalB(1.1,val.getValueBD(),4);
         
-        iServer.runAction(v, "test6.xml", "setInt");
+        runAction(v, "test6.xml", "setInt");
         val = v.getValue("globdecimal");
         assertNotNull(val);
         equalB(101,val.getValueBD(),4);
         
-        iServer.runAction(v, "test6.xml", "setFloat");
+        runAction(v, "test6.xml", "setFloat");
         val = v.getValue("globdecimal");
         assertNotNull(val);
         equalB(101.84,val.getValueBD(),4);
@@ -59,7 +59,7 @@ public class Test3 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue((Date)null);
         v.setValue("globdate", val);
-        iServer.runAction(v, "test7.xml", "name");
+        runAction(v, "test7.xml", "name");
         val = v.getValue("globdate");
         assertNotNull(val);
         assertNull(val.getValueD());
@@ -73,7 +73,7 @@ public class Test3 extends TestHelper {
         da.setYear(99); da.setMonth(1); da.setDate(10);
         val.setValue(da);
         v.setValue("globdate", val);
-        iServer.runAction(v, "test7.xml", "name");
+        runAction(v, "test7.xml", "name");
         val = v.getValue("globdate");
         assertNotNull(val);
         assertNotNull(val.getValueD());
@@ -90,7 +90,7 @@ public class Test3 extends TestHelper {
         da.setYear(99); da.setMonth(1); da.setDate(10);
         val.setValue(da);
         v.setValue("globdate", val);
-        iServer.runAction(v, "test7.xml", "setDate");
+        runAction(v, "test7.xml", "setDate");
         val = v.getValue("globdate");
         assertNotNull(val);
         assertNotNull(val.getValueD());
@@ -107,7 +107,7 @@ public class Test3 extends TestHelper {
         da.setYear(99); da.setMonth(1); da.setDate(10);
         val.setValue(da);
         v.setValue("globtimestamp", val);
-        iServer.runAction(v, "test8.xml", "name");
+        runAction(v, "test8.xml", "name");
         val = v.getValue("globtimestamp");
         assertNotNull(val);
         assertNotNull(val.getValueT());
@@ -128,7 +128,7 @@ public class Test3 extends TestHelper {
         ta.setSeconds(31);
         val.setValue(ta);
         v.setValue("globtimestamp", val);
-        iServer.runAction(v, "test8.xml", "name");
+        runAction(v, "test8.xml", "name");
         val = v.getValue("globtimestamp");
         assertNotNull(val);
         assertNotNull(val.getValueT());
@@ -147,7 +147,7 @@ public class Test3 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue((Timestamp)null);
         v.setValue("globtimestamp", val);
-        iServer.runAction(v, "test8.xml", "setDateTimeOnly");
+        runAction(v, "test8.xml", "setDateTimeOnly");
         val = v.getValue("globtimestamp");
         assertNotNull(val);
         assertNotNull(val.getValueT());
@@ -162,7 +162,7 @@ public class Test3 extends TestHelper {
         FieldValue val = new FieldValue();
         val.setValue((Timestamp)null);
         v.setValue("globtimestamp", val);
-        iServer.runAction(v, "test8.xml", "setTimeOnly");
+        runAction(v, "test8.xml", "setTimeOnly");
         val = v.getValue("globtimestamp");
         assertNotNull(val);
         assertNotNull(val.getValueT());

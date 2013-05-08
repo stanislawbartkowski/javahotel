@@ -36,7 +36,7 @@ public class Test13 extends TestHelper {
         DialogFormat d = findDialog("test29.xml");
         assertNotNull(d);
         DialogVariables v = new DialogVariables();
-        iServer.runAction(v, "test26.xml", ICommonConsts.BEFORE);
+        runAction(v, "test26.xml", ICommonConsts.BEFORE);
         ListOfRows ro = v.getEnumList().get("tenum");
         assertNotNull(ro);
         assertEquals(100, ro.getRowList().size());
@@ -50,7 +50,7 @@ public class Test13 extends TestHelper {
         assertNotNull(d);
         FieldItem f = d.findFieldItem("globhelper");
         DialogVariables v = new DialogVariables();
-        iServer.runAction(v, "test26.xml", f.getTypeName());
+        runAction(v, "test26.xml", f.getTypeName());
         ListOfRows ro = v.getEnumList().get("tehelper");
         assertNotNull(ro);
         assertEquals(10, ro.getRowList().size());

@@ -67,7 +67,7 @@ public class Test14 extends TestHelper {
         DialogFormat d = findDialog("test35.xml");
         assertNotNull(d);
         DialogVariables v = new DialogVariables();
-        iServer.runAction(v, "test35.xml", "before");
+        runAction(v, "test35.xml", "before");
         ListOfRows ro = v.getList("list");
         assertNotNull(ro);
         assertEquals(20, ro.getSize());
@@ -75,7 +75,7 @@ public class Test14 extends TestHelper {
         v = new DialogVariables();
         v.setValueL(ICommonConsts.JLIST_READCHUNKSTART, 0);
         v.setValueL(ICommonConsts.JLIST_READCHUNKLENGTH, 30);
-        iServer.runAction(v, "test35.xml", ICommonConsts.JLIST_READCHUNK);
+        runAction(v, "test35.xml", ICommonConsts.JLIST_READCHUNK);
         ro = v.getList("list");
         assertEquals(30, ro.getRowList().size());
     }
@@ -85,7 +85,7 @@ public class Test14 extends TestHelper {
         DialogFormat d = findDialog("test35.xml");
         assertNotNull(d);
         DialogVariables v = new DialogVariables();
-        iServer.runAction(v, "test35.xml", "listgetsize");
+        runAction(v, "test35.xml", "listgetsize");
         ListOfRows ro = v.getList("list");
         assertNotNull(ro);
         assertEquals(74, ro.getSize());

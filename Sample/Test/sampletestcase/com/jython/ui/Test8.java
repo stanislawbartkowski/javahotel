@@ -36,7 +36,7 @@ public class Test8 extends TestHelper {
         po.clearAll();
         v.setValueS("pnumber", "P0001");
         v.setValueS("pname", "Ivan Severe");
-        iServer.runAction(v, "test18.xml", "add");
+        runAction(v, "test18.xml", "add");
 
         IPerson p = po.construct();
         List<IPerson> pList = po.getAllPersons();
@@ -61,7 +61,7 @@ public class Test8 extends TestHelper {
         v.setValueS("pname", "Ivan Terrible");
         v.setValueL("id", p.getId());
 
-        iServer.runAction(v, "test18.xml", "change");
+        runAction(v, "test18.xml", "change");
 
         pList = po.getAllPersons();
         assertEquals(1, pList.size());
@@ -85,7 +85,7 @@ public class Test8 extends TestHelper {
         DialogVariables v = new DialogVariables();
         v.setValueS("pnumber", "XXX");
         v.setValueS("pname", "XXX");
-        iServer.runAction(v, "test18.xml", "readall");
+        runAction(v, "test18.xml", "readall");
 
         ListOfRows li = v.getList("list");
         assertNotNull(li);

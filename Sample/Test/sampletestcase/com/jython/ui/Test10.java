@@ -76,7 +76,7 @@ public class Test10 extends TestHelper {
         po.savePerson(p);
 
         DialogVariables v = new DialogVariables();
-        iServer.runAction(v, "test18.xml", "checkifexist");
+        runAction(v, "test18.xml", "checkifexist");
         FieldValue val = v.getValue("OK");
         assertTrue(val.getValueB());
     }

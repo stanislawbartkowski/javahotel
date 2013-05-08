@@ -31,7 +31,7 @@ public class Test9 extends TestHelper {
         assertNotNull(d);
         
         DialogVariables v = new DialogVariables();
-        iServer.runAction(v, "test19.xml", "before");
+        runAction(v, "test19.xml", "before");
         String val = v.getValueS("AAAA");
         assertEquals("aaaa",val);
     }
