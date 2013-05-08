@@ -13,10 +13,9 @@
 package com.jythonui.server.getmess;
 
 import java.text.MessageFormat;
-import java.util.Enumeration;
 import java.util.Properties;
-import com.jythonui.server.Util;
 
+import com.jythonui.server.Util;
 import com.jythonui.shared.CustomMessages;
 
 class GetLogMess implements IGetLogMess {
@@ -45,9 +44,9 @@ class GetLogMess implements IGetLogMess {
     @Override
     public CustomMessages getCustomMess() {
         CustomMessages cust = new CustomMessages();
-        Util.toElem(cust, mess);
         if (messdefa != null)
             Util.toElem(cust, messdefa);
+        Util.toElem(cust, mess);
         return cust;
     }
 

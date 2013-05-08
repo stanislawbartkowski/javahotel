@@ -17,6 +17,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.RequestContext;
 
 /**
  * The client side stub for the RPC service.
@@ -24,14 +25,15 @@ import com.jythonui.shared.DialogVariables;
 @RemoteServiceRelativePath("greet")
 public interface JythonService extends RemoteService {
 
-    DialogInfo getDialogFormat(String token, String name);
+    DialogInfo getDialogFormat(RequestContext context, String name);
 
-    DialogVariables runAction(DialogVariables v, String name, String actionId);
+    DialogVariables runAction(RequestContext context, DialogVariables v,
+            String name, String actionId);
 
-    ClientProp getClientRes();
-    
-    String login(String shiroRealm,String user, String password);
-    
+    ClientProp getClientRes(RequestContext context);
+
+    String login(String shiroRealm, String user, String password);
+
     void logout(String token);
 
 }

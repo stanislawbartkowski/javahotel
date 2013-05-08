@@ -21,6 +21,7 @@ import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.RequestContext;
 
 /**
  * The server side implementation of the RPC service.
@@ -30,22 +31,22 @@ public class JythonServiceImpl extends RemoteServiceServlet implements
         JythonService {
 
     @Override
-    public DialogInfo getDialogFormat(String token, String name) {
+    public DialogInfo getDialogFormat(RequestContext context, String name) {
         IJythonUIServer iServer = Holder.getiServer();
-        return iServer.findDialog(token, name);
+        return iServer.findDialog(context, name);
     }
 
     @Override
-    public DialogVariables runAction(DialogVariables v, String name,
-            String actionId) {
+    public DialogVariables runAction(RequestContext context, DialogVariables v,
+            String name, String actionId) {
         IJythonUIServer iServer = Holder.getiServer();
-        return iServer.runAction(v, name, actionId);
+        return iServer.runAction(context, v, name, actionId);
     }
 
     @Override
-    public ClientProp getClientRes() {
+    public ClientProp getClientRes(RequestContext context) {
         IJythonClientRes iClient = Holder.getiClient();
-        return iClient.getClientRes();
+        return iClient.getClientRes(context);
 
     }
 

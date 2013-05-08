@@ -157,4 +157,6 @@ public interface ICommonConsts {
     String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
     String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
 
+    String GWT_LOCALE = "GWT_LOCALE";
+
 }

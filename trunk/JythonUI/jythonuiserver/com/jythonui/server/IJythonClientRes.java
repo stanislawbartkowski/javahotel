@@ -13,9 +13,10 @@
 package com.jythonui.server;
 
 import com.jythonui.shared.ClientProp;
+import com.jythonui.shared.RequestContext;
 
 public interface IJythonClientRes {
     
-    ClientProp getClientRes();
+    ClientProp getClientRes(RequestContext context);
 
 }
