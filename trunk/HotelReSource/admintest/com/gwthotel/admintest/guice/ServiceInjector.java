@@ -14,9 +14,14 @@ package com.gwthotel.admintest.guice;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
+import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.security.ISecurity;
 
 /**
@@ -46,5 +51,15 @@ public class ServiceInjector {
     public static IHotelAdmin constructHotelAdmin() {
         return injector.getInstance(IHotelAdmin.class);
     }
-   
+
+    public static IGetHotelRoles constructHotelRoles() {
+        return injector.getInstance(IGetHotelRoles.class);
+    }
+
+    public static IGetLogMess getLogMess() {
+        return injector.getInstance(Key.get(IGetLogMess.class,
+                Names.named(IHotelConsts.MESSNAMED)));
+
+    }
+
 }

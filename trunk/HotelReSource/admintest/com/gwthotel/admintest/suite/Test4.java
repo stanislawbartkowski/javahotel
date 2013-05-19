@@ -1,0 +1,138 @@
+package com.gwthotel.admintest.suite;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.Factory;
+import org.junit.Test;
+
+import com.gwthotel.admin.Hotel;
+import com.gwthotel.admin.HotelRoles;
+import com.gwthotel.admin.Person;
+import com.gwthotel.shared.IHotelConsts;
+import com.jythonui.server.holder.Holder;
+import com.jythonui.server.security.token.ICustomSecurity;
+import com.jythonui.server.security.token.PasswordSecurityToken;
+import com.jythonui.shared.CustomSecurity;
+
+public class Test4 extends TestHelper {
+
+    private PasswordSecurityToken construct(String person, String password,
+            String hotel) {
+        CustomSecurity cust = new CustomSecurity();
+        cust.setAttr(IHotelConsts.HOTELNAME, hotel);
+        ICustomSecurity cu = Holder.getSecurityConvert().construct(cust);
+        PasswordSecurityToken tok = new PasswordSecurityToken(person, password,
+                cu);
+        return tok;
+    }
+
+    private void testShiro() {
+        Factory<org.apache.shiro.mgt.SecurityManager> factory = new IniSecurityManagerFactory(
+                realM);
+        org.apache.shiro.mgt.SecurityManager securityManager = factory
+                .getInstance();
+        SecurityUtils.setSecurityManager(securityManager);
+        Subject currentUser = SecurityUtils.getSubject();
+        PasswordSecurityToken token = construct("user", "secret", null);
+        try {
+            currentUser.login(token);
+            fail("Not expected here");
+        } catch (Exception e) {
+            System.out.println("Is expected, hotel is null");
+        }
+        token = construct("user", "secret", "hotel");
+        try {
+            currentUser.login(token);
+            fail("Not expected here");
+        } catch (Exception e) {
+            System.out.println("Is expected, hotel does not exist");
+        }
+        // now create a hotel
+        Hotel ho = new Hotel();
+        ho.setName("hotel");
+        ho.setDescription("Grzyb");
+        List<HotelRoles> roles = new ArrayList<HotelRoles>();
+        iAdmin.addOrModifHotel(ho, roles);
+        try {
+            currentUser.login(token);
+            fail("Not expected here");
+        } catch (Exception e) {
+            System.out.println("Is expected, user do not have any role");
+        }
+        roles = new ArrayList<HotelRoles>();
+        Person pe = new Person();
+        pe.setName("user");
+        pe.setDescription("user name");
+        HotelRoles role = new HotelRoles(pe);
+        role.getRoles().add("man");
+        roles.add(role);
+        iAdmin.addOrModifHotel(ho, roles);
+        currentUser.login(token);
+        System.out.println("Welcome ..");
+        assertTrue("Man role expected", currentUser.hasRole("man"));
+        assertFalse("Admin role not expected", currentUser.hasRole("admin"));
+        currentUser.logout();
+    }
+
+    @Test
+    public void test1() {
+        iAdmin.clearAll();
+        Person pe = new Person();
+        pe.setName("user");
+        pe.setDescription("user name");
+        List<HotelRoles> roles = new ArrayList<HotelRoles>();
+        iAdmin.addOrModifPerson(pe, roles);
+        assertFalse(iAdmin.validatePasswordForPerson("user", "secret"));
+        iAdmin.changePasswordForPerson("user", "secret");
+        assertEquals("secret", iAdmin.getPassword("user"));
+        testShiro();
+    }
+
+    private void testShiro1() {
+        Factory<org.apache.shiro.mgt.SecurityManager> factory = new IniSecurityManagerFactory(
+                realM);
+        org.apache.shiro.mgt.SecurityManager securityManager = factory
+                .getInstance();
+        SecurityUtils.setSecurityManager(securityManager);
+        Subject currentUser = SecurityUtils.getSubject();
+        PasswordSecurityToken token = construct("user", "secret", "hotel");
+        currentUser.login(token);
+        assertTrue("Man role expected", currentUser.hasRole("mana"));
+        assertTrue("Acc role expected", currentUser.hasRole("acc"));
+        assertFalse("Rybka role not expected", currentUser.hasRole("rybka"));
+    }
+
+    @Test
+    public void test2() {
+        iAdmin.clearAll();
+        Person pe = new Person();
+        pe.setName("user");
+        pe.setDescription("user name");
+        List<HotelRoles> roles = new ArrayList<HotelRoles>();
+        iAdmin.addOrModifPerson(pe, roles);
+        iAdmin.changePasswordForPerson("user", "secret");
+        Hotel ho = new Hotel();
+
+        ho.setName("hotel");
+        ho.setDescription("Pod Pieskiem");
+        roles = new ArrayList<HotelRoles>();
+        pe = new Person();
+        pe.setName("user");
+        HotelRoles rol = new HotelRoles(pe);
+        rol.getRoles().add("mana");
+        rol.getRoles().add("acc");
+        roles.add(rol);
+        iAdmin.addOrModifHotel(ho, roles);
+        testShiro1();
+
+    }
+}

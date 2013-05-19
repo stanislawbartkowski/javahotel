@@ -31,6 +31,8 @@ public interface IHotelAdmin {
     void changePasswordForPerson(String person, String password);
 
     boolean validatePasswordForPerson(String person, String password);
+    
+    String getPassword(String person);
 
     void clearAll();
 

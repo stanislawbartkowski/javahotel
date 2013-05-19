@@ -22,4 +22,13 @@ public interface IHotelConsts {
 
     String MESSNAMED = "hotelmessnamed";
 
+    String HOTELADMINEJBJNDI = "java:global/HotelAdmin";
+    String TESTHOTELADMINEJBJNDI = "java:global/TestHotelAdmin";
+
+    String TESTHOTELADMIN = "testhoteladmin";
+    String TESTFACTORYMANAGER = "testfactorymanager";
+
+    String HOTELREALM = "HotelRealm";
+
+    String HOTELNAME = "hotelloginname";
 }

@@ -1,4 +1,5 @@
 from com.gwthotel.hotel.server.service import H
+from java.util import ArrayList
 
 class MESS :
 
@@ -13,3 +14,5 @@ def printvar(method,action,var):
   for k in var.keys() : 
     print k, var[k]
  
+def createArrayList() :
+  return ArrayList()   

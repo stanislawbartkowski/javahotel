@@ -18,13 +18,13 @@ import java.util.Properties;
 
 import javax.inject.Provider;
 
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.shared.ICommonConsts;
 
 public class HotelMessProvider implements Provider<IGetLogMess> {
 
-    private static final String fileName = ICommonConsts.RESOURCES
+    private static final String fileName = ISharedConsts.RESOURCES
             + "/hmess/mess.properties";
 
     private Properties mess = null;

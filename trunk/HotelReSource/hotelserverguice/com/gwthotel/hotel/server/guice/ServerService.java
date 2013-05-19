@@ -18,22 +18,26 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.jpa.HotelAdminJpa;
+import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.roles.GetHotelRoles;
 import com.gwthotel.hotel.server.provider.EntityManagerFactoryProvider;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.mess.HotelMessProvider;
+import com.gwthotel.resource.GetResourceJNDI;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
-import com.jython.ui.server.jpastoragekey.StorageRegistryFactory;
-import com.jythonui.server.IConsts;
+import com.jython.ui.server.jpastoragekey.StorageJpaRegistryProvider;
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.ServerPropertiesEnv;
+import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guice.JythonServerService;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
  * @author hotel
@@ -50,24 +54,26 @@ public class ServerService {
                     .in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
                     Singleton.class);
-            bind(IStorageRegistryFactory.class)
-                    .to(StorageRegistryFactory.class).in(Singleton.class);
+            bind(IStorageRegistryFactory.class).to(
+                    StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
             bind(EntityManagerFactory.class)
                     .annotatedWith(
-                            Names.named(IConsts.STORAGEREGISTRYENTITYMANAGERFACTORY))
+                            Names.named(ISharedConsts.STORAGEREGISTRYENTITYMANAGERFACTORY))
                     .toProvider(EntityManagerFactoryProvider.class)
                     .in(Singleton.class);
-            bind(IHotelAdmin.class).to(HotelAdminJpa.class).in(Singleton.class);
+            bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(Singleton.class);
             bind(IGetHotelRoles.class).to(GetHotelRoles.class).in(
                     Singleton.class);
-//            bind(String.class).annotatedWith(Names.named(IConsts.APPMESS))
-//                    .toInstance("resources/bundle/messages");
             bind(Mess.class).in(Singleton.class);
             bind(IGetLogMess.class)
                     .annotatedWith(Names.named(IHotelConsts.MESSNAMED))
                     .toProvider(HotelMessProvider.class).in(Singleton.class);
+            bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
+                    Singleton.class);
+            bind(IStorageRealmRegistry.class).toProvider(StorageJpaRegistryProvider.class).in(
+                    Singleton.class);
             requestStatic();
             requestStaticInjection(H.class);
         }
