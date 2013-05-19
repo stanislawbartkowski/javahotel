@@ -12,13 +12,16 @@
  */
 package com.gwthotel.admin;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gwthotel.shared.PropDescription;
 
-public class HotelRoles {
+public class HotelRoles implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     private final PropDescription object;
     private final List<String> roles = new ArrayList<String>();
 

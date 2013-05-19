@@ -18,10 +18,14 @@ import org.junit.Before;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admintest.guice.ServiceInjector;
-import com.gwthotel.hotel.server.service.H;
 import com.gwtmodel.testenhancer.ITestEnhancer;
+import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogInfo;
+import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.RequestContext;
 
 /**
  * @author hotel
@@ -32,12 +36,18 @@ public class TestHelper {
     protected final IHotelAdmin iAdmin;
     protected final IGetHotelRoles iRoles;
     private final ITestEnhancer iTest;
+    protected final IJythonUIServer iServer;
+    protected final ISecurity iSec;
+    
+    protected final String realM = "classpath:resources/shiro/hoteluser.ini";
+
 
     public TestHelper() {
         iAdmin = ServiceInjector.constructHotelAdmin();
-        iRoles = H.getHotelRoles();
         iTest = ServiceInjector.constructITestEnhancer();
-
+        iRoles = ServiceInjector.constructHotelRoles();
+        iServer = ServiceInjector.contructJythonUiServer();
+        iSec = ServiceInjector.constructSecurity();
     }
 
     @Before
@@ -49,6 +59,18 @@ public class TestHelper {
     @After
     public void tearDown() {
         iTest.afterTest();
+    }
+
+    protected DialogFormat findDialog(String dialogName) {
+        DialogInfo d = iServer.findDialog(new RequestContext(), dialogName);
+        if (d == null)
+            return null;
+        return d.getDialog();
+    }
+
+    protected void runAction(DialogVariables v, String dialogName,
+            String actionId) {
+        iServer.runAction(new RequestContext(), v, dialogName, actionId);
     }
 
 }

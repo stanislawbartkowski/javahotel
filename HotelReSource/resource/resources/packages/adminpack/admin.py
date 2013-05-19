@@ -4,6 +4,7 @@ from com.gwthotel.admin import Person
 from com.gwthotel.admin import HotelRoles
 from util.util import MESS
 from util.util import printvar
+from util.util import createArrayList
 
 adminI = H.getHotelAdmin()
 M = MESS()
@@ -82,7 +83,7 @@ def __getValuesForPermission(var,hotel):
         map[rowname] = seq
       
 def __prepareValuesForPermission(var,hotel):   
-    l = []
+    l = createArrayList()
     if not var.has_key("JCHECK_MAP") : return l         
     map = var["JCHECK_MAP"]["perm"]
     
@@ -95,7 +96,7 @@ def __prepareValuesForPermission(var,hotel):
         for r in seq :
             name = r["id"]
             if r["val"] : role.getRoles().add(name)
-        l.append(role)
+        l.add(role)
     return l            
 
 def hotelaction(action,var) :

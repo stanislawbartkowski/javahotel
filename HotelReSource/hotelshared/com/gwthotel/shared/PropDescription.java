@@ -12,9 +12,26 @@
  */
 package com.gwthotel.shared;
 
-import com.jythonui.shared.ElemDescription;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-abstract public class PropDescription extends ElemDescription {
+abstract public class PropDescription implements Serializable {
+
+    // important: not final !
+    private Map<String, String> attr = new HashMap<String, String>();
+
+    public Map<String, String> getMap() {
+        return attr;
+    }
+
+    public void setAttr(String key, String value) {
+        attr.put(key, value);
+    }
+
+    public String getAttr(String key) {
+        return attr.get(key);
+    }
 
     public String getId() {
         return getAttr(IHotelConsts.ID);

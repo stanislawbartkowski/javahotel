@@ -37,9 +37,9 @@ import com.gwthotel.admin.Role;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
-import com.jythonui.server.SaxUtil;
+import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.shared.SaxUtil;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.JythonUIFatal;
 
 public class GetHotelRoles implements IGetHotelRoles {
@@ -67,7 +67,7 @@ public class GetHotelRoles implements IGetHotelRoles {
 
     static private URL getURL() {
         URL ur = GetHotelRoles.class.getClassLoader().getResource(
-                ICommonConsts.RESOURCES + "/" + ROLES);
+                ISharedConsts.RESOURCES + "/" + ROLES);
         return ur;
     }
 
@@ -97,7 +97,7 @@ public class GetHotelRoles implements IGetHotelRoles {
                 return;
             if (qName.equals(ROLETAG)) {
                 role = new Role();
-                SaxUtil.readAttr(role, attributes, tagList);
+                SaxUtil.readAttr(role.getMap(), attributes, tagList);
             }
         }
 
@@ -111,7 +111,8 @@ public class GetHotelRoles implements IGetHotelRoles {
                 role = null;
                 return;
             }
-            SaxUtil.readVal(role, qName, tagList, buf);
+            if (role == null) return;
+            SaxUtil.readVal(role.getMap(), qName, tagList, buf);
         }
 
         @Override
@@ -135,7 +136,7 @@ public class GetHotelRoles implements IGetHotelRoles {
     public List<Role> getList() {
         if (rList == null) {
             try {
-                rList = readRoles();                
+                rList = readRoles();
             } catch (ParserConfigurationException | SAXException | IOException e) {
                 error(lMess.getMess(IHError.HERROR001, IHMess.READROLESERROR,
                         ROLES), e);

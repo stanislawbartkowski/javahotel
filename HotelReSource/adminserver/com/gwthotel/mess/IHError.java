@@ -15,5 +15,8 @@ package com.gwthotel.mess;
 public interface IHError {
 
     String HERROR001 = "H001";
+    String HERROR002 = "H002";
+    String HERROR003 = "H003";
+    String HERROR004 = "H004";
 
 }

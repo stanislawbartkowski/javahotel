@@ -16,20 +16,29 @@ import javax.inject.Provider;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class EntityManagerFactoryProvider implements Provider<EntityManagerFactory >{
+import com.gwtmodel.containertype.ContainerInfo;
+import com.gwtmodel.containertype.ContainerType;
+
+public class EntityManagerFactoryProvider implements
+        Provider<EntityManagerFactory> {
 
     private static EntityManagerFactory factory;
-    
-    private static final String PERSISTENCE_UNIT_NAME = "hoteldb";
+
+    private static final String PERSISTENCE_UNIT_NAME_TOMCAT = "hoteladmintomcat";
+    private static final String PERSISTENCE_UNIT_NAME = "hoteladmin";
 
     public EntityManagerFactoryProvider() {
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        if (ContainerInfo.getContainerType() == ContainerType.TOMCAT)
+            factory = Persistence
+                    .createEntityManagerFactory(PERSISTENCE_UNIT_NAME_TOMCAT);
+        else
+            factory = Persistence
+                    .createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     }
 
     @Override
     public EntityManagerFactory get() {
         return factory;
     }
-    
 
 }

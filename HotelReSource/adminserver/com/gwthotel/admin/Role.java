@@ -16,4 +16,6 @@ import com.gwthotel.shared.PropDescription;
 
 public class Role extends PropDescription {
 
+    private static final long serialVersionUID = 1L;
+
 }

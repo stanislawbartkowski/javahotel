@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -30,20 +29,21 @@ import com.gwthotel.admin.jpa.entities.EDictEntry;
 import com.gwthotel.admin.jpa.entities.EHotel;
 import com.gwthotel.admin.jpa.entities.EPersonPassword;
 import com.gwthotel.admin.jpa.entities.EPersonRoles;
-import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.PropDescription;
-import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.getmess.IGetLogMess;
 
-public class HotelAdminJpa implements IHotelAdmin {
+class HotelAdminJpa implements IHotelAdmin {
 
     private final EntityManagerFactory eFactory;
     private static final Logger log = Logger.getLogger(HotelAdminJpa.class
             .getName());
+    private final IGetLogMess lMess;
 
-    @Inject
-    public HotelAdminJpa(EntityManagerFactory eFactory) {
+    public HotelAdminJpa(EntityManagerFactory eFactory,
+            IGetLogMess lMess) {
         this.eFactory = eFactory;
+        this.lMess = lMess;
     }
 
     private abstract class doTransaction {
@@ -301,6 +301,10 @@ public class HotelAdminJpa implements IHotelAdmin {
         comma.executeTran();
     }
 
+    private boolean emptyS(String s) {
+        return (s == null) || s.equals("");
+    }
+
     private class ValidatePassword extends doTransaction {
 
         private final String person;
@@ -317,7 +321,7 @@ public class HotelAdminJpa implements IHotelAdmin {
             EPersonPassword pe = getPersonByName(em, person);
             if (pe == null)
                 return;
-            if (CUtil.EmptyS(pe.getPassword()))
+            if (emptyS(pe.getPassword()))
                 return;
             ok = password.equals(pe.getPassword());
         }
@@ -393,7 +397,7 @@ public class HotelAdminJpa implements IHotelAdmin {
 
     @Override
     public void clearAll() {
-        log.info(H.getL().getMessN(IHMess.CLEANALLADMIN));
+        log.info(lMess.getMessN(IHMess.CLEANALLADMIN));
         DeleteAll comm = new DeleteAll();
         comm.executeTran();
     }
@@ -446,6 +450,34 @@ public class HotelAdminJpa implements IHotelAdmin {
     public void removeHotel(String hotel) {
         RemoveHotel comma = new RemoveHotel(hotel);
         comma.executeTran();
+    }
+    
+    private class GetPassword extends doTransaction {
+
+        private final String person;
+        String password;
+        
+        GetPassword(String person) {
+            this.person = person;
+            password = null;
+        }
+
+        @Override
+        void dosth(EntityManager em) {
+            EPersonPassword pe = getPersonByName(em, person);
+            if (pe == null)
+                return;
+            if (emptyS(pe.getPassword()))
+                return;
+            password = pe.getPassword();            
+        }
+    }
+
+    @Override
+    public String getPassword(String person) {
+        GetPassword comm = new GetPassword(person);
+        comm.executeTran();
+        return comm.password;
     }
 
 }
