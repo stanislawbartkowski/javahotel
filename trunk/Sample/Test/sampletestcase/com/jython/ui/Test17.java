@@ -27,7 +27,7 @@ public class Test17 extends TestHelper {
 
     @Test
     public void test1() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+        String t = authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
         DialogInfo i = findDialog(t, "test41.xml");
@@ -37,7 +37,7 @@ public class Test17 extends TestHelper {
         assertNotNull(elem);
         assertFalse(elem.getFieldSec().get("id").contains("hidden"));
 
-        String t1 = iSec.authenticateToken(realmIni, "guest", "guest");
+        String t1 = authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t1);
         i = findDialog(t1, "test41.xml");
         assertNotNull(i);
@@ -51,7 +51,7 @@ public class Test17 extends TestHelper {
 
     @Test
     public void test2() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+        String t = authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
         DialogVariables v = new DialogVariables();
@@ -63,7 +63,7 @@ public class Test17 extends TestHelper {
 
     @Test
     public void test3() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+        String t = authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
         DialogInfo i = findDialog(t, "test43.xml");
@@ -75,7 +75,7 @@ public class Test17 extends TestHelper {
 
         iSec.logout(t);
 
-        t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
+        t = authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = findDialog(t, "test43.xml");
         assertTrue(i.getSecurity().getButtSec().get("ID").contains("hidden"));
@@ -88,7 +88,7 @@ public class Test17 extends TestHelper {
 
     @Test
     public void test4() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+        String t = authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
         DialogInfo i = findDialog(t, "test44.xml");
@@ -99,7 +99,7 @@ public class Test17 extends TestHelper {
         assertFalse(sI.isFieldHidden(DialogFormat.findE(li.getColumns(), "id")));
         iSec.logout(t);
 
-        t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
+        t = authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = findDialog(t, "test44.xml");
         assertNotNull(i);

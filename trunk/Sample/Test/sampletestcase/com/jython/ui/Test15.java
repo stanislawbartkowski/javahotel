@@ -82,19 +82,18 @@ public class Test15 extends TestHelper {
     }
 
     private void runTest1(String realm) {
-        String t = iSec.authenticateToken(realm, "aaa", "bbb");
+        String t = authenticateToken(realm, "aaa", "bbb");
         assertNull(t);
-        t = iSec.authenticateToken(realm, "darkhelmet", "bbb");
+        t = authenticateToken(realm, "darkhelmet", "bbb");
         assertNull(t);
-        t = iSec.authenticateToken(realm, "darkhelmet", "ludicrousspeed");
+        t = authenticateToken(realm, "darkhelmet", "ludicrousspeed");
         assertNotNull(t);
         System.out.println(t);
         iSec.logout(t);
     }
 
     private void runTestNext(String realm) {
-        String t = iSec
-                .authenticateToken(realm, "darkhelmet", "ludicrousspeed");
+        String t = authenticateToken(realm, "darkhelmet", "ludicrousspeed");
         assertNotNull(t);
         boolean ok = iSec.isAuthorized(t, "ff:aaaa");
         assertFalse(ok);
@@ -103,7 +102,7 @@ public class Test15 extends TestHelper {
         assertTrue(iSec.isAuthorized(t, "sec.u('imwrong') || sec.u('darkhelmet')"));
         assertFalse(iSec.isAuthorized("falsetoken", "u:darkhelmet"));
         iSec.logout(t);
-        t = iSec.authenticateToken(realm, "lonestarr", "vespa");
+        t = authenticateToken(realm, "lonestarr", "vespa");
         assertNotNull(t);
         assertTrue(iSec.isAuthorized(t, "sec.r('schwartz')"));
         System.out.println("May the Schwartz be with you!");
@@ -118,7 +117,7 @@ public class Test15 extends TestHelper {
     }
     
     private void runTestNext1(String realm) {
-        String t = iSec.authenticateToken(realm, "lonestarr", "vespa");
+        String t = authenticateToken(realm, "lonestarr", "vespa");
         assertNotNull(t);
         assertTrue(iSec.isAuthorized(t, "sec.r('schwartz')"));
         System.out.println("May the Schwartz be with you!");
@@ -162,11 +161,11 @@ public class Test15 extends TestHelper {
     }
     
     private void runTestNext2(String realm) {
-        String t1 = iSec.authenticateToken(realm, "lonestarr", "vespa");
+        String t1 = authenticateToken(realm, "lonestarr", "vespa");
         assertNotNull(t1);    
         assertTrue(iSec.isAuthorized(t1, "sec.r('schwartz')"));
         // presidentskroob = 12345, president
-        String t2 = iSec.authenticateToken(realm, "presidentskroob", "12345");
+        String t2 = authenticateToken(realm, "presidentskroob", "12345");
         assertNotNull(t2);   
         assertTrue(iSec.isAuthorized(t1, "sec.r('schwartz')"));
         assertFalse(iSec.isAuthorized(t2, "sec.r('schwartz')"));
@@ -184,7 +183,7 @@ public class Test15 extends TestHelper {
     }
 
     private void runTestNext3(String realm) {
-        String t1 = iSec.authenticateToken(realm, "lonestarr", "vespa");
+        String t1 = authenticateToken(realm, "lonestarr", "vespa");
         assertNotNull(t1);    
         assertTrue(iSec.isAuthorized(t1, "!sec.r('admin')"));
         // negative
