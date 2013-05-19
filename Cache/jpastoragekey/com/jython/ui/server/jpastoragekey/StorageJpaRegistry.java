@@ -18,15 +18,13 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.jython.ui.server.jpastoragekey.entity.RegistryEntry;
-import com.jythonui.server.registry.IStorageRegistry;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
-class StorageJpaRegistry implements IStorageRegistry {
+class StorageJpaRegistry implements IStorageRealmRegistry {
 
-    private final String realm;
     private final EntityManagerFactory factory;
 
-    StorageJpaRegistry(String realm, EntityManagerFactory factory) {
-        this.realm = realm;
+    public StorageJpaRegistry(EntityManagerFactory factory) {
         this.factory = factory;
     }
 
@@ -52,7 +50,7 @@ class StorageJpaRegistry implements IStorageRegistry {
     }
 
     @Override
-    public byte[] getEntry(String key) {
+    public byte[] getEntry(String realm, String key) {
         EntityManager em = factory.createEntityManager();
         Query q = em.createNamedQuery("findRegistryEntry");
         q.setParameter(1, realm);
@@ -73,10 +71,12 @@ class StorageJpaRegistry implements IStorageRegistry {
 
         private final byte[] value;
         private final String key;
+        private final String realm;
 
-        Put(String key, byte[] value) {
+        Put(String realm, String key, byte[] value) {
             this.key = key;
             this.value = value;
+            this.realm = realm;
         }
 
         @Override
@@ -91,17 +91,19 @@ class StorageJpaRegistry implements IStorageRegistry {
     }
 
     @Override
-    public void putEntry(String key, byte[] value) {
-        Put command = new Put(key, value);
+    public void putEntry(String realm, String key, byte[] value) {
+        Put command = new Put(realm, key, value);
         command.executeTran();
     }
 
     class Remove extends doTransaction {
 
         private final String key;
+        private final String realm;
 
-        Remove(String key) {
+        Remove(String realm, String key) {
             this.key = key;
+            this.realm = realm;
         }
 
         @Override
@@ -120,8 +122,8 @@ class StorageJpaRegistry implements IStorageRegistry {
     }
 
     @Override
-    public void removeEntry(String key) {
-        Remove command = new Remove(key);
+    public void removeEntry(String realm, String key) {
+        Remove command = new Remove(realm, key);
         command.executeTran();
 
     }

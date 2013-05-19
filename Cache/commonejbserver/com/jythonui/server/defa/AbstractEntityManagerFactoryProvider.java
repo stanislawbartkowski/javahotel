@@ -10,28 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpastoragekey;
+package com.jythonui.server.defa;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.inject.Provider;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-import com.jythonui.server.IConsts;
-import com.jythonui.server.registry.IStorageRegistry;
-import com.jythonui.server.registry.IStorageRegistryFactory;
+abstract public class AbstractEntityManagerFactoryProvider implements
+        Provider<EntityManagerFactory> {
 
-public class StorageRegistryFactory implements IStorageRegistryFactory {
-    
-    private final EntityManagerFactory factory;
-    
-    @Inject
-    public StorageRegistryFactory(@Named(IConsts.STORAGEREGISTRYENTITYMANAGERFACTORY) EntityManagerFactory factory) {
-        this.factory = factory;
+    private static EntityManagerFactory factory;
+
+    protected AbstractEntityManagerFactoryProvider(String persistence_name) {
+        factory = Persistence.createEntityManagerFactory(persistence_name);
     }
 
     @Override
-    public IStorageRegistry construct(String realm) {
-        return new StorageJpaRegistry(realm, factory);
+    public EntityManagerFactory get() {
+        return factory;
     }
 
 }
