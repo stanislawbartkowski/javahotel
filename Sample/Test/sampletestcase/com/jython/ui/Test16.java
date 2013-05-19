@@ -39,7 +39,7 @@ public class Test16 extends TestHelper {
 
     @Test
     public void test2() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+        String t = authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
         Holder.setAuth(true);
@@ -52,7 +52,7 @@ public class Test16 extends TestHelper {
 
     @Test
     public void test3() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+        String t = authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
         DialogInfo i = findDialog(t, "test39.xml");
@@ -63,7 +63,7 @@ public class Test16 extends TestHelper {
         assertFalse(i.getSecurity().isFieldHidden(
                 i.getDialog().findFieldItem("globenum")));
         iSec.logout(t);
-        t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
+        t = authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = findDialog(t, "test39.xml");
         assertNotNull(i);
@@ -77,7 +77,7 @@ public class Test16 extends TestHelper {
 
     @Test
     public void test4() {
-        String t = iSec.authenticateToken(realmIni, "darkhelmet",
+        String t = authenticateToken(realmIni, "darkhelmet",
                 "ludicrousspeed");
         assertNotNull(t);
         DialogInfo i = findDialog(t, "test40.xml");
@@ -91,7 +91,7 @@ public class Test16 extends TestHelper {
                 DialogFormat.findE(i.getDialog().getButtonList(), "ID")));
         iSec.logout(t);
         //
-        t = iSec.authenticateToken(realmIni, "lonestarr", "vespa");
+        t = authenticateToken(realmIni, "lonestarr", "vespa");
         assertNotNull(t);
         i = findDialog(t, "test40.xml");
         assertNotNull(i);
@@ -105,7 +105,7 @@ public class Test16 extends TestHelper {
         iSec.logout(t);
         iSec.logout(t);
         //
-        t = iSec.authenticateToken(realmIni, "guest", "guest");
+        t = authenticateToken(realmIni, "guest", "guest");
         assertNotNull(t);
         i = findDialog(t, "test40.xml");
         assertNotNull(i);

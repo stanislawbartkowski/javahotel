@@ -23,8 +23,8 @@ import org.junit.Before;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
-import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -41,7 +41,7 @@ public class TestHelper {
     protected final ITestEnhancer iTest;
     protected final IPersonOp po;
     protected final ISecurity iSec;
-    protected final IGetLogMess appMess;
+    protected final IAppMess appMess;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -77,7 +77,7 @@ public class TestHelper {
             return null;
         return d.getDialog();
     }
-    
+
     protected DialogInfo findDialog(String token, String dialogName) {
         RequestContext req = new RequestContext();
         req.setToken(token);
@@ -88,12 +88,17 @@ public class TestHelper {
             String actionId) {
         iServer.runAction(new RequestContext(), v, dialogName, actionId);
     }
-    
-    protected void runAction(String token, DialogVariables v, String dialogName,
-            String actionId) {
+
+    protected void runAction(String token, DialogVariables v,
+            String dialogName, String actionId) {
         RequestContext req = new RequestContext();
         req.setToken(token);
         iServer.runAction(req, v, dialogName, actionId);
+    }
+
+    protected String authenticateToken(String realm, String user, String password) {
+        String t = iSec.authenticateToken(realm, user, password, null);
+        return t;
     }
 
 }
