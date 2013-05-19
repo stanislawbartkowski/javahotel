@@ -24,6 +24,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.jython.ui.shared.SaxUtil;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
@@ -42,7 +43,8 @@ class ReadTypes {
                 ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT,
                 ICommonConsts.METHOD, ICommonConsts.TYPE, ICommonConsts.COMBOID };
         private StringBuffer buf;
-        private String colElem[] = { ICommonConsts.ID, ICommonConsts.DISPLAYNAME };
+        private String colElem[] = { ICommonConsts.ID,
+                ICommonConsts.DISPLAYNAME };
         private String[] aElem;
 
         @Override
@@ -65,10 +67,10 @@ class ReadTypes {
             if (qName.equals(ICommonConsts.COLUMN)) {
                 bDescr = new FieldItem();
                 aElem = colElem;
-                getAttribute = true;                
+                getAttribute = true;
             }
             if (getAttribute) {
-                SaxUtil.readAttr(bDescr, attributes, aElem);
+                SaxUtil.readAttr(bDescr.getMap(), attributes, aElem);
             }
         }
 
@@ -87,7 +89,7 @@ class ReadTypes {
                 aType.getColumns().add((FieldItem) bDescr);
                 return;
             }
-            SaxUtil.readVal(bDescr, qName, aElem, buf);
+            SaxUtil.readVal(bDescr.getMap(), qName, aElem, buf);
         }
 
         @Override

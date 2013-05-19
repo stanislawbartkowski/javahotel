@@ -43,6 +43,7 @@ import com.gwtmodel.table.validate.ValidateUtil;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
+import com.jythonui.shared.CustomSecurity;
 
 public class LoginPage {
 
@@ -54,6 +55,7 @@ public class LoginPage {
 
         private final ICommand ok;
         private final String shiroRealm;
+        private final CustomSecurity iCustom;
 
         private class LoginValid extends CommonCallBack<String> {
 
@@ -107,14 +109,17 @@ public class LoginPage {
                 }
                 String sLogin = (String) lData.getF(login);
                 String sPass = (String) lData.getF(password);
-                M.JR().login(shiroRealm, sLogin, sPass, new LoginValid(sLogin));
+                M.JR().login(shiroRealm, sLogin, sPass, iCustom,
+                        new LoginValid(sLogin));
             }
 
         }
 
-        DataValidate(IDataType dType, String shiroRealm, ICommand ok) {
+        DataValidate(IDataType dType, String shiroRealm,
+                CustomSecurity iCustom, ICommand ok) {
             this.dType = dType;
             this.ok = ok;
+            this.iCustom = iCustom;
             this.shiroRealm = shiroRealm;
             this.getSlContainer().registerSubscriber(dType,
                     ClickButtonType.StandClickEnum.ACCEPT, new LoginButton());
@@ -132,7 +137,8 @@ public class LoginPage {
         }
     }
 
-    public static void login(String shiroRealm, ICommand ok) {
+    public static void login(String shiroRealm, CustomSecurity iCustom,
+            ICommand ok) {
         IDataType dType = Empty.getDataType();
         CellId ce = new CellId(0);
         LoginViewFactory lFactory = GwtGiniInjector.getI()
@@ -140,7 +146,7 @@ public class LoginPage {
         LoginDataModelFactory logFactory = new LoginDataModelFactory();
         FormLineContainer lForm = lFactory.construct();
         ILoginDataView lView = lFactory.contructView(ce, dType, lForm,
-                logFactory, new DataValidate(dType, shiroRealm, ok));
+                logFactory, new DataValidate(dType, shiroRealm, iCustom, ok));
         SlU.registerWidgetListener0(dType, lView, new GetWidget());
         lView.startPublish(null);
 

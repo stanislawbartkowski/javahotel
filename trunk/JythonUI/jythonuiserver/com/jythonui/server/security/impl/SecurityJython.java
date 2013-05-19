@@ -26,6 +26,7 @@ import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
 import com.jythonui.server.security.ISecuritySessionCache;
+import com.jythonui.server.security.token.ICustomSecurity;
 
 public class SecurityJython implements ISecurity {
 
@@ -47,8 +48,8 @@ public class SecurityJython implements ISecurity {
 
     @Override
     public String authenticateToken(String realm, String userName,
-            String password) {
-        SessionEntry se = new SessionEntry(userName, password, realm);
+            String password, ICustomSecurity iCustom) {
+        SessionEntry se = new SessionEntry(userName, password, realm, iCustom);
         return cCache.authenticateS(se);
     }
 
@@ -75,6 +76,11 @@ public class SecurityJython implements ISecurity {
             return false;
         }
         return iResolver.isAuthorized(currentUser, permission);
+    }
+
+    @Override
+    public ICustomSecurity getCustom(String token) {
+        return cCache.getCustom(token);
     }
 
 }

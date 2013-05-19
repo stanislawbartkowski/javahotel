@@ -10,21 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.security;
+package com.jythonui.server.security.token;
 
-import com.jythonui.server.security.token.ICustomSecurity;
+import org.apache.shiro.authc.UsernamePasswordToken;
 
-public interface ISecurity {
+public class PasswordSecurityToken extends UsernamePasswordToken {
 
-    String authenticateToken(String realm, String userName, String password,
-            ICustomSecurity iCustom);
+    private final ICustomSecurity iCustom;
 
-    void logout(String token);
+    private static final long serialVersionUID = 1L;
 
-    boolean validToken(String token);
+    public PasswordSecurityToken(String person, String password,
+            ICustomSecurity iCustom) {
+        super(person, password);
+        this.iCustom = iCustom;
+    }
 
-    boolean isAuthorized(String token, String permission);
+    public PasswordSecurityToken(String person, String password) {
+        this(person, password, null);
+    }
 
-    ICustomSecurity getCustom(String token);
+    public ICustomSecurity getiCustom() {
+        return iCustom;
+    }
 
 }

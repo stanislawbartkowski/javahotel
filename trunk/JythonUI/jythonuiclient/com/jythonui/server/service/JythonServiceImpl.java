@@ -18,7 +18,9 @@ import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.shared.ClientProp;
+import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.RequestContext;
@@ -51,9 +53,11 @@ public class JythonServiceImpl extends RemoteServiceServlet implements
     }
 
     @Override
-    public String login(String shiroRealm, String user, String password) {
+    public String login(String shiroRealm, String user, String password,
+            CustomSecurity iCustom) {
         ISecurity iSec = Holder.getiSec();
-        return iSec.authenticateToken(shiroRealm, user, password);
+        ICustomSecurity iCust = Holder.getSecurityConvert().construct(iCustom);
+        return iSec.authenticateToken(shiroRealm, user, password, iCust);
     }
 
     @Override

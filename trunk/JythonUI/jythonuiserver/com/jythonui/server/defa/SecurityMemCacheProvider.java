@@ -19,7 +19,6 @@ import javax.inject.Provider;
 
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
-import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.security.cache.ISecuritySessionMemCache;
 

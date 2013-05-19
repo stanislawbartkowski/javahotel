@@ -13,11 +13,11 @@
 package com.jythonui.server;
 
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Properties;
 
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.holder.Holder;
-import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.RequestContext;
 
 public class Util {
@@ -26,14 +26,6 @@ public class Util {
 
     }
 
-    public static void toElem(ElemDescription dest, Properties prop) {
-        Enumeration e = prop.keys();
-        while (e.hasMoreElements()) {
-            String key = (String) e.nextElement();
-            dest.setAttr(key, prop.getProperty(key));
-        }
-    }
-    
     public static void setLocale(RequestContext context) {
         String locale = context.getLocale();
         if (!CUtil.EmptyS(locale))

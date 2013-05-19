@@ -14,15 +14,22 @@ package com.jythonui.server.security.impl;
 
 import java.io.Serializable;
 
+import com.jythonui.server.security.token.ICustomSecurity;
+import com.jythonui.shared.CustomSecurity;
+
 class SessionEntry implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final String user;
     private final String password;
     private final String realm;
+    private final ICustomSecurity iCustom;
 
-    SessionEntry(String user, String password, String realm) {
+    SessionEntry(String user, String password, String realm,
+            ICustomSecurity iCustom) {
         this.user = user;
         this.password = password;
         this.realm = realm;
+        this.iCustom = iCustom;
     }
 
     String getUser() {
@@ -42,7 +49,17 @@ class SessionEntry implements Serializable {
             return false;
         if (!realm.equals(realm))
             return false;
+        if (iCustom != null && se.iCustom != null) {
+            if (!iCustom.eq(se.iCustom))
+                return false;
+        }
         return true;
     }
+
+    public ICustomSecurity getiCustom() {
+        return iCustom;
+    }
+    
+    
 
 }

@@ -28,6 +28,10 @@ public abstract class ElemDescription implements Serializable {
     // important: not final !
     private Map<String, String> attr = new HashMap<String, String>();
 
+    public Map<String, String> getMap() {
+        return attr;
+    }
+
     public void setAttr(String key, String value) {
         attr.put(key, value);
     }
@@ -60,7 +64,8 @@ public abstract class ElemDescription implements Serializable {
         int sec = findSecurity(val);
         if (sec == -1)
             return val; // no security string
-        if (sec == 0) return "";
+        if (sec == 0)
+            return "";
         return val.substring(0, sec - 1); // remove security part
     }
 
@@ -103,10 +108,9 @@ public abstract class ElemDescription implements Serializable {
     public boolean isHtmlId() {
         return isAttr(ICommonConsts.HTMLID);
     }
-    
+
     public boolean isReadOnly() {
         return isAttr(ICommonConsts.READONLY);
     }
-
 
 }

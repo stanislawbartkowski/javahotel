@@ -27,6 +27,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.jython.ui.shared.SaxUtil;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DialogFormat;
@@ -196,7 +197,7 @@ class ReadDialog {
             }
 
             if (getAttribute && bDescr != null) {
-                SaxUtil.readAttr(bDescr, attributes, currentT);
+                SaxUtil.readAttr(bDescr.getMap(), attributes, currentT);
             }
         }
 
@@ -286,7 +287,7 @@ class ReadDialog {
                 dFormat.getCheckList().add(checkList);
                 return;
             }
-            SaxUtil.readVal(bDescr, qName, currentT, buf);
+            SaxUtil.readVal(bDescr.getMap(), qName, currentT, buf);
         }
 
         @Override

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.RequestContext;
 
 /**
@@ -32,7 +33,7 @@ public interface JythonService extends RemoteService {
 
     ClientProp getClientRes(RequestContext context);
 
-    String login(String shiroRealm, String user, String password);
+    String login(String shiroRealm, String user, String password,CustomSecurity iCustom);
 
     void logout(String token);
 

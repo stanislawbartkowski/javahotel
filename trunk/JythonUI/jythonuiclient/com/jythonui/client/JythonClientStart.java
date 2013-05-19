@@ -28,6 +28,7 @@ import com.jythonui.client.util.RegisterCustom;
 import com.jythonui.client.util.RequestContextFactory;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.ICommonConsts;
+import com.jythonui.shared.CustomSecurity;
 
 public class JythonClientStart {
     private static final String START = "start.xml";
@@ -39,6 +40,7 @@ public class JythonClientStart {
 
         private String startX;
         private String shiroRealm;
+        private final CustomSecurity iCustom;
 
         private class AfterLogin implements ICommand {
 
@@ -49,8 +51,9 @@ public class JythonClientStart {
 
         }
 
-        ResBack(String startX) {
+        ResBack(String startX, CustomSecurity iCustom) {
             this.startX = startX;
+            this.iCustom = iCustom;
         }
 
         private void drawError() {
@@ -87,7 +90,7 @@ public class JythonClientStart {
         private void startBegin(boolean auth) {
             ICommand co = new AfterLogin();
             if (auth) {
-                LoginPage.login(shiroRealm, co);
+                LoginPage.login(shiroRealm, iCustom, co);
             } else
                 co.execute();
         }
@@ -157,9 +160,9 @@ public class JythonClientStart {
 
     }
 
-    public static void start(String startXML) {
+    public static void start(String startXML, CustomSecurity iCustom) {
         M.JR().getClientRes(RequestContextFactory.construct(),
-                new ResBack(startXML));
+                new ResBack(startXML, iCustom));
     }
 
 }

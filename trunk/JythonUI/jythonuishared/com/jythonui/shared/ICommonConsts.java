@@ -152,8 +152,6 @@ public interface ICommonConsts {
     String SHIROREALM = "Shirorealm";
     String STARTPAGES = "Start";
 
-    String RESOURCES = "resources";
-
     String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
     String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
 
