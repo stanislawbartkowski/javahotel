@@ -22,13 +22,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.gwtmodel.table.common.CUtil;
+import com.jython.ui.shared.MUtil;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
-import com.jythonui.server.Util;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.ICommonConsts;
@@ -49,10 +50,8 @@ public class GetClientProperties implements IJythonClientRes {
     @Override
     public ClientProp getClientRes(RequestContext context) {
         String locale = context.getLocale();
-        System.out.println("aaaa");
         if (!CUtil.EmptyS(locale)) {
             Holder.SetLocale(locale);
-            System.out.println("locale=" + locale);
         }
         InputStream i = GetClientProperties.class.getClassLoader()
                 .getResourceAsStream(ICommonConsts.APP_FILENAME);
@@ -73,9 +72,9 @@ public class GetClientProperties implements IJythonClientRes {
             return null;
         }
         ClientProp map = new ClientProp();
-        Util.toElem(map, prop);
+        MUtil.toElem(map.getMap(), prop);
         Holder.setAuth(map.isAuthenticate());
-        IGetLogMess custMess = Holder.getAppMess();
+        IAppMess custMess = Holder.getAppMess();
         CustomMessages mess = custMess.getCustomMess();
         if (mess != null)
             map.setCustomM(mess);

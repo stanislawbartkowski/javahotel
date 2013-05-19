@@ -12,8 +12,6 @@
  */
 package com.jythonui.server.security.resolver;
 
-import java.util.logging.Logger;
-
 import org.apache.shiro.subject.Subject;
 
 public class SecurityFoo {
@@ -25,7 +23,9 @@ public class SecurityFoo {
     }
 
     public boolean u(String user) {
-        return user.equals(currentUser.getPrincipal());
+        Object loggedUser = currentUser.getPrincipal();
+        String userN = loggedUser.toString();
+        return user.equals(userN);
     }
 
     public boolean r(String role) {

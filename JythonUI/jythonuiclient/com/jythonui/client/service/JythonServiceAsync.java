@@ -16,6 +16,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.RequestContext;
 
 /**
@@ -32,7 +33,7 @@ public interface JythonServiceAsync {
     void getClientRes(RequestContext context, AsyncCallback<ClientProp> callback);
 
     void login(String shiroRealm, String user, String password,
-            AsyncCallback<String> callback);
+            CustomSecurity iCustom, AsyncCallback<String> callback);
 
     void logout(String token, AsyncCallback<Void> callback);
 }

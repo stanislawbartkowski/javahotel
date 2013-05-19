@@ -22,7 +22,6 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.UnknownSessionException;
@@ -34,6 +33,8 @@ import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.ISecuritySessionCache;
+import com.jythonui.server.security.token.ICustomSecurity;
+import com.jythonui.server.security.token.PasswordSecurityToken;
 
 class SubjectCache {
 
@@ -76,8 +77,10 @@ class SubjectCache {
         SecurityManager securityManager = constructManager(se.getRealm());
         SecurityUtils.setSecurityManager(securityManager);
         Subject currentUser = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(se.getUser(),
-                se.getPassword());
+        // UsernamePasswordToken token = new UsernamePasswordToken(se.getUser(),
+        // se.getPassword());
+        PasswordSecurityToken token = new PasswordSecurityToken(se.getUser(),
+                se.getPassword(), se.getiCustom());
         log.info(gMess.getMessN(ILogMess.AUTHENTICATEUSER, se.getUser(),
                 se.getRealm()));
         try {
@@ -141,6 +144,13 @@ class SubjectCache {
 
     boolean validToken(String token) {
         return get(token) != null;
+    }
+
+    public ICustomSecurity getCustom(String token) {
+        SessionEntry se = get(token);
+        if (se == null) // TODO: more verbose log
+            return null;
+        return se.getiCustom();
     }
 
     Subject getSubject(String token) {

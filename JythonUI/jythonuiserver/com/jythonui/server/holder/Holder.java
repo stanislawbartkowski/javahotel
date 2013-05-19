@@ -19,7 +19,9 @@ import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.security.ISecurityConvert;
 
 public class Holder {
 
@@ -40,7 +42,10 @@ public class Holder {
 
     @Inject
     @Named(IConsts.APPMESS)
-    private static IGetLogMess appMess;
+    private static IAppMess appMess;
+
+    @Inject
+    private static ISecurityConvert iConvert;
 
     private static final ThreadLocal<String> locale = new ThreadLocal<String>();
 
@@ -76,8 +81,12 @@ public class Holder {
         return locale.get();
     }
 
-    public static IGetLogMess getAppMess() {
+    public static IAppMess getAppMess() {
         return appMess;
+    }
+
+    public static ISecurityConvert getSecurityConvert() {
+        return iConvert;
     }
 
 }

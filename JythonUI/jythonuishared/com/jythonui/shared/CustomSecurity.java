@@ -10,20 +10,9 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.shared;
 
-public interface IConsts {
-    String SECURITYMEMNAME = "SecurityCache";
-    String SECURITYREGISTRY = "SecurityRegistry";
-    String COMMONCACHENAME = "CommonCache";
-    String CACHEDNOW = "CachedNow";
-    String APPMESS = "AppBundle";
 
-    String JYTHONMESSSERVER = "jythonservermess";
-
-    String RESOURCES = "resources";
-    String DIALOGDIR = "dialogs";
-    String PACKAGEDIR = "packages";
-    String BUNDLEDIR = "bundle";
-
+public class CustomSecurity extends ElemDescription {
+    private static final long serialVersionUID = 1L;
 }

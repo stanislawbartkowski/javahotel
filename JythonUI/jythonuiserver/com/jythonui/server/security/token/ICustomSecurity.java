@@ -10,20 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.security.token;
 
-public interface IConsts {
-    String SECURITYMEMNAME = "SecurityCache";
-    String SECURITYREGISTRY = "SecurityRegistry";
-    String COMMONCACHENAME = "CommonCache";
-    String CACHEDNOW = "CachedNow";
-    String APPMESS = "AppBundle";
+import java.io.Serializable;
 
-    String JYTHONMESSSERVER = "jythonservermess";
+public interface ICustomSecurity extends Serializable {
 
-    String RESOURCES = "resources";
-    String DIALOGDIR = "dialogs";
-    String PACKAGEDIR = "packages";
-    String BUNDLEDIR = "bundle";
+    boolean eq(ICustomSecurity other);
 
 }

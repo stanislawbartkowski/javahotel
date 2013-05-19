@@ -16,6 +16,7 @@ import java.net.URL;
 
 import javax.inject.Inject;
 
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.JythonUiServerProvider;
 
@@ -25,10 +26,6 @@ import com.jythonui.server.JythonUiServerProvider;
  */
 public class ServerProperties implements IJythonUIServerProperties {
 
-    private final String RESOURCES = "resources";
-    private final String DIALOGDIR = "dialogs";
-    private final String PACKAGEDIR = "packages";
-    private final String MESS = "bundle";
     private final IsCached isC;
 
     @Inject
@@ -38,7 +35,7 @@ public class ServerProperties implements IJythonUIServerProperties {
 
     private String getResource(String dir) {
         URL u = JythonUiServerProvider.class.getClassLoader().getResource(
-                RESOURCES + "/" + dir);
+                IConsts.RESOURCES + "/" + dir);
         if (u == null)
             return null;
         return u.getPath();
@@ -46,12 +43,12 @@ public class ServerProperties implements IJythonUIServerProperties {
 
     @Override
     public String getDialogDirectory() {
-        return getResource(DIALOGDIR);
+        return getResource(IConsts.DIALOGDIR);
     }
 
     @Override
     public String getPackageDirectory() {
-        return getResource(PACKAGEDIR);
+        return getResource(IConsts.PACKAGEDIR);
     }
 
     @Override
@@ -63,8 +60,7 @@ public class ServerProperties implements IJythonUIServerProperties {
 
     @Override
     public String getBundleBase() {
-        return getResource(MESS);
-
+        return getResource(IConsts.BUNDLEDIR);
     }
 
 }

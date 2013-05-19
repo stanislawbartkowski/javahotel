@@ -15,6 +15,7 @@ package com.jythonui.server.resbundle;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +31,7 @@ import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.JythonUIFatal;
 
-public class Mess implements IGetLogMess {
+public class Mess implements IAppMess {
 
     private final IJythonUIServerProperties iRes;
     private IGetLogMess iMess = null;
@@ -71,7 +72,7 @@ public class Mess implements IGetLogMess {
             if (loc != null) {
                 propS = iRes.getBundleBase() + "/messages_"
                         + Holder.getLocale() + ".properties";
-                debug("locale not null "  + propS);
+                debug("locale not null " + propS);
             }
             Properties defa = null;
             Properties prop = null;
@@ -123,7 +124,17 @@ public class Mess implements IGetLogMess {
         if (iRes.getBundleBase() == null)
             return null;
         setMess();
-        return iMess.getCustomMess();
+        CustomMessages cust = new CustomMessages();
+        Map<String, String> ma = iMess.getMess();
+        for (String key : ma.keySet()) {
+            cust.setAttr(key, ma.get(key));
+        }
+        return cust;
+    }
+
+    @Override
+    public Map<String, String> getMess() {
+        return iMess.getMess();
     }
 
 }

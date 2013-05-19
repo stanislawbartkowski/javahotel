@@ -28,6 +28,7 @@ import org.xml.sax.SAXException;
 
 import com.gwtmodel.mapxml.VerifyXML;
 import com.gwtmodel.table.common.CUtil;
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -79,7 +80,7 @@ class GetDialog {
     static private URL getURLSchema(String schemaname) {
         putDebug("Search schema " + schemaname);
         URL ur = ReadDialog.class.getClassLoader().getResource(
-                ICommonConsts.RESOURCES + "/" + XSDDIR + "/" + schemaname);
+                ISharedConsts.RESOURCES + "/" + XSDDIR + "/" + schemaname);
         if (ur == null) {
             error(Holder.getM().getMess(IErrorCode.ERRORCODE16,
                     ILogMess.SCHEMANOTFOUND));
