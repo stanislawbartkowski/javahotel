@@ -31,4 +31,10 @@ public interface IHotelConsts {
     String HOTELREALM = "HotelRealm";
 
     String HOTELNAME = "hotelloginname";
+
+    String HOTELURLQUERY = "hotel";
+    
+    String HOTELPROP = "hotel";
+    String NOPERSONPROP = "noperson";
+    String VATPROP = "vat";
 }

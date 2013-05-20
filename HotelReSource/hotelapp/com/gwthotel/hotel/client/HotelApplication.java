@@ -13,14 +13,20 @@
 package com.gwthotel.hotel.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.gwthotel.shared.IHotelConsts;
+import com.gwtmodel.table.Utils;
 import com.jythonui.client.JythonClientStart;
+import com.jythonui.shared.CustomSecurity;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class HotelApplication implements EntryPoint {
     public void onModuleLoad() {
-        JythonClientStart.start(null);
+        String hotelName = Utils.getURLParam(IHotelConsts.HOTELURLQUERY);
+        CustomSecurity sec = new CustomSecurity();
+        sec.setAttr(IHotelConsts.HOTELNAME, hotelName);
+        JythonClientStart.start(null, sec);
     }
 
 }

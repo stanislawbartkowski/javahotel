@@ -18,6 +18,7 @@ import org.junit.Before;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admintest.guice.ServiceInjector;
+import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
@@ -38,9 +39,10 @@ public class TestHelper {
     private final ITestEnhancer iTest;
     protected final IJythonUIServer iServer;
     protected final ISecurity iSec;
-    
-    protected final String realM = "classpath:resources/shiro/hoteluser.ini";
+    protected final IHotelServices iServices;
 
+    protected final String realM = "classpath:resources/shiro/hoteluser.ini";
+    protected final String adminM = "classpath:resources/shiro/admin.ini";
 
     public TestHelper() {
         iAdmin = ServiceInjector.constructHotelAdmin();
@@ -48,6 +50,7 @@ public class TestHelper {
         iRoles = ServiceInjector.constructHotelRoles();
         iServer = ServiceInjector.contructJythonUiServer();
         iSec = ServiceInjector.constructSecurity();
+        iServices = ServiceInjector.getHotelServices();
     }
 
     @Before

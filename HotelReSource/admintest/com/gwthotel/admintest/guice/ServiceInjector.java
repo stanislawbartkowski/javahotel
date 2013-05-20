@@ -18,6 +18,7 @@ import com.google.inject.Key;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
@@ -59,7 +60,10 @@ public class ServiceInjector {
     public static IGetLogMess getLogMess() {
         return injector.getInstance(Key.get(IGetLogMess.class,
                 Names.named(IHotelConsts.MESSNAMED)));
-
+    }
+    
+    public static IHotelServices getHotelServices() {
+        return injector.getInstance(IHotelServices.class);
     }
 
 }

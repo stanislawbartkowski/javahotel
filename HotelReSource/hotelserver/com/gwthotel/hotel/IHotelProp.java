@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -11,23 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admintest.guice;
+package com.gwthotel.hotel;
 
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.auth.IRealmResources;
-import com.jythonui.server.getmess.IGetLogMess;
+import java.util.List;
 
-public class HotelAuthResources implements IRealmResources {
+import com.gwthotel.shared.PropDescription;
 
-    @Override
-    public IHotelAdmin getAdmin() {
-        return ServiceInjector.constructHotelAdmin();
-    }
+public interface IHotelProp<T extends PropDescription> {
 
-    @Override
-    public IGetLogMess getLogMess() {
-        return ServiceInjector.getLogMess();
-    }
+    List<T> getList(String hotel);
 
+    void addElem(String hotel, T elem);
 
+    void changeElem(String hotel, T elem);
+
+    void deleteElem(String hotel, T elem);
+    
+    void deleteAll(String hotel);
 }

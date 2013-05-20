@@ -20,6 +20,7 @@ import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.roles.GetHotelRoles;
+import com.gwthotel.auth.SecurityConverter;
 import com.gwthotel.hotel.server.provider.EntityManagerFactoryProvider;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.mess.HotelMessProvider;
@@ -37,6 +38,7 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.guice.JythonServerService;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
+import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -73,6 +75,8 @@ public class ServerService {
             bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
                     Singleton.class);
             bind(IStorageRealmRegistry.class).toProvider(StorageJpaRegistryProvider.class).in(
+                    Singleton.class);
+            bind(ISecurityConvert.class).to(SecurityConverter.class).in(
                     Singleton.class);
             requestStatic();
             requestStaticInjection(H.class);

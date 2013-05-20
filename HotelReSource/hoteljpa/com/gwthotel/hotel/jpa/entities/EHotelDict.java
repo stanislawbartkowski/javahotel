@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -11,23 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admintest.guice;
+package com.gwthotel.hotel.jpa.entities;
 
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.auth.IRealmResources;
-import com.jythonui.server.getmess.IGetLogMess;
+import javax.persistence.MappedSuperclass;
 
-public class HotelAuthResources implements IRealmResources {
+import com.gwthotel.admin.jpa.entities.EDictEntry;
 
-    @Override
-    public IHotelAdmin getAdmin() {
-        return ServiceInjector.constructHotelAdmin();
+@MappedSuperclass
+public abstract class EHotelDict extends EDictEntry {
+    
+    private String hotel;
+
+    public String getHotel() {
+        return hotel;
     }
 
-    @Override
-    public IGetLogMess getLogMess() {
-        return ServiceInjector.getLogMess();
+    public void setHotel(String hotel) {
+        this.hotel = hotel;
     }
-
 
 }

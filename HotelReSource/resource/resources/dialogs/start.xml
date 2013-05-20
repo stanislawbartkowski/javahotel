@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<leftmenu>
+<button id="services" displayname="@services" actiontype="JMAIN_DIALOG" actionparam="admin/hotels.xml"/>
+</leftmenu>
+
+</dialog>

@@ -12,28 +12,22 @@
  */
 package com.gwthotel.admin.jpa;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
-import javax.persistence.EntityManagerFactory;
+import com.gwthotel.admin.jpa.entities.EDictEntry;
+import com.gwthotel.shared.PropDescription;
 
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.shared.IHotelConsts;
-import com.jythonui.server.getmess.IGetLogMess;
+public class PropUtils {
 
-public class TestHotelAdminProvider implements Provider<IHotelAdmin> {
+    private PropUtils() {
+    }
 
-    @Inject
-    @Named(IHotelConsts.TESTFACTORYMANAGER)
-    private EntityManagerFactory eFactory;
+    public static void copyToProp(PropDescription dest, EDictEntry sou) {
+        dest.setName(sou.getName());
+        dest.setDescription(sou.getDescription());
+    }
 
-    @Inject
-    @Named(IHotelConsts.MESSNAMED)
-    private IGetLogMess lMess;
-
-    @Override
-    public IHotelAdmin get() {
-        return new HotelAdminJpa(eFactory, lMess);
+    public static void copyToEDict(EDictEntry dest, PropDescription sou) {
+        dest.setName(sou.getName());
+        dest.setDescription(sou.getDescription());
     }
 
 }
