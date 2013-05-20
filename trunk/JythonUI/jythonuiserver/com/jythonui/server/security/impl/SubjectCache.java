@@ -44,6 +44,7 @@ class SubjectCache {
     class CurrentSubject {
         SessionEntry se;
         SecurityManager sManager;
+        Subject currentUser;
     }
 
     private static ThreadLocal<CurrentSubject> lastS = new ThreadLocal<CurrentSubject>();
@@ -72,13 +73,18 @@ class SubjectCache {
             this.tokenS = tokenS;
         }
     }
+    
+    private static Subject buildSubject() {
+        Subject currentUser = new Subject.Builder().buildSubject();
+        return currentUser;        
+    }
 
     private Result authenticate(SessionEntry se, String tokenS) {
         SecurityManager securityManager = constructManager(se.getRealm());
         SecurityUtils.setSecurityManager(securityManager);
-        Subject currentUser = SecurityUtils.getSubject();
-        // UsernamePasswordToken token = new UsernamePasswordToken(se.getUser(),
-        // se.getPassword());
+//        Subject currentUser = SecurityUtils.getSubject();
+//        currentUser = new Subject.Builder().buildSubject();
+        Subject currentUser = buildSubject();
         PasswordSecurityToken token = new PasswordSecurityToken(se.getUser(),
                 se.getPassword(), se.getiCustom());
         log.info(gMess.getMessN(ILogMess.AUTHENTICATEUSER, se.getUser(),
@@ -99,11 +105,11 @@ class SubjectCache {
             return null;
         } catch (AuthenticationException ae) {
             log.info(gMess.getMess(IErrorCode.ERRORCODE6,
-                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser()));
+                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),ae.getMessage()));
             return null;
         } catch (UnknownSessionException ae) {
             log.info(gMess.getMess(IErrorCode.ERRORCODE22,
-                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser()));
+                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),ae.getMessage()));
             return null;
         }
 
@@ -116,6 +122,7 @@ class SubjectCache {
         CurrentSubject subS = new CurrentSubject();
         subS.se = se;
         subS.sManager = securityManager;
+        subS.currentUser = currentUser;
         lastS.set(subS);
         return new Result(currentUser, tokenS);
     }
@@ -159,9 +166,10 @@ class SubjectCache {
             return null; // TODO: more detailed log
         CurrentSubject subC = lastS.get();
         if (subC != null && se.eq(subC.se)) {
-            SecurityUtils.setSecurityManager(subC.sManager);
-            Subject sub = SecurityUtils.getSubject();
-            return sub;
+//            SecurityUtils.setSecurityManager(subC.sManager);
+//            Subject sub = SecurityUtils.getSubject();
+//            Subject sub = buildSubject();
+            return subC.currentUser;
         }
         // validate again
         log.info("Authenticate again");

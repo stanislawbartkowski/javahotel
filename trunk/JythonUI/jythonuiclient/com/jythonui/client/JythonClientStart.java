@@ -117,7 +117,10 @@ public class JythonClientStart {
                         okStart = true;
                 }
             }
-            shiroRealm = result.getAttr(ICommonConsts.SHIROREALM);
+            String shiroPage = ICommonConsts.SHIROREALM + "-" + startX;
+            shiroRealm = result.getAttr(shiroPage);
+            if (CUtil.EmptyS(shiroRealm))
+                shiroRealm = result.getAttr(ICommonConsts.SHIROREALM);
             // resolve if authentication is required
             boolean auth = result.isAuthenticate();
             if (!auth) {

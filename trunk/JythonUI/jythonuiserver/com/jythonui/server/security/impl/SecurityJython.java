@@ -59,6 +59,8 @@ public class SecurityJython implements ISecurity {
         if (currentUser == null)
             return; // TODO: more detailed log
         currentUser.logout();
+        if (currentUser.getSession() != null) 
+            currentUser.getSession().stop();
         cCache.removeSubject(token);
     }
 
