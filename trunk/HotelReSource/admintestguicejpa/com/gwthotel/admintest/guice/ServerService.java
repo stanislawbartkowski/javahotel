@@ -21,6 +21,8 @@ import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.roles.GetHotelRoles;
 import com.gwthotel.auth.SecurityConverter;
+import com.gwthotel.hotel.jpa.HotelJpaServices;
+import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
@@ -72,6 +74,7 @@ public class ServerService {
                     .toProvider(HotelMessProvider.class).in(Singleton.class);
             bind(ISecurityConvert.class).to(SecurityConverter.class).in(
                     Singleton.class);
+            bind(IHotelServices.class).to(HotelJpaServices.class).in(Singleton.class);
             requestStatic();
         }
     }

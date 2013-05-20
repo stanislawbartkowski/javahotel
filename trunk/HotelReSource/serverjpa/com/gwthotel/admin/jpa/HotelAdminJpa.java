@@ -25,7 +25,6 @@ import com.gwthotel.admin.Hotel;
 import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.Person;
-import com.gwthotel.admin.jpa.entities.EDictEntry;
 import com.gwthotel.admin.jpa.entities.EHotel;
 import com.gwthotel.admin.jpa.entities.EPersonPassword;
 import com.gwthotel.admin.jpa.entities.EPersonRoles;
@@ -40,45 +39,16 @@ class HotelAdminJpa implements IHotelAdmin {
             .getName());
     private final IGetLogMess lMess;
 
-    public HotelAdminJpa(EntityManagerFactory eFactory,
-            IGetLogMess lMess) {
+    public HotelAdminJpa(EntityManagerFactory eFactory, IGetLogMess lMess) {
         this.eFactory = eFactory;
         this.lMess = lMess;
     }
 
-    private abstract class doTransaction {
+    private abstract class doTransaction extends JpaTransaction {
 
-        abstract void dosth(EntityManager em);
-
-        protected void commitandbegin(EntityManager em) {
-            em.getTransaction().commit();
-            em.getTransaction().begin();
+        private doTransaction() {
+            super(eFactory);
         }
-
-        void executeTran() {
-            EntityManager em = eFactory.createEntityManager();
-            em.getTransaction().begin();
-            boolean commited = false;
-            try {
-                dosth(em);
-                em.getTransaction().commit();
-                commited = true;
-            } finally {
-                if (!commited)
-                    em.getTransaction().rollback();
-                em.close();
-            }
-        }
-    }
-
-    private void copyToProp(PropDescription dest, EDictEntry sou) {
-        dest.setName(sou.getName());
-        dest.setDescription(sou.getDescription());
-    }
-
-    private void copyToEDict(EDictEntry dest, PropDescription sou) {
-        dest.setName(sou.getName());
-        dest.setDescription(sou.getDescription());
     }
 
     private void addRole(List<HotelRoles> resList, PropDescription object,
@@ -123,7 +93,7 @@ class HotelAdminJpa implements IHotelAdmin {
         }
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             EPersonPassword pers = getPersonByName(em, person);
             if (pers == null) {
                 resList = null;
@@ -137,7 +107,7 @@ class HotelAdminJpa implements IHotelAdmin {
                 q1.setParameter(1, p.getHotel());
                 EHotel h = (EHotel) q1.getSingleResult();
                 Hotel ho = new Hotel();
-                copyToProp(ho, h);
+                PropUtils.copyToProp(ho, h);
                 addRole(resList, ho, p);
             }
         }
@@ -161,9 +131,9 @@ class HotelAdminJpa implements IHotelAdmin {
         }
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             EHotel hote = getHotelByName(em, hotel);
-            if (hotel == null) {
+            if (hote == null) {
                 resList = null;
                 return;
             }
@@ -175,7 +145,7 @@ class HotelAdminJpa implements IHotelAdmin {
                 q1.setParameter(1, p.getPerson());
                 EPersonPassword h = (EPersonPassword) q1.getSingleResult();
                 Person ho = new Person();
-                copyToProp(ho, h);
+                PropUtils.copyToProp(ho, h);
                 addRole(resList, ho, p);
             }
         }
@@ -214,12 +184,12 @@ class HotelAdminJpa implements IHotelAdmin {
         }
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             EHotel hote = getHotelByName(em, hotel.getName());
             if (hote == null) {
                 hote = new EHotel();
             }
-            copyToEDict(hote, hotel);
+            PropUtils.copyToEDict(hote, hotel);
             em.persist(hote);
             commitandbegin(em);
             Query q = em.createNamedQuery("removeRolesForHotel");
@@ -251,12 +221,12 @@ class HotelAdminJpa implements IHotelAdmin {
         }
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             EPersonPassword pe = getPersonByName(em, person.getName());
             if (pe == null) {
                 pe = new EPersonPassword();
             }
-            copyToEDict(pe, person);
+            PropUtils.copyToEDict(pe, person);
             em.persist(pe);
             commitandbegin(em);
             Query q = em.createNamedQuery("removeRolesForPerson");
@@ -288,7 +258,7 @@ class HotelAdminJpa implements IHotelAdmin {
         }
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             EPersonPassword pe = getPersonByName(em, person);
             pe.setPassword(password);
             em.persist(pe);
@@ -317,7 +287,7 @@ class HotelAdminJpa implements IHotelAdmin {
         }
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             EPersonPassword pe = getPersonByName(em, person);
             if (pe == null)
                 return;
@@ -339,12 +309,12 @@ class HotelAdminJpa implements IHotelAdmin {
         private final List<Person> pList = new ArrayList<Person>();
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             Query q = em.createNamedQuery("findAllPersons");
             List<EPersonPassword> resList = q.getResultList();
             for (EPersonPassword e : resList) {
                 Person pe = new Person();
-                copyToProp(pe, e);
+                PropUtils.copyToProp(pe, e);
                 pList.add(pe);
             }
         }
@@ -362,12 +332,12 @@ class HotelAdminJpa implements IHotelAdmin {
         private final List<Hotel> hList = new ArrayList<Hotel>();
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             Query q = em.createNamedQuery("findAllHotels");
             List<EHotel> resList = q.getResultList();
             for (EHotel e : resList) {
                 Hotel ho = new Hotel();
-                copyToProp(ho, e);
+                PropUtils.copyToProp(ho, e);
                 hList.add(ho);
             }
 
@@ -385,7 +355,7 @@ class HotelAdminJpa implements IHotelAdmin {
     private class DeleteAll extends doTransaction {
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             String[] namedQ = new String[] { "removeAllRoles",
                     "removeAllHotels", "removeAllPersons" };
             for (String s : namedQ) {
@@ -411,7 +381,7 @@ class HotelAdminJpa implements IHotelAdmin {
         }
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             EPersonPassword pe = getPersonByName(em, person);
             Query q = em.createNamedQuery("removeRolesForPerson");
             q.setParameter(1, pe.getId());
@@ -436,7 +406,7 @@ class HotelAdminJpa implements IHotelAdmin {
         }
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             EHotel hote = getHotelByName(em, hotel);
             Query q = em.createNamedQuery("removeRolesForHotel");
             q.setParameter(1, hote.getId());
@@ -451,25 +421,25 @@ class HotelAdminJpa implements IHotelAdmin {
         RemoveHotel comma = new RemoveHotel(hotel);
         comma.executeTran();
     }
-    
+
     private class GetPassword extends doTransaction {
 
         private final String person;
         String password;
-        
+
         GetPassword(String person) {
             this.person = person;
             password = null;
         }
 
         @Override
-        void dosth(EntityManager em) {
+        protected void dosth(EntityManager em) {
             EPersonPassword pe = getPersonByName(em, person);
             if (pe == null)
                 return;
             if (emptyS(pe.getPassword()))
                 return;
-            password = pe.getPassword();            
+            password = pe.getPassword();
         }
     }
 

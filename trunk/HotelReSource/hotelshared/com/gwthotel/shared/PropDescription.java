@@ -18,6 +18,8 @@ import java.util.Map;
 
 abstract public class PropDescription implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     // important: not final !
     private Map<String, String> attr = new HashMap<String, String>();
 
@@ -51,5 +53,17 @@ abstract public class PropDescription implements Serializable {
 
     public void setDescription(String de) {
         setAttr(IHotelConsts.DESCRIPTION, de);
+    }
+
+    public void setAttrInt(String key, int no) {
+        String s = Integer.toString(no);
+        setAttr(key, s);
+    }
+
+    public int getAttrInt(String key) {
+        String s = getAttr(key);
+        if (s == null)
+            return 0;
+        return Integer.parseInt(s);
     }
 }

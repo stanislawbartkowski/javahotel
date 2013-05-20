@@ -6,7 +6,8 @@
     <class>com.gwthotel.admin.jpa.entities.EHotel</class>
     <class>com.gwthotel.admin.jpa.entities.EPersonPassword</class>
     <class>com.gwthotel.admin.jpa.entities.EPersonRoles</class>
-    <class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>    
+    <class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
+    <class>com.gwthotel.hotel.jpa.entities.EHotelServices</class>    
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
       <property name="javax.persistence.jdbc.url"
