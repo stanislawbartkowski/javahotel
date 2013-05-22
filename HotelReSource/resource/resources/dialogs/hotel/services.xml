@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from hotelpack import services</import>
+		<method>services.serviceaction({0},{1})</method>
+	</jython>
+
+
+	<list id="services" displayname="List of services" elemformat="hotel/elemservice.xml">
+		<columns>
+			<column id="name" displayname="@name" />
+			<column id="descr" displayname="@description" />
+		</columns>
+	</list>
+
+</dialog>

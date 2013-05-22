@@ -10,33 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admin.roles;
+package com.gwthotel.admin.vattax;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.gwthotel.admin.IGetHotelRoles;
-import com.gwthotel.admin.Role;
+import com.gwthotel.admin.IGetVatTaxes;
+import com.gwthotel.admin.VatTax;
 import com.gwthotel.admin.xmlhelper.ReadXMLHelper;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 
-public class GetHotelRoles extends ReadXMLHelper<Role> implements
-        IGetHotelRoles {
+public class GetVatTaxes extends ReadXMLHelper<VatTax> implements IGetVatTaxes {
 
-    private static final String ROLES = "roles//roles.xml";
-    private static final String ROLESTAG = "roles";
-    private static final String ROLETAG = "role";
+    private static final String VATFILE = "vat//vat.xml";
+    private static final String VATSTAG = "vattaxes";
+    private static final String VATTAG = "vat";
 
     @Inject
-    public GetHotelRoles(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        super(lMess, new String[] { ROLES, ROLESTAG, ROLETAG }, new String[] {
-                IHotelConsts.NAME, IHotelConsts.DESCRIPTION });
+    public GetVatTaxes(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
+        super(lMess, new String[] { VATFILE, VATSTAG, VATTAG }, new String[] {
+                IHotelConsts.NAME, IHotelConsts.DESCRIPTION,
+                IHotelConsts.VATLEVELPROP });
     }
 
     @Override
-    protected Role constructT() {
-        return new Role();
+    protected VatTax constructT() {
+        return new VatTax();
     }
 
 }

@@ -1,0 +1,7 @@
+<vattaxes>
+<vat name="free" description="Vat free" level=""/>
+<vat name="0%" description="Vat 0%" level="0"/>
+<vat name="7%" description="Vat 7%" level="7"/>
+<vat name="20%" description="Vat 20%" level="20"/>
+<vat name="22%" description="Vat 22%" level="22"/>
+</vattaxes>

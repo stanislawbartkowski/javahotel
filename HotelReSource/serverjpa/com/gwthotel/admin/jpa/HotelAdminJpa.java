@@ -30,6 +30,7 @@ import com.gwthotel.admin.jpa.entities.EPersonPassword;
 import com.gwthotel.admin.jpa.entities.EPersonRoles;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.PropDescription;
+import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelAdminJpa implements IHotelAdmin {
@@ -271,10 +272,6 @@ class HotelAdminJpa implements IHotelAdmin {
         comma.executeTran();
     }
 
-    private boolean emptyS(String s) {
-        return (s == null) || s.equals("");
-    }
-
     private class ValidatePassword extends doTransaction {
 
         private final String person;
@@ -291,7 +288,7 @@ class HotelAdminJpa implements IHotelAdmin {
             EPersonPassword pe = getPersonByName(em, person);
             if (pe == null)
                 return;
-            if (emptyS(pe.getPassword()))
+            if (CUtil.EmptyS(pe.getPassword()))
                 return;
             ok = password.equals(pe.getPassword());
         }
@@ -437,7 +434,7 @@ class HotelAdminJpa implements IHotelAdmin {
             EPersonPassword pe = getPersonByName(em, person);
             if (pe == null)
                 return;
-            if (emptyS(pe.getPassword()))
+            if (CUtil.EmptyS(pe.getPassword()))
                 return;
             password = pe.getPassword();
         }

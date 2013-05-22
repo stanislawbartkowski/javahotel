@@ -17,6 +17,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.IGetHotelRoles;
+import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
@@ -37,8 +38,12 @@ public class ServiceInjector {
         injector = Guice.createInjector(new ServerService.ServiceModule());
     }
 
-    public static IJythonUIServer contructJythonUiServer() {
-        return injector.getInstance(IJythonUIServer.class);
+    public static IHotelAdmin constructHotelAdmin() {
+        return injector.getInstance(IHotelAdmin.class);
+    }
+
+    public static IGetHotelRoles constructHotelRoles() {
+        return injector.getInstance(IGetHotelRoles.class);
     }
 
     public static ITestEnhancer constructITestEnhancer() {
@@ -49,21 +54,21 @@ public class ServiceInjector {
         return injector.getInstance(ISecurity.class);
     }
 
-    public static IHotelAdmin constructHotelAdmin() {
-        return injector.getInstance(IHotelAdmin.class);
+    public static IJythonUIServer contructJythonUiServer() {
+        return injector.getInstance(IJythonUIServer.class);
     }
 
-    public static IGetHotelRoles constructHotelRoles() {
-        return injector.getInstance(IGetHotelRoles.class);
+    public static IHotelServices getHotelServices() {
+        return injector.getInstance(IHotelServices.class);
     }
 
     public static IGetLogMess getLogMess() {
         return injector.getInstance(Key.get(IGetLogMess.class,
                 Names.named(IHotelConsts.MESSNAMED)));
     }
-    
-    public static IHotelServices getHotelServices() {
-        return injector.getInstance(IHotelServices.class);
+
+    public static IGetVatTaxes getVatTaxes() {
+        return injector.getInstance(IGetVatTaxes.class);
     }
 
 }

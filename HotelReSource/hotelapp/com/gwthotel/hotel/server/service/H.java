@@ -16,7 +16,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.gwthotel.admin.IGetHotelRoles;
+import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.hotel.IHotelGetName;
+import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.resbundle.Mess;
@@ -39,6 +42,15 @@ public class H {
     @Inject
     private static Mess mMess;
 
+    @Inject
+    private static IHotelServices iServices;
+
+    @Inject
+    private static IGetVatTaxes iTaxes;
+
+    @Inject
+    private static IHotelGetName iGetHotelName;
+
     public static IGetLogMess getL() {
         return lMess;
     }
@@ -53,6 +65,18 @@ public class H {
 
     public static Mess getM() {
         return mMess;
+    }
+
+    public static IHotelServices getHotelServices() {
+        return iServices;
+    }
+
+    public static IGetVatTaxes getVatTaxes() {
+        return iTaxes;
+    }
+
+    public static String getHotelName(String token) {
+        return iGetHotelName.getHotel(token);
     }
 
 }

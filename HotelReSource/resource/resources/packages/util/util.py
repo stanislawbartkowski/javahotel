@@ -9,6 +9,14 @@ class MESS :
   def __call__(self,key) :
       return self.M.getMessN(key)
   
+class SERVICES :
+    def __init__(self,var):
+        self.serviceS = H.getHotelServices()
+        self.var = var
+        
+    def getList(self):
+        return self.serviceS.getList(getHotelName(self.var))    
+  
 def printvar(method,action,var): 
   print method, action
   for k in var.keys() : 
@@ -16,3 +24,8 @@ def printvar(method,action,var):
  
 def createArrayList() :
   return ArrayList()   
+  
+def getHotelName(var):
+    token = var["SECURITY_TOKEN"]
+    return H.getHotelName(token)
+      
