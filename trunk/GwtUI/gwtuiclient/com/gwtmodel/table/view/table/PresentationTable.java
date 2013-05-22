@@ -67,6 +67,7 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.DecimalUtils;
 import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
@@ -608,7 +609,7 @@ class PresentationTable implements IGwtTableView {
                 } else {
                     double wi;
                     try {
-                        wi = Utils.toDouble(pa[0]);
+                        wi = DecimalUtils.toDouble(pa[0]);
                     } catch (NumberFormatException e) {
                         String info = LogT.getT().InproperWidthInColumn(
                                 he.getHeaderString(), pa[0]);
