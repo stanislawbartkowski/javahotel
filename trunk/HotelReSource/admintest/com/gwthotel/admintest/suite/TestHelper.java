@@ -16,6 +16,7 @@ import org.junit.After;
 import org.junit.Before;
 
 import com.gwthotel.admin.IGetHotelRoles;
+import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admintest.guice.ServiceInjector;
 import com.gwthotel.hotel.services.IHotelServices;
@@ -40,6 +41,7 @@ public class TestHelper {
     protected final IJythonUIServer iServer;
     protected final ISecurity iSec;
     protected final IHotelServices iServices;
+    protected final IGetVatTaxes iTaxes;
 
     protected final String realM = "classpath:resources/shiro/hoteluser.ini";
     protected final String adminM = "classpath:resources/shiro/admin.ini";
@@ -51,6 +53,7 @@ public class TestHelper {
         iServer = ServiceInjector.contructJythonUiServer();
         iSec = ServiceInjector.constructSecurity();
         iServices = ServiceInjector.getHotelServices();
+        iTaxes = ServiceInjector.getVatTaxes();
     }
 
     @Before

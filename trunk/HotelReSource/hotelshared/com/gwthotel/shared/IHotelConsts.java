@@ -37,4 +37,5 @@ public interface IHotelConsts {
     String HOTELPROP = "hotel";
     String NOPERSONPROP = "noperson";
     String VATPROP = "vat";
+    String VATLEVELPROP = "level";
 }

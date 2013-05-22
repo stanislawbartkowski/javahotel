@@ -13,8 +13,12 @@
 package com.gwthotel.shared;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.DecimalUtils;
 
 abstract public class PropDescription implements Serializable {
 
@@ -62,8 +66,23 @@ abstract public class PropDescription implements Serializable {
 
     public int getAttrInt(String key) {
         String s = getAttr(key);
-        if (s == null)
+        if (CUtil.EmptyS(s))
             return 0;
-        return Integer.parseInt(s);
+        return CUtil.getInteger(s);
+    }
+
+    public BigDecimal getAttrBig(String key) {
+        String s = getAttr(key);
+        if (s == null)
+            return null;
+        return DecimalUtils.toBig(s);
+    }
+
+    public void setAttrBig(String key, BigDecimal b) {
+        if (b == null) {
+            setAttr(key, null);
+            return;
+        }
+        setAttr(key, b.toString());
     }
 }
