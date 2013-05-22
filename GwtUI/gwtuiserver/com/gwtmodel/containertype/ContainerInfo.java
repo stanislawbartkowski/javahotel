@@ -60,7 +60,7 @@ public class ContainerInfo {
         if (classPath == null) {
             return ContainerType.APPENGINE;
         }
-        boolean tomcat = isJarOnPath(classPath, "catalina.jar");
+        boolean tomcat = isJarOnPath(classPath, "tomcat-juli.jar");
         if (tomcat) {
             return ContainerType.TOMCAT;
         }
