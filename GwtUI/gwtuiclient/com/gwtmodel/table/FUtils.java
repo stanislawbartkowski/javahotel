@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.DecimalUtils;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.gwtmodel.table.injector.LogT;
@@ -95,7 +96,7 @@ public class FUtils {
         Object o;
         switch (f.getType().getType()) {
         case BIGDECIMAL:
-            o = Utils.toBig(s);
+            o = DecimalUtils.toBig(s);
             break;
         case LONG:
             o = Utils.toLong(s);
@@ -529,7 +530,7 @@ public class FUtils {
         if (b == null) {
             return "";
         }
-        return Utils.DecimalToS(b, f.getType().getAfterdot());
+        return DecimalUtils.DecimalToS(b, f.getType().getAfterdot());
     }
 
     private static String getS(Enum<?> e) {
