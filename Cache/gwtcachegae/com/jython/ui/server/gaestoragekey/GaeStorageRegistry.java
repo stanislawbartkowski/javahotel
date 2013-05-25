@@ -14,8 +14,8 @@ package com.jython.ui.server.gaestoragekey;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Ref;
 import com.jythonui.server.registry.IStorageRegistry;
 
 class GaeStorageRegistry implements IStorageRegistry {
@@ -40,12 +40,12 @@ class GaeStorageRegistry implements IStorageRegistry {
     }
 
     private RegistryEntry findR(String key) {
-        Ref<RegistryEntry> p = ofy().load().type(RegistryEntry.class)
+        LoadResult<RegistryEntry> p = ofy().load().type(RegistryEntry.class)
                 .filter("realM ==", realm).filter("key ==", key).first();
         if (p == null) {
             return null;
         }
-        return p.get();
+        return p.now();
     }
 
     @Override
