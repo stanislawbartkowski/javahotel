@@ -10,16 +10,25 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.gaestoragekey;
+package com.jython.ui.server.jpastoragekey;
 
-import com.jythonui.server.registry.IStorageRegistry;
-import com.jythonui.server.registry.IStorageRegistryFactory;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Provider;
+import javax.persistence.EntityManagerFactory;
 
-public class StorageRegistryFactory implements IStorageRegistryFactory {
+import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
+public class TestStorageJpaRegistryProvider implements Provider<IStorageRealmRegistry> {
+
+    @Inject
+    @Named(ISharedConsts.TESTSTORAGEREGISTRYENTITYMANAGERFACTORY) 
+    private EntityManagerFactory factory;
+    
     @Override
-    public IStorageRegistry construct(String realm) {
-        return new GaeStorageRegistry(realm);
+    public IStorageRealmRegistry get() {
+        return new StorageJpaRegistry(factory);
     }
 
 }
