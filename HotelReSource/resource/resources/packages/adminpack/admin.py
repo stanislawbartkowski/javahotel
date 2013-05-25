@@ -5,6 +5,7 @@ from com.gwthotel.admin import HotelRoles
 from util.util import MESS
 from util.util import printvar
 from util.util import createArrayList
+from util.util import findElemInSeq
 
 adminI = H.getHotelAdmin()
 M = MESS()
@@ -12,12 +13,7 @@ M = MESS()
 def __existHotelPerson(pname,hotel):
     if hotel : seq = adminI.getListOfHotels()
     else : seq = adminI.getListOfPersons()
-    for s in seq : 
-       elem = {}
-       name = s.getName()
-       if name == pname : return True
-    return False   
-    
+    return findElemInSeq(pname,seq) != None    
     
 def __duplicatedHotelPersonName(var,hotel): 
     name = var["name"]

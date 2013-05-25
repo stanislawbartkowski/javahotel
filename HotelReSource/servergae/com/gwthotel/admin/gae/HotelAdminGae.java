@@ -19,19 +19,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.Hotel;
 import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.Person;
-import com.gwthotel.admin.gae.entities.EDictionary;
 import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.admin.gae.entities.EPermissions;
 import com.gwthotel.admin.gae.entities.EPerson;
 import com.gwthotel.admin.gae.entities.ElemPerm;
-import com.gwthotel.shared.PropDescription;
 
 public class HotelAdminGae implements IHotelAdmin {
 
@@ -41,23 +39,13 @@ public class HotelAdminGae implements IHotelAdmin {
         ObjectifyService.register(EPermissions.class);
     }
 
-    private void toProp(PropDescription dest, EDictionary e) {
-        dest.setName(e.getName());
-        dest.setDescription(e.getDescription());
-    }
-
-    private void toEDict(EDictionary dest, PropDescription sou) {
-        dest.setName(sou.getName());
-        dest.setDescription(sou.getDescription());
-    }
-
     @Override
     public List<Person> getListOfPersons() {
         List<EPerson> li = ofy().load().type(EPerson.class).list();
         List<Person> outList = new ArrayList<Person>();
         for (EPerson e : li) {
             Person p = new Person();
-            toProp(p, e);
+            DictUtil.toProp(p, e);
             outList.add(p);
         }
         return outList;
@@ -69,14 +57,14 @@ public class HotelAdminGae implements IHotelAdmin {
         List<Hotel> outList = new ArrayList<Hotel>();
         for (EHotel e : li) {
             Hotel p = new Hotel();
-            toProp(p, e);
+            DictUtil.toProp(p, e);
             outList.add(p);
         }
         return outList;
     }
 
     private EPerson findPerson(String name) {
-        Ref<EPerson> p = ofy().load().type(EPerson.class)
+        LoadResult<EPerson> p = ofy().load().type(EPerson.class)
                 .filter("name ==", name).first();
         if (p == null) {
             return null;
@@ -86,14 +74,14 @@ public class HotelAdminGae implements IHotelAdmin {
     }
 
     private EPerson findPerson(Long id) {
-        Ref<EPerson> e = ofy().load().type(EPerson.class).id(id);
+        LoadResult<EPerson> e = ofy().load().type(EPerson.class).id(id);
         if (e == null)
             return null;
         return e.get();
     }
 
     private EHotel findHotel(String name) {
-        Ref<EHotel> p = ofy().load().type(EHotel.class).filter("name ==", name)
+        LoadResult<EHotel> p = ofy().load().type(EHotel.class).filter("name ==", name)
                 .first();
         if (p == null) {
             return null;
@@ -102,14 +90,14 @@ public class HotelAdminGae implements IHotelAdmin {
     }
 
     private EHotel findHotel(Long id) {
-        Ref<EHotel> e = ofy().load().type(EHotel.class).id(id);
+        LoadResult<EHotel> e = ofy().load().type(EHotel.class).id(id);
         if (e == null)
             return null;
         return e.get();
     }
 
     private EPermissions getPerm() {
-        Ref<EPermissions> e = ofy().load().type(EPermissions.class).first();
+        LoadResult<EPermissions> e = ofy().load().type(EPermissions.class).first();
         if (e == null)
             return new EPermissions();
         if (e.get() == null)
@@ -140,7 +128,7 @@ public class HotelAdminGae implements IHotelAdmin {
             if (eho == null) // TODO: not expected
                 continue;
             Hotel ho = new Hotel();
-            toProp(ho, eho);
+            DictUtil.toProp(ho, eho);
             HotelRoles rol = new HotelRoles(ho);
             rol.getRoles().addAll(ro.get(hId));
             li.add(rol);
@@ -171,7 +159,7 @@ public class HotelAdminGae implements IHotelAdmin {
             if (epe == null) // TODO: not expected
                 continue;
             Person pe = new Person();
-            toProp(pe, epe);
+            DictUtil.toProp(pe, epe);
             HotelRoles rol = new HotelRoles(pe);
             rol.getRoles().addAll(ro.get(hId));
             li.add(rol);
@@ -217,7 +205,7 @@ public class HotelAdminGae implements IHotelAdmin {
         if (eho == null)
             eho = new EHotel();
         final EHotel ho = eho;
-        toEDict(ho, hotel);
+        DictUtil.toEDict(ho, hotel);
         final List<Long> personIds = new ArrayList<Long>();
         final List<HotelRoles> aroles = new ArrayList<HotelRoles>();
 
@@ -249,7 +237,7 @@ public class HotelAdminGae implements IHotelAdmin {
         if (epo == null)
             epo = new EPerson();
         final EPerson po = epo;
-        toEDict(po, person);
+        DictUtil.toEDict(po, person);
         final List<Long> hotelIds = new ArrayList<Long>();
         final List<HotelRoles> aroles = new ArrayList<HotelRoles>();
 
@@ -338,6 +326,14 @@ public class HotelAdminGae implements IHotelAdmin {
             }
         });
 
+    }
+
+    @Override
+    public String getPassword(String person) {
+        EPerson epe = findPerson(person);
+        if (epe == null) // TODO: unexpected
+            return null;
+        return epe.getPassword();
     }
 
 }

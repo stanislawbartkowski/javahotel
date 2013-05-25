@@ -20,6 +20,9 @@ import com.google.inject.name.Names;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.jpa.TestHotelAdminProvider;
+import com.gwthotel.hotel.jpa.HotelServicesProvider;
+import com.gwthotel.hotel.jpa.TestHotelServicesProvider;
+import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryProvider;
@@ -58,6 +61,12 @@ public class GuiceService {
             bind(IHotelAdmin.class)
                     .annotatedWith(Names.named(IHotelConsts.TESTHOTELADMIN))
                     .toProvider(TestHotelAdminProvider.class)
+                    .in(Singleton.class);
+            bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
+                    .in(Singleton.class);
+            bind(IHotelServices.class)
+                    .annotatedWith(Names.named(IHotelConsts.TESTHOTELSERVICES))
+                    .toProvider(TestHotelServicesProvider.class)
                     .in(Singleton.class);
             bind(EntityManagerFactory.class)
                     .annotatedWith(Names.named(IHotelConsts.TESTFACTORYMANAGER))

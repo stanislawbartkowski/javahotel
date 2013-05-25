@@ -24,9 +24,13 @@ public interface IHotelConsts {
 
     String HOTELADMINEJBJNDI = "java:global/HotelAdmin";
     String TESTHOTELADMINEJBJNDI = "java:global/TestHotelAdmin";
+    String HOTELSERVICESJNDI = "java:global/HotelServices";
+    String TESTHOTELSERVICESJNDI = "java:global/TestHotelServices";
+    
 
     String TESTHOTELADMIN = "testhoteladmin";
     String TESTFACTORYMANAGER = "testfactorymanager";
+    String TESTHOTELSERVICES ="testhotelservices";
 
     String HOTELREALM = "HotelRealm";
 

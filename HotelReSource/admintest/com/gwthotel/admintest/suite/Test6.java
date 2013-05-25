@@ -12,12 +12,15 @@
  */
 package com.gwthotel.admintest.suite;
 
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
+import com.gwthotel.admin.Hotel;
+import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
 
@@ -25,11 +28,24 @@ public class Test6 extends TestHelper {
 
     private static final String HOTEL = "hotel";
     private static final String HOTEL1 = "hotel1";
+    
+    private void resetHotel() {
+          iAdmin.clearAll();
+          String[] hNames = new String[] {HOTEL,HOTEL1};
+          for (String s : hNames) {
+            Hotel ho = new Hotel();
+            ho.setName(s);
+            ho.setDescription("Pod Pieskiem");
+            List<HotelRoles>roles = new ArrayList<HotelRoles>();
+            iAdmin.addOrModifHotel(ho, roles);
+          }
+          iServices.deleteAll(HOTEL);
+          iServices.deleteAll(HOTEL1);
+    }
 
     @Test
     public void test1() {
-        iServices.deleteAll(HOTEL);
-        iServices.deleteAll(HOTEL1);
+        resetHotel();
         HotelServices ho = new HotelServices();
         ho.setName("1p1");
         ho.setDescription("One person in one person room");
@@ -54,7 +70,7 @@ public class Test6 extends TestHelper {
         for (int i = 0; i < no; i++) {
             HotelServices ho = new HotelServices();
             ho.setName("" + i);
-            ho.setDescription("Desc " + i);
+            ho.setDescription(hotel + "Desc " + i);
             ho.setAttrInt(IHotelConsts.NOPERSONPROP, 2);
             ho.setAttr(IHotelConsts.VATPROP, "7%");
             iServices.addElem(hotel, ho);
@@ -63,8 +79,7 @@ public class Test6 extends TestHelper {
 
     @Test
     public void test2() {
-        iServices.deleteAll(HOTEL);
-        iServices.deleteAll(HOTEL1);
+        resetHotel();
         addList(HOTEL, 100);
         addList(HOTEL1, 90);
         List<HotelServices> hList = iServices.getList(HOTEL);
@@ -87,8 +102,7 @@ public class Test6 extends TestHelper {
 
     @Test
     public void test3() {
-        iServices.deleteAll(HOTEL);
-        iServices.deleteAll(HOTEL1);
+        resetHotel();
         addList(HOTEL, 100);
         addList(HOTEL1, 90);
         List<HotelServices> hList = iServices.getList(HOTEL1);
@@ -102,5 +116,17 @@ public class Test6 extends TestHelper {
         }
         hList = iServices.getList(HOTEL);
         assertEquals(100, hList.size());
+    }
+    
+    @Test
+    public void test4() {
+        resetHotel();
+        addList(HOTEL, 100);
+        addList(HOTEL1, 90);
+        iServices.deleteAll(HOTEL);
+        List<HotelServices> hList = iServices.getList(HOTEL);
+        assertTrue(hList.isEmpty());
+        hList = iServices.getList(HOTEL1);
+        assertEquals(90, hList.size());
     }
 }
