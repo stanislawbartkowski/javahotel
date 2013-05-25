@@ -25,7 +25,8 @@ import com.gwthotel.admin.vattax.GetVatTaxes;
 import com.gwthotel.auth.SecurityConverter;
 import com.gwthotel.hotel.IHotelGetName;
 import com.gwthotel.hotel.getname.GetHotelNameFromToken;
-import com.gwthotel.hotel.jpa.HotelJpaServices;
+import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.jpa.HotelServicesProvider;
 import com.gwthotel.hotel.server.provider.EntityManagerFactoryProvider;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
@@ -53,11 +54,10 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
  */
 public class ServerService {
 
-    public static class ServiceModule extends
-            JythonServerService.JythonServiceModule {
+    public static class ServiceModule extends HotelServiceModule {
         @Override
         protected void configure() {
-            configureJythonUi();
+            configureHotel();
             bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
                     .in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
@@ -73,23 +73,13 @@ public class ServerService {
                     .in(Singleton.class);
             bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
                     Singleton.class);
-            bind(IGetHotelRoles.class).to(GetHotelRoles.class).in(
-                    Singleton.class);
             bind(Mess.class).in(Singleton.class);
-            bind(IGetLogMess.class)
-                    .annotatedWith(Names.named(IHotelConsts.MESSNAMED))
-                    .toProvider(HotelMessProvider.class).in(Singleton.class);
             bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
                     Singleton.class);
             bind(IStorageRealmRegistry.class).toProvider(
                     StorageJpaRegistryProvider.class).in(Singleton.class);
-            bind(ISecurityConvert.class).to(SecurityConverter.class).in(
-                    Singleton.class);
-            bind(IGetVatTaxes.class).to(GetVatTaxes.class).in(Singleton.class);
-            bind(IHotelServices.class).to(HotelJpaServices.class).in(
-                    Singleton.class);
-            bind(IHotelGetName.class).to(GetHotelNameFromToken.class).in(
-                    Singleton.class);
+            bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
+                    .in(Singleton.class);
             requestStatic();
             requestStaticInjection(H.class);
         }

@@ -10,26 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.jpa.entities;
+package com.gwthotel.hotel.service.gae.entities;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import com.googlecode.objectify.annotation.Entity;
 
-import com.gwthotel.admin.jpa.entities.EDictEntry;
+@Entity
+public class EHotelServices extends EHotelDict {
 
-@MappedSuperclass
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"hotel", "name"}))
-public abstract class EHotelDict extends EDictEntry {
-    
-    private String hotel;
+    private String vat;
+    private int noperson;
 
-    public String getHotel() {
-        return hotel;
+    public String getVat() {
+        return vat;
     }
 
-    public void setHotel(String hotel) {
-        this.hotel = hotel;
+    public void setVat(String vat) {
+        this.vat = vat;
+    }
+
+    public int getNoperson() {
+        return noperson;
+    }
+
+    public void setNoperson(int noperson) {
+        this.noperson = noperson;
     }
 
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<typedefs xmlns="http://www.jythongwt.typedefxsd.com">
+
+<jython>
+  <import>from hotelpack import defenum</import>
+</jython>    
+
+  <typedef id="vattax" type="combo" comboid="id" displayname="name" >
+  
+     <jython>
+        <method>defenum.serviceenum({0},{1})</method>
+      </jython>    
+ 
+   </typedef>
+
+</typedefs>

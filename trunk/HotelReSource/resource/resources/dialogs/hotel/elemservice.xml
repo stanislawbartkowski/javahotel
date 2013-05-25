@@ -1,6 +1,22 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 	
+	<before/>
+	
 	<parent>hotel/services.xml</parent>
+	
+	 <types>hotel/typesenum.xml</types>
+	
+	<jython>
+		<import>from hotelpack import services</import>
+		<method>services.elemserviceaction({0},{1})</method>
+	</jython>
 
+	<form>
+		<field id="name" displayname="@name" readonlychange="" notempty="" />
+		<field id="descr" displayname="@description" />
+		<field id="noperson" type="int" displayname="@nopersons" notempty="" />
+		<field id="vat" type="custom:vattax" displayname="@vatname" notempty="" />
+	</form>
+	
 </dialog>

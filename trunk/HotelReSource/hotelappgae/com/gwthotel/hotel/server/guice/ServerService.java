@@ -13,14 +13,12 @@
 package com.gwthotel.hotel.server.guice;
 
 import com.google.inject.Singleton;
-import com.google.inject.name.Names;
-import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.gae.HotelAdminGae;
-import com.gwthotel.admin.roles.GetHotelRoles;
+import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.server.service.H;
-import com.gwthotel.mess.HotelMessProvider;
-import com.gwthotel.shared.IHotelConsts;
+import com.gwthotel.hotel.service.gae.HotelServiceImpl;
+import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.ui.server.gaecached.Cached;
@@ -28,8 +26,6 @@ import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
-import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 
 /**
@@ -38,10 +34,10 @@ import com.jythonui.server.registry.IStorageRegistryFactory;
  */
 public class ServerService {
 
-    public static class ServiceModule extends JythonServiceModule {
+    public static class ServiceModule extends HotelServiceModule {
         @Override
         protected void configure() {
-            configureJythonUi();
+            configureHotel();
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
@@ -49,13 +45,9 @@ public class ServerService {
             bind(IHotelAdmin.class).to(HotelAdminGae.class).in(Singleton.class);
             bind(IStorageRegistryFactory.class)
                     .to(StorageRegistryFactory.class).in(Singleton.class);
-            bind(IGetHotelRoles.class).to(GetHotelRoles.class).in(
-                    Singleton.class);
-            bind(IGetLogMess.class)
-                    .annotatedWith(Names.named(IHotelConsts.MESSNAMED))
-                    .toProvider(HotelMessProvider.class).in(Singleton.class);
             bind(IsCached.class).to(Cached.class).in(Singleton.class);
-
+            bind(IHotelServices.class).to(HotelServiceImpl.class).in(
+                    Singleton.class);
             requestStatic();
             requestStaticInjection(H.class);
         }

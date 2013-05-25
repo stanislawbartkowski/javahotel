@@ -23,13 +23,12 @@ import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 
-public class HotelJpaServices extends
+class HotelJpaServices extends
         AbstractJpaCrud<HotelServices, EHotelServices> implements
         IHotelServices {
 
-    @Inject
-    public HotelJpaServices(EntityManagerFactory eFactory,
-            @Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
+    HotelJpaServices(EntityManagerFactory eFactory,
+            IGetLogMess lMess) {
         super(new String[] { "findAllServices", "findOneService",
                 "deleteAllServices" }, eFactory, lMess);
     }

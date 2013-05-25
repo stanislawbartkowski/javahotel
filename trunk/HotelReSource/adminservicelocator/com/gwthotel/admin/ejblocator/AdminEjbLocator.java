@@ -20,6 +20,8 @@ import javax.naming.NamingException;
 
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.ITestHotelAdmin;
+import com.gwthotel.hotel.services.IHotelServices;
+import com.gwthotel.hotel.services.ITestHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -65,6 +67,14 @@ public class AdminEjbLocator {
 
     public static ITestStorageRealmRegistry getTestStorageRealm() {
         return construct(ISharedConsts.TESTCOMMONREGISTRYBEANJNDI);
+    }
+
+    public static ITestHotelServices getTestHotelServices() {
+        return construct(IHotelConsts.TESTHOTELSERVICESJNDI);
+    }
+
+    public static IHotelServices getHotelServices() {
+        return construct(IHotelConsts.HOTELSERVICESJNDI);
     }
 
 }

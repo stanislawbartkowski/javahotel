@@ -18,5 +18,5 @@ public interface IHError {
     String HERROR002 = "H002";
     String HERROR003 = "H003";
     String HERROR004 = "H004";
-
+    String HERROR005 = "H005";
 }

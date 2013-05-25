@@ -10,26 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.jpa.entities;
+package com.gwthotel.admin.ejblocator;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.inject.Provider;
 
-import com.gwthotel.admin.jpa.entities.EDictEntry;
+import com.gwthotel.hotel.services.IHotelServices;
 
-@MappedSuperclass
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"hotel", "name"}))
-public abstract class EHotelDict extends EDictEntry {
-    
-    private String hotel;
+public class HotelServicesProvider implements Provider<IHotelServices> {
 
-    public String getHotel() {
-        return hotel;
+    @Override
+    public IHotelServices get() {
+        return AdminEjbLocator.getHotelServices();
     }
-
-    public void setHotel(String hotel) {
-        this.hotel = hotel;
-    }
-
 }

@@ -142,6 +142,7 @@ abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
             if (pers == null) // TODO: more verbose, not expected
                 return;
             toE(pers, elem);
+            pers.setHotel(hotel);
             em.persist(pers);
         }
 

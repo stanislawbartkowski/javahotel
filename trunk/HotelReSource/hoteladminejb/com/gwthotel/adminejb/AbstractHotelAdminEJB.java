@@ -21,8 +21,6 @@ import com.gwthotel.admin.Person;
 
 abstract public class AbstractHotelAdminEJB implements IHotelAdmin {
 
-    // private IHotelAdmin iHotel = ServiceInjector.constructHotelAdmin();
-
     protected IHotelAdmin iHotel;
 
     @Override
