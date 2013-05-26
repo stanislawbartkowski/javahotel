@@ -27,10 +27,10 @@ public class TestCustomShiro {
             System.out.println("Failure expected, try again with the valid password");
         }
         token = new UsernamePasswordToken("guest",
-                "guest");
+                "secret");
         currentUser.login(token);
         System.out.println("Hello guest, you are welcome ...");
-        assertTrue("Guest role expected", currentUser.hasRole("guest"));
+        assertTrue("Guest role expected", currentUser.hasRole("welcome"));
         assertFalse("Admin role not expected", currentUser.hasRole("admin"));
         currentUser.logout();
         try {

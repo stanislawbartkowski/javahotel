@@ -13,13 +13,13 @@ public class CustomCredentials implements InjectCredentials {
 
     @Override
     public String getPassword() {
-        return "guest";
+        return "secret";
     }
 
     @Override
     public List<String> getRoles() {
         List<String> roles = new ArrayList<String>();
-        roles.add("guest");
+        roles.add("welcome");
         return roles;
     }
 
