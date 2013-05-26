@@ -40,8 +40,8 @@ public class MyRealm extends AuthorizingRealm {
         if (!person.equals("guest")) throwNotExist(person);
         User user = new User();
         user.roles = new ArrayList<String>();
-        user.roles.add("guest");
-        return new SimpleAuthenticationInfo(user, "guest", getName());
+        user.roles.add("welcome");
+        return new SimpleAuthenticationInfo(user, "secret", getName());
     }
 
     @Override
