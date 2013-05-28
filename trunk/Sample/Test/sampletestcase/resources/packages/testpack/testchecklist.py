@@ -68,3 +68,35 @@ def dialogaction(action,var) :
       map["check"] = checkmap
       
       var["JCHECK_MAP"] = map    
+
+def numdialogaction(action,var) :
+  print "testnumlist",action
+  for k in var.keys() : 
+    print k, var[k]
+    
+  if action == "before" :  
+      lines = [{"id" : "price1", "displayname" : "pricelist1"}, {"id" : "price2" , "displayname" : "pricelist2"}, {"id" : "price3", "displayname" : "Price list 3"}]
+      columns = [{"id" : "weekend", "displayname" : "Weekend price"}, {"id" : "working", "displayname" : "Working day price"}];
+      vals = [{"id" : "weekend" ,"val" : 20.11},{"id" : "working" ,"val" : 3.77} ]
+      map = { "lines" : lines, "columns" : columns,"price1" : vals}
+      var["JCHECK_MAP"] = {"prices" : map }
+      
+  if action == "dosth" :
+      m = var["JCHECK_MAP"]
+      map = m["prices"]
+      seq = map["price1"]
+      sum = 0.0
+      for r in seq :
+          print r["id"],r["val"]  
+          sum = sum + r["val"]
+      
+      print str(sum)
+      var["OKTEST"] = (str(sum) == "13.24")
+      return
+  
+  if action == "checkerror" :
+      seq = [{"line" : "price1","col" : "working","errmess" : "Should be greater then 0"}]
+      map = {"JERROR" : seq}
+      var["JCHECK_MAP"] = {"prices" : map}
+  
+
