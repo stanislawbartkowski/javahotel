@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com">
-
- <form>
-   <field id="name" displayname="Name" readonly=""/>
-   <field id="id" type="int" displayname="Id" readonly=""/>
- </form>  
-
-</dialog>
