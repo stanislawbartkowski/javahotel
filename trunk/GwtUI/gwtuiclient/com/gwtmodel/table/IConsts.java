@@ -32,4 +32,6 @@ public interface IConsts {
     String DEFJSONROW = "row";
     int CHUNK_SIZE = 100;
     String LOGOUTHTMLNAME = "logout";
+    String UKNOWNHTMLNAME = "XXX";
+    String EMPTYCLASSSTYLE = "dialog-empty-field";
 }

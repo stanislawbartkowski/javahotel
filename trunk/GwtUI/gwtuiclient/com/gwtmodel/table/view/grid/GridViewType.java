@@ -14,7 +14,7 @@ package com.gwtmodel.table.view.grid;
 
 class GridViewType {
 
-    public enum GridType {
+    enum GridType {
         DECIMAL, BOOLEAN;
     }
 

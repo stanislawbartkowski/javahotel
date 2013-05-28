@@ -15,6 +15,7 @@ package com.gwtmodel.table.validate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.rdef.IFormLineView;
 
@@ -27,7 +28,7 @@ public class ErrorLineContainer {
     }
 
     public void setEMess(IFormLineView i, InvalidateMess m) {
-        i.setGStyleName("dialog-empty-field", true);
+        i.setGStyleName(IConsts.EMPTYCLASSSTYLE, true);
         String e = m.getErrmess();
         i.setInvalidMess(e);
         el.add(i);
@@ -35,7 +36,7 @@ public class ErrorLineContainer {
 
     public void clearE() {
         for (IFormLineView i : el) {
-            i.setGStyleName("dialog-empty-field", false);
+            i.setGStyleName(IConsts.EMPTYCLASSSTYLE, false);
             i.setInvalidMess(null);
         }
         initErr();
