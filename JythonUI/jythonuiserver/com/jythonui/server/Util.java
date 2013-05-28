@@ -12,10 +12,6 @@
  */
 package com.jythonui.server;
 
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Properties;
-
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.shared.RequestContext;

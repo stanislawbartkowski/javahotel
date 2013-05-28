@@ -21,6 +21,8 @@ import java.util.List;
  */
 public class DialogFormat extends ElemDescription {
 
+    private static final long serialVersionUID = 1L;
+
     private List<FieldItem> fieldList = new ArrayList<FieldItem>();
 
     private List<ButtonItem> leftButtonList = new ArrayList<ButtonItem>();

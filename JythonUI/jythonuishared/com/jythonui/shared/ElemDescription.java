@@ -25,6 +25,7 @@ import com.gwtmodel.table.common.CUtil;
  */
 public abstract class ElemDescription implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     // important: not final !
     private Map<String, String> attr = new HashMap<String, String>();
 

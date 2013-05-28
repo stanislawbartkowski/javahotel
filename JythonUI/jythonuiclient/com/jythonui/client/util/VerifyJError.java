@@ -56,7 +56,8 @@ public class VerifyJError {
                 err.add(new InvalidateMess(vv, errS));
             }
         };
-        JUtils.visitListOfFields(v, ICommonConsts.JERROR, vis);
+        // important: add underline (JERROR does not have underline)
+        JUtils.visitListOfFields(v, ICommonConsts.JERROR + "_", vis);
         if (err.isEmpty()) {
             return false;
         }

@@ -21,16 +21,21 @@ import com.gwtmodel.table.common.TT;
  */
 public class FieldItem extends ElemDescription {
 
+    private static final long serialVersionUID = 1L;
+
     public String getTypeName() {
         return getAttr(ICommonConsts.TYPE);
     }
 
-    public int getAfterDot() {
-        String t = getAttr(ICommonConsts.AFTERDOT);
+    public static int getAfterDot(String t) {
         if (CUtil.EmptyS(t)) {
             return ICommonConsts.DEFAULTAFTERDOT;
         }
         return CUtil.getNumb(t.trim());
+    }
+
+    public int getAfterDot() {
+        return getAfterDot(getAttr(ICommonConsts.AFTERDOT));
     }
 
     public static String getCustomT(String t) {

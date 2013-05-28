@@ -23,6 +23,7 @@ import com.gwtmodel.table.common.CUtil;
  */
 public class ListFormat extends ElemDescription {
 
+    private static final long serialVersionUID = 1L;
     private List<FieldItem> colList = new ArrayList<FieldItem>();
     private DialogFormat fElem;
 

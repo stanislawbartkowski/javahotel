@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.dialog;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -98,7 +98,8 @@ class ReadDialog {
                 ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
                 ICommonConsts.VALIDATEID1 };
         private final String[] checklistTag = { ICommonConsts.ID,
-                ICommonConsts.DISPLAYNAME, ICommonConsts.READONLY };
+                ICommonConsts.DISPLAYNAME, ICommonConsts.READONLY,
+                ICommonConsts.TYPE, ICommonConsts.AFTERDOT };
         private final String[] elemchecklistTag = checklistTag;
 
         /** Currently recognized set of tags. */

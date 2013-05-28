@@ -29,6 +29,7 @@ public class FieldValue implements Serializable {
     // object is immutable but because it is used as a transfer object
     // the attributes cannot be final and default constructor is only used
 
+    private static final long serialVersionUID = 1L;
     private String valueS;
     private Boolean valueB;
     private DateP valueD;

@@ -17,6 +17,7 @@ import com.gwtmodel.table.common.CUtil;
 
 public class ClientProp extends ElemDescription {
 
+    private static final long serialVersionUID = 1L;
     private CustomMessages customM = null;
 
     public CustomMessages getCustomM() {
@@ -41,7 +42,5 @@ public class ClientProp extends ElemDescription {
     public String getLoginPage() {
         return getAttr(ICommonConsts.LOGINPAGE);
     }
-    
-    
 
 }

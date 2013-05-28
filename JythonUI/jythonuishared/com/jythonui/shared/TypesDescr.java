@@ -17,6 +17,7 @@ import java.util.List;
 
 public class TypesDescr extends ElemDescription {
     
+    private static final long serialVersionUID = 1L;
     private List<TypedefDescr> typeList = new ArrayList<TypedefDescr>();
 
     public List<TypedefDescr> getTypeList() {

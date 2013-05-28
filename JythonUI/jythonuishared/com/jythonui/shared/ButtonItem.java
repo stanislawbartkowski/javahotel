@@ -18,6 +18,8 @@ package com.jythonui.shared;
  */
 public class ButtonItem extends ElemDescription {
 
+    private static final long serialVersionUID = 1L;
+
     public boolean isAction() {
         return isAttr(ICommonConsts.ACTIONTYPE);
     }

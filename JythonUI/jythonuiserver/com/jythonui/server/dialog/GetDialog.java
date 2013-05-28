@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.dialog;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +29,8 @@ import org.xml.sax.SAXException;
 import com.gwtmodel.mapxml.VerifyXML;
 import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.MCached;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -42,7 +44,7 @@ import com.jythonui.shared.TypesDescr;
  * @author hotel
  * 
  */
-class GetDialog {
+public class GetDialog {
 
     private GetDialog() {
 
@@ -102,7 +104,7 @@ class GetDialog {
         return s;
     }
 
-    static DialogFormat getDialog(IJythonUIServerProperties p, MCached mCached,
+    public static DialogFormat getDialog(IJythonUIServerProperties p, MCached mCached,
             String token, String dialogName, boolean verify) {
         DialogFormat d;
         if (Holder.isAuth() && CUtil.EmptyS(token)) {
