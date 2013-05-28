@@ -19,6 +19,7 @@ import com.gwtmodel.table.common.CUtil;
 
 public class TypedefDescr extends ElemDescription {
 
+    private static final long serialVersionUID = 1L;
     private List<FieldItem> lColumns = new ArrayList<FieldItem>();
 
     public boolean isComboType() {

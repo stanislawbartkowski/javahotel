@@ -184,6 +184,8 @@
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="type" type="typeName" />		
+			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />	
 			<xs:element minOccurs="0" name="readonly" type="emptyT" />			
 		</xs:sequence>
 	</xs:group>
@@ -191,6 +193,8 @@
 	<xs:attributeGroup name="checklistattrG">
 		<xs:attribute name="id" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="type" type="typeName" />	
+		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />		
 		<xs:attribute name="readonly" type="emptyT" />
 	</xs:attributeGroup>
 

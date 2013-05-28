@@ -17,6 +17,8 @@ import java.util.List;
 
 public class CheckListElem extends ElemDescription {
 
+    private static final long serialVersionUID = 1L;
+
     public CheckListElem() {
         setId(ICommonConsts.ID);
         setAttr(ICommonConsts.DISPLAYNAME, ICommonConsts.DISPLAYNAME);

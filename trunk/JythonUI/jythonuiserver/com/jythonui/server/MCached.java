@@ -18,7 +18,7 @@ import com.gwtmodel.commoncache.ICommonCache;
  * @author hotel
  * 
  */
-class MCached {
+public class MCached {
 
     private final ICommonCache mCache;
     private final IJythonUIServerProperties p;
@@ -28,11 +28,11 @@ class MCached {
         this.p = p;
     }
 
-    boolean isCached() {
+    public boolean isCached() {
         return p.isCached();
     }
 
-    ICommonCache getC() {
+    public ICommonCache getC() {
         return mCache;
     }
 

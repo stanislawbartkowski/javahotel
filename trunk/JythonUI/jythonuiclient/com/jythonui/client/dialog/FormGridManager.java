@@ -12,6 +12,7 @@
  */
 package com.jythonui.client.dialog;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +24,11 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.view.grid.GridErrorMess;
 import com.gwtmodel.table.view.grid.GridViewFactory;
+import com.gwtmodel.table.view.grid.IGridView;
 import com.gwtmodel.table.view.grid.IGridViewBoolean;
+import com.gwtmodel.table.view.grid.IGridViewDecimal;
 import com.jythonui.client.M;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.CheckListElem;
@@ -40,7 +44,9 @@ import com.jythonui.shared.RowIndex;
 public class FormGridManager {
 
     private final Map<String, IDataType> sData = new HashMap<String, IDataType>();
-    private final Map<String, IGridViewBoolean> gData = new HashMap<String, IGridViewBoolean>();
+    // private final Map<String, IGridViewBoolean> gData = new HashMap<String,
+    // IGridViewBoolean>();
+    private final Map<String, IGridView> gData = new HashMap<String, IGridView>();
     private final GridViewFactory gFactory = GwtGiniInjector.getI()
             .getGridViewFactory();
     private final DialogContainer dContainer;
@@ -94,9 +100,9 @@ public class FormGridManager {
 
     private class GridSlotable extends AbstractSlotContainer {
 
-        private final IGridViewBoolean gView;
+        private final IGridView gView;
 
-        GridSlotable(IGridViewBoolean gView, String id) {
+        GridSlotable(IGridView gView, String id) {
             this.gView = gView;
             dType = sData.get(id);
             gData.put(id, gView);
@@ -112,7 +118,14 @@ public class FormGridManager {
     }
 
     ISlotable constructSlotable(String id) {
-        IGridViewBoolean gView = gFactory.constructBoolean(true, true, true);
+        DialogFormat d = dContainer.getD();
+        CheckList cCheck = d.findCheckList(id);
+        assert cCheck != null;
+        IGridView gView;
+        if (cCheck.isBoolean())
+            gView = gFactory.constructBoolean(true, true, true);
+        else
+            gView = gFactory.constructDecimal(true, true, true);
         return new GridSlotable(gView, id);
     }
 
@@ -131,12 +144,18 @@ public class FormGridManager {
         DialogFormat d = dContainer.getD();
         for (String s : v.getCheckVariables().keySet()) {
             // DialogCheckVariables c
-            IGridViewBoolean gView = gData.get(s);
+            IGridView gView = gData.get(s);
+            CheckList cCheck = d.findCheckList(s);
+            assert cCheck != null;
             if (gView == null)
                 Utils.errAlertB(M.M().NoCheckList(s));
+            IGridViewBoolean bView = null;
+            IGridViewDecimal dView = null;
+            if (cCheck.isBoolean())
+                bView = (IGridViewBoolean) gView;
+            else
+                dView = (IGridViewDecimal) gView;
 
-            CheckList cCheck = DialogFormat.findE(d.getCheckList(), s);
-            assert cCheck != null;
             DialogCheckVariables c = v.getCheckVariables().get(s);
             if (!c.getLines().getRowList().isEmpty()
                     && !c.getColumns().getRowList().isEmpty()) {
@@ -154,7 +173,10 @@ public class FormGridManager {
                 gView.setRowNo(linesNames.size());
                 for (int r = 0; r < linesNames.size(); r++)
                     for (int co = 0; co < colsNames.size(); co++)
-                        gView.setRowBoolean(r, co, false);
+                        if (bView != null)
+                            bView.setRowBoolean(r, co, false);
+                        else
+                            dView.setRowDecimal(r, co, null);
             }
             for (String row : c.getVal().keySet()) {
                 ListOfRows lRows = c.getVal().get(row);
@@ -167,25 +189,54 @@ public class FormGridManager {
                 for (RowContent r : lRows.getRowList()) {
                     String col = rI.get(r, cCheck.getLines().getId())
                             .getValueS();
-                    Boolean val = rI.get(r, ICommonConsts.CHECKLINEVALUE)
-                            .getValueB();
                     int colL = rCol.findCol(col);
-                    gView.setRowBoolean(rowL, colL, val);
+                    if (bView != null) {
+                        Boolean val = rI.get(r, ICommonConsts.CHECKLINEVALUE)
+                                .getValueB();
+                        bView.setRowBoolean(rowL, colL, val);
+                    } else {
+                        BigDecimal b = rI.get(r, ICommonConsts.CHECKLINEVALUE)
+                                .getValueBD();
+                        dView.setRowDecimal(rowL, colL, b);
+                    }
                 }
             }
             if (cCheck.isReadOnly())
                 gView.setReadOnly(true);
-        }
+            // errors
+            RowIndex rI = new RowIndex(cCheck.constructErrLine());
+            RowsCols rCol = rMap.get(s);
+            List<GridErrorMess> errList = new ArrayList<GridErrorMess>();
+            for (RowContent r : c.getErrors().getRowList()) {
+                String row = rI.get(r, ICommonConsts.CHECKERRORROW)
+                        .getValueS();
+                String col = rI.get(r, ICommonConsts.CHECKERRORCOL).getValueS();
+                String errmess = rI.get(r, ICommonConsts.CHECKERRORMESS)
+                        .getValueS();
+                int rowNo = rCol.findLine(row);
+                int colNo = rCol.findCol(col);
+                GridErrorMess err = new GridErrorMess(rowNo, colNo, errmess);
+                errList.add(err);
+            }
+            if (!errList.isEmpty())
+                gView.setErrorMess(errList);
+        } // for
 
     }
 
     public void addValues(DialogVariables v) {
         DialogFormat d = dContainer.getD();
         for (String s : gData.keySet()) {
-            IGridViewBoolean gView = gData.get(s);
+            IGridView gView = gData.get(s);
             assert gView != null;
             CheckList cCheck = DialogFormat.findE(d.getCheckList(), s);
             assert cCheck != null;
+            IGridViewBoolean bView = null;
+            IGridViewDecimal dView = null;
+            if (cCheck.isBoolean())
+                bView = (IGridViewBoolean) gView;
+            else
+                dView = (IGridViewDecimal) gView;
             RowsCols rCol = rMap.get(s);
             if (rCol == null)
                 continue;
@@ -197,12 +248,17 @@ public class FormGridManager {
                 ListOfRows lRows = new ListOfRows();
                 for (String col : rCol.cols) {
                     RowContent rowC = rI.constructRow();
-                    Boolean val = gView.getCellBoolean(rowL, colL);
                     FieldValue valId = new FieldValue();
                     valId.setValue(col);
                     rI.setRowField(rowC, cCheck.getLines().getId(), valId);
                     valId = new FieldValue();
-                    valId.setValue(val);
+                    if (bView != null) {
+                        Boolean val = bView.getCellBoolean(rowL, colL);
+                        valId.setValue(val);
+                    } else {
+                        BigDecimal val = dView.getCellDecimal(rowL, colL);
+                        valId.setValue(val, cCheck.getAfterDot());
+                    }
                     rI.setRowField(rowC, ICommonConsts.CHECKLINEVALUE, valId);
                     lRows.addRow(rowC);
                     colL++;
@@ -215,7 +271,7 @@ public class FormGridManager {
     }
 
     void modifAttr(String checkId, String action, FieldValue val) {
-        IGridViewBoolean g = gData.get(checkId);
+        IGridView g = gData.get(checkId);
         if (g == null)
             return;
         if (!action.equals(ICommonConsts.READONLY))

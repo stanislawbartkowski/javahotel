@@ -57,6 +57,6 @@ public interface IErrorCode {
     String ERRORCODE42 = "E0042";
     String ERRORCODE43 = "E0043";
     String ERRORCODE44 = "E0044";
-    String XXXXERRORCODE45 = "free";
+    String ERRORCODE45 = "E0045";
     String ERRORCODE46 = "E0046";
 }

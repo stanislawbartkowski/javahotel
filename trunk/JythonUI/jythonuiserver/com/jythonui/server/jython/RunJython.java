@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.jython;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -44,6 +44,8 @@ import org.python.util.PythonInterpreter;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
+import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.MCached;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -70,7 +72,7 @@ import com.jythonui.shared.TypesDescr;
  *         Interface between Java code and Jython Call Jython actions and
  *         pass/gets back client data
  */
-class RunJython {
+public class RunJython {
 
     private final static String GGTempVariable = "GG";
     private final static String AATempVariable = "AA";
@@ -375,7 +377,7 @@ class RunJython {
                             ILogMess.CANNOTFINDCHECKLIST,
                             ICommonConsts.JCHECKLISTMAP, listId));
                 }
-                CheckListElem cElem = null;
+                List<FieldItem> seqList = null;
                 ListOfRows lRows = null;
                 DialogCheckVariables checkVariables = vOut.getCheckVariables()
                         .get(checkId);
@@ -385,15 +387,19 @@ class RunJython {
                 }
 
                 if (listId.equals(ICommonConsts.CHECKLISTLINES)) {
-                    cElem = cList.getLines();
+                    seqList = cList.getLines().constructCol();
                     lRows = checkVariables.getLines();
                 }
                 if (listId.equals(ICommonConsts.CHECKLISTCOLUMNS)) {
-                    cElem = cList.getColumns();
+                    seqList = cList.getColumns().constructCol();
                     lRows = checkVariables.getColumns();
                 }
-                if (cElem != null) {
-                    RowIndex rI = new RowIndex(cElem.constructCol());
+                if (listId.equals(ICommonConsts.JERROR)) {
+                    seqList = cList.constructErrLine();
+                    lRows = checkVariables.getErrors();
+                }
+                if (seqList != null) {
+                    RowIndex rI = new RowIndex(seqList);
                     extractListFromSeq(lRows, rI, pList, d);
                     return;
                 }
@@ -705,7 +711,7 @@ class RunJython {
 
     // entry point
 
-    static void executeJython(IJythonUIServerProperties p, MCached mCached,
+    public static void executeJython(IJythonUIServerProperties p, MCached mCached,
             DialogVariables v, DialogFormat d, String actionId) {
         String cu = FieldItem.getCustomT(actionId);
         if (!CUtil.EmptyS(cu)) {

@@ -18,8 +18,10 @@ import java.util.Map;
 
 public class DialogCheckVariables implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private ListOfRows lines = new ListOfRows();
     private ListOfRows columns = new ListOfRows();
+    private ListOfRows errors = new ListOfRows();
 
     private Map<String, ListOfRows> val = new HashMap<String, ListOfRows>();
 
@@ -35,4 +37,8 @@ public class DialogCheckVariables implements Serializable {
         return val;
     }
 
+    public ListOfRows getErrors() {
+        return errors;
+    }
+    
 }

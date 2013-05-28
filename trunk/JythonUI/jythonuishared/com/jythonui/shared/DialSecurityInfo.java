@@ -22,6 +22,7 @@ import com.gwtmodel.table.common.CUtil;
 
 public class DialSecurityInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     protected Map<String, Set<String>> fieldSec = new HashMap<String, Set<String>>();
     protected Map<String, Set<String>> buttSec = new HashMap<String, Set<String>>();
 

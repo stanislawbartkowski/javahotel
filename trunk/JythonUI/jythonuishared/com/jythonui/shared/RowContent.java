@@ -20,6 +20,7 @@ import java.io.Serializable;
  */
 public class RowContent implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private FieldValue[] row;
 
     public void setRowSize(int size) {

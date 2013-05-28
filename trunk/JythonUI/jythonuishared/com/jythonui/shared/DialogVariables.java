@@ -26,6 +26,7 @@ import java.util.Set;
  */
 public class DialogVariables implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Map<String, FieldValue> vList = new HashMap<String, FieldValue>();
     private Map<String, ListOfRows> rowList = new HashMap<String, ListOfRows>();
 
@@ -79,11 +80,11 @@ public class DialogVariables implements Serializable {
     public void setSecurityToken(String token) {
         setValueS(ICommonConsts.SECURITYTOKEN, token);
     }
-    
+
     public void setLocale(String locale) {
-        setValueS(ICommonConsts.GWT_LOCALE,locale);
+        setValueS(ICommonConsts.GWT_LOCALE, locale);
     }
-    
+
     /**
      * @return the rowList
      */

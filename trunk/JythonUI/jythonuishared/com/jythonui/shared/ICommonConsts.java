@@ -59,7 +59,7 @@ public interface ICommonConsts {
     String CRUD_READLIST = "crud_readlist";
     String JLIST_NAME = "JLIST_NAME";
     String PARENT = "parent";
-    String JERROR = "JERROR_";
+    String JERROR = "JERROR";
     String JMAINDIALOG = "JMAIN_DIALOG";
     String ACTIONTYPE = "actiontype";
     String ACTIONPARAM = "actionparam";
@@ -134,6 +134,9 @@ public interface ICommonConsts {
     String CHECKLISTLINES = "lines";
     String CHECKLISTCOLUMNS = "columns";
     String CHECKLINEVALUE = "val";
+    String CHECKERRORROW = "line";
+    String CHECKERRORCOL = "col";
+    String CHECKERRORMESS = "errmess";
 
     String APP_TITLE = "Title";
     String APP_PRODUCTNAME = "ProductName";

@@ -14,4 +14,6 @@ package com.jythonui.shared;
 
 public class ValidateRule extends ElemDescription {
 
+    private static final long serialVersionUID = 1L;
+
 }
