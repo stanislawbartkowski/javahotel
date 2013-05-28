@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.view.grid;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
@@ -19,13 +22,12 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.rdef.ITouchListener;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.validate.ErrorLineContainer;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import java.math.BigDecimal;
-import java.util.List;
 
 class GridView implements IGridView {
 
@@ -130,14 +132,16 @@ class GridView implements IGridView {
         Widget w = g.getWidget(co.row, co.col);
         if (w == null) {
             w = null;
+            String htmlName = LogT.getT().GrigHtmlName(co.row, co.col);
             switch (gType.getgType()) {
             case BOOLEAN:
                 CheckBox ce = new CheckBox();
+                ce.setName(htmlName);
                 w = ce;
                 break;
             case DECIMAL:
                 IFormLineView nView = wFactory.contructCalculatorNumber(
-                        Empty.getDecimalType(), null);
+                        Empty.getDecimalType(), htmlName);
                 NumerW nu = new NumerW(nView);
                 w = nu;
                 break;

@@ -40,7 +40,7 @@ import com.gwtmodel.table.view.util.PopupTip;
 @SuppressWarnings("deprecation")
 abstract class AbstractField extends PopupTip implements IFormLineView {
 
-    protected List<ITouchListener> iTouch;
+    protected final List<ITouchListener> iTouch;
     protected Collection<IFormChangeListener> lC;
     protected final boolean isCheckBox;
     protected final boolean checkBoxVal;
@@ -50,8 +50,7 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     protected final AbstractListT listT;
 
     AbstractField(IGetCustomValues cValues, IVField v, String htmlName) {
-        this(cValues, v, true, htmlName);
-        iTouch = new ArrayList<ITouchListener>();
+        this(cValues, v, true, htmlName, new ArrayList<ITouchListener>());
     }
 
     @Override
@@ -59,11 +58,11 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         return v;
     }
 
-    AbstractField(IGetCustomValues cValues, final IVField v,
-            boolean checkenable, String htmlName) {
+    private AbstractField(IGetCustomValues cValues, final IVField v,
+            boolean checkenable, String htmlName, List<ITouchListener> iTouch) {
         assert v != null : LogT.getT().cannotBeNull();
         this.cValues = cValues;
-        iTouch = null;
+        this.iTouch = iTouch;
         lC = null;
         checkBoxVal = checkenable;
         isCheckBox = true;
@@ -82,6 +81,12 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
         }
     }
 
+    AbstractField(IGetCustomValues cValues, final IVField v,
+            boolean checkenable, String htmlName) {
+        this(cValues, v, checkenable, htmlName, null);
+        assert v != null : LogT.getT().cannotBeNull();
+    }
+
     @Override
     public int getChooseResult() {
         return NOCHOOSECHECK;
@@ -93,7 +98,8 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     @Override
     public void setGStyleName(final String sName, final boolean set) {
         if (set) {
-            getGWidget().setStyleName(sName);
+            // 2013/05/28 : "add" instead of "set"
+            getGWidget().addStyleName(sName);
         } else {
             getGWidget().removeStyleName(sName);
         }
@@ -190,7 +196,11 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
     }
 
     protected void onTouch() {
-        for (ITouchListener t : iTouch) {
+        // 2013/05/28 - make copy to avoid concurrent modifications
+        List<ITouchListener> copyI = new ArrayList<ITouchListener>();
+        copyI.addAll(iTouch);
+        // now iterate over copy
+        for (ITouchListener t : copyI) {
             t.onTouch();
         }
     }

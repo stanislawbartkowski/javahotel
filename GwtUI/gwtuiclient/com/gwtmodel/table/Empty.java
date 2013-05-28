@@ -54,7 +54,7 @@ public class Empty {
 
         @Override
         public String getId() {
-            return "XX";
+            return IConsts.UKNOWNHTMLNAME;
         }
     }
 
@@ -72,7 +72,7 @@ public class Empty {
 
         @Override
         public String getId() {
-            return "XX";
+            return IConsts.UKNOWNHTMLNAME;
         }
     }
 

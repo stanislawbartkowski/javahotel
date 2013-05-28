@@ -115,6 +115,8 @@ public interface TLogMessages extends Messages {
     String NotImplemented();
 
     String CannotFindChunkForIndex(int i);
-    
+
     String CannotRecgonizeSortColumn();
+
+    String GrigHtmlName(int lno, int cno);
 }
