@@ -25,9 +25,10 @@ import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.SecurityNullConvert;
-import com.jythonui.server.defa.ServerProperties;
+import com.jythonui.server.defa.ServerPropertiesEnv;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.guice.JythonServerService;
 import com.jythonui.server.registry.IStorageRegistryFactory;
@@ -47,7 +48,9 @@ public class ServerService {
             configureJythonUi();
             bind(IsCached.class).to(Cached.class).in(Singleton.class);
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
-            bind(IJythonUIServerProperties.class).to(ServerProperties.class)
+            // bind(IJythonUIServerProperties.class).to(ServerProperties.class)
+            // .in(Singleton.class);
+            bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
                     .in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
                     Singleton.class);
@@ -62,7 +65,10 @@ public class ServerService {
                             Names.named(ISharedConsts.STORAGEREGISTRYENTITYMANAGERFACTORY))
                     .toProvider(EntityManagerFactoryProvider.class)
                     .in(Singleton.class);
-            bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(Singleton.class);
+            bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
+                    Singleton.class);
+            bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
+                    Singleton.class);
             requestStatic();
         }
     }
