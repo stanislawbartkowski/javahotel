@@ -12,16 +12,16 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import com.jythonui.server.holder.Holder;
+import com.jythonui.shared.CheckList;
 import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 
 public class Test19 extends TestHelper {
@@ -35,13 +35,12 @@ public class Test19 extends TestHelper {
         mess = appMess.getMessN("MESS1");
         System.out.println(mess);
         assertEquals("app message", mess);
-        
+
         CustomMessages cmess = appMess.getCustomMess();
         String val = cmess.getAttr("MESSPL");
         System.out.println(val);
-        assertEquals("english message",val);
+        assertEquals("english message", val);
 
-        
         Holder.SetLocale("pl");
         mess = appMess.getMessN("MESS1");
         System.out.println(mess);
@@ -50,15 +49,14 @@ public class Test19 extends TestHelper {
         System.out.println(mess);
         assertEquals("pl message", mess);
         System.out.println(Holder.getLocale());
-        assertEquals("pl",Holder.getLocale());
-        
+        assertEquals("pl", Holder.getLocale());
+
         cmess = appMess.getCustomMess();
         val = cmess.getAttr("MESSPL");
         System.out.println(val);
-        assertEquals("pl message",val);
+        assertEquals("pl message", val);
     }
-    
-    
+
     @Test
     public void test2() {
         DialogFormat d = findDialog("test46.xml");
@@ -67,10 +65,29 @@ public class Test19 extends TestHelper {
         assertNotNull(li);
         FieldItem i = DialogFormat.findE(li.getColumns(), "id");
         assertNotNull(i);
-        assertEquals("changepassword",i.getDefValue());
+        assertEquals("changepassword", i.getDefValue());
         i = DialogFormat.findE(li.getColumns(), "name");
         assertNotNull(i);
         assertNull(i.getDefValue());
+    }
+
+    @Test
+    public void test3() {
+        DialogFormat d = findDialog("test47.xml");
+        assertNotNull(d);
+        CheckList c = d.findCheckList("prices");
+        assertNotNull(c);
+        assertEquals("decimal", c.getAttr(ICommonConsts.TYPE));
+        assertEquals("2", c.getAttr(ICommonConsts.AFTERDOT));
+        assertTrue(c.isDecimal());
+        assertFalse(c.isBoolean());
+
+        try {
+            d = findDialog("test48.xml");
+            fail("Exception is expected here");
+        } catch (Exception e) {
+            System.out.println("OK, failure is expected");
+        }
     }
 
 }

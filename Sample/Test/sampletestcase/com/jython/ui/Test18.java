@@ -19,7 +19,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.jythonui.server.holder.Holder;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DialogCheckVariables;
 import com.jythonui.shared.DialogFormat;
