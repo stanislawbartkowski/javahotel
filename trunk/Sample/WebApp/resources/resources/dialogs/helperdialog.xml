@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+<displayname>Combo Dialog</displayname>
+
+ <before/>
+ 
+  <jython>
+   <import>from testpack import helperpa</import>
+   <method>helperpa.dialogaction({0},{1})</method>
+ </jython>  
+ 
+ <buttons>
+  <button id="testcombo" displayname="Test" />
+</buttons>
+ 
+ 
+ <form>
+   <field id="helpid" displayname="Help" helper="helper.xml" />
+   <field id="helplist" displayname="Help list" helper="helperlist.xml" />
+ </form>  
+
+
+</dialog>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<displayname>Person</displayname>
+<parent>listchunk.xml</parent>
+
+</dialog>

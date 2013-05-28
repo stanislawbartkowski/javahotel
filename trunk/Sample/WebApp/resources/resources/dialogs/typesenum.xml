@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<typedefs xmlns="http://www.jythongwt.typedefxsd.com">
+
+     <jython>
+       <import>from testpack import packenum</import>
+      </jython>    
+
+  <typedef id="tenum" type="combo" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>packenum.dialogaction({0},{1})</method>
+      </jython>    
+ 
+   </typedef>
+
+  <typedef id="tehelper" type="helper" comboid="id" displayname = "List of ids">
+  
+     <jython>
+        <method>packenum.helperaction({0},{1})</method>
+      </jython>
+      
+      <columns>
+        <column id="id" displayname="Id" />
+        <column id="name" displayname="Name" />
+      </columns>  
+ 
+   </typedef>
+  
+</typedefs>

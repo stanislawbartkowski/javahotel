@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<displayname>Person</displayname>
+<parent>authlist.xml</parent>
+
+ <form>
+ <field id="key" displayname="storeKey" type="long" readonly="" hidden="$!sec.u('user')" />
+ <field id="pnumber" displayname="Number" actionid="show" notempty="" readonlychange="" />
+ <field id="pname" displayname="Name" />
+ </form>
+
+
+</dialog>
