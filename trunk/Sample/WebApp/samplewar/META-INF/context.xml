@@ -1,0 +1,7 @@
+<Context>
+	<Environment description="Resource directory" name="sampleapp/resource"
+		type="java.lang.String" value="/home/hotel/workspace/modelgui/SampleUi/WebApp/resources" />
+	<Environment description="Cached" name="sampleapp/cached"
+		type="java.lang.Boolean" value="false" />
+
+</Context>
