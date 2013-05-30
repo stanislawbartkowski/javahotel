@@ -141,7 +141,7 @@ public class JythonClientStart {
             if (!okStart && !auth) {
                 String mess = M.M().CannotStartWithThisPage(startX);
                 Utils.errAlert(mess);
-                assert false : mess;
+                return;
             }
 
             // initialize several factories
