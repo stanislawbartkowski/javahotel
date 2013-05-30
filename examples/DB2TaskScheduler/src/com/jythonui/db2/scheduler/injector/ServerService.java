@@ -22,10 +22,12 @@ import com.jythonui.server.defa.Cached;
 import com.jythonui.server.defa.EmptyStorageRegistryFactory;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
+import com.jythonui.server.defa.SecurityNullConvert;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.registry.IStorageRegistryFactory;
+import com.jythonui.server.security.ISecurityConvert;
 
 /**
  * @author hotel
@@ -48,6 +50,8 @@ public class ServerService {
                     Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     EmptyStorageRegistryFactory.class).in(Singleton.class);
+            bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
+                    Singleton.class);
             requestStaticInjection(Holder.class);
         }
     }
