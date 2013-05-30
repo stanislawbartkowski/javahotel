@@ -21,6 +21,6 @@ import com.jythonui.client.JythonClientStart;
 public class DB2TaskScheduler implements EntryPoint {
 
     public void onModuleLoad() {
-        JythonClientStart.start(null);
+        JythonClientStart.start(null,null);
     }
 }
