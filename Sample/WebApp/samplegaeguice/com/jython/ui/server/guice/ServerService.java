@@ -23,9 +23,11 @@ import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
+import com.jythonui.server.defa.SecurityNullConvert;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.registry.IStorageRegistryFactory;
+import com.jythonui.server.security.ISecurityConvert;
 
 /**
  * @author hotel
@@ -47,6 +49,8 @@ public class ServerService {
             bind(IStorageRegistryFactory.class)
                     .to(StorageRegistryFactory.class).in(Singleton.class);
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
+                    Singleton.class);
+            bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
                     Singleton.class);
             requestStatic();
         }

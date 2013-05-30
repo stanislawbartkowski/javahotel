@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Ref;
 import com.jython.ui.server.datastore.IPerson;
 import com.jython.ui.server.datastore.IPersonOp;
 
@@ -35,7 +35,7 @@ public class PersonOp implements IPersonOp {
 
     @Override
     public void savePerson(IPerson p) {
-        ofy().save().entity((Person)p).now();
+        ofy().save().entity((Person) p).now();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class PersonOp implements IPersonOp {
 
     @Override
     public List<IPerson> getAllPersons() {
-        List<Person> li =ofy().load().type(Person.class).list();
+        List<Person> li = ofy().load().type(Person.class).list();
         List<IPerson> outList = new ArrayList<IPerson>();
         outList.addAll(li);
         return outList;
@@ -55,23 +55,23 @@ public class PersonOp implements IPersonOp {
 
     @Override
     public void removePerson(IPerson p) {
-        ofy().delete().entity((Person)p).now();
+        ofy().delete().entity((Person) p).now();
 
     }
 
     @Override
     public void changePerson(IPerson p) {
-        ofy().save().entity((Person)p).now();
+        ofy().save().entity((Person) p).now();
     }
 
     @Override
     public IPerson findPersonByNumb(String pNumb) {
-        Ref<Person> p = ofy().load().type(Person.class)
+        LoadResult<Person> p = ofy().load().type(Person.class)
                 .filter("personNumb ==", pNumb).first();
         if (p == null) {
             return null;
         }
-        return p.get();
+        return p.now();
     }
 
     @Override
