@@ -21,8 +21,10 @@ import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
 import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.SecurityNullConvert;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.registry.IStorageRegistryFactory;
+import com.jythonui.server.security.ISecurityConvert;
 import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
 
 /**
@@ -42,6 +44,8 @@ public class ServerService {
             bind(IStorageRegistryFactory.class)
                     .to(StorageRegistryFactory.class).in(Singleton.class);
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
+                    Singleton.class);
+            bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
                     Singleton.class);
             requestStatic();
         }
