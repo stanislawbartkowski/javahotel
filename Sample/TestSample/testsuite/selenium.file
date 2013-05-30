@@ -18,7 +18,6 @@ REMOVESORT:REMOVE_SORT
 FILTRLIST:FILTRLIST
 SETFILTER:SETFILTER
 
-
 FIRSTLISTBUTTON://img[@aria-label='First page']
 LASTLISTBUTTON://img[@aria-label='Last page' and @aria-disabled='false']
 LASTLISTBUTTONDISABLED://img[@aria-label='Last page' and @aria-disabled='true']

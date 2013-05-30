@@ -1,0 +1,40 @@
+[alias]
+BUTTONGRID:numbergrid
+CHECK:check
+SUM1:grid-4-1
+SUM2:grid-4-2
+GRIDE1:grid-2-1
+GRIDE2:grid-2-2
+FINDE1://input[@name='grid-2-1' and contains(@class,'dialog-empty-field')]
+FINDE2://input[@name='grid-2-2' and contains(@class,'dialog-empty-field')]
+[click]
+click:#CHECK
+sleep:2
+[start]
+call:waitforwindow
+click:#BUTTONGRID
+waitFor:#CHECK
+sleep:2
+call:click
+-- wait for check action to finish
+verEqual:#SUM1|20.11
+--- enter two numbers
+type:grid-2-2|10.1
+type:grid-3-2|-.03
+click:#CHECK
+sleep:2
+verEqual:#SUM2|13.84
+verEqual:#SUM1|20.11
+-- now verify error
+type:#GRIDE1|-12.00
+type:#GRIDE2|-100.11
+call:click
+isPresent:#FINDE1
+isPresent:#FINDE2
+-- the same again
+call:click
+isPresent:#FINDE1
+isPresent:#FINDE2
+
+
+

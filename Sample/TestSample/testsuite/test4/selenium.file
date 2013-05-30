@@ -5,7 +5,7 @@ CLEAR:id=clearPersons
 PNUMBER:pnumber
 NOTFOUND://td//div[text()='Not found !']
 AREYOUREADY://div[text()='Are you ready to add new elem ?']
-ERRORFIELD://input[@class='dialog-empty-field']
+ERRORFIELD://input[contains(@class,'dialog-empty-field')]
 [start]
 call:waitforwindow
 -- click list
