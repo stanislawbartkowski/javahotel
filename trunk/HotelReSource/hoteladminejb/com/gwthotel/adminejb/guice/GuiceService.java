@@ -18,10 +18,17 @@ import javax.persistence.EntityManagerFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.admin.ITestHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.jpa.TestHotelAdminProvider;
-import com.gwthotel.hotel.jpa.HotelServicesProvider;
-import com.gwthotel.hotel.jpa.TestHotelServicesProvider;
+import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
+import com.gwthotel.hotel.jpa.pricelist.TestHotelPriceListProvider;
+import com.gwthotel.hotel.jpa.prices.HotelPriceElemProvider;
+import com.gwthotel.hotel.jpa.prices.TestHotelPriceElemProvider;
+import com.gwthotel.hotel.jpa.services.HotelServicesProvider;
+import com.gwthotel.hotel.jpa.services.TestHotelServicesProvider;
+import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
@@ -46,6 +53,7 @@ public class GuiceService {
                             Names.named(ISharedConsts.TESTSTORAGEREGISTRYENTITYMANAGERFACTORY))
                     .toProvider(TestEntityManagerFactoryProvider.class)
                     .in(Singleton.class);
+
             bind(IStorageRealmRegistry.class).toProvider(
                     StorageJpaRegistryProvider.class).in(Singleton.class);
             bind(IStorageRealmRegistry.class)
@@ -56,21 +64,39 @@ public class GuiceService {
 
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
+            bind(EntityManagerFactory.class)
+                    .annotatedWith(Names.named(IHotelConsts.TESTFACTORYMANAGER))
+                    .toProvider(TestEntityManagerFactoryProvider.class)
+                    .in(Singleton.class);
+
             bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
                     Singleton.class);
             bind(IHotelAdmin.class)
                     .annotatedWith(Names.named(IHotelConsts.TESTHOTELADMIN))
                     .toProvider(TestHotelAdminProvider.class)
                     .in(Singleton.class);
+
             bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
                     .in(Singleton.class);
             bind(IHotelServices.class)
                     .annotatedWith(Names.named(IHotelConsts.TESTHOTELSERVICES))
                     .toProvider(TestHotelServicesProvider.class)
                     .in(Singleton.class);
-            bind(EntityManagerFactory.class)
-                    .annotatedWith(Names.named(IHotelConsts.TESTFACTORYMANAGER))
-                    .toProvider(TestEntityManagerFactoryProvider.class)
+
+            bind(IHotelPriceList.class)
+                    .toProvider(HotelPriceListProvider.class).in(
+                            Singleton.class);
+            bind(IHotelPriceList.class)
+                    .annotatedWith(Names.named(IHotelConsts.TESTHOTELPRICELIST))
+                    .toProvider(TestHotelPriceListProvider.class)
+                    .in(Singleton.class);
+
+            bind(IHotelPriceElem.class)
+                    .toProvider(HotelPriceElemProvider.class).in(
+                            Singleton.class);
+            bind(IHotelPriceElem.class)
+                    .annotatedWith(Names.named(IHotelConsts.TESTHOTELPRICEELEM))
+                    .toProvider(TestHotelPriceElemProvider.class)
                     .in(Singleton.class);
 
             bind(IGetLogMess.class)

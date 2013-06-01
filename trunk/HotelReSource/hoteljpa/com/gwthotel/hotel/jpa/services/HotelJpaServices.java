@@ -10,25 +10,25 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.jpa;
+package com.gwthotel.hotel.jpa.services;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 import com.gwthotel.admin.jpa.PropUtils;
+import com.gwthotel.hotel.jpa.AbstractJpaCrud;
+import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 
-class HotelJpaServices extends
-        AbstractJpaCrud<HotelServices, EHotelServices> implements
-        IHotelServices {
+class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
+        implements IHotelServices {
 
-    HotelJpaServices(EntityManagerFactory eFactory,
-            IGetLogMess lMess) {
+    HotelJpaServices(EntityManagerFactory eFactory, IGetLogMess lMess) {
         super(new String[] { "findAllServices", "findOneService",
                 "deleteAllServices" }, eFactory, lMess);
     }
@@ -37,7 +37,7 @@ class HotelJpaServices extends
     protected HotelServices toT(EHotelServices sou) {
         HotelServices ho = new HotelServices();
         PropUtils.copyToProp(ho, sou);
-        ho.setAttr(IHotelConsts.HOTELPROP, sou.getHotel());
+        // ho.setAttr(IHotelConsts.HOTELPROP, sou.getHotel());
         ho.setAttrInt(IHotelConsts.NOPERSONPROP, sou.getNoPersons());
         ho.setAttr(IHotelConsts.VATPROP, sou.getVat());
         return ho;
@@ -55,5 +55,22 @@ class HotelJpaServices extends
         dest.setNoPersons(sou.getAttrInt(IHotelConsts.NOPERSONPROP));
         dest.setVat(sou.getAttr(IHotelConsts.VATPROP));
     }
+
+    @Override
+    protected void beforedeleteAll(EntityManager em, String hotel) {
+        Query q = em.createNamedQuery("deletePricesForHotel");
+        q.setParameter(1, hotel);
+        q.executeUpdate();
+    }
+    
+    @Override
+    protected void beforedeleteElem(EntityManager em, String hotel,
+            EHotelServices  elem) {
+        Query q = em.createNamedQuery("deletePricesForHotelAndService");
+        q.setParameter(1, hotel);
+        q.setParameter(2, elem);
+        q.executeUpdate();
+    }
+
 
 }

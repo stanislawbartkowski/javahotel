@@ -12,38 +12,36 @@
  */
 package com.gwthotel.hotel.jpa.entities;
 
-import javax.persistence.Column;
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "findAllServices", query = "SELECT x FROM EHotelServices x WHERE x.hotel = ?1"),
-    @NamedQuery(name = "deleteAllServices", query = "DELETE FROM EHotelServices x WHERE x.hotel = ?1"),
-    @NamedQuery(name = "findOneService", query = "SELECT x FROM EHotelServices x WHERE x.hotel = ?1 AND x.name = ?2") })
-public class EHotelServices extends EHotelDict {
-    
-    @Column(nullable = false)
-    private String vat;
-    
-    @Column(nullable = false)
-    private int noPersons;
+        @NamedQuery(name = "findAllPriceLists", query = "SELECT x FROM EHotelPriceList x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "deleteAllPriceLists", query = "DELETE FROM EHotelPriceList x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "findOnePriceList", query = "SELECT x FROM EHotelPriceList x WHERE x.hotel = ?1 AND x.name = ?2") })
+public class EHotelPriceList extends EHotelDict {
 
-    public String getVat() {
-        return vat;
+    private Date priceFrom;
+    private Date priceTo;
+
+    public Date getPriceFrom() {
+        return priceFrom;
     }
 
-    public void setVat(String vat) {
-        this.vat = vat;
+    public void setPriceFrom(Date priceFrom) {
+        this.priceFrom = priceFrom;
     }
 
-    public int getNoPersons() {
-        return noPersons;
+    public Date getPriceTo() {
+        return priceTo;
     }
 
-    public void setNoPersons(int noPersons) {
-        this.noPersons = noPersons;
-    }        
-        
+    public void setPriceTo(Date priceTo) {
+        this.priceTo = priceTo;
+    }
+
 }

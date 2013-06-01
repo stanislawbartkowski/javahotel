@@ -12,35 +12,24 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
-import com.gwthotel.admin.Hotel;
-import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
 
 public class Test6 extends TestHelper {
-
-    private static final String HOTEL = "hotel";
-    private static final String HOTEL1 = "hotel1";
     
     private void resetHotel() {
-          iAdmin.clearAll();
-          String[] hNames = new String[] {HOTEL,HOTEL1};
-          for (String s : hNames) {
-            Hotel ho = new Hotel();
-            ho.setName(s);
-            ho.setDescription("Pod Pieskiem");
-            List<HotelRoles>roles = new ArrayList<HotelRoles>();
-            iAdmin.addOrModifHotel(ho, roles);
-          }
-          iServices.deleteAll(HOTEL);
-          iServices.deleteAll(HOTEL1);
+        createHotels();
+        iServices.deleteAll(HOTEL);
+        iServices.deleteAll(HOTEL1);
+
     }
 
     @Test

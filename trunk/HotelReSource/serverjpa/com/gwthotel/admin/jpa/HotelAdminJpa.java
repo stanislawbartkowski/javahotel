@@ -48,7 +48,7 @@ class HotelAdminJpa implements IHotelAdmin {
     private abstract class doTransaction extends JpaTransaction {
 
         private doTransaction() {
-            super(eFactory);
+            super(eFactory,lMess);
         }
     }
 

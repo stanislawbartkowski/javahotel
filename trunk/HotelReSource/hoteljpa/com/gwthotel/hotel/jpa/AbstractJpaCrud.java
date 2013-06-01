@@ -14,7 +14,6 @@ package com.gwthotel.hotel.jpa;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,16 +23,15 @@ import javax.persistence.Query;
 import com.gwthotel.admin.jpa.JpaTransaction;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.hotel.jpa.entities.EHotelDict;
+import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.jythonui.server.getmess.IGetLogMess;
 
-abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
+public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
         implements IHotelProp<T> {
 
     private final String[] queryMap;
     private final EntityManagerFactory eFactory;
-    private static final Logger log = Logger.getLogger(AbstractJpaCrud.class
-            .getName());
     private final IGetLogMess lMess;
 
     private final static int GETALLQUERY = 0;
@@ -53,12 +51,16 @@ abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
 
     abstract protected void toE(E dest, T sou);
 
+    abstract protected void beforedeleteAll(EntityManager em, String hotel);
+
+    abstract protected void beforedeleteElem(EntityManager em, String hotel, E elem);
+
     private abstract class doTransaction extends JpaTransaction {
 
         protected final String hotel;
 
         doTransaction(String hotel) {
-            super(eFactory);
+            super(eFactory, lMess);
             this.hotel = hotel;
         }
 
@@ -91,6 +93,8 @@ abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
             List<E> list = q.getResultList();
             for (E p : list) {
                 T rec = toT(p);
+                rec.setAttr(IHotelConsts.HOTELPROP, p.getHotel());
+                rec.setAttrLong(IHotelConsts.ID, p.getId());
                 retList.add(rec);
             }
         }
@@ -167,6 +171,7 @@ abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
             E pers = getElem(em, elem);
             if (pers == null) // TODO: more verbose, not expected
                 return;
+            beforedeleteElem(em, hotel, pers);
             em.remove(pers);
         }
 
@@ -186,6 +191,7 @@ abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
 
         @Override
         protected void dosth(EntityManager em) {
+            beforedeleteAll(em, hotel);
             Query q = em.createNamedQuery(queryMap[DELETEALLQUERY]);
             q.setParameter(1, hotel);
             q.executeUpdate();

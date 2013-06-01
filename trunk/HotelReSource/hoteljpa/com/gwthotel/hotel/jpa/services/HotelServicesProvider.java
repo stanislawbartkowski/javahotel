@@ -1,4 +1,4 @@
-package com.gwthotel.hotel.jpa;
+package com.gwthotel.hotel.jpa.services;
 
 import javax.inject.Inject;
 import javax.inject.Named;

@@ -19,7 +19,11 @@ import com.google.inject.name.Names;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
-import com.gwthotel.hotel.jpa.HotelServicesProvider;
+import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
+import com.gwthotel.hotel.jpa.prices.HotelPriceElemProvider;
+import com.gwthotel.hotel.jpa.services.HotelServicesProvider;
+import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
@@ -62,7 +66,13 @@ public class ServerService {
                     StorageRealmRegistryFactory.class).in(Singleton.class);
 
             bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
-            .in(Singleton.class);
+                    .in(Singleton.class);
+            bind(IHotelPriceList.class)
+                    .toProvider(HotelPriceListProvider.class).in(
+                            Singleton.class);
+            bind(IHotelPriceElem.class)
+                    .toProvider(HotelPriceElemProvider.class).in(
+                            Singleton.class);
             requestStatic();
         }
     }

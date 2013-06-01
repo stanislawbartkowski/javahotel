@@ -15,9 +15,13 @@ package com.gwthotel.admintest.guice;
 import com.google.inject.Singleton;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.ejblocator.TestHotelAdminProvider;
+import com.gwthotel.admin.ejblocator.TestHotelPriceElemProvider;
+import com.gwthotel.admin.ejblocator.TestHotelPriceListProvider;
 import com.gwthotel.admin.ejblocator.TestHotelServicesProvider;
 import com.gwthotel.admin.ejblocator.TestStorageRealmProvider;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
@@ -34,7 +38,7 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
  */
 public class ServerService {
 
-    public static class ServiceModule  extends HotelServiceModule {
+    public static class ServiceModule extends HotelServiceModule {
         @Override
         protected void configure() {
             configureHotel();
@@ -53,6 +57,10 @@ public class ServerService {
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(IHotelServices.class).toProvider(
                     TestHotelServicesProvider.class).in(Singleton.class);
+            bind(IHotelPriceList.class).toProvider(
+                    TestHotelPriceListProvider.class).in(Singleton.class);
+            bind(IHotelPriceElem.class).toProvider(
+                    TestHotelPriceElemProvider.class).in(Singleton.class);
             requestStatic();
         }
     }

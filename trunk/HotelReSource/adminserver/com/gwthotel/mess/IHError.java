@@ -19,4 +19,5 @@ public interface IHError {
     String HERROR003 = "H003";
     String HERROR004 = "H004";
     String HERROR005 = "H005";
+    String HERROR006 = "H006";
 }

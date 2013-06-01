@@ -12,15 +12,27 @@
  */
 package com.gwthotel.admin.jpa;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
+import com.gwthotel.mess.IHError;
+import com.gwthotel.mess.IHMess;
+import com.jythonui.server.getmess.IGetLogMess;
 
 public abstract class JpaTransaction {
 
     private final EntityManagerFactory eFactory;
+    private final IGetLogMess lMess;
 
-    protected JpaTransaction(EntityManagerFactory eFactory) {
+    private static final Logger log = Logger.getLogger(JpaTransaction.class
+            .getName());
+
+    protected JpaTransaction(EntityManagerFactory eFactory, IGetLogMess lMess) {
         this.eFactory = eFactory;
+        this.lMess = lMess;
     }
 
     protected abstract void dosth(EntityManager em);
@@ -38,6 +50,9 @@ public abstract class JpaTransaction {
             dosth(em);
             em.getTransaction().commit();
             commited = true;
+        } catch (Exception e) {
+            log.log(Level.SEVERE, lMess.getMess(IHError.HERROR006,
+                    IHMess.JPATRANSACTIONEXCEPTION), e);
         } finally {
             if (!commited)
                 em.getTransaction().rollback();

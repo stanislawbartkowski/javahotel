@@ -26,20 +26,30 @@ public interface IHotelConsts {
     String TESTHOTELADMINEJBJNDI = "java:global/TestHotelAdmin";
     String HOTELSERVICESJNDI = "java:global/HotelServices";
     String TESTHOTELSERVICESJNDI = "java:global/TestHotelServices";
-    
+    String HOTELPRICELISTJNDI = "java:global/HotelPriceList";
+    String TESTHOTELPRICELISTJNDI = "java:global/TestHotelPriceList";
+    String HOTELPRICEELEMJNDI = "java:global/HotelPriceElem";
+    String TESTHOTELPRICEELEMJNDI = "java:global/TestHotelPriceElem";
 
     String TESTHOTELADMIN = "testhoteladmin";
     String TESTFACTORYMANAGER = "testfactorymanager";
-    String TESTHOTELSERVICES ="testhotelservices";
+    String TESTHOTELSERVICES = "testhotelservices";
+    String TESTHOTELPRICELIST = "testhotelpricelist";
+    String TESTHOTELPRICEELEM = "testhotelpriceelem";
 
     String HOTELREALM = "HotelRealm";
 
     String HOTELNAME = "hotelloginname";
 
     String HOTELURLQUERY = "hotel";
-    
+
     String HOTELPROP = "hotel";
     String NOPERSONPROP = "noperson";
     String VATPROP = "vat";
     String VATLEVELPROP = "level";
+
+    String PRICELISTFROMPROP = "from";
+    String PRICELISTTOPROP = "to";
+    String PRICELISTSERVICEPROP = "serviceprice";
+    String PRICELISTPRICEPROP = "priceprice";
 }

@@ -1,4 +1,4 @@
-package com.gwthotel.hotel.jpa;
+package com.gwthotel.hotel.jpa.services;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -12,6 +12,7 @@ import com.jythonui.server.getmess.IGetLogMess;
 public class TestHotelServicesProvider implements Provider<IHotelServices> {
 
     @Inject
+    @Named(IHotelConsts.TESTFACTORYMANAGER)
     private EntityManagerFactory eFactory;
 
     @Inject

@@ -12,13 +12,20 @@
  */
 package com.gwthotel.admintest.suite;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 
+import com.gwthotel.admin.Hotel;
+import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admintest.guice.ServiceInjector;
+import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
@@ -42,6 +49,23 @@ public class TestHelper {
     protected final ISecurity iSec;
     protected final IHotelServices iServices;
     protected final IGetVatTaxes iTaxes;
+    protected final IHotelPriceList iPrice;
+    protected final IHotelPriceElem iPriceElem;
+
+    protected static final String HOTEL = "hotel";
+    protected static final String HOTEL1 = "hotel1";
+
+    protected void createHotels() {
+        iAdmin.clearAll();
+        String[] hNames = new String[] { HOTEL, HOTEL1 };
+        for (String s : hNames) {
+            Hotel ho = new Hotel();
+            ho.setName(s);
+            ho.setDescription("Pod Pieskiem");
+            List<HotelRoles> roles = new ArrayList<HotelRoles>();
+            iAdmin.addOrModifHotel(ho, roles);
+        }
+    }
 
     protected final String realM = "classpath:resources/shiro/hoteluser.ini";
     protected final String adminM = "classpath:resources/shiro/admin.ini";
@@ -54,6 +78,8 @@ public class TestHelper {
         iSec = ServiceInjector.constructSecurity();
         iServices = ServiceInjector.getHotelServices();
         iTaxes = ServiceInjector.getVatTaxes();
+        iPrice = ServiceInjector.getHotelPriceList();
+        iPriceElem = ServiceInjector.getHotelPriceElem();
     }
 
     @Before
@@ -77,6 +103,22 @@ public class TestHelper {
     protected void runAction(DialogVariables v, String dialogName,
             String actionId) {
         iServer.runAction(new RequestContext(), v, dialogName, actionId);
+    }
+
+    protected java.sql.Date toDate(int y, int m, int d) {
+        java.sql.Date da = new java.sql.Date(y - 1900, m, d);
+        return da;
+    }
+
+    protected boolean eqDate(java.sql.Date da, int y, int m, int d) {
+        if (da.getYear() + 1900 != y)
+            return false;
+        if (da.getMonth() != m)
+            return false;
+        int day = da.getDate();
+        if (day != d)
+            return false;
+        return true;
     }
 
 }

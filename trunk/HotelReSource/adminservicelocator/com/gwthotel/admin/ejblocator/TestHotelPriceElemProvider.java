@@ -10,20 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admintest.suite;
+package com.gwthotel.admin.ejblocator;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import javax.inject.Provider;
 
-/**
- * @author hotel
- * 
- */
-@RunWith(Suite.class)
-@SuiteClasses({ Test1.class, Test2.class, Test3.class, Test4.class,
-        Test5.class, Test6.class, Test7.class, Test8.class })
-// @SuiteClasses({ Test1.class })
-public class AllTests {
+import com.gwthotel.hotel.prices.IHotelPriceElem;
+
+public class TestHotelPriceElemProvider implements Provider<IHotelPriceElem> {
+
+    @Override
+    public IHotelPriceElem get() {
+        return AdminEjbLocator.getTestHotelPriceElem();
+    }
 
 }

@@ -10,28 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotelejb;
+package com.gwthotel.hotel.jpa.pricelist;
 
-import javax.ejb.EJB;
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.interceptor.Interceptors;
+import javax.inject.Named;
+import javax.inject.Provider;
+import javax.persistence.EntityManagerFactory;
 
-import com.gwthotel.hotel.services.IHotelServices;
+import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.shared.IHotelConsts;
-import com.jythonui.server.defa.GuiceInterceptor;
+import com.jythonui.server.getmess.IGetLogMess;
 
-
-@Stateless
-@EJB(name = IHotelConsts.HOTELSERVICESJNDI, beanInterface = IHotelServices.class)
-@Remote
-@Interceptors(value = { GuiceInterceptor.class })
-public class HotelServicesEJB extends AbstractHotelServicesEJB implements IHotelServices {
+public class TestHotelPriceListProvider implements Provider<IHotelPriceList> {
 
     @Inject
-    public void injectHotelServices(IHotelServices injectedServices) {
-        iServices = injectedServices;
+    @Named(IHotelConsts.TESTFACTORYMANAGER)
+    private EntityManagerFactory eFactory;
+
+    @Inject
+    @Named(IHotelConsts.MESSNAMED)
+    private IGetLogMess lMess;
+
+    @Override
+    public IHotelPriceList get() {
+        return new HotelJpaPriceList(eFactory, lMess);
     }
 
 }

@@ -10,30 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotelejb;
+package com.gwthotel.hotelejb.services;
 
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
+import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
-import com.gwthotel.hotel.services.ITestHotelServices;
+import com.gwthotel.hotelejb.AbstractHotelEJB;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
 
+
 @Stateless
-@EJB(name = IHotelConsts.TESTHOTELSERVICESJNDI, beanInterface = ITestHotelServices.class)
+@EJB(name = IHotelConsts.HOTELSERVICESJNDI, beanInterface = IHotelServices.class)
 @Remote
 @Interceptors(value = { GuiceInterceptor.class })
-public class TestHotelServicesEJB extends AbstractHotelServicesEJB implements
-        ITestHotelServices {
+public class HotelServicesEJB extends AbstractHotelEJB<HotelServices> implements IHotelServices {
 
     @Inject
-    public void injectHotelServices(@Named(IHotelConsts.TESTHOTELSERVICES) IHotelServices injectedServices) {
-        iServices = injectedServices;
+    public void injectHotelServices(IHotelServices injectedServices) {
+        service = injectedServices;
     }
 
 }
