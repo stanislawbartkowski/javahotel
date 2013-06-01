@@ -14,6 +14,7 @@ package com.gwthotel.shared;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,8 +40,8 @@ abstract public class PropDescription implements Serializable {
         return attr.get(key);
     }
 
-    public String getId() {
-        return getAttr(IHotelConsts.ID);
+    public Long getId() {
+        return getAttrLong(IHotelConsts.ID);
     }
 
     public String getDescription() {
@@ -71,6 +72,18 @@ abstract public class PropDescription implements Serializable {
         return CUtil.getInteger(s);
     }
 
+    public void setAttrLong(String key, Long l) {
+        String s = Long.toString(l);
+        setAttr(key, s);
+    }
+
+    public Long getAttrLong(String key) {
+        String s = getAttr(key);
+        if (CUtil.EmptyS(s))
+            return null;
+        return Long.valueOf(s);
+    }
+
     public BigDecimal getAttrBig(String key) {
         String s = getAttr(key);
         if (s == null)
@@ -84,5 +97,33 @@ abstract public class PropDescription implements Serializable {
             return;
         }
         setAttr(key, b.toString());
+    }
+
+    public void setAttrSqlDate(String key, java.sql.Date date) {
+        if (date == null)
+            setAttr(key, null);
+        else
+            setAttr(key, Long.toString(date.getTime()));
+    }
+
+    public java.sql.Date getAttrSqlDate(String key) {
+        String s = getAttr(key);
+        if (s == null)
+            return null;
+        return new java.sql.Date(Long.parseLong(s));
+    }
+
+    public void setAttrDate(String key, Date date) {
+        if (date == null)
+            setAttr(key, null);
+        else
+            setAttr(key, Long.toString(date.getTime()));
+    }
+
+    public Date getAttrDate(String key) {
+        String s = getAttr(key);
+        if (s == null)
+            return null;
+        return new java.sql.Date(Long.parseLong(s));
     }
 }

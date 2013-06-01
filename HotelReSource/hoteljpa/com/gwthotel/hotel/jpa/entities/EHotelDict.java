@@ -12,6 +12,7 @@
  */
 package com.gwthotel.hotel.jpa.entities;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -22,6 +23,7 @@ import com.gwthotel.admin.jpa.entities.EDictEntry;
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"hotel", "name"}))
 public abstract class EHotelDict extends EDictEntry {
     
+    @Column(nullable = false)
     private String hotel;
 
     public String getHotel() {

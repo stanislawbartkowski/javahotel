@@ -10,20 +10,8 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admintest.suite;
+package com.gwthotel.hotel.prices;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-
-/**
- * @author hotel
- * 
- */
-@RunWith(Suite.class)
-@SuiteClasses({ Test1.class, Test2.class, Test3.class, Test4.class,
-        Test5.class, Test6.class, Test7.class, Test8.class })
-// @SuiteClasses({ Test1.class })
-public class AllTests {
+public interface ITestHotelPriceElem extends IHotelPriceElem {
 
 }

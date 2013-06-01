@@ -15,9 +15,13 @@ package com.gwthotel.hotel.server.guice;
 import com.google.inject.Singleton;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.ejblocator.HotelAdminProvider;
+import com.gwthotel.admin.ejblocator.HotelPriceElemProvider;
+import com.gwthotel.admin.ejblocator.HotelPriceListProvider;
 import com.gwthotel.admin.ejblocator.HotelServicesProvider;
 import com.gwthotel.admin.ejblocator.StorageRealmProvider;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.resource.GetResourceJNDI;
@@ -56,6 +60,13 @@ public class ServerService {
                     Singleton.class);
             bind(IStorageRealmRegistry.class).toProvider(
                     StorageRealmProvider.class).in(Singleton.class);
+            bind(IHotelPriceList.class)
+                    .toProvider(HotelPriceListProvider.class).in(
+                            Singleton.class);
+            bind(IHotelPriceElem.class)
+                    .toProvider(HotelPriceElemProvider.class).in(
+                            Singleton.class);
+
             requestStatic();
             requestStaticInjection(H.class);
         }

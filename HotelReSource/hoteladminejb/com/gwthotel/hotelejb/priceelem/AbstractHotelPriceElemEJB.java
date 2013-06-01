@@ -10,43 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotelejb;
+package com.gwthotel.hotelejb.priceelem;
 
 import java.util.List;
 
-import com.gwthotel.hotel.services.HotelServices;
-import com.gwthotel.hotel.services.IHotelServices;
+import com.gwthotel.hotel.prices.HotelPriceElem;
+import com.gwthotel.hotel.prices.IHotelPriceElem;
 
-public class AbstractHotelServicesEJB implements IHotelServices {
+abstract class AbstractHotelPriceElemEJB implements IHotelPriceElem {
 
-    protected IHotelServices iServices;
+    protected IHotelPriceElem service;
 
     @Override
-    public List<HotelServices> getList(String hotel) {
-        return iServices.getList(hotel);
+    public List<HotelPriceElem> getPricesForPriceList(String hotel,
+            String pricelist) {
+        return service.getPricesForPriceList(hotel, pricelist);
     }
 
     @Override
-    public void addElem(String hotel, HotelServices elem) {
-        iServices.addElem(hotel, elem);
-
-    }
-
-    @Override
-    public void changeElem(String hotel, HotelServices elem) {
-        iServices.changeElem(hotel, elem);
-
-    }
-
-    @Override
-    public void deleteElem(String hotel, HotelServices elem) {
-        iServices.deleteElem(hotel, elem);
+    public void savePricesForPriceList(String hotel, String pricelist,
+            List<HotelPriceElem> pList) {
+        service.savePricesForPriceList(hotel, pricelist, pList);
 
     }
 
     @Override
     public void deleteAll(String hotel) {
-        iServices.deleteAll(hotel);
+        service.deleteAll(hotel);
 
     }
 
