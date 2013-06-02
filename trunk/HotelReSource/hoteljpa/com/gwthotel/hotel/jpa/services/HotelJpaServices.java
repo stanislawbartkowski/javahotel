@@ -38,7 +38,7 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
         HotelServices ho = new HotelServices();
         PropUtils.copyToProp(ho, sou);
         // ho.setAttr(IHotelConsts.HOTELPROP, sou.getHotel());
-        ho.setAttrInt(IHotelConsts.NOPERSONPROP, sou.getNoPersons());
+        ho.setNoPersons(sou.getNoPersons());
         ho.setAttr(IHotelConsts.VATPROP, sou.getVat());
         return ho;
     }
@@ -52,7 +52,7 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
     protected void toE(EHotelServices dest, HotelServices sou) {
         PropUtils.copyToEDict(dest, sou);
         dest.setHotel(sou.getAttr(IHotelConsts.HOTELPROP));
-        dest.setNoPersons(sou.getAttrInt(IHotelConsts.NOPERSONPROP));
+        dest.setNoPersons(sou.getNoPersons());
         dest.setVat(sou.getAttr(IHotelConsts.VATPROP));
     }
 
@@ -62,15 +62,14 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
         q.setParameter(1, hotel);
         q.executeUpdate();
     }
-    
+
     @Override
     protected void beforedeleteElem(EntityManager em, String hotel,
-            EHotelServices  elem) {
+            EHotelServices elem) {
         Query q = em.createNamedQuery("deletePricesForHotelAndService");
         q.setParameter(1, hotel);
         q.setParameter(2, elem);
         q.executeUpdate();
     }
-
 
 }

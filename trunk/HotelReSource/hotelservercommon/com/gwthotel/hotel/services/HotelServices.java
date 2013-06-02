@@ -17,5 +17,15 @@ import com.gwthotel.shared.PropDescription;
 public class HotelServices extends PropDescription {
 
     private static final long serialVersionUID = 1L;
+    
+    private int noPersons;
+
+    public int getNoPersons() {
+        return noPersons;
+    }
+
+    public void setNoPersons(int noPersons) {
+        this.noPersons = noPersons;
+    }    
 
 }

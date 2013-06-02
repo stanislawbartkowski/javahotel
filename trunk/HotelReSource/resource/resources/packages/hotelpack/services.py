@@ -26,7 +26,7 @@ def _createList(var):
     
     for s in seq : 
        list.append({"name" : s.getName(), "descr" : s.getDescription(), 
-                    "vat" : s.getAttr("vat"), "noperson" : s.getAttrInt("noperson"),
+                    "vat" : s.getAttr("vat"), "noperson" : s.getNoPersons(),
                     "vatname" : _getVatName(s.getAttr("vat"))} )
        
     var["JLIST_MAP"] = { "services" : list}
@@ -57,7 +57,7 @@ def _createService(var):
    copyNameDescr(se,var)
    se.setAttr("vat",var["vat"])
    nop = var["noperson"]
-   se.setAttrInt("noperson",nop)
+   se.setNoPersons(nop)
    return se    
 
 def elemserviceaction(action,var) :
@@ -67,7 +67,7 @@ def elemserviceaction(action,var) :
   serv = SERVICES(var)
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
-      if _duplicateService(var) or _notverifyService(var) : return True         
+      if _duplicateService(var) or _notverifyService(var) : return          
       var["JYESNO_MESSAGE"] = M("ADDNEWSERVICEASK");
       var["JMESSAGE_TITLE"] = ""  
       return
@@ -79,7 +79,7 @@ def elemserviceaction(action,var) :
       return
 
   if action == "crud_change"  and not var["JCRUD_AFTERCONF"] :
-      if _notverifyService(var) : return True
+      if _notverifyService(var) : return
       var["JYESNO_MESSAGE"] = M("CHANGESERVICEASK")
       var["JMESSAGE_TITLE"] = ""  
       return

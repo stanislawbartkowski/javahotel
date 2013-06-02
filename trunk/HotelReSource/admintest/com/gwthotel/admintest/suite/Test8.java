@@ -45,13 +45,13 @@ public class Test8 extends TestHelper {
         HotelServices ho = new HotelServices();
         ho.setName(SERVICE1);
         ho.setDescription("One person in one person room");
-        ho.setAttrInt(IHotelConsts.NOPERSONPROP, 2);
+        ho.setNoPersons(2);
         ho.setAttr(IHotelConsts.VATPROP, "7%");
         iServices.addElem(HOTEL, ho);
 
         HotelPriceList p = new HotelPriceList();
         p.setName(PRICE1);
-        p.setAttrSqlDate(IHotelConsts.PRICELISTFROMPROP, toDate(2010, 10, 1));
+        p.setFromDate(toDate(2010, 10, 1));
         iPrice.addElem(HOTEL, p);
 
     }
@@ -139,7 +139,7 @@ public class Test8 extends TestHelper {
             HotelServices ho = new HotelServices();
             ho.setName("s" + i);
             ho.setDescription("One person in one person room");
-            ho.setAttrInt(IHotelConsts.NOPERSONPROP, 2);
+            ho.setNoPersons(2);
             ho.setAttr(IHotelConsts.VATPROP, "7%");
             iServices.addElem(HOTEL, ho);
         }
@@ -176,7 +176,7 @@ public class Test8 extends TestHelper {
         assertTrue(found);
         HotelServices ho = new HotelServices();
         ho.setName("s81");
-        iServices.deleteElem(HOTEL,ho);
+        iServices.deleteElem(HOTEL, ho);
         pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
         assertEquals(99, pList.size());
         HotelPriceList p = new HotelPriceList();

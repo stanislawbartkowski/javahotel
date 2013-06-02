@@ -53,7 +53,8 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
 
     abstract protected void beforedeleteAll(EntityManager em, String hotel);
 
-    abstract protected void beforedeleteElem(EntityManager em, String hotel, E elem);
+    abstract protected void beforedeleteElem(EntityManager em, String hotel,
+            E elem);
 
     private abstract class doTransaction extends JpaTransaction {
 
@@ -94,7 +95,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             for (E p : list) {
                 T rec = toT(p);
                 rec.setAttr(IHotelConsts.HOTELPROP, p.getHotel());
-                rec.setAttrLong(IHotelConsts.ID, p.getId());
+                rec.setId(p.getId());
                 retList.add(rec);
             }
         }

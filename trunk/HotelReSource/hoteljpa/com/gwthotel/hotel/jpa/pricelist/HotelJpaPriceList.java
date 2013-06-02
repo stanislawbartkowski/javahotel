@@ -21,7 +21,7 @@ import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
-import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.shared.MUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaPriceList extends
@@ -37,8 +37,8 @@ class HotelJpaPriceList extends
     protected HotelPriceList toT(EHotelPriceList sou) {
         HotelPriceList ho = new HotelPriceList();
         PropUtils.copyToProp(ho, sou);
-        ho.setAttrSqlDate(IHotelConsts.PRICELISTFROMPROP, sou.getPriceFrom());
-        ho.setAttrSqlDate(IHotelConsts.PRICELISTTOPROP, sou.getPriceTo());
+        ho.setFromDate(sou.getPriceFrom());
+        ho.setToDate(sou.getPriceTo());
         return ho;
     }
 
@@ -50,8 +50,8 @@ class HotelJpaPriceList extends
     @Override
     protected void toE(EHotelPriceList dest, HotelPriceList sou) {
         PropUtils.copyToEDict(dest, sou);
-        dest.setPriceFrom(sou.getAttrSqlDate(IHotelConsts.PRICELISTFROMPROP));
-        dest.setPriceTo(sou.getAttrSqlDate(IHotelConsts.PRICELISTTOPROP));
+        dest.setPriceFrom(MUtil.toSqlDate(sou.getFromDate()));
+        dest.setPriceTo(MUtil.toSqlDate(sou.getToDate()));
     }
 
     @Override
