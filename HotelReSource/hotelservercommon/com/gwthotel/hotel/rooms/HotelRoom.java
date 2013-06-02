@@ -10,16 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.mess;
+package com.gwthotel.hotel.rooms;
 
-public interface IHError {
+import com.gwthotel.shared.PropDescription;
 
-    String HERROR001 = "H001";
-    String HERROR002 = "H002";
-    String HERROR003 = "H003";
-    String HERROR004 = "H004";
-    String HERROR005 = "H005";
-    String HERROR006 = "H006";
-    String HERROR007 = "H007";
-    String HERROR008 = "H008";
+public class HotelRoom extends PropDescription {
+
+    private static final long serialVersionUID = 1L;
+    private int noPersons;
+
+    public int getNoPersons() {
+        return noPersons;
+    }
+
+    public void setNoPersons(int noPersons) {
+        this.noPersons = noPersons;
+    }
+
 }

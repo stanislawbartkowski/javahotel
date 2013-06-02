@@ -124,6 +124,11 @@ def  elempricelistaction(action,var) :
   
   if action == "before" :
       _createPriceElemList(var)
+      if var["JCRUD_DIALOG"] == "crud_remove" :
+       var["JSETATTR_CHECKLIST_prices_readonly"] = True
+       var["JVALATTR_CHECKLIST_prices_readonly"] = ""       
+       return
+
 
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
       if _duplicatedPriceList(var) : return

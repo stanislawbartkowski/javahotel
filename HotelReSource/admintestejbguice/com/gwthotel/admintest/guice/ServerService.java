@@ -15,13 +15,17 @@ package com.gwthotel.admintest.guice;
 import com.google.inject.Singleton;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.ejblocator.TestHotelAdminProvider;
+import com.gwthotel.admin.ejblocator.TestHotelCustomersProvider;
 import com.gwthotel.admin.ejblocator.TestHotelPriceElemProvider;
 import com.gwthotel.admin.ejblocator.TestHotelPriceListProvider;
+import com.gwthotel.admin.ejblocator.TestHotelRoomsProvider;
 import com.gwthotel.admin.ejblocator.TestHotelServicesProvider;
 import com.gwthotel.admin.ejblocator.TestStorageRealmProvider;
+import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
@@ -61,6 +65,10 @@ public class ServerService {
                     TestHotelPriceListProvider.class).in(Singleton.class);
             bind(IHotelPriceElem.class).toProvider(
                     TestHotelPriceElemProvider.class).in(Singleton.class);
+            bind(IHotelRooms.class).toProvider(TestHotelRoomsProvider.class)
+                    .in(Singleton.class);
+            bind(IHotelCustomers.class).toProvider(
+                    TestHotelCustomersProvider.class).in(Singleton.class);
             requestStatic();
         }
     }

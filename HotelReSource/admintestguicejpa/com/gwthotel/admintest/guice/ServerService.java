@@ -18,12 +18,16 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
+import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.jpa.customers.HotelCustomersProvider;
 import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
 import com.gwthotel.hotel.jpa.prices.HotelPriceElemProvider;
+import com.gwthotel.hotel.jpa.rooms.HotelRoomsProvider;
 import com.gwthotel.hotel.jpa.services.HotelServicesProvider;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
@@ -73,6 +77,11 @@ public class ServerService {
             bind(IHotelPriceElem.class)
                     .toProvider(HotelPriceElemProvider.class).in(
                             Singleton.class);
+            bind(IHotelCustomers.class)
+                    .toProvider(HotelCustomersProvider.class).in(
+                            Singleton.class);
+            bind(IHotelRooms.class).toProvider(HotelRoomsProvider.class).in(
+                    Singleton.class);
             requestStatic();
         }
     }

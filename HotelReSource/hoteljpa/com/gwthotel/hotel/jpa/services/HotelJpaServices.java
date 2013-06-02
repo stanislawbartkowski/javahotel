@@ -14,11 +14,10 @@ package com.gwthotel.hotel.jpa.services;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 
 import com.gwthotel.admin.jpa.PropUtils;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
-import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
+import com.gwthotel.hotel.jpa.Utils;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
@@ -35,12 +34,7 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
 
     @Override
     protected HotelServices toT(EHotelServices sou) {
-        HotelServices ho = new HotelServices();
-        PropUtils.copyToProp(ho, sou);
-        // ho.setAttr(IHotelConsts.HOTELPROP, sou.getHotel());
-        ho.setNoPersons(sou.getNoPersons());
-        ho.setAttr(IHotelConsts.VATPROP, sou.getVat());
-        return ho;
+        return Utils.toT(sou);
     }
 
     @Override
@@ -50,7 +44,6 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
 
     @Override
     protected void toE(EHotelServices dest, HotelServices sou) {
-        PropUtils.copyToEDict(dest, sou);
         dest.setHotel(sou.getAttr(IHotelConsts.HOTELPROP));
         dest.setNoPersons(sou.getNoPersons());
         dest.setVat(sou.getAttr(IHotelConsts.VATPROP));
@@ -58,18 +51,15 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
 
     @Override
     protected void beforedeleteAll(EntityManager em, String hotel) {
-        Query q = em.createNamedQuery("deletePricesForHotel");
-        q.setParameter(1, hotel);
-        q.executeUpdate();
+        String qList[] = { "deletePricesForHotel", "deleteAllRoomServices" };
+        executeHotelQuery(em, hotel, qList);
     }
 
     @Override
     protected void beforedeleteElem(EntityManager em, String hotel,
             EHotelServices elem) {
-        Query q = em.createNamedQuery("deletePricesForHotelAndService");
-        q.setParameter(1, hotel);
-        q.setParameter(2, elem);
-        q.executeUpdate();
+        String qList[] = { "deletePricesForHotelAndService",
+                "deleteForRoomServices" };
+        executeElemQuery(em, hotel, qList, elem);
     }
-
 }

@@ -10,16 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.mess;
+package com.gwthotel.hotel.jpa;
 
-public interface IHError {
+import com.gwthotel.admin.jpa.PropUtils;
+import com.gwthotel.hotel.jpa.entities.EHotelServices;
+import com.gwthotel.hotel.services.HotelServices;
+import com.gwthotel.shared.IHotelConsts;
 
-    String HERROR001 = "H001";
-    String HERROR002 = "H002";
-    String HERROR003 = "H003";
-    String HERROR004 = "H004";
-    String HERROR005 = "H005";
-    String HERROR006 = "H006";
-    String HERROR007 = "H007";
-    String HERROR008 = "H008";
+public class Utils {
+
+    private Utils() {
+    }
+
+    public static HotelServices toT(EHotelServices sou) {
+        HotelServices ho = new HotelServices();
+        PropUtils.copyToProp(ho, sou);
+        ho.setNoPersons(sou.getNoPersons());
+        ho.setAttr(IHotelConsts.VATPROP, sou.getVat());
+        return ho;
+    }
+
 }
