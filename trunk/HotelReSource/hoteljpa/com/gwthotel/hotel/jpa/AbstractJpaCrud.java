@@ -12,27 +12,39 @@
  */
 package com.gwthotel.hotel.jpa;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.apache.commons.beanutils.PropertyUtils;
+
 import com.gwthotel.admin.jpa.JpaTransaction;
+import com.gwthotel.admin.jpa.PropUtils;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.hotel.jpa.entities.EHotelDict;
+import com.gwthotel.mess.IHError;
+import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.shared.JythonUIFatal;
 
 public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
         implements IHotelProp<T> {
 
+    static final private Logger log = Logger.getLogger(AbstractJpaCrud.class
+            .getName());
+
     private final String[] queryMap;
-    private final EntityManagerFactory eFactory;
-    private final IGetLogMess lMess;
+    protected final EntityManagerFactory eFactory;
+    protected final IGetLogMess lMess;
 
     private final static int GETALLQUERY = 0;
     private final static int FINDELEMQUERY = 1;
@@ -56,25 +68,82 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     abstract protected void beforedeleteElem(EntityManager em, String hotel,
             E elem);
 
-    private abstract class doTransaction extends JpaTransaction {
+    protected abstract class doTransaction extends JpaTransaction {
 
         protected final String hotel;
 
-        doTransaction(String hotel) {
+        protected doTransaction(String hotel) {
             super(eFactory, lMess);
             this.hotel = hotel;
         }
 
-        protected E getElem(EntityManager em, T elem) {
+        protected E getElem(EntityManager em, String name) {
             Query q = em.createNamedQuery(queryMap[FINDELEMQUERY]);
             q.setParameter(1, hotel);
-            q.setParameter(2, elem.getName());
+            q.setParameter(2, name);
             try {
                 E pers = (E) q.getSingleResult();
                 return pers;
             } catch (NoResultException e) {
                 return null;
             }
+        }
+
+        protected E getElem(EntityManager em, T elem) {
+            return getElem(em, elem.getName());
+        }
+
+    }
+
+    protected void executeElemQuery(EntityManager em, String hotel,
+            String[] qList, E elem) {
+        for (String query : qList) {
+            Query q = em.createNamedQuery(query);
+            q.setParameter(1, hotel);
+            q.setParameter(2, elem);
+            q.executeUpdate();
+        }
+
+    }
+
+    protected void executeHotelQuery(EntityManager em, String hotel,
+            String[] qList) {
+        for (String query : qList) {
+            Query q = em.createNamedQuery(query);
+            q.setParameter(1, hotel);
+            q.executeUpdate();
+        }
+
+    }
+
+    protected void toEProperties(String[] prop, E dest, T sou) {
+        for (String key : prop) {
+            String val = sou.getAttr(key);
+            try {
+                PropertyUtils.setSimpleProperty(dest, key, val);
+            } catch (IllegalAccessException | InvocationTargetException
+                    | NoSuchMethodException e) {
+                String mess = lMess.getMess(IHError.HERROR007,
+                        IHMess.BEANCANNOTSETPROPERTY, key, val);
+                log.log(Level.SEVERE, mess, e);
+                throw new JythonUIFatal(mess);
+            }
+        }
+    }
+
+    protected void toTProperties(String[] prop, T dest, E sou) {
+        for (String key : prop) {
+            String val;
+            try {
+                val = (String) PropertyUtils.getSimpleProperty(sou, key);
+            } catch (IllegalAccessException | InvocationTargetException
+                    | NoSuchMethodException e) {
+                String mess = lMess.getMess(IHError.HERROR008,
+                        IHMess.BEANCANNOTGETPROPERTY, key);
+                log.log(Level.SEVERE, mess, e);
+                throw new JythonUIFatal(mess);
+            }
+            dest.setAttr(key, val);
         }
 
     }
@@ -94,6 +163,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             List<E> list = q.getResultList();
             for (E p : list) {
                 T rec = toT(p);
+                PropUtils.copyToProp(rec, p);
                 rec.setAttr(IHotelConsts.HOTELPROP, p.getHotel());
                 rec.setId(p.getId());
                 retList.add(rec);
@@ -121,6 +191,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
         protected void dosth(EntityManager em) {
             E pers = constructE();
             toE(pers, elem);
+            PropUtils.copyToEDict(pers, elem);
             pers.setHotel(hotel);
             em.persist(pers);
         }
@@ -147,6 +218,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             if (pers == null) // TODO: more verbose, not expected
                 return;
             toE(pers, elem);
+            PropUtils.copyToEDict(pers, elem);
             pers.setHotel(hotel);
             em.persist(pers);
         }

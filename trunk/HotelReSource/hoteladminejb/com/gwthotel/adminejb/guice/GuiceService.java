@@ -18,17 +18,22 @@ import javax.persistence.EntityManagerFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.ITestHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.jpa.TestHotelAdminProvider;
+import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.jpa.customers.HotelCustomersProvider;
+import com.gwthotel.hotel.jpa.customers.TestHotelCustomersProvider;
 import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
 import com.gwthotel.hotel.jpa.pricelist.TestHotelPriceListProvider;
 import com.gwthotel.hotel.jpa.prices.HotelPriceElemProvider;
 import com.gwthotel.hotel.jpa.prices.TestHotelPriceElemProvider;
+import com.gwthotel.hotel.jpa.rooms.HotelRoomsProvider;
+import com.gwthotel.hotel.jpa.rooms.TestHotelRoomsProvider;
 import com.gwthotel.hotel.jpa.services.HotelServicesProvider;
 import com.gwthotel.hotel.jpa.services.TestHotelServicesProvider;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
@@ -97,6 +102,20 @@ public class GuiceService {
             bind(IHotelPriceElem.class)
                     .annotatedWith(Names.named(IHotelConsts.TESTHOTELPRICEELEM))
                     .toProvider(TestHotelPriceElemProvider.class)
+                    .in(Singleton.class);
+
+            bind(IHotelRooms.class).toProvider(HotelRoomsProvider.class).in(
+                    Singleton.class);
+            bind(IHotelRooms.class)
+                    .annotatedWith(Names.named(IHotelConsts.TESTHOTELROOMS))
+                    .toProvider(TestHotelRoomsProvider.class)
+                    .in(Singleton.class);
+
+            bind(IHotelCustomers.class).toProvider(HotelCustomersProvider.class).in(
+                    Singleton.class);
+            bind(IHotelCustomers.class)
+                    .annotatedWith(Names.named(IHotelConsts.TESTHOTELCUSTOMERS))
+                    .toProvider(TestHotelCustomersProvider.class)
                     .in(Singleton.class);
 
             bind(IGetLogMess.class)

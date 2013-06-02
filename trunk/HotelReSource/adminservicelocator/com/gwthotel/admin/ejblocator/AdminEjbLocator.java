@@ -20,10 +20,14 @@ import javax.naming.NamingException;
 
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.ITestHotelAdmin;
+import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.customer.ITestHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.pricelist.ITestHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.prices.ITestHotelPriceElem;
+import com.gwthotel.hotel.rooms.IHotelRooms;
+import com.gwthotel.hotel.rooms.ITestHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.hotel.services.ITestHotelServices;
 import com.gwthotel.shared.IHotelConsts;
@@ -95,6 +99,22 @@ public class AdminEjbLocator {
 
     public static ITestHotelPriceElem getTestHotelPriceElem() {
         return construct(IHotelConsts.TESTHOTELPRICEELEMJNDI);
+    }
+
+    public static IHotelRooms getHotelRooms() {
+        return construct(IHotelConsts.HOTELROOMSJNDI);
+    }
+
+    public static ITestHotelRooms getTestHotelRooms() {
+        return construct(IHotelConsts.TESTHOTELROOMSJNDI);
+    }
+
+    public static IHotelCustomers getHotelCustomers() {
+        return construct(IHotelConsts.HOTELCUSTOMERSJNDI);
+    }
+
+    public static ITestHotelCustomers getTestHotelCustomers() {
+        return construct(IHotelConsts.TESTHOTELCUSTOMERSJNDI);
     }
 
 }

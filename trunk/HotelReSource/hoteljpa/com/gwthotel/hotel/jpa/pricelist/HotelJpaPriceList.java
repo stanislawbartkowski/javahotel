@@ -36,7 +36,6 @@ class HotelJpaPriceList extends
     @Override
     protected HotelPriceList toT(EHotelPriceList sou) {
         HotelPriceList ho = new HotelPriceList();
-        PropUtils.copyToProp(ho, sou);
         ho.setFromDate(sou.getPriceFrom());
         ho.setToDate(sou.getPriceTo());
         return ho;
@@ -49,7 +48,6 @@ class HotelJpaPriceList extends
 
     @Override
     protected void toE(EHotelPriceList dest, HotelPriceList sou) {
-        PropUtils.copyToEDict(dest, sou);
         dest.setPriceFrom(MUtil.toSqlDate(sou.getFromDate()));
         dest.setPriceTo(MUtil.toSqlDate(sou.getToDate()));
     }

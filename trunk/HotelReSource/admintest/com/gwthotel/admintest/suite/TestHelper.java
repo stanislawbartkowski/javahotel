@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 import com.gwthotel.admin.Hotel;
 import com.gwthotel.admin.HotelRoles;
@@ -25,8 +26,10 @@ import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admintest.guice.ServiceInjector;
+import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
@@ -45,13 +48,15 @@ public class TestHelper {
 
     protected final IHotelAdmin iAdmin;
     protected final IGetHotelRoles iRoles;
-    private final ITestEnhancer iTest;
+    private static final ITestEnhancer iTest = ServiceInjector.constructITestEnhancer();
     protected final IJythonUIServer iServer;
     protected final ISecurity iSec;
     protected final IHotelServices iServices;
     protected final IGetVatTaxes iTaxes;
     protected final IHotelPriceList iPrice;
     protected final IHotelPriceElem iPriceElem;
+    protected final IHotelRooms iRooms;
+    protected final IHotelCustomers iCustomers;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -73,7 +78,6 @@ public class TestHelper {
 
     public TestHelper() {
         iAdmin = ServiceInjector.constructHotelAdmin();
-        iTest = ServiceInjector.constructITestEnhancer();
         iRoles = ServiceInjector.constructHotelRoles();
         iServer = ServiceInjector.contructJythonUiServer();
         iSec = ServiceInjector.constructSecurity();
@@ -81,17 +85,23 @@ public class TestHelper {
         iTaxes = ServiceInjector.getVatTaxes();
         iPrice = ServiceInjector.getHotelPriceList();
         iPriceElem = ServiceInjector.getHotelPriceElem();
+        iRooms = ServiceInjector.getHotelRooms();
+        iCustomers = ServiceInjector.getHotelCustomers();
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         iTest.beforeTest();
-        Holder.setAuth(false);
     }
 
-    @After
-    public void tearDown() {
+    @AfterClass
+    public static void tearDown() {
         iTest.afterTest();
+    }
+    
+    @Before
+    public void beforeTest() {
+        Holder.setAuth(false);        
     }
 
     protected DialogFormat findDialog(String dialogName) {

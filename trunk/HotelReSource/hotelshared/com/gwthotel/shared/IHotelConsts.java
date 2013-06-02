@@ -30,12 +30,18 @@ public interface IHotelConsts {
     String TESTHOTELPRICELISTJNDI = "java:global/TestHotelPriceList";
     String HOTELPRICEELEMJNDI = "java:global/HotelPriceElem";
     String TESTHOTELPRICEELEMJNDI = "java:global/TestHotelPriceElem";
+    String HOTELROOMSJNDI = "java:global/HotelRooms";
+    String TESTHOTELROOMSJNDI = "java:global/TestHotelRooms";
+    String HOTELCUSTOMERSJNDI = "java:global/HotelCustomers";
+    String TESTHOTELCUSTOMERSJNDI = "java:global/TestHotelCustomers";
 
     String TESTHOTELADMIN = "testhoteladmin";
     String TESTFACTORYMANAGER = "testfactorymanager";
     String TESTHOTELSERVICES = "testhotelservices";
     String TESTHOTELPRICELIST = "testhotelpricelist";
     String TESTHOTELPRICEELEM = "testhotelpriceelem";
+    String TESTHOTELROOMS = "testhotelrooms";
+    String TESTHOTELCUSTOMERS = "testhotelcustomers";
 
     String HOTELREALM = "HotelRealm";
 
@@ -49,4 +55,11 @@ public interface IHotelConsts {
 
     String PRICELISTSERVICEPROP = "serviceprice";
     String PRICELISTPRICEPROP = "priceprice";
+
+    String CUSTOMERFIRSTNAMEPROP = "firstname";
+    String CUSTOMERCOMPANYNAMEPROP = "companyname";
+    String CUSTOMERSTREETPROP = "street";
+    String CUSTOMERZIPCODEPROP = "zipcode";
+    String CUSTOMEREMAILPROP = "email";
+    String CUSTOMERPHONEPROP = "phone";
 }
