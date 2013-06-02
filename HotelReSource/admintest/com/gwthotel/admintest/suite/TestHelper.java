@@ -13,6 +13,7 @@
 package com.gwthotel.admintest.suite;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.After;
@@ -105,12 +106,12 @@ public class TestHelper {
         iServer.runAction(new RequestContext(), v, dialogName, actionId);
     }
 
-    protected java.sql.Date toDate(int y, int m, int d) {
-        java.sql.Date da = new java.sql.Date(y - 1900, m, d);
+    protected Date toDate(int y, int m, int d) {
+        Date da = new Date(y - 1900, m, d);
         return da;
     }
 
-    protected boolean eqDate(java.sql.Date da, int y, int m, int d) {
+    protected boolean eqDate(Date da, int y, int m, int d) {
         if (da.getYear() + 1900 != y)
             return false;
         if (da.getMonth() != m)

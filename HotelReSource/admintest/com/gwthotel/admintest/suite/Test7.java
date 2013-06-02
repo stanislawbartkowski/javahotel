@@ -34,16 +34,15 @@ public class Test7 extends TestHelper {
         resetHotel();
         HotelPriceList p = new HotelPriceList();
         p.setName("p1");
-        p.setAttrSqlDate(IHotelConsts.PRICELISTFROMPROP, toDate(2010, 10, 1));
+        p.setFromDate(toDate(2010, 10, 1));
         iPrice.addElem(HOTEL1, p);
         List<HotelPriceList> pList = iPrice.getList(HOTEL);
         assertTrue(pList.isEmpty());
         pList = iPrice.getList(HOTEL1);
         assertEquals(1, pList.size());
         p = pList.get(0);
-        assertTrue(eqDate(p.getAttrSqlDate(IHotelConsts.PRICELISTFROMPROP),
-                2010, 10, 1));
-        assertNull(p.getAttrSqlDate(IHotelConsts.PRICELISTTOPROP));
+        assertTrue(eqDate(p.getFromDate(), 2010, 10, 1));
+        assertNull(p.getToDate());
     }
 
     @Test
@@ -51,18 +50,16 @@ public class Test7 extends TestHelper {
         resetHotel();
         HotelPriceList p = new HotelPriceList();
         p.setName("p1");
-        p.setAttrSqlDate(IHotelConsts.PRICELISTFROMPROP, toDate(2010, 10, 1));
+        p.setFromDate(toDate(2010, 10, 1));
         iPrice.addElem(HOTEL1, p);
         List<HotelPriceList> pList = iPrice.getList(HOTEL1);
         p = pList.get(0);
-        p.setAttrSqlDate(IHotelConsts.PRICELISTTOPROP, toDate(2012, 1, 1));
+        p.setToDate(toDate(2012, 1, 1));
         iPrice.changeElem(HOTEL1, p);
         pList = iPrice.getList(HOTEL1);
         p = pList.get(0);
-        assertTrue(eqDate(p.getAttrSqlDate(IHotelConsts.PRICELISTFROMPROP),
-                2010, 10, 1));
-        assertTrue(eqDate(p.getAttrSqlDate(IHotelConsts.PRICELISTTOPROP), 2012,
-                1, 1));
+        assertTrue(eqDate(p.getFromDate(), 2010, 10, 1));
+        assertTrue(eqDate(p.getToDate(), 2012, 1, 1));
     }
 
     @Test
@@ -71,8 +68,7 @@ public class Test7 extends TestHelper {
         for (int i = 0; i < 100; i++) {
             HotelPriceList p = new HotelPriceList();
             p.setName("p" + i);
-            p.setAttrSqlDate(IHotelConsts.PRICELISTFROMPROP,
-                    toDate(2010, 10, 1));
+            p.setFromDate(toDate(2010, 10, 1));
             iPrice.addElem(HOTEL1, p);
         }
         List<HotelPriceList> pList = iPrice.getList(HOTEL1);

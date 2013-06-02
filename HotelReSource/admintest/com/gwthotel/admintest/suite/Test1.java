@@ -87,7 +87,7 @@ public class Test1 extends TestHelper {
             assertNotNull(r.getDescription());
             String level = r.getAttr(IHotelConsts.VATLEVELPROP);
             System.out.println(level);
-            BigDecimal b = r.getAttrBig(IHotelConsts.VATLEVELPROP);
+            BigDecimal b = r.getVatLevel();
             if (b != null) {
                 System.out.println(b);
                 if (b.equals(DecimalUtils.toBig("0"))) ok++;

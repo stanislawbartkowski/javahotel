@@ -1,5 +1,7 @@
 from com.gwthotel.hotel.server.service import H
 from java.util import ArrayList
+from java.util import Date
+from java.math import BigDecimal
 
 class MESS :
 
@@ -26,7 +28,26 @@ class SERVICES :
     def deleteElem(self,elem):
         self.serviceS.deleteElem(getHotelName(self.var),elem)
   
+class PRICELIST(SERVICES) :
+
+    def __init__(self,var):
+        SERVICES.__init__(self,var)
+        self.serviceS = H.getHotelPriceList()
+        
+class PRICEELEM :
+    
+    def __init__(self,var) :
+        self.var = var
+        self.service = H.getHotelPriceElem() 
+    
+    def getPricesForPriceList(self,pricelist)  :
+        return self.service.getPricesForPriceList(getHotelName(self.var),pricelist)
+             
+    def savePricesForPriceList(self,pricelist,list) :
+        self.service.savePricesForPriceList(getHotelName(self.var),pricelist,list)         
+  
 def printvar(method,action,var): 
+  return  
   print method, action
   for k in var.keys() : 
     print k, var[k]
@@ -48,4 +69,17 @@ def findElemInSeq(pname,seq):
        if name == pname : return s
     return None  
           
-      
+
+def toDate(value):
+    if value == None : return None
+    d = Date()
+    d.setYear(value.year - 1900)
+    d.setMonth(value.month-1)
+    d.setDate(value.day)
+    return d
+
+def toB(value,afterdot=2):
+    if value == None : return None
+    b = BigDecimal(value)
+    return b
+    

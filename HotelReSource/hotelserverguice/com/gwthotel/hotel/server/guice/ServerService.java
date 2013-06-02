@@ -16,23 +16,18 @@ import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
-import com.gwthotel.admin.IGetHotelRoles;
-import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
-import com.gwthotel.admin.roles.GetHotelRoles;
-import com.gwthotel.admin.vattax.GetVatTaxes;
-import com.gwthotel.auth.SecurityConverter;
-import com.gwthotel.hotel.IHotelGetName;
-import com.gwthotel.hotel.getname.GetHotelNameFromToken;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
-import com.gwthotel.hotel.jpa.HotelServicesProvider;
+import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
+import com.gwthotel.hotel.jpa.prices.HotelPriceElemProvider;
+import com.gwthotel.hotel.jpa.services.HotelServicesProvider;
+import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.server.provider.EntityManagerFactoryProvider;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
-import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.resource.GetResourceJNDI;
-import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryProvider;
@@ -41,11 +36,8 @@ import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.ServerPropertiesEnv;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
-import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.guice.JythonServerService;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
-import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -80,6 +72,13 @@ public class ServerService {
                     StorageJpaRegistryProvider.class).in(Singleton.class);
             bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
                     .in(Singleton.class);
+            bind(IHotelPriceList.class)
+                    .toProvider(HotelPriceListProvider.class).in(
+                            Singleton.class);
+            bind(IHotelPriceElem.class)
+                    .toProvider(HotelPriceElemProvider.class).in(
+                            Singleton.class);
+
             requestStatic();
             requestStaticInjection(H.class);
         }

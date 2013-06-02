@@ -14,16 +14,16 @@ package com.gwthotel.shared;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DecimalUtils;
 
 abstract public class PropDescription implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    private Long id;
 
     // important: not final !
     private Map<String, String> attr = new HashMap<String, String>();
@@ -38,10 +38,6 @@ abstract public class PropDescription implements Serializable {
 
     public String getAttr(String key) {
         return attr.get(key);
-    }
-
-    public Long getId() {
-        return getAttrLong(IHotelConsts.ID);
     }
 
     public String getDescription() {
@@ -60,38 +56,22 @@ abstract public class PropDescription implements Serializable {
         setAttr(IHotelConsts.DESCRIPTION, de);
     }
 
-    public void setAttrInt(String key, int no) {
-        String s = Integer.toString(no);
-        setAttr(key, s);
+    public Long getId() {
+        return id;
     }
 
-    public int getAttrInt(String key) {
-        String s = getAttr(key);
-        if (CUtil.EmptyS(s))
-            return 0;
-        return CUtil.getInteger(s);
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setAttrLong(String key, Long l) {
-        String s = Long.toString(l);
-        setAttr(key, s);
-    }
-
-    public Long getAttrLong(String key) {
-        String s = getAttr(key);
-        if (CUtil.EmptyS(s))
-            return null;
-        return Long.valueOf(s);
-    }
-
-    public BigDecimal getAttrBig(String key) {
+    protected BigDecimal getAttrBig(String key) {
         String s = getAttr(key);
         if (s == null)
             return null;
         return DecimalUtils.toBig(s);
     }
 
-    public void setAttrBig(String key, BigDecimal b) {
+    protected void setAttrBig(String key, BigDecimal b) {
         if (b == null) {
             setAttr(key, null);
             return;
@@ -99,31 +79,4 @@ abstract public class PropDescription implements Serializable {
         setAttr(key, b.toString());
     }
 
-    public void setAttrSqlDate(String key, java.sql.Date date) {
-        if (date == null)
-            setAttr(key, null);
-        else
-            setAttr(key, Long.toString(date.getTime()));
-    }
-
-    public java.sql.Date getAttrSqlDate(String key) {
-        String s = getAttr(key);
-        if (s == null)
-            return null;
-        return new java.sql.Date(Long.parseLong(s));
-    }
-
-    public void setAttrDate(String key, Date date) {
-        if (date == null)
-            setAttr(key, null);
-        else
-            setAttr(key, Long.toString(date.getTime()));
-    }
-
-    public Date getAttrDate(String key) {
-        String s = getAttr(key);
-        if (s == null)
-            return null;
-        return new java.sql.Date(Long.parseLong(s));
-    }
 }

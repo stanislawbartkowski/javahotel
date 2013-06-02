@@ -14,27 +14,29 @@ package com.gwthotel.hotel.pricelist;
 
 import java.util.Date;
 
-import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 
 public class HotelPriceList extends PropDescription {
 
     private static final long serialVersionUID = 1L;
+    
+    private Date dateFrom;
+    private Date dateTo;
 
     public void setFromDate(Date d) {
-        this.setAttrDate(IHotelConsts.PRICELISTFROMPROP, d);
+        dateFrom = d;
     }
 
     public void setToDate(Date d) {
-        this.setAttrDate(IHotelConsts.PRICELISTTOPROP, d);
+        dateTo = d;
     }
 
     public Date getFromDate() {
-        return getAttrDate(IHotelConsts.PRICELISTFROMPROP);
+        return dateFrom;
     }
 
     public Date getToDate() {
-        return getAttrDate(IHotelConsts.PRICELISTTOPROP);
+        return dateTo;
     }
 
 }

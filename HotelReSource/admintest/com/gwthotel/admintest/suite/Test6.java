@@ -24,7 +24,7 @@ import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
 
 public class Test6 extends TestHelper {
-    
+
     private void resetHotel() {
         createHotels();
         iServices.deleteAll(HOTEL);
@@ -38,7 +38,7 @@ public class Test6 extends TestHelper {
         HotelServices ho = new HotelServices();
         ho.setName("1p1");
         ho.setDescription("One person in one person room");
-        ho.setAttrInt(IHotelConsts.NOPERSONPROP, 2);
+        ho.setNoPersons(2);
         ho.setAttr(IHotelConsts.VATPROP, "7%");
         iServices.addElem(HOTEL, ho);
 
@@ -48,7 +48,7 @@ public class Test6 extends TestHelper {
         assertEquals("1p1", ho.getName());
         assertEquals(HOTEL, ho.getAttr(IHotelConsts.HOTELPROP));
         assertEquals("One person in one person room", ho.getDescription());
-        assertEquals(2, ho.getAttrInt(IHotelConsts.NOPERSONPROP));
+        assertEquals(2, ho.getNoPersons());
         assertEquals("7%", ho.getAttr(IHotelConsts.VATPROP));
 
         hList = iServices.getList(HOTEL1);
@@ -60,7 +60,7 @@ public class Test6 extends TestHelper {
             HotelServices ho = new HotelServices();
             ho.setName("" + i);
             ho.setDescription(hotel + "Desc " + i);
-            ho.setAttrInt(IHotelConsts.NOPERSONPROP, 2);
+            ho.setNoPersons(2);
             ho.setAttr(IHotelConsts.VATPROP, "7%");
             iServices.addElem(hotel, ho);
         }
@@ -77,16 +77,16 @@ public class Test6 extends TestHelper {
         hList = iServices.getList(HOTEL1);
         assertEquals(90, hList.size());
         HotelServices ho = hList.get(10);
-        ho.setAttrInt(IHotelConsts.NOPERSONPROP, 9);
+        ho.setNoPersons(9);
         iServices.changeElem(HOTEL1, ho);
         hList = iServices.getList(HOTEL1);
         assertEquals(90, hList.size());
         ho = hList.get(10);
-        assertEquals(9, ho.getAttrInt(IHotelConsts.NOPERSONPROP));
+        assertEquals(9, ho.getNoPersons());
 
         hList = iServices.getList(HOTEL);
         ho = hList.get(10);
-        assertEquals(2, ho.getAttrInt(IHotelConsts.NOPERSONPROP));
+        assertEquals(2, ho.getNoPersons());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class Test6 extends TestHelper {
         hList = iServices.getList(HOTEL);
         assertEquals(100, hList.size());
     }
-    
+
     @Test
     public void test4() {
         resetHotel();

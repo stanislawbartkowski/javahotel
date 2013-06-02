@@ -44,12 +44,9 @@ public interface IHotelConsts {
     String HOTELURLQUERY = "hotel";
 
     String HOTELPROP = "hotel";
-    String NOPERSONPROP = "noperson";
     String VATPROP = "vat";
     String VATLEVELPROP = "level";
 
-    String PRICELISTFROMPROP = "from";
-    String PRICELISTTOPROP = "to";
     String PRICELISTSERVICEPROP = "serviceprice";
     String PRICELISTPRICEPROP = "priceprice";
 }

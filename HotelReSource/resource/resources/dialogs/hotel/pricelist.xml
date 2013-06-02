@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+			
+	<jython>
+		<import>from hotelpack import pricelist</import>
+		<method>pricelist.pricelistaction({0},{1})</method>
+	</jython>
+
+
+	<list id="pricelist" displayname="@pricelist" elemformat="hotel/elempricelist.xml">
+		<columns>
+			<column id="name" displayname="@name" />
+			<column id="descr" displayname="@description" />
+			<column id="validfrom" type="date" displayname="@validfrom" />
+			<column id="validto" type="date" displayname="@validto" />			
+		</columns>
+	</list>
+
+</dialog>
