@@ -203,25 +203,34 @@ public class FormGridManager {
             }
             if (cCheck.isReadOnly())
                 gView.setReadOnly(true);
-            // errors
-            RowIndex rI = new RowIndex(cCheck.constructErrLine());
-            RowsCols rCol = rMap.get(s);
-            List<GridErrorMess> errList = new ArrayList<GridErrorMess>();
-            for (RowContent r : c.getErrors().getRowList()) {
-                String row = rI.get(r, ICommonConsts.CHECKERRORROW)
-                        .getValueS();
-                String col = rI.get(r, ICommonConsts.CHECKERRORCOL).getValueS();
-                String errmess = rI.get(r, ICommonConsts.CHECKERRORMESS)
-                        .getValueS();
-                int rowNo = rCol.findLine(row);
-                int colNo = rCol.findCol(col);
-                GridErrorMess err = new GridErrorMess(rowNo, colNo, errmess);
-                errList.add(err);
-            }
-            if (!errList.isEmpty())
-                gView.setErrorMess(errList);
+            checkError(s, v);
         } // for
 
+    }
+
+    private boolean checkError(String checkId, DialogVariables v) {
+        DialogFormat d = dContainer.getD();
+        IGridView gView = gData.get(checkId);
+        CheckList cCheck = d.findCheckList(checkId);
+        RowIndex rI = new RowIndex(cCheck.constructErrLine());
+        RowsCols rCol = rMap.get(checkId);
+        DialogCheckVariables c = v.getCheckVariables().get(checkId);
+        List<GridErrorMess> errList = new ArrayList<GridErrorMess>();
+        for (RowContent r : c.getErrors().getRowList()) {
+            String row = rI.get(r, ICommonConsts.CHECKERRORROW).getValueS();
+            String col = rI.get(r, ICommonConsts.CHECKERRORCOL).getValueS();
+            String errmess = rI.get(r, ICommonConsts.CHECKERRORMESS)
+                    .getValueS();
+            int rowNo = rCol.findLine(row);
+            int colNo = rCol.findCol(col);
+            GridErrorMess err = new GridErrorMess(rowNo, colNo, errmess);
+            errList.add(err);
+        }
+        if (!errList.isEmpty()) {
+            gView.setErrorMess(errList);
+            return true;
+        }
+        return false;
     }
 
     public void addValues(DialogVariables v) {
@@ -267,6 +276,7 @@ public class FormGridManager {
                 c.getVal().put(row, lRows);
             }
             v.getCheckVariables().put(s, c);
+            // checkError(s,v);
         }
     }
 
@@ -277,5 +287,14 @@ public class FormGridManager {
         if (!action.equals(ICommonConsts.READONLY))
             return;
         g.setReadOnly(val != null);
+    }
+
+    boolean okGridErrors(DialogVariables v) {
+        boolean ok = true;
+        for (String s : gData.keySet()) {
+            if (checkError(s, v))
+                ok = false;
+        }
+        return ok;
     }
 }

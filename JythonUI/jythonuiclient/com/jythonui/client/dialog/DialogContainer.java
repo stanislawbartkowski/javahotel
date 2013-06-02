@@ -155,8 +155,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             assert fie != null : LogT.getT().cannotBeNull();
             String actionId = fie.getActionId();
             assert actionId != null : LogT.getT().cannotBeNull();
-            ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(id, false,
-                    w, null));
+            ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(id,
+                    false, w, null));
         }
 
     }
@@ -550,6 +550,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     public DialogInfo getInfo() {
         return info;
+    }
+
+    public boolean okCheckListError(DialogVariables v) {
+        return gManager.okGridErrors(v);
     }
 
 }

@@ -198,8 +198,8 @@ class GetViewController implements IGetViewControllerFactory {
 
             @Override
             public void onMySuccess(DialogVariables arg) {
-                if (VerifyJError
-                        .isError(dType, arg, ItemDataPersistAction.this)) {
+                if (VerifyJError.isError(dC, dType, arg,
+                        ItemDataPersistAction.this)) {
                     return;
                 }
                 PerformVariableAction.perform(new YesNo(), new CloseD(), arg,
