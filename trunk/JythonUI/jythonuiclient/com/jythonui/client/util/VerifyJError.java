@@ -22,6 +22,7 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.jythonui.client.M;
+import com.jythonui.client.dialog.DialogContainer;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
@@ -37,15 +38,17 @@ public class VerifyJError {
 
     }
 
-    public static boolean isError(IDataType dType, final DialogVariables v,
-            ISlotable iSlo) {
+    public static boolean isError(DialogContainer d, IDataType dType,
+            final DialogVariables v, ISlotable iSlo) {
 
         final List<InvalidateMess> err = new ArrayList<InvalidateMess>();
         JUtils.IVisitor vis = new JUtils.IVisitor() {
 
             @Override
             public void action(String fie, String field) {
-                if (field.equals(ICommonConsts.JERRORMESSAGE)) { return; }
+                if (field.equals(ICommonConsts.JERRORMESSAGE)) {
+                    return;
+                }
                 String errS = v.getValue(field).getValueS();
                 FieldValue val = v.getValue(fie);
                 if (val == null) {
@@ -59,6 +62,8 @@ public class VerifyJError {
         // important: add underline (JERROR does not have underline)
         JUtils.visitListOfFields(v, ICommonConsts.JERROR + "_", vis);
         if (err.isEmpty()) {
+            if (!d.okCheckListError(v))
+                return true;
             return false;
         }
         iSlo.getSlContainer().publish(dType, DataActionEnum.InvalidSignal,

@@ -50,7 +50,6 @@ import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.CheckList;
-import com.jythonui.shared.CheckListElem;
 import com.jythonui.shared.DialogCheckVariables;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
@@ -494,9 +493,15 @@ public class RunJython {
                             bV = new BigDecimal((BigInteger) val);
                         } else if (val instanceof Double) {
                             bV = new BigDecimal((Double) val);
+                        } else if (val instanceof BigDecimal) {
+                            bV = (BigDecimal) val;
                         } else
-                            error(Holder.getM().getMess(IErrorCode.ERRORCODE41,
-                                    ILogMess.INTEGERORBITINTEGEREXPECTED, keyS));
+                            error(Holder.getM().getMess(
+                                    IErrorCode.ERRORCODE41,
+                                    ILogMess.INTEGERORBITINTEGEREXPECTED,
+                                    keyS,
+                                    val == null ? null : val.getClass()
+                                            .getName()));
 
                         BigDecimal bx = bV.setScale(afterdot,
                                 BigDecimal.ROUND_HALF_UP);
@@ -711,8 +716,8 @@ public class RunJython {
 
     // entry point
 
-    public static void executeJython(IJythonUIServerProperties p, MCached mCached,
-            DialogVariables v, DialogFormat d, String actionId) {
+    public static void executeJython(IJythonUIServerProperties p,
+            MCached mCached, DialogVariables v, DialogFormat d, String actionId) {
         String cu = FieldItem.getCustomT(actionId);
         if (!CUtil.EmptyS(cu)) {
             executeForType(p, mCached, v, d, cu, false);
