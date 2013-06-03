@@ -215,6 +215,8 @@ public class FormGridManager {
         RowIndex rI = new RowIndex(cCheck.constructErrLine());
         RowsCols rCol = rMap.get(checkId);
         DialogCheckVariables c = v.getCheckVariables().get(checkId);
+        if (c == null) return false;
+        // 2013/06/04 -- check later, does not work for checkbox ?
         List<GridErrorMess> errList = new ArrayList<GridErrorMess>();
         for (RowContent r : c.getErrors().getRowList()) {
             String row = rI.get(r, ICommonConsts.CHECKERRORROW).getValueS();
