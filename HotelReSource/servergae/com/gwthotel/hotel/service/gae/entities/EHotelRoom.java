@@ -12,22 +12,19 @@
  */
 package com.gwthotel.hotel.service.gae.entities;
 
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Parent;
-import com.gwthotel.admin.gae.entities.EDictionary;
-import com.gwthotel.admin.gae.entities.EHotel;
+import com.googlecode.objectify.annotation.Entity;
 
-public abstract class EHotelDict extends EDictionary {
+@Entity
+public class EHotelRoom extends EHotelDict {
 
-    @Parent
-    private Key<EHotel> hotel;
+    private int noPersons;
 
-    public void setHotel(EHotel ho) {
-        hotel = Key.create(EHotel.class, ho.getId());
+    public int getNoPersons() {
+        return noPersons;
     }
 
-    public boolean isHotelSet() {
-        return hotel != null;
+    public void setNoPersons(int noPersons) {
+        this.noPersons = noPersons;
     }
 
 }

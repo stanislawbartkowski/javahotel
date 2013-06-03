@@ -15,9 +15,8 @@ package com.gwthotel.hotel.jpa.services;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import com.gwthotel.admin.jpa.PropUtils;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
-import com.gwthotel.hotel.jpa.Utils;
+import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
@@ -34,7 +33,7 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
 
     @Override
     protected HotelServices toT(EHotelServices sou) {
-        return Utils.toT(sou);
+        return JUtils.toT(sou);
     }
 
     @Override

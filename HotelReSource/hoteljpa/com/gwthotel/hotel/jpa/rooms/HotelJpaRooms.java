@@ -19,9 +19,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.jpa.PropUtils;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
-import com.gwthotel.hotel.jpa.Utils;
+import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelRoomServices;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
@@ -130,7 +129,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
             q.setParameter(2, roomName);
             List<EHotelRoomServices> rList = q.getResultList();
             for (EHotelRoomServices r : rList) {
-                eList.add(Utils.toT(r.getService()));
+                eList.add(JUtils.toT(r.getService()));
             }
         }
     }

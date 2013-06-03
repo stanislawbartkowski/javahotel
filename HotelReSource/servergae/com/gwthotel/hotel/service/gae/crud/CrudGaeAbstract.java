@@ -16,7 +16,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.VoidWork;
@@ -24,17 +23,16 @@ import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.hotel.service.gae.entities.EHotelDict;
-import com.gwthotel.mess.IHError;
-import com.gwthotel.mess.IHMess;
+import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
+import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.shared.JythonUIFatal;
 
 abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHotelDict>
         implements IHotelProp<T> {
 
-    private final IGetLogMess lMess;
+    protected final IGetLogMess lMess;
     private final Class<E> cl;
 
     protected CrudGaeAbstract(IGetLogMess lMess, Class<E> cl) {
@@ -42,22 +40,8 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         this.cl = cl;
     }
 
-    private static final Logger log = Logger.getLogger(CrudGaeAbstract.class
-            .getName());
-
-    private void setFailure(String mess) {
-        log.severe(mess);
-        throw new JythonUIFatal(mess);
-    }
-
     private EHotel findEHotel(String hotel) {
-        EHotel ho = DictUtil.findHotel(hotel);
-        if (ho == null) {
-            String mess = lMess.getMess(IHError.HERROR005,
-                    IHMess.HOTELNAMENOTFOUND, hotel);
-            setFailure(mess);
-        }
-        return ho;
+        return DictUtil.findEHotel(lMess, hotel);
     }
 
     protected abstract T constructProp(E e);
@@ -65,6 +49,26 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
     protected abstract E constructE();
 
     protected abstract void toE(E e, T t);
+
+    protected class DeleteItem {
+        public List<EHotelPriceElem> pList = null;
+        public List<EHotelRoomServices> sList = null;
+
+        void removeItems() {
+            if (pList != null) ofy().delete().entities(pList);
+            if (sList != null) ofy().delete().entities(sList);
+        }
+        
+        public void readAllRoomServices(EHotel ho) {
+            sList = ofy().load().type(EHotelRoomServices.class).ancestor(ho).list();
+        }
+        
+        public void readAllPriceElems(EHotel ho) {
+            pList = ofy().load().type(EHotelPriceElem.class).ancestor(ho).list();
+        }
+    }
+
+    protected abstract void beforeDelete(DeleteItem i,EHotel ho, E elem);
 
     private T toProp(E e, String hotel) {
         T dest = constructProp(e);
@@ -129,12 +133,16 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
 
     @Override
     public void deleteElem(String hotel, T elem) {
+        final EHotel ho = findEHotel(hotel);
         final E serv = findService(hotel, elem);
         if (serv == null) // TODO: more verbose log
             return;
+        final DeleteItem i = new DeleteItem();
+        beforeDelete(i,ho,serv);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 ofy().delete().entity(serv).now();
+                i.removeItems();
             }
         });
     }
@@ -142,10 +150,13 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
     @Override
     public void deleteAll(final String hotel) {
         final EHotel ho = findEHotel(hotel);
+        final DeleteItem i = new DeleteItem();
+        beforeDelete(i,ho,null);
         ofy().transact(new VoidWork() {
             public void vrun() {
-                final List<E> li = ofy().load().type(cl).ancestor(ho).list();
+                List<E> li = ofy().load().type(cl).ancestor(ho).list();
                 ofy().delete().entities(li);
+                i.removeItems();
             }
         });
 

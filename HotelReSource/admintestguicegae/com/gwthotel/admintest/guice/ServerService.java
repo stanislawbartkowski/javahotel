@@ -15,7 +15,15 @@ package com.gwthotel.admintest.guice;
 import com.google.inject.Singleton;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.gae.HotelAdminGae;
+import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.rooms.IHotelRooms;
+import com.gwthotel.hotel.service.gae.HotelCustomersImpl;
+import com.gwthotel.hotel.service.gae.HotelPriceElemImpl;
+import com.gwthotel.hotel.service.gae.HotelPriceListImpl;
+import com.gwthotel.hotel.service.gae.HotelRoomsImpl;
 import com.gwthotel.hotel.service.gae.HotelServiceImpl;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
@@ -46,8 +54,16 @@ public class ServerService {
                     .to(StorageRegistryFactory.class).in(Singleton.class);
             bind(IHotelServices.class).to(HotelServiceImpl.class).in(
                     Singleton.class);
+            bind(IHotelPriceList.class).to(HotelPriceListImpl.class).in(
+                    Singleton.class);
+            bind(IHotelPriceElem.class).to(HotelPriceElemImpl.class).in(
+                    Singleton.class);
+            bind(IHotelCustomers.class).to(HotelCustomersImpl.class).in(
+                    Singleton.class);
+            bind(IHotelRooms.class).to(HotelRoomsImpl.class)
+                    .in(Singleton.class);
+
             requestStatic();
-            // requestStaticInjection(H.class);
         }
     }
 

@@ -15,11 +15,11 @@ package com.gwthotel.hotel.jpa.customers;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
-import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
@@ -30,16 +30,10 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
                 "deleteAllCustomers" }, eFactory, lMess);
     }
 
-    private static final String[] lProperty = {
-            IHotelConsts.CUSTOMERFIRSTNAMEPROP,
-            IHotelConsts.CUSTOMERCOMPANYNAMEPROP,
-            IHotelConsts.CUSTOMERSTREETPROP, IHotelConsts.CUSTOMERZIPCODEPROP,
-            IHotelConsts.CUSTOMEREMAILPROP, IHotelConsts.CUSTOMERPHONEPROP };
-
     @Override
     protected HotelCustomer toT(EHotelCustomer sou) {
         HotelCustomer ho = new HotelCustomer();
-        toTProperties(lProperty, ho, sou);
+        toTProperties(HUtils.getCustomerFields(), ho, sou);
         return ho;
     }
 
@@ -50,7 +44,7 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
 
     @Override
     protected void toE(EHotelCustomer dest, HotelCustomer sou) {
-        toEProperties(lProperty, dest, sou);
+        toEProperties(HUtils.getCustomerFields(), dest, sou);
     }
 
     @Override

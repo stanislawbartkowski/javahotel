@@ -12,22 +12,30 @@
  */
 package com.gwthotel.hotel.service.gae.entities;
 
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.annotation.Parent;
-import com.gwthotel.admin.gae.entities.EDictionary;
-import com.gwthotel.admin.gae.entities.EHotel;
+import java.sql.Date;
 
-public abstract class EHotelDict extends EDictionary {
+import com.googlecode.objectify.annotation.Entity;
 
-    @Parent
-    private Key<EHotel> hotel;
+@Entity
+public class EHotelPriceList extends EHotelDict {
 
-    public void setHotel(EHotel ho) {
-        hotel = Key.create(EHotel.class, ho.getId());
+    private Date priceFrom;
+    private Date priceTo;
+
+    public Date getPriceFrom() {
+        return priceFrom;
     }
 
-    public boolean isHotelSet() {
-        return hotel != null;
+    public void setPriceFrom(Date priceFrom) {
+        this.priceFrom = priceFrom;
+    }
+
+    public Date getPriceTo() {
+        return priceTo;
+    }
+
+    public void setPriceTo(Date priceTo) {
+        this.priceTo = priceTo;
     }
 
 }

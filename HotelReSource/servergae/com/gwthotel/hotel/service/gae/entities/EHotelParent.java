@@ -10,42 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admin.gae.entities;
+package com.gwthotel.hotel.service.gae.entities;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Parent;
+import com.gwthotel.admin.gae.entities.EHotel;
 
-
-public abstract class EDictionary {
-
+abstract class EHotelParent {
+    
     @Id
     private Long id;
-    @Index
-    private String name;
-    private String description;
 
-    public Long getId() {
-        return id;
+    @Parent
+    private Key<EHotel> hotel;
+
+    public void setHotel(EHotel ho) {
+        hotel = Key.create(EHotel.class, ho.getId());
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public boolean isHotelSet() {
+        return hotel != null;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
 }
