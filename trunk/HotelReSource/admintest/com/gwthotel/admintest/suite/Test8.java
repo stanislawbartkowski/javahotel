@@ -164,7 +164,9 @@ public class Test8 extends TestHelper {
         iPriceElem.savePricesForPriceList(HOTEL, PRICE1, pList);
 
         pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
-        assertEquals(100, pList.size());
+//        assertEquals(100, pList.size());
+        // 2013/06/04 : should be 20
+        assertEquals(20, pList.size());
         boolean found = false;
         for (HotelPriceElem e : pList) {
             if (e.getService().equals("s81")) {
@@ -178,7 +180,9 @@ public class Test8 extends TestHelper {
         ho.setName("s81");
         iServices.deleteElem(HOTEL, ho);
         pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
-        assertEquals(99, pList.size());
+//        assertEquals(99, pList.size());
+        // 2013/06/04 : should be 19
+        assertEquals(19, pList.size());
         HotelPriceList p = new HotelPriceList();
         p.setName(PRICE1);
         iPrice.deleteElem(HOTEL, p);

@@ -97,10 +97,12 @@ public class Test2 extends TestHelper {
     @Test
     public void test4() {
         test3();
+        List<Hotel> h = iAdmin.getListOfHotels();
+        assertEquals(100,h.size());
         iAdmin.removeHotel("hotel10");
         List<HotelRoles> hList = iAdmin.getListOfRolesForPerson("user");
         assertEquals(99,hList.size());  
-        List<Hotel> h = iAdmin.getListOfHotels();
+        h = iAdmin.getListOfHotels();
         assertEquals(99,h.size());
         boolean exists = false;
         for (Hotel ho : h) {

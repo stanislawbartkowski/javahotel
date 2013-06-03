@@ -12,35 +12,25 @@
  */
 package com.gwthotel.hotel.jpa;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
 import com.gwthotel.admin.jpa.JpaTransaction;
 import com.gwthotel.admin.jpa.PropUtils;
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.hotel.jpa.entities.EHotelDict;
-import com.gwthotel.mess.IHError;
-import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.shared.JythonUIFatal;
 
 public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
         implements IHotelProp<T> {
-
-    static final private Logger log = Logger.getLogger(AbstractJpaCrud.class
-            .getName());
 
     private final String[] queryMap;
     protected final EntityManagerFactory eFactory;
@@ -117,35 +107,11 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     }
 
     protected void toEProperties(String[] prop, E dest, T sou) {
-        for (String key : prop) {
-            String val = sou.getAttr(key);
-            try {
-                PropertyUtils.setSimpleProperty(dest, key, val);
-            } catch (IllegalAccessException | InvocationTargetException
-                    | NoSuchMethodException e) {
-                String mess = lMess.getMess(IHError.HERROR007,
-                        IHMess.BEANCANNOTSETPROPERTY, key, val);
-                log.log(Level.SEVERE, mess, e);
-                throw new JythonUIFatal(mess);
-            }
-        }
+        HUtils.toEProperties(lMess, prop, dest, sou);
     }
 
     protected void toTProperties(String[] prop, T dest, E sou) {
-        for (String key : prop) {
-            String val;
-            try {
-                val = (String) PropertyUtils.getSimpleProperty(sou, key);
-            } catch (IllegalAccessException | InvocationTargetException
-                    | NoSuchMethodException e) {
-                String mess = lMess.getMess(IHError.HERROR008,
-                        IHMess.BEANCANNOTGETPROPERTY, key);
-                log.log(Level.SEVERE, mess, e);
-                throw new JythonUIFatal(mess);
-            }
-            dest.setAttr(key, val);
-        }
-
+        HUtils.toTProperties(lMess, prop, dest, sou);
     }
 
     private class GetAllList extends doTransaction {

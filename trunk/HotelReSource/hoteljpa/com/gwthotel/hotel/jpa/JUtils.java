@@ -17,11 +17,11 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
 
-public class Utils {
-
-    private Utils() {
+public class JUtils {
+    
+    private JUtils() {        
     }
-
+    
     public static HotelServices toT(EHotelServices sou) {
         HotelServices ho = new HotelServices();
         PropUtils.copyToProp(ho, sou);
@@ -29,5 +29,6 @@ public class Utils {
         ho.setAttr(IHotelConsts.VATPROP, sou.getVat());
         return ho;
     }
+
 
 }

@@ -14,15 +14,32 @@ package com.gwthotel.admin.gae;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.logging.Logger;
+
 import com.googlecode.objectify.LoadResult;
 import com.gwthotel.admin.gae.entities.EDictionary;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.hotel.service.gae.entities.EHotelServices;
+import com.gwthotel.hotel.services.HotelServices;
+import com.gwthotel.mess.IHError;
+import com.gwthotel.mess.IHMess;
+import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.shared.JythonUIFatal;
 
 public class DictUtil {
 
     private DictUtil() {
 
+    }
+
+    private static final Logger log = Logger
+            .getLogger(DictUtil.class.getName());
+
+    private static void setFailure(String mess) {
+        log.severe(mess);
+        throw new JythonUIFatal(mess);
     }
 
     public static void toProp(PropDescription dest, EDictionary e) {
@@ -36,12 +53,31 @@ public class DictUtil {
     }
 
     public static EHotel findHotel(String name) {
-        LoadResult<EHotel> p = ofy().load().type(EHotel.class).filter("name ==", name)
-                .first();
+        LoadResult<EHotel> p = ofy().load().type(EHotel.class)
+                .filter("name ==", name).first();
         if (p == null) {
             return null;
         }
         return p.now();
     }
+
+    public static EHotel findEHotel(IGetLogMess lMess, String hotel) {
+        EHotel ho = DictUtil.findHotel(hotel);
+        if (ho == null) {
+            String mess = lMess.getMess(IHError.HERROR005,
+                    IHMess.HOTELNAMENOTFOUND, hotel);
+            setFailure(mess);
+        }
+        return ho;
+    }
+    
+    public static HotelServices toS(EHotelServices e) {
+        HotelServices h = new HotelServices();
+        h.setAttr(IHotelConsts.VATPROP, e.getVat());
+        h.setNoPersons(e.getNoperson());
+        toProp(h,e);
+        return h;
+    }
+
 
 }

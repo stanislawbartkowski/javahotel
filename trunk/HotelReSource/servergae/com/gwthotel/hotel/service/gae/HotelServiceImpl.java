@@ -12,11 +12,17 @@
  */
 package com.gwthotel.hotel.service.gae;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
+import com.gwthotel.admin.gae.DictUtil;
+import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
+import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
+import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
@@ -28,6 +34,7 @@ public class HotelServiceImpl extends CrudGaeAbstract<HotelServices,EHotelServic
     static {
         ObjectifyService.register(EHotelServices.class);
     }
+    
 
     @Inject
     public HotelServiceImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
@@ -36,10 +43,7 @@ public class HotelServiceImpl extends CrudGaeAbstract<HotelServices,EHotelServic
     
     @Override
     protected HotelServices constructProp(EHotelServices e) {
-        HotelServices h = new HotelServices();
-        h.setAttr(IHotelConsts.VATPROP, e.getVat());
-        h.setAttrInt(IHotelConsts.NOPERSONPROP, e.getNoperson());
-        return h;
+        return DictUtil.toS(e);
     }
 
     @Override
@@ -50,7 +54,24 @@ public class HotelServiceImpl extends CrudGaeAbstract<HotelServices,EHotelServic
     @Override
     protected void toE(EHotelServices e, HotelServices t) {
         e.setVat(t.getAttr(IHotelConsts.VATPROP));
-        e.setNoperson(t.getAttrInt(IHotelConsts.NOPERSONPROP));
+        e.setNoperson(t.getNoPersons());
+        
+    }
+
+    @Override
+    protected void beforeDelete(DeleteItem i, EHotel ho, EHotelServices elem) {
+        if (elem != null) {
+            i.pList = ofy().load()
+                    .type(EHotelPriceElem.class).ancestor(ho)
+                    .filter("serviceName == ", elem.getName()).list();
+            i.sList = ofy().load()
+                    .type(EHotelRoomServices.class).ancestor(ho)
+                    .filter("serviceName == ", elem.getName()).list();            
+        }
+        else {
+            i.readAllPriceElems(ho);
+            i.readAllRoomServices(ho);
+        }
         
     }
 
