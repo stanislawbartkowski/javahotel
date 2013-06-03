@@ -12,6 +12,7 @@
  */
 package com.jython.ui.shared;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
@@ -31,13 +32,27 @@ public class MUtil {
     }
 
     public static java.sql.Date toSqlDate(Date d) {
-        if (d == null) return null;
+        if (d == null)
+            return null;
         return new java.sql.Date(d.getTime());
     }
 
     public static Date toDate(java.sql.Date d) {
-        if (d == null) return null;
+        if (d == null)
+            return null;
         return new java.sql.Date(d.getTime());
+    }
+
+    public static BigDecimal toB(Double d) {
+        if (d == null)
+            return null;
+        return new BigDecimal(d);
+    }
+
+    public static Double toD(BigDecimal b) {
+        if (b == null)
+            return null;
+        return b.doubleValue();
     }
 
 }
