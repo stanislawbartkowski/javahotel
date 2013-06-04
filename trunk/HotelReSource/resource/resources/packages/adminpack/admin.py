@@ -6,6 +6,7 @@ from util.util import MESS
 from util.util import printvar
 from util.util import createArrayList
 from util.util import findElemInSeq
+from util.util import createSeq
 
 adminI = H.getHotelAdmin()
 M = MESS()
@@ -46,22 +47,13 @@ def __readList(var,hotel):
     else : map["users"] = list
     var["JLIST_MAP"] = map
     
-def __createSeq(list,addName):    
-    seq = []
-    for s in list :
-        m = {}
-        m["id"] = s.getName()
-        if addName :  m["displayname"] = s.getName() + " " + s.getDescription()
-        else : m["displayname"] = s.getDescription()
-        seq.append(m)
-    return seq    
     
 def __preparePermissionForHotel(var, hotel):
     if hotel : seq = adminI.getListOfPersons()
     else : seq = adminI.getListOfHotels()
     if len(seq) == 0 : return
     rolesdef = H.getHotelRoles().getList()
-    map = {"lines" : __createSeq(seq,True), "columns" : __createSeq(rolesdef,False)}
+    map = {"lines" : createSeq(seq,True), "columns" : createSeq(rolesdef,False)}
     var["JCHECK_MAP"] = { "perm" : map}
     
 def __getValuesForPermission(var,hotel):

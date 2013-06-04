@@ -19,8 +19,10 @@ import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.hotel.IHotelGetName;
+import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -59,6 +61,12 @@ public class H {
     @Inject
     private static IHotelPriceElem iPriceElem;
 
+    @Inject
+    private static IHotelRooms iRooms;
+
+    @Inject
+    private static IHotelCustomers iCustomers;
+
     public static IGetLogMess getL() {
         return lMess;
     }
@@ -93,6 +101,14 @@ public class H {
 
     public static IHotelPriceElem getHotelPriceElem() {
         return iPriceElem;
+    }
+
+    public static IHotelRooms getHotelRooms() {
+        return iRooms;
+    }
+
+    public static IHotelCustomers getHotelCustomers() {
+        return iCustomers;
     }
 
 }

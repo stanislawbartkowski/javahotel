@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+			
+	<jython>
+		<import>from hotelpack import roomlist</import>
+		<method>roomlist.roomlistaction({0},{1})</method>
+	</jython>
+
+
+	<list id="roomlist" displayname="@lofrooms" elemformat="hotel/elemroomlist.xml">
+		<columns>
+			<column id="name" displayname="@name" />
+			<column id="descr" displayname="@description" />
+			<column id="noperson" type="int" displayname="@nopersons" />
+		</columns>
+	</list>
+
+</dialog>
