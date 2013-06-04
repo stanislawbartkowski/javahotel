@@ -10,6 +10,7 @@ from util.util import createArrayList
 from com.gwthotel.hotel.prices import HotelPriceElem
 from util.util import toB
 from util.util import MESS
+from util.util import createSeq
 
 _WEEKENDPRICE="weekend"
 _WORKINGPRICE="working"
@@ -46,11 +47,7 @@ def _createPriceElemList(var):
     columns = [{"id" :_WEEKENDPRICE,  "displayname" : M("WEEKENDPRICE")} ,
                {"id" :_WORKINGPRICE, "displayname" : M("WORKINGPRICE")}]
     seq = SERVICES(var).getList()
-    lines = []
-    for s in seq :
-        id = s.getName()
-        descr = s.getDescription()
-        lines.append({"id" : id , "displayname" : descr} )
+    lines = createSeq(seq)
 
     defmap = {"lines" : lines, "columns" : columns}
 

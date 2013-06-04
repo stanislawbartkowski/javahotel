@@ -34,6 +34,25 @@ class PRICELIST(SERVICES) :
         SERVICES.__init__(self,var)
         self.serviceS = H.getHotelPriceList()
         
+class CUSTOMERLIST(SERVICES) :
+
+    def __init__(self,var):
+        SERVICES.__init__(self,var)
+        self.serviceS = H.getHotelCustomers()
+        
+        
+class ROOMLIST(SERVICES):        
+    def __init__(self,var):
+        SERVICES.__init__(self,var)
+        self.serviceS = H.getHotelRooms()
+  
+    def setRoomServices(self,roomName,services):
+        self.serviceS.setRoomServices(getHotelName(self.var),roomName,services)
+        
+    def getRoomServices(self,roomName):
+        return self.serviceS.getRoomServices(getHotelName(self.var),roomName)
+    
+        
 class PRICEELEM :
     
     def __init__(self,var) :
@@ -62,6 +81,10 @@ def getHotelName(var):
 def copyNameDescr(desc,var):
     desc.setName(var["name"])
     desc.setDescription(var["descr"])
+    
+def toVarNameDesc(var,sou):
+    var["name"] = sou.getName()
+    var["descr"] = sou.getDescription()    
       
 def findElemInSeq(pname,seq):
     for s in seq : 
@@ -82,4 +105,29 @@ def toB(value,afterdot=2):
     if value == None : return None
     b = BigDecimal(value)
     return b
-    
+
+def createSeq(list,addName=False):    
+    seq = []
+    for s in list :
+        m = {}
+        m["id"] = s.getName()
+        if addName :  m["displayname"] = s.getName() + " " + s.getDescription()
+        else : m["displayname"] = s.getDescription()
+        seq.append(m)
+    return seq    
+
+def toVar(var,sou,list):
+    for s in list :
+        var[s] = sou.getAttr(s)
+        
+def toP(dest,var,list):
+    for s in list :
+        dest.setAttr(s,var[s])   
+        
+def duplicatedName(var,S,duplicateM):    
+    seq = S.getList()
+    if findElemInSeq(var["name"],seq) != None :
+      var["JERROR_name"] = duplicatedM
+      return True
+    return False
+        

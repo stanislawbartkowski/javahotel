@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<parent>hotel/roomslist.xml</parent>
+
+	<jython>
+		<import>from hotelpack import roomlist</import>
+		<method>roomlist.elemroomaction({0},{1})</method>
+	</jython>
+
+	<form>
+		<field id="name" displayname="@name" readonlychange="" notempty="" />
+		<field id="descr" displayname="@description" />
+		<field id="noperson" type="int" displayname="@nopersons"
+			notempty="" />
+	</form>
+	
+	<checklist id="services" displayname="@services" >
+	</checklist>
+
+</dialog>
