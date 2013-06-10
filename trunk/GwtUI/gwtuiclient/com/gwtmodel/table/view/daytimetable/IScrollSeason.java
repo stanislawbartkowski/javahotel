@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * 
  * @author stanislawbartkowski@gmail.com
  */
 public interface IScrollSeason {
@@ -25,10 +25,12 @@ public interface IScrollSeason {
 
     /**
      * Creates scroll panel.
-     *
-     * @param dList List of dates displayed as columns
-     * @param noC number of columns
-     *
+     * 
+     * @param dList
+     *            List of dates displayed as columns
+     * @param noC
+     *            number of columns
+     * 
      */
     void createVPanel(List<Date> dList, final int panelW);
 

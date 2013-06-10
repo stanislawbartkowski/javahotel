@@ -16,17 +16,15 @@ import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
 import java.util.Date;
 
-
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
 public class WidgetScrollSeasonFactory {
 
-    public WidgetScrollSeasonFactory() {
-    }
 
-    public IScrollSeason getScrollSeason(final IDrawPartSeason i, final Date today) {
+    public IScrollSeason getScrollSeason(final IDrawPartSeason i,
+            final Date today) {
         // return new MonthSeasonScrollWidget(pLoc, i, periodNo);
         // return new DaySeasonScrollWidget(pLoc, i, periodNo);
         return new DaySeasonPanelWidget(i, today);

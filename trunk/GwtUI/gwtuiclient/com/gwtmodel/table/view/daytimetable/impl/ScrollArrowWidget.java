@@ -12,11 +12,16 @@
  */
 package com.gwtmodel.table.view.daytimetable.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.daytimeline.MoveSkip;
 import com.gwtmodel.table.daytimeline.PanelDesc;
+import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.htmlview.HtmlElemDesc;
 import com.gwtmodel.table.htmlview.HtmlPanelFactory;
 import com.gwtmodel.table.htmlview.HtmlTypeEnum;
@@ -26,9 +31,6 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.view.button.ImgButtonFactory;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 
@@ -87,14 +89,17 @@ class ScrollArrowWidget {
 
     ScrollArrowWidget(IsignalP i, boolean withDate, IHtmlPanelCallBack cBack,
             String[] titles) {
+        IWebPanelResources pResources = GwtGiniInjector.getI()
+                .getWebPanelResources();
+        pResources.getRes(IWebPanelResources.PROGRESSICON);
         begP = ImgButtonFactory.getButton(C_BUTTON_LEFT_END, titles[0],
-                "arrow-left-end-default");
+                pResources.getRes(IWebPanelResources.SCROLLLEFTEND));
         leftP = ImgButtonFactory.getButton(C_BUTTON_LEFT, titles[1],
-                "arrow-left-default");
+                pResources.getRes(IWebPanelResources.SCROLLLEFT));
         rightP = ImgButtonFactory.getButton(C_BUTTON_RIGHT, titles[2],
-                "arrow-right-default");
+                pResources.getRes(IWebPanelResources.SCROLLRIGHT));
         endP = ImgButtonFactory.getButton(C_BUTTON_RIGHT_END, titles[3],
-                "arrow-right-end-default");
+                pResources.getRes(IWebPanelResources.SCROLLRIGHTEND));
 
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();

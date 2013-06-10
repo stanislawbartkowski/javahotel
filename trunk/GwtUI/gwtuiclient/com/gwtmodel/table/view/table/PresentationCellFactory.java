@@ -27,6 +27,7 @@ import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
 

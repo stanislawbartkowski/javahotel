@@ -37,7 +37,7 @@ public interface IDrawPartSeasonContext {
     int getFirstD();
 
     /**
-     * Get position of the last daye in the window
+     * Get position of the last day in the window
      * 
      * @return Position
      */

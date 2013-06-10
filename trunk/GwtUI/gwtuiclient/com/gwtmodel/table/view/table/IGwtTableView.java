@@ -56,11 +56,13 @@ public interface IGwtTableView extends IGWidget {
     void showInvalidate(int rowno, InvalidateFormContainer errContainer);
 
     void setNoWrap(boolean noWrap);
-    
+
     boolean isNoWrap();
-    
+
     void setSortColumn(IVField col, boolean inc);
-    
+
     void refreshFooter(IVModelData footer);
+
+    void refreshHeader();
 
 }

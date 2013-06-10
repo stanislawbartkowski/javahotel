@@ -16,7 +16,7 @@ package com.gwtmodel.table.htmlview;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class HtmlElemDesc {
@@ -26,15 +26,15 @@ public class HtmlElemDesc {
 
     public HtmlElemDesc(Widget w, String iD) {
         this.iD = iD;
-        this.w =w ;
+        this.w = w;
     }
 
     public String getiD() {
         return iD;
     }
+
     public Widget getW() {
         return w;
     }
-
 
 }
