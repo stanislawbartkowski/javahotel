@@ -16,6 +16,8 @@
  </form> 
  
  <checklist id="prices" displayname="Permissions" type="string" afterdot="2">
- </checklist> 
+ </checklist>
+ 
+ <dateline id="dateline" />
 
 </dialog>
