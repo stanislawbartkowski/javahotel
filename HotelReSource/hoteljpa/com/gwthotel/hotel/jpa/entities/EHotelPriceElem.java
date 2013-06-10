@@ -26,7 +26,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel",
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"hotel",
         "service", "pricelist" }))
 @NamedQueries({
         @NamedQuery(name = "deletePricesForHotel", query = "DELETE FROM EHotelPriceElem x WHERE x.hotel = ?1"),
@@ -40,7 +40,7 @@ public class EHotelPriceElem {
     private Long id;
 
     @Column(nullable = false)
-    private String hotel;
+    private Long hotel;
 
     @JoinColumn(name = "service_id", nullable = false)
     private EHotelServices service;
@@ -75,11 +75,11 @@ public class EHotelPriceElem {
         this.workingprice = workingprice;
     }
 
-    public String getHotel() {
+    public Long getHotel() {
         return hotel;
     }
 
-    public void setHotel(String hotel) {
+    public void setHotel(Long hotel) {
         this.hotel = hotel;
     }
 

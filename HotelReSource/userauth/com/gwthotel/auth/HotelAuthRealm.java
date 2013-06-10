@@ -27,6 +27,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 
 import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.admin.AppInstanceId;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
@@ -36,14 +37,16 @@ import com.jythonui.server.security.token.PasswordSecurityToken;
 public class HotelAuthRealm extends AuthorizingRealm {
 
     private IRealmResources iRes;
+    private final AppInstanceId i;
 
     public void setiRes(IRealmResources iRes) {
         this.iRes = iRes;
     }
 
-    public HotelAuthRealm() {
+    public HotelAuthRealm(AppInstanceId i) {
         super();
-        setName(IHotelConsts.HOTELREALM);
+        setName(i.getInstanceName());
+        this.i = i;
     }
 
     private IHotelAdmin getI() {
@@ -58,12 +61,12 @@ public class HotelAuthRealm extends AuthorizingRealm {
     private class User {
         private List<String> roles;
         private String userName;
-        
+
         @Override
         public String toString() {
             return userName;
         }
-        
+
     }
 
     @Override
@@ -71,7 +74,7 @@ public class HotelAuthRealm extends AuthorizingRealm {
             throws AuthenticationException {
         PasswordSecurityToken token = (PasswordSecurityToken) at;
         String person = token.getUsername();
-        String password = getI().getPassword(token.getUsername());
+        String password = getI().getPassword(i, token.getUsername());
         if (CUtil.EmptyS(password))
             throwNotExist(IHError.HERROR003, IHMess.AUTHUSERDOESNOTEXIST,
                     person);
@@ -81,7 +84,7 @@ public class HotelAuthRealm extends AuthorizingRealm {
             // TODO: not expected, more verbose
             throwNotExist(IHError.HERROR002, IHMess.AUTHHOTELISNULL, person);
         }
-        List<HotelRoles> roles = getI().getListOfRolesForHotel(hotel);
+        List<HotelRoles> roles = getI().getListOfRolesForHotel(i, hotel);
         List<String> hotelroles = null;
         for (HotelRoles ro : roles) {
             if (ro.getObject().getName().equals(person)) {

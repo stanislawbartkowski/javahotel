@@ -24,6 +24,8 @@ public class SecurityConverter implements ISecurityConvert {
         String hotelName = sou.getAttr(IHotelConsts.HOTELNAME);
         HotelCustom ho = new HotelCustom();
         ho.setHotelName(hotelName);
+        String instanceId = sou.getAttr(IHotelConsts.INSTANCEID);
+        ho.setInstanceId(instanceId);
         return ho;
     }
 

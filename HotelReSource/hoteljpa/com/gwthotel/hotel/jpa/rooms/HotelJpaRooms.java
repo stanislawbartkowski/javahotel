@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
@@ -38,34 +39,34 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     }
 
     @Override
-    protected HotelRoom toT(EHotelRoom sou) {
+    protected HotelRoom toT(EHotelRoom sou, HotelId hotel) {
         HotelRoom ho = new HotelRoom();
         ho.setNoPersons(sou.getNoPersons());
         return ho;
     }
 
     @Override
-    protected EHotelRoom constructE() {
+    protected EHotelRoom constructE(HotelId hotel) {
         return new EHotelRoom();
     }
 
     @Override
-    protected void toE(EHotelRoom dest, HotelRoom sou) {
+    protected void toE(EHotelRoom dest, HotelRoom sou, HotelId hotel) {
         dest.setNoPersons(sou.getNoPersons());
     }
 
     @Override
-    protected void beforedeleteAll(EntityManager em, String hotel) {
+    protected void beforedeleteAll(EntityManager em, HotelId hotel) {
         Query q = em.createNamedQuery("deleteAllRoomServices");
-        q.setParameter(1, hotel);
+        q.setParameter(1, hotel.getId());
         q.executeUpdate();
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, String hotel,
+    protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelRoom elem) {
         Query q = em.createNamedQuery("deleteServicesForRoom");
-        q.setParameter(1, hotel);
+        q.setParameter(1, hotel.getId());
         q.setParameter(2, elem);
         q.executeUpdate();
     }
@@ -75,7 +76,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
         private final String roomName;
         private final List<String> services;
 
-        SetRoomServices(String hotel, String roomName, List<String> services) {
+        SetRoomServices(HotelId hotel, String roomName, List<String> services) {
             super(hotel);
             this.roomName = roomName;
             this.services = services;
@@ -86,17 +87,17 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
             EHotelRoom r = getElem(em, roomName);
             // TODO: more descriptive log in null
             Query q = em.createNamedQuery("deleteServicesForRoom");
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.setParameter(2, r);
             q.executeUpdate();
             for (String s : services) {
                 q = em.createNamedQuery("findOneService");
-                q.setParameter(1, hotel);
+                q.setParameter(1, hotel.getId());
                 q.setParameter(2, s);
                 EHotelServices se = (EHotelServices) q.getSingleResult();
                 // do not catch exception
                 EHotelRoomServices eServ = new EHotelRoomServices();
-                eServ.setHotel(hotel);
+                eServ.setHotel(hotel.getId());
                 eServ.setRoom(r);
                 eServ.setService(se);
                 em.persist(eServ);
@@ -106,7 +107,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     }
 
     @Override
-    public void setRoomServices(String hotel, String roomName,
+    public void setRoomServices(HotelId hotel, String roomName,
             List<String> services) {
         SetRoomServices comma = new SetRoomServices(hotel, roomName, services);
         comma.executeTran();
@@ -117,7 +118,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
         private final String roomName;
         private final List<HotelServices> eList = new ArrayList<HotelServices>();
 
-        GetRoomServices(String hotel, String roomName) {
+        GetRoomServices(HotelId hotel, String roomName) {
             super(hotel);
             this.roomName = roomName;
         }
@@ -125,7 +126,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
         @Override
         protected void dosth(EntityManager em) {
             Query q = em.createNamedQuery("findServicesForRoom");
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.setParameter(2, roomName);
             List<EHotelRoomServices> rList = q.getResultList();
             for (EHotelRoomServices r : rList) {
@@ -135,7 +136,7 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     }
 
     @Override
-    public List<HotelServices> getRoomServices(String hotel, String roomName) {
+    public List<HotelServices> getRoomServices(HotelId hotel, String roomName) {
         GetRoomServices comm = new GetRoomServices(hotel, roomName);
         comm.executeTran();
         return comm.eList;

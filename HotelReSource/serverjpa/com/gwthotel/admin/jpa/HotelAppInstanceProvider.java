@@ -10,21 +10,20 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.jpa.pricelist;
+package com.gwthotel.admin.jpa;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
 import javax.persistence.EntityManagerFactory;
 
-import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 
-public class TestHotelPriceListProvider implements Provider<IHotelPriceList> {
+public class HotelAppInstanceProvider implements Provider<IAppInstanceHotel> {
 
     @Inject
-    @Named(IHotelConsts.TESTFACTORYMANAGER)
     private EntityManagerFactory eFactory;
 
     @Inject
@@ -32,8 +31,8 @@ public class TestHotelPriceListProvider implements Provider<IHotelPriceList> {
     private IGetLogMess lMess;
 
     @Override
-    public IHotelPriceList get() {
-        return new HotelJpaPriceList(eFactory, lMess);
+    public IAppInstanceHotel get() {
+        return new HotelAdminInstance(eFactory, lMess);
     }
 
 }

@@ -27,12 +27,12 @@ public class Test2 extends TestHelper {
 
     @Test
     public void test1() {
-        iAdmin.clearAll();
+        iAdmin.clearAll(getI());
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifPerson(pe, roles);
+        iAdmin.addOrModifPerson(getI(),pe, roles);
         Hotel ho = new Hotel();
         ho.setName("hotel");
         ho.setDescription("Super hotel");
@@ -40,9 +40,9 @@ public class Test2 extends TestHelper {
         HotelRoles rol = new HotelRoles(pe);
         rol.getRoles().add("admin");
         roles.add(rol);
-        iAdmin.addOrModifHotel(ho, roles);
+        iAdmin.addOrModifHotel(getI(),ho, roles);
         // now check for hotel
-        List<HotelRoles> hList = iAdmin.getListOfRolesForHotel("hotel");
+        List<HotelRoles> hList = iAdmin.getListOfRolesForHotel(getI(),"hotel");
         assertEquals(1, hList.size());
         for (HotelRoles hot : hList) {
             assertEquals("user", hot.getObject().getName());
@@ -50,7 +50,7 @@ public class Test2 extends TestHelper {
             assertEquals("admin", hot.getRoles().get(0));
         }
         // now check for person
-        hList = iAdmin.getListOfRolesForPerson("user");
+        hList = iAdmin.getListOfRolesForPerson(getI(),"user");
         assertEquals(1, hList.size());
         for (HotelRoles hot : hList) {
             assertEquals("hotel", hot.getObject().getName());
@@ -66,15 +66,15 @@ public class Test2 extends TestHelper {
         ho.setName("hotel");
         ho.setDescription("Super hotel");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifHotel(ho, roles);
+        iAdmin.addOrModifHotel(getI(),ho, roles);
         // now check person, should be empty
-        List<HotelRoles> hList = iAdmin.getListOfRolesForPerson("user");
+        List<HotelRoles> hList = iAdmin.getListOfRolesForPerson(getI(),"user");
         assertEquals(0, hList.size());
     }
 
     @Test
     public void test3() {
-        iAdmin.clearAll();
+        iAdmin.clearAll(getI());
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
@@ -87,22 +87,22 @@ public class Test2 extends TestHelper {
             rol.getRoles().add("admin");
             rol.getRoles().add("man");
             roles.add(rol);
-            iAdmin.addOrModifHotel(ho, new ArrayList<HotelRoles>());
+            iAdmin.addOrModifHotel(getI(),ho, new ArrayList<HotelRoles>());
         }
-        iAdmin.addOrModifPerson(pe, roles);
-        List<HotelRoles> hList = iAdmin.getListOfRolesForPerson("user");
+        iAdmin.addOrModifPerson(getI(),pe, roles);
+        List<HotelRoles> hList = iAdmin.getListOfRolesForPerson(getI(),"user");
         assertEquals(100,hList.size());
     }
     
     @Test
     public void test4() {
         test3();
-        List<Hotel> h = iAdmin.getListOfHotels();
+        List<Hotel> h = iAdmin.getListOfHotels(getI());
         assertEquals(100,h.size());
-        iAdmin.removeHotel("hotel10");
-        List<HotelRoles> hList = iAdmin.getListOfRolesForPerson("user");
+        iAdmin.removeHotel(getI(),"hotel10");
+        List<HotelRoles> hList = iAdmin.getListOfRolesForPerson(getI(),"user");
         assertEquals(99,hList.size());  
-        h = iAdmin.getListOfHotels();
+        h = iAdmin.getListOfHotels(getI());
         assertEquals(99,h.size());
         boolean exists = false;
         for (Hotel ho : h) {
@@ -116,12 +116,12 @@ public class Test2 extends TestHelper {
     @Test
     public void test5() {
         test3();
-        iAdmin.removePerson("user");
-        List<HotelRoles> hList = iAdmin.getListOfRolesForPerson("user");
+        iAdmin.removePerson(getI(),"user");
+        List<HotelRoles> hList = iAdmin.getListOfRolesForPerson(getI(),"user");
         assertNull(hList);
-        List<Hotel> h = iAdmin.getListOfHotels();
+        List<Hotel> h = iAdmin.getListOfHotels(getI());
         assertEquals(100,h.size());
-        List<Person> pList = iAdmin.getListOfPersons();
+        List<Person> pList = iAdmin.getListOfPersons(getI());
         assertEquals(0,pList.size());
         
     }

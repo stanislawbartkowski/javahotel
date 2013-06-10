@@ -29,28 +29,28 @@ public class Test3 extends TestHelper {
 
     @Test
     public void test1() {
-        iAdmin.clearAll();
-        assertFalse(iAdmin.validatePasswordForPerson("user", "secret"));
+        iAdmin.clearAll(getI());
+        assertFalse(iAdmin.validatePasswordForPerson(getI(),"user", "secret"));
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifPerson(pe, roles);
-        assertFalse(iAdmin.validatePasswordForPerson("user", "secret"));
-        iAdmin.changePasswordForPerson("user", "secret");
-        assertTrue(iAdmin.validatePasswordForPerson("user", "secret"));
+        iAdmin.addOrModifPerson(getI(),pe, roles);
+        assertFalse(iAdmin.validatePasswordForPerson(getI(),"user", "secret"));
+        iAdmin.changePasswordForPerson(getI(),"user", "secret");
+        assertTrue(iAdmin.validatePasswordForPerson(getI(),"user", "secret"));
     }
     
     @Test
     public void test2() {
-        iAdmin.clearAll();
+        iAdmin.clearAll(getI());
         DialogFormat d = findDialog("dialog1.xml");
         assertNotNull(d);
         DialogVariables v = new DialogVariables();
         v.setValueS("name", "hotel1");
         v.setValueS("descr", "Pod pieskiem");
         runAction(v, "dialog1.xml", "modif");
-        List<HotelRoles> hList = iAdmin.getListOfRolesForHotel("hotel1");
+        List<HotelRoles> hList = iAdmin.getListOfRolesForHotel(getI(),"hotel1");
         assertNotNull(hList);
         assertEquals(1,hList.size());
         for (HotelRoles rol : hList) {

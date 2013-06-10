@@ -19,7 +19,9 @@ import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.roles.GetHotelRoles;
 import com.gwthotel.admin.vattax.GetVatTaxes;
 import com.gwthotel.auth.SecurityConverter;
+import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
+import com.gwthotel.hotel.getid.GetInstanceHotelId;
 import com.gwthotel.hotel.getname.GetHotelNameFromToken;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
@@ -42,6 +44,8 @@ public class HotelCommonGuice {
             bind(ISecurityConvert.class).to(SecurityConverter.class).in(
                     Singleton.class);
             bind(IHotelGetName.class).to(GetHotelNameFromToken.class).in(
+                    Singleton.class);
+            bind(IGetInstanceHotelId.class).to(GetInstanceHotelId.class).in(
                     Singleton.class);
         }
     }

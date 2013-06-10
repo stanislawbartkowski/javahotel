@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.prices;
+package com.gwthotel.hotel.reservation;
 
-public interface ITestHotelPriceElem extends IHotelPriceElem {
+import com.gwthotel.hotel.IHotelProp;
+
+public interface IReservationForm extends IHotelProp<ReservationForm> {
 
 }

@@ -38,7 +38,7 @@ public class EHotelRoomServices {
     private Long id;
 
     @Column(nullable = false)
-    private String hotel;
+    private Long hotel;
 
     @JoinColumn(name = "service_id", nullable = false)
     private EHotelServices service;
@@ -46,11 +46,11 @@ public class EHotelRoomServices {
     @JoinColumn(name = "room_id", nullable = false)
     private EHotelRoom room;
 
-    public String getHotel() {
+    public Long getHotel() {
         return hotel;
     }
 
-    public void setHotel(String hotel) {
+    public void setHotel(Long hotel) {
         this.hotel = hotel;
     }
 

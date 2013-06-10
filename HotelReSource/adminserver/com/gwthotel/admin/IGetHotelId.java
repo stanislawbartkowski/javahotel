@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.rooms;
+package com.gwthotel.admin;
 
-public interface ITestHotelRooms extends IHotelRooms {
+public interface IGetHotelId {
+    
+    
 
 }

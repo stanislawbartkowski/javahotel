@@ -21,10 +21,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import com.gwthotel.admin.AppInstanceId;
 import com.gwthotel.admin.Hotel;
 import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.Person;
+import com.gwthotel.admin.jpa.entities.EDictEntry;
 import com.gwthotel.admin.jpa.entities.EHotel;
 import com.gwthotel.admin.jpa.entities.EPersonPassword;
 import com.gwthotel.admin.jpa.entities.EPersonRoles;
@@ -47,8 +49,11 @@ class HotelAdminJpa implements IHotelAdmin {
 
     private abstract class doTransaction extends JpaTransaction {
 
-        private doTransaction() {
-            super(eFactory,lMess);
+        final AppInstanceId i;
+
+        private doTransaction(AppInstanceId i) {
+            super(eFactory, lMess);
+            this.i = i;
         }
     }
 
@@ -62,9 +67,10 @@ class HotelAdminJpa implements IHotelAdmin {
 
     }
 
-    private EHotel getHotelByName(EntityManager em, String name) {
+    private EHotel getHotelByName(EntityManager em, AppInstanceId i, String name) {
         Query q = em.createNamedQuery("findHotelByName");
-        q.setParameter(1, name);
+        q.setParameter(1, i.getId());
+        q.setParameter(2, name);
         try {
             EHotel hote = (EHotel) q.getSingleResult();
             return hote;
@@ -73,9 +79,11 @@ class HotelAdminJpa implements IHotelAdmin {
         }
     }
 
-    private EPersonPassword getPersonByName(EntityManager em, String name) {
+    private EPersonPassword getPersonByName(EntityManager em, AppInstanceId i,
+            String name) {
         Query q = em.createNamedQuery("findPersonByName");
-        q.setParameter(1, name);
+        q.setParameter(1, i.getId());
+        q.setParameter(2, name);
         try {
             EPersonPassword pers = (EPersonPassword) q.getSingleResult();
             return pers;
@@ -89,13 +97,14 @@ class HotelAdminJpa implements IHotelAdmin {
         private final String person;
         private List<HotelRoles> resList = new ArrayList<HotelRoles>();
 
-        GetListOfRolesForPerson(String person) {
+        GetListOfRolesForPerson(AppInstanceId i, String person) {
+            super(i);
             this.person = person;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EPersonPassword pers = getPersonByName(em, person);
+            EPersonPassword pers = getPersonByName(em, i, person);
             if (pers == null) {
                 resList = null;
                 return;
@@ -116,8 +125,9 @@ class HotelAdminJpa implements IHotelAdmin {
     }
 
     @Override
-    public List<HotelRoles> getListOfRolesForPerson(String person) {
-        GetListOfRolesForPerson com = new GetListOfRolesForPerson(person);
+    public List<HotelRoles> getListOfRolesForPerson(AppInstanceId i,
+            String person) {
+        GetListOfRolesForPerson com = new GetListOfRolesForPerson(i, person);
         com.executeTran();
         return com.resList;
     }
@@ -127,13 +137,14 @@ class HotelAdminJpa implements IHotelAdmin {
         private final String hotel;
         private List<HotelRoles> resList = new ArrayList<HotelRoles>();
 
-        GetListOfRolesForHotel(String hotel) {
+        GetListOfRolesForHotel(AppInstanceId i, String hotel) {
+            super(i);
             this.hotel = hotel;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EHotel hote = getHotelByName(em, hotel);
+            EHotel hote = getHotelByName(em, i, hotel);
             if (hote == null) {
                 resList = null;
                 return;
@@ -154,8 +165,8 @@ class HotelAdminJpa implements IHotelAdmin {
     }
 
     @Override
-    public List<HotelRoles> getListOfRolesForHotel(String hotel) {
-        GetListOfRolesForHotel comm = new GetListOfRolesForHotel(hotel);
+    public List<HotelRoles> getListOfRolesForHotel(AppInstanceId i, String hotel) {
+        GetListOfRolesForHotel comm = new GetListOfRolesForHotel(i, hotel);
         comm.executeTran();
         return comm.resList;
     }
@@ -179,16 +190,18 @@ class HotelAdminJpa implements IHotelAdmin {
         private final Hotel hotel;
         private final List<HotelRoles> roles;
 
-        AddModifHotel(Hotel hotel, List<HotelRoles> roles) {
+        AddModifHotel(AppInstanceId i, Hotel hotel, List<HotelRoles> roles) {
+            super(i);
             this.hotel = hotel;
             this.roles = roles;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EHotel hote = getHotelByName(em, hotel.getName());
+            EHotel hote = getHotelByName(em, i, hotel.getName());
             if (hote == null) {
                 hote = new EHotel();
+                hote.setInstanceId(i.getId());
             }
             PropUtils.copyToEDict(hote, hotel);
             em.persist(hote);
@@ -199,15 +212,16 @@ class HotelAdminJpa implements IHotelAdmin {
             for (HotelRoles rol : roles) {
                 Person pe = (Person) rol.getObject();
                 String person = pe.getName();
-                EPersonPassword pers = getPersonByName(em, person);
+                EPersonPassword pers = getPersonByName(em, i, person);
                 modifPersonRoles(em, hote, pers, rol);
             }
         }
     }
 
     @Override
-    public void addOrModifHotel(Hotel hotel, List<HotelRoles> roles) {
-        AddModifHotel comma = new AddModifHotel(hotel, roles);
+    public void addOrModifHotel(AppInstanceId i, Hotel hotel,
+            List<HotelRoles> roles) {
+        AddModifHotel comma = new AddModifHotel(i, hotel, roles);
         comma.executeTran();
     }
 
@@ -216,16 +230,18 @@ class HotelAdminJpa implements IHotelAdmin {
         private final Person person;
         private final List<HotelRoles> roles;
 
-        AddModifPerson(Person person, List<HotelRoles> roles) {
+        AddModifPerson(AppInstanceId i, Person person, List<HotelRoles> roles) {
+            super(i);
             this.person = person;
             this.roles = roles;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EPersonPassword pe = getPersonByName(em, person.getName());
+            EPersonPassword pe = getPersonByName(em, i, person.getName());
             if (pe == null) {
                 pe = new EPersonPassword();
+                pe.setInstanceId(i.getId());
             }
             PropUtils.copyToEDict(pe, person);
             em.persist(pe);
@@ -236,15 +252,16 @@ class HotelAdminJpa implements IHotelAdmin {
             for (HotelRoles rol : roles) {
                 Hotel ho = (Hotel) rol.getObject();
                 String hotel = ho.getName();
-                EHotel hote = getHotelByName(em, hotel);
+                EHotel hote = getHotelByName(em, i, hotel);
                 modifPersonRoles(em, hote, pe, rol);
             }
         }
     }
 
     @Override
-    public void addOrModifPerson(Person person, List<HotelRoles> roles) {
-        AddModifPerson comma = new AddModifPerson(person, roles);
+    public void addOrModifPerson(AppInstanceId i, Person person,
+            List<HotelRoles> roles) {
+        AddModifPerson comma = new AddModifPerson(i, person, roles);
         comma.executeTran();
     }
 
@@ -253,22 +270,24 @@ class HotelAdminJpa implements IHotelAdmin {
         private final String person;
         private final String password;
 
-        ChangePassword(String person, String password) {
+        ChangePassword(AppInstanceId i, String person, String password) {
+            super(i);
             this.person = person;
             this.password = password;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EPersonPassword pe = getPersonByName(em, person);
+            EPersonPassword pe = getPersonByName(em, i, person);
             pe.setPassword(password);
             em.persist(pe);
         }
     }
 
     @Override
-    public void changePasswordForPerson(String person, String password) {
-        ChangePassword comma = new ChangePassword(person, password);
+    public void changePasswordForPerson(AppInstanceId i, String person,
+            String password) {
+        ChangePassword comma = new ChangePassword(i, person, password);
         comma.executeTran();
     }
 
@@ -278,14 +297,15 @@ class HotelAdminJpa implements IHotelAdmin {
         private final String password;
         boolean ok = false;
 
-        ValidatePassword(String person, String password) {
+        ValidatePassword(AppInstanceId i, String person, String password) {
+            super(i);
             this.person = person;
             this.password = password;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EPersonPassword pe = getPersonByName(em, person);
+            EPersonPassword pe = getPersonByName(em, i, person);
             if (pe == null)
                 return;
             if (CUtil.EmptyS(pe.getPassword()))
@@ -295,8 +315,9 @@ class HotelAdminJpa implements IHotelAdmin {
     }
 
     @Override
-    public boolean validatePasswordForPerson(String person, String password) {
-        ValidatePassword comma = new ValidatePassword(person, password);
+    public boolean validatePasswordForPerson(AppInstanceId i, String person,
+            String password) {
+        ValidatePassword comma = new ValidatePassword(i, person, password);
         comma.executeTran();
         return comma.ok;
     }
@@ -305,9 +326,14 @@ class HotelAdminJpa implements IHotelAdmin {
 
         private final List<Person> pList = new ArrayList<Person>();
 
+        GetListOfPersons(AppInstanceId i) {
+            super(i);
+        }
+
         @Override
         protected void dosth(EntityManager em) {
             Query q = em.createNamedQuery("findAllPersons");
+            q.setParameter(1, i.getId());
             List<EPersonPassword> resList = q.getResultList();
             for (EPersonPassword e : resList) {
                 Person pe = new Person();
@@ -319,8 +345,8 @@ class HotelAdminJpa implements IHotelAdmin {
     }
 
     @Override
-    public List<Person> getListOfPersons() {
-        GetListOfPersons comma = new GetListOfPersons();
+    public List<Person> getListOfPersons(AppInstanceId i) {
+        GetListOfPersons comma = new GetListOfPersons(i);
         comma.executeTran();
         return comma.pList;
     }
@@ -328,9 +354,14 @@ class HotelAdminJpa implements IHotelAdmin {
     private class GetListOfHotels extends doTransaction {
         private final List<Hotel> hList = new ArrayList<Hotel>();
 
+        GetListOfHotels(AppInstanceId i) {
+            super(i);
+        }
+
         @Override
         protected void dosth(EntityManager em) {
             Query q = em.createNamedQuery("findAllHotels");
+            q.setParameter(1, i.getId());
             List<EHotel> resList = q.getResultList();
             for (EHotel e : resList) {
                 Hotel ho = new Hotel();
@@ -343,29 +374,48 @@ class HotelAdminJpa implements IHotelAdmin {
     }
 
     @Override
-    public List<Hotel> getListOfHotels() {
-        GetListOfHotels comma = new GetListOfHotels();
+    public List<Hotel> getListOfHotels(AppInstanceId i) {
+        GetListOfHotels comma = new GetListOfHotels(i);
         comma.executeTran();
         return comma.hList;
     }
 
     private class DeleteAll extends doTransaction {
 
+        DeleteAll(AppInstanceId i) {
+            super(i);
+        }
+
         @Override
         protected void dosth(EntityManager em) {
-            String[] namedQ = new String[] { "removeAllRoles",
-                    "removeAllHotels", "removeAllPersons" };
+
+            String[] findAllQ = { "findAllPersons", "findAllHotels" };
+            String[] removeQ = { "removeRolesForPerson", "removeRolesForHotel" };
+            for (int k = 0; k < findAllQ.length; k++) {
+                Query q = em.createNamedQuery(findAllQ[k]);
+                q.setParameter(1, i.getId());
+                List<EDictEntry> resList = q.getResultList();
+                for (EDictEntry e : resList) {
+                    Query q1 = em.createNamedQuery(removeQ[k]);
+                    q1.setParameter(1, e.getId());
+                    q1.executeUpdate();
+                }
+            }
+
+            String[] namedQ = new String[] { "removeAllHotels",
+                    "removeAllPersons" };
             for (String s : namedQ) {
                 Query q = em.createNamedQuery(s);
+                q.setParameter(1, i.getId());
                 q.executeUpdate();
             }
         }
     }
 
     @Override
-    public void clearAll() {
+    public void clearAll(AppInstanceId i) {
         log.info(lMess.getMessN(IHMess.CLEANALLADMIN));
-        DeleteAll comm = new DeleteAll();
+        DeleteAll comm = new DeleteAll(i);
         comm.executeTran();
     }
 
@@ -373,13 +423,14 @@ class HotelAdminJpa implements IHotelAdmin {
 
         private final String person;
 
-        RemovePerson(String person) {
+        RemovePerson(AppInstanceId i, String person) {
+            super(i);
             this.person = person;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EPersonPassword pe = getPersonByName(em, person);
+            EPersonPassword pe = getPersonByName(em, i, person);
             Query q = em.createNamedQuery("removeRolesForPerson");
             q.setParameter(1, pe.getId());
             q.executeUpdate();
@@ -389,8 +440,8 @@ class HotelAdminJpa implements IHotelAdmin {
     }
 
     @Override
-    public void removePerson(String person) {
-        RemovePerson comma = new RemovePerson(person);
+    public void removePerson(AppInstanceId i, String person) {
+        RemovePerson comma = new RemovePerson(i, person);
         comma.executeTran();
     }
 
@@ -398,13 +449,14 @@ class HotelAdminJpa implements IHotelAdmin {
 
         private final String hotel;
 
-        RemoveHotel(String hotel) {
+        RemoveHotel(AppInstanceId i, String hotel) {
+            super(i);
             this.hotel = hotel;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EHotel hote = getHotelByName(em, hotel);
+            EHotel hote = getHotelByName(em, i, hotel);
             Query q = em.createNamedQuery("removeRolesForHotel");
             q.setParameter(1, hote.getId());
             q.executeUpdate();
@@ -414,8 +466,8 @@ class HotelAdminJpa implements IHotelAdmin {
     }
 
     @Override
-    public void removeHotel(String hotel) {
-        RemoveHotel comma = new RemoveHotel(hotel);
+    public void removeHotel(AppInstanceId i, String hotel) {
+        RemoveHotel comma = new RemoveHotel(i, hotel);
         comma.executeTran();
     }
 
@@ -424,14 +476,15 @@ class HotelAdminJpa implements IHotelAdmin {
         private final String person;
         String password;
 
-        GetPassword(String person) {
+        GetPassword(AppInstanceId i, String person) {
+            super(i);
             this.person = person;
             password = null;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            EPersonPassword pe = getPersonByName(em, person);
+            EPersonPassword pe = getPersonByName(em, i, person);
             if (pe == null)
                 return;
             if (CUtil.EmptyS(pe.getPassword()))
@@ -441,8 +494,8 @@ class HotelAdminJpa implements IHotelAdmin {
     }
 
     @Override
-    public String getPassword(String person) {
-        GetPassword comm = new GetPassword(person);
+    public String getPassword(AppInstanceId i, String person) {
+        GetPassword comm = new GetPassword(i, person);
         comm.executeTran();
         return comm.password;
     }

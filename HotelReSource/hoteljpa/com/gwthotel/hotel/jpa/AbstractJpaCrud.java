@@ -20,6 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.jpa.JpaTransaction;
 import com.gwthotel.admin.jpa.PropUtils;
 import com.gwthotel.hotel.HUtils;
@@ -47,29 +48,29 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
         this.lMess = lMess;
     }
 
-    abstract protected T toT(E sou);
+    abstract protected T toT(E sou, HotelId hotel);
 
-    abstract protected E constructE();
+    abstract protected E constructE(HotelId hotel);
 
-    abstract protected void toE(E dest, T sou);
+    abstract protected void toE(E dest, T sou, HotelId hotel);
 
-    abstract protected void beforedeleteAll(EntityManager em, String hotel);
+    abstract protected void beforedeleteAll(EntityManager em, HotelId hotel);
 
-    abstract protected void beforedeleteElem(EntityManager em, String hotel,
+    abstract protected void beforedeleteElem(EntityManager em, HotelId hotel,
             E elem);
 
     protected abstract class doTransaction extends JpaTransaction {
 
-        protected final String hotel;
+        protected final HotelId hotel;
 
-        protected doTransaction(String hotel) {
+        protected doTransaction(HotelId hotel) {
             super(eFactory, lMess);
             this.hotel = hotel;
         }
 
         protected E getElem(EntityManager em, String name) {
             Query q = em.createNamedQuery(queryMap[FINDELEMQUERY]);
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.setParameter(2, name);
             try {
                 E pers = (E) q.getSingleResult();
@@ -85,22 +86,22 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
 
     }
 
-    protected void executeElemQuery(EntityManager em, String hotel,
+    protected void executeElemQuery(EntityManager em, HotelId hotel,
             String[] qList, E elem) {
         for (String query : qList) {
             Query q = em.createNamedQuery(query);
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.setParameter(2, elem);
             q.executeUpdate();
         }
 
     }
 
-    protected void executeHotelQuery(EntityManager em, String hotel,
+    protected void executeHotelQuery(EntityManager em, HotelId hotel,
             String[] qList) {
         for (String query : qList) {
             Query q = em.createNamedQuery(query);
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.executeUpdate();
         }
 
@@ -118,19 +119,19 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
 
         private List<T> retList = new ArrayList<T>();
 
-        GetAllList(String hotel) {
+        GetAllList(HotelId hotel) {
             super(hotel);
         }
 
         @Override
         protected void dosth(EntityManager em) {
             Query q = em.createNamedQuery(queryMap[GETALLQUERY]);
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             List<E> list = q.getResultList();
             for (E p : list) {
-                T rec = toT(p);
+                T rec = toT(p, hotel);
                 PropUtils.copyToProp(rec, p);
-                rec.setAttr(IHotelConsts.HOTELPROP, p.getHotel());
+                rec.setAttr(IHotelConsts.HOTELPROP, hotel.getHotel());
                 rec.setId(p.getId());
                 retList.add(rec);
             }
@@ -138,7 +139,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     }
 
     @Override
-    public List<T> getList(String hotel) {
+    public List<T> getList(HotelId hotel) {
         GetAllList command = new GetAllList(hotel);
         command.executeTran();
         return command.retList;
@@ -148,24 +149,24 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
 
         private final T elem;
 
-        AddElem(String hotel, T elem) {
+        AddElem(HotelId hotel, T elem) {
             super(hotel);
             this.elem = elem;
         }
 
         @Override
         protected void dosth(EntityManager em) {
-            E pers = constructE();
-            toE(pers, elem);
+            E pers = constructE(hotel);
+            toE(pers, elem, hotel);
             PropUtils.copyToEDict(pers, elem);
-            pers.setHotel(hotel);
+            pers.setHotel(hotel.getId());
             em.persist(pers);
         }
 
     }
 
     @Override
-    public void addElem(String hotel, T elem) {
+    public void addElem(HotelId hotel, T elem) {
         AddElem command = new AddElem(hotel, elem);
         command.executeTran();
     }
@@ -173,7 +174,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     private class ChangeElem extends doTransaction {
         private final T elem;
 
-        ChangeElem(String hotel, T elem) {
+        ChangeElem(HotelId hotel, T elem) {
             super(hotel);
             this.elem = elem;
         }
@@ -183,16 +184,16 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             E pers = getElem(em, elem);
             if (pers == null) // TODO: more verbose, not expected
                 return;
-            toE(pers, elem);
+            toE(pers, elem, hotel);
             PropUtils.copyToEDict(pers, elem);
-            pers.setHotel(hotel);
+            pers.setHotel(hotel.getId());
             em.persist(pers);
         }
 
     }
 
     @Override
-    public void changeElem(String hotel, T elem) {
+    public void changeElem(HotelId hotel, T elem) {
         ChangeElem command = new ChangeElem(hotel, elem);
         command.executeTran();
     }
@@ -200,7 +201,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     private class DeleteElem extends doTransaction {
         private final T elem;
 
-        DeleteElem(String hotel, T elem) {
+        DeleteElem(HotelId hotel, T elem) {
             super(hotel);
             this.elem = elem;
         }
@@ -217,14 +218,14 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     }
 
     @Override
-    public void deleteElem(String hotel, T elem) {
+    public void deleteElem(HotelId hotel, T elem) {
         DeleteElem command = new DeleteElem(hotel, elem);
         command.executeTran();
     }
 
     private class DeleteAll extends doTransaction {
 
-        DeleteAll(String hotel) {
+        DeleteAll(HotelId hotel) {
             super(hotel);
         }
 
@@ -238,7 +239,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     }
 
     @Override
-    public void deleteAll(String hotel) {
+    public void deleteAll(HotelId hotel) {
         DeleteAll command = new DeleteAll(hotel);
         command.executeTran();
     }

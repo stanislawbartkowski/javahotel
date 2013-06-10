@@ -20,13 +20,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"person","hotel"}))
 @NamedQueries({
         @NamedQuery(name = "getListOfRolesForPerson", query = "SELECT x FROM EPersonRoles x WHERE x.person = ?1"),
         @NamedQuery(name = "removeRolesForPerson", query = "DELETE FROM EPersonRoles x WHERE x.person = ?1"),
         @NamedQuery(name = "removeRolesForHotel", query = "DELETE FROM EPersonRoles x WHERE x.hotel = ?1"),
-        @NamedQuery(name = "removeAllRoles", query = "DELETE FROM EPersonRoles x"),
         @NamedQuery(name = "getListOfRolesForHotel", query = "SELECT x FROM EPersonRoles x WHERE x.hotel = ?1") })
 public class EPersonRoles {
 

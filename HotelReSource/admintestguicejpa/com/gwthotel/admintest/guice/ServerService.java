@@ -16,8 +16,10 @@ import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
+import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
+import com.gwthotel.admin.jpa.HotelAppInstanceProvider;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.jpa.customers.HotelCustomersProvider;
@@ -59,6 +61,8 @@ public class ServerService {
                     Singleton.class);
             bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
                     Singleton.class);
+            bind(IAppInstanceHotel.class).toProvider(
+                    HotelAppInstanceProvider.class).in(Singleton.class);
             bind(EntityManagerFactory.class)
                     .annotatedWith(
                             Names.named(ISharedConsts.STORAGEREGISTRYENTITYMANAGERFACTORY))

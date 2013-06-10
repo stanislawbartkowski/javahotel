@@ -10,36 +10,42 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.auth;
+package com.gwthotel.admin;
 
-import com.jythonui.server.security.token.ICustomSecurity;
+import java.io.Serializable;
 
-public class HotelCustom implements ICustomSecurity {
+public class HotelId implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String hotelName;
-    private String instanceId;
+    private String hotel;
 
-    @Override
-    public boolean eq(ICustomSecurity other) {
-        HotelCustom ho = (HotelCustom) other;
-        return ho.getHotelName().equals(hotelName);
-    }
+    private Long id;
 
-    public String getHotelName() {
-        return hotelName;
-    }
+    private AppInstanceId instanceId;
 
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
-    }
-
-    public String getInstanceId() {
+    public AppInstanceId getInstanceId() {
         return instanceId;
     }
 
-    public void setInstanceId(String instanceId) {
+    public void setInstanceId(AppInstanceId instanceId) {
         this.instanceId = instanceId;
     }
+
+    public String getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(String hotel) {
+        this.hotel = hotel;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

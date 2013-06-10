@@ -6,6 +6,7 @@
 		<class>com.gwthotel.admin.jpa.entities.EHotel</class>
 		<class>com.gwthotel.admin.jpa.entities.EPersonPassword</class>
 		<class>com.gwthotel.admin.jpa.entities.EPersonRoles</class>
+		<class>com.gwthotel.admin.jpa.entities.EInstance</class>
 		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelServices</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelPriceList</class>

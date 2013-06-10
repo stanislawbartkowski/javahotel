@@ -33,31 +33,31 @@ public class Test9 extends TestHelper {
     @Before
     public void before() {
         createHotels();
-        iPrice.deleteAll(HOTEL);
-        iPrice.deleteAll(HOTEL1);
-        iServices.deleteAll(HOTEL);
-        iServices.deleteAll(HOTEL1);
-        iPriceElem.deleteAll(HOTEL);
-        iPriceElem.deleteAll(HOTEL1);
-        iRooms.deleteAll(HOTEL);
-        iRooms.deleteAll(HOTEL1);
+        iPrice.deleteAll(getH(HOTEL));
+        iPrice.deleteAll(getH(HOTEL1));
+        iServices.deleteAll(getH(HOTEL));
+        iServices.deleteAll(getH(HOTEL1));
+        iPriceElem.deleteAll(getH(HOTEL));
+        iPriceElem.deleteAll(getH(HOTEL1));
+        iRooms.deleteAll(getH(HOTEL));
+        iRooms.deleteAll(getH(HOTEL1));
     }
 
     @Test
     public void test1() {
-        List<HotelRoom> hList = iRooms.getList(HOTEL);
+        List<HotelRoom> hList = iRooms.getList(getH(HOTEL));
         assertTrue(hList.isEmpty());
         HotelRoom ho = new HotelRoom();
         ho.setName("P10");
         ho.setNoPersons(3);
-        iRooms.addElem(HOTEL, ho);
-        hList = iRooms.getList(HOTEL);
+        iRooms.addElem(getH(HOTEL), ho);
+        hList = iRooms.getList(getH(HOTEL));
         assertEquals(1, hList.size());
         ho = hList.get(0);
         assertEquals(3, ho.getNoPersons());
         ho.setNoPersons(1);
-        iRooms.changeElem(HOTEL, ho);
-        hList = iRooms.getList(HOTEL);
+        iRooms.changeElem(getH(HOTEL), ho);
+        hList = iRooms.getList(getH(HOTEL));
         assertEquals(1, hList.size());
         ho = hList.get(0);
         assertEquals(1, ho.getNoPersons());
@@ -68,18 +68,18 @@ public class Test9 extends TestHelper {
         HotelRoom ho = new HotelRoom();
         ho.setName("P10");
         ho.setNoPersons(3);
-        iRooms.addElem(HOTEL, ho);
+        iRooms.addElem(getH(HOTEL), ho);
         ho = new HotelRoom();
         ho.setName("P11");
         ho.setNoPersons(1);
-        iRooms.addElem(HOTEL, ho);
-        List<HotelRoom> hList = iRooms.getList(HOTEL);
+        iRooms.addElem(getH(HOTEL), ho);
+        List<HotelRoom> hList = iRooms.getList(getH(HOTEL));
         assertEquals(2, hList.size());
         ho = new HotelRoom();
         ho.setName("P10");
         ho.setNoPersons(3);
-        iRooms.deleteElem(HOTEL, ho);
-        hList = iRooms.getList(HOTEL);
+        iRooms.deleteElem(getH(HOTEL), ho);
+        hList = iRooms.getList(getH(HOTEL));
         assertEquals(1, hList.size());
         ho = hList.get(0);
         assertEquals("P11", ho.getName());
@@ -91,20 +91,20 @@ public class Test9 extends TestHelper {
             HotelRoom ho = new HotelRoom();
             ho.setName("P" + no);
             ho.setNoPersons(no);
-            iRooms.addElem(HOTEL, ho);
+            iRooms.addElem(getH(HOTEL), ho);
             ho = new HotelRoom();
             ho.setName("R" + no);
             ho.setNoPersons(no);
-            iRooms.addElem(HOTEL1, ho);
+            iRooms.addElem(getH(HOTEL1), ho);
         }
-        List<HotelRoom> hList = iRooms.getList(HOTEL);
+        List<HotelRoom> hList = iRooms.getList(getH(HOTEL));
         assertEquals(100, hList.size());
-        hList = iRooms.getList(HOTEL1);
+        hList = iRooms.getList(getH(HOTEL1));
         assertEquals(100, hList.size());
-        iRooms.deleteAll(HOTEL1);
-        hList = iRooms.getList(HOTEL);
+        iRooms.deleteAll(getH(HOTEL1));
+        hList = iRooms.getList(getH(HOTEL));
         assertEquals(100, hList.size());
-        hList = iRooms.getList(HOTEL1);
+        hList = iRooms.getList(getH(HOTEL1));
         assertTrue(hList.isEmpty());
     }
 
@@ -114,14 +114,14 @@ public class Test9 extends TestHelper {
         ho.setDescription("One person in one person room");
         ho.setNoPersons(2);
         ho.setAttr(IHotelConsts.VATPROP, "7%");
-        iServices.addElem(HOTEL, ho);
+        iServices.addElem(getH(HOTEL), ho);
 
         ho = new HotelServices();
         ho.setName(SERVICE2);
         ho.setDescription("One person in one person room");
         ho.setNoPersons(2);
         ho.setAttr(IHotelConsts.VATPROP, "7%");
-        iServices.addElem(HOTEL, ho);
+        iServices.addElem(getH(HOTEL), ho);
     }
 
     @Test
@@ -130,19 +130,19 @@ public class Test9 extends TestHelper {
         HotelRoom ho = new HotelRoom();
         ho.setName("P10");
         ho.setNoPersons(3);
-        iRooms.addElem(HOTEL, ho);
-        List<HotelServices> sList = iRooms.getRoomServices(HOTEL, "P10");
+        iRooms.addElem(getH(HOTEL), ho);
+        List<HotelServices> sList = iRooms.getRoomServices(getH(HOTEL), "P10");
         assertTrue(sList.isEmpty());
         List<String> stList = new ArrayList<String>();
         stList.add(SERVICE1);
-        iRooms.setRoomServices(HOTEL, "P10", stList);
-        sList = iRooms.getRoomServices(HOTEL, "P10");
+        iRooms.setRoomServices(getH(HOTEL), "P10", stList);
+        sList = iRooms.getRoomServices(getH(HOTEL), "P10");
         assertEquals(1, sList.size());
 
         stList = new ArrayList<String>();
         stList.add(SERVICE2);
-        iRooms.setRoomServices(HOTEL, "P10", stList);
-        sList = iRooms.getRoomServices(HOTEL, "P10");
+        iRooms.setRoomServices(getH(HOTEL), "P10", stList);
+        sList = iRooms.getRoomServices(getH(HOTEL), "P10");
         assertEquals(1, sList.size());
         HotelServices se = sList.get(0);
         assertEquals(SERVICE2, se.getName());
@@ -154,18 +154,18 @@ public class Test9 extends TestHelper {
         HotelRoom ho = new HotelRoom();
         ho.setName("P10");
         ho.setNoPersons(3);
-        iRooms.addElem(HOTEL, ho);
+        iRooms.addElem(getH(HOTEL), ho);
         List<String> stList = new ArrayList<String>();
         stList.add(SERVICE1);
         stList.add(SERVICE2);
-        iRooms.setRoomServices(HOTEL, "P10", stList);
-        List<HotelServices> sList = iRooms.getRoomServices(HOTEL, "P10");
+        iRooms.setRoomServices(getH(HOTEL), "P10", stList);
+        List<HotelServices> sList = iRooms.getRoomServices(getH(HOTEL), "P10");
         assertEquals(2, sList.size());
 
         HotelServices serv = new HotelServices();
         serv.setName(SERVICE1);
-        iServices.deleteElem(HOTEL, serv);
-        sList = iRooms.getRoomServices(HOTEL, "P10");
+        iServices.deleteElem(getH(HOTEL), serv);
+        sList = iRooms.getRoomServices(getH(HOTEL), "P10");
         assertEquals(1, sList.size());
     }
 
@@ -178,29 +178,29 @@ public class Test9 extends TestHelper {
             ho.setDescription("Super service " + s);
             ho.setNoPersons(s);
             ho.setAttr(IHotelConsts.VATPROP, "7%");
-            iServices.addElem(HOTEL, ho);
+            iServices.addElem(getH(HOTEL), ho);
             sList.add("S" + s);
         }
         for (int no = 0; no < 100; no++) {
             HotelRoom ho = new HotelRoom();
             ho.setName("P" + no);
             ho.setNoPersons(no);
-            iRooms.addElem(HOTEL, ho);
-            iRooms.setRoomServices(HOTEL, "P" + no, sList);
+            iRooms.addElem(getH(HOTEL), ho);
+            iRooms.setRoomServices(getH(HOTEL), "P" + no, sList);
         }
         for (int no = 0; no < 100; no++) {
-            List<HotelServices> seList = iRooms
-                    .getRoomServices(HOTEL, "P" + no);
+            List<HotelServices> seList = iRooms.getRoomServices(getH(HOTEL),
+                    "P" + no);
             assertEquals(10, seList.size());
         }
         for (int s = 0; s < 5; s++) {
             HotelServices ho = new HotelServices();
             ho.setName("S" + s);
-            iServices.deleteElem(HOTEL, ho);
+            iServices.deleteElem(getH(HOTEL), ho);
         }
         for (int no = 0; no < 100; no++) {
-            List<HotelServices> seList = iRooms
-                    .getRoomServices(HOTEL, "P" + no);
+            List<HotelServices> seList = iRooms.getRoomServices(getH(HOTEL),
+                    "P" + no);
             assertEquals(5, seList.size());
         }
     }

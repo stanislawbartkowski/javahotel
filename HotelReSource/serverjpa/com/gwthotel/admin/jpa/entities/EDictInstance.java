@@ -10,8 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admin;
+package com.gwthotel.admin.jpa.entities;
 
-public interface ITestHotelAdmin extends IHotelAdmin {
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
+abstract class EDictInstance extends EDictEntry {
+
+    @Column(nullable = false)
+    private Long instanceId;
+
+    public Long getInstanceId() {
+        return instanceId;
+    }
+
+    public void setInstanceId(Long instanceId) {
+        this.instanceId = instanceId;
+    }
 
 }

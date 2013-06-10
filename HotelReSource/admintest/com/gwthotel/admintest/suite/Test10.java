@@ -27,19 +27,19 @@ public class Test10 extends TestHelper {
     @Before
     public void before() {
         createHotels();
-        iCustomers.deleteAll(HOTEL);
-        iCustomers.deleteAll(HOTEL1);
+        iCustomers.deleteAll(getH(HOTEL));
+        iCustomers.deleteAll(getH(HOTEL1));
     }
 
     @Test
     public void test1() {
-        List<HotelCustomer> hList = iCustomers.getList(HOTEL);
+        List<HotelCustomer> hList = iCustomers.getList(getH(HOTEL));
         assertTrue(hList.isEmpty());
         HotelCustomer co = new HotelCustomer();
         co.setName("C001");
         co.setAttr(IHotelConsts.CUSTOMEREMAILPROP, "aaaaa");
-        iCustomers.addElem(HOTEL, co);
-        hList = iCustomers.getList(HOTEL);
+        iCustomers.addElem(getH(HOTEL), co);
+        hList = iCustomers.getList(getH(HOTEL));
         assertEquals(1, hList.size());
         co = hList.get(0);
         assertEquals("aaaaa", co.getAttr(IHotelConsts.CUSTOMEREMAILPROP));
@@ -50,13 +50,13 @@ public class Test10 extends TestHelper {
         HotelCustomer co = new HotelCustomer();
         co.setName("C001");
         co.setAttr(IHotelConsts.CUSTOMEREMAILPROP, "aaaaa");
-        iCustomers.addElem(HOTEL, co);
+        iCustomers.addElem(getH(HOTEL), co);
 
         co = new HotelCustomer();
         co.setName("C001");
         co.setAttr(IHotelConsts.CUSTOMEREMAILPROP, "ccccc");
-        iCustomers.changeElem(HOTEL, co);
-        List<HotelCustomer> hList = iCustomers.getList(HOTEL);
+        iCustomers.changeElem(getH(HOTEL), co);
+        List<HotelCustomer> hList = iCustomers.getList(getH(HOTEL));
         co = hList.get(0);
         assertEquals("ccccc", co.getAttr(IHotelConsts.CUSTOMEREMAILPROP));
 
@@ -64,13 +64,13 @@ public class Test10 extends TestHelper {
         co.setName("C002");
         co.setAttr(IHotelConsts.CUSTOMEREMAILPROP, "fffff");
         co.setAttr(IHotelConsts.CUSTOMERFIRSTNAMEPROP, "Hi");
-        iCustomers.addElem(HOTEL, co);
-        hList = iCustomers.getList(HOTEL);
+        iCustomers.addElem(getH(HOTEL), co);
+        hList = iCustomers.getList(getH(HOTEL));
         assertEquals(2, hList.size());
         co = new HotelCustomer();
         co.setName("C001");
-        iCustomers.deleteElem(HOTEL, co);
-        hList = iCustomers.getList(HOTEL);
+        iCustomers.deleteElem(getH(HOTEL), co);
+        hList = iCustomers.getList(getH(HOTEL));
         assertEquals(1, hList.size());
         co = hList.get(0);
         assertEquals("C002", co.getName());

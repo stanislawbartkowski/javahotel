@@ -15,6 +15,7 @@ package com.gwthotel.hotel.jpa.customers;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
@@ -31,29 +32,29 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
     }
 
     @Override
-    protected HotelCustomer toT(EHotelCustomer sou) {
+    protected HotelCustomer toT(EHotelCustomer sou,HotelId hotel) {
         HotelCustomer ho = new HotelCustomer();
         toTProperties(HUtils.getCustomerFields(), ho, sou);
         return ho;
     }
 
     @Override
-    protected EHotelCustomer constructE() {
+    protected EHotelCustomer constructE(HotelId hotel) {
         return new EHotelCustomer();
     }
 
     @Override
-    protected void toE(EHotelCustomer dest, HotelCustomer sou) {
+    protected void toE(EHotelCustomer dest, HotelCustomer sou,HotelId hotel) {
         toEProperties(HUtils.getCustomerFields(), dest, sou);
     }
 
     @Override
-    protected void beforedeleteAll(EntityManager em, String hotel) {
+    protected void beforedeleteAll(EntityManager em, HotelId hotel) {
 
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, String hotel,
+    protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelCustomer elem) {
 
     }

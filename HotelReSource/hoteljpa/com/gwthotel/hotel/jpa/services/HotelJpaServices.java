@@ -15,6 +15,7 @@ package com.gwthotel.hotel.jpa.services;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
@@ -32,30 +33,29 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
     }
 
     @Override
-    protected HotelServices toT(EHotelServices sou) {
+    protected HotelServices toT(EHotelServices sou, HotelId hotel) {
         return JUtils.toT(sou);
     }
 
     @Override
-    protected EHotelServices constructE() {
+    protected EHotelServices constructE(HotelId hotel) {
         return new EHotelServices();
     }
 
     @Override
-    protected void toE(EHotelServices dest, HotelServices sou) {
-        dest.setHotel(sou.getAttr(IHotelConsts.HOTELPROP));
+    protected void toE(EHotelServices dest, HotelServices sou, HotelId hotel) {
         dest.setNoPersons(sou.getNoPersons());
         dest.setVat(sou.getAttr(IHotelConsts.VATPROP));
     }
 
     @Override
-    protected void beforedeleteAll(EntityManager em, String hotel) {
+    protected void beforedeleteAll(EntityManager em, HotelId hotel) {
         String qList[] = { "deletePricesForHotel", "deleteAllRoomServices" };
         executeHotelQuery(em, hotel, qList);
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, String hotel,
+    protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelServices elem) {
         String qList[] = { "deletePricesForHotelAndService",
                 "deleteForRoomServices" };
