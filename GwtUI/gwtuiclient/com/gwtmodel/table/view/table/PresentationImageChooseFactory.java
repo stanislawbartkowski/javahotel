@@ -12,6 +12,9 @@
  */
 package com.gwtmodel.table.view.table;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
@@ -27,6 +30,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.factories.IGetCustomValues;
@@ -34,8 +38,6 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author hotel

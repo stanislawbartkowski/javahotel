@@ -13,6 +13,8 @@
 
 package com.gwtmodel.table.factories;
 
+import com.gwtmodel.table.view.button.ImgButtonFactory;
+
 /**
  * 
  * @author stanislaw.bartkowski@gmail.com
@@ -30,7 +32,11 @@ public interface IWebPanelResources {
     String SCROLLWITHDATE = "ScrollWithDate";
     String SCROLLWITHOUTDATE = "ScrollWithoutDate";
     String PROGRESSICON = "PROGRESSICON";
-
+    String SCROLLLEFTEND = "scrollleftend";
+    String SCROLLRIGHTEND = "scrollrightend";
+    String SCROLLLEFT = "scrollleft";
+    String SCROLLRIGHT = "scrollright";
+            
     String getRes(String res);
 
 }

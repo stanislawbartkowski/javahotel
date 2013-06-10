@@ -10,33 +10,33 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.table;
+package com.gwtmodel.table;
 
 /**
  * @author hotel
  * 
  */
-class MutableInteger {
+public class MutableInteger {
 
     private int val;
 
-    MutableInteger(int val) {
+    public MutableInteger(int val) {
         this.val = val;
     }
 
-    MutableInteger(Integer val) {
+    public MutableInteger(Integer val) {
         this.val = val;
     }
 
-    int intValue() {
+    public int intValue() {
         return val;
     }
 
-    void inc() {
+    public void inc() {
         val++;
     }
 
-    void dec() {
+    public void dec() {
         val--;
     }
 

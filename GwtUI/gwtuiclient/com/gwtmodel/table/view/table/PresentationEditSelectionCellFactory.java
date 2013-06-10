@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.table.view.table;
 
+import java.util.List;
+
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SelectionCell;
 import com.google.gwt.cell.client.ValueUpdater;
@@ -23,11 +25,11 @@ import com.google.gwt.user.cellview.client.Column;
 import com.gwtmodel.table.AbstractListT;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
-import java.util.List;
 
 /**
  *

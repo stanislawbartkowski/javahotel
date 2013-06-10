@@ -77,6 +77,7 @@ import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
 import com.gwtmodel.table.view.util.PopUpHint;
+import com.gwtmodel.table.MutableInteger;
 
 /**
  * 
@@ -1115,5 +1116,10 @@ class PresentationTable implements IGwtTableView {
         if (table != null) {
             table.redrawFooters();
         }
+    }
+
+    @Override
+    public void refreshHeader() {
+        table.redrawHeaders();        
     }
 }

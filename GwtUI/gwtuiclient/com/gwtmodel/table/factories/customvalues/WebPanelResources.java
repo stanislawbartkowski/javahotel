@@ -35,9 +35,13 @@ public class WebPanelResources implements IWebPanelResources {
         ma.put(OWNERNAME, "Default owner");
         ma.put(VERSION, "Version default");
         ma.put(STATUSHTML, "default_header.html");
-        ma.put(SCROLLWITHDATE, "default_scrollWithDate.html");
-        ma.put(SCROLLWITHOUTDATE, "default_scrollWithoutDate.html");
+        ma.put(SCROLLWITHDATE, "default_paneldate.html");
+        ma.put(SCROLLWITHOUTDATE, "default_panelwithoutdate.html");
         ma.put(PROGRESSICON, "default_progressicon");
+        ma.put(SCROLLLEFT, "arrow-left-default");
+        ma.put(SCROLLLEFTEND, "arrow-left-end-default");
+        ma.put(SCROLLRIGHT, "arrow-right-default");
+        ma.put(SCROLLRIGHTEND, "arrow-right-end-default");
     }
 
     @Override

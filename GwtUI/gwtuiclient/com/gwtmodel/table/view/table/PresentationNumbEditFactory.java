@@ -16,6 +16,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
 

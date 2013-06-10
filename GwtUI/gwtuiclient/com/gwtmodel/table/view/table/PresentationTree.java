@@ -401,4 +401,10 @@ class PresentationTree implements IGwtTableView {
 
     }
 
+    @Override
+    public void refreshHeader() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
