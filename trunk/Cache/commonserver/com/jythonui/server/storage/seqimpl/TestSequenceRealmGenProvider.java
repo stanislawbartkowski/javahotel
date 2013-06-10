@@ -10,25 +10,30 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpastoragekey;
+package com.jythonui.server.storage.seqimpl;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
-import javax.persistence.EntityManagerFactory;
 
 import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
-public class TestStorageJpaRegistryProvider implements Provider<IStorageRealmRegistry> {
+public class TestSequenceRealmGenProvider implements
+        Provider<ISequenceRealmGen> {
 
     @Inject
-    @Named(ISharedConsts.TESTSTORAGEREGISTRYENTITYMANAGERFACTORY) 
-    private EntityManagerFactory factory;
-    
+    @Named(ISharedConsts.TESTSTORAGEREGISTRY)
+    private IStorageRealmRegistry iReg;
+
+    @Inject
+    private IGetLogMess lMess;
+
     @Override
-    public IStorageRealmRegistry get() {
-        return new StorageJpaRegistry(factory);
+    public ISequenceRealmGen get() {
+        return new SequenceRealmGen(iReg, lMess);
     }
 
 }

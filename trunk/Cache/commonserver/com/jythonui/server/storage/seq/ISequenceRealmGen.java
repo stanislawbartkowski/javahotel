@@ -10,9 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.storage.registry;
+package com.jythonui.server.storage.seq;
 
+public interface ISequenceRealmGen {
 
-public interface ITestStorageRealmRegistry extends IStorageRealmRegistry {
+    Long genNext(String realM, String key);
+
+    void remove(String realm, String key);
 
 }
