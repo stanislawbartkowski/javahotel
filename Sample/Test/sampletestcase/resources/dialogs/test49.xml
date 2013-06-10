@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<form>
+		<field id="id" type="long" />
+		<field id="pnumber" />
+		<field id="pname" />
+	</form>
+
+
+	<dateline id="dateline" colno="10" lineid="id">
+		<columns>
+			<column id="id" type="long" hidden="" />
+			<column id="displayname" />
+		</columns>
+	</dateline>
+
+</dialog>

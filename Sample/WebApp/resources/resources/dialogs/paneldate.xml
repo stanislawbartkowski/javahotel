@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import testdateline</import>
+		<method>testdateline.dialogaction({0},{1})</method>
+	</jython>
+
+
+	<dateline id="dateline" displayname="List of rooms" lineid="id">
+		<columns>
+			<column id="id" type="long" hidden="" />
+			<column id="displayname" displayname="Room" />
+		</columns>
+	</dateline>
+
+
+</dialog>
