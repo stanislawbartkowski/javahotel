@@ -10,9 +10,26 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.storage.registry;
+package com.jythonui.server.storage.seqimpl;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
 
-public interface ITestStorageRealmRegistry extends IStorageRealmRegistry {
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
+
+public class SequenceRealmGenProvider implements Provider<ISequenceRealmGen> {
+
+    @Inject
+    private IStorageRealmRegistry iReg;
+
+    @Inject
+    private IGetLogMess lMess;
+
+    @Override
+    public ISequenceRealmGen get() {
+        return new SequenceRealmGen(iReg, lMess);
+    }
 
 }

@@ -24,7 +24,7 @@ class StorageJpaRegistry implements IStorageRealmRegistry {
 
     private final EntityManagerFactory factory;
 
-    public StorageJpaRegistry(EntityManagerFactory factory) {
+    StorageJpaRegistry(EntityManagerFactory factory) {
         this.factory = factory;
     }
 
