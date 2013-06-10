@@ -12,7 +12,9 @@
  */
 package com.jythonui.client.dialog;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.IClickYesNo;
@@ -55,6 +57,8 @@ import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.jythonui.client.M;
+import com.jythonui.client.dialog.datepanel.DateLineManager;
+import com.jythonui.client.dialog.datepanel.RefreshData;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.EnumTypesList;
@@ -70,6 +74,8 @@ import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.CheckList;
+import com.jythonui.shared.DateLine;
+import com.jythonui.shared.DateLineVariables;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
@@ -93,6 +99,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     private final DialogVariables addV;
     // not safe !
     private final FormGridManager gManager;
+    private final DateLineManager dManager;
+
+    private final Map<String, IDataType> dLineType = new HashMap<String, IDataType>();
 
     public DialogContainer(IDataType dType, DialogInfo info,
             IVariablesContainer pCon, ISendCloseAction iClose,
@@ -101,6 +110,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         this.d = info.getDialog();
         this.dType = dType;
         liManager = new RowListDataManager(info);
+        // not safe, reference is escaping
+        dManager = new DateLineManager(this);
         if (pCon == null) {
             if (M.getVar() == null) {
                 iCon = VariableContainerFactory.construct();
@@ -198,13 +209,6 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             FieldValue val = new FieldValue();
             val.setValue(coB.getValue());
             v.setValue(ICommonConsts.SIGNALAFTERFOCUS, val);
-            // M.JR()
-            // .runAction(
-            // v,
-            // d.getId(),
-            // ICommonConsts.SIGNALCHANGE,
-            // new BackClass(null, false,
-            // new WSize(i.getGWidget()), null));
             ExecuteAction
                     .action(v, d.getId(), ICommonConsts.SIGNALCHANGE,
                             new BackClass(null, false,
@@ -313,6 +317,18 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             pLine++;
             emptyView = false;
         }
+        if (!d.getDatelineList().isEmpty())
+            for (DateLine dl : d.getDatelineList()) {
+                // String id = dl.getId();
+                // IDataType da = DataType.construct(id, this);
+                CellId panelId = pView.addCellPanel(dType, pLine++, 0);
+                IDataType dLType = DataType.construct(dl.getId(), this);
+                ISlotable i = dManager.contructSlotable(dType, dLType, dl,
+                        panelId);
+                dLineType.put(dl.getId(), dLType);
+                slMediator.registerSlotContainer(panelId, i);
+                emptyView = false;
+            }
         if (!d.getListList().isEmpty())
             for (ListFormat f : d.getListList()) {
                 String id = f.getId();
@@ -521,7 +537,18 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 }
             };
             JUtils.visitListOfFields(arg, ICommonConsts.JSETATTRCHECK, visC);
-
+            for (String id : arg.getDatelineVariables().keySet()) {
+                IDataType dType = dLineType.get(id);
+                if (dType == null) {
+                    Utils.errAlert(M.M().DataLineNotDefined(id,
+                            ICommonConsts.DATELINE, d.getId()));
+                    continue;
+                }
+                DateLineVariables var = arg.getDatelineVariables().get(id);
+                CustomStringSlot sl = RefreshData.constructRefreshData(dType);
+                RefreshData da = new RefreshData(var);
+                getSlContainer().publish(sl, da);
+            }
         }
     }
 

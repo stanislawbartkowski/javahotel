@@ -184,17 +184,17 @@
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
-			<xs:element minOccurs="0" name="type" type="typeName" />		
-			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />	
-			<xs:element minOccurs="0" name="readonly" type="emptyT" />			
+			<xs:element minOccurs="0" name="type" type="typeName" />
+			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="readonly" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
 	<xs:attributeGroup name="checklistattrG">
 		<xs:attribute name="id" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
-		<xs:attribute name="type" type="typeName" />	
-		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />		
+		<xs:attribute name="type" type="typeName" />
+		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
 		<xs:attribute name="readonly" type="emptyT" />
 	</xs:attributeGroup>
 
@@ -208,6 +208,24 @@
 	<xs:attributeGroup name="checkattrG">
 		<xs:attribute name="id" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
+	</xs:attributeGroup>
+
+	<xs:group name="datelineG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="pagesize" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="colno" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="lineid" type="xs:nonNegativeInteger" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="datelineattrG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="pagesize" type="xs:nonNegativeInteger" />
+		<xs:attribute name="colno" type="xs:nonNegativeInteger" />
+		<xs:attribute name="lineid" type="xs:string" />
 	</xs:attributeGroup>
 
 
@@ -337,6 +355,29 @@
 
 				</xs:element>
 
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="dateline">
+					<xs:complexType>
+
+						<xs:sequence>
+							<xs:group ref="datelineG" />
+							<xs:element minOccurs="1" name="columns">
+								<xs:complexType>
+									<xs:sequence minOccurs="1" maxOccurs="unbounded">
+										<xs:element name="column">
+											<xs:complexType>
+												<xs:group ref="fieldG" />
+												<xs:attributeGroup ref="fieldattrG" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
+						</xs:sequence>
+						<xs:attributeGroup ref="datelineattrG" />
+					</xs:complexType>
+
+				</xs:element>
 
 			</xs:sequence>
 			<xs:attributeGroup ref="dialogattrG" />

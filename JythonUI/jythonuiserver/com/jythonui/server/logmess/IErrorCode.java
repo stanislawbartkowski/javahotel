@@ -59,4 +59,10 @@ public interface IErrorCode {
     String ERRORCODE44 = "E0044";
     String ERRORCODE45 = "E0045";
     String ERRORCODE46 = "E0046";
+    String ERRORCODE47 = "E0047";
+    String ERRORCODE48 = "E0048";
+    String ERRORCODE49 = "E0049";
+    String ERRORCODE50 = "E0050";
+    String ERRORCODE51 = "E0051";
+    String ERRORCODE52 = "E0052";
 }

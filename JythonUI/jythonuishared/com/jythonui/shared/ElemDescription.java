@@ -114,4 +114,11 @@ public abstract class ElemDescription implements Serializable {
         return isAttr(ICommonConsts.READONLY);
     }
 
+    protected int getInt(String key, int defaultval) {
+        String s = getAttr(key);
+        if (CUtil.EmptyS(s))
+            return defaultval;
+        return CUtil.getInteger(s);
+    }
+
 }

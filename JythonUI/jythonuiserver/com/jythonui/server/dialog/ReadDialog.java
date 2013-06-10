@@ -28,8 +28,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.jython.ui.shared.SaxUtil;
+import com.jythonui.server.holder.Holder;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.CheckList;
+import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
@@ -100,6 +104,9 @@ class ReadDialog {
         private final String[] checklistTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.READONLY,
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT };
+        private final String[] datelineTag = { ICommonConsts.ID,
+                ICommonConsts.DISPLAYNAME, ICommonConsts.PAGESIZE,
+                ICommonConsts.COLNO, ICommonConsts.DETELINEID };
         private final String[] elemchecklistTag = checklistTag;
 
         /** Currently recognized set of tags. */
@@ -115,6 +122,7 @@ class ReadDialog {
         private String[] currentT;
         private StringBuffer buf;
         private ElemDescription bDescr = null;
+        private ElemDescription beforeCol = null;
         private List<ButtonItem> bList = null;
         private List<FieldItem> fList = null;
         private List<ValidateRule> valList = null;
@@ -157,12 +165,6 @@ class ReadDialog {
                 getAttribute = true;
                 // pass to getting attributes (no return)
             }
-            if (qName.equals(ICommonConsts.COLUMNS)) {
-                ListFormat li = (ListFormat) bDescr;
-                List<ListFormat> foList = dFormat.getListList();
-                foList.add(li);
-                return;
-            }
             if (qName.equals(ICommonConsts.FIELD)
                     || qName.equals(ICommonConsts.COLUMN)) {
                 bDescr = new FieldItem();
@@ -179,6 +181,10 @@ class ReadDialog {
                 currentT = valTag;
                 getAttribute = true;
             }
+            if (qName.equals(ICommonConsts.COLUMNS)) {
+                beforeCol = bDescr;
+                return;
+            }
             if (qName.equals(ICommonConsts.CHECKLIST)) {
                 checkList = new CheckList();
                 bDescr = checkList;
@@ -194,6 +200,12 @@ class ReadDialog {
                     && checkList != null) {
                 bDescr = checkList.getColumns();
                 currentT = elemchecklistTag;
+                getAttribute = true;
+            }
+            if (qName.equals(ICommonConsts.DATELINE)) {
+                currentT = datelineTag;
+                bDescr = new DateLine();
+                fList = new ArrayList<FieldItem>();
                 getAttribute = true;
             }
 
@@ -228,9 +240,11 @@ class ReadDialog {
                             else
                                 list = list + " , " + allowedActions[i];
                         } // for
-                        errorLog(bI.getAction()
-                                + " unrecognized action. Expected action names: "
-                                + list);
+                        String mess = Holder.getM().getMess(
+                                IErrorCode.ERRORCODE47,
+                                ILogMess.UNRECOGNIZEDACTION, bI.getAction(),
+                                list);
+                        errorLog(mess);
                     }
                 }
                 if (bList != null) {
@@ -242,8 +256,10 @@ class ReadDialog {
                     || qName.equals(ICommonConsts.COLUMN)) {
                 FieldItem aI = (FieldItem) bDescr;
                 if (aI.getId() == null) {
-                    errorLog(ICommonConsts.FIELD + " empty " + ICommonConsts.ID
-                            + " value");
+                    String errmess = Holder.getM().getMess(
+                            IErrorCode.ERRORCODE48, ILogMess.EMPTYIDVALUE,
+                            ICommonConsts.FIELD, ICommonConsts.ID);
+                    errorLog(errmess);
                 }
                 if (fList != null) {
                     fList.add(aI);
@@ -260,15 +276,23 @@ class ReadDialog {
                 bList = null;
                 return;
             }
+            if (qName.equals(ICommonConsts.DATELINE)) {
+                DateLine dL = (DateLine) beforeCol;
+                dFormat.getDatelineList().add(dL);
+                dL.getColList().addAll(fList);
+                fList = null;
+                return;
+            }
             if (qName.equals(ICommonConsts.ACTIONS)) {
                 dFormat.getActionList().addAll(bList);
                 bList = null;
                 return;
             }
-            if (qName.equals(ICommonConsts.COLUMNS)) {
-                ListFormat li = dFormat.getListList().get(
-                        dFormat.getListList().size() - 1);
+            if (qName.equals(ICommonConsts.LIST)) {
+                ListFormat li = (ListFormat) beforeCol;
                 li.getColumns().addAll(fList);
+                dFormat.getListList().add(li);
+                fList = null;
                 return;
             }
 

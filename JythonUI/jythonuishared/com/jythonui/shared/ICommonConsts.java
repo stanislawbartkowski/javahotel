@@ -24,6 +24,7 @@ public interface ICommonConsts {
     String LEFTMENU = "leftmenu";
     String DIALOG = "dialog";
     String BUTTON = "button";
+    String DATELINE = "dateline";
     String FORM = "form";
     String FIELD = "field";
     String IMPORT = "import";
@@ -43,9 +44,14 @@ public interface ICommonConsts {
     String LONGTYPE = "long";
     String AFTERDOT = "afterdot";
     String DEFVALUE = "defvalue";
+    String COLNO = "colno";
+    int DEFAULTCOLNO = 14;
+    int DEFAULTROWNO = 20;
+    String DETELINEID = "lineid";
     int DEFAULTAFTERDOT = 2;
     String JLISTMAP = "JLIST_MAP";
     String JCHECKLISTMAP = "JCHECK_MAP";
+    String JDATELINEMAP = "JDATELINE_MAP";
     String ELEMFORMAT = "elemformat";
     String NOTEMPTY = "notempty";
     String HIDDEN = "hidden";

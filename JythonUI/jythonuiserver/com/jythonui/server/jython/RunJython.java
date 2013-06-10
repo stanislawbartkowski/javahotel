@@ -50,6 +50,8 @@ import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.CheckList;
+import com.jythonui.shared.DateLine;
+import com.jythonui.shared.DateLineVariables;
 import com.jythonui.shared.DialogCheckVariables;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
@@ -104,6 +106,7 @@ public class RunJython {
     /** Constant Jython string. */
     private static final PyObject JLISTMAP = toString(ICommonConsts.JLISTMAP);
     private static final PyObject JCHECKMAP = toString(ICommonConsts.JCHECKLISTMAP);
+    private static final PyObject JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP);
 
     private static Map<PyObject, PyObject> toPythonMap(DialogVariables v) {
         Map<PyObject, PyObject> m = new HashMap<PyObject, PyObject>();
@@ -324,8 +327,10 @@ public class RunJython {
 
             if (pList == null) {
                 if (!lForm.isChunked()) {
-                    error(d.getId() + " " + lForm.getId()
-                            + " list is not chunked. Sequence of rows expected");
+                    String errmess = Holder.getM().getMess(
+                            IErrorCode.ERRORCODE50, ILogMess.SEQUENCEEXPECTED,
+                            d.getId(), lForm.getId());
+                    error(errmess);
                 } else {
                     lRows.setSize(intFound);
                 }
@@ -345,6 +350,36 @@ public class RunJython {
             DialogFormat d, String actionId) {
         ExtractList eList = new ExtractList(pyMap, d, actionId, vOut);
         eList.runMap();
+    }
+
+    private static class ExtractDataLineList extends IterateMap {
+
+        private final DialogFormat d;
+        private final DialogVariables vOut;
+
+        ExtractDataLineList(PyDictionary pyMap, DialogFormat d,
+                DialogVariables vOut) {
+            super(pyMap, false, false);
+            this.d = d;
+            this.vOut = vOut;
+        }
+
+        @Override
+        void visit(String listId, PyList pList) {
+            DateLine dLine = d.findDateLine(listId);
+            if (dLine == null) {
+                String mess = Holder.getM().getMess(IErrorCode.ERRORCODE49,
+                        ILogMess.DATELINENOTDEFINED, listId,
+                        ICommonConsts.DATELINE, d.getId());
+                error(mess);
+            }
+            List<FieldItem> seqList = dLine.getColList();
+            RowIndex rI = new RowIndex(seqList);
+            DateLineVariables lineVariables = new DateLineVariables();
+            extractListFromSeq(lineVariables.getLines(), rI, pList, d);
+            vOut.getDatelineVariables().put(listId, lineVariables);
+        }
+
     }
 
     private static class ExtractCheckList extends IterateMap {
@@ -432,6 +467,9 @@ public class RunJython {
                 continue;
             }
             if (key.equals(ICommonConsts.JCHECKLISTMAP)) {
+                continue;
+            }
+            if (key.equals(ICommonConsts.JDATELINEMAP)) {
                 continue;
             }
             String keyS = (String) key;
@@ -644,6 +682,12 @@ public class RunJython {
         if (pyMap.has_key(JCHECKMAP)) {
             PyObject o = pyMap.__getitem__(JCHECKMAP);
             ExtractCheckList e = new ExtractCheckList((PyDictionary) o, d, v);
+            e.runMap();
+        }
+        if (pyMap.has_key(JDATELINEMAP)) {
+            PyObject o = pyMap.__getitem__(JDATELINEMAP);
+            ExtractDataLineList e = new ExtractDataLineList((PyDictionary) o,
+                    d, v);
             e.runMap();
         }
     }

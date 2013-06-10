@@ -23,6 +23,7 @@ import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.CheckList;
+import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
@@ -93,6 +94,7 @@ class ValidateDialogFormat {
             sId.add(id);
         }
         for (CheckList c : d.getCheckList()) {
+            idNotNull(ICommonConsts.CHECKLIST, c);
             String type = c.getAttr(ICommonConsts.TYPE);
             if (CUtil.EmptyS(type))
                 continue;
@@ -104,6 +106,20 @@ class ValidateDialogFormat {
                     ILogMess.UNEXPECTEDCHECKLISTTYPE, c.getId(), type,
                     ICommonConsts.BOOLTYPE, ICommonConsts.DATETIMETYPE);
             error(errMess);
+        }
+        for (DateLine dl : d.getDatelineList()) {
+            idNotNull(ICommonConsts.DATELINE, dl);
+            validateL(ICommonConsts.COLUMNS, ICommonConsts.COLUMN,
+                    dl.getColList());
+            String dId = dl.getListId();
+            if (CUtil.EmptyS(dId)) {
+                error(Holder.getM().getMess(IErrorCode.ERRORCODE51,
+                        ILogMess.DATELINEIDCANNOTBEEMPTY, d.getId(),ICommonConsts.DATELINE, ICommonConsts.DETELINEID));
+            }
+            FieldItem f = DialogFormat.findE(dl.getColList(), dId);
+            if (f == null)
+                error(Holder.getM().getMess(IErrorCode.ERRORCODE52,
+                        ILogMess.DATELINEIDCANNOTBEFOUND, d.getId(),ICommonConsts.DATELINE, ICommonConsts.DETELINEID,dId,ICommonConsts.COLUMNS));
         }
 
     }
