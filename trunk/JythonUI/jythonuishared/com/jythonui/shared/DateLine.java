@@ -12,39 +12,29 @@
  */
 package com.jythonui.shared;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author hotel
- * 
- */
-public class ListOfRows implements Serializable {
+public class DateLine extends ElemDescription {
 
     private static final long serialVersionUID = 1L;
 
-    private List<RowContent> rowList = new ArrayList<RowContent>();
+    private List<FieldItem> colList = new ArrayList<FieldItem>();
 
-    private int size = -1;
-
-    /**
-     * @return the rowList
-     */
-    public List<RowContent> getRowList() {
-        return rowList;
+    public List<FieldItem> getColList() {
+        return colList;
     }
 
-    public void addRow(RowContent r) {
-        rowList.add(r);
+    public int getColNo() {
+        return getInt(ICommonConsts.COLNO, ICommonConsts.DEFAULTCOLNO);
     }
 
-    public int getSize() {
-        return size;
+    public int getRowNo() {
+        return getInt(ICommonConsts.PAGESIZE, ICommonConsts.DEFAULTROWNO);
     }
-
-    public void setSize(int size) {
-        this.size = size;
+    
+    public String getListId() {
+        return getAttr(ICommonConsts.DETELINEID);
     }
 
 }

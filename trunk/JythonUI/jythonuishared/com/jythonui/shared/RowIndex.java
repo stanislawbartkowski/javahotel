@@ -17,10 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author hotel
- *
- */
-/**
  * This class is not serializable and can contain final attributes
  * 
  * @author hotel

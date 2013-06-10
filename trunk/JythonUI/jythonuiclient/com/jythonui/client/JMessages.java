@@ -53,7 +53,9 @@ public interface JMessages extends Messages {
     String InproperFormatCheckSet(String id, String j);
 
     String CannotFindCheckList(String s, String checkid);
-    
+
     String CheckListActionNotExpected(String s, String a);
+
+    String DataLineNotDefined(String dLineId, String tagId, String dId);
 
 }

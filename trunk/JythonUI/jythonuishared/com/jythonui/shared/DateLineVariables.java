@@ -13,38 +13,15 @@
 package com.jythonui.shared;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- * @author hotel
- * 
- */
-public class ListOfRows implements Serializable {
+public class DateLineVariables implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private List<RowContent> rowList = new ArrayList<RowContent>();
+    private ListOfRows lines = new ListOfRows();
 
-    private int size = -1;
-
-    /**
-     * @return the rowList
-     */
-    public List<RowContent> getRowList() {
-        return rowList;
-    }
-
-    public void addRow(RowContent r) {
-        rowList.add(r);
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
+    public ListOfRows getLines() {
+        return lines;
     }
 
 }

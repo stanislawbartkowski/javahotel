@@ -34,6 +34,8 @@ public class DialogVariables implements Serializable {
 
     private Map<String, DialogCheckVariables> checkVariables = new HashMap<String, DialogCheckVariables>();
 
+    private Map<String, DateLineVariables> datelineVariables = new HashMap<String, DateLineVariables>();
+
     public FieldValue getValue(String fId) {
         return vList.get(fId);
     }
@@ -112,4 +114,8 @@ public class DialogVariables implements Serializable {
         return checkVariables;
     }
 
+    public Map<String, DateLineVariables> getDatelineVariables() {
+        return datelineVariables;
+    }
+       
 }

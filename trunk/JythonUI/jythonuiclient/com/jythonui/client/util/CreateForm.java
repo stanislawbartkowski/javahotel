@@ -131,11 +131,9 @@ public class CreateForm {
         return new FormLineContainer(fList);
     }
 
-    public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
-            ListFormat l) {
+    public static List<VListHeaderDesc> constructColumns(List<FieldItem> fList, DialSecurityInfo lInfo) {
         List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
-        DialSecurityInfo lInfo = sInfo.getListSecur().get(l.getId());
-        for (FieldItem f : l.getColumns()) {
+        for (FieldItem f : fList) {
             IVField vf = VField.construct(f);
             VListHeaderDesc.ColAlign al = null;
             if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNL)) {
@@ -149,11 +147,19 @@ public class CreateForm {
             }
             // TODO: can be null for combo, check it later
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
-                    lInfo == null ? false : lInfo.isFieldHidden(f), f.getActionId(), false, al, f.getWidth());
+                    lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
+                    f.getActionId(), false, al, f.getWidth());
             heList.add(v);
         }
-        String lName = l.getDisplayName();
+        return heList;
+    }
 
+    public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
+            ListFormat l) {
+        DialSecurityInfo lInfo = sInfo.getListSecur().get(l.getId());
+        List<VListHeaderDesc> heList = constructColumns(l.getColumns(),
+                lInfo);
+        String lName = l.getDisplayName();
         return new VListHeaderContainer(heList, lName, l.getPageSize(), null,
                 l.getWidth(), null, null);
     }

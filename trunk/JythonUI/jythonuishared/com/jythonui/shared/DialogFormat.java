@@ -39,6 +39,8 @@ public class DialogFormat extends ElemDescription {
 
     private List<CheckList> checkList = new ArrayList<CheckList>();
 
+    private List<DateLine> datelineList = new ArrayList<DateLine>();
+
     /**
      * @return the actionList
      */
@@ -125,6 +127,14 @@ public class DialogFormat extends ElemDescription {
 
     public CheckList findCheckList(String id) {
         return findE(checkList, id);
+    }
+
+    public List<DateLine> getDatelineList() {
+        return datelineList;
+    }
+
+    public DateLine findDateLine(String id) {
+        return findE(datelineList, id);
     }
 
 }
