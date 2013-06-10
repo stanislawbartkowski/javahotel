@@ -31,13 +31,13 @@ import com.jythonui.shared.CustomSecurity;
 public class Test5 extends TestHelper {
 
     private void setUser() {
-        iAdmin.clearAll();
+        iAdmin.clearAll(getI());
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifPerson(pe, roles);
-        iAdmin.changePasswordForPerson("user", "secret");
+        iAdmin.addOrModifPerson(getI(), pe, roles);
+        iAdmin.changePasswordForPerson(getI(), "user", "secret");
         Hotel ho = new Hotel();
 
         ho.setName("hotel");
@@ -49,12 +49,12 @@ public class Test5 extends TestHelper {
         rol.getRoles().add("mana");
         rol.getRoles().add("acc");
         roles.add(rol);
-        iAdmin.addOrModifHotel(ho, roles);        
+        iAdmin.addOrModifHotel(getI(), ho, roles);
     }
-    
+
     @Test
     public void test1() {
-        
+
         setUser();
         String token = iSec.authenticateToken(realM, "user", "wrong", null);
         assertNull(token);
@@ -82,13 +82,13 @@ public class Test5 extends TestHelper {
         HotelCustom h = (HotelCustom) cus;
         assertEquals("hotel", h.getHotelName());
     }
-    
+
     @Test
     public void test2() {
         String token = iSec.authenticateToken(adminM, "admin", "admin", null);
         assertNotNull(token);
     }
-    
+
     @Test
     public void test3() {
         setUser();

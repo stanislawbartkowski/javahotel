@@ -10,8 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.pricelist;
+package com.gwthotel.hotel.reservation;
 
-public interface ITestHotelPriceList extends IHotelPriceList {
+import com.gwthotel.shared.PropDescription;
+
+public class ReservationForm extends PropDescription {
+
+    private static final long serialVersionUID = 1L;
 
 }

@@ -73,7 +73,7 @@ public class Test4 extends TestHelper {
         ho.setName("hotel");
         ho.setDescription("Grzyb");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifHotel(ho, roles);
+        iAdmin.addOrModifHotel(getI(),ho, roles);
         try {
             currentUser.login(token);
             fail("Not expected here");
@@ -87,7 +87,7 @@ public class Test4 extends TestHelper {
         HotelRoles role = new HotelRoles(pe);
         role.getRoles().add("man");
         roles.add(role);
-        iAdmin.addOrModifHotel(ho, roles);
+        iAdmin.addOrModifHotel(getI(),ho, roles);
         currentUser.login(token);
         System.out.println("Welcome ..");
         assertTrue("Man role expected", currentUser.hasRole("man"));
@@ -97,15 +97,15 @@ public class Test4 extends TestHelper {
 
     @Test
     public void test1() {
-        iAdmin.clearAll();
+        iAdmin.clearAll(getI());
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifPerson(pe, roles);
-        assertFalse(iAdmin.validatePasswordForPerson("user", "secret"));
-        iAdmin.changePasswordForPerson("user", "secret");
-        assertEquals("secret", iAdmin.getPassword("user"));
+        iAdmin.addOrModifPerson(getI(),pe, roles);
+        assertFalse(iAdmin.validatePasswordForPerson(getI(),"user", "secret"));
+        iAdmin.changePasswordForPerson(getI(),"user", "secret");
+        assertEquals("secret", iAdmin.getPassword(getI(),"user"));
         testShiro();
     }
 
@@ -125,13 +125,13 @@ public class Test4 extends TestHelper {
 
     @Test
     public void test2() {
-        iAdmin.clearAll();
+        iAdmin.clearAll(getI());
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifPerson(pe, roles);
-        iAdmin.changePasswordForPerson("user", "secret");
+        iAdmin.addOrModifPerson(getI(),pe, roles);
+        iAdmin.changePasswordForPerson(getI(),"user", "secret");
         Hotel ho = new Hotel();
 
         ho.setName("hotel");
@@ -143,7 +143,7 @@ public class Test4 extends TestHelper {
         rol.getRoles().add("mana");
         rol.getRoles().add("acc");
         roles.add(rol);
-        iAdmin.addOrModifHotel(ho, roles);
+        iAdmin.addOrModifHotel(getI(),ho, roles);
         testShiro1();
 
     }

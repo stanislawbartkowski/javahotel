@@ -33,12 +33,12 @@ public class Test8 extends TestHelper {
 
     private void clearData() {
         createHotels();
-        iPrice.deleteAll(HOTEL);
-        iPrice.deleteAll(HOTEL1);
-        iServices.deleteAll(HOTEL);
-        iServices.deleteAll(HOTEL1);
-        iPriceElem.deleteAll(HOTEL);
-        iPriceElem.deleteAll(HOTEL1);
+        iPrice.deleteAll(getH(HOTEL));
+        iPrice.deleteAll(getH(HOTEL1));
+        iServices.deleteAll(getH(HOTEL));
+        iServices.deleteAll(getH(HOTEL1));
+        iPriceElem.deleteAll(getH(HOTEL));
+        iPriceElem.deleteAll(getH(HOTEL1));
     }
 
     private void addStartD() {
@@ -47,12 +47,12 @@ public class Test8 extends TestHelper {
         ho.setDescription("One person in one person room");
         ho.setNoPersons(2);
         ho.setAttr(IHotelConsts.VATPROP, "7%");
-        iServices.addElem(HOTEL, ho);
+        iServices.addElem(getH(HOTEL), ho);
 
         HotelPriceList p = new HotelPriceList();
         p.setName(PRICE1);
         p.setFromDate(toDate(2010, 10, 1));
-        iPrice.addElem(HOTEL, p);
+        iPrice.addElem(getH(HOTEL), p);
 
     }
 
@@ -60,8 +60,8 @@ public class Test8 extends TestHelper {
     public void test1() {
         clearData();
         addStartD();
-        List<HotelPriceElem> pList = iPriceElem.getPricesForPriceList(HOTEL,
-                PRICE1);
+        List<HotelPriceElem> pList = iPriceElem.getPricesForPriceList(
+                getH(HOTEL), PRICE1);
         assertTrue(pList.isEmpty());
         HotelPriceElem eElem = new HotelPriceElem();
         eElem.setService(SERVICE1);
@@ -69,8 +69,8 @@ public class Test8 extends TestHelper {
         eElem.setWorkingPrice(new BigDecimal(20.0));
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);
-        iPriceElem.savePricesForPriceList(HOTEL, PRICE1, pList);
-        pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
+        iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
+        pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         assertEquals(1, pList.size());
         eElem = pList.get(0);
         assertEquals(eElem.getWeekendPrice(), new BigDecimal(10.0));
@@ -78,8 +78,8 @@ public class Test8 extends TestHelper {
         eElem.setWorkingPrice(new BigDecimal(30.0));
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);
-        iPriceElem.savePricesForPriceList(HOTEL, PRICE1, pList);
-        pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
+        iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
+        pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         eElem = pList.get(0);
         assertEquals(eElem.getWeekendPrice(), new BigDecimal(10.0));
         assertEquals(eElem.getWorkingPrice(), new BigDecimal(30.0));
@@ -89,22 +89,22 @@ public class Test8 extends TestHelper {
     public void test2() {
         clearData();
         addStartD();
-        List<HotelPriceElem> pList = iPriceElem.getPricesForPriceList(HOTEL,
-                PRICE1);
+        List<HotelPriceElem> pList = iPriceElem.getPricesForPriceList(
+                getH(HOTEL), PRICE1);
         HotelPriceElem eElem = new HotelPriceElem();
         eElem.setService(SERVICE1);
         eElem.setWeekendPrice(new BigDecimal(10.0));
         eElem.setWorkingPrice(new BigDecimal(20.0));
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);
-        iPriceElem.savePricesForPriceList(HOTEL, PRICE1, pList);
-        pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
+        iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
+        pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         assertEquals(1, pList.size());
         // remove pricelist
         HotelPriceList p = new HotelPriceList();
         p.setName(PRICE1);
-        iPrice.deleteElem(HOTEL, p);
-        pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
+        iPrice.deleteElem(getH(HOTEL), p);
+        pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         assertTrue(pList.isEmpty());
     }
 
@@ -112,22 +112,22 @@ public class Test8 extends TestHelper {
     public void test3() {
         clearData();
         addStartD();
-        List<HotelPriceElem> pList = iPriceElem.getPricesForPriceList(HOTEL,
-                PRICE1);
+        List<HotelPriceElem> pList = iPriceElem.getPricesForPriceList(
+                getH(HOTEL), PRICE1);
         HotelPriceElem eElem = new HotelPriceElem();
         eElem.setService(SERVICE1);
         eElem.setWeekendPrice(new BigDecimal(10.0));
         eElem.setWorkingPrice(new BigDecimal(20.0));
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);
-        iPriceElem.savePricesForPriceList(HOTEL, PRICE1, pList);
-        pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
+        iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
+        pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         assertEquals(1, pList.size());
         // remove pricelist
         HotelServices ho = new HotelServices();
         ho.setName(SERVICE1);
-        iServices.deleteElem(HOTEL, ho);
-        pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
+        iServices.deleteElem(getH(HOTEL), ho);
+        pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         assertTrue(pList.isEmpty());
     }
 
@@ -141,7 +141,7 @@ public class Test8 extends TestHelper {
             ho.setDescription("One person in one person room");
             ho.setNoPersons(2);
             ho.setAttr(IHotelConsts.VATPROP, "7%");
-            iServices.addElem(HOTEL, ho);
+            iServices.addElem(getH(HOTEL), ho);
         }
         List<HotelPriceElem> pList = new ArrayList<HotelPriceElem>();
         for (int i = 0; i < 90; i++) {
@@ -151,7 +151,7 @@ public class Test8 extends TestHelper {
             eElem.setWorkingPrice(new BigDecimal(20.0 + i));
             pList.add(eElem);
         }
-        iPriceElem.savePricesForPriceList(HOTEL, PRICE1, pList);
+        iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
 
         pList = new ArrayList<HotelPriceElem>();
         for (int i = 80; i < 100; i++) {
@@ -161,10 +161,10 @@ public class Test8 extends TestHelper {
             eElem.setWorkingPrice(new BigDecimal(40.0 + i));
             pList.add(eElem);
         }
-        iPriceElem.savePricesForPriceList(HOTEL, PRICE1, pList);
+        iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
 
-        pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
-//        assertEquals(100, pList.size());
+        pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
+        // assertEquals(100, pList.size());
         // 2013/06/04 : should be 20
         assertEquals(20, pList.size());
         boolean found = false;
@@ -178,15 +178,15 @@ public class Test8 extends TestHelper {
         assertTrue(found);
         HotelServices ho = new HotelServices();
         ho.setName("s81");
-        iServices.deleteElem(HOTEL, ho);
-        pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
-//        assertEquals(99, pList.size());
+        iServices.deleteElem(getH(HOTEL), ho);
+        pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
+        // assertEquals(99, pList.size());
         // 2013/06/04 : should be 19
         assertEquals(19, pList.size());
         HotelPriceList p = new HotelPriceList();
         p.setName(PRICE1);
-        iPrice.deleteElem(HOTEL, p);
-        pList = iPriceElem.getPricesForPriceList(HOTEL, PRICE1);
+        iPrice.deleteElem(getH(HOTEL), p);
+        pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         assertTrue(pList.isEmpty());
 
     }

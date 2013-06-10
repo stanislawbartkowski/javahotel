@@ -27,8 +27,8 @@ public class Test7 extends TestHelper {
 
     private void resetHotel() {
         createHotels();
-        iPrice.deleteAll(HOTEL);
-        iPrice.deleteAll(HOTEL1);
+        iPrice.deleteAll(getH(HOTEL));
+        iPrice.deleteAll(getH(HOTEL1));
 
     }
 
@@ -38,10 +38,10 @@ public class Test7 extends TestHelper {
         HotelPriceList p = new HotelPriceList();
         p.setName("p1");
         p.setFromDate(toDate(2010, 10, 1));
-        iPrice.addElem(HOTEL1, p);
-        List<HotelPriceList> pList = iPrice.getList(HOTEL);
+        iPrice.addElem(getH(HOTEL1), p);
+        List<HotelPriceList> pList = iPrice.getList(getH(HOTEL));
         assertTrue(pList.isEmpty());
-        pList = iPrice.getList(HOTEL1);
+        pList = iPrice.getList(getH(HOTEL1));
         assertEquals(1, pList.size());
         p = pList.get(0);
         assertTrue(eqDate(p.getFromDate(), 2010, 10, 1));
@@ -54,12 +54,12 @@ public class Test7 extends TestHelper {
         HotelPriceList p = new HotelPriceList();
         p.setName("p1");
         p.setFromDate(toDate(2010, 10, 1));
-        iPrice.addElem(HOTEL1, p);
-        List<HotelPriceList> pList = iPrice.getList(HOTEL1);
+        iPrice.addElem(getH(HOTEL1), p);
+        List<HotelPriceList> pList = iPrice.getList(getH(HOTEL1));
         p = pList.get(0);
         p.setToDate(toDate(2012, 1, 1));
-        iPrice.changeElem(HOTEL1, p);
-        pList = iPrice.getList(HOTEL1);
+        iPrice.changeElem(getH(HOTEL1), p);
+        pList = iPrice.getList(getH(HOTEL1));
         p = pList.get(0);
         assertTrue(eqDate(p.getFromDate(), 2010, 10, 1));
         assertTrue(eqDate(p.getToDate(), 2012, 1, 1));
@@ -72,14 +72,14 @@ public class Test7 extends TestHelper {
             HotelPriceList p = new HotelPriceList();
             p.setName("p" + i);
             p.setFromDate(toDate(2010, 10, 1));
-            iPrice.addElem(HOTEL1, p);
+            iPrice.addElem(getH(HOTEL1), p);
         }
-        List<HotelPriceList> pList = iPrice.getList(HOTEL1);
+        List<HotelPriceList> pList = iPrice.getList(getH(HOTEL1));
         assertEquals(100, pList.size());
         HotelPriceList p = pList.get(10);
         String dName = p.getName();
-        iPrice.deleteElem(HOTEL1, p);
-        pList = iPrice.getList(HOTEL1);
+        iPrice.deleteElem(getH(HOTEL1), p);
+        pList = iPrice.getList(getH(HOTEL1));
         assertEquals(99, pList.size());
         for (HotelPriceList pp : pList) {
             assertFalse(pp.getName().equals(dName));

@@ -14,13 +14,15 @@ package com.gwthotel.hotel.prices;
 
 import java.util.List;
 
+import com.gwthotel.admin.HotelId;
+
 public interface IHotelPriceElem {
 
-    List<HotelPriceElem> getPricesForPriceList(String hotel, String pricelist);
+    List<HotelPriceElem> getPricesForPriceList(HotelId hotel, String pricelist);
 
-    void savePricesForPriceList(String hotel, String pricelist,
+    void savePricesForPriceList(HotelId hotel, String pricelist,
             List<HotelPriceElem> pList);
 
-    void deleteAll(String hotel);
+    void deleteAll(HotelId hotel);
 
 }

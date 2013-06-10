@@ -16,27 +16,28 @@ import java.util.List;
 
 public interface IHotelAdmin {
 
-    List<Person> getListOfPersons();
+    List<Person> getListOfPersons(AppInstanceId i);
 
-    List<Hotel> getListOfHotels();
+    List<Hotel> getListOfHotels(AppInstanceId i);
 
-    List<HotelRoles> getListOfRolesForPerson(String person);
+    List<HotelRoles> getListOfRolesForPerson(AppInstanceId i, String person);
 
-    List<HotelRoles> getListOfRolesForHotel(String hotel);
+    List<HotelRoles> getListOfRolesForHotel(AppInstanceId i, String hotel);
 
-    void addOrModifHotel(Hotel hotel, List<HotelRoles> roles);
+    void addOrModifHotel(AppInstanceId i, Hotel hotel, List<HotelRoles> roles);
 
-    void addOrModifPerson(Person person, List<HotelRoles> roles);
+    void addOrModifPerson(AppInstanceId i, Person person, List<HotelRoles> roles);
 
-    void changePasswordForPerson(String person, String password);
+    void changePasswordForPerson(AppInstanceId i, String person, String password);
 
-    boolean validatePasswordForPerson(String person, String password);
-    
-    String getPassword(String person);
+    boolean validatePasswordForPerson(AppInstanceId i, String person,
+            String password);
 
-    void clearAll();
+    String getPassword(AppInstanceId i, String person);
 
-    void removePerson(String person);
+    void clearAll(AppInstanceId i);
 
-    void removeHotel(String hotel);
+    void removePerson(AppInstanceId i, String person);
+ 
+    void removeHotel(AppInstanceId i, String hotel);
 }

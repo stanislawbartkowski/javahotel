@@ -10,15 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel;
+package com.gwthotel.hotel.reservation;
 
-import com.gwthotel.admin.AppInstanceId;
-import com.gwthotel.admin.HotelId;
+import com.gwthotel.shared.PropDescription;
 
-public interface IHotelGetName {
+public class ReservationDetail extends PropDescription {
 
-    HotelId getHotel(String token);
-
-    AppInstanceId getInstance(String token);
+    private static final long serialVersionUID = 1L;
 
 }

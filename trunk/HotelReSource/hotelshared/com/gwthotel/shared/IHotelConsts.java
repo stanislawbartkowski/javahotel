@@ -46,6 +46,7 @@ public interface IHotelConsts {
     String HOTELREALM = "HotelRealm";
 
     String HOTELNAME = "hotelloginname";
+    String INSTANCEID = "hotelinstanceid";
 
     String HOTELURLQUERY = "hotel";
 
@@ -62,4 +63,9 @@ public interface IHotelConsts {
     String CUSTOMERZIPCODEPROP = "zipcode";
     String CUSTOMEREMAILPROP = "email";
     String CUSTOMERPHONEPROP = "phone";
+
+    String INSTANCEDEFAULT = "AppInstanceDefault";
+    String INSTANCETEST = "AppInstanceTest";
+
+    String CACHEREALMHOTELINSTANCE = "CACHEREALMHOTELINSTANCE";
 }

@@ -15,10 +15,10 @@ package com.gwthotel.hotel;
 import com.gwthotel.admin.AppInstanceId;
 import com.gwthotel.admin.HotelId;
 
-public interface IHotelGetName {
-
-    HotelId getHotel(String token);
-
-    AppInstanceId getInstance(String token);
+public interface IGetInstanceHotelId {
+    
+    AppInstanceId getInstance(String instanceName);
+    
+    HotelId getHotel(String instanceName, String hotelName);
 
 }

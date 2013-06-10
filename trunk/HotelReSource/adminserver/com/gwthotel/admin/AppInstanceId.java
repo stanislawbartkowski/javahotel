@@ -10,8 +10,32 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.services;
+package com.gwthotel.admin;
 
-public interface ITestHotelServices extends IHotelServices {
+import java.io.Serializable;
+
+public class AppInstanceId implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
+    private String instanceName;
+    
+    private Long id;
+
+    public String getInstanceName() {
+        return instanceName;
+    }
+
+    public void setInstanceName(String instanceName) {
+        this.instanceName = instanceName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 }

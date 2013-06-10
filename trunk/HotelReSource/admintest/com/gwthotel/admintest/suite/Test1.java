@@ -37,15 +37,15 @@ public class Test1 extends TestHelper {
 
     @Test
     public void test1() {
-        iAdmin.clearAll();
-        List<Hotel> aList = iAdmin.getListOfHotels();
+        iAdmin.clearAll(getI());
+        List<Hotel> aList = iAdmin.getListOfHotels(getI());
         assertEquals(0, aList.size());
         Hotel ho = new Hotel();
         ho.setName("hotel");
         ho.setDescription("Super hotel");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifHotel(ho, roles);
-        aList = iAdmin.getListOfHotels();
+        iAdmin.addOrModifHotel(getI(), ho, roles);
+        aList = iAdmin.getListOfHotels(getI());
         assertEquals(1, aList.size());
         ho = aList.get(0);
         assertEquals("hotel", ho.getName());
@@ -54,15 +54,15 @@ public class Test1 extends TestHelper {
 
     @Test
     public void test2() {
-        iAdmin.clearAll();
-        List<Person> aList = iAdmin.getListOfPersons();
+        iAdmin.clearAll(getI());
+        List<Person> aList = iAdmin.getListOfPersons(getI());
         assertEquals(0, aList.size());
         Person pe = new Person();
         pe.setName("user");
         pe.setDescription("user name");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifPerson(pe, roles);
-        aList = iAdmin.getListOfPersons();
+        iAdmin.addOrModifPerson(getI(), pe, roles);
+        aList = iAdmin.getListOfPersons(getI());
         assertEquals(1, aList.size());
         pe = aList.get(0);
         assertEquals("user", pe.getName());
@@ -77,7 +77,7 @@ public class Test1 extends TestHelper {
             assertNotNull(r.getDescription());
         }
     }
-    
+
     @Test
     public void test4() {
         assertEquals(5, iTaxes.getList().size());
@@ -90,13 +90,17 @@ public class Test1 extends TestHelper {
             BigDecimal b = r.getVatLevel();
             if (b != null) {
                 System.out.println(b);
-                if (b.equals(DecimalUtils.toBig("0"))) ok++;
-                if (b.equals(DecimalUtils.toBig("7"))) ok++;
-                if (b.equals(DecimalUtils.toBig("20"))) ok++;
-                if (b.equals(DecimalUtils.toBig("22"))) ok++;
+                if (b.equals(DecimalUtils.toBig("0")))
+                    ok++;
+                if (b.equals(DecimalUtils.toBig("7")))
+                    ok++;
+                if (b.equals(DecimalUtils.toBig("20")))
+                    ok++;
+                if (b.equals(DecimalUtils.toBig("22")))
+                    ok++;
             }
         }
         System.out.println("ok=" + ok);
-        assertEquals(4,ok);
+        assertEquals(4, ok);
     }
 }

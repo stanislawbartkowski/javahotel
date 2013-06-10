@@ -15,16 +15,18 @@ package com.gwthotel.admin.jpa.entities;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"instanceId","name"}))
 @NamedQueries({
-        @NamedQuery(name = "findPersonByName", query = "SELECT x FROM EPersonPassword x WHERE x.name = ?1"),
+        @NamedQuery(name = "findPersonByName", query = "SELECT x FROM EPersonPassword x WHERE x.instanceId= ?1 AND x.name = ?2"),
         @NamedQuery(name = "findPersonByLong", query = "SELECT x FROM EPersonPassword x WHERE x.id = ?1"), 
-        @NamedQuery(name = "removeAllPersons", query = "DELETE FROM EPersonPassword x"), 
-        @NamedQuery(name = "findAllPersons", query = "SELECT x FROM EPersonPassword x") 
+        @NamedQuery(name = "removeAllPersons", query = "DELETE FROM EPersonPassword x WHERE x.instanceId= ?1"), 
+        @NamedQuery(name = "findAllPersons", query = "SELECT x FROM EPersonPassword x WHERE x.instanceId= ?1") 
         })
-
-public class EPersonPassword extends EDictEntry {
+public class EPersonPassword extends EDictInstance {
 
     private String password;
 

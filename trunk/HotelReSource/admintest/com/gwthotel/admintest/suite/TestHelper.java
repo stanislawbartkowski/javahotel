@@ -20,17 +20,21 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import com.gwthotel.admin.AppInstanceId;
 import com.gwthotel.admin.Hotel;
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admintest.guice.ServiceInjector;
+import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
+import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
@@ -48,7 +52,8 @@ public class TestHelper {
 
     protected final IHotelAdmin iAdmin;
     protected final IGetHotelRoles iRoles;
-    private static final ITestEnhancer iTest = ServiceInjector.constructITestEnhancer();
+    private static final ITestEnhancer iTest = ServiceInjector
+            .constructITestEnhancer();
     protected final IJythonUIServer iServer;
     protected final ISecurity iSec;
     protected final IHotelServices iServices;
@@ -57,19 +62,30 @@ public class TestHelper {
     protected final IHotelPriceElem iPriceElem;
     protected final IHotelRooms iRooms;
     protected final IHotelCustomers iCustomers;
+    protected final IGetInstanceHotelId iGetI;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
 
+    protected static final String TESTINSTANCE = IHotelConsts.INSTANCETEST;
+
+    protected AppInstanceId getI() {
+        return iGetI.getInstance(TESTINSTANCE);
+    }
+
+    protected HotelId getH(String hotel) {
+        return iGetI.getHotel(TESTINSTANCE, hotel);
+    }
+
     protected void createHotels() {
-        iAdmin.clearAll();
+        iAdmin.clearAll(getI());
         String[] hNames = new String[] { HOTEL, HOTEL1 };
         for (String s : hNames) {
             Hotel ho = new Hotel();
             ho.setName(s);
             ho.setDescription("Pod Pieskiem");
             List<HotelRoles> roles = new ArrayList<HotelRoles>();
-            iAdmin.addOrModifHotel(ho, roles);
+            iAdmin.addOrModifHotel(getI(), ho, roles);
         }
     }
 
@@ -87,6 +103,7 @@ public class TestHelper {
         iPriceElem = ServiceInjector.getHotelPriceElem();
         iRooms = ServiceInjector.getHotelRooms();
         iCustomers = ServiceInjector.getHotelCustomers();
+        iGetI = ServiceInjector.getInstanceHotel();
     }
 
     @BeforeClass
@@ -98,10 +115,10 @@ public class TestHelper {
     public static void tearDown() {
         iTest.afterTest();
     }
-    
+
     @Before
     public void beforeTest() {
-        Holder.setAuth(false);        
+        Holder.setAuth(false);
     }
 
     protected DialogFormat findDialog(String dialogName) {

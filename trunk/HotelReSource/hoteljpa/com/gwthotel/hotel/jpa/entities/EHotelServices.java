@@ -16,8 +16,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"hotel","name"}))
 @NamedQueries({
     @NamedQuery(name = "findAllServices", query = "SELECT x FROM EHotelServices x WHERE x.hotel = ?1"),
     @NamedQuery(name = "deleteAllServices", query = "DELETE FROM EHotelServices x WHERE x.hotel = ?1"),

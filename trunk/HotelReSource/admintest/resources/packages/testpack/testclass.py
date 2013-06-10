@@ -5,7 +5,11 @@ from com.gwthotel.admin import HotelRoles
 from java.util import ArrayList
 
 adminI = ServiceInjector.constructHotelAdmin()
+instanceI = ServiceInjector.getInstanceHotel()
 
+
+def __getI(var):
+    return instanceI.getInstance("AppInstanceTest")
 
 def __createHotelPerson(var,hotel):
     name = var["name"]
@@ -25,13 +29,13 @@ def dialogaction(action,var) :
   if action == "modif" :
       pe = Person()
       pe.setName("person");
-      adminI.addOrModifPerson(pe,ArrayList())
+      adminI.addOrModifPerson(__getI(var),pe,ArrayList())
       ho = __createHotelPerson(var,True)
       perm = ArrayList()
       role = HotelRoles(pe)
       role.getRoles().add("man")
       perm.add(role)
-      adminI.addOrModifHotel(ho,perm)
+      adminI.addOrModifHotel(__getI(var),ho,perm)
       
       
 

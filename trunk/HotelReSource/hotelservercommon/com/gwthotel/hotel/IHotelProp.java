@@ -14,17 +14,18 @@ package com.gwthotel.hotel;
 
 import java.util.List;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.shared.PropDescription;
 
 public interface IHotelProp<T extends PropDescription> {
 
-    List<T> getList(String hotel);
+    List<T> getList(HotelId hotel);
 
-    void addElem(String hotel, T elem);
+    void addElem(HotelId hotel, T elem);
 
-    void changeElem(String hotel, T elem);
+    void changeElem(HotelId hotel, T elem);
 
-    void deleteElem(String hotel, T elem);
+    void deleteElem(HotelId hotel, T elem);
     
-    void deleteAll(String hotel);
+    void deleteAll(HotelId hotel);
 }

@@ -15,13 +15,16 @@ package com.gwthotel.admin.jpa.entities;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"instanceId","name"}))
 @NamedQueries({
         @NamedQuery(name = "findHotelByLong", query = "SELECT x FROM EHotel x WHERE x.id = ?1"),
-        @NamedQuery(name = "findAllHotels", query = "SELECT x FROM EHotel x"),
-        @NamedQuery(name = "removeAllHotels", query = "DELETE FROM EHotel x"),
-        @NamedQuery(name = "findHotelByName", query = "SELECT x FROM EHotel x WHERE x.name = ?1") })
-public class EHotel extends EDictEntry {
+        @NamedQuery(name = "findAllHotels", query = "SELECT x FROM EHotel x WHERE x.instanceId = ?1"),
+        @NamedQuery(name = "removeAllHotels", query = "DELETE FROM EHotel x WHERE x.instanceId= ?1"),
+        @NamedQuery(name = "findHotelByName", query = "SELECT x FROM EHotel x WHERE x.instanceId= ?1 AND x.name = ?2") })
+public class EHotel extends EDictInstance {
 
 }

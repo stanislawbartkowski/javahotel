@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-import com.gwthotel.admin.jpa.PropUtils;
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
@@ -34,7 +34,7 @@ class HotelJpaPriceList extends
     }
 
     @Override
-    protected HotelPriceList toT(EHotelPriceList sou) {
+    protected HotelPriceList toT(EHotelPriceList sou, HotelId hotel) {
         HotelPriceList ho = new HotelPriceList();
         ho.setFromDate(sou.getPriceFrom());
         ho.setToDate(sou.getPriceTo());
@@ -42,28 +42,28 @@ class HotelJpaPriceList extends
     }
 
     @Override
-    protected EHotelPriceList constructE() {
+    protected EHotelPriceList constructE(HotelId hotel) {
         return new EHotelPriceList();
     }
 
     @Override
-    protected void toE(EHotelPriceList dest, HotelPriceList sou) {
+    protected void toE(EHotelPriceList dest, HotelPriceList sou, HotelId hotel) {
         dest.setPriceFrom(MUtil.toSqlDate(sou.getFromDate()));
         dest.setPriceTo(MUtil.toSqlDate(sou.getToDate()));
     }
 
     @Override
-    protected void beforedeleteAll(EntityManager em, String hotel) {
+    protected void beforedeleteAll(EntityManager em, HotelId hotel) {
         Query q = em.createNamedQuery("deletePricesForHotel");
-        q.setParameter(1, hotel);
+        q.setParameter(1, hotel.getId());
         q.executeUpdate();
     }
 
     @Override
-    protected void beforedeleteElem(EntityManager em, String hotel,
+    protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelPriceList elem) {
         Query q = em.createNamedQuery("deletePricesForHotelAndPriceList");
-        q.setParameter(1, hotel);
+        q.setParameter(1, hotel.getId());
         q.setParameter(2, elem);
         q.executeUpdate();
     }

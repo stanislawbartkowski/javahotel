@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.jpa.JpaTransaction;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceElem;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
@@ -41,10 +42,10 @@ class HotelJpaPrices implements IHotelPriceElem {
 
     private abstract class doTransaction extends JpaTransaction {
 
-        protected final String hotel;
+        protected final HotelId hotel;
 
-        doTransaction(String hotel) {
-            super(eFactory,lMess);
+        doTransaction(HotelId hotel) {
+            super(eFactory, lMess);
             this.hotel = hotel;
         }
     }
@@ -54,7 +55,7 @@ class HotelJpaPrices implements IHotelPriceElem {
         private final String priceList;
         private final List<HotelPriceElem> pList = new ArrayList<HotelPriceElem>();
 
-        GetPrices(String hotel, String priceList) {
+        GetPrices(HotelId hotel, String priceList) {
             super(hotel);
             this.priceList = priceList;
         }
@@ -62,7 +63,7 @@ class HotelJpaPrices implements IHotelPriceElem {
         @Override
         protected void dosth(EntityManager em) {
             Query q = em.createNamedQuery("findPricesForPriceList");
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.setParameter(2, priceList);
             // do not catch exception,
             List<EHotelPriceElem> list = q.getResultList();
@@ -79,7 +80,7 @@ class HotelJpaPrices implements IHotelPriceElem {
     }
 
     @Override
-    public List<HotelPriceElem> getPricesForPriceList(String hotel,
+    public List<HotelPriceElem> getPricesForPriceList(HotelId hotel,
             String pricelist) {
         GetPrices comm = new GetPrices(hotel, pricelist);
         comm.executeTran();
@@ -90,7 +91,7 @@ class HotelJpaPrices implements IHotelPriceElem {
         private final String priceList;
         private final List<HotelPriceElem> pList;
 
-        SavePrices(String hotel, String pricelist, List<HotelPriceElem> pList) {
+        SavePrices(HotelId hotel, String pricelist, List<HotelPriceElem> pList) {
             super(hotel);
             this.priceList = pricelist;
             this.pList = pList;
@@ -102,13 +103,13 @@ class HotelJpaPrices implements IHotelPriceElem {
             List<EHotelPriceElem> eList = new ArrayList<EHotelPriceElem>();
 
             Query q = em.createNamedQuery("findOnePriceList");
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.setParameter(2, priceList);
             EHotelPriceList ePriceList = (EHotelPriceList) q.getSingleResult();
             // do not catch exception, one element is expected
 
             q = em.createNamedQuery("findPricesForPriceList");
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.setParameter(2, priceList);
             List<EHotelPriceElem> list = q.getResultList();
             for (EHotelPriceElem p : list) {
@@ -122,7 +123,7 @@ class HotelJpaPrices implements IHotelPriceElem {
                 EHotelServices eS = mService.get(service);
                 if (eS == null) {
                     q = em.createNamedQuery("findOneService");
-                    q.setParameter(1, hotel);
+                    q.setParameter(1, hotel.getId());
                     q.setParameter(2, service);
                     eS = (EHotelServices) q.getSingleResult();
                     // do not catch exception, single result is expected
@@ -138,7 +139,7 @@ class HotelJpaPrices implements IHotelPriceElem {
                 }
                 if (eElem == null) {
                     eElem = new EHotelPriceElem();
-                    eElem.setHotel(hotel);
+                    eElem.setHotel(hotel.getId());
                     eElem.setPricelist(ePriceList);
                     eElem.setService(eS);
                 }
@@ -151,7 +152,7 @@ class HotelJpaPrices implements IHotelPriceElem {
     }
 
     @Override
-    public void savePricesForPriceList(String hotel, String pricelist,
+    public void savePricesForPriceList(HotelId hotel, String pricelist,
             List<HotelPriceElem> pList) {
         SavePrices comma = new SavePrices(hotel, pricelist, pList);
         comma.executeTran();
@@ -159,14 +160,14 @@ class HotelJpaPrices implements IHotelPriceElem {
 
     private class DeleteAllPrices extends doTransaction {
 
-        DeleteAllPrices(String hotel) {
+        DeleteAllPrices(HotelId hotel) {
             super(hotel);
         }
 
         @Override
         protected void dosth(EntityManager em) {
             Query q = em.createNamedQuery("deletePricesForHotel");
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.executeUpdate();
 
         }
@@ -174,7 +175,7 @@ class HotelJpaPrices implements IHotelPriceElem {
     }
 
     @Override
-    public void deleteAll(String hotel) {
+    public void deleteAll(HotelId hotel) {
         DeleteAllPrices comm = new DeleteAllPrices(hotel);
         comm.executeTran();
 

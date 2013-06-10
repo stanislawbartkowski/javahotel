@@ -10,8 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.customer;
+package com.gwthotel.admin;
 
-public interface ITestHotelCustomers extends IHotelCustomers {
+public interface IAppInstanceHotel {
+        
+    public AppInstanceId getInstanceId(String instanceName);
+
+    public HotelId getHotelId(AppInstanceId instanceId, String hotelName);
 
 }

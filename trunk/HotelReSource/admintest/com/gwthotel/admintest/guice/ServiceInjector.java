@@ -19,6 +19,7 @@ import com.google.inject.name.Names;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -89,6 +90,10 @@ public class ServiceInjector {
     
     public static IHotelCustomers getHotelCustomers() {
         return injector.getInstance(IHotelCustomers.class);
+    }
+    
+    public static IGetInstanceHotelId getInstanceHotel() {
+        return injector.getInstance(IGetInstanceHotelId.class);
     }
 
 }
