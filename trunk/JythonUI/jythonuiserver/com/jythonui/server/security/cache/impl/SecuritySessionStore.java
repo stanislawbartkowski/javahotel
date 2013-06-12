@@ -45,7 +45,7 @@ public class SecuritySessionStore implements ISecuritySessionCache {
     }
 
     @Override
-    public Object get(String key) throws InvalidClassException {
+    public Object get(String key) {
         Object val = iMemCache.get(key);
         if (val != null)
             return val;
@@ -68,6 +68,12 @@ public class SecuritySessionStore implements ISecuritySessionCache {
     public void remove(String key) {
         iMemCache.remove(key);
         iPersistent.remove(key);
+    }
+
+    @Override
+    public void invalidate() {
+        iMemCache.invalidate();
+        iPersistent.invalidate();        
     }
 
 }

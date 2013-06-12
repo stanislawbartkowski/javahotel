@@ -12,8 +12,6 @@
  */
 package com.jythonui.server.defa;
 
-import java.io.InvalidClassException;
-
 import javax.inject.Inject;
 import javax.inject.Provider;
 
@@ -44,7 +42,7 @@ public class SecurityMemCacheProvider implements
         }
 
         @Override
-        public Object get(String key) throws InvalidClassException {
+        public Object get(String key) {
             if (testCache) {
                 noTest++;
                 // emulate empty cache
@@ -62,7 +60,11 @@ public class SecurityMemCacheProvider implements
         @Override
         public void remove(String key) {
             iCache.remove(key);
+        }
 
+        @Override
+        public void invalidate() {
+            iCache.invalidate();
         }
     }
 

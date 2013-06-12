@@ -73,17 +73,17 @@ class SubjectCache {
             this.tokenS = tokenS;
         }
     }
-    
+
     private static Subject buildSubject() {
         Subject currentUser = new Subject.Builder().buildSubject();
-        return currentUser;        
+        return currentUser;
     }
 
     private Result authenticate(SessionEntry se, String tokenS) {
         SecurityManager securityManager = constructManager(se.getRealm());
         SecurityUtils.setSecurityManager(securityManager);
-//        Subject currentUser = SecurityUtils.getSubject();
-//        currentUser = new Subject.Builder().buildSubject();
+        // Subject currentUser = SecurityUtils.getSubject();
+        // currentUser = new Subject.Builder().buildSubject();
         Subject currentUser = buildSubject();
         PasswordSecurityToken token = new PasswordSecurityToken(se.getUser(),
                 se.getPassword(), se.getiCustom());
@@ -105,11 +105,13 @@ class SubjectCache {
             return null;
         } catch (AuthenticationException ae) {
             log.info(gMess.getMess(IErrorCode.ERRORCODE6,
-                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),ae.getMessage()));
+                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),
+                    ae.getMessage()));
             return null;
         } catch (UnknownSessionException ae) {
             log.info(gMess.getMess(IErrorCode.ERRORCODE22,
-                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),ae.getMessage()));
+                    ILogMess.AUTHENTICATEOTHERERROR, se.getUser(),
+                    ae.getMessage()));
             return null;
         }
 
@@ -136,13 +138,7 @@ class SubjectCache {
 
     private SessionEntry get(String token) {
         SessionEntry e = null;
-        try {
-            e = (SessionEntry) iCache.get(token);
-        } catch (InvalidClassException ee) {
-            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE24,
-                    ILogMess.CANNOTCASTENTRY), e);
-            iCache.remove(token);
-        }
+        e = (SessionEntry) iCache.get(token);
         if (e == null) {
             log.info(token + " token not found ");
         }
@@ -166,9 +162,9 @@ class SubjectCache {
             return null; // TODO: more detailed log
         CurrentSubject subC = lastS.get();
         if (subC != null && se.eq(subC.se)) {
-//            SecurityUtils.setSecurityManager(subC.sManager);
-//            Subject sub = SecurityUtils.getSubject();
-//            Subject sub = buildSubject();
+            // SecurityUtils.setSecurityManager(subC.sManager);
+            // Subject sub = SecurityUtils.getSubject();
+            // Subject sub = buildSubject();
             return subC.currentUser;
         }
         // validate again
