@@ -12,7 +12,7 @@
  */
 package com.jythonui.server.storage.seqimpl;
 
-import com.jythonui.server.Util;
+import com.jython.ui.shared.UObjects;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -34,10 +34,10 @@ class SequenceRealmGen implements ISequenceRealmGen {
         if (val == null) {
             next = new Long(0);
         } else {
-            next = (Long) Util.get(val, key, gMess);
+            next = (Long) UObjects.get(val, key, gMess);
         }
         next = next + 1;
-        iReg.putEntry(realM, key, Util.put(next, key, gMess));
+        iReg.putEntry(realM, key, UObjects.put(next, key, gMess));
         return next;
     }
 

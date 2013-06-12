@@ -15,12 +15,8 @@ package com.jython.ui.shared;
 public interface ISharedConsts {
 
     String STORAGEREGISTRYENTITYMANAGERFACTORY = "storageregistryentitymanagerfactory";
-    String TESTSTORAGEREGISTRYENTITYMANAGERFACTORY = "teststorageregistryentitymanagerfactory";
 
     String COMMONREGISTRYBEANJNDI = "java:global/JythonRegistry";
-    String TESTCOMMONREGISTRYBEANJNDI = "java:global/TestJythonRegistry";
-
-    String TESTSTORAGEREGISTRY = "teststorageregistry";
 
     String RESOURCES = "resources";
 
