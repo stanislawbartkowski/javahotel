@@ -233,7 +233,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
         protected void dosth(EntityManager em) {
             beforedeleteAll(em, hotel);
             Query q = em.createNamedQuery(queryMap[DELETEALLQUERY]);
-            q.setParameter(1, hotel);
+            q.setParameter(1, hotel.getId());
             q.executeUpdate();
         }
     }

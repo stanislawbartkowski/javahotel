@@ -15,6 +15,6 @@ package com.gwthotel.admin.gae.entities;
 import com.googlecode.objectify.annotation.Entity;
 
 @Entity
-public class EHotel extends EDictionary {
+public class EHotel extends EInstanceDictionary {
 
 }

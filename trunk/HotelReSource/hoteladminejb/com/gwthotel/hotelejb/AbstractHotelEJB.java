@@ -14,38 +14,37 @@ package com.gwthotel.hotelejb;
 
 import java.util.List;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.shared.PropDescription;
 
-// IHotelProp<HotelServices>
-
-public class AbstractHotelEJB<T extends PropDescription> implements
+public abstract class AbstractHotelEJB<T extends PropDescription> implements
         IHotelProp<T> {
 
     protected IHotelProp<T> service;
 
     @Override
-    public List<T> getList(String hotel) {
+    public List<T> getList(HotelId hotel) {
         return service.getList(hotel);
     }
 
     @Override
-    public void addElem(String hotel, T elem) {
+    public void addElem(HotelId hotel, T elem) {
         service.addElem(hotel, elem);
     }
 
     @Override
-    public void changeElem(String hotel, T elem) {
+    public void changeElem(HotelId hotel, T elem) {
         service.changeElem(hotel, elem);
     }
 
     @Override
-    public void deleteElem(String hotel, T elem) {
+    public void deleteElem(HotelId hotel, T elem) {
         service.deleteElem(hotel, elem);
     }
 
     @Override
-    public void deleteAll(String hotel) {
+    public void deleteAll(HotelId hotel) {
         service.deleteAll(hotel);
     }
 

@@ -10,17 +10,22 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admin.ejblocator;
+package com.gwthotel.admin.gae.entities;
 
-import javax.inject.Provider;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Parent;
 
-import com.gwthotel.hotel.prices.IHotelPriceElem;
+abstract class EInstanceDictionary extends EDictionary {
 
-public class TestHotelPriceElemProvider implements Provider<IHotelPriceElem> {
+    @Parent
+    private Key<EInstance> instanceId;
 
-    @Override
-    public IHotelPriceElem get() {
-        return AdminEjbLocator.getTestHotelPriceElem();
+    public Key<EInstance> getI() {
+        return instanceId;
+    }
+
+    public void setInstanceId(EInstance i) {
+        instanceId = Key.create(EInstance.class, i.getId());
     }
 
 }

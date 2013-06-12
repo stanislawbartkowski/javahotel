@@ -58,15 +58,11 @@ public class Test5 extends TestHelper {
         setUser();
         String token = iSec.authenticateToken(realM, "user", "wrong", null);
         assertNull(token);
-        CustomSecurity cust = new CustomSecurity();
-        cust.setAttr(IHotelConsts.HOTELNAME, "hotel");
-        ICustomSecurity cu = Holder.getSecurityConvert().construct(cust);
+        ICustomSecurity cu = getSec("hotel");
         token = iSec.authenticateToken(realM, "user", "wrong", cu);
         assertNull(token);
 
-        cust = new CustomSecurity();
-        cust.setAttr(IHotelConsts.HOTELNAME, "hotel");
-        cu = Holder.getSecurityConvert().construct(cust);
+        cu = getSec("hotel");
         token = iSec.authenticateToken(realM, "user", "secret", cu);
         assertNotNull(token);
 
@@ -92,9 +88,7 @@ public class Test5 extends TestHelper {
     @Test
     public void test3() {
         setUser();
-        CustomSecurity cust = new CustomSecurity();
-        cust.setAttr(IHotelConsts.HOTELNAME, "hotel");
-        ICustomSecurity cu = Holder.getSecurityConvert().construct(cust);
+        ICustomSecurity cu = getSec("hotel");
         String token = iSec.authenticateToken(realM, "user", "secret", cu);
         assertNotNull(token);
         iSec.logout(token);

@@ -15,14 +15,23 @@ package com.gwthotel.admin.gae.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Parent;
 
 @Entity
 public class EPermissions {
 
     @Id
     private Long id;
+
+    @Parent
+    private Key<EInstance> instanceId;
+
+    public void setInstanceId(EInstance i) {
+        instanceId = Key.create(EInstance.class, i.getId());
+    }
 
     private List<ElemPerm> eList = new ArrayList<ElemPerm>();
 

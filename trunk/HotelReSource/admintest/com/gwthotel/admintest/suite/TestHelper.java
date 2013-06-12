@@ -39,6 +39,8 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.security.token.ICustomSecurity;
+import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
@@ -78,6 +80,7 @@ public class TestHelper {
     }
 
     protected void createHotels() {
+        iGetI.invalidateCache();
         iAdmin.clearAll(getI());
         String[] hNames = new String[] { HOTEL, HOTEL1 };
         for (String s : hNames) {
@@ -147,6 +150,14 @@ public class TestHelper {
         if (day != d)
             return false;
         return true;
+    }
+
+    protected ICustomSecurity getSec(String hotel) {
+        CustomSecurity cust = new CustomSecurity();
+        cust.setAttr(IHotelConsts.HOTELNAME, hotel);
+        cust.setAttr(IHotelConsts.INSTANCEID, TESTINSTANCE);
+        ICustomSecurity cu = Holder.getSecurityConvert().construct(cust);
+        return cu;
     }
 
 }

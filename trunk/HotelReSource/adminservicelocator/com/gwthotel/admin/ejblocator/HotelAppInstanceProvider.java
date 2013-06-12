@@ -14,13 +14,13 @@ package com.gwthotel.admin.ejblocator;
 
 import javax.inject.Provider;
 
-import com.jythonui.server.storage.registry.ITestStorageRealmRegistry;
+import com.gwthotel.admin.IAppInstanceHotel;
 
-public class TestStorageRealmProvider implements Provider<ITestStorageRealmRegistry> {
+public class HotelAppInstanceProvider implements Provider<IAppInstanceHotel> {
 
     @Override
-    public ITestStorageRealmRegistry get() {
-        return AdminEjbLocator.getTestStorageRealm();
+    public IAppInstanceHotel get() {
+        return AdminEjbLocator.getAppInstanceHotel();
     }
 
 }

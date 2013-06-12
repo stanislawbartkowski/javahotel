@@ -16,24 +16,21 @@ import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.interceptor.Interceptors;
 
-import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.ITestHotelAdmin;
+import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
 
 @Stateless
-@EJB(name = IHotelConsts.TESTHOTELADMINEJBJNDI, beanInterface = ITestHotelAdmin.class)
+@EJB(name = IHotelConsts.HOTELADMININSTANCEEJBJNDI, beanInterface = IAppInstanceHotel.class)
 @Remote
 @Interceptors(value = { GuiceInterceptor.class })
-public class TestHotelAdminEJB extends AbstractHotelAdminEJB implements
-        ITestHotelAdmin {
+public class HotelAdminInstanceEJB extends AbstractHotelAdminInstanceEJB implements IAppInstanceHotel {
 
     @Inject
-    public void injectHotelAdmin(
-            @Named(IHotelConsts.TESTHOTELADMIN) IHotelAdmin injectedHotel) {
-        iHotel = injectedHotel;
+    public void injectHotelAdminInstance(IAppInstanceHotel injectedHotel) {
+        iApp = injectedHotel;
     }
+
 }

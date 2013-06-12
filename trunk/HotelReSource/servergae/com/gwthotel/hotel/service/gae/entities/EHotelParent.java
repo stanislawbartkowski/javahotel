@@ -16,9 +16,10 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Parent;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.admin.gae.entities.EInstance;
 
 abstract class EHotelParent {
-    
+
     @Id
     private Long id;
 
@@ -26,12 +27,12 @@ abstract class EHotelParent {
     private Key<EHotel> hotel;
 
     public void setHotel(EHotel ho) {
-        hotel = Key.create(EHotel.class, ho.getId());
+        Key<EInstance> pa = ho.getI();
+        hotel = Key.create(pa, EHotel.class, ho.getId());
     }
 
     public boolean isHotelSet() {
         return hotel != null;
     }
-
 
 }

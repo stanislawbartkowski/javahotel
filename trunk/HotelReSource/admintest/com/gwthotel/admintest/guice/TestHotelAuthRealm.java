@@ -10,17 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admin.ejblocator;
+package com.gwthotel.admintest.guice;
 
-import javax.inject.Provider;
+import com.gwthotel.auth.HotelAuthRealm;
 
-import com.gwthotel.hotel.services.ITestHotelServices;
+public class TestHotelAuthRealm extends HotelAuthRealm {
 
-public class TestHotelServicesProvider implements Provider<ITestHotelServices> {
-
-    @Override
-    public ITestHotelServices get() {
-        return AdminEjbLocator.getTestHotelServices();
+    public TestHotelAuthRealm() {
+        super();
+        this.setiRes(new HotelAuthResources());
+        this.setiGet(ServiceInjector.getInstanceHotel());
     }
 
 }

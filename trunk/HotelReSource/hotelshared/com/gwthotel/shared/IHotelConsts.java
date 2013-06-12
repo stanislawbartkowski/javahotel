@@ -23,25 +23,12 @@ public interface IHotelConsts {
     String MESSNAMED = "hotelmessnamed";
 
     String HOTELADMINEJBJNDI = "java:global/HotelAdmin";
-    String TESTHOTELADMINEJBJNDI = "java:global/TestHotelAdmin";
+    String HOTELADMININSTANCEEJBJNDI = "java:global/HotelAdminInstance";
     String HOTELSERVICESJNDI = "java:global/HotelServices";
-    String TESTHOTELSERVICESJNDI = "java:global/TestHotelServices";
     String HOTELPRICELISTJNDI = "java:global/HotelPriceList";
-    String TESTHOTELPRICELISTJNDI = "java:global/TestHotelPriceList";
     String HOTELPRICEELEMJNDI = "java:global/HotelPriceElem";
-    String TESTHOTELPRICEELEMJNDI = "java:global/TestHotelPriceElem";
     String HOTELROOMSJNDI = "java:global/HotelRooms";
-    String TESTHOTELROOMSJNDI = "java:global/TestHotelRooms";
     String HOTELCUSTOMERSJNDI = "java:global/HotelCustomers";
-    String TESTHOTELCUSTOMERSJNDI = "java:global/TestHotelCustomers";
-
-    String TESTHOTELADMIN = "testhoteladmin";
-    String TESTFACTORYMANAGER = "testfactorymanager";
-    String TESTHOTELSERVICES = "testhotelservices";
-    String TESTHOTELPRICELIST = "testhotelpricelist";
-    String TESTHOTELPRICEELEM = "testhotelpriceelem";
-    String TESTHOTELROOMS = "testhotelrooms";
-    String TESTHOTELCUSTOMERS = "testhotelcustomers";
 
     String HOTELREALM = "HotelRealm";
 

@@ -23,6 +23,7 @@ import javax.inject.Named;
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.rooms.HotelRoom;
@@ -48,12 +49,8 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
         super(lMess, EHotelRoom.class);
     }
 
-    private EHotel findEHotel(String hotel) {
-        return DictUtil.findEHotel(lMess, hotel);
-    }
-
     @Override
-    public void setRoomServices(String hotel, final String roomName,
+    public void setRoomServices(HotelId hotel, final String roomName,
             List<String> services) {
         final List<EHotelServices> sList = new ArrayList<EHotelServices>();
         final EHotel ho = findEHotel(hotel);
@@ -85,7 +82,7 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     }
 
     @Override
-    public List<HotelServices> getRoomServices(String hotel, String roomName) {
+    public List<HotelServices> getRoomServices(HotelId hotel, String roomName) {
         EHotel ho = findEHotel(hotel);
         List<HotelServices> outList = new ArrayList<HotelServices>();
         List<EHotelRoomServices> li = ofy().load()

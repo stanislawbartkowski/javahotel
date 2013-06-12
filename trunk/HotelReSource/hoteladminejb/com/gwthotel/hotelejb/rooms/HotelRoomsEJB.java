@@ -20,6 +20,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.HotelServices;
@@ -43,13 +44,13 @@ public class HotelRoomsEJB extends AbstractHotelEJB<HotelRoom> implements
     }
 
     @Override
-    public void setRoomServices(String hotel, String roomName,
+    public void setRoomServices(HotelId hotel, String roomName,
             List<String> services) {
         iRooms.setRoomServices(hotel, roomName, services);
     }
 
     @Override
-    public List<HotelServices> getRoomServices(String hotel, String roomName) {
+    public List<HotelServices> getRoomServices(HotelId hotel, String roomName) {
         return iRooms.getRoomServices(hotel, roomName);
     }
 

@@ -22,4 +22,14 @@ public interface IHError {
     String HERROR006 = "H006";
     String HERROR007 = "H007";
     String HERROR008 = "H008";
+    String HERROR009 = "H009";
+    String HERROR010 = "H010";
+    String HERROR011 = "H011";
+    String HERROR012 = "H012";
+    String HERROR013 = "H013";
+    String HERROR014 = "H014";
+    String HERROR015 = "H015";
+    String HERROR016 = "H016";
+    String HERROR017 = "H017";
+    String HERROR018 = "H018";
 }

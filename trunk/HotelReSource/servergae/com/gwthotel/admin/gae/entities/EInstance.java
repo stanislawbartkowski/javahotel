@@ -10,17 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admin.ejblocator;
+package com.gwthotel.admin.gae.entities;
 
-import javax.inject.Provider;
+import com.googlecode.objectify.annotation.Entity;
 
-import com.gwthotel.admin.ITestHotelAdmin;
-
-public class TestHotelAdminProvider implements Provider<ITestHotelAdmin> {
-
-    @Override
-    public ITestHotelAdmin get() {
-        return AdminEjbLocator.getTestHotelAdmin();
-    }
+@Entity
+public class EInstance extends EDictionary {
 
 }
