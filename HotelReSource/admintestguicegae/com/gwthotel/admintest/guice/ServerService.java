@@ -13,8 +13,10 @@
 package com.gwthotel.admintest.guice;
 
 import com.google.inject.Singleton;
+import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.gae.HotelAdminGae;
+import com.gwthotel.admin.gae.HotelInstanceImpl;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
@@ -50,6 +52,9 @@ public class ServerService {
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
                     Singleton.class);
             bind(IHotelAdmin.class).to(HotelAdminGae.class).in(Singleton.class);
+            bind(IAppInstanceHotel.class).to(HotelInstanceImpl.class).in(
+                    Singleton.class);
+
             bind(IStorageRegistryFactory.class)
                     .to(StorageRegistryFactory.class).in(Singleton.class);
             bind(IHotelServices.class).to(HotelServiceImpl.class).in(

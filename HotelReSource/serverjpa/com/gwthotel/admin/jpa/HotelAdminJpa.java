@@ -30,10 +30,12 @@ import com.gwthotel.admin.jpa.entities.EDictEntry;
 import com.gwthotel.admin.jpa.entities.EHotel;
 import com.gwthotel.admin.jpa.entities.EPersonPassword;
 import com.gwthotel.admin.jpa.entities.EPersonRoles;
+import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.shared.JythonUIFatal;
 
 class HotelAdminJpa implements IHotelAdmin {
 
@@ -54,6 +56,12 @@ class HotelAdminJpa implements IHotelAdmin {
         private doTransaction(AppInstanceId i) {
             super(eFactory, lMess);
             this.i = i;
+            if (i.getId() == null) {
+                String mess = lMess.getMess(IHError.HERROR009,
+                        IHMess.INSTANCEIDCANNOTNENULLHERE);
+                log.severe(mess);
+                throw new JythonUIFatal(mess);
+            }
         }
     }
 

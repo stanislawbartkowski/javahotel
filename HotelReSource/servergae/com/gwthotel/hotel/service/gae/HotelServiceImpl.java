@@ -29,18 +29,19 @@ import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 
-public class HotelServiceImpl extends CrudGaeAbstract<HotelServices,EHotelServices> implements IHotelServices {
+public class HotelServiceImpl extends
+        CrudGaeAbstract<HotelServices, EHotelServices> implements
+        IHotelServices {
 
     static {
         ObjectifyService.register(EHotelServices.class);
     }
-    
 
     @Inject
     public HotelServiceImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        super(lMess,EHotelServices.class);
+        super(lMess, EHotelServices.class);
     }
-    
+
     @Override
     protected HotelServices constructProp(EHotelServices e) {
         return DictUtil.toS(e);
@@ -55,25 +56,23 @@ public class HotelServiceImpl extends CrudGaeAbstract<HotelServices,EHotelServic
     protected void toE(EHotelServices e, HotelServices t) {
         e.setVat(t.getAttr(IHotelConsts.VATPROP));
         e.setNoperson(t.getNoPersons());
-        
+
     }
 
     @Override
     protected void beforeDelete(DeleteItem i, EHotel ho, EHotelServices elem) {
         if (elem != null) {
-            i.pList = ofy().load()
-                    .type(EHotelPriceElem.class).ancestor(ho)
+            i.pList = ofy().load().type(EHotelPriceElem.class)
+                    .ancestor(ho)
                     .filter("serviceName == ", elem.getName()).list();
-            i.sList = ofy().load()
-                    .type(EHotelRoomServices.class).ancestor(ho)
-                    .filter("serviceName == ", elem.getName()).list();            
-        }
-        else {
+            i.sList = ofy().load().type(EHotelRoomServices.class)
+                    .ancestor(ho)
+                    .filter("serviceName == ", elem.getName()).list();
+        } else {
             i.readAllPriceElems(ho);
             i.readAllRoomServices(ho);
         }
-        
-    }
 
+    }
 
 }

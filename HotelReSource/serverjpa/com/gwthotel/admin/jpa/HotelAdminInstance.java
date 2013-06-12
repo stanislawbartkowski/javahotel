@@ -24,9 +24,11 @@ import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.jpa.entities.EHotel;
 import com.gwthotel.admin.jpa.entities.EInstance;
+import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.shared.JythonUIFatal;
 
 class HotelAdminInstance implements IAppInstanceHotel {
 
@@ -58,7 +60,7 @@ class HotelAdminInstance implements IAppInstanceHotel {
 
         @Override
         protected void dosth(EntityManager em) {
-            EInstance insta = null; 
+            EInstance insta = null;
             Query q = em.createNamedQuery("findInstanceByName");
             q.setParameter(1, instanceName);
             try {
@@ -77,6 +79,13 @@ class HotelAdminInstance implements IAppInstanceHotel {
                     throw (e);
             }
             id = insta.getId();
+            if (id == null) {
+                String mess = lMess.getMess(IHError.HERROR011,
+                        IHMess.INSTANCEIDCANNOTNENULLHERE);
+                log.severe(mess);
+                throw new JythonUIFatal(mess);
+            }
+
         }
     }
 

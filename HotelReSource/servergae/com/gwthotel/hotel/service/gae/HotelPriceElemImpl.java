@@ -22,6 +22,7 @@ import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.prices.HotelPriceElem;
@@ -43,12 +44,12 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
         this.lMess = lMess;
     }
 
-    private EHotel findEHotel(String hotel) {
+    private EHotel findEHotel(HotelId hotel) {
         return DictUtil.findEHotel(lMess, hotel);
     }
 
     @Override
-    public List<HotelPriceElem> getPricesForPriceList(String hotel,
+    public List<HotelPriceElem> getPricesForPriceList(HotelId hotel,
             String pricelist) {
         EHotel ho = findEHotel(hotel);
         List<EHotelPriceElem> li = ofy().load().type(EHotelPriceElem.class)
@@ -66,7 +67,7 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
     }
 
     @Override
-    public void savePricesForPriceList(String hotel, final String pricelist,
+    public void savePricesForPriceList(final HotelId hotel, final String pricelist,
             final List<HotelPriceElem> pList) {
         final EHotel ho = findEHotel(hotel);
         final List<EHotelPriceElem> li = ofy().load()
@@ -91,7 +92,7 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
     }
 
     @Override
-    public void deleteAll(String hotel) {
+    public void deleteAll(final HotelId hotel) {
         final EHotel ho = findEHotel(hotel);
         ofy().transact(new VoidWork() {
 

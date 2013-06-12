@@ -13,14 +13,16 @@
 package com.gwthotel.admintest.guice;
 
 import com.google.inject.Singleton;
+import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.ejblocator.TestHotelAdminProvider;
-import com.gwthotel.admin.ejblocator.TestHotelCustomersProvider;
-import com.gwthotel.admin.ejblocator.TestHotelPriceElemProvider;
-import com.gwthotel.admin.ejblocator.TestHotelPriceListProvider;
-import com.gwthotel.admin.ejblocator.TestHotelRoomsProvider;
-import com.gwthotel.admin.ejblocator.TestHotelServicesProvider;
-import com.gwthotel.admin.ejblocator.TestStorageRealmProvider;
+import com.gwthotel.admin.ejblocator.HotelAdminProvider;
+import com.gwthotel.admin.ejblocator.HotelAppInstanceProvider;
+import com.gwthotel.admin.ejblocator.HotelCustomersProvider;
+import com.gwthotel.admin.ejblocator.HotelPriceElemProvider;
+import com.gwthotel.admin.ejblocator.HotelPriceListProvider;
+import com.gwthotel.admin.ejblocator.HotelRoomsProvider;
+import com.gwthotel.admin.ejblocator.HotelServicesProvider;
+import com.gwthotel.admin.ejblocator.StorageRealmProvider;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
@@ -53,22 +55,27 @@ public class ServerService {
                     .in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
                     Singleton.class);
-            bind(IHotelAdmin.class).toProvider(TestHotelAdminProvider.class)
-                    .in(Singleton.class);
+            bind(IHotelAdmin.class).toProvider(HotelAdminProvider.class).in(
+                    Singleton.class);
+            bind(IAppInstanceHotel.class).toProvider(
+                    HotelAppInstanceProvider.class).in(Singleton.class);
             bind(IStorageRealmRegistry.class).toProvider(
-                    TestStorageRealmProvider.class).in(Singleton.class);
+                    StorageRealmProvider.class).in(Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
-            bind(IHotelServices.class).toProvider(
-                    TestHotelServicesProvider.class).in(Singleton.class);
-            bind(IHotelPriceList.class).toProvider(
-                    TestHotelPriceListProvider.class).in(Singleton.class);
-            bind(IHotelPriceElem.class).toProvider(
-                    TestHotelPriceElemProvider.class).in(Singleton.class);
-            bind(IHotelRooms.class).toProvider(TestHotelRoomsProvider.class)
+            bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
                     .in(Singleton.class);
-            bind(IHotelCustomers.class).toProvider(
-                    TestHotelCustomersProvider.class).in(Singleton.class);
+            bind(IHotelPriceList.class)
+                    .toProvider(HotelPriceListProvider.class).in(
+                            Singleton.class);
+            bind(IHotelPriceElem.class)
+                    .toProvider(HotelPriceElemProvider.class).in(
+                            Singleton.class);
+            bind(IHotelRooms.class).toProvider(HotelRoomsProvider.class).in(
+                    Singleton.class);
+            bind(IHotelCustomers.class)
+                    .toProvider(HotelCustomersProvider.class).in(
+                            Singleton.class);
             requestStatic();
         }
     }

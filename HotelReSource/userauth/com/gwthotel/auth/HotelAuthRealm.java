@@ -27,7 +27,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 
 import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
-import com.gwthotel.admin.AppInstanceId;
+import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
@@ -37,20 +37,37 @@ import com.jythonui.server.security.token.PasswordSecurityToken;
 public class HotelAuthRealm extends AuthorizingRealm {
 
     private IRealmResources iRes;
-    private final AppInstanceId i;
+    private IGetInstanceHotelId iGet;
 
-    public void setiRes(IRealmResources iRes) {
+    /**
+     * Injected through 'ini' file
+     * 
+     * @param iRes
+     */
+    protected void setiRes(IRealmResources iRes) {
         this.iRes = iRes;
     }
 
-    public HotelAuthRealm(AppInstanceId i) {
+    /**
+     * Injected through 'ini' file
+     * 
+     * @param iGet
+     */
+    protected void setiGet(IGetInstanceHotelId iGet) {
+        this.iGet = iGet;
+    }
+
+    public HotelAuthRealm() {
         super();
-        setName(i.getInstanceName());
-        this.i = i;
+        setName(IHotelConsts.HOTELREALM);
     }
 
     private IHotelAdmin getI() {
         return iRes.getAdmin();
+    }
+
+    private IGetInstanceHotelId getG() {
+        return iGet;
     }
 
     private void throwNotExist(String errMess, String logMess, String person) {
@@ -73,18 +90,21 @@ public class HotelAuthRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken at)
             throws AuthenticationException {
         PasswordSecurityToken token = (PasswordSecurityToken) at;
+        HotelCustom ho = (HotelCustom) token.getiCustom();
+        String instanceId = ho.getInstanceId();
         String person = token.getUsername();
-        String password = getI().getPassword(i, token.getUsername());
+        String password = getI().getPassword(getG().getInstance(instanceId),
+                token.getUsername());
         if (CUtil.EmptyS(password))
             throwNotExist(IHError.HERROR003, IHMess.AUTHUSERDOESNOTEXIST,
                     person);
-        HotelCustom ho = (HotelCustom) token.getiCustom();
         String hotel = ho.getHotelName();
         if (hotel == null) {
             // TODO: not expected, more verbose
             throwNotExist(IHError.HERROR002, IHMess.AUTHHOTELISNULL, person);
         }
-        List<HotelRoles> roles = getI().getListOfRolesForHotel(i, hotel);
+        List<HotelRoles> roles = getI().getListOfRolesForHotel(
+                getG().getInstance(instanceId), hotel);
         List<String> hotelroles = null;
         for (HotelRoles ro : roles) {
             if (ro.getObject().getName().equals(person)) {

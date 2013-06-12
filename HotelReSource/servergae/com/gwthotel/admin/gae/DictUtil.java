@@ -17,8 +17,11 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.logging.Logger;
 
 import com.googlecode.objectify.LoadResult;
+import com.gwthotel.admin.AppInstanceId;
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.entities.EDictionary;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.admin.gae.entities.EInstance;
 import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.mess.IHError;
@@ -52,32 +55,36 @@ public class DictUtil {
         dest.setDescription(sou.getDescription());
     }
 
-    public static EHotel findHotel(String name) {
-        LoadResult<EHotel> p = ofy().load().type(EHotel.class)
-                .filter("name ==", name).first();
-        if (p == null) {
-            return null;
+    public static EHotel findEHotel(IGetLogMess lMess, HotelId hotel) {
+        EInstance eI = findI(lMess, hotel.getInstanceId());
+        LoadResult<EHotel> p = ofy().load().type(EHotel.class).parent(eI)
+                .id(hotel.getId());
+        if (p.now() == null) {
+            String mess = lMess.getMess(IHError.HERROR005,
+                    IHMess.HOTELBYIDNOTFOUND, Long.toString(hotel.getId()));
+            setFailure(mess);
         }
         return p.now();
     }
 
-    public static EHotel findEHotel(IGetLogMess lMess, String hotel) {
-        EHotel ho = DictUtil.findHotel(hotel);
-        if (ho == null) {
-            String mess = lMess.getMess(IHError.HERROR005,
-                    IHMess.HOTELNAMENOTFOUND, hotel);
-            setFailure(mess);
-        }
-        return ho;
-    }
-    
     public static HotelServices toS(EHotelServices e) {
         HotelServices h = new HotelServices();
         h.setAttr(IHotelConsts.VATPROP, e.getVat());
         h.setNoPersons(e.getNoperson());
-        toProp(h,e);
+        toProp(h, e);
         return h;
     }
 
+    public static EInstance findI(IGetLogMess lMess, AppInstanceId i) {
+        LoadResult<EInstance> p = ofy().load().type(EInstance.class)
+                .id(i.getId());
+        if (p == null) {
+            String mess = lMess.getMess(IHError.HERROR014,
+                    IHMess.INSTANCEBYIDCANNOTBEFOUND, Long.toString(i.getId()));
+            setFailure(mess);
+        }
+        return p.now();
+
+    }
 
 }

@@ -10,17 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admin.ejblocator;
+package com.gwthotel.adminejb;
 
-import javax.inject.Provider;
+import com.gwthotel.admin.AppInstanceId;
+import com.gwthotel.admin.HotelId;
+import com.gwthotel.admin.IAppInstanceHotel;
 
-import com.gwthotel.hotel.pricelist.IHotelPriceList;
+public class AbstractHotelAdminInstanceEJB implements IAppInstanceHotel {
 
-public class TestHotelPriceListProvider implements Provider<IHotelPriceList> {
+    protected IAppInstanceHotel iApp;
 
     @Override
-    public IHotelPriceList get() {
-        return AdminEjbLocator.getTestHotelPriceList();
+    public AppInstanceId getInstanceId(String instanceName) {
+        return iApp.getInstanceId(instanceName);
+    }
+
+    @Override
+    public HotelId getHotelId(AppInstanceId instanceId, String hotelName) {
+        return iApp.getHotelId(instanceId, hotelName);
     }
 
 }

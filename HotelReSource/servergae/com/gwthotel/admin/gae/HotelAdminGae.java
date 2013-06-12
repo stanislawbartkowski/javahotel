@@ -18,18 +18,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.VoidWork;
+import com.gwthotel.admin.AppInstanceId;
 import com.gwthotel.admin.Hotel;
 import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.Person;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.admin.gae.entities.EInstance;
 import com.gwthotel.admin.gae.entities.EPermissions;
 import com.gwthotel.admin.gae.entities.EPerson;
 import com.gwthotel.admin.gae.entities.ElemPerm;
+import com.gwthotel.mess.IHError;
+import com.gwthotel.mess.IHMess;
+import com.gwthotel.shared.IHotelConsts;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.shared.JythonUIFatal;
 
 public class HotelAdminGae implements IHotelAdmin {
 
@@ -39,9 +50,30 @@ public class HotelAdminGae implements IHotelAdmin {
         ObjectifyService.register(EPermissions.class);
     }
 
+    private final IGetLogMess lMess;
+    private static final Logger log = Logger.getLogger(HotelAdminGae.class
+            .getName());
+
+    private void severe(String errorC, String messId, String... pars) {
+        String mess = lMess.getMess(errorC, messId, pars);
+        log.severe(mess);
+        throw new JythonUIFatal(mess);
+
+    }
+
+    @Inject
+    public HotelAdminGae(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
+        this.lMess = lMess;
+    }
+
+    private EInstance getI(AppInstanceId i) {
+        return DictUtil.findI(lMess, i);
+    }
+
     @Override
-    public List<Person> getListOfPersons() {
-        List<EPerson> li = ofy().load().type(EPerson.class).list();
+    public List<Person> getListOfPersons(AppInstanceId i) {
+        EInstance ei = getI(i);
+        List<EPerson> li = ofy().load().type(EPerson.class).ancestor(ei).list();
         List<Person> outList = new ArrayList<Person>();
         for (EPerson e : li) {
             Person p = new Person();
@@ -52,8 +84,9 @@ public class HotelAdminGae implements IHotelAdmin {
     }
 
     @Override
-    public List<Hotel> getListOfHotels() {
-        List<EHotel> li = ofy().load().type(EHotel.class).list();
+    public List<Hotel> getListOfHotels(AppInstanceId i) {
+        EInstance ei = getI(i);
+        List<EHotel> li = ofy().load().type(EHotel.class).ancestor(ei).list();
         List<Hotel> outList = new ArrayList<Hotel>();
         for (EHotel e : li) {
             Hotel p = new Hotel();
@@ -63,55 +96,72 @@ public class HotelAdminGae implements IHotelAdmin {
         return outList;
     }
 
-    private EPerson findPerson(String name) {
-        LoadResult<EPerson> p = ofy().load().type(EPerson.class)
+    private EPerson findPerson(EInstance ei, String name, boolean expected) {
+        LoadResult<EPerson> p = ofy().load().type(EPerson.class).ancestor(ei)
                 .filter("name ==", name).first();
-        if (p == null) {
+        if (p.now() == null) {
+            if (expected)
+                severe(IHError.HERROR015,
+                        IHMess.PERSONNAMEISEXPECTEDBUTNOTFOUND, name);
             return null;
         }
-        return p.get();
-
+        return p.now();
     }
 
-    private EPerson findPerson(Long id) {
-        LoadResult<EPerson> e = ofy().load().type(EPerson.class).id(id);
-        if (e == null)
-            return null;
-        return e.get();
-    }
-
-    private EHotel findHotel(String name) {
-        LoadResult<EHotel> p = ofy().load().type(EHotel.class).filter("name ==", name)
-                .first();
-        if (p == null) {
+    private EPerson findPerson(EInstance ei, Long id) {
+        LoadResult<EPerson> e = ofy().load().type(EPerson.class).parent(ei)
+                .id(id);
+        if (e.now() == null) {
+            severe(IHError.HERROR016, IHMess.PERSONIDISEXPECTEDBUTNOTFOUND,
+                    Long.toString(id));
             return null;
         }
-        return p.get();
+        return e.now();
     }
 
-    private EHotel findHotel(Long id) {
-        LoadResult<EHotel> e = ofy().load().type(EHotel.class).id(id);
-        if (e == null)
+    private EHotel findHotel(EInstance ei, String name, boolean expected) {
+        LoadResult<EHotel> p = ofy().load().type(EHotel.class).ancestor(ei)
+                .filter("name ==", name).first();
+        if (p.now() == null) {
+            if (expected)
+                severe(IHError.HERROR017, IHMess.HOTELCANNOTBEFOUND, name);
             return null;
-        return e.get();
+        }
+        return p.now();
     }
 
-    private EPermissions getPerm() {
-        LoadResult<EPermissions> e = ofy().load().type(EPermissions.class).first();
-        if (e == null)
-            return new EPermissions();
-        if (e.get() == null)
-            return new EPermissions();
-        return e.get();
+    private EHotel findHotel(EInstance ei, Long id) {
+        LoadResult<EHotel> e = ofy().load().type(EHotel.class).parent(ei)
+                .id(id);
+        if (e.now() == null) {
+            severe(IHError.HERROR018, IHMess.HOTELBYIDNOTFOUND,
+                    Long.toString(id));
+            return null;
+        }
+        return e.now();
+    }
+
+    private EPermissions getPerm(EInstance ei) {
+        LoadResult<EPermissions> e = ofy().load().type(EPermissions.class)
+                .ancestor(ei).first();
+        EPermissions ee;
+        if (e.now() == null) {
+            ee = new EPermissions();
+            ee.setInstanceId(ei);
+        } else
+            ee = e.now();
+        return ee;
     }
 
     @Override
-    public List<HotelRoles> getListOfRolesForPerson(String person) {
+    public List<HotelRoles> getListOfRolesForPerson(AppInstanceId i,
+            String person) {
+        EInstance ei = getI(i);
         List<HotelRoles> li = new ArrayList<HotelRoles>();
-        EPerson pe = findPerson(person);
+        EPerson pe = findPerson(ei, person, false);
         if (pe == null)
             return null;
-        EPermissions eperm = getPerm();
+        EPermissions eperm = getPerm(ei);
         Map<Long, List<String>> ro = new HashMap<Long, List<String>>();
         for (ElemPerm e : eperm.geteList()) {
             if (!e.getPersonId().equals(pe.getId()))
@@ -124,9 +174,7 @@ public class HotelAdminGae implements IHotelAdmin {
             rol.add(e.getPerm());
         }
         for (Long hId : ro.keySet()) {
-            EHotel eho = findHotel(hId);
-            if (eho == null) // TODO: not expected
-                continue;
+            EHotel eho = findHotel(ei, hId);
             Hotel ho = new Hotel();
             DictUtil.toProp(ho, eho);
             HotelRoles rol = new HotelRoles(ho);
@@ -137,12 +185,13 @@ public class HotelAdminGae implements IHotelAdmin {
     }
 
     @Override
-    public List<HotelRoles> getListOfRolesForHotel(String hotel) {
+    public List<HotelRoles> getListOfRolesForHotel(AppInstanceId i, String hotel) {
+        EInstance ei = getI(i);
         List<HotelRoles> li = new ArrayList<HotelRoles>();
-        EHotel ho = findHotel(hotel);
+        EHotel ho = findHotel(ei, hotel, false);
         if (ho == null)
             return null;
-        EPermissions eperm = getPerm();
+        EPermissions eperm = getPerm(ei);
         Map<Long, List<String>> ro = new HashMap<Long, List<String>>();
         for (ElemPerm e : eperm.geteList()) {
             if (!ho.getId().equals(e.getHotelId()))
@@ -155,9 +204,7 @@ public class HotelAdminGae implements IHotelAdmin {
             rol.add(e.getPerm());
         }
         for (Long hId : ro.keySet()) {
-            EPerson epe = findPerson(hId);
-            if (epe == null) // TODO: not expected
-                continue;
+            EPerson epe = findPerson(ei, hId);
             Person pe = new Person();
             DictUtil.toProp(pe, epe);
             HotelRoles rol = new HotelRoles(pe);
@@ -196,14 +243,17 @@ public class HotelAdminGae implements IHotelAdmin {
             ele.setPerm(s);
             eperm.geteList().add(ele);
         }
-
     }
 
     @Override
-    public void addOrModifHotel(final Hotel hotel, final List<HotelRoles> roles) {
-        EHotel eho = findHotel(hotel.getName());
-        if (eho == null)
+    public void addOrModifHotel(AppInstanceId i, final Hotel hotel,
+            final List<HotelRoles> roles) {
+        EInstance ei = getI(i);
+        EHotel eho = findHotel(ei, hotel.getName(), false);
+        if (eho == null) {
             eho = new EHotel();
+            eho.setInstanceId(ei);
+        }
         final EHotel ho = eho;
         DictUtil.toEDict(ho, hotel);
         final List<Long> personIds = new ArrayList<Long>();
@@ -211,13 +261,11 @@ public class HotelAdminGae implements IHotelAdmin {
 
         for (HotelRoles ro : roles) {
             Person pe = (Person) ro.getObject();
-            EPerson epe = findPerson(pe.getName());
-            if (epe == null)
-                continue; // TODO: not expected
+            EPerson epe = findPerson(getI(i), pe.getName(), true);
             personIds.add(epe.getId());
             aroles.add(ro);
         }
-        final EPermissions eperm = getPerm();
+        final EPermissions eperm = getPerm(ei);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 ofy().save().entity((EHotel) ho).now();
@@ -225,17 +273,20 @@ public class HotelAdminGae implements IHotelAdmin {
                 for (int i = 0; i < personIds.size(); i++) {
                     addroles(eperm, aroles.get(i), ho.getId(), personIds.get(i));
                 }
-                ofy().save().entity((EPermissions) eperm).now();
+                ofy().save().entity(eperm).now();
             }
         });
     }
 
     @Override
-    public void addOrModifPerson(final Person person,
+    public void addOrModifPerson(AppInstanceId i, final Person person,
             final List<HotelRoles> roles) {
-        EPerson epo = findPerson(person.getName());
-        if (epo == null)
+        EInstance ei = getI(i);
+        EPerson epo = findPerson(ei, person.getName(), false);
+        if (epo == null) {
             epo = new EPerson();
+            epo.setInstanceId(ei);
+        }
         final EPerson po = epo;
         DictUtil.toEDict(po, person);
         final List<Long> hotelIds = new ArrayList<Long>();
@@ -243,13 +294,11 @@ public class HotelAdminGae implements IHotelAdmin {
 
         for (HotelRoles ro : roles) {
             Hotel ho = (Hotel) ro.getObject();
-            EHotel eho = findHotel(ho.getName());
-            if (eho == null)
-                continue; // TODO: not expected
+            EHotel eho = findHotel(ei, ho.getName(), true);
             hotelIds.add(eho.getId());
             aroles.add(ro);
         }
-        final EPermissions eperm = getPerm();
+        final EPermissions eperm = getPerm(ei);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 ofy().save().entity((EPerson) po).now();
@@ -264,20 +313,22 @@ public class HotelAdminGae implements IHotelAdmin {
     }
 
     @Override
-    public void changePasswordForPerson(final String person,
+    public void changePasswordForPerson(AppInstanceId i, final String person,
             final String password) {
-        final EPerson epe = findPerson(person);
-        if (epe == null) // TODO: unexpected
+        EInstance ei = getI(i);
+        final EPerson epe = findPerson(ei, person, false);
+        if (epe == null)
             return;
         epe.setPassword(password);
-        // transaction not necessary here, one update only
         ofy().save().entity((EPerson) epe).now();
     }
 
     @Override
-    public boolean validatePasswordForPerson(String person, String password) {
-        EPerson epe = findPerson(person);
-        if (epe == null) // TODO: unexpected
+    public boolean validatePasswordForPerson(AppInstanceId i, String person,
+            String password) {
+        EInstance ei = getI(i);
+        EPerson epe = findPerson(ei, person, false);
+        if (epe == null)
             return false;
         if (epe.getPassword() == null)
             return false;
@@ -285,23 +336,32 @@ public class HotelAdminGae implements IHotelAdmin {
     }
 
     @Override
-    public void clearAll() {
+    public void clearAll(AppInstanceId i) {
+        EInstance ei = getI(i);
+        final List<EHotel> liH = ofy().load().type(EHotel.class).ancestor(ei)
+                .list();
+        final List<EPerson> liP = ofy().load().type(EPerson.class).ancestor(ei)
+                .list();
+        final List<EPermissions> liPe = ofy().load().type(EPermissions.class)
+                .ancestor(ei).list();
+
         ofy().transact(new VoidWork() {
             public void vrun() {
-                ofy().delete().type(EHotel.class);
-                ofy().delete().type(EPerson.class);
-                ofy().delete().type(EPermissions.class);
+                ofy().delete().entities(liH);
+                ofy().delete().entities(liP);
+                ofy().delete().entities(liPe);
             }
         });
 
     }
 
     @Override
-    public void removePerson(final String person) {
-        final EPerson pe = findPerson(person);
-        if (pe == null) // TODO: unexpected
+    public void removePerson(AppInstanceId i, final String person) {
+        EInstance ei = getI(i);
+        final EPerson pe = findPerson(ei, person, false);
+        if (pe == null)
             return;
-        final EPermissions eperm = getPerm();
+        final EPermissions eperm = getPerm(ei);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 removePersonPerm(eperm, pe.getId());
@@ -313,11 +373,12 @@ public class HotelAdminGae implements IHotelAdmin {
     }
 
     @Override
-    public void removeHotel(final String hotel) {
-        final EHotel ho = findHotel(hotel);
-        if (ho == null) // TODO: unexpected
+    public void removeHotel(AppInstanceId i, final String hotel) {
+        EInstance ei = getI(i);
+        final EHotel ho = findHotel(ei, hotel, false);
+        if (ho == null)
             return;
-        final EPermissions eperm = getPerm();
+        final EPermissions eperm = getPerm(ei);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 removeHotelPerm(eperm, ho.getId());
@@ -329,9 +390,10 @@ public class HotelAdminGae implements IHotelAdmin {
     }
 
     @Override
-    public String getPassword(String person) {
-        EPerson epe = findPerson(person);
-        if (epe == null) // TODO: unexpected
+    public String getPassword(AppInstanceId i, String person) {
+        EInstance ei = getI(i);
+        EPerson epe = findPerson(ei, person, false);
+        if (epe == null)
             return null;
         return epe.getPassword();
     }

@@ -108,15 +108,12 @@ class HotelJpaPrices implements IHotelPriceElem {
             EHotelPriceList ePriceList = (EHotelPriceList) q.getSingleResult();
             // do not catch exception, one element is expected
 
-            q = em.createNamedQuery("findPricesForPriceList");
+            // remove all price elems
+            q = em.createNamedQuery("deletePricesForHotelAndPriceList");
             q.setParameter(1, hotel.getId());
-            q.setParameter(2, priceList);
-            List<EHotelPriceElem> list = q.getResultList();
-            for (EHotelPriceElem p : list) {
-                EHotelServices e = p.getService();
-                mService.put(e.getName(), e);
-                eList.add(p);
-            }
+            q.setParameter(2, ePriceList);
+            q.executeUpdate();
+
             // now analize elems
             for (HotelPriceElem e : pList) {
                 String service = e.getService();
@@ -128,21 +125,10 @@ class HotelJpaPrices implements IHotelPriceElem {
                     eS = (EHotelServices) q.getSingleResult();
                     // do not catch exception, single result is expected
                 }
-                EHotelPriceElem eElem = null;
-                for (EHotelPriceElem eP : eList) {
-                    if (!eP.getPricelist().getName().equals(priceList))
-                        continue;
-                    if (!eP.getService().getName().equals(e.getService()))
-                        continue;
-                    eElem = eP;
-                    break;
-                }
-                if (eElem == null) {
-                    eElem = new EHotelPriceElem();
-                    eElem.setHotel(hotel.getId());
-                    eElem.setPricelist(ePriceList);
-                    eElem.setService(eS);
-                }
+                EHotelPriceElem eElem = new EHotelPriceElem();
+                eElem.setHotel(hotel.getId());
+                eElem.setPricelist(ePriceList);
+                eElem.setService(eS);
                 eElem.setWeekendprice(e.getWeekendPrice());
                 eElem.setWorkingprice(e.getWorkingPrice());
                 em.persist(eElem);

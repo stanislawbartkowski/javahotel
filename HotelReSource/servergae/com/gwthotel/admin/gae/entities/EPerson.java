@@ -15,7 +15,7 @@ package com.gwthotel.admin.gae.entities;
 import com.googlecode.objectify.annotation.Entity;
 
 @Entity
-public class EPerson extends EDictionary {
+public class EPerson extends EInstanceDictionary {
 
     private String password;
 

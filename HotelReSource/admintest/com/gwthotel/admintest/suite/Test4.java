@@ -29,19 +29,14 @@ import org.junit.Test;
 import com.gwthotel.admin.Hotel;
 import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.Person;
-import com.gwthotel.shared.IHotelConsts;
-import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.server.security.token.PasswordSecurityToken;
-import com.jythonui.shared.CustomSecurity;
 
 public class Test4 extends TestHelper {
 
     private PasswordSecurityToken construct(String person, String password,
             String hotel) {
-        CustomSecurity cust = new CustomSecurity();
-        cust.setAttr(IHotelConsts.HOTELNAME, hotel);
-        ICustomSecurity cu = Holder.getSecurityConvert().construct(cust);
+        ICustomSecurity cu = getSec(hotel);
         PasswordSecurityToken tok = new PasswordSecurityToken(person, password,
                 cu);
         return tok;
@@ -73,7 +68,7 @@ public class Test4 extends TestHelper {
         ho.setName("hotel");
         ho.setDescription("Grzyb");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifHotel(getI(),ho, roles);
+        iAdmin.addOrModifHotel(getI(), ho, roles);
         try {
             currentUser.login(token);
             fail("Not expected here");
@@ -87,7 +82,7 @@ public class Test4 extends TestHelper {
         HotelRoles role = new HotelRoles(pe);
         role.getRoles().add("man");
         roles.add(role);
-        iAdmin.addOrModifHotel(getI(),ho, roles);
+        iAdmin.addOrModifHotel(getI(), ho, roles);
         currentUser.login(token);
         System.out.println("Welcome ..");
         assertTrue("Man role expected", currentUser.hasRole("man"));
@@ -102,10 +97,10 @@ public class Test4 extends TestHelper {
         pe.setName("user");
         pe.setDescription("user name");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifPerson(getI(),pe, roles);
-        assertFalse(iAdmin.validatePasswordForPerson(getI(),"user", "secret"));
-        iAdmin.changePasswordForPerson(getI(),"user", "secret");
-        assertEquals("secret", iAdmin.getPassword(getI(),"user"));
+        iAdmin.addOrModifPerson(getI(), pe, roles);
+        assertFalse(iAdmin.validatePasswordForPerson(getI(), "user", "secret"));
+        iAdmin.changePasswordForPerson(getI(), "user", "secret");
+        assertEquals("secret", iAdmin.getPassword(getI(), "user"));
         testShiro();
     }
 
@@ -130,8 +125,8 @@ public class Test4 extends TestHelper {
         pe.setName("user");
         pe.setDescription("user name");
         List<HotelRoles> roles = new ArrayList<HotelRoles>();
-        iAdmin.addOrModifPerson(getI(),pe, roles);
-        iAdmin.changePasswordForPerson(getI(),"user", "secret");
+        iAdmin.addOrModifPerson(getI(), pe, roles);
+        iAdmin.changePasswordForPerson(getI(), "user", "secret");
         Hotel ho = new Hotel();
 
         ho.setName("hotel");
@@ -143,7 +138,7 @@ public class Test4 extends TestHelper {
         rol.getRoles().add("mana");
         rol.getRoles().add("acc");
         roles.add(rol);
-        iAdmin.addOrModifHotel(getI(),ho, roles);
+        iAdmin.addOrModifHotel(getI(), ho, roles);
         testShiro1();
 
     }

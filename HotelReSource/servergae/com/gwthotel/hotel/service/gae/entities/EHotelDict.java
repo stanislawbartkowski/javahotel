@@ -16,6 +16,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Parent;
 import com.gwthotel.admin.gae.entities.EDictionary;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.admin.gae.entities.EInstance;
 
 public abstract class EHotelDict extends EDictionary {
 
@@ -23,7 +24,8 @@ public abstract class EHotelDict extends EDictionary {
     private Key<EHotel> hotel;
 
     public void setHotel(EHotel ho) {
-        hotel = Key.create(EHotel.class, ho.getId());
+        Key<EInstance> pa = ho.getI();
+        hotel = Key.create(pa, EHotel.class, ho.getId());
     }
 
     public boolean isHotelSet() {

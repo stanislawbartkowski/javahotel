@@ -18,6 +18,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gwthotel.hotel.services.HotelServices;
@@ -25,7 +27,8 @@ import com.gwthotel.shared.IHotelConsts;
 
 public class Test6 extends TestHelper {
 
-    private void resetHotel() {
+    @Before
+    public void resetHotel() {
         createHotels();
         iServices.deleteAll(getH(HOTEL));
         iServices.deleteAll(getH(HOTEL1));
@@ -34,7 +37,6 @@ public class Test6 extends TestHelper {
 
     @Test
     public void test1() {
-        resetHotel();
         HotelServices ho = new HotelServices();
         ho.setName("1p1");
         ho.setDescription("One person in one person room");
@@ -68,7 +70,6 @@ public class Test6 extends TestHelper {
 
     @Test
     public void test2() {
-        resetHotel();
         addList(HOTEL, 100);
         addList(HOTEL1, 90);
         List<HotelServices> hList = iServices.getList(getH(HOTEL));
@@ -91,7 +92,6 @@ public class Test6 extends TestHelper {
 
     @Test
     public void test3() {
-        resetHotel();
         addList(HOTEL, 100);
         addList(HOTEL1, 90);
         List<HotelServices> hList = iServices.getList(getH(HOTEL1));
@@ -109,7 +109,6 @@ public class Test6 extends TestHelper {
 
     @Test
     public void test4() {
-        resetHotel();
         addList(HOTEL, 100);
         addList(HOTEL1, 90);
         iServices.deleteAll(getH(HOTEL));

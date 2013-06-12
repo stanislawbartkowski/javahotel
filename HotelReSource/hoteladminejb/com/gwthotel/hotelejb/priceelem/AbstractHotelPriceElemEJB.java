@@ -14,6 +14,7 @@ package com.gwthotel.hotelejb.priceelem;
 
 import java.util.List;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 
@@ -22,20 +23,20 @@ abstract class AbstractHotelPriceElemEJB implements IHotelPriceElem {
     protected IHotelPriceElem service;
 
     @Override
-    public List<HotelPriceElem> getPricesForPriceList(String hotel,
+    public List<HotelPriceElem> getPricesForPriceList(HotelId hotel,
             String pricelist) {
         return service.getPricesForPriceList(hotel, pricelist);
     }
 
     @Override
-    public void savePricesForPriceList(String hotel, String pricelist,
+    public void savePricesForPriceList(HotelId hotel, String pricelist,
             List<HotelPriceElem> pList) {
         service.savePricesForPriceList(hotel, pricelist, pList);
 
     }
 
     @Override
-    public void deleteAll(String hotel) {
+    public void deleteAll(HotelId hotel) {
         service.deleteAll(hotel);
 
     }

@@ -13,40 +13,54 @@
 package com.gwthotel.hotel.getid;
 
 import java.io.InvalidClassException;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.gwthotel.admin.AppInstanceId;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
+import com.gwthotel.mess.IHError;
+import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.shared.JythonUIFatal;
 
 public class GetInstanceHotelId implements IGetInstanceHotelId {
 
     private final IAppInstanceHotel iApp;
     private final ICommonCache iCache;
+    private final IGetLogMess lMess;
+
+    static final private Logger log = Logger.getLogger(GetInstanceHotelId.class
+            .getName());
 
     @Inject
     public GetInstanceHotelId(IAppInstanceHotel iApp,
-            ICommonCacheFactory cFactory) {
+            ICommonCacheFactory cFactory,
+            @Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
         this.iApp = iApp;
         iCache = cFactory.construct(IHotelConsts.CACHEREALMHOTELINSTANCE);
+        this.lMess = lMess;
     }
 
     @Override
     public AppInstanceId getInstance(String instanceName) {
         Object o = null;
-        try {
-            o = iCache.get(instanceName);
-        } catch (InvalidClassException e) {
-            iCache.remove(instanceName);
-        }
+        o = iCache.get(instanceName);
         if (o != null)
             return (AppInstanceId) o;
         AppInstanceId a = iApp.getInstanceId(instanceName);
+        if (a.getId() == null) {
+            String mess = lMess.getMess(IHError.HERROR010,
+                    IHMess.INSTANCEIDCANNOTNENULLHERE);
+            log.severe(mess);
+            throw new JythonUIFatal(mess);
+        }
         iCache.put(instanceName, a);
         return a;
     }
@@ -55,17 +69,19 @@ public class GetInstanceHotelId implements IGetInstanceHotelId {
     public HotelId getHotel(String instanceName, String hotelName) {
         String key = instanceName + " " + hotelName;
         Object o = null;
-        try {
-            o = iCache.get(instanceName);
-        } catch (InvalidClassException e) {
-            iCache.remove(instanceName);
-        }
+        o = iCache.get(key);
         if (o != null)
             return (HotelId) o;
         AppInstanceId a = getInstance(instanceName);
         HotelId h = iApp.getHotelId(a, hotelName);
         iCache.put(key, h);
         return h;
+    }
+
+    @Override
+    public void invalidateCache() {
+        iCache.invalidate();
+
     }
 
 }
