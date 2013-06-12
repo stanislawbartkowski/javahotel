@@ -12,6 +12,8 @@
  */
 package com.gwtmodel.commoncache;
 
+import java.io.InvalidClassException;
+
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
@@ -22,10 +24,8 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 class GaeCache implements ICommonCache {
 
     private final MemcacheService cache;
-    private final String nameSpace;
 
     GaeCache(String nameSpace) {
-        this.nameSpace = nameSpace;
         cache = MemcacheServiceFactory.getMemcacheService(nameSpace);
     }
 
@@ -42,6 +42,12 @@ class GaeCache implements ICommonCache {
     @Override
     public void remove(String key) {
         cache.delete(key);
+    }
+
+    @Override
+    public void invalidate() {
+        cache.clearAll();
+
     }
 
 }
