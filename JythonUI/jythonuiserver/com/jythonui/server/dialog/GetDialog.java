@@ -104,8 +104,8 @@ public class GetDialog {
         return s;
     }
 
-    public static DialogFormat getDialog(IJythonUIServerProperties p, MCached mCached,
-            String token, String dialogName, boolean verify) {
+    public static DialogFormat getDialog(IJythonUIServerProperties p,
+            MCached mCached, String token, String dialogName, boolean verify) {
         DialogFormat d;
         if (Holder.isAuth() && CUtil.EmptyS(token)) {
             log.severe(Holder.getM().getMess(IErrorCode.ERRORCODE8,
@@ -113,16 +113,9 @@ public class GetDialog {
             return null;
         }
         if (mCached.isCached()) {
-            try {
-                d = (DialogFormat) mCached.getC().get(dialogName);
-                if (d != null) {
-                    return d;
-                }
-                // this exception is expected if there is a cache entry
-                // containing value from the previous version. In this case
-                // simply remove the entry.
-            } catch (InvalidClassException e) {
-                mCached.getC().remove(dialogName);
+            d = (DialogFormat) mCached.getC().get(dialogName);
+            if (d != null) {
+                return d;
             }
         }
         d = getDialogDirectly(p, mCached, dialogName, verify);

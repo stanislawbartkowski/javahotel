@@ -12,10 +12,8 @@
  */
 package com.jythonui.server.registry.object;
 
-import java.util.logging.Logger;
-
 import com.gwtmodel.commoncache.ICommonCache;
-import com.jythonui.server.Util;
+import com.jython.ui.shared.UObjects;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.registry.IStorageRegistry;
 
@@ -32,12 +30,12 @@ class ObjectRegistry implements ICommonCache {
     @Override
     public Object get(String key) {
         byte[] value = iRegistry.getEntry(key);
-        return Util.get(value, key, gMess);
+        return UObjects.get(value, key, gMess);
     }
 
     @Override
     public void put(String key, Object o) {
-        byte[] val = Util.put(o, key, gMess);
+        byte[] val = UObjects.put(o, key, gMess);
         if (val == null)
             return;
         iRegistry.putEntry(key, val);
@@ -47,6 +45,11 @@ class ObjectRegistry implements ICommonCache {
     public void remove(String key) {
         iRegistry.removeEntry(key);
 
+    }
+
+    @Override
+    public void invalidate() {
+        // TODO: implement        
     }
 
 }

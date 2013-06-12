@@ -47,7 +47,7 @@ public class SecurityPersistentStorageProvider implements
         }
 
         @Override
-        public Object get(String key) throws InvalidClassException {
+        public Object get(String key) {
             return iCache.get(key);
         }
 
@@ -60,6 +60,12 @@ public class SecurityPersistentStorageProvider implements
         @Override
         public void remove(String key) {
             iCache.remove(key);
+
+        }
+
+        @Override
+        public void invalidate() {
+            iCache.invalidate();
 
         }
 
