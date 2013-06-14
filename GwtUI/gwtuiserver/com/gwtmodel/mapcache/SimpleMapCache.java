@@ -42,4 +42,10 @@ class SimpleMapCache implements ICommonCache {
 
     }
 
+    @Override
+    public void invalidate() {
+        cMap.clear();
+
+    }
+
 }
