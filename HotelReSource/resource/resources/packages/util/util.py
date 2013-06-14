@@ -11,6 +11,51 @@ class MESS :
   def __call__(self,key) :
       return self.M.getMessN(key)
   
+class HotelAdmin :
+    
+    def __init__(self,var) :
+      self.adminI = H.getHotelAdmin()
+      self.app = getAppId(var)
+      
+    def getListOfPersons(self) :
+      return self.adminI.getListOfPersons(self.app)
+
+    def getListOfHotels(self) :
+      return self.adminI.getListOfHotels(self.app)
+
+    def getListOfRolesForPerson(self,person):
+      return self.adminI.getListOfRolesForPerson(self.app,person)
+  
+    def getListOfRolesForHotel(self,hotel):
+      return self.adminI.getListOfRolesForHotel(self.app,hotel)
+  
+    def addOrModifHotel(self,hotel,roles):
+      self.adminI.addOrModifHotel(self.app,hotel,roles)
+      H.invalidateHotelCache()   
+
+    def addOrModifPerson(self,person,roles):
+      self.adminI.addOrModifPerson(self.app,person,roles)  
+
+
+    def changePasswordForPerson(self,person,password):
+      self.adminI.changePasswordForPerson(self.app,person,password)  
+
+    def validatePasswordForPerson(self,person,password):
+        return self.adminI.validatePasswordForPerson(self.app,person,password)        
+
+    def getPassword(self,person):
+        return self.adminI.getPassword(self.app,person)
+
+    def clearAll(self):
+        self.adminI.clearAll(self.app)
+
+    def removePerson(self,person):
+        self.adminI.removePerson(self.app,person)
+        
+    def removeHotel(self,hotel):
+        self.adminI.removeHotel(self.app,hotel)
+        H.invalidateHotelCache()         
+  
 class SERVICES :
     def __init__(self,var):
         self.serviceS = H.getHotelServices()
@@ -77,6 +122,10 @@ def createArrayList() :
 def getHotelName(var):
     token = var["SECURITY_TOKEN"]
     return H.getHotelName(token)
+
+def getAppId(var):
+    token = var["SECURITY_TOKEN"]
+    return H.getInstanceId(token)
 
 def copyNameDescr(desc,var):
     desc.setName(var["name"])

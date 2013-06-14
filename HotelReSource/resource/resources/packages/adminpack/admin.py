@@ -7,18 +7,18 @@ from util.util import printvar
 from util.util import createArrayList
 from util.util import findElemInSeq
 from util.util import createSeq
+from util.util import HotelAdmin
 
-adminI = H.getHotelAdmin()
 M = MESS()
 
-def __existHotelPerson(pname,hotel):
+def __existHotelPerson(adminI,pname,hotel):
     if hotel : seq = adminI.getListOfHotels()
     else : seq = adminI.getListOfPersons()
     return findElemInSeq(pname,seq) != None    
     
-def __duplicatedHotelPersonName(var,hotel): 
+def __duplicatedHotelPersonName(adminI,var,hotel): 
     name = var["name"]
-    if __existHotelPerson(name,hotel) :
+    if __existHotelPerson(adminI,name,hotel) :
       if hotel : var["JERROR_name"] = M("DUPLICATEDHOTELNAME")
       else : var["JERROR_name"] = M("DUPLICATEDPERSONNAME")
       return True
@@ -33,7 +33,7 @@ def __createHotelPerson(var,hotel):
     ho.setDescription(descr)
     return ho            
 
-def __readList(var,hotel):
+def __readList(adminI,var,hotel):
     
     if hotel : seq = adminI.getListOfHotels()
     else : seq = adminI.getListOfPersons()
@@ -48,7 +48,7 @@ def __readList(var,hotel):
     var["JLIST_MAP"] = map
     
     
-def __preparePermissionForHotel(var, hotel):
+def __preparePermissionForHotel(adminI,var, hotel):
     if hotel : seq = adminI.getListOfPersons()
     else : seq = adminI.getListOfHotels()
     if len(seq) == 0 : return
@@ -56,7 +56,7 @@ def __preparePermissionForHotel(var, hotel):
     map = {"lines" : createSeq(seq,True), "columns" : createSeq(rolesdef,False)}
     var["JCHECK_MAP"] = { "perm" : map}
     
-def __getValuesForPermission(var,hotel):
+def __getValuesForPermission(adminI,var,hotel):
     if not var.has_key("JCHECK_MAP") : return
     name = var["name"]
     if name == "" : return
@@ -90,32 +90,34 @@ def __prepareValuesForPermission(var,hotel):
 def hotelaction(action,var) :
 
   printvar("hotelaction", action,var)
-
+  adminI = HotelAdmin(var)
+  
   if action == "before" or action == "crud_readlist" :
-      __readList(var,True)
+      __readList(adminI,var,True)
             
       
 def hotelelemaction(action,var):
 
   printvar("hotelelemaction",action,var)  
+  adminI = HotelAdmin(var)
       
   if action == "before" :
-    __preparePermissionForHotel(var,True)
+    __preparePermissionForHotel(adminI,var,True)
     if var["JCRUD_DIALOG"] != "crud_add" :
-       __getValuesForPermission(var,True)
+       __getValuesForPermission(adminI,var,True)
     if var["JCRUD_DIALOG"] == "crud_remove" :
        var["JSETATTR_CHECKLIST_perm_readonly"] = True  
        var["JVALATTR_CHECKLIST_perm_readonly"] = ""       
   
  
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
-      if __duplicatedHotelPersonName(var,True) : return
+      if __duplicatedHotelPersonName(adminI,var,True) : return
       var["JYESNO_MESSAGE"] = M("ADDNEWHOTELASK");
       var["JMESSAGE_TITLE"] = ""  
       return
       
   if action == "crud_add"  and var["JCRUD_AFTERCONF"] :
-      if __duplicatedHotelPersonName(var,True) : return
+      if __duplicatedHotelPersonName(adminI,var,True) : return
       ho = __createHotelPerson(var,True)
       adminI.addOrModifHotel(ho,__prepareValuesForPermission(var,True))
       var["JCLOSE_DIALOG"] = True
@@ -145,9 +147,10 @@ def hotelelemaction(action,var):
 def useraction(action,var) :
 
   printvar ("useraction", action, var)
+  adminI = HotelAdmin(var)
     
   if action == "before" or action == "crud_readlist" :
-      __readList(var,False)
+      __readList(adminI,var,False)
       
   if action == "changepassword" :
       var['JUP_DIALOG'] = 'admin/changepassword.xml'
@@ -156,24 +159,25 @@ def useraction(action,var) :
 def userelemaction(action,var) :
 
   printvar ("userelemaction", action,var)
+  adminI = HotelAdmin(var)
     
   if action == "before" :
-    __preparePermissionForHotel(var,False)
+    __preparePermissionForHotel(adminI,var,False)
     if var["JCRUD_DIALOG"] != "crud_add" :
-       __getValuesForPermission(var,False)
+       __getValuesForPermission(adminI,var,False)
     if var["JCRUD_DIALOG"] == "crud_remove" :
        var["JSETATTR_CHECKLIST_perm_readonly"] = True
        var["JVALATTR_CHECKLIST_perm_readonly"] = ""       
        return
 
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
-      if __duplicatedHotelPersonName(var,False) : return
+      if __duplicatedHotelPersonName(adminI,var,False) : return
       var["JYESNO_MESSAGE"] = M("ADDNEPERSONASK")
       var["JMESSAGE_TITLE"] = ""  
       return
       
   if action == "crud_add"  and var["JCRUD_AFTERCONF"] :
-      if __duplicatedHotelPersonName(var,False) : return
+      if __duplicatedHotelPersonName(adminI,var,False) : return
       pe = __createHotelPerson(var,False)
       adminI.addOrModifPerson(pe,__prepareValuesForPermission(var,False))
       var["JCLOSE_DIALOG"] = True

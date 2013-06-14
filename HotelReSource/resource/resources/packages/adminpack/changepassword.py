@@ -1,13 +1,14 @@
 from com.gwthotel.hotel.server.service import H
 from util.util import MESS
 from util.util import printvar
+from util.util import HotelAdmin
 
-adminI = H.getHotelAdmin()
 M = MESS()
 
 def changeaction(action,var):
 
   printvar("changeaction",action,var) 
+  adminI = HotelAdmin(var)
   
   if action == "changepassword" :
       if not var['JYESANSWER'] : return

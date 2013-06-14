@@ -1,11 +1,20 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
+<before />
+		
+<jython>
+	<import>from hotelpack import start</import>
+	<method>start.startaction({0},{1})</method>
+</jython>
+
+
 <leftmenu>
 <button id="services" displayname="@services" actiontype="JMAIN_DIALOG" actionparam="hotel/services.xml"/>
 <button id="pricelist" displayname="@pricelist" actiontype="JMAIN_DIALOG" actionparam="hotel/pricelist.xml"/>
 <button id="roomlist" displayname="@lofrooms" actiontype="JMAIN_DIALOG" actionparam="hotel/roomslist.xml"/>
 <button id="customerlist" displayname="@lofcustomer" actiontype="JMAIN_DIALOG" actionparam="hotel/customerlist.xml"/>
+<button id="reservation" displayname="Reservation" actiontype="JMAIN_DIALOG" actionparam="hotel/reservation/reservation.xml"/>
 </leftmenu>
 
 </dialog>

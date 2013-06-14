@@ -15,9 +15,12 @@ package com.gwthotel.hotel.server.service;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.gwthotel.admin.AppInstanceId;
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
@@ -67,6 +70,9 @@ public class H {
     @Inject
     private static IHotelCustomers iCustomers;
 
+    @Inject
+    private static IGetInstanceHotelId iGet;
+
     public static IGetLogMess getL() {
         return lMess;
     }
@@ -91,8 +97,12 @@ public class H {
         return iTaxes;
     }
 
-    public static String getHotelName(String token) {
+    public static HotelId getHotelName(String token) {
         return iGetHotelName.getHotel(token);
+    }
+
+    public static AppInstanceId getInstanceId(String token) {
+        return iGetHotelName.getInstance(token);
     }
 
     public static IHotelPriceList getHotelPriceList() {
@@ -109,6 +119,10 @@ public class H {
 
     public static IHotelCustomers getHotelCustomers() {
         return iCustomers;
+    }
+
+    public static void invalidateHotelCache() {
+        iGet.invalidateCache();
     }
 
 }
