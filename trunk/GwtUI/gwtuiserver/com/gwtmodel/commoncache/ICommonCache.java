@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.commoncache;
 
-import java.io.InvalidClassException;
 
 
 /**
@@ -21,10 +20,12 @@ import java.io.InvalidClassException;
  */
 public interface ICommonCache {
 
-    Object get(String key) throws InvalidClassException;
+    Object get(String key);
 
     void put(String key, Object o);
 
     void remove(String key);
+    
+    void invalidate();
 
 }
