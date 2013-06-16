@@ -15,7 +15,6 @@ package guice;
 import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Singleton;
-import com.google.inject.name.Names;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.gwtmodel.testenhancer.ITestEnhancer;
@@ -23,7 +22,8 @@ import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jython.ui.ServerProperties;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryProvider;
-import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jython.ui.server.jpatrans.JpaTransactionContextFactoryProvider;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -33,6 +33,8 @@ import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
+import com.jythonui.server.storage.seqimpl.SequenceRealmGenProvider;
 
 /**
  * @author hotel
@@ -48,11 +50,6 @@ public class ServerService {
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
             bind(ITestEnhancer.class).to(TestEnhancer.class);
-            bind(EntityManagerFactory.class)
-                    .annotatedWith(
-                            Names.named(ISharedConsts.STORAGEREGISTRYENTITYMANAGERFACTORY))
-                    .toProvider(EntityManagerFactoryProvider.class)
-                    .in(Singleton.class);
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
@@ -64,6 +61,11 @@ public class ServerService {
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
+                    Singleton.class);
+            bind(ISequenceRealmGen.class).toProvider(
+                    SequenceRealmGenProvider.class).in(Singleton.class);
+            bind(ITransactionContextFactory.class).toProvider(
+                    JpaTransactionContextFactoryProvider.class).in(
                     Singleton.class);
             requestStatic();
         }
