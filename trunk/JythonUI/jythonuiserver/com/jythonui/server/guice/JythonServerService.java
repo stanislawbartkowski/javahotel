@@ -16,6 +16,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
@@ -67,7 +68,7 @@ public class JythonServerService {
             bind(IAppMess.class).annotatedWith(Names.named(IConsts.APPMESS))
                     .to(Mess.class).in(Singleton.class);
             bind(IGetLogMess.class)
-                    .annotatedWith(Names.named(IConsts.JYTHONMESSSERVER))
+                    .annotatedWith(Names.named(ISharedConsts.JYTHONMESSSERVER))
                     .toProvider(MessProvider.class).in(Singleton.class);
             bind(IJythonClientRes.class).to(GetClientProperties.class).in(
                     Singleton.class);

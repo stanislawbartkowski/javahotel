@@ -16,6 +16,7 @@ import java.net.URL;
 
 import javax.inject.Inject;
 
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.JythonUiServerProvider;
@@ -35,7 +36,7 @@ public class ServerProperties implements IJythonUIServerProperties {
 
     private String getResource(String dir) {
         URL u = JythonUiServerProvider.class.getClassLoader().getResource(
-                IConsts.RESOURCES + "/" + dir);
+                ISharedConsts.RESOURCES + "/" + dir);
         if (u == null)
             return null;
         return u.getPath();
