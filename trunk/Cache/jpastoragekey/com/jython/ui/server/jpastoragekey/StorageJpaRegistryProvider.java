@@ -13,22 +13,19 @@
 package com.jython.ui.server.jpastoragekey;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Provider;
-import javax.persistence.EntityManagerFactory;
 
-import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 public class StorageJpaRegistryProvider implements Provider<IStorageRealmRegistry> {
 
     @Inject
-    @Named(ISharedConsts.STORAGEREGISTRYENTITYMANAGERFACTORY) 
-    private EntityManagerFactory factory;
+    private ITransactionContextFactory iC;
     
     @Override
     public IStorageRealmRegistry get() {
-        return new StorageJpaRegistry(factory);
+        return new StorageJpaRegistry(iC);
     }
 
 }

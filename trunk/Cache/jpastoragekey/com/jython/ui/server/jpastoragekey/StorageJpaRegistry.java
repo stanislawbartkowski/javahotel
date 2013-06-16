@@ -13,58 +13,72 @@
 package com.jython.ui.server.jpastoragekey;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.jython.ui.server.jpastoragekey.entity.RegistryEntry;
+import com.jython.ui.server.jpatrans.ITransactionContext;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jython.ui.server.jpatrans.JpaTransaction;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 class StorageJpaRegistry implements IStorageRealmRegistry {
 
-    private final EntityManagerFactory factory;
+    private final ITransactionContextFactory eFactory;
 
-    StorageJpaRegistry(EntityManagerFactory factory) {
-        this.factory = factory;
+    StorageJpaRegistry(ITransactionContextFactory eFactory) {
+        this.eFactory = eFactory;
     }
 
-    private abstract class doTransaction {
+    private abstract class doTransaction extends JpaTransaction {
 
-        abstract void dosth(EntityManager em);
+        doTransaction() {
+            super(eFactory);
+        }
 
-        void executeTran() {
-            EntityManager em = factory.createEntityManager();
-            em.getTransaction().begin();
-            boolean commited = false;
-            try {
-                dosth(em);
-                em.getTransaction().commit();
-                commited = true;
-            } finally {
-                if (!commited)
-                    em.getTransaction().rollback();
-                em.close();
-            }
+    }
+
+    private RegistryEntry getE(EntityManager em, String realM, String key) {
+        Query q = em.createNamedQuery("findRegistryEntry");
+        q.setParameter(1, realM);
+        q.setParameter(2, key);
+        try {
+            RegistryEntry e = (RegistryEntry) q.getSingleResult();
+            if (e == null)
+                return null;
+            return e;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    private class GetEntry extends doTransaction {
+
+        private final String realm;
+        private final String key;
+        byte[] res;
+
+        GetEntry(String realm, String key) {
+            this.realm = realm;
+            this.key = key;
+        }
+
+        @Override
+        protected void dosth(EntityManager em) {
+            RegistryEntry r = getE(em, realm, key);
+            if (r == null)
+                res = null;
+            else
+                res = r.getValue();
         }
 
     }
 
     @Override
     public byte[] getEntry(String realm, String key) {
-        EntityManager em = factory.createEntityManager();
-        Query q = em.createNamedQuery("findRegistryEntry");
-        q.setParameter(1, realm);
-        q.setParameter(2, key);
-        try {
-            RegistryEntry e = (RegistryEntry) q.getSingleResult();
-            if (e == null)
-                return null;
-            return e.getValue();
-        } catch (NoResultException e) {
-            return null;
-        } finally {
-            em.close();
-        }
+        GetEntry comma = new GetEntry(realm, key);
+        comma.executeTran();
+        return comma.res;
     }
 
     private class Put extends doTransaction {
@@ -80,10 +94,13 @@ class StorageJpaRegistry implements IStorageRealmRegistry {
         }
 
         @Override
-        void dosth(EntityManager em) {
-            RegistryEntry e = new RegistryEntry();
-            e.setRegistryRealm(realm);
-            e.setRegistryEntry(key);
+        public void dosth(EntityManager em) {
+            RegistryEntry e = getE(em, realm, key);
+            if (e == null) {
+                e = new RegistryEntry();
+                e.setRegistryRealm(realm);
+                e.setRegistryEntry(key);
+            }
             e.setValue(value);
             em.persist(e);
         }
@@ -107,17 +124,11 @@ class StorageJpaRegistry implements IStorageRealmRegistry {
         }
 
         @Override
-        void dosth(EntityManager em) {
-            Query q = em.createNamedQuery("findRegistryEntry");
+        public void dosth(EntityManager em) {
+            Query q = em.createNamedQuery("removeRegistryEntry");
             q.setParameter(1, realm);
             q.setParameter(2, key);
-            try {
-                RegistryEntry e = (RegistryEntry) q.getSingleResult();
-                if (e != null)
-                    em.remove(e);
-            } catch (NoResultException e) {
-                return;
-            }
+            q.executeUpdate();
         }
     }
 

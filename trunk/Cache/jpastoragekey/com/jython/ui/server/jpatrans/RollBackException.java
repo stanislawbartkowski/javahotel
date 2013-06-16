@@ -10,17 +10,8 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.shared;
+package com.jython.ui.server.jpatrans;
 
-public interface ISharedConsts {
-
-    String COMMONREGISTRYBEANJNDI = "java:global/JythonRegistry";
-    
-    String COMMONSEQGENJNDI = "java:global/SeqGenRegistry";
-
-    String RESOURCES = "resources";
-    
-    String JYTHONMESSSERVER = "jythonservermess";
-
+public class RollBackException extends RuntimeException {
 
 }

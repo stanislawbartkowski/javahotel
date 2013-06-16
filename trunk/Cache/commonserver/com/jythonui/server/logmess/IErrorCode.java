@@ -65,4 +65,5 @@ public interface IErrorCode {
     String ERRORCODE50 = "E0050";
     String ERRORCODE51 = "E0051";
     String ERRORCODE52 = "E0052";
+    String ERRORCODE53 = "E0053";
 }
