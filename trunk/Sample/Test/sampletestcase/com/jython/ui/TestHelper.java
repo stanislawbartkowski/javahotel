@@ -26,6 +26,7 @@ import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
@@ -42,6 +43,7 @@ public class TestHelper {
     protected final IPersonOp po;
     protected final ISecurity iSec;
     protected final IAppMess appMess;
+    protected final ISequenceRealmGen iSeq;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -52,6 +54,7 @@ public class TestHelper {
         po = ServiceInjector.constructPersonOp();
         iSec = ServiceInjector.constructSecurity();
         appMess = Holder.getAppMess();
+        iSeq = Holder.getSequenceRealmGen();
     }
 
     @Before

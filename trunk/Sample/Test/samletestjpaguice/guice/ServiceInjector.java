@@ -18,6 +18,7 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 /**
  * @author hotel
@@ -45,6 +46,10 @@ public class ServiceInjector {
 
     public static ISecurity constructSecurity() {
         return injector.getInstance(ISecurity.class);
+    }
+    
+    public static ISequenceRealmGen getSequenceRealmGen() {
+        return injector.getInstance(ISequenceRealmGen.class);
     }
 
 }
