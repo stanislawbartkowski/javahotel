@@ -15,6 +15,10 @@ package com.gwthotel.adminejb;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
@@ -23,6 +27,8 @@ import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
 
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 @EJB(name = IHotelConsts.HOTELADMININSTANCEEJBJNDI, beanInterface = IAppInstanceHotel.class)
 @Remote
 @Interceptors(value = { GuiceInterceptor.class })

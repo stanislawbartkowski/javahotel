@@ -18,24 +18,25 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
-import com.gwthotel.admin.jpa.JpaTransaction;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceElem;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.jython.ui.server.jpatrans.ITransactionContext;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jython.ui.server.jpatrans.JpaTransaction;
 import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaPrices implements IHotelPriceElem {
 
-    private final EntityManagerFactory eFactory;
+    private final ITransactionContextFactory eFactory;
     private final IGetLogMess lMess;
 
-    protected HotelJpaPrices(EntityManagerFactory eFactory, IGetLogMess lMess) {
+    protected HotelJpaPrices(ITransactionContextFactory eFactory, IGetLogMess lMess) {
         this.eFactory = eFactory;
         this.lMess = lMess;
     }
@@ -45,7 +46,7 @@ class HotelJpaPrices implements IHotelPriceElem {
         protected final HotelId hotel;
 
         doTransaction(HotelId hotel) {
-            super(eFactory, lMess);
+            super(eFactory);
             this.hotel = hotel;
         }
     }

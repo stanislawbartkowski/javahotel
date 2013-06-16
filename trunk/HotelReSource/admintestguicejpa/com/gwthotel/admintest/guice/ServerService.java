@@ -15,7 +15,6 @@ package com.gwthotel.admintest.guice;
 import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.Singleton;
-import com.google.inject.name.Names;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
@@ -36,11 +35,14 @@ import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryProvider;
-import com.jython.ui.shared.ISharedConsts;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jython.ui.server.jpatrans.JpaTransactionContextFactoryProvider;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
+import com.jythonui.server.storage.seqimpl.SequenceRealmGenProvider;
 
 /**
  * @author hotel
@@ -63,11 +65,6 @@ public class ServerService {
                     Singleton.class);
             bind(IAppInstanceHotel.class).toProvider(
                     HotelAppInstanceProvider.class).in(Singleton.class);
-            bind(EntityManagerFactory.class)
-                    .annotatedWith(
-                            Names.named(ISharedConsts.STORAGEREGISTRYENTITYMANAGERFACTORY))
-                    .toProvider(EntityManagerFactoryProvider.class)
-                    .in(Singleton.class);
             bind(IStorageRealmRegistry.class).toProvider(
                     StorageJpaRegistryProvider.class).in(Singleton.class);
             bind(IStorageRegistryFactory.class).to(
@@ -85,6 +82,11 @@ public class ServerService {
                     .toProvider(HotelCustomersProvider.class).in(
                             Singleton.class);
             bind(IHotelRooms.class).toProvider(HotelRoomsProvider.class).in(
+                    Singleton.class);
+            bind(ISequenceRealmGen.class).toProvider(
+                    SequenceRealmGenProvider.class).in(Singleton.class);
+            bind(ITransactionContextFactory.class).toProvider(
+                    JpaTransactionContextFactoryProvider.class).in(
                     Singleton.class);
             requestStatic();
         }

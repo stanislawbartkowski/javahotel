@@ -10,29 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.jpa.customers;
+package com.gwthotel.admin.ejblocator;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Provider;
 
-import com.gwthotel.hotel.customer.IHotelCustomers;
-import com.gwthotel.shared.IHotelConsts;
-import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
-public class HotelCustomersProvider implements Provider<IHotelCustomers> {
-
-    @Inject
-    private ITransactionContextFactory eFactory;
-
-    @Inject
-    @Named(IHotelConsts.MESSNAMED)
-    private IGetLogMess lMess;
+public class SequenceGenRealProvider implements Provider<ISequenceRealmGen>{
 
     @Override
-    public IHotelCustomers get() {
-        return new HotelJpaCustomers(eFactory, lMess);
+    public ISequenceRealmGen get() {
+        return AdminEjbLocator.getSequenceRealmGen();
     }
 
 }

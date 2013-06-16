@@ -26,7 +26,8 @@
 
 	</persistence-unit>
 
-	<persistence-unit name="hoteladmin" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="hoteladmin" transaction-type="JTA">
+		<jta-data-source>jdbc/hoteladmin</jta-data-source>
 		<non-jta-data-source>jdbc/hoteladmin</non-jta-data-source>
 		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
 		<class>com.gwthotel.admin.jpa.entities.EHotel</class>

@@ -13,7 +13,6 @@
 package com.gwthotel.hotel.jpa.services;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
@@ -22,12 +21,13 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
         implements IHotelServices {
 
-    HotelJpaServices(EntityManagerFactory eFactory, IGetLogMess lMess) {
+    HotelJpaServices(ITransactionContextFactory eFactory, IGetLogMess lMess) {
         super(new String[] { "findAllServices", "findOneService",
                 "deleteAllServices" }, eFactory, lMess);
     }

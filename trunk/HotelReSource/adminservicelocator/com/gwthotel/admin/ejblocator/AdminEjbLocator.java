@@ -28,9 +28,10 @@ import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.shared.JythonUIFatal;
 
-public class AdminEjbLocator {
+class AdminEjbLocator {
 
     private AdminEjbLocator() {
 
@@ -55,36 +56,40 @@ public class AdminEjbLocator {
         return null;
     }
 
-    public static IHotelAdmin getHotelAdmin() {
+    static IHotelAdmin getHotelAdmin() {
         return construct(IHotelConsts.HOTELADMINEJBJNDI);
     }
 
-    public static IStorageRealmRegistry getStorageRealm() {
+    static IStorageRealmRegistry getStorageRealm() {
         return construct(ISharedConsts.COMMONREGISTRYBEANJNDI);
     }
 
-    public static IHotelServices getHotelServices() {
+    static IHotelServices getHotelServices() {
         return construct(IHotelConsts.HOTELSERVICESJNDI);
     }
 
-    public static IHotelPriceList getHotelPriceList() {
+    static IHotelPriceList getHotelPriceList() {
         return construct(IHotelConsts.HOTELPRICELISTJNDI);
     }
 
-    public static IHotelPriceElem getHotelPriceElem() {
+    static IHotelPriceElem getHotelPriceElem() {
         return construct(IHotelConsts.HOTELPRICEELEMJNDI);
     }
 
-    public static IHotelRooms getHotelRooms() {
+    static IHotelRooms getHotelRooms() {
         return construct(IHotelConsts.HOTELROOMSJNDI);
     }
 
-    public static IHotelCustomers getHotelCustomers() {
+    static IHotelCustomers getHotelCustomers() {
         return construct(IHotelConsts.HOTELCUSTOMERSJNDI);
     }
 
-    public static IAppInstanceHotel getAppInstanceHotel() {
+    static IAppInstanceHotel getAppInstanceHotel() {
         return construct(IHotelConsts.HOTELADMININSTANCEEJBJNDI);
+    }
+    
+    static ISequenceRealmGen getSequenceRealmGen() {
+        return construct(ISharedConsts.COMMONSEQGENJNDI);
     }
 
 }

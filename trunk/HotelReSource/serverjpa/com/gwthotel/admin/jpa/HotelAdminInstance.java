@@ -15,7 +15,6 @@ package com.gwthotel.admin.jpa;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -27,25 +26,27 @@ import com.gwthotel.admin.jpa.entities.EInstance;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jython.ui.server.jpatrans.JpaTransaction;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.JythonUIFatal;
 
 class HotelAdminInstance implements IAppInstanceHotel {
 
-    private final EntityManagerFactory eFactory;
+    private final ITransactionContextFactory iC;
     private static final Logger log = Logger.getLogger(HotelAdminInstance.class
             .getName());
     private final IGetLogMess lMess;
 
-    HotelAdminInstance(EntityManagerFactory eFactory, IGetLogMess lMess) {
-        this.eFactory = eFactory;
+    HotelAdminInstance(ITransactionContextFactory iC, IGetLogMess lMess) {
+        this.iC = iC;
         this.lMess = lMess;
     }
 
     private abstract class doTransaction extends JpaTransaction {
 
         private doTransaction() {
-            super(eFactory, lMess);
+            super(iC);
         }
     }
 
@@ -72,7 +73,7 @@ class HotelAdminInstance implements IAppInstanceHotel {
                     insta = new EInstance();
                     insta.setName(instanceName);
                     em.persist(insta);
-                    commitandbegin(em);
+                    makekeys();
                     log.info(lMess.getMessN(
                             IHMess.DEFAULTINSTANCEHASBEENCREATED, instanceName));
                 } else

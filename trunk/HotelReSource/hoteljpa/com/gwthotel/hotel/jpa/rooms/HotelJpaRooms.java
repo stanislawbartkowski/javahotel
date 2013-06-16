@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
@@ -28,12 +27,13 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.HotelServices;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
         IHotelRooms {
 
-    HotelJpaRooms(EntityManagerFactory eFactory, IGetLogMess lMess) {
+    HotelJpaRooms(ITransactionContextFactory eFactory, IGetLogMess lMess) {
         super(new String[] { "findAllRooms", "findOneRoom", "deleteAllRooms" },
                 eFactory, lMess);
     }

@@ -12,10 +12,11 @@
  */
 package com.gwthotel.adminejb.guice;
 
+import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.AbstractEntityManagerFactoryProvider;
 
 public class EntityManagerFactoryProvider extends AbstractEntityManagerFactoryProvider {
-    private static final String PERSISTENCE_UNIT_NAME = "hoteladmin";
+    private static final String PERSISTENCE_UNIT_NAME = IHotelConsts.HOTELPERSISTENCEPROVIDER;
 
     public EntityManagerFactoryProvider() {
          super(PERSISTENCE_UNIT_NAME);

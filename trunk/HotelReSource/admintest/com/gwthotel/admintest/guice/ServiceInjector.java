@@ -30,6 +30,7 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 /**
  * @author hotel
@@ -95,5 +96,11 @@ public class ServiceInjector {
     public static IGetInstanceHotelId getInstanceHotel() {
         return injector.getInstance(IGetInstanceHotelId.class);
     }
+    
+    public static ISequenceRealmGen getSequenceRealmGen() {
+        return injector.getInstance(ISequenceRealmGen.class);
+    }
+    
+
 
 }
