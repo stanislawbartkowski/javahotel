@@ -55,4 +55,6 @@ public interface IHotelConsts {
     String INSTANCETEST = "AppInstanceTest";
 
     String CACHEREALMHOTELINSTANCE = "CACHEREALMHOTELINSTANCE";
+    
+    String HOTELPERSISTENCEPROVIDER = "hoteladmin";
 }

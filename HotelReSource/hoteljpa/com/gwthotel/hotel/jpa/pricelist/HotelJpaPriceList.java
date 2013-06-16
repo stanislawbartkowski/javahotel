@@ -13,7 +13,6 @@
 package com.gwthotel.hotel.jpa.pricelist;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
@@ -21,6 +20,7 @@ import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.shared.MUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
@@ -28,7 +28,7 @@ class HotelJpaPriceList extends
         AbstractJpaCrud<HotelPriceList, EHotelPriceList> implements
         IHotelPriceList {
 
-    HotelJpaPriceList(EntityManagerFactory eFactory, IGetLogMess lMess) {
+    HotelJpaPriceList(ITransactionContextFactory eFactory, IGetLogMess lMess) {
         super(new String[] { "findAllPriceLists", "findOnePriceList",
                 "deleteAllPriceLists" }, eFactory, lMess);
     }

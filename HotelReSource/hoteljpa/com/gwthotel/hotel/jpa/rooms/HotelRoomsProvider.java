@@ -15,16 +15,16 @@ package com.gwthotel.hotel.jpa.rooms;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
-import javax.persistence.EntityManagerFactory;
 
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelRoomsProvider implements Provider<IHotelRooms> {
 
     @Inject
-    private EntityManagerFactory eFactory;
+    private ITransactionContextFactory eFactory;
 
     @Inject
     @Named(IHotelConsts.MESSNAMED)

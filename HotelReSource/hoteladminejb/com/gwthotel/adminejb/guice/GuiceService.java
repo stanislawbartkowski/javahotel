@@ -34,8 +34,11 @@ import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryProvider;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jython.ui.server.jpatrans.JpaNonTransactionContextFactoryProvider;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 public class GuiceService {
@@ -43,11 +46,6 @@ public class GuiceService {
     public static class ServiceModule extends AbstractModule {
         @Override
         protected void configure() {
-            bind(EntityManagerFactory.class)
-                    .annotatedWith(
-                            Names.named(ISharedConsts.STORAGEREGISTRYENTITYMANAGERFACTORY))
-                    .toProvider(EntityManagerFactoryProvider.class)
-                    .in(Singleton.class);
 
             bind(IStorageRealmRegistry.class).toProvider(
                     StorageJpaRegistryProvider.class).in(Singleton.class);
@@ -82,6 +80,15 @@ public class GuiceService {
             bind(IGetLogMess.class)
                     .annotatedWith(Names.named(IHotelConsts.MESSNAMED))
                     .toProvider(HotelMessProvider.class).in(Singleton.class);
+
+            bind(IGetLogMess.class)
+                    .annotatedWith(Names.named(ISharedConsts.JYTHONMESSSERVER))
+                    .toProvider(MessProvider.class).in(Singleton.class);
+
+            bind(ITransactionContextFactory.class).toProvider(
+                    JpaNonTransactionContextFactoryProvider.class).in(
+                    Singleton.class);
+
         }
     }
 }

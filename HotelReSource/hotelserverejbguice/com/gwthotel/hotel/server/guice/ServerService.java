@@ -22,6 +22,7 @@ import com.gwthotel.admin.ejblocator.HotelPriceElemProvider;
 import com.gwthotel.admin.ejblocator.HotelPriceListProvider;
 import com.gwthotel.admin.ejblocator.HotelRoomsProvider;
 import com.gwthotel.admin.ejblocator.HotelServicesProvider;
+import com.gwthotel.admin.ejblocator.SequenceGenRealProvider;
 import com.gwthotel.admin.ejblocator.StorageRealmProvider;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
@@ -40,6 +41,7 @@ import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 /**
  * @author hotel
@@ -79,6 +81,8 @@ public class ServerService {
                             Singleton.class);
             bind(IAppInstanceHotel.class).toProvider(
                     HotelAppInstanceProvider.class).in(Singleton.class);
+            bind(ISequenceRealmGen.class).toProvider(
+                    SequenceGenRealProvider.class).in(Singleton.class);
 
             requestStatic();
             requestStaticInjection(H.class);

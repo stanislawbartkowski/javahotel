@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -34,18 +33,20 @@ import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jython.ui.server.jpatrans.JpaTransaction;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.JythonUIFatal;
 
 class HotelAdminJpa implements IHotelAdmin {
 
-    private final EntityManagerFactory eFactory;
+    private final ITransactionContextFactory iC;
     private static final Logger log = Logger.getLogger(HotelAdminJpa.class
             .getName());
     private final IGetLogMess lMess;
 
-    public HotelAdminJpa(EntityManagerFactory eFactory, IGetLogMess lMess) {
-        this.eFactory = eFactory;
+    public HotelAdminJpa(ITransactionContextFactory iC, IGetLogMess lMess) {
+        this.iC = iC;
         this.lMess = lMess;
     }
 
@@ -54,7 +55,7 @@ class HotelAdminJpa implements IHotelAdmin {
         final AppInstanceId i;
 
         private doTransaction(AppInstanceId i) {
-            super(eFactory, lMess);
+            super(iC);
             this.i = i;
             if (i.getId() == null) {
                 String mess = lMess.getMess(IHError.HERROR009,
@@ -213,7 +214,7 @@ class HotelAdminJpa implements IHotelAdmin {
             }
             PropUtils.copyToEDict(hote, hotel);
             em.persist(hote);
-            commitandbegin(em);
+            makekeys();
             Query q = em.createNamedQuery("removeRolesForHotel");
             q.setParameter(1, hote.getId());
             q.executeUpdate();
@@ -253,7 +254,7 @@ class HotelAdminJpa implements IHotelAdmin {
             }
             PropUtils.copyToEDict(pe, person);
             em.persist(pe);
-            commitandbegin(em);
+            makekeys();
             Query q = em.createNamedQuery("removeRolesForPerson");
             q.setParameter(1, pe.getId());
             q.executeUpdate();

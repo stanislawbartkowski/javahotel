@@ -40,6 +40,7 @@ import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.token.ICustomSecurity;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -65,6 +66,7 @@ public class TestHelper {
     protected final IHotelRooms iRooms;
     protected final IHotelCustomers iCustomers;
     protected final IGetInstanceHotelId iGetI;
+    protected final ISequenceRealmGen iSeq;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -107,6 +109,7 @@ public class TestHelper {
         iRooms = ServiceInjector.getHotelRooms();
         iCustomers = ServiceInjector.getHotelCustomers();
         iGetI = ServiceInjector.getInstanceHotel();
+        iSeq = ServiceInjector.getSequenceRealmGen();
     }
 
     @BeforeClass

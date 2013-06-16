@@ -16,32 +16,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
-import com.gwthotel.admin.jpa.JpaTransaction;
 import com.gwthotel.admin.jpa.PropUtils;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.hotel.jpa.entities.EHotelDict;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jython.ui.server.jpatrans.JpaTransaction;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHotelDict>
         implements IHotelProp<T> {
 
     private final String[] queryMap;
-    protected final EntityManagerFactory eFactory;
+    protected final ITransactionContextFactory eFactory;
     protected final IGetLogMess lMess;
 
     private final static int GETALLQUERY = 0;
     private final static int FINDELEMQUERY = 1;
     private final static int DELETEALLQUERY = 2;
 
-    protected AbstractJpaCrud(String[] queryMap, EntityManagerFactory eFactory,
+    protected AbstractJpaCrud(String[] queryMap, ITransactionContextFactory eFactory,
             IGetLogMess lMess) {
         this.queryMap = queryMap;
         this.eFactory = eFactory;
@@ -64,7 +64,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
         protected final HotelId hotel;
 
         protected doTransaction(HotelId hotel) {
-            super(eFactory, lMess);
+            super(eFactory);
             this.hotel = hotel;
         }
 
