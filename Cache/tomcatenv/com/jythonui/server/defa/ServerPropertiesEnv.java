@@ -21,6 +21,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -51,7 +52,7 @@ public class ServerPropertiesEnv implements IJythonUIServerProperties {
 
     @Inject
     public ServerPropertiesEnv(
-            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess,
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess,
             IGetResourceJNDI getJNDI) {
         this.gMess = gMess;
         this.getJNDI = getJNDI;
@@ -82,7 +83,7 @@ public class ServerPropertiesEnv implements IJythonUIServerProperties {
 
     private String getResourceDirectory(String dir) {
         EnvVar e = getEnvString(getJNDI.getResourceDir(), false);
-        return e.resS + "/" + IConsts.RESOURCES + "/" + dir;
+        return e.resS + "/" + ISharedConsts.RESOURCES + "/" + dir;
     }
 
     @Override

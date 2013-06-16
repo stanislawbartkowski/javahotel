@@ -24,20 +24,19 @@ import javax.interceptor.Interceptors;
 
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
-import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
-@EJB(name = ISharedConsts.COMMONREGISTRYBEANJNDI, beanInterface = IStorageRealmRegistry.class)
+@EJB(name = ISharedConsts.COMMONSEQGENJNDI, beanInterface = ISequenceRealmGen.class)
 @Remote
 @Interceptors(value = { GuiceInterceptor.class })
-public class StorageJpaRegistryEJB extends AbstractStorageJpaRegistry implements
-        IStorageRealmRegistry {
+public class SequenceGenRealmEJB extends AbstractSequenceRealmGen implements ISequenceRealmGen  {
 
     @Inject
-    public void injectJpaRegistryEJB(IStorageRealmRegistry injectedStorage) {
-        this.iStorage = injectedStorage;
+    public void injectJpaRegistryEJB(ISequenceRealmGen iSeq) {
+        this.iSeq = iSeq;
     }
 
 }

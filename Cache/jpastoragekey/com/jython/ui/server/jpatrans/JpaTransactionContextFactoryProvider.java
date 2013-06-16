@@ -10,29 +10,39 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.storage.seqimpl;
+package com.jython.ui.server.jpatrans;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Provider;
+import javax.persistence.EntityManagerFactory;
 
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.storage.registry.IStorageRealmRegistry;
-import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
-public class SequenceRealmGenProvider implements Provider<ISequenceRealmGen> {
+public class JpaTransactionContextFactoryProvider implements
+        Provider<ITransactionContextFactory> {
 
     @Inject
-    private IStorageRealmRegistry iReg;
+    private EntityManagerFactory eFactory;
 
     @Inject
     @Named(ISharedConsts.JYTHONMESSSERVER)
     IGetLogMess gMess;
 
     @Override
-    public ISequenceRealmGen get() {
-        return new SequenceRealmGen(iReg, gMess);
-    }
+    public ITransactionContextFactory get() {
+        return new ITransactionContextFactory() {
 
+            @Override
+            public IGetLogMess getMess() {
+                return gMess;
+            }
+
+            @Override
+            public ITransactionContext construct() {
+                return new JpaTransactionContext(eFactory);
+            }
+        };
+    }
 }

@@ -12,6 +12,7 @@
  */
 package com.jython.ui.server.jpastoragekey.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,15 +20,23 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "findRegistryEntry", query = "SELECT x FROM RegistryEntry x WHERE x.registryRealm = ?1 AND x.registryEntry = ?2"), })
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "registryRealm",
+        "registryEntry" }))
+@NamedQueries({
+        @NamedQuery(name = "findRegistryEntry", query = "SELECT x FROM RegistryEntry x WHERE x.registryRealm = ?1 AND x.registryEntry = ?2"),
+        @NamedQuery(name = "removeRegistryEntry", query = "DELETE FROM RegistryEntry x WHERE x.registryRealm = ?1 AND x.registryEntry = ?2") })
 public class RegistryEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String registryRealm;
+    @Column(nullable = false)
     private String registryEntry;
     @Lob
     private byte[] value;

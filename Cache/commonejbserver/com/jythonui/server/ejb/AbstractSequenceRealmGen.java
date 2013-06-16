@@ -10,17 +10,23 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.shared;
+package com.jythonui.server.ejb;
 
-public interface ISharedConsts {
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
-    String COMMONREGISTRYBEANJNDI = "java:global/JythonRegistry";
+abstract class AbstractSequenceRealmGen implements ISequenceRealmGen {
     
-    String COMMONSEQGENJNDI = "java:global/SeqGenRegistry";
+    protected ISequenceRealmGen iSeq;
 
-    String RESOURCES = "resources";
-    
-    String JYTHONMESSSERVER = "jythonservermess";
+    @Override
+    public Long genNext(String realM, String key) {
+        return iSeq.genNext(realM, key);
+    }
+
+    @Override
+    public void remove(String realm, String key) {
+        iSeq.remove(realm, key);        
+    }
 
 
 }

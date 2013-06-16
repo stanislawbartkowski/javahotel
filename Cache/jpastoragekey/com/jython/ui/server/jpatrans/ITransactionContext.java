@@ -10,17 +10,18 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.shared;
+package com.jython.ui.server.jpatrans;
 
-public interface ISharedConsts {
+import javax.persistence.EntityManager;
 
-    String COMMONREGISTRYBEANJNDI = "java:global/JythonRegistry";
+public interface ITransactionContext {
     
-    String COMMONSEQGENJNDI = "java:global/SeqGenRegistry";
-
-    String RESOURCES = "resources";
+    EntityManager getManager();
     
-    String JYTHONMESSSERVER = "jythonservermess";
-
-
+    void beginTrans();
+    void commit();
+    void rollback();
+    void makekeys();
+    void close();
+    
 }

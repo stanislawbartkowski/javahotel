@@ -10,29 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.storage.seqimpl;
+package com.jython.ui.server.jpatrans;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Provider;
-
-import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.storage.registry.IStorageRealmRegistry;
-import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
-public class SequenceRealmGenProvider implements Provider<ISequenceRealmGen> {
-
-    @Inject
-    private IStorageRealmRegistry iReg;
-
-    @Inject
-    @Named(ISharedConsts.JYTHONMESSSERVER)
-    IGetLogMess gMess;
-
-    @Override
-    public ISequenceRealmGen get() {
-        return new SequenceRealmGen(iReg, gMess);
-    }
+public interface ITransactionContextFactory {
+    
+    IGetLogMess getMess();
+    
+    ITransactionContext construct();
 
 }
