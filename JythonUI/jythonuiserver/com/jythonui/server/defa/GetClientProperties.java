@@ -22,8 +22,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.gwtmodel.table.common.CUtil;
+import com.jython.ui.shared.ISharedConsts;
 import com.jython.ui.shared.MUtil;
-import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
@@ -43,7 +43,7 @@ public class GetClientProperties implements IJythonClientRes {
 
     @Inject
     public GetClientProperties(
-            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
         this.gMess = gMess;
     }
 

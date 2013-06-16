@@ -15,6 +15,7 @@ package com.jythonui.server.holder;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
@@ -22,6 +23,7 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityConvert;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 public class Holder {
 
@@ -35,7 +37,10 @@ public class Holder {
     private static ISecurity iSec;
 
     @Inject
-    @Named(IConsts.JYTHONMESSSERVER)
+    private static ISequenceRealmGen iSeq;
+
+    @Inject
+    @Named(ISharedConsts.JYTHONMESSSERVER)
     private static IGetLogMess logMess;
 
     private static boolean auth = false;
@@ -87,6 +92,10 @@ public class Holder {
 
     public static ISecurityConvert getSecurityConvert() {
         return iConvert;
+    }
+
+    public static ISequenceRealmGen getSequenceRealmGen() {
+        return iSeq;
     }
 
 }

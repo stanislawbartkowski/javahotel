@@ -16,7 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.gwtmodel.commoncache.ICommonCache;
-import com.jythonui.server.IConsts;
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.registry.IStorageRegistry;
 
@@ -26,7 +26,7 @@ public class ObjectRegistryFactory {
 
     @Inject
     public ObjectRegistryFactory(
-            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
         this.gMess = gMess;
     }
 

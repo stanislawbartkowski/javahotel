@@ -19,7 +19,7 @@ import javax.inject.Named;
 
 import org.apache.shiro.subject.Subject;
 
-import com.jythonui.server.IConsts;
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -40,7 +40,7 @@ public class SecurityJython implements ISecurity {
     @Inject
     public SecurityJython(ISecuritySessionCache iCache,
             ISecurityResolver iResolver,
-            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
         cCache = new SubjectCache(iCache, gMess);
         this.iResolver = iResolver;
         this.gMess = gMess;

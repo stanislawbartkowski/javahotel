@@ -12,14 +12,13 @@
  */
 package com.jythonui.server.security.cache.impl;
 
-import java.io.InvalidClassException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.jythonui.server.IConsts;
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.ISecuritySessionCache;
@@ -38,7 +37,7 @@ public class SecuritySessionStore implements ISecuritySessionCache {
     @Inject
     public SecuritySessionStore(ISecuritySessionMemCache iMemCache,
             ISecuritySessionPersistent iPersistent,
-            @Named(IConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
         this.iMemCache = iMemCache;
         this.iPersistent = iPersistent;
         this.gMess = gMess;
