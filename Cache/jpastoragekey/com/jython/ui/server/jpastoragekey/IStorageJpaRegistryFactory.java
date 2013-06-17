@@ -10,10 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpatrans;
+package com.jython.ui.server.jpastoragekey;
 
-public interface ITransactionContextFactory {
+import com.jython.ui.server.jpatrans.ITransactionContextFactory;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
-    ITransactionContext construct();
+public interface IStorageJpaRegistryFactory {
+    
+    IStorageRealmRegistry construct(ITransactionContextFactory iC);
 
 }

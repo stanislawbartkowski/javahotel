@@ -17,7 +17,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.jython.ui.server.jpastoragekey.entity.RegistryEntry;
-import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -35,7 +34,6 @@ class StorageJpaRegistry implements IStorageRealmRegistry {
         doTransaction() {
             super(eFactory);
         }
-
     }
 
     private RegistryEntry getE(EntityManager em, String realM, String key) {

@@ -12,13 +12,15 @@
  */
 package com.jython.ui.server.jpatrans;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-class JpaTransactionContext implements ITransactionContext {
+public class JpaTransactionContext implements ITransactionContext {
 
     private final EntityManager em;
 
+    @Inject
     public JpaTransactionContext(EntityManagerFactory eFactory) {
         em = eFactory.createEntityManager();
     }
@@ -45,8 +47,6 @@ class JpaTransactionContext implements ITransactionContext {
 
     @Override
     public void makekeys() {
-//        em.getTransaction().commit();
-//        em.getTransaction().begin();
         em.flush();
     }
 

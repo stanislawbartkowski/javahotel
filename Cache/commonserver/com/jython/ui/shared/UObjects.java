@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -74,10 +75,10 @@ public class UObjects {
     private static String YEARPATT = "(Y)";
     private static String MONTHPATT = "(M)";
 
-    public static String getKey(String pattern, Long l, Date d) {
+    public static String genName(String pattern, Long l, Date d) {
         String numS = l.toString();
-        String yearS = Integer.toString(d.getYear());
-        String monthS = Integer.toString(d.getMonth());
+        String yearS = Integer.toString(DateFormatUtil.getY(d));
+        String monthS = Integer.toString(DateFormatUtil.getM(d));
         return pattern.replace(NUMPATT, numS).replace(YEARPATT, yearS)
                 .replace(MONTHPATT, monthS);
     }

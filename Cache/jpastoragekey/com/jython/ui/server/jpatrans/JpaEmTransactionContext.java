@@ -12,8 +12,43 @@
  */
 package com.jython.ui.server.jpatrans;
 
-public interface ITransactionContextFactory {
+import javax.persistence.EntityManager;
 
-    ITransactionContext construct();
+public class JpaEmTransactionContext implements ITransactionContext {
+    
+    private final EntityManager em;
+
+    public JpaEmTransactionContext(EntityManager em) {
+        this.em = em;
+    }
+
+    @Override
+    public EntityManager getManager() {
+        return em;
+    }
+
+
+    @Override
+    public void beginTrans() {        
+    }
+
+    @Override
+    public void commit() {
+    }
+
+    @Override
+    public void rollback() {
+        throw new RollBackException();
+    }
+
+    @Override
+    public void makekeys() {
+        em.flush();
+    }
+
+    @Override
+    public void close() {
+    }
+
 
 }
