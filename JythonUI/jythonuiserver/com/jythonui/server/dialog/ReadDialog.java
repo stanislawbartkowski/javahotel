@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.jython.ui.shared.SaxUtil;
-import com.jythonui.server.holder.Holder;
+import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.ButtonItem;
@@ -240,7 +240,7 @@ class ReadDialog {
                             else
                                 list = list + " , " + allowedActions[i];
                         } // for
-                        String mess = Holder.getM().getMess(
+                        String mess = SHolder.getM().getMess(
                                 IErrorCode.ERRORCODE47,
                                 ILogMess.UNRECOGNIZEDACTION, bI.getAction(),
                                 list);
@@ -256,7 +256,7 @@ class ReadDialog {
                     || qName.equals(ICommonConsts.COLUMN)) {
                 FieldItem aI = (FieldItem) bDescr;
                 if (aI.getId() == null) {
-                    String errmess = Holder.getM().getMess(
+                    String errmess = SHolder.getM().getMess(
                             IErrorCode.ERRORCODE48, ILogMess.EMPTYIDVALUE,
                             ICommonConsts.FIELD, ICommonConsts.ID);
                     errorLog(errmess);

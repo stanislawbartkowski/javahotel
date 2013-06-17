@@ -16,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InvalidClassException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +31,7 @@ import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.MCached;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.DialogFormat;
@@ -68,15 +68,15 @@ public class GetDialog {
 
     private static void parseError(String errCode, String param, Throwable e) {
         log.log(Level.SEVERE,
-                Holder.getM().getMess(errCode, ILogMess.DIALOGXMLPARSERROR,
+                SHolder.getM().getMess(errCode, ILogMess.DIALOGXMLPARSERROR,
                         param), e);
-        throw new JythonUIFatal(Holder.getM().getMess(errCode,
+        throw new JythonUIFatal(SHolder.getM().getMess(errCode,
                 ILogMess.DIALOGXMLPARSERROR, param), e);
     }
 
     private static void error(String errCode, String logMess, String param) {
-        log.severe(Holder.getM().getMess(errCode, logMess, param));
-        throw new JythonUIFatal(Holder.getM().getMess(errCode, logMess, param));
+        log.severe(SHolder.getM().getMess(errCode, logMess, param));
+        throw new JythonUIFatal(SHolder.getM().getMess(errCode, logMess, param));
     }
 
     static private URL getURLSchema(String schemaname) {
@@ -84,7 +84,7 @@ public class GetDialog {
         URL ur = ReadDialog.class.getClassLoader().getResource(
                 ISharedConsts.RESOURCES + "/" + XSDDIR + "/" + schemaname);
         if (ur == null) {
-            error(Holder.getM().getMess(IErrorCode.ERRORCODE16,
+            error(SHolder.getM().getMess(IErrorCode.ERRORCODE16,
                     ILogMess.SCHEMANOTFOUND));
         }
         return ur;
@@ -94,7 +94,7 @@ public class GetDialog {
             throws FileNotFoundException {
         putDebug("Search dialog " + name);
         if (p.getDialogDirectory() == null) {
-            error(Holder.getM().getMess(IErrorCode.ERRORCODE17,
+            error(SHolder.getM().getMess(IErrorCode.ERRORCODE17,
                     ILogMess.DIALOGDIRECTORYNULL));
         }
         String dDir = p.getDialogDirectory();
@@ -108,7 +108,7 @@ public class GetDialog {
             MCached mCached, String token, String dialogName, boolean verify) {
         DialogFormat d;
         if (Holder.isAuth() && CUtil.EmptyS(token)) {
-            log.severe(Holder.getM().getMess(IErrorCode.ERRORCODE8,
+            log.severe(SHolder.getM().getMess(IErrorCode.ERRORCODE8,
                     ILogMess.AUTOENABLEDNOTOKEN, dialogName));
             return null;
         }
@@ -131,7 +131,7 @@ public class GetDialog {
             }
             // error(dParentName + " is parent in the " + dialogName
             // + " but there is no such a dialog in the parent specified");
-            error(Holder.getM().getMess(IErrorCode.ERRORCODE9,
+            error(SHolder.getM().getMess(IErrorCode.ERRORCODE9,
                     ILogMess.ELEMDOESNOTMATCHPARENT, dParentName, dialogName));
         }
         if (d != null)

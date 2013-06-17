@@ -13,6 +13,7 @@
 package com.jythonui.server.guice;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
@@ -27,6 +28,7 @@ import com.jythonui.server.defa.SecurityMemCacheProvider;
 import com.jythonui.server.defa.SecurityPersistentStorageProvider;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.registry.object.ObjectRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
@@ -39,6 +41,13 @@ import com.jythonui.server.security.cache.ISecuritySessionPersistent;
 import com.jythonui.server.security.cache.impl.SecuritySessionStore;
 import com.jythonui.server.security.impl.SecurityJython;
 import com.jythonui.server.security.resolver.SecurityResolver;
+import com.jythonui.server.storage.gensym.ISymGenerator;
+import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
+import com.jythonui.server.storage.gensymimpl.SymGeneratorFactory;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
+import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
+import com.jythonui.server.storage.seqimpl.SequenceRealmGenFactory;
 
 /**
  * @author hotel
@@ -72,10 +81,28 @@ public class JythonServerService {
                     .toProvider(MessProvider.class).in(Singleton.class);
             bind(IJythonClientRes.class).to(GetClientProperties.class).in(
                     Singleton.class);
+            bind(ISequenceRealmGenFactory.class).to(
+                    SequenceRealmGenFactory.class).in(Singleton.class);
+
+            bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
+                    Singleton.class);
+        }
+
+        @Provides @Singleton
+        ISequenceRealmGen getSequenceRealmGen(
+                ISequenceRealmGenFactory seqFactory, IStorageRealmRegistry iReg) {
+            return seqFactory.construct(iReg);
+        }
+
+        @Provides @Singleton
+        ISymGenerator getSymGenerator(ISymGeneratorFactory sFactory,
+                ISequenceRealmGen iSeq) {
+            return sFactory.construct(iSeq);
         }
 
         protected void requestStatic() {
             requestStaticInjection(Holder.class);
+            requestStaticInjection(SHolder.class);
         }
     }
 
