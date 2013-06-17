@@ -15,12 +15,13 @@ package com.jython.ui.shared;
 public interface ISharedConsts {
 
     String COMMONREGISTRYBEANJNDI = "java:global/JythonRegistry";
-    
+
     String COMMONSEQGENJNDI = "java:global/SeqGenRegistry";
 
     String RESOURCES = "resources";
-    
+
     String JYTHONMESSSERVER = "jythonservermess";
 
+//    String NONTRANSCONTEXT = "nontranscontext";
 
 }

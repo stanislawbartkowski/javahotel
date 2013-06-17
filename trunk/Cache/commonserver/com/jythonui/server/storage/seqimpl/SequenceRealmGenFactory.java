@@ -10,10 +10,20 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpatrans;
+package com.jythonui.server.storage.seqimpl;
 
-public interface ITransactionContextFactory {
+import com.jythonui.server.holder.SHolder;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
+import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
 
-    ITransactionContext construct();
+public class SequenceRealmGenFactory implements ISequenceRealmGenFactory {
+
+    @Override
+    public ISequenceRealmGen construct(IStorageRealmRegistry iReg) {
+
+        return new SequenceRealmGen(iReg, SHolder.getM());
+
+    }
 
 }

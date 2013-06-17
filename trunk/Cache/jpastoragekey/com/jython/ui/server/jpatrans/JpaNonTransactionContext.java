@@ -12,44 +12,14 @@
  */
 package com.jython.ui.server.jpatrans;
 
-import javax.persistence.EntityManager;
+import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 
-class JpaNonTransactionContext implements ITransactionContext {
+public class JpaNonTransactionContext extends JpaEmTransactionContext {
 
-    private final EntityManager em;
-
+    @Inject
     public JpaNonTransactionContext(EntityManagerFactory eFactory) {
-        em = eFactory.createEntityManager();
-    }
-
-    @Override
-    public EntityManager getManager() {
-        return em;
-    }
-
-
-    @Override
-    public void beginTrans() {        
-    }
-
-    @Override
-    public void commit() {
-    }
-
-    @Override
-    public void rollback() {
-        throw new RollBackException();
-    }
-
-    @Override
-    public void makekeys() {
-        em.flush();
-    }
-
-    @Override
-    public void close() {
-        em.close();        
+        super(eFactory.createEntityManager());
     }
 
 }

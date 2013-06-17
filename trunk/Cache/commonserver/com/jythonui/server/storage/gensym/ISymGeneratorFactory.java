@@ -10,22 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpastoragekey;
+package com.jythonui.server.storage.gensym;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
-import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.server.storage.registry.IStorageRealmRegistry;
-
-public class StorageJpaRegistryProvider implements Provider<IStorageRealmRegistry> {
-
-    @Inject
-    private ITransactionContextFactory iC;
+public interface ISymGeneratorFactory {
     
-    @Override
-    public IStorageRealmRegistry get() {
-        return new StorageJpaRegistry(iC);
-    }
+    ISymGenerator construct(ISequenceRealmGen iSeq);
 
 }

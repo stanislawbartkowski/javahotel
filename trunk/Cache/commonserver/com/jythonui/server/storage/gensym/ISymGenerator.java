@@ -10,10 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpatrans;
+package com.jythonui.server.storage.gensym;
 
-public interface ITransactionContextFactory {
+public interface ISymGenerator {
 
-    ITransactionContext construct();
+    String genSym(String realm, String key, String pattern);
+    
+    void clear(String realm, String key);
 
 }

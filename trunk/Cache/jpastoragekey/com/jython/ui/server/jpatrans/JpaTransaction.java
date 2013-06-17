@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 
@@ -31,7 +32,7 @@ public abstract class JpaTransaction {
 
     protected JpaTransaction(ITransactionContextFactory eFactory) {
         this.iC = eFactory.construct();
-        this.lMess = eFactory.getMess();
+        this.lMess = SHolder.getM();
     }
 
     protected abstract void dosth(EntityManager em);

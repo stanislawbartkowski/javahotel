@@ -10,39 +10,49 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.jpatrans;
+package com.jythonui.server.holder;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Provider;
-import javax.persistence.EntityManagerFactory;
 
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.storage.gensym.ISymGenerator;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
-public class JpaNonTransactionContextFactoryProvider implements
-        Provider<ITransactionContextFactory> {
+public class SHolder {
+
+    private SHolder() {
+    }
 
     @Inject
-    private EntityManagerFactory eFactory;
+    private static ISequenceRealmGen iSeq;
+
+    @Inject
+    private static IStorageRealmRegistry iRegistry;
+    
+    @Inject
+    private static ISymGenerator iGenerator;
 
     @Inject
     @Named(ISharedConsts.JYTHONMESSSERVER)
-    IGetLogMess gMess;
+    private static IGetLogMess logMess;
 
-    @Override
-    public ITransactionContextFactory get() {
-        return new ITransactionContextFactory() {
-
-            @Override
-            public IGetLogMess getMess() {
-                return gMess;
-            }
-
-            @Override
-            public ITransactionContext construct() {
-                return new JpaNonTransactionContext(eFactory);
-            }
-        };
+    public static IGetLogMess getM() {
+        return logMess;
     }
+
+    public static ISequenceRealmGen getSequenceRealmGen() {
+        return iSeq;
+    }
+
+    public static IStorageRealmRegistry getStorageRegistry() {
+        return iRegistry;
+    }
+    
+    public ISymGenerator getSymGenerator() {
+        return iGenerator;
+    }
+
 }
