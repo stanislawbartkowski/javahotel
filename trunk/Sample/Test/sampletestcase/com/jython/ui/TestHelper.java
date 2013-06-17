@@ -24,8 +24,10 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -44,6 +46,7 @@ public class TestHelper {
     protected final ISecurity iSec;
     protected final IAppMess appMess;
     protected final ISequenceRealmGen iSeq;
+    protected final ISymGenerator iSym;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -54,7 +57,8 @@ public class TestHelper {
         po = ServiceInjector.constructPersonOp();
         iSec = ServiceInjector.constructSecurity();
         appMess = Holder.getAppMess();
-        iSeq = Holder.getSequenceRealmGen();
+        iSeq = SHolder.getSequenceRealmGen();
+        iSym = ServiceInjector.getSymGenerator();
     }
 
     @Before
@@ -99,7 +103,8 @@ public class TestHelper {
         iServer.runAction(req, v, dialogName, actionId);
     }
 
-    protected String authenticateToken(String realm, String user, String password) {
+    protected String authenticateToken(String realm, String user,
+            String password) {
         String t = iSec.authenticateToken(realm, user, password, null);
         return t;
     }

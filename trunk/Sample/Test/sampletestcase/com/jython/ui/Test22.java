@@ -14,8 +14,13 @@ package com.jython.ui;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 
 public class Test22 extends TestHelper {
     
@@ -24,12 +29,17 @@ public class Test22 extends TestHelper {
     private static final String KEY1="KEY1";
     private static final String KEY2="KEY2";
     
+    private static final String PATTERN = "(M) S/ (N) /B";
+    private static final String PATTERN1 = "(Y) S/ (N) /AC";
+    
     @Before
     public void clear() {
         iSeq.remove(REALM, KEY1);
         iSeq.remove(REALM, KEY2);
         iSeq.remove(REALM1, KEY1);
         iSeq.remove(REALM1, KEY2);
+        
+        iSym.clear(REALM, KEY1);
     }
     
     @Test
@@ -42,8 +52,32 @@ public class Test22 extends TestHelper {
         for (int i=1; i<100; i++) {
             assertEquals(i,iSeq.genNext(REALM1, KEY1).longValue());            
         }
-        assertEquals(3,iSeq.genNext(REALM, KEY1).longValue());
-        
+        assertEquals(3,iSeq.genNext(REALM, KEY1).longValue());       
     }
+    
+    @Test
+    public void test2() {
+        Date today = DateFormatUtil.toD(2008, 5, 2);
+        DateUtil.setTestToday(today);
+        String sym = iSym.genSym(REALM, KEY1, PATTERN);
+        System.out.println(sym);      
+        assertEquals("5 S/ 1 /B",sym);
+        sym = iSym.genSym(REALM, KEY1, PATTERN1);
+        System.out.println(sym);
+        assertEquals("2008 S/ 2 /AC",sym);
+        
+        for (int i =0; i<100; i++) {
+            iSym.genSym(REALM, KEY1, PATTERN1);
+        }
+        sym = iSym.genSym(REALM, KEY1, PATTERN1);
+        System.out.println(sym);
+        assertEquals("2008 S/ 103 /AC",sym);
+        iSym.clear(REALM, KEY1);
+        sym = iSym.genSym(REALM, KEY1, PATTERN1);
+        System.out.println(sym);
+        assertEquals("2008 S/ 1 /AC",sym);
+    }
+    
+    
 
 }

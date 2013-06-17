@@ -14,6 +14,7 @@ package guice;
 
 import javax.persistence.EntityManagerFactory;
 
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
@@ -21,9 +22,11 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jython.ui.ServerProperties;
 import com.jython.ui.server.datastore.IPersonOp;
-import com.jython.ui.server.jpastoragekey.StorageJpaRegistryProvider;
+import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
+import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
+import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jython.ui.server.jpatrans.JpaTransactionContextFactoryProvider;
+import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -33,8 +36,6 @@ import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
-import com.jythonui.server.storage.seq.ISequenceRealmGen;
-import com.jythonui.server.storage.seqimpl.SequenceRealmGenProvider;
 
 /**
  * @author hotel
@@ -54,21 +55,37 @@ public class ServerService {
                     EntityManagerFactoryProvider.class).in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
                     Singleton.class);
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
-            bind(IStorageRealmRegistry.class).toProvider(
-                    StorageJpaRegistryProvider.class).in(Singleton.class);
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
                     Singleton.class);
-            bind(ISequenceRealmGen.class).toProvider(
-                    SequenceRealmGenProvider.class).in(Singleton.class);
-            bind(ITransactionContextFactory.class).toProvider(
-                    JpaTransactionContextFactoryProvider.class).in(
-                    Singleton.class);
+
+            // common
+            bind(IStorageJpaRegistryFactory.class).to(
+                    StorageJpaRegistryFactory.class).in(Singleton.class);
+            bind(IStorageRegistryFactory.class).to(
+                    StorageRealmRegistryFactory.class).in(Singleton.class);
+            
             requestStatic();
         }
+        
+        // common
+        @Provides @Singleton
+        IStorageRealmRegistry getStorageRealmRegistry(
+                IStorageJpaRegistryFactory rFactory,
+                ITransactionContextFactory iC) {
+            return rFactory.construct(iC);
+        }
+        
+        @Provides @Singleton
+        ITransactionContextFactory getTransactionContextFactory(final EntityManagerFactory eFactory) {
+            return new ITransactionContextFactory() {
+                @Override
+                public ITransactionContext construct() {
+                    return new JpaTransactionContext(eFactory);
+                }                
+            };            
+        }
+        // -----
+
     }
 
 }
