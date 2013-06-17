@@ -18,6 +18,7 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 /**
@@ -50,6 +51,10 @@ public class ServiceInjector {
     
     public static ISequenceRealmGen getSequenceRealmGen() {
         return injector.getInstance(ISequenceRealmGen.class);
+    }
+    
+    public static ISymGenerator getSymGenerator() {
+        return injector.getInstance(ISymGenerator.class);
     }
 
 }
