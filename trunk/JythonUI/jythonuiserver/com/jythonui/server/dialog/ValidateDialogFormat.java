@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.CheckList;
@@ -50,7 +51,7 @@ class ValidateDialogFormat {
 
     private static void idNotNull(String tag, ElemDescription e) {
         if (CUtil.EmptyS(e.getId())) {
-            error(Holder.getM().getMess(IErrorCode.ERRORCODE25,
+            error(SHolder.getM().getMess(IErrorCode.ERRORCODE25,
                     ILogMess.CANNOTBEEMPTY, tag));
         }
     }
@@ -62,7 +63,7 @@ class ValidateDialogFormat {
             idNotNull(lTag + " " + eTag, e);
             String id = e.getId();
             if (sId.contains(id))
-                error(Holder.getM().getMess(IErrorCode.ERRORCODE26,
+                error(SHolder.getM().getMess(IErrorCode.ERRORCODE26,
                         ILogMess.TAGVALUEDUPLICATED, lTag, eTag,
                         ICommonConsts.ID, id));
 
@@ -88,7 +89,7 @@ class ValidateDialogFormat {
         for (ListFormat l : d.getListList()) {
             String id = l.getId();
             if (sId.contains(id))
-                error(Holder.getM().getMess(IErrorCode.ERRORCODE27,
+                error(SHolder.getM().getMess(IErrorCode.ERRORCODE27,
                         ILogMess.TAGDUPLICATEDITENDTIFIER, l.getId(),
                         ICommonConsts.FIELD, id));
             sId.add(id);
@@ -102,7 +103,7 @@ class ValidateDialogFormat {
                 continue;
             if (type.equals(ICommonConsts.DECIMALTYPE))
                 continue;
-            String errMess = Holder.getM().getMess(IErrorCode.ERRORCODE45,
+            String errMess = SHolder.getM().getMess(IErrorCode.ERRORCODE45,
                     ILogMess.UNEXPECTEDCHECKLISTTYPE, c.getId(), type,
                     ICommonConsts.BOOLTYPE, ICommonConsts.DATETIMETYPE);
             error(errMess);
@@ -113,12 +114,12 @@ class ValidateDialogFormat {
                     dl.getColList());
             String dId = dl.getListId();
             if (CUtil.EmptyS(dId)) {
-                error(Holder.getM().getMess(IErrorCode.ERRORCODE51,
+                error(SHolder.getM().getMess(IErrorCode.ERRORCODE51,
                         ILogMess.DATELINEIDCANNOTBEEMPTY, d.getId(),ICommonConsts.DATELINE, ICommonConsts.DETELINEID));
             }
             FieldItem f = DialogFormat.findE(dl.getColList(), dId);
             if (f == null)
-                error(Holder.getM().getMess(IErrorCode.ERRORCODE52,
+                error(SHolder.getM().getMess(IErrorCode.ERRORCODE52,
                         ILogMess.DATELINEIDCANNOTBEFOUND, d.getId(),ICommonConsts.DATELINE, ICommonConsts.DETELINEID,dId,ICommonConsts.COLUMNS));
         }
 
