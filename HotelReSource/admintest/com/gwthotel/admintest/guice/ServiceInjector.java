@@ -20,9 +20,12 @@ import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.hotel.IGetInstanceHotelId;
+import com.gwthotel.hotel.IHotelObjectGenSym;
+import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
@@ -84,23 +87,33 @@ public class ServiceInjector {
     public static IHotelPriceElem getHotelPriceElem() {
         return injector.getInstance(IHotelPriceElem.class);
     }
-    
+
     public static IHotelRooms getHotelRooms() {
         return injector.getInstance(IHotelRooms.class);
     }
-    
+
     public static IHotelCustomers getHotelCustomers() {
         return injector.getInstance(IHotelCustomers.class);
     }
-    
+
     public static IGetInstanceHotelId getInstanceHotel() {
         return injector.getInstance(IGetInstanceHotelId.class);
     }
-    
+
     public static ISequenceRealmGen getSequenceRealmGen() {
         return injector.getInstance(ISequenceRealmGen.class);
     }
-    
 
+    public static IHotelObjectGenSym getHotelGenSym() {
+        return injector.getInstance(IHotelObjectGenSym.class);
+    }
+    
+    public static IHotelObjectsFactory getHotelObjects() {
+        return injector.getInstance(IHotelObjectsFactory.class);
+    }
+    
+    public static IReservationForm getReservationForm() {
+        return injector.getInstance(IReservationForm.class);
+    }
 
 }

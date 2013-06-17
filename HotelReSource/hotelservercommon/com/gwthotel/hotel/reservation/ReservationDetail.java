@@ -12,10 +12,43 @@
  */
 package com.gwthotel.hotel.reservation;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import com.gwthotel.shared.PropDescription;
 
 public class ReservationDetail extends PropDescription {
 
     private static final long serialVersionUID = 1L;
+
+    private Date resDate;
+
+    private int noP;
+
+    private BigDecimal price;
+
+    public Date getResDate() {
+        return resDate;
+    }
+
+    public void setResDate(Date resDate) {
+        this.resDate = resDate;
+    }
+
+    public int getNoP() {
+        return noP;
+    }
+
+    public void setNoP(int noP) {
+        this.noP = noP;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
 }

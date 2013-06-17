@@ -18,11 +18,11 @@ import java.util.logging.Logger;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
-import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.JythonUIFatal;
 
 public class HUtils {
@@ -32,15 +32,15 @@ public class HUtils {
 
     static final private Logger log = Logger.getLogger(HUtils.class.getName());
 
-    public static <T extends PropDescription> void toEProperties(
-            IGetLogMess lMess, String[] prop, Object dest, T sou) {
+    public static <T extends PropDescription> void toEProperties(String[] prop,
+            Object dest, T sou) {
         for (String key : prop) {
             String val = sou.getAttr(key);
             try {
                 PropertyUtils.setSimpleProperty(dest, key, val);
             } catch (IllegalAccessException | InvocationTargetException
                     | NoSuchMethodException e) {
-                String mess = lMess.getMess(IHError.HERROR007,
+                String mess = HHolder.getHM().getMess(IHError.HERROR007,
                         IHMess.BEANCANNOTSETPROPERTY, key, val);
                 log.log(Level.SEVERE, mess, e);
                 throw new JythonUIFatal(mess);
@@ -48,15 +48,15 @@ public class HUtils {
         }
     }
 
-    public static <T extends PropDescription> void toTProperties(
-            IGetLogMess lMess, String[] prop, T dest, Object sou) {
+    public static <T extends PropDescription> void toTProperties(String[] prop,
+            T dest, Object sou) {
         for (String key : prop) {
             String val;
             try {
                 val = (String) PropertyUtils.getSimpleProperty(sou, key);
             } catch (IllegalAccessException | InvocationTargetException
                     | NoSuchMethodException e) {
-                String mess = lMess.getMess(IHError.HERROR008,
+                String mess = HHolder.getHM().getMess(IHError.HERROR008,
                         IHMess.BEANCANNOTGETPROPERTY, key);
                 log.log(Level.SEVERE, mess, e);
                 throw new JythonUIFatal(mess);

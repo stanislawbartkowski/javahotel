@@ -19,7 +19,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
+import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelRoomServices;
@@ -28,30 +30,30 @@ import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.HotelServices;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
         IHotelRooms {
 
-    HotelJpaRooms(ITransactionContextFactory eFactory, IGetLogMess lMess) {
+    HotelJpaRooms(ITransactionContextFactory eFactory,
+            IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllRooms", "findOneRoom", "deleteAllRooms" },
-                eFactory, lMess);
+                eFactory, HotelObjects.ROOM, iGen);
     }
 
     @Override
-    protected HotelRoom toT(EHotelRoom sou, HotelId hotel) {
+    protected HotelRoom toT(EHotelRoom sou, EntityManager em, HotelId hotel) {
         HotelRoom ho = new HotelRoom();
         ho.setNoPersons(sou.getNoPersons());
         return ho;
     }
 
     @Override
-    protected EHotelRoom constructE(HotelId hotel) {
+    protected EHotelRoom constructE(EntityManager em, HotelId hotel) {
         return new EHotelRoom();
     }
 
     @Override
-    protected void toE(EHotelRoom dest, HotelRoom sou, HotelId hotel) {
+    protected void toE(EHotelRoom dest, HotelRoom sou, EntityManager em, HotelId hotel) {
         dest.setNoPersons(sou.getNoPersons());
     }
 

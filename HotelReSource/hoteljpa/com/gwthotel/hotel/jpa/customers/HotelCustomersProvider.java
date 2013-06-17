@@ -12,27 +12,16 @@
  */
 package com.gwthotel.hotel.jpa.customers;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Provider;
 
 import com.gwthotel.hotel.customer.IHotelCustomers;
-import com.gwthotel.shared.IHotelConsts;
-import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.gwthotel.hotel.jpa.AbstractCrudProvider;
 
-public class HotelCustomersProvider implements Provider<IHotelCustomers> {
-
-    @Inject
-    private ITransactionContextFactory eFactory;
-
-    @Inject
-    @Named(IHotelConsts.MESSNAMED)
-    private IGetLogMess lMess;
+public class HotelCustomersProvider extends AbstractCrudProvider implements Provider<IHotelCustomers> {
 
     @Override
     public IHotelCustomers get() {
-        return new HotelJpaCustomers(eFactory, lMess);
+        return new HotelJpaCustomers(eFactory, iGen);
     }
 
 }

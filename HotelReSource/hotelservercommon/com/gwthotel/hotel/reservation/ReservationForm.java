@@ -12,10 +12,28 @@
  */
 package com.gwthotel.hotel.reservation;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 
 public class ReservationForm extends PropDescription {
 
     private static final long serialVersionUID = 1L;
+
+    private List<ReservationDetail> resDetail = new ArrayList<ReservationDetail>();
+
+    public List<ReservationDetail> getResDetail() {
+        return resDetail;
+    }
+    
+    public void setCustomerName(String name) {
+        setAttr(IHotelConsts.RESCUSTOMERPROP,name);
+    }
+    
+    public String getCustomerName() {
+        return getAttr(IHotelConsts.RESCUSTOMERPROP);
+    }
 
 }

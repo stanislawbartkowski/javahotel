@@ -20,8 +20,11 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.admin.jpa.PropUtils;
 import com.gwthotel.hotel.HUtils;
+import com.gwthotel.hotel.HotelObjects;
+import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.hotel.jpa.entities.EHotelDict;
 import com.gwthotel.shared.IHotelConsts;
@@ -36,23 +39,28 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     private final String[] queryMap;
     protected final ITransactionContextFactory eFactory;
     protected final IGetLogMess lMess;
+    private final HotelObjects tObject;
+    private final IHotelObjectGenSymFactory iGen;
 
     private final static int GETALLQUERY = 0;
     private final static int FINDELEMQUERY = 1;
     private final static int DELETEALLQUERY = 2;
 
-    protected AbstractJpaCrud(String[] queryMap, ITransactionContextFactory eFactory,
-            IGetLogMess lMess) {
+    protected AbstractJpaCrud(String[] queryMap,
+            ITransactionContextFactory eFactory, HotelObjects tObject,
+            IHotelObjectGenSymFactory iGen) {
         this.queryMap = queryMap;
         this.eFactory = eFactory;
-        this.lMess = lMess;
+        this.lMess = HHolder.getHM();
+        this.tObject = tObject;
+        this.iGen = iGen;
     }
 
-    abstract protected T toT(E sou, HotelId hotel);
+    abstract protected T toT(E sou, EntityManager em, HotelId hotel);
 
-    abstract protected E constructE(HotelId hotel);
+    abstract protected E constructE(EntityManager em, HotelId hotel);
 
-    abstract protected void toE(E dest, T sou, HotelId hotel);
+    abstract protected void toE(E dest, T sou, EntityManager em, HotelId hotel);
 
     abstract protected void beforedeleteAll(EntityManager em, HotelId hotel);
 
@@ -69,15 +77,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
         }
 
         protected E getElem(EntityManager em, String name) {
-            Query q = em.createNamedQuery(queryMap[FINDELEMQUERY]);
-            q.setParameter(1, hotel.getId());
-            q.setParameter(2, name);
-            try {
-                E pers = (E) q.getSingleResult();
-                return pers;
-            } catch (NoResultException e) {
-                return null;
-            }
+            return JUtils.getElem(em, hotel, queryMap[FINDELEMQUERY], name);
         }
 
         protected E getElem(EntityManager em, T elem) {
@@ -108,11 +108,11 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     }
 
     protected void toEProperties(String[] prop, E dest, T sou) {
-        HUtils.toEProperties(lMess, prop, dest, sou);
+        HUtils.toEProperties(prop, dest, sou);
     }
 
     protected void toTProperties(String[] prop, T dest, E sou) {
-        HUtils.toTProperties(lMess, prop, dest, sou);
+        HUtils.toTProperties(prop, dest, sou);
     }
 
     private class GetAllList extends doTransaction {
@@ -129,7 +129,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             q.setParameter(1, hotel.getId());
             List<E> list = q.getResultList();
             for (E p : list) {
-                T rec = toT(p, hotel);
+                T rec = toT(p, em, hotel);
                 PropUtils.copyToProp(rec, p);
                 rec.setAttr(IHotelConsts.HOTELPROP, hotel.getHotel());
                 rec.setId(p.getId());
@@ -148,6 +148,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
     private class AddElem extends doTransaction {
 
         private final T elem;
+        T reselem;
 
         AddElem(HotelId hotel, T elem) {
             super(hotel);
@@ -156,19 +157,24 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
 
         @Override
         protected void dosth(EntityManager em) {
-            E pers = constructE(hotel);
-            toE(pers, elem, hotel);
-            PropUtils.copyToEDict(pers, elem);
-            pers.setHotel(hotel.getId());
+            E pers = constructE(em, hotel);
+            IHotelObjectGenSym iGenSym = iGen.construct(em);
+            iGenSym.genSym(hotel, elem, tObject);
+            toE(pers, elem, em, hotel);
+            JUtils.copyToEDict(hotel, pers, elem);
+//            pers.setHotel(hotel.getId());
             em.persist(pers);
+            reselem = toT(pers, em, hotel);
+            PropUtils.copyToProp(reselem, pers);
         }
 
     }
 
     @Override
-    public void addElem(HotelId hotel, T elem) {
+    public T addElem(HotelId hotel, T elem) {
         AddElem command = new AddElem(hotel, elem);
         command.executeTran();
+        return command.reselem;
     }
 
     private class ChangeElem extends doTransaction {
@@ -184,7 +190,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             E pers = getElem(em, elem);
             if (pers == null) // TODO: more verbose, not expected
                 return;
-            toE(pers, elem, hotel);
+            toE(pers, elem, em, hotel);
             PropUtils.copyToEDict(pers, elem);
             pers.setHotel(hotel.getId());
             em.persist(pers);

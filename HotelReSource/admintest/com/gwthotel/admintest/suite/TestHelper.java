@@ -29,9 +29,12 @@ import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admintest.guice.ServiceInjector;
 import com.gwthotel.hotel.IGetInstanceHotelId;
+import com.gwthotel.hotel.IHotelObjectGenSym;
+import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
@@ -67,6 +70,9 @@ public class TestHelper {
     protected final IHotelCustomers iCustomers;
     protected final IGetInstanceHotelId iGetI;
     protected final ISequenceRealmGen iSeq;
+    protected final IHotelObjectGenSym iHGen;
+    protected final IHotelObjectsFactory hObjects;
+    protected final IReservationForm iRes;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -110,6 +116,9 @@ public class TestHelper {
         iCustomers = ServiceInjector.getHotelCustomers();
         iGetI = ServiceInjector.getInstanceHotel();
         iSeq = ServiceInjector.getSequenceRealmGen();
+        iHGen = ServiceInjector.getHotelGenSym();
+        hObjects = ServiceInjector.getHotelObjects();
+        iRes = ServiceInjector.getReservationForm();
     }
 
     @BeforeClass

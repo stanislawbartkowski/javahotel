@@ -17,7 +17,6 @@ public interface IHotelConsts {
     String ID = "Id";
 
     String NAME = "Name";
-
     String DESCRIPTION = "Description";
 
     String MESSNAMED = "hotelmessnamed";
@@ -51,10 +50,17 @@ public interface IHotelConsts {
     String CUSTOMEREMAILPROP = "email";
     String CUSTOMERPHONEPROP = "phone";
 
+    String RESDETSERVICENAMEPROP = "servicename";
+    String RESDETROOMNAMEPROP = "roomname";
+    
+    String RESCUSTOMERPROP = "rescustomer";
+
     String INSTANCEDEFAULT = "AppInstanceDefault";
     String INSTANCETEST = "AppInstanceTest";
 
     String CACHEREALMHOTELINSTANCE = "CACHEREALMHOTELINSTANCE";
-    
+
+    String PATTPROP = "autompatt";
+
     String HOTELPERSISTENCEPROVIDER = "hoteladmin";
 }
