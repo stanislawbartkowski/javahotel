@@ -12,16 +12,37 @@
  */
 package com.gwthotel.hotel.jpa;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+
+import com.gwthotel.admin.HotelId;
+import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.admin.jpa.PropUtils;
+import com.gwthotel.hotel.HUtils;
+import com.gwthotel.hotel.customer.HotelCustomer;
+import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
+import com.gwthotel.hotel.jpa.entities.EHotelDict;
+import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
+import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
+import com.gwthotel.mess.IHError;
+import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
+import com.gwthotel.shared.PropDescription;
+import com.jythonui.shared.JythonUIFatal;
 
 public class JUtils {
-    
-    private JUtils() {        
+
+    private JUtils() {
     }
-    
+
+    static final private Logger log = Logger.getLogger(JUtils.class.getName());
+
     public static HotelServices toT(EHotelServices sou) {
         HotelServices ho = new HotelServices();
         PropUtils.copyToProp(ho, sou);
@@ -30,5 +51,38 @@ public class JUtils {
         return ho;
     }
 
+    public static void copyToEDict(HotelId hotel, EHotelDict pers,
+            PropDescription elem) {
+        PropUtils.copyToEDict(pers, elem);
+        pers.setHotel(hotel.getId());
+    }
+
+    public static void copyE(EHotelRoom dest, HotelRoom sou) {
+        dest.setNoPersons(sou.getNoPersons());
+    }
+
+    public static <E extends EHotelDict> E getElem(EntityManager em,
+            HotelId hotel, String qName, String name) {
+        Query q = em.createNamedQuery(qName);
+        q.setParameter(1, hotel.getId());
+        q.setParameter(2, name);
+        try {
+            E pers = (E) q.getSingleResult();
+            return pers;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public static <E extends EHotelDict> E getElemE(EntityManager em,
+            HotelId hotel, String qName, String name) {
+        E e = getElem(em, hotel, qName, name);
+        if (e != null)
+            return e;
+        String mess = HHolder.getHM().getMess(IHError.HERROR021,
+                IHMess.OBJECTBYNAMECANNOTBEFOUND, name, hotel.getHotel());
+        log.log(Level.SEVERE, mess, e);
+        throw new JythonUIFatal(mess);
+    }
 
 }

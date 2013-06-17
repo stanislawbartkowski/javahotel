@@ -14,6 +14,8 @@
 		<class>com.gwthotel.hotel.jpa.entities.EHotelRoom</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelRoomServices</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelCustomer </class>
+		<class>com.gwthotel.hotel.jpa.entities.EHotelReservation </class>
+		<class>com.gwthotel.hotel.jpa.entities.EHotelReservationDetail</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
 			<property name="javax.persistence.jdbc.url"

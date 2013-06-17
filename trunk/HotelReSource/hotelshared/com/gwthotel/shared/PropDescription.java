@@ -25,6 +25,8 @@ abstract public class PropDescription implements Serializable {
 
     private Long id;
 
+    private boolean gensymbol = false;
+
     // important: not final !
     private Map<String, String> attr = new HashMap<String, String>();
 
@@ -79,4 +81,16 @@ abstract public class PropDescription implements Serializable {
         setAttr(key, b.toString());
     }
 
+    public String getAutomPattern() {
+        return getAttr(IHotelConsts.PATTPROP);
+    }
+
+    public boolean isGensymbol() {
+        return gensymbol;
+    }
+
+    public void setGensymbol(boolean gensymbol) {
+        this.gensymbol = gensymbol;
+    }
+    
 }

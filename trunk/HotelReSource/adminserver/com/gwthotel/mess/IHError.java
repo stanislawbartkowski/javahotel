@@ -32,4 +32,7 @@ public interface IHError {
     String HERROR016 = "H016";
     String HERROR017 = "H017";
     String HERROR018 = "H018";
+    String HERROR019 = "H019";
+    String HERROR020 = "H020";
+    String HERROR021 = "H021";
 }

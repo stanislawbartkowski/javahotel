@@ -1,3 +1,5 @@
+package com.gwthotel.hotel;
+
 /*
  * Copyright 2013 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -10,21 +12,9 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admintest.suite;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+public enum HotelObjects {
 
-/**
- * @author hotel
- * 
- */
-@RunWith(Suite.class)
-//@SuiteClasses({ Test1.class, Test2.class, Test3.class, Test4.class,
-//        Test5.class, Test6.class, Test7.class, Test8.class, Test9.class,
-//        Test10.class, Test11.class, Test12.class})
-@SuiteClasses({ Test12.class })
-public class AllTests {
+    RESERVATION, CUSTOMER, PRICELIST, ROOM, SERVICE
 
 }

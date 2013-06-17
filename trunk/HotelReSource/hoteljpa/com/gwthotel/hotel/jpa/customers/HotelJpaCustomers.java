@@ -16,35 +16,40 @@ import javax.persistence.EntityManager;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HUtils;
+import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
+import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
         implements IHotelCustomers {
 
-    HotelJpaCustomers(ITransactionContextFactory eFactory, IGetLogMess lMess) {
+    HotelJpaCustomers(ITransactionContextFactory eFactory,
+            IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllCustomers", "findOneCustomer",
-                "deleteAllCustomers" }, eFactory, lMess);
+                "deleteAllCustomers" }, eFactory, HotelObjects.CUSTOMER, iGen);
     }
 
     @Override
-    protected HotelCustomer toT(EHotelCustomer sou,HotelId hotel) {
+    protected HotelCustomer toT(EHotelCustomer sou, EntityManager em,
+            HotelId hotel) {
         HotelCustomer ho = new HotelCustomer();
         toTProperties(HUtils.getCustomerFields(), ho, sou);
         return ho;
     }
 
     @Override
-    protected EHotelCustomer constructE(HotelId hotel) {
+    protected EHotelCustomer constructE(EntityManager em, HotelId hotel) {
         return new EHotelCustomer();
     }
 
     @Override
-    protected void toE(EHotelCustomer dest, HotelCustomer sou,HotelId hotel) {
+    protected void toE(EHotelCustomer dest, HotelCustomer sou,
+            EntityManager em, HotelId hotel) {
         toEProperties(HUtils.getCustomerFields(), dest, sou);
     }
 

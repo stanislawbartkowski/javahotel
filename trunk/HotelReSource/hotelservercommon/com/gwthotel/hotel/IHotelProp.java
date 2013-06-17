@@ -21,7 +21,7 @@ public interface IHotelProp<T extends PropDescription> {
 
     List<T> getList(HotelId hotel);
 
-    void addElem(HotelId hotel, T elem);
+    T addElem(HotelId hotel, T elem);
 
     void changeElem(HotelId hotel, T elem);
 

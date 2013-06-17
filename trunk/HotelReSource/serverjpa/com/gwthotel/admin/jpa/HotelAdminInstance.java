@@ -130,6 +130,7 @@ class HotelAdminInstance implements IAppInstanceHotel {
         HotelId h = new HotelId();
         h.setHotel(hotelName);
         h.setId(comm.id);
+        h.setInstanceId(instanceId);
         return h;
     }
 

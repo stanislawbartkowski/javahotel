@@ -16,25 +16,26 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
+import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.shared.MUtil;
-import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaPriceList extends
         AbstractJpaCrud<HotelPriceList, EHotelPriceList> implements
         IHotelPriceList {
 
-    HotelJpaPriceList(ITransactionContextFactory eFactory, IGetLogMess lMess) {
+    HotelJpaPriceList(ITransactionContextFactory eFactory, IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllPriceLists", "findOnePriceList",
-                "deleteAllPriceLists" }, eFactory, lMess);
+                "deleteAllPriceLists" }, eFactory,  HotelObjects.PRICELIST, iGen);
     }
 
     @Override
-    protected HotelPriceList toT(EHotelPriceList sou, HotelId hotel) {
+    protected HotelPriceList toT(EHotelPriceList sou, EntityManager em, HotelId hotel) {
         HotelPriceList ho = new HotelPriceList();
         ho.setFromDate(sou.getPriceFrom());
         ho.setToDate(sou.getPriceTo());
@@ -42,12 +43,12 @@ class HotelJpaPriceList extends
     }
 
     @Override
-    protected EHotelPriceList constructE(HotelId hotel) {
+    protected EHotelPriceList constructE(EntityManager em, HotelId hotel) {
         return new EHotelPriceList();
     }
 
     @Override
-    protected void toE(EHotelPriceList dest, HotelPriceList sou, HotelId hotel) {
+    protected void toE(EHotelPriceList dest, HotelPriceList sou, EntityManager em, HotelId hotel) {
         dest.setPriceFrom(MUtil.toSqlDate(sou.getFromDate()));
         dest.setPriceTo(MUtil.toSqlDate(sou.getToDate()));
     }

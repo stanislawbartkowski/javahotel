@@ -15,7 +15,9 @@ package com.gwthotel.hotel.jpa.services;
 import javax.persistence.EntityManager;
 
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
+import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.services.HotelServices;
@@ -27,23 +29,24 @@ import com.jythonui.server.getmess.IGetLogMess;
 class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
         implements IHotelServices {
 
-    HotelJpaServices(ITransactionContextFactory eFactory, IGetLogMess lMess) {
+    HotelJpaServices(ITransactionContextFactory eFactory,
+            IHotelObjectGenSymFactory iGen) {
         super(new String[] { "findAllServices", "findOneService",
-                "deleteAllServices" }, eFactory, lMess);
+                "deleteAllServices" }, eFactory, HotelObjects.SERVICE, iGen);
     }
 
     @Override
-    protected HotelServices toT(EHotelServices sou, HotelId hotel) {
+    protected HotelServices toT(EHotelServices sou, EntityManager em, HotelId hotel) {
         return JUtils.toT(sou);
     }
 
     @Override
-    protected EHotelServices constructE(HotelId hotel) {
+    protected EHotelServices constructE(EntityManager em, HotelId hotel) {
         return new EHotelServices();
     }
 
     @Override
-    protected void toE(EHotelServices dest, HotelServices sou, HotelId hotel) {
+    protected void toE(EHotelServices dest, HotelServices sou, EntityManager em, HotelId hotel) {
         dest.setNoPersons(sou.getNoPersons());
         dest.setVat(sou.getAttr(IHotelConsts.VATPROP));
     }
