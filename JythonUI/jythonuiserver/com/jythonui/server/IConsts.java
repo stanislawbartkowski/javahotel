@@ -19,9 +19,6 @@ public interface IConsts {
     String CACHEDNOW = "CachedNow";
     String APPMESS = "AppBundle";
 
-//    String JYTHONMESSSERVER = "jythonservermess";
-
-//    String RESOURCES = "resources";
     String DIALOGDIR = "dialogs";
     String PACKAGEDIR = "packages";
     String BUNDLEDIR = "bundle";
