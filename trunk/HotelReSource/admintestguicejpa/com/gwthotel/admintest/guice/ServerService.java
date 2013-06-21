@@ -21,21 +21,25 @@ import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.jpa.HotelAppInstanceProvider;
+import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
 import com.gwthotel.hotel.jpa.customers.HotelCustomersProvider;
 import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
 import com.gwthotel.hotel.jpa.prices.HotelPriceElemProvider;
 import com.gwthotel.hotel.jpa.reservation.HotelReservationProvider;
+import com.gwthotel.hotel.jpa.reservationop.ReservationOpProvider;
 import com.gwthotel.hotel.jpa.rooms.HotelRoomsProvider;
 import com.gwthotel.hotel.jpa.services.HotelServicesProvider;
 import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
@@ -98,6 +102,10 @@ public class ServerService {
 
             bind(IReservationForm.class).toProvider(
                     HotelReservationProvider.class).in(Singleton.class);
+
+            bind(IReservationOp.class).toProvider(ReservationOpProvider.class)
+                    .in(Singleton.class);
+            bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);

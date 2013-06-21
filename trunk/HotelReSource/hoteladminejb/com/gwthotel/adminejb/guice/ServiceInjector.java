@@ -32,8 +32,8 @@ public class ServiceInjector {
         return injector;
     }
     
-    public static IHotelAdmin constructHotelAdmin() {
-        return injector.getInstance(IHotelAdmin.class);
-    }
+//    public static IHotelAdmin constructHotelAdmin() {
+//        return injector.getInstance(IHotelAdmin.class);
+//    }
 
 }

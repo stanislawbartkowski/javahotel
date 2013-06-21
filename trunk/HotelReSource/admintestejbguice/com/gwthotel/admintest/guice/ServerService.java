@@ -12,9 +12,11 @@
  */
 package com.gwthotel.admintest.guice;
 
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.admin.ejblocator.AdminEjbLocator;
 import com.gwthotel.admin.ejblocator.HotelAdminProvider;
 import com.gwthotel.admin.ejblocator.HotelAppInstanceProvider;
 import com.gwthotel.admin.ejblocator.HotelCustomersProvider;
@@ -24,10 +26,14 @@ import com.gwthotel.admin.ejblocator.HotelRoomsProvider;
 import com.gwthotel.admin.ejblocator.HotelServicesProvider;
 import com.gwthotel.admin.ejblocator.SequenceGenRealProvider;
 import com.gwthotel.admin.ejblocator.StorageRealmProvider;
+import com.gwthotel.hotel.IClearHotel;
+import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
@@ -78,9 +84,24 @@ public class ServerService {
             bind(IHotelCustomers.class)
                     .toProvider(HotelCustomersProvider.class).in(
                             Singleton.class);
-            bind(ISequenceRealmGen.class).toProvider(
-                    SequenceGenRealProvider.class).in(Singleton.class);
+            bind(IGetAutomPatterns.class).to(GetTestPatterns.class).in(
+                    Singleton.class);
             requestStatic();
+        }
+
+        @Provides
+        IReservationForm getReservationForm() {
+            return AdminEjbLocator.getReservationForm();
+        }
+
+        @Provides
+        IReservationOp getReservationOp() {
+            return AdminEjbLocator.getReservationOp();
+        }
+
+        @Provides
+        IClearHotel getClearHotel() {
+            return AdminEjbLocator.getClearHotel();
         }
     }
 

@@ -28,6 +28,9 @@ public interface IHotelConsts {
     String HOTELPRICEELEMJNDI = "java:global/HotelPriceElem";
     String HOTELROOMSJNDI = "java:global/HotelRooms";
     String HOTELCUSTOMERSJNDI = "java:global/HotelCustomers";
+    String HOTELRESERVATIONJNDI = "java:global/HotelReservation";
+    String HOTELRESERVATIONOPJNDI = "java:global/HotelReservationOp";
+    String HOTELCLEAROPJNDI = "java:global/HotelClearOp";
 
     String HOTELREALM = "HotelRealm";
 
@@ -52,8 +55,13 @@ public interface IHotelConsts {
 
     String RESDETSERVICENAMEPROP = "servicename";
     String RESDETROOMNAMEPROP = "roomname";
-    
+
     String RESCUSTOMERPROP = "rescustomer";
+
+    String RESQUERYROOMPROP = "roomname";
+
+    String RESDATAROOMPROP = "room";
+    String RESDATARESERVATIONID = "resid";
 
     String INSTANCEDEFAULT = "AppInstanceDefault";
     String INSTANCETEST = "AppInstanceTest";
@@ -63,4 +71,6 @@ public interface IHotelConsts {
     String PATTPROP = "autompatt";
 
     String HOTELPERSISTENCEPROVIDER = "hoteladmin";
+
+    String PROPAUTOM = "autompatterns.properties";
 }

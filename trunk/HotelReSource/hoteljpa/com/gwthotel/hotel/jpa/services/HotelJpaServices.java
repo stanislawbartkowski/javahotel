@@ -24,19 +24,19 @@ import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
         implements IHotelServices {
 
     HotelJpaServices(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
-        super(new String[] { "findAllServices", "findOneService",
-                "deleteAllServices" }, eFactory, HotelObjects.SERVICE, iGen);
+        super(new String[] { "findAllServices", "findOneService" }, eFactory,
+                HotelObjects.SERVICE, iGen);
     }
 
     @Override
-    protected HotelServices toT(EHotelServices sou, EntityManager em, HotelId hotel) {
+    protected HotelServices toT(EHotelServices sou, EntityManager em,
+            HotelId hotel) {
         return JUtils.toT(sou);
     }
 
@@ -46,7 +46,8 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
     }
 
     @Override
-    protected void toE(EHotelServices dest, HotelServices sou, EntityManager em, HotelId hotel) {
+    protected void toE(EHotelServices dest, HotelServices sou,
+            EntityManager em, HotelId hotel) {
         dest.setNoPersons(sou.getNoPersons());
         dest.setVat(sou.getAttr(IHotelConsts.VATPROP));
     }

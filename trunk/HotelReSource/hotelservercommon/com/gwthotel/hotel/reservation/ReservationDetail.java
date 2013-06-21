@@ -15,6 +15,7 @@ package com.gwthotel.hotel.reservation;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 
 public class ReservationDetail extends PropDescription {
@@ -49,6 +50,22 @@ public class ReservationDetail extends PropDescription {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public void setService(String service) {
+        setAttr(IHotelConsts.RESDETSERVICENAMEPROP, service);
+    }
+
+    public String getService() {
+        return getAttr(IHotelConsts.RESDETSERVICENAMEPROP);
+    }
+
+    public void setRoom(String roomName) {
+        setAttr(IHotelConsts.RESDETROOMNAMEPROP, roomName);
+    }
+
+    public String getRoom() {
+        return getAttr(IHotelConsts.RESDETROOMNAMEPROP);
     }
 
 }

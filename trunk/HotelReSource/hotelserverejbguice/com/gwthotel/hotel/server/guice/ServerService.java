@@ -12,9 +12,11 @@
  */
 package com.gwthotel.hotel.server.guice;
 
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.admin.ejblocator.AdminEjbLocator;
 import com.gwthotel.admin.ejblocator.HotelAdminProvider;
 import com.gwthotel.admin.ejblocator.HotelAppInstanceProvider;
 import com.gwthotel.admin.ejblocator.HotelCustomersProvider;
@@ -22,13 +24,17 @@ import com.gwthotel.admin.ejblocator.HotelPriceElemProvider;
 import com.gwthotel.admin.ejblocator.HotelPriceListProvider;
 import com.gwthotel.admin.ejblocator.HotelRoomsProvider;
 import com.gwthotel.admin.ejblocator.HotelServicesProvider;
-import com.gwthotel.admin.ejblocator.SequenceGenRealProvider;
 import com.gwthotel.admin.ejblocator.StorageRealmProvider;
+import com.gwthotel.hotel.IClearHotel;
+import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
+import com.gwthotel.hotel.server.autompatt.GetAutomPatterns;
 import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.resource.GetResourceJNDI;
@@ -41,7 +47,6 @@ import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
-import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 /**
  * @author hotel
@@ -81,12 +86,30 @@ public class ServerService {
                             Singleton.class);
             bind(IAppInstanceHotel.class).toProvider(
                     HotelAppInstanceProvider.class).in(Singleton.class);
-            bind(ISequenceRealmGen.class).toProvider(
-                    SequenceGenRealProvider.class).in(Singleton.class);
+            bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
+                    Singleton.class);
+            // bind(ISequenceRealmGen.class).toProvider(
+            // SequenceGenRealProvider.class).in(Singleton.class);
 
             requestStatic();
             requestStaticInjection(H.class);
         }
+        
+        @Provides
+        IReservationForm getReservationForm() {
+            return AdminEjbLocator.getReservationForm();
+        }
+
+        @Provides
+        IReservationOp getReservationOp() {
+            return AdminEjbLocator.getReservationOp();
+        }
+
+        @Provides
+        IClearHotel getClearHotel() {
+            return AdminEjbLocator.getClearHotel();
+        }
+
     }
 
 }

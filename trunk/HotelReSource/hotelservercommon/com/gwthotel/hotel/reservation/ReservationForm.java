@@ -24,16 +24,26 @@ public class ReservationForm extends PropDescription {
 
     private List<ReservationDetail> resDetail = new ArrayList<ReservationDetail>();
 
+    private ResStatus status = ResStatus.OPEN;
+
     public List<ReservationDetail> getResDetail() {
         return resDetail;
     }
-    
+
     public void setCustomerName(String name) {
-        setAttr(IHotelConsts.RESCUSTOMERPROP,name);
+        setAttr(IHotelConsts.RESCUSTOMERPROP, name);
     }
-    
+
     public String getCustomerName() {
         return getAttr(IHotelConsts.RESCUSTOMERPROP);
+    }
+
+    public ResStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ResStatus status) {
+        this.status = status;
     }
 
 }

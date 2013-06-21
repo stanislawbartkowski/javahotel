@@ -10,15 +10,17 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.adminejb.guice;
+package com.gwthotel.hotel.reservationop;
 
-import com.jythonui.server.defa.AbstractEntityManagerFactoryProvider;
+import java.util.List;
 
-public class TestEntityManagerFactoryProvider extends AbstractEntityManagerFactoryProvider {
-    private static final String PERSISTENCE_UNIT_NAME = "testhoteladmin";
+import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.reservation.ResStatus;
 
-    public TestEntityManagerFactoryProvider() {
-         super(PERSISTENCE_UNIT_NAME);
-    }
+public interface IReservationOp {
+
+    List<ResData> queryReservation(HotelId hotel, List<ResQuery> rQuery);
+
+    void changeStatus(HotelId hotel, String resName, ResStatus newStatus);
 
 }

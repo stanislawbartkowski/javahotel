@@ -26,9 +26,8 @@ public class Test10 extends TestHelper {
 
     @Before
     public void before() {
+        clearObjects();
         createHotels();
-        iCustomers.deleteAll(getH(HOTEL));
-        iCustomers.deleteAll(getH(HOTEL1));
     }
 
     @Test

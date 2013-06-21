@@ -28,11 +28,8 @@ public class Test11 extends TestHelper {
 
     @Before
     public void before() {
+        clearObjects();
         createHotels();
-        iCustomers.deleteAll(getH(HOTEL));
-        iCustomers.deleteAll(getH(HOTEL1));
-        iHGen.clearAll(getH(HOTEL));
-        iHGen.clearAll(getH(HOTEL1));
         DateUtil.setTestToday(DateFormatUtil.toD(2013,6,13));
     }
 

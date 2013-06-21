@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
@@ -41,24 +42,27 @@ class HotelReservations extends
 
     HotelReservations(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
-        super(new String[] { "findAllReservations", "findOneReservation",
-                "deleteAllReservations" }, eFactory, HotelObjects.RESERVATION,
-                iGen);
+        super(new String[] { "findAllReservations", "findOneReservation" },
+                eFactory, HotelObjects.RESERVATION, iGen);
     }
 
     @Override
     protected ReservationForm toT(EHotelReservation sou, EntityManager em,
             HotelId hotel) {
         ReservationForm ho = new ReservationForm();
-        ho.setAttr(IHotelConsts.RESCUSTOMERPROP, sou.getCustomer().getName());
+        ho.setCustomerName(sou.getCustomer().getName());
+        ho.setStatus(sou.getStatus());
         for (EHotelReservationDetail r : sou.getResDetails()) {
             ReservationDetail det = new ReservationDetail();
             det.setNoP(r.getNoP());
             det.setPrice(r.getPrice());
             det.setResDate(r.getResDate());
-            det.setAttr(IHotelConsts.RESDETROOMNAMEPROP, r.getRoom().getName());
-            det.setAttr(IHotelConsts.RESDETSERVICENAMEPROP, r.getService()
-                    .getName());
+            if (r.getRoom() != null)
+                det.setAttr(IHotelConsts.RESDETROOMNAMEPROP, r.getRoom()
+                        .getName());
+            if (r.getService() != null)
+                det.setAttr(IHotelConsts.RESDETSERVICENAMEPROP, r.getService()
+                        .getName());
             ho.getResDetail().add(det);
         }
         return ho;
@@ -72,20 +76,21 @@ class HotelReservations extends
     @Override
     protected void toE(EHotelReservation dest, ReservationForm sou,
             EntityManager em, HotelId hotel) {
-        String custName = sou.getAttr(IHotelConsts.RESCUSTOMERPROP);
+        String custName = sou.getCustomerName();
         EHotelCustomer cust = JUtils.getElemE(em, hotel, "findOneCustomer",
                 custName);
         dest.setCustomer(cust);
+        dest.setStatus(sou.getStatus());
         List<EHotelReservationDetail> lDetails = new ArrayList<EHotelReservationDetail>();
         for (ReservationDetail r : sou.getResDetail()) {
             EHotelReservationDetail d = new EHotelReservationDetail();
-            String roomName = r.getAttr(IHotelConsts.RESDETROOMNAMEPROP);
+            String roomName = r.getRoom();
             if (!CUtil.EmptyS(roomName)) {
                 EHotelRoom room = JUtils.getElemE(em, hotel, "findOneRoom",
                         roomName);
                 d.setRoom(room);
             }
-            String serviceName = r.getAttr(IHotelConsts.RESDETSERVICENAMEPROP);
+            String serviceName = r.getService();
             if (!CUtil.EmptyS(serviceName)) {
                 EHotelServices serv = JUtils.getElemE(em, hotel,
                         "findOneService", serviceName);
@@ -93,7 +98,8 @@ class HotelReservations extends
             }
             d.setNoP(r.getNoP());
             d.setPrice(r.getPrice());
-            d.setResDate(MUtil.toSqlDate(r.getResDate()));
+            d.setResDate(r.getResDate());
+            d.setReservation(dest);
             lDetails.add(d);
         }
         dest.setResDetails(lDetails);
@@ -101,11 +107,20 @@ class HotelReservations extends
 
     @Override
     protected void beforedeleteAll(EntityManager em, HotelId hotel) {
+        Query q = em.createNamedQuery("deleteAllReservationsDetails");
+        q.setParameter(1, hotel.getId());
+        q.executeUpdate();
+
     }
 
     @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelReservation elem) {
+        Query q = em
+                .createNamedQuery("deleteAllReservationsDetailsForReservation");
+        q.setParameter(1, elem);
+        q.executeUpdate();
+
     }
 
 }

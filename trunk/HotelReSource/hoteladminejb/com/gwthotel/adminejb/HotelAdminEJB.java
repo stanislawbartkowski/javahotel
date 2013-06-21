@@ -19,10 +19,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import javax.interceptor.Interceptors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.shared.IHotelConsts;
@@ -35,9 +33,6 @@ import com.jythonui.server.defa.GuiceInterceptor;
 @Remote
 @Interceptors(value = { GuiceInterceptor.class })
 public class HotelAdminEJB extends AbstractHotelAdminEJB implements IHotelAdmin {
-
-//    @PersistenceContext(unitName = IHotelConsts.HOTELPERSISTENCEPROVIDER)
-//    private EntityManager em;
     
     @Inject
     public void injectHotelAdmin(IHotelAdmin injectedHotel) {

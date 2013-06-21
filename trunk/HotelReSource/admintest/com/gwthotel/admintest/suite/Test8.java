@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.gwthotel.hotel.pricelist.HotelPriceList;
@@ -31,14 +32,10 @@ public class Test8 extends TestHelper {
     private final static String SERVICE1 = "1p1";
     private final static String PRICE1 = "price1";
 
-    private void clearData() {
+    @Before
+    public void clearData() {
+        clearObjects();
         createHotels();
-        iPrice.deleteAll(getH(HOTEL));
-        iPrice.deleteAll(getH(HOTEL1));
-        iServices.deleteAll(getH(HOTEL));
-        iServices.deleteAll(getH(HOTEL1));
-        iPriceElem.deleteAll(getH(HOTEL));
-        iPriceElem.deleteAll(getH(HOTEL1));
     }
 
     private void addStartD() {
@@ -58,7 +55,6 @@ public class Test8 extends TestHelper {
 
     @Test
     public void test1() {
-        clearData();
         addStartD();
         List<HotelPriceElem> pList = iPriceElem.getPricesForPriceList(
                 getH(HOTEL), PRICE1);
@@ -87,7 +83,6 @@ public class Test8 extends TestHelper {
 
     @Test
     public void test2() {
-        clearData();
         addStartD();
         List<HotelPriceElem> pList = iPriceElem.getPricesForPriceList(
                 getH(HOTEL), PRICE1);
@@ -110,7 +105,6 @@ public class Test8 extends TestHelper {
 
     @Test
     public void test3() {
-        clearData();
         addStartD();
         List<HotelPriceElem> pList = iPriceElem.getPricesForPriceList(
                 getH(HOTEL), PRICE1);
@@ -133,7 +127,6 @@ public class Test8 extends TestHelper {
 
     @Test
     public void test4() {
-        clearData();
         addStartD();
         for (int i = 0; i < 100; i++) {
             HotelServices ho = new HotelServices();

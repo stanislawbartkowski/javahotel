@@ -13,8 +13,9 @@
 package com.gwthotel.hotel.jpa.entities;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,8 +23,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL"),
+        @NamedQuery(name = "deleteAllReservationsDetailsForReservation", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation=?1"),
+        @NamedQuery(name = "deleteAllReservationsDetails", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation.hotel = ?1") })
 public class EHotelReservationDetail {
 
     @Id
@@ -35,23 +44,19 @@ public class EHotelReservationDetail {
 
     @JoinColumn(name = "service_id", nullable = true)
     private EHotelServices service;
-    
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="reservation_id")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reservation_id")
     private EHotelReservation reservation;
 
-    public EHotelServices getService() {
-        return service;
-    }
-
-    public void setService(EHotelServices service) {
-        this.service = service;
-    }
-
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date resDate;
 
+    @Column(nullable = false)
     private int noP;
 
+    @Column(nullable = false)
     private BigDecimal price;
 
     public EHotelRoom getRoom() {
@@ -93,7 +98,13 @@ public class EHotelReservationDetail {
     public void setReservation(EHotelReservation reservation) {
         this.reservation = reservation;
     }
-    
-    
+
+    public EHotelServices getService() {
+        return service;
+    }
+
+    public void setService(EHotelServices service) {
+        this.service = service;
+    }
 
 }

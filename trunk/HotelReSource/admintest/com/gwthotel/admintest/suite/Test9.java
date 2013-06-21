@@ -32,15 +32,8 @@ public class Test9 extends TestHelper {
 
     @Before
     public void before() {
+        clearObjects();
         createHotels();
-        iPrice.deleteAll(getH(HOTEL));
-        iPrice.deleteAll(getH(HOTEL1));
-        iServices.deleteAll(getH(HOTEL));
-        iServices.deleteAll(getH(HOTEL1));
-        iPriceElem.deleteAll(getH(HOTEL));
-        iPriceElem.deleteAll(getH(HOTEL1));
-        iRooms.deleteAll(getH(HOTEL));
-        iRooms.deleteAll(getH(HOTEL1));
     }
 
     @Test
@@ -101,11 +94,11 @@ public class Test9 extends TestHelper {
         assertEquals(100, hList.size());
         hList = iRooms.getList(getH(HOTEL1));
         assertEquals(100, hList.size());
-        iRooms.deleteAll(getH(HOTEL1));
+        iRooms.deleteElem(getH(HOTEL1),hList.get(0));
         hList = iRooms.getList(getH(HOTEL));
         assertEquals(100, hList.size());
         hList = iRooms.getList(getH(HOTEL1));
-        assertTrue(hList.isEmpty());
+        assertEquals(99, hList.size());
     }
 
     private void addServices() {

@@ -20,9 +20,12 @@ import javax.naming.NamingException;
 
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
@@ -31,7 +34,7 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.shared.JythonUIFatal;
 
-class AdminEjbLocator {
+public class AdminEjbLocator {
 
     private AdminEjbLocator() {
 
@@ -87,9 +90,21 @@ class AdminEjbLocator {
     static IAppInstanceHotel getAppInstanceHotel() {
         return construct(IHotelConsts.HOTELADMININSTANCEEJBJNDI);
     }
-    
+
     static ISequenceRealmGen getSequenceRealmGen() {
         return construct(ISharedConsts.COMMONSEQGENJNDI);
+    }
+
+    public static IReservationForm getReservationForm() {
+        return construct(IHotelConsts.HOTELRESERVATIONJNDI);
+    }
+
+    public static IReservationOp getReservationOp() {
+        return construct(IHotelConsts.HOTELRESERVATIONOPJNDI);
+    }
+
+    public static IClearHotel getClearHotel() {
+        return construct(IHotelConsts.HOTELCLEAROPJNDI);
     }
 
 }

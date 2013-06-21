@@ -12,12 +12,14 @@
  */
 package com.gwthotel.hotel.jpa.entities;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
@@ -28,7 +30,9 @@ import javax.persistence.UniqueConstraint;
         @NamedQuery(name = "findOnePriceList", query = "SELECT x FROM EHotelPriceList x WHERE x.hotel = ?1 AND x.name = ?2") })
 public class EHotelPriceList extends EHotelDict {
 
+    @Temporal(TemporalType.DATE)
     private Date priceFrom;
+    @Temporal(TemporalType.DATE)
     private Date priceTo;
 
     public Date getPriceFrom() {

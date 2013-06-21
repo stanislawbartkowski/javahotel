@@ -36,8 +36,8 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
 
     HotelJpaRooms(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
-        super(new String[] { "findAllRooms", "findOneRoom", "deleteAllRooms" },
-                eFactory, HotelObjects.ROOM, iGen);
+        super(new String[] { "findAllRooms", "findOneRoom" }, eFactory,
+                HotelObjects.ROOM, iGen);
     }
 
     @Override
@@ -53,7 +53,8 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     }
 
     @Override
-    protected void toE(EHotelRoom dest, HotelRoom sou, EntityManager em, HotelId hotel) {
+    protected void toE(EHotelRoom dest, HotelRoom sou, EntityManager em,
+            HotelId hotel) {
         dest.setNoPersons(sou.getNoPersons());
     }
 

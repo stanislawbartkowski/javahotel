@@ -19,22 +19,21 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 
 public class Test7 extends TestHelper {
 
-    private void resetHotel() {
+    @Before
+    public void resetHotel() {
+        clearObjects();
         createHotels();
-        iPrice.deleteAll(getH(HOTEL));
-        iPrice.deleteAll(getH(HOTEL1));
-
     }
 
     @Test
     public void test1() {
-        resetHotel();
         HotelPriceList p = new HotelPriceList();
         p.setName("p1");
         p.setFromDate(toDate(2010, 10, 1));
@@ -50,7 +49,6 @@ public class Test7 extends TestHelper {
 
     @Test
     public void test2() {
-        resetHotel();
         HotelPriceList p = new HotelPriceList();
         p.setName("p1");
         p.setFromDate(toDate(2010, 10, 1));
@@ -67,7 +65,6 @@ public class Test7 extends TestHelper {
 
     @Test
     public void test3() {
-        resetHotel();
         for (int i = 0; i < 100; i++) {
             HotelPriceList p = new HotelPriceList();
             p.setName("p" + i);

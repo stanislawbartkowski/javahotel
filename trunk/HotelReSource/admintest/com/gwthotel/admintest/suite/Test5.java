@@ -12,7 +12,11 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +27,7 @@ import com.gwthotel.admin.Hotel;
 import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.Person;
 import com.gwthotel.auth.HotelCustom;
-import com.gwthotel.shared.IHotelConsts;
-import com.jythonui.server.holder.Holder;
 import com.jythonui.server.security.token.ICustomSecurity;
-import com.jythonui.shared.CustomSecurity;
 
 public class Test5 extends TestHelper {
 
