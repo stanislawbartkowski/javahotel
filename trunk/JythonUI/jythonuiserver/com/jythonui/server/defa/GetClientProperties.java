@@ -12,10 +12,7 @@
  */
 package com.jythonui.server.defa;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -25,10 +22,9 @@ import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.shared.ISharedConsts;
 import com.jython.ui.shared.MUtil;
 import com.jythonui.server.IJythonClientRes;
+import com.jythonui.server.Util;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
-import com.jythonui.server.logmess.IErrorCode;
-import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.shared.ClientProp;
 import com.jythonui.shared.CustomMessages;
@@ -53,24 +49,27 @@ public class GetClientProperties implements IJythonClientRes {
         if (!CUtil.EmptyS(locale)) {
             Holder.SetLocale(locale);
         }
-        InputStream i = GetClientProperties.class.getClassLoader()
-                .getResourceAsStream(ICommonConsts.APP_FILENAME);
-        if (i == null) {
-            log.log(Level.SEVERE, gMess
-                    .getMess(IErrorCode.ERRORCODE1,
-                            ILogMess.CANNOTFINDRESOURCEFILE,
-                            ICommonConsts.APP_FILENAME));
+        // InputStream i = GetClientProperties.class.getClassLoader()
+        // .getResourceAsStream(ICommonConsts.APP_FILENAME);
+        // if (i == null) {
+        // log.log(Level.SEVERE, gMess
+        // .getMess(IErrorCode.ERRORCODE1,
+        // ILogMess.CANNOTFINDRESOURCEFILE,
+        // ICommonConsts.APP_FILENAME));
+        // return null;
+        // }
+        // Properties prop = new Properties();
+        // try {
+        // prop.load(i);
+        // } catch (IOException e) {
+        // log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE2,
+        // ILogMess.ERRORWHILEREADINGRESOURCEFILE,
+        // ICommonConsts.APP_FILENAME), e);
+        // return null;
+        // }
+        Properties prop = Util.getProperties(ICommonConsts.APP_FILENAME);
+        if (prop == null)
             return null;
-        }
-        Properties prop = new Properties();
-        try {
-            prop.load(i);
-        } catch (IOException e) {
-            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE2,
-                    ILogMess.ERRORWHILEREADINGRESOURCEFILE,
-                    ICommonConsts.APP_FILENAME), e);
-            return null;
-        }
         ClientProp map = new ClientProp();
         MUtil.toElem(map.getMap(), prop);
         Holder.setAuth(map.isAuthenticate());

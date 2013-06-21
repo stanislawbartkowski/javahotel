@@ -12,15 +12,26 @@
  */
 package com.jythonui.server;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.holder.SHolder;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.RequestContext;
 
 public class Util {
 
     private Util() {
-
     }
+
+    static final private Logger log = Logger.getLogger(Util.class.getName());
 
     public static void setLocale(RequestContext context) {
         String locale = context.getLocale();
@@ -28,4 +39,23 @@ public class Util {
             Holder.SetLocale(locale);
     }
 
+    public static Properties getProperties(String propName) {
+        IGetLogMess gMess = SHolder.getM();
+        InputStream i = Util.class.getClassLoader().getResourceAsStream(
+                propName);
+        if (i == null) {
+            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE1,
+                    ILogMess.CANNOTFINDRESOURCEFILE, propName));
+            return null;
+        }
+        Properties prop = new Properties();
+        try {
+            prop.load(i);
+        } catch (IOException e) {
+            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE2,
+                    ILogMess.ERRORWHILEREADINGRESOURCEFILE, propName), e);
+            return null;
+        }
+        return prop;
+    }
 }
