@@ -13,13 +13,8 @@
 package com.gwthotel.hotel.jpa;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
-import com.gwthotel.hotel.IHotelObjectGenSym;
-import com.gwthotel.shared.IHotelConsts;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jython.ui.shared.ISharedConsts;
-import com.jythonui.server.getmess.IGetLogMess;
 
 abstract public class AbstractCrudProvider {
 

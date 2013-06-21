@@ -12,12 +12,13 @@
  */
 package com.gwthotel.hotel.services;
 
+import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 
 public class HotelServices extends PropDescription {
 
     private static final long serialVersionUID = 1L;
-    
+
     private int noPersons;
 
     public int getNoPersons() {
@@ -26,6 +27,10 @@ public class HotelServices extends PropDescription {
 
     public void setNoPersons(int noPersons) {
         this.noPersons = noPersons;
-    }    
+    }
+
+    public void setVat(String vat) {
+        setAttr(IHotelConsts.VATPROP, vat);
+    }
 
 }

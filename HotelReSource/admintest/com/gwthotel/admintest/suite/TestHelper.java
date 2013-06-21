@@ -28,6 +28,7 @@ import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admintest.guice.ServiceInjector;
+import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
@@ -35,6 +36,7 @@ import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
@@ -73,6 +75,8 @@ public class TestHelper {
     protected final IHotelObjectGenSym iHGen;
     protected final IHotelObjectsFactory hObjects;
     protected final IReservationForm iRes;
+    protected final IReservationOp iResOp;
+    protected final IClearHotel iClear;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -119,6 +123,8 @@ public class TestHelper {
         iHGen = ServiceInjector.getHotelGenSym();
         hObjects = ServiceInjector.getHotelObjects();
         iRes = ServiceInjector.getReservationForm();
+        iResOp = ServiceInjector.getReservationOp();
+        iClear = ServiceInjector.getClearHotel();
     }
 
     @BeforeClass
@@ -134,6 +140,16 @@ public class TestHelper {
     @Before
     public void beforeTest() {
         Holder.setAuth(false);
+    }
+
+    protected void clearObjects() {
+        List<Hotel> aList = iAdmin.getListOfHotels(getI());
+        for (Hotel ho : aList) {
+            HotelId hotel = getH(ho.getName());
+            iClear.clearObjects(hotel);
+            iHGen.clearAll(hotel);
+        }
+
     }
 
     protected DialogFormat findDialog(String dialogName) {

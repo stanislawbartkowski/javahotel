@@ -17,7 +17,6 @@ import com.gwthotel.auth.HotelAuthRealm;
 public class AppHotelAuthRealm extends HotelAuthRealm {
 
     public AppHotelAuthRealm() {
-        super();
         this.setiRes(new HotelAuthResources());
         this.setiGet(ServiceInjector.getInstanceHotel());
     }

@@ -3,10 +3,11 @@ from util.util import CUSTOMERLIST
 from util.util import toVarNameDesc
 from util.util import toVar
 from util.util import duplicatedName
-from com.gwthotel.hotel.customer import HotelCustomer
+#from com.gwthotel.hotel.customer import HotelCustomer
 from util.util import copyNameDescr
 from util.util import toP
 from util.util import MESS
+from util.util import newCustomer
 
 M = MESS()
     
@@ -27,7 +28,7 @@ def _duplicatedCustomerName(var):
     return duplicatedName(var,R,M("DUPLICATEDCUSTOMERNAME"))    
     
 def _createCustomer(var):
-    h = HotelCustomer()
+    h = newCustomer(var)
     copyNameDescr(h,var)
     toP(h,var,CLIST)
     return h

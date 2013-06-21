@@ -22,6 +22,7 @@ import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
+import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -73,6 +74,9 @@ public class H {
     @Inject
     private static IGetInstanceHotelId iGet;
 
+    @Inject
+    private static IHotelObjectsFactory oFactory;
+
     public static IGetLogMess getL() {
         return lMess;
     }
@@ -123,6 +127,10 @@ public class H {
 
     public static void invalidateHotelCache() {
         iGet.invalidateCache();
+    }
+
+    public static IHotelObjectsFactory getObjectFactory() {
+        return oFactory;
     }
 
 }

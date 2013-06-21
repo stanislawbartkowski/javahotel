@@ -19,6 +19,7 @@ import com.google.inject.name.Names;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
@@ -26,6 +27,7 @@ import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
@@ -107,13 +109,21 @@ public class ServiceInjector {
     public static IHotelObjectGenSym getHotelGenSym() {
         return injector.getInstance(IHotelObjectGenSym.class);
     }
-    
+
     public static IHotelObjectsFactory getHotelObjects() {
         return injector.getInstance(IHotelObjectsFactory.class);
     }
-    
+
     public static IReservationForm getReservationForm() {
         return injector.getInstance(IReservationForm.class);
+    }
+
+    public static IReservationOp getReservationOp() {
+        return injector.getInstance(IReservationOp.class);
+    }
+
+    public static IClearHotel getClearHotel() {
+        return injector.getInstance(IClearHotel.class);
     }
 
 }

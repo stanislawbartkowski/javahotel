@@ -12,8 +12,8 @@
  */
 package com.gwthotel.adminejb.guice;
 
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
-import javax.inject.Singleton;
 
 import com.google.inject.Injector;
 import com.jythonui.server.defa.GuiceInjectorHolder;

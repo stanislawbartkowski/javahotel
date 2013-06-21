@@ -27,5 +27,5 @@ public interface IHotelProp<T extends PropDescription> {
 
     void deleteElem(HotelId hotel, T elem);
     
-    void deleteAll(HotelId hotel);
+    T findElem(HotelId hotel, String name);
 }

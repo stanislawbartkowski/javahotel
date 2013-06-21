@@ -18,7 +18,7 @@ import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.shared.PropDescription;
 
-public abstract class AbstractHotelEJB<T extends PropDescription> implements
+abstract public class AbstractHotelEJB<T extends PropDescription> implements
         IHotelProp<T> {
 
     protected IHotelProp<T> service;
@@ -29,8 +29,8 @@ public abstract class AbstractHotelEJB<T extends PropDescription> implements
     }
 
     @Override
-    public void addElem(HotelId hotel, T elem) {
-        service.addElem(hotel, elem);
+    public T addElem(HotelId hotel, T elem) {
+        return service.addElem(hotel, elem);
     }
 
     @Override
@@ -44,8 +44,8 @@ public abstract class AbstractHotelEJB<T extends PropDescription> implements
     }
 
     @Override
-    public void deleteAll(HotelId hotel) {
-        service.deleteAll(hotel);
+    public T findElem(HotelId hotel, String name) {
+        return service.findElem(hotel, name);
     }
 
 }

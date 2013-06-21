@@ -2,6 +2,7 @@ from com.gwthotel.hotel.server.service import H
 from java.util import ArrayList
 from java.util import Date
 from java.math import BigDecimal
+from com.gwthotel.hotel import HotelObjects
 
 class MESS :
 
@@ -179,4 +180,18 @@ def duplicatedName(var,S,duplicateM):
       var["JERROR_name"] = duplicatedM
       return True
     return False
-        
+
+class ConstructObject :
+    
+    def __init__(self,var):
+        self.factory = H.getObjectFactory()
+        self.hotel = getHotelName(var)
+               
+    def getO(self,t) :
+        oType = None
+        if t == 0 : oType = HotelObjects.CUSTOMER
+        return self.factory.construct(self.hotel,oType)
+    
+def newCustomer(var) :
+    c = ConstructObject(var)
+    return c.getO(0)        

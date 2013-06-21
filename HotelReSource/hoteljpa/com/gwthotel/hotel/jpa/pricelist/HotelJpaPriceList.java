@@ -29,13 +29,15 @@ class HotelJpaPriceList extends
         AbstractJpaCrud<HotelPriceList, EHotelPriceList> implements
         IHotelPriceList {
 
-    HotelJpaPriceList(ITransactionContextFactory eFactory, IHotelObjectGenSymFactory iGen) {
-        super(new String[] { "findAllPriceLists", "findOnePriceList",
-                "deleteAllPriceLists" }, eFactory,  HotelObjects.PRICELIST, iGen);
+    HotelJpaPriceList(ITransactionContextFactory eFactory,
+            IHotelObjectGenSymFactory iGen) {
+        super(new String[] { "findAllPriceLists", "findOnePriceList" },
+                eFactory, HotelObjects.PRICELIST, iGen);
     }
 
     @Override
-    protected HotelPriceList toT(EHotelPriceList sou, EntityManager em, HotelId hotel) {
+    protected HotelPriceList toT(EHotelPriceList sou, EntityManager em,
+            HotelId hotel) {
         HotelPriceList ho = new HotelPriceList();
         ho.setFromDate(sou.getPriceFrom());
         ho.setToDate(sou.getPriceTo());
@@ -48,9 +50,10 @@ class HotelJpaPriceList extends
     }
 
     @Override
-    protected void toE(EHotelPriceList dest, HotelPriceList sou, EntityManager em, HotelId hotel) {
-        dest.setPriceFrom(MUtil.toSqlDate(sou.getFromDate()));
-        dest.setPriceTo(MUtil.toSqlDate(sou.getToDate()));
+    protected void toE(EHotelPriceList dest, HotelPriceList sou,
+            EntityManager em, HotelId hotel) {
+        dest.setPriceFrom(sou.getFromDate());
+        dest.setPriceTo(sou.getToDate());
     }
 
     @Override

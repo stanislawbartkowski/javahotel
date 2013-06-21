@@ -16,6 +16,8 @@
 		<class>com.gwthotel.hotel.jpa.entities.EHotelRoom</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelRoomServices</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelCustomer </class>
+		<class>com.gwthotel.hotel.jpa.entities.EHotelReservation </class>
+		<class>com.gwthotel.hotel.jpa.entities.EHotelReservationDetail</class>
 
 		<properties>
 			<!-- EclipseLink should create the database schema automatically -->
@@ -40,6 +42,8 @@
 		<class>com.gwthotel.hotel.jpa.entities.EHotelRoom</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelRoomServices</class>
 		<class>com.gwthotel.hotel.jpa.entities.EHotelCustomer </class>
+		<class>com.gwthotel.hotel.jpa.entities.EHotelReservation </class>
+		<class>com.gwthotel.hotel.jpa.entities.EHotelReservationDetail</class>
 
 		<properties>
 			<!-- EclipseLink should create the database schema automatically -->

@@ -26,19 +26,15 @@ import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
-import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
-import com.jythonui.server.getmess.IGetLogMess;
 
 class HotelJpaPrices implements IHotelPriceElem {
 
     private final ITransactionContextFactory eFactory;
-    private final IGetLogMess lMess;
 
-    protected HotelJpaPrices(ITransactionContextFactory eFactory, IGetLogMess lMess) {
+    protected HotelJpaPrices(ITransactionContextFactory eFactory) {
         this.eFactory = eFactory;
-        this.lMess = lMess;
     }
 
     private abstract class doTransaction extends JpaTransaction {

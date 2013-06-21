@@ -21,7 +21,6 @@ import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
-import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
@@ -30,8 +29,8 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
 
     HotelJpaCustomers(ITransactionContextFactory eFactory,
             IHotelObjectGenSymFactory iGen) {
-        super(new String[] { "findAllCustomers", "findOneCustomer",
-                "deleteAllCustomers" }, eFactory, HotelObjects.CUSTOMER, iGen);
+        super(new String[] { "findAllCustomers", "findOneCustomer" }, eFactory,
+                HotelObjects.CUSTOMER, iGen);
     }
 
     @Override

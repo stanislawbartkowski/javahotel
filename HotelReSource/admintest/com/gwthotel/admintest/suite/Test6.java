@@ -19,7 +19,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gwthotel.hotel.services.HotelServices;
@@ -29,10 +28,8 @@ public class Test6 extends TestHelper {
 
     @Before
     public void resetHotel() {
+        clearObjects();
         createHotels();
-        iServices.deleteAll(getH(HOTEL));
-        iServices.deleteAll(getH(HOTEL1));
-
     }
 
     @Test
@@ -79,10 +76,12 @@ public class Test6 extends TestHelper {
         assertEquals(90, hList.size());
         HotelServices ho = hList.get(10);
         ho.setNoPersons(9);
+        String sym = ho.getName();
         iServices.changeElem(getH(HOTEL1), ho);
         hList = iServices.getList(getH(HOTEL1));
         assertEquals(90, hList.size());
-        ho = hList.get(10);
+//        ho = hList.get(10);
+        ho = iServices.findElem(getH(HOTEL1), sym);
         assertEquals(9, ho.getNoPersons());
 
         hList = iServices.getList(getH(HOTEL));
@@ -111,9 +110,10 @@ public class Test6 extends TestHelper {
     public void test4() {
         addList(HOTEL, 100);
         addList(HOTEL1, 90);
-        iServices.deleteAll(getH(HOTEL));
         List<HotelServices> hList = iServices.getList(getH(HOTEL));
-        assertTrue(hList.isEmpty());
+        iServices.deleteElem(getH(HOTEL),hList.get(0));
+        hList = iServices.getList(getH(HOTEL));
+        assertEquals(99, hList.size());
         hList = iServices.getList(getH(HOTEL1));
         assertEquals(90, hList.size());
     }

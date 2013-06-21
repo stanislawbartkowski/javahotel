@@ -19,12 +19,13 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 
+import com.google.inject.Inject;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
+//import javax.inject.Inject;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)

@@ -13,33 +13,53 @@
 package com.gwthotel.adminejb.guice;
 
 import javax.inject.Singleton;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.jpa.HotelAppInstanceProvider;
+import com.gwthotel.hotel.IClearHotel;
+import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
 import com.gwthotel.hotel.jpa.customers.HotelCustomersProvider;
 import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
 import com.gwthotel.hotel.jpa.prices.HotelPriceElemProvider;
+import com.gwthotel.hotel.jpa.reservation.HotelReservationProvider;
+import com.gwthotel.hotel.jpa.reservationop.ReservationOpProvider;
 import com.gwthotel.hotel.jpa.rooms.HotelRoomsProvider;
 import com.gwthotel.hotel.jpa.services.HotelServicesProvider;
+import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.ui.server.jpastoragekey.StorageJpaRegistryProvider;
+import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
+import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
+import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jython.ui.server.jpatrans.JpaNonTransactionContextFactoryProvider;
+import com.jython.ui.server.jpatrans.JpaEmTransactionContext;
+import com.jython.ui.server.jpatrans.JpaNonTransactionContext;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.MessProvider;
+import com.jythonui.server.storage.gensym.ISymGenerator;
+import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
+import com.jythonui.server.storage.gensymimpl.SymGeneratorFactory;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
+import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
+import com.jythonui.server.storage.seqimpl.SequenceRealmGenFactory;
 
 public class GuiceService {
 
@@ -47,8 +67,8 @@ public class GuiceService {
         @Override
         protected void configure() {
 
-            bind(IStorageRealmRegistry.class).toProvider(
-                    StorageJpaRegistryProvider.class).in(Singleton.class);
+            // bind(IStorageRealmRegistry.class).toProvider(
+            // StorageJpaRegistryProvider.class).in(Singleton.class);
 
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
@@ -85,10 +105,79 @@ public class GuiceService {
                     .annotatedWith(Names.named(ISharedConsts.JYTHONMESSSERVER))
                     .toProvider(MessProvider.class).in(Singleton.class);
 
-            bind(ITransactionContextFactory.class).toProvider(
-                    JpaNonTransactionContextFactoryProvider.class).in(
+            bind(IReservationForm.class).toProvider(
+                    HotelReservationProvider.class).in(Singleton.class);
+
+            bind(IReservationOp.class).toProvider(ReservationOpProvider.class)
+                    .in(Singleton.class);
+            bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
+
+            // bind(ITransactionContextFactory.class).toProvider(
+            // JpaNonTransactionContextFactoryProvider.class).in(
+            // Singleton.class);
+
+            // common
+            bind(IStorageJpaRegistryFactory.class).to(
+                    StorageJpaRegistryFactory.class).in(Singleton.class);
+            bind(ISequenceRealmGenFactory.class).to(
+                    SequenceRealmGenFactory.class).in(Singleton.class);
+
+            bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
                     Singleton.class);
+            // bind(IStorageRegistryFactory.class).to(
+            // StorageRealmRegistryFactory.class).in(Singleton.class);
+            // -----
 
         }
+
+        // common
+        @Provides
+        @Singleton
+        IStorageRealmRegistry getStorageRealmRegistry(
+                IStorageJpaRegistryFactory rFactory,
+                ITransactionContextFactory iC) {
+            return rFactory.construct(iC);
+        }
+
+        @Provides
+        @Singleton
+        ITransactionContextFactory getTransactionContextFactory(
+                final EntityManagerFactory eFactory) {
+            return new ITransactionContextFactory() {
+                @Override
+                public ITransactionContext construct() {
+                    return new JpaNonTransactionContext(eFactory);
+                }
+            };
+        }
+
+        // -----
+
+        @Provides
+        @Singleton
+        IHotelObjectGenSymFactory getHotelObjectGenSymFactory(
+                final ISequenceRealmGenFactory seqFactory,
+                final ISymGeneratorFactory symFactory,
+                final IStorageJpaRegistryFactory regFactory) {
+            return new IHotelObjectGenSymFactory() {
+
+                @Override
+                public IHotelObjectGenSym construct(final EntityManager em) {
+                    ITransactionContextFactory tFactory = new ITransactionContextFactory() {
+
+                        @Override
+                        public ITransactionContext construct() {
+                            return new JpaEmTransactionContext(em);
+                        }
+                    };
+                    IStorageRealmRegistry iReg = regFactory.construct(tFactory);
+                    ISequenceRealmGen iSeq = seqFactory.construct(iReg);
+                    ISymGenerator iSym = symFactory.construct(iSeq);
+                    return new HotelObjectGenSym(iSym);
+                }
+
+            };
+        }
+
     }
 }
