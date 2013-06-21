@@ -13,10 +13,12 @@
 package com.jythonui.server.defa;
 
 import javax.ejb.Local;
+import javax.ejb.Stateless;
 
 import com.google.inject.Injector;
 
-@Local
+//@Local
+//@Stateless
 public interface GuiceInjectorHolder {
 
     public Injector getInjector();

@@ -16,7 +16,7 @@ import javax.inject.Provider;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-abstract public class AbstractEntityManagerFactoryProvider implements
+public abstract class AbstractEntityManagerFactoryProvider implements
         Provider<EntityManagerFactory> {
 
     private static EntityManagerFactory factory;
