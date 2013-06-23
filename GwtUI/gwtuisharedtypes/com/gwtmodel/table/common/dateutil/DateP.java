@@ -20,118 +20,118 @@ import java.util.Date;
  * 
  * @author stanislawbartkowski@gmail.com
  */
-@SuppressWarnings("serial")
 public class DateP implements Serializable {
 
-	private int year, month, day;
-	private int h, m, s;
-	private boolean empty;
-	public static final int DEFH = 5;
-	public static final int DEFM = 5;
-	public static final int DEFS = 5;
+    private static final long serialVersionUID = 1L;
+    private int year, month, day;
+    private int h, m, s;
+    private boolean empty;
+    public static final int DEFH = 5;
+    public static final int DEFM = 5;
+    public static final int DEFS = 5;
 
-	public DateP() {
-		empty = true;
-		h = DEFH;
-		m = DEFM;
-		s = DEFS;
-	}
+    public DateP() {
+        empty = true;
+        h = DEFH;
+        m = DEFM;
+        s = DEFS;
+    }
 
-	public int getYear() {
-		return year;
-	}
+    public int getYear() {
+        return year;
+    }
 
-	public void setYear(final int year) {
-		empty = false;
-		this.year = year;
-	}
+    public void setYear(final int year) {
+        empty = false;
+        this.year = year;
+    }
 
-	public int getMonth() {
-		return month;
-	}
+    public int getMonth() {
+        return month;
+    }
 
-	public void setMonth(final int month) {
-		empty = false;
-		this.month = month;
-	}
+    public void setMonth(final int month) {
+        empty = false;
+        this.month = month;
+    }
 
-	public int getDay() {
-		return day;
-	}
+    public int getDay() {
+        return day;
+    }
 
-	public void setDay(final int day) {
-		empty = false;
-		this.day = day;
-	}
+    public void setDay(final int day) {
+        empty = false;
+        this.day = day;
+    }
 
-	@SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
     public void setT(final Timestamp d) {
-		if (d == null) {
-			empty = true;
-			return;
-		}
-		setYear(d.getYear() + 1900);
-		setMonth(d.getMonth() + 1);
-		setDay(d.getDate());
-		setH(d.getHours());
-		setM(d.getMinutes());
-		setS(d.getSeconds());
-	}
+        if (d == null) {
+            empty = true;
+            return;
+        }
+        setYear(d.getYear() + 1900);
+        setMonth(d.getMonth() + 1);
+        setDay(d.getDate());
+        setH(d.getHours());
+        setM(d.getMinutes());
+        setS(d.getSeconds());
+    }
 
-	@SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
     public void setD(final Date d) {
-		if (d == null) {
-			empty = true;
-			return;
-		}
-		setYear(d.getYear() + 1900);
-		setMonth(d.getMonth() + 1);
-		setDay(d.getDate());
-		setH(DEFH);
-		setM(DEFM);
-		setS(DEFS);
-	}
+        if (d == null) {
+            empty = true;
+            return;
+        }
+        setYear(d.getYear() + 1900);
+        setMonth(d.getMonth() + 1);
+        setDay(d.getDate());
+        setH(DEFH);
+        setM(DEFM);
+        setS(DEFS);
+    }
 
-	@SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
     public Date getD() {
-		if (empty) {
-			return null;
-		}
-		Date d = new Date(year - 1900, month - 1, day, DEFH, DEFM, DEFS);
-		return d;
-	}
+        if (empty) {
+            return null;
+        }
+        Date d = new Date(year - 1900, month - 1, day, DEFH, DEFM, DEFS);
+        return d;
+    }
 
-	@SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation")
     public Timestamp getT() {
-		if (empty) {
-			return null;
-		}
-		Timestamp d = new Timestamp(year - 1900, month - 1, day, getH(),
-				getM(), getS(), 0);
-		return d;
-	}
+        if (empty) {
+            return null;
+        }
+        Timestamp d = new Timestamp(year - 1900, month - 1, day, getH(),
+                getM(), getS(), 0);
+        return d;
+    }
 
-	public int getH() {
-		return h;
-	}
+    public int getH() {
+        return h;
+    }
 
-	public void setH(int h) {
-		this.h = h;
-	}
+    public void setH(int h) {
+        this.h = h;
+    }
 
-	public int getM() {
-		return m;
-	}
+    public int getM() {
+        return m;
+    }
 
-	public void setM(int m) {
-		this.m = m;
-	}
+    public void setM(int m) {
+        this.m = m;
+    }
 
-	public int getS() {
-		return s;
-	}
+    public int getS() {
+        return s;
+    }
 
-	public void setS(int s) {
-		this.s = s;
-	}
+    public void setS(int s) {
+        this.s = s;
+    }
 }
