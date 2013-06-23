@@ -10,11 +10,14 @@
 	</form>
 
 
-	<dateline id="dateline" colno="10" lineid="id">
+	<dateline id="dateline" colno="10" lineid="id" defafile="name1" >
 		<columns>
 			<column id="id" type="long" hidden="" />
 			<column id="displayname" />
 		</columns>
+		<files>
+			<filedef id="name1" file="x.html" />
+		</files>
 	</dateline>
 
 </dialog>

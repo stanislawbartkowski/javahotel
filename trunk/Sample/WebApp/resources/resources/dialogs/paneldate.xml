@@ -9,7 +9,7 @@
 	</jython>
 
 
-	<dateline id="dateline" displayname="List of rooms" lineid="id">
+	<dateline id="dateline" displayname="List of rooms ggg" lineid="id" colno="10" pagesize="10">
 		<columns>
 			<column id="id" type="long" hidden="" />
 			<column id="displayname" displayname="Room" />

@@ -16,10 +16,12 @@ import static org.junit.Assert.assertEquals;
 import guice.ServiceInjector;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
 
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
@@ -107,6 +109,10 @@ public class TestHelper {
             String password) {
         String t = iSec.authenticateToken(realm, user, password, null);
         return t;
+    }
+
+    protected Date getD(int year, int m, int d) {
+        return DateFormatUtil.toD(year, m, d);
     }
 
 }
