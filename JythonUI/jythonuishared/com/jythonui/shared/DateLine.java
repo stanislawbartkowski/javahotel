@@ -20,9 +20,14 @@ public class DateLine extends ElemDescription {
     private static final long serialVersionUID = 1L;
 
     private List<FieldItem> colList = new ArrayList<FieldItem>();
+    private List<FormDef> formList = new ArrayList<FormDef>();
 
     public List<FieldItem> getColList() {
         return colList;
+    }
+
+    public List<FormDef> getFormList() {
+        return formList;
     }
 
     public int getColNo() {
@@ -32,9 +37,42 @@ public class DateLine extends ElemDescription {
     public int getRowNo() {
         return getInt(ICommonConsts.PAGESIZE, ICommonConsts.DEFAULTROWNO);
     }
-    
+
     public String getListId() {
-        return getAttr(ICommonConsts.DETELINEID);
+        return getAttr(ICommonConsts.DATELINEID);
+    }
+
+    public String getDateColId() {
+        return getAttr(ICommonConsts.DATELINEDATEID,
+                ICommonConsts.DATELINEDATEIDDEFAULT);
+    }
+
+    public String getDateFile() {
+        return getAttr(ICommonConsts.DATALINEFILE,
+                ICommonConsts.DATALINEFILEDEFAULT);
+    }
+
+    public String getDefaFile() {
+        return getAttr(ICommonConsts.DATELINEDEFAFILE);
+    }
+
+    public FieldItem getFieldId() {
+        return DialogFormat.findE(getColList(), getListId());
+    }
+
+    public List<FieldItem> constructDataLine() {
+        List<FieldItem> colList = new ArrayList<FieldItem>();
+        colList.add(getFieldId());
+        DialogFormat.addDefDataCols(colList, getDateColId());
+        return colList;
+    }
+
+    public List<FieldItem> constructQueryLine() {
+        List<FieldItem> colList = new ArrayList<FieldItem>();
+        colList.add(getFieldId());
+        DialogFormat.addDefDataCols(colList, ICommonConsts.JDATELINEQUERYFROM,
+                ICommonConsts.JDATELINEQEURYTO);
+        return colList;
     }
 
 }

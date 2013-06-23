@@ -137,4 +137,22 @@ public class DialogFormat extends ElemDescription {
         return findE(datelineList, id);
     }
 
+    private static void addDataCols(List<FieldItem> colList, String dataType,
+            String... dTag) {
+        for (String s : dTag) {
+            FieldItem fItem = new FieldItem();
+            fItem.setAttr(ICommonConsts.TYPE, dataType);
+            fItem.setId(s);
+            colList.add(fItem);
+        }
+    }
+
+    public static void addDefDataCols(List<FieldItem> colList, String... dTag) {
+        addDataCols(colList, ICommonConsts.DATETYPE, dTag);
+    }
+
+    public static void addDefStringCols(List<FieldItem> colList, String... dTag) {
+        addDataCols(colList, ICommonConsts.STRINGTYPE, dTag);
+    }
+
 }

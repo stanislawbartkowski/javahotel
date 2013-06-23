@@ -12,22 +12,17 @@
  */
 package com.jythonui.shared;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author hotel
  * 
  */
-public class DialogVariables implements Serializable {
+public class DialogVariables extends MapDialogVariable {
 
     private static final long serialVersionUID = 1L;
-    private Map<String, FieldValue> vList = new HashMap<String, FieldValue>();
+
     private Map<String, ListOfRows> rowList = new HashMap<String, ListOfRows>();
 
     private Map<String, ListOfRows> enumList = new HashMap<String, ListOfRows>();
@@ -36,48 +31,7 @@ public class DialogVariables implements Serializable {
 
     private Map<String, DateLineVariables> datelineVariables = new HashMap<String, DateLineVariables>();
 
-    public FieldValue getValue(String fId) {
-        return vList.get(fId);
-    }
-
-    public String getValueS(String fId) {
-        FieldValue v = getValue(fId);
-        if (v == null)
-            return null;
-        return v.getValueS();
-    }
-
-    public void setValue(String fId, FieldValue v) {
-        vList.put(fId, v);
-    }
-
-    public void setValueB(String fId, boolean b) {
-        FieldValue val = new FieldValue();
-        val.setValue(b);
-        vList.put(fId, val);
-    }
-
-    public void setValueS(String fId, String v) {
-        FieldValue val = new FieldValue();
-        val.setValue(v);
-        vList.put(fId, val);
-    }
-
-    public void setValueL(String fId, long l) {
-        FieldValue val = new FieldValue();
-        val.setValue(l);
-        vList.put(fId, val);
-    }
-
-    public List<String> getFields() {
-        Set<String> s = vList.keySet();
-        List<String> l = new ArrayList<String>();
-        Iterator<String> i = s.iterator();
-        while (i.hasNext()) {
-            l.add(i.next());
-        }
-        return l;
-    }
+    private ListOfRows queryDateLine = new ListOfRows();
 
     public void setSecurityToken(String token) {
         setValueS(ICommonConsts.SECURITYTOKEN, token);
@@ -117,5 +71,9 @@ public class DialogVariables implements Serializable {
     public Map<String, DateLineVariables> getDatelineVariables() {
         return datelineVariables;
     }
-       
+
+    public ListOfRows getQueryDateLine() {
+        return queryDateLine;
+    }
+
 }

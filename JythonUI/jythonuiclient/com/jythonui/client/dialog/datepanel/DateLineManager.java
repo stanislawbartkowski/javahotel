@@ -15,7 +15,9 @@ package com.jythonui.client.dialog.datepanel;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.DateCell;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -118,42 +120,6 @@ public class DateLineManager {
 
             DateLineVariables v = null;
 
-            // private class RowData extends AVModelData {
-            //
-            // private final int row;
-            //
-            // RowData(int row) {
-            // this.row = row;
-            // }
-            //
-            // @Override
-            // public Object getF(IVField fie) {
-            // CVField c = (CVField) fie;
-            // if (c.cId == 0) {
-            // RowContent ro = v.getLines().getRowList().get(row);
-            // return ro.getRow(0).getValueS();
-            // }
-            // return null;
-            // }
-            //
-            // @Override
-            // public void setF(IVField fie, Object o) {
-            // // empty
-            //
-            // }
-            //
-            // @Override
-            // public boolean isValid(IVField fie) {
-            // // not important
-            // return true;
-            // }
-            //
-            // @Override
-            // public List<IVField> getF() {
-            // return null;
-            // }
-            //
-            // }
 
             @Override
             public void readChunkRange(int startw, int rangew, IVField sortC,
@@ -196,8 +162,35 @@ public class DateLineManager {
                     }
 
                 }
+                
+                private class DataCell extends AbstractCell {
+
+                    @Override
+                    public void render(Context context, Object value,
+                            SafeHtmlBuilder sb) {
+                        sb.appendEscaped("aaaaa");
+                        
+                    }
+                    
+                }
+                
+
+                private class DataColumn extends Column<MutableInteger,Object> {
+                    
+                    DataColumn() {
+                        super(new DataCell());
+                    }
+
+                    @Override
+                    public Object getValue(MutableInteger object) {
+                        // TODO Auto-generated method stub
+                        return null;
+                    }
+                    
+                }
 
                 private class DColumn extends TextColumn<MutableInteger> {
+                    
 
                     @Override
                     public String getValue(MutableInteger row) {
@@ -214,7 +207,8 @@ public class DateLineManager {
 
                 @Override
                 public Column<?, ?> getColumn() {
-                    return new DColumn();
+//                    return new DColumn();
+                    return new DataColumn();
                 }
 
             }
@@ -228,7 +222,7 @@ public class DateLineManager {
                             constructV(i));
                     vList.add(vNagl);
                 }
-                return new VListHeaderContainer(vList, dList.getDisplayName());
+                return new VListHeaderContainer(vList, dList.getDisplayName(),dList.getRowNo(),null,null,null,null);
             }
 
             @Override
@@ -316,7 +310,6 @@ public class DateLineManager {
             registerSubscriber(sl, new Refresh());
             iTable = gFactory.construct(null, null, null, null, null, null,
                     false);
-            iTable.setPageSize(dl.getRowNo());
             iTable.setModel(tModel);
             rI = new RowIndex(dl.getColList());
         }

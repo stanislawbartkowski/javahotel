@@ -47,7 +47,14 @@ public interface ICommonConsts {
     String COLNO = "colno";
     int DEFAULTCOLNO = 14;
     int DEFAULTROWNO = 20;
-    String DETELINEID = "lineid";
+    String DATELINEFORMS = "files";
+    String DATELINEFORM = "filedef";
+    String DATELINEDEFAFILE="defafile";
+    String DATALINEFILE="file";
+    String DATALINEFILEDEFAULT="file";
+    String DATELINEID = "lineid";
+    String DATELINEDATEID = "dateid";
+    String DATELINEDATEIDDEFAULT = "datecol";
     int DEFAULTAFTERDOT = 2;
     String JLISTMAP = "JLIST_MAP";
     String JCHECKLISTMAP = "JCHECK_MAP";
@@ -150,6 +157,14 @@ public interface ICommonConsts {
     String APP_VERSION = "Version";
     String APP_FILENAME = "app.properties";
     String APP_PRODUCTIMAGE = "ProductImage";
+    
+    String JDATELINEQUERYID="JDATELINE_QUERYID";
+    String JDATELINEQUERYFROM="JDATELINE_FROM";
+    String JDATELINEQEURYTO="JDATELINE_TO";
+    String JDATELINEQUERYLINEID="JDATELINE_ID";
+    String JDATELINEQUERYLIST="JDATELINE_QUERYLIST";
+    String JDATELINELINEDEF="linedef";
+    String JDATELINEVALUES="values";
 
     char PERMSIGN = '$';
 
