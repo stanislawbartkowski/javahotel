@@ -12,34 +12,16 @@
  */
 package com.jythonui.shared;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class DateLineVariables implements Serializable {
+public class FormDef extends ElemDescription {
 
     private static final long serialVersionUID = 1L;
 
-    private ListOfRows lines = new ListOfRows();
-
-    private Map<String, ListOfRows> lineData = new HashMap<String, ListOfRows>();
-
-    private ListOfRows values = new ListOfRows();
-
-    
-    public Map<String, ListOfRows> getLineData() {
-        return lineData;
+    public void setFormDef(String text) {
+        setAttr(ICommonConsts.DATALINEFILE, text);
     }
 
-    public ListOfRows getLines() {
-        return lines;
+    public String getFormDef() {
+        return getAttr(ICommonConsts.DATALINEFILE);
     }
-
-    public ListOfRows getValues() {
-        return values;
-    }
-
 
 }

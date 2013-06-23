@@ -12,6 +12,7 @@
  */
 package com.jythonui.server.dialog;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.jython.ui.shared.SaxUtil;
+import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.Util;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -37,6 +40,7 @@ import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.ElemDescription;
 import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.FormDef;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
@@ -70,6 +74,8 @@ class ReadDialog {
      *         SAX handler
      */
     private static class MyHandler extends DefaultHandler {
+
+        private final IJythonUIServerProperties p;
 
         /** DialogFormat class being built. */
         private DialogFormat dFormat = null;
@@ -106,7 +112,10 @@ class ReadDialog {
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT };
         private final String[] datelineTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.PAGESIZE,
-                ICommonConsts.COLNO, ICommonConsts.DETELINEID };
+                ICommonConsts.COLNO, ICommonConsts.DATELINEID,
+                ICommonConsts.DATELINEDEFAFILE,ICommonConsts.DATALINEFILE,ICommonConsts.DATELINEDATEID };
+        private final String[] formTag = { ICommonConsts.ID,
+                ICommonConsts.DATALINEFILE };
         private final String[] elemchecklistTag = checklistTag;
 
         /** Currently recognized set of tags. */
@@ -127,6 +136,11 @@ class ReadDialog {
         private List<FieldItem> fList = null;
         private List<ValidateRule> valList = null;
         private CheckList checkList = null;
+        private DateLine dL = null;
+
+        MyHandler(IJythonUIServerProperties p) {
+            this.p = p;
+        }
 
         @Override
         public void startElement(String uri, String localName, String qName,
@@ -165,6 +179,7 @@ class ReadDialog {
                 getAttribute = true;
                 // pass to getting attributes (no return)
             }
+
             if (qName.equals(ICommonConsts.FIELD)
                     || qName.equals(ICommonConsts.COLUMN)) {
                 bDescr = new FieldItem();
@@ -185,6 +200,11 @@ class ReadDialog {
                 beforeCol = bDescr;
                 return;
             }
+            if (qName.equals(ICommonConsts.DATELINEFORM)) {
+                bDescr = new FormDef();
+                currentT = formTag;
+                getAttribute = true;
+            }
             if (qName.equals(ICommonConsts.CHECKLIST)) {
                 checkList = new CheckList();
                 bDescr = checkList;
@@ -204,7 +224,8 @@ class ReadDialog {
             }
             if (qName.equals(ICommonConsts.DATELINE)) {
                 currentT = datelineTag;
-                bDescr = new DateLine();
+                dL = new DateLine();
+                bDescr = dL;
                 fList = new ArrayList<FieldItem>();
                 getAttribute = true;
             }
@@ -277,8 +298,23 @@ class ReadDialog {
                 return;
             }
             if (qName.equals(ICommonConsts.DATELINE)) {
-                DateLine dL = (DateLine) beforeCol;
                 dFormat.getDatelineList().add(dL);
+                fList = null;
+                dL = null;
+                return;
+            }
+            if (qName.equals(ICommonConsts.DATELINEFORM)) {
+                FormDef d = (FormDef) bDescr;
+                String fileName = d.getFormDef();
+                // replace with content of real file
+                InputStream sou = Util.getFile(p, fileName);
+                String te = Util.readFromFileInput(sou);
+                d.setFormDef(te);
+                dL.getFormList().add(d);
+                return;
+            }
+
+            if (qName.equals(ICommonConsts.COLUMNS) && dL != null) {
                 dL.getColList().addAll(fList);
                 fList = null;
                 return;
@@ -323,12 +359,13 @@ class ReadDialog {
 
     }
 
-    static DialogFormat parseDocument(InputStream sou)
-            throws ParserConfigurationException, SAXException, IOException {
+    static DialogFormat parseDocument(IJythonUIServerProperties p,
+            InputStream sou) throws ParserConfigurationException, SAXException,
+            IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser saxParser;
         saxParser = factory.newSAXParser();
-        MyHandler ma = new MyHandler();
+        MyHandler ma = new MyHandler(p);
         saxParser.parse(sou, ma);
         return ma.dFormat;
     }

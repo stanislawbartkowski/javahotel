@@ -27,6 +27,19 @@ public class RowContent implements Serializable {
         row = new FieldValue[size];
     }
 
+    public void addRow(FieldValue onerow) {
+        FieldValue[] nRow = new FieldValue[row.length + 1];
+        for (int i = 0; i < row.length; i++) {
+            nRow[i] = row[i];
+        }
+        nRow[row.length] = onerow;
+        row = nRow;
+    }
+
+    public int getLength() {
+        return row.length;
+    }
+
     public FieldValue getRow(int i) {
         return row[i];
     }

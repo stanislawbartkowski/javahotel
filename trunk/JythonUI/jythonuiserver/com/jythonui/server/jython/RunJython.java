@@ -17,7 +17,9 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -62,6 +64,7 @@ import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
+import com.jythonui.shared.MapDialogVariable;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
 import com.jythonui.shared.TypedefDescr;
@@ -108,7 +111,7 @@ public class RunJython {
     private static final PyObject JCHECKMAP = toString(ICommonConsts.JCHECKLISTMAP);
     private static final PyObject JDATELINEMAP = toString(ICommonConsts.JDATELINEMAP);
 
-    private static Map<PyObject, PyObject> toPythonMap(DialogVariables v) {
+    private static Map<PyObject, PyObject> toPythonMap(MapDialogVariable v) {
         Map<PyObject, PyObject> m = new HashMap<PyObject, PyObject>();
         for (String s : v.getFields()) {
             FieldValue val = v.getValue(s);
@@ -167,8 +170,8 @@ public class RunJython {
         return m;
     }
 
-    private static DialogVariables toVariables(RowIndex rI, RowContent row) {
-        DialogVariables v = new DialogVariables();
+    private static MapDialogVariable toVariables(RowIndex rI, RowContent row) {
+        MapDialogVariable v = new MapDialogVariable();
         for (int i = 0; i < rI.rowSize(); i++) {
             FieldItem f = rI.getI(i);
             v.setValue(f.getId(), row.getRow(i));
@@ -184,7 +187,7 @@ public class RunJython {
         Collection<PyDictionary> c = new ArrayList<PyDictionary>();
         RowIndex rI = new RowIndex(cList);
         for (RowContent row : rList.getRowList()) {
-            DialogVariables var = toVariables(rI, row);
+            MapDialogVariable var = toVariables(rI, row);
             Map<PyObject, PyObject> ma = toPythonMap(var);
             PyDictionary pMa = new PyDictionary(ma);
             c.add(pMa);
@@ -206,13 +209,39 @@ public class RunJython {
             Entry<String, ListOfRows> e = iter.next();
             ListFormat fList = d.findList(e.getKey());
             if (fList == null)
-                error(Holder.getM().getMess(IErrorCode.ERRORCODE34, d.getId(),
-                        ILogMess.LISTNOTFOUND, e.getKey()));
+                error(Holder.getM().getMess(IErrorCode.ERRORCODE34,
+                        ILogMess.LISTNOTFOUND, d.getId(), e.getKey()));
             PyList pList = createList(fList.getColumns(), e.getValue());
             m.put(toString(e.getKey()), pList);
         }
         PyDictionary pyMap = new PyDictionary(m);
         pMap.put(JLISTMAP, pyMap);
+    }
+
+    private static String getNotEmptyValueS(MapDialogVariable v, String id) {
+        String s = v.getValueS(ICommonConsts.JDATELINEQUERYID);
+        if (CUtil.EmptyS(s)) {
+            error(Holder.getM().getMess(IErrorCode.ERRORCODE58,
+                    ILogMess.STRINGVALUECANNOTBENULL, id));
+        }
+        return s;
+
+    }
+
+    private static void addQueryDateLineToMap(Map<PyObject, PyObject> pMap,
+            DialogFormat d, DialogVariables v) {
+        if (v.getQueryDateLine().isEmpty())
+            return;
+        String id = getNotEmptyValueS(v, ICommonConsts.JDATELINEQUERYID);
+        DateLine dL = d.findDateLine(id);
+        if (dL == null) {
+            String mess = Holder.getM().getMess(IErrorCode.ERRORCODE59,
+                    ILogMess.DATELINENOTDEFINED, id, ICommonConsts.DATELINE,
+                    d.getId());
+            error(mess);
+        }
+        PyList qList = createList(dL.constructQueryLine(), v.getQueryDateLine());
+        pMap.put(toString(ICommonConsts.JDATELINEQUERYLIST), qList);
     }
 
     private static void addCheckListToMap(Map<PyObject, PyObject> pMap,
@@ -241,8 +270,9 @@ public class RunJython {
 
     @SuppressWarnings("rawtypes")
     private static void extractListFromSeq(ListOfRows lRows, RowIndex rI,
-            PyList pList, DialogFormat d) {
+            PyList pList, DialogFormat d, boolean strict) {
         ListIterator i = pList.listIterator();
+        Map<Integer,FieldValue> outVal = new HashMap<Integer,FieldValue>();
         while (i.hasNext()) {
             Object e = i.next();
             PyDictionary vMap = (PyDictionary) e;
@@ -252,10 +282,26 @@ public class RunJython {
             for (String s : v.getFields()) {
                 FieldValue valF = v.getValue(s);
                 if (!rI.isField(s)) {
-                    error(Holder.getM().getMess(IErrorCode.ERRORCODE28,
-                            ILogMess.COLUMNNOTDEFINED, s, d.getId()));
-                }
-                rI.setRowField(row, s, valF);
+                    if (strict)
+                        error(Holder.getM().getMess(IErrorCode.ERRORCODE28,
+                                ILogMess.COLUMNNOTDEFINED, s, d.getId()));
+                    else {
+//                        row.addRow(valF);
+                        Integer pos = new Integer(s);
+                        outVal.put(pos, valF);
+                    }
+                } else
+                    rI.setRowField(row, s, valF);
+            }
+            if (!outVal.isEmpty()) {
+              List<Integer> outI = new ArrayList<Integer>();
+              for (Integer pos : outVal.keySet()) {
+                  outI.add(pos);
+              }
+              Collections.sort(outI);
+              for (Integer pos : outI) {
+                  row.addRow(outVal.get(pos));
+              }
             }
             lRows.addRow(row);
         }
@@ -339,7 +385,7 @@ public class RunJython {
                     error(d.getId() + " " + lForm.getId()
                             + " list is chunked. Sequence size is expected");
                 }
-                extractListFromSeq(lRows, rI, pList, d);
+                extractListFromSeq(lRows, rI, pList, d, true);
             }
             vOut.setRowList(listId, lRows);
         }
@@ -357,9 +403,53 @@ public class RunJython {
         private final DialogFormat d;
         private final DialogVariables vOut;
 
+        private class ExtractDataLineDetail extends IterateMap {
+
+            private final DateLine dL;
+
+            ExtractDataLineDetail(PyDictionary pyMap, DateLine dL) {
+                super(pyMap, false, false);
+                this.dL = dL;
+            }
+
+            @Override
+            void visit(String listId, PyList pList) {
+                if (listId.equals(ICommonConsts.JDATELINELINEDEF)) {
+                    List<FieldItem> seqList = dL.getColList();
+                    RowIndex rI = new RowIndex(seqList);
+                    DateLineVariables lineVariables = new DateLineVariables();
+                    extractListFromSeq(lineVariables.getLines(), rI, pList, d,
+                            true);
+                    vOut.getDatelineVariables().put(dL.getId(), lineVariables);
+                } else if (listId.equals(ICommonConsts.JDATELINEVALUES)) {
+                    List<FieldItem> seqList = dL.constructDataLine();
+                    RowIndex rI = new RowIndex(seqList);
+                    DateLineVariables lineVariables = vOut
+                            .getDatelineVariables().get(dL.getId());
+                    if (lineVariables == null)
+                        lineVariables = new DateLineVariables();
+                    extractListFromSeq(lineVariables.getValues(), rI, pList, d,
+                            false);
+                    vOut.getDatelineVariables().put(dL.getId(), lineVariables);
+                } else {
+                    String mess = Holder.getM().getMess(
+                            IErrorCode.ERRORCODE60,
+                            ILogMess.DATELINEGETDATACTION,
+                            d.getId(),
+                            ICommonConsts.JDATELINEMAP,
+                            listId,
+                            ICommonConsts.JDATELINELINEDEF + " "
+                                    + ICommonConsts.JDATELINEVALUES);
+                    error(mess);
+                }
+
+            }
+
+        }
+
         ExtractDataLineList(PyDictionary pyMap, DialogFormat d,
                 DialogVariables vOut) {
-            super(pyMap, false, false);
+            super(pyMap, false, true);
             this.d = d;
             this.vOut = vOut;
         }
@@ -373,11 +463,8 @@ public class RunJython {
                         ICommonConsts.DATELINE, d.getId());
                 error(mess);
             }
-            List<FieldItem> seqList = dLine.getColList();
-            RowIndex rI = new RowIndex(seqList);
-            DateLineVariables lineVariables = new DateLineVariables();
-            extractListFromSeq(lineVariables.getLines(), rI, pList, d);
-            vOut.getDatelineVariables().put(listId, lineVariables);
+            ExtractDataLineDetail dE = new ExtractDataLineDetail(fMap, dLine);
+            dE.runMap();
         }
 
     }
@@ -434,12 +521,12 @@ public class RunJython {
                 }
                 if (seqList != null) {
                     RowIndex rI = new RowIndex(seqList);
-                    extractListFromSeq(lRows, rI, pList, d);
+                    extractListFromSeq(lRows, rI, pList, d, true);
                     return;
                 }
                 RowIndex rI = new RowIndex(cList.constructValLine());
                 lRows = new ListOfRows();
-                extractListFromSeq(lRows, rI, pList, d);
+                extractListFromSeq(lRows, rI, pList, d, true);
 
                 checkVariables.getVal().put(listId, lRows);
             }
@@ -470,6 +557,9 @@ public class RunJython {
                 continue;
             }
             if (key.equals(ICommonConsts.JDATELINEMAP)) {
+                continue;
+            }
+            if (key.equals(ICommonConsts.JDATELINEQUERYLIST)) {
                 continue;
             }
             String keyS = (String) key;
@@ -662,6 +752,7 @@ public class RunJython {
         Map<PyObject, PyObject> pMap = toPythonMap(v);
         addListToMap(pMap, d, v);
         addCheckListToMap(pMap, d, v);
+        addQueryDateLineToMap(pMap, d, v);
         PyDictionary pyMap = new PyDictionary(pMap);
 
         interp.set(GGTempVariable, pyMap);
@@ -758,7 +849,7 @@ public class RunJython {
         }
     }
 
-    // entry point
+    // single entry point
 
     public static void executeJython(IJythonUIServerProperties p,
             MCached mCached, DialogVariables v, DialogFormat d, String actionId) {

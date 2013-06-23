@@ -30,6 +30,7 @@ import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.MCached;
+import com.jythonui.server.Util;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
@@ -92,16 +93,7 @@ public class GetDialog {
 
     static private InputStream getXML(IJythonUIServerProperties p, String name)
             throws FileNotFoundException {
-        putDebug("Search dialog " + name);
-        if (p.getDialogDirectory() == null) {
-            error(SHolder.getM().getMess(IErrorCode.ERRORCODE17,
-                    ILogMess.DIALOGDIRECTORYNULL));
-        }
-        String dDir = p.getDialogDirectory();
-        dDir = dDir + "/" + name;
-        putDebug(dDir);
-        InputStream s = new FileInputStream(dDir);
-        return s;
+        return Util.getFile(p, name);
     }
 
     public static DialogFormat getDialog(IJythonUIServerProperties p,
@@ -129,8 +121,6 @@ public class GetDialog {
                     return lo.getfElem();
                 }
             }
-            // error(dParentName + " is parent in the " + dialogName
-            // + " but there is no such a dialog in the parent specified");
             error(SHolder.getM().getMess(IErrorCode.ERRORCODE9,
                     ILogMess.ELEMDOESNOTMATCHPARENT, dParentName, dialogName));
         }
@@ -153,7 +143,7 @@ public class GetDialog {
                 VerifyXML.verify(u, new StreamSource(sou));
             }
             sou = getXML(p, dialogName);
-            d = ReadDialog.parseDocument(sou);
+            d = ReadDialog.parseDocument(p,sou);
             if (d != null) {
                 d.setId(dialogName);
                 if (verify) {

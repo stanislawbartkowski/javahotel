@@ -216,7 +216,10 @@
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="pagesize" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="colno" type="xs:nonNegativeInteger" />
-			<xs:element minOccurs="0" name="lineid" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="lineid" type="xs:string" />
+			<xs:element minOccurs="0" name="dateid" type="xs:string" />
+			<xs:element minOccurs="0" name="file" type="xs:string" />
+			<xs:element minOccurs="0" name="defafile" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -226,8 +229,22 @@
 		<xs:attribute name="pagesize" type="xs:nonNegativeInteger" />
 		<xs:attribute name="colno" type="xs:nonNegativeInteger" />
 		<xs:attribute name="lineid" type="xs:string" />
+		<xs:attribute name="dateid" type="xs:string" />
+		<xs:attribute name="file" type="xs:string" />		
+		<xs:attribute name="defafile" type="xs:string" />		
 	</xs:attributeGroup>
 
+	<xs:group name="formfileG">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="file" type="xs:string" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:attributeGroup name="formfileG">
+		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="file" type="xs:string" />
+	</xs:attributeGroup>
 
 	<xs:element name="dialog">
 		<xs:complexType>
@@ -372,6 +389,20 @@
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
+
+							<xs:element minOccurs="1" name="files">
+								<xs:complexType>
+									<xs:sequence minOccurs="1" maxOccurs="unbounded">
+										<xs:element name="filedef">
+											<xs:complexType>
+												<xs:group ref="formfileG" />
+												<xs:attributeGroup ref="formfileG" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+
 
 						</xs:sequence>
 						<xs:attributeGroup ref="datelineattrG" />

@@ -71,6 +71,27 @@ class ValidateDialogFormat {
         }
     }
 
+    private static void tagExists(DialogFormat d, ElemDescription e,
+            String tag, String... tagList) {
+        for (String s : tagList) {
+            String val = e.getAttr(s);
+            if (CUtil.EmptyS(val))
+                error(SHolder.getM().getMess(IErrorCode.ERRORCODE56,
+                        ILogMess.TAGCANNOTBEEMPTY, d.getId(), tag, s));
+
+        }
+    }
+
+    private static <T extends ElemDescription> void findTag(DialogFormat d,
+            ElemDescription e, String findTag, String listTag, List<T> eList) {
+        String id = e.getAttr(findTag);
+        if (DialogFormat.findE(eList, id) != null)
+            return;
+        error(SHolder.getM().getMess(IErrorCode.ERRORCODE57,
+                ILogMess.DIALOGCANNOTFINDINLIST, d.getId(), findTag, id,
+                listTag));
+    }
+
     static void validate(DialogFormat d) {
         validateL(ICommonConsts.LEFTMENU, ICommonConsts.BUTTON,
                 d.getLeftButtonList());
@@ -115,12 +136,21 @@ class ValidateDialogFormat {
             String dId = dl.getListId();
             if (CUtil.EmptyS(dId)) {
                 error(SHolder.getM().getMess(IErrorCode.ERRORCODE51,
-                        ILogMess.DATELINEIDCANNOTBEEMPTY, d.getId(),ICommonConsts.DATELINE, ICommonConsts.DETELINEID));
+                        ILogMess.DATELINEIDCANNOTBEEMPTY, d.getId(),
+                        ICommonConsts.DATELINE, ICommonConsts.DATELINEID));
             }
             FieldItem f = DialogFormat.findE(dl.getColList(), dId);
             if (f == null)
                 error(SHolder.getM().getMess(IErrorCode.ERRORCODE52,
-                        ILogMess.DATELINEIDCANNOTBEFOUND, d.getId(),ICommonConsts.DATELINE, ICommonConsts.DETELINEID,dId,ICommonConsts.COLUMNS));
+                        ILogMess.DATELINEIDCANNOTBEFOUND, d.getId(),
+                        ICommonConsts.DATELINE, ICommonConsts.DATELINEID, dId,
+                        ICommonConsts.COLUMNS));
+            tagExists(d, dl, ICommonConsts.DATELINE,
+                    ICommonConsts.DATELINEDEFAFILE);
+            validateL(ICommonConsts.DATELINE, ICommonConsts.DATELINEFORMS,
+                    dl.getFormList());
+            findTag(d, dl, ICommonConsts.DATELINEDEFAFILE,
+                    ICommonConsts.DATELINEFORMS, dl.getFormList());
         }
 
     }

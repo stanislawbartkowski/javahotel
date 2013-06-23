@@ -12,6 +12,8 @@
  */
 package com.jythonui.server;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -24,6 +26,7 @@ import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.RequestContext;
 
 public class Util {
@@ -32,6 +35,14 @@ public class Util {
     }
 
     static final private Logger log = Logger.getLogger(Util.class.getName());
+
+    static private void error(String mess, Exception e) {
+        if (e != null)
+            log.log(Level.SEVERE, mess, e);
+        else
+            log.log(Level.SEVERE, mess);
+        throw new JythonUIFatal(mess);
+    }
 
     public static void setLocale(RequestContext context) {
         String locale = context.getLocale();
@@ -44,18 +55,50 @@ public class Util {
         InputStream i = Util.class.getClassLoader().getResourceAsStream(
                 propName);
         if (i == null) {
-            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE1,
-                    ILogMess.CANNOTFINDRESOURCEFILE, propName));
+            error(gMess.getMess(IErrorCode.ERRORCODE1,
+                    ILogMess.CANNOTFINDRESOURCEFILE, propName), null);
             return null;
         }
         Properties prop = new Properties();
         try {
             prop.load(i);
         } catch (IOException e) {
-            log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE2,
+            error(gMess.getMess(IErrorCode.ERRORCODE2,
                     ILogMess.ERRORWHILEREADINGRESOURCEFILE, propName), e);
             return null;
         }
         return prop;
+    }
+
+    public static InputStream getFile(IJythonUIServerProperties p, String name) {
+        if (p.getDialogDirectory() == null) {
+            error(SHolder.getM().getMess(IErrorCode.ERRORCODE17,
+                    ILogMess.DIALOGDIRECTORYNULL), null);
+        }
+        String dDir = p.getDialogDirectory();
+        dDir = dDir + "/" + name;
+        InputStream s;
+        try {
+            s = new FileInputStream(dDir);
+            return s;
+        } catch (FileNotFoundException e) {
+            error(SHolder.getM().getMess(IErrorCode.ERRORCODE54,
+                    ILogMess.FILENOTFOUND, dDir), e);
+            return null;
+        }
+    }
+
+    public static String readFromFileInput(InputStream is) {
+        byte[] b;
+        try {
+            b = new byte[is.available()];
+            is.read(b);
+            String text = new String(b);
+            return text;
+        } catch (IOException e) {
+            error(SHolder.getM().getMess(IErrorCode.ERRORCODE55,
+                    ILogMess.FILEIOEXCEPTION), e);
+            return null;
+        }
     }
 }

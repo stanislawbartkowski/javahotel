@@ -70,6 +70,12 @@ public abstract class ElemDescription implements Serializable {
         return val.substring(0, sec - 1); // remove security part
     }
 
+    public String getAttr(String key, String defa) {
+        if (!isAttr(key))
+            return defa;
+        return getAttr(key);
+    }
+
     public String getSecuriyPart(String key) {
         String val = attr.get(key);
         int sec = findSecurity(val);
