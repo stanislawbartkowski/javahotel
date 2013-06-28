@@ -16,7 +16,9 @@ import com.google.inject.Singleton;
 import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.ui.server.Cached;
+import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IPersonOp;
+import com.jython.ui.server.datastore.gae.DateLineOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
 import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
 import com.jythonui.server.IJythonClientRes;
@@ -25,9 +27,11 @@ import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.SecurityNullConvert;
 import com.jythonui.server.defa.ServerProperties;
+import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurityConvert;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
  * @author hotel
@@ -42,16 +46,19 @@ public class ServerService {
             configureJythonUi();
             bind(IsCached.class).to(Cached.class).in(Singleton.class);
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
+            bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);
             bind(IJythonClientRes.class).to(GetClientProperties.class).in(
                     Singleton.class);
-            bind(IStorageRegistryFactory.class)
-                    .to(StorageRegistryFactory.class).in(Singleton.class);
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
                     Singleton.class);
             bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
                     Singleton.class);
+            bind(IStorageRegistryFactory.class).to(
+                    StorageRealmRegistryFactory.class).in(Singleton.class);
+            bind(IStorageRealmRegistry.class).toProvider(
+                    StorageRegistryFactory.class).in(Singleton.class);
             requestStatic();
         }
     }

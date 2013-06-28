@@ -19,6 +19,6 @@ def dialogaction(action,var) :
        vals = []
        for i in range(1,10) :
            d = datetime.date(2013,1,2)
-           map = {"id" : i, "datecol" : d, "0" : "super", "1" : i}
+           map = {"id" : i, "datecol" : d, "form" : "rybka", "0" : "super", "1" : i}
            vals.append(map)
        var["JDATELINE_MAP"] = {"dateline" : { "values" : vals}}

@@ -15,6 +15,7 @@ package guice;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.gwtmodel.testenhancer.ITestEnhancer;
+import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.security.ISecurity;
@@ -37,6 +38,10 @@ public class ServiceInjector {
         return injector.getInstance(IPersonOp.class);
     }
 
+    public static IDateLineOp constructDateLineElem() {
+        return injector.getInstance(IDateLineOp.class);
+    }
+
     public static IJythonUIServer contructJythonUiServer() {
         return injector.getInstance(IJythonUIServer.class);
     }
@@ -48,11 +53,11 @@ public class ServiceInjector {
     public static ISecurity constructSecurity() {
         return injector.getInstance(ISecurity.class);
     }
-    
+
     public static ISequenceRealmGen getSequenceRealmGen() {
         return injector.getInstance(ISequenceRealmGen.class);
     }
-    
+
     public static ISymGenerator getSymGenerator() {
         return injector.getInstance(ISymGenerator.class);
     }

@@ -14,6 +14,7 @@ package com.jython.ui.server.guice;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 
@@ -31,6 +32,10 @@ public class ServiceInjector {
 
     public static IPersonOp constructPersonOp() {
         return injector.getInstance(IPersonOp.class);
+    }
+
+    public static IDateLineOp constructDateOp() {
+        return injector.getInstance(IDateLineOp.class);
     }
 
     public static IJythonUIServer contructJythonUiServer() {
