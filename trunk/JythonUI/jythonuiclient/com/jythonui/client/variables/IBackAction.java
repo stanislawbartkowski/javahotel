@@ -10,34 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.shared;
+package com.jythonui.client.variables;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
-public class DateLineVariables implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private ListOfRows lines = new ListOfRows();
-
-    private Map<String, ListOfRows> lineData = new HashMap<String, ListOfRows>();
-
-    private ListOfRows values = new ListOfRows();
-
+public interface IBackAction {
     
-    public Map<String, ListOfRows> getLineData() {
-        return lineData;
-    }
-
-    public ListOfRows getLines() {
-        return lines;
-    }
-
-    public ListOfRows getValues() {
-        return values;
-    }
-
+    void refreshDateLine(String dId);
 
 }

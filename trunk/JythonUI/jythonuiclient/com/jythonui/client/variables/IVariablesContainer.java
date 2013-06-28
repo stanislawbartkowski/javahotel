@@ -12,9 +12,12 @@
  */
 package com.jythonui.client.variables;
 
+import java.util.List;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.jythonui.client.dialog.FormGridManager;
+import com.jythonui.client.dialog.datepanel.DateLineManager;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.shared.DialogVariables;
 
@@ -25,12 +28,15 @@ import com.jythonui.shared.DialogVariables;
 public interface IVariablesContainer {
 
     void addFormVariables(ISlotable iSlo, IDataType dType,
-            RowListDataManager liManager, FormGridManager gManager, DialogVariables addV);
+            RowListDataManager liManager, FormGridManager gManager,
+            DateLineManager dlManager, DialogVariables addV,IBackAction iAction);
 
     DialogVariables getVariables();
 
     void setVariablesToForm(DialogVariables v);
 
     void copyCurrentVariablesToForm(ISlotable iSlo, IDataType dType);
+    
+    List<IBackAction> getList();
 
 }

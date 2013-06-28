@@ -12,16 +12,22 @@
  */
 package com.jythonui.client.dialog.datepanel;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.DateCell;
+import com.google.gwt.cell.client.ValueUpdater;
+import com.google.gwt.dom.client.BrowserEvents;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
@@ -31,6 +37,8 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.DateUtil;
@@ -46,6 +54,7 @@ import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.tabledef.IGHeader;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
@@ -55,11 +64,22 @@ import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.IListClicked;
 import com.gwtmodel.table.view.table.IRowEditAction;
+import com.jythonui.client.M;
 import com.jythonui.client.dialog.DialogContainer;
+import com.jythonui.client.dialog.IPerformClickAction;
+import com.jythonui.client.dialog.VField;
 import com.jythonui.client.util.CreateForm;
+import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.RowVModelData;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DateLineVariables;
+import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.FieldValue;
+import com.jythonui.shared.FormDef;
+import com.jythonui.shared.ICommonConsts;
+import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
 
@@ -67,6 +87,28 @@ public class DateLineManager {
 
     private final DialogContainer dContainer;
     private final GwtTableFactory gFactory;
+
+    // ---- variables
+    private class AddVar {
+        final String id;
+        final FieldValue o;
+
+        AddVar(String id, FieldValue o) {
+            this.id = id;
+            this.o = o;
+        }
+    }
+
+    private String lastId = "";
+
+    private final List<AddVar> aVar = new ArrayList<AddVar>();
+
+    public void addVar(DialogVariables var) {
+        var.setValueS(ICommonConsts.JDATELINEQUERYID, lastId);
+        for (AddVar a : aVar) {
+            var.setValue(a.id, a.o);
+        }
+    }
 
     public DateLineManager(DialogContainer dContainer) {
         this.dContainer = dContainer;
@@ -85,6 +127,85 @@ public class DateLineManager {
         private final TableModel tModel = new TableModel();
         private IDrawPartSeasonContext sData = null;
         private final RowIndex rI;
+        private DateLineVariables dVariables;
+        private int rowCol;
+        private final IPerformClickAction iClick;
+
+        private class CellData {
+            final Object lId;
+            final Date date;
+
+            CellData(Object lId, Date date) {
+                this.lId = lId;
+                this.date = date;
+            }
+        }
+
+        private CellData getCellData(Context context) {
+            int col = context.getColumn();
+            int row = context.getIndex();
+            Object lid = getId(row);
+            Date dCol = sData.getD(sData.getFirstD() + col - rowCol);
+            return new CellData(lid, dCol);
+
+        }
+
+        private class DrawContent extends CommonCallBack<DialogVariables> {
+
+            @Override
+            public void onMySuccess(DialogVariables arg) {
+                dVariables = arg.getDatelineVariables().get(dList.getId());
+                if (dVariables == null) {
+                    String mess = M.M().NoValuesRelatedTo(
+                            dContainer.getInfo().getDialog().getId(),
+                            dList.getId());
+                    Utils.errAlert(mess);
+                }
+                iTable.refresh();
+            }
+
+        }
+
+        private Object getId(int i) {
+            FieldItem id = dList.getFieldId();
+            IVModelData v = iTable.getViewModel().get(i);
+            RowVModelData r = (RowVModelData) v;
+            IVField vf = VField.construct(id);
+            Object o = r.getF(vf);
+            return o;
+        }
+
+        private void drawContent() {
+            if (sData == null)
+                return;
+            if (iTable.getViewModel().getSize() == 0)
+                return;
+            DialogVariables var = dContainer.getiCon().getVariables();
+            ListOfRows queryDateLine = var.getQueryDateLine();
+            RowIndex rI = new RowIndex(dList.constructQueryLine());
+            int first = sData.getFirstD();
+            int last = sData.getLastD();
+            Date firstD = sData.getD(first);
+            Date lastD = sData.getD(last);
+            FieldItem id = dList.getFieldId();
+            for (int i = 0; i < iTable.getViewModel().getSize(); i++) {
+                Object o = getId(i);
+                RowContent row = rI.constructRow();
+                FieldValue vId = new FieldValue();
+                vId.setValue(id.getFieldType(), o, id.getAfterDot());
+                rI.setRowField(row, id.getId(), vId);
+                vId = new FieldValue();
+                vId.setValue(firstD);
+                rI.setRowField(row, ICommonConsts.JDATELINEQUERYFROM, vId);
+                vId = new FieldValue();
+                vId.setValue(lastD);
+                rI.setRowField(row, ICommonConsts.JDATELINEQEURYTO, vId);
+                queryDateLine.addRow(row);
+            }
+            var.setValueS(ICommonConsts.JDATELINEQUERYID, dList.getId());
+            ExecuteAction.action(var, dContainer.getInfo().getDialog().getId(),
+                    ICommonConsts.JDATEACTIONGETVALUES, new DrawContent());
+        }
 
         private class CVField implements IVField {
 
@@ -119,7 +240,6 @@ public class DateLineManager {
         private class TableModel implements IGwtTableModel {
 
             DateLineVariables v = null;
-
 
             @Override
             public void readChunkRange(int startw, int rangew, IVField sortC,
@@ -162,40 +282,116 @@ public class DateLineManager {
                     }
 
                 }
-                
-                private class DataCell extends AbstractCell {
+
+                @SuppressWarnings("rawtypes")
+                private class DataCell extends AbstractCell<Object> {
+
+                    private final RowIndex rI = new RowIndex(
+                            dList.constructDataLine());
+                    private final int noC = dList.constructDataLine().size();
+
+                    DataCell() {
+                        super(BrowserEvents.CLICK);
+                    }
 
                     @Override
                     public void render(Context context, Object value,
                             SafeHtmlBuilder sb) {
-                        sb.appendEscaped("aaaaa");
-                        
-                    }
-                    
-                }
-                
+                        CellData cData = getCellData(context);
+                        RowContent val = null;
+                        FieldItem fId = dList.getFieldId();
+                        if (dVariables != null)
+                            for (RowContent r : dVariables.getValues()
+                                    .getRowList()) {
+                                FieldValue rO = rI.get(r, fId.getId());
+                                FieldValue d = rI.get(r, dList.getDateColId());
+                                int comp = FUtils.compareValue(cData.lId,
+                                        rO.getValue(), fId.getFieldType(),
+                                        fId.getAfterDot());
+                                if (comp != 0)
+                                    continue;
+                                comp = DateUtil.compareDate(cData.date,
+                                        d.getValueD());
+                                if (comp != 0)
+                                    continue;
+                                val = r;
+                                break;
+                            }
+                        String formId = null;
+                        if (val == null) {
+                            formId = dList.getDefaFile();
+                        } else {
+                            FieldValue form = rI.get(val, dList.getForm());
+                            formId = form.getValueS();
 
-                private class DataColumn extends Column<MutableInteger,Object> {
-                    
+                        }
+                        FormDef fo = DialogFormat.findE(dList.getFormList(),
+                                formId);
+                        if (fo == null) {
+                            String mess = M.M().NoFormRelatedToValue(
+                                    dContainer.getInfo().getDialog().getId(),
+                                    dList.getId(), formId);
+                            Utils.errAlert(mess);
+                            return;
+                        }
+                        // number of additional arguments
+                        int noArgs = val == null ? 0 : val.getLength() - noC;
+                        if (noArgs == 0)
+                            sb.appendHtmlConstant(fo.getFormDef());
+                        else {
+                            StringBuffer buf = new StringBuffer(fo.getFormDef());
+                            for (int i = 0; i < noArgs; i++) {
+                                String s = "{" + i + "}";
+                                int pos = buf.indexOf(s);
+                                if (pos == -1)
+                                    continue;
+                                FieldValue v = val.getRow(noC + i);
+                                String valS = FUtils.getValueS(v.getValue(),
+                                        v.getType(), v.getAfterdot());
+                                buf.replace(pos, pos + 3, valS);
+                            }
+                            sb.appendHtmlConstant(buf.toString());
+                        }
+                    }
+
+                    public void onBrowserEvent(Context context, Element parent,
+                            Object value, NativeEvent event,
+                            ValueUpdater<Object> valueUpdater) {
+                        String eventType = event.getType();
+                        if (eventType.equals(BrowserEvents.CLICK)) {
+                            CellData cData = getCellData(context);
+                            lastId = dList.getId();
+                            aVar.clear();
+                            FieldItem fId = dList.getFieldId();
+                            FieldValue idVal = new FieldValue();
+                            idVal.setValue(fId.getFieldType(), cData.lId,
+                                    fId.getAfterDot());
+                            aVar.add(new AddVar(ICommonConsts.JDATELINELINEID,
+                                    idVal));
+                            idVal = new FieldValue();
+                            idVal.setValue(cData.date);
+                            aVar.add(new AddVar(ICommonConsts.JDATELINEDATEID,
+                                    idVal));
+                            iClick.click(ICommonConsts.JDATELINE_CELLACTION,
+                                    new WSize(parent));
+                            // dContainer.
+                        }
+                        super.onBrowserEvent(context, parent, value, event,
+                                valueUpdater);
+
+                    }
+                }
+
+                private class DataColumn extends Column<MutableInteger, Object> {
+
+                    @SuppressWarnings("unchecked")
                     DataColumn() {
                         super(new DataCell());
                     }
 
                     @Override
                     public Object getValue(MutableInteger object) {
-                        // TODO Auto-generated method stub
                         return null;
-                    }
-                    
-                }
-
-                private class DColumn extends TextColumn<MutableInteger> {
-                    
-
-                    @Override
-                    public String getValue(MutableInteger row) {
-                        // TODO Auto-generated method stub
-                        return "room";
                     }
 
                 }
@@ -207,7 +403,7 @@ public class DateLineManager {
 
                 @Override
                 public Column<?, ?> getColumn() {
-//                    return new DColumn();
+                    // return new DColumn();
                     return new DataColumn();
                 }
 
@@ -217,12 +413,18 @@ public class DateLineManager {
             public VListHeaderContainer getHeaderList() {
                 List<VListHeaderDesc> vList = CreateForm.constructColumns(
                         dList.getColList(), null);
+                rowCol = 0;
+                for (VListHeaderDesc v : vList)
+                    if (!v.isHidden())
+                        rowCol++;
+
                 for (int i = 0; i < dList.getColNo(); i++) {
                     VListHeaderDesc vNagl = new VListHeaderDesc(new CustomH(i),
                             constructV(i));
                     vList.add(vNagl);
                 }
-                return new VListHeaderContainer(vList, dList.getDisplayName(),dList.getRowNo(),null,null,null,null);
+                return new VListHeaderContainer(vList, dList.getDisplayName(),
+                        dList.getRowNo(), null, null, null, null);
             }
 
             @Override
@@ -279,12 +481,12 @@ public class DateLineManager {
 
             @Override
             public void refresh(IDrawPartSeasonContext parData) {
-                if (sData != null) {
+                if (sData == null) {
                     sData = parData;
                     iTable.refreshHeader();
                 } else
                     sData = parData;
-                iTable.refresh();
+                drawContent();
             }
 
         }
@@ -295,23 +497,35 @@ public class DateLineManager {
             public void signal(ISlotSignalContext slContext) {
                 RefreshData rData = (RefreshData) slContext.getCustom();
                 tModel.v = rData.getValue();
-                iTable.refresh();
+                drawContent();
+            }
+
+        }
+
+        private class RequestForRefresh implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+               drawContent();
             }
 
         }
 
         DateLineSlot(IDataType publishdType, IDataType dType, DateLine dl,
-                CellId cell) {
+                CellId cell, IPerformClickAction iClick) {
             this.publishType = publishdType;
             this.dType = dType;
             this.cell = cell;
             dList = dl;
             CustomStringSlot sl = RefreshData.constructRefreshData(dType);
             registerSubscriber(sl, new Refresh());
+            sl = RefreshData.constructRequestForRefreshData(dType);
+            registerSubscriber(sl, new RequestForRefresh());
             iTable = gFactory.construct(null, null, null, null, null, null,
                     false);
             iTable.setModel(tModel);
             rI = new RowIndex(dl.getColList());
+            this.iClick = iClick;
         }
 
         @Override
@@ -324,15 +538,15 @@ public class DateLineManager {
             Date lDate = DateFormatUtil.toD(2013, 12, 31);
             List<Date> listD = CalendarTable.listOfDates(fDate, lDate,
                     PeriodType.byDay);
-            iSeason.createVPanel(listD, 20);
+            iSeason.createVPanel(listD, dList.getColNo());
             sy.signalDone();
         }
 
     }
 
     public ISlotable contructSlotable(IDataType publishType, IDataType dType,
-            DateLine dl, CellId cell) {
-        return new DateLineSlot(publishType, dType, dl, cell);
+            DateLine dl, CellId cell, IPerformClickAction iClick) {
+        return new DateLineSlot(publishType, dType, dl, cell, iClick);
     }
 
 }

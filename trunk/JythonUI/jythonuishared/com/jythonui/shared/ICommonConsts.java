@@ -55,6 +55,7 @@ public interface ICommonConsts {
     String DATELINEID = "lineid";
     String DATELINEDATEID = "dateid";
     String DATELINEDATEIDDEFAULT = "datecol";
+    String DATELINEFORMDEFAULT="form";
     int DEFAULTAFTERDOT = 2;
     String JLISTMAP = "JLIST_MAP";
     String JCHECKLISTMAP = "JCHECK_MAP";
@@ -165,6 +166,12 @@ public interface ICommonConsts {
     String JDATELINEQUERYLIST="JDATELINE_QUERYLIST";
     String JDATELINELINEDEF="linedef";
     String JDATELINEVALUES="values";
+    
+    String JDATELINELINEID = "JDATELINE_LINE";
+    String JDATELINEDATEID = "JDATELINE_DATE";
+    String JDATELINE_CELLACTION = "datelineaction";
+    
+    String JDATEACTIONGETVALUES="datelinevalues";
 
     char PERMSIGN = '$';
 
@@ -178,6 +185,8 @@ public interface ICommonConsts {
 
     String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
     String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
+    
+    String JREFRESHDATELINE = "JREFRESH_DATELINE_";
 
     String GWT_LOCALE = "GWT_LOCALE";
 
