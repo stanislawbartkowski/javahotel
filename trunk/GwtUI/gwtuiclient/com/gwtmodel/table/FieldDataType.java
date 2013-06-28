@@ -193,6 +193,10 @@ public class FieldDataType {
         return new FieldDataType(TT.LONG, 0, null, null, gVal, null, null);
     }
 
+    public static FieldDataType construct(TT type, int afterdot) {
+        return new FieldDataType(type, afterdot);
+    }
+
     private FieldDataType(TT type, int afterdot, ICustomType i, IEnumType e,
             IGetListValues li, IFormLineViewFactory iFactory,
             IGetCustomValue iGet) {
