@@ -22,6 +22,7 @@ class RegistryEntry {
     private Long id;
     @Index
     private String realM;
+    @Index
     private String key;
     private byte[] value;
 

@@ -12,14 +12,15 @@
  */
 package com.jython.ui.server.gaestoragekey;
 
-import com.jythonui.server.registry.IStorageRegistry;
-import com.jythonui.server.registry.IStorageRegistryFactory;
+import javax.inject.Provider;
 
-public class StorageRegistryFactory implements IStorageRegistryFactory {
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+
+public class StorageRegistryFactory implements Provider<IStorageRealmRegistry> {
 
     @Override
-    public IStorageRegistry construct(String realm) {
-        return new GaeStorageRegistry(realm);
+    public IStorageRealmRegistry get() {
+        return new GaeStorageRegistry();
     }
 
 }
