@@ -434,6 +434,10 @@ public final class SlotListContainer {
                 .construct(slTypeFactory.construct(is), customO));
     }
 
+    public void publish(ISlotCustom is) {
+        publish(is, null);
+    }
+
     public void publish(String customString, ICustomObject customO) {
         publish(slContextFactory.construct(
                 slTypeFactory.construct(customString), customO));

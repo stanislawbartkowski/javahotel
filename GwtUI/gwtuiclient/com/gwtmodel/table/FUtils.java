@@ -15,6 +15,7 @@ package com.gwtmodel.table;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.DecimalUtils;
@@ -385,6 +386,75 @@ public class FUtils {
         return comp;
     }
 
+    private static class TempM implements IVModelData {
+
+        private final Object o;
+
+        TempM(Object o) {
+            this.o = o;
+        }
+
+        @Override
+        public Object getF(IVField fie) {
+            return o;
+        }
+
+        @Override
+        public void setF(IVField fie, Object o) {
+        }
+
+        @Override
+        public boolean isValid(IVField fie) {
+            return false;
+        }
+
+        @Override
+        public List<IVField> getF() {
+            return null;
+        }
+
+        @Override
+        public Object getCustomData() {
+            return null;
+        }
+
+        @Override
+        public void setCustomData(Object o) {
+        }
+    }
+
+    private static class TempV implements IVField {
+
+        private final FieldDataType tt;
+
+        TempV(TT type, int afterdot) {
+            tt = FieldDataType.construct(type, afterdot);
+        }
+
+        @Override
+        public boolean eq(IVField o) {
+            return false;
+        }
+
+        @Override
+        public FieldDataType getType() {
+            return tt;
+        }
+
+        @Override
+        public String getId() {
+            return null;
+        }
+
+    }
+
+    public static int compareValue(Object o1, Object o2, TT type, int afterdot) {
+        IVModelData v1 = new TempM(o1);
+        IVModelData v2 = new TempM(o2);
+        IVField v = new TempV(type, afterdot);
+        return compareValue(v1, v, v2, v, false, false);
+    }
+
     /**
      * Field comparison
      * 
@@ -594,6 +664,10 @@ public class FUtils {
             Utils.errAlert(LogT.getT().errorWhileReading(f.toString()), e);
             throw e;
         }
+    }
+
+    public static String getValueS(Object o, TT type, int afterdot) {
+        return getValueOS(o, new TempV(type, afterdot));
     }
 
     /**
