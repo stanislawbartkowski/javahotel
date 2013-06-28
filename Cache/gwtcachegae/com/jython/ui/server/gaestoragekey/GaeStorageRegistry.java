@@ -16,30 +16,28 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
-import com.jythonui.server.registry.IStorageRegistry;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
-class GaeStorageRegistry implements IStorageRegistry {
-
-    private final String realm;
+class GaeStorageRegistry implements IStorageRealmRegistry {
 
     static {
         ObjectifyService.register(RegistryEntry.class);
     }
 
-    GaeStorageRegistry(String realm) {
-        this.realm = realm;
-    }
 
     @Override
-    public void putEntry(String key, byte[] value) {
-        RegistryEntry re = new RegistryEntry();
-        re.setRealM(realm);
-        re.setKey(key);
+    public void putEntry(String realm, String key, byte[] value) {
+        RegistryEntry re = findR(realm, key);
+        if (re == null) {
+          re = new RegistryEntry();
+          re.setRealM(realm);
+          re.setKey(key);
+        }
         re.setValue(value);
         ofy().save().entity(re).now();
     }
 
-    private RegistryEntry findR(String key) {
+    private RegistryEntry findR(String realm, String key) {
         LoadResult<RegistryEntry> p = ofy().load().type(RegistryEntry.class)
                 .filter("realM ==", realm).filter("key ==", key).first();
         if (p == null) {
@@ -49,16 +47,16 @@ class GaeStorageRegistry implements IStorageRegistry {
     }
 
     @Override
-    public byte[] getEntry(String key) {
-        RegistryEntry re = findR(key);
+    public byte[] getEntry(String realm, String key) {
+        RegistryEntry re = findR(realm, key);
         if (re == null)
             return null;
         return re.getValue();
     }
 
     @Override
-    public void removeEntry(String key) {
-        RegistryEntry re = findR(key);
+    public void removeEntry(String realm, String key) {
+        RegistryEntry re = findR(realm, key);
         if (re == null)
             return;
         ofy().delete().entity(re).now();
