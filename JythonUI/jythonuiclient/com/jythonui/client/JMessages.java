@@ -58,4 +58,8 @@ public interface JMessages extends Messages {
 
     String DataLineNotDefined(String dLineId, String tagId, String dId);
 
+    String NoValuesRelatedTo(String dialogId, String datelineId);
+    
+    String NoFormRelatedToValue(String dialogId, String datelineId, String formId);
+
 }

@@ -29,6 +29,7 @@ import com.gwtmodel.table.slotmodel.SlU;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.FormGridManager;
 import com.jythonui.client.dialog.VField;
+import com.jythonui.client.dialog.datepanel.DateLineManager;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.JUtils;
 import com.jythonui.shared.DialogVariables;
@@ -47,6 +48,8 @@ class VariableContainer implements IVariablesContainer {
         RowListDataManager liManager;
         DialogVariables addVar;
         FormGridManager gManager;
+        DateLineManager dlManager;
+        IBackAction iAction;
     }
 
     private final List<FormContainer> fList = new ArrayList<FormContainer>();
@@ -54,13 +57,16 @@ class VariableContainer implements IVariablesContainer {
     @Override
     public void addFormVariables(ISlotable iSlo, IDataType dType,
             RowListDataManager liManager, FormGridManager gManager,
-            DialogVariables addVar) {
+            DateLineManager dlManager, DialogVariables addVar,
+            IBackAction iAction) {
         FormContainer f = new FormContainer();
         f.iSlo = iSlo;
         f.dType = dType;
         f.liManager = liManager;
         f.addVar = addVar;
         f.gManager = gManager;
+        f.dlManager = dlManager;
+        f.iAction = iAction;
         fList.add(f);
 
     }
@@ -107,6 +113,7 @@ class VariableContainer implements IVariablesContainer {
                 }
             }
             f.gManager.addValues(v);
+            f.dlManager.addVar(v);
         }
         return v;
     }
@@ -171,5 +178,14 @@ class VariableContainer implements IVariablesContainer {
 
         }
 
+    }
+
+    @Override
+    public List<IBackAction> getList() {
+        List<IBackAction> bList = new ArrayList<IBackAction>();
+        for (FormContainer f : fList) {
+            bList.add(0, f.iAction);
+        }
+        return bList;
     }
 }

@@ -49,6 +49,7 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.ISlotCustom;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
@@ -70,6 +71,7 @@ import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.util.RegisterCustom;
 import com.jythonui.client.util.ValidateForm;
+import com.jythonui.client.variables.IBackAction;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
 import com.jythonui.shared.ButtonItem;
@@ -272,6 +274,37 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     }
 
+    private class DateLineClick implements IPerformClickAction {
+
+        @SuppressWarnings("unused")
+        private final IDataType dList;
+        @SuppressWarnings("unused")
+        private final String listId;
+
+        DateLineClick(IDataType dType, String listId) {
+            this.dList = dType;
+            this.listId = listId;
+        }
+
+        @Override
+        public void click(String actionId, WSize w) {
+            runAction(actionId, w, d.getActionList());
+        }
+
+    }
+
+    private class BAction implements IBackAction {
+
+        @Override
+        public void refreshDateLine(String dId) {
+            IDataType dType = dLineType.get(dId);
+            if (dType == null) return;
+            ISlotCustom sl = RefreshData.constructRequestForRefreshData(dType);
+            getSlContainer().publish(sl);
+        }
+
+    }
+
     @Override
     public void startPublish(CellId cId) {
 
@@ -324,7 +357,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 CellId panelId = pView.addCellPanel(dType, pLine++, 0);
                 IDataType dLType = DataType.construct(dl.getId(), this);
                 ISlotable i = dManager.contructSlotable(dType, dLType, dl,
-                        panelId);
+                        panelId, new DateLineClick(dLType, dl.getId()));
                 dLineType.put(dl.getId(), dLType);
                 slMediator.registerSlotContainer(panelId, i);
                 emptyView = false;
@@ -354,7 +387,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 emptyView = false;
             }
 
-        iCon.addFormVariables(slMediator, dType, liManager, gManager, addV);
+        iCon.addFormVariables(slMediator, dType, liManager, gManager, dManager,
+                addV, new BAction());
 
         if (!emptyView) {
             pView.createView();
@@ -537,6 +571,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 }
             };
             JUtils.visitListOfFields(arg, ICommonConsts.JSETATTRCHECK, visC);
+
+            // refresh dateline
             for (String id : arg.getDatelineVariables().keySet()) {
                 IDataType dType = dLineType.get(id);
                 if (dType == null) {
@@ -549,6 +585,19 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 RefreshData da = new RefreshData(var);
                 getSlContainer().publish(sl, da);
             }
+            // dateline request for refresh
+            JUtils.IVisitor visDL = new JUtils.IVisitor() {
+
+                @Override
+                public void action(String fie, String field) {
+                    List<IBackAction> bList = iCon.getList();
+                    for (IBackAction b : bList) {
+                        b.refreshDateLine(fie);
+                    }
+
+                }
+            };
+            JUtils.visitListOfFields(arg, ICommonConsts.JREFRESHDATELINE, visDL);
         }
     }
 

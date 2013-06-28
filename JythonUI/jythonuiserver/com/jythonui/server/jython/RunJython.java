@@ -272,7 +272,7 @@ public class RunJython {
     private static void extractListFromSeq(ListOfRows lRows, RowIndex rI,
             PyList pList, DialogFormat d, boolean strict) {
         ListIterator i = pList.listIterator();
-        Map<Integer,FieldValue> outVal = new HashMap<Integer,FieldValue>();
+        Map<Integer, FieldValue> outVal = new HashMap<Integer, FieldValue>();
         while (i.hasNext()) {
             Object e = i.next();
             PyDictionary vMap = (PyDictionary) e;
@@ -286,7 +286,7 @@ public class RunJython {
                         error(Holder.getM().getMess(IErrorCode.ERRORCODE28,
                                 ILogMess.COLUMNNOTDEFINED, s, d.getId()));
                     else {
-//                        row.addRow(valF);
+                        // row.addRow(valF);
                         Integer pos = new Integer(s);
                         outVal.put(pos, valF);
                     }
@@ -294,14 +294,14 @@ public class RunJython {
                     rI.setRowField(row, s, valF);
             }
             if (!outVal.isEmpty()) {
-              List<Integer> outI = new ArrayList<Integer>();
-              for (Integer pos : outVal.keySet()) {
-                  outI.add(pos);
-              }
-              Collections.sort(outI);
-              for (Integer pos : outI) {
-                  row.addRow(outVal.get(pos));
-              }
+                List<Integer> outI = new ArrayList<Integer>();
+                for (Integer pos : outVal.keySet()) {
+                    outI.add(pos);
+                }
+                Collections.sort(outI);
+                for (Integer pos : outI) {
+                    row.addRow(outVal.get(pos));
+                }
             }
             lRows.addRow(row);
         }
@@ -669,12 +669,20 @@ public class RunJython {
                 } else if (val instanceof Integer) {
                     Integer valI = (Integer) val;
                     f.setValue(valI);
+                } else if (val instanceof BigInteger) {
+                    BigInteger bi = (BigInteger) val;
+                    f.setValue(bi.longValue());
                 } else if (val instanceof Long) {
                     Long valL = (Long) val;
                     f.setValue(valL);
+                } else if (val instanceof java.sql.Date) {
+                    java.sql.Date dt = (java.sql.Date) val;
+                    Date dat = new Date(dt.getTime());
+                    f.setValue(dat);
                 } else {
                     error(Holder.getM().getMess(IErrorCode.ERRORCODE29,
-                            ILogMess.TYPENOTIMPLEMENTED, keyS));
+                            ILogMess.TYPENOTIMPLEMENTED, keyS,
+                            val.getClass().getName()));
                 }
             }
             v.setValue(keyS, f);

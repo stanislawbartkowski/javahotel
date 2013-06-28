@@ -29,18 +29,11 @@ public class ExecuteAction {
     public static void action(IVariablesContainer iCon, String name,
             String actionId, AsyncCallback<DialogVariables> callback) {
         DialogVariables v = iCon.getVariables();
-        // M.JR().runAction(v, name, actionId, callback);
         action(v, name, actionId, callback);
     }
 
     public static void action(DialogVariables v, String name, String actionId,
             AsyncCallback<DialogVariables> callback) {
-//        String token = M.getSecToken();
-//        if (!CUtil.EmptyS(token))
-//            v.setSecurityToken(token);
-//        String loca = Utils.getLocale();
-//        if (loca != null)
-//            v.setLocale(loca);
         M.JR().runAction(RequestContextFactory.construct(),v, name, actionId, callback);
     }
 

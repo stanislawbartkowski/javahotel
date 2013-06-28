@@ -272,9 +272,11 @@ class ListControler {
     private static class ActionClicked implements ISlotListener {
 
         private final IPerformClickAction iClick;
+        private final IVariablesContainer iCon;
 
-        ActionClicked(IPerformClickAction iClick) {
+        ActionClicked(IPerformClickAction iClick,IVariablesContainer iCon) {
             this.iClick = iClick;
+            this.iCon = iCon;
         }
 
         @Override
@@ -413,7 +415,7 @@ class ListControler {
         i.getSlContainer()
                 .registerSubscriber(sl, new ReadInChunk(da, iCon, rM));
         i.getSlContainer().registerSubscriber(da,
-                DataActionEnum.TableCellClicked, new ActionClicked(iClick));
+                DataActionEnum.TableCellClicked, new ActionClicked(iClick,iCon));
         return i;
     }
 
