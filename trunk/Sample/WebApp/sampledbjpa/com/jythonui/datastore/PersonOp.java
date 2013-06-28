@@ -18,7 +18,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import com.jython.ui.server.datastore.IPerson;
@@ -30,46 +29,20 @@ import com.jython.ui.server.datastore.IPersonOp;
  */
 public class PersonOp implements IPersonOp {
 
-    // private static final String PERSISTENCE_UNIT_NAME = "person";
-    // private static EntityManagerFactory factory;
-
     private final EntityManagerFactory factory;
 
     @Inject
     public PersonOp(EntityManagerFactory factory) {
         this.factory = factory;
-        // factory =
-        // Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     }
 
     private EntityManager getEM() {
         return factory.createEntityManager();
     }
 
-    private abstract class doTransaction {
-
-        abstract void dosth(EntityManager em);
-
-        void executeTran() {
-            EntityManager em = getEM();
-            em.getTransaction().begin();
-            boolean commited = false;
-            try {
-                dosth(em);
-                em.getTransaction().commit();
-                commited = true;
-            } finally {
-                if (!commited)
-                    em.getTransaction().rollback();
-                em.close();
-            }
-        }
-
-    }
-
     @Override
     public void savePerson(final IPerson p) {
-        new doTransaction() {
+        new DoTransaction(factory) {
 
             @Override
             void dosth(EntityManager em) {
@@ -82,7 +55,7 @@ public class PersonOp implements IPersonOp {
 
     @Override
     public void clearAll() {
-        new doTransaction() {
+        new DoTransaction(factory) {
 
             @Override
             void dosth(EntityManager em) {
@@ -115,7 +88,7 @@ public class PersonOp implements IPersonOp {
 
     @Override
     public void removePerson(final IPerson p) {
-        new doTransaction() {
+        new DoTransaction(factory) {
 
             @Override
             void dosth(EntityManager em) {
@@ -128,7 +101,7 @@ public class PersonOp implements IPersonOp {
 
     @Override
     public void changePerson(final IPerson p) {
-        new doTransaction() {
+        new DoTransaction(factory) {
 
             @Override
             void dosth(EntityManager em) {

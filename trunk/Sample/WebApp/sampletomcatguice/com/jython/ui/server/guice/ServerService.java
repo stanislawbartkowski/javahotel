@@ -19,12 +19,14 @@ import com.google.inject.Singleton;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.jython.ui.server.Cached;
+import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
 import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
+import com.jythonui.datastore.DateLineOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -51,6 +53,8 @@ public class ServerService {
             configureJythonUi();
             bind(IsCached.class).to(Cached.class).in(Singleton.class);
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
+            bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
+
             bind(IJythonUIServerProperties.class).to(ServerPropertiesEnv.class)
                     .in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
@@ -63,7 +67,7 @@ public class ServerService {
                     Singleton.class);
             bind(IGetResourceJNDI.class).to(GetResourceJNDI.class).in(
                     Singleton.class);
-            
+
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);
@@ -82,7 +86,7 @@ public class ServerService {
                 ITransactionContextFactory iC) {
             return rFactory.construct(iC);
         }
-        
+
         @Provides
         @Singleton
         ITransactionContextFactory getTransactionContextFactory(
@@ -94,7 +98,6 @@ public class ServerService {
                 }
             };
         }
-
 
     }
 
