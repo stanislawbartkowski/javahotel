@@ -141,9 +141,10 @@ public class DateLineManager {
             }
         }
 
-        private CellData getCellData(Context context) {
+        private CellData getCellData(Context context, MutableInteger i) {
             int col = context.getColumn();
-            int row = context.getIndex();
+            // int row = context.getIndex();
+            int row = i.intValue();
             Object lid = getId(row);
             Date dCol = sData.getD(sData.getFirstD() + col - rowCol);
             return new CellData(lid, dCol);
@@ -284,7 +285,7 @@ public class DateLineManager {
                 }
 
                 @SuppressWarnings("rawtypes")
-                private class DataCell extends AbstractCell<Object> {
+                private class DataCell extends AbstractCell<MutableInteger> {
 
                     private final RowIndex rI = new RowIndex(
                             dList.constructDataLine());
@@ -295,9 +296,9 @@ public class DateLineManager {
                     }
 
                     @Override
-                    public void render(Context context, Object value,
+                    public void render(Context context, MutableInteger value,
                             SafeHtmlBuilder sb) {
-                        CellData cData = getCellData(context);
+                        CellData cData = getCellData(context, value);
                         RowContent val = null;
                         FieldItem fId = dList.getFieldId();
                         if (dVariables != null)
@@ -355,11 +356,11 @@ public class DateLineManager {
                     }
 
                     public void onBrowserEvent(Context context, Element parent,
-                            Object value, NativeEvent event,
-                            ValueUpdater<Object> valueUpdater) {
+                            MutableInteger value, NativeEvent event,
+                            ValueUpdater<MutableInteger> valueUpdater) {
                         String eventType = event.getType();
                         if (eventType.equals(BrowserEvents.CLICK)) {
-                            CellData cData = getCellData(context);
+                            CellData cData = getCellData(context, value);
                             lastId = dList.getId();
                             aVar.clear();
                             FieldItem fId = dList.getFieldId();
@@ -382,7 +383,8 @@ public class DateLineManager {
                     }
                 }
 
-                private class DataColumn extends Column<MutableInteger, Object> {
+                private class DataColumn extends
+                        Column<MutableInteger, MutableInteger> {
 
                     @SuppressWarnings("unchecked")
                     DataColumn() {
@@ -390,8 +392,8 @@ public class DateLineManager {
                     }
 
                     @Override
-                    public Object getValue(MutableInteger object) {
-                        return null;
+                    public MutableInteger getValue(MutableInteger object) {
+                        return object;
                     }
 
                 }
@@ -506,7 +508,7 @@ public class DateLineManager {
 
             @Override
             public void signal(ISlotSignalContext slContext) {
-               drawContent();
+                drawContent();
             }
 
         }
