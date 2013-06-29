@@ -1,6 +1,7 @@
 from com.jython.ui.server.guice import ServiceInjector
 from java.util import Date
 import datetime
+from java.util import Calendar
 
 class ElemOp :
     
@@ -72,11 +73,10 @@ def dialogclickaction(action,var) :
 
 def toDate(value):
     if value == None : return None
-    d = Date()
-    d.setYear(value.year - 1900)
-    d.setMonth(value.month-1)
-    d.setDate(value.day)
-    return d    
+    ca = Calendar.getInstance()
+    ca.clear()
+    ca.set(value.year,value.month-1,value.day)
+    return ca.getTime()
 
 def dialogaction(action,var) :
    print action

@@ -39,8 +39,7 @@
   <inherits name="com.jythonui.jythonuicommon" />
   
   <extend-property name="locale" values="en"/>
+  <extend-property name="locale" values="pl"/>
   <set-property-fallback name="locale" value="en"/>
-  
-  
   
 </module>
