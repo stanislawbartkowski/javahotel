@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from hotelpack import customerlist</import>
+		<method>customerlist.customerlistaction({0},{1})</method>
+	</jython>
+
+
+	<list id="customerlist" displayname="@lofcustomer">
+		<columns>
+			<column id="name" displayname="@name" />
+			<column id="descr" displayname="@description" />
+			<column id="firstname" displayname="@firstname" />
+			<column id="companyname" displayname="@companyname" />
+			<column id="street" displayname="@street" />
+			<column id="zipcode" displayname="@zipcode" />
+			<column id="email" displayname="@email" />
+			<column id="phone" displayname="@phone" />
+		</columns>
+	</list>
+
+</dialog>

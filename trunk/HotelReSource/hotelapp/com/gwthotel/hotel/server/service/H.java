@@ -26,6 +26,8 @@ import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
@@ -76,6 +78,12 @@ public class H {
 
     @Inject
     private static IHotelObjectsFactory oFactory;
+
+    @Inject
+    private static IReservationOp resOp;
+    
+    @Inject
+    private static IReservationForm resForm;
 
     public static IGetLogMess getL() {
         return lMess;
@@ -131,6 +139,14 @@ public class H {
 
     public static IHotelObjectsFactory getObjectFactory() {
         return oFactory;
+    }
+
+    public static IReservationOp getResOp() {
+        return resOp;
+    }
+    
+    public static IReservationForm getResForm() {
+        return resForm;
     }
 
 }

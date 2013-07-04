@@ -10,9 +10,6 @@ from com.gwthotel.hotel.services import HotelServices
 M = MESS()
 taxList = H.getVatTaxes()
 
-#    String NOPERSONPROP = "noperson";
-#    String VATPROP = "vat";
-
 def _getVatName(vat):
   list = taxList.getList()
   vat = findElemInSeq(vat,list)

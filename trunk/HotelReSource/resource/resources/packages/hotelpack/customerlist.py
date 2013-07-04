@@ -3,15 +3,15 @@ from util.util import CUSTOMERLIST
 from util.util import toVarNameDesc
 from util.util import toVar
 from util.util import duplicatedName
-#from com.gwthotel.hotel.customer import HotelCustomer
 from util.util import copyNameDescr
 from util.util import toP
 from util.util import MESS
 from util.util import newCustomer
+from util.util import getCustFieldId
 
 M = MESS()
     
-CLIST=["firstname","companyname","street","zipcode","email","phone"]
+CLIST=getCustFieldId()
 
 def _createList(var):
     C = CUSTOMERLIST(var)

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from hotelpack import reserroom</import>
+		<method>reserroom.custdetails({0},{1})</method>
+	</jython>
+
+	<buttons>
+		<button id="accept" displayname="@accept" />
+		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+		<button id="find" displayname="@find" actiontype="JUP_DIALOG"
+			actionparam="hotel/reservation/customerselection.xml" />
+	</buttons>
+
+	<form>
+		<field id="de_custname" displayname="@name" readonly="" />
+		<field id="de_custdescr" displayname="@description" />
+		<field id="de_firstname" displayname="@firstname" />
+		<field id="de_companyname" displayname="@companyname" />
+		<field id="de_street" displayname="@street" />
+		<field id="de_zipcode" displayname="@zipcode" />
+		<field id="de_email" displayname="@email" />
+		<field id="de_phone" displayname="@phone" />
+	</form>
+
+</dialog>
