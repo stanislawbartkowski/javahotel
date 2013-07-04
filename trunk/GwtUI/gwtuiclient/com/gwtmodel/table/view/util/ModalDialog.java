@@ -22,7 +22,9 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
+import com.jythonui.client.M;
 
 abstract public class ModalDialog {
 
@@ -105,6 +107,7 @@ abstract public class ModalDialog {
 
             @Override
             public void setPosition(int offsetWidth, int offsetHeight) {
+                assert w != null : LogT.getT().cannotBeNull();
                 int maxwi = Window.getClientWidth();
                 int maxhei = Window.getClientHeight();
                 int t = w.getTop() + w.getHeight();

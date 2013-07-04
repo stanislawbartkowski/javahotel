@@ -48,6 +48,8 @@ public class GetStandardMessage implements IGetStandardMessage {
                 sBut.get(StandClickEnum.SHOWITEM.name()));
         cValues.put(IStandMessages.FIND, MM.getL().SearchButton());
         cValues.put(IStandMessages.USER, MM.getL().User());
+        cValues.put(IStandMessages.SELECT, MM.getL().Select());
+        cValues.put(IStandMessages.CHOOSE, MM.getL().Choose());
         this.custValues = custValues;
     }
 
