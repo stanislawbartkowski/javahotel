@@ -27,6 +27,7 @@
   <button id="actionlist" displayname="Action list" actiontype="JMAIN_DIALOG" actionparam="actionlist.xml" />
   <button id="numbergrid" displayname="Number grid" actiontype="JMAIN_DIALOG" actionparam="numbergrid.xml" />
   <button id="panedate" displayname="Panel date" actiontype="JMAIN_DIALOG" actionparam="paneldate.xml" />
+  <button id="listfooter" displayname="List with footer" actiontype="JMAIN_DIALOG" actionparam="listfooter.xml" />
 </leftmenu>
 
 <buttons>

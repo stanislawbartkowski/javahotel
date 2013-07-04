@@ -15,6 +15,22 @@ def __create_list(op, var) :
     map["list"] = list
     var["JLIST_MAP"] = map
   
+def footeraction(action,var):
+  print "footeraction",action
+  for k in var.keys() : 
+    print k
+    print var[k]
+    
+  op = ServiceInjector.constructPersonOp()
+          
+  if action == "before" or action == "crud_readlist" :
+    __create_list(op,var)
+    var["JFOOTER_COPY_list_pnumber"] = True
+    var["JFOOTER_list_pnumber"] = action
+    return
+ 
+  dialogaction(action,var) 
+    
 
 def dialogaction(action,var) :
 
