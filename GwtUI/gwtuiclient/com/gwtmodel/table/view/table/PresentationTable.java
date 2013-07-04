@@ -528,78 +528,81 @@ class PresentationTable implements IGwtTableView {
             table.setWidth(vo.getWidthDef(), true);
         }
         List<VListHeaderDesc> li = vo.getVisHeList();
-        @SuppressWarnings("rawtypes")
-        Column co;
         // int colNo = 0;
         for (VListHeaderDesc he : li) {
             boolean editable = he.isEditable();
+            @SuppressWarnings("rawtypes")
+            Header header = null;
+            @SuppressWarnings("rawtypes")
+            Column co = null;
             if (he.getgHeader() != null) {
-                @SuppressWarnings("rawtypes")
-                Header header = he.getgHeader().getHeader();
+                header = he.getgHeader().getHeader();
                 co = he.getgHeader().getColumn();
                 if (co == null) {
                     co = new RawColumn(he.getFie());
                 }
-                table.addColumn(co, header);
-                continue;
+                // table.addColumn(co, header);
+                // continue;
             }
-            FieldDataType fType = he.getFie().getType();
-            if (he.getButtonAction() != null) {
-                co = fa.constructActionButtonCell(he.getButtonAction(),
-                        he.getFie(), fType, new AttachClass(he.getFie()));
-            } else if (fType.isConvertableToString()) {
-                if (editable) {
-                    co = faEdit.constructEditTextCol(he);
-                } else {
-                    co = new TColumnString(he.getFie(), fType);
-                }
-            } else {
-                switch (fType.getType()) {
-                case LONG:
-                case BIGDECIMAL:
-                case INT:
+            if (co == null) {
+                FieldDataType fType = he.getFie().getType();
+                if (he.getButtonAction() != null) {
+                    co = fa.constructActionButtonCell(he.getButtonAction(),
+                            he.getFie(), fType, new AttachClass(he.getFie()));
+                } else if (fType.isConvertableToString()) {
                     if (editable) {
-                        co = faEdit.constructNumberCol(he);
-                    } else {
-                        co = fa.constructNumberCol(he.getFie());
-                    }
-                    break;
-                case DATE:
-                    if (editable) {
-                        co = faEdit.constructDateEditCol(he);
-                    } else {
-                        co = fa.constructDateEditCol(he.getFie());
-                    }
-                    break;
-                case BOOLEAN:
-                    if (editable) {
-                        co = faEdit.contructBooleanCol(he.getFie(),
-                                !selectEnabled());
-                    } else {
-                        co = fa.contructBooleanCol(he.getFie());
-                    }
-                    break;
-                default:
-                    if (editable || he.isImageCol()) {
                         co = faEdit.constructEditTextCol(he);
                     } else {
-                        co = fa.constructTextCol(he.getFie());
+                        co = new TColumnString(he.getFie(), fType);
                     }
+                } else {
+                    switch (fType.getType()) {
+                    case LONG:
+                    case BIGDECIMAL:
+                    case INT:
+                        if (editable) {
+                            co = faEdit.constructNumberCol(he);
+                        } else {
+                            co = fa.constructNumberCol(he.getFie());
+                        }
+                        break;
+                    case DATE:
+                        if (editable) {
+                            co = faEdit.constructDateEditCol(he);
+                        } else {
+                            co = fa.constructDateEditCol(he.getFie());
+                        }
+                        break;
+                    case BOOLEAN:
+                        if (editable) {
+                            co = faEdit.contructBooleanCol(he.getFie(),
+                                    !selectEnabled());
+                        } else {
+                            co = fa.contructBooleanCol(he.getFie());
+                        }
+                        break;
+                    default:
+                        if (editable || he.isImageCol()) {
+                            co = faEdit.constructEditTextCol(he);
+                        } else {
+                            co = fa.constructTextCol(he.getFie());
+                        }
+                        break;
+                    }
+                }
+                co.setSortable(true);
+                // align
+                switch (AlignCol.getCo(he.getAlign(), he.getFie().getType())) {
+                case LEFT:
+                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+                    break;
+                case RIGHT:
+                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+                    break;
+                case CENTER:
+                    co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
                     break;
                 }
-            }
-            co.setSortable(true);
-            // align
-            switch (AlignCol.getCo(he.getAlign(), he.getFie().getType())) {
-            case LEFT:
-                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-                break;
-            case RIGHT:
-                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-                break;
-            case CENTER:
-                co.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-                break;
             }
             // col width
             String width = he.getColWidth();
@@ -630,14 +633,14 @@ class PresentationTable implements IGwtTableView {
                 }
             }
             //
-            if (he.isHidden() || he.getHeaderString() == null) {
+            if (header == null && (he.isHidden() || he.getHeaderString() == null)) {
                 // Important: for some reason the assert violation cause
                 // breaking without Exception throwing
                 // So additional error alert is displayed to avoid confusion
                 Utils.errAlert(he.getFie().getId(), LogT.getT().HeaderNull());
+                assert !he.isHidden() && he.getHeaderString() != null : LogT.getT()
+                        .cannotBeNull();
             }
-            assert !he.isHidden() && he.getHeaderString() != null : LogT.getT()
-                    .cannotBeNull();
 
             VFooterDesc footer = null;
             if (vo.getFoList() != null) {
@@ -649,12 +652,14 @@ class PresentationTable implements IGwtTableView {
                 }
             }
 
+            if (header == null) {
+                header = footFactory.constructHeader(he);
+            }
             if (footer != null) {
-                table.addColumn(co, footFactory.constructHeader(he),
-                        footFactory.constructFooter(footer));
+                table.addColumn(co, header, footFactory.constructFooter(footer));
             } else {
                 // table.addColumn(co, he.getHeaderString());
-                table.addColumn(co, footFactory.constructHeader(he));
+                table.addColumn(co, header);
             }
 
             if (!async) {
@@ -1120,6 +1125,6 @@ class PresentationTable implements IGwtTableView {
 
     @Override
     public void refreshHeader() {
-        table.redrawHeaders();        
+        table.redrawHeaders();
     }
 }

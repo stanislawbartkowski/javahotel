@@ -29,6 +29,8 @@ interface IStandMessages {
     String FIND = "find";
     String LOGIN = "login";
     String USER = "user";
+    String CHOOSE = "choose";
+    String SELECT = "select";
 
     char UPCASE = '1';
     char DOWNCASE = '2';

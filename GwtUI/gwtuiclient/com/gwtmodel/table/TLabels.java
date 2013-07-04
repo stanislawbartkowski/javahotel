@@ -184,5 +184,7 @@ public interface TLabels extends Constants {
     String LogOutQuestion();
 
     String UserNameOrPasswordInvalid();
+    
+    String Select();
 
 }
