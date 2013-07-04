@@ -88,8 +88,6 @@ public class ServerService {
                     HotelAppInstanceProvider.class).in(Singleton.class);
             bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
                     Singleton.class);
-            // bind(ISequenceRealmGen.class).toProvider(
-            // SequenceGenRealProvider.class).in(Singleton.class);
 
             requestStatic();
             requestStaticInjection(H.class);

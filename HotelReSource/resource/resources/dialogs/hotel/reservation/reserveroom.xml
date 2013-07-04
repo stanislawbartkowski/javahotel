@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+	
+	<types>hotel/reservation/restypes.xml</types>
+	
+
+	<jython>
+		<import>from hotelpack import reserroom</import>
+		<method>reserroom.reseraction({0},{1})</method>
+	</jython>
+
+	<buttons>
+		<button id="checkaval" displayname="Check availability" validate="" />
+		<button id="guestdesc" displayname="Customer details" actiontype="JUP_DIALOG" actionparam="hotel/reservation/customerdetails.xml" />
+	</buttons>
+
+	<form>
+		<field id="name" displayname="Room" readonly="" />
+		<field id="nop" type="int" displayname="@nopersons" readonly="" />
+		<field id="desc" displayname="@description" readonly="" />
+		<field id="datecol" type="date" displayname="First night"
+			readonly="" />
+		<field id="resdays" type="int" displayname="Number of nights" notempty=""/>
+		<field id="roompricelist" type="custom:roompricelist" displayname="Price list" notempty="" signalchange="" />
+		<field id="roomservice" type="custom:roomservice" displayname="Service" notempty="" signalchange="" />
+	<!--  cust description -->	
+		<field id="custname" displayname="@name" hidden=""/>
+		<field id="custdescr" displayname="Guest name" />
+		<field id="firstname" displayname="@firstname" />
+		<field id="companyname" displayname="@companyname" hidden="" />
+		<field id="street" displayname="@street" hidden="" />
+		<field id="zipcode" displayname="@zipcode" hidden="" />
+		<field id="email" displayname="@email" hidden=""/>
+		<field id="phone" displayname="@phone" hidden=""/>		
+		
+	</form>
+
+	<list id="reslist" displayname="Reservation details" pagesize="5">
+		<columns>
+		    <column id="avail" type="bool" displayname="A" />
+			<column id="name" displayname="@name" />
+			<column id="resday" type="date" displayname="Night" />
+			<column id="price"  type="decimal" displayname="Price" footer=""/>
+		</columns>
+	</list>
+
+</dialog>

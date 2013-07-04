@@ -1,8 +1,11 @@
 from com.gwthotel.hotel.server.service import H
 from java.util import ArrayList
 from java.util import Date
+from java.util import Calendar
 from java.math import BigDecimal
 from com.gwthotel.hotel import HotelObjects
+from com.gwthotel.hotel.reservationop import ResQuery
+from com.gwthotel.hotel.reservation import ReservationDetail
 
 class MESS :
 
@@ -73,6 +76,10 @@ class SERVICES :
             
     def deleteElem(self,elem):
         self.serviceS.deleteElem(getHotelName(self.var),elem)
+        
+    def findElem(self,name):
+        return self.serviceS.findElem(getHotelName(self.var),name)    
+            
   
 class PRICELIST(SERVICES) :
 
@@ -109,7 +116,24 @@ class PRICEELEM :
         return self.service.getPricesForPriceList(getHotelName(self.var),pricelist)
              
     def savePricesForPriceList(self,pricelist,list) :
-        self.service.savePricesForPriceList(getHotelName(self.var),pricelist,list)         
+        self.service.savePricesForPriceList(getHotelName(self.var),pricelist,list)
+        
+class RESOP :
+     def __init__(self,var):
+         self.var = var
+         self.service = H.getResOp()
+         
+     def queryReservation(self,query):
+         return self.service.queryReservation(getHotelName(self.var),query)
+     
+     def changeStatus(self,resId,status):
+         self.service.changeStatus(getHotelName(self.var),resId,status)
+         
+class RESFORM(SERVICES) :
+
+    def __init__(self,var):
+        SERVICES.__init__(self,var)
+        self.serviceS = H.getResForm()
   
 def printvar(method,action,var): 
   return  
@@ -145,11 +169,16 @@ def findElemInSeq(pname,seq):
 
 def toDate(value):
     if value == None : return None
-    d = Date()
-    d.setYear(value.year - 1900)
-    d.setMonth(value.month-1)
-    d.setDate(value.day)
-    return d
+    ca = Calendar.getInstance()
+    ca.clear()
+    ca.set(value.year,value.month-1,value.day)
+    return ca.getTime()
+
+# d1 : datetime
+# d2 : java.util.Date
+def eqDate(d1,d2):
+    dd1 = toDate(d1)
+    return dd1.equals(d2)
 
 def toB(value,afterdot=2):
     if value == None : return None
@@ -181,6 +210,23 @@ def duplicatedName(var,S,duplicateM):
       return True
     return False
 
+def createResQueryElem(roomname,dfrom,dto=None):
+    if dto == None : dto = dfrom
+    q = ResQuery()
+    q.setFromRes(toDate(dfrom))
+    q.setToRes(toDate(dto))
+    q.setRoomName(roomname)
+    return q
+
+def createResFormElem(roomname,service,date,nop,price):
+    r = ReservationDetail()
+    r.setRoom(roomname)
+    r.setNoP(nop)
+    r.setPrice(price)
+    r.setService(service)
+    r.setResDate(date)
+    return r
+
 class ConstructObject :
     
     def __init__(self,var):
@@ -190,8 +236,66 @@ class ConstructObject :
     def getO(self,t) :
         oType = None
         if t == 0 : oType = HotelObjects.CUSTOMER
+        if t == 1 : oType = HotelObjects.RESERVATION
         return self.factory.construct(self.hotel,oType)
     
 def newCustomer(var) :
     c = ConstructObject(var)
-    return c.getO(0)        
+    return c.getO(0)  
+
+def newResForm(var):
+    c = ConstructObject(var)
+    return c.getO(1)   
+
+def setCopy(var,li) :
+  for l in li :
+    var["JCOPY_"+l] = True   
+    
+def getCustFieldId():
+    return ["firstname","companyname","street","zipcode","email","phone"]
+    
+    
+def getServicesForRoom(var,room):
+  RO = ROOMLIST(var)
+  services = RO.getRoomServices(room)
+  if len(services) == 0 : return None
+  PR = PRICELIST(var)
+  PE = PRICEELEM(var)
+  pList = PR.getList()
+  li = []
+  liList = []
+  for p in pList :
+      prList = PE.getPricesForPriceList(p.getName())
+      for price in prList :
+          service = price.getService()
+          prWE = price.getWeekendPrice()
+          prWO = price.getWorkingPrice()
+          if prWE == None or prWO == None : continue
+          for s in services :
+              if s.getName() == service : 
+                li.append(s) 
+                liList.append(p.getName())
+  if len(li) == 0 : return None
+  return [li,liList]
+  
+  
+def createEnumFromList(li, f):
+    seq= []
+    for elem in li :
+        e = f(elem)
+        id = e[0]
+        name = e[1]
+        if emptyS(name): name = id
+        seq.append({"id" : id, "displayname" : name })
+    return seq
+
+def emptyS(name):
+    return name == None or name == ""
+
+class SUMBDECIMAL :
+    
+    def __init__(self):
+        self.sum = 0.0
+       
+    def add(self,b):
+        if b : self.sum = self.sum + b.floatValue()    
