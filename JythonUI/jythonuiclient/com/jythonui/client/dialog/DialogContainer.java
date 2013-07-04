@@ -71,6 +71,7 @@ import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.util.RegisterCustom;
 import com.jythonui.client.util.ValidateForm;
+import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IBackAction;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
@@ -288,7 +289,11 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
         @Override
         public void click(String actionId, WSize w) {
-            runAction(actionId, w, d.getActionList());
+            if (runAction(actionId, w, d.getActionList()))
+                return;
+            ExecuteAction.action(iCon, d.getId(), actionId, new BackClass(
+                    actionId, false, w, null));
+
         }
 
     }
@@ -298,7 +303,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         @Override
         public void refreshDateLine(String dId) {
             IDataType dType = dLineType.get(dId);
-            if (dType == null) return;
+            if (dType == null)
+                return;
             ISlotCustom sl = RefreshData.constructRequestForRefreshData(dType);
             getSlContainer().publish(sl);
         }
@@ -453,7 +459,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     }
 
-    private void runAction(String id, WSize w, List<ButtonItem> bList) {
+    private boolean runAction(String id, WSize w, List<ButtonItem> bList) {
         ButtonItem bItem = DialogFormat.findE(bList, id);
         // it can be call from several places
         // so filter out not relevant
@@ -461,7 +467,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             if (bItem.isValidateAction()) {
                 if (!ValidateForm.validateV(dType, DialogContainer.this, d,
                         DataActionEnum.ChangeViewFormToInvalidAction))
-                    return;
+                    return true;
             }
             if (bItem.isAction()) {
                 String action = bItem.getAction();
@@ -471,11 +477,13 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 PerformVariableAction.performAction(new HandleYesNoDialog(),
                         new CloseDialog(id), action, param, param1, param2, w,
                         iCon);
-                return;
+                return true;
             }
             ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
                     w, null));
+            return true;
         }
+        return false;
         // 2012-04-03 : in order to add action from list
         // 2012-04-14 : cannot be at that place
         // not relevant should be weeded out
@@ -535,6 +543,13 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     eList.add(typeName, lRows);
 
                 }
+
+                @Override
+                public void acceptFooter(IDataType da, List<IGetFooter> fList) {
+                    liManager.publishBeforeFooter(slMediator, da, fList);
+                    
+                }
+
             };
             PerformVariableAction.perform(new HandleYesNoDialog(),
                     new CloseDialog(id), arg, iCon, liManager, vis, w);
@@ -598,6 +613,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 }
             };
             JUtils.visitListOfFields(arg, ICommonConsts.JREFRESHDATELINE, visDL);
+            VerifyJError.isError(null, dType, arg,
+                    DialogContainer.this);
         }
     }
 

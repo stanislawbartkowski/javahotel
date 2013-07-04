@@ -59,7 +59,14 @@ public interface JMessages extends Messages {
     String DataLineNotDefined(String dLineId, String tagId, String dId);
 
     String NoValuesRelatedTo(String dialogId, String datelineId);
-    
-    String NoFormRelatedToValue(String dialogId, String datelineId, String formId);
+
+    String NoFormRelatedToValue(String dialogId, String datelineId,
+            String formId);
+
+    String FooterSetValueShouldBeBoolean(String dialId, String varName);
+
+    String FooterSetDefinedButValueBot(String bValue, String value);
+
+    String CannotCallActionHere(String mess);
 
 }

@@ -25,6 +25,7 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.util.RowVModelData;
+import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.ListFormat;
@@ -37,7 +38,6 @@ import com.jythonui.shared.RowIndex;
  */
 public class RowListDataManager {
 
-    // private final DataListTypeFactory lFactory;
     private final Map<IDataType, String> listMap = new HashMap<IDataType, String>();
     private final Map<IDataType, ListFormat> lMap = new HashMap<IDataType, ListFormat>();
     private final Map<IDataType, RowIndex> rMap = new HashMap<IDataType, RowIndex>();
@@ -73,6 +73,12 @@ public class RowListDataManager {
         CustomStringSlot slot = FormBeforeCompletedSignal.constructSignal(d);
         sl.getSlContainer().publish(slot, signal);
     }
+    
+    public void publishBeforeFooter(ISlotable sl, IDataType d, List<IGetFooter> value) {
+        DrawFooterSignal signal = new DrawFooterSignal(value);
+        CustomStringSlot slot = DrawFooterSignal.constructSignal(d);
+        sl.getSlContainer().publish(slot, signal);        
+    }
 
     public List<IDataType> getList() {
         Iterator<IDataType> i = lMap.keySet().iterator();
@@ -95,9 +101,9 @@ public class RowListDataManager {
             IVariablesContainer iCon, IPerformClickAction iAction) {
         return ListControler.contruct(this, da, panelId, iCon, iAction);
     }
-
+    
     IVModelData contructE(IDataType da) {
         return new RowVModelData(rMap.get(da));
     }
-
+    
 }

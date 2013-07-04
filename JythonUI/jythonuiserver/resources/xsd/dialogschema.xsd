@@ -156,6 +156,7 @@
 			<xs:element minOccurs="0" name="readonlyadd" type="emptyT" />
 			<xs:element minOccurs="0" name="readonlychange" type="emptyT" />
 			<xs:element minOccurs="0" name="signalchange" type="emptyT" />
+			<xs:element minOccurs="0" name="footer" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -178,6 +179,7 @@
 		<xs:attribute name="readonlyadd" type="emptyT" />
 		<xs:attribute name="readonlychange" type="emptyT" />
 		<xs:attribute name="signalchange" type="emptyT" />
+		<xs:attribute name="footer" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">

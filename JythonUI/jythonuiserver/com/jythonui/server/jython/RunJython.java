@@ -672,6 +672,10 @@ public class RunJython {
                 } else if (val instanceof BigInteger) {
                     BigInteger bi = (BigInteger) val;
                     f.setValue(bi.longValue());
+                } else if (val instanceof Double) {
+                    Double bi = (Double) val;
+                    f.setValue(new BigDecimal(bi),
+                            ICommonConsts.DEFAULTAFTERDOT);
                 } else if (val instanceof Long) {
                     Long valL = (Long) val;
                     f.setValue(valL);

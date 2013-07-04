@@ -62,11 +62,16 @@ public class VerifyJError {
         // important: add underline (JERROR does not have underline)
         JUtils.visitListOfFields(v, ICommonConsts.JERROR + "_", vis);
         if (err.isEmpty()) {
+            if (d == null)
+                return false;
             if (!d.okCheckListError(v))
                 return true;
             return false;
         }
-        iSlo.getSlContainer().publish(dType, DataActionEnum.InvalidSignal,
+        iSlo.getSlContainer().publish(
+                dType,
+                d == null ? DataActionEnum.ChangeViewFormToInvalidAction
+                        : DataActionEnum.InvalidSignal,
                 new InvalidateFormContainer(err));
         return true;
     }

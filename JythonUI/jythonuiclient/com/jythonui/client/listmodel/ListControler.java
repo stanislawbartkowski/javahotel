@@ -15,6 +15,7 @@ package com.jythonui.client.listmodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
@@ -56,8 +57,10 @@ import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateSearchVar;
 import com.jythonui.client.util.PerformVariableAction;
+import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
@@ -103,6 +106,58 @@ class ListControler {
 
         private final RowListDataManager rM;
         private final IVariablesContainer iCon;
+
+        private class FooterV extends AVModelData {
+
+            private final List<IGetFooter> fList;
+
+            FooterV(List<IGetFooter> fList) {
+                this.fList = fList;
+            }
+
+            @Override
+            public Object getF(IVField fie) {
+                String s = fie.getId();
+                for (IGetFooter f : fList) {
+                    if (f.getFie().equals(s)) {
+                        return f.getV().getValue();
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            public void setF(IVField fie, Object o) {
+            }
+
+            @Override
+            public boolean isValid(IVField fie) {
+                return false;
+            }
+
+            @Override
+            public List<IVField> getF() {
+                return null;
+            }
+
+        }
+
+        private void drawFooter(List<IGetFooter> fList) {
+            IVModelData vFooter = new FooterV(fList);
+            getSlContainer().publish(dType, DataActionEnum.DrawFooterAction,
+                    vFooter);
+        }
+
+        private class DrawFooter implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                DrawFooterSignal sig = (DrawFooterSignal) i;
+                drawFooter(sig.getValue());
+            }
+
+        }
 
         private class Synch extends SynchronizeList {
 
@@ -155,6 +210,13 @@ class ListControler {
                     public void acceptTypes(String typeName, ListOfRows lRows) {
                         // do nothing, not expected here
                     }
+
+                    @Override
+                    public void acceptFooter(IDataType da,
+                            List<IGetFooter> fList) {
+                        drawFooter(fList);
+                    }
+
                 };
                 PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
                         null);
@@ -220,7 +282,8 @@ class ListControler {
                     new FormBeforeCompleted());
             registerSubscriber(dType, DataActionEnum.GetListSize,
                     new GetListSize());
-
+            registerSubscriber(DrawFooterSignal.constructSignal(d),
+                    new DrawFooter());
         }
 
     }
@@ -274,7 +337,7 @@ class ListControler {
         private final IPerformClickAction iClick;
         private final IVariablesContainer iCon;
 
-        ActionClicked(IPerformClickAction iClick,IVariablesContainer iCon) {
+        ActionClicked(IPerformClickAction iClick, IVariablesContainer iCon) {
             this.iClick = iClick;
             this.iCon = iCon;
         }
@@ -328,6 +391,13 @@ class ListControler {
                     @Override
                     public void acceptTypes(String typeName, ListOfRows lRows) {
                         // do nothing, not expected here
+                    }
+
+                    @Override
+                    public void acceptFooter(IDataType da,
+                            List<IGetFooter> fList) {
+                        // TODO: do something
+
                     }
                 };
                 PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
@@ -415,7 +485,8 @@ class ListControler {
         i.getSlContainer()
                 .registerSubscriber(sl, new ReadInChunk(da, iCon, rM));
         i.getSlContainer().registerSubscriber(da,
-                DataActionEnum.TableCellClicked, new ActionClicked(iClick,iCon));
+                DataActionEnum.TableCellClicked,
+                new ActionClicked(iClick, iCon));
         return i;
     }
 
