@@ -45,17 +45,18 @@ public interface ICommonConsts {
     String AFTERDOT = "afterdot";
     String DEFVALUE = "defvalue";
     String COLNO = "colno";
+    String FOOTER = "footer";
     int DEFAULTCOLNO = 14;
     int DEFAULTROWNO = 20;
     String DATELINEFORMS = "files";
     String DATELINEFORM = "filedef";
-    String DATELINEDEFAFILE="defafile";
-    String DATALINEFILE="file";
-    String DATALINEFILEDEFAULT="file";
+    String DATELINEDEFAFILE = "defafile";
+    String DATALINEFILE = "file";
+    String DATALINEFILEDEFAULT = "file";
     String DATELINEID = "lineid";
     String DATELINEDATEID = "dateid";
     String DATELINEDATEIDDEFAULT = "datecol";
-    String DATELINEFORMDEFAULT="form";
+    String DATELINEFORMDEFAULT = "form";
     int DEFAULTAFTERDOT = 2;
     String JLISTMAP = "JLIST_MAP";
     String JCHECKLISTMAP = "JCHECK_MAP";
@@ -92,6 +93,8 @@ public interface ICommonConsts {
     String JMESSAGE_TITLE = "JMESSAGE_TITLE";
     String JAFTERDIALOGACTION = "JAFTERDIALOG_ACTION";
     String JCRUD_AFTERCONF = "JCRUD_AFTERCONF";
+    String JFOOTER = "JFOOTER_";
+    String JFOOTERCOPY = "JFOOTER_COPY_";
     String TYPES = "types";
     String COMBOID = "comboid";
     String TYPEDEFS = "typedefs";
@@ -158,20 +161,20 @@ public interface ICommonConsts {
     String APP_VERSION = "Version";
     String APP_FILENAME = "app.properties";
     String APP_PRODUCTIMAGE = "ProductImage";
-    
-    String JDATELINEQUERYID="JDATELINE_QUERYID";
-    String JDATELINEQUERYFROM="JDATELINE_FROM";
-    String JDATELINEQEURYTO="JDATELINE_TO";
-    String JDATELINEQUERYLINEID="JDATELINE_ID";
-    String JDATELINEQUERYLIST="JDATELINE_QUERYLIST";
-    String JDATELINELINEDEF="linedef";
-    String JDATELINEVALUES="values";
-    
+
+    String JDATELINEQUERYID = "JDATELINE_QUERYID";
+    String JDATELINEQUERYFROM = "JDATELINE_FROM";
+    String JDATELINEQEURYTO = "JDATELINE_TO";
+    String JDATELINEQUERYLINEID = "JDATELINE_ID";
+    String JDATELINEQUERYLIST = "JDATELINE_QUERYLIST";
+    String JDATELINELINEDEF = "linedef";
+    String JDATELINEVALUES = "values";
+
     String JDATELINELINEID = "JDATELINE_LINE";
     String JDATELINEDATEID = "JDATELINE_DATE";
     String JDATELINE_CELLACTION = "datelineaction";
-    
-    String JDATEACTIONGETVALUES="datelinevalues";
+
+    String JDATEACTIONGETVALUES = "datelinevalues";
 
     char PERMSIGN = '$';
 
@@ -185,7 +188,7 @@ public interface ICommonConsts {
 
     String JSETATTRCHECK = "JSETATTR_CHECKLIST_";
     String JVALATTRCHECK = "JVALATTR_CHECKLIST_";
-    
+
     String JREFRESHDATELINE = "JREFRESH_DATELINE_";
 
     String GWT_LOCALE = "GWT_LOCALE";

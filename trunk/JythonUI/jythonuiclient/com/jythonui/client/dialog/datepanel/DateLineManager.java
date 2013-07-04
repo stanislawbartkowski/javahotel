@@ -69,6 +69,7 @@ import com.jythonui.client.dialog.DialogContainer;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.client.util.CreateForm;
+import com.jythonui.client.util.CreateForm.ColumnsDesc;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.RowVModelData;
 import com.jythonui.shared.DateLine;
@@ -386,7 +387,6 @@ public class DateLineManager {
                 private class DataColumn extends
                         Column<MutableInteger, MutableInteger> {
 
-                    @SuppressWarnings("unchecked")
                     DataColumn() {
                         super(new DataCell());
                     }
@@ -413,20 +413,21 @@ public class DateLineManager {
 
             @Override
             public VListHeaderContainer getHeaderList() {
-                List<VListHeaderDesc> vList = CreateForm.constructColumns(
+                ColumnsDesc desc = CreateForm.constructColumns(
                         dList.getColList(), null);
-                rowCol = 0;
-                for (VListHeaderDesc v : vList)
-                    if (!v.isHidden())
-                        rowCol++;
+                rowCol = desc.colvisNo;
+                // for (VListHeaderDesc v : vList)
+                // if (!v.isHidden())
+                // rowCol++;
 
                 for (int i = 0; i < dList.getColNo(); i++) {
                     VListHeaderDesc vNagl = new VListHeaderDesc(new CustomH(i),
                             constructV(i));
-                    vList.add(vNagl);
+                    desc.hList.add(vNagl);
                 }
-                return new VListHeaderContainer(vList, dList.getDisplayName(),
-                        dList.getRowNo(), null, null, null, null);
+                return new VListHeaderContainer(desc.hList,
+                        dList.getDisplayName(), dList.getRowNo(), null, null,
+                        null, desc.footList);
             }
 
             @Override

@@ -12,7 +12,6 @@
  */
 package com.jythonui.server.dialog;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -99,7 +98,8 @@ class ReadDialog {
                 ICommonConsts.READONLYCHANGE, ICommonConsts.SIGNALCHANGE,
                 ICommonConsts.HELPER, ICommonConsts.HELPERREFRESH,
                 ICommonConsts.FROM, ICommonConsts.WIDTH, ICommonConsts.ALIGN,
-                ICommonConsts.HTMLID, ICommonConsts.DEFVALUE };
+                ICommonConsts.HTMLID, ICommonConsts.DEFVALUE,
+                ICommonConsts.FOOTER };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE,
@@ -113,7 +113,8 @@ class ReadDialog {
         private final String[] datelineTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.PAGESIZE,
                 ICommonConsts.COLNO, ICommonConsts.DATELINEID,
-                ICommonConsts.DATELINEDEFAFILE,ICommonConsts.DATALINEFILE,ICommonConsts.DATELINEDATEID };
+                ICommonConsts.DATELINEDEFAFILE, ICommonConsts.DATALINEFILE,
+                ICommonConsts.DATELINEDATEID };
         private final String[] formTag = { ICommonConsts.ID,
                 ICommonConsts.DATALINEFILE };
         private final String[] elemchecklistTag = checklistTag;

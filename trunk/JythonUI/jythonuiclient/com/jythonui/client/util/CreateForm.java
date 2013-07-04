@@ -27,6 +27,7 @@ import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
@@ -131,8 +132,16 @@ public class CreateForm {
         return new FormLineContainer(fList);
     }
 
-    public static List<VListHeaderDesc> constructColumns(List<FieldItem> fList, DialSecurityInfo lInfo) {
-        List<VListHeaderDesc> heList = new ArrayList<VListHeaderDesc>();
+    public static class ColumnsDesc {
+        public List<VListHeaderDesc> hList = new ArrayList<VListHeaderDesc>();
+        public List<VFooterDesc> footList = new ArrayList<VFooterDesc>();
+        public int colvisNo = 0;
+    }
+
+    public static ColumnsDesc constructColumns(List<FieldItem> fList,
+            DialSecurityInfo lInfo) {
+        ColumnsDesc desc = new ColumnsDesc();
+        List<VListHeaderDesc> heList = desc.hList;
         for (FieldItem f : fList) {
             IVField vf = VField.construct(f);
             VListHeaderDesc.ColAlign al = null;
@@ -150,18 +159,25 @@ public class CreateForm {
                     lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
                     f.getActionId(), false, al, f.getWidth());
             heList.add(v);
+            if (!f.isHidden())
+                desc.colvisNo++;
+            if (f.isFooter()) {
+                if (desc.footList == null)
+                    desc.footList = new ArrayList<VFooterDesc>();
+                VFooterDesc foot = new VFooterDesc(vf, al, vf.getType());
+                desc.footList.add(foot);
+            }
         }
-        return heList;
+        return desc;
     }
 
     public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
             ListFormat l) {
         DialSecurityInfo lInfo = sInfo.getListSecur().get(l.getId());
-        List<VListHeaderDesc> heList = constructColumns(l.getColumns(),
-                lInfo);
+        ColumnsDesc desc = constructColumns(l.getColumns(), lInfo);
         String lName = l.getDisplayName();
-        return new VListHeaderContainer(heList, lName, l.getPageSize(), null,
-                l.getWidth(), null, null);
+        return new VListHeaderContainer(desc.hList, lName, l.getPageSize(),
+                null, l.getWidth(), null, desc.footList);
     }
 
     private static ControlButtonDesc constructButton(ButtonItem b,

@@ -146,4 +146,8 @@ public class FieldItem extends ElemDescription {
         return isAttr(ICommonConsts.DEFVALUE);
     }
 
+    public boolean isFooter() {
+        return isAttr(ICommonConsts.FOOTER);
+    }
+
 }

@@ -12,8 +12,12 @@
  */
 package com.jythonui.client.listmodel;
 
+import java.util.List;
+
+import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.PersistTypeEnum;
@@ -175,6 +179,7 @@ class GetViewController implements IGetViewControllerFactory {
                     yesD.show(w);
                 }
             }
+            
 
             private class Vis implements PerformVariableAction.VisitList {
 
@@ -184,6 +189,12 @@ class GetViewController implements IGetViewControllerFactory {
 
                 @Override
                 public void acceptTypes(String typeName, ListOfRows lRows) {
+                }
+
+                @Override
+                public void acceptFooter(IDataType da, List<IGetFooter> fList) {
+                    // TODO: Auto-generated method stub
+                    
                 }
 
             }
