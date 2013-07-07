@@ -1,19 +1,20 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
-<before/>
- 
- <jython>
-   <import>from testpack import timelist</import>
-   <method>timelist.dialogaction({0},{1})</method>
- </jython>  
- 
- <list id="list" displayname="List of times" elemformat="timeelem.xml">
- <columns>
- <column id="timef" displayname="Date and time" type="datetime" notempty="" readonlychange="" signalchange="" />
- <column id="keyf" notempty="" />
- </columns>
- </list>
+	<before />
+
+	<jython>
+		<import>from testpack import timelist</import>
+		<method>timelist.dialogaction({0},{1})</method>
+	</jython>
+
+	<list id="list" displayname="List of times" elemformat="timeelem.xml">
+		<columns>
+			<column id="timef" displayname="Date and time" type="datetime"
+				notempty="" readonlychange="" signalchange="" />
+			<column id="keyf" notempty="" />
+		</columns>
+	</list>
 
 
 </dialog>
