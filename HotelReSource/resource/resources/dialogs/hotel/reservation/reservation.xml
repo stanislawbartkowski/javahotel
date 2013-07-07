@@ -4,7 +4,7 @@
 	<before />
 
 	<jython>
-		<import>from hotelpack import reservation</import>
+		<import>from hotelpack.reservation import reservation</import>
 		<method>reservation.reservationaction({0},{1})</method>
 	</jython>
 	
@@ -19,6 +19,7 @@
 		</columns>
 		<files>
 			<filedef id="empty" file="hotel/reservation/roomempty.html" />
+			<filedef id="reserved" file="hotel/reservation/reservation.html" />
 		</files>
 
 	</dateline>

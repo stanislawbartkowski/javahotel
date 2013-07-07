@@ -69,7 +69,7 @@ class SERVICES :
         return self.serviceS.getList(getHotelName(self.var))    
     
     def addElem(self,elem):
-        self.serviceS.addElem(getHotelName(self.var),elem)
+        return self.serviceS.addElem(getHotelName(self.var),elem)
        
     def changeElem(self,elem):
         self.serviceS.changeElem(getHotelName(self.var),elem)
@@ -136,10 +136,10 @@ class RESFORM(SERVICES) :
         self.serviceS = H.getResForm()
   
 def printvar(method,action,var): 
-  return  
-  print method, action
+#  return  
+  print method + " action = " + action
   for k in var.keys() : 
-    print k, var[k]
+    print k + " " + str(var[k])
  
 def createArrayList() :
   return ArrayList()   
@@ -224,7 +224,7 @@ def createResFormElem(roomname,service,date,nop,price):
     r.setNoP(nop)
     r.setPrice(price)
     r.setService(service)
-    r.setResDate(date)
+    r.setResDate(toDate(date))
     return r
 
 class ConstructObject :
@@ -253,6 +253,17 @@ def setCopy(var,li) :
     
 def getCustFieldId():
     return ["firstname","companyname","street","zipcode","email","phone"]
+    
+def createCustomerList(var):
+    C = CUSTOMERLIST(var)
+    CLIST = getCustFieldId()
+    seq = []
+    for c in C.getList() :
+        v = {}
+        toVarNameDesc(v,c)
+        toVar(v,c,CLIST)
+        seq.append(v)
+    return seq    
     
     
 def getServicesForRoom(var,room):

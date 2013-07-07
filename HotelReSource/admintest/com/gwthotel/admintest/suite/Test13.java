@@ -69,6 +69,7 @@ public class Test13 extends TestHelper {
                 HotelObjects.CUSTOMER);
         p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
+        System.out.println(p.getName());
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());

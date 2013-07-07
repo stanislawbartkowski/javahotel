@@ -2,15 +2,15 @@
 <typedefs xmlns="http://www.jythongwt.typedefxsd.com">
 
 	<jython>
-		<import>from hotelpack import reserroom</import>
+		<import>from hotelpack.reservation import reseenum</import>
 	</jython>
 	
 	<typedef id="roomservice" type="combo" comboid="id" displayname="displayname">
-		<method>reserroom.serviceenum({0},{1})</method>
+		<method>reseenum.serviceenum({0},{1})</method>
 	</typedef>
 
 	<typedef id="roompricelist" type="combo" comboid="id" displayname="displayname">
-		<method>reserroom.pricelistenum({0},{1})</method>
+		<method>reseenum.pricelistenum({0},{1})</method>
 	</typedef>
 
 </typedefs>

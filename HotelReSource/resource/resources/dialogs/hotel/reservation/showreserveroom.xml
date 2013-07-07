@@ -3,40 +3,28 @@
 
 	<before />
 
-	<types>hotel/reservation/restypes.xml</types>
-
-
 	<jython>
 		<import>from hotelpack.reservation import reserroom</import>
-		<method>reserroom.reseraction({0},{1})</method>
+		<method>reserroom.showreseraction({0},{1})</method>
 	</jython>
 
 	<buttons>
-		<button id="checkaval" displayname="Check availability"
-			validate="" />
 		<button id="guestdesc" displayname="Customer details"
-			actiontype="JUP_DIALOG" actionparam="hotel/reservation/customerdetails.xml" />
-		<button id="askforreservation" displayname="Make reservation"
-			validate="" />
+			actiontype="JUP_DIALOG" actionparam="hotel/reservation/showcustomerdetails.xml" />
+		<button id="cancelres" displayname="Cancel reservation"
+			actiontype="JYESNO_MESSAGE" actionparam="Do you really want to cancel this reservation ?"
+			actionparam1="Warning before canceling" actionparam2="cancelreserv"	/>
 	</buttons>
 
 	<form>
-		<field id="resename" hidden=""/>
+		<field id="resename" hidden="" />
 		<field id="name" displayname="Room" readonly="" />
 		<field id="nop" type="int" displayname="@nopersons" readonly="" />
 		<field id="desc" displayname="@description" readonly="" />
-		<field id="datecol" type="date" displayname="First night"
-			readonly="" />
-		<field id="resdays" type="int" displayname="Number of nights"
-			notempty="" />
-		<field id="roompricelist" type="custom:roompricelist"
-			displayname="Price list" notempty="" signalchange="" />
-		<field id="roomservice" type="custom:roomservice" displayname="Service"
-			notempty="" signalchange="" />
 		<!-- cust description -->
 		<field id="cust_name" displayname="@name" hidden="" />
-		<field id="cust_descr" displayname="Guest name" />
-		<field id="cust_firstname" displayname="@firstname" />
+		<field id="cust_descr" displayname="Guest name" readonly="" />
+		<field id="cust_firstname" displayname="@firstname" readonly="" />
 		<field id="cust_companyname" displayname="@companyname" hidden="" />
 		<field id="cust_street" displayname="@street" hidden="" />
 		<field id="cust_zipcode" displayname="@zipcode" hidden="" />
@@ -48,9 +36,9 @@
 	<list id="reslist" displayname="Reservation details" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
 		<columns>
-			<column id="avail" type="bool" displayname="A" />
 			<column id="name" displayname="@name" />
 			<column id="resday" type="date" displayname="Night" />
+			<column id="service" displayname="Service" />
 			<column id="price" type="decimal" displayname="Price" footer="" />
 		</columns>
 	</list>
