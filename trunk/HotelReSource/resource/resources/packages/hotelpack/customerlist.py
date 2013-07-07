@@ -8,19 +8,14 @@ from util.util import toP
 from util.util import MESS
 from util.util import newCustomer
 from util.util import getCustFieldId
+from util.util import createCustomerList
 
 M = MESS()
     
 CLIST=getCustFieldId()
 
-def _createList(var):
-    C = CUSTOMERLIST(var)
-    seq = []
-    for c in C.getList() :
-        v = {}
-        toVarNameDesc(v,c)
-        toVar(v,c,CLIST)
-        seq.append(v)
+def createList(var):
+    seq = createCustomerList(var)
     var["JLIST_MAP"] = { "customerlist" : seq}    
     
 def _duplicatedCustomerName(var):    
@@ -37,7 +32,7 @@ def customerlistaction(action,var):
   printvar("customerlistaction",action,var)
   
   if action == "before" or action == "crud_readlist" :
-    _createList(var)
+    createList(var)
     
 def elemcustomeraction(action,var):
   printvar("elemcustomeraction",action,var)

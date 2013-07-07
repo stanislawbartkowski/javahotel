@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Customer details">
 
 	<before />
 
 	<jython>
-		<import>from hotelpack import reserroom</import>
-		<method>reserroom.custdetails({0},{1})</method>
+		<import>from hotelpack.reservation import custdetails</import>
+		<method>custdetails.custdetails({0},{1})</method>
 	</jython>
 
 	<buttons>
@@ -15,9 +15,9 @@
 			actionparam="hotel/reservation/customerselection.xml" />
 	</buttons>
 
-	<form>
-		<field id="de_custname" displayname="@name" readonly="" />
-		<field id="de_custdescr" displayname="@description" />
+	<form >
+		<field id="de_name" displayname="@name" readonly="" />
+		<field id="de_descr" displayname="@description" />
 		<field id="de_firstname" displayname="@firstname" />
 		<field id="de_companyname" displayname="@companyname" />
 		<field id="de_street" displayname="@street" />

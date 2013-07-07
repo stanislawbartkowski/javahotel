@@ -30,7 +30,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL"),
+        @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL ORDER BY x.room.name,x.resDate"),
         @NamedQuery(name = "deleteAllReservationsDetailsForReservation", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation=?1"),
         @NamedQuery(name = "deleteAllReservationsDetails", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation.hotel = ?1") })
 public class EHotelReservationDetail {

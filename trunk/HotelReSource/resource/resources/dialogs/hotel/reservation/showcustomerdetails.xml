@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Customer details">
+
+	<before />
+
+	<jython>
+		<import>from hotelpack.reservation import custdetails</import>
+		<method>custdetails.showcustdetails({0},{1})</method>
+	</jython>
+
+	<form >
+		<field id="cust_name" displayname="@name" readonly="" />
+		<field id="cust_descr" displayname="@description" />
+		<field id="cust_firstname" displayname="@firstname" />
+		<field id="cust_companyname" displayname="@companyname" />
+		<field id="cust_street" displayname="@street" />
+		<field id="cust_zipcode" displayname="@zipcode" />
+		<field id="cust_email" displayname="@email" />
+		<field id="cust_phone" displayname="@phone" />
+	</form>
+
+</dialog>

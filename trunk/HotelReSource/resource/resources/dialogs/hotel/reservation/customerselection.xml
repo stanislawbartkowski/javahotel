@@ -4,12 +4,18 @@
 	<before />
 
 	<jython>
-		<import>from hotelpack import customerlist</import>
-		<method>customerlist.customerlistaction({0},{1})</method>
+		<import>from hotelpack.reservation import custdetails</import>
+		<method>custdetails.custlist({0},{1})</method>
 	</jython>
+
+	<buttons>
+		<button id="select" displayname="@select" />
+		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+	</buttons>
 
 
 	<list id="customerlist" displayname="@lofcustomer">
+		<standbutt>TOOLS,FIND,FILTER</standbutt>
 		<columns>
 			<column id="name" displayname="@name" />
 			<column id="descr" displayname="@description" />

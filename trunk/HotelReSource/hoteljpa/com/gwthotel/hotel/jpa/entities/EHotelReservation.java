@@ -21,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -37,6 +38,7 @@ public class EHotelReservation extends EHotelDict {
     @Column(nullable = false)
     private ResStatus status;
 
+    @OrderBy("room.name,resDate")
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL )
     private List<EHotelReservationDetail> resDetails;
 
