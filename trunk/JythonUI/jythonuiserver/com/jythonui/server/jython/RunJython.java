@@ -636,8 +636,14 @@ public class RunJython {
                         f.setValue(bx, afterdot);
                         break;
                     case DATE:
-                        java.sql.Date dt = (java.sql.Date) val;
-                        Date dat = new Date(dt.getTime());
+                        Date dat;
+                        if (val instanceof java.sql.Date) {
+                          java.sql.Date dt = (java.sql.Date) val;
+                          dat = new Date(dt.getTime());
+                        }
+                        else {
+                          dat = (Date) val;
+                        }
                         f.setValue(dat);
                         break;
                     case DATETIME:

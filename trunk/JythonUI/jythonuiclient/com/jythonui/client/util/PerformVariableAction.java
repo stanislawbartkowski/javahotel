@@ -129,7 +129,7 @@ public class PerformVariableAction {
                 par = arg.getValueS(param[i]);
             }
             if (param2[i] != null) {
-                par2 = arg.getValueS(param[i]);
+                par2 = arg.getValueS(param2[i]);
             }
             if (!CUtil.EmptyS(p))
                 performAction(iYesno, iClose, kom[i], p, par, par2, w, iCon);
