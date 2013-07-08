@@ -24,7 +24,6 @@ import com.gwtmodel.table.common.MaxI;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
-import com.jythonui.client.M;
 
 abstract public class ModalDialog {
 

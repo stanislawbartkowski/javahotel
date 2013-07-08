@@ -52,8 +52,7 @@ public class EditWidgetFactory {
         return new FieldCheckField(cValues, v, text, htmlName);
     }
 
-    @SuppressWarnings("unused")
-    private IFormLineView constructListValuesCombo(IVField v, IDataType dType,
+    public IFormLineView constructListValuesCombo(IVField v, IDataType dType,
             String htmlName) {
         GetValueLB lB = new GetValueLB(cValues, v, htmlName);
         AddBoxValues.addValues(dType, lB);
@@ -128,14 +127,12 @@ public class EditWidgetFactory {
         return new ComboBoxField(cValues, v, wy, htmlName);
     }
 
-    @SuppressWarnings("unused")
-    private IFormLineView constructRadioSelectField(IVField v, String htmlName) {
+    public IFormLineView constructRadioSelectField(IVField v, String htmlName) {
         return new RadioBoxField(cValues, v, htmlName);
     }
 
 
-    @SuppressWarnings("unused")
-    private IFormLineView constructListComboValuesHelp(IVField v,
+    public IFormLineView constructListComboValuesHelp(IVField v,
             IDataType dType, String htmlName) {
         GetValueLB lB = new ListBoxWithHelp(cValues, v, dType, htmlName);
         AddBoxValues.addValues(dType, lB);
@@ -162,13 +159,12 @@ public class EditWidgetFactory {
         return new ComboBoxField(cValues, v, createVals(ma), htmlName);
     }
 
-    @SuppressWarnings("unused")
-    private IFormLineView constructListCombo(IVField v, List<String> ma,
+    public IFormLineView constructListCombo(IVField v, List<String> ma,
             boolean addEmpty, String htmlName) {
         return new ComboBoxField(cValues, v, createVals(ma), addEmpty, htmlName);
     }
 
-    private IFormLineView constructListCombo(IVField v, String htmlName) {
+    public IFormLineView constructListCombo(IVField v, String htmlName) {
         return new ComboListBoxField(cValues, v, htmlName);
     }
 
