@@ -10,28 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.variables;
+package com.jythonui.client.dialog;
 
-import java.util.List;
-
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.slotmodel.ISlotable;
+import com.gwtmodel.table.WSize;
+import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.jythonui.shared.DialogVariables;
 
-/**
- * @author hotel
- * 
- */
-public interface IVariablesContainer {
+public interface ICreateBackActionFactory {
 
-    void addFormVariables(IBackAction iAction,ISetGetVar ... vars);
-
-    DialogVariables getVariables();
-
-    void setVariablesToForm(DialogVariables v);
-
-    void copyCurrentVariablesToForm(ISlotable iSlo, IDataType dType);
-
-    List<IBackAction> getList();
+    CommonCallBack<DialogVariables> construct(String id, WSize w);
 
 }

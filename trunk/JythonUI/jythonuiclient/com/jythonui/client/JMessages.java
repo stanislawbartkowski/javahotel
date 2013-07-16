@@ -69,4 +69,6 @@ public interface JMessages extends Messages {
 
     String CannotCallActionHere(String mess);
 
+    String BeforeValueNotFound(int row, String col);
+
 }

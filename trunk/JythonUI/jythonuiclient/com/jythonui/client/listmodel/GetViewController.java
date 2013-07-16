@@ -197,6 +197,12 @@ class GetViewController implements IGetViewControllerFactory {
                     
                 }
 
+                @Override
+                public void acceptEditListMode(IDataType da, EditListMode e) {
+                    // TODO Auto-generated method stub
+                    
+                }
+
             }
 
             JBack(PersistTypeEnum e, WSize w, executeCrud exe,

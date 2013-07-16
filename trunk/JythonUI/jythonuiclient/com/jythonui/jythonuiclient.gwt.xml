@@ -2,4 +2,5 @@
 <module>
 <source path="client" />
 <inherits name="com.google.gwt.user.User"/>
+<inherits name="com.google.common.collect.Collect"/>  
 </module>

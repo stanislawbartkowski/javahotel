@@ -21,6 +21,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
@@ -60,5 +61,20 @@ public class JUtils {
             }
         return lFactory.construct(rList, comboField, displayFie);
     }
+    
+    public static void setVariables(DialogVariables v, IVModelData vData) {
+        if (vData == null) {
+            return;
+        }
+        for (IVField fie : vData.getF()) {
+            Object o = vData.getF(fie);
+            // pass empty as null (None)
+            FieldValue fVal = new FieldValue();
+            fVal.setValue(fie.getType().getType(), o, fie.getType()
+                    .getAfterdot());
+            v.setValue(fie.getId(), fVal);
+        }
+    }
+
 
 }

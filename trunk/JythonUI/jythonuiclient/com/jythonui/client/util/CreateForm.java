@@ -157,7 +157,7 @@ public class CreateForm {
             // TODO: can be null for combo, check it later
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
                     lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
-                    f.getActionId(), false, al, f.getWidth());
+                    f.getActionId(), f.isColumnEditable(), al, f.getWidth());
             heList.add(v);
             if (!f.isHidden())
                 desc.colvisNo++;

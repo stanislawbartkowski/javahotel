@@ -13,8 +13,11 @@
 package com.jythonui.client.listmodel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.google.common.base.Optional;
 import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
@@ -23,12 +26,14 @@ import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.controler.DataListParam;
 import com.gwtmodel.table.controler.DisplayListControlerParam;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
@@ -39,7 +44,11 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
+import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.listdataview.ChangeFieldEditSignal;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
+import com.gwtmodel.table.listdataview.EditRowActionSignal;
+import com.gwtmodel.table.listdataview.EditRowsSignal;
 import com.gwtmodel.table.listdataview.ReadChunkSignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -50,16 +59,22 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.slotmodel.SlotType;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 import com.gwtmodel.table.view.util.AbstractDataModel;
+import com.jythonui.client.M;
+import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateSearchVar;
 import com.jythonui.client.util.PerformVariableAction;
+import com.jythonui.client.util.PerformVariableAction.VisitList;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
@@ -106,6 +121,10 @@ class ListControler {
 
         private final RowListDataManager rM;
         private final IVariablesContainer iCon;
+        private final ICreateBackActionFactory bFactory;
+
+        private int lastRowNum;
+        private PersistTypeEnum lastPersistAction;
 
         private class FooterV extends AVModelData {
 
@@ -148,6 +167,14 @@ class ListControler {
                     vFooter);
         }
 
+        private void changeToEdit(VisitList.EditListMode eMode) {
+            SlotType sl = EditRowsSignal.constructEditRowSignal(dType);
+            EditRowsSignal sig = new EditRowsSignal(
+                    ChangeEditableRowsParam.ALLROWS, true, eMode.getMode(),
+                    eMode.geteList());
+            getSlContainer().publish(sl, sig);
+        }
+
         private class DrawFooter implements ISlotListener {
 
             @Override
@@ -155,6 +182,17 @@ class ListControler {
                 ICustomObject i = slContext.getCustom();
                 DrawFooterSignal sig = (DrawFooterSignal) i;
                 drawFooter(sig.getValue());
+            }
+        }
+
+        private class ChangeToEdit implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                ChangeToEditSignal sig = (ChangeToEditSignal) i;
+                changeToEdit(sig.getValue());
+
             }
 
         }
@@ -192,7 +230,7 @@ class ListControler {
 
         private final Synch sy = new Synch();
 
-        private class ReadListAgain extends CommonCallBack<DialogVariables> {
+        private class xActionList extends CommonCallBack<DialogVariables> {
 
             @Override
             public void onMySuccess(DialogVariables arg) {
@@ -217,6 +255,11 @@ class ListControler {
                         drawFooter(fList);
                     }
 
+                    @Override
+                    public void acceptEditListMode(IDataType da, EditListMode e) {
+                        changeToEdit(e);
+                    }
+
                 };
                 PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
                         null);
@@ -236,7 +279,8 @@ class ListControler {
                             DataListPersistAction.this);
                     CreateSearchVar.addSearchVar(v, li, iOk);
                     ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                            ICommonConsts.CRUD_READLIST, new ReadListAgain());
+                            ICommonConsts.CRUD_READLIST,
+                            bFactory.construct(li.getId(), null));
 
                 } else {
                     sy.signalDone();
@@ -266,15 +310,98 @@ class ListControler {
                 ListFormat li = rM.getFormat(dType);
                 CreateSearchVar.addSearchVar(v, li, iOk);
                 ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                        ICommonConsts.JLIST_GETSIZE, new ReadListAgain());
+                        ICommonConsts.JLIST_GETSIZE,
+                        bFactory.construct(li.getId(), null));
+            }
+
+        }
+
+        private class EditRowAction implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                EditRowActionSignal e = (EditRowActionSignal) i;
+                int k = 0;
+            }
+
+        }
+
+        private class ChangeColumnEdit implements ISlotListener {
+
+            class KeyTable {
+                int row;
+                IVField v;
+
+                public @Override
+                int hashCode() {
+                    return v.hashCode() + row;
+                }
+
+                public @Override
+                boolean equals(Object o) {
+                    KeyTable c = (KeyTable) o;
+                    return c.row == row && v.eq(c.v);
+                }
+            }
+
+            private final Map<KeyTable, Optional<Object>> valsBefore = new HashMap<KeyTable, Optional<Object>>();
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                ChangeFieldEditSignal c = (ChangeFieldEditSignal) i;
+                ListFormat li = rM.getFormat(dType);
+                IVField vv = c.getV();
+                FieldItem col = li.getColumn(vv.getId());
+                assert col != null : LogT.getT().cannotBeNull();
+                IVModelData iD = SlU.getVDataByI(dType,
+                        DataListPersistAction.this, c.getValue());
+                Object o = iD.getF(vv);
+                KeyTable key = new KeyTable();
+                key.row = c.getValue();
+                key.v = vv;
+                Optional<Object> beforeD = null;
+                if (c.isBefore()) {
+                    key.v = vv;
+                    valsBefore.put(key, Optional.of(o));
+                } else {
+                    beforeD = valsBefore.get(key);
+                    valsBefore.remove(key);
+                }
+                if (c.isBefore() && !col.isSignalBefore())
+                    return;
+                if (!c.isBefore() && !col.isSignalChange())
+                    return;
+
+                Object prevO = null;
+                if (!c.isBefore()) {
+                    if (beforeD == null) {
+                        String mess = M.M().BeforeValueNotFound(c.getValue(),
+                                vv.getId());
+                        Utils.errAlert(LogT.getT().InternalError(), mess);
+                        return;
+                    }
+                    prevO = beforeD.orNull();
+                }
+                DialogVariables v = iCon.getVariables();
+                v.setValueB(ICommonConsts.JCHANGESIGNALBEFORE, c.isBefore());
+                v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, vv.getId());
+                FieldValue prev = new FieldValue();
+                prev.setValue(col.getFieldType(), prevO, col.getAfterDot());
+                v.setValue(ICommonConsts.JVALBEFORE, prev);
+                ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                        ICommonConsts.SIGNALCOLUMNCHANGE,
+                        bFactory.construct(li.getId(), c.getW()));
             }
 
         }
 
         DataListPersistAction(IDataType d, RowListDataManager rM,
-                IVariablesContainer iCon) {
+                IVariablesContainer iCon, ICreateBackActionFactory bFactory) {
             this.dType = d;
             this.rM = rM;
+            this.bFactory = bFactory;
             this.iCon = iCon;
             registerSubscriber(dType, DataActionEnum.ReadListAction,
                     new ReadList());
@@ -284,6 +411,15 @@ class ListControler {
                     new GetListSize());
             registerSubscriber(DrawFooterSignal.constructSignal(d),
                     new DrawFooter());
+            registerSubscriber(ChangeToEditSignal.constructSignal(d),
+                    new ChangeToEdit());
+            registerSubscriber(
+                    ChangeFieldEditSignal.constructSlotChangeEditSignal(d),
+                    new ChangeColumnEdit());
+            registerSubscriber(
+                    EditRowActionSignal.constructSlotEditActionSignal(d),
+                    new EditRowAction());
+
         }
 
     }
@@ -309,11 +445,12 @@ class ListControler {
     }
 
     private static DataListParam getParam(final RowListDataManager rM,
-            final IDataType da, IVariablesContainer iCon) {
+            final IDataType da, IVariablesContainer iCon,
+            ICreateBackActionFactory bFactory) {
 
         // create factories
         IDataPersistListAction iPersist = new DataListPersistAction(da, rM,
-                iCon);
+                iCon, bFactory);
         IHeaderListContainer heList = new HeaderList(da, rM);
         IDataModelFactory dataFactory = new DataModel(rM);
         IFormTitleFactory formFactory = new IFormTitleFactory() {
@@ -399,6 +536,12 @@ class ListControler {
                         // TODO: do something
 
                     }
+
+                    @Override
+                    public void acceptEditListMode(IDataType da, EditListMode e) {
+                        // TODO Auto-generated method stub
+
+                    }
                 };
                 PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
                         null);
@@ -431,7 +574,8 @@ class ListControler {
     }
 
     static ISlotable contruct(RowListDataManager rM, IDataType da,
-            CellId panelId, IVariablesContainer iCon, IPerformClickAction iClick) {
+            CellId panelId, IVariablesContainer iCon,
+            IPerformClickAction iClick, ICreateBackActionFactory backFactory) {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
         ControlButtonFactory buFactory = GwtGiniInjector.getI()
@@ -479,7 +623,8 @@ class ListControler {
         }
         ListOfControlDesc cButton = new ListOfControlDesc(cList);
         DisplayListControlerParam dList = tFactory.constructParam(cButton,
-                panelId, getParam(rM, da, iCon), null, false, li.isChunked());
+                panelId, getParam(rM, da, iCon, backFactory), null, false,
+                li.isChunked());
         ISlotable i = tFactory.constructDataControler(dList);
         CustomStringSlot sl = ReadChunkSignal.constructReadChunkSignal(da);
         i.getSlContainer()

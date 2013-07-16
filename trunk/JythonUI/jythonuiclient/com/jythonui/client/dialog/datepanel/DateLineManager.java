@@ -72,6 +72,7 @@ import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateForm.ColumnsDesc;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.RowVModelData;
+import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DateLineVariables;
 import com.jythonui.shared.DialogFormat;
@@ -84,7 +85,7 @@ import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
 
-public class DateLineManager {
+public class DateLineManager implements ISetGetVar {
 
     private final DialogContainer dContainer;
     private final GwtTableFactory gFactory;
@@ -104,7 +105,8 @@ public class DateLineManager {
 
     private final List<AddVar> aVar = new ArrayList<AddVar>();
 
-    public void addVar(DialogVariables var) {
+    @Override
+    public void addToVar(DialogVariables var) {
         var.setValueS(ICommonConsts.JDATELINEQUERYID, lastId);
         for (AddVar a : aVar) {
             var.setValue(a.id, a.o);
@@ -550,6 +552,11 @@ public class DateLineManager {
     public ISlotable contructSlotable(IDataType publishType, IDataType dType,
             DateLine dl, CellId cell, IPerformClickAction iClick) {
         return new DateLineSlot(publishType, dType, dl, cell, iClick);
+    }
+
+    @Override
+    public void readVar(DialogVariables var) {
+
     }
 
 }

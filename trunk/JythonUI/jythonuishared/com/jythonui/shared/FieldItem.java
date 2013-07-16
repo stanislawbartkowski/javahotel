@@ -150,4 +150,13 @@ public class FieldItem extends ElemDescription {
         return isAttr(ICommonConsts.FOOTER);
     }
 
+    public boolean isColumnEditable() {
+        return isAttr(ICommonConsts.EDITCOL);
+    }
+
+    public boolean isSignalBefore() {
+        return isAttr(ICommonConsts.SIGNALBEFORE);
+    }
+
+
 }

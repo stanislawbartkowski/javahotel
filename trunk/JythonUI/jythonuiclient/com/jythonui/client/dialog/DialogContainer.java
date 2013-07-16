@@ -49,6 +49,7 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotCustom;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
@@ -73,6 +74,7 @@ import com.jythonui.client.util.RegisterCustom;
 import com.jythonui.client.util.ValidateForm;
 import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.IBackAction;
+import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.client.variables.VariableContainerFactory;
 import com.jythonui.shared.ButtonItem;
@@ -112,7 +114,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         this.info = info;
         this.d = info.getDialog();
         this.dType = dType;
-        liManager = new RowListDataManager(info);
+        liManager = new RowListDataManager(info, slMediator);
         // not safe, reference is escaping
         dManager = new DateLineManager(this);
         if (pCon == null) {
@@ -278,12 +280,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     private class DateLineClick implements IPerformClickAction {
 
         @SuppressWarnings("unused")
-        private final IDataType dList;
-        @SuppressWarnings("unused")
         private final String listId;
 
-        DateLineClick(IDataType dType, String listId) {
-            this.dList = dType;
+        DateLineClick(String listId) {
             this.listId = listId;
         }
 
@@ -307,6 +306,56 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 return;
             ISlotCustom sl = RefreshData.constructRequestForRefreshData(dType);
             getSlContainer().publish(sl);
+        }
+
+    }
+
+    private class DialogVariablesGetSet implements ISetGetVar {
+
+        @Override
+        public void addToVar(DialogVariables v) {
+            IVModelData vData = new VModelData();
+            vData = getSlContainer().getGetterIVModelData(dType,
+                    GetActionEnum.GetViewModelEdited, vData);
+            JUtils.setVariables(v, vData);
+            if (addV != null) {
+                for (String fie : addV.getFields()) {
+                    FieldValue val = addV.getValue(fie);
+                    v.setValue(fie, val);
+                }
+            }
+        }
+
+        @Override
+        public void readVar(final DialogVariables var) {
+            JUtils.IVisitor vis = new JUtils.IVisitor() {
+
+                @Override
+                public void action(String fie, String field) {
+                    FieldValue val = var.getValue(fie);
+                    if (val == null) {
+                        Utils.errAlert(M.M().ErrorNoValue(fie),
+                                ICommonConsts.JCOPY + fie);
+                        return;
+                    }
+                    VField v = VField.construct(fie, val.getType());
+                    IFormLineView i = SlU.getVWidget(dType, slMediator, v);
+                    if (i == null) {
+                        return;
+                    }
+                    i.setValObj(val.getValue());
+                }
+            };
+            JUtils.visitListOfFields(var, ICommonConsts.JCOPY, vis);
+        }
+
+    }
+
+    private class BackFactory implements ICreateBackActionFactory {
+
+        @Override
+        public CommonCallBack<DialogVariables> construct(String id, WSize w) {
+            return new BackClass(id, false, w, null);
         }
 
     }
@@ -363,7 +412,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 CellId panelId = pView.addCellPanel(dType, pLine++, 0);
                 IDataType dLType = DataType.construct(dl.getId(), this);
                 ISlotable i = dManager.contructSlotable(dType, dLType, dl,
-                        panelId, new DateLineClick(dLType, dl.getId()));
+                        panelId, new DateLineClick(dl.getId()));
                 dLineType.put(dl.getId(), dLType);
                 slMediator.registerSlotContainer(panelId, i);
                 emptyView = false;
@@ -375,7 +424,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 liManager.addList(da, id, f);
                 CellId panelId = pView.addCellPanel(dType, pLine++, 0);
                 ISlotable i = liManager.constructListControler(da, panelId,
-                        iCon, new ListClick(da));
+                        iCon, new ListClick(da), new BackFactory());
                 slMediator.registerSlotContainer(panelId, i);
                 slMediator.getSlContainer().registerSubscriber(dType,
                         ClickButtonType.StandClickEnum.ALL,
@@ -393,8 +442,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 emptyView = false;
             }
 
-        iCon.addFormVariables(slMediator, dType, liManager, gManager, dManager,
-                addV, new BAction());
+        iCon.addFormVariables(new BAction(), new DialogVariablesGetSet(),
+                liManager, gManager, dManager);
 
         if (!emptyView) {
             pView.createView();
@@ -407,7 +456,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         } else {
             // display empty list
             for (IDataType da : liManager.getList()) {
-                liManager.publishBeforeForm(slMediator, da, null);
+                liManager.publishBeforeForm(da, null);
             }
         }
         CustomStringSlot sig = SendDialogFormSignal.constructSignal(dType);
@@ -535,19 +584,22 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     if (!before && lRows == null) {
                         return;
                     }
-                    liManager.publishBeforeForm(slMediator, da, lRows);
+                    liManager.publishBeforeForm(da, lRows);
                 }
 
                 @Override
                 public void acceptTypes(String typeName, ListOfRows lRows) {
                     eList.add(typeName, lRows);
-
                 }
 
                 @Override
                 public void acceptFooter(IDataType da, List<IGetFooter> fList) {
-                    liManager.publishBeforeFooter(slMediator, da, fList);
-                    
+                    liManager.publishBeforeFooter(da, fList);
+                }
+
+                @Override
+                public void acceptEditListMode(IDataType da, EditListMode e) {
+                    liManager.publishBeforeListEdit(da, e);
                 }
 
             };
@@ -613,8 +665,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 }
             };
             JUtils.visitListOfFields(arg, ICommonConsts.JREFRESHDATELINE, visDL);
-            VerifyJError.isError(null, dType, arg,
-                    DialogContainer.this);
+            VerifyJError.isError(null, dType, arg, DialogContainer.this);
         }
     }
 
