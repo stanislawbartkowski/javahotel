@@ -27,6 +27,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.factories.IGetCustomValues;
+import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 
 /**
@@ -36,7 +37,10 @@ import com.gwtmodel.table.injector.GwtGiniInjector;
 abstract class PresentationCellHelper {
 
     protected IGwtTableModel model = null;
-    protected final IGetCustomValues cValues = GwtGiniInjector.getI().getCustomValues();
+    protected final IGetCustomValues cValues = GwtGiniInjector.getI()
+            .getCustomValues();
+    protected final IWebPanelResources pResources = GwtGiniInjector.getI()
+            .getWebPanelResources();
     protected final DateTimeFormat fo = DateTimeFormat.getFormat(cValues
             .getCustomValue(IGetCustomValues.DATEFORMAT));
     protected static final SafeHtml INPUT_CHECKED = SafeHtmlUtils

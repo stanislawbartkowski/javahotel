@@ -38,10 +38,15 @@ public class WebPanelResources implements IWebPanelResources {
         ma.put(SCROLLWITHDATE, "default_paneldate.html");
         ma.put(SCROLLWITHOUTDATE, "default_panelwithoutdate.html");
         ma.put(PROGRESSICON, "default_progressicon");
-        ma.put(SCROLLLEFT, "arrow-left-default");
-        ma.put(SCROLLLEFTEND, "arrow-left-end-default");
-        ma.put(SCROLLRIGHT, "arrow-right-default");
-        ma.put(SCROLLRIGHTEND, "arrow-right-end-default");
+        ma.put(SCROLLLEFT, "default_arrow-left");
+        ma.put(SCROLLLEFTEND, "default_arrow-left-end");
+        ma.put(SCROLLRIGHT, "default_arrow-right");
+        ma.put(SCROLLRIGHTEND, "default_arrow-right-end");
+        ma.put(CALENDAR, "default_calendar");
+        ma.put(ADDROW, "default_rowaddimage.png");
+        ma.put(ADDBEFOREROW, "default_rowbeforeadd.png");
+        ma.put(CHANGEROW, "default_changerow.png");
+        ma.put(DELETEROW, "default_deleterow.png");
     }
 
     @Override

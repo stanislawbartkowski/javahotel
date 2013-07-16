@@ -13,7 +13,6 @@
 
 package com.gwtmodel.table.factories;
 
-import com.gwtmodel.table.view.button.ImgButtonFactory;
 
 /**
  * 
@@ -36,7 +35,12 @@ public interface IWebPanelResources {
     String SCROLLRIGHTEND = "scrollrightend";
     String SCROLLLEFT = "scrollleft";
     String SCROLLRIGHT = "scrollright";
-            
+    String CALENDAR = "calendar";
+    String ADDROW = "addrow";
+    String ADDBEFOREROW = "addbeforerow";
+    String CHANGEROW = "changerow";
+    String DELETEROW = "deleterow";
+
     String getRes(String res);
 
 }
