@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import list</import>
+		<method>list.editlistaction({0},{1})</method>
+	</jython>
+
+
+	<list id="list" displayname="Edit list of keys">
+	  <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+		<columns>
+			<column id="key" displayname="storeKey" type="long" hidden="" />
+			<column id="pnumber" displayname="Number" actionid="show"
+				notempty="" readonlychange="" footer="" />
+			<column id="pname" displayname="Name" editable="" signalbefore="" signalchange=""/>
+		</columns>
+	</list>
+
+
+</dialog>

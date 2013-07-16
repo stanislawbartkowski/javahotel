@@ -100,3 +100,19 @@ def inaction(action,var) :
    print "inaction",var
 
     
+def editlistaction(action,var):
+  print "footeraction",action
+  for k in var.keys() : 
+    print k
+    print var[k]
+    
+  op = ServiceInjector.constructPersonOp()
+          
+  if action == "before" :
+    __create_list(op,var)
+    var["JLIST_EDIT_list_pname"] = ""
+#    var["JLIST_EDIT_list_MODE"] = "NORMALMODE" 
+#    var["JLIST_EDIT_list_MODE"] = "CHANGEMODE" 
+    var["JLIST_EDIT_list_MODE"] = "ADDCHANGEDELETEMODE" 
+    return
+    
