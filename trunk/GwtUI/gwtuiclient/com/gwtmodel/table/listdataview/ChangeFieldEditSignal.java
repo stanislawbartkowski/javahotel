@@ -69,7 +69,7 @@ public class ChangeFieldEditSignal extends DataIntegerSignal {
     }
 
     private static final String RET_SIGNAL_ID = ChangeFieldEditSignal.class
-            .getName() + "TABLE_PUBLIC_RETURN_CHANGE_FOCUS+SIGNAL";
+            .getName() + "TABLE_PUBLIC_RETURN_CHANGE_FOCUS_SIGNAL";
 
     static ISlotCustom constructReturnChangeSlotSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, RET_SIGNAL_ID);

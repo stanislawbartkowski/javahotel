@@ -38,18 +38,18 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.datepicker.client.DatePicker;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.ImageNameFactory;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
 import com.gwtmodel.table.view.util.ClickPopUp;
 
 /**
  * @author hotel
- *
+ * 
  */
 class PresentationDateEditFactory extends PresentationEditCellHelper {
 
@@ -256,8 +256,10 @@ class PresentationDateEditFactory extends PresentationEditCellHelper {
             MutableInteger i = (MutableInteger) key;
             boolean editenabled = eCol.isEditable(i.intValue(), v);
             if (editenabled) {
-                String s = Utils.getImageHTML(ImageNameFactory
-                        .getImageName(ImageNameFactory.ImageType.CALENDAR));
+                String ima = pResources.getRes(IWebPanelResources.CALENDAR);
+                // String s = Utils.getImageHTML(ImageNameFactory
+                // .getImageName(ImageNameFactory.ImageType.CALENDAR));
+                String s = Utils.getImageHTML(ima);
                 SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
                 sb.append(html);
             }
@@ -266,9 +268,11 @@ class PresentationDateEditFactory extends PresentationEditCellHelper {
 
     /**
      * Creates list to be used as an argument to constructor
-     *
-     * @param c1 First element
-     * @param c2 Second element
+     * 
+     * @param c1
+     *            First element
+     * @param c2
+     *            Second element
      * @return List containing two elements
      */
     private List<HasCell<Date, ?>> createList(HasCell<Date, ?> c1,

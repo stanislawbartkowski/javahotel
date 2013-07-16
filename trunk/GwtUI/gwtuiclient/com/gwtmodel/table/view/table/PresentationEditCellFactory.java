@@ -37,12 +37,12 @@ import com.gwtmodel.table.FieldDataType.IGetListValues;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.ImageNameFactory;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.PersistTypeEnum;
+import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
@@ -178,18 +178,22 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         String title = null;
         switch (persist) {
         case ADDBEFORE:
-            imageName = ImageNameFactory
-                    .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW);
+            // imageName = ImageNameFactory
+            // .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW);
+            imageName = pResources.getRes(IWebPanelResources.ADDBEFOREROW);
+
             title = MM.getL().AddRowAtTheBeginning();
             break;
         case ADD:
-            imageName = ImageNameFactory
-                    .getImageName(ImageNameFactory.ImageType.ADDROW);
+            imageName = pResources.getRes(IWebPanelResources.ADDROW);
+            // imageName = ImageNameFactory
+            // .getImageName(ImageNameFactory.ImageType.ADDROW);
             title = MM.getL().AddRowAfter();
             break;
         case REMOVE:
-            imageName = ImageNameFactory
-                    .getImageName(ImageNameFactory.ImageType.DELETEROW);
+            imageName = pResources.getRes(IWebPanelResources.DELETEROW);
+            // imageName = ImageNameFactory
+            // .getImageName(ImageNameFactory.ImageType.DELETEROW);
             title = MM.getL().RemoveRow();
             break;
         }
