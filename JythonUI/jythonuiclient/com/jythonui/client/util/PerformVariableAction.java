@@ -17,13 +17,16 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
+import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 import com.gwtmodel.table.view.util.OkDialog;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.RunAction;
+import com.jythonui.client.dialog.VField;
 import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
 import com.jythonui.client.variables.IVariablesContainer;
@@ -50,11 +53,27 @@ public class PerformVariableAction {
             FieldValue getV();
         }
 
+        public class EditListMode {
+            private ChangeEditableRowsParam.ModifMode mode = ChangeEditableRowsParam.ModifMode.ADDCHANGEDELETEMODE;
+            private List<IVField> eList = new ArrayList<IVField>();
+
+            public ChangeEditableRowsParam.ModifMode getMode() {
+                return mode;
+            }
+
+            public List<IVField> geteList() {
+                return eList;
+            }
+
+        }
+
         void accept(IDataType da, ListOfRows lRows);
 
         void acceptTypes(String typeName, ListOfRows lRows);
 
         void acceptFooter(IDataType da, List<IGetFooter> fList);
+
+        void acceptEditListMode(IDataType da, EditListMode e);
     }
 
     public static void perform(IYesNoAction iYesno, ISendCloseAction iClose,
@@ -108,7 +127,35 @@ public class PerformVariableAction {
             JUtils.visitListOfFields(arg, jKey, visDL);
             if (!fList.isEmpty())
                 vis.acceptFooter(da, fList);
-        }
+
+            // check edit list
+            final VisitList.EditListMode listMode = new VisitList.EditListMode();
+            JUtils.IVisitor visEdit = new JUtils.IVisitor() {
+
+                @Override
+                public void action(String fie, String field) {
+                    if (fie.equals(ICommonConsts.JLISTEDITMODE)) {
+                        String mode = arg.getValue(field).getValueS();
+                        try {
+                            listMode.mode = ChangeEditableRowsParam.ModifMode
+                                    .valueOf(mode);
+                        } catch (java.lang.IllegalArgumentException e) {
+                            Utils.errAlert(mode, e);
+                        }
+
+                    }
+                    IVField e = VField.construct(fie);
+                    listMode.eList.add(e);
+                }
+
+            };
+            String eKey = ICommonConsts.JLISTEDIT + s + "_";
+            JUtils.visitListOfFields(arg, eKey, visEdit);
+            if (!listMode.eList.isEmpty())
+                vis.acceptEditListMode(da, listMode);
+
+        } // for
+
         for (Entry<String, ListOfRows> e : arg.getEnumList().entrySet()) {
             vis.acceptTypes(e.getKey(), e.getValue());
         }
@@ -139,13 +186,16 @@ public class PerformVariableAction {
                     null, w, iCon);
         }
     }
-    
-    private static boolean checkW(String action, String param,
-            String param1, final String param2, WSize w) {
-        if (w != null) return true;
+
+    private static boolean checkW(String action, String param, String param1,
+            final String param2, WSize w) {
+        if (w != null)
+            return true;
         String mess = action + " " + param;
-        if (param1 != null) mess += " " + param1;
-        if (param2 != null) mess += " " + param2;
+        if (param1 != null)
+            mess += " " + param1;
+        if (param2 != null)
+            mess += " " + param2;
         String alert = M.M().CannotCallActionHere(mess);
         Utils.errAlert(alert);
         return false;
@@ -160,20 +210,23 @@ public class PerformVariableAction {
             return;
         }
         if (action.equals(ICommonConsts.JUPDIALOG)) {
-            if (!checkW(action,param,param1,param2,w)) return;
+            if (!checkW(action, param, param1, param2, w))
+                return;
             new RunAction().upDialog(param, w, iCon);
             return;
         }
         if (action.equals(ICommonConsts.JOKMESSAGE)
                 || action.equals(ICommonConsts.JERRORMESSAGE)) {
-            if (!checkW(action,param,param1,param2,w)) return;
+            if (!checkW(action, param, param1, param2, w))
+                return;
             OkDialog ok = new OkDialog(param, param1);
             ok.show(w);
             return;
         }
         if (action.equals(ICommonConsts.JYESNOMESSAGE)) {
             if (iYesno != null) {
-                if (!checkW(action,param,param1,param2,w)) return;
+                if (!checkW(action, param, param1, param2, w))
+                    return;
                 iYesno.answer(param, param1, param2, w);
             }
             return;

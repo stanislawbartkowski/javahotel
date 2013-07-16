@@ -30,6 +30,7 @@ import com.gwtmodel.table.view.grid.IGridView;
 import com.gwtmodel.table.view.grid.IGridViewBoolean;
 import com.gwtmodel.table.view.grid.IGridViewDecimal;
 import com.jythonui.client.M;
+import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.CheckListElem;
 import com.jythonui.shared.DialogCheckVariables;
@@ -41,7 +42,7 @@ import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
 
-public class FormGridManager {
+public class FormGridManager implements ISetGetVar {
 
     private final Map<String, IDataType> sData = new HashMap<String, IDataType>();
     // private final Map<String, IGridViewBoolean> gData = new HashMap<String,
@@ -236,7 +237,8 @@ public class FormGridManager {
         return false;
     }
 
-    public void addValues(DialogVariables v) {
+    @Override
+    public void addToVar(DialogVariables var) {
         DialogFormat d = dContainer.getD();
         for (String s : gData.keySet()) {
             IGridView gView = gData.get(s);
@@ -278,7 +280,7 @@ public class FormGridManager {
                 rowL++;
                 c.getVal().put(row, lRows);
             }
-            v.getCheckVariables().put(s, c);
+            var.getCheckVariables().put(s, c);
             // checkError(s,v);
         }
     }
@@ -299,5 +301,10 @@ public class FormGridManager {
                 ok = false;
         }
         return ok;
+    }
+
+    @Override
+    public void readVar(DialogVariables var) {
+
     }
 }

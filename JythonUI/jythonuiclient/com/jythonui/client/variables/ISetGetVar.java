@@ -12,26 +12,12 @@
  */
 package com.jythonui.client.variables;
 
-import java.util.List;
-
-import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.slotmodel.ISlotable;
 import com.jythonui.shared.DialogVariables;
 
-/**
- * @author hotel
- * 
- */
-public interface IVariablesContainer {
+public interface ISetGetVar {
 
-    void addFormVariables(IBackAction iAction,ISetGetVar ... vars);
+    void addToVar(DialogVariables var);
 
-    DialogVariables getVariables();
-
-    void setVariablesToForm(DialogVariables v);
-
-    void copyCurrentVariablesToForm(ISlotable iSlo, IDataType dType);
-
-    List<IBackAction> getList();
+    void readVar(DialogVariables var);
 
 }

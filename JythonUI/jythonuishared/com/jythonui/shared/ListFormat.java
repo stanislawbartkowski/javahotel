@@ -66,4 +66,8 @@ public class ListFormat extends ElemDescription {
         return isAttr(ICommonConsts.CHUNKED);
     }
 
+    public FieldItem getColumn(String id) {
+        return DialogFormat.findE(colList, id);
+    }
+
 }

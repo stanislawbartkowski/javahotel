@@ -22,12 +22,20 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
-import com.jythonui.client.util.RowVModelData;
+import com.jythonui.client.util.JUtils;
+import com.jythonui.client.util.PerformVariableAction.VisitList;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
+import com.jythonui.client.util.RowVModelData;
+import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogInfo;
+import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldValue;
+import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowIndex;
@@ -36,15 +44,17 @@ import com.jythonui.shared.RowIndex;
  * @author hotel
  * 
  */
-public class RowListDataManager {
+public class RowListDataManager implements ISetGetVar {
 
     private final Map<IDataType, String> listMap = new HashMap<IDataType, String>();
     private final Map<IDataType, ListFormat> lMap = new HashMap<IDataType, ListFormat>();
     private final Map<IDataType, RowIndex> rMap = new HashMap<IDataType, RowIndex>();
     private final DialogInfo dialogInfo;
+    private final ISlotable iSlo;
 
-    public RowListDataManager(DialogInfo dialogInfo) {
+    public RowListDataManager(DialogInfo dialogInfo, ISlotable iSlo) {
         this.dialogInfo = dialogInfo;
+        this.iSlo = iSlo;
     }
 
     /**
@@ -68,16 +78,22 @@ public class RowListDataManager {
         return lMap.get(da);
     }
 
-    public void publishBeforeForm(ISlotable sl, IDataType d, ListOfRows l) {
+    public void publishBeforeForm(IDataType d, ListOfRows l) {
         FormBeforeCompletedSignal signal = new FormBeforeCompletedSignal(l);
         CustomStringSlot slot = FormBeforeCompletedSignal.constructSignal(d);
-        sl.getSlContainer().publish(slot, signal);
+        iSlo.getSlContainer().publish(slot, signal);
     }
-    
-    public void publishBeforeFooter(ISlotable sl, IDataType d, List<IGetFooter> value) {
+
+    public void publishBeforeFooter(IDataType d, List<IGetFooter> value) {
         DrawFooterSignal signal = new DrawFooterSignal(value);
         CustomStringSlot slot = DrawFooterSignal.constructSignal(d);
-        sl.getSlContainer().publish(slot, signal);        
+        iSlo.getSlContainer().publish(slot, signal);
+    }
+
+    public void publishBeforeListEdit(IDataType d, VisitList.EditListMode eModel) {
+        ChangeToEditSignal signal = new ChangeToEditSignal(eModel);
+        CustomStringSlot slot = ChangeToEditSignal.constructSignal(d);
+        iSlo.getSlContainer().publish(slot, signal);
     }
 
     public List<IDataType> getList() {
@@ -98,12 +114,33 @@ public class RowListDataManager {
     }
 
     public ISlotable constructListControler(IDataType da, CellId panelId,
-            IVariablesContainer iCon, IPerformClickAction iAction) {
-        return ListControler.contruct(this, da, panelId, iCon, iAction);
+            IVariablesContainer iCon, IPerformClickAction iAction,
+            ICreateBackActionFactory bFactory) {
+        return ListControler.contruct(this, da, panelId, iCon, iAction,bFactory);
     }
-    
+
     IVModelData contructE(IDataType da) {
         return new RowVModelData(rMap.get(da));
     }
-    
+
+    @Override
+    public void addToVar(DialogVariables var) {
+        IVModelData vData;
+        for (IDataType dType : getList()) {
+            vData = iSlo.getSlContainer().getGetterIVModelData(dType,
+                    GetActionEnum.GetListLineChecked);
+            boolean setLine = vData != null;
+            FieldValue val = new FieldValue();
+            val.setValue(setLine);
+            var.setValue(getLId(dType) + ICommonConsts.LINESET, val);
+            JUtils.setVariables(var, vData);
+        }
+
+    }
+
+    @Override
+    public void readVar(DialogVariables var) {
+
+    }
+
 }
