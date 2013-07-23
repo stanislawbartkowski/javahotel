@@ -25,6 +25,8 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.InvalidateFormContainer;
+import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
@@ -47,14 +49,19 @@ import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.listdataview.ChangeFieldEditSignal;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
+import com.gwtmodel.table.listdataview.DataIntegerVDataSignal;
 import com.gwtmodel.table.listdataview.EditRowActionSignal;
+import com.gwtmodel.table.listdataview.EditRowErrorSignal;
 import com.gwtmodel.table.listdataview.EditRowsSignal;
+import com.gwtmodel.table.listdataview.FinishEditRowSignal;
 import com.gwtmodel.table.listdataview.ReadChunkSignal;
+import com.gwtmodel.table.listdataview.StartNextRowSignal;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
+import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
@@ -69,9 +76,11 @@ import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateSearchVar;
+import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.util.PerformVariableAction.VisitList;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
+import com.jythonui.client.util.ValidateForm;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
@@ -125,6 +134,8 @@ class ListControler {
 
         private int lastRowNum;
         private PersistTypeEnum lastPersistAction;
+        private ChangeFieldEditSignal lastC = null;
+        private FinishEditRowSignal lastF = null;
 
         private class FooterV extends AVModelData {
 
@@ -175,6 +186,29 @@ class ListControler {
             getSlContainer().publish(sl, sig);
         }
 
+        private class RowActionOkListener implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                if (lastPersistAction == null)
+                    return;
+                ICustomObject i = slContext.getCustom();
+                RowActionOk r = (RowActionOk) i;
+                assert lastPersistAction != null : LogT.getT().cannotBeNull();
+                if (lastPersistAction == PersistTypeEnum.ADD
+                        || lastPersistAction == PersistTypeEnum.ADDBEFORE) {
+                    CustomStringSlot sl = DataIntegerVDataSignal
+                            .constructSlotAddRowSignal(dType);
+                    DataIntegerVDataSignal sig = new DataIntegerVDataSignal(
+                            lastRowNum, r.getValue(),
+                            lastPersistAction == PersistTypeEnum.ADD);
+                    getSlContainer().publish(sl, sig);
+                }
+                lastPersistAction = null;
+            }
+
+        }
+
         private class DrawFooter implements ISlotListener {
 
             @Override
@@ -192,7 +226,43 @@ class ListControler {
                 ICustomObject i = slContext.getCustom();
                 ChangeToEditSignal sig = (ChangeToEditSignal) i;
                 changeToEdit(sig.getValue());
+            }
 
+        }
+
+        private IVModelData getV() {
+            IVModelData vData;
+            if (lastC != null) {
+                vData = SlU.getVDataByI(dType, DataListPersistAction.this,
+                        lastC.getValue());
+            } else {
+                vData = getSlContainer().getGetterIVModelData(dType,
+                        GetActionEnum.GetListLineChecked);
+            }
+            return vData;
+        }
+
+        private class AddVarListener implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ListFormat fo = rM.getFormat(dType);
+                ICustomObject i = slContext.getCustom();
+                AddVarList sig = (AddVarList) i;
+                DialogVariables var = sig.getValue();
+                IVModelData vData = getV();
+                boolean setLine = vData != null;
+                FieldValue val = new FieldValue();
+                val.setValue(setLine);
+                var.setValue(rM.getLId(dType) + ICommonConsts.LINESET, val);
+                JUtils.setVariables(var, vData);
+
+                var.setValueL(ICommonConsts.JEDITLISTROWNO + fo.getId(),
+                        lastRowNum);
+                var.setValueS(
+                        ICommonConsts.JEDITLISTACTION + fo.getId(),
+                        lastPersistAction == null ? null : lastPersistAction
+                                .toString());
             }
 
         }
@@ -301,6 +371,13 @@ class ListControler {
 
         }
 
+        private void focusFinalSignal() {
+            if (lastC != null) {
+                lastC.signalFinishChangeSignal(DataListPersistAction.this);
+            }
+            lastC = null;
+        }
+
         private class GetListSize implements ISlotListener {
 
             @Override
@@ -316,13 +393,35 @@ class ListControler {
 
         }
 
+        // CustomStringSlot sl = StartNextRowSignal
+        // .constructSlotStartNextRowSignal(dType);
+        // StartNextRowSignal si = new StartNextRowSignal(prevW);
+
+        private class NextRowListener implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                StartNextRowSignal si = (StartNextRowSignal) i;
+                // TODO Auto-generated method stub
+
+            }
+
+        }
+
         private class EditRowAction implements ISlotListener {
 
             @Override
             public void signal(ISlotSignalContext slContext) {
                 ICustomObject i = slContext.getCustom();
                 EditRowActionSignal e = (EditRowActionSignal) i;
-                int k = 0;
+                lastRowNum = e.getRownum();
+                lastPersistAction = e.getE();
+                DialogVariables v = iCon.getVariables();
+                ListFormat li = rM.getFormat(dType);
+                ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                        ICommonConsts.JEDITLISTROWACTION,
+                        bFactory.construct(li.getId(), e.getW()));
             }
 
         }
@@ -360,19 +459,26 @@ class ListControler {
                 Object o = iD.getF(vv);
                 KeyTable key = new KeyTable();
                 key.row = c.getValue();
+                lastRowNum = c.getValue();
                 key.v = vv;
                 Optional<Object> beforeD = null;
+                focusFinalSignal();
+                lastC = c;
                 if (c.isBefore()) {
                     key.v = vv;
-                    valsBefore.put(key, Optional.of(o));
+                    valsBefore.put(key, Optional.fromNullable(o));
                 } else {
                     beforeD = valsBefore.get(key);
                     valsBefore.remove(key);
                 }
-                if (c.isBefore() && !col.isSignalBefore())
+                if (c.isBefore() && !col.isSignalBefore()) {
+                    focusFinalSignal();
                     return;
-                if (!c.isBefore() && !col.isSignalChange())
+                }
+                if (!c.isBefore() && !col.isSignalChange()) {
+                    focusFinalSignal();
                     return;
+                }
 
                 Object prevO = null;
                 if (!c.isBefore()) {
@@ -397,6 +503,74 @@ class ListControler {
 
         }
 
+        private class ErrorsInfo implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                SendErrorsInfo e = (SendErrorsInfo) i;
+                List<InvalidateMess> eList = e.getValue();
+                if (eList.isEmpty()) {
+                    focusFinalSignal();
+                    return;
+                }
+                EditRowErrorSignal eSignal = new EditRowErrorSignal(lastRowNum,
+                        new InvalidateFormContainer(eList));
+                getSlContainer().publish(
+                        EditRowErrorSignal.constructSlotLineErrorSignal(dType),
+                        eSignal);
+            }
+
+        }
+
+        private void sendFinishSignal(boolean ok) {
+            if (lastF != null) {
+                if (!ok)
+                    lastF.setDoNotChange();
+                getSlContainer()
+                        .publish(
+                                FinishEditRowSignal
+                                        .constructSlotFinishEditRowReturnSignal(dType),
+                                lastF);
+            }
+            lastF = null;
+        }
+
+        private class FinishRowEdit implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                FinishEditRowSignal f = (FinishEditRowSignal) i;
+                lastF = f;
+                ListFormat fo = rM.getFormat(dType);
+                // IVModelData vData = getV();
+                IVModelData vData = SlU.getVDataByI(dType,
+                        DataListPersistAction.this, f.getValue()
+                                .getChoosedLine());
+                List<InvalidateMess> err = ValidateForm.createErrList(vData,
+                        fo.getColumns(), null);
+                if (err != null) {
+                    EditRowErrorSignal eSignal = new EditRowErrorSignal(f
+                            .getValue().getChoosedLine(),
+                            new InvalidateFormContainer(err));
+                    getSlContainer()
+                            .publish(
+                                    EditRowErrorSignal
+                                            .constructSlotLineErrorSignal(dType),
+                                    eSignal);
+                    sendFinishSignal(false);
+                } else {
+//                    sendFinishSignal(true);
+                    ListFormat li = rM.getFormat(dType);
+                    DialogVariables v = iCon.getVariables();
+                    ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                            ICommonConsts.SIGNALAFTERROWl,
+                            bFactory.construct(li.getId(), lastF.getValue().getwSize()));
+                }
+            }
+        }
+
         DataListPersistAction(IDataType d, RowListDataManager rM,
                 IVariablesContainer iCon, ICreateBackActionFactory bFactory) {
             this.dType = d;
@@ -419,7 +593,18 @@ class ListControler {
             registerSubscriber(
                     EditRowActionSignal.constructSlotEditActionSignal(d),
                     new EditRowAction());
-
+            registerSubscriber(AddVarList.constructSignal(d),
+                    new AddVarListener());
+            registerSubscriber(RowActionOk.constructSignal(d),
+                    new RowActionOkListener());
+            registerSubscriber(SendErrorsInfo.constructSignal(d),
+                    new ErrorsInfo());
+            registerSubscriber(
+                    FinishEditRowSignal.constructSlotFinishEditRowSignal(d),
+                    new FinishRowEdit());
+            registerSubscriber(
+                    StartNextRowSignal.constructSlotStartNextRowSignal(d),
+                    new NextRowListener());
         }
 
     }
@@ -623,7 +808,12 @@ class ListControler {
         }
         ListOfControlDesc cButton = new ListOfControlDesc(cList);
         DisplayListControlerParam dList = tFactory.constructParam(cButton,
-                panelId, getParam(rM, da, iCon, backFactory), null, false,
+                panelId, getParam(rM, da, iCon, backFactory), null, /*
+                                                                     * TODO:
+                                                                     * important
+                                                                     * to run
+                                                                     * edit
+                                                                     */true,
                 li.isChunked());
         ISlotable i = tFactory.constructDataControler(dList);
         CustomStringSlot sl = ReadChunkSignal.constructReadChunkSignal(da);

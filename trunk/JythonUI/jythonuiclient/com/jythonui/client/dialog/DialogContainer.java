@@ -328,17 +328,30 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
         @Override
         public void readVar(final DialogVariables var) {
-            JUtils.IVisitor vis = new JUtils.IVisitor() {
+            // JUtils.IVisitor vis = new JUtils.IVisitor() {
+            //
+            // @Override
+            // public void action(String fie, String field) {
+            // FieldValue val = var.getValue(fie);
+            // if (val == null) {
+            // Utils.errAlert(M.M().ErrorNoValue(fie),
+            // ICommonConsts.JCOPY + fie);
+            // return;
+            // }
+            // VField v = VField.construct(fie, val.getType());
+            // IFormLineView i = SlU.getVWidget(dType, slMediator, v);
+            // if (i == null) {
+            // return;
+            // }
+            // i.setValObj(val.getValue());
+            // }
+            // };
+            // JUtils.visitListOfFields(var, ICommonConsts.JCOPY, vis);
+            // }
+            JUtils.IFieldVisit iVisit = new JUtils.IFieldVisit() {
 
                 @Override
-                public void action(String fie, String field) {
-                    FieldValue val = var.getValue(fie);
-                    if (val == null) {
-                        Utils.errAlert(M.M().ErrorNoValue(fie),
-                                ICommonConsts.JCOPY + fie);
-                        return;
-                    }
-                    VField v = VField.construct(fie, val.getType());
+                public void setField(VField v, FieldValue val) {
                     IFormLineView i = SlU.getVWidget(dType, slMediator, v);
                     if (i == null) {
                         return;
@@ -346,9 +359,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     i.setValObj(val.getValue());
                 }
             };
-            JUtils.visitListOfFields(var, ICommonConsts.JCOPY, vis);
+            JUtils.VisitVariable(var, iVisit);
         }
-
     }
 
     private class BackFactory implements ICreateBackActionFactory {

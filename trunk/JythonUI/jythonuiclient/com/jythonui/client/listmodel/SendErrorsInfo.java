@@ -12,24 +12,25 @@
  */
 package com.jythonui.client.listmodel;
 
+import java.util.List;
+
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
-import com.jythonui.client.util.PerformVariableAction.VisitList;
-import com.jythonui.client.util.PerformVariableAction.VisitList.EditListMode;
 
-class ChangeToEditSignal extends CustomObjectValue<VisitList.EditListMode> {
+class SendErrorsInfo extends CustomObjectValue<List<InvalidateMess>> {
 
-    ChangeToEditSignal(EditListMode value) {
+    public SendErrorsInfo(List<InvalidateMess> value) {
         super(value);
     }
     
-    private static final String CHANGE_EDIT_SIGNAL = ChangeToEditSignal.class
-            .getName() + "CHANGE_EDIT_SIGNAL";
+    private static final String SENDERRORSINFO = SendErrorsInfo.class
+            .getName() + "SEND_ERRORS_INFO";
 
     static CustomStringSlot constructSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(dType, CHANGE_EDIT_SIGNAL);
+        return new CustomStringDataTypeSlot(dType, SENDERRORSINFO);
     }
 
 
