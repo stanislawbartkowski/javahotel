@@ -119,4 +119,17 @@ public interface TLogMessages extends Messages {
     String CannotRecgonizeSortColumn();
 
     String GrigHtmlName(int lno, int cno);
+
+    String WChoosedInfo(int rowno, String s);
+
+    String NewEditLineFocus(String wChoose);
+
+    String NextClickedAction(String place, String wChoose);
+    
+    String TablePresentationSetEditRow(int rowno);
+    
+    String TablePresentationSelectionChange(int rowno);
+    
+    String TablePresentationSelectionChangeNow(int rowno);
+
 }

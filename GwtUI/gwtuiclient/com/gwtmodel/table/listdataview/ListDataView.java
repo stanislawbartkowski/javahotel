@@ -696,25 +696,43 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         }
 
         void nextClicked(WChoosedLine w) {
+
+            LogT.getLT().info(
+                    LogT.getT().NextClickedAction("A", WChooseLogInfo(w)));
+
             if (prevW != null && prevW.getChoosedLine() == w.getChoosedLine()) {
                 return;
             }
             if (prevW != null) {
+                LogT.getLT().info(
+                        LogT.getT().NextClickedAction("B",
+                                WChooseLogInfo(prevW)));
                 CustomStringSlot sl = FinishEditRowSignal
                         .constructSlotFinishEditRowSignal(dType);
                 FinishEditRowSignal si = new FinishEditRowSignal(prevW, w);
                 publish(sl, si);
             } else {
+                LogT.getLT().info(
+                        LogT.getT().NextClickedAction("C", WChooseLogInfo(w)));
                 prevW = w;
                 publishStartNext();
             }
         }
     }
 
+    private String WChooseLogInfo(WChoosedLine c) {
+        if (c == null)
+            return "null";
+        return LogT.getT().WChoosedInfo(c.getChoosedLine(),
+                c.getvField() == null ? "null" : c.getvField().getId());
+    }
+
     private class NewEditLineFocus implements INewEditLineFocus {
 
         @Override
         public void lineClicked(WChoosedLine newRow) {
+            LogT.getLT().info(
+                    LogT.getT().NewEditLineFocus(WChooseLogInfo(newRow)));
             if (handleChange.fullChange) {
                 handleChange.nextClicked(newRow);
             }
@@ -747,11 +765,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
         @Override
         public void action(WSize w, int rownum, PersistTypeEnum e) {
-            // WSize w = tableView.getRowWidget(rownum);
             handleChange.eRow = new EditRowActionSignal(rownum, e, w);
             editSynch.setWaitForPublish();
             editSynch.runDoneIfPossible();
-            // handleChange.publishRowAction();
         }
     }
 
@@ -781,7 +797,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         @Override
         public void signal(ISlotSignalContext slContext) {
             editSynch.signalDone();
-
         }
 
     }
@@ -789,6 +804,16 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
     private class LostFocus implements ILostFocusEdit {
 
         public void action(boolean before, int row, IVField v, WSize w) {
+
+            // TODO: temporary
+            // tableView.setClicked(row, false);
+//            LogT.getLT().info("table view lost focus " + row);
+//            if (before) {
+//                WChoosedLine newRow = new WChoosedLine(row, w, v);
+//                if (handleChange.fullChange) {
+//                    handleChange.nextClicked(newRow);
+//                }
+//            }
 
             editSynch.signalUndone();
             if (w == null) {

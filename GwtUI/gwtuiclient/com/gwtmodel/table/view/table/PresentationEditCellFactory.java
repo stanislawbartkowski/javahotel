@@ -86,10 +86,10 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
     // default visibility
     void setErrorLineInfo(MutableInteger key,
             InvalidateFormContainer errContainer, IToRowNo i) {
-        errorInfo.active = true;
-        errorInfo.key = key;
-        errorInfo.errContainer = errContainer;
-        errorInfo.i = i;
+        errorInfo.setActive(true);
+        errorInfo.setKey(key);
+        errorInfo.setErrContainer(errContainer);
+        errorInfo.setI(i);
         table.redrawRow(i.row(key));
     }
 

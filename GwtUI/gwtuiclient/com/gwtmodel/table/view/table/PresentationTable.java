@@ -231,6 +231,8 @@ class PresentationTable implements IGwtTableView {
 
         @Override
         public void setEditRow(MutableInteger row, WSize w) {
+            LogT.getLT().info(
+                    LogT.getT().TablePresentationSetEditRow(row.intValue()));
             setNewEditFocusLine(pgetClicked(row, null, w));
         }
     }
@@ -245,17 +247,26 @@ class PresentationTable implements IGwtTableView {
 
         @Override
         public void onSelectionChange(SelectionChangeEvent event) {
+            LogT.getLT().info(
+                    LogT.getT().TablePresentationSelectionChangeNow(
+                            wChoosed.getChoosedLine()));
             MutableInteger sel = selectionModel.getSelectedObject();
             if (sel == null) {
+                LogT.getLT().info("aaaaa");
                 return;
             }
             // neither cell position nor column are available
             wChoosed = pgetClicked(sel, null, null);
             if (model.getIClicked() != null) {
+                LogT.getLT().info("vvvv");
                 model.getIClicked().clicked(wChoosed);
             }
+            LogT.getLT().info("bbbbbb");
             if (selectEnabled()) {
                 iClick.execute(whilefind);
+                LogT.getLT().info(
+                        LogT.getT().TablePresentationSelectionChange(
+                                wChoosed.getChoosedLine()));
                 setNewEditFocusLine(wChoosed);
             }
             if (model.unSelectAtOnce()) {
@@ -303,8 +314,7 @@ class PresentationTable implements IGwtTableView {
         if (i == -1) {
             return;
         }
-        PresentationEditCellFactory.ErrorLineInfo errInfo = faEdit
-                .getErrorInfo();
+        ErrorLineInfo errInfo = faEdit.getErrorInfo();
         VListHeaderDesc he = model.getHeaderList().getVisHeList().get(i);
         IVModelData vData = model.get(row.intValue());
         String s = null;
@@ -312,8 +322,8 @@ class PresentationTable implements IGwtTableView {
             // hint related to cell content only if no wrapping and not editing
             s = FUtils.getValueS(vData, he.getFie());
         }
-        if (errInfo.active && row.equals(errInfo.key)) {
-            InvalidateMess me = errInfo.errContainer.findV(he.getFie());
+        if (errInfo.isActive() && row.equals(errInfo.getKey())) {
+            InvalidateMess me = errInfo.getErrContainer().findV(he.getFie());
             if (me != null) {
                 s = me.getErrmess();
             }
@@ -633,13 +643,14 @@ class PresentationTable implements IGwtTableView {
                 }
             }
             //
-            if (header == null && (he.isHidden() || he.getHeaderString() == null)) {
+            if (header == null
+                    && (he.isHidden() || he.getHeaderString() == null)) {
                 // Important: for some reason the assert violation cause
                 // breaking without Exception throwing
                 // So additional error alert is displayed to avoid confusion
                 Utils.errAlert(he.getFie().getId(), LogT.getT().HeaderNull());
-                assert !he.isHidden() && he.getHeaderString() != null : LogT.getT()
-                        .cannotBeNull();
+                assert !he.isHidden() && he.getHeaderString() != null : LogT
+                        .getT().cannotBeNull();
             }
 
             VFooterDesc footer = null;

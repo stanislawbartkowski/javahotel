@@ -31,7 +31,6 @@ import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.WSize;
@@ -41,7 +40,7 @@ import com.gwtmodel.table.view.table.PresentationEditCellFactory.IStartEditRow;
 
 /**
  * @author hotel
- *
+ * 
  */
 abstract class PresentationEditCellHelper extends PresentationCellHelper {
 
@@ -50,14 +49,6 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
     protected final ILostFocusEdit lostFocus;
     protected final EditableCol eCol;
     private final IStartEditRow iStartEdit;
-
-    protected static class ErrorLineInfo {
-
-        boolean active = false;
-        MutableInteger key;
-        InvalidateFormContainer errContainer;
-        IToRowNo i;
-    }
 
     // default visibility
     interface IGetField {
@@ -80,6 +71,7 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         @Template("{0}")
         SafeHtml input(String value);
     }
+
     private InputTemplate templateInput = GWT.create(InputTemplate.class);
     protected TemplateDisplay templateDisplay = GWT
             .create(TemplateDisplay.class);
@@ -106,8 +98,8 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
     protected void addInputSb(SafeHtmlBuilder sb, MutableInteger i,
             String value, VListHeaderDesc he) {
         String sClass = null;
-        if (errorInfo.active && i.intValue() == errorInfo.key.intValue()) {
-            InvalidateMess me = errorInfo.errContainer.findV(he.getFie());
+        if (errorInfo.isErrorLine(i)) {
+            InvalidateMess me = errorInfo.getErrContainer().findV(he.getFie());
             if (me != null) {
                 sClass = IConsts.errorStyle + " " + getS(he.getInputClass());
             }
@@ -120,9 +112,9 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
     }
 
     protected void removeErrorStyle() {
-        if (errorInfo.active) {
-            errorInfo.active = false;
-            int rowno = errorInfo.i.row(errorInfo.key);
+        if (errorInfo.isActive()) {
+            errorInfo.setActive(false);
+            int rowno = errorInfo.getI().row(errorInfo.getKey());
             if (rowno == -1) {
                 return;
             }
@@ -157,7 +149,8 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         }
     }
 
-    protected void afterChange(String eventType, Context context, IVField v, WSize w) {
+    protected void afterChange(String eventType, Context context, IVField v,
+            WSize w) {
         if (eventType.equals(BrowserEvents.CHANGE)) {
             modifUpdate(false, context.getKey(), v, w);
         }

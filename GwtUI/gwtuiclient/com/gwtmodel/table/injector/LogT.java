@@ -25,23 +25,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * 
  * @author hotel
  */
 public class LogT {
 
     private LogT() {
     }
+
     private static final Logger log = Logger.getLogger("gwt.gwtmodel.table");
     private static final Logger logS = Logger
             .getLogger("gwt.gwtmodel.table.slot");
+    private static final Logger logT = Logger
+            .getLogger("gwt.gwtmodel.table.listtable");
     private final static TLogMessages sMess;
+
+    static {
+        // TODO: log off
+        logS.setLevel(Level.OFF);
+
+    }
 
     public interface StrongTemplateCell extends SafeHtmlTemplates {
 
         @Template("<strong>{0}</strong>")
         SafeHtml input(String suma);
     }
+
     private final static StrongTemplateCell templateClass = GWT
             .create(StrongTemplateCell.class);
 
@@ -59,6 +69,10 @@ public class LogT {
 
     public static Logger getLS() {
         return logS;
+    }
+
+    public static Logger getLT() {
+        return logT;
     }
 
     public static TLogMessages getT() {
