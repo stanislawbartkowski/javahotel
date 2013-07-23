@@ -18,10 +18,16 @@ import java.util.List;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.SlU;
+import com.jythonui.client.M;
+import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
+import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
@@ -61,7 +67,7 @@ public class JUtils {
             }
         return lFactory.construct(rList, comboField, displayFie);
     }
-    
+
     public static void setVariables(DialogVariables v, IVModelData vData) {
         if (vData == null) {
             return;
@@ -76,5 +82,27 @@ public class JUtils {
         }
     }
 
+    public interface IFieldVisit {
+        void setField(VField v, FieldValue val);
+    }
+
+    public static void VisitVariable(final DialogVariables var,
+            final IFieldVisit i) {
+        JUtils.IVisitor vis = new JUtils.IVisitor() {
+
+            @Override
+            public void action(String fie, String field) {
+                FieldValue val = var.getValue(fie);
+                if (val == null) {
+                    Utils.errAlert(M.M().ErrorNoValue(fie), ICommonConsts.JCOPY
+                            + fie);
+                    return;
+                }
+                VField v = VField.construct(fie, val.getType());
+                i.setField(v, val);
+            }
+        };
+        JUtils.visitListOfFields(var, ICommonConsts.JCOPY, vis);
+    }
 
 }

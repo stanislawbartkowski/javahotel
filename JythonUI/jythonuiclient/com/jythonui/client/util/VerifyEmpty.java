@@ -15,13 +15,9 @@ package com.jythonui.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
-import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
-import com.gwtmodel.table.slotmodel.DataActionEnum;
-import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.validate.ValidateUtil;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.FieldItem;
@@ -36,8 +32,8 @@ class VerifyEmpty {
 
     }
 
-    static boolean isEmpty(IDataType dType, IVModelData vData,
-            ISlotable iSlo, List<FieldItem> fList, DataActionEnum errSig) {
+    static List<InvalidateMess> checkEmpty(IVModelData vData,
+            List<FieldItem> fList) {
         List<IVField> eList = new ArrayList<IVField>();
         for (FieldItem i : fList)
             if (i.isNotEmpty()) {
@@ -45,12 +41,6 @@ class VerifyEmpty {
                 eList.add(fie);
             }
         List<InvalidateMess> err = ValidateUtil.checkEmpty(vData, eList);
-        if (err != null) {
-            iSlo.getSlContainer().publish(dType, errSig,
-                    new InvalidateFormContainer(err));
-            return true;
-        }
-        return false;
+        return err;
     }
-
 }

@@ -22,7 +22,6 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
-import com.jythonui.client.dialog.datepanel.DateLineManager;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldValue;
 
@@ -52,7 +51,7 @@ class VariableContainer implements IVariablesContainer {
     public DialogVariables getVariables() {
         DialogVariables v = new DialogVariables();
         for (FormContainer f : fList)
-            for (int i = 0; i < f.l.hashCode(); i++)
+            for (int i = 0; i < f.l.length; i++)
                 f.l[i].addToVar(v);
 
         return v;
@@ -69,7 +68,7 @@ class VariableContainer implements IVariablesContainer {
     @Override
     public void setVariablesToForm(final DialogVariables var) {
         for (final FormContainer fo : fList)
-            for (int i = 0; i < fo.l.hashCode(); i++)
+            for (int i = 0; i < fo.l.length; i++)
                 fo.l[i].readVar(var);
     }
 

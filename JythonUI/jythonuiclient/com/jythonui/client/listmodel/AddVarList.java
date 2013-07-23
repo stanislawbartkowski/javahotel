@@ -16,21 +16,19 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
-import com.jythonui.client.util.PerformVariableAction.VisitList;
-import com.jythonui.client.util.PerformVariableAction.VisitList.EditListMode;
+import com.jythonui.shared.DialogVariables;
 
-class ChangeToEditSignal extends CustomObjectValue<VisitList.EditListMode> {
+class AddVarList extends CustomObjectValue<DialogVariables> {
 
-    ChangeToEditSignal(EditListMode value) {
+    public AddVarList(DialogVariables value) {
         super(value);
     }
     
-    private static final String CHANGE_EDIT_SIGNAL = ChangeToEditSignal.class
-            .getName() + "CHANGE_EDIT_SIGNAL";
+    private static final String ADD_VAR_SIGNAL = AddVarList.class
+            .getName();
 
     static CustomStringSlot constructSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(dType, CHANGE_EDIT_SIGNAL);
+        return new CustomStringDataTypeSlot(dType, ADD_VAR_SIGNAL);
     }
-
 
 }

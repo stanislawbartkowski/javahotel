@@ -38,9 +38,7 @@ public class VerifyJError {
 
     }
 
-    public static boolean isError(DialogContainer d, IDataType dType,
-            final DialogVariables v, ISlotable iSlo) {
-
+    public static List<InvalidateMess> constructErrors(final DialogVariables v) {
         final List<InvalidateMess> err = new ArrayList<InvalidateMess>();
         JUtils.IVisitor vis = new JUtils.IVisitor() {
 
@@ -61,6 +59,13 @@ public class VerifyJError {
         };
         // important: add underline (JERROR does not have underline)
         JUtils.visitListOfFields(v, ICommonConsts.JERROR + "_", vis);
+        return err;
+    }
+
+    public static boolean isError(DialogContainer d, IDataType dType,
+            final DialogVariables v, ISlotable iSlo) {
+
+        List<InvalidateMess> err = constructErrors(v);
         if (err.isEmpty()) {
             if (d == null)
                 return false;

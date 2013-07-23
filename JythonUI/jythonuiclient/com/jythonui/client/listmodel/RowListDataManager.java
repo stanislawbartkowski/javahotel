@@ -20,16 +20,22 @@ import java.util.Map;
 
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.MutableInteger;
+import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
-import com.gwtmodel.table.slotmodel.GetActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotable;
+import com.jythonui.client.M;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
+import com.jythonui.client.dialog.VField;
 import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.PerformVariableAction.VisitList;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
 import com.jythonui.client.util.RowVModelData;
+import com.jythonui.client.util.VerifyJError;
 import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogInfo;
@@ -116,7 +122,8 @@ public class RowListDataManager implements ISetGetVar {
     public ISlotable constructListControler(IDataType da, CellId panelId,
             IVariablesContainer iCon, IPerformClickAction iAction,
             ICreateBackActionFactory bFactory) {
-        return ListControler.contruct(this, da, panelId, iCon, iAction,bFactory);
+        return ListControler.contruct(this, da, panelId, iCon, iAction,
+                bFactory);
     }
 
     IVModelData contructE(IDataType da) {
@@ -125,21 +132,58 @@ public class RowListDataManager implements ISetGetVar {
 
     @Override
     public void addToVar(DialogVariables var) {
-        IVModelData vData;
         for (IDataType dType : getList()) {
-            vData = iSlo.getSlContainer().getGetterIVModelData(dType,
-                    GetActionEnum.GetListLineChecked);
-            boolean setLine = vData != null;
-            FieldValue val = new FieldValue();
-            val.setValue(setLine);
-            var.setValue(getLId(dType) + ICommonConsts.LINESET, val);
-            JUtils.setVariables(var, vData);
+            AddVarList signal = new AddVarList(var);
+            CustomStringSlot sl = AddVarList.constructSignal(dType);
+            iSlo.getSlContainer().publish(sl, signal);
         }
 
     }
 
     @Override
     public void readVar(DialogVariables var) {
+        for (IDataType dType : getList()) {
+            String s = listMap.get(dType);
+            String jKey = ICommonConsts.JEDITROWYESACTION + s;
+            FieldValue val = var.getValue(jKey);
+            final RowVModelData vData = new RowVModelData(rMap.get(dType));
+            final MutableInteger mu = new MutableInteger(0);
+            JUtils.IFieldVisit iVisit = new JUtils.IFieldVisit() {
+
+                @Override
+                public void setField(VField v, FieldValue val) {
+                    if (!vData.isValid(v))
+                        return;
+                    mu.inc();
+                    vData.setF(v, val.getValue());
+                }
+            };
+
+            JUtils.VisitVariable(var, iVisit);
+            if (val != null) {
+                if (val.getType() != TT.BOOLEAN) {
+                    String mess = M.M().FooterSetValueShouldBeBoolean(
+                            dialogInfo.getDialog().getId(), jKey);
+                    Utils.errAlertB(mess);
+                    continue;
+                }
+                if (!val.getValueB())
+                    continue;
+                // ListFormat li = lMap.get(dType);
+                RowActionOk signal = new RowActionOk(vData);
+                CustomStringSlot sl = RowActionOk.constructSignal(dType);
+                iSlo.getSlContainer().publish(sl, signal);
+            } else if (mu.intValue() > 0) {
+                SetNewValues signal = new SetNewValues(vData);
+                CustomStringSlot sl = SetNewValues.constructSignal(dType);
+                iSlo.getSlContainer().publish(sl, signal);
+            }
+
+            List<InvalidateMess> err = VerifyJError.constructErrors(var);
+            SendErrorsInfo signal = new SendErrorsInfo(err);
+            CustomStringSlot sl = SendErrorsInfo.constructSignal(dType);
+            iSlo.getSlContainer().publish(sl, signal);
+        }
 
     }
 

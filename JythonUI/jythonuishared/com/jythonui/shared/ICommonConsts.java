@@ -81,6 +81,10 @@ public interface ICommonConsts {
     String ACTIONPARAM = "actionparam";
     String ACTIONPARAM1 = "actionparam1";
     String ACTIONPARAM2 = "actionparam2";
+    String JEDITLISTROWACTION = "editlistrowaction";
+    String JEDITLISTROWNO="JLIST_EDIT_ROWNO_";
+    String JEDITLISTACTION="JLIST_EDIT_ACTION_";
+    String JEDITROWYESACTION="JLIST_EDIT_ACTIONOK_";
     String BUTTONS = "buttons";
     String JUPDIALOG = "JUP_DIALOG";
     String JCLOSEDIALOG = "JCLOSE_DIALOG";
@@ -105,11 +109,13 @@ public interface ICommonConsts {
     String CUSTOMTYPE = "custom:";
     String SIGNALCHANGE = "signalchange";
     String SIGNALBEFORE = "signalbefore";
-    String JCHANGESIGNALBEFORE="JLIST_EDIT_BEFORE";
-    String JVALBEFORE="JVALBEFORE";
+    String JCHANGESIGNALBEFORE = "JLIST_EDIT_BEFORE";
+    String JVALBEFORE = "JVALBEFORE";
     String SIGNALCHANGEFIELD = "changefield";
     String SIGNALAFTERFOCUS = "changeafterfocus";
     String SIGNALCOLUMNCHANGE = "columnchangeaction";
+    String SIGNALAFTERROW = "aftereditrow";
+    String SIGNALBEFOREREW = "beforerow";
     String HELPER = "helper";
     String LINESET = "_lineset";
     String STANDBUTT = "standbutt";
