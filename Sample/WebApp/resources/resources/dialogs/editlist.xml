@@ -13,8 +13,8 @@
 	  <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
 		<columns>
 			<column id="key" displayname="storeKey" type="long" hidden="" />
-			<column id="pnumber" displayname="Number" actionid="show"
-				notempty="" readonlychange="" footer="" />
+			<column id="pnumber" displayname="Number" editable=""
+				notempty="" footer="" signalchange="" />
 			<column id="pname" displayname="Name" editable="" signalbefore="" signalchange=""/>
 		</columns>
 	</list>
