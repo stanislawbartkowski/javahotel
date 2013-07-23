@@ -101,18 +101,37 @@ def inaction(action,var) :
 
     
 def editlistaction(action,var):
-  print "footeraction",action
+  print "=======editlistaction=============",action
   for k in var.keys() : 
-    print k
-    print var[k]
+    print k, "=", var[k]
     
   op = ServiceInjector.constructPersonOp()
           
   if action == "before" :
     __create_list(op,var)
     var["JLIST_EDIT_list_pname"] = ""
+    var["JLIST_EDIT_list_pnumber"] = ""
 #    var["JLIST_EDIT_list_MODE"] = "NORMALMODE" 
-#    var["JLIST_EDIT_list_MODE"] = "CHANGEMODE" 
-    var["JLIST_EDIT_list_MODE"] = "ADDCHANGEDELETEMODE" 
+    var["JLIST_EDIT_list_MODE"] = "CHANGEMODE" 
+#    var["JLIST_EDIT_list_MODE"] = "ADDCHANGEDELETEMODE" 
     return
-    
+
+  if action == "editlistrowaction" :
+      var["JYESNO_MESSAGE"] = "Are you ready to add new elem ?"
+      var["JMESSAGE_TITLE"] = "Ask for something"
+      var["JAFTERDIALOG_ACTION"] = "afteryesno"
+     
+  if action == "afteryesno" and var["JYESANSWER"] :
+      var["JLIST_EDIT_ACTIONOK_list"] = True
+      var["pname"] = "xxxx"
+      var["JCOPY_pname"] = True
+      var["pnumber"] = "1"
+      var["JCOPY_pnumber"] = True
+      
+
+  if action == "columnchangeaction" and var["changefield"] == "pnumber" :
+      val = var["pnumber"]
+      print "val",val,"!"
+      if val == None or val == "" :
+        print "==============="    
+#        var["JERROR_pnumber"] = "Cannot be empty"
