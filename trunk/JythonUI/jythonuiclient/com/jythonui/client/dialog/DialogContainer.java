@@ -89,6 +89,7 @@ import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
+import com.jythonui.shared.MapDialogVariable;
 
 /**
  * @author hotel
@@ -366,8 +367,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     private class BackFactory implements ICreateBackActionFactory {
 
         @Override
-        public CommonCallBack<DialogVariables> construct(String id, WSize w) {
-            return new BackClass(id, false, w, null);
+        public CommonCallBack<DialogVariables> construct(String id, WSize w,
+                MapDialogVariable addV) {
+            return new BackClass(id, false, w, null, addV);
         }
 
     }
@@ -477,6 +479,12 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     private class HandleYesNoDialog implements IYesNoAction {
 
+        private final MapDialogVariable addV;
+
+        HandleYesNoDialog(MapDialogVariable addV) {
+            this.addV = addV;
+        }
+
         @Override
         public void answer(String content, String title, final String param1,
                 final WSize w) {
@@ -486,6 +494,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 public void click(boolean yes) {
                     DialogVariables v = iCon.getVariables();
                     v.setValueB(ICommonConsts.JYESANSWER, yes);
+                    v.copyVariables(addV);
                     // M.JR().runAction(v, d.getId(), param1,
                     // new BackClass(param1, false, w, null));
                     // 2013/04/14
@@ -535,9 +544,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 String param = bItem.getActionParam();
                 String param1 = bItem.getAttr(ICommonConsts.ACTIONPARAM1);
                 String param2 = bItem.getAttr(ICommonConsts.ACTIONPARAM2);
-                PerformVariableAction.performAction(new HandleYesNoDialog(),
-                        new CloseDialog(id), action, param, param1, param2, w,
-                        iCon);
+                PerformVariableAction.performAction(new HandleYesNoDialog(
+                        new MapDialogVariable()), new CloseDialog(id), action,
+                        param, param1, param2, w, iCon);
                 return true;
             }
             ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
@@ -577,12 +586,19 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         private final boolean before;
         private final WSize w;
         private final EnumTypesList eList;
+        private final MapDialogVariable addV;
 
-        BackClass(String id, boolean before, WSize w, EnumTypesList eList) {
+        BackClass(String id, boolean before, WSize w, EnumTypesList eList,
+                MapDialogVariable addV) {
             this.id = id;
             this.before = before;
             this.w = w;
             this.eList = eList;
+            this.addV = addV;
+        }
+
+        BackClass(String id, boolean before, WSize w, EnumTypesList eList) {
+            this(id, before, w, eList, new MapDialogVariable());
         }
 
         @Override
@@ -615,7 +631,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 }
 
             };
-            PerformVariableAction.perform(new HandleYesNoDialog(),
+            PerformVariableAction.perform(new HandleYesNoDialog(addV),
                     new CloseDialog(id), arg, iCon, liManager, vis, w);
             if (!arg.getCheckVariables().isEmpty()) {
                 gManager.addLinesAndColumns(id, arg);

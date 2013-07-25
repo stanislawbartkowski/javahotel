@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class MapDialogVariable implements Serializable {
@@ -28,6 +29,10 @@ public class MapDialogVariable implements Serializable {
     
     public FieldValue getValue(String fId) {
         return vList.get(fId);
+    }
+    
+    public void copyVariables(MapDialogVariable sou) {
+        vList.putAll(sou.vList);
     }
 
     public String getValueS(String fId) {
