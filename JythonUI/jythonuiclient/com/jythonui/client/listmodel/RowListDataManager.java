@@ -144,6 +144,21 @@ public class RowListDataManager implements ISetGetVar {
     public void readVar(DialogVariables var) {
         for (IDataType dType : getList()) {
             String s = listMap.get(dType);
+
+            String okKey = ICommonConsts.JEDITROW_OK + s;
+            FieldValue valOK = var.getValue(okKey);
+            if (valOK != null) {
+                if (valOK.getType() != TT.BOOLEAN) {
+                    String mess = M.M().FooterSetValueShouldBeBoolean(
+                            dialogInfo.getDialog().getId(), okKey);
+                    Utils.errAlertB(mess);
+                    continue;
+                }
+                AfterRowOk signal = new AfterRowOk(valOK.getValueB());
+                CustomStringSlot sl = AfterRowOk.constructSignal(dType);
+                iSlo.getSlContainer().publish(sl, signal);
+            }
+
             String jKey = ICommonConsts.JEDITROWYESACTION + s;
             FieldValue val = var.getValue(jKey);
             final RowVModelData vData = new RowVModelData(rMap.get(dType));

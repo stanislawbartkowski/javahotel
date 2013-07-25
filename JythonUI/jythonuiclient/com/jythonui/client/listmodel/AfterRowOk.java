@@ -10,16 +10,24 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.client.dialog;
+package com.jythonui.client.listmodel;
 
-import com.gwtmodel.table.WSize;
-import com.gwtmodel.table.view.callback.CommonCallBack;
-import com.jythonui.shared.DialogVariables;
-import com.jythonui.shared.MapDialogVariable;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.slotmodel.CustomObjectValue;
+import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
-public interface ICreateBackActionFactory {
+class AfterRowOk extends CustomObjectValue<Boolean> {
 
-    CommonCallBack<DialogVariables> construct(String id, WSize w,
-            MapDialogVariable addV);
+    AfterRowOk(Boolean ok) {
+        super(ok);
+    }
+
+    private static final String ROW_AFTER_OK = AfterRowOk.class
+            .getName() + "ROW_AFTER_OK";
+
+    static CustomStringSlot constructSignal(IDataType dType) {
+        return new CustomStringDataTypeSlot(dType, ROW_AFTER_OK);
+    }
 
 }

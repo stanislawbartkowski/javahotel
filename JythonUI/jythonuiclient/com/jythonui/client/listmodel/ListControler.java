@@ -76,6 +76,7 @@ import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateSearchVar;
+import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.PerformVariableAction;
 import com.jythonui.client.util.PerformVariableAction.VisitList;
@@ -88,6 +89,7 @@ import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
+import com.jythonui.shared.MapDialogVariable;
 
 /**
  * @author hotel
@@ -338,6 +340,16 @@ class ListControler {
 
         }
 
+        private void executeAction(DialogVariables v, ListFormat li, WSize w,
+                String doAction) {
+            ListUtils.addListName(v, li);
+            MapDialogVariable addV = new MapDialogVariable();
+            ListUtils.addListName(addV, li);
+            ExecuteAction.action(v, rM.getDialogName(), doAction,
+                    bFactory.construct(li.getId(), w, addV));
+
+        }
+
         private class ReadList implements ISlotListener {
 
             @Override
@@ -348,9 +360,14 @@ class ListControler {
                     IOkModelData iOk = SlU.getOkModelData(dType,
                             DataListPersistAction.this);
                     CreateSearchVar.addSearchVar(v, li, iOk);
-                    ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                            ICommonConsts.CRUD_READLIST,
-                            bFactory.construct(li.getId(), null));
+                    //
+                    // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                    // ICommonConsts.CRUD_READLIST,
+                    // bFactory.construct(li.getId(), null));
+                    executeAction(v, li, null, ICommonConsts.CRUD_READLIST);
+                    // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                    // ICommonConsts.CRUD_READLIST,
+                    // bFactory.construct(li.getId(), null));
 
                 } else {
                     sy.signalDone();
@@ -386,9 +403,11 @@ class ListControler {
                 DialogVariables v = iCon.getVariables();
                 ListFormat li = rM.getFormat(dType);
                 CreateSearchVar.addSearchVar(v, li, iOk);
-                ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                        ICommonConsts.JLIST_GETSIZE,
-                        bFactory.construct(li.getId(), null));
+                executeAction(v, li, null, ICommonConsts.JLIST_GETSIZE);
+
+                // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                // ICommonConsts.JLIST_GETSIZE,
+                // bFactory.construct(li.getId(), null));
             }
 
         }
@@ -419,9 +438,11 @@ class ListControler {
                 lastPersistAction = e.getE();
                 DialogVariables v = iCon.getVariables();
                 ListFormat li = rM.getFormat(dType);
-                ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                        ICommonConsts.JEDITLISTROWACTION,
-                        bFactory.construct(li.getId(), e.getW()));
+                executeAction(v, li, e.getW(), ICommonConsts.JEDITLISTROWACTION);
+
+                // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                // ICommonConsts.JEDITLISTROWACTION,
+                // bFactory.construct(li.getId(), e.getW()));
             }
 
         }
@@ -496,9 +517,11 @@ class ListControler {
                 FieldValue prev = new FieldValue();
                 prev.setValue(col.getFieldType(), prevO, col.getAfterDot());
                 v.setValue(ICommonConsts.JVALBEFORE, prev);
-                ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                        ICommonConsts.SIGNALCOLUMNCHANGE,
-                        bFactory.construct(li.getId(), c.getW()));
+                executeAction(v, li, c.getW(), ICommonConsts.SIGNALCOLUMNCHANGE);
+
+                // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                // ICommonConsts.SIGNALCOLUMNCHANGE,
+                // bFactory.construct(li.getId(), c.getW()));
             }
 
         }
@@ -549,7 +572,7 @@ class ListControler {
                         DataListPersistAction.this, f.getValue()
                                 .getChoosedLine());
                 List<InvalidateMess> err = ValidateForm.createErrList(vData,
-                        fo.getColumns(), null);
+                        fo.getColumns(), fo.getValList());
                 if (err != null) {
                     EditRowErrorSignal eSignal = new EditRowErrorSignal(f
                             .getValue().getChoosedLine(),
@@ -561,14 +584,31 @@ class ListControler {
                                     eSignal);
                     sendFinishSignal(false);
                 } else {
-//                    sendFinishSignal(true);
-                    ListFormat li = rM.getFormat(dType);
+                    if (!fo.isAfterRowSignal()) {
+                        sendFinishSignal(true);
+                        return;
+                    }
+                    // sendFinishSignal(true);
                     DialogVariables v = iCon.getVariables();
-                    ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                            ICommonConsts.SIGNALAFTERROWl,
-                            bFactory.construct(li.getId(), lastF.getValue().getwSize()));
+                    executeAction(v, fo, lastF.getValue().getwSize(),
+                            ICommonConsts.SIGNALAFTERROW);
+
+                    // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+                    // ICommonConsts.SIGNALAFTERROW, bFactory.construct(
+                    // li.getId(), lastF.getValue().getwSize()));
                 }
             }
+        }
+
+        private class AfterRowActionOk implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                AfterRowOk f = (AfterRowOk) i;
+                sendFinishSignal(f.getValue());
+            }
+
         }
 
         DataListPersistAction(IDataType d, RowListDataManager rM,
@@ -605,6 +645,8 @@ class ListControler {
             registerSubscriber(
                     StartNextRowSignal.constructSlotStartNextRowSignal(d),
                     new NextRowListener());
+            registerSubscriber(AfterRowOk.constructSignal(d),
+                    new AfterRowActionOk());
         }
 
     }
@@ -752,8 +794,12 @@ class ListControler {
             v.setValueB(ICommonConsts.JLIST_SORTASC, r.isAsc());
             ListFormat li = rM.getFormat(dType);
             CreateSearchVar.addSearchVar(v, li, r.getOkData());
-            ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+            ListUtils.addListName(v, li);
+            ExecuteAction.action(v, rM.getDialogName(),
                     ICommonConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
+
+            // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
+            // ICommonConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
         }
 
     }

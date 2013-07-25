@@ -14,10 +14,8 @@ package com.jythonui.client.listmodel;
 
 import java.util.List;
 
-import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.PersistTypeEnum;
@@ -41,6 +39,7 @@ import com.gwtmodel.table.view.callback.ICommonCallBackFactory;
 import com.gwtmodel.table.view.util.YesNoDialog;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.DialogContainer;
+import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
 import com.jythonui.client.util.PerformVariableAction;
@@ -141,8 +140,11 @@ class GetViewController implements IGetViewControllerFactory {
             public void action(boolean afterConfirm,
                     CommonCallBack<DialogVariables> back) {
                 v.setValueB(ICommonConsts.JCRUD_AFTERCONF, afterConfirm);
-                ListUtils.executeCrudAction(v, li, li.getfElem().getId(),
-                        eCrud, back);
+                ListUtils.addListName(v, li);
+                ExecuteAction.action(v, li.getfElem().getId(), eCrud, back);
+
+                // ListUtils.executeCrudAction(v, li, li.getfElem().getId(),
+                // eCrud, back);
             }
 
         }
@@ -179,7 +181,6 @@ class GetViewController implements IGetViewControllerFactory {
                     yesD.show(w);
                 }
             }
-            
 
             private class Vis implements PerformVariableAction.VisitList {
 
@@ -194,13 +195,13 @@ class GetViewController implements IGetViewControllerFactory {
                 @Override
                 public void acceptFooter(IDataType da, List<IGetFooter> fList) {
                     // TODO: Auto-generated method stub
-                    
+
                 }
 
                 @Override
                 public void acceptEditListMode(IDataType da, EditListMode e) {
                     // TODO Auto-generated method stub
-                    
+
                 }
 
             }

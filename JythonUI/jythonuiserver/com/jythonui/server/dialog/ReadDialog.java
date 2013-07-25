@@ -100,11 +100,12 @@ class ReadDialog {
                 ICommonConsts.FROM, ICommonConsts.WIDTH, ICommonConsts.ALIGN,
                 ICommonConsts.HTMLID, ICommonConsts.DEFVALUE,
                 ICommonConsts.FOOTER, ICommonConsts.EDITCOL,
-                ICommonConsts.SIGNALBEFORE};
+                ICommonConsts.SIGNALBEFORE };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE,
-                ICommonConsts.WIDTH, ICommonConsts.CHUNKED };
+                ICommonConsts.WIDTH, ICommonConsts.CHUNKED,
+                ICommonConsts.SIGNALAFTERROW, ICommonConsts.SIGNALBEFOREROW };
         private final String[] valTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
                 ICommonConsts.VALIDATEID1 };
@@ -139,6 +140,7 @@ class ReadDialog {
         private List<ValidateRule> valList = null;
         private CheckList checkList = null;
         private DateLine dL = null;
+        private List<ValidateRule> formRules = null;
 
         MyHandler(IJythonUIServerProperties p) {
             this.p = p;
@@ -160,7 +162,9 @@ class ReadDialog {
             }
             if (qName.equals(ICommonConsts.LIST)) {
                 currentT = listTag;
-                bDescr = new ListFormat();
+                ListFormat li = new ListFormat();
+                bDescr = li;
+                formRules = li.getValList();
                 fList = new ArrayList<FieldItem>();
                 getAttribute = true;
             }
@@ -190,7 +194,8 @@ class ReadDialog {
                 // pass to getting attributes (no return)
             }
             if (qName.equals(ICommonConsts.VALIDATERULES)) {
-                valList = dFormat.getValList();
+                if (formRules != null) valList = formRules;
+                else valList = dFormat.getValList();
                 return;
             }
             if (qName.equals(ICommonConsts.VALIDATE)) {
@@ -331,6 +336,7 @@ class ReadDialog {
                 li.getColumns().addAll(fList);
                 dFormat.getListList().add(li);
                 fList = null;
+                formRules = null;
                 return;
             }
 

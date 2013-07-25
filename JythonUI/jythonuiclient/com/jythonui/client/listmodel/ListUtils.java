@@ -21,6 +21,7 @@ import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
+import com.jythonui.shared.MapDialogVariable;
 import com.jythonui.shared.RowIndex;
 
 /**
@@ -39,11 +40,15 @@ class ListUtils {
         return JUtils.constructList(rI, rL, null, null);
     }
 
-    static void executeCrudAction(DialogVariables v, ListFormat li,
+    private void executeCrudAction(DialogVariables v, ListFormat li,
             String dialogName, String crudAction,
             CommonCallBack<DialogVariables> callBack) {
         v.setValueS(ICommonConsts.JLIST_NAME, li.getId());
         ExecuteAction.action(v, dialogName, crudAction, callBack);
+    }
+
+    static void addListName(MapDialogVariable v, ListFormat li) {
+        v.setValueS(ICommonConsts.JLIST_NAME, li.getId());
     }
 
 }

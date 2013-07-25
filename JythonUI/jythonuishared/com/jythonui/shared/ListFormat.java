@@ -25,6 +25,7 @@ public class ListFormat extends ElemDescription {
 
     private static final long serialVersionUID = 1L;
     private List<FieldItem> colList = new ArrayList<FieldItem>();
+    private List<ValidateRule> valList = new ArrayList<ValidateRule>();
     private DialogFormat fElem;
 
     public String getElemFormat() {
@@ -68,6 +69,18 @@ public class ListFormat extends ElemDescription {
 
     public FieldItem getColumn(String id) {
         return DialogFormat.findE(colList, id);
+    }
+
+    public boolean isBeforeRowSignal() {
+        return isAttr(ICommonConsts.SIGNALBEFOREROW);
+    }
+
+    public boolean isAfterRowSignal() {
+        return isAttr(ICommonConsts.SIGNALAFTERROW);
+    }
+
+    public List<ValidateRule> getValList() {
+        return valList;
     }
 
 }

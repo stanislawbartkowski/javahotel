@@ -125,7 +125,7 @@
 		<xs:attribute name="width" type="xs:string" />
 		<xs:attribute name="chunked" type="emptyT" />
 		<xs:attribute name="beforerow" type="emptyT" />
-		<xs:attribute name="aftereditrow" type="emptyT" />		
+		<xs:attribute name="aftereditrow" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="jythonG">
@@ -240,8 +240,8 @@
 		<xs:attribute name="colno" type="xs:nonNegativeInteger" />
 		<xs:attribute name="lineid" type="xs:string" />
 		<xs:attribute name="dateid" type="xs:string" />
-		<xs:attribute name="file" type="xs:string" />		
-		<xs:attribute name="defafile" type="xs:string" />		
+		<xs:attribute name="file" type="xs:string" />
+		<xs:attribute name="defafile" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:group name="formfileG">
@@ -255,6 +255,20 @@
 		<xs:attribute name="id" type="xs:string" />
 		<xs:attribute name="file" type="xs:string" />
 	</xs:attributeGroup>
+
+	<xs:element name="validaterules">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="validate">
+					<xs:complexType>
+						<xs:group ref="validateG" />
+						<xs:attributeGroup ref="validateattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+
+	</xs:element>
 
 	<xs:element name="dialog">
 		<xs:complexType>
@@ -320,17 +334,7 @@
 					</xs:complexType>
 				</xs:element>
 
-				<xs:element minOccurs="0" name="validaterules">
-					<xs:complexType>
-						<xs:sequence minOccurs="1" maxOccurs="unbounded">
-							<xs:element name="validate">
-								<xs:complexType>
-									<xs:group ref="validateG" />
-									<xs:attributeGroup ref="validateattrG" />
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
+				<xs:element minOccurs="0" ref="validaterules">
 				</xs:element>
 
 				<xs:element minOccurs="0" maxOccurs="unbounded" name="list">
@@ -350,6 +354,10 @@
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
+
+							<xs:element minOccurs="0" ref="validaterules">
+							</xs:element>
+
 						</xs:sequence>
 						<xs:attributeGroup ref="listattrG" />
 					</xs:complexType>
