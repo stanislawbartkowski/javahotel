@@ -1,29 +1,29 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
-<before/>
- 
- <jython>
-   <import>from testpack import testobject</import>
-   <method>testobject.dialogaction({0},{1})</method>
- </jython>  
+	<before />
+
+	<jython>
+		<import>from testpack import testobject</import>
+		<method>testobject.dialogaction({0},{1})</method>
+	</jython>
 
 
- <form>
-   <field id="id" type="long" />
-   <field id="pnumber" />
-   <field id="pname" />
- </form>  
- 
- <list id="list">
-   <elemformat>elem6.xml</elemformat>
-   <columns>
-   <column id="id" type="long" />
-   <column id="pnumber" />
-   <column id="pname" />
-   </columns>
- </list>
- 
+	<form>
+		<field id="id" type="long" />
+		<field id="pnumber" />
+		<field id="pname" />
+	</form>
+
+	<list id="list">
+		<elemformat>elem6.xml</elemformat>
+		<columns>
+			<column id="id" type="long" />
+			<column id="pnumber" />
+			<column id="pname" />
+		</columns>
+	</list>
+
 
 
 </dialog>

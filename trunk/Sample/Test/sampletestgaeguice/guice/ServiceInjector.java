@@ -16,6 +16,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IDateLineOp;
+import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.security.ISecurity;
@@ -55,6 +56,11 @@ public class ServiceInjector {
     
     public static IDateLineOp constructDateLineElem() {
         return injector.getInstance(IDateLineOp.class);
+    }
+    
+    public static IDateRecordOp constructDateRecordOp() {
+        return injector.getInstance(IDateRecordOp.class);
+        
     }
 
 
