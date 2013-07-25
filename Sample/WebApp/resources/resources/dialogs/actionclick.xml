@@ -10,17 +10,17 @@
 		<method>testdateline.dialogclickaction({0},{1})</method>
 	</jython>
 
- <buttons>
-  <button id="addinfo" displayname="Add info" />
-</buttons>
+	<buttons>
+		<button id="addinfo" displayname="Add info" />
+	</buttons>
 
 
- <form>
-   <field id="id" type="int" displayname="Room" readonly=""/>
-   <field id="datecol" type="date" displayname="Date" readonly=""/>
-   <field id="info" displayname="Info" />
-   <field id="color" type="custom:color" displayname="Color" />
-   
- </form>  
+	<form>
+		<field id="id" type="int" displayname="Room" readonly="" />
+		<field id="datecol" type="date" displayname="Date" readonly="" />
+		<field id="info" displayname="Info" />
+		<field id="color" type="custom:color" displayname="Color" />
+
+	</form>
 
 </dialog>

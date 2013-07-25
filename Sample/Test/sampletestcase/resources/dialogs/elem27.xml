@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
-<parent>test27.xml</parent>
+	<parent>test27.xml</parent>
 </dialog>

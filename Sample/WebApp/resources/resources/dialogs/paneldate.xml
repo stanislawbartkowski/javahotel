@@ -8,16 +8,18 @@
 		<method>testdateline.dialogaction({0},{1})</method>
 	</jython>
 
-   <actions>
-     <action id="datelineaction" actiontype="JUP_DIALOG" actionparam="actionclick.xml"/>
-   </actions>
-   
-   <buttons>
-   <button id="clear" displayname="Clear" actiontype="JYESNO_MESSAGE" actionparam="Clear all content ?" actionparam2="clear"/>
-   </buttons>
-   
-	<dateline id="dateline" displayname="List of rooms"
-		lineid="id" colno="10" pagesize="10" defafile="name1">
+	<actions>
+		<action id="datelineaction" actiontype="JUP_DIALOG"
+			actionparam="actionclick.xml" />
+	</actions>
+
+	<buttons>
+		<button id="clear" displayname="Clear" actiontype="JYESNO_MESSAGE"
+			actionparam="Clear all content ?" actionparam2="clear" />
+	</buttons>
+
+	<dateline id="dateline" displayname="List of rooms" lineid="id"
+		colno="10" pagesize="10" defafile="name1">
 		<columns>
 			<column id="id" type="long" hidden="" />
 			<column id="displayname" displayname="Room" />

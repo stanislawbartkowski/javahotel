@@ -34,6 +34,29 @@ public class Test25 extends TestHelper {
         fi = DialogFormat.findE(list.getColumns(),"name");
         assertNotNull(fi);
         assertTrue(fi.isFooter());
+        assertFalse(list.isAfterRowSignal());
+        assertFalse(list.isBeforeRowSignal());
+        assertTrue(list.getValList().isEmpty());
     }
     
+    @Test
+    public void test2() {
+        DialogFormat d = findDialog("test53.xml");
+        assertNotNull(d);
+        ListFormat list = d.findList("lista");
+        assertNotNull(list);
+        assertTrue(list.isAfterRowSignal());
+        assertTrue(list.isBeforeRowSignal());
+        assertTrue(list.getValList().isEmpty());
+    }
+
+    @Test
+    public void test3() {
+        DialogFormat d = findDialog("test54.xml");
+        assertNotNull(d);
+        ListFormat list = d.findList("lista");
+        assertNotNull(list);
+        assertEquals(2,list.getValList().size());
+    }
+
 }

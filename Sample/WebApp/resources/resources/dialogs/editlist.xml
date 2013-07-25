@@ -4,19 +4,36 @@
 	<before />
 
 	<jython>
-		<import>from testpack import list</import>
-		<method>list.editlistaction({0},{1})</method>
+		<import>from testpack import listedit</import>
+		<method>listedit.editlistaction({0},{1})</method>
 	</jython>
 
 
 	<list id="list" displayname="Edit list of keys">
-	  <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
 		<columns>
 			<column id="key" displayname="storeKey" type="long" hidden="" />
 			<column id="pnumber" displayname="Number" editable=""
 				notempty="" footer="" signalchange="" />
-			<column id="pname" displayname="Name" editable="" signalbefore="" signalchange=""/>
+			<column id="pname" displayname="Name" editable=""
+				signalbefore="" signalchange="" />
 		</columns>
+	</list>
+
+	<list id="listda" displayname="Edit list of keys" aftereditrow="">
+		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+		<columns>
+		    <column id="id" displayname = "id" type="long"  />
+			<column id="date1" displayname="Start date" type="date"
+				editable="" notempty="" />
+			<column id="date2" displayname="End date" type="date"
+				editable="" notempty="" />
+		</columns>
+		<validaterules>
+			<validate id="date1" op="le" id1="date2"
+				displayname="The second date should be greater then first !" />
+		</validaterules>
+
 	</list>
 
 

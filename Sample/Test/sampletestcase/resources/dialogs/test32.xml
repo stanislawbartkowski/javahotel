@@ -1,30 +1,36 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
-<before/>
- 
-<buttons>
-  <button id="ID" displayname="Call script" validate="" />
-  
-</buttons>
+	<before />
 
- <form>
-   <field id="glob1" />
-   <field id="globbool" type="bool" />
-   <field id="globint" type="int" displayname="Integer value" />
- </form>  
- 
- <validaterules>
- 
-   <validate>
-   <id>glob1</id>
-   <op>lt</op>
-   <id1>globbool</id1>
-   <displayname>Hi hi ...</displayname>
-   </validate>
+	<buttons>
+		<button id="ID" displayname="Call script" validate="" />
 
-   <validate id="globint" op="eq" id1="glob1" displayname="wow !" />
- </validaterules>
- 
- 
- </dialog>
+	</buttons>
+
+	<form>
+		<field id="glob1" />
+		<field id="globbool" type="bool" />
+		<field id="globint" type="int" displayname="Integer value" />
+	</form>
+
+	<validaterules>
+
+		<validate>
+			<id>glob1</id>
+			<op>lt</op>
+			<id1>globbool</id1>
+			<displayname>Hi hi ...</displayname>
+		</validate>
+
+		<validate id="globint" op="eq" id1="glob1" displayname="wow !" />
+	</validaterules>
+
+	<list id="lista" displayname="List of entries">
+		<columns>
+			<column id="id" type="int" />
+			<column id="name" footer="" />
+		</columns>
+	</list>
+
+</dialog>

@@ -24,6 +24,7 @@ import org.junit.Before;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IDateLineOp;
+import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
@@ -51,6 +52,7 @@ public class TestHelper {
     protected final ISequenceRealmGen iSeq;
     protected final ISymGenerator iSym;
     protected final IDateLineOp iOp;
+    protected final IDateRecordOp dOp;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -64,6 +66,7 @@ public class TestHelper {
         iSeq = SHolder.getSequenceRealmGen();
         iSym = ServiceInjector.getSymGenerator();
         iOp = ServiceInjector.constructDateLineElem();
+        dOp = ServiceInjector.getDateRecordOp();
     }
 
     @Before

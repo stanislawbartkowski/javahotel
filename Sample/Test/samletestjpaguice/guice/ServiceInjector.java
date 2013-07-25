@@ -16,6 +16,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IDateLineOp;
+import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.security.ISecurity;
@@ -60,6 +61,10 @@ public class ServiceInjector {
 
     public static ISymGenerator getSymGenerator() {
         return injector.getInstance(ISymGenerator.class);
+    }
+
+    public static IDateRecordOp getDateRecordOp() {
+        return injector.getInstance(IDateRecordOp.class);
     }
 
 }

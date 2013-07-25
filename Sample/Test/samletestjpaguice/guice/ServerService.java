@@ -22,6 +22,7 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jython.ui.ServerProperties;
 import com.jython.ui.server.datastore.IDateLineOp;
+import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.jpastoragekey.IStorageJpaRegistryFactory;
 import com.jython.ui.server.jpastoragekey.StorageJpaRegistryFactory;
@@ -29,6 +30,7 @@ import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.datastore.DateLineOp;
+import com.jythonui.datastore.DateRecordOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
 import com.jythonui.server.IJythonUIServerProperties;
@@ -50,7 +52,8 @@ public class ServerService {
         protected void configure() {
             configureJythonUi();
             bind(IPersonOp.class).to(PersonOp.class).in(Singleton.class);
-            bind(IDateLineOp.class).to(DateLineOp.class)
+            bind(IDateLineOp.class).to(DateLineOp.class).in(Singleton.class);
+            bind(IDateRecordOp.class).to(DateRecordOp.class)
                     .in(Singleton.class);
             bind(IJythonUIServerProperties.class).to(ServerProperties.class)
                     .in(Singleton.class);

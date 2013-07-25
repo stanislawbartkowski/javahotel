@@ -22,7 +22,6 @@ import javax.persistence.Query;
 
 import com.jython.ui.server.datastore.IDateLineElem;
 import com.jython.ui.server.datastore.IDateLineOp;
-import com.jython.ui.server.jpastoragekey.entity.RegistryEntry;
 
 public class DateLineOp implements IDateLineOp {
 
