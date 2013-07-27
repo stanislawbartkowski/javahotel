@@ -22,8 +22,8 @@
   <button id="dlist" displayname="Time list" actiontype="JMAIN_DIALOG" actionparam="timelist.xml" />
   <button id="dialog1" displayname="Next dialog" actiontype="JMAIN_DIALOG" actionparam="dialog1.xml" />
   <button id="listw" displayname="List" actiontype="JMAIN_DIALOG" actionparam="listw.xml" />
-  <button id="list chunk" displayname="List chunk" actiontype="JMAIN_DIALOG" actionparam="listchunk.xml" />
-  <button id="check list" displayname="Check list" actiontype="JMAIN_DIALOG" actionparam="checklist.xml" />
+  <button id="list_chunk" displayname="List chunk" actiontype="JMAIN_DIALOG" actionparam="listchunk.xml" />
+  <button id="check_list" displayname="Check list" actiontype="JMAIN_DIALOG" actionparam="checklist.xml" />
   <button id="actionlist" displayname="Action list" actiontype="JMAIN_DIALOG" actionparam="actionlist.xml" />
   <button id="numbergrid" displayname="Number grid" actiontype="JMAIN_DIALOG" actionparam="numbergrid.xml" />
   <button id="panedate" displayname="Panel date" actiontype="JMAIN_DIALOG" actionparam="paneldate.xml" />

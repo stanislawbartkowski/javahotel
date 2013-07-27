@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<list id="list" displayname="List of entries">
+
+		<buttons-addlist>accept,check</buttons-addlist>
+		<buttons-validate>accept</buttons-validate>
+
+		<columns>
+			<column id="id_name" type="int" />
+			<column id="name" footer="" />
+		</columns>
+	</list>
+
+</dialog>
