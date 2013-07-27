@@ -8,6 +8,9 @@
 		<method>listedit.editlistaction({0},{1})</method>
 	</jython>
 
+    <buttons>
+    <button id="vali" displayname="Validate" actiontype="JOK_MESSAGE" actionparam="Ok" />
+    </buttons>
 
 	<list id="list" displayname="Edit list of keys">
 		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
@@ -22,6 +25,7 @@
 
 	<list id="listda" displayname="Edit list of keys" aftereditrow="">
 		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+		<buttons-validate>vali</buttons-validate>
 		<columns>
 		    <column id="id" displayname = "id" type="long"  />
 			<column id="date1" displayname="Start date" type="date"

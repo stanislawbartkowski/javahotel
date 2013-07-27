@@ -1,5 +1,15 @@
 from com.jython.ui.server.guice import ServiceInjector
 
+from java.util import Date
+from java.util import Calendar
+
+def toDate(value):
+    if value == None : return None
+    ca = Calendar.getInstance()
+    ca.clear()
+    ca.set(value.year,value.month - 1,value.day)
+    return ca.getTime()
+
 def __create_list(op, var) :
     seq = op.getAllPersons()
     list = []
@@ -46,6 +56,9 @@ def editlistaction(action,var):
     var["JLIST_EDIT_listda_MODE"] = "CHANGEMODE" 
     return
 
+  if action == "vali" :
+      return
+
   if var["JLIST_NAME"] == "list" :
       
     if action == "editlistrowaction"  :
@@ -80,7 +93,8 @@ def editlistaction(action,var):
     if action == "editlistrowaction" and var["JLIST_EDIT_ACTION_listda"] == "REMOVE" :
         if var["date1"] == None and var["date2"] == None :
             dOp.removeRecord(var["id"])
-            var["JEDIT_ROW_OK_listda"] = True
+            var["JLIST_EDIT_ACTIONOK_listda"] = True
+            print "REMOVE --------------"
             return
             
         var["JYESNO_MESSAGE"] = "Do you want to remove this line ?"
@@ -96,7 +110,12 @@ def editlistaction(action,var):
     if action == "removeyesno" and var["JYESANSWER"] :
         var["JLIST_EDIT_ACTIONOK_listda"] = True
         dOp.removeRecord(var["id"])
+        print "REMOVE -----------------"
 
     if action == "aftereditrow" :
-        print "ok"
+        d1 = toDate(var["date1"])
+        d2 = toDate(var["date2"])
+        iRec = dOp.findRecord(var["id"])
+        iRec.setDates(d1,d2)
+        dOp.changeRecord(iRec)
         var["JEDIT_ROW_OK_listda"] = True

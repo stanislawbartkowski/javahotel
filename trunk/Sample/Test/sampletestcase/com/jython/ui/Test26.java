@@ -65,5 +65,5 @@ public class Test26 extends TestHelper {
         IDateRecord re = dOp.findRecord(id);
         assertNull(re);
     }
-
+   
 }
