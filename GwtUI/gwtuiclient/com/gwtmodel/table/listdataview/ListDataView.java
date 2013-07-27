@@ -949,7 +949,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
                 ButtonCheckLostFocusSignal
                         .constructSlotButtonCheckBackFocusSignal(dType),
                 new ButtonCheckLostFocus());
-        registerSubscriber(DataIntegerSignal.constructSlotGetVSignal(dType),
+        registerSubscriber(DataIntegerSignal.constructSlotRemoveVSignal(dType),
                 new RemoveRow());
         registerSubscriber(
                 DataIntegerVDataSignal.constructSlotAddRowSignal(dType),
