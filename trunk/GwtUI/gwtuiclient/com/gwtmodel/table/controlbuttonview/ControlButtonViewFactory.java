@@ -25,7 +25,8 @@ public class ControlButtonViewFactory {
     private final PullMenuFactory menuFactory;
 
     @Inject
-    public ControlButtonViewFactory(ContrButtonViewFactory vFactory, PullMenuFactory menuFactory) {
+    public ControlButtonViewFactory(ContrButtonViewFactory vFactory,
+            PullMenuFactory menuFactory) {
         this.vFactory = vFactory;
         this.menuFactory = menuFactory;
     }

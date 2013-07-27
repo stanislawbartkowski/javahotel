@@ -1053,6 +1053,8 @@ class PresentationTable implements IGwtTableView {
                 // it is necessary to trigger selecting the same row next time
                 selectionModel.setSelected(new MutableInteger(rownum), false);
                 iList.remove(i);
+                // 2013/07/27 : unselect
+                setEmpty();
                 break;
             }
         }
