@@ -32,6 +32,7 @@ import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
@@ -40,6 +41,7 @@ import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.factories.IDataModelFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.listdataview.ButtonCheckLostFocusSignal;
 import com.gwtmodel.table.panelview.IPanelView;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
@@ -210,7 +212,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             if (!fItem.isSignalChange()) {
                 return;
             }
-            DialogVariables v = iCon.getVariables();
+            DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALCHANGE);
             v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, fieldid);
             FieldValue val = new FieldValue();
             val.setValue(coB.getValue());
@@ -314,7 +316,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     private class DialogVariablesGetSet implements ISetGetVar {
 
         @Override
-        public void addToVar(DialogVariables v) {
+        public void addToVar(DialogVariables v, String buttonId) {
             IVModelData vData = new VModelData();
             vData = getSlContainer().getGetterIVModelData(dType,
                     GetActionEnum.GetViewModelEdited, vData);
@@ -329,26 +331,6 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
         @Override
         public void readVar(final DialogVariables var) {
-            // JUtils.IVisitor vis = new JUtils.IVisitor() {
-            //
-            // @Override
-            // public void action(String fie, String field) {
-            // FieldValue val = var.getValue(fie);
-            // if (val == null) {
-            // Utils.errAlert(M.M().ErrorNoValue(fie),
-            // ICommonConsts.JCOPY + fie);
-            // return;
-            // }
-            // VField v = VField.construct(fie, val.getType());
-            // IFormLineView i = SlU.getVWidget(dType, slMediator, v);
-            // if (i == null) {
-            // return;
-            // }
-            // i.setValObj(val.getValue());
-            // }
-            // };
-            // JUtils.visitListOfFields(var, ICommonConsts.JCOPY, vis);
-            // }
             JUtils.IFieldVisit iVisit = new JUtils.IFieldVisit() {
 
                 @Override
@@ -404,9 +386,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             emptyView = false;
             pLine = 1;
         }
+        List<ControlButtonDesc> bList = null;
         if (!d.getButtonList().isEmpty()) {
-            List<ControlButtonDesc> bList = CreateForm.constructBList(
-                    info.getSecurity(), d.getButtonList());
+            bList = CreateForm.constructBList(info.getSecurity(),
+                    d.getButtonList());
             ListOfControlDesc deList = new ListOfControlDesc(bList);
             ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
                     .getControlButtonViewFactory();
@@ -444,6 +427,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                         ClickButtonType.StandClickEnum.ALL,
                         constructCButton(d.getLeftButtonList()));
                 emptyView = false;
+                // String listB ClickButtonType
             }
         if (!d.getCheckList().isEmpty())
             for (CheckList c : d.getCheckList()) {
@@ -475,6 +459,27 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         }
         CustomStringSlot sig = SendDialogFormSignal.constructSignal(dType);
         slMediator.getSlContainer().publish(sig, new SendDialogFormSignal(d));
+        //
+        if (bList != null) {
+            for (IDataType da : liManager.getList()) {
+                ListFormat li = liManager.getFormat(da);
+                String buttList = li.getListButtonsValidate();
+                if (!CUtil.EmptyS(buttList)) {
+                    String vList[] = buttList.split(",");
+                    for (String b : vList) {
+                        for (ControlButtonDesc bu : bList) {
+                            if (CUtil.EqNS(bu.getActionId().getCustomButt(), b)) {
+                                CustomStringSlot sl = ButtonCheckLostFocusSignal
+                                        .constructSlotButtonCheckFocusSignal(da);
+                                ButtonCheckLostFocusSignal sign = new ButtonCheckLostFocusSignal(
+                                        bu.getActionId(),dType);
+                                slMediator.getSlContainer().publish(sl, sign);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private class HandleYesNoDialog implements IYesNoAction {
@@ -492,7 +497,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
                 @Override
                 public void click(boolean yes) {
-                    DialogVariables v = iCon.getVariables();
+                    DialogVariables v = iCon.getVariables(param1);
                     v.setValueB(ICommonConsts.JYESANSWER, yes);
                     v.copyVariables(addV);
                     // M.JR().runAction(v, d.getId(), param1,

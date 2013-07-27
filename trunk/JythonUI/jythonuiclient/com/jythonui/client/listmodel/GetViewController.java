@@ -232,7 +232,7 @@ class GetViewController implements IGetViewControllerFactory {
                 final PersistTypeEnum e = slContext.getPersistType();
                 final WSize w = new WSize(slContext.getGwtWidget());
                 IVariablesContainer iCon = dC.getiCon();
-                DialogVariables v = iCon.getVariables();
+                DialogVariables v = iCon.getVariables(null);
                 String eCrud = getCrudId(e);
                 ListFormat li = rM.getFormat(dType);
                 final executeCrud exe = new CommandCrud(v, li, eCrud);

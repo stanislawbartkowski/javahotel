@@ -24,9 +24,9 @@ import com.jythonui.shared.DialogVariables;
  */
 public interface IVariablesContainer {
 
-    void addFormVariables(IBackAction iAction,ISetGetVar ... vars);
+    void addFormVariables(IBackAction iAction, ISetGetVar... vars);
 
-    DialogVariables getVariables();
+    DialogVariables getVariables(String buttonId);
 
     void setVariablesToForm(DialogVariables v);
 

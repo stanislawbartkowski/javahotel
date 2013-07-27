@@ -48,11 +48,11 @@ class VariableContainer implements IVariablesContainer {
     }
 
     @Override
-    public DialogVariables getVariables() {
+    public DialogVariables getVariables(String buttonId) {
         DialogVariables v = new DialogVariables();
         for (FormContainer f : fList)
             for (int i = 0; i < f.l.length; i++)
-                f.l[i].addToVar(v);
+                f.l[i].addToVar(v, buttonId);
 
         return v;
     }
@@ -87,7 +87,7 @@ class VariableContainer implements IVariablesContainer {
 
     @Override
     public void copyCurrentVariablesToForm(ISlotable iSlo, IDataType dType) {
-        DialogVariables var = getVariables();
+        DialogVariables var = getVariables(null);
         FormLineContainer fC = SlU.getFormLineContainer(dType, iSlo);
         for (FormField ff : fC.getfList()) {
             IVField v1 = ff.getFie();

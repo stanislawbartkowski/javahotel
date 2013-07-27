@@ -131,7 +131,7 @@ public class RowListDataManager implements ISetGetVar {
     }
 
     @Override
-    public void addToVar(DialogVariables var) {
+    public void addToVar(DialogVariables var, String buttonId) {
         for (IDataType dType : getList()) {
             AddVarList signal = new AddVarList(var);
             CustomStringSlot sl = AddVarList.constructSignal(dType);
