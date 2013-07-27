@@ -83,4 +83,12 @@ public class ListFormat extends ElemDescription {
         return valList;
     }
 
+    public String getListButtonsWithList() {
+        return getAttr(ICommonConsts.LISTBUTTONSLIST);
+    }
+
+    public String getListButtonsValidate() {
+        return getAttr(ICommonConsts.LISTBUTTONSVALIDATE);
+    }
+
 }

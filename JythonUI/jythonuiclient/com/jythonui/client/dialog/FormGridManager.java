@@ -238,7 +238,7 @@ public class FormGridManager implements ISetGetVar {
     }
 
     @Override
-    public void addToVar(DialogVariables var) {
+    public void addToVar(DialogVariables var, String buttonId) {
         DialogFormat d = dContainer.getD();
         for (String s : gData.keySet()) {
             IGridView gView = gData.get(s);

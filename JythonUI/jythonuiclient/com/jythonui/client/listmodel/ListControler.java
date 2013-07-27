@@ -206,6 +206,14 @@ class ListControler {
                             lastPersistAction == PersistTypeEnum.ADD);
                     getSlContainer().publish(sl, sig);
                 }
+                if (lastPersistAction == PersistTypeEnum.REMOVE) {
+                    CustomStringSlot sl = DataIntegerVDataSignal
+                            .constructSlotRemoveVSignal(dType);
+                    DataIntegerSignal sig = new DataIntegerSignal(
+                            lastRowNum);
+                    getSlContainer().publish(sl, sig);
+                    
+                }
                 lastPersistAction = null;
             }
 
@@ -302,43 +310,6 @@ class ListControler {
 
         private final Synch sy = new Synch();
 
-        private class xActionList extends CommonCallBack<DialogVariables> {
-
-            @Override
-            public void onMySuccess(DialogVariables arg) {
-                PerformVariableAction.VisitList vis = new PerformVariableAction.VisitList() {
-
-                    @Override
-                    public void accept(IDataType da, ListOfRows lRows) {
-                        if (da.eq(dType)) {
-                            sy.lOfRows = lRows;
-                            sy.signalDone();
-                        }
-                    }
-
-                    @Override
-                    public void acceptTypes(String typeName, ListOfRows lRows) {
-                        // do nothing, not expected here
-                    }
-
-                    @Override
-                    public void acceptFooter(IDataType da,
-                            List<IGetFooter> fList) {
-                        drawFooter(fList);
-                    }
-
-                    @Override
-                    public void acceptEditListMode(IDataType da, EditListMode e) {
-                        changeToEdit(e);
-                    }
-
-                };
-                PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
-                        null);
-
-            }
-
-        }
 
         private void executeAction(DialogVariables v, ListFormat li, WSize w,
                 String doAction) {
@@ -355,15 +326,11 @@ class ListControler {
             @Override
             public void signal(ISlotSignalContext slContext) {
                 if (sy.signalledAlready()) {
-                    DialogVariables v = iCon.getVariables();
+                    DialogVariables v = iCon.getVariables(ICommonConsts.CRUD_READLIST);
                     ListFormat li = rM.getFormat(dType);
                     IOkModelData iOk = SlU.getOkModelData(dType,
                             DataListPersistAction.this);
                     CreateSearchVar.addSearchVar(v, li, iOk);
-                    //
-                    // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                    // ICommonConsts.CRUD_READLIST,
-                    // bFactory.construct(li.getId(), null));
                     executeAction(v, li, null, ICommonConsts.CRUD_READLIST);
                     // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
                     // ICommonConsts.CRUD_READLIST,
@@ -400,7 +367,7 @@ class ListControler {
             @Override
             public void signal(ISlotSignalContext slContext) {
                 IOkModelData iOk = slContext.getIOkModelData();
-                DialogVariables v = iCon.getVariables();
+                DialogVariables v = iCon.getVariables(ICommonConsts.JLIST_GETSIZE);
                 ListFormat li = rM.getFormat(dType);
                 CreateSearchVar.addSearchVar(v, li, iOk);
                 executeAction(v, li, null, ICommonConsts.JLIST_GETSIZE);
@@ -436,7 +403,7 @@ class ListControler {
                 EditRowActionSignal e = (EditRowActionSignal) i;
                 lastRowNum = e.getRownum();
                 lastPersistAction = e.getE();
-                DialogVariables v = iCon.getVariables();
+                DialogVariables v = iCon.getVariables(ICommonConsts.JEDITLISTROWACTION);
                 ListFormat li = rM.getFormat(dType);
                 executeAction(v, li, e.getW(), ICommonConsts.JEDITLISTROWACTION);
 
@@ -511,7 +478,7 @@ class ListControler {
                     }
                     prevO = beforeD.orNull();
                 }
-                DialogVariables v = iCon.getVariables();
+                DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALCOLUMNCHANGE);
                 v.setValueB(ICommonConsts.JCHANGESIGNALBEFORE, c.isBefore());
                 v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, vv.getId());
                 FieldValue prev = new FieldValue();
@@ -589,7 +556,7 @@ class ListControler {
                         return;
                     }
                     // sendFinishSignal(true);
-                    DialogVariables v = iCon.getVariables();
+                    DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALAFTERROW);
                     executeAction(v, fo, lastF.getValue().getwSize(),
                             ICommonConsts.SIGNALAFTERROW);
 
@@ -782,7 +749,7 @@ class ListControler {
             ReadChunkSignal r = (ReadChunkSignal) i;
             int start = r.getStart();
             int size = r.getSize();
-            DialogVariables v = iCon.getVariables();
+            DialogVariables v = iCon.getVariables(ICommonConsts.JLIST_READCHUNK);
             v.setValueL(ICommonConsts.JLIST_READCHUNKSTART, start);
             v.setValueL(ICommonConsts.JLIST_READCHUNKLENGTH, size);
             IVField fSort = r.getfSort();

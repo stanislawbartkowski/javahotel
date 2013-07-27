@@ -106,7 +106,7 @@ public class DateLineManager implements ISetGetVar {
     private final List<AddVar> aVar = new ArrayList<AddVar>();
 
     @Override
-    public void addToVar(DialogVariables var) {
+    public void addToVar(DialogVariables var, String buttonId) {
         var.setValueS(ICommonConsts.JDATELINEQUERYID, lastId);
         for (AddVar a : aVar) {
             var.setValue(a.id, a.o);
@@ -184,7 +184,7 @@ public class DateLineManager implements ISetGetVar {
                 return;
             if (iTable.getViewModel().getSize() == 0)
                 return;
-            DialogVariables var = dContainer.getiCon().getVariables();
+            DialogVariables var = dContainer.getiCon().getVariables(null);
             ListOfRows queryDateLine = var.getQueryDateLine();
             RowIndex rI = new RowIndex(dList.constructQueryLine());
             int first = sData.getFirstD();

@@ -105,7 +105,9 @@ class ReadDialog {
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE,
                 ICommonConsts.WIDTH, ICommonConsts.CHUNKED,
-                ICommonConsts.SIGNALAFTERROW, ICommonConsts.SIGNALBEFOREROW };
+                ICommonConsts.SIGNALAFTERROW, ICommonConsts.SIGNALBEFOREROW,
+                ICommonConsts.LISTBUTTONSLIST,
+                ICommonConsts.LISTBUTTONSVALIDATE };
         private final String[] valTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.VALIDATEOP,
                 ICommonConsts.VALIDATEID1 };
@@ -194,8 +196,10 @@ class ReadDialog {
                 // pass to getting attributes (no return)
             }
             if (qName.equals(ICommonConsts.VALIDATERULES)) {
-                if (formRules != null) valList = formRules;
-                else valList = dFormat.getValList();
+                if (formRules != null)
+                    valList = formRules;
+                else
+                    valList = dFormat.getValList();
                 return;
             }
             if (qName.equals(ICommonConsts.VALIDATE)) {

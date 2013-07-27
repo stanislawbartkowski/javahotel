@@ -10,6 +10,19 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="idType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Za-z0-9_\-\.]+" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="listidsType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((([A-Za-z0-9_\-\.]+),)*([A-Za-z0-9_\-\.]+)+)" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+
 	<xs:simpleType name="typeOpVal">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="eq" />
@@ -42,7 +55,7 @@
 	</xs:simpleType>
 
 	<xs:attributeGroup name="validateattrG">
-		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="op" type="typeOpVal" />
 		<xs:attribute name="id1" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
@@ -50,7 +63,7 @@
 
 	<xs:group name="validateG">
 		<xs:sequence>
-			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="op" type="typeOpVal" />
 			<xs:element minOccurs="0" name="id1" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
@@ -60,7 +73,7 @@
 	<xs:group name="buttonG">
 		<xs:sequence>
 			<xs:group ref="jythonG" minOccurs="0" />
-			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="validate" type="emptyT" />
 			<xs:element minOccurs="0" name="actiontype" type="xs:string" />
@@ -75,7 +88,7 @@
 
 	<xs:attributeGroup name="buttonattrG">
 		<xs:attributeGroup ref="jythonattrG" />
-		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="validate" type="emptyT" />
 		<xs:attribute name="actiontype" type="xs:string" />
@@ -104,7 +117,7 @@
 
 	<xs:group name="listG">
 		<xs:sequence>
-			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="elemformat" type="xs:string" />
 			<xs:element minOccurs="0" name="standbutt" type="listStand" />
@@ -113,11 +126,13 @@
 			<xs:element minOccurs="0" name="chunked" type="emptyT" />
 			<xs:element minOccurs="0" name="beforerow" type="emptyT" />
 			<xs:element minOccurs="0" name="aftereditrow" type="emptyT" />
+			<xs:element minOccurs="0" name="buttons-addlist" type="listidsType" />
+			<xs:element minOccurs="0" name="buttons-validate" type="listidsType" />
 		</xs:sequence>
 	</xs:group>
 
 	<xs:attributeGroup name="listattrG">
-		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="elemformat" type="xs:string" />
 		<xs:attribute name="standbutt" type="listStand" />
@@ -126,6 +141,8 @@
 		<xs:attribute name="chunked" type="emptyT" />
 		<xs:attribute name="beforerow" type="emptyT" />
 		<xs:attribute name="aftereditrow" type="emptyT" />
+		<xs:attribute name="buttons-addlist" type="listidsType" />
+		<xs:attribute name="buttons-validate" type="listidsType" />
 	</xs:attributeGroup>
 
 	<xs:group name="jythonG">
@@ -142,14 +159,14 @@
 
 	<xs:group name="fieldG">
 		<xs:sequence>
-			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="htmlid" type="xs:string" />
 			<xs:element minOccurs="0" name="from" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="defvalue" type="xs:string" />
 			<xs:element minOccurs="0" name="type" type="typeName" />
 			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
-			<xs:element minOccurs="0" name="actionid" type="xs:string" />
+			<xs:element minOccurs="0" name="actionid" type="idType" />
 			<xs:element minOccurs="0" name="helper" type="xs:string" />
 			<xs:element minOccurs="0" name="width" type="xs:string" />
 			<xs:element minOccurs="0" name="align" type="typeAlign" />
@@ -167,12 +184,12 @@
 	</xs:group>
 
 	<xs:attributeGroup name="fieldattrG">
-		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="htmlid" type="xs:string" />
 		<xs:attribute name="from" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="defvalue" type="xs:string" />
-		<xs:attribute name="actionid" type="xs:string" />
+		<xs:attribute name="actionid" type="idType" />
 		<xs:attribute name="helper" type="xs:string" />
 		<xs:attribute name="width" type="xs:string" />
 		<xs:attribute name="align" type="typeAlign" />
@@ -192,7 +209,7 @@
 
 	<xs:group name="checklistG">
 		<xs:sequence>
-			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="type" type="typeName" />
 			<xs:element minOccurs="0" name="afterdot" type="xs:nonNegativeInteger" />
@@ -201,7 +218,7 @@
 	</xs:group>
 
 	<xs:attributeGroup name="checklistattrG">
-		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="type" type="typeName" />
 		<xs:attribute name="afterdot" type="xs:nonNegativeInteger" />
@@ -226,8 +243,8 @@
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="pagesize" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="colno" type="xs:nonNegativeInteger" />
-			<xs:element minOccurs="0" name="lineid" type="xs:string" />
-			<xs:element minOccurs="0" name="dateid" type="xs:string" />
+			<xs:element minOccurs="0" name="lineid" type="idType" />
+			<xs:element minOccurs="0" name="dateid" type="idType" />
 			<xs:element minOccurs="0" name="file" type="xs:string" />
 			<xs:element minOccurs="0" name="defafile" type="xs:string" />
 		</xs:sequence>
@@ -238,21 +255,21 @@
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="pagesize" type="xs:nonNegativeInteger" />
 		<xs:attribute name="colno" type="xs:nonNegativeInteger" />
-		<xs:attribute name="lineid" type="xs:string" />
-		<xs:attribute name="dateid" type="xs:string" />
+		<xs:attribute name="lineid" type="idType" />
+		<xs:attribute name="dateid" type="idType" />
 		<xs:attribute name="file" type="xs:string" />
 		<xs:attribute name="defafile" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:group name="formfileG">
 		<xs:sequence>
-			<xs:element minOccurs="0" name="id" type="xs:string" />
+			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="file" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
 	<xs:attributeGroup name="formfileG">
-		<xs:attribute name="id" type="xs:string" />
+		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="file" type="xs:string" />
 	</xs:attributeGroup>
 
@@ -270,17 +287,62 @@
 
 	</xs:element>
 
+	<xs:element name="form">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="field">
+					<xs:complexType>
+						<xs:group ref="fieldG" />
+						<xs:attributeGroup ref="fieldattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:element name="list">
+		<xs:complexType>
+
+			<xs:sequence>
+				<xs:group ref="listG" />
+				<xs:element minOccurs="1" name="columns">
+					<xs:complexType>
+						<xs:sequence minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="column">
+								<xs:complexType>
+									<xs:group ref="fieldG" />
+									<xs:attributeGroup ref="fieldattrG" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element minOccurs="0" ref="validaterules">
+				</xs:element>
+
+			</xs:sequence>
+			<xs:attributeGroup ref="listattrG" />
+		</xs:complexType>
+
+	</xs:element>
+
+	<xs:element name="jython">
+		<xs:complexType>
+			<xs:group ref="jythonG" />
+			<xs:attributeGroup ref="jythonattrG" />
+		</xs:complexType>
+	</xs:element>
+
+
+
 	<xs:element name="dialog">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:group ref="dialogG" />
 
-				<xs:element minOccurs="0" name="jython">
-					<xs:complexType>
-						<xs:group ref="jythonG" />
-						<xs:attributeGroup ref="jythonattrG" />
-					</xs:complexType>
-				</xs:element>
+				<xs:element minOccurs="0" ref="jython" />
 
 				<xs:element minOccurs="0" name="leftmenu">
 					<xs:complexType>
@@ -321,48 +383,11 @@
 					</xs:complexType>
 				</xs:element>
 
-				<xs:element minOccurs="0" name="form">
-					<xs:complexType>
-						<xs:sequence minOccurs="1" maxOccurs="unbounded">
-							<xs:element name="field">
-								<xs:complexType>
-									<xs:group ref="fieldG" />
-									<xs:attributeGroup ref="fieldattrG" />
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element minOccurs="0" ref="form" />
 
-				<xs:element minOccurs="0" ref="validaterules">
-				</xs:element>
+				<xs:element minOccurs="0" ref="validaterules" />
 
-				<xs:element minOccurs="0" maxOccurs="unbounded" name="list">
-					<xs:complexType>
-
-						<xs:sequence>
-							<xs:group ref="listG" />
-							<xs:element minOccurs="1" name="columns">
-								<xs:complexType>
-									<xs:sequence minOccurs="1" maxOccurs="unbounded">
-										<xs:element name="column">
-											<xs:complexType>
-												<xs:group ref="fieldG" />
-												<xs:attributeGroup ref="fieldattrG" />
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
-
-							<xs:element minOccurs="0" ref="validaterules">
-							</xs:element>
-
-						</xs:sequence>
-						<xs:attributeGroup ref="listattrG" />
-					</xs:complexType>
-
-				</xs:element>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="list" />
 
 				<xs:element minOccurs="0" maxOccurs="unbounded" name="checklist">
 					<xs:complexType>

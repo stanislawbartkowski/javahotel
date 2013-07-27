@@ -28,13 +28,14 @@ public class ExecuteAction {
 
     public static void action(IVariablesContainer iCon, String name,
             String actionId, AsyncCallback<DialogVariables> callback) {
-        DialogVariables v = iCon.getVariables();
+        DialogVariables v = iCon.getVariables(name);
         action(v, name, actionId, callback);
     }
 
     public static void action(DialogVariables v, String name, String actionId,
             AsyncCallback<DialogVariables> callback) {
-        M.JR().runAction(RequestContextFactory.construct(),v, name, actionId, callback);
+        M.JR().runAction(RequestContextFactory.construct(), v, name, actionId,
+                callback);
     }
 
 }

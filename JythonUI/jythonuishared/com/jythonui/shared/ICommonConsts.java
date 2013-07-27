@@ -33,6 +33,8 @@ public interface ICommonConsts {
     String LIST = "list";
     String COLUMN = "column";
     String COLUMNS = "columns";
+    String LISTBUTTONSLIST="buttons-addlist";
+    String LISTBUTTONSVALIDATE="buttons-validate";
     String JCOPY = "JCOPY_";
     String TYPE = "type";
     String STRINGTYPE = "string";

@@ -16,7 +16,7 @@ import com.jythonui.shared.DialogVariables;
 
 public interface ISetGetVar {
 
-    void addToVar(DialogVariables var);
+    void addToVar(DialogVariables var, String buttonId);
 
     void readVar(DialogVariables var);
 
