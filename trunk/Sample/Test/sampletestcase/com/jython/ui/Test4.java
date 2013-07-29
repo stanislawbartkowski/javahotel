@@ -21,7 +21,7 @@ import com.jythonui.shared.FieldItem;
 
 /**
  * @author hotel
- *
+ * 
  */
 public class Test4 extends TestHelper {
 
@@ -30,17 +30,23 @@ public class Test4 extends TestHelper {
         DialogFormat d = findDialog("test9.xml");
         assertNotNull(d);
         assertNotNull(d.getListList());
-        assertEquals(1,d.getListList().size());
-        assertEquals(2,d.getListList().get(0).getColumns().size());
+        assertEquals(1, d.getListList().size());
+        assertEquals(2, d.getListList().get(0).getColumns().size());
         int i = 0;
         for (FieldItem f : d.getListList().get(0).getColumns()) {
             String id = f.getId();
             String name = f.getDisplayName();
             System.out.println(id + " " + name);
-            if (id.equals("ID")) { i++; assertEquals("XXX",name); }
-            if (id.equals("Name")) { i++; assertNull(name); }
+            if (id.equals("ID")) {
+                i++;
+                assertEquals("XXX", name);
+            }
+            if (id.equals("Name")) {
+                i++;
+                assertNull(name);
+            }
         }
-        assertEquals(2,i);
+        assertEquals(2, i);
     }
 
     @Test
@@ -48,9 +54,9 @@ public class Test4 extends TestHelper {
         DialogFormat d = findDialog("test10.xml");
         assertNotNull(d);
         assertNotNull(d.getListList());
-        assertEquals(2,d.getListList().size());
-        assertEquals(2,d.getListList().get(0).getColumns().size());
-        assertEquals(1,d.getListList().get(1).getColumns().size());
+        assertEquals(2, d.getListList().size());
+        assertEquals(2, d.getListList().get(0).getColumns().size());
+        assertEquals(1, d.getListList().get(1).getColumns().size());
     }
 
 }

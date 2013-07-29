@@ -44,7 +44,7 @@ public class Test1 extends TestHelper {
         assertTrue(d.isBefore());
         assertNotNull(d.getLeftButtonList());
     }
-    
+
     @Test
     public void test2() {
         DialogFormat d = null;

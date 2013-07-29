@@ -21,19 +21,19 @@ import com.jythonui.shared.DialogVariables;
 
 /**
  * @author hotel
- *
+ * 
  */
 public class Test9 extends TestHelper {
-    
+
     @Test
     public void test1() {
         DialogFormat d = findDialog("test19.xml");
         assertNotNull(d);
-        
+
         DialogVariables v = new DialogVariables();
         runAction(v, "test19.xml", "before");
         String val = v.getValueS("AAAA");
-        assertEquals("aaaa",val);
+        assertEquals("aaaa", val);
     }
 
 }

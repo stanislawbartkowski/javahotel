@@ -21,10 +21,10 @@ import com.jythonui.shared.FieldItem;
 
 /**
  * @author hotel
- *
+ * 
  */
-public class Test6 extends TestHelper{
-    
+public class Test6 extends TestHelper {
+
     @Test
     public void test1() {
         DialogFormat d = findDialog("test13.xml");
@@ -33,9 +33,9 @@ public class Test6 extends TestHelper{
         assertNotNull(elem);
         assertNotNull(elem.getFieldList());
         assertNotNull(elem.getJythonImport());
-        assertNotNull(elem.getJythonMethod());        
+        assertNotNull(elem.getJythonMethod());
     }
-    
+
     @Test
     public void test2() {
         DialogFormat d = findDialog("test14.xml");
@@ -45,19 +45,19 @@ public class Test6 extends TestHelper{
         assertNotNull(elem.getFieldList());
         assertNotNull(elem.getJythonImport());
         assertNotNull(elem.getJythonMethod());
-        assertEquals(1,elem.getFieldList().size());
+        assertEquals(1, elem.getFieldList().size());
         String imp = elem.getJythonImport();
         String me = elem.getJythonMethod();
         System.out.println(imp + " " + me);
-        assertEquals("XXX",imp);
-        assertEquals("YYY",me);
+        assertEquals("XXX", imp);
+        assertEquals("YYY", me);
     }
 
     @Test
     public void test3() {
         DialogFormat d = findDialog("test15.xml");
         assertNotNull(d);
-        assertEquals(2,d.getFieldList().size());
+        assertEquals(2, d.getFieldList().size());
         int no = 0;
         for (FieldItem i : d.getFieldList()) {
             String id = i.getId();
@@ -71,12 +71,12 @@ public class Test6 extends TestHelper{
                 no++;
                 assertTrue(i.isNotEmpty());
                 assertFalse(i.isHidden());
-                assertFalse(i.isReadOnly());               
+                assertFalse(i.isReadOnly());
             }
         }
-        assertEquals(2,no);
+        assertEquals(2, no);
     }
-    
+
     @Test
     public void test4() {
         DialogFormat d = findDialog("test16.xml");
@@ -85,9 +85,9 @@ public class Test6 extends TestHelper{
         assertNotNull(d);
         assertNotNull(d.getFieldList());
         assertNotNull(d.getJythonImport());
-        assertNotNull(d.getJythonMethod());        
+        assertNotNull(d.getJythonMethod());
     }
-    
+
     @Test
     public void test5() {
         DialogFormat d = findDialog("test17.xml");
@@ -96,11 +96,11 @@ public class Test6 extends TestHelper{
         assertNotNull(d);
         assertNotNull(d.getFieldList());
         assertNotNull(d.getJythonImport());
-        assertNotNull(d.getJythonMethod());        
+        assertNotNull(d.getJythonMethod());
         d = findDialog("elem5.xml");
         assertNotNull(d);
         assertNotNull(d.getFieldList());
         assertNotNull(d.getJythonImport());
-        assertNotNull(d.getJythonMethod());        
+        assertNotNull(d.getJythonMethod());
     }
 }
