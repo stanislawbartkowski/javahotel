@@ -115,7 +115,7 @@ public class Test5 extends TestHelper {
             }
         }
     }
-    
+
     @Test
     public void test3() {
         DialogVariables v = new DialogVariables();
@@ -133,16 +133,16 @@ public class Test5 extends TestHelper {
         for (RowContent r : l.getRowList()) {
             Integer ii = rI.get(r, "id").getValueI();
             System.out.println(ii);
-            assertEquals(i++,ii.intValue());
+            assertEquals(i++, ii.intValue());
             assertNull(rI.get(r, "name").getValue());
         }
     }
-    
+
     @Test
     public void test4() {
         DialogFormat d = findDialog("test11.xml");
         assertNotNull(d);
-        assertEquals(2,d.getFieldList().size());
+        assertEquals(2, d.getFieldList().size());
         for (FieldItem i : d.getFieldList()) {
             assertFalse(i.isHidden());
             assertFalse(i.isNotEmpty());

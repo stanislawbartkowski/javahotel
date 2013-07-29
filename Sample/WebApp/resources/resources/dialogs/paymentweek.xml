@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import paymentweek</import>
+		<method>paymentweek.dialogaction({0},{1})</method>
+	</jython>
+
+	<buttons>
+		<button id="accept" displayname="Accept" />
+	</buttons>
+
+	<list id="listweek" displayname="List of weeks" elemformat="elemweek.xml">
+		<standbutt>SHOW,FIND,FILTER,ADD</standbutt>
+		<columns>
+			<column id="key" displayname="dateKey" />
+			<column id="week" displayname="Week" type="date"/>
+		</columns>
+	</list>
+
+
+
+</dialog>

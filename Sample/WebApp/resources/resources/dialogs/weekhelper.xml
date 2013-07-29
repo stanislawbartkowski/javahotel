@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<jython>
+		<import>from testpack import paymentweek</import>
+		<method>paymentweek.weekhelper({0},{1})</method>
+	</jython>
+
+	<buttons>
+		<button id="select" displayname="Select" />
+		<button id="resign" displayname="Resign" actiontype="JCLOSE_DIALOG" />
+	</buttons>
+
+	<list id="list" displayname="List of weeks 2013">
+		<standbutt>FIND,FILTER</standbutt>
+		<columns>
+			<column id="weekbeg" displayname="Week" type="date"/>
+		</columns>
+	</list>
+
+
+</dialog>

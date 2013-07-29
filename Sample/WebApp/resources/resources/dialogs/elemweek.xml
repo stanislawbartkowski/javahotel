@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+	<displayname>Week</displayname>
+	<before/>
+	<parent>paymentweek.xml</parent>
+
+	<jython>
+		<import>from testpack import paymentweek</import>
+		<method>paymentweek.elemaction({0},{1})</method>
+	</jython>
+
+	<form>
+		<field id="key" readonly="" displayname="key" />
+		<field id="week" type="date" readonlychange="" displayname="Week"
+			helper="weekhelper.xml" signalchange="" notempty="" />
+	</form>
+	
+	<list id="listpay" displayname="Payments">
+		<standbutt>FIND,FILTER</standbutt>
+		<columns>
+		    <column id="date" displayname="Day of the week" type="date"  />
+			<column id="pay" displayname="Payment" type="decimal" footer=""
+				editable="" signalchange=""/>
+		</columns>
+
+	</list>
+	
+</dialog>

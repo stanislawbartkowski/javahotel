@@ -18,6 +18,7 @@ import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.registry.IStorageRegistryFactory;
 
 /**
  * @author hotel
@@ -45,6 +46,10 @@ public class ServiceInjector {
     
     public static IDateRecordOp constructDateRecordOp() {
         return injector.getInstance(IDateRecordOp.class);
+    }
+        
+    public static IStorageRegistryFactory getStorageRegistryFactory() {
+        return injector.getInstance(IStorageRegistryFactory.class);
     }
 
     public static Injector getInjector() {

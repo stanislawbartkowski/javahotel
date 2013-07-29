@@ -41,60 +41,60 @@ public class Test2 extends TestHelper {
     public void test2() {
         DialogVariables v = new DialogVariables();
         FieldValue val = new FieldValue();
-        val.setValue((Integer)null);
+        val.setValue((Integer) null);
         v.setValue("globint", val);
         runAction(v, "test4.xml", "before");
         val = v.getValue("globint");
         assertNotNull(val);
         assertNull(val.getValueI());
     }
-    
+
     @Test
     public void test3() {
         DialogVariables v = new DialogVariables();
         FieldValue val = new FieldValue();
-        val.setValue((Integer)null);
+        val.setValue((Integer) null);
         v.setValue("globint", val);
         runAction(v, "test4.xml", "testnone");
         val = v.getValue("result");
         assertNotNull(val);
-        assertEquals("IsNone",val.getValueS());   
+        assertEquals("IsNone", val.getValueS());
     }
-    
+
     @Test
     public void test4() {
         DialogVariables v = new DialogVariables();
         FieldValue val = new FieldValue();
-        val.setValue((Integer)1);
+        val.setValue((Integer) 1);
         v.setValue("globint", val);
         runAction(v, "test4.xml", "inc");
         val = v.getValue("globint");
         assertNotNull(val);
-        assertEquals((Integer)2,val.getValueI());
+        assertEquals((Integer) 2, val.getValueI());
     }
 
     @Test
     public void test5() {
         DialogVariables v = new DialogVariables();
         FieldValue val = new FieldValue();
-        val.setValue((Long)1l);
+        val.setValue((Long) 1l);
         v.setValue("globlong", val);
         runAction(v, "test5.xml", "retlong");
         val = v.getValue("globlong");
         assertNotNull(val);
-        assertEquals((Long)1l,val.getValueL());
+        assertEquals((Long) 1l, val.getValueL());
     }
-    
+
     @Test
     public void test6() {
         DialogVariables v = new DialogVariables();
         FieldValue val = new FieldValue();
-        val.setValue((Long)1l);
+        val.setValue((Long) 1l);
         v.setValue("globlong", val);
         runAction(v, "test5.xml", "setvalue");
         val = v.getValue("globlong");
         assertNotNull(val);
-        assertEquals((Long)99l,val.getValueL());
+        assertEquals((Long) 99l, val.getValueL());
     }
 
 }
