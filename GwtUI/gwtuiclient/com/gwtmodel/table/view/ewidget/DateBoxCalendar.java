@@ -29,7 +29,7 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
  */
 class DateBoxCalendar extends AbstractField {
 
-    private final DateBox db;
+    protected final DateBox db;
 
     @Override
     public void setReadOnly(boolean readOnly) {
@@ -44,6 +44,8 @@ class DateBoxCalendar extends AbstractField {
     @Override
     public void setValObj(Object o) {
         db.setValue((Date) o);
+        // 2013/07/29
+        runOnChange(this, false);
     }
 
     private class DFormat implements DateBox.Format {

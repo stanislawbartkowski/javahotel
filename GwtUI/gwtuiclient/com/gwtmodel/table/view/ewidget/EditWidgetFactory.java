@@ -121,6 +121,11 @@ public class EditWidgetFactory {
         return new DateBoxCalendar(cValues, v, htmlName);
     }
 
+    public IFormLineView constructDateBoxCalendarWithHelper(IVField v,
+            IRequestForGWidget i, boolean refreshAlways, String htmlName) {
+        return new DateBoxWithHelper(cValues, v, i, refreshAlways, htmlName);
+    }
+
     @SuppressWarnings("unused")
     private IFormLineView constructBoxSelectField(IVField v, List<ComboVal> wy,
             String htmlName) {
@@ -131,14 +136,12 @@ public class EditWidgetFactory {
         return new RadioBoxField(cValues, v, htmlName);
     }
 
-
     public IFormLineView constructListComboValuesHelp(IVField v,
             IDataType dType, String htmlName) {
         GetValueLB lB = new ListBoxWithHelp(cValues, v, dType, htmlName);
         AddBoxValues.addValues(dType, lB);
         return lB;
     }
-
 
     // used
     public IFormLineView constructEditFileName(IVField v, String htmlName) {
