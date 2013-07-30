@@ -74,6 +74,7 @@ import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
+import com.jythonui.client.dialog.VField;
 import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.CreateSearchVar;
 import com.jythonui.client.util.ExecuteAction;
@@ -90,6 +91,8 @@ import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.MapDialogVariable;
+import com.jythonui.shared.RowContent;
+import com.jythonui.shared.RowIndex;
 
 /**
  * @author hotel
@@ -133,6 +136,7 @@ class ListControler {
         private final RowListDataManager rM;
         private final IVariablesContainer iCon;
         private final ICreateBackActionFactory bFactory;
+        private IVModelData vFooter = null;
 
         private int lastRowNum;
         private PersistTypeEnum lastPersistAction;
@@ -175,7 +179,8 @@ class ListControler {
         }
 
         private void drawFooter(List<IGetFooter> fList) {
-            IVModelData vFooter = new FooterV(fList);
+            // persist current footer value in class variable
+            vFooter = new FooterV(fList);
             getSlContainer().publish(dType, DataActionEnum.DrawFooterAction,
                     vFooter);
         }
@@ -209,10 +214,9 @@ class ListControler {
                 if (lastPersistAction == PersistTypeEnum.REMOVE) {
                     CustomStringSlot sl = DataIntegerVDataSignal
                             .constructSlotRemoveVSignal(dType);
-                    DataIntegerSignal sig = new DataIntegerSignal(
-                            lastRowNum);
+                    DataIntegerSignal sig = new DataIntegerSignal(lastRowNum);
                     getSlContainer().publish(sl, sig);
-                    
+
                 }
                 lastPersistAction = null;
             }
@@ -259,6 +263,7 @@ class ListControler {
                 ListFormat fo = rM.getFormat(dType);
                 ICustomObject i = slContext.getCustom();
                 AddVarList sig = (AddVarList) i;
+                String buttonId = sig.getAction();
                 DialogVariables var = sig.getValue();
                 IVModelData vData = getV();
                 boolean setLine = vData != null;
@@ -273,6 +278,51 @@ class ListControler {
                         ICommonConsts.JEDITLISTACTION + fo.getId(),
                         lastPersistAction == null ? null : lastPersistAction
                                 .toString());
+                // set footer value
+                for (FieldItem co : fo.getColumns()) {
+                    if (!co.isFooter())
+                        continue;
+                    String footervar = ICommonConsts.JFOOTER + fo.getId() + "_"
+                            + co.getId();
+                    FieldValue footerval = new FieldValue();
+                    Object fval = null;
+                    VField fie = VField.construct(co);
+                    if (vFooter != null) {
+                        fval = vFooter.getF(fie);
+                    }
+                    footerval.setValue(co.getFieldType(), fval,
+                            co.getAfterDot());
+                    var.setValue(footervar, footerval);
+                }
+                // list of values
+                String lList = fo.getListButtonsWithList();
+                if (!CUtil.EmptyS(buttonId) && !CUtil.EmptyS(lList)) {
+                    String vList[] = lList.split(",");
+                    for (String s : vList) {
+                        if (s.equals(buttonId)) {
+                            RowIndex rI = new RowIndex(fo.getColumns());
+                            ListOfRows li = new ListOfRows();
+                            var.getRowList().put(fo.getId(), li);
+                            IDataListType dList = SlU.getIDataListType(dType,
+                                    DataListPersistAction.this);
+                            for (IVModelData vD : dList.getList()) {
+                                RowContent row = rI.constructRow();
+                                li.addRow(row);
+                                for (IVField v : vD.getF()) {
+                                    String id = v.getId();
+                                    FieldItem item = fo.getColumn(id);
+                                    if (item == null)
+                                        continue;
+                                    FieldValue vali = new FieldValue();
+                                    vali.setValue(item.getFieldType(),
+                                            vD.getF(v), item.getAfterDot());
+                                    rI.setRowField(row, id, vali);
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
 
         }
@@ -310,7 +360,6 @@ class ListControler {
 
         private final Synch sy = new Synch();
 
-
         private void executeAction(DialogVariables v, ListFormat li, WSize w,
                 String doAction) {
             ListUtils.addListName(v, li);
@@ -326,16 +375,13 @@ class ListControler {
             @Override
             public void signal(ISlotSignalContext slContext) {
                 if (sy.signalledAlready()) {
-                    DialogVariables v = iCon.getVariables(ICommonConsts.CRUD_READLIST);
+                    DialogVariables v = iCon
+                            .getVariables(ICommonConsts.CRUD_READLIST);
                     ListFormat li = rM.getFormat(dType);
                     IOkModelData iOk = SlU.getOkModelData(dType,
                             DataListPersistAction.this);
                     CreateSearchVar.addSearchVar(v, li, iOk);
                     executeAction(v, li, null, ICommonConsts.CRUD_READLIST);
-                    // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                    // ICommonConsts.CRUD_READLIST,
-                    // bFactory.construct(li.getId(), null));
-
                 } else {
                     sy.signalDone();
                 }
@@ -367,21 +413,14 @@ class ListControler {
             @Override
             public void signal(ISlotSignalContext slContext) {
                 IOkModelData iOk = slContext.getIOkModelData();
-                DialogVariables v = iCon.getVariables(ICommonConsts.JLIST_GETSIZE);
+                DialogVariables v = iCon
+                        .getVariables(ICommonConsts.JLIST_GETSIZE);
                 ListFormat li = rM.getFormat(dType);
                 CreateSearchVar.addSearchVar(v, li, iOk);
                 executeAction(v, li, null, ICommonConsts.JLIST_GETSIZE);
-
-                // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                // ICommonConsts.JLIST_GETSIZE,
-                // bFactory.construct(li.getId(), null));
             }
 
         }
-
-        // CustomStringSlot sl = StartNextRowSignal
-        // .constructSlotStartNextRowSignal(dType);
-        // StartNextRowSignal si = new StartNextRowSignal(prevW);
 
         private class NextRowListener implements ISlotListener {
 
@@ -403,13 +442,10 @@ class ListControler {
                 EditRowActionSignal e = (EditRowActionSignal) i;
                 lastRowNum = e.getRownum();
                 lastPersistAction = e.getE();
-                DialogVariables v = iCon.getVariables(ICommonConsts.JEDITLISTROWACTION);
+                DialogVariables v = iCon
+                        .getVariables(ICommonConsts.JEDITLISTROWACTION);
                 ListFormat li = rM.getFormat(dType);
                 executeAction(v, li, e.getW(), ICommonConsts.JEDITLISTROWACTION);
-
-                // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                // ICommonConsts.JEDITLISTROWACTION,
-                // bFactory.construct(li.getId(), e.getW()));
             }
 
         }
@@ -478,17 +514,14 @@ class ListControler {
                     }
                     prevO = beforeD.orNull();
                 }
-                DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALCOLUMNCHANGE);
+                DialogVariables v = iCon
+                        .getVariables(ICommonConsts.SIGNALCOLUMNCHANGE);
                 v.setValueB(ICommonConsts.JCHANGESIGNALBEFORE, c.isBefore());
                 v.setValueS(ICommonConsts.SIGNALCHANGEFIELD, vv.getId());
                 FieldValue prev = new FieldValue();
                 prev.setValue(col.getFieldType(), prevO, col.getAfterDot());
                 v.setValue(ICommonConsts.JVALBEFORE, prev);
                 executeAction(v, li, c.getW(), ICommonConsts.SIGNALCOLUMNCHANGE);
-
-                // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                // ICommonConsts.SIGNALCOLUMNCHANGE,
-                // bFactory.construct(li.getId(), c.getW()));
             }
 
         }
@@ -555,14 +588,10 @@ class ListControler {
                         sendFinishSignal(true);
                         return;
                     }
-                    // sendFinishSignal(true);
-                    DialogVariables v = iCon.getVariables(ICommonConsts.SIGNALAFTERROW);
+                    DialogVariables v = iCon
+                            .getVariables(ICommonConsts.SIGNALAFTERROW);
                     executeAction(v, fo, lastF.getValue().getwSize(),
                             ICommonConsts.SIGNALAFTERROW);
-
-                    // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-                    // ICommonConsts.SIGNALAFTERROW, bFactory.construct(
-                    // li.getId(), lastF.getValue().getwSize()));
                 }
             }
         }
@@ -749,7 +778,8 @@ class ListControler {
             ReadChunkSignal r = (ReadChunkSignal) i;
             int start = r.getStart();
             int size = r.getSize();
-            DialogVariables v = iCon.getVariables(ICommonConsts.JLIST_READCHUNK);
+            DialogVariables v = iCon
+                    .getVariables(ICommonConsts.JLIST_READCHUNK);
             v.setValueL(ICommonConsts.JLIST_READCHUNKSTART, start);
             v.setValueL(ICommonConsts.JLIST_READCHUNKLENGTH, size);
             IVField fSort = r.getfSort();

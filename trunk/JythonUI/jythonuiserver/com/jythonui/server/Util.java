@@ -16,11 +16,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.gwtmodel.table.common.CUtil;
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
@@ -101,4 +103,13 @@ public class Util {
             return null;
         }
     }
+
+    public static String getResourceAdDirectory(String dir) {
+        URL u = JythonUiServerProvider.class.getClassLoader().getResource(
+                ISharedConsts.RESOURCES + "/" + dir);
+        if (u == null)
+            return null;
+        return u.getPath();
+    }
+
 }

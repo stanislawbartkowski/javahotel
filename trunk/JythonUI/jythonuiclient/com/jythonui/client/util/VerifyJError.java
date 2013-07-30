@@ -38,7 +38,12 @@ public class VerifyJError {
 
     }
 
-    public static List<InvalidateMess> constructErrors(final DialogVariables v) {
+    public interface IOkFieldName {
+        boolean okField(String s);
+    }
+
+    public static List<InvalidateMess> constructErrors(final DialogVariables v,
+            final IOkFieldName ok) {
         final List<InvalidateMess> err = new ArrayList<InvalidateMess>();
         JUtils.IVisitor vis = new JUtils.IVisitor() {
 
@@ -47,6 +52,8 @@ public class VerifyJError {
                 if (field.equals(ICommonConsts.JERRORMESSAGE)) {
                     return;
                 }
+                if (!ok.okField(fie))
+                    return;
                 String errS = v.getValue(field).getValueS();
                 FieldValue val = v.getValue(fie);
                 if (val == null) {
@@ -62,10 +69,18 @@ public class VerifyJError {
         return err;
     }
 
-    public static boolean isError(DialogContainer d, IDataType dType,
+    public static boolean isError(final DialogContainer d, IDataType dType,
             final DialogVariables v, ISlotable iSlo) {
 
-        List<InvalidateMess> err = constructErrors(v);
+        IOkFieldName iOk = new IOkFieldName() {
+
+            @Override
+            public boolean okField(String s) {
+                return d.getInfo().getDialog().findFieldItem(s) != null;
+            }
+
+        };
+        List<InvalidateMess> err = constructErrors(v, iOk);
         if (err.isEmpty()) {
             if (d == null)
                 return false;

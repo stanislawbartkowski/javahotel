@@ -21,6 +21,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.editc.IRequestForGWidget;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.MM;
@@ -91,9 +92,18 @@ public class CreateForm {
                 if (f.isPassword()) {
                     v = eFactory.constructPasswordField(vf, htmlId);
                 } else if (f.isHelper() || f.isTextArea() || f.isRichText()) {
-                    v = eFactory.constructTextField(vf, null,
-                            f.isHelper() ? iHelper : null, f.isTextArea(),
-                            f.isRichText(), f.isHelperRefresh(), htmlId);
+                    if (f.isHelper() && (f.getFieldType() != TT.STRING)
+                            && f.getFieldType() != TT.DATE) {
+                        String mess = M.M().HelperOnlyForStringType(f.getId());
+                        Utils.errAlertB(mess);
+                    }
+                    if (f.getFieldType() == TT.STRING)
+                        v = eFactory.constructTextField(vf, null,
+                                f.isHelper() ? iHelper : null, f.isTextArea(),
+                                f.isRichText(), f.isHelperRefresh(), htmlId);
+                    else
+                        v = eFactory.constructDateBoxCalendarWithHelper(vf,
+                                iHelper, true, htmlId);
                 } else {
                     v = eFactory.constructEditWidget(vf, htmlId);
                 }

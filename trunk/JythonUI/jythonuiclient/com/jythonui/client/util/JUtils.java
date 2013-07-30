@@ -53,7 +53,7 @@ public class JUtils {
                 i.action(fie, key);
             }
     }
-
+    
     public static IDataListType constructList(RowIndex rI, ListOfRows rL,
             IVField comboField, IVField displayFie) {
         DataListTypeFactory lFactory = GwtGiniInjector.getI()
