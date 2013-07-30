@@ -112,9 +112,6 @@ class MonthSeasonScrollWidget implements IGWidget {
         hp.setSpacing(5);
         hp.setStyleName("month-scroll-panel");
         for (int i = 0; i < sData.getMonthPe(); i++) {
-            // Label la = new Label("");
-            // la.setTitle("aaaaa");
-            // la.addMouseDownHandler(new MonthEvent(i));
             hp.add(new DLabel(i));
         }
         drawNames();
@@ -128,9 +125,6 @@ class MonthSeasonScrollWidget implements IGWidget {
         drawNames();
     }
 
-    /* (non-Javadoc)
-     * @see com.gwtmodel.table.IGWidget#getGWidget()
-     */
     @Override
     public Widget getGWidget() {
         return hp;
