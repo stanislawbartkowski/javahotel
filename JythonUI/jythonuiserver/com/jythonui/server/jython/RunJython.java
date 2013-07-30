@@ -17,7 +17,6 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -46,8 +45,10 @@ import org.python.util.PythonInterpreter;
 
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
+import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.MCached;
+import com.jythonui.server.Util;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -638,11 +639,10 @@ public class RunJython {
                     case DATE:
                         Date dat;
                         if (val instanceof java.sql.Date) {
-                          java.sql.Date dt = (java.sql.Date) val;
-                          dat = new Date(dt.getTime());
-                        }
-                        else {
-                          dat = (Date) val;
+                            java.sql.Date dt = (java.sql.Date) val;
+                            dat = new Date(dt.getTime());
+                        } else {
+                            dat = (Date) val;
                         }
                         f.setValue(dat);
                         break;
@@ -766,6 +766,9 @@ public class RunJython {
 
         // check sys.path
         addIfNotExisttoPath(interp, p.getPackageDirectory());
+        String commPath = Util.getResourceAdDirectory(IConsts.PACKAGEDIR);
+        addIfNotExisttoPath(interp, commPath);
+        // add common directory
 
         Map<PyObject, PyObject> pMap = toPythonMap(v);
         addListToMap(pMap, d, v);

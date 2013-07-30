@@ -12,6 +12,8 @@
  */
 package com.jythonui.server.defa;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import com.jythonui.server.registry.IStorageRegistry;
@@ -48,6 +50,11 @@ public class StorageRealmRegistryFactory implements IStorageRegistryFactory {
         @Override
         public void removeEntry(String key) {
             iRegistry.removeEntry(realm, key);
+        }
+
+        @Override
+        public List<String> getKeys() {
+            return iRegistry.getKeys(realm);
         }
 
     }

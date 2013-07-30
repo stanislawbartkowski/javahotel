@@ -28,7 +28,7 @@ public class ExecuteAction {
 
     public static void action(IVariablesContainer iCon, String name,
             String actionId, AsyncCallback<DialogVariables> callback) {
-        DialogVariables v = iCon.getVariables(name);
+        DialogVariables v = iCon.getVariables(actionId);
         action(v, name, actionId, callback);
     }
 

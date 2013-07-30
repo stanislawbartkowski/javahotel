@@ -20,6 +20,7 @@ import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.JythonUiServerProvider;
+import com.jythonui.server.Util;
 
 /**
  * @author hotel
@@ -34,22 +35,22 @@ public class ServerProperties implements IJythonUIServerProperties {
         this.isC = isC;
     }
 
-    private String getResource(String dir) {
-        URL u = JythonUiServerProvider.class.getClassLoader().getResource(
-                ISharedConsts.RESOURCES + "/" + dir);
-        if (u == null)
-            return null;
-        return u.getPath();
-    }
+//    private String getResource(String dir) {
+//        URL u = JythonUiServerProvider.class.getClassLoader().getResource(
+//                ISharedConsts.RESOURCES + "/" + dir);
+//        if (u == null)
+//            return null;
+//        return u.getPath();
+//    }
 
     @Override
     public String getDialogDirectory() {
-        return getResource(IConsts.DIALOGDIR);
+        return Util.getResourceAdDirectory(IConsts.DIALOGDIR);
     }
 
     @Override
     public String getPackageDirectory() {
-        return getResource(IConsts.PACKAGEDIR);
+        return Util.getResourceAdDirectory(IConsts.PACKAGEDIR);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class ServerProperties implements IJythonUIServerProperties {
 
     @Override
     public String getBundleBase() {
-        return getResource(IConsts.BUNDLEDIR);
+        return Util.getResourceAdDirectory(IConsts.BUNDLEDIR);
     }
 
 }

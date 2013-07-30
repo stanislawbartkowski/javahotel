@@ -40,6 +40,7 @@ import com.jythonui.client.variables.ISetGetVar;
 import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
@@ -133,7 +134,7 @@ public class RowListDataManager implements ISetGetVar {
     @Override
     public void addToVar(DialogVariables var, String buttonId) {
         for (IDataType dType : getList()) {
-            AddVarList signal = new AddVarList(var);
+            AddVarList signal = new AddVarList(var, buttonId);
             CustomStringSlot sl = AddVarList.constructSignal(dType);
             iSlo.getSlContainer().publish(sl, signal);
         }
@@ -194,7 +195,18 @@ public class RowListDataManager implements ISetGetVar {
                 iSlo.getSlContainer().publish(sl, signal);
             }
 
-            List<InvalidateMess> err = VerifyJError.constructErrors(var);
+            final ListFormat fo = getFormat(dType);
+            VerifyJError.IOkFieldName iOk = new VerifyJError.IOkFieldName() {
+
+                @Override
+                public boolean okField(String s) {
+                    FieldItem i = fo.getColumn(s);
+                    if (i == null)
+                        return false;
+                    return i.isColumnEditable();
+                }
+            };
+            List<InvalidateMess> err = VerifyJError.constructErrors(var, iOk);
             SendErrorsInfo signal = new SendErrorsInfo(err);
             CustomStringSlot sl = SendErrorsInfo.constructSignal(dType);
             iSlo.getSlContainer().publish(sl, signal);

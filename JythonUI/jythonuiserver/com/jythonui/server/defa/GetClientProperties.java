@@ -49,24 +49,6 @@ public class GetClientProperties implements IJythonClientRes {
         if (!CUtil.EmptyS(locale)) {
             Holder.SetLocale(locale);
         }
-        // InputStream i = GetClientProperties.class.getClassLoader()
-        // .getResourceAsStream(ICommonConsts.APP_FILENAME);
-        // if (i == null) {
-        // log.log(Level.SEVERE, gMess
-        // .getMess(IErrorCode.ERRORCODE1,
-        // ILogMess.CANNOTFINDRESOURCEFILE,
-        // ICommonConsts.APP_FILENAME));
-        // return null;
-        // }
-        // Properties prop = new Properties();
-        // try {
-        // prop.load(i);
-        // } catch (IOException e) {
-        // log.log(Level.SEVERE, gMess.getMess(IErrorCode.ERRORCODE2,
-        // ILogMess.ERRORWHILEREADINGRESOURCEFILE,
-        // ICommonConsts.APP_FILENAME), e);
-        // return null;
-        // }
         Properties prop = Util.getProperties(ICommonConsts.APP_FILENAME);
         if (prop == null)
             return null;

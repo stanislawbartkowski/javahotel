@@ -698,7 +698,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 }
             };
             JUtils.visitListOfFields(arg, ICommonConsts.JREFRESHDATELINE, visDL);
-            VerifyJError.isError(null, dType, arg, DialogContainer.this);
+            VerifyJError.isError(DialogContainer.this, dType, arg, DialogContainer.this);
         }
     }
 
