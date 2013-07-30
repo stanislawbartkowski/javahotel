@@ -15,8 +15,10 @@ package com.jython.ui.server.guice;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.jython.ui.server.datastore.IDateLineOp;
+import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.registry.IStorageRegistryFactory;
 
 /**
  * @author hotel
@@ -29,7 +31,7 @@ public class ServiceInjector {
     static {
         injector = Guice.createInjector(new ServerService.ServiceModule());
     }
-    
+
     public static IDateLineOp constructDateOp() {
         return injector.getInstance(IDateLineOp.class);
     }
@@ -40,6 +42,14 @@ public class ServiceInjector {
 
     public static IJythonUIServer contructJythonUiServer() {
         return injector.getInstance(IJythonUIServer.class);
+    }
+
+    public static IDateRecordOp constructDateRecordOp() {
+        return injector.getInstance(IDateRecordOp.class);
+    }
+
+    public static IStorageRegistryFactory getStorageRegistryFactory() {
+        return injector.getInstance(IStorageRegistryFactory.class);
     }
 
     public static Injector getInjector() {

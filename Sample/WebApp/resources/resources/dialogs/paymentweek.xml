@@ -13,7 +13,6 @@
 	</buttons>
 
 	<list id="listweek" displayname="List of weeks" elemformat="elemweek.xml">
-		<standbutt>SHOW,FIND,FILTER,ADD</standbutt>
 		<columns>
 			<column id="key" displayname="dateKey" />
 			<column id="week" displayname="Week" type="date"/>

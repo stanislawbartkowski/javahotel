@@ -69,4 +69,8 @@ public class ServiceInjector {
         return injector.getInstance(IDateRecordOp.class);
     }
 
+    public static IStorageRegistryFactory getStorageRegistryFactory() {
+        return injector.getInstance(IStorageRegistryFactory.class);
+    }
+
 }

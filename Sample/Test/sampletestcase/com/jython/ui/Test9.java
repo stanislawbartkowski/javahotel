@@ -14,8 +14,11 @@ package com.jython.ui;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Test;
 
+import com.jythonui.server.registry.IStorageRegistry;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 
@@ -34,6 +37,28 @@ public class Test9 extends TestHelper {
         runAction(v, "test19.xml", "before");
         String val = v.getValueS("AAAA");
         assertEquals("aaaa", val);
+    }
+    
+    @Test
+    public void test2() {
+        IStorageRegistry iR = iReg.construct("PXXXX");
+        for (int i =0; i<10; i++) {
+            String val = "Name " + i;
+            iR.putEntry(""+i, val.getBytes());
+        }
+        List<String> keyS = iR.getKeys();
+        int i = 0;
+        for (String s : keyS) {
+            System.out.println(s);
+            assertEquals(""+i,s);
+            i++;
+        }
+        for (String s : keyS) {
+            iR.removeEntry(s);
+        }        
+        keyS = iR.getKeys();
+        assertTrue(keyS.isEmpty());
+        
     }
 
 }

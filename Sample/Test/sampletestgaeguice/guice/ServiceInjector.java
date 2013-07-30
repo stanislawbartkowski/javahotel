@@ -19,6 +19,7 @@ import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 
@@ -58,9 +59,12 @@ public class ServiceInjector {
         return injector.getInstance(IDateLineOp.class);
     }
     
-    public static IDateRecordOp constructDateRecordOp() {
+    public static IDateRecordOp getDateRecordOp() {
         return injector.getInstance(IDateRecordOp.class);
-        
+    }
+    
+    public static IStorageRegistryFactory getStorageRegistryFactory() {
+        return injector.getInstance(IStorageRegistryFactory.class);
     }
 
 
