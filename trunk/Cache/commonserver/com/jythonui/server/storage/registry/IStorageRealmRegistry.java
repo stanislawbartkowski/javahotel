@@ -12,6 +12,8 @@
  */
 package com.jythonui.server.storage.registry;
 
+import java.util.List;
+
 public interface IStorageRealmRegistry {
 
     void putEntry(String realM, String key, byte[] value);
@@ -19,5 +21,7 @@ public interface IStorageRealmRegistry {
     byte[] getEntry(String realM, String key);
 
     void removeEntry(String realM, String key);
+    
+    List<String> getKeys(String realM);
 
 }

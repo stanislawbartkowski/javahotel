@@ -28,6 +28,7 @@ import javax.persistence.UniqueConstraint;
         "registryEntry" }))
 @NamedQueries({
         @NamedQuery(name = "findRegistryEntry", query = "SELECT x FROM RegistryEntry x WHERE x.registryRealm = ?1 AND x.registryEntry = ?2"),
+        @NamedQuery(name = "getListRegistryEntry", query = "SELECT x.registryEntry FROM RegistryEntry x WHERE x.registryRealm = ?1"),
         @NamedQuery(name = "removeRegistryEntry", query = "DELETE FROM RegistryEntry x WHERE x.registryRealm = ?1 AND x.registryEntry = ?2") })
 public class RegistryEntry {
 
