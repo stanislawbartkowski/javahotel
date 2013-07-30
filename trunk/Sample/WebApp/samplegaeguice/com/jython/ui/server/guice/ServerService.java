@@ -17,8 +17,10 @@ import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.ui.server.Cached;
 import com.jython.ui.server.datastore.IDateLineOp;
+import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.datastore.gae.DateLineOp;
+import com.jython.ui.server.datastore.gae.DateRecordOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
 import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
 import com.jythonui.server.IJythonClientRes;
@@ -59,6 +61,7 @@ public class ServerService {
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(IStorageRealmRegistry.class).toProvider(
                     StorageRegistryFactory.class).in(Singleton.class);
+            bind(IDateRecordOp.class).to(DateRecordOp.class).in(Singleton.class);
             requestStatic();
         }
     }

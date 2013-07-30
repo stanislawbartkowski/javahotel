@@ -17,6 +17,7 @@
 	
 	<list id="listpay" displayname="Payments">
 		<standbutt>FIND,FILTER</standbutt>
+	   	<buttons-addlist>ADD,MODIF</buttons-addlist>
 		<columns>
 		    <column id="date" displayname="Day of the week" type="date"  />
 			<column id="pay" displayname="Payment" type="decimal" footer=""

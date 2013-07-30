@@ -29,6 +29,7 @@ import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
+import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.storage.gensym.ISymGenerator;
@@ -53,6 +54,7 @@ public class TestHelper {
     protected final ISymGenerator iSym;
     protected final IDateLineOp iOp;
     protected final IDateRecordOp dOp;
+    protected final IStorageRegistryFactory iReg;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -67,6 +69,7 @@ public class TestHelper {
         iSym = ServiceInjector.getSymGenerator();
         iOp = ServiceInjector.constructDateLineElem();
         dOp = ServiceInjector.getDateRecordOp();
+        iReg = ServiceInjector.getStorageRegistryFactory();
     }
 
     @Before

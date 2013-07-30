@@ -6,21 +6,73 @@ from cutil import toDate
 from cutil import modifDecimalFooter
 from cutil import setStandEditMode
 from cutil import StorageRegistry
+from cutil import printVar
+from cutil import addDecimal
 
 class Registry(StorageRegistry) :
      
-     def __init__(self):
+     def __init__(self): 
         StorageRegistry.__init__(self,ServiceInjector.getStorageRegistryFactory(),"PAYMENT")
               
      def getListOfEntries(self):
          l = self.getKeys();
          li = []
          for key in l :
-             val = self.__getEntry(key)
-             ti = time.strptime(val,"%y-%m-%d")
-             da = datetime.date(ti.tm_year,tm_mon,tm_mday)
-             l.append((val,da))
-         return li    
+             val = self.getEntryS(key)
+             da = self.__tod(val)
+             li.append((val,da))
+         return li  
+     
+     def __tostr(self,da):
+         return da.strftime("%Y-%m-%d")
+     
+     def __tod(self,s):
+             ti = time.strptime(s,"%Y-%m-%d")
+             da = datetime.date(ti.tm_year,ti.tm_mon,ti.tm_mday)
+             return da
+    
+     def __getV(self,s):
+         V = StorageRegistry(ServiceInjector.getStorageRegistryFactory(),"PAYMENT-" + s)
+         return V
+     
+     def addList(self,da,li):
+         s = self.__tostr(da)
+         self.putEntry(s,s)
+         V = self.__getV(s)
+         for d in li :
+             da = d["date"]
+             pa = d["pay"]
+             s = None
+             if pa : s = str(pa)
+             V.putEntry(self.__tostr(da),s)
+             
+     def changeList(self,da,li):
+         self.addList(da,li)
+         
+     def removeList(self,da):        
+        if da == None : return
+        key = self.__tostr(da)
+        self.removeEntry(key)
+        V = self.__getV(key)
+        for k in V.getKeys() :
+            V.removeEntry(k)
+        
+             
+     def getList(self,da):
+        if da == None : return []
+        key = self.__tostr(da)
+        val = self.getEntryS(key)
+        if val == None : return []
+        li = []
+        V = self.__getV(key)
+        for k in V.getKeys() :
+            pa = V.getEntryS(k)
+            date = self.__tod(k)
+            b = None
+            if pa != None and pa != "" : 
+                 b = float(pa)
+            li.append({"date" : date, "pay" : b })
+        return li    
          
 R = Registry()    
 YEAR=2013     
@@ -40,17 +92,28 @@ def dialogaction(action,var) :
     print k
     print var[k]
  
-  if action == "before" :
+  if action == "before" or action == "crud_readlist":
       __getListOfWeeks(var)
                           
 def elemaction(action,var):      
       
+  printVar("elem action",action,var)    
+      
   if action == "before" :
-      var["JLIST_MAP"]  = { "listpay" : []}
-#      var["JLIST_EDIT_listpay_MODE"] = "NORMALMODE"
-#          var["JLIST_EDIT_list_MODE"] = "CHANGEMODE" 
- 
-  if action == "signalchange" :
+      da = var["week"]
+      li = R.getList(da)
+      var["JLIST_MAP"]  = { "listpay" : li}
+      sum = None 
+      for l in li :
+          b = l["pay"]
+          sum = addDecimal(sum,b)
+              
+      var["JFOOTER_COPY_listpay_pay"] = True
+      var["JFOOTER_listpay_pay"] = sum
+      if var["JCRUD_DIALOG"] != "crud_remove" :
+        setStandEditMode(var,"listpay",["pay"])
+  
+  if action == "signalchange" and var["JCRUD_DIALOG"] == "crud_add":
     da = var["week"]
     if da == None : return
     if da.weekday() != 0 :
@@ -68,19 +131,27 @@ def elemaction(action,var):
        list.append({"date" : da, "pay" : None})     
        da = da + td
     var["JLIST_MAP"]  = { "listpay" : list}
-#    var["JLIST_EDIT_listpay_pay"] = ""
-#    var["JLIST_EDIT_listpay_MODE"] = "NORMALMODE"
     setStandEditMode(var,"listpay",["pay"])
     var["JFOOTER_COPY_listpay_pay"] = True
     var["JFOOTER_listpay_pay"] = None
     
   if action == "columnchangeaction" :
-#      currentfooter = var["JFOOTER_listpay_pay"]
-#      prevval = var["JVALBEFORE"]
-#      val = var["pay"]
-#      if currentfooter == None : currentfooter = val
      modifDecimalFooter(var,"listpay","pay")
-    
+     
+  if action == "crud_add" :
+      da = var["week"]
+      R.addList(da, var["JLIST_MAP"]["listpay"])
+      var["JCLOSE_DIALOG"] = True    
+      
+  if action == "crud_change" :
+      da = var["week"]
+      R.changeList(da, var["JLIST_MAP"]["listpay"])
+      var["JCLOSE_DIALOG"] = True    
+
+  if action == "crud_remove" :
+      da = var["week"]
+      R.removeList(da)
+      var["JCLOSE_DIALOG"] = True    
 
 def weekhelper(action,var):
     
