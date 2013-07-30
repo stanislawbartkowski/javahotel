@@ -14,6 +14,9 @@ package com.jython.ui.server.gaestoragekey;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -24,14 +27,13 @@ class GaeStorageRegistry implements IStorageRealmRegistry {
         ObjectifyService.register(RegistryEntry.class);
     }
 
-
     @Override
     public void putEntry(String realm, String key, byte[] value) {
         RegistryEntry re = findR(realm, key);
         if (re == null) {
-          re = new RegistryEntry();
-          re.setRealM(realm);
-          re.setKey(key);
+            re = new RegistryEntry();
+            re.setRealM(realm);
+            re.setKey(key);
         }
         re.setValue(value);
         ofy().save().entity(re).now();
@@ -60,6 +62,20 @@ class GaeStorageRegistry implements IStorageRealmRegistry {
         if (re == null)
             return;
         ofy().delete().entity(re).now();
+    }
+
+    @Override
+    public List<String> getKeys(String realm) {
+        List<RegistryEntry> p = ofy().load().type(RegistryEntry.class)
+                .filter("realM ==", realm).list();
+        if (p == null) {
+            return null;
+        }
+        List<String> res = new ArrayList<String>();
+        for (RegistryEntry r : p) {
+            res.add(r.getKey());
+        }
+        return res;
     }
 
 }

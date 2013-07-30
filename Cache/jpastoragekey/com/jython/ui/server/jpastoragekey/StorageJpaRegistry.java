@@ -12,6 +12,9 @@
  */
 package com.jython.ui.server.jpastoragekey;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -135,6 +138,24 @@ class StorageJpaRegistry implements IStorageRealmRegistry {
         Remove command = new Remove(realm, key);
         command.executeTran();
 
+    }
+
+    @Override
+    public List<String> getKeys(final String realM) {
+        final List<String> resList = new ArrayList<String>();
+        doTransaction comma = new doTransaction() {
+
+            @Override
+            protected void dosth(EntityManager em) {
+                Query q = em.createNamedQuery("getListRegistryEntry");
+                q.setParameter(1, realM);
+                List<String> eList = q.getResultList();
+                resList.addAll(eList);
+            }
+
+        };
+        comma.executeTran();
+        return resList;
     }
 
 }
