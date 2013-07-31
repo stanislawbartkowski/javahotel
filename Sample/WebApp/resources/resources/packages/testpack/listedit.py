@@ -2,6 +2,7 @@ from com.jython.ui.server.guice import ServiceInjector
 
 from java.util import Date
 from java.util import Calendar
+from cutil import printVar
 
 def toDate(value):
     if value == None : return None
@@ -32,15 +33,26 @@ def __create_listda(dop,var):
     for r in seq :
         elem = { "id" : r.getId(), "date1" : r.getD1(), "date2" : r.getD2()}
         list.append(elem)
-    var["JLIST_MAP"]["listda"] = list
+    if var.has_key("JLIST_MAP") : var["JLIST_MAP"]["listda"] = list
+    else : var["JLIST_MAP"] = {"listda" : list}
 
 def editlistaction(action,var):
-  print "=======editlistaction=============",action
-  for k in var.keys() : 
-    print k, "=", var[k]
+  printVar("editlistaction",action,var)
     
   op = ServiceInjector.constructPersonOp()
   dOp = ServiceInjector.constructDateRecordOp()
+          
+  if action == "clear1action" :
+      if not var['JYESANSWER'] : return
+      op.clearAll()
+      __create_list(op,var)  
+      return
+
+  if action == "clear2action" :
+      if not var['JYESANSWER'] : return
+      dOp.clearAll()
+      __create_listda(dOp,var)    
+      return         
           
   if action == "before" :
     __create_list(op,var)
@@ -79,6 +91,7 @@ def editlistaction(action,var):
        if val == None or val == "" :
          print "==============="    
 #        var["JERROR_pnumber"] = "Cannot be empty"
+
 
 
   if var["JLIST_NAME"] == "listda" :      

@@ -72,7 +72,12 @@ class Registry(StorageRegistry) :
             if pa != None and pa != "" : 
                  b = float(pa)
             li.append({"date" : date, "pay" : b })
-        return li    
+        return li   
+    
+     def clearAll(self):
+         for da in self.getListOfEntries() :
+             self.removeList(da[1])
+         
          
 R = Registry()    
 YEAR=2013     
@@ -94,6 +99,11 @@ def dialogaction(action,var) :
  
   if action == "before" or action == "crud_readlist":
       __getListOfWeeks(var)
+      
+  if action == "clearall" and var['JYESANSWER'] :
+      R.clearAll()
+      __getListOfWeeks(var)
+          
                           
 def elemaction(action,var):      
       
