@@ -18,7 +18,7 @@ if __name__ == "__main__":
      if len(sys.argv) == 1:
          resdir = '/home/hotel/tboa/testsuite'
          testspec = 'one'
-         testid = '10'
+         testid = '11'
      elif len(sys.argv) == 4:    
          resdir = sys.argv[1]
          testspec = sys.argv[2]
