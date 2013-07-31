@@ -8,9 +8,17 @@
 		<method>listedit.editlistaction({0},{1})</method>
 	</jython>
 
-    <buttons>
-    <button id="vali" displayname="Validate" actiontype="JOK_MESSAGE" actionparam="Ok" />
-    </buttons>
+	<buttons>
+		<button id="vali" displayname="Validate" actiontype="JOK_MESSAGE"
+			actionparam="Ok" />
+		<button id="clear1button" displayname="Clear upper list" actiontype="JYESNO_MESSAGE"
+			actionparam="Do you really want to clear this list ?" actionparam1="Warning before removing"
+			actionparam2="clear1action" />
+		<button id="clear2button" displayname="Clear lower list" actiontype="JYESNO_MESSAGE"
+			actionparam="Do you really want to clear this list ?" actionparam1="Warning before removing"
+			actionparam2="clear2action" />
+
+	</buttons>
 
 	<list id="list" displayname="Edit list of keys">
 		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
@@ -27,7 +35,7 @@
 		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
 		<buttons-validate>vali</buttons-validate>
 		<columns>
-		    <column id="id" displayname = "id" type="long"  />
+			<column id="id" displayname="id" type="long" />
 			<column id="date1" displayname="Start date" type="date"
 				editable="" notempty="" />
 			<column id="date2" displayname="End date" type="date"
