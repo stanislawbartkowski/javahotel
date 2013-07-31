@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.table.factories;
 
-import java.util.Map;
-
 import com.gwtmodel.table.IVField;
 
 public interface IGetCustomValues {

@@ -137,8 +137,7 @@ class PresentationImageButtonFactory extends PresentationEditCellHelper {
             String ima = iIma.getImageButton(rowno, v)[no];
             if (ima == null) {
                 IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
-                ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP)
-                        + ".gif";
+                ima = c.getCustomValue(IGetCustomValues.IMAGEFORLISTHELP);
             }
             String s = Utils.getImageHTML(ima);
             SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
