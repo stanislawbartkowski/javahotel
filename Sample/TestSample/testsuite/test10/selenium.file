@@ -1,5 +1,5 @@
 [alias]
-CHUNK:id=list chunk
+CHUNK:id=list_chunk
 TABLEROW://tbody/tr[3]/td/div
 [check2]
 click:#SHOWITEM

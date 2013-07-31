@@ -1,5 +1,5 @@
 [alias]
-CHECK:check list
+CHECK:check_list
 HOTEL1:hotel1
 HOTEL2:hotel2
 CLICK:check
