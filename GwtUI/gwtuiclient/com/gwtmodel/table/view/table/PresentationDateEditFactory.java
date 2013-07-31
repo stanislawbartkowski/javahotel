@@ -257,8 +257,6 @@ class PresentationDateEditFactory extends PresentationEditCellHelper {
             boolean editenabled = eCol.isEditable(i.intValue(), v);
             if (editenabled) {
                 String ima = pResources.getRes(IWebPanelResources.CALENDAR);
-                // String s = Utils.getImageHTML(ImageNameFactory
-                // .getImageName(ImageNameFactory.ImageType.CALENDAR));
                 String s = Utils.getImageHTML(ima);
                 SafeHtml html = SafeHtmlUtils.fromTrustedString(s);
                 sb.append(html);

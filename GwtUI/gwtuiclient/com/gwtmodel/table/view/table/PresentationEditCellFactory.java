@@ -178,31 +178,25 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         String title = null;
         switch (persist) {
         case ADDBEFORE:
-            // imageName = ImageNameFactory
-            // .getImageName(ImageNameFactory.ImageType.ADDBEFOREROW);
             imageName = pResources.getRes(IWebPanelResources.ADDBEFOREROW);
-
             title = MM.getL().AddRowAtTheBeginning();
             break;
         case ADD:
             imageName = pResources.getRes(IWebPanelResources.ADDROW);
-            // imageName = ImageNameFactory
-            // .getImageName(ImageNameFactory.ImageType.ADDROW);
             title = MM.getL().AddRowAfter();
             break;
         case REMOVE:
             imageName = pResources.getRes(IWebPanelResources.DELETEROW);
-            // imageName = ImageNameFactory
-            // .getImageName(ImageNameFactory.ImageType.DELETEROW);
             title = MM.getL().RemoveRow();
             break;
         }
         String s = Utils.getImageHTML(imageName, IConsts.actionImageHeight,
-                IConsts.actionImageWidth, null);
+                IConsts.actionImageWidth, persist.toString());
         // add div to have them vertically
 
         SafeHtml html = SafeHtmlUtils.fromTrustedString("<div title=\"" + title
-                + "\" >" + s + "</div>");
+                + "\" >" + s
+                + "</div>");
         return html;
     }
 
