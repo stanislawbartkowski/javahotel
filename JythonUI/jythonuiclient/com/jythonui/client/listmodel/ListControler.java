@@ -246,7 +246,11 @@ class ListControler {
 
         private IVModelData getV() {
             IVModelData vData;
-            if (lastC != null) {
+            if (lastF != null) {
+                // set by FinishRowEdit, only for that purpose
+                vData = SlU.getVDataByI(dType, DataListPersistAction.this,
+                        lastF.getValue().getChoosedLine());
+            } else if (lastC != null) {
                 vData = SlU.getVDataByI(dType, DataListPersistAction.this,
                         lastC.getValue());
             } else {
@@ -567,10 +571,10 @@ class ListControler {
                 FinishEditRowSignal f = (FinishEditRowSignal) i;
                 lastF = f;
                 ListFormat fo = rM.getFormat(dType);
-                // IVModelData vData = getV();
-                IVModelData vData = SlU.getVDataByI(dType,
-                        DataListPersistAction.this, f.getValue()
-                                .getChoosedLine());
+                IVModelData vData = getV();
+                // IVModelData vData = SlU.getVDataByI(dType,
+                // DataListPersistAction.this, f.getValue()
+                // .getChoosedLine());
                 List<InvalidateMess> err = ValidateForm.createErrList(vData,
                         fo.getColumns(), fo.getValList());
                 if (err != null) {
@@ -588,6 +592,7 @@ class ListControler {
                         sendFinishSignal(true);
                         return;
                     }
+                    // next getV will use lastF to set current row
                     DialogVariables v = iCon
                             .getVariables(ICommonConsts.SIGNALAFTERROW);
                     executeAction(v, fo, lastF.getValue().getwSize(),
