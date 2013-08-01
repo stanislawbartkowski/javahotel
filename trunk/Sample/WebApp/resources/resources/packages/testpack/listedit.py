@@ -120,10 +120,16 @@ def editlistaction(action,var):
         var["id"] = dOp.addRecord(iRec)
         var["JCOPY_id"] = True
 
+    if action == "afteryesno" and not var["JYESANSWER"] :
+        var["JLIST_EDIT_ACTIONOK_listda"] = False
+
     if action == "removeyesno" and var["JYESANSWER"] :
         var["JLIST_EDIT_ACTIONOK_listda"] = True
         dOp.removeRecord(var["id"])
         print "REMOVE -----------------"
+
+    if action == "removeyesno" and not var["JYESANSWER"] :
+        var["JLIST_EDIT_ACTIONOK_listda"] = False
 
     if action == "aftereditrow" :
         d1 = toDate(var["date1"])
