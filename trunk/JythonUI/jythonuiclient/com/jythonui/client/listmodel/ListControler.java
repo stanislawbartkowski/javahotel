@@ -799,9 +799,6 @@ class ListControler {
             ListUtils.addListName(v, li);
             ExecuteAction.action(v, rM.getDialogName(),
                     ICommonConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
-
-            // ListUtils.executeCrudAction(v, li, rM.getDialogName(),
-            // ICommonConsts.JLIST_READCHUNK, new ReadRowsChunk(r));
         }
 
     }
