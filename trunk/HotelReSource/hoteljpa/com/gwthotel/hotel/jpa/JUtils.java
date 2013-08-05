@@ -45,6 +45,7 @@ public class JUtils {
         PropUtils.copyToProp(ho, sou);
         ho.setNoPersons(sou.getNoPersons());
         ho.setAttr(IHotelConsts.VATPROP, sou.getVat());
+        ho.setServiceType(sou.getServiceType());
         return ho;
     }
 
@@ -60,10 +61,10 @@ public class JUtils {
 
     public static <E extends EHotelDict> E getElem(EntityManager em,
             HotelId hotel, String qName, String name) {
-        Query q = em.createNamedQuery(qName);
-        q.setParameter(1, hotel.getId());
+        Query q = createHotelQuery(em, hotel, qName);
         q.setParameter(2, name);
         try {
+            @SuppressWarnings("unchecked")
             E pers = (E) q.getSingleResult();
             return pers;
         } catch (NoResultException e) {
@@ -80,6 +81,32 @@ public class JUtils {
                 IHMess.OBJECTBYNAMECANNOTBEFOUND, name, hotel.getHotel());
         log.log(Level.SEVERE, mess, e);
         throw new JythonUIFatal(mess);
+    }
+
+    public static Query createHotelQuery(EntityManager em, HotelId hotel,
+            String query) {
+        Query q = em.createNamedQuery(query);
+        q.setParameter(1, hotel.getId());
+        return q;
+    }
+
+    public static EHotelServices findService(EntityManager em, HotelId hotel,
+            String s) {
+        return getElemE(em, hotel, "findOneService", s);
+    }
+
+    public static void runQueryForObject(EntityManager em, Object o,
+            String[] remQuery) {
+        for (String r : remQuery) {
+            Query q = em.createNamedQuery(r);
+            q.setParameter(1, o);
+            q.executeUpdate();
+        }
+    }
+
+    public static void runQueryForHotels(EntityManager em, HotelId hotel,
+            String[] remQuery) {
+        runQueryForObject(em, hotel.getId(), remQuery);
     }
 
 }

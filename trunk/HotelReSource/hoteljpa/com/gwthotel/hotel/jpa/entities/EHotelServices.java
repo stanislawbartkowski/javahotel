@@ -19,6 +19,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.gwthotel.hotel.services.ServiceType;
+
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"hotel","name"}))
 @NamedQueries({
@@ -32,6 +34,9 @@ public class EHotelServices extends EHotelDict {
     
     @Column(nullable = false)
     private int noPersons;
+    
+    @Column(nullable = false)
+    private ServiceType serviceType;
 
     public String getVat() {
         return vat;
@@ -47,6 +52,16 @@ public class EHotelServices extends EHotelDict {
 
     public void setNoPersons(int noPersons) {
         this.noPersons = noPersons;
-    }        
+    }
+
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
+    }
+    
+    
         
 }

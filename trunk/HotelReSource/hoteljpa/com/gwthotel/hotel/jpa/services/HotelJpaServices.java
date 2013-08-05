@@ -50,19 +50,20 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
             EntityManager em, HotelId hotel) {
         dest.setNoPersons(sou.getNoPersons());
         dest.setVat(sou.getAttr(IHotelConsts.VATPROP));
+        dest.setServiceType(sou.getServiceType());
     }
 
     @Override
     protected void beforedeleteAll(EntityManager em, HotelId hotel) {
         String qList[] = { "deletePricesForHotel", "deleteAllRoomServices" };
-        executeHotelQuery(em, hotel, qList);
+        JUtils.runQueryForHotels(em, hotel, qList);
     }
 
     @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelServices elem) {
-        String qList[] = { "deletePricesForHotelAndService",
-                "deleteForRoomServices" };
-        executeElemQuery(em, hotel, qList, elem);
+        String qList[] = { "deleteAllAddPaymentForService",
+                "deletePricesForHotelAndService", "deleteForRoomServices" };
+        JUtils.runQueryForObject(em, elem, qList);
     }
 }

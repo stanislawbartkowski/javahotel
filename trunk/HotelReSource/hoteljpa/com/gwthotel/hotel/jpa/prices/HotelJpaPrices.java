@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceElem;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
@@ -59,10 +60,10 @@ class HotelJpaPrices implements IHotelPriceElem {
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = em.createNamedQuery("findPricesForPriceList");
-            q.setParameter(1, hotel.getId());
+            Query q = JUtils.createHotelQuery(em, hotel, "findPricesForPriceList");
             q.setParameter(2, priceList);
             // do not catch exception,
+            @SuppressWarnings("unchecked")
             List<EHotelPriceElem> list = q.getResultList();
             for (EHotelPriceElem p : list) {
                 HotelPriceElem e = new HotelPriceElem();
@@ -97,18 +98,15 @@ class HotelJpaPrices implements IHotelPriceElem {
         @Override
         protected void dosth(EntityManager em) {
             Map<String, EHotelServices> mService = new HashMap<String, EHotelServices>();
-            List<EHotelPriceElem> eList = new ArrayList<EHotelPriceElem>();
 
-            Query q = em.createNamedQuery("findOnePriceList");
-            q.setParameter(1, hotel.getId());
+            Query q = JUtils.createHotelQuery(em, hotel, "findOnePriceList");
             q.setParameter(2, priceList);
             EHotelPriceList ePriceList = (EHotelPriceList) q.getSingleResult();
             // do not catch exception, one element is expected
 
             // remove all price elems
             q = em.createNamedQuery("deletePricesForHotelAndPriceList");
-            q.setParameter(1, hotel.getId());
-            q.setParameter(2, ePriceList);
+            q.setParameter(1, ePriceList);
             q.executeUpdate();
 
             // now analize elems
@@ -116,11 +114,7 @@ class HotelJpaPrices implements IHotelPriceElem {
                 String service = e.getService();
                 EHotelServices eS = mService.get(service);
                 if (eS == null) {
-                    q = em.createNamedQuery("findOneService");
-                    q.setParameter(1, hotel.getId());
-                    q.setParameter(2, service);
-                    eS = (EHotelServices) q.getSingleResult();
-                    // do not catch exception, single result is expected
+                    eS = JUtils.findService(em, hotel, service);
                 }
                 EHotelPriceElem eElem = new EHotelPriceElem();
                 eElem.setHotel(hotel.getId());
@@ -149,8 +143,8 @@ class HotelJpaPrices implements IHotelPriceElem {
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = em.createNamedQuery("deletePricesForHotel");
-            q.setParameter(1, hotel.getId());
+            Query q = JUtils
+                    .createHotelQuery(em, hotel, "deletePricesForHotel");
             q.executeUpdate();
 
         }

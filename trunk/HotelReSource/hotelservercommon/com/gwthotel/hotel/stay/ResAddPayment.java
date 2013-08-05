@@ -10,40 +10,37 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.reservation;
+package com.gwthotel.hotel.stay;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
 
-public class ReservationDetail extends PropDescription {
+public class ResAddPayment extends AbstractResHotelGuest {
 
     private static final long serialVersionUID = 1L;
 
-    private Date resDate;
-
-    private int noP;
-
+    private int quantity;
+    private Date servDate;
     private BigDecimal price;
-
     private BigDecimal priceList;
+    private BigDecimal priceTotal;
 
-    public Date getResDate() {
-        return resDate;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setResDate(Date resDate) {
-        this.resDate = resDate;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public int getNoP() {
-        return noP;
+    public Date getServDate() {
+        return servDate;
     }
 
-    public void setNoP(int noP) {
-        this.noP = noP;
+    public void setServDate(Date servDate) {
+        this.servDate = servDate;
     }
 
     public BigDecimal getPrice() {
@@ -54,28 +51,28 @@ public class ReservationDetail extends PropDescription {
         this.price = price;
     }
 
-    public void setService(String service) {
-        setAttr(IHotelConsts.RESDETSERVICENAMEPROP, service);
-    }
-
-    public String getService() {
-        return getAttr(IHotelConsts.RESDETSERVICENAMEPROP);
-    }
-
-    public void setRoom(String roomName) {
-        setAttr(IHotelConsts.RESDETROOMNAMEPROP, roomName);
-    }
-
-    public String getRoom() {
-        return getAttr(IHotelConsts.RESDETROOMNAMEPROP);
-    }
-
     public BigDecimal getPriceList() {
         return priceList;
     }
 
     public void setPriceList(BigDecimal priceList) {
         this.priceList = priceList;
+    }
+
+    public BigDecimal getPriceTotal() {
+        return priceTotal;
+    }
+
+    public void setPriceTotal(BigDecimal priceTotal) {
+        this.priceTotal = priceTotal;
+    }
+
+    public void setServiceName(String name) {
+        setAttr(IHotelConsts.RESADDSERVICE, name);
+    }
+
+    public String getServiceName() {
+        return getAttr(IHotelConsts.RESADDSERVICE);
     }
 
 }

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
@@ -27,6 +26,7 @@ import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelProp;
 import com.gwthotel.hotel.jpa.entities.EHotelDict;
+import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
@@ -83,31 +83,8 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             return getElem(em, elem.getName());
         }
 
-        protected Query createHotelQuery(EntityManager em, String query) {
-            Query q = em.createNamedQuery(query);
-            q.setParameter(1, hotel.getId());
-            return q;
-        }
-
-    }
-
-    protected void executeElemQuery(EntityManager em, HotelId hotel,
-            String[] qList, E elem) {
-        for (String query : qList) {
-            Query q = em.createNamedQuery(query);
-            q.setParameter(1, hotel.getId());
-            q.setParameter(2, elem);
-            q.executeUpdate();
-        }
-
-    }
-
-    protected void executeHotelQuery(EntityManager em, HotelId hotel,
-            String[] qList) {
-        for (String query : qList) {
-            Query q = em.createNamedQuery(query);
-            q.setParameter(1, hotel.getId());
-            q.executeUpdate();
+        protected EHotelServices findService(EntityManager em, String s) {
+            return JUtils.findService(em, hotel, s);
         }
 
     }
@@ -138,9 +115,8 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
 
         @Override
         protected void dosth(EntityManager em) {
-            // Query q = em.createNamedQuery(queryMap[GETALLQUERY]);
-            // q.setParameter(1, hotel.getId());
-            Query q = this.createHotelQuery(em, queryMap[GETALLQUERY]);
+            Query q = JUtils.createHotelQuery(em, hotel, queryMap[GETALLQUERY]);
+            @SuppressWarnings("unchecked")
             List<E> list = q.getResultList();
             for (E p : list) {
                 T rec = createT(em, p, hotel);

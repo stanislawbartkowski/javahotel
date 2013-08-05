@@ -14,10 +14,10 @@ package com.gwthotel.hotel.jpa.clearobjects;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.IClearHotel;
+import com.gwthotel.hotel.jpa.JUtils;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
@@ -41,17 +41,12 @@ public class ClearObjects implements IClearHotel {
 
         @Override
         protected void dosth(EntityManager em) {
-            String[] remQuery = {"deleteAllReservationsDetails","deleteAllReservations",
+            String[] remQuery = { "deleteAllAddPayment", "deleteAllGuestsReservationFromHotel",
+                    "deleteAllReservationsDetails", "deleteAllReservations",
                     "deleteAllCustomers", "deleteAllRoomServices",
                     "deletePricesForHotel", "deleteAllRooms",
                     "deleteAllPriceLists", "deleteAllServices" };
-
-            for (String r : remQuery) {
-                Query q = em.createNamedQuery(r);
-                q.setParameter(1, hotel.getId());
-                q.executeUpdate();
-            }
- 
+            JUtils.runQueryForHotels(em, hotel, remQuery);
         }
 
     }

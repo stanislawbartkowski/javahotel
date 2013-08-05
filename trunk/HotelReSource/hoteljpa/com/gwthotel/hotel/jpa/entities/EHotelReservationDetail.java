@@ -59,6 +59,17 @@ public class EHotelReservationDetail {
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Column(nullable = true)
+    private BigDecimal priceList;
+
+    public BigDecimal getPriceList() {
+        return priceList;
+    }
+
+    public void setPriceList(BigDecimal priceList) {
+        this.priceList = priceList;
+    }
+
     public EHotelRoom getRoom() {
         return room;
     }

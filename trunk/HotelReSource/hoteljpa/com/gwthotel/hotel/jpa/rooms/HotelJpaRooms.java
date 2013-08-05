@@ -60,18 +60,17 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
 
     @Override
     protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-        Query q = em.createNamedQuery("deleteAllRoomServices");
-        q.setParameter(1, hotel.getId());
-        q.executeUpdate();
+        String[] queryS = { "deleteAllRoomServices",
+                "deleteAllGuestsReservationFromHotel" };
+        JUtils.runQueryForHotels(em, hotel, queryS);
     }
 
     @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelRoom elem) {
-        Query q = em.createNamedQuery("deleteServicesForRoom");
-        q.setParameter(1, hotel.getId());
-        q.setParameter(2, elem);
-        q.executeUpdate();
+        String[] queryS = { "deleteAllAddPaymentForRoom",
+                "deleteServicesForRoom", "deleteGuestForRoom" };
+        JUtils.runQueryForObject(em, elem, queryS);
     }
 
     private class SetRoomServices extends doTransaction {
@@ -90,15 +89,10 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
             EHotelRoom r = getElem(em, roomName);
             // TODO: more descriptive log in null
             Query q = em.createNamedQuery("deleteServicesForRoom");
-            q.setParameter(1, hotel.getId());
-            q.setParameter(2, r);
+            q.setParameter(1, r);
             q.executeUpdate();
             for (String s : services) {
-                q = em.createNamedQuery("findOneService");
-                q.setParameter(1, hotel.getId());
-                q.setParameter(2, s);
-                EHotelServices se = (EHotelServices) q.getSingleResult();
-                // do not catch exception
+                EHotelServices se = JUtils.findService(em, hotel, s);
                 EHotelRoomServices eServ = new EHotelRoomServices();
                 eServ.setHotel(hotel.getId());
                 eServ.setRoom(r);
@@ -128,9 +122,9 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = em.createNamedQuery("findServicesForRoom");
-            q.setParameter(1, hotel.getId());
+            Query q = JUtils.createHotelQuery(em, hotel, "findServicesForRoom");
             q.setParameter(2, roomName);
+            @SuppressWarnings("unchecked")
             List<EHotelRoomServices> rList = q.getResultList();
             for (EHotelRoomServices r : rList) {
                 eList.add(JUtils.toT(r.getService()));

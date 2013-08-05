@@ -19,6 +19,7 @@ import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
@@ -58,18 +59,15 @@ class HotelJpaPriceList extends
 
     @Override
     protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-        Query q = em.createNamedQuery("deletePricesForHotel");
-        q.setParameter(1, hotel.getId());
-        q.executeUpdate();
+        String[] queryL = { "deletePricesForHotel" };
+        JUtils.runQueryForHotels(em, hotel, queryL);
     }
 
     @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelPriceList elem) {
-        Query q = em.createNamedQuery("deletePricesForHotelAndPriceList");
-        q.setParameter(1, hotel.getId());
-        q.setParameter(2, elem);
-        q.executeUpdate();
+        String[] queryL = { "deletePricesForHotelAndPriceList" };
+        JUtils.runQueryForObject(em, elem, queryL);
     }
 
 }

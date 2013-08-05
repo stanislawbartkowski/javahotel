@@ -12,8 +12,8 @@
  */
 package com.gwthotel.hotel.services;
 
-import com.gwthotel.hotel.IHotelProp;
-
-public interface IHotelServices extends IHotelProp<HotelServices> {
+public enum ServiceType {
+    
+    HOTEL, OTHER
 
 }

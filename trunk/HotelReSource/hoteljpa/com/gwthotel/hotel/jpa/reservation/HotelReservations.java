@@ -24,6 +24,7 @@ import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
+import com.gwthotel.hotel.jpa.entities.EHotelGuest;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
@@ -31,10 +32,10 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservation.ReservationDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
+import com.gwthotel.hotel.stay.ResGuest;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jython.ui.shared.MUtil;
 
 class HotelReservations extends
         AbstractJpaCrud<ReservationForm, EHotelReservation> implements
@@ -52,10 +53,12 @@ class HotelReservations extends
         ReservationForm ho = new ReservationForm();
         ho.setCustomerName(sou.getCustomer().getName());
         ho.setStatus(sou.getStatus());
+        // reservation details
         for (EHotelReservationDetail r : sou.getResDetails()) {
             ReservationDetail det = new ReservationDetail();
             det.setNoP(r.getNoP());
             det.setPrice(r.getPrice());
+            det.setPriceList(r.getPriceList());
             det.setResDate(r.getResDate());
             if (r.getRoom() != null)
                 det.setAttr(IHotelConsts.RESDETROOMNAMEPROP, r.getRoom()
@@ -92,12 +95,13 @@ class HotelReservations extends
             }
             String serviceName = r.getService();
             if (!CUtil.EmptyS(serviceName)) {
-                EHotelServices serv = JUtils.getElemE(em, hotel,
-                        "findOneService", serviceName);
+                EHotelServices serv = JUtils
+                        .findService(em, hotel, serviceName);
                 d.setService(serv);
             }
             d.setNoP(r.getNoP());
             d.setPrice(r.getPrice());
+            d.setPriceList(r.getPriceList());
             d.setResDate(r.getResDate());
             d.setReservation(dest);
             lDetails.add(d);
@@ -107,20 +111,18 @@ class HotelReservations extends
 
     @Override
     protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-        Query q = em.createNamedQuery("deleteAllReservationsDetails");
-        q.setParameter(1, hotel.getId());
-        q.executeUpdate();
-
+        String[] queryS = { "deleteAllReservationsDetails",
+                "deleteAllGuestsReservationFromHotel", "deleteAllAddPayment" };
+        JUtils.runQueryForHotels(em, hotel, queryS);
     }
 
     @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelReservation elem) {
-        Query q = em
-                .createNamedQuery("deleteAllReservationsDetailsForReservation");
-        q.setParameter(1, elem);
-        q.executeUpdate();
-
+        String[] queryS = { "deleteAllReservationsDetailsForReservation",
+                "deleteGuestsFromReservation",
+                "deleteAllAddPaymentForReservation" };
+        JUtils.runQueryForObject(em, elem, queryS);
     }
 
 }

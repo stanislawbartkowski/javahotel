@@ -7,11 +7,9 @@
 		<import>from hotelpack.reservation import reservation</import>
 		<method>reservation.reservationaction({0},{1})</method>
 	</jython>
-	
-	
 
-	<dateline id="reservation" displayname="Reservation" lineid="name" defafile="empty"
-		colno="10">
+	<dateline id="reservation" displayname="Reservation" lineid="name"
+		defafile="empty" colno="10">
 		<columns>
 			<column id="name" displayname="@name" />
 			<column id="noperson" displayname="no" type="int" />

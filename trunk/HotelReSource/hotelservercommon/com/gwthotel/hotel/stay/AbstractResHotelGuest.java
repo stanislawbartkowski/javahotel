@@ -10,36 +10,28 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.services;
+package com.gwthotel.hotel.stay;
 
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 
-public class HotelServices extends PropDescription {
+@SuppressWarnings("serial")
+public abstract class AbstractResHotelGuest extends PropDescription {
 
-    private static final long serialVersionUID = 1L;
-
-    private int noPersons;
-    private ServiceType serviceType = ServiceType.HOTEL;
-
-    public int getNoPersons() {
-        return noPersons;
+    public String getGuestName() {
+        return getAttr(IHotelConsts.RESGUESTCUSTID);
     }
 
-    public ServiceType getServiceType() {
-        return serviceType;
+    public void setGuestName(String name) {
+        setAttr(IHotelConsts.RESGUESTCUSTID, name);
     }
 
-    public void setServiceType(ServiceType serviceType) {
-        this.serviceType = serviceType;
+    public String getRoomName() {
+        return getAttr(IHotelConsts.RESGUESTROOMID);
     }
 
-    public void setNoPersons(int noPersons) {
-        this.noPersons = noPersons;
-    }
-
-    public void setVat(String vat) {
-        setAttr(IHotelConsts.VATPROP, vat);
+    public void setRoomName(String name) {
+        setAttr(IHotelConsts.RESGUESTROOMID, name);
     }
 
 }

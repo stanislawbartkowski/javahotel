@@ -6,6 +6,7 @@ from java.math import BigDecimal
 from com.gwthotel.hotel import HotelObjects
 from com.gwthotel.hotel.reservationop import ResQuery
 from com.gwthotel.hotel.reservation import ReservationDetail
+import cutil
 
 class MESS :
 
@@ -129,6 +130,13 @@ class RESOP :
      def changeStatus(self,resId,status):
          self.service.changeStatus(getHotelName(self.var),resId,status)
          
+     def setResGuestList(self,resId,list):
+         self.service.setResGuestList(getHotelName(self.var),resId,list)
+         
+     def getResGuestList(self,resId):
+         return self.service.getResGuestList(getHotelName(self.var),resId)
+         
+         
 class RESFORM(SERVICES) :
 
     def __init__(self,var):
@@ -136,10 +144,8 @@ class RESFORM(SERVICES) :
         self.serviceS = H.getResForm()
   
 def printvar(method,action,var): 
+    cutil.printVar(method,action,var)
 #  return  
-  print method + " action = " + action
-  for k in var.keys() : 
-    print k + " " + str(var[k])
  
 def createArrayList() :
   return ArrayList()   
@@ -168,11 +174,7 @@ def findElemInSeq(pname,seq):
           
 
 def toDate(value):
-    if value == None : return None
-    ca = Calendar.getInstance()
-    ca.clear()
-    ca.set(value.year,value.month-1,value.day)
-    return ca.getTime()
+    return cutil.toDate(value)
 
 # d1 : datetime
 # d2 : java.util.Date
@@ -248,8 +250,7 @@ def newResForm(var):
     return c.getO(1)   
 
 def setCopy(var,li) :
-  for l in li :
-    var["JCOPY_"+l] = True   
+  cutil.setCopy(var,li)  
     
 def getCustFieldId():
     return ["firstname","companyname","street","zipcode","email","phone"]
