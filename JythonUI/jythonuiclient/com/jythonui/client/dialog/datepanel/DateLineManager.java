@@ -416,7 +416,7 @@ public class DateLineManager implements ISetGetVar {
             @Override
             public VListHeaderContainer getHeaderList() {
                 ColumnsDesc desc = CreateForm.constructColumns(
-                        dList.getColList(), null);
+                        dList.getColList(), null, null);
                 rowCol = desc.colvisNo;
                 // for (VListHeaderDesc v : vList)
                 // if (!v.isHidden())

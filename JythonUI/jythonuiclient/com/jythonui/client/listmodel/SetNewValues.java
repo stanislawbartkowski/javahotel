@@ -13,14 +13,14 @@
 package com.jythonui.client.listmodel;
 
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
-import com.jythonui.client.util.RowVModelData;
 
-class SetNewValues extends CustomObjectValue<RowVModelData> {
+class SetNewValues extends CustomObjectValue<VModelData> {
 
-    SetNewValues(RowVModelData value) {
+    SetNewValues(VModelData value) {
         super(value);
     }
 

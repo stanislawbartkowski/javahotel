@@ -23,6 +23,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
@@ -163,6 +164,7 @@ public class RowListDataManager implements ISetGetVar {
             String jKey = ICommonConsts.JEDITROWYESACTION + s;
             FieldValue val = var.getValue(jKey);
             final RowVModelData vData = new RowVModelData(rMap.get(dType));
+            final VModelData lData = new VModelData();
             final MutableInteger mu = new MutableInteger(0);
             JUtils.IFieldVisit iVisit = new JUtils.IFieldVisit() {
 
@@ -172,6 +174,7 @@ public class RowListDataManager implements ISetGetVar {
                         return;
                     mu.inc();
                     vData.setF(v, val.getValue());
+                    lData.setF(v, val.getValue());
                 }
             };
 
@@ -190,7 +193,7 @@ public class RowListDataManager implements ISetGetVar {
                 CustomStringSlot sl = RowActionOk.constructSignal(dType);
                 iSlo.getSlContainer().publish(sl, signal);
             } else if (mu.intValue() > 0) {
-                SetNewValues signal = new SetNewValues(vData);
+                SetNewValues signal = new SetNewValues(lData);
                 CustomStringSlot sl = SetNewValues.constructSignal(dType);
                 iSlo.getSlContainer().publish(sl, signal);
             }
