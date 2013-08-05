@@ -12,10 +12,11 @@
  */
 package com.jythonui.server.ejb;
 
+import java.util.List;
+
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
-abstract public class AbstractStorageJpaRegistry implements
-        IStorageRealmRegistry {
+abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
 
     protected IStorageRealmRegistry iStorage;
 
@@ -32,5 +33,10 @@ abstract public class AbstractStorageJpaRegistry implements
     @Override
     public void removeEntry(String realM, String key) {
         iStorage.removeEntry(realM, key);
+    }
+
+    @Override
+    public List<String> getKeys(String realM) {
+        return iStorage.getKeys(realM);
     }
 }
