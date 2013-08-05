@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Check in">
+
+	<before />
+
+	<jython>
+		<import>from hotelpack.reservation import checkin</import>
+		<method>checkin.checkinaction({0},{1})</method>
+	</jython>
+
+	<buttons>
+		<button id="accept" displayname="Check in" />
+		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+	</buttons>
+	
+	<list id="checkinlist" displayname="Persons to rooms" pagesize="5">
+		<standbutt>TOOLS,FIND,FILTER</standbutt>
+		<columns>
+			<column id="roomid" displayname="Room name" />
+			<column id="roomdesc" displayname="Description" />
+		</columns>
+	</list>
+
+
+
+</dialog>

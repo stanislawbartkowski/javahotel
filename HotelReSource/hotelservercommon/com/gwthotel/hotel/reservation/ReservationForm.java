@@ -15,6 +15,7 @@ package com.gwthotel.hotel.reservation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwthotel.hotel.stay.ResGuest;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 
@@ -45,5 +46,5 @@ public class ReservationForm extends PropDescription {
     public void setStatus(ResStatus status) {
         this.status = status;
     }
-
+  
 }

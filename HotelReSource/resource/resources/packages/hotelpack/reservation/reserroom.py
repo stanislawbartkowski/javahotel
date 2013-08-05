@@ -103,6 +103,7 @@ def _setvarBefore(var):
     assert len(res) == 1
     resname = res[0].getResId()
     assert resname != None
+    print "resname",resname,"!!!!"
     RFORM = RESFORM(var)
     reservation = RFORM.findElem(resname)
     assert reservation != None

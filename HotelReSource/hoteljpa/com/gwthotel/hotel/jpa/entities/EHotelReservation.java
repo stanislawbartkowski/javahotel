@@ -38,7 +38,7 @@ public class EHotelReservation extends EHotelDict {
     @Column(nullable = false)
     private ResStatus status;
 
-    @OrderBy("room.name,resDate")
+    @OrderBy("room,resDate")
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL )
     private List<EHotelReservationDetail> resDetails;
 
@@ -48,11 +48,11 @@ public class EHotelReservation extends EHotelDict {
     public List<EHotelReservationDetail> getResDetails() {
         return resDetails;
     }
-
+    
     public void setResDetails(List<EHotelReservationDetail> resDetails) {
         this.resDetails = resDetails;
     }
-
+    
     public EHotelCustomer getCustomer() {
         return customer;
     }

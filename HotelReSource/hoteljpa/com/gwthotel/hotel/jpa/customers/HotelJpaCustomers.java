@@ -13,6 +13,7 @@
 package com.gwthotel.hotel.jpa.customers;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HUtils;
@@ -21,6 +22,7 @@ import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 
@@ -54,13 +56,16 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
 
     @Override
     protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-
+        String[] lQuery = { "deleteAllGuestsReservationFromHotel" };
+        JUtils.runQueryForHotels(em, hotel, lQuery);
     }
 
     @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelCustomer elem) {
-
+        String[] lQuery = { "deleteGuestForCustomer",
+                "deleteAllAddPaymentForCustomer" };
+        JUtils.runQueryForObject(em, elem, lQuery);
     }
 
 }

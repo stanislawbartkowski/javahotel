@@ -30,8 +30,8 @@ import javax.persistence.UniqueConstraint;
         "service", "pricelist" }))
 @NamedQueries({
         @NamedQuery(name = "deletePricesForHotel", query = "DELETE FROM EHotelPriceElem x WHERE x.hotel = ?1"),
-        @NamedQuery(name = "deletePricesForHotelAndPriceList", query = "DELETE FROM EHotelPriceElem x WHERE x.hotel = ?1 AND x.pricelist=?2"),
-        @NamedQuery(name = "deletePricesForHotelAndService", query = "DELETE FROM EHotelPriceElem x WHERE x.hotel = ?1 AND x.service=?2"),
+        @NamedQuery(name = "deletePricesForHotelAndPriceList", query = "DELETE FROM EHotelPriceElem x WHERE x.pricelist=?1"),
+        @NamedQuery(name = "deletePricesForHotelAndService", query = "DELETE FROM EHotelPriceElem x WHERE x.service=?1"),
         @NamedQuery(name = "findPricesForPriceList", query = "SELECT x FROM EHotelPriceElem x WHERE x.hotel = ?1 AND x.pricelist.name = ?2") })
 public class EHotelPriceElem {
 

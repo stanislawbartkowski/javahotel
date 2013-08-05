@@ -16,11 +16,21 @@ import java.util.List;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.reservation.ResStatus;
+import com.gwthotel.hotel.stay.ResAddPayment;
+import com.gwthotel.hotel.stay.ResGuest;
 
 public interface IReservationOp {
 
     List<ResData> queryReservation(HotelId hotel, List<ResQuery> rQuery);
 
     void changeStatus(HotelId hotel, String resName, ResStatus newStatus);
+
+    void setResGuestList(HotelId hotel, String resName, List<ResGuest> gList);
+
+    List<ResGuest> getResGuestList(HotelId hotel, String resName);
+
+    void AddResAddPayment(HotelId hotel, String resName, ResAddPayment add);
+
+    List<ResAddPayment> getRedAddPaymentList(HotelId hotel, String resName);
 
 }
