@@ -513,7 +513,10 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
         public ISlotSignalContext call(ISlotSignalContext slContext) {
             ICustomObject o = slContext.getCustom();
             GetVListSignal e = (GetVListSignal) o;
-            List<IGetSetVField> vList = tableView.getVList(e.getValue());
+            int row = e.getValue();
+            if (row == -1)
+                row = tableView.getClicked().getChoosedLine();
+            List<IGetSetVField> vList = tableView.getVList(row);
             e = new GetVListSignal(vList);
             return coFactory.construct(slContext.getSlType(), e);
         }
@@ -807,13 +810,6 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
             // TODO: temporary
             // tableView.setClicked(row, false);
-//            LogT.getLT().info("table view lost focus " + row);
-//            if (before) {
-//                WChoosedLine newRow = new WChoosedLine(row, w, v);
-//                if (handleChange.fullChange) {
-//                    handleChange.nextClicked(newRow);
-//                }
-//            }
 
             editSynch.signalUndone();
             if (w == null) {
