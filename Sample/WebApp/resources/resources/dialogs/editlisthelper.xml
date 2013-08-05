@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+	<before />
+
+	<types>typesenum.xml</types>
+
+	<jython>
+		<import>from testpack import listedithelper</import>
+		<method>listedithelper.doaction({0},{1})</method>
+	</jython>
+
+	<list id="listda" displayname="List with helpers" aftereditrow="">
+		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+		<columns>
+			<column id="id" displayname="id" type="long" />
+			<column id="date1" displayname="Start date" type="date"
+				editable="" notempty="" />
+			<column id="nameid" displayname="Name" helper=""
+				editable="" notempty="" />
+			<column id="comboid" displayname="Select" type="custom:tenum" editable="" notempty="" />
+		</columns>
+	</list>
+
+
+</dialog>
