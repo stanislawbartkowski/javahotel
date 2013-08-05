@@ -22,6 +22,7 @@ import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGetSetVField;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -29,6 +30,7 @@ import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.VModelData;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
@@ -67,6 +69,7 @@ import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
 import com.gwtmodel.table.slotmodel.SlotType;
+import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
@@ -76,6 +79,7 @@ import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.client.util.CreateForm;
+import com.jythonui.client.util.CreateForm.ISelectFactory;
 import com.jythonui.client.util.CreateSearchVar;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.JUtils;
@@ -242,6 +246,16 @@ class ListControler {
                 changeToEdit(sig.getValue());
             }
 
+        }
+
+        private int getI() {
+            if (lastF != null) {
+                return lastF.getValue().getChoosedLine();
+            }
+            if (lastC != null) {
+                return lastC.getValue();
+            }
+            return -1;
         }
 
         private IVModelData getV() {
@@ -612,6 +626,76 @@ class ListControler {
 
         }
 
+        private class ColumnHelper implements IColumnImageSelect {
+
+            private final IVField v;
+            private final String helperAction;
+
+            ColumnHelper(IVField v, FieldItem fi) {
+                this.v = v;
+                String h = fi.getAttr(ICommonConsts.HELPER);
+                if (CUtil.EmptyS(h))
+                    h = ICommonConsts.HELPER;
+                this.helperAction = h;
+            }
+
+            @Override
+            public String getImage() {
+                return null;
+            }
+
+            @Override
+            public String getImageHint() {
+                return null;
+            }
+
+            @Override
+            public void executeImage(String val, int row, WSize w,
+                    IExecuteSetString i) {
+                DialogVariables var = iCon.getVariables(helperAction);
+                ListFormat fo = rM.getFormat(dType);
+                var.setValueS(ICommonConsts.SIGNALCHANGEFIELD, v.getId());
+                executeAction(var, fo, w, helperAction);
+            }
+
+        }
+
+        private class SelectFactory implements ISelectFactory {
+
+            @Override
+            public IColumnImageSelect construct(IVField v, FieldItem f) {
+                return new ColumnHelper(v, f);
+            }
+
+        }
+
+        ISelectFactory construct() {
+            return new SelectFactory();
+        }
+
+        private class ChangeValues implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                SetNewValues vals = (SetNewValues) i;
+                VModelData row = vals.getValue();
+                List<IGetSetVField> eList = SlU.getVListFromEditTable(dType,
+                        DataListPersistAction.this, getI());
+                IVModelData vD = getV();
+                for (IVField f : row.getF()) {
+                    for (IGetSetVField ii : eList) {
+                        if (ii.getV().eq(f)) {
+                            ii.setValObj(row.getF(f));
+                            vD.setF(f, row.getF(f));
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+
         DataListPersistAction(IDataType d, RowListDataManager rM,
                 IVariablesContainer iCon, ICreateBackActionFactory bFactory) {
             this.dType = d;
@@ -648,6 +732,8 @@ class ListControler {
                     new NextRowListener());
             registerSubscriber(AfterRowOk.constructSignal(d),
                     new AfterRowActionOk());
+            registerSubscriber(SetNewValues.constructSignal(d),
+                    new ChangeValues());
         }
 
     }
@@ -656,17 +742,20 @@ class ListControler {
             IHeaderListContainer {
 
         private final RowListDataManager rM;
+        private final ISelectFactory iSelect;
 
-        HeaderList(IDataType dType, RowListDataManager rM) {
+        HeaderList(IDataType dType, RowListDataManager rM,
+                ISelectFactory iSelect) {
             this.rM = rM;
             this.dType = dType;
+            this.iSelect = iSelect;
         }
 
         @Override
         public void startPublish(CellId cellId) {
             ListFormat fo = rM.getFormat(dType);
             VListHeaderContainer vHeader = CreateForm.constructColumns(rM
-                    .getDialogInfo().getSecurity(), fo);
+                    .getDialogInfo().getSecurity(), fo, iSelect);
             publish(dType, vHeader);
         }
 
@@ -677,9 +766,10 @@ class ListControler {
             ICreateBackActionFactory bFactory) {
 
         // create factories
-        IDataPersistListAction iPersist = new DataListPersistAction(da, rM,
+        DataListPersistAction iPersist = new DataListPersistAction(da, rM,
                 iCon, bFactory);
-        IHeaderListContainer heList = new HeaderList(da, rM);
+        IHeaderListContainer heList = new HeaderList(da, rM,
+                iPersist.construct());
         IDataModelFactory dataFactory = new DataModel(rM);
         IFormTitleFactory formFactory = new IFormTitleFactory() {
 

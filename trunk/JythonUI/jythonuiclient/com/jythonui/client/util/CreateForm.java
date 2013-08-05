@@ -19,6 +19,7 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
@@ -28,6 +29,7 @@ import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
@@ -59,6 +61,11 @@ public class CreateForm {
             name = M.J().DefaStringName();
         }
         return name;
+    }
+
+    public interface ISelectFactory {
+
+        IColumnImageSelect construct(IVField v,FieldItem f);
     }
 
     public static FormLineContainer construct(DialogInfo dInfo,
@@ -149,7 +156,7 @@ public class CreateForm {
     }
 
     public static ColumnsDesc constructColumns(List<FieldItem> fList,
-            DialSecurityInfo lInfo) {
+            DialSecurityInfo lInfo, ISelectFactory sFactory) {
         ColumnsDesc desc = new ColumnsDesc();
         List<VListHeaderDesc> heList = desc.hList;
         for (FieldItem f : fList) {
@@ -165,9 +172,14 @@ public class CreateForm {
                 al = VListHeaderDesc.ColAlign.CENTER;
             }
             // TODO: can be null for combo, check it later
+            IColumnImageSelect iHelper = null;
+            if (f.isHelper() && sFactory != null) {
+                iHelper = sFactory.construct(vf,f);
+            }
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
                     lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
-                    f.getActionId(), f.isColumnEditable(), al, f.getWidth());
+                    f.getActionId(), f.isColumnEditable(), al, f.getWidth(),
+                    null, null, iHelper, 0);
             heList.add(v);
             if (!f.isHidden())
                 desc.colvisNo++;
@@ -182,9 +194,9 @@ public class CreateForm {
     }
 
     public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
-            ListFormat l) {
+            ListFormat l, ISelectFactory sFactory) {
         DialSecurityInfo lInfo = sInfo.getListSecur().get(l.getId());
-        ColumnsDesc desc = constructColumns(l.getColumns(), lInfo);
+        ColumnsDesc desc = constructColumns(l.getColumns(), lInfo, sFactory);
         String lName = l.getDisplayName();
         return new VListHeaderContainer(desc.hList, lName, l.getPageSize(),
                 null, l.getWidth(), null, desc.footList);
