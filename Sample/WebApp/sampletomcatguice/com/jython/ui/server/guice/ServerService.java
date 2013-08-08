@@ -63,8 +63,6 @@ public class ServerService {
                     .in(Singleton.class);
             bind(ICommonCacheFactory.class).to(SimpleMapCacheFactory.class).in(
                     Singleton.class);
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
             bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(

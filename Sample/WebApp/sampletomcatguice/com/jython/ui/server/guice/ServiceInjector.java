@@ -19,6 +19,8 @@ import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.registry.IStorageRegistryFactory;
+import com.jythonui.server.storage.gensym.ISymGenerator;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 /**
  * @author hotel
@@ -43,13 +45,21 @@ public class ServiceInjector {
     public static IJythonUIServer contructJythonUiServer() {
         return injector.getInstance(IJythonUIServer.class);
     }
-    
+
     public static IDateRecordOp constructDateRecordOp() {
         return injector.getInstance(IDateRecordOp.class);
     }
-        
+
     public static IStorageRegistryFactory getStorageRegistryFactory() {
         return injector.getInstance(IStorageRegistryFactory.class);
+    }
+
+    public static ISymGenerator getSymGenerator() {
+        return injector.getInstance(ISymGenerator.class);
+    }
+    
+    public static ISequenceRealmGen getSequenceGen() {
+        return injector.getInstance(ISequenceRealmGen.class);
     }
 
     public static Injector getInjector() {
