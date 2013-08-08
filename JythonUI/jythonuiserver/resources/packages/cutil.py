@@ -1,5 +1,7 @@
 from java.util import Calendar
 from org.python.core.util import StringUtil
+import datetime
+import time
 
 def toDate(value):
     if value == None : return None
@@ -67,6 +69,104 @@ class StorageRegistry() :
          
      def getKeys(self):
          return self.r.getKeys()    
+
+class RegistryFile:
+    
+    def __init__(self,fa,realM,seqGen,map, listid,id):
+        self.__fa = fa
+        self.__realM = realM
+        self.__seqGen = seqGen
+        self.__key = "GEN_KEY";
+        self.__map = map
+        self.__listid = listid
+        self.__id = id
+        
+    def nextKey(self):
+        key = self.__seqGen.genNext(self.__realM, self.__key)
+        return key 
+    
+    def __getR(self):
+        return StorageRegistry(self.__fa,self.__realM)
+    
+    def __getRR(self,k):
+        return StorageRegistry(self.__fa,self.__realM + "---" + k)
+    
+    def __tostr(self,da):
+         return da.strftime("%Y-%m-%d")
+     
+    def __tod(self,s):
+             ti = time.strptime(s,"%Y-%m-%d")
+             da = datetime.date(ti.tm_year,ti.tm_mon,ti.tm_mday)
+             return da
+         
+    def __getMapRR(self,k):
+        RR = self.__getRR(k)
+        elem = {}
+        for id in self.__map.keys() :
+            type = self.__map[id]
+            val = RR.getEntryS(id)
+            if val == None: valt = None 
+            else :
+               if type == "long" :
+                   valt = long(val)
+               elif type == "date" :
+                   valt = self.__tod(val)
+               else : valt = val
+            elem[id] = valt
+        print elem    
+        return elem           
+                       
+    
+    def readList(self,var):
+        R = self.__getR()
+        l = R.getKeys()
+        li = []
+        for k in l : 
+            if k != self.__key : li.append(self.__getMapRR(k))
+        if var.has_key("JLIST_MAP") : var["JLIST_MAP"][self.__listid] = li
+        else: var["JLIST_MAP"] = { self.__listid : li }
+        
+    def __removeEntries(self,R):
+        for key in R.getKeys() :
+            R.removeEntry(key)                
+        
+    def addMap(self,var): 
+        id = var[self.__id]
+        if id == None : return
+        k = str(id)
+        R = self.__getR()
+        RR = self.__getRR(k)
+        self.__removeEntries(RR)
+            
+        for id in self.__map.keys() :
+            type = self.__map[id]
+            if var.has_key(id) :
+                val = var[id]
+                if type == "long" :
+                    vals = str(val)
+                elif type == "date" :
+                    vals = self.__tostr(val)
+                else : vals = val
+                RR.putEntry(id,vals)
+        R.putEntry(k,"")
+        
+    def removeMap(self,var):
+        id = var[self.__id]
+        if id == None : return
+        k = str(id)
+        R = self.__getR()
+        RR = self.__getRR(k)
+        for key in RR.getKeys() :
+            RR.removeEntry(key)
+        R.removeEntry(k)    
+        
+    def removeAll(self):
+        R = self.__getR()
+        for k in R.getKeys() :
+           RR = self.__getRR(k)
+           self.__removeEntries(RR)
+        self.__removeEntries(R)
+
 
 def printVar(name,action,var):
   print "================ " + name

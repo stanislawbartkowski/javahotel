@@ -29,28 +29,35 @@ public class VField implements IVField {
     private final String id;
     private final TT type;
     private final int afterdot;
+    private final FieldDataType.IGetListValues eList;
 
-    private VField(String id, TT type, int afterdot) {
+    private VField(String id, TT type, int afterdot,
+            FieldDataType.IGetListValues eList) {
         assert id != null : LogT.getT().cannotBeNull();
         this.id = id;
         this.type = type;
         this.afterdot = afterdot;
+        this.eList = eList;
     }
 
     public static VField construct(String id, TT type) {
-        return new VField(id, type, ICommonConsts.DEFAULTAFTERDOT);
+        return new VField(id, type, ICommonConsts.DEFAULTAFTERDOT, null);
+    }
+
+    public static VField construct(String id, FieldDataType.IGetListValues eList) {
+        return new VField(id, TT.STRING, 0, eList);
     }
 
     public static VField construct(FieldItem f) {
-        return new VField(f.getId(), f.getFieldType(), f.getAfterDot());
+        return new VField(f.getId(), f.getFieldType(), f.getAfterDot(), null);
     }
 
     public static VField construct(String fie, FieldValue f) {
-        return new VField(fie, f.getType(), f.getAfterdot());
+        return new VField(fie, f.getType(), f.getAfterdot(), null);
     }
 
     public static VField construct(String id) {
-        return new VField(id, TT.STRING, 0);
+        return new VField(id, TT.STRING, 0, null);
     }
 
     @Override
@@ -61,6 +68,9 @@ public class VField implements IVField {
 
     @Override
     public FieldDataType getType() {
+        if (eList != null) {
+            return FieldDataType.constructStringList(eList);
+        }
         if (type == TT.BIGDECIMAL) {
             return FieldDataType.constructBigDecimal(afterdot);
         }

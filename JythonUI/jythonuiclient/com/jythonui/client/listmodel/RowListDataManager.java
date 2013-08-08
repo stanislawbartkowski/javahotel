@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateMess;
@@ -32,6 +33,7 @@ import com.jythonui.client.M;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.dialog.VField;
+import com.jythonui.client.util.IConstructCustomDataType;
 import com.jythonui.client.util.JUtils;
 import com.jythonui.client.util.PerformVariableAction.VisitList;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
@@ -59,10 +61,12 @@ public class RowListDataManager implements ISetGetVar {
     private final Map<IDataType, RowIndex> rMap = new HashMap<IDataType, RowIndex>();
     private final DialogInfo dialogInfo;
     private final ISlotable iSlo;
+    private final IConstructCustomDataType tConstruct;
 
-    public RowListDataManager(DialogInfo dialogInfo, ISlotable iSlo) {
+    public RowListDataManager(DialogInfo dialogInfo, ISlotable iSlo,IConstructCustomDataType tConstruct) {
         this.dialogInfo = dialogInfo;
         this.iSlo = iSlo;
+        this.tConstruct = tConstruct;
     }
 
     /**
@@ -216,5 +220,22 @@ public class RowListDataManager implements ISetGetVar {
         }
 
     }
+
+    public void sendEnum(String customT, IDataListType dList) {
+
+        SendEnumToList eList = new SendEnumToList(customT, dList);
+
+        for (IDataType d : getList()) {
+            CustomStringSlot sl = SendEnumToList.constructSignal(d);
+            iSlo.getSlContainer().publish(sl, eList);
+        }
+
+    }
+
+    public IConstructCustomDataType gettConstruct() {
+        return tConstruct;
+    }
+    
+    
 
 }

@@ -18,11 +18,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Optional;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.AVModelData;
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.FieldDataType.IGetListValues;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetSetVField;
+import com.gwtmodel.table.IMapEntry;
 import com.gwtmodel.table.IOkModelData;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
@@ -36,6 +41,9 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonFactory;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.chooselist.ChooseListFactory;
+import com.gwtmodel.table.chooselist.ICallBackWidget;
+import com.gwtmodel.table.chooselist.IChooseList;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.controler.DataListParam;
@@ -74,11 +82,13 @@ import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 import com.gwtmodel.table.view.util.AbstractDataModel;
+import com.gwtmodel.table.view.util.ModalDialog;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.ICreateBackActionFactory;
 import com.jythonui.client.dialog.IPerformClickAction;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.client.util.CreateForm;
+import com.jythonui.client.util.CreateForm.IGetEnum;
 import com.jythonui.client.util.CreateForm.ISelectFactory;
 import com.jythonui.client.util.CreateSearchVar;
 import com.jythonui.client.util.ExecuteAction;
@@ -97,6 +107,7 @@ import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.MapDialogVariable;
 import com.jythonui.shared.RowContent;
 import com.jythonui.shared.RowIndex;
+import com.jythonui.shared.TypedefDescr;
 
 /**
  * @author hotel
@@ -586,9 +597,6 @@ class ListControler {
                 lastF = f;
                 ListFormat fo = rM.getFormat(dType);
                 IVModelData vData = getV();
-                // IVModelData vData = SlU.getVDataByI(dType,
-                // DataListPersistAction.this, f.getValue()
-                // .getChoosedLine());
                 List<InvalidateMess> err = ValidateForm.createErrList(vData,
                         fo.getColumns(), fo.getValList());
                 if (err != null) {
@@ -660,10 +668,94 @@ class ListControler {
 
         }
 
+        private class SelectTypeHelper implements IColumnImageSelect {
+
+            private class ChooseD implements ICallBackWidget<IVModelData> {
+
+                private final IExecuteSetString i;
+                private HelperDialog dia = null;
+
+                private class HelperDialog extends ModalDialog {
+
+                    private final IGWidget w;
+
+                    HelperDialog(IGWidget w) {
+                        // super(type.getDisplayName());
+                        super("");
+                        this.w = w;
+                        create();
+                    }
+
+                    @Override
+                    protected void addVP(VerticalPanel vp) {
+                        vp.add(w.getGWidget());
+                    }
+                }
+
+                ChooseD(IExecuteSetString i) {
+                    this.i = i;
+                }
+
+                @Override
+                public void setWidget(WSize ws, IGWidget w) {
+                    dia = new HelperDialog(w);
+                    dia.show(ws);
+                }
+
+                @Override
+                public void setChoosed(IVModelData vData, IVField comboFie) {
+                    String sy = FUtils.getValueS(vData, comboFie);
+                    i.setString(sy);
+                    dia.hide();
+                }
+
+                @Override
+                public void setResign() {
+                    dia.hide();
+                }
+
+            }
+
+            private final IVField v;
+            private final FieldItem f;
+            private final TypedefDescr type;
+
+            SelectTypeHelper(FieldItem f, IVField v) {
+                this.f = f;
+                this.v = v;
+                type = rM.getDialogInfo().getDialog()
+                        .findCustomType(f.getCustom());
+
+            }
+
+            @Override
+            public String getImage() {
+                return null;
+            }
+
+            @Override
+            public String getImageHint() {
+                return null;
+            }
+
+            @Override
+            public void executeImage(String val, int row, WSize w,
+                    IExecuteSetString i) {
+                ChooseListFactory fa = GwtGiniInjector.getI()
+                        .getChooseListFactory();
+                IDataType d = rM.gettConstruct().construct(f.getTypeName());
+                IChooseList iC = fa.constructChooseList(d, w, new ChooseD(i));
+            }
+
+        }
+
         private class SelectFactory implements ISelectFactory {
 
             @Override
             public IColumnImageSelect construct(IVField v, FieldItem f) {
+                if (!CUtil.EmptyS(f.getCustom())) {
+                    return new SelectTypeHelper(f, v);
+                }
                 return new ColumnHelper(v, f);
             }
 
@@ -743,20 +835,98 @@ class ListControler {
 
         private final RowListDataManager rM;
         private final ISelectFactory iSelect;
+        private final ListFormat fo;
+        private final Sy sy;
+
+        private final Map<String, IDataListType> enumMap = new HashMap<String, IDataListType>();
+
+        private class Sy extends SynchronizeList {
+
+            Sy(int no) {
+                super(no);
+            }
+
+            @Override
+            protected void doTask() {
+                IGetEnum iGet = new IGetEnum() {
+
+                    @Override
+                    public IGetListValues getEnum(String customT) {
+                        final IDataListType dList = enumMap.get(customT);
+                        if (dList == null)
+                            return null;
+                        return new IGetListValues() {
+
+                            @Override
+                            public List<IMapEntry> getList() {
+                                List<IMapEntry> eList = new ArrayList<IMapEntry>();
+                                for (final IVModelData v : dList.getList()) {
+                                    IMapEntry e = new IMapEntry() {
+
+                                        @Override
+                                        public String getKey() {
+                                            return (String) v.getF(dList
+                                                    .comboField());
+                                        }
+
+                                        @Override
+                                        public String getValue() {
+                                            return (String) v.getF(dList
+                                                    .displayComboField());
+                                        }
+
+                                    };
+                                    eList.add(e);
+                                }
+                                return eList;
+                            }
+
+                        };
+                    }
+
+                };
+                VListHeaderContainer vHeader = CreateForm.constructColumns(rM
+                        .getDialogInfo().getSecurity(), fo, iSelect, iGet);
+                publish(dType, vHeader);
+            }
+
+        }
 
         HeaderList(IDataType dType, RowListDataManager rM,
                 ISelectFactory iSelect) {
             this.rM = rM;
             this.dType = dType;
             this.iSelect = iSelect;
+            fo = rM.getFormat(dType);
+            registerSubscriber(SendEnumToList.constructSignal(dType),
+                    new GetEnumList());
+            int no = 1;
+            for (FieldItem f : fo.getColumns()) {
+                if (!CUtil.EmptyS(f.getCustom())) {
+                    TypedefDescr type = rM.getDialogInfo().getDialog()
+                            .findCustomType(f.getCustom());
+                    if (type.isComboType())
+                        no++;
+                }
+            }
+            sy = new Sy(no);
+        }
+
+        private class GetEnumList implements ISlotListener {
+
+            @Override
+            public void signal(ISlotSignalContext slContext) {
+                ICustomObject i = slContext.getCustom();
+                SendEnumToList s = (SendEnumToList) i;
+                enumMap.put(s.getCustomT(), s.getValue());
+                sy.signalDone();
+            }
+
         }
 
         @Override
         public void startPublish(CellId cellId) {
-            ListFormat fo = rM.getFormat(dType);
-            VListHeaderContainer vHeader = CreateForm.constructColumns(rM
-                    .getDialogInfo().getSecurity(), fo, iSelect);
-            publish(dType, vHeader);
+            sy.signalDone();
         }
 
     }

@@ -23,6 +23,7 @@ import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.Utils;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
+import com.jythonui.client.listmodel.RowListDataManager;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
@@ -33,9 +34,11 @@ import com.jythonui.shared.TypedefDescr;
 public class EnumTypesList {
 
     private final DialogFormat d;
+    private final RowListDataManager r;
 
-    public EnumTypesList(DialogFormat d) {
+    public EnumTypesList(DialogFormat d, RowListDataManager r) {
         this.d = d;
+        this.r = r;
     }
 
     private Map<IVField, String> vMap = new HashMap<IVField, String>();
@@ -46,18 +49,33 @@ public class EnumTypesList {
         TypedefDescr t = d.findCustomType(customType);
         if (t == null)
             Utils.errAlert(customType, M.M().CustomTypeNotDefine());
-        if (t == null)
-            Utils.errAlert(customType, M.M().CustomTypeNotDefine());
         EnumSynch sy = new EnumSynch();
-        sy.type = t;
+        sy.customT = customType;
         syMap.put(customType, sy);
+    }
+
+    private IDataListType constructI(String customT, ListOfRows r) {
+        TypedefDescr type = d.findCustomType(customT);
+        if (type == null)
+            Utils.errAlert(customT, M.M().CustomTypeNotDefine());
+        List<FieldItem> fList = type.getListOfColumns();
+        RowIndex rI = new RowIndex(fList);
+        String comboField = type.getAttr(ICommonConsts.COMBOID);
+        IVField v = VField.construct(comboField);
+        IVField displayV = null;
+        if (type.getDisplayName() != null) {
+            displayV = VField.construct(type.getDisplayName());
+        }
+        IDataListType dList = JUtils.constructList(rI, r, v, displayV);
+        return dList;
+
     }
 
     private class EnumSynch extends SynchronizeList {
 
         IGetDataListCallBack iCallBack;
         ListOfRows lRows;
-        TypedefDescr type;
+        String customT;
 
         EnumSynch() {
             super(2);
@@ -65,16 +83,7 @@ public class EnumTypesList {
 
         @Override
         protected void doTask() {
-            List<FieldItem> fList = type.getListOfColumns();
-            RowIndex rI = new RowIndex(fList);
-            String comboField = type.getAttr(ICommonConsts.COMBOID);
-            IVField v = VField.construct(comboField);
-            IVField displayV = null;
-            if (type.getDisplayName() != null) {
-                displayV = VField.construct(type.getDisplayName());
-            }
-            IDataListType dList = JUtils.constructList(rI, lRows, v, displayV);
-            iCallBack.set(dList);
+            iCallBack.set(constructI(customT, lRows));
         }
     }
 
@@ -87,6 +96,10 @@ public class EnumTypesList {
 
     public void add(String customType, ListOfRows lRows) {
         EnumSynch sy = syMap.get(customType);
+        // added 2013/08/05
+        r.sendEnum(customType, constructI(customType, lRows));
+        if (sy == null)
+            return;
         sy.lRows = lRows;
         sy.signalDone();
     }
