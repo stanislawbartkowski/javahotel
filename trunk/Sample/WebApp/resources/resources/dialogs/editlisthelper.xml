@@ -16,9 +16,12 @@
 			<column id="id" displayname="id" type="long" />
 			<column id="date1" displayname="Start date" type="date"
 				editable="" notempty="" />
-			<column id="nameid" displayname="Name" helper=""
+			<column id="nameid" displayname="Name" helper="" editable=""
+				notempty="" />
+			<column id="comboid" displayname="Combo" type="custom:tenum"
 				editable="" notempty="" />
-			<column id="comboid" displayname="Select" type="custom:tenum" editable="" notempty="" />
+			<column id="helperid" displayname="Helper" type="custom:tehelper"
+				editable="" notempty="" />
 		</columns>
 	</list>
 
