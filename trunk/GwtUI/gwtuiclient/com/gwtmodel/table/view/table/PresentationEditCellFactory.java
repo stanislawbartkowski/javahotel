@@ -164,7 +164,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
             co = iFactory.construct(he);
         } else {
             if (lis != null) {
-                co = selFactory.constructSeletionCol(he, lis, listT);
+                co = selFactory.constructSelectionCol(he, lis, listT);
             } else {
                 co = new TColumnEdit(v, new EditStringCell(he));
             }
@@ -195,8 +195,7 @@ class PresentationEditCellFactory extends PresentationEditCellHelper {
         // add div to have them vertically
 
         SafeHtml html = SafeHtmlUtils.fromTrustedString("<div title=\"" + title
-                + "\" >" + s
-                + "</div>");
+                + "\" >" + s + "</div>");
         return html;
     }
 

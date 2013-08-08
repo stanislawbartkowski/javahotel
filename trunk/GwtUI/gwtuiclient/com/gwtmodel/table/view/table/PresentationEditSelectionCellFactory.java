@@ -73,7 +73,9 @@ class PresentationEditSelectionCellFactory extends PresentationEditCellHelper {
                     this.setViewData(key, pvalue);
                     modifUpdate(false, key, v, null);
                 }
-                super.render(context, value, sb);
+                // added 2013/08/09
+                String idS = listT.getValueS(value);
+                super.render(context, idS, sb);
                 return;
             }
             String s = this.getViewData(key);
@@ -120,7 +122,7 @@ class PresentationEditSelectionCellFactory extends PresentationEditCellHelper {
     }
 
     @SuppressWarnings("rawtypes")
-    Column constructSeletionCol(VListHeaderDesc he, List<String> lis, AbstractListT listT) {
+    Column constructSelectionCol(VListHeaderDesc he, List<String> lis, AbstractListT listT) {
         assert !lis.isEmpty() : LogT.getT().SelectListCannotBeEmpty();
         final IVField v = he.getFie();
         Column co = new TColumnEdit(v,
