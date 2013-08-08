@@ -15,11 +15,11 @@ package com.jythonui.client.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.Utils;
-import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
@@ -61,11 +61,6 @@ public class CreateForm {
             name = M.J().DefaStringName();
         }
         return name;
-    }
-
-    public interface ISelectFactory {
-
-        IColumnImageSelect construct(IVField v,FieldItem f);
     }
 
     public static FormLineContainer construct(DialogInfo dInfo,
@@ -155,12 +150,32 @@ public class CreateForm {
         public int colvisNo = 0;
     }
 
+    public interface ISelectFactory {
+
+        IColumnImageSelect construct(IVField v, FieldItem f);
+    }
+
+    public interface IGetEnum {
+        FieldDataType.IGetListValues getEnum(String customT);
+    }
+
     public static ColumnsDesc constructColumns(List<FieldItem> fList,
-            DialSecurityInfo lInfo, ISelectFactory sFactory) {
+            DialSecurityInfo lInfo, ISelectFactory sFactory, IGetEnum iGet) {
         ColumnsDesc desc = new ColumnsDesc();
         List<VListHeaderDesc> heList = desc.hList;
         for (FieldItem f : fList) {
-            IVField vf = VField.construct(f);
+            IVField vf;
+            boolean isSelect = false;
+            if (!CUtil.EmptyS(f.getCustom()))
+                if (iGet.getEnum(f.getCustom()) != null)
+                    vf = VField.construct(f.getId(),
+                            iGet.getEnum(f.getCustom()));
+                else {
+                    isSelect = true;
+                    vf = VField.construct(f);
+                }
+            else
+                vf = VField.construct(f);
             VListHeaderDesc.ColAlign al = null;
             if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNL)) {
                 al = VListHeaderDesc.ColAlign.LEFT;
@@ -173,8 +188,8 @@ public class CreateForm {
             }
             // TODO: can be null for combo, check it later
             IColumnImageSelect iHelper = null;
-            if (f.isHelper() && sFactory != null) {
-                iHelper = sFactory.construct(vf,f);
+            if ((f.isHelper() || isSelect) && sFactory != null) {
+                iHelper = sFactory.construct(vf, f);
             }
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
                     lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
@@ -194,9 +209,10 @@ public class CreateForm {
     }
 
     public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
-            ListFormat l, ISelectFactory sFactory) {
+            ListFormat l, ISelectFactory sFactory, IGetEnum iGet) {
         DialSecurityInfo lInfo = sInfo.getListSecur().get(l.getId());
-        ColumnsDesc desc = constructColumns(l.getColumns(), lInfo, sFactory);
+        ColumnsDesc desc = constructColumns(l.getColumns(), lInfo, sFactory,
+                iGet);
         String lName = l.getDisplayName();
         return new VListHeaderContainer(desc.hList, lName, l.getPageSize(),
                 null, l.getWidth(), null, desc.footList);

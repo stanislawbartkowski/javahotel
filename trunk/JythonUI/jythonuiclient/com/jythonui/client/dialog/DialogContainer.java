@@ -117,7 +117,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         this.info = info;
         this.d = info.getDialog();
         this.dType = dType;
-        liManager = new RowListDataManager(info, slMediator);
+        liManager = new RowListDataManager(info, slMediator, new DTypeFactory());
         // not safe, reference is escaping
         dManager = new DateLineManager(this);
         if (pCon == null) {
@@ -365,7 +365,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         IPanelView pView = pViewFactory.construct(dType, cId);
         boolean emptyView = true;
         int pLine = 0;
-        EnumTypesList eList = new EnumTypesList(d);
+        EnumTypesList eList = new EnumTypesList(d, liManager);
         if (!d.getFieldList().isEmpty()) {
             FormLineContainer fContainer = CreateForm.construct(info,
                     new GetEnumList(eList), eList, new HelperW(),
@@ -472,7 +472,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                                 CustomStringSlot sl = ButtonCheckLostFocusSignal
                                         .constructSlotButtonCheckFocusSignal(da);
                                 ButtonCheckLostFocusSignal sign = new ButtonCheckLostFocusSignal(
-                                        bu.getActionId(),dType);
+                                        bu.getActionId(), dType);
                                 slMediator.getSlContainer().publish(sl, sign);
                             }
                         }
@@ -698,7 +698,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 }
             };
             JUtils.visitListOfFields(arg, ICommonConsts.JREFRESHDATELINE, visDL);
-            VerifyJError.isError(DialogContainer.this, dType, arg, DialogContainer.this);
+            VerifyJError.isError(DialogContainer.this, dType, arg,
+                    DialogContainer.this);
         }
     }
 
