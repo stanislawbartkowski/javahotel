@@ -9,6 +9,12 @@
 		<import>from testpack import listedithelper</import>
 		<method>listedithelper.doaction({0},{1})</method>
 	</jython>
+	
+	<buttons>
+	  <button id="clearbutton" displayname="Clear all data" actiontype="JYESNO_MESSAGE"
+			actionparam="Do you really want to clear all data ?" actionparam1="Warning before removing"
+			actionparam2="clearaction" />
+	</buttons>
 
 	<list id="listda" displayname="List with helpers" aftereditrow="">
 		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
