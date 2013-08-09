@@ -4,6 +4,8 @@ from cutil import RegistryFile
 from com.jython.ui.server.guice import ServiceInjector
 import datetime
 import time
+from cutil import setStandEditMode
+from cutil import setAddEditMode
             
 class LISTREGISTRY(RegistryFile):
 
@@ -19,11 +21,11 @@ def doaction(action,var):
     
     if action == "before" :
         F.readList(var)
-        var["JLIST_EDIT_listda_date1"] = ""
-        var["JLIST_EDIT_listda_nameid"] = ""
-        var["JLIST_EDIT_listda_comboid"] = ""
-        var["JLIST_EDIT_listda_helperid"] = ""
-        var["JLIST_EDIT_listda_MODE"] = "CHANGEMODE" 
+        setAddEditMode(var,"listda",["date1","nameid","comboid","helperid"])
+        
+    if action == "clearaction" :
+        F.removeAll()
+        F.readList(var)
         
     if action == "editlistrowaction" and var["JLIST_EDIT_ACTION_listda"] == "REMOVE" :
         F.removeMap(var)
