@@ -31,6 +31,7 @@
   <button id="editlist" displayname="Edit list" actiontype="JMAIN_DIALOG" actionparam="editlist.xml" />
   <button id="paymentforweek" displayname="Payment for week" actiontype="JMAIN_DIALOG" actionparam="paymentweek.xml" />
   <button id="editlisthelper" displayname="Edit list with helper" actiontype="JMAIN_DIALOG" actionparam="editlisthelper.xml" />
+  <button id="dialogres" displayname="Dialog with res" actiontype="JMAIN_DIALOG" actionparam="dialogwithres.xml" />
 </leftmenu>
 
 <buttons>
