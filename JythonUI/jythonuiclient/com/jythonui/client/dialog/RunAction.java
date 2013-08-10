@@ -29,6 +29,7 @@ import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.IJythonUIClient;
 import com.jythonui.client.M;
+import com.jythonui.client.util.IExecuteAfterModalDialog;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.RequestContextFactory;
 import com.jythonui.client.variables.IVariablesContainer;
@@ -141,21 +142,23 @@ public class RunAction implements IJythonUIClient {
         private final IVariablesContainer iCon;
         private final ISendCloseAction iClose;
         private final DialogVariables addV;
+        private final IExecuteAfterModalDialog iEx;
 
         StartBack(IDataType dType, ISlotListener getW,
                 IVariablesContainer iCon, ISendCloseAction iClose,
-                DialogVariables addV) {
+                DialogVariables addV, IExecuteAfterModalDialog iEx) {
             this.dType = dType;
             this.getW = getW;
             this.iCon = iCon;
             this.iClose = iClose;
             this.addV = addV;
+            this.iEx = iEx;
         }
 
         @Override
         public void onMySuccess(DialogInfo arg) {
             DialogContainer d = new DialogContainer(dType, arg, iCon, iClose,
-                    addV);
+                    addV, iEx);
             d.getSlContainer().registerSubscriber(
                     SendDialogFormSignal.constructSignal(dType),
                     new GetDialog());
@@ -170,9 +173,11 @@ public class RunAction implements IJythonUIClient {
     @Override
     public void start(String startdialogName) {
         IDataType dType = DataType.construct(startdialogName, null);
-        M.JR().getDialogFormat(RequestContextFactory.construct(),
+        M.JR().getDialogFormat(
+                RequestContextFactory.construct(),
                 startdialogName,
-                new StartBack(dType, new GetCenterWidget(), null, null, null));
+                new StartBack(dType, new GetCenterWidget(), null, null, null,
+                        null));
     }
 
     /**
@@ -185,11 +190,16 @@ public class RunAction implements IJythonUIClient {
      * @param iCon
      *            Variable top copy from
      */
-    public void upDialog(String dialogName, WSize w, IVariablesContainer iCon) {
+    public void upDialog(String dialogName, WSize w, IVariablesContainer iCon,
+            IExecuteAfterModalDialog iEx) {
         IDataType dType = DataType.construct(dialogName, null);
 
-        M.JR().getDialogFormat(RequestContextFactory.construct(), dialogName,
-                new StartBack(dType, new GetUpWidget(w), iCon, null, null));
+        M.JR()
+                .getDialogFormat(
+                        RequestContextFactory.construct(),
+                        dialogName,
+                        new StartBack(dType, new GetUpWidget(w), iCon, null,
+                                null, iEx));
     }
 
     public void getHelperDialog(String dialogName, ISlotListener sl,
@@ -198,7 +208,7 @@ public class RunAction implements IJythonUIClient {
         IDataType dType = DataType.construct(dialogName, null);
 
         M.JR().getDialogFormat(RequestContextFactory.construct(), dialogName,
-                new StartBack(dType, sl, iCon, iClose, addV));
+                new StartBack(dType, sl, iCon, iClose, addV, null));
     }
 
 }

@@ -78,7 +78,8 @@ public class PerformVariableAction {
 
     public static void perform(IYesNoAction iYesno, ISendCloseAction iClose,
             final DialogVariables arg, IVariablesContainer iCon,
-            RowListDataManager liManager, final VisitList vis, WSize w) {
+            RowListDataManager liManager, final VisitList vis, WSize w,
+            IExecuteAfterModalDialog iEx) {
         iCon.setVariablesToForm(arg);
         // lists
         for (final IDataType da : liManager.getList()) {
@@ -166,7 +167,7 @@ public class PerformVariableAction {
                 ICommonConsts.JYESNOMESSAGE };
         String[] param = { null, null, ICommonConsts.JMESSAGE_TITLE,
                 ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE };
-        String[] param2 = { null, null, null, null,
+        String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, null, null,
                 ICommonConsts.JAFTERDIALOGACTION };
         for (int i = 0; i < kom.length; i++) {
             String p = arg.getValueS(kom[i]);
@@ -179,11 +180,16 @@ public class PerformVariableAction {
                 par2 = arg.getValueS(param2[i]);
             }
             if (!CUtil.EmptyS(p))
-                performAction(iYesno, iClose, kom[i], p, par, par2, w, iCon);
+                performAction(iYesno, iClose, kom[i], p, par, par2, w, iCon,
+                        iEx, null);
         }
         if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
+            String resString = null;
+            FieldValue val = arg.getValue(ICommonConsts.JCLOSEDIALOG);
+            if (val.getType() == TT.STRING)
+                resString = val.getValueS();
             performAction(null, iClose, ICommonConsts.JCLOSEDIALOG, null, null,
-                    null, w, iCon);
+                    null, w, iCon, iEx, resString);
         }
     }
 
@@ -204,7 +210,8 @@ public class PerformVariableAction {
     public static void performAction(final IYesNoAction iYesno,
             ISendCloseAction iClose, String action, String param,
             String param1, final String param2, WSize w,
-            IVariablesContainer iCon) {
+            IVariablesContainer iCon, IExecuteAfterModalDialog iEx,
+            String resString) {
         if (action.equals(ICommonConsts.JMAINDIALOG)) {
             new RunAction().start(param);
             return;
@@ -212,7 +219,9 @@ public class PerformVariableAction {
         if (action.equals(ICommonConsts.JUPDIALOG)) {
             if (!checkW(action, param, param1, param2, w))
                 return;
-            new RunAction().upDialog(param, w, iCon);
+            if (iEx != null)
+                iEx.setAction(param2);
+            new RunAction().upDialog(param, w, iCon, iEx);
             return;
         }
         if (action.equals(ICommonConsts.JOKMESSAGE)
@@ -233,7 +242,7 @@ public class PerformVariableAction {
         }
         if (action.equals(ICommonConsts.JCLOSEDIALOG)) {
             if (iClose != null)
-                iClose.closeAction();
+                iClose.closeAction(resString);
             return;
         }
         Utils.errAlert(M.M().UnknownAction(action, param));

@@ -159,7 +159,7 @@ class GetViewController implements IGetViewControllerFactory {
             private class CloseD implements ISendCloseAction {
 
                 @Override
-                public void closeAction() {
+                public void closeAction(String resString) {
                     publish(dType, DataActionEnum.PersistDataSuccessSignal, e);
                 }
             }
@@ -221,7 +221,7 @@ class GetViewController implements IGetViewControllerFactory {
                     return;
                 }
                 PerformVariableAction.perform(new YesNo(), new CloseD(), arg,
-                        iCon, rM, new Vis(), w);
+                        iCon, rM, new Vis(), w, null);
             }
         }
 
@@ -282,7 +282,7 @@ class GetViewController implements IGetViewControllerFactory {
                 .get(li.getId()));
         DialogInfo elemInfo = new DialogInfo(dElem, elemSec, null);
         DialogContainer sLo = new DialogContainer(da, elemInfo, iCon, null,
-                addV);
+                addV, null);
         ComposeControllerType cType = new ComposeControllerType(sLo, da, 0, 0);
         i.registerControler(cType);
 

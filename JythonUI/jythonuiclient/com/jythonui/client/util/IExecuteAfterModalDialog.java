@@ -12,8 +12,10 @@
  */
 package com.jythonui.client.util;
 
-public interface ISendCloseAction {
-    
-    void closeAction(String resString);
+public interface IExecuteAfterModalDialog {
+
+    void setAction(String afterAction);
+
+    void setResultButton(String buttonid, String resVal);
 
 }
