@@ -7,6 +7,7 @@ from com.gwthotel.hotel import HotelObjects
 from com.gwthotel.hotel.reservationop import ResQuery
 from com.gwthotel.hotel.reservation import ReservationDetail
 import cutil
+from com.gwthotel.hotel.reservation import ResStatus
 
 class MESS :
 
@@ -303,6 +304,9 @@ def createEnumFromList(li, f):
 
 def emptyS(name):
     return name == None or name == ""
+
+def isResOpen(res):
+    return res.getStatus() == ResStatus.OPEN
 
 class SUMBDECIMAL :
     
