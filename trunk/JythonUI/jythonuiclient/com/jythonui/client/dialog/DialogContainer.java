@@ -68,6 +68,7 @@ import com.jythonui.client.util.CreateForm;
 import com.jythonui.client.util.EnumTypesList;
 import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.IConstructCustomDataType;
+import com.jythonui.client.util.IExecuteAfterModalDialog;
 import com.jythonui.client.util.ISendCloseAction;
 import com.jythonui.client.util.IYesNoAction;
 import com.jythonui.client.util.JUtils;
@@ -109,14 +110,17 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     private final FormGridManager gManager;
     private final DateLineManager dManager;
 
+    private final IExecuteAfterModalDialog iEx;
+
     private final Map<String, IDataType> dLineType = new HashMap<String, IDataType>();
 
     public DialogContainer(IDataType dType, DialogInfo info,
             IVariablesContainer pCon, ISendCloseAction iClose,
-            DialogVariables addV) {
+            DialogVariables addV, IExecuteAfterModalDialog iEx) {
         this.info = info;
         this.d = info.getDialog();
         this.dType = dType;
+        this.iEx = iEx;
         liManager = new RowListDataManager(info, slMediator, new DTypeFactory());
         // not safe, reference is escaping
         dManager = new DateLineManager(this);
@@ -252,7 +256,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             }
 
             @Override
-            public void closeAction() {
+            public void closeAction(String resString) {
                 close.execute();
             }
 
@@ -523,13 +527,41 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         }
 
         @Override
-        public void closeAction() {
+        public void closeAction(String resString) {
             SendCloseSignal sig = new SendCloseSignal(id);
             slMediator.getSlContainer().publish(
                     SendCloseSignal.constructSignal(dType), sig);
             if (iClose != null) {
-                iClose.closeAction();
+                iClose.closeAction(resString);
             }
+            if (iEx != null) {
+                iEx.setResultButton(id, resString);
+            }
+        }
+
+    }
+
+    private class AfterModal implements IExecuteAfterModalDialog {
+
+        private String afterAction = null;
+
+        @Override
+        public void setAction(String afterAction) {
+            this.afterAction = afterAction;
+
+        }
+
+        @Override
+        public void setResultButton(String buttonid, String resVal) {
+            if (CUtil.EmptyS(afterAction))
+                return;
+            // String JBUTTONRES = "JUPDIALOG_BUTTON";
+            // String JBUTTONDIALOGRES = "JUPDIALOG_RES";
+            DialogVariables v = iCon.getVariables(afterAction);
+            v.setValueS(ICommonConsts.JBUTTONRES, buttonid);
+            v.setValueS(ICommonConsts.JBUTTONDIALOGRES, resVal);
+            ExecuteAction.action(v, d.getId(), afterAction, new BackClass(
+                    afterAction, false, null, null));
         }
 
     }
@@ -551,7 +583,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 String param2 = bItem.getAttr(ICommonConsts.ACTIONPARAM2);
                 PerformVariableAction.performAction(new HandleYesNoDialog(
                         new MapDialogVariable()), new CloseDialog(id), action,
-                        param, param1, param2, w, iCon);
+                        param, param1, param2, w, iCon, new AfterModal(), null);
                 return true;
             }
             ExecuteAction.action(iCon, d.getId(), id, new BackClass(id, false,
@@ -637,7 +669,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
             };
             PerformVariableAction.perform(new HandleYesNoDialog(addV),
-                    new CloseDialog(id), arg, iCon, liManager, vis, w);
+                    new CloseDialog(id), arg, iCon, liManager, vis, w,
+                    new AfterModal());
             if (!arg.getCheckVariables().isEmpty()) {
                 gManager.addLinesAndColumns(id, arg);
             }

@@ -1032,7 +1032,7 @@ class ListControler {
                     }
                 };
                 PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
-                        null);
+                        null,null);
 
             }
         }
