@@ -25,7 +25,7 @@
 		<field id="desc" displayname="@description" readonly="" />
 		<!-- cust description -->
 		<field id="cust_name" displayname="@name" hidden="" />
-		<field id="cust_descr" displayname="Guest name" readonly="" />
+		<field id="cust_descr" displayname="Guest description" readonly="" />
 		<field id="cust_firstname" displayname="@firstname" readonly="" />
 		<field id="cust_companyname" displayname="@companyname" hidden="" />
 		<field id="cust_street" displayname="@street" hidden="" />
