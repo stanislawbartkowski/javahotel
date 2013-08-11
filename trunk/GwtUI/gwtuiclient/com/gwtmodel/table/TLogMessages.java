@@ -131,5 +131,7 @@ public interface TLogMessages extends Messages {
     String TablePresentationSelectionChange(int rowno);
     
     String TablePresentationSelectionChangeNow(int rowno);
+    
+    String PresentationTableNullSetValObj(String id);
 
 }

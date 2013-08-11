@@ -957,6 +957,12 @@ class PresentationTable implements IGwtTableView {
         @Override
         public void setValObj(Object o) {
             IGetField iGet = getI();
+            if (iGet == null) {
+                IVField fie = getV();
+                String mess = LogT.getT().PresentationTableNullSetValObj(
+                        fie.getId());
+                Utils.errAlertB(mess);
+            }
             iGet.setValObj(new MutableInteger(rowno), o);
             table.redraw();
         }
