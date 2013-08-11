@@ -12,7 +12,7 @@
 		<button id="accept" displayname="@accept" />
 		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
 		<button id="find" displayname="@find" actiontype="JUP_DIALOG"
-			actionparam="hotel/reservation/customerselection.xml" />
+			actionparam="hotel/reservation/customerselection.xml" actionparam2="selectcustomer" />
 	</buttons>
 
 	<form >

@@ -7,7 +7,7 @@ from util.util import RESOP
 from util.util import CUSTOMERLIST
 from util.util import getCustFieldId
 from util.util import isResOpen
-
+from cutil import setCopy
 
 #   for r in reservation.getResDetail() :
 #         map = { "name" : r.getRoom(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService() }
@@ -17,7 +17,7 @@ from util.util import isResOpen
 CUSTF = getCustFieldId()
 CHECKINLIST= "checkinlist"
 
-def __toMap(map,var,custid,CUST) :
+def __toMap(map,custid,CUST) :
     cust = CUST.findElem(custid)
     map["guestselect"] = cust.getName()
     map["guestname"] = cust.getName()
@@ -35,9 +35,18 @@ def checkinaction(action,var):
     resName = var["resename"]
     CUST = CUSTOMERLIST(var)
     
+    if action == "selectguestfromlist" :
+        custid =var["JUPDIALOG_RES"]
+        if custid == None : return
+        __toMap(var,custid,CUST)
+        li = ["guestselect","guestname","guestdescr"] + CUSTF
+        setCopy(var,li)
+        printVar("xxxxxxxxxxxxx",action,var)
+    
     if action == "selectguest" :
         var["JUP_DIALOG"] = "hotel/reservation/customerselection.xml"
-    
+        var['JAFTERDIALOG_ACTION'] = "selectguestfromlist"
+        
     if action == "before" :
         roomRes = {}
         reservation = R.findElem(resName)
@@ -72,8 +81,7 @@ def checkinaction(action,var):
                             if no == i :
                                 found = True
                                 custid = g.getGuestName()
-                                __toMap(map,var,custid,CUST)
-                                cust = CUST.findElem(custid)
+                                __toMap(map,custid,CUST)
                                 found = True
                                 wasGuest = True
                                 break
@@ -86,7 +94,7 @@ def checkinaction(action,var):
             if isResOpen(resform) and not wasGuest :
                 custid = resform.getCustomerName()
                 map = list[0]
-                __toMap(map,var,custid,CUST)                
+                __toMap(map,custid,CUST)                
              
     # resename
     

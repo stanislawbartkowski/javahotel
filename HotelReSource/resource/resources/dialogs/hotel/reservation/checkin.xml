@@ -19,7 +19,7 @@
 			<column id="roomid" displayname="Room name" />
 			<column id="roomdesc" displayname="Description" />
 <!--  guest description -->			
-            <column id="guestselect" displayname="Name" actionid="selectguest" />
+            <column id="guestselect" displayname="Name" actionid="selectguest"/>
 			<column id="guestname" hidden="" />
 			<column id="guestdescr" displayname="Guest description" editable="" />
 			<column id="firstname" displayname="Guest first name" editable=""/> 
