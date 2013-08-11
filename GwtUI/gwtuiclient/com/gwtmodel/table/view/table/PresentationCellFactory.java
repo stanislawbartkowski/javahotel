@@ -30,6 +30,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
 
 /**
  * @author hotel
@@ -95,7 +96,10 @@ class PresentationCellFactory extends PresentationCellHelper {
         }
     }
 
-    private class ActionButtonCell extends ActionCell<MutableInteger> {
+    // 2013/08/11 : added implementation IGetField
+    // Only marker is necessary, no additional implementation
+    private class ActionButtonCell extends ActionCell<MutableInteger> implements
+            IGetField {
 
         @SuppressWarnings("unused")
         private final String buttonString;
@@ -133,6 +137,19 @@ class PresentationCellFactory extends PresentationCellHelper {
             TemplateButtonAction template = GWT
                     .create(TemplateButtonAction.class);
             sb.append(template.input(s));
+        }
+
+        @Override
+        public Object getValObj(MutableInteger key) {
+//            IVModelData v = model.get(key.intValue());
+//            return FUtils.getValue(v, iF);
+            return null;
+        }
+
+        @Override
+        public void setValObj(MutableInteger key, Object o) {
+//            IVModelData v = model.get(key.intValue());
+//            v.setF(iF, o);
         }
     }
 
