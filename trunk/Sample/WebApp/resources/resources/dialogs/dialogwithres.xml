@@ -23,7 +23,7 @@
 	<list id="list" displayname="Edit list of keys">
 		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
 		<columns>
-			<column id="key" displayname="storeKey" type="long" actionid="selectvar" />
+			<column id="key" displayname="storeKey" type="long" actionid="selectvar" editable=""/>
 			<column id="pnumber" displayname="Number" editable=""
 				notempty="" footer="" signalchange="" />
 			<column id="pname" displayname="Name" editable=""

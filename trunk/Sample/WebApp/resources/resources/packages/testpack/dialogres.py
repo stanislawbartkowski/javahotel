@@ -36,9 +36,10 @@ def doaction(action,var):
         var['JAFTERDIALOG_ACTION'] = "selectrowvalue"
         
     if action == "selectrowvalue" :
-        setCopy(var,["pname","pnumber"])
+        setCopy(var,["key","pname","pnumber"])
         var["pname"] = var["JUPDIALOG_BUTTON"]
         var["pnumber"] = var["JUPDIALOG_RES"]
+        var["key"] = 999
     
     
     if action == "actionres" :
