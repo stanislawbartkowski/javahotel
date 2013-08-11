@@ -16,8 +16,8 @@ public interface IHotelConsts {
 
     String ID = "Id";
 
-    String NAME = "Name";
-    String DESCRIPTION = "Description";
+    String NAME = "name";
+    String DESCRIPTION = "descr";
 
     String MESSNAMED = "hotelmessnamed";
 
