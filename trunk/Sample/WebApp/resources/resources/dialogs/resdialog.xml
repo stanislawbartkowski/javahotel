@@ -3,11 +3,12 @@
 
 <displayname>Dialog title</displayname>
 
+<before/>
+
  <jython>
    <import>from testpack import dialogres</import>
    <method>dialogres.resaction({0},{1})</method>
  </jython>  
-
 
 
 <buttons>
@@ -15,6 +16,10 @@
   <button id="res2" displayname="Res script"/>
   <button id="res3" displayname="Res script with res"/>
 </buttons>
+
+<form>
+<field id="start" displayname="Start string" readonly="" />
+</form>
  
  
 </dialog>
