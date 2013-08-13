@@ -27,16 +27,21 @@ def doaction(action,var):
         __create_list(op,var)
         setAddEditMode(var,"list",["pname,pnumber"])
         
+        
+    if action == "run1" :
+        var["JUP_DIALOG"] = "resdialog.xml"
+        var['JAFTERDIALOG_ACTION'] = "actionres"
+        var["JUPDIALOG_START"] = "Hello from script"
+        
     if action == "editlistrowaction"  :
         var["JLIST_EDIT_ACTIONOK_list"] = True
-
     
     if action == "selectvar" :
         var["JUP_DIALOG"] = "resdialog.xml"
         var['JAFTERDIALOG_ACTION'] = "selectrowvalue"
         
     if action == "selectrowvalue" :
-        setCopy(var,["key","pname","pnumber"])
+        setCopy(var,["key","pname","pnumber"],"list")
         var["pname"] = var["JUPDIALOG_BUTTON"]
         var["pnumber"] = var["JUPDIALOG_RES"]
         var["key"] = 999
@@ -54,6 +59,10 @@ def doaction(action,var):
     
 def resaction(action,var):
     printVar("resaction",action,var)
+    if action == "before" :
+        var["start"] = var["JUPDIALOG_START"]
+        var["JCOPY_start"] = True
+        
     if action == "res2" :
         var["JCLOSE_DIALOG"] = True
     if action == "res3" :

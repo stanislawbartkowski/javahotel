@@ -12,7 +12,8 @@
 
 	<buttons>
 		<button id="run" displayname="Run" actiontype="JUP_DIALOG"
-			actionparam="resdialog.xml" actionparam2="actionres" />
+			actionparam="resdialog.xml" actionparam1 = "Hello" actionparam2="actionres" />
+		<button id="run1" displayname="Run script" />
 	</buttons>
 
 	<form>
@@ -23,7 +24,7 @@
 	<list id="list" displayname="Edit list of keys">
 		<standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
 		<columns>
-			<column id="key" displayname="storeKey" type="long" actionid="selectvar" editable=""/>
+			<column id="key" displayname="storeKey" type="long" actionid="selectvar"/>
 			<column id="pnumber" displayname="Number" editable=""
 				notempty="" footer="" signalchange="" />
 			<column id="pname" displayname="Name" editable=""
