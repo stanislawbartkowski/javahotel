@@ -10,9 +10,13 @@ def toDate(value):
     ca.set(value.year,value.month - 1,value.day)
     return ca.getTime()
 
-def setCopy(var,li) :
+def setCopy(var,li, list=None,prefix=None) :
   for l in li :
-    var["JCOPY_"+l] = True
+    if list : c = "JROWCOPY_" + list + "_"  
+    else : c = "JCOPY_"
+    if prefix : k = prefix + l
+    else : k = l
+    var[c+k] = True
 
 def addDecimal(sum1,sum2,afterdot=2):
    if sum1 == None : return sum2
@@ -173,3 +177,15 @@ def printVar(name,action,var):
   print "action = " + action
   for k in var.keys() : 
     print k + " = " + str(var[k])
+
+def removeDuplicates(li,thesame):
+    newli = []
+    for elem in li :
+        notfound = True
+        for e in newli :
+            if thesame([e,elem]) :
+                notfound = False
+                break
+        if notfound : newli.append(elem)
+        
+    return newli

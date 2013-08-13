@@ -35,6 +35,7 @@ public interface ICommonConsts {
     String COLUMNS = "columns";
     String LISTBUTTONSLIST="buttons-addlist";
     String LISTBUTTONSVALIDATE="buttons-validate";
+    String JROWCOPY = "JROWCOPY_";
     String JCOPY = "JCOPY_";
     String TYPE = "type";
     String STRINGTYPE = "string";
@@ -102,6 +103,7 @@ public interface ICommonConsts {
     String JAFTERDIALOGACTION = "JAFTERDIALOG_ACTION";
     String JBUTTONRES = "JUPDIALOG_BUTTON";
     String JBUTTONDIALOGRES = "JUPDIALOG_RES";
+    String JBUTTONDIALOGSTART = "JUPDIALOG_START";
     String JCRUD_AFTERCONF = "JCRUD_AFTERCONF";
     String JFOOTER = "JFOOTER_";
     String JFOOTERCOPY = "JFOOTER_COPY_";

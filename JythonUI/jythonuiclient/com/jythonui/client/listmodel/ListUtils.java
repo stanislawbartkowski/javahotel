@@ -14,10 +14,7 @@ package com.jythonui.client.listmodel;
 
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.view.callback.CommonCallBack;
-import com.jythonui.client.util.ExecuteAction;
 import com.jythonui.client.util.JUtils;
-import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
@@ -38,13 +35,6 @@ class ListUtils {
             ListOfRows rL) {
         RowIndex rI = rM.getR(da);
         return JUtils.constructList(rI, rL, null, null);
-    }
-
-    private void executeCrudAction(DialogVariables v, ListFormat li,
-            String dialogName, String crudAction,
-            CommonCallBack<DialogVariables> callBack) {
-        v.setValueS(ICommonConsts.JLIST_NAME, li.getId());
-        ExecuteAction.action(v, dialogName, crudAction, callBack);
     }
 
     static void addListName(MapDialogVariable v, ListFormat li) {

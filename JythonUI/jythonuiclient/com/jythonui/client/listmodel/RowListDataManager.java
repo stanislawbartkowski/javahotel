@@ -149,9 +149,9 @@ public class RowListDataManager implements ISetGetVar {
     @Override
     public void readVar(DialogVariables var) {
         for (IDataType dType : getList()) {
-            String s = listMap.get(dType);
+            String listid = listMap.get(dType);
 
-            String okKey = ICommonConsts.JEDITROW_OK + s;
+            String okKey = ICommonConsts.JEDITROW_OK + listid;
             FieldValue valOK = var.getValue(okKey);
             if (valOK != null) {
                 if (valOK.getType() != TT.BOOLEAN) {
@@ -165,7 +165,7 @@ public class RowListDataManager implements ISetGetVar {
                 iSlo.getSlContainer().publish(sl, signal);
             }
 
-            String jKey = ICommonConsts.JEDITROWYESACTION + s;
+            String jKey = ICommonConsts.JEDITROWYESACTION + listid;
             FieldValue val = var.getValue(jKey);
             final RowVModelData vData = new RowVModelData(rMap.get(dType));
             final VModelData lData = new VModelData();
@@ -182,7 +182,7 @@ public class RowListDataManager implements ISetGetVar {
                 }
             };
 
-            JUtils.VisitVariable(var, iVisit);
+            JUtils.VisitVariable(var, listid,iVisit);
             if (val != null) {
                 if (val.getType() != TT.BOOLEAN) {
                     String mess = M.M().FooterSetValueShouldBeBoolean(

@@ -50,10 +50,15 @@ class VariableContainer implements IVariablesContainer {
     @Override
     public DialogVariables getVariables(String buttonId) {
         DialogVariables v = new DialogVariables();
-        for (FormContainer f : fList)
+        for (int k = 0; k < fList.size(); k++) {
+            FormContainer f = fList.get(k);
+            String b = null;
+            // pass buttonId only for the last container
+            if (k == fList.size() - 1)
+                b = buttonId;
             for (int i = 0; i < f.l.length; i++)
-                f.l[i].addToVar(v, buttonId);
-
+                f.l[i].addToVar(v, b);
+        }
         return v;
     }
 

@@ -53,7 +53,7 @@ public class JUtils {
                 i.action(fie, key);
             }
     }
-    
+
     public static IDataListType constructList(RowIndex rI, ListOfRows rL,
             IVField comboField, IVField displayFie) {
         DataListTypeFactory lFactory = GwtGiniInjector.getI()
@@ -86,7 +86,7 @@ public class JUtils {
         void setField(VField v, FieldValue val);
     }
 
-    public static void VisitVariable(final DialogVariables var,
+    public static void VisitVariable(final DialogVariables var, String listid,
             final IFieldVisit i) {
         JUtils.IVisitor vis = new JUtils.IVisitor() {
 
@@ -94,15 +94,18 @@ public class JUtils {
             public void action(String fie, String field) {
                 FieldValue val = var.getValue(fie);
                 if (val == null) {
-                    Utils.errAlert(M.M().ErrorNoValue(fie), ICommonConsts.JCOPY
-                            + fie);
+                    Utils.errAlert(M.M().ErrorNoValue(fie), field);
                     return;
                 }
                 VField v = VField.construct(fie, val.getType());
                 i.setField(v, val);
             }
         };
-        JUtils.visitListOfFields(var, ICommonConsts.JCOPY, vis);
+        String prefix = ICommonConsts.JCOPY;
+        if (listid != null) 
+            prefix = ICommonConsts.JROWCOPY + listid + "_";
+        else prefix = ICommonConsts.JCOPY;
+        JUtils.visitListOfFields(var, prefix, vis);
     }
 
 }
