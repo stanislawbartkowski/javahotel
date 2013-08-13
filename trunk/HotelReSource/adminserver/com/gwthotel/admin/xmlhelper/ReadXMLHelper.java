@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -43,12 +45,15 @@ public abstract class ReadXMLHelper<T extends PropDescription> {
     private final IGetLogMess lMess;
     private final String[] constList;
     private final String[] tagList;
+    private List<T> rList = null;
+
     private static final int XMLFILENAME = 0;
     private static final int ALLTAG = 1;
     private static final int ONETAG = 2;
+    private static final int XMLSTRING = 3;
 
     protected abstract T constructT();
-    
+
     static final private Logger log = Logger.getLogger(ReadXMLHelper.class
             .getName());
 
@@ -57,17 +62,12 @@ public abstract class ReadXMLHelper<T extends PropDescription> {
         throw new JythonUIFatal(mess, e);
     }
 
-    protected ReadXMLHelper(IGetLogMess lMess,String[] constList,String[] tagList) {
+    protected ReadXMLHelper(IGetLogMess lMess, String[] constList,
+            String[] tagList) {
         this.lMess = lMess;
         this.constList = constList;
         this.tagList = tagList;
     }
-
-    private List<T> rList = null;
-
-//    private static final String ROLES = "roles//roles.xml";
-//    private static final String ROLESTAG = "roles";
-//    private static final String ROLETAG = "role";
 
     private URL getURL() {
         URL ur = ReadXMLHelper.class.getClassLoader().getResource(
@@ -75,16 +75,20 @@ public abstract class ReadXMLHelper<T extends PropDescription> {
         return ur;
     }
 
-    private InputStream getXML() throws FileNotFoundException {
-        InputStream s = new FileInputStream(getURL().getFile());
-        return s;
+    private InputSource getXML() throws FileNotFoundException {
+        if (constList.length == 3) {
+            InputStream s = new FileInputStream(getURL().getFile());
+            return new InputSource(s);
+        } else {
+            String xml = constList[XMLSTRING];
+            return new InputSource(new StringReader(xml));
+
+        }
     }
 
     private class MyHandler extends DefaultHandler {
 
         private List<T> rrList = new ArrayList<T>();
-//        private String[] tagList = new String[] { IHotelConsts.NAME,
-//                IHotelConsts.DESCRIPTION };
         private boolean started = false;
         private T role = null;
         private StringBuffer buf;
@@ -115,7 +119,8 @@ public abstract class ReadXMLHelper<T extends PropDescription> {
                 role = null;
                 return;
             }
-            if (role == null) return;
+            if (role == null)
+                return;
             SaxUtil.readVal(role.getMap(), qName, tagList, buf);
         }
 

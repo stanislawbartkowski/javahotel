@@ -19,16 +19,16 @@ import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HHolder {
-    
-    private HHolder() {        
+
+    private HHolder() {
     }
-    
+
     @Inject
     @Named(IHotelConsts.MESSNAMED)
     private static IGetLogMess lMess;
-    
+
     public static IGetLogMess getHM() {
-        return lMess;        
+        return lMess;
     }
 
 }

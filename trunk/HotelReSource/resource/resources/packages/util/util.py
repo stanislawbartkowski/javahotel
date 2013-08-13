@@ -8,6 +8,7 @@ from com.gwthotel.hotel.reservationop import ResQuery
 from com.gwthotel.hotel.reservation import ReservationDetail
 import cutil
 from com.gwthotel.hotel.reservation import ResStatus
+from cutil import removeDuplicates
 
 class MESS :
 
@@ -94,8 +95,7 @@ class CUSTOMERLIST(SERVICES) :
     def __init__(self,var):
         SERVICES.__init__(self,var)
         self.serviceS = H.getHotelCustomers()
-        
-        
+                
 class ROOMLIST(SERVICES):        
     def __init__(self,var):
         SERVICES.__init__(self,var)
@@ -143,6 +143,28 @@ class RESFORM(SERVICES) :
     def __init__(self,var):
         SERVICES.__init__(self,var)
         self.serviceS = H.getResForm()
+                
+def xmlToVar(var,xml,list,pre=None) :
+    iXML = H.getXMLMap()
+    prop = iXML.readXML(xml,"root","elem")
+    for l in list :
+        val = prop.getAttr(l)
+        if pre : k = pre + l
+        else : k = l
+        var[k] = val
+        
+    
+def mapToXML(map,list,pre=None):
+    s = "<root><elem>"
+    for e in list :
+        val = ""
+        if pre : k = pre + e
+        else : k = e
+        if map.has_key(k) :
+            if map[k] : val = str(map[k])
+        s = s + "<" + e + ">" + val + "</" + e + ">"
+    s = s + "</elem></root>"
+    return s        
   
 def printvar(method,action,var): 
     cutil.printVar(method,action,var)
@@ -267,7 +289,6 @@ def createCustomerList(var):
         seq.append(v)
     return seq    
     
-    
 def getServicesForRoom(var,room):
   RO = ROOMLIST(var)
   services = RO.getRoomServices(room)
@@ -289,6 +310,8 @@ def getServicesForRoom(var,room):
                 li.append(s) 
                 liList.append(p.getName())
   if len(li) == 0 : return None
+  f = lambda(e) : e[0] == e[1]
+  liList = removeDuplicates(liList,f)
   return [li,liList]
   
   

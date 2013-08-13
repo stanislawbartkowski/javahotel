@@ -27,6 +27,7 @@ import com.gwthotel.admin.HotelRoles;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.admintest.guice.ServiceInjector;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
@@ -38,6 +39,7 @@ import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
+import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.testenhancer.ITestEnhancer;
@@ -77,6 +79,7 @@ public class TestHelper {
     protected final IReservationForm iRes;
     protected final IReservationOp iResOp;
     protected final IClearHotel iClear;
+    protected final IXMLToMap ixMap;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -108,7 +111,8 @@ public class TestHelper {
     protected final String adminM = "classpath:resources/shiro/admin.ini";
 
     public TestHelper() {
-        iAdmin = ServiceInjector.constructHotelAdmin();
+        iAdmin = H.getHotelAdmin();
+//        iAdmin = ServiceInjector.constructHotelAdmin();
         iRoles = ServiceInjector.constructHotelRoles();
         iServer = ServiceInjector.contructJythonUiServer();
         iSec = ServiceInjector.constructSecurity();
@@ -125,6 +129,7 @@ public class TestHelper {
         iRes = ServiceInjector.getReservationForm();
         iResOp = ServiceInjector.getReservationOp();
         iClear = ServiceInjector.getClearHotel();
+        ixMap = ServiceInjector.getXMLToMap();
     }
 
     @BeforeClass
