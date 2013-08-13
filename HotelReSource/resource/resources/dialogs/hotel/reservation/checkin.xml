@@ -15,13 +15,14 @@
 	
 	<list id="checkinlist" displayname="Persons to rooms" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
+  		<buttons-addlist>accept</buttons-addlist> 
 		<columns>
 			<column id="roomid" displayname="Room name" />
 			<column id="roomdesc" displayname="Description" />
 <!--  guest description -->			
-            <column id="guestselect" displayname="Name" actionid="selectguest"/>
-			<column id="guestname" hidden="" />
-			<column id="guestdescr" displayname="Guest description" editable="" />
+            <column id="guestselect" displayname="Name" actionid="selectguest" editable=""/>
+			<column id="name" displayname="id"/>
+			<column id="descr" displayname="Guest description" editable="" helper="guestdetails" />
 			<column id="firstname" displayname="Guest first name" editable=""/> 
 			<column id="companyname" hidden=""/>
 			<column id="street" hidden="" />

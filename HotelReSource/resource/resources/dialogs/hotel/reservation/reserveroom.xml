@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Reservation">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Make reservation">
 
 	<before />
 
@@ -14,8 +14,7 @@
 	<buttons>
 		<button id="checkaval" displayname="Check availability"
 			validate="" />
-		<button id="guestdesc" displayname="Customer details"
-			actiontype="JUP_DIALOG" actionparam="hotel/reservation/customerdetails.xml" />
+		<button id="custdetails" displayname="Customer details" />
 		<button id="askforreservation" displayname="Make reservation"
 			validate="" />
 	</buttons>

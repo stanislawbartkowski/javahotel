@@ -17,9 +17,11 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
+import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.admin.roles.GetHotelRoles;
 import com.gwthotel.admin.vattax.GetVatTaxes;
+import com.gwthotel.admin.xmltomap.XMLToMap;
 import com.gwthotel.auth.SecurityConverter;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
@@ -29,6 +31,7 @@ import com.gwthotel.hotel.getid.GetInstanceHotelId;
 import com.gwthotel.hotel.getname.GetHotelNameFromToken;
 import com.gwthotel.hotel.objectfactoryimpl.HotelObjectsFactory;
 import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
+import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.mess.HotelMessProvider;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -56,10 +59,13 @@ public class HotelCommonGuice {
                     Singleton.class);
             bind(IHotelObjectsFactory.class).to(HotelObjectsFactory.class).in(
                     Singleton.class);
+            bind(IXMLToMap.class).to(XMLToMap.class).in(Singleton.class);
             requestStaticInjection(HHolder.class);
+            requestStaticInjection(H.class);
         }
-        
-        @Provides @Singleton
+
+        @Provides
+        @Singleton
         IHotelObjectGenSym getHotelObjectsTrans(ISymGenerator iGen) {
             return new HotelObjectGenSym(iGen);
         }

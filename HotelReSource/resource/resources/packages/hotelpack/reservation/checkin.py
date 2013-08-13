@@ -8,20 +8,21 @@ from util.util import CUSTOMERLIST
 from util.util import getCustFieldId
 from util.util import isResOpen
 from cutil import setCopy
+from util.util import mapToXML
+from util.util import xmlToVar
+
 
 #   for r in reservation.getResDetail() :
 #         map = { "name" : r.getRoom(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService() }
 #         list.append(map)
 #         sum.add(r.getPrice())
 
-CUSTF = getCustFieldId()
+CUSTF = ["name","descr"] + getCustFieldId()
 CHECKINLIST= "checkinlist"
 
 def __toMap(map,custid,CUST) :
     cust = CUST.findElem(custid)
     map["guestselect"] = cust.getName()
-    map["guestname"] = cust.getName()
-    map["guestdescr"] = cust.getDescription()
     for n in CUSTF :
       map[n] = cust.getAttr(n)
 
@@ -35,13 +36,22 @@ def checkinaction(action,var):
     resName = var["resename"]
     CUST = CUSTOMERLIST(var)
     
+    if action == "accept" :
+        print "----------------accept"
+        for elem in var["JLIST_MAP"][CHECKINLIST] :
+           print elem
+           
+    if action == "guestdetails" :
+        var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+        var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
+        var["JUPDIALOG_START"] = mapToXML(var,CUSTF)
+    
     if action == "selectguestfromlist" :
         custid =var["JUPDIALOG_RES"]
         if custid == None : return
         __toMap(var,custid,CUST)
-        li = ["guestselect","guestname","guestdescr"] + CUSTF
-        setCopy(var,li)
-        printVar("xxxxxxxxxxxxx",action,var)
+        li = ["guestselect"] + CUSTF
+        setCopy(var,li,CHECKINLIST)
     
     if action == "selectguest" :
         var["JUP_DIALOG"] = "hotel/reservation/customerselection.xml"
@@ -89,12 +99,11 @@ def checkinaction(action,var):
                         map["guestselect"] = "<select>"        
                     list.append(map)
             var["JLIST_MAP"] = { CHECKINLIST : list}
-            setStandEditMode(var,CHECKINLIST,["guestdescr","firstname"])
+            setStandEditMode(var,CHECKINLIST,["descr","firstname"])
             resform = R.findElem(resName)
             if isResOpen(resform) and not wasGuest :
                 custid = resform.getCustomerName()
                 map = list[0]
                 __toMap(map,custid,CUST)                
              
-    # resename
     

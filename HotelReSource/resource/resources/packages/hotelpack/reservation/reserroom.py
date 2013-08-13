@@ -1,5 +1,5 @@
 from util.util import printvar
-from util.util import setCopy
+from cutil import setCopy
 from util.util import ROOMLIST
 from util.util import PRICELIST
 from util.util import PRICEELEM
@@ -20,6 +20,11 @@ from util.util import createResFormElem
 from util.util import RESFORM
 from hotelpack.reservation.resutil import getReservForDay
 from com.gwthotel.hotel.reservation import ResStatus
+from util.util import getCustFieldId
+from util.util import mapToXML
+from util.util import xmlToVar
+
+CLIST = ["name","descr"] + getCustFieldId()
 
 def _createResData(var):
   service = var["roomservice"]
@@ -142,6 +147,17 @@ def reseraction(action,var):
     
     if action=="before" :
         _setvarBefore(var)
+        
+    if action == "acceptdetails" :
+        xml = var["JUPDIALOG_RES"]
+        xmlToVar(var,xml,CLIST,"cust_")
+        setCopy(var,CLIST,None,"cust_")
+        
+    if action=="custdetails" :
+        var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+        var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
+        var["JUPDIALOG_START"] = mapToXML(var,CLIST,"cust_")
+        print "start",var["JUPDIALOG_START"]
             
     if action == "checkaval" :
         _checkRese(var)

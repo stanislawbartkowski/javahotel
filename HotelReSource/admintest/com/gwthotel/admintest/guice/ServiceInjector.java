@@ -19,6 +19,7 @@ import com.google.inject.name.Names;
 import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
+import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelObjectGenSym;
@@ -124,6 +125,10 @@ public class ServiceInjector {
 
     public static IClearHotel getClearHotel() {
         return injector.getInstance(IClearHotel.class);
+    }
+
+    public static IXMLToMap getXMLToMap() {
+        return injector.getInstance(IXMLToMap.class);
     }
 
 }
