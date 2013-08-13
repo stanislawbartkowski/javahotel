@@ -114,13 +114,16 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     private final Map<String, IDataType> dLineType = new HashMap<String, IDataType>();
 
+    private final String startVal;
+
     public DialogContainer(IDataType dType, DialogInfo info,
             IVariablesContainer pCon, ISendCloseAction iClose,
-            DialogVariables addV, IExecuteAfterModalDialog iEx) {
+            DialogVariables addV, IExecuteAfterModalDialog iEx, String startVal) {
         this.info = info;
         this.d = info.getDialog();
         this.dType = dType;
         this.iEx = iEx;
+        this.startVal = startVal;
         liManager = new RowListDataManager(info, slMediator, new DTypeFactory());
         // not safe, reference is escaping
         dManager = new DateLineManager(this);
@@ -346,7 +349,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     i.setValObj(val.getValue());
                 }
             };
-            JUtils.VisitVariable(var, iVisit);
+            JUtils.VisitVariable(var, null, iVisit);
         }
     }
 
@@ -752,7 +755,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     }
 
     void executeAction(String actionId, AsyncCallback<DialogVariables> callback) {
-        ExecuteAction.action(iCon, d.getId(), actionId, callback);
+        DialogVariables v = iCon.getVariables(actionId);
+        // null should be sent also
+        v.setValueS(ICommonConsts.JBUTTONDIALOGSTART, startVal);
+        ExecuteAction.action(v, d.getId(), actionId, callback);
     }
 
     DialogFormat getD() {

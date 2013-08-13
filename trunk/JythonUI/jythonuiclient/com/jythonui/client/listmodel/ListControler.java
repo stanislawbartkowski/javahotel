@@ -776,13 +776,14 @@ class ListControler {
                         DataListPersistAction.this, getI());
                 IVModelData vD = getV();
                 for (IVField f : row.getF()) {
-                    for (IGetSetVField ii : eList) {
-                        if (ii.getV().eq(f)) {
-                            ii.setValObj(row.getF(f));
-                            vD.setF(f, row.getF(f));
-                            break;
+                    vD.setF(f, row.getF(f));
+                    if (eList != null)
+                        for (IGetSetVField ii : eList) {
+                            if (ii.getV().eq(f)) {
+                                ii.setValObj(row.getF(f));
+                                break;
+                            }
                         }
-                    }
                 }
             }
 
@@ -1032,7 +1033,7 @@ class ListControler {
                     }
                 };
                 PerformVariableAction.perform(null, null, arg, iCon, rM, vis,
-                        null,null);
+                        null, null);
 
             }
         }

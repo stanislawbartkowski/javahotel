@@ -165,8 +165,9 @@ public class PerformVariableAction {
         String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG,
                 ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
                 ICommonConsts.JYESNOMESSAGE };
-        String[] param = { null, null, ICommonConsts.JMESSAGE_TITLE,
-                ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE };
+        String[] param = { null, ICommonConsts.JBUTTONDIALOGSTART,
+                ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
+                ICommonConsts.JMESSAGE_TITLE };
         String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, null, null,
                 ICommonConsts.JAFTERDIALOGACTION };
         for (int i = 0; i < kom.length; i++) {
@@ -221,7 +222,7 @@ public class PerformVariableAction {
                 return;
             if (iEx != null)
                 iEx.setAction(param2);
-            new RunAction().upDialog(param, w, iCon, iEx);
+            new RunAction().upDialog(param, w, iCon, iEx, param1);
             return;
         }
         if (action.equals(ICommonConsts.JOKMESSAGE)

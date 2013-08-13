@@ -143,22 +143,25 @@ public class RunAction implements IJythonUIClient {
         private final ISendCloseAction iClose;
         private final DialogVariables addV;
         private final IExecuteAfterModalDialog iEx;
+        private final String startVal;
 
         StartBack(IDataType dType, ISlotListener getW,
                 IVariablesContainer iCon, ISendCloseAction iClose,
-                DialogVariables addV, IExecuteAfterModalDialog iEx) {
+                DialogVariables addV, IExecuteAfterModalDialog iEx,
+                String startVal) {
             this.dType = dType;
             this.getW = getW;
             this.iCon = iCon;
             this.iClose = iClose;
             this.addV = addV;
             this.iEx = iEx;
+            this.startVal = startVal;
         }
 
         @Override
         public void onMySuccess(DialogInfo arg) {
             DialogContainer d = new DialogContainer(dType, arg, iCon, iClose,
-                    addV, iEx);
+                    addV, iEx, startVal);
             d.getSlContainer().registerSubscriber(
                     SendDialogFormSignal.constructSignal(dType),
                     new GetDialog());
@@ -177,7 +180,7 @@ public class RunAction implements IJythonUIClient {
                 RequestContextFactory.construct(),
                 startdialogName,
                 new StartBack(dType, new GetCenterWidget(), null, null, null,
-                        null));
+                        null, null));
     }
 
     /**
@@ -191,15 +194,14 @@ public class RunAction implements IJythonUIClient {
      *            Variable top copy from
      */
     public void upDialog(String dialogName, WSize w, IVariablesContainer iCon,
-            IExecuteAfterModalDialog iEx) {
+            IExecuteAfterModalDialog iEx, String startVal) {
         IDataType dType = DataType.construct(dialogName, null);
 
-        M.JR()
-                .getDialogFormat(
-                        RequestContextFactory.construct(),
-                        dialogName,
-                        new StartBack(dType, new GetUpWidget(w), iCon, null,
-                                null, iEx));
+        M.JR().getDialogFormat(
+                RequestContextFactory.construct(),
+                dialogName,
+                new StartBack(dType, new GetUpWidget(w), iCon, null, null, iEx,
+                        startVal));
     }
 
     public void getHelperDialog(String dialogName, ISlotListener sl,
@@ -208,7 +210,7 @@ public class RunAction implements IJythonUIClient {
         IDataType dType = DataType.construct(dialogName, null);
 
         M.JR().getDialogFormat(RequestContextFactory.construct(), dialogName,
-                new StartBack(dType, sl, iCon, iClose, addV, null));
+                new StartBack(dType, sl, iCon, iClose, addV, null, null));
     }
 
 }
