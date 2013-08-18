@@ -2,6 +2,7 @@
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
 <htmlpanel>dialogpanel.html</htmlpanel>
+<jscode>dialogpanel.js</jscode>
 
 <displayname>Dialog title</displayname>
 
