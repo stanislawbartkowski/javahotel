@@ -1,4 +1,5 @@
 from com.jython.ui.server.guice import ServiceInjector
+from cutil import printVar
 
 def __create_list(op, var) :
     seq = op.getAllPersons()
@@ -34,10 +35,7 @@ def footeraction(action,var):
 
 def dialogaction(action,var) :
 
-  print "list",action
-  for k in var.keys() : 
-    print k
-    print var[k]
+  printVar("list",action,var)
     
   op = ServiceInjector.constructPersonOp()
           
