@@ -2,6 +2,15 @@ from java.util import Calendar
 from org.python.core.util import StringUtil
 import datetime
 import time
+from java.util import ArrayList
+
+def createArrayList() :
+  return ArrayList()   
+
+def copyVarToProp(var,prop,list):
+    for l in list :
+        val = var[l]
+        prop.setAttr(l,val)
 
 def toDate(value):
     if value == None : return None
@@ -171,6 +180,13 @@ class RegistryFile:
            self.__removeEntries(RR)
         self.__removeEntries(R)
 
+
+def allEmpty(var,list):
+    for l in list :
+        if not var.has_key(l) : continue
+        if var[l] == None : continue
+        return False
+    return True
 
 def printVar(name,action,var):
   print "================ " + name

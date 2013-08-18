@@ -12,6 +12,7 @@
  */
 package com.jythonui.client.dialog;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,8 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.tabpanelview.ITabPanelView;
+import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.YesNoDialog;
@@ -93,6 +96,8 @@ import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.ListOfRows;
 import com.jythonui.shared.MapDialogVariable;
+import com.jythonui.shared.TabPanel;
+import com.jythonui.shared.TabPanelElem;
 
 /**
  * @author hotel
@@ -363,15 +368,98 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     }
 
+    private class PViewData {
+        final IPanelView pView;
+        boolean emptyView = true;
+        int pLine = 0;
+        final List<ITabPanelView> pList = new ArrayList<ITabPanelView>();
+        final List<CheckTab> cList = new ArrayList<CheckTab>();
+
+        private class CheckTab {
+            final TabPanel tab;
+            final TabPanelElem elem;
+            boolean exist;
+
+            CheckTab(TabPanel tab, TabPanelElem elem) {
+                this.tab = tab;
+                this.elem = elem;
+                exist = false;
+            }
+
+        }
+
+        PViewData(CellId cId) {
+            pView = pViewFactory.construct(dType, cId);
+            TabPanelViewFactory pFactory = GwtGiniInjector.getI()
+                    .getTabPanelViewFactory();
+            for (int i = 0; i < d.getTabList().size(); i++)
+                pList.add(pFactory.construct(dType, cId));
+            // fill cList
+            for (TabPanel tab : d.getTabList())
+                for (TabPanelElem e : tab.gettList())
+                    cList.add(new CheckTab(tab, e));
+        }
+
+        CellId addElemC(String s, IDataType tType) {
+            CellId dId = null;
+            for (int i = 0; i < d.getTabList().size(); i++)
+                for (int k = 0; k < d.getTabList().get(i).gettList().size(); k++) {
+                    TabPanelElem e = d.getTabList().get(i).gettList().get(k);
+                    if (e.getId().equals(s)) {
+                        ITabPanelView iP = pList.get(i);
+                        dId = iP.addPanel(k, e.getDisplayName(), null);
+                        // check out in the cList table
+                        for (CheckTab c : cList) {
+                            // important : compare references
+                            if (c.tab == d.getTabList().get(i) && c.elem == e)
+                                c.exist = true;
+                        }
+                    }
+                }
+            if (dId == null)
+                dId = pView.addCellPanel(tType, pLine++, 0);
+
+            emptyView = false;
+            return dId;
+        }
+
+        void addElem(String s, IDataType tType, ISlotable sl) {
+            slMediator.registerSlotContainer(addElemC(s, tType), sl);
+        }
+
+        void createView(CellId cId) {
+            // verify that all tab are filled
+            for (CheckTab c : cList) {
+                if (!c.exist) {
+                    String mess = M.M().TabNotFilled(c.tab.getId(),
+                            c.elem.getId());
+                    Utils.errAlertB(mess);
+                }
+            }
+            if (!emptyView) {
+                for (ITabPanelView i : pList) {
+                    i.createView();
+                    CellId dId = pView.addCellPanel(dType, pLine++, 0);
+                    slMediator.registerSlotContainer(dId, i);
+                }
+                if (d.isHtmlPanel())
+                    pView.createView(d.getHtmlPanel());
+                else
+                    pView.createView();
+                slMediator.registerSlotContainer(cId, pView);
+            }
+        }
+
+    }
+
     @Override
     public void startPublish(CellId cId) {
+
+        PViewData pView = new PViewData(cId);
 
         M.getLeftMenu().createLeftButton(
                 constructCButton(d.getLeftButtonList()), info.getSecurity(),
                 d.getLeftButtonList());
-        IPanelView pView = pViewFactory.construct(dType, cId);
-        boolean emptyView = true;
-        int pLine = 0;
         EnumTypesList eList = new EnumTypesList(d, liManager);
         if (!d.getFieldList().isEmpty()) {
             FormLineContainer fContainer = CreateForm.construct(info,
@@ -385,13 +473,11 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
             IDataViewModel daModel = daFactory.construct(dType, fContainer,
                     dFactory);
-            CellId dId = pView.addCellPanel(dType, pLine, 0);
-            slMediator.registerSlotContainer(dId, daModel);
+            // important: before not after next instruction
+            pView.addElem(ICommonConsts.FORM, dType, daModel);
             iCon.copyCurrentVariablesToForm(slMediator, dType);
             SlU.registerChangeFormSubscriber(dType, slMediator, (IVField) null,
                     new ChangeField());
-            emptyView = false;
-            pLine = 1;
         }
         List<ControlButtonDesc> bList = null;
         if (!d.getButtonList().isEmpty()) {
@@ -401,59 +487,47 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             ControlButtonViewFactory bFactory = GwtGiniInjector.getI()
                     .getControlButtonViewFactory();
             IControlButtonView bView = bFactory.construct(dType, deList);
-            CellId dId = pView.addCellPanel(dType, pLine, 0);
-            slMediator.registerSlotContainer(dId, bView);
             slMediator.getSlContainer().registerSubscriber(dType,
                     ClickButtonType.StandClickEnum.ALL,
                     constructCButton(d.getButtonList()));
-            pLine++;
-            emptyView = false;
+            pView.addElem(ICommonConsts.BUTTONS, dType, bView);
         }
         if (!d.getDatelineList().isEmpty())
             for (DateLine dl : d.getDatelineList()) {
-                // String id = dl.getId();
-                // IDataType da = DataType.construct(id, this);
-                CellId panelId = pView.addCellPanel(dType, pLine++, 0);
                 IDataType dLType = DataType.construct(dl.getId(), this);
+                CellId panelId = pView.addElemC(dl.getId(), dType);
                 ISlotable i = dManager.contructSlotable(dType, dLType, dl,
                         panelId, new DateLineClick(dl.getId()));
                 dLineType.put(dl.getId(), dLType);
                 slMediator.registerSlotContainer(panelId, i);
-                emptyView = false;
             }
         if (!d.getListList().isEmpty())
             for (ListFormat f : d.getListList()) {
                 String id = f.getId();
                 IDataType da = DataType.construct(id, this);
                 liManager.addList(da, id, f);
-                CellId panelId = pView.addCellPanel(dType, pLine++, 0);
+                CellId panelId = pView.addElemC(id, dType);
                 ISlotable i = liManager.constructListControler(da, panelId,
                         iCon, new ListClick(da), new BackFactory());
                 slMediator.registerSlotContainer(panelId, i);
                 slMediator.getSlContainer().registerSubscriber(dType,
                         ClickButtonType.StandClickEnum.ALL,
                         constructCButton(d.getLeftButtonList()));
-                emptyView = false;
-                // String listB ClickButtonType
             }
         if (!d.getCheckList().isEmpty())
             for (CheckList c : d.getCheckList()) {
                 String id = c.getId();
                 IDataType dat = DataType.construct(id, this);
                 gManager.addDataType(id, dat);
-                CellId panelId = pView.addCellPanel(dType, pLine++, 0);
+                CellId panelId = pView.addElemC(id, dType);
                 slMediator.registerSlotContainer(panelId,
                         gManager.constructSlotable(id));
-                emptyView = false;
             }
 
         iCon.addFormVariables(new BAction(), new DialogVariablesGetSet(),
                 liManager, gManager, dManager);
 
-        if (!emptyView) {
-            pView.createView();
-            slMediator.registerSlotContainer(cId, pView);
-        }
+        pView.createView(cId);
         slMediator.startPublish(cId);
         if (d.isBefore()) {
             executeAction(ICommonConsts.BEFORE, new BackClass(null, true, null,

@@ -41,6 +41,8 @@ public class DialogFormat extends ElemDescription {
 
     private List<DateLine> datelineList = new ArrayList<DateLine>();
 
+    private List<TabPanel> tabList = new ArrayList<TabPanel>();
+
     /**
      * @return the actionList
      */
@@ -153,6 +155,18 @@ public class DialogFormat extends ElemDescription {
 
     public static void addDefStringCols(List<FieldItem> colList, String... dTag) {
         addDataCols(colList, ICommonConsts.STRINGTYPE, dTag);
+    }
+
+    public String getHtmlPanel() {
+        return getAttr(ICommonConsts.HTMLPANEL);
+    }
+
+    public boolean isHtmlPanel() {
+        return isAttr(ICommonConsts.HTMLPANEL);
+    }
+
+    public List<TabPanel> getTabList() {
+        return tabList;
     }
 
 }
