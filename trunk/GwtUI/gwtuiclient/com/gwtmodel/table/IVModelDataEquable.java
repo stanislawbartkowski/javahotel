@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.stringlist;
+package com.gwtmodel.table;
 
-import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IEquatable;
+import com.gwtmodel.table.IVModelData;
 
-public interface IStringEFactory {
-    
-    AbstractStringE construct(IDataType d);
-
+public interface IVModelDataEquable extends IVModelData,
+        IEquatable<IVModelDataEquable> {
+        
 }

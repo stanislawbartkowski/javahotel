@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.stringlist;
+package com.gwtmodel.table.tabpanelview;
 
-import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
-public interface IMemoryStringList extends ISlotable {
+public interface ITabPanelView extends ISlotable {
 
-    void setMemTable(IDataListType dList);
+    CellId addPanel(int orderNo, String tabName, String htmlpanel);
 
-    IDataListType getMemTable();
+    void createView();
 
 }

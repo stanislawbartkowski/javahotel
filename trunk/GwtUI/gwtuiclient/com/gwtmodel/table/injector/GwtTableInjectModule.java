@@ -22,7 +22,6 @@ import com.gwtmodel.table.controlbuttonview.StackPanelButtonFactory;
 import com.gwtmodel.table.controler.TableDataControlerFactory;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
-import com.gwtmodel.table.datelist.DatePeriodListFactory;
 import com.gwtmodel.table.editc.EditChooseRecordFactory;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.factories.ITableAbstractFactories;
@@ -45,7 +44,7 @@ import com.gwtmodel.table.smessage.GetStandardMessage;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.splitview.SplitViewFactory;
 import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
-import com.gwtmodel.table.stringlist.MemoryStringTableFactory;
+import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
@@ -87,8 +86,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(ReadResFactory.class).in(Singleton.class);
         bind(GridViewFactory.class).in(Singleton.class);
         bind(SlotMediatorFactory.class).in(Singleton.class);
-        bind(MemoryStringTableFactory.class).in(Singleton.class);
-        bind(DatePeriodListFactory.class).in(Singleton.class);
         bind(HtmlPanelFactory.class).in(Singleton.class);
         bind(ContrButtonViewFactory.class).in(Singleton.class);
         bind(WebPanelFactory.class).in(Singleton.class);
@@ -113,5 +110,6 @@ public class GwtTableInjectModule extends AbstractGinModule {
         bind(IWebPanelResources.class).to(WebPanelResources.class).in(
                 Singleton.class);
         bind(LoginViewFactory.class).in(Singleton.class);
+        bind(TabPanelViewFactory.class).in(Singleton.class);
     }
 }

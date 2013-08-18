@@ -13,7 +13,6 @@
 package com.gwtmodel.table.controler;
 
 import com.gwtmodel.table.IDataType;
-import com.gwtmodel.table.listdataview.ActionTableSignal;
 import com.gwtmodel.table.listdataview.IsBooleanSignalNow;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;

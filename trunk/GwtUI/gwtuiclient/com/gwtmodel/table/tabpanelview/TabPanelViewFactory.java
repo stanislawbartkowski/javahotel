@@ -10,12 +10,15 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.memorypersist;
+package com.gwtmodel.table.tabpanelview;
 
-import com.gwtmodel.table.IEquatable;
-import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.slotmodel.CellId;
 
-public interface IVModelDataEquable extends IVModelData,
-        IEquatable<IVModelDataEquable> {
-        
+public class TabPanelViewFactory {
+
+    public ITabPanelView construct(IDataType dType, CellId panelId) {
+        return new TabPanelView(dType, panelId);
+    }
+
 }

@@ -35,17 +35,30 @@ public class ImgButtonFactory {
         IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
         if (img != null) {
             String h = Utils.getImageHTML(img);
-            but = new Button();
+            but = new NamedButton(bId);
             but.setHTML(h);
             w = GFocusWidgetFactory.construct(but, iMess.getMessage(bName));
         } else {
-            but = new Button(iMess.getMessage(bName));
+            but = new NamedButton(iMess.getMessage(bName), bId);
             w = GFocusWidgetFactory.construct(but);
         }
-        if (bId != null) {
-            Utils.setId(but, bId);
-        }
         return w;
+    }
+
+    private static class NamedButton extends Button {
+
+        NamedButton(String bId) {
+            super();
+            if (bId != null)
+                getButtonElement().setName(bId);
+        }
+
+        NamedButton(String text, String bId) {
+            super(text);
+            if (bId != null)
+                getButtonElement().setName(bId);
+        }
+
     }
 
     public static IGFocusWidget getButtonTextImage(String bId, String bName,
@@ -56,9 +69,8 @@ public class ImgButtonFactory {
         Label la = new Label(bName);
         ht += "<td>" + la.getElement().getInnerHTML() + "</td>";
         ht += "</tr></table>";
-        Button b = new Button();
+        Button b = new NamedButton(bId);
         b.setHTML(ht);
-        b.getElement().setId(bId);
         return GFocusWidgetFactory.construct(b);
     }
 }
