@@ -3,11 +3,13 @@ from util.util import ROOMLIST
 from util.util import toDate
 from util.util import RESOP
 from util.util import createArrayList
+from util.util import RESFORM
 import datetime
 from util.util import createResQueryElem
 from util.util import getServicesForRoom
 from util.util import eqDate
 from hotelpack.reservation.resutil import getReservForDay
+from util.util import resStatus
 
 def __getList(var):
     R = ROOMLIST(var)
@@ -31,6 +33,7 @@ def reservationaction(action,var):
       R = RESOP(var)
       room = var["JDATELINE_LINE"]
       RO = ROOMLIST(var)
+      RFORM = RESFORM(var)
       services = RO.getRoomServices(room)
       if len(services) == 0 :
            var['JERROR_MESSAGE'] = "No services assigned to this room"
@@ -43,15 +46,22 @@ def reservationaction(action,var):
            return
        
       res = getReservForDay(var)
+
       if res.isEmpty() : var["JUP_DIALOG"] = "hotel/reservation/reserveroom.xml"
-      else : var["JUP_DIALOG"] = "hotel/reservation/showreserveroom.xml"
-      
+      else : 
+          ares = res.get(0)
+          resid = ares.getResId()
+          rform = RFORM.findElem(resid)
+          sta = resStatus(rform)
+          if sta == 0 : var["JUP_DIALOG"] = "hotel/reservation/showreserveroom.xml"
+          else: var["JUP_DIALOG"] = "hotel/reservation/showstay.xml"
       
     if action == "datelinevalues" :
        seq = var["JDATELINE_QUERYLIST"]
        vals = []
        query=createArrayList()
        R = RESOP(var)
+       RFORM = RESFORM(var)
        for s in seq :
            dfrom = s["JDATELINE_FROM"]
            dto = s["JDATELINE_TO"]
@@ -78,7 +88,11 @@ def reservationaction(action,var):
                        break
                    
                if resid != None :
-                   map = {"name" : name, "datecol" : dt, "form" : "reserved", "0" : resid}
+                   rform = RFORM.findElem(resid)
+                   sta = resStatus(rform)
+                   if sta == 1 : form = "stay"
+                   else : form = "reserved"
+                   map = {"name" : name, "datecol" : dt, "form" : form, "0" : resid}
                    vals.append(map)    
                dt = dt + dl
             

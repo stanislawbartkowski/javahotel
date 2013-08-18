@@ -18,6 +18,7 @@
 		<files>
 			<filedef id="empty" file="hotel/reservation/roomempty.html" />
 			<filedef id="reserved" file="hotel/reservation/reservation.html" />
+			<filedef id="stay" file="hotel/reservation/stay.html" />			
 		</files>
 
 	</dateline>

@@ -46,7 +46,7 @@ def _createPriceElemList(var):
     P = PRICEELEM(var)
     columns = [{"id" :_WEEKENDPRICE,  "displayname" : M("WEEKENDPRICE")} ,
                {"id" :_WORKINGPRICE, "displayname" : M("WORKINGPRICE")}]
-    seq = SERVICES(var).getList()
+    seq = SERVICES(var).getRoomServices()
     lines = createSeq(seq)
 
     defmap = {"lines" : lines, "columns" : columns}
@@ -67,7 +67,7 @@ def _createPriceElemList(var):
     
 def _constructPriceElemList(var):    
     values = var["JCHECK_MAP"]["prices"]
-    seq = SERVICES(var).getList()
+    seq = SERVICES(var).getRoomServices()
     a = createArrayList()
     for s in seq :
         id = s.getName()

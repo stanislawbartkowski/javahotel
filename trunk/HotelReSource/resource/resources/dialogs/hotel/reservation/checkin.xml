@@ -9,13 +9,14 @@
 	</jython>
 
 	<buttons>
-		<button id="accept" displayname="Check in" />
+		<button id="accept" displayname="Check in" actiontype="JYESNO_MESSAGE" actionparam="Are you sure to check them in ?"
+			actionparam1="Checkin confirmation" actionparam2="makecheckin" />
 		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
 	</buttons>
 	
 	<list id="checkinlist" displayname="Persons to rooms" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
-  		<buttons-addlist>accept</buttons-addlist> 
+  		<buttons-addlist>makecheckin</buttons-addlist> 
 		<columns>
 			<column id="roomid" displayname="Room name" />
 			<column id="roomdesc" displayname="Description" />
