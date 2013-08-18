@@ -2,6 +2,7 @@
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
 	<htmlpanel>panel57.html</htmlpanel>
+	<jscode>js58.js</jscode>
 
 	<jython>
 		<import>from testpack import readlist</import>

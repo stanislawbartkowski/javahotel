@@ -44,5 +44,7 @@ public class Test28 extends TestHelper {
             System.out.println(t.getId());
             System.out.println(t.getDisplayName());
         }
+        assertTrue(d.isJsCode());
+        assertEquals("javascript",d.getJsCode());
     }
 }
