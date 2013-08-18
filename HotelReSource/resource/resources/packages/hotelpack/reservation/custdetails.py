@@ -26,7 +26,6 @@ def custdetails(action,var):
       
       C = CUSTOMERLIST(var)
       cu = C.findElem(c_name)
-      print "name=!!!",cu.getName(),"!!",cu.getAttr("name"),"###"
       li = []
       for s in CLIST :
           deid = "de_" + s

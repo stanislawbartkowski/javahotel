@@ -1,64 +1,45 @@
-from com.gwthotel.hotel.server.service import H
-from util.util import MESS
-from util.util import printvar
-from util.util import getHotelName
+from cutil import printVar
 from util.util import SERVICES
-from util.util import copyNameDescr
-from util.util import findElemInSeq
-from com.gwthotel.hotel.services import HotelServices
 from util.util import duplicateService
+from util.util import newOtherService
+from util.util import copyNameDescr
+from util.util import MESS
 from util.util import getVatName
 
 M = MESS()
-taxList = H.getVatTaxes()
-
-def _getVatName(vat):
-  return getVatName(vat)  
 
 def _createList(var):
     serv = SERVICES(var)
-    seq = serv.getRoomServices()
+    seq = serv.getOtherServices()
     list = []
     
     for s in seq : 
        list.append({"name" : s.getName(), "descr" : s.getDescription(), 
-                    "vat" : s.getAttr("vat"), "noperson" : s.getNoPersons(),
-                    "vatname" : _getVatName(s.getAttr("vat"))} )
+                    "vat" : s.getAttr("vat"), 
+                    "vatname" : getVatName(s.getAttr("vat"))} )
        
     var["JLIST_MAP"] = { "services" : list}
-    
-def _duplicateService(var):    
-    return duplicateService(var)
-    
-def _notverifyService(var):
-   nop = var["noperson"]
-   if nop > 0 : return False
-   var["JERROR_noperson"] = M("NOPERSONGREATERZERO")
-   return True
 
-def serviceaction(action,var) :
-
-  printvar ("serviceaction", action,var)
-  
-  if action == "before" or action == "crud_readlist" :
-    _createList(var)
-    
 def _createService(var):
-   se = HotelServices()
+   se = newOtherService(var)
    copyNameDescr(se,var)
    se.setAttr("vat",var["vat"])
-   nop = var["noperson"]
-   se.setNoPersons(nop)
    return se    
 
-def elemserviceaction(action,var) :
-
-  printvar ("elemserviceaction", action,var)
-
+def serviceaction(action,var) :
+    printVar("other services",action,var)
+    
+    if action == "before" or action == "crud_readlist" :  
+       _createList(var)
+       
+def elemserviceaction(action,var):
+    
+  printVar("elem service action",action,var)    
+    
   serv = SERVICES(var)
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
-      if _duplicateService(var) or _notverifyService(var) : return          
+      if duplicateService(var) : return          
       var["JYESNO_MESSAGE"] = M("ADDNEWSERVICEASK");
       var["JMESSAGE_TITLE"] = ""  
       return
@@ -70,7 +51,6 @@ def elemserviceaction(action,var) :
       return
 
   if action == "crud_change"  and not var["JCRUD_AFTERCONF"] :
-      if _notverifyService(var) : return
       var["JYESNO_MESSAGE"] = M("CHANGESERVICEASK")
       var["JMESSAGE_TITLE"] = ""  
       return
@@ -89,4 +69,3 @@ def elemserviceaction(action,var) :
       se = _createService(var)
       serv.deleteElem(se)
       var["JCLOSE_DIALOG"] = True      
-

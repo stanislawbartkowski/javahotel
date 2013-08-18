@@ -10,12 +10,13 @@ from util.util import isResOpen
 from cutil import setCopy
 from util.util import mapToXML
 from util.util import xmlToVar
+from cutil import allEmpty
+from util.util import newResGuest
+from cutil import createArrayList
+from util.util import newCustomer
+from cutil import copyVarToProp
 
 
-#   for r in reservation.getResDetail() :
-#         map = { "name" : r.getRoom(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService() }
-#         list.append(map)
-#         sum.add(r.getPrice())
 
 CUSTF = ["name","descr"] + getCustFieldId()
 CHECKINLIST= "checkinlist"
@@ -35,16 +36,39 @@ def checkinaction(action,var):
     ROP = RESOP(var)
     resName = var["resename"]
     CUST = CUSTOMERLIST(var)
-    
-    if action == "accept" :
-        print "----------------accept"
-        for elem in var["JLIST_MAP"][CHECKINLIST] :
-           print elem
+       
+    if action == "makecheckin" and var["JYESANSWER"] :
+        a = createArrayList()
+        for cust in var["JLIST_MAP"][CHECKINLIST] :
+           print cust
+           if allEmpty(cust,CUSTF) :
+               continue
+           c = newCustomer(var)
+           copyVarToProp(cust,c,CUSTF)
+           cid = cust["name"]
+           if cid == None : cid = CUST.addElem(c)
+           else : CUST.changeElem(c)
+           rGuest = newResGuest(var)
+           rGuest.setGuestName(cid)
+           rid = cust["roomid"]
+           rGuest.setRoomName(rid)
+           print cid,rid
+           a.add(rGuest)
+        # TODO: not trsnactional !!!!   
+        ROP.setResGuestList(resName,a)
+        ROP.changeStatusToStay(resName)
+        var["JCLOSE_DIALOG"] = True   
+        var["JREFRESH_DATELINE_reservation"] = ""
            
-    if action == "guestdetails" :
+    if action == "guestdetails" and var[CHECKINLIST+"_lineset"] :
         var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
         var["JUPDIALOG_START"] = mapToXML(var,CUSTF)
+        
+    if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" : 
+        xml = var["JUPDIALOG_RES"]
+        xmlToVar(var,xml,CUSTF)
+        setCopy(var,CUSTF,CHECKINLIST)
     
     if action == "selectguestfromlist" :
         custid =var["JUPDIALOG_RES"]
@@ -81,8 +105,6 @@ def checkinaction(action,var):
                 for i in range(roomRes[roomname][0]) :
                     map = { "roomid" : roomname, "roomdesc" : roomRes[roomname][1].getDescription()}
                     # add guest details
-                    # getGuestName()
-                    # getRoomName()
                     no = -1
                     found = False
                     for g in gList :

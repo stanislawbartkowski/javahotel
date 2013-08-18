@@ -9,6 +9,11 @@ from com.gwthotel.hotel.reservation import ReservationDetail
 import cutil
 from com.gwthotel.hotel.reservation import ResStatus
 from cutil import removeDuplicates
+from com.gwthotel.hotel.stay import ResGuest
+from cutil import createArrayList
+from com.gwthotel.hotel.services import ServiceType
+from com.gwthotel.hotel.services import HotelServices
+
 
 class MESS :
 
@@ -62,14 +67,22 @@ class HotelAdmin :
     def removeHotel(self,hotel):
         self.adminI.removeHotel(self.app,hotel)
         H.invalidateHotelCache()         
-  
-class SERVICES :
+
+class CRUDLIST :
     def __init__(self,var):
-        self.serviceS = H.getHotelServices()
+        self.serviceS = None
         self.var = var
         
     def getList(self):
-        return self.serviceS.getList(getHotelName(self.var))    
+        return self.serviceS.getList(getHotelName(self.var)) 
+    
+    def getModifiedList(self,f):
+        li = self.getList()
+        nli = createArrayList()
+        for l in li :
+            if not f(l) : continue
+            nli.add(l)
+        return nli    
     
     def addElem(self,elem):
         return self.serviceS.addElem(getHotelName(self.var),elem)
@@ -82,23 +95,34 @@ class SERVICES :
         
     def findElem(self,name):
         return self.serviceS.findElem(getHotelName(self.var),name)    
-            
+
   
-class PRICELIST(SERVICES) :
+class SERVICES(CRUDLIST) :
+    def __init__(self,var):
+        CRUDLIST.__init__(self,var)
+        self.serviceS = H.getHotelServices()
+        
+    def getOtherServices(self):
+        return self.getModifiedList(lambda e: e.getServiceType() == ServiceType.OTHER);                    
+
+    def getRoomServices(self):
+        return self.getModifiedList(lambda e: e.getServiceType() == ServiceType.HOTEL);
+     
+class PRICELIST(CRUDLIST) :
 
     def __init__(self,var):
-        SERVICES.__init__(self,var)
+        CRUDLIST.__init__(self,var)
         self.serviceS = H.getHotelPriceList()
         
-class CUSTOMERLIST(SERVICES) :
+class CUSTOMERLIST(CRUDLIST) :
 
     def __init__(self,var):
-        SERVICES.__init__(self,var)
+        CRUDLIST.__init__(self,var)
         self.serviceS = H.getHotelCustomers()
                 
-class ROOMLIST(SERVICES):        
+class ROOMLIST(CRUDLIST):        
     def __init__(self,var):
-        SERVICES.__init__(self,var)
+        CRUDLIST.__init__(self,var)
         self.serviceS = H.getHotelRooms()
   
     def setRoomServices(self,roomName,services):
@@ -131,6 +155,15 @@ class RESOP :
      def changeStatus(self,resId,status):
          self.service.changeStatus(getHotelName(self.var),resId,status)
          
+     def changeStatusToStay(self,resId):
+         self.changeStatus(resId,ResStatus.STAY)    
+
+     def changeStatusToCancel(self,resId):
+         self.changeStatus(resId,ResStatus.CANCEL)    
+
+     def changeStatusToReserv(self,resId):
+         self.changeStatus(resId,ResStatus.OPEN)    
+         
      def setResGuestList(self,resId,list):
          self.service.setResGuestList(getHotelName(self.var),resId,list)
          
@@ -138,11 +171,16 @@ class RESOP :
          return self.service.getResGuestList(getHotelName(self.var),resId)
          
          
-class RESFORM(SERVICES) :
+class RESFORM(CRUDLIST) :
 
     def __init__(self,var):
-        SERVICES.__init__(self,var)
+        CRUDLIST.__init__(self,var)
         self.serviceS = H.getResForm()
+        
+def resStatus(rform):
+    status = rform.getStatus()
+    if status == ResStatus.STAY : return 1
+    return 0       
                 
 def xmlToVar(var,xml,list,pre=None) :
     iXML = H.getXMLMap()
@@ -272,6 +310,18 @@ def newResForm(var):
     c = ConstructObject(var)
     return c.getO(1)   
 
+def newResGuest(var):
+    return ResGuest()
+
+def newOtherService(var):
+    se = HotelServices()
+    se.setServiceType(ServiceType.OTHER)
+    se.setNoPersons(-1)
+    return se
+
+def newHotelService(var):
+    return HotelServices()
+
 def setCopy(var,li) :
   cutil.setCopy(var,li)  
     
@@ -338,3 +388,22 @@ class SUMBDECIMAL :
        
     def add(self,b):
         if b : self.sum = self.sum + b.floatValue()    
+        
+        
+def duplicateService(var):    
+    serv = SERVICES(var)
+    seq = serv.getList()
+    if findElemInSeq(var["name"],seq) != None :
+      M = MESS()
+      var["JERROR_name"] = M("DUPLICATEDSERVICENAME")
+      return True
+    return False
+
+def getVatName(vat):
+  taxList = H.getVatTaxes()
+  list = taxList.getList()
+  vat = findElemInSeq(vat,list)
+  if vat == None : return ""
+  return vat.getDescription()
+
+        

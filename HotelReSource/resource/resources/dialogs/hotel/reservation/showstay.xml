@@ -1,21 +1,19 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Reservation">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Stay">
 
 	<before />
 
 	<jython>
 		<import>from hotelpack.reservation import reserroom</import>
-		<method>reserroom.showreseraction({0},{1})</method>
+		<method>reserroom.showstay({0},{1})</method>
 	</jython>
 
 	<buttons>
 		<button id="guestdesc" displayname="Customer details"
 			actiontype="JUP_DIALOG" actionparam="hotel/reservation/showcustomerdetails.xml" />
-		<button id="cancelres" displayname="Cancel reservation"
-			actiontype="JYESNO_MESSAGE" actionparam="Do you really want to cancel this reservation ?"
-			actionparam1="Warning before canceling" actionparam2="cancelreserv" />
-		<button id="checkin" displayname="Check in" actiontype="JUP_DIALOG"
-			actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin"/>
+		<button id="changetoreserv" displayname="Change to reservation"
+			actiontype="JYESNO_MESSAGE" actionparam="Do you want to change this stay to reservation ?"
+			actionparam1="Warning before change" actionparam2="changetoreserv" />
 	</buttons>
 
 	<form>

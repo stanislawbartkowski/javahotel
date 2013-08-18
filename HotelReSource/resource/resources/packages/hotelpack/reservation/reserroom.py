@@ -222,9 +222,28 @@ def showreseraction(action,var):
      res = getReservForDay(var)
      resname = res[0].getResId()
      R = RESOP(var)
-     R.changeStatus(resname,ResStatus.CANCEL)
+     R.changeStatusToCancel(resname)
      var["JCLOSE_DIALOG"] = True
      var["JREFRESH_DATELINE_reservation"] = ""
+     
+   if action == "aftercheckin" and var["JUPDIALOG_BUTTON"] == "makecheckin" :
+       var["JCLOSE_DIALOG"] = True
+     
+def showstay(action,var):     
+   printvar("show stay",action,var)
+   if action == "before" :
+     _setvarBefore(var)
+     
+   if action == "changetoreserv" and var["JYESANSWER"] :
+     res = getReservForDay(var)
+     resname = res[0].getResId()
+     R = RESOP(var)
+     R.changeStatusToReserv(resname)
+     a = createArrayList()
+     R.setResGuestList(resname,a)
+     var["JCLOSE_DIALOG"] = True
+     var["JREFRESH_DATELINE_reservation"] = ""
+
 
      
       

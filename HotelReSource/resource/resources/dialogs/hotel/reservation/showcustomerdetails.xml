@@ -10,13 +10,13 @@
 
 	<form >
 		<field id="cust_name" displayname="@name" readonly="" />
-		<field id="cust_descr" displayname="@description" />
-		<field id="cust_firstname" displayname="@firstname" />
-		<field id="cust_companyname" displayname="@companyname" />
-		<field id="cust_street" displayname="@street" />
-		<field id="cust_zipcode" displayname="@zipcode" />
-		<field id="cust_email" displayname="@email" />
-		<field id="cust_phone" displayname="@phone" />
+		<field id="cust_descr" displayname="@description" readonly="" />
+		<field id="cust_firstname" displayname="@firstname" readonly=""/>
+		<field id="cust_companyname" displayname="@companyname" readonly=""/>
+		<field id="cust_street" displayname="@street" readonly=""/>
+		<field id="cust_zipcode" displayname="@zipcode" readonly=""/>
+		<field id="cust_email" displayname="@email" readonly=""/>
+		<field id="cust_phone" displayname="@phone" readonly=""/>
 	</form>
 
 </dialog>
