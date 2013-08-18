@@ -161,6 +161,14 @@ public class DialogFormat extends ElemDescription {
         return getAttr(ICommonConsts.HTMLPANEL);
     }
 
+    public boolean isJsCode() {
+        return isAttr(ICommonConsts.JSCODE);
+    }
+
+    public String getJsCode() {
+        return getAttr(ICommonConsts.JSCODE);
+    }
+
     public boolean isHtmlPanel() {
         return isAttr(ICommonConsts.HTMLPANEL);
     }

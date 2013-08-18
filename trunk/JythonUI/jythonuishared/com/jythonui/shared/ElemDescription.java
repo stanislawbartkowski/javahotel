@@ -100,7 +100,7 @@ public abstract class ElemDescription implements Serializable {
         return CUtil.EqNS(getId(), id);
     }
 
-    protected boolean isAttr(String attr) {
+    public boolean isAttr(String attr) {
         return getAttr(attr) != null;
     }
 
