@@ -455,7 +455,13 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     @Override
     public void startPublish(CellId cId) {
 
+        // Java script code
+        if (d.isJsCode()) 
+            Utils.callJs(d.getJsCode());
+        
         PViewData pView = new PViewData(cId);
+        
+        
 
         M.getLeftMenu().createLeftButton(
                 constructCButton(d.getLeftButtonList()), info.getSecurity(),

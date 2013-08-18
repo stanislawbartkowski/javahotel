@@ -84,9 +84,9 @@ class ReadDialog {
         /** Tags recognized for a particular element. */
         /* It duplicated to some extend xsd schema which also forces XML format. */
         private final String[] dialogTag = { ICommonConsts.HTMLPANEL,
-                ICommonConsts.BEFORE, ICommonConsts.DISPLAYNAME,
-                ICommonConsts.IMPORT, ICommonConsts.METHOD,
-                ICommonConsts.PARENT, ICommonConsts.TYPES };
+                ICommonConsts.JSCODE, ICommonConsts.BEFORE,
+                ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT,
+                ICommonConsts.METHOD, ICommonConsts.PARENT, ICommonConsts.TYPES };
         private final String[] buttonTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
@@ -394,6 +394,18 @@ class ReadDialog {
 
     }
 
+    private static void replaceFile(IJythonUIServerProperties p,
+            DialogFormat fo, String attr) {
+        if (fo.isAttr(attr)) {
+            String fileName = fo.getAttr(attr);
+            // replace file name with content
+            InputStream souI = Util.getFile(p, fileName);
+            String te = Util.readFromFileInput(souI);
+            fo.setAttr(attr, te);
+        }
+
+    }
+
     static DialogFormat parseDocument(IJythonUIServerProperties p,
             InputStream sou) throws ParserConfigurationException, SAXException,
             IOException {
@@ -402,13 +414,8 @@ class ReadDialog {
         saxParser = factory.newSAXParser();
         MyHandler ma = new MyHandler(p);
         saxParser.parse(sou, ma);
-        if (ma.dFormat.isHtmlPanel()) {
-            String fileName = ma.dFormat.getHtmlPanel();
-            // replace file name with content
-            InputStream souI = Util.getFile(p, fileName);
-            String te = Util.readFromFileInput(souI);
-            ma.dFormat.setAttr(ICommonConsts.HTMLPANEL, te);
-        }
+        replaceFile(p, ma.dFormat, ICommonConsts.HTMLPANEL);
+        replaceFile(p, ma.dFormat, ICommonConsts.JSCODE);
         return ma.dFormat;
     }
 

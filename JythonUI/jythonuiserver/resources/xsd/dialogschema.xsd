@@ -102,6 +102,7 @@
 	<xs:group name="dialogG">
 		<xs:sequence>
 			<xs:element minOccurs="0" name="htmlpanel" type="xs:string" />
+			<xs:element minOccurs="0" name="jscode" type="xs:string" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
 			<xs:element minOccurs="0" name="before" type="emptyT" />
 			<xs:element minOccurs="0" name="parent" type="xs:string" />
@@ -111,6 +112,7 @@
 
 	<xs:attributeGroup name="dialogattrG">
 		<xs:attribute name="htmlpanel" type="xs:string" />
+		<xs:attribute name="jscode" type="xs:string" />
 		<xs:attribute name="displayname" type="xs:string" />
 		<xs:attribute name="before" type="emptyT" />
 		<xs:attribute name="parent" type="xs:string" />
