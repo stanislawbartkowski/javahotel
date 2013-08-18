@@ -346,7 +346,7 @@ public class Utils {
         return url;
     }
 
-    public static void setId(Widget w, String id) {
+    private static void XsetId(Widget w, String id) {
         w.getElement().setId(id);
     }
 

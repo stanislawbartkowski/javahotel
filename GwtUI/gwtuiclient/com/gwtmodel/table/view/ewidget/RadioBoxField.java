@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 
@@ -38,7 +37,7 @@ class RadioBoxField extends AbstractField {
         ra = new ArrayList<RadioButton>();
         for (String s : listT.getListVal()) {
             RadioButton r = new RadioButton(getHtmlName(), s);
-            Utils.setId(r, s);
+            r.setName(s) ;
             vP.add(r);
             ra.add(r);
         }

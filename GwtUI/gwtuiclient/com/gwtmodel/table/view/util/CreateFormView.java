@@ -47,7 +47,7 @@ public class CreateFormView {
      */
     public static void replace(HTMLPanel ha, String htmlId, Widget w) {
         try {
-            w.getElement().setId(htmlId);
+//            w.getElement().setId(htmlId);
             // ha.add(w, htmlId);
             ha.addAndReplaceElement(w, htmlId);
         } catch (NoSuchElementException e) {
