@@ -70,7 +70,9 @@ public interface JMessages extends Messages {
     String CannotCallActionHere(String mess);
 
     String BeforeValueNotFound(int row, String col);
-    
+
     String HelperOnlyForStringType(String id);
+
+    String TabNotFilled(String tabid, String elemid);
 
 }

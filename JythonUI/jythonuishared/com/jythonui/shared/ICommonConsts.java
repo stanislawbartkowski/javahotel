@@ -29,6 +29,7 @@ public interface ICommonConsts {
     String FIELD = "field";
     String IMPORT = "import";
     String METHOD = "method";
+    String HTMLPANEL="htmlpanel";
     String BEFORE = "before";
     String LIST = "list";
     String COLUMN = "column";
@@ -51,6 +52,8 @@ public interface ICommonConsts {
     String FOOTER = "footer";
     int DEFAULTCOLNO = 14;
     int DEFAULTROWNO = 20;
+    String TABPANEL="tabpanel";
+    String TABPANELELEM = "tabelem";
     String DATELINEFORMS = "files";
     String DATELINEFORM = "filedef";
     String DATELINEDEFAFILE = "defafile";

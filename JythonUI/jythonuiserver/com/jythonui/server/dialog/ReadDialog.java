@@ -43,6 +43,8 @@ import com.jythonui.shared.FormDef;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.TabPanel;
+import com.jythonui.shared.TabPanelElem;
 import com.jythonui.shared.ValidateRule;
 
 /**
@@ -81,9 +83,10 @@ class ReadDialog {
 
         /** Tags recognized for a particular element. */
         /* It duplicated to some extend xsd schema which also forces XML format. */
-        private final String[] dialogTag = { ICommonConsts.BEFORE,
-                ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT,
-                ICommonConsts.METHOD, ICommonConsts.PARENT, ICommonConsts.TYPES };
+        private final String[] dialogTag = { ICommonConsts.HTMLPANEL,
+                ICommonConsts.BEFORE, ICommonConsts.DISPLAYNAME,
+                ICommonConsts.IMPORT, ICommonConsts.METHOD,
+                ICommonConsts.PARENT, ICommonConsts.TYPES };
         private final String[] buttonTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
@@ -122,6 +125,9 @@ class ReadDialog {
         private final String[] formTag = { ICommonConsts.ID,
                 ICommonConsts.DATALINEFILE };
         private final String[] elemchecklistTag = checklistTag;
+        private final String[] tabpanelTag = { ICommonConsts.ID };
+        private final String[] tabelemTag = { ICommonConsts.ID,
+                ICommonConsts.DISPLAYNAME };
 
         /** Currently recognized set of tags. */
         /*
@@ -143,6 +149,7 @@ class ReadDialog {
         private CheckList checkList = null;
         private DateLine dL = null;
         private List<ValidateRule> formRules = null;
+        private List<TabPanelElem> tabList = null;
 
         MyHandler(IJythonUIServerProperties p) {
             this.p = p;
@@ -238,6 +245,22 @@ class ReadDialog {
                 dL = new DateLine();
                 bDescr = dL;
                 fList = new ArrayList<FieldItem>();
+                getAttribute = true;
+            }
+            if (qName.equals(ICommonConsts.TABPANEL)) {
+                currentT = tabpanelTag;
+                TabPanel t = new TabPanel();
+                bDescr = t;
+                tabList = t.gettList();
+                dFormat.getTabList().add(t);
+                getAttribute = true;
+            }
+
+            if (qName.equals(ICommonConsts.TABPANELELEM)) {
+                currentT = tabelemTag;
+                TabPanelElem e = new TabPanelElem();
+                bDescr = e;
+                tabList.add(e);
                 getAttribute = true;
             }
 
@@ -379,6 +402,13 @@ class ReadDialog {
         saxParser = factory.newSAXParser();
         MyHandler ma = new MyHandler(p);
         saxParser.parse(sou, ma);
+        if (ma.dFormat.isHtmlPanel()) {
+            String fileName = ma.dFormat.getHtmlPanel();
+            // replace file name with content
+            InputStream souI = Util.getFile(p, fileName);
+            String te = Util.readFromFileInput(souI);
+            ma.dFormat.setAttr(ICommonConsts.HTMLPANEL, te);
+        }
         return ma.dFormat;
     }
 
