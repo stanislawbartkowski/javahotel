@@ -11,6 +11,7 @@ from com.gwthotel.hotel.prices import HotelPriceElem
 from util.util import toB
 from util.util import MESS
 from util.util import createSeq
+from cutil import concatDict
 
 _WEEKENDPRICE="weekend"
 _WORKINGPRICE="working"
@@ -42,11 +43,15 @@ def _createPriceList(var):
    pr.setToDate(toDate(var["validto"]))
    return pr
 
-def _createPriceElemList(var): 
+def _createPriceElemListForType(var,hotel):
     P = PRICEELEM(var)
-    columns = [{"id" :_WEEKENDPRICE,  "displayname" : M("WEEKENDPRICE")} ,
-               {"id" :_WORKINGPRICE, "displayname" : M("WORKINGPRICE")}]
-    seq = SERVICES(var).getRoomServices()
+    if hotel : displayname = M("WORKINGPRICE")
+    else: displayname = "Price"
+    columns = [{"id" :_WEEKENDPRICE,  "displayname" : displayname}]
+    if hotel : columns.append({"id" :_WORKINGPRICE, "displayname" : M("WEEKENDPRICE")})
+    
+    if hotel: seq = SERVICES(var).getRoomServices()
+    else : seq = SERVICES(var).getOtherServices()
     lines = createSeq(seq)
 
     defmap = {"lines" : lines, "columns" : columns}
@@ -60,14 +65,16 @@ def _createPriceElemList(var):
         for p in prices :
             service = p.getService()
             if id == service :
-              defmap[id] = [{"id" : _WEEKENDPRICE, "val" : p.getWeekendPrice()},
-                            {"id" : _WORKINGPRICE, "val" : p.getWorkingPrice()}]
+              defmap[id] = [{"id" : _WEEKENDPRICE, "val" : p.getWeekendPrice()}]
+              if hotel : defmap[id].append({"id" : _WORKINGPRICE, "val" : p.getWorkingPrice()})
+    return defmap
 
-    var["JCHECK_MAP"] = {"prices" : defmap }     
+def _createPriceElemList(var): 
+    var["JCHECK_MAP"] = {"prices" : _createPriceElemListForType(var,True), "pricesothers" : _createPriceElemListForType(var,False)}     
     
 def _constructPriceElemList(var):    
-    values = var["JCHECK_MAP"]["prices"]
-    seq = SERVICES(var).getRoomServices()
+    values = concatDict(var["JCHECK_MAP"]["prices"],var["JCHECK_MAP"]["pricesothers"])
+    seq = SERVICES(var).getList() 
     a = createArrayList()
     for s in seq :
         id = s.getName()

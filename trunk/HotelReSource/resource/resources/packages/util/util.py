@@ -365,7 +365,7 @@ def getServicesForRoom(var,room):
   return [li,liList]
   
   
-def createEnumFromList(li, f):
+def createEnumFromList(li, f = lambda elem : [elem.getName(), elem.getDescription()]):
     seq= []
     for elem in li :
         e = f(elem)
@@ -406,4 +406,12 @@ def getVatName(vat):
   if vat == None : return ""
   return vat.getDescription()
 
-        
+def getPriceForPriceList(var,pricelist,service) :
+  PE = PRICEELEM(var)
+  peList = PE.getPricesForPriceList(pricelist)
+  pPrice = None
+  for p in peList :
+      if service == p.getService() :
+          pPrice = p
+          break
+  return pPrice      

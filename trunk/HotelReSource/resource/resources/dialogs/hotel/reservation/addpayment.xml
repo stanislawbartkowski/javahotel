@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Add payment">
+
+	<before />
+
+	<types>hotel/reservation/restypes.xml,hotel/typesenum.xml</types>
+
+	<jython>
+		<import>from hotelpack.reservation import addpayment</import>
+		<method>addpayment.doaction({0},{1})</method>
+	</jython>
+        
+        <buttons>
+                <button id="accept" displayname="Add payment" actiontype="JYESNO_MESSAGE" actionparam="Are you sure to add this payment ?"
+                        actionparam1="Confirmation" actionparam2="addpayment" validate=""/>
+                <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+        </buttons>
+
+
+	<form>
+		<field id="paymentdate" displayname="Date" type="date" notempty="" />
+		<field id="pricelist" type="custom:allpricelist" displayname="Price list"
+			signalchange="" />
+		<field id="service" type="custom:otherservice" displayname="Service"
+			signalchange="" />
+               <field id="pricefromlist" type="decimal" displayname="Price from list" readonly = "" />
+               <field id="price" type="decimal" displayname="Price" notempty="" />
+               <field id="quantity" type="int" displayname="Quantity" notempty="" signalchange="" />
+               <field id="total" type="decimal" displayname="Total" readonly="" notempty=""  />
+               <field id="vat" type="custom:vattax" displayname="@vatname"
+                        notempty="" />
+               <field id="descr" displayname = "@description" /> 
+	</form>
+
+	<list id="roomlist" displayname="Persons to rooms" pagesize="5">
+		<standbutt>TOOLS,FIND,FILTER</standbutt>
+		<columns>
+			<column id="roomid" displayname="Room name" />
+			<column id="roomdesc" displayname="Description" />
+			<!-- guest description -->
+			<column id="name" displayname="id" actionid="guestdetail" />
+			<column id="descr" displayname="Guest description" />
+			<column id="firstname" displayname="Guest first name" />
+
+		</columns>
+	</list>
+
+
+
+</dialog>

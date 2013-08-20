@@ -16,8 +16,6 @@ from cutil import createArrayList
 from util.util import newCustomer
 from cutil import copyVarToProp
 
-
-
 CUSTF = ["name","descr"] + getCustFieldId()
 CHECKINLIST= "checkinlist"
 
@@ -84,9 +82,9 @@ def checkinaction(action,var):
     if action == "before" :
         roomRes = {}
         reservation = R.findElem(resName)
+        # list of guests
+        gList = ROP.getResGuestList(resName)
         for r in reservation.getResDetail() :
-            # list of guests
-            gList = ROP.getResGuestList(resName)
             
             rname = r.getRoom()
             room = ROOM.findElem(rname)

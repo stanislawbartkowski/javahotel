@@ -12,3 +12,7 @@ def getReservForDay(var):
    res = R.queryReservation(query)
    return res
 
+def showCustomerDetails(var,custid):
+    var["JUP_DIALOG"] = "hotel/reservation/showcustomerdetails.xml"
+    print "details",custid
+    var["JUPDIALOG_START"] = custid
