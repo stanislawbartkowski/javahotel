@@ -18,29 +18,44 @@ import org.xml.sax.Attributes;
 
 public class SaxUtil {
 
-    public static void readAttr(Map<String,String> bDescr, Attributes attributes,
-            String[] currentT) {
+    public static void readAttr(Map<String, String> bDescr,
+            Attributes attributes, String[] currentT) {
         for (int i = 0; i < attributes.getLength(); i++) {
             String key = attributes.getQName(i);
-            for (String s : currentT) {
-                if (key.equals(s.toLowerCase())) {
-                    String val = attributes.getValue(i);
-                    bDescr.put(s, val);
-                    break;
+            boolean set = false;
+            if (currentT == null)
+                set = true;
+            else
+                for (String s : currentT) {
+                    if (key.equals(s.toLowerCase())) {
+                        // String val = attributes.getValue(i);
+                        // bDescr.put(s, val);
+                        set = true;
+                        break;
+                    }
                 }
+            if (set) {
+                String val = attributes.getValue(i);
+                bDescr.put(key, val);
             }
         }
     }
 
-    public static void readVal(Map<String,String> bDescr, String qName,
+    public static void readVal(Map<String, String> bDescr, String qName,
             String[] currentT, StringBuffer buf) {
         if (bDescr != null) {
-            for (String s : currentT) {
-                if (s.toLowerCase().equals(qName)) {
-                    bDescr.put(s, buf.toString());
-                    return;
+            boolean set = false;
+            if (currentT == null)
+                set = true;
+            else
+                for (String s : currentT) {
+                    if (s.toLowerCase().equals(qName)) {
+                        set = true;
+                        break;
+                    }
                 }
-            }
+            if (set)
+                bDescr.put(qName, buf.toString());
         }
 
     }
