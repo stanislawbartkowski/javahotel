@@ -13,4 +13,13 @@
 		<method>reseenum.pricelistenum({0},{1})</method>
 	</typedef>
 
+	<typedef id="allpricelist" type="combo" comboid="id" displayname="displayname">
+		<method>reseenum.allpricelistenum({0},{1})</method>
+	</typedef>
+
+
+	<typedef id="otherservice" type="combo" comboid="id" displayname="displayname">
+		<method>reseenum.otherserviceenum({0},{1})</method>
+	</typedef>
+
 </typedefs>

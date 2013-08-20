@@ -26,4 +26,13 @@
 		afterdot="2">
 	</checklist>
 
+	<checklist id="pricesothers" displayname="Other services prices" type="decimal"
+		afterdot="2">
+	</checklist>
+	
+	<tabpanel id="tab">
+		<tabelem id="prices" displayname="Hotel prices" />
+		<tabelem id="pricesothers" displayname="Other prices" />
+	</tabpanel>
+
 </dialog>

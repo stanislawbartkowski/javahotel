@@ -23,6 +23,9 @@ from com.gwthotel.hotel.reservation import ResStatus
 from util.util import getCustFieldId
 from util.util import mapToXML
 from util.util import xmlToVar
+from hotelpack.reservation.resutil import showCustomerDetails
+from util.util import getPriceForPriceList
+from cutil import checkGreaterZero
 
 CLIST = ["name","descr"] + getCustFieldId()
 
@@ -47,12 +50,7 @@ def _createResData(var):
   rList = RES.queryReservation(query)
   allavail = True
   
-  peList = PE.getPricesForPriceList(pricelist)
-  pPrice = None
-  for p in peList :
-      if service == p.getService() :
-          pPrice = p
-          break
+  pPrice = getPriceForPriceList(var,pricelist,service)
 # getResDate      
   for i in range(resdays) :
       price = pPrice.getWorkingPrice()
@@ -76,10 +74,7 @@ def _createListOfDays(var):
   return rData[2]
  
 def _checkRese(var):
-  resdays = var["resdays"]
-  if resdays <= 0 :
-     var["JERROR_resdays"] = "Should be greater then 0"
-     return False
+  if not checkGreaterZero(var,"resdays") : return False
   if _createListOfDays(var) : return True
   var["JERROR_MESSAGE"] = "Already reserved"
   var["JMESSAGE_TITLE"] = "Cannot make reservation"  
@@ -215,9 +210,10 @@ def reseraction(action,var):
       var["JREFRESH_DATELINE_reservation"] = ""
       
 def showreseraction(action,var):
-   printvar("show reseraction",action,var)
+   printvar("show reservaction",action,var)
    if action == "before" :
      _setvarBefore(var)
+     
    if action == "cancelreserv" and var["JYESANSWER"] :
      res = getReservForDay(var)
      resname = res[0].getResId()
@@ -228,6 +224,10 @@ def showreseraction(action,var):
      
    if action == "aftercheckin" and var["JUPDIALOG_BUTTON"] == "makecheckin" :
        var["JCLOSE_DIALOG"] = True
+       
+   if action == "guestdesc" :
+       showCustomerDetails(var,var["cust_name"])
+           
      
 def showstay(action,var):     
    printvar("show stay",action,var)
@@ -243,6 +243,10 @@ def showstay(action,var):
      R.setResGuestList(resname,a)
      var["JCLOSE_DIALOG"] = True
      var["JREFRESH_DATELINE_reservation"] = ""
+     
+   if action == "guestdesc" :
+       showCustomerDetails(var,var["cust_name"])
+  
 
 
      

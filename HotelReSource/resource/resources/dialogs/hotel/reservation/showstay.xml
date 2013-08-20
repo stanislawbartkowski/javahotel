@@ -9,11 +9,12 @@
 	</jython>
 
 	<buttons>
-		<button id="guestdesc" displayname="Customer details"
-			actiontype="JUP_DIALOG" actionparam="hotel/reservation/showcustomerdetails.xml" />
+		<button id="guestdesc" displayname="Customer details" />
 		<button id="changetoreserv" displayname="Change to reservation"
 			actiontype="JYESNO_MESSAGE" actionparam="Do you want to change this stay to reservation ?"
 			actionparam1="Warning before change" actionparam2="changetoreserv" />
+		<button id="addpayment" displayname="Add payment" actiontype="JUP_DIALOG"
+			actionparam="hotel/reservation/addpayment.xml" />
 	</buttons>
 
 	<form>

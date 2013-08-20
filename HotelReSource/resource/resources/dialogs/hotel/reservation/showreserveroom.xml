@@ -9,8 +9,7 @@
 	</jython>
 
 	<buttons>
-		<button id="guestdesc" displayname="Customer details"
-			actiontype="JUP_DIALOG" actionparam="hotel/reservation/showcustomerdetails.xml" />
+		<button id="guestdesc" displayname="Customer detail" />
 		<button id="cancelres" displayname="Cancel reservation"
 			actiontype="JYESNO_MESSAGE" actionparam="Do you really want to cancel this reservation ?"
 			actionparam1="Warning before canceling" actionparam2="cancelreserv" />
