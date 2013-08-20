@@ -90,8 +90,9 @@ public class VerifyJError {
         }
         iSlo.getSlContainer().publish(
                 dType,
-                d == null ? DataActionEnum.ChangeViewFormToInvalidAction
-                        : DataActionEnum.InvalidSignal,
+//                d == null ? DataActionEnum.ChangeViewFormToInvalidAction
+//                        : DataActionEnum.InvalidSignal,
+                        DataActionEnum.ChangeViewFormToInvalidAction,
                 new InvalidateFormContainer(err));
         return true;
     }
