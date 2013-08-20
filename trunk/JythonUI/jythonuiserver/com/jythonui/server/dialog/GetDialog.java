@@ -143,23 +143,26 @@ public class GetDialog {
                 VerifyXML.verify(u, new StreamSource(sou));
             }
             sou = getXML(p, dialogName);
-            d = ReadDialog.parseDocument(p,sou);
+            d = ReadDialog.parseDocument(p, sou);
             if (d != null) {
                 d.setId(dialogName);
                 if (verify) {
                     ValidateDialogFormat.validate(d);
                 }
             }
-            String typesName = d.getAttr(ICommonConsts.TYPES);
-            if (!CUtil.EmptyS(typesName)) {
-                if (verify) {
-                    u = getURLSchema(TYPESXSD);
+            String typesNames = d.getAttr(ICommonConsts.TYPES);
+            if (!CUtil.EmptyS(typesNames)) {
+                String[] tList = typesNames.split(",");
+                for (String typesName : tList) {
+                    if (verify) {
+                        u = getURLSchema(TYPESXSD);
+                        sou = getXML(p, typesName);
+                        VerifyXML.verify(u, new StreamSource(sou));
+                    }
                     sou = getXML(p, typesName);
-                    VerifyXML.verify(u, new StreamSource(sou));
+                    TypesDescr types = ReadTypes.parseDocument(sou);
+                    d.getTypeList().add(types);
                 }
-                sou = getXML(p, typesName);
-                TypesDescr types = ReadTypes.parseDocument(sou);
-                d.getTypeList().add(types);
             }
             // now check elemformat for lists
             if (d.getListList() != null) {

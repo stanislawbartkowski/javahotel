@@ -7,10 +7,25 @@ from java.util import ArrayList
 def createArrayList() :
   return ArrayList()   
 
+def checkGreaterZero(var,key):
+  val = var[key]
+  if val <= 0 :
+     var["JERROR_"+key] = "Should be greater then 0"
+     return False
+  return True
+
+
 def copyVarToProp(var,prop,list):
     for l in list :
         val = var[l]
         prop.setAttr(l,val)
+        
+def copyPropToVar(var,prop,list,prefix=None):
+    for l in list :
+        val = prop.getAttr(l)
+        if prefix : key = prefix + l
+        else : key = l
+        var[key] = val
 
 def toDate(value):
     if value == None : return None
@@ -26,6 +41,15 @@ def setCopy(var,li, list=None,prefix=None) :
     if prefix : k = prefix + l
     else : k = l
     var[c+k] = True
+    
+def BigDecimalToDecimal(b):
+    if b : return b.doubleValue()
+    return None
+
+def mulIntDecimal(int,dec,afterdot=2):
+    if int and dec :
+       return int * dec
+    return None 
 
 def addDecimal(sum1,sum2,afterdot=2):
    if sum1 == None : return sum2
@@ -205,3 +229,12 @@ def removeDuplicates(li,thesame):
         if notfound : newli.append(elem)
         
     return newli
+
+def concatDict(dic1,dic2):
+    res = dic1.copy()
+    for key in dic2.keys() :
+        res[key] = dic2[key]
+    return res    
+    
+def today():
+    return datetime.date.today()
