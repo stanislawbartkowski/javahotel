@@ -3,9 +3,20 @@ from org.python.core.util import StringUtil
 import datetime
 import time
 from java.util import ArrayList
+from java.math import BigDecimal
+from com.gwthotel.hotel import HUtils
+
+
+def setJMapList(var,list,seq):
+  if var.has_key("JLIST_MAP") : var["JLIST_MAP"][list] = seq
+  else : var["JLIST_MAP"] = { list : seq }
 
 def createArrayList() :
   return ArrayList()   
+  
+def setFooter(var,list,column,val):
+    var["JFOOTER_COPY_"+list+"_"+column] = True
+    var["JFOOTER_"+list+"_"+column] = val
 
 def checkGreaterZero(var,key):
   val = var[key]
@@ -13,7 +24,6 @@ def checkGreaterZero(var,key):
      var["JERROR_"+key] = "Should be greater then 0"
      return False
   return True
-
 
 def copyVarToProp(var,prop,list):
     for l in list :
@@ -34,6 +44,16 @@ def toDate(value):
     ca.set(value.year,value.month - 1,value.day)
     return ca.getTime()
 
+def eqDate(d1,d2):
+    dd1 = toDate(d1)
+    return dd1.equals(d2)
+
+def toB(value):
+    if value == None : return None
+    b = BigDecimal(value)
+    return HUtils.roundB(b)
+
+
 def setCopy(var,li, list=None,prefix=None) :
   for l in li :
     if list : c = "JROWCOPY_" + list + "_"  
@@ -48,20 +68,20 @@ def BigDecimalToDecimal(b):
 
 def mulIntDecimal(int,dec,afterdot=2):
     if int and dec :
-       return int * dec
+       return round(int * dec, afterdot)
     return None 
 
 def addDecimal(sum1,sum2,afterdot=2):
    if sum1 == None : return sum2
    if sum2 == None : return sum1
-   return sum1 + sum2
+   return round(sum1 + sum2,afterdot)
 
 def minusDecimal(sum1,sum2,afterdot=2):
    if sum1 == None : 
        if sum2 == None : return None
-       return 0 - sum2
+       return round(0 - sum2,afterdot)
    if sum2 == None : return sum1
-   return sum1 - sum2
+   return round(sum1 - sum2,afterdot)
 
 
 def modifDecimalFooter(var,list,name):
