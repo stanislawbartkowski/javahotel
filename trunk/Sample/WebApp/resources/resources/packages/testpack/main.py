@@ -14,6 +14,7 @@ def dialogaction(action,var) :
     seq = ['glob1','globbool','globint','globdecimal','globdate','globdatetime']
     for s in seq :
       print s,var[s]
+    var["JERROR_glob1"] = "EYYYYYY"  
     var['JUP_DIALOG'] = 'copymain.xml'
       
         

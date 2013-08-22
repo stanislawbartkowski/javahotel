@@ -21,6 +21,8 @@ import org.junit.Test;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.TabPanel;
 import com.jythonui.shared.TabPanelElem;
+import com.jythonui.shared.TypedefDescr;
+import com.jythonui.shared.TypesDescr;
 
 public class Test28 extends TestHelper {
 
@@ -46,5 +48,24 @@ public class Test28 extends TestHelper {
         }
         assertTrue(d.isJsCode());
         assertEquals("javascript",d.getJsCode());
+    }
+    
+    @Test
+    public void test3() { 
+        DialogFormat d = findDialog("test59.xml");
+        assertNotNull(d);
+        assertNotNull(d.getTypeList());
+        assertEquals(2, d.getTypeList().size());
+        assertEquals(1, d.getTypeList().get(0).getTypeList().size());
+        boolean ok = false;
+        for (TypesDescr t : d.getTypeList()) {
+            for (TypedefDescr ty : t.getTypeList()) {
+                System.out.println(ty.getId());
+                if (ty.eqId("datasource"))
+                    ok = true;
+            }
+        }
+        assertTrue(ok);
+
     }
 }
