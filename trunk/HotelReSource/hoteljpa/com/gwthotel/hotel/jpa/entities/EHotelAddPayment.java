@@ -25,17 +25,18 @@ import javax.persistence.TemporalType;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "findAddPaymentForReservation", query = "SELECT x FROM EHotelAddPayment x WHERE x.reservation = ?1"),
-    @NamedQuery(name = "deleteAllAddPaymentForReservation", query = "DELETE FROM EHotelAddPayment x WHERE x.reservation=?1"),
-    @NamedQuery(name = "deleteAllAddPaymentForRoom", query = "DELETE FROM EHotelAddPayment x WHERE x.room=?1"),
-    @NamedQuery(name = "deleteAllAddPaymentForService", query = "DELETE FROM EHotelAddPayment x WHERE x.service=?1"),
-    @NamedQuery(name = "deleteAllAddPaymentForCustomer", query = "DELETE FROM EHotelAddPayment x WHERE x.customer=?1"),
-    @NamedQuery(name = "deleteAllAddPayment", query = "DELETE FROM EHotelAddPayment x WHERE x.reservation.hotel = ?1") })
+        @NamedQuery(name = "findAddPaymentForReservation", query = "SELECT x FROM EHotelAddPayment x WHERE x.reservation = ?1"),
+        @NamedQuery(name = "deleteAllAddPaymentForReservation", query = "DELETE FROM EHotelAddPayment x WHERE x.reservation=?1"),
+        @NamedQuery(name = "deleteAllAddPaymentForRoom", query = "DELETE FROM EHotelAddPayment x WHERE x.room=?1"),
+        @NamedQuery(name = "deleteAllAddPaymentForService", query = "DELETE FROM EHotelAddPayment x WHERE x.service=?1"),
+        @NamedQuery(name = "deleteAllAddPaymentForCustomer", query = "DELETE FROM EHotelAddPayment x WHERE x.customer=?1"),
+        @NamedQuery(name = "deleteAllAddPayment", query = "DELETE FROM EHotelAddPayment x WHERE x.reservation.hotel = ?1") })
 public class EHotelAddPayment extends EHotelRoomCustomer {
 
     @Column(nullable = false)
     private int quantity;
     private String description;
+    private String servicevat;
     @Column(nullable = false)
     private BigDecimal price;
     private BigDecimal listPrice;
@@ -103,4 +104,12 @@ public class EHotelAddPayment extends EHotelRoomCustomer {
         this.servDate = servDate;
     }
 
+    public String getServicevat() {
+        return servicevat;
+    }
+
+    public void setServicevat(String servicevat) {
+        this.servicevat = servicevat;
+    }
+    
 }

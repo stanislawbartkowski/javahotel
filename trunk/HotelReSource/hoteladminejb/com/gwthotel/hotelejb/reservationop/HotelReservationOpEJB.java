@@ -73,15 +73,15 @@ public class HotelReservationOpEJB implements IReservationOp {
     }
 
     @Override
-    public void AddResAddPayment(HotelId hotel, String resName,
+    public void addResAddPayment(HotelId hotel, String resName,
             ResAddPayment add) {
-        rOp.AddResAddPayment(hotel, resName, add);
+        rOp.addResAddPayment(hotel, resName, add);
     }
 
     @Override
-    public List<ResAddPayment> getRedAddPaymentList(HotelId hotel,
+    public List<ResAddPayment> getResAddPaymentList(HotelId hotel,
             String resName) {
-        return rOp.getRedAddPaymentList(hotel, resName);
+        return rOp.getResAddPaymentList(hotel, resName);
     }
 
 }

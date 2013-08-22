@@ -13,6 +13,7 @@ from com.gwthotel.hotel.stay import ResGuest
 from cutil import createArrayList
 from com.gwthotel.hotel.services import ServiceType
 from com.gwthotel.hotel.services import HotelServices
+from com.gwthotel.hotel.stay import ResAddPayment
 
 
 class MESS :
@@ -169,8 +170,13 @@ class RESOP :
          
      def getResGuestList(self,resId):
          return self.service.getResGuestList(getHotelName(self.var),resId)
+       
+     def addResAddPayment(self,resId,a) :  
+         self.service.addResAddPayment(getHotelName(self.var),resId,a)
          
-         
+     def getResAddPaymentList(self,resId) :
+         return self.service.getResAddPaymentList(getHotelName(self.var),resId)
+       
 class RESFORM(CRUDLIST) :
 
     def __init__(self,var):
@@ -191,7 +197,6 @@ def xmlToVar(var,xml,list,pre=None) :
         else : k = l
         var[k] = val
         
-    
 def mapToXML(map,list,pre=None):
     s = "<root><elem>"
     for e in list :
@@ -240,13 +245,10 @@ def toDate(value):
 # d1 : datetime
 # d2 : java.util.Date
 def eqDate(d1,d2):
-    dd1 = toDate(d1)
-    return dd1.equals(d2)
+    return cutil.eqDate(d1,d2)
 
 def toB(value,afterdot=2):
-    if value == None : return None
-    b = BigDecimal(value)
-    return b
+    return cutil.toB(value,afterdot)
 
 def createSeq(list,addName=False):    
     seq = []
@@ -321,6 +323,9 @@ def newOtherService(var):
 
 def newHotelService(var):
     return HotelServices()
+  
+def newResAddPayment() :
+    return ResAddPayment()
 
 def setCopy(var,li) :
   cutil.setCopy(var,li)  
@@ -388,8 +393,7 @@ class SUMBDECIMAL :
        
     def add(self,b):
         if b : self.sum = self.sum + b.floatValue()    
-        
-        
+                
 def duplicateService(var):    
     serv = SERVICES(var)
     seq = serv.getList()

@@ -29,8 +29,8 @@ public interface IReservationOp {
 
     List<ResGuest> getResGuestList(HotelId hotel, String resName);
 
-    void AddResAddPayment(HotelId hotel, String resName, ResAddPayment add);
+    void addResAddPayment(HotelId hotel, String resName, ResAddPayment add);
 
-    List<ResAddPayment> getRedAddPaymentList(HotelId hotel, String resName);
+    List<ResAddPayment> getResAddPaymentList(HotelId hotel, String resName);
 
 }

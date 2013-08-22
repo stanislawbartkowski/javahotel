@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelAddPayment;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
@@ -230,12 +231,15 @@ class ReservationOp implements IReservationOp {
             EHotelAddPayment eAdd = new EHotelAddPayment();
             toE(em, eAdd, addP);
             eAdd.setDescription(addP.getDescription());
-            eAdd.setListPrice(addP.getPriceList());
-            eAdd.setPrice(addP.getPrice());
+            // TODO: very strange, rounding is necessary after bean
+            // it seems that is looses (or set) round more then 31
+            eAdd.setListPrice(HUtils.roundB(addP.getPriceList()));
+            eAdd.setPrice(HUtils.roundB(addP.getPrice()));
             eAdd.setQuantity(addP.getQuantity());
-            eAdd.setTotal(addP.getPriceTotal());
+            eAdd.setTotal(HUtils.roundB(addP.getPriceTotal()));
             eAdd.setReservation(r);
             eAdd.setServDate(addP.getServDate());
+            eAdd.setServicevat(addP.getServiceVat());
             String servName = addP.getServiceName();
             if (!CUtil.EmptyS(servName)) {
                 EHotelServices serv = JUtils.findService(em, hotel, servName);
@@ -247,7 +251,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public void AddResAddPayment(HotelId hotel, String resName,
+    public void addResAddPayment(HotelId hotel, String resName,
             ResAddPayment add) {
         AddResPayment comma = new AddResPayment(hotel, resName, add);
         comma.executeTran();
@@ -277,6 +281,7 @@ class ReservationOp implements IReservationOp {
                 add.setPriceTotal(a.getTotal());
                 add.setQuantity(a.getQuantity());
                 add.setServDate(a.getServDate());
+                add.setServiceVat(a.getServicevat());
                 if (a.getService() != null)
                     add.setServiceName(a.getService().getName());
                 pList.add(add);
@@ -286,7 +291,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public List<ResAddPayment> getRedAddPaymentList(HotelId hotel,
+    public List<ResAddPayment> getResAddPaymentList(HotelId hotel,
             String resName) {
         AddResPaymentCommand comma = new AddResPaymentCommand(hotel, resName);
         comma.executeTran();

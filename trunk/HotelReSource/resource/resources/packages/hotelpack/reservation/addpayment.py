@@ -10,6 +10,10 @@ from util.util import getPriceForPriceList
 from util.util import SERVICES
 from cutil import mulIntDecimal
 from cutil import BigDecimalToDecimal
+from cutil import checkGreaterZero
+from util.util import newResAddPayment
+from cutil import toDate
+from cutil import toB
 
 RLIST = "roomlist"
 
@@ -35,7 +39,7 @@ LI = ["paymentdate","pricelist","service","pricefromlist","price","descr","quant
 def _setPrice(var,val=None) :
     setCopy(var,["pricefromlist","price"])
     var["pricefromlist"] = val
-    var["price"] = val
+    if val : var["price"] = val
     _setTotal(var)
 
 def _setDescr(var,desc=None) :
@@ -64,8 +68,17 @@ def _setAfterService(var) :
       if service == None :
           _setDescr(var)
           return
-      _setDescr(var,SERVICES(var).findElem(service).getDescription())
-    
+      serv = SERVICES(var).findElem(service)
+      _setDescr(var,serv.getDescription())
+      setCopy(var,["vat"])
+      var["var"] = serv.getVat()
+
+def _setAfterQuantity(var) :
+    _setTotal(var)
+     
+def _setAfterPrice(var) :
+    _setTotal(var)
+
 def _setTotalVal(var,val=None) :
       setCopy(var,["total"])
       var["total"] = val
@@ -76,7 +89,45 @@ def _setTotal(var) :
       if qua == None or price == None :
         _setTotalVal(var)
         return
+      if not checkGreaterZero(var,"quantity") : return
       _setTotalVal(var,mulIntDecimal(qua,price))
+
+def _addPayment(var) :
+     ROP = RESOP(var)
+     r = newResAddPayment()
+     quantity = var["quantity"]
+     da = toDate(var["paymentdate"])
+     descr = var["descr"]
+     price = toB(var["price"])
+     price = toB(1.00)     
+     pricelist = toB(var["pricefromlist"])
+     total = toB(var["total"])
+     total = toB(1.01)
+     room = None
+     guest = None
+     rese = var["resename"]
+     vat = var["vat"]
+     serv = var["service"]
+     if var[RLIST+"_lineset"] :
+       room = var["roomid"]
+       guest = var["name"]
+     if room == None :
+       room = var["JDATELINE_LINE"]
+     if guest == None :
+       guest = RESFORM(var).findElem(rese).getCustomerName()
+     r.setQuantity(quantity)
+     r.setPrice(price)
+     r.setPriceList(pricelist)
+     r.setPriceTotal(total)
+     r.setServDate(da)
+     r.setDescription(descr)
+#     r.setVat(vat) 
+#    TODO: addvar
+     r.setServiceName(serv)
+     r.setGuestName(guest)
+     r.setRoomName(room)
+     ROP.addResAddPayment(rese,r)
+
 
 def doaction(action,var):
     printVar("addpayment",action,var)
@@ -94,17 +145,15 @@ def doaction(action,var):
     if action == "signalchange" :
         if var["changefield"] == "pricelist" : _setAfterPriceList(var)
         if var["changefield"] == "service" : _setAfterService(var)
-        
+        if var["changefield"] == "quantity" : _setAfterQuantity(var)
+        if var["changefield"] == "price" : _setAfterPrice(var)
         
     if action == "guestdetail" and var[RLIST+"_lineset"] :
         showCustomerDetails(var,var["name"])
         
     if action == "addpayment" :
-      pass
-      
-        
-        
-
-#addpayment
-        
+      if not checkGreaterZero(var,"quantity") : return
+      _addPayment(var)
+      var["JCLOSE_DIALOG"] = True
+              
             

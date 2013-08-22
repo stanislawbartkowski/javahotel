@@ -22,6 +22,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.services.HotelServices;
@@ -69,16 +70,16 @@ public class Test8 extends TestHelper {
         pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         assertEquals(1, pList.size());
         eElem = pList.get(0);
-        assertEquals(eElem.getWeekendPrice(), new BigDecimal(10.0));
-        assertEquals(eElem.getWorkingPrice(), new BigDecimal(20.0));
+        assertEquals(eElem.getWeekendPrice(), HUtils.roundB(new BigDecimal(10.0)));
+        assertEquals(eElem.getWorkingPrice(), HUtils.roundB(new BigDecimal(20.0)));
         eElem.setWorkingPrice(new BigDecimal(30.0));
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);
         iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
         pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         eElem = pList.get(0);
-        assertEquals(eElem.getWeekendPrice(), new BigDecimal(10.0));
-        assertEquals(eElem.getWorkingPrice(), new BigDecimal(30.0));
+        assertEquals(new BigDecimal(10),eElem.getWeekendPrice());
+        assertEquals(new BigDecimal(30),eElem.getWorkingPrice());
     }
 
     @Test

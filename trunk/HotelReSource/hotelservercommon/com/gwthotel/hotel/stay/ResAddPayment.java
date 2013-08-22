@@ -75,4 +75,11 @@ public class ResAddPayment extends AbstractResHotelGuest {
         return getAttr(IHotelConsts.RESADDSERVICE);
     }
 
+    public String getServiceVat() {
+        return getAttr(IHotelConsts.RESADDVAT);
+    }
+
+    public void setServiceVat(String vat) {
+        setAttr(IHotelConsts.RESADDVAT, vat);
+    }
 }

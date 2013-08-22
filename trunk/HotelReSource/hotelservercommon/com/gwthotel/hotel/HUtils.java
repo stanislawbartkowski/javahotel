@@ -13,6 +13,7 @@
 package com.gwthotel.hotel;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,6 +73,12 @@ public class HUtils {
                 IHotelConsts.CUSTOMERZIPCODEPROP,
                 IHotelConsts.CUSTOMEREMAILPROP, IHotelConsts.CUSTOMERPHONEPROP };
         return lProperty;
+    }
+
+    public static BigDecimal roundB(BigDecimal b) {
+        if (b == null)
+            return null;
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
 }

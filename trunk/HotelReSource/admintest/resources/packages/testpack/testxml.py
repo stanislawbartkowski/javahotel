@@ -18,3 +18,5 @@ def dialogaction(action,var) :
          assert var["name2"] == ""
          assert var["name1"] == "stringname1"
          assert var["name"] == "stringname"
+         
+         

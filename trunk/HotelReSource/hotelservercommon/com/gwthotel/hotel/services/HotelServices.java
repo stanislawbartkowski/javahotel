@@ -42,4 +42,8 @@ public class HotelServices extends PropDescription {
         setAttr(IHotelConsts.VATPROP, vat);
     }
 
+    public String getVat() {
+        return getAttr(IHotelConsts.VATPROP);
+    }
+
 }

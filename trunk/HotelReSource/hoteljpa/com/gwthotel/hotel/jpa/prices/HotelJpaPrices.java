@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceElem;
 import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
@@ -60,7 +61,8 @@ class HotelJpaPrices implements IHotelPriceElem {
 
         @Override
         protected void dosth(EntityManager em) {
-            Query q = JUtils.createHotelQuery(em, hotel, "findPricesForPriceList");
+            Query q = JUtils.createHotelQuery(em, hotel,
+                    "findPricesForPriceList");
             q.setParameter(2, priceList);
             // do not catch exception,
             @SuppressWarnings("unchecked")
@@ -120,8 +122,8 @@ class HotelJpaPrices implements IHotelPriceElem {
                 eElem.setHotel(hotel.getId());
                 eElem.setPricelist(ePriceList);
                 eElem.setService(eS);
-                eElem.setWeekendprice(e.getWeekendPrice());
-                eElem.setWorkingprice(e.getWorkingPrice());
+                eElem.setWeekendprice(HUtils.roundB(e.getWeekendPrice()));
+                eElem.setWorkingprice(HUtils.roundB(e.getWorkingPrice()));
                 em.persist(eElem);
             }
         }
