@@ -22,6 +22,4 @@ public interface ISharedConsts {
 
     String JYTHONMESSSERVER = "jythonservermess";
 
-//    String NONTRANSCONTEXT = "nontranscontext";
-
 }
