@@ -60,6 +60,7 @@ public interface IHotelConsts {
     String RESGUESTROOMID = "guestroom";
     
     String RESADDSERVICE = "resaddservice";
+    String RESADDVAT = "resaddvat";
         
     String RESCUSTOMERPROP = "rescustomer";
 

@@ -24,6 +24,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.reservation.ReservationDetail;
@@ -99,7 +100,7 @@ public class Test12 extends TestHelper {
         assertEquals(p.getName(), r.getCustomerName());
         assertEquals(1, r.getResDetail().size());
         det = r.getResDetail().get(0);
-        assertEquals(new BigDecimal(100), det.getPrice());
+        assertEquals(HUtils.roundB(new BigDecimal(100)), det.getPrice());
         assertEquals("1p1", det.getService());
         assertNull(det.getRoom());
 
@@ -117,7 +118,7 @@ public class Test12 extends TestHelper {
         assertEquals(1, rList.size());
         r = rList.get(0);
         det = r.getResDetail().get(0);
-        assertEquals(new BigDecimal(200), det.getPrice());
+        assertEquals(HUtils.roundB(new BigDecimal(200)), det.getPrice());
         assertEquals("1p1", det.getService());
         assertEquals("10", det.getRoom());
         assertEquals(1, det.getNoP());
@@ -196,9 +197,9 @@ public class Test12 extends TestHelper {
         }
         assertNotNull(r);
         assertEquals(1, r.getResDetail().size());
-        iRes.deleteElem(getH(HOTEL),r);
+        iRes.deleteElem(getH(HOTEL), r);
         rList = iRes.getList(getH(HOTEL));
-        assertEquals(99,rList.size());        
+        assertEquals(99, rList.size());
     }
 
 }

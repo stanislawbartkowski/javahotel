@@ -24,7 +24,7 @@
 		<field id="service" type="custom:otherservice" displayname="Service"
 			signalchange="" />
                <field id="pricefromlist" type="decimal" displayname="Price from list" readonly = "" />
-               <field id="price" type="decimal" displayname="Price" notempty="" />
+               <field id="price" type="decimal" displayname="Price" notempty="" signalchange=""/>
                <field id="quantity" type="int" displayname="Quantity" notempty="" signalchange="" />
                <field id="total" type="decimal" displayname="Total" readonly="" notempty=""  />
                <field id="vat" type="custom:vattax" displayname="@vatname"

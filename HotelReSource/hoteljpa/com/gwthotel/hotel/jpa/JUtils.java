@@ -12,6 +12,7 @@
  */
 package com.gwthotel.hotel.jpa;
 
+import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -108,5 +109,4 @@ public class JUtils {
             String[] remQuery) {
         runQueryForObject(em, hotel.getId(), remQuery);
     }
-
 }

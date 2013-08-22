@@ -16,15 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.jpa.AbstractJpaCrud;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
 import com.gwthotel.hotel.jpa.JUtils;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
-import com.gwthotel.hotel.jpa.entities.EHotelGuest;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
@@ -32,7 +31,6 @@ import com.gwthotel.hotel.jpa.entities.EHotelServices;
 import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservation.ReservationDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
-import com.gwthotel.hotel.stay.ResGuest;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
@@ -100,8 +98,8 @@ class HotelReservations extends
                 d.setService(serv);
             }
             d.setNoP(r.getNoP());
-            d.setPrice(r.getPrice());
-            d.setPriceList(r.getPriceList());
+            d.setPrice(HUtils.roundB(r.getPrice()));
+            d.setPriceList(HUtils.roundB(r.getPriceList()));
             d.setResDate(r.getResDate());
             d.setReservation(dest);
             lDetails.add(d);

@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.reservation.ReservationDetail;
@@ -81,8 +82,8 @@ public class Test14 extends TestHelper {
         r = iRes.findElem(getH(HOTEL), sym);
         assertNotNull(r);
         det = r.getResDetail().get(0);
-        assertEquals(new BigDecimal("100.0"),det.getPrice());
-        assertEquals(new BigDecimal("200.0"),det.getPriceList());
+        assertEquals(HUtils.roundB(new BigDecimal("100.0")),det.getPrice());
+        assertEquals(HUtils.roundB(new BigDecimal("200.0")),det.getPriceList());
 
     }
 

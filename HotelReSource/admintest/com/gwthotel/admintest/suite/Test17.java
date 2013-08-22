@@ -21,7 +21,6 @@ import com.jythonui.shared.DialogVariables;
 
 public class Test17 extends TestHelper {
 
-    
     @Test
     public void test1() {
         iAdmin.clearAll(getI());

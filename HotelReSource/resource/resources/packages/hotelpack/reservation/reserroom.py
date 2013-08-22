@@ -26,8 +26,26 @@ from util.util import xmlToVar
 from hotelpack.reservation.resutil import showCustomerDetails
 from util.util import getPriceForPriceList
 from cutil import checkGreaterZero
+from cutil import setFooter
+from cutil import setJMapList
 
 CLIST = ["name","descr"] + getCustFieldId()
+
+def _listOfPayments(var) :
+  rese = var["resename"]
+  li = RESOP(var).getResAddPaymentList(rese)
+  seq = []
+  sum = SUMBDECIMAL()  
+  CU = CUSTOMERLIST(var)
+  for e in li :
+    g = e.getGuestName()    
+    customer = CU.findElem(g)
+    fName = customer.getAttr("firstname")
+    map = { "roomid" : e.getRoomName(), "guestid" :g, "guestdescr" : customer.getDescription(), "guestfirstname" : fName, "total" : e.getPriceTotal(), "price" : e.getPrice(), "servdescr" : e.getDescription(), "quantity" : e.getQuantity() }
+    seq.append(map)
+    sum.add(e.getPriceTotal())
+  setJMapList(var,"paymentlist",seq)
+  setFooter(var,"paymentlist","total",sum.sum)
 
 def _createResData(var):
   service = var["roomservice"]
@@ -68,9 +86,8 @@ def _createResData(var):
 def _createListOfDays(var):
   rData = _createResData(var)
   if rData == None : return
-  var["JLIST_MAP"] = { "reslist" : rData[0]}
-  var["JFOOTER_COPY_reslist_price"] = True
-  var["JFOOTER_reslist_price"] = rData[1]
+  setJMapList(var,"reslist",rData[0])
+  setFooter(var,"reslist","price",rData[1])
   return rData[2]
  
 def _checkRese(var):
@@ -103,7 +120,6 @@ def _setvarBefore(var):
     assert len(res) == 1
     resname = res[0].getResId()
     assert resname != None
-    print "resname",resname,"!!!!"
     RFORM = RESFORM(var)
     reservation = RFORM.findElem(resname)
     assert reservation != None
@@ -233,6 +249,8 @@ def showstay(action,var):
    printvar("show stay",action,var)
    if action == "before" :
      _setvarBefore(var)
+     # after 
+     _listOfPayments(var)
      
    if action == "changetoreserv" and var["JYESANSWER"] :
      res = getReservForDay(var)
@@ -244,8 +262,18 @@ def showstay(action,var):
      var["JCLOSE_DIALOG"] = True
      var["JREFRESH_DATELINE_reservation"] = ""
      
+   if action == "addpayment" :
+      var["JUP_DIALOG"]="hotel/reservation/addpayment.xml" 
+      var["JAFTERDIALOG_ACTION"] = "afteraddpayment" 
+      
+   if action == "afteraddpayment" and var["JUPDIALOG_BUTTON"] == "addpayment" :
+     _listOfPayments(var)
+     
    if action == "guestdesc" :
        showCustomerDetails(var,var["cust_name"])
+       
+   if action == "guestdetail" :
+       showCustomerDetails(var,var["guestid"])
   
 
 
