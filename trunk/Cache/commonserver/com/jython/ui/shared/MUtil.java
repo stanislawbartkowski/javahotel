@@ -41,5 +41,12 @@ public class MUtil {
             return null;
         return b.doubleValue();
     }
+    
+    public static BigDecimal roundB(BigDecimal b) {
+        if (b == null)
+            return null;
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
 
 }
