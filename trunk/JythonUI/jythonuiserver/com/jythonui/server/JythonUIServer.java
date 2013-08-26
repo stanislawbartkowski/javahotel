@@ -12,15 +12,24 @@
  */
 package com.jythonui.server;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.gwtmodel.commoncache.ICommonCache;
+import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.dialog.GetDialog;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.jython.RunJython;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldValue;
+import com.jythonui.shared.ICommonConsts;
+import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
 import com.jythonui.shared.RequestContext;
 import com.jythonui.shared.SecurityInfo;
@@ -34,6 +43,13 @@ class JythonUIServer implements IJythonUIServer {
     private final IJythonUIServerProperties p;
     private final MCached mCached;
     private final ISecurity iSec;
+    static final private Logger log = Logger.getLogger(JythonUIServer.class
+            .getName());
+
+    static private void error(String mess) {
+        log.log(Level.SEVERE, mess);
+        throw new JythonUIFatal(mess);
+    }
 
     JythonUIServer(IJythonUIServerProperties p, ICommonCache mCache,
             ISecurity iSec) {
@@ -78,11 +94,29 @@ class JythonUIServer implements IJythonUIServer {
         String securityToken = context.getToken();
         v.setSecurityToken(securityToken);
         v.setLocale(locale);
-        // String securityToken = v.getValueS(ICommonConsts.SECURITYTOKEN);
-        // String local = v.getValueS(ICommonConsts.GWT_LOCALE);
+        v.setValueS(ICommonConsts.J_DIALOGNAME, dialogName);
         DialogFormat d = GetDialog.getDialog(p, mCached, securityToken,
                 dialogName, false);
+        if (CUtil.onTheList(actionId, d.getAsXmlList())) {
+            v.setValueS(ICommonConsts.JXMLCONTENT, Holder.getXMLTransformer()
+                    .toXML(context, dialogName, v));
+        }
         RunJython.executeJython(p, mCached, v, d, actionId);
+        FieldValue b = v.getValue(ICommonConsts.JXMLSETCONTENT);
+        if (b != null)
+            if (b.getValueB().booleanValue()) {
+                FieldValue x = v.getValue(ICommonConsts.JXMLCONTENT);
+                if (x == null) {
+                    String mess = Holder.getM().getMess(IErrorCode.ERRORCODE69,
+                            ILogMess.XMLSETCONTENTBUTCONTENTNOTAVAILABLE,
+                            d.getId(), ICommonConsts.JXMLCONTENT,
+                            ICommonConsts.JXMLCONTENT);
+                    error(mess);
+                }
+                Holder.getXMLTransformer().fromXML(context, dialogName, v,
+                        x.getValueS());
+            }
+
         return v;
     }
 

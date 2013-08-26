@@ -86,7 +86,8 @@ class ReadDialog {
         private final String[] dialogTag = { ICommonConsts.HTMLPANEL,
                 ICommonConsts.JSCODE, ICommonConsts.BEFORE,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.IMPORT,
-                ICommonConsts.METHOD, ICommonConsts.PARENT, ICommonConsts.TYPES };
+                ICommonConsts.METHOD, ICommonConsts.PARENT,
+                ICommonConsts.TYPES, ICommonConsts.ASXML };
         private final String[] buttonTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ACTIONTYPE,
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,

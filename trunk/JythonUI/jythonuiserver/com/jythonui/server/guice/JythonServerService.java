@@ -48,6 +48,8 @@ import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
 import com.jythonui.server.storage.seqimpl.SequenceRealmGenFactory;
+import com.jythonui.server.xml.IXMLTransformer;
+import com.jythonui.server.xml.XMLTransformer;
 
 /**
  * @author hotel
@@ -86,15 +88,19 @@ public class JythonServerService {
 
             bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
                     Singleton.class);
+            bind(IXMLTransformer.class).to(XMLTransformer.class).in(
+                    Singleton.class);
         }
 
-        @Provides @Singleton
+        @Provides
+        @Singleton
         ISequenceRealmGen getSequenceRealmGen(
                 ISequenceRealmGenFactory seqFactory, IStorageRealmRegistry iReg) {
             return seqFactory.construct(iReg);
         }
 
-        @Provides @Singleton
+        @Provides
+        @Singleton
         ISymGenerator getSymGenerator(ISymGeneratorFactory sFactory,
                 ISequenceRealmGen iSeq) {
             return sFactory.construct(iSeq);

@@ -10,21 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.xml;
 
+import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.RequestContext;
 
-/**
- * @author hotel
- * 
- */
-public interface IJythonUIServerProperties {
+public interface IXMLTransformer {
 
-    String getDialogDirectory();
+    String toXML(RequestContext context, String dialogName, DialogVariables v);
 
-    String getPackageDirectory();
-
-    String getBundleBase();
-
-    boolean isCached();
+    void fromXML(RequestContext context, String dialogName, DialogVariables v,
+            String xml);
 
 }

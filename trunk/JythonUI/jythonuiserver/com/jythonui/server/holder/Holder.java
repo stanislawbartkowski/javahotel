@@ -22,6 +22,7 @@ import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityConvert;
+import com.jythonui.server.xml.IXMLTransformer;
 
 public class Holder {
 
@@ -33,6 +34,9 @@ public class Holder {
 
     @Inject
     private static ISecurity iSec;
+
+    @Inject
+    private static IXMLTransformer iXml;
 
     private static boolean auth = false;
 
@@ -65,7 +69,6 @@ public class Holder {
         return iSec;
     }
 
-
     public static void SetLocale(String s) {
         locale.set(s);
     }
@@ -81,11 +84,13 @@ public class Holder {
     public static ISecurityConvert getSecurityConvert() {
         return iConvert;
     }
-    
+
     public static IGetLogMess getM() {
         return SHolder.getM();
-        
     }
 
+    public static IXMLTransformer getXMLTransformer() {
+        return iXml;
+    }
 
 }

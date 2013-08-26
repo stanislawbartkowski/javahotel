@@ -12,7 +12,6 @@
  */
 package com.jythonui.server.dialog;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,8 +24,8 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.xml.sax.SAXException;
 
-import com.gwtmodel.mapxml.VerifyXML;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.util.VerifyXML;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.MCached;

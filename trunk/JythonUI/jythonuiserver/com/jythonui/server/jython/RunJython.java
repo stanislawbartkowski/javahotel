@@ -822,7 +822,8 @@ public class RunJython {
                 return;
             }
             TypedefDescr ty = DialogFormat.findE(t.getTypeList(), idType);
-            if (ty == null) continue;
+            if (ty == null)
+                continue;
             if (ty.isHelperType() && comboNow) {
                 return;
             }
