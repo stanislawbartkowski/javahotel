@@ -29,14 +29,14 @@ public interface ICommonConsts {
     String FIELD = "field";
     String IMPORT = "import";
     String METHOD = "method";
-    String HTMLPANEL="htmlpanel";
-    String JSCODE="jscode";
+    String HTMLPANEL = "htmlpanel";
+    String JSCODE = "jscode";
     String BEFORE = "before";
     String LIST = "list";
     String COLUMN = "column";
     String COLUMNS = "columns";
-    String LISTBUTTONSLIST="buttons-addlist";
-    String LISTBUTTONSVALIDATE="buttons-validate";
+    String LISTBUTTONSLIST = "buttons-addlist";
+    String LISTBUTTONSVALIDATE = "buttons-validate";
     String JROWCOPY = "JROWCOPY_";
     String JCOPY = "JCOPY_";
     String TYPE = "type";
@@ -51,9 +51,12 @@ public interface ICommonConsts {
     String DEFVALUE = "defvalue";
     String COLNO = "colno";
     String FOOTER = "footer";
+    String ASXML = "asxml";
+    String JXMLCONTENT = "JXMLCONTENT";
+    String JXMLSETCONTENT = "JXMLCONTENTSET";
     int DEFAULTCOLNO = 14;
     int DEFAULTROWNO = 20;
-    String TABPANEL="tabpanel";
+    String TABPANEL = "tabpanel";
     String TABPANELELEM = "tabelem";
     String DATELINEFORMS = "files";
     String DATELINEFORM = "filedef";
@@ -171,6 +174,7 @@ public interface ICommonConsts {
     String AUTHENTICATE = "Authenticate";
     String YESAUTHENTICATE = "Y";
     String J_SECURITYTOKEN = "J_SECURITYTOKEN";
+    String J_DIALOGNAME = "J_DIALOGNAME";
     String CHECKLIST = "checklist";
     String CHECKLISTLINES = "lines";
     String CHECKLISTCOLUMNS = "columns";
@@ -178,6 +182,7 @@ public interface ICommonConsts {
     String CHECKERRORROW = "line";
     String CHECKERRORCOL = "col";
     String CHECKERRORMESS = "errmess";
+    String XMLROOT = "data";
 
     String APP_TITLE = "Title";
     String APP_PRODUCTNAME = "ProductName";

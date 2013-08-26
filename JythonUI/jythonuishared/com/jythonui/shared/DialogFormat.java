@@ -177,4 +177,12 @@ public class DialogFormat extends ElemDescription {
         return tabList;
     }
 
+    public boolean isAsXmlList() {
+        return isAttr(ICommonConsts.ASXML);
+    }
+
+    public String getAsXmlList() {
+        return getAttr(ICommonConsts.ASXML);
+    }
+
 }

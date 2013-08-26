@@ -4,7 +4,7 @@ import datetime
 import time
 from java.util import ArrayList
 from java.math import BigDecimal
-from com.gwthotel.hotel import HUtils
+from com.jython.ui.shared import MUtil
 
 
 def setJMapList(var,list,seq):
@@ -51,7 +51,7 @@ def eqDate(d1,d2):
 def toB(value):
     if value == None : return None
     b = BigDecimal(value)
-    return HUtils.roundB(b)
+    return MUtil.roundB(b)
 
 
 def setCopy(var,li, list=None,prefix=None) :

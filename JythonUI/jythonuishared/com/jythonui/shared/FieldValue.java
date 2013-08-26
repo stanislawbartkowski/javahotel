@@ -26,89 +26,86 @@ import com.gwtmodel.table.common.dateutil.DateP;
  */
 public class FieldValue implements Serializable {
 
-    // object is immutable but because it is used as a transfer object
-    // the attributes cannot be final and default constructor is only used
-
     private static final long serialVersionUID = 1L;
-    private String valueS;
-    private Boolean valueB;
-    private DateP valueD;
     private TT type;
-    private int afterdot;
-    private Long l;
-    private Integer i;
-    private BigDecimal b;
+    private byte afterdot;
+
+    transient private Object o;
 
     /**
      * @return the valueS
      */
     public String getValueS() {
-        return valueS;
+        return (String) o;
     }
 
     /**
      * @return the valueB
      */
     public Boolean getValueB() {
-        return valueB;
+        return (Boolean) o;
     }
 
     public Date getValueD() {
+        DateP valueD = (DateP) o;
         return valueD.getD();
     }
 
     public Timestamp getValueT() {
+        DateP valueD = (DateP) o;
         return valueD.getT();
     }
 
     public Long getValueL() {
-        return l;
+        return (Long) o;
     }
 
     public Integer getValueI() {
-        return i;
+        return (Integer) o;
     }
 
     public BigDecimal getValueBD() {
-        return b;
+        return (BigDecimal) o;
     }
 
     public void setValue(String valueS) {
-        this.valueS = valueS;
+        this.o = valueS;
         this.type = TT.STRING;
     }
 
     public void setValue(Boolean b) {
-        this.valueB = b;
+        this.o = b;
         type = TT.BOOLEAN;
     }
 
     public void setValue(Date d) {
-        valueD = new DateP();
+        DateP valueD = new DateP();
         valueD.setD(d);
+        this.o = valueD;
         this.type = TT.DATE;
     }
 
     public void setValue(Timestamp t) {
-        valueD = new DateP();
+        DateP valueD = new DateP();
         valueD.setT(t);
+        this.o = valueD;
         this.type = TT.DATETIME;
     }
 
     public void setValue(Long l) {
-        this.l = l;
+        this.o = l;
         type = TT.LONG;
     }
 
     public void setValue(Integer i) {
-        this.i = i;
+        this.o = i;
         type = TT.INT;
     }
 
     public void setValue(BigDecimal b, int afterdot) {
-        this.b = b;
+        this.o = b;
         type = TT.BIGDECIMAL;
-        this.afterdot = afterdot;
+        this.afterdot = (byte) afterdot;
     }
 
     /**
@@ -124,13 +121,15 @@ public class FieldValue implements Serializable {
 
     public void setValue(TT type, Object val, int afterdot) {
         this.type = type;
-        this.afterdot = afterdot;
+        this.afterdot = (byte) afterdot;
+        // it can simplified by o = val
+        // but casting has been added to force type checking
         switch (type) {
         case STRING:
-            valueS = (String) val;
+            setValue((String) val);
             break;
         case BOOLEAN:
-            valueB = (Boolean) val;
+            setValue((Boolean) val);
             break;
         case DATE:
             setValue((Date) val);
@@ -139,13 +138,13 @@ public class FieldValue implements Serializable {
             setValue((Timestamp) val);
             break;
         case LONG:
-            l = (Long) val;
+            setValue((Long) val);
             break;
         case INT:
-            i = (Integer) val;
+            setValue((Integer) val);
             break;
         case BIGDECIMAL:
-            b = (BigDecimal) val;
+            o = (BigDecimal) val;
             break;
         default:
             throw new JythonUIFatal(type.toString()
@@ -154,21 +153,23 @@ public class FieldValue implements Serializable {
     }
 
     public Object getValue() {
+        // it can be simplified by return o
+        // but casting has been added to force type checking
         switch (type) {
         case STRING:
-            return valueS;
+            return (String) o;
         case BOOLEAN:
-            return valueB;
+            return (Boolean) o;
         case DATE:
             return getValueD();
         case DATETIME:
             return getValueT();
         case LONG:
-            return l;
+            return (Long) o;
         case INT:
-            return i;
+            return (Integer) o;
         case BIGDECIMAL:
-            return b;
+            return (BigDecimal) o;
         default:
             throw new JythonUIFatal(type.toString()
                     + " getValue, not implemented yet");

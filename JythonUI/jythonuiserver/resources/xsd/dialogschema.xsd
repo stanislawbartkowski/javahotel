@@ -107,6 +107,7 @@
 			<xs:element minOccurs="0" name="before" type="emptyT" />
 			<xs:element minOccurs="0" name="parent" type="xs:string" />
 			<xs:element minOccurs="0" name="types" type="xs:string" />
+			<xs:element minOccurs="0" name="asxml" type="listidsType" />
 		</xs:sequence>
 	</xs:group>
 
@@ -117,6 +118,7 @@
 		<xs:attribute name="before" type="emptyT" />
 		<xs:attribute name="parent" type="xs:string" />
 		<xs:attribute name="types" type="xs:string" />
+		<xs:attribute name="asxml" type="listidsType" />
 	</xs:attributeGroup>
 
 	<xs:group name="listG">
