@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class CUtil {
@@ -133,4 +133,38 @@ public class CUtil {
         return aL;
 
     }
+
+    public static Long toLong(String s) {
+        if (CUtil.EmptyS(s)) {
+            return null;
+        }
+        try {
+            return new Long(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public static Integer toInteger(String s) {
+        if (CUtil.EmptyS(s)) {
+            return null;
+        }
+        try {
+            return new Integer(s);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public static boolean onTheList(String id, String list) {
+        if (EmptyS(list))
+            return false;
+        String[] l = list.split(",");
+        for (String e : l) {
+            if (e.equals(id))
+                return true;
+        }
+        return false;
+    }
+
 }

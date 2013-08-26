@@ -56,7 +56,7 @@ public class DateFormatUtil {
         return da;
     }
 
-    public static String toS(final Date d) {
+    public static String toS(final Date d, boolean timestamp) {
         if (d == null) {
             return "";
         }
@@ -64,6 +64,12 @@ public class DateFormatUtil {
         int mo = getM(d);
         int da = getD(d);
         String s = toNS(year, 4) + "/" + toNS(mo, 2) + "/" + toNS(da, 2);
+        if (timestamp) {
+            int hh = d.getHours();
+            int mm = d.getMinutes();
+            int ss = d.getSeconds();
+            s = s + " " + toNS(hh, 2) + ":" + toNS(mm, 2) + ":" + toNS(ss, 2);
+        }
         return s;
     }
 
@@ -94,10 +100,28 @@ public class DateFormatUtil {
 
     }
 
-    public static Date toD(final String s) {
+    public static Date toD(final String s, boolean timestamp) {
         Date d = new Date();
-        if (!setD(d, s)) {
+        String dS = null;
+        String tS = null;
+        if (timestamp) {
+            String[] a = s.split(" ");
+            dS = a[0];
+            tS = a[1];
+        } else
+            dS = s;
+        if (!setD(d, dS)) {
             return null;
+        }
+        if (timestamp) {
+            String a[] = tS.split(":");
+            int hh = toI(a[0], 2);
+            int mm = toI(a[1], 2);
+            int ss = toI(a[2], 2);
+            d.setHours(hh);
+            d.setMinutes(mm);
+            ;
+            d.setSeconds(ss);
         }
         return d;
     }
