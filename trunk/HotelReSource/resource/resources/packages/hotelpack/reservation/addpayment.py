@@ -99,10 +99,10 @@ def _addPayment(var) :
      da = toDate(var["paymentdate"])
      descr = var["descr"]
      price = toB(var["price"])
-     price = toB(1.00)     
+#     price = toB(1.00)     
      pricelist = toB(var["pricefromlist"])
      total = toB(var["total"])
-     total = toB(1.01)
+#     total = toB(1.01)
      room = None
      guest = None
      rese = var["resename"]
