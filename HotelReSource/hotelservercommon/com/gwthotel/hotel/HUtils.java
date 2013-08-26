@@ -24,6 +24,7 @@ import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
+import com.jython.ui.shared.MUtil;
 import com.jythonui.shared.JythonUIFatal;
 
 public class HUtils {
@@ -76,9 +77,7 @@ public class HUtils {
     }
 
     public static BigDecimal roundB(BigDecimal b) {
-        if (b == null)
-            return null;
-        return b.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return MUtil.roundB(b);
     }
 
 }
