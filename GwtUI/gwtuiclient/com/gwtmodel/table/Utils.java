@@ -12,7 +12,6 @@
  */
 package com.gwtmodel.table;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -147,7 +146,7 @@ public class Utils {
         return i;
     }
 
-    public static Long toLong(String s) {
+    private static Long xtoLong(String s) {
         if (CUtil.EmptyS(s)) {
             return null;
         }
@@ -158,7 +157,7 @@ public class Utils {
         }
     }
 
-    public static Integer toInteger(String s) {
+    private static Integer xtoInteger(String s) {
         if (CUtil.EmptyS(s)) {
             return null;
         }

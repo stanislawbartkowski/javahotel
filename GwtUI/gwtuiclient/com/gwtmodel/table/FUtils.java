@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.ConvertTT;
 import com.gwtmodel.table.common.DecimalUtils;
 import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.common.dateutil.DateUtil;
@@ -96,20 +97,11 @@ public class FUtils {
         }
         Object o;
         switch (f.getType().getType()) {
-        case BIGDECIMAL:
-            o = DecimalUtils.toBig(s);
-            break;
-        case LONG:
-            o = Utils.toLong(s);
-            break;
         case DATE:
             o = Utils.toD(s);
             break;
         case DATETIME:
             o = Utils.toDT(s);
-            break;
-        case INT:
-            o = Utils.toInteger(s);
             break;
         case ENUM:
             o = f.getType().getE().toEnum(s);
@@ -118,7 +110,7 @@ public class FUtils {
             o = iBool.toB(s);
             break;
         default:
-            o = s;
+            o = ConvertTT.toO(f.getType().getType(), s);
             break;
 
         }
@@ -579,7 +571,7 @@ public class FUtils {
         return Utils.toS(d);
     }
 
-    private static String getLongS(Object o, IVField f) {
+    private static String xgetLongS(Object o, IVField f) {
         Long l = (Long) o;
         if (l == null) {
             return "";
@@ -587,7 +579,7 @@ public class FUtils {
         return l.toString();
     }
 
-    private static String getIntS(Object o, IVField f) {
+    private static String xgetIntS(Object o, IVField f) {
         Integer l = (Integer) o;
         if (l == null) {
             return "";
@@ -595,7 +587,7 @@ public class FUtils {
         return l.toString();
     }
 
-    public static String getBigDecimalS(Object o, IVField f) {
+    public static String xgetBigDecimalS(Object o, IVField f) {
         BigDecimal b = (BigDecimal) o;
         if (b == null) {
             return "";
@@ -643,22 +635,23 @@ public class FUtils {
         }
         try {
             switch (f.getType().getType()) {
-            case BIGDECIMAL:
-                return getBigDecimalS(o, f);
-            case LONG:
-                return getLongS(o, f);
+            // case BIGDECIMAL:
+            // return getBigDecimalS(o, f);
+            // case LONG:
+            // return getLongS(o, f);
             case DATE:
                 return getDateS(o, f);
             case DATETIME:
                 return getTimestampS(o, f);
-            case INT:
-                return getIntS(o, f);
+                // case INT:
+                // return getIntS(o, f);
             case ENUM:
                 return getEnum(o, f);
             case BOOLEAN:
                 return getBoolS(o, f);
             default:
-                return getStringS(o, f);
+                return ConvertTT.toS(o, f.getType().getType(), f.getType()
+                        .getAfterdot());
             }
         } catch (java.lang.ClassCastException e) {
             Utils.errAlert(LogT.getT().errorWhileReading(f.toString()), e);
