@@ -58,5 +58,5 @@ def selaction(action,var):
         
     if sel :
         var['nameid'] = sel
-        var['JCOPY_nameid'] = True
+        var['JROWCOPY_listda_nameid'] = True
         var["JCLOSE_DIALOG"]  = True    

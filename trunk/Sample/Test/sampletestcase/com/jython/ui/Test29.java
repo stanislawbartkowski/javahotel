@@ -27,7 +27,6 @@ import org.junit.Test;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.ListOfRows;
-import com.jythonui.shared.RequestContext;
 import com.jythonui.shared.RowContent;
 
 public class Test29 extends TestHelper {
@@ -50,10 +49,9 @@ public class Test29 extends TestHelper {
             System.out.println(i + " " + na);
             assertEquals(no, i);
             no++;
-        }        
+        }
     }
-    
-    
+
     @Test
     public void test1() throws ParserConfigurationException,
             FactoryConfigurationError, TransformerException {
@@ -61,11 +59,11 @@ public class Test29 extends TestHelper {
         assertNotNull(d);
         DialogVariables v = new DialogVariables();
         runAction(v, "test60.xml", "before");
-        String s = iXml.toXML(new RequestContext(), "test60.xml", v);
+        String s = iXml.toXML("test60.xml", v);
         System.out.println(s);
         // opposite
         v = new DialogVariables();
-        iXml.fromXML(new RequestContext(), "test60.xml", v, s);
+        iXml.fromXML("test60.xml", v, s);
         verify(v);
     }
 
@@ -77,12 +75,27 @@ public class Test29 extends TestHelper {
         DialogVariables v = new DialogVariables();
         runAction(v, "test60.xml", "before");
         // if passes test passed
-        String s = iXml.toXML(new RequestContext(), "test60.xml", v);
+        String s = iXml.toXML("test60.xml", v);
         runAction(v, "test60.xml", "persist");
         v = new DialogVariables();
         v.setValueS("XML", s);
         runAction(v, "test60.xml", "setxml");
         verify(v);
+    }
+
+    @Test
+    public void test3() {
+        DialogFormat d = findDialog("test60.xml");
+        assertNotNull(d);
+        assertTrue(d.isAsXmlList());
+        DialogVariables v = new DialogVariables();
+        runAction(v, "test60.xml", "before");
+        // if passes test passed
+        String s = iXml.toXML("test60.xml", v);
+        runAction(v, "test60.xml", "persist");
+        v = new DialogVariables();
+        v.setValueS("XML", s);
+        runAction(v, "test60.xml", "checkxml");
     }
 
 }
