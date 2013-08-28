@@ -45,10 +45,9 @@ public class GetClientProperties implements IJythonClientRes {
 
     @Override
     public ClientProp getClientRes(RequestContext context) {
-        String locale = context.getLocale();
-        if (!CUtil.EmptyS(locale)) {
-            Holder.SetLocale(locale);
-        }
+        // String locale = context.getLocale();
+        // if (!CUtil.EmptyS(locale)) {
+        Holder.setContext(context);
         Properties prop = Util.getProperties(ICommonConsts.APP_FILENAME);
         if (prop == null)
             return null;

@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.Util;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
@@ -53,7 +54,7 @@ public class Mess implements IAppMess {
     }
 
     private boolean localeChanged() {
-        String loc = Holder.getLocale();
+        String loc = Util.getLocale();
         if ((loc == null) && (lastloca == null))
             return false;
         if ((loc == null) && (lastloca != null))
@@ -67,11 +68,11 @@ public class Mess implements IAppMess {
         if ((iMess == null) || !iRes.isCached() || localeChanged()) {
             String propdefaS = iRes.getBundleBase() + "/messages.properties";
             String propS = null;
-            String loc = Holder.getLocale();
+            String loc = Util.getLocale();
             debug("setMess locale=" + loc);
             if (loc != null) {
-                propS = iRes.getBundleBase() + "/messages_"
-                        + Holder.getLocale() + ".properties";
+                propS = iRes.getBundleBase() + "/messages_" + Util.getLocale()
+                        + ".properties";
                 debug("locale not null " + propS);
             }
             Properties defa = null;

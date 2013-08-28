@@ -23,6 +23,7 @@ import com.jythonui.server.jython.RunJython;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.xml.IXMLTransformer;
 import com.jythonui.shared.CustomMessages;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
@@ -59,9 +60,9 @@ class JythonUIServer implements IJythonUIServer {
     }
 
     @Override
-    public DialogInfo findDialog(RequestContext context, String dialogName) {
-        Util.setLocale(context);
-        String token = context.getToken();
+    public DialogInfo findDialog(RequestContext rcontext, String dialogName) {
+        Util.setContext(rcontext);
+        String token = Util.getToken();
         DialogFormat d = GetDialog.getDialog(p, mCached, token, dialogName,
                 true);
         if (d == null)
@@ -87,11 +88,11 @@ class JythonUIServer implements IJythonUIServer {
     }
 
     @Override
-    public DialogVariables runAction(RequestContext context, DialogVariables v,
-            String dialogName, String actionId) {
-        Util.setLocale(context);
-        String locale = context.getLocale();
-        String securityToken = context.getToken();
+    public DialogVariables runAction(RequestContext rcontext,
+            DialogVariables v, String dialogName, String actionId) {
+        Util.setContext(rcontext);
+        String locale = Util.getLocale();
+        String securityToken = Util.getToken();
         v.setSecurityToken(securityToken);
         v.setLocale(locale);
         v.setValueS(ICommonConsts.J_DIALOGNAME, dialogName);
@@ -99,7 +100,7 @@ class JythonUIServer implements IJythonUIServer {
                 dialogName, false);
         if (CUtil.onTheList(actionId, d.getAsXmlList())) {
             v.setValueS(ICommonConsts.JXMLCONTENT, Holder.getXMLTransformer()
-                    .toXML(context, dialogName, v));
+                    .toXML(dialogName, v));
         }
         RunJython.executeJython(p, mCached, v, d, actionId);
         FieldValue b = v.getValue(ICommonConsts.JXMLSETCONTENT);
@@ -113,7 +114,7 @@ class JythonUIServer implements IJythonUIServer {
                             ICommonConsts.JXMLCONTENT);
                     error(mess);
                 }
-                Holder.getXMLTransformer().fromXML(context, dialogName, v,
+                Holder.getXMLTransformer().fromXML(dialogName, v,
                         x.getValueS());
             }
 
