@@ -23,6 +23,7 @@ import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.xml.IXMLTransformer;
+import com.jythonui.shared.RequestContext;
 
 public class Holder {
 
@@ -47,7 +48,7 @@ public class Holder {
     @Inject
     private static ISecurityConvert iConvert;
 
-    private static final ThreadLocal<String> locale = new ThreadLocal<String>();
+    private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
     public static boolean isAuth() {
         return auth;
@@ -69,11 +70,11 @@ public class Holder {
         return iSec;
     }
 
-    public static void SetLocale(String s) {
-        locale.set(s);
+    public static void setContext(RequestContext req) {
+        locale.set(req);
     }
 
-    public static String getLocale() {
+    public static RequestContext getRequest() {
         return locale.get();
     }
 

@@ -5,6 +5,7 @@ import time
 from java.util import ArrayList
 from java.math import BigDecimal
 from com.jython.ui.shared import MUtil
+from com.gwtmodel.table.common.dateutil import DateFormatUtil
 
 
 def setJMapList(var,list,seq):
@@ -48,10 +49,31 @@ def eqDate(d1,d2):
     dd1 = toDate(d1)
     return dd1.equals(d2)
 
+def toJDate(value):
+    if value == None : return None
+    y = DateFormatUtil.getY(value)
+    m = DateFormatUtil.getM(value)
+    d = DateFormatUtil.getD(value)
+    return datetime.date(y,m,d)
+    
+def toJDateTime(value):
+    if value == None : return None
+    y = DateFormatUtil.getY(value)
+    m = DateFormatUtil.getM(value)
+    d = DateFormatUtil.getD(value)
+    hh = value.getHours()
+    mm = value.getMinutes()
+    ss = value.getSeconds()
+    return datetime.datetime(y,m,d,hh,mm,ss)
+
 def toB(value):
     if value == None : return None
     b = BigDecimal(value)
     return MUtil.roundB(b)
+
+def BigDecimalToDecimal(b):
+    if b : return b.doubleValue()
+    return None
 
 
 def setCopy(var,li, list=None,prefix=None) :
@@ -62,10 +84,6 @@ def setCopy(var,li, list=None,prefix=None) :
     else : k = l
     var[c+k] = True
     
-def BigDecimalToDecimal(b):
-    if b : return b.doubleValue()
-    return None
-
 def mulIntDecimal(int,dec,afterdot=2):
     if int and dec :
        return round(int * dec, afterdot)
@@ -170,9 +188,7 @@ class RegistryFile:
                    valt = self.__tod(val)
                else : valt = val
             elem[id] = valt
-        print elem    
-        return elem           
-                       
+        return elem                                  
     
     def readList(self,var):
         R = self.__getR()
@@ -180,8 +196,7 @@ class RegistryFile:
         li = []
         for k in l : 
             if k != self.__key : li.append(self.__getMapRR(k))
-        if var.has_key("JLIST_MAP") : var["JLIST_MAP"][self.__listid] = li
-        else: var["JLIST_MAP"] = { self.__listid : li }
+        setJMapList(var,self.__listid,li)
         
     def __removeEntries(self,R):
         for key in R.getKeys() :

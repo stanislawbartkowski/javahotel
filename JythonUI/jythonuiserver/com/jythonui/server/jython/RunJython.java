@@ -278,7 +278,7 @@ public class RunJython {
             Object e = i.next();
             PyDictionary vMap = (PyDictionary) e;
             DialogVariables v = new DialogVariables();
-            toDialogVariables(rI.getColList(), v, vMap);
+            toDialogVariables(rI.getColList(), v, vMap, strict);
             RowContent row = rI.constructRow();
             for (String s : v.getFields()) {
                 FieldValue valF = v.getValue(s);
@@ -543,7 +543,7 @@ public class RunJython {
     }
 
     private static void toDialogVariables(List<FieldItem> fList,
-            DialogVariables v, PyDictionary pyMap) {
+            DialogVariables v, PyDictionary pyMap, boolean strict) {
         PyObject item = pyMap.iteritems();
         PyIterator iter = (PyIterator) item;
         PyObject next;
@@ -662,10 +662,14 @@ public class RunJython {
                                 fType.toString()));
                     }
             } else {
-                if (val == null) {
-                    error(Holder.getM().getMess(IErrorCode.ERRORCODE30,
-                            ILogMess.VALUECANNOTBENULL, keyS));
-                }
+                if (val == null)
+                    if (strict)
+                        error(Holder.getM().getMess(IErrorCode.ERRORCODE30,
+                                ILogMess.VALUECANNOTBENULL, keyS));
+                    else
+                        f.setValue((String) null);
+                else
+
                 if (val instanceof String) {
                     String valS = (String) val;
                     f.setValue(valS);
@@ -786,7 +790,7 @@ public class RunJython {
         }
         putDebug(s);
         interp.exec(s);
-        toDialogVariables(d.getFieldList(), v, pyMap);
+        toDialogVariables(d.getFieldList(), v, pyMap, true);
         if (pyMap.has_key(JLISTMAP)) {
             PyObject o = pyMap.__getitem__(JLISTMAP);
             extractList((PyDictionary) o, v, d, actionId);

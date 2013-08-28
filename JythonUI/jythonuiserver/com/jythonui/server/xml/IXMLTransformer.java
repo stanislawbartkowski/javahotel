@@ -13,13 +13,12 @@
 package com.jythonui.server.xml;
 
 import com.jythonui.shared.DialogVariables;
-import com.jythonui.shared.RequestContext;
 
 public interface IXMLTransformer {
 
-    String toXML(RequestContext context, String dialogName, DialogVariables v);
+    String toXML(String dialogName, DialogVariables v);
 
-    void fromXML(RequestContext context, String dialogName, DialogVariables v,
+    void fromXML(String dialogName, DialogVariables v,
             String xml);
 
 }

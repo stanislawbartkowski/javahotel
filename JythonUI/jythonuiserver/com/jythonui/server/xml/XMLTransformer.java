@@ -89,9 +89,8 @@ public class XMLTransformer implements IXMLTransformer {
     }
 
     @Override
-    public String toXML(RequestContext context, String dialogName,
-            DialogVariables v) {
-        DialogInfo dial = iS.findDialog(context, dialogName);
+    public String toXML(String dialogName, DialogVariables v) {
+        DialogInfo dial = iS.findDialog(null, dialogName);
         if (dial == null) {
             errorL(IErrorCode.ERRORCODE61, ILogMess.XMLTRANSFORMERNODIALOG,
                     null, dialogName);
@@ -226,9 +225,8 @@ public class XMLTransformer implements IXMLTransformer {
     }
 
     @Override
-    public void fromXML(RequestContext context, String dialogName,
-            DialogVariables v, String xml) {
-        DialogInfo dial = iS.findDialog(context, dialogName);
+    public void fromXML(String dialogName, DialogVariables v, String xml) {
+        DialogInfo dial = iS.findDialog(null, dialogName);
         if (dial == null) {
             errorL(IErrorCode.ERRORCODE63, ILogMess.XMLTRANSFORMERNODIALOG,
                     null, dialogName);

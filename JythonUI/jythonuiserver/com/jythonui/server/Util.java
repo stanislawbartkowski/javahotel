@@ -21,7 +21,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
@@ -46,10 +45,24 @@ public class Util {
         throw new JythonUIFatal(mess);
     }
 
-    public static void setLocale(RequestContext context) {
-        String locale = context.getLocale();
-        if (!CUtil.EmptyS(locale))
-            Holder.SetLocale(locale);
+    public static void setContext(RequestContext context) {
+        if (context == null)
+            return;
+        Holder.setContext(context);
+    }
+
+    public static String getToken() {
+        RequestContext req = Holder.getRequest();
+        if (req == null)
+            return null;
+        return req.getToken();
+    }
+
+    public static String getLocale() {
+        RequestContext req = Holder.getRequest();
+        if (req == null)
+            return null;
+        return req.getLocale();
     }
 
     public static Properties getProperties(String propName) {
@@ -111,7 +124,5 @@ public class Util {
             return null;
         return u.getPath();
     }
-    
-    
 
 }

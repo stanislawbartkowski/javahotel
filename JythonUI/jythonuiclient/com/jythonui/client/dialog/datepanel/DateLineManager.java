@@ -352,6 +352,8 @@ public class DateLineManager implements ISetGetVar {
                                 FieldValue v = val.getRow(noC + i);
                                 String valS = FUtils.getValueS(v.getValue(),
                                         v.getType(), v.getAfterdot());
+                                if (valS == null)
+                                    valS = "";
                                 buf.replace(pos, pos + 3, valS);
                             }
                             sb.appendHtmlConstant(buf.toString());
@@ -416,7 +418,7 @@ public class DateLineManager implements ISetGetVar {
             @Override
             public VListHeaderContainer getHeaderList() {
                 ColumnsDesc desc = CreateForm.constructColumns(
-                        dList.getColList(), null, null,null);
+                        dList.getColList(), null, null, null);
                 rowCol = desc.colvisNo;
                 // for (VListHeaderDesc v : vList)
                 // if (!v.isHidden())
