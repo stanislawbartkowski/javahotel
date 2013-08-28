@@ -65,7 +65,7 @@ class PresentationFooterFactory {
             ali = "right";
             break;
         }
-        return headerInput.input(ali, value);
+        return headerInput.input(ali, value == null ? "" : value);
     }
 
     private class FooterH extends Header<SafeHtml> {
