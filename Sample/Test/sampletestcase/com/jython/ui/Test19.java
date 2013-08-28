@@ -12,10 +12,16 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.jythonui.server.Util;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.CustomMessages;
@@ -23,15 +29,22 @@ import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.RequestContext;
 
 public class Test19 extends TestHelper {
+    
+    private void setLocale(String loc) {
+        RequestContext req = new RequestContext();
+        req.setLocale(loc);
+        Holder.setContext(req);
+    }
 
     @Test
     public void test1() {
         String mess = appMess.getMessN("MESS1");
         System.out.println(mess);
         assertEquals("app message", mess);
-        Holder.SetLocale("xx");
+        setLocale("xx");
         mess = appMess.getMessN("MESS1");
         System.out.println(mess);
         assertEquals("app message", mess);
@@ -41,15 +54,15 @@ public class Test19 extends TestHelper {
         System.out.println(val);
         assertEquals("english message", val);
 
-        Holder.SetLocale("pl");
+        setLocale("pl");
         mess = appMess.getMessN("MESS1");
         System.out.println(mess);
         assertEquals("app message", mess);
         mess = appMess.getMessN("MESSPL");
         System.out.println(mess);
         assertEquals("pl message", mess);
-        System.out.println(Holder.getLocale());
-        assertEquals("pl", Holder.getLocale());
+        System.out.println(Util.getLocale());
+        assertEquals("pl", Util.getLocale());
 
         cmess = appMess.getCustomMess();
         val = cmess.getAttr("MESSPL");

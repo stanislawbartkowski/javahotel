@@ -2,6 +2,8 @@ from com.jython.ui.server.guice import ServiceInjector
 from java.util import Date
 import datetime
 from java.util import Calendar
+from cutil import printVar
+from cutil import toDate
 
 class ElemOp :
     
@@ -71,15 +73,8 @@ def dialogclickaction(action,var) :
        var["JCLOSE_DIALOG"] = True
        
 
-def toDate(value):
-    if value == None : return None
-    ca = Calendar.getInstance()
-    ca.clear()
-    ca.set(value.year,value.month-1,value.day)
-    return ca.getTime()
-
 def dialogaction(action,var) :
-   print action
+   printVar("dialog action", action, var)
    
    if action=="clear" :
     yes = var['JYESANSWER']
@@ -111,8 +106,12 @@ def dialogaction(action,var) :
              if elem :
                colno = 0
                if elem.getNumb() <= len(COLS) : colno = elem.getNumb()
-               map = {"id" : i, "datecol" : d, "form" : "name2", "0" : COLS[colno], "1" : elem.getInfo()}
+               s = elem.getInfo()
+#               if s == None : s = " "
+               map = {"id" : i, "datecol" : d, "form" : "name2", "0" : COLS[colno], "1" : s}
                vals.append(map)
              d = d + dl
+       print "========="
        var["JDATELINE_MAP"] = {"dateline" : { "values" : vals}}
+       printVar("before final",action,var)
     
