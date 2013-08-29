@@ -27,7 +27,7 @@ import org.junit.Test;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
-import com.gwthotel.hotel.reservation.ReservationDetail;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
@@ -82,7 +82,7 @@ public class Test12 extends TestHelper {
         r.setCustomerName(p.getName());
         r.setGensymbol(true);
 
-        ReservationDetail det = new ReservationDetail();
+        ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
         det.setResDate(res);
         det.setPrice(new BigDecimal(100));
@@ -102,7 +102,7 @@ public class Test12 extends TestHelper {
         det = r.getResDetail().get(0);
         assertEquals(HUtils.roundB(new BigDecimal(100)), det.getPrice());
         assertEquals("1p1", det.getService());
-        assertNull(det.getRoom());
+        assertNull(det.getRoomName());
 
         // now change
         HotelRoom ro = new HotelRoom();
@@ -110,7 +110,7 @@ public class Test12 extends TestHelper {
         ro.setNoPersons(1);
         iRooms.addElem(getH(HOTEL), ro);
 
-        det.setRoom("10");
+        det.setRoomName("10");
         det.setPrice(new BigDecimal(200));
         iRes.changeElem(getH(HOTEL), r);
 
@@ -118,9 +118,10 @@ public class Test12 extends TestHelper {
         assertEquals(1, rList.size());
         r = rList.get(0);
         det = r.getResDetail().get(0);
-        assertEquals(HUtils.roundB(new BigDecimal(200)), det.getPrice());
+//        assertEquals(HUtils.roundB(new BigDecimal(200)), det.getPrice());
+        assertEqB(200, det.getPrice());
         assertEquals("1p1", det.getService());
-        assertEquals("10", det.getRoom());
+        assertEquals("10", det.getRoomName());
         assertEquals(1, det.getNoP());
 
         // now remove
@@ -162,12 +163,12 @@ public class Test12 extends TestHelper {
             // r.setName("RES"+i);
             for (int j = 0; j < 100; j++) {
                 res = DateUtil.NextDayD(res);
-                ReservationDetail det = new ReservationDetail();
+                ReservationPaymentDetail det = new ReservationPaymentDetail();
                 det.setNoP(1);
                 det.setResDate(res);
                 det.setPrice(new BigDecimal(100 * j * i));
                 det.setService("SE" + j);
-                det.setRoom("NO" + j);
+                det.setRoomName("NO" + j);
                 r.getResDetail().add(det);
             }
             iRes.addElem(getH(HOTEL), r);
@@ -178,12 +179,12 @@ public class Test12 extends TestHelper {
         assertEquals(100, r.getResDetail().size());
         String rName = r.getName();
         r.getResDetail().clear();
-        ReservationDetail det = new ReservationDetail();
+        ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
         det.setResDate(res);
         det.setPrice(new BigDecimal(500));
         det.setService("SE0");
-        det.setRoom("NO0");
+        det.setRoomName("NO0");
         r.getResDetail().add(det);
         iRes.changeElem(getH(HOTEL), r);
 

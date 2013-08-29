@@ -27,10 +27,10 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel",
         "service", "room" }))
 @NamedQueries({
-    @NamedQuery(name = "findServicesForRoom", query = "SELECT x FROM EHotelRoomServices x WHERE x.hotel = ?1 AND x.room.name=?2"),
-    @NamedQuery(name = "deleteServicesForRoom", query = "DELETE FROM EHotelRoomServices x WHERE x.room = ?1"),
-    @NamedQuery(name = "deleteAllRoomServices", query = "DELETE FROM EHotelRoomServices x WHERE x.hotel = ?1"),
-    @NamedQuery(name = "deleteForRoomServices", query = "DELETE FROM EHotelRoomServices x WHERE x.service = ?1") })
+        @NamedQuery(name = "findServicesForRoom", query = "SELECT x FROM EHotelRoomServices x WHERE x.hotel = ?1 AND x.room.name=?2"),
+        @NamedQuery(name = "deleteServicesForRoom", query = "DELETE FROM EHotelRoomServices x WHERE x.room = ?1"),
+        @NamedQuery(name = "deleteAllRoomServices", query = "DELETE FROM EHotelRoomServices x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "deleteForRoomServices", query = "DELETE FROM EHotelRoomServices x WHERE x.service = ?1") })
 public class EHotelRoomServices {
 
     @Id
@@ -68,6 +68,10 @@ public class EHotelRoomServices {
 
     public void setRoom(EHotelRoom room) {
         this.room = room;
+    }
+
+    public Long getId() {
+        return id;
     }
 
 }

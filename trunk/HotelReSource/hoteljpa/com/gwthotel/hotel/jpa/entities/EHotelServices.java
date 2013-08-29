@@ -19,7 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.gwthotel.hotel.services.ServiceType;
+import com.gwthotel.hotel.ServiceType;
 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"hotel","name"}))

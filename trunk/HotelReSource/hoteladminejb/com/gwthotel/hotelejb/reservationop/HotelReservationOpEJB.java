@@ -21,17 +21,15 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
-
-import com.google.inject.Inject;
-
 import javax.interceptor.Interceptors;
 
+import com.google.inject.Inject;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.reservation.ResStatus;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
-import com.gwthotel.hotel.stay.ResAddPayment;
 import com.gwthotel.hotel.stay.ResGuest;
 import com.gwthotel.shared.IHotelConsts;
 import com.jythonui.server.defa.GuiceInterceptor;
@@ -74,12 +72,12 @@ public class HotelReservationOpEJB implements IReservationOp {
 
     @Override
     public void addResAddPayment(HotelId hotel, String resName,
-            ResAddPayment add) {
+            ReservationPaymentDetail add) {
         rOp.addResAddPayment(hotel, resName, add);
     }
 
     @Override
-    public List<ResAddPayment> getResAddPaymentList(HotelId hotel,
+    public List<ReservationPaymentDetail> getResAddPaymentList(HotelId hotel,
             String resName) {
         return rOp.getResAddPaymentList(hotel, resName);
     }

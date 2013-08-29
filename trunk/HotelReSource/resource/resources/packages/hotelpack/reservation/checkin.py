@@ -86,7 +86,7 @@ def checkinaction(action,var):
         gList = ROP.getResGuestList(resName)
         for r in reservation.getResDetail() :
             
-            rname = r.getRoom()
+            rname = r.getRoomName()
             room = ROOM.findElem(rname)
             servicename = r.getService()
             serv = SE.findElem(servicename)

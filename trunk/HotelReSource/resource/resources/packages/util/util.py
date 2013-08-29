@@ -5,15 +5,14 @@ from java.util import Calendar
 from java.math import BigDecimal
 from com.gwthotel.hotel import HotelObjects
 from com.gwthotel.hotel.reservationop import ResQuery
-from com.gwthotel.hotel.reservation import ReservationDetail
+from com.gwthotel.hotel.reservation import ReservationPaymentDetail
 import cutil
 from com.gwthotel.hotel.reservation import ResStatus
 from cutil import removeDuplicates
 from com.gwthotel.hotel.stay import ResGuest
 from cutil import createArrayList
-from com.gwthotel.hotel.services import ServiceType
+from com.gwthotel.hotel import ServiceType
 from com.gwthotel.hotel.services import HotelServices
-from com.gwthotel.hotel.stay import ResAddPayment
 
 
 class MESS :
@@ -284,8 +283,8 @@ def createResQueryElem(roomname,dfrom,dto=None):
     return q
 
 def createResFormElem(roomname,service,date,nop,price):
-    r = ReservationDetail()
-    r.setRoom(roomname)
+    r = ReservationPaymentDetail()
+    r.setRoomName(roomname)
     r.setNoP(nop)
     r.setPrice(price)
     r.setService(service)
@@ -325,7 +324,7 @@ def newHotelService(var):
     return HotelServices()
   
 def newResAddPayment() :
-    return ResAddPayment()
+    return ReservationPaymentDetail()
 
 def setCopy(var,li) :
   cutil.setCopy(var,li)  

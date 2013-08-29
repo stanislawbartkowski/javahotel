@@ -30,7 +30,7 @@ public abstract class EHotelRoomCustomer {
     @JoinColumn(name = "room_id", nullable = true)
     private EHotelRoom room;
 
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = true)
     private EHotelCustomer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,5 +60,11 @@ public abstract class EHotelRoomCustomer {
     public void setReservation(EHotelReservation reservation) {
         this.reservation = reservation;
     }
+
+    public Long getId() {
+        return id;
+    }
+    
+    
 
 }

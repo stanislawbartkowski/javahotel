@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.stay;
+package com.gwthotel.hotel.bill;
 
-import com.gwthotel.hotel.reservation.AbstractResHotelGuest;
+import com.gwthotel.shared.PropDescription;
 
-
-public class ResGuest extends AbstractResHotelGuest{
+public class Bill extends PropDescription {
 
     private static final long serialVersionUID = 1L;
 

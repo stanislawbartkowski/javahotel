@@ -70,4 +70,10 @@ class HotelJpaPriceList extends
         JUtils.runQueryForObject(em, elem, queryL);
     }
 
+    @Override
+    protected void afterAddChange(EntityManager em, HotelId hotel,
+            HotelPriceList prop, EHotelPriceList elem, boolean add) {
+        
+    }
+
 }

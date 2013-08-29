@@ -19,24 +19,21 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
-import com.gwthotel.hotel.HUtils;
+import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.jpa.JUtils;
-import com.gwthotel.hotel.jpa.entities.EHotelAddPayment;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelGuest;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelRoomCustomer;
-import com.gwthotel.hotel.jpa.entities.EHotelServices;
+import com.gwthotel.hotel.reservation.AbstractResHotelGuest;
 import com.gwthotel.hotel.reservation.ResStatus;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
-import com.gwthotel.hotel.stay.AbstractResHotelGuest;
-import com.gwthotel.hotel.stay.ResAddPayment;
 import com.gwthotel.hotel.stay.ResGuest;
-import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaTransaction;
 
@@ -218,9 +215,10 @@ class ReservationOp implements IReservationOp {
 
     private class AddResPayment extends doResTransaction {
 
-        private final ResAddPayment addP;
+        private final ReservationPaymentDetail addP;
 
-        AddResPayment(HotelId hotel, String resName, ResAddPayment add) {
+        AddResPayment(HotelId hotel, String resName,
+                ReservationPaymentDetail add) {
             super(hotel, resName);
             this.addP = add;
         }
@@ -228,23 +226,10 @@ class ReservationOp implements IReservationOp {
         @Override
         protected void dosth(EntityManager em) {
             EHotelReservation r = getRes(em);
-            EHotelAddPayment eAdd = new EHotelAddPayment();
-            toE(em, eAdd, addP);
-            eAdd.setDescription(addP.getDescription());
-            // TODO: very strange, rounding is necessary after bean
-            // it seems that is looses (or set) round more then 31
-            eAdd.setListPrice(HUtils.roundB(addP.getPriceList()));
-            eAdd.setPrice(HUtils.roundB(addP.getPrice()));
-            eAdd.setQuantity(addP.getQuantity());
-            eAdd.setTotal(HUtils.roundB(addP.getPriceTotal()));
+            EHotelReservationDetail eAdd = new EHotelReservationDetail();
+            JUtils.ToEReservationDetails(em, hotel, eAdd, addP);
+            eAdd.setServiceType(ServiceType.OTHER);
             eAdd.setReservation(r);
-            eAdd.setServDate(addP.getServDate());
-            eAdd.setServicevat(addP.getServiceVat());
-            String servName = addP.getServiceName();
-            if (!CUtil.EmptyS(servName)) {
-                EHotelServices serv = JUtils.findService(em, hotel, servName);
-                eAdd.setService(serv);
-            }
             em.persist(eAdd);
         }
 
@@ -252,14 +237,14 @@ class ReservationOp implements IReservationOp {
 
     @Override
     public void addResAddPayment(HotelId hotel, String resName,
-            ResAddPayment add) {
+            ReservationPaymentDetail add) {
         AddResPayment comma = new AddResPayment(hotel, resName, add);
         comma.executeTran();
     }
 
     private class AddResPaymentCommand extends doResTransaction {
 
-        private List<ResAddPayment> pList = new ArrayList<ResAddPayment>();
+        private List<ReservationPaymentDetail> pList = new ArrayList<ReservationPaymentDetail>();
 
         AddResPaymentCommand(HotelId hotel, String resName) {
             super(hotel, resName);
@@ -268,22 +253,14 @@ class ReservationOp implements IReservationOp {
         @Override
         protected void dosth(EntityManager em) {
             EHotelReservation e = getRes(em);
-            Query q = em.createNamedQuery("findAddPaymentForReservation");
+            Query q = em.createNamedQuery("findReservationForReservation");
             q.setParameter(1, e);
+            q.setParameter(2, ServiceType.OTHER);
             @SuppressWarnings("unchecked")
-            List<EHotelAddPayment> resList = q.getResultList();
-            for (EHotelAddPayment a : resList) {
-                ResAddPayment add = new ResAddPayment();
-                toT(add, a);
-                add.setDescription(a.getDescription());
-                add.setPrice(a.getPrice());
-                add.setPriceList(a.getListPrice());
-                add.setPriceTotal(a.getTotal());
-                add.setQuantity(a.getQuantity());
-                add.setServDate(a.getServDate());
-                add.setServiceVat(a.getServicevat());
-                if (a.getService() != null)
-                    add.setServiceName(a.getService().getName());
+            List<EHotelReservationDetail> resList = q.getResultList();
+            for (EHotelReservationDetail a : resList) {
+                ReservationPaymentDetail add = new ReservationPaymentDetail();
+                JUtils.ToReservationDetails(add, a);
                 pList.add(add);
             }
         }
@@ -291,7 +268,7 @@ class ReservationOp implements IReservationOp {
     }
 
     @Override
-    public List<ResAddPayment> getResAddPaymentList(HotelId hotel,
+    public List<ReservationPaymentDetail> getResAddPaymentList(HotelId hotel,
             String resName) {
         AddResPaymentCommand comma = new AddResPaymentCommand(hotel, resName);
         comma.executeTran();

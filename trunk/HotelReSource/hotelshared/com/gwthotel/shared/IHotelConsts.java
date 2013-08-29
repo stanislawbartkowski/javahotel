@@ -54,13 +54,14 @@ public interface IHotelConsts {
     String CUSTOMERPHONEPROP = "phone";
 
     String RESDETSERVICENAMEPROP = "servicename";
-    String RESDETROOMNAMEPROP = "roomname";
+//    String RESDETROOMNAMEPROP = "roomname";
+    String RESDETVATPROP = "rasvat";
     
     String RESGUESTCUSTID = "guestcustomer";
     String RESGUESTROOMID = "guestroom";
     
-    String RESADDSERVICE = "resaddservice";
-    String RESADDVAT = "resaddvat";
+//    String RESADDSERVICE = "resaddservice";
+//    String RESADDVAT = "resaddvat";
         
     String RESCUSTOMERPROP = "rescustomer";
 

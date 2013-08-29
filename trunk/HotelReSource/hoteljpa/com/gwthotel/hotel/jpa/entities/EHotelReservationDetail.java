@@ -17,37 +17,39 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.gwthotel.hotel.ServiceType;
+
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL ORDER BY x.room.name,x.resDate"),
-        @NamedQuery(name = "deleteAllReservationsDetailsForReservation", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation=?1"),
-        @NamedQuery(name = "deleteAllReservationsDetails", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation.hotel = ?1") })
-public class EHotelReservationDetail {
+        @NamedQuery(name = "findReservationForReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.reservation = ?1 AND x.serviceType = ?2 "),
+        @NamedQuery(name = "deleteAllReservationsForReservation", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation=?1 AND x.serviceType = ?2"),
+
+        @NamedQuery(name = "deleteAllReservationDetailsForReservation", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation=?1"),
+        @NamedQuery(name = "deleteAllReservationDetailsForRoom", query = "DELETE FROM EHotelReservationDetail x WHERE x.room=?1"),
+        @NamedQuery(name = "deleteAllReservationDetailsForService", query = "DELETE FROM EHotelReservationDetail x WHERE x.service=?1"),
+        @NamedQuery(name = "deleteAllReservationDetailsForCustomer", query = "DELETE FROM EHotelReservationDetail x WHERE x.customer=?1"),
+        @NamedQuery(name = "deleteAllReservationDetails", query = "DELETE FROM EHotelReservationDetail x WHERE x.reservation.hotel = ?1"),
+
+        @NamedQuery(name = "findReservation", query = "SELECT x FROM EHotelReservationDetail x WHERE x.serviceType = com.gwthotel.hotel.ServiceType.HOTEL AND x.reservation.hotel = ?1 AND x.room.name = ?2 AND x.resDate >= ?3 AND x.resDate <= ?4 AND x.reservation.status != com.gwthotel.hotel.reservation.ResStatus.CANCEL ORDER BY x.room.name,x.resDate") })
+public class EHotelReservationDetail extends EHotelRoomCustomer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "room_id", nullable = true)
-    private EHotelRoom room;
-
     @JoinColumn(name = "service_id", nullable = true)
     private EHotelServices service;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reservation_id")
-    private EHotelReservation reservation;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
@@ -62,20 +64,22 @@ public class EHotelReservationDetail {
     @Column(nullable = true)
     private BigDecimal priceList;
 
+    @Column(nullable = false)
+    private BigDecimal total;
+
+    private String description;
+    private String servicevat;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private ServiceType serviceType;
+
     public BigDecimal getPriceList() {
         return priceList;
     }
 
     public void setPriceList(BigDecimal priceList) {
         this.priceList = priceList;
-    }
-
-    public EHotelRoom getRoom() {
-        return room;
-    }
-
-    public void setRoom(EHotelRoom room) {
-        this.room = room;
     }
 
     public Date getResDate() {
@@ -102,20 +106,48 @@ public class EHotelReservationDetail {
         this.price = price;
     }
 
-    public EHotelReservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(EHotelReservation reservation) {
-        this.reservation = reservation;
-    }
-
     public EHotelServices getService() {
         return service;
     }
 
     public void setService(EHotelServices service) {
         this.service = service;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getServicevat() {
+        return servicevat;
+    }
+
+    public void setServicevat(String servicevat) {
+        this.servicevat = servicevat;
+    }
+
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
     }
 
 }
