@@ -12,6 +12,7 @@
  */
 package com.gwthotel.hotel.services;
 
+import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 

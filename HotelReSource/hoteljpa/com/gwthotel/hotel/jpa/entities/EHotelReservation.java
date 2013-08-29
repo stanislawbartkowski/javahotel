@@ -12,16 +12,13 @@
  */
 package com.gwthotel.hotel.jpa.entities;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -36,22 +33,11 @@ import com.gwthotel.hotel.reservation.ResStatus;
 public class EHotelReservation extends EHotelDict {
 
     @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private ResStatus status;
-
-    @OrderBy("room,resDate")
-    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL )
-    private List<EHotelReservationDetail> resDetails;
 
     @JoinColumn(name = "customer_id", nullable = false)
     private EHotelCustomer customer;
-
-    public List<EHotelReservationDetail> getResDetails() {
-        return resDetails;
-    }
-    
-    public void setResDetails(List<EHotelReservationDetail> resDetails) {
-        this.resDetails = resDetails;
-    }
     
     public EHotelCustomer getCustomer() {
         return customer;

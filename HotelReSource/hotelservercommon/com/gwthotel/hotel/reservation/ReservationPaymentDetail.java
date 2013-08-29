@@ -15,12 +15,22 @@ package com.gwthotel.hotel.reservation;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.shared.IHotelConsts;
-import com.gwthotel.shared.PropDescription;
 
-public class ReservationDetail extends PropDescription {
+public class ReservationPaymentDetail extends AbstractResHotelGuest {
 
     private static final long serialVersionUID = 1L;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    private Long id;
 
     private Date resDate;
 
@@ -29,6 +39,10 @@ public class ReservationDetail extends PropDescription {
     private BigDecimal price;
 
     private BigDecimal priceList;
+
+    private BigDecimal priceTotal;
+
+    private ServiceType serviceType;
 
     public Date getResDate() {
         return resDate;
@@ -62,20 +76,52 @@ public class ReservationDetail extends PropDescription {
         return getAttr(IHotelConsts.RESDETSERVICENAMEPROP);
     }
 
-    public void setRoom(String roomName) {
-        setAttr(IHotelConsts.RESDETROOMNAMEPROP, roomName);
-    }
-
-    public String getRoom() {
-        return getAttr(IHotelConsts.RESDETROOMNAMEPROP);
-    }
-
     public BigDecimal getPriceList() {
         return priceList;
     }
 
     public void setPriceList(BigDecimal priceList) {
         this.priceList = priceList;
+    }
+
+    public BigDecimal getPriceTotal() {
+        return priceTotal;
+    }
+
+    public void setPriceTotal(BigDecimal priceTotal) {
+        this.priceTotal = priceTotal;
+    }
+
+    public void setVat(String vat) {
+        setAttr(IHotelConsts.RESDETVATPROP, vat);
+    }
+
+    public String getVat() {
+        return getAttr(IHotelConsts.RESDETVATPROP);
+    }
+
+    public int getQuantity() {
+        return noP;
+    }
+
+    public void setQuantity(int quantity) {
+        this.noP = quantity;
+    }
+
+    public Date getServDate() {
+        return resDate;
+    }
+
+    public void setServDate(Date servDate) {
+        this.resDate = servDate;
+    }
+
+    public ServiceType getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(ServiceType serviceType) {
+        this.serviceType = serviceType;
     }
 
 }

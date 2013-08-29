@@ -1,5 +1,4 @@
 from cutil import printVar
-from util.util import printvar
 from util.util import mapToXML
 from util.util import xmlToVar
 

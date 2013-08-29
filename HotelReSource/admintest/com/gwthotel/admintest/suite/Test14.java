@@ -22,12 +22,12 @@ import org.junit.Test;
 
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
+import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.customer.HotelCustomer;
-import com.gwthotel.hotel.reservation.ReservationDetail;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwthotel.hotel.services.ServiceType;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.DateUtil;
@@ -69,11 +69,11 @@ public class Test14 extends TestHelper {
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
         r.setGensymbol(true);
-        ReservationDetail det = new ReservationDetail();
+        ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(3);
         det.setPrice(new BigDecimal("100.0"));
         det.setPriceList(new BigDecimal("200.0"));
-        det.setRoom("P10");
+        det.setRoomName("P10");
         det.setResDate(toDate(2013,4,10));
         r.getResDetail().add(det);
         r = iRes.addElem(getH(HOTEL), r);

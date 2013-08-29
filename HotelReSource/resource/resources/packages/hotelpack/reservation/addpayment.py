@@ -123,7 +123,7 @@ def _addPayment(var) :
      r.setDescription(descr)
 #     r.setVat(vat) 
 #    TODO: addvar
-     r.setServiceName(serv)
+     r.setService(serv)
      r.setGuestName(guest)
      r.setRoomName(room)
      ROP.addResAddPayment(rese,r)

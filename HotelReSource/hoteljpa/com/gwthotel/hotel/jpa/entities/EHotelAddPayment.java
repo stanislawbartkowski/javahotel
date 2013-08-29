@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
         @NamedQuery(name = "deleteAllAddPaymentForService", query = "DELETE FROM EHotelAddPayment x WHERE x.service=?1"),
         @NamedQuery(name = "deleteAllAddPaymentForCustomer", query = "DELETE FROM EHotelAddPayment x WHERE x.customer=?1"),
         @NamedQuery(name = "deleteAllAddPayment", query = "DELETE FROM EHotelAddPayment x WHERE x.reservation.hotel = ?1") })
-public class EHotelAddPayment extends EHotelRoomCustomer {
+class EHotelAddPayment extends EHotelRoomCustomer {
 
     @Column(nullable = false)
     private int quantity;

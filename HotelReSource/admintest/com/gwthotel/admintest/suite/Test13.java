@@ -25,7 +25,7 @@ import org.junit.Test;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.reservation.ResStatus;
-import com.gwthotel.hotel.reservation.ReservationDetail;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
@@ -59,10 +59,10 @@ public class Test13 extends TestHelper {
         ro.setNoPersons(1);
         iRooms.addElem(getH(HOTEL), ro);
         
-        ReservationDetail det = new ReservationDetail();
+        ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
         det.setResDate(d);
-        det.setRoom("R10");
+        det.setRoomName("R10");
         det.setPrice(new BigDecimal(100));
         
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
@@ -122,16 +122,16 @@ public class Test13 extends TestHelper {
                 HotelObjects.RESERVATION);
         r.setCustomerName(p.getName());
         r.setGensymbol(true);
-        ReservationDetail det = new ReservationDetail();
+        ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
         det.setResDate(dFrom);
-        det.setRoom("R10");
+        det.setRoomName("R10");
         det.setPrice(new BigDecimal(100));
         r.getResDetail().add(det);
-        det = new ReservationDetail();
+        det = new ReservationPaymentDetail();
         det.setNoP(1);
         det.setResDate(dTo);
-        det.setRoom("R11");
+        det.setRoomName("R11");
         det.setPrice(new BigDecimal(100));
         r.getResDetail().add(det);
         r = iRes.addElem(getH(HOTEL), r);

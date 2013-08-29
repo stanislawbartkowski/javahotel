@@ -12,7 +12,8 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,12 +23,12 @@ import org.junit.Test;
 
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
+import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.reservation.ReservationForm;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
-import com.gwthotel.hotel.services.ServiceType;
-import com.gwthotel.hotel.stay.ResAddPayment;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.DateUtil;
@@ -78,7 +79,7 @@ public class Test16 extends TestHelper {
         p.setGensymbol(true);
         String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
 
-        ResAddPayment add = new ResAddPayment();
+        ReservationPaymentDetail add = new ReservationPaymentDetail();
         add.setDescription("Beverage");
         add.setGuestName(guest1);
         add.setPrice(new BigDecimal(100));
@@ -87,12 +88,12 @@ public class Test16 extends TestHelper {
         add.setQuantity(2);
         add.setRoomName("P10");
         add.setServDate(toDate(2013, 4, 5));
-        add.setServiceName(SERVICE1);
-        add.setServiceVat("22%");
+        add.setService(SERVICE1);
+        add.setVat("22%");
         iResOp.addResAddPayment(getH(HOTEL), RESNAME, add);
 
-        List<ResAddPayment> aList = iResOp.getResAddPaymentList(getH(HOTEL),
-                RESNAME);
+        List<ReservationPaymentDetail> aList = iResOp.getResAddPaymentList(
+                getH(HOTEL), RESNAME);
         assertEquals(1, aList.size());
         add = aList.get(0);
         assertEquals("Beverage", add.getDescription());
@@ -102,8 +103,8 @@ public class Test16 extends TestHelper {
         assertEquals(HUtils.roundB(new BigDecimal(200)), add.getPriceTotal());
         assertEquals(2, add.getQuantity());
         assertEquals(toDate(2013, 4, 5), add.getServDate());
-        assertEquals(SERVICE1, add.getServiceName());
-        assertEquals("22%", add.getServiceVat());
+        assertEquals(SERVICE1, add.getService());
+        assertEquals("22%", add.getVat());
     }
 
     @Test
@@ -115,7 +116,7 @@ public class Test16 extends TestHelper {
         String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
 
         for (int i = 0; i < 100; i++) {
-            ResAddPayment add = new ResAddPayment();
+            ReservationPaymentDetail add = new ReservationPaymentDetail();
             add.setDescription("Beverage");
             add.setGuestName(guest1);
             add.setPrice(new BigDecimal(100));
@@ -124,11 +125,11 @@ public class Test16 extends TestHelper {
             add.setQuantity(2);
             add.setRoomName("P10");
             add.setServDate(toDate(2013, 4, 5));
-            add.setServiceVat("7%");
+            add.setVat("7%");
             iResOp.addResAddPayment(getH(HOTEL), RESNAME, add);
         }
-        List<ResAddPayment> aList = iResOp.getResAddPaymentList(getH(HOTEL),
-                RESNAME);
+        List<ReservationPaymentDetail> aList = iResOp.getResAddPaymentList(
+                getH(HOTEL), RESNAME);
         assertEquals(101, aList.size());
     }
 
@@ -140,7 +141,7 @@ public class Test16 extends TestHelper {
         p.setGensymbol(true);
         String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
 
-        ResAddPayment add = new ResAddPayment();
+        ReservationPaymentDetail add = new ReservationPaymentDetail();
         add.setDescription("Beverage");
         add.setGuestName(guest1);
         add.setPrice(new BigDecimal(100));
@@ -150,11 +151,11 @@ public class Test16 extends TestHelper {
         add.setQuantity(2);
         add.setRoomName("P10");
         add.setServDate(toDate(2013, 4, 5));
-        add.setServiceVat("7%");
+        add.setVat("7%");
         iResOp.addResAddPayment(getH(HOTEL), RESNAME, add);
 
-        List<ResAddPayment> aList = iResOp.getResAddPaymentList(getH(HOTEL),
-                RESNAME);
+        List<ReservationPaymentDetail> aList = iResOp.getResAddPaymentList(
+                getH(HOTEL), RESNAME);
         assertEquals(2, aList.size());
 
         DialogFormat d = findDialog("dialog2.xml");

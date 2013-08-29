@@ -142,7 +142,7 @@ def _setvarBefore(var):
     list = []
     sum = SUMBDECIMAL()
     for r in reservation.getResDetail() :
-         map = { "name" : r.getRoom(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService() }
+         map = { "name" : r.getRoomName(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService() }
          list.append(map)
          sum.add(r.getPrice())
 

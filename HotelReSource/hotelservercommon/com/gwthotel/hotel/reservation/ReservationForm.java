@@ -22,11 +22,11 @@ public class ReservationForm extends PropDescription {
 
     private static final long serialVersionUID = 1L;
 
-    private List<ReservationDetail> resDetail = new ArrayList<ReservationDetail>();
+    private List<ReservationPaymentDetail> resDetail = new ArrayList<ReservationPaymentDetail>();
 
     private ResStatus status = ResStatus.OPEN;
 
-    public List<ReservationDetail> getResDetail() {
+    public List<ReservationPaymentDetail> getResDetail() {
         return resDetail;
     }
 

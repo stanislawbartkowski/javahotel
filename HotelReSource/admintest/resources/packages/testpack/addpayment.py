@@ -1,6 +1,6 @@
 from cutil import printVar
 from com.gwthotel.hotel.server.service import H
-from com.gwthotel.hotel.stay import ResAddPayment
+from com.gwthotel.hotel.reservation import ReservationPaymentDetail
 from com.gwthotel.admintest.guice import ServiceInjector
 from com.gwthotel.hotel.customer import HotelCustomer
 from cutil import toDate
@@ -13,7 +13,7 @@ def dialogaction(action,var) :
      if action == "addpayment" :
          op = H.getResOp()
          custOp = H.getHotelCustomers()
-         add = ResAddPayment()
+         add = ReservationPaymentDetail()
          ho = ServiceInjector.getInstanceHotel()
          hins = ho.getHotel("AppInstanceTest","hotel")
          print hins
@@ -31,7 +31,7 @@ def dialogaction(action,var) :
          add.setRoomName("P10")
          da = datetime.date(2013, 3, 2)
          add.setServDate(toDate(da))
-         add.setServiceVat("7%")
+         add.setVat("7%")
          op.addResAddPayment(hins, "2013/R/2", add)
 
          

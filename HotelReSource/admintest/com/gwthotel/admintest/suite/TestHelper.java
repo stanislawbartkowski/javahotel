@@ -12,6 +12,9 @@
  */
 package com.gwthotel.admintest.suite;
 
+import static org.junit.Assert.assertEquals;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +32,7 @@ import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.admintest.guice.ServiceInjector;
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelObjectGenSym;
@@ -112,7 +116,7 @@ public class TestHelper {
 
     public TestHelper() {
         iAdmin = H.getHotelAdmin();
-//        iAdmin = ServiceInjector.constructHotelAdmin();
+        // iAdmin = ServiceInjector.constructHotelAdmin();
         iRoles = ServiceInjector.constructHotelRoles();
         iServer = ServiceInjector.contructJythonUiServer();
         iSec = ServiceInjector.constructSecurity();
@@ -191,6 +195,11 @@ public class TestHelper {
         cust.setAttr(IHotelConsts.INSTANCEID, TESTINSTANCE);
         ICustomSecurity cu = Holder.getSecurityConvert().construct(cust);
         return cu;
+    }
+
+    protected void assertEqB (double b1, BigDecimal b2) {
+        assertEquals(new BigDecimal(b1), b2);
+
     }
 
 }

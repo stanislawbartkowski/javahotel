@@ -12,7 +12,6 @@
  */
 package com.gwthotel.hotel.jpa;
 
-import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,15 +22,20 @@ import javax.persistence.Query;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.admin.jpa.PropUtils;
+import com.gwthotel.hotel.HUtils;
+import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelDict;
+import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
+import com.gwtmodel.table.common.CUtil;
 import com.jythonui.shared.JythonUIFatal;
 
 public class JUtils {
@@ -96,6 +100,17 @@ public class JUtils {
         return getElemE(em, hotel, "findOneService", s);
     }
 
+    public static EHotelCustomer findCustomer(EntityManager em, HotelId hotel,
+            String s) {
+        EHotelCustomer cu = getElemE(em, hotel, "findOneCustomer", s);
+        return cu;
+    }
+
+    public static EHotelRoom findRoom(EntityManager em, HotelId hotel, String s) {
+        EHotelRoom room = getElemE(em, hotel, "findOneRoom", s);
+        return room;
+    }
+
     public static void runQueryForObject(EntityManager em, Object o,
             String[] remQuery) {
         for (String r : remQuery) {
@@ -108,5 +123,53 @@ public class JUtils {
     public static void runQueryForHotels(EntityManager em, HotelId hotel,
             String[] remQuery) {
         runQueryForObject(em, hotel.getId(), remQuery);
+    }
+
+    public static void ToReservationDetails(ReservationPaymentDetail det,
+            EHotelReservationDetail r) {
+        det.setNoP(r.getNoP());
+        det.setPrice(r.getPrice());
+        det.setPriceList(r.getPriceList());
+        det.setPriceTotal(r.getTotal());
+        det.setResDate(r.getResDate());
+        det.setServiceType(r.getServiceType());
+        det.setId(r.getId());
+        det.setVat(r.getServicevat());
+        det.setDescription(r.getDescription());
+
+        if (r.getRoom() != null)
+            det.setRoomName(r.getRoom().getName());
+        if (r.getService() != null)
+            det.setService(r.getService().getName());
+        if (r.getCustomer() != null)
+            det.setGuestName(r.getCustomer().getName());
+    }
+
+    public static void ToEReservationDetails(EntityManager em, HotelId hotel,
+            EHotelReservationDetail dest, ReservationPaymentDetail sou) {
+        String roomName = sou.getRoomName();
+        if (!CUtil.EmptyS(roomName)) {
+            EHotelRoom room = findRoom(em, hotel, roomName);
+            dest.setRoom(room);
+        }
+        String serviceName = sou.getService();
+        if (!CUtil.EmptyS(serviceName)) {
+            EHotelServices serv = JUtils.findService(em, hotel, serviceName);
+            dest.setService(serv);
+        }
+        String custName = sou.getGuestName();
+        if (!CUtil.EmptyS(custName)) {
+            EHotelCustomer cust = findCustomer(em, hotel, custName);
+            dest.setCustomer(cust);
+
+        }
+        dest.setNoP(sou.getNoP());
+        dest.setPrice(HUtils.roundB(sou.getPrice()));
+        dest.setPriceList(HUtils.roundB(sou.getPriceList()));
+        dest.setResDate(sou.getResDate());
+        dest.setTotal(HUtils.roundB(sou.getPriceTotal()));
+        dest.setServiceType(sou.getServiceType());
+        dest.setServicevat(sou.getVat());
+        dest.setDescription(sou.getDescription());
     }
 }

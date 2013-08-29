@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.hotel.stay;
+package com.gwthotel.hotel.reservation;
 
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;

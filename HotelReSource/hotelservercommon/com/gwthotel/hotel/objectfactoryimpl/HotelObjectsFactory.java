@@ -21,7 +21,7 @@ import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.prices.HotelPriceElem;
-import com.gwthotel.hotel.reservation.ReservationDetail;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;

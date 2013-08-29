@@ -61,6 +61,9 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
 
     abstract protected void toE(E dest, T sou, EntityManager em, HotelId hotel);
 
+    abstract protected void afterAddChange(EntityManager em, HotelId hotel,
+            T prop, E elem, boolean add);
+
     abstract protected void beforedeleteAll(EntityManager em, HotelId hotel);
 
     abstract protected void beforedeleteElem(EntityManager em, HotelId hotel,
@@ -150,6 +153,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             toE(pers, elem, em, hotel);
             JUtils.copyToEDict(hotel, pers, elem);
             em.persist(pers);
+            afterAddChange(em, hotel, elem, pers, true);
             reselem = toT(pers, em, hotel);
             PropUtils.copyToProp(reselem, pers);
         }
@@ -180,6 +184,7 @@ public abstract class AbstractJpaCrud<T extends PropDescription, E extends EHote
             PropUtils.copyToEDict(pers, elem);
             pers.setHotel(hotel.getId());
             em.persist(pers);
+            afterAddChange(em, hotel, elem, pers, false);
         }
 
     }
