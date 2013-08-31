@@ -1,10 +1,11 @@
+from cutil import printVar
 
 def dialogaction(action,var) :
-  print "packenum",action
-  for k in var.keys() : 
-    print k, var[k]
+  printVar("packenum",action,var)
     
   if action == "before" :
+     var['combof'] = "3"
+     var['JCOPY_combof'] = True
      return  
      
   if action == "testcombo" :
