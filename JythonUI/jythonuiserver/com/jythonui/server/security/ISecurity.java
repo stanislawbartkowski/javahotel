@@ -27,4 +27,6 @@ public interface ISecurity {
 
     ICustomSecurity getCustom(String token);
 
+    String getUserName(String token);
+
 }
