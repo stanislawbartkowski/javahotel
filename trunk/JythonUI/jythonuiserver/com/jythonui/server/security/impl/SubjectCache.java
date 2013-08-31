@@ -12,9 +12,7 @@
  */
 package com.jythonui.server.security.impl;
 
-import java.io.InvalidClassException;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.shiro.SecurityUtils;
@@ -149,11 +147,18 @@ class SubjectCache {
         return get(token) != null;
     }
 
-    public ICustomSecurity getCustom(String token) {
+    ICustomSecurity getCustom(String token) {
         SessionEntry se = get(token);
         if (se == null) // TODO: more verbose log
             return null;
         return se.getiCustom();
+    }
+
+    String getUserName(String token) {
+        SessionEntry se = get(token);
+        if (se == null) // TODO: more verbose log
+            return null;
+        return se.getUser();
     }
 
     Subject getSubject(String token) {

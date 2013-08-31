@@ -15,7 +15,6 @@ package com.jythonui.server.security.impl;
 import java.io.Serializable;
 
 import com.jythonui.server.security.token.ICustomSecurity;
-import com.jythonui.shared.CustomSecurity;
 
 class SessionEntry implements Serializable {
     private static final long serialVersionUID = 1L;

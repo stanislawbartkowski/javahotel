@@ -59,7 +59,7 @@ public class SecurityJython implements ISecurity {
         if (currentUser == null)
             return; // TODO: more detailed log
         currentUser.logout();
-        if (currentUser.getSession() != null) 
+        if (currentUser.getSession() != null)
             currentUser.getSession().stop();
         cCache.removeSubject(token);
     }
@@ -83,6 +83,11 @@ public class SecurityJython implements ISecurity {
     @Override
     public ICustomSecurity getCustom(String token) {
         return cCache.getCustom(token);
+    }
+
+    @Override
+    public String getUserName(String token) {
+        return cCache.getUserName(token);
     }
 
 }
