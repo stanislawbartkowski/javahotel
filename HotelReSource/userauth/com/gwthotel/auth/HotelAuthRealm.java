@@ -93,8 +93,8 @@ public class HotelAuthRealm extends AuthorizingRealm {
         HotelCustom ho = (HotelCustom) token.getiCustom();
         String instanceId = ho.getInstanceId();
         String person = token.getUsername();
-        String password = getI().getPassword(getG().getInstance(instanceId),
-                token.getUsername());
+        String password = getI().getPassword(
+                getG().getInstance(instanceId, person), token.getUsername());
         if (CUtil.EmptyS(password))
             throwNotExist(IHError.HERROR003, IHMess.AUTHUSERDOESNOTEXIST,
                     person);
@@ -104,7 +104,7 @@ public class HotelAuthRealm extends AuthorizingRealm {
             throwNotExist(IHError.HERROR002, IHMess.AUTHHOTELISNULL, person);
         }
         List<HotelRoles> roles = getI().getListOfRolesForHotel(
-                getG().getInstance(instanceId), hotel);
+                getG().getInstance(instanceId, person), hotel);
         List<String> hotelroles = null;
         for (HotelRoles ro : roles) {
             if (ro.getObject().getName().equals(person)) {

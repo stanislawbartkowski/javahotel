@@ -24,9 +24,11 @@ import com.gwthotel.admin.jpa.HotelAppInstanceProvider;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.IHotelObjectGenSym;
+import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.bill.CustomerBillProvider;
 import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
 import com.gwthotel.hotel.jpa.customers.HotelCustomersProvider;
 import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
@@ -41,7 +43,6 @@ import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
-import com.gwthotel.hotel.server.service.H;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
@@ -97,6 +98,8 @@ public class ServerService {
                             Singleton.class);
             bind(IHotelRooms.class).toProvider(HotelRoomsProvider.class).in(
                     Singleton.class);
+            bind(ICustomerBills.class).toProvider(CustomerBillProvider.class)
+                    .in(Singleton.class);
 
             bind(IGetAutomPatterns.class).to(GetTestPatterns.class).in(
                     Singleton.class);
@@ -115,7 +118,7 @@ public class ServerService {
             // -----
 
             requestStatic();
-//            requestStaticInjection(H.class);
+            // requestStaticInjection(H.class);
         }
 
         // common

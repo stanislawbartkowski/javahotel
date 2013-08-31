@@ -20,7 +20,9 @@ import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.ServiceType;
+import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.jpa.JUtils;
+import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelGuest;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
@@ -273,6 +275,38 @@ class ReservationOp implements IReservationOp {
         AddResPaymentCommand comma = new AddResPaymentCommand(hotel, resName);
         comma.executeTran();
         return comma.pList;
+    }
+
+    private class FindBillsForReservation extends doResTransaction {
+
+        private List<CustomerBill> bList = new ArrayList<CustomerBill>();
+
+        FindBillsForReservation(HotelId hotel, String resName) {
+            super(hotel, resName);
+        }
+
+        @Override
+        protected void dosth(EntityManager em) {
+            EHotelReservation e = getRes(em);
+            Query q = em.createNamedQuery("findBillsForReservation");
+            q.setParameter(1, e);
+            List<ECustomerBill> resList = q.getResultList();
+            for (ECustomerBill eb : resList) {
+                CustomerBill b = new CustomerBill();
+                JUtils.toCustomerBill(em, hotel, b, eb);
+                bList.add(b);
+            }
+        }
+
+    }
+
+    @Override
+    public List<CustomerBill> findBillsForReservation(HotelId hotel,
+            String resName) {
+        FindBillsForReservation comma = new FindBillsForReservation(hotel,
+                resName);
+        comma.executeTran();
+        return comma.bList;
     }
 
 }

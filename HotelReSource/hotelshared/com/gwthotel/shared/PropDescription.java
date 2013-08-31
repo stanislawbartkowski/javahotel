@@ -14,6 +14,7 @@ package com.gwthotel.shared;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,9 @@ abstract public class PropDescription implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    private Date creationDate;
+    private Date modifDate;
 
     private boolean gensymbol = false;
 
@@ -92,5 +96,37 @@ abstract public class PropDescription implements Serializable {
     public void setGensymbol(boolean gensymbol) {
         this.gensymbol = gensymbol;
     }
-    
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getModifDate() {
+        return modifDate;
+    }
+
+    public void setModifDate(Date modifDate) {
+        this.modifDate = modifDate;
+    }
+
+    public void setCreationPerson(String person) {
+        setAttr(IHotelConsts.CREATIONPERSON, person);
+    }
+
+    public String getCreationPerson() {
+        return getAttr(IHotelConsts.CREATIONPERSON);
+    }
+
+    public void setModifPerson(String person) {
+        setAttr(IHotelConsts.MODIFPERSON, person);
+    }
+
+    public String getModifPerson() {
+        return getAttr(IHotelConsts.MODIFPERSON);
+    }
+
 }

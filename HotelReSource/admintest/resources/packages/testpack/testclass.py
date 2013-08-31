@@ -9,7 +9,7 @@ instanceI = ServiceInjector.getInstanceHotel()
 
 
 def __getI(var):
-    return instanceI.getInstance("AppInstanceTest")
+    return instanceI.getInstance("AppInstanceTest","user")
 
 def __createHotelPerson(var,hotel):
     name = var["name"]

@@ -12,10 +12,8 @@
  */
 package com.gwthotel.hotel.bill;
 
-import com.gwthotel.shared.PropDescription;
+import com.gwthotel.hotel.IHotelProp;
 
-public class Bill extends PropDescription {
-
-    private static final long serialVersionUID = 1L;
+public interface ICustomerBills extends IHotelProp<CustomerBill> {
 
 }

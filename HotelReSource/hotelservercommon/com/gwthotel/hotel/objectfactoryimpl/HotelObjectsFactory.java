@@ -18,10 +18,9 @@ import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.IHotelObjectsFactory;
+import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
-import com.gwthotel.hotel.prices.HotelPriceElem;
-import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
@@ -55,6 +54,9 @@ public class HotelObjectsFactory implements IHotelObjectsFactory {
             break;
         case SERVICE:
             outo = new HotelServices();
+            break;
+        case BILL:
+            outo = new CustomerBill();
             break;
         }
         if (outo == null)

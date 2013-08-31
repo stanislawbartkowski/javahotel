@@ -27,6 +27,7 @@ import com.gwthotel.admin.ejblocator.HotelServicesProvider;
 import com.gwthotel.admin.ejblocator.StorageRealmProvider;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetAutomPatterns;
+import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
@@ -92,7 +93,7 @@ public class ServerService {
             requestStatic();
             requestStaticInjection(H.class);
         }
-        
+
         @Provides
         IReservationForm getReservationForm() {
             return AdminEjbLocator.getReservationForm();
@@ -106,6 +107,11 @@ public class ServerService {
         @Provides
         IClearHotel getClearHotel() {
             return AdminEjbLocator.getClearHotel();
+        }
+
+        @Provides
+        ICustomerBills getCustomerBills() {
+            return AdminEjbLocator.getCustomerBills();
         }
 
     }

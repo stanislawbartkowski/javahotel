@@ -25,8 +25,10 @@ import com.gwthotel.admin.jpa.HotelAdminProvider;
 import com.gwthotel.admin.jpa.HotelAppInstanceProvider;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IHotelObjectGenSym;
+import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
+import com.gwthotel.hotel.jpa.bill.CustomerBillProvider;
 import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
 import com.gwthotel.hotel.jpa.customers.HotelCustomersProvider;
 import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
@@ -66,9 +68,6 @@ public class GuiceService {
     public static class ServiceModule extends AbstractModule {
         @Override
         protected void configure() {
-
-            // bind(IStorageRealmRegistry.class).toProvider(
-            // StorageJpaRegistryProvider.class).in(Singleton.class);
 
             bind(EntityManagerFactory.class).toProvider(
                     EntityManagerFactoryProvider.class).in(Singleton.class);
@@ -111,10 +110,8 @@ public class GuiceService {
             bind(IReservationOp.class).toProvider(ReservationOpProvider.class)
                     .in(Singleton.class);
             bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
-
-            // bind(ITransactionContextFactory.class).toProvider(
-            // JpaNonTransactionContextFactoryProvider.class).in(
-            // Singleton.class);
+            bind(ICustomerBills.class).toProvider(CustomerBillProvider.class)
+                    .in(Singleton.class);
 
             // common
             bind(IStorageJpaRegistryFactory.class).to(
@@ -124,8 +121,6 @@ public class GuiceService {
 
             bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
                     Singleton.class);
-            // bind(IStorageRegistryFactory.class).to(
-            // StorageRealmRegistryFactory.class).in(Singleton.class);
             // -----
 
         }

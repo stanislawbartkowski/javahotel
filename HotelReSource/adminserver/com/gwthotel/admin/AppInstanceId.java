@@ -17,9 +17,11 @@ import java.io.Serializable;
 public class AppInstanceId implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     private String instanceName;
-    
+
+    private String person;
+
     private Long id;
 
     public String getInstanceName() {
@@ -36,6 +38,14 @@ public class AppInstanceId implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPerson() {
+        return person;
+    }
+
+    public void setPerson(String person) {
+        this.person = person;
     }
 
 }

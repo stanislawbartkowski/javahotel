@@ -21,13 +21,14 @@ public class AbstractHotelAdminInstanceEJB implements IAppInstanceHotel {
     protected IAppInstanceHotel iApp;
 
     @Override
-    public AppInstanceId getInstanceId(String instanceName) {
-        return iApp.getInstanceId(instanceName);
+    public AppInstanceId getInstanceId(String instanceName, String userName) {
+        return iApp.getInstanceId(instanceName, userName);
     }
 
     @Override
-    public HotelId getHotelId(AppInstanceId instanceId, String hotelName) {
-        return iApp.getHotelId(instanceId, hotelName);
+    public HotelId getHotelId(AppInstanceId instanceId, String hotelName,
+            String userName) {
+        return iApp.getHotelId(instanceId, hotelName, userName);
     }
 
 }

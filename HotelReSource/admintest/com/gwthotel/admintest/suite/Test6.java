@@ -12,8 +12,7 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -38,7 +37,12 @@ public class Test6 extends TestHelper {
         ho.setDescription("One person in one person room");
         ho.setNoPersons(2);
         ho.setAttr(IHotelConsts.VATPROP, "7%");
-        iServices.addElem(getH(HOTEL), ho);
+        ho = iServices.addElem(getH(HOTEL), ho);
+        System.out.println(ho.getCreationPerson());
+        assertEquals("user",ho.getCreationPerson());
+        assertEquals("user",ho.getModifPerson());
+        assertNotNull(ho.getCreationDate());
+        assertNotNull(ho.getModifDate());
 
         List<HotelServices> hList = iServices.getList(getH(HOTEL));
         assertEquals(1, hList.size());

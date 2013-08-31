@@ -14,8 +14,8 @@ package com.gwthotel.admin;
 
 public interface IAppInstanceHotel {
         
-    public AppInstanceId getInstanceId(String instanceName);
+    public AppInstanceId getInstanceId(String instanceName, String userName);
 
-    public HotelId getHotelId(AppInstanceId instanceId, String hotelName);
+    public HotelId getHotelId(AppInstanceId instanceId, String hotelName, String userName);
 
 }

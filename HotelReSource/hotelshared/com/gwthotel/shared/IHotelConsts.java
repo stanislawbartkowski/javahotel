@@ -31,6 +31,7 @@ public interface IHotelConsts {
     String HOTELRESERVATIONJNDI = "java:global/HotelReservation";
     String HOTELRESERVATIONOPJNDI = "java:global/HotelReservationOp";
     String HOTELCLEAROPJNDI = "java:global/HotelClearOp";
+    String HOTELBILLJNDI = "java:global/HotelBills";
 
     String HOTELREALM = "HotelRealm";
 
@@ -54,15 +55,14 @@ public interface IHotelConsts {
     String CUSTOMERPHONEPROP = "phone";
 
     String RESDETSERVICENAMEPROP = "servicename";
-//    String RESDETROOMNAMEPROP = "roomname";
     String RESDETVATPROP = "rasvat";
-    
+
     String RESGUESTCUSTID = "guestcustomer";
     String RESGUESTROOMID = "guestroom";
-    
-//    String RESADDSERVICE = "resaddservice";
-//    String RESADDVAT = "resaddvat";
-        
+
+    String BILLPAYER = "billpayer";
+    String BILLRESE = "billreservation";
+
     String RESCUSTOMERPROP = "rescustomer";
 
     String RESQUERYROOMPROP = "roomname";
@@ -80,4 +80,12 @@ public interface IHotelConsts {
     String HOTELPERSISTENCEPROVIDER = "hoteladmin";
 
     String PROPAUTOM = "autompatterns.properties";
+
+    String CREATIONPERSON = "creationperson";
+    String MODIFPERSON = "modifperson";
+
+    String CREATIONPERSONPROPERTY = "creationPerson";
+    String CREATIONDATEPROPERTY = "creationDate";
+    String MODIFPERSONPROPERTY = "modifPerson";
+    String MODIFDATEPROPERTY = "modifDate";
 }

@@ -13,7 +13,6 @@
 package com.gwthotel.hotel.jpa.customers;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HUtils;

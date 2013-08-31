@@ -29,6 +29,7 @@ import com.gwthotel.admin.jpa.entities.EDictEntry;
 import com.gwthotel.admin.jpa.entities.EHotel;
 import com.gwthotel.admin.jpa.entities.EPersonPassword;
 import com.gwthotel.admin.jpa.entities.EPersonRoles;
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.PropDescription;
@@ -208,11 +209,14 @@ class HotelAdminJpa implements IHotelAdmin {
         @Override
         protected void dosth(EntityManager em) {
             EHotel hote = getHotelByName(em, i, hotel.getName());
+            boolean create = false;
             if (hote == null) {
                 hote = new EHotel();
                 hote.setInstanceId(i.getId());
+                create = true;
             }
             PropUtils.copyToEDict(hote, hotel);
+            HUtils.setCreateModif(i.getPerson(), hote, create);
             em.persist(hote);
             makekeys();
             Query q = em.createNamedQuery("removeRolesForHotel");
@@ -248,11 +252,14 @@ class HotelAdminJpa implements IHotelAdmin {
         @Override
         protected void dosth(EntityManager em) {
             EPersonPassword pe = getPersonByName(em, i, person.getName());
+            boolean create = false;
             if (pe == null) {
                 pe = new EPersonPassword();
                 pe.setInstanceId(i.getId());
+                create = true;
             }
             PropUtils.copyToEDict(pe, person);
+            HUtils.setCreateModif(i.getPerson(), pe, create);
             em.persist(pe);
             makekeys();
             Query q = em.createNamedQuery("removeRolesForPerson");
