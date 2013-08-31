@@ -24,6 +24,8 @@ public class HotelId implements Serializable {
 
     private AppInstanceId instanceId;
 
+    private String userName;
+
     public AppInstanceId getInstanceId() {
         return instanceId;
     }
@@ -46,6 +48,14 @@ public class HotelId implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 }

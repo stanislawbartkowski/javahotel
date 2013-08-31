@@ -15,6 +15,6 @@ package com.gwthotel.hotel;
 
 public enum HotelObjects {
 
-    RESERVATION, CUSTOMER, PRICELIST, ROOM, SERVICE
+    RESERVATION, CUSTOMER, PRICELIST, ROOM, SERVICE, BILL
 
 }

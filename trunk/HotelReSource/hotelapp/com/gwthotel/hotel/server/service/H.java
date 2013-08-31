@@ -24,6 +24,7 @@ import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
 import com.gwthotel.hotel.IHotelObjectsFactory;
+import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -82,12 +83,15 @@ public class H {
 
     @Inject
     private static IReservationOp resOp;
-    
+
     @Inject
     private static IReservationForm resForm;
-    
+
     @Inject
     private static IXMLToMap iXMLMap;
+
+    @Inject
+    private static ICustomerBills iBills;
 
     public static IGetLogMess getL() {
         return lMess;
@@ -148,13 +152,17 @@ public class H {
     public static IReservationOp getResOp() {
         return resOp;
     }
-    
+
     public static IReservationForm getResForm() {
         return resForm;
     }
-    
+
     public static IXMLToMap getXMLMap() {
         return iXMLMap;
+    }
+
+    public static ICustomerBills getCustomerBills() {
+        return iBills;
     }
 
 }

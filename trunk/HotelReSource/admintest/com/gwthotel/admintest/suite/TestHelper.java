@@ -32,11 +32,11 @@ import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.IXMLToMap;
 import com.gwthotel.admintest.guice.ServiceInjector;
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
+import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -84,6 +84,7 @@ public class TestHelper {
     protected final IReservationOp iResOp;
     protected final IClearHotel iClear;
     protected final IXMLToMap ixMap;
+    protected final ICustomerBills iBills;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -91,11 +92,11 @@ public class TestHelper {
     protected static final String TESTINSTANCE = IHotelConsts.INSTANCETEST;
 
     protected AppInstanceId getI() {
-        return iGetI.getInstance(TESTINSTANCE);
+        return iGetI.getInstance(TESTINSTANCE,"user");
     }
 
     protected HotelId getH(String hotel) {
-        return iGetI.getHotel(TESTINSTANCE, hotel);
+        return iGetI.getHotel(TESTINSTANCE, hotel, "user");
     }
 
     protected void createHotels() {
@@ -116,7 +117,6 @@ public class TestHelper {
 
     public TestHelper() {
         iAdmin = H.getHotelAdmin();
-        // iAdmin = ServiceInjector.constructHotelAdmin();
         iRoles = ServiceInjector.constructHotelRoles();
         iServer = ServiceInjector.contructJythonUiServer();
         iSec = ServiceInjector.constructSecurity();
@@ -134,6 +134,8 @@ public class TestHelper {
         iResOp = ServiceInjector.getReservationOp();
         iClear = ServiceInjector.getClearHotel();
         ixMap = ServiceInjector.getXMLToMap();
+        iBills = ServiceInjector.getCustomerBills();
+
     }
 
     @BeforeClass
@@ -197,7 +199,7 @@ public class TestHelper {
         return cu;
     }
 
-    protected void assertEqB (double b1, BigDecimal b2) {
+    protected void assertEqB(double b1, BigDecimal b2) {
         assertEquals(new BigDecimal(b1), b2);
 
     }

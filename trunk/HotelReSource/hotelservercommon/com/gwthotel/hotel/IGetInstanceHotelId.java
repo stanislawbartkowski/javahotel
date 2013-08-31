@@ -17,10 +17,10 @@ import com.gwthotel.admin.HotelId;
 
 public interface IGetInstanceHotelId {
 
-    AppInstanceId getInstance(String instanceName);
+    AppInstanceId getInstance(String instanceName, String userName);
 
-    HotelId getHotel(String instanceName, String hotelName);
+    HotelId getHotel(String instanceName, String hotelName, String userName);
 
     void invalidateCache();
-    
+
 }

@@ -12,11 +12,15 @@
  */
 package com.gwthotel.admin.jpa.entities;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @MappedSuperclass
 abstract public class EDictEntry {
@@ -28,6 +32,20 @@ abstract public class EDictEntry {
     @Column(nullable = false)
     private String name;
     private String description;
+
+    @Column(length = 16)
+    private String creationPerson;
+
+    @Column(length = 16)
+    private String modifPerson;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifDate;
 
     public String getName() {
         return name;
@@ -47,6 +65,38 @@ abstract public class EDictEntry {
 
     public Long getId() {
         return id;
+    }
+
+    public String getCreationPerson() {
+        return creationPerson;
+    }
+
+    public void setCreationPerson(String creationPerson) {
+        this.creationPerson = creationPerson;
+    }
+
+    public String getModifPerson() {
+        return modifPerson;
+    }
+
+    public void setModifPerson(String modifPerson) {
+        this.modifPerson = modifPerson;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getModifDate() {
+        return modifDate;
+    }
+
+    public void setModifDate(Date modifDate) {
+        this.modifDate = modifDate;
     }
 
 }

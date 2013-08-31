@@ -10,25 +10,19 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admintest.guice;
+package com.gwthotel.hotel.jpa.bill;
 
-import com.gwthotel.admin.HotelId;
-import com.gwthotel.hotel.HotelObjects;
-import com.gwthotel.hotel.IGetAutomPatterns;
+import javax.inject.Provider;
 
-public class GetTestPatterns implements IGetAutomPatterns {
+import com.gwthotel.hotel.bill.ICustomerBills;
+import com.gwthotel.hotel.jpa.AbstractCrudProvider;
+
+public class CustomerBillProvider extends AbstractCrudProvider implements
+        Provider<ICustomerBills> {
 
     @Override
-    public String getPatt(HotelId hotel, HotelObjects t) {
-        switch (t) {
-        case CUSTOMER:
-            return "(Y) / (N) /C";
-        case RESERVATION:
-            return "(Y)/(M) (N)R";
-        case BILL:
-            return "(Y)/(M) (N) BILL";
-        }
-        return null;
+    public ICustomerBills get() {
+        return new CustomerBillJpa(eFactory, iGen);
     }
 
 }

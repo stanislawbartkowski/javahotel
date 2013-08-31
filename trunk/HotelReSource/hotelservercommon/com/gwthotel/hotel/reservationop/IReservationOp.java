@@ -15,6 +15,7 @@ package com.gwthotel.hotel.reservationop;
 import java.util.List;
 
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.reservation.ResStatus;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.stay.ResGuest;
@@ -34,5 +35,7 @@ public interface IReservationOp {
 
     List<ReservationPaymentDetail> getResAddPaymentList(HotelId hotel,
             String resName);
+    
+    List<CustomerBill> findBillsForReservation(HotelId hotel, String resName);
 
 }

@@ -24,6 +24,7 @@ import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
+import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -129,6 +130,10 @@ public class ServiceInjector {
 
     public static IXMLToMap getXMLToMap() {
         return injector.getInstance(IXMLToMap.class);
+    }
+    
+    public static ICustomerBills getCustomerBills() {
+        return injector.getInstance(ICustomerBills.class);
     }
 
 }

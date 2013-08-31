@@ -23,8 +23,11 @@ import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.admin.jpa.PropUtils;
 import com.gwthotel.hotel.HUtils;
+import com.gwthotel.hotel.bill.CustomerBill;
+import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelDict;
+import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
 import com.gwthotel.hotel.jpa.entities.EHotelServices;
@@ -111,6 +114,12 @@ public class JUtils {
         return room;
     }
 
+    public static EHotelReservation findReservation(EntityManager em,
+            HotelId hotel, String s) {
+        EHotelReservation res = getElemE(em, hotel, "findOneReservation", s);
+        return res;
+    }
+
     public static void runQueryForObject(EntityManager em, Object o,
             String[] remQuery) {
         for (String r : remQuery) {
@@ -171,5 +180,16 @@ public class JUtils {
         dest.setServiceType(sou.getServiceType());
         dest.setServicevat(sou.getVat());
         dest.setDescription(sou.getDescription());
+    }
+
+    public static void toCustomerBill(EntityManager em, HotelId hotel,
+            CustomerBill dest, ECustomerBill sou) {
+        dest.setPayer(sou.getCustomer().getName());
+        dest.setReseName(sou.getReservation().getName());
+        dest.getPayList().addAll(sou.getResDetails());
+        PropUtils.copyToProp(dest, sou);
+        dest.setIssueDate(sou.getIssueDate());
+        dest.setDateOfPayment(sou.getDateOfPayment());
+        HUtils.retrieveCreateModif(dest, sou);
     }
 }

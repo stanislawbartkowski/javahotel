@@ -41,7 +41,7 @@ public class ClearObjects implements IClearHotel {
 
         @Override
         protected void dosth(EntityManager em) {
-            String[] remQuery = { "deleteAllGuestsReservationFromHotel",
+            String[] remQuery = { "removeAllBills", "deleteAllGuestsReservationFromHotel",
                     "deleteAllReservationDetails", "deleteAllReservations",
                     "deleteAllCustomers", "deleteAllRoomServices",
                     "deletePricesForHotel", "deleteAllRooms",

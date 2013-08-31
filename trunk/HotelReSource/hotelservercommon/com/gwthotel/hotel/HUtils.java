@@ -14,18 +14,23 @@ package com.gwthotel.hotel;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
+import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.jython.ui.shared.MUtil;
 import com.jythonui.shared.JythonUIFatal;
+import com.google.common.base.Optional;
 
 public class HUtils {
 
@@ -78,6 +83,69 @@ public class HUtils {
 
     public static BigDecimal roundB(BigDecimal b) {
         return MUtil.roundB(b);
+    }
+
+    private static void setD(Object o, String propname) {
+        Date d = DateUtil.getToday();
+        try {
+            BeanUtils.setProperty(o, propname, d);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+        }
+    }
+
+    private static void setPerson(Object o, String propName, String person) {
+        try {
+            PropertyUtils.setProperty(o, propName, person);
+        } catch (IllegalAccessException | InvocationTargetException
+                | NoSuchMethodException e) {
+        }
+    }
+
+    public static void setCreateModif(String person, Object o, boolean create) {
+        setD(o, IHotelConsts.MODIFDATEPROPERTY);
+        if (create)
+            setD(o, IHotelConsts.CREATIONDATEPROPERTY);
+        setPerson(o, IHotelConsts.MODIFPERSONPROPERTY, person);
+        if (create)
+            setPerson(o, IHotelConsts.CREATIONPERSONPROPERTY, person);
+    }
+
+    private static Optional<Date> retrieveD(Object o, String propName) {
+        Date d = null;
+        try {
+            d = (Date) PropertyUtils.getProperty(o, propName);
+        } catch (IllegalAccessException | InvocationTargetException
+                | NoSuchMethodException e) {
+            return null;
+        }
+        return Optional.fromNullable(d);
+    }
+
+    private static Optional<String> retrieveS(Object o, String propName) {
+        String v = null;
+        try {
+            v = (String) PropertyUtils.getProperty(o, propName);
+        } catch (IllegalAccessException | InvocationTargetException
+                | NoSuchMethodException e) {
+            return null;
+        }
+        return Optional.fromNullable(v);
+    }
+
+    public static void retrieveCreateModif(PropDescription dest, Object sou) {
+        Optional<Date> d = retrieveD(sou, IHotelConsts.CREATIONDATEPROPERTY);
+        if (d != null)
+            dest.setCreationDate(d.orNull());
+        d = retrieveD(sou, IHotelConsts.MODIFDATEPROPERTY);
+        if (d != null)
+            dest.setModifDate(d.orNull());
+        Optional<String> s = retrieveS(sou, IHotelConsts.CREATIONPERSONPROPERTY);
+        if (s != null)
+            dest.setCreationPerson(s.orNull());
+        s = retrieveS(sou, IHotelConsts.MODIFPERSONPROPERTY);
+        if (s != null)
+            dest.setModifPerson(s.orNull());
+
     }
 
 }

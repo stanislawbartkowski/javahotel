@@ -23,6 +23,7 @@ import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.jpa.entities.EHotel;
 import com.gwthotel.admin.jpa.entities.EInstance;
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
@@ -53,10 +54,12 @@ class HotelAdminInstance implements IAppInstanceHotel {
     private class getInstance extends doTransaction {
 
         private final String instanceName;
+        private final String userName;
         Long id;
 
-        getInstance(String instanceName) {
+        getInstance(String instanceName, String userName) {
             this.instanceName = instanceName;
+            this.userName = userName;
         }
 
         @Override
@@ -72,6 +75,7 @@ class HotelAdminInstance implements IAppInstanceHotel {
                         || instanceName.equals(IHotelConsts.INSTANCEDEFAULT)) {
                     insta = new EInstance();
                     insta.setName(instanceName);
+                    HUtils.setCreateModif(userName, insta, true);
                     em.persist(insta);
                     makekeys();
                     log.info(lMess.getMessN(
@@ -91,12 +95,13 @@ class HotelAdminInstance implements IAppInstanceHotel {
     }
 
     @Override
-    public AppInstanceId getInstanceId(String instanceName) {
-        getInstance comm = new getInstance(instanceName);
+    public AppInstanceId getInstanceId(String instanceName, String userName) {
+        getInstance comm = new getInstance(instanceName, userName);
         comm.executeTran();
         AppInstanceId id = new AppInstanceId();
         id.setId(comm.id);
         id.setInstanceName(instanceName);
+        id.setPerson(userName);
         return id;
     }
 
@@ -124,13 +129,15 @@ class HotelAdminInstance implements IAppInstanceHotel {
     }
 
     @Override
-    public HotelId getHotelId(AppInstanceId instanceId, String hotelName) {
+    public HotelId getHotelId(AppInstanceId instanceId, String hotelName,
+            String userName) {
         getHotelId comm = new getHotelId(instanceId, hotelName);
         comm.executeTran();
         HotelId h = new HotelId();
         h.setHotel(hotelName);
         h.setId(comm.id);
         h.setInstanceId(instanceId);
+        h.setUserName(userName);
         return h;
     }
 

@@ -56,7 +56,17 @@
                         <column id="total" type="decimal" displayname="Payment" footer = "" />
                 </columns>
         </list>  
-        
+
+        <list id="paymentlist" displayname="Bills" pagesize = "5">
+                <standbutt>TOOLS,FIND,FILTER</standbutt>
+                <columns>
+                        <column id="name" displayname="Bill number" />
+                        <column id="payerid" displayname="Payer" actionid="payerdetail" />
+                        <column id="payerdescr" displayname="Description" />
+                        <column id="billtotal" type="decimal" displayname="Total" footer = "" />
+                </columns>
+        </list>  
+
         <tabpanel id="tab">
                 <tabelem id="reslist" displayname="Hotel services" />
                 <tabelem id="paymentlist" displayname="Other services" />

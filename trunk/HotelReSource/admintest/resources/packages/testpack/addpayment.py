@@ -15,7 +15,7 @@ def dialogaction(action,var) :
          custOp = H.getHotelCustomers()
          add = ReservationPaymentDetail()
          ho = ServiceInjector.getInstanceHotel()
-         hins = ho.getHotel("AppInstanceTest","hotel")
+         hins = ho.getHotel("AppInstanceTest","hotel","user")
          print hins
          cust = HotelCustomer()
          cust.setName("guest")

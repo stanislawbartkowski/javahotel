@@ -12,7 +12,6 @@
  */
 package com.gwthotel.hotel.getid;
 
-import java.io.InvalidClassException;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -49,12 +48,12 @@ public class GetInstanceHotelId implements IGetInstanceHotelId {
     }
 
     @Override
-    public AppInstanceId getInstance(String instanceName) {
+    public AppInstanceId getInstance(String instanceName, String userName) {
         Object o = null;
         o = iCache.get(instanceName);
         if (o != null)
             return (AppInstanceId) o;
-        AppInstanceId a = iApp.getInstanceId(instanceName);
+        AppInstanceId a = iApp.getInstanceId(instanceName, userName);
         if (a.getId() == null) {
             String mess = lMess.getMess(IHError.HERROR010,
                     IHMess.INSTANCEIDCANNOTNENULLHERE);
@@ -66,14 +65,15 @@ public class GetInstanceHotelId implements IGetInstanceHotelId {
     }
 
     @Override
-    public HotelId getHotel(String instanceName, String hotelName) {
+    public HotelId getHotel(String instanceName, String hotelName,
+            String userName) {
         String key = instanceName + " " + hotelName;
         Object o = null;
         o = iCache.get(key);
         if (o != null)
             return (HotelId) o;
-        AppInstanceId a = getInstance(instanceName);
-        HotelId h = iApp.getHotelId(a, hotelName);
+        AppInstanceId a = getInstance(instanceName,userName);
+        HotelId h = iApp.getHotelId(a, hotelName, userName);
         iCache.put(key, h);
         return h;
     }
@@ -81,7 +81,6 @@ public class GetInstanceHotelId implements IGetInstanceHotelId {
     @Override
     public void invalidateCache() {
         iCache.invalidate();
-
     }
 
 }

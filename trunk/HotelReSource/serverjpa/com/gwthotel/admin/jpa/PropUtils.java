@@ -13,6 +13,7 @@
 package com.gwthotel.admin.jpa;
 
 import com.gwthotel.admin.jpa.entities.EDictEntry;
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.shared.PropDescription;
 
 public class PropUtils {
@@ -23,6 +24,7 @@ public class PropUtils {
     public static void copyToProp(PropDescription dest, EDictEntry sou) {
         dest.setName(sou.getName());
         dest.setDescription(sou.getDescription());
+        HUtils.retrieveCreateModif(dest, sou);
     }
 
     public static void copyToEDict(EDictEntry dest, PropDescription sou) {

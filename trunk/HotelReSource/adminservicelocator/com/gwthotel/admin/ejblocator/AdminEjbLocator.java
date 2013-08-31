@@ -21,6 +21,7 @@ import javax.naming.NamingException;
 import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.hotel.IClearHotel;
+import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
@@ -105,6 +106,10 @@ public class AdminEjbLocator {
 
     public static IClearHotel getClearHotel() {
         return construct(IHotelConsts.HOTELCLEAROPJNDI);
+    }
+
+    public static ICustomerBills getCustomerBills() {
+        return construct(IHotelConsts.HOTELBILLJNDI);
     }
 
 }

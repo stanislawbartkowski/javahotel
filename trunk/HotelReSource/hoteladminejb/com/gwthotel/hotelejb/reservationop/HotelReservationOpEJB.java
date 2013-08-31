@@ -25,6 +25,7 @@ import javax.interceptor.Interceptors;
 
 import com.google.inject.Inject;
 import com.gwthotel.admin.HotelId;
+import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.reservation.ResStatus;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservationop.IReservationOp;
@@ -80,6 +81,12 @@ public class HotelReservationOpEJB implements IReservationOp {
     public List<ReservationPaymentDetail> getResAddPaymentList(HotelId hotel,
             String resName) {
         return rOp.getResAddPaymentList(hotel, resName);
+    }
+
+    @Override
+    public List<CustomerBill> findBillsForReservation(HotelId hotel,
+            String resName) {
+        return rOp.findBillsForReservation(hotel, resName);
     }
 
 }

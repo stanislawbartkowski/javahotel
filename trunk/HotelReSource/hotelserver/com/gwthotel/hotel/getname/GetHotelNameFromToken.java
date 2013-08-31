@@ -39,7 +39,7 @@ public class GetHotelNameFromToken implements IHotelGetName {
         HotelCustom cust = (HotelCustom) sec;
         String instanceId = cust.getInstanceId();
         String hotelName = cust.getHotelName();
-        return iGet.getHotel(instanceId, hotelName);
+        return iGet.getHotel(instanceId, hotelName, iSec.getUserName(token));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class GetHotelNameFromToken implements IHotelGetName {
         ICustomSecurity sec = iSec.getCustom(token);
         HotelCustom cust = (HotelCustom) sec;
         String instanceId = cust.getInstanceId();
-        return iGet.getInstance(instanceId);
+        return iGet.getInstance(instanceId, iSec.getUserName(token));
     }
 
 }
