@@ -21,6 +21,7 @@ import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.rdef.IFormChangeListener;
+import com.google.common.base.Optional;
 
 /**
  * 
@@ -30,7 +31,7 @@ import com.gwtmodel.table.rdef.IFormChangeListener;
 class GetValueLB extends AbstractField implements IValueLB {
 
     final protected ListBox lB = new ListBox();
-    private String beforeVal = null;
+    private Optional<String> beforeVal = null;
     private final boolean addEmpty;
     private List<String> idList = null;
 
@@ -52,7 +53,7 @@ class GetValueLB extends AbstractField implements IValueLB {
         if (i == -1) {
             // CHANGE: 2010/09/22
             // return null;
-            s = beforeVal;
+            s = beforeVal == null ? null : beforeVal.orNull();
         } else {
             if (idList != null) {
                 s = idList.get(i);
@@ -77,12 +78,12 @@ class GetValueLB extends AbstractField implements IValueLB {
     }
 
     private void setV(final String s) {
-        if (s == null) {
-            setEmpty();
+        if (lB.getItemCount() == 0) {
+            beforeVal = Optional.fromNullable(s);
             return;
         }
-        if (lB.getItemCount() == 0) {
-            beforeVal = s;
+        if (s == null) {
+            setEmpty();
             return;
         }
         if (idList != null) {
@@ -143,7 +144,7 @@ class GetValueLB extends AbstractField implements IValueLB {
      * @return the beforeVal
      */
     @Override
-    public String getBeforeVal() {
+    public Optional<String> getBeforeVal() {
         return beforeVal;
     }
 

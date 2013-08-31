@@ -32,7 +32,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IGetDataList;
 import com.gwtmodel.table.IVField;
-import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.rdef.IFormChangeListener;
 import com.gwtmodel.table.rdef.ITouchListener;
