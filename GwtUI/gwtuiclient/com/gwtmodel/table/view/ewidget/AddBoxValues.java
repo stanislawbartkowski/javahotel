@@ -12,10 +12,19 @@
  */
 package com.gwtmodel.table.view.ewidget;
 
-import com.gwtmodel.table.*;
-import com.gwtmodel.table.ReadDictList.IListCallBack;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.base.Optional;
+import com.gwtmodel.table.FUtils;
+import com.gwtmodel.table.IDataListType;
+import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.IGetDataList;
+import com.gwtmodel.table.IGetDataListCallBack;
+import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.IVModelData;
+import com.gwtmodel.table.ReadDictList;
+import com.gwtmodel.table.ReadDictList.IListCallBack;
 
 /**
  * 
@@ -48,7 +57,7 @@ class AddBoxValues {
             }
         }
 
-        String be = e.getBeforeVal();
+        Optional<String> be = e.getBeforeVal();
         Object o = e.getValObj();
         String av = FUtils.getValueOS(o, e.getV());
         if (displayLi != null) {
@@ -57,7 +66,7 @@ class AddBoxValues {
         } else
             e.setList(li);
         if (be != null) {
-            e.setValObj(be);
+            e.setValObj(be.orNull());
         } else {
             if ((av == null) && (firstS != null)) {
                 e.setValObj(firstS);
