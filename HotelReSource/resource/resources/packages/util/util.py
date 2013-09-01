@@ -246,8 +246,8 @@ def toDate(value):
 def eqDate(d1,d2):
     return cutil.eqDate(d1,d2)
 
-def toB(value,afterdot=2):
-    return cutil.toB(value,afterdot)
+def toB(value):
+    return cutil.toB(value)
 
 def createSeq(list,addName=False):    
     seq = []
