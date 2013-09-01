@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 
-import com.gwthotel.admin.HotelId;
+import com.google.common.base.Optional;
 import com.gwthotel.admin.holder.HHolder;
 import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
@@ -30,7 +30,6 @@ import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.jython.ui.shared.MUtil;
 import com.jythonui.shared.JythonUIFatal;
-import com.google.common.base.Optional;
 
 public class HUtils {
 

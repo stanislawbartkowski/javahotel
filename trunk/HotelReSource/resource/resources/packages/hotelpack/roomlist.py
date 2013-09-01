@@ -44,7 +44,7 @@ def _createRoom(var):
 
 def _createServicesList(var):
     S = SERVICES(var)
-    seq = createSeq(S.getList())
+    seq = createSeq(S.getRoomServices())
     map = {"lines" : seq, "columns" : [{"id" : "id","displayname" : "Service"}]}
     var["JCHECK_MAP"] = { "services" : map}
     

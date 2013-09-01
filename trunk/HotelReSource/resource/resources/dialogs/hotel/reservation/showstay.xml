@@ -57,7 +57,7 @@
                 </columns>
         </list>  
 
-        <list id="paymentlist" displayname="Bills" pagesize = "5">
+        <list id="billlist" displayname="Bills" pagesize = "5">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
                         <column id="name" displayname="Bill number" />
@@ -65,11 +65,12 @@
                         <column id="payerdescr" displayname="Description" />
                         <column id="billtotal" type="decimal" displayname="Total" footer = "" />
                 </columns>
-        </list>  
+        </list>
 
         <tabpanel id="tab">
                 <tabelem id="reslist" displayname="Hotel services" />
                 <tabelem id="paymentlist" displayname="Other services" />
+                <tabelem id="billlist" displayname="Bill list" /> 
         </tabpanel>
 
 
