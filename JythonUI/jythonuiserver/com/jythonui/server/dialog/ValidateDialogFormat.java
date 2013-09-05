@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.gwtmodel.table.common.CUtil;
-import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -31,6 +30,7 @@ import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.JythonUIFatal;
 import com.jythonui.shared.ListFormat;
+import com.jythonui.shared.TabPanel;
 
 /**
  * @author hotel
@@ -152,6 +152,9 @@ class ValidateDialogFormat {
             findTag(d, dl, ICommonConsts.DATELINEDEFAFILE,
                     ICommonConsts.DATELINEFORMS, dl.getFormList());
         }
+        for (TabPanel t : d.getTabList())
+            validateL(ICommonConsts.TABPANEL, ICommonConsts.TABPANELELEM,
+                    t.gettList());
 
     }
 }
