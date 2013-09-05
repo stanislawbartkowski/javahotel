@@ -12,14 +12,10 @@
  */
 package com.jythonui.server.defa;
 
-import java.net.URL;
-
 import javax.inject.Inject;
 
-import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.JythonUiServerProvider;
 import com.jythonui.server.Util;
 
 /**
@@ -28,41 +24,33 @@ import com.jythonui.server.Util;
  */
 public class ServerProperties implements IJythonUIServerProperties {
 
-    private final IsCached isC;
+	private final IsCached isC;
 
-    @Inject
-    public ServerProperties(IsCached isC) {
-        this.isC = isC;
-    }
+	@Inject
+	public ServerProperties(IsCached isC) {
+		this.isC = isC;
+	}
 
-//    private String getResource(String dir) {
-//        URL u = JythonUiServerProvider.class.getClassLoader().getResource(
-//                ISharedConsts.RESOURCES + "/" + dir);
-//        if (u == null)
-//            return null;
-//        return u.getPath();
-//    }
+	@Override
+	public String getDialogDirectory() {
+		return Util.getResourceAdDirectory(IConsts.DIALOGDIR);
+	}
 
-    @Override
-    public String getDialogDirectory() {
-        return Util.getResourceAdDirectory(IConsts.DIALOGDIR);
-    }
+	@Override
+	public String getPackageDirectory() {
+		return Util.getResourceAdDirectory(IConsts.PACKAGEDIR);
+	}
 
-    @Override
-    public String getPackageDirectory() {
-        return Util.getResourceAdDirectory(IConsts.PACKAGEDIR);
-    }
+	@Override
+	public boolean isCached() {
+		if (isC == null)
+			return false;
+		return isC.isCached();
+	}
 
-    @Override
-    public boolean isCached() {
-        if (isC == null)
-            return false;
-        return isC.isCached();
-    }
-
-    @Override
-    public String getBundleBase() {
-        return Util.getResourceAdDirectory(IConsts.BUNDLEDIR);
-    }
+	@Override
+	public String getBundleBase() {
+		return Util.getResourceAdDirectory(IConsts.BUNDLEDIR);
+	}
 
 }

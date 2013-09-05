@@ -31,141 +31,144 @@ import com.jythonui.shared.ICommonConsts;
 import com.jythonui.shared.CustomSecurity;
 
 public class JythonClientStart {
-    private static final String START = "start.xml";
+	private static final String START = "start.xml";
 
-    private static final IJythonUIClient iClient = JythonUIClientFactory
-            .construct();
+	private static final IJythonUIClient iClient = JythonUIClientFactory
+			.construct();
 
-    private static class ResBack implements AsyncCallback<ClientProp> {
+	private static class ResBack implements AsyncCallback<ClientProp> {
 
-        private String startX;
-        private String shiroRealm;
-        private final CustomSecurity iCustom;
+		private String startX;
+		private String shiroRealm;
+		private final CustomSecurity iCustom;
 
-        private class AfterLogin implements ICommand {
+		private class AfterLogin implements ICommand {
 
-            @Override
-            public void execute() {
-                iClient.start(startX);
-            }
+			@Override
+			public void execute() {
+				iClient.start(startX);
+			}
 
-        }
+		}
 
-        ResBack(String startX, CustomSecurity iCustom) {
-            this.startX = startX;
-            this.iCustom = iCustom;
-        }
+		ResBack(String startX, CustomSecurity iCustom) {
+			this.startX = startX;
+			this.iCustom = iCustom;
+		}
 
-        private void drawError() {
-            RootPanel.get().add(
-                    new HTML("<H1>" + M.M().cannotLoadClientResource()
-                            + "</H1>"));
-        }
+		private void drawError() {
+			RootPanel.get().add(
+					new HTML("<H1>" + M.M().cannotLoadClientResource()
+							+ "</H1>"));
+		}
 
-        @Override
-        public void onFailure(Throwable caught) {
-            drawError();
+		@Override
+		public void onFailure(Throwable caught) {
+			drawError();
 
-        }
+		}
 
-        private class LogOut implements ICommand {
+		private class LogOut implements ICommand {
 
-            private final boolean auth;
+			private final boolean auth;
 
-            LogOut(boolean auth) {
-                this.auth = auth;
-            }
+			LogOut(boolean auth) {
+				this.auth = auth;
+			}
 
-            @Override
-            public void execute() {
-                IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
-                wPanel.setWest1(null);
-                wPanel.setWest(null);
-                wPanel.setUserData(null, null);
-                startBegin(auth);
-            }
+			@Override
+			public void execute() {
+				IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
+				wPanel.setWest1(null);
+				wPanel.setWest(null);
+				wPanel.setUserData(null, null);
+				startBegin(auth);
+			}
 
-        }
+		}
 
-        private void startBegin(boolean auth) {
-            ICommand co = new AfterLogin();
-            if (auth) {
-                LoginPage.login(shiroRealm, iCustom, co);
-            } else
-                co.execute();
-        }
+		private void startBegin(boolean auth) {
+			ICommand co = new AfterLogin();
+			if (auth) {
+				LoginPage.login(shiroRealm, iCustom, co);
+			} else
+				co.execute();
+		}
 
-        @Override
-        public void onSuccess(ClientProp result) {
-            if (result == null) {
-                drawError();
-                return;
-            }
-            // resolve root dialog
-            if (CUtil.EmptyS(startX)) {
-                startX = Utils.getURLParam(ICommonConsts.STARTPAGEQUERY);
-            }
-            if (CUtil.EmptyS(startX)) {
-                startX = START;
-            }
-            String startPages = result.getAttr(ICommonConsts.STARTPAGES);
-            boolean okStart = false;
-            if (!CUtil.EmptyS(startPages)) {
-                String[] listS = startPages.split(ICommonConsts.LOGINDELIMITER);
-                for (String s : listS) {
-                    if (s.equals(startX))
-                        okStart = true;
-                }
-            }
-            String shiroPage = ICommonConsts.SHIROREALM + "-" + startX;
-            shiroRealm = result.getAttr(shiroPage);
-            if (CUtil.EmptyS(shiroRealm))
-                shiroRealm = result.getAttr(ICommonConsts.SHIROREALM);
-            // resolve if authentication is required
-            boolean auth = result.isAuthenticate();
-            if (!auth) {
-                // not global authentication
-                String authPages = result.getLoginPage();
-                if (!CUtil.EmptyS(authPages)) {
-                    // verify if starting page on the list of pages requiring
-                    // authentication
-                    String[] pList = authPages
-                            .split(ICommonConsts.LOGINDELIMITER);
-                    for (String s : pList) {
-                        if (s.equals(startX)) {
-                            auth = true;
-                        }
-                    }
-                }
-            }
-            if (!okStart && !auth) {
-                String mess = M.M().CannotStartWithThisPage(startX);
-                Utils.errAlert(mess);
-                return;
-            }
+		@Override
+		public void onSuccess(ClientProp result) {
+			if (result == null) {
+				drawError();
+				return;
+			}
+			// resolve root dialog
+			if (CUtil.EmptyS(startX)) {
+				startX = Utils.getURLParam(ICommonConsts.STARTPAGEQUERY);
+			}
+			if (CUtil.EmptyS(startX)) {
+				startX = result.getAttr(ICommonConsts.STARTPAGE);
+			}
+			if (CUtil.EmptyS(startX)) {
+				startX = START;
+			}
+			String startPages = result.getAttr(ICommonConsts.STARTPAGES);
+			boolean okStart = false;
+			if (!CUtil.EmptyS(startPages)) {
+				String[] listS = startPages.split(ICommonConsts.LOGINDELIMITER);
+				for (String s : listS) {
+					if (s.equals(startX))
+						okStart = true;
+				}
+			}
+			String shiroPage = ICommonConsts.SHIROREALM + "-" + startX;
+			shiroRealm = result.getAttr(shiroPage);
+			if (CUtil.EmptyS(shiroRealm))
+				shiroRealm = result.getAttr(ICommonConsts.SHIROREALM);
+			// resolve if authentication is required
+			boolean auth = result.isAuthenticate();
+			if (!auth) {
+				// not global authentication
+				String authPages = result.getLoginPage();
+				if (!CUtil.EmptyS(authPages)) {
+					// verify if starting page on the list of pages requiring
+					// authentication
+					String[] pList = authPages
+							.split(ICommonConsts.LOGINDELIMITER);
+					for (String s : pList) {
+						if (s.equals(startX)) {
+							auth = true;
+						}
+					}
+				}
+			}
+			if (!okStart && !auth) {
+				String mess = M.M().CannotStartWithThisPage(startX);
+				Utils.errAlert(mess);
+				return;
+			}
 
-            // initialize several factories
-            ITableAbstractFactories tFactories = GwtGiniInjector.getI()
-                    .getITableAbstractFactories();
-            tFactories.registerWebPanelResources(new JythonWebPanelResources(
-                    result));
-            RegisterCustom.registerCustom(result);
+			// initialize several factories
+			ITableAbstractFactories tFactories = GwtGiniInjector.getI()
+					.getITableAbstractFactories();
+			tFactories.registerWebPanelResources(new JythonWebPanelResources(
+					result));
+			RegisterCustom.registerCustom(result);
 
-            // construct WebPanel handler
-            WebPanelFactory wFactory = GwtGiniInjector.getI()
-                    .getWebPanelFactory();
-            IWebPanel wPan = wFactory.construct(new LogOut(auth));
-            WebPanelHolder.setWebPanel(wPan);
-            RootPanel.get().add(wPan.getWidget());
-            // start running
-            startBegin(auth);
-        }
+			// construct WebPanel handler
+			WebPanelFactory wFactory = GwtGiniInjector.getI()
+					.getWebPanelFactory();
+			IWebPanel wPan = wFactory.construct(new LogOut(auth));
+			WebPanelHolder.setWebPanel(wPan);
+			RootPanel.get().add(wPan.getWidget());
+			// start running
+			startBegin(auth);
+		}
 
-    }
+	}
 
-    public static void start(String startXML, CustomSecurity iCustom) {
-        M.JR().getClientRes(RequestContextFactory.construct(),
-                new ResBack(startXML, iCustom));
-    }
+	public static void start(String startXML, CustomSecurity iCustom) {
+		M.JR().getClientRes(RequestContextFactory.construct(),
+				new ResBack(startXML, iCustom));
+	}
 
 }

@@ -78,7 +78,7 @@ public interface IErrorCode {
     String ERRORCODE63 = "E0063";
     String ERRORCODE64 = "E0064";
     String ERRORCODE65 = "E0065";
-//    String ERRORCODE66 = "FREE";
+    String ERRORCODE66 = "E0066";
     String ERRORCODE67 = "E0067";
     String ERRORCODE68 = "E0068";
     String ERRORCODE69 = "E0069";
