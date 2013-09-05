@@ -47,6 +47,7 @@ public class WebPanelResources implements IWebPanelResources {
         ma.put(ADDBEFOREROW, "default_rowbeforeadd.png");
         ma.put(CHANGEROW, "default_changerow.png");
         ma.put(DELETEROW, "default_deleterow.png");
+        ma.put(PANELMENU, "default_upmenuimage.png");
     }
 
     @Override

@@ -23,13 +23,13 @@ public interface IWebPanel {
 
     void setErrorL(String errmess);
 
-    // void clearReply();
-
-    // Label getReplyL();
-
     void setReplay(int replNo);
 
-    void setUserData(String user, String data);
+    enum InfoType {
+        USER, DATA, UPINFO, OWNER, PRODUCT, TITLE
+    }
+
+    void setPaneText(InfoType t, String text);
 
     void setDCenter(Widget w);
 
@@ -45,27 +45,8 @@ public interface IWebPanel {
 
     void setPullDownMenu(Widget m);
 
-    void setOwnerName(String owner);
-
     void IncDecCounter(boolean inc);
 
     void setCenterSize(String size);
 
-    void setUpInfo(String upinfo);
-
-    /**
-     * Set new product name
-     * 
-     * @param productName
-     *            New product name
-     */
-    void setProductName(String productName);
-
-    /**
-     * Set title of the browser windows
-     * 
-     * @param newTitle
-     *            New title to set
-     */
-    void setTitle(String newTitle);
 }
