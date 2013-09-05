@@ -93,7 +93,8 @@ class ReadDialog {
                 ICommonConsts.ACTIONPARAM, ICommonConsts.ACTIONPARAM1,
                 ICommonConsts.ACTIONPARAM2, ICommonConsts.IMPORT,
                 ICommonConsts.HIDDEN, ICommonConsts.READONLY,
-                ICommonConsts.METHOD, ICommonConsts.VALIDATE };
+                ICommonConsts.METHOD, ICommonConsts.VALIDATE,
+                ICommonConsts.BUTTONHEADER };
         private final String[] fieldTag = { ICommonConsts.ID,
                 ICommonConsts.TYPE, ICommonConsts.AFTERDOT,
                 ICommonConsts.ACTIONID, ICommonConsts.DISPLAYNAME,
@@ -179,7 +180,9 @@ class ReadDialog {
                 getAttribute = true;
             }
             if (qName.equals(ICommonConsts.LEFTMENU)
+                    || qName.equals(ICommonConsts.UPMENU)
                     || qName.equals(ICommonConsts.BUTTONS)
+                    || qName.equals(ICommonConsts.LEFTSTACK)
                     || qName.equals(ICommonConsts.ACTIONS)) {
                 bList = new ArrayList<ButtonItem>();
                 return;
@@ -327,8 +330,18 @@ class ReadDialog {
                 bList = null;
                 return;
             }
+            if (qName.equals(ICommonConsts.LEFTSTACK)) {
+                dFormat.getLeftStackList().addAll(bList);
+                bList = null;
+                return;
+            }
             if (qName.equals(ICommonConsts.BUTTONS)) {
                 dFormat.getButtonList().addAll(bList);
+                bList = null;
+                return;
+            }
+            if (qName.equals(ICommonConsts.UPMENU)) {
+                dFormat.getUpMenuList().addAll(bList);
                 bList = null;
                 return;
             }

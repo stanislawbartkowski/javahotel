@@ -82,6 +82,7 @@
 			<xs:element minOccurs="0" name="actionparam2" type="xs:string" />
 			<xs:element minOccurs="0" name="hidden" type="emptyT" />
 			<xs:element minOccurs="0" name="readonly" type="emptyT" />
+			<xs:element minOccurs="0" name="header" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -97,6 +98,7 @@
 		<xs:attribute name="actionparam2" type="xs:string" />
 		<xs:attribute name="hidden" type="emptyT" />
 		<xs:attribute name="readonly" type="emptyT" />
+		<xs:attribute name="header" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="dialogG">
@@ -382,6 +384,71 @@
 		</xs:complexType>
 	</xs:element>
 
+	<xs:element name="upmenu">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="button">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="buttons">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="button">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="leftmenu">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="button">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+    <xs:element name="leftstack">
+        <xs:complexType>
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="button">
+                    <xs:complexType>
+                        <xs:group ref="buttonG" />
+                        <xs:attributeGroup ref="buttonattrG" />
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<xs:element name="actions">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="action">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
 
 	<xs:element name="dialog">
 		<xs:complexType>
@@ -390,44 +457,15 @@
 
 				<xs:element minOccurs="0" ref="jython" />
 
-				<xs:element minOccurs="0" name="leftmenu">
-					<xs:complexType>
-						<xs:sequence minOccurs="1" maxOccurs="unbounded">
-							<xs:element name="button">
-								<xs:complexType>
-									<xs:group ref="buttonG" />
-									<xs:attributeGroup ref="buttonattrG" />
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element minOccurs="0" ref="leftmenu" />
+				
+                <xs:element minOccurs="0" ref="leftstack" />
 
-				<xs:element minOccurs="0" name="actions">
-					<xs:complexType>
-						<xs:sequence minOccurs="1" maxOccurs="unbounded">
-							<xs:element name="action">
-								<xs:complexType>
-									<xs:group ref="buttonG" />
-									<xs:attributeGroup ref="buttonattrG" />
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element minOccurs="0" ref="actions" />
 
-				<xs:element minOccurs="0" name="buttons">
-					<xs:complexType>
-						<xs:sequence minOccurs="1" maxOccurs="unbounded">
-							<xs:element name="button">
-								<xs:complexType>
-									<xs:group ref="buttonG" />
-									<xs:attributeGroup ref="buttonattrG" />
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+				<xs:element minOccurs="0" ref="buttons" />
+
+				<xs:element minOccurs="0" ref="upmenu" />
 
 				<xs:element minOccurs="0" ref="form" />
 

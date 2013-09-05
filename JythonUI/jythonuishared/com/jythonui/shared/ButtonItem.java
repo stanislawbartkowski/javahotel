@@ -36,4 +36,8 @@ public class ButtonItem extends ElemDescription {
         return isAttr(ICommonConsts.VALIDATE);
     }
 
+    public boolean isHeaderButton() {
+        return isAttr(ICommonConsts.BUTTONHEADER);
+    }
+
 }

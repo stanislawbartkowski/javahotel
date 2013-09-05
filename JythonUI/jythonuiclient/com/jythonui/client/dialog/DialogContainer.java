@@ -456,16 +456,20 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
     public void startPublish(CellId cId) {
 
         // Java script code
-        if (d.isJsCode()) 
+        if (d.isJsCode())
             Utils.callJs(d.getJsCode());
-        
+
         PViewData pView = new PViewData(cId);
-        
-        
 
         M.getLeftMenu().createLeftButton(
                 constructCButton(d.getLeftButtonList()), info.getSecurity(),
-                d.getLeftButtonList());
+                d.getLeftButtonList(), LeftMenu.MenuType.LEFTPANEL);
+        M.getLeftMenu().createLeftButton(constructCButton(d.getUpMenuList()),
+                info.getSecurity(), d.getUpMenuList(),
+                LeftMenu.MenuType.UPPANELMENU);
+        M.getLeftMenu().createLeftButton(
+                constructCButton(d.getLeftStackList()), info.getSecurity(),
+                d.getLeftStackList(), LeftMenu.MenuType.LEFTSTACK);
         EnumTypesList eList = new EnumTypesList(d, liManager);
         if (!d.getFieldList().isEmpty()) {
             FormLineContainer fContainer = CreateForm.construct(info,

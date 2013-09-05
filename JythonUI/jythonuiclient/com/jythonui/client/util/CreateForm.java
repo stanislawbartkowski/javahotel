@@ -29,6 +29,8 @@ import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.rdef.FormField;
 import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
+import com.gwtmodel.table.slotmodel.ClickButtonType;
+import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
 import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
@@ -223,7 +225,11 @@ public class CreateForm {
 
         String id = b.getId();
         String dName = b.getDisplayName();
-        return new ControlButtonDesc(dName, id, enabled);
+        if (b.isHeaderButton())
+            return new ControlButtonDesc(dName, new ClickButtonType(
+                    StandClickEnum.MENUTITLE), enabled);
+        else
+            return new ControlButtonDesc(dName, id, enabled);
     }
 
     public static List<ControlButtonDesc> constructBList(SecurityInfo sInfo,
