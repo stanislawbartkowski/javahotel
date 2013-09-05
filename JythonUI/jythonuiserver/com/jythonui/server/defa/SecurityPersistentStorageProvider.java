@@ -12,8 +12,6 @@
  */
 package com.jythonui.server.defa;
 
-import java.io.InvalidClassException;
-
 import javax.inject.Inject;
 import javax.inject.Provider;
 

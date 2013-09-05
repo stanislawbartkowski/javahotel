@@ -22,6 +22,7 @@ import com.jythonui.shared.ICommonConsts;
 class JythonWebPanelResources implements IWebPanelResources {
 
     private final Map<String, String> ma = new HashMap<String, String>();
+    private final ClientProp res;
 
     private void putRes(String key, String rkey, ClientProp res) {
         String val = res.getAttr(rkey);
@@ -32,6 +33,7 @@ class JythonWebPanelResources implements IWebPanelResources {
     }
 
     JythonWebPanelResources(ClientProp res) {
+    	this.res = res;
         putRes(TITLE, ICommonConsts.APP_TITLE, res);
         putRes(PRODUCTNAME, ICommonConsts.APP_PRODUCTNAME, res);
         putRes(OWNERNAME, ICommonConsts.APP_OWNERNAME, res);
@@ -39,8 +41,10 @@ class JythonWebPanelResources implements IWebPanelResources {
         putRes(IIMAGEPRODUCT, ICommonConsts.APP_PRODUCTIMAGE, res);
     }
 
-    public String getRes(String res) {
-        String val = ma.get(res);
+    public String getRes(String reso) {
+        String val = ma.get(reso);
+        if (val != null) return val;
+        val = res.getAttr(reso);
         return val;
     }
 }
