@@ -113,7 +113,7 @@ public class Utils {
 			s += " width='" + w + "px'";
 		}
 		if (h != 0) {
-			s += " height='" + w + "px'";
+			s += " height='" + h + "px'";
 		}
 		if (name != null) {
 			s += " name='" + name + "'";

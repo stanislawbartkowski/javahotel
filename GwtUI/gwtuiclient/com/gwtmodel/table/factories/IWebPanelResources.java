@@ -40,6 +40,7 @@ public interface IWebPanelResources {
     String ADDBEFOREROW = "addbeforerow";
     String CHANGEROW = "changerow";
     String DELETEROW = "deleterow";
+    String PANELMENU = "panelmenu";
 
     String getRes(String res);
 

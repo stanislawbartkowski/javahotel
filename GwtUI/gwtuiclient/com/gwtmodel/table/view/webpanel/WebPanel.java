@@ -80,11 +80,6 @@ class WebPanel implements IWebPanel {
     private HTMLPanel uPanel = null;
 
     @Override
-    public void setOwnerName(String owner) {
-        ownerName.setText(owner);
-    }
-
-    @Override
     public void IncDecCounter(boolean inc) {
         bCounter.IncDecL(inc);
     }
@@ -98,23 +93,6 @@ class WebPanel implements IWebPanel {
     @Override
     public void setCentreHideSignal(ISignal iSig) {
         centreHideSignal = iSig;
-    }
-
-    public void setUpInfo(String upinfo) {
-        if (upinfo == null) {
-            upInfo.setVisible(false);
-        } else {
-            upInfo.setVisible(true);
-            upInfo.setText(upinfo);
-        }
-    }
-
-    public void setTitle(String newTitle) {
-        Window.setTitle(newTitle);
-    }
-
-    public void setProductName(String productName) {
-        tL.setText(productName);
     }
 
     public void setPullDownMenu(Widget m) {
@@ -320,11 +298,34 @@ class WebPanel implements IWebPanel {
     }
 
     @Override
-    public void setUserData(String user, String hotel) {
-        userName.setText(user);
-        if (hotel != null) {
-            hotelName.setText(hotel);
+    public void setPaneText(InfoType t, String text) {
+        switch (t) {
+        case USER:
+            userName.setText(text);
+            setOut(text != null ? true : false);
+            break;
+        case DATA:
+            hotelName.setText(text);
+            break;
+        case OWNER:
+            ownerName.setText(text);
+            break;
+        case TITLE:
+            Window.setTitle(text);
+            break;
+        case PRODUCT:
+            tL.setText(text);
+            break;
+        case UPINFO:
+            if (text == null) {
+                upInfo.setVisible(false);
+            } else {
+                upInfo.setVisible(true);
+                upInfo.setText(text);
+            }
+            break;
+
         }
-        setOut(user != null ? true : false);
+
     }
 }
