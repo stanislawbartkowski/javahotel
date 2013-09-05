@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
- 
-
- <jython>
-   <import>from testpack import testclassbig</import>
-   <method>testclassbig.dialogactiontime({0},{1})</method>
- </jython>  
 
 
- <form>
-   <field id="glob1" />
-   <field id="globtimestamp" type="datetime"/>
- </form>  
+	<jython>
+		<import>from testpack import testclassbig</import>
+		<method>testclassbig.dialogactiontime({0},{1})</method>
+	</jython>
 
- <list id="lista" displayname="List of entries">
- <columns>
- <column id="ID" type="string" displayname="XXX" />
- <column id="Name" type="string"/>
- </columns>
- </list>
+
+	<form>
+		<field id="glob1" />
+		<field id="globtimestamp" type="datetime" />
+	</form>
+
+	<list id="lista" displayname="List of entries">
+		<columns>
+			<column id="ID" type="string" displayname="XXX" />
+			<column id="Name" type="string" />
+		</columns>
+	</list>
 
 </dialog>

@@ -41,6 +41,10 @@
   <button id="tomain" displayname="Popup dialog"/>
 </buttons>
 
+ <upmenu>
+  <button id="dialogxml" displayname="Dialog base xml" actiontype="JMAIN_DIALOG" actionparam="dialogtabxml.xml" />
+</upmenu>
+
  <form>
    <field id="glob1" />
    <field id="globbool" type="bool" notempty="" />
