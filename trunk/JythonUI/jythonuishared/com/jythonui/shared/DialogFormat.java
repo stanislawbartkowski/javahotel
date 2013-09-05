@@ -26,6 +26,8 @@ public class DialogFormat extends ElemDescription {
     private List<FieldItem> fieldList = new ArrayList<FieldItem>();
 
     private List<ButtonItem> leftButtonList = new ArrayList<ButtonItem>();
+    private List<ButtonItem> upMenuList = new ArrayList<ButtonItem>();
+    private List<ButtonItem> leftStackList = new ArrayList<ButtonItem>();
 
     private List<ListFormat> listList = new ArrayList<ListFormat>();
 
@@ -183,6 +185,14 @@ public class DialogFormat extends ElemDescription {
 
     public String getAsXmlList() {
         return getAttr(ICommonConsts.ASXML);
+    }
+
+    public List<ButtonItem> getUpMenuList() {
+        return upMenuList;
+    }
+
+    public List<ButtonItem> getLeftStackList() {
+        return leftStackList;
     }
 
 }

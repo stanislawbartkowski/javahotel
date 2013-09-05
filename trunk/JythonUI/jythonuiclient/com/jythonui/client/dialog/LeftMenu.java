@@ -17,7 +17,9 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.IDataType;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
+import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
@@ -39,26 +41,54 @@ public class LeftMenu {
 
     private final static IDataType leftMenuD = Empty.getDataType();
 
+    enum MenuType {
+        LEFTPANEL, UPPANELMENU, LEFTSTACK;
+    }
+
     private class GetWidget implements ISlotListener {
+
+        private final MenuType mType;
+
+        GetWidget(MenuType mType) {
+            this.mType = mType;
+        }
 
         @Override
         public void signal(ISlotSignalContext slContext) {
             Widget w = slContext.getGwtWidget().getGWidget();
             IWebPanel i = GwtGiniInjector.getI().getWebPanel();
-            i.setWest(w);
+            if (mType == MenuType.UPPANELMENU)
+                i.setMenuPanel(w);
+            else
+                i.setWest(w);
         }
     }
 
     void createLeftButton(ISlotListener clickButton, SecurityInfo sec,
-            List<ButtonItem> buttList) {
+            List<ButtonItem> buttList, MenuType mType) {
         if (!buttList.isEmpty()) {
             List<ControlButtonDesc> bList = CreateForm.constructBList(sec,
                     buttList);
             StackPanelControllerFactory sFactory = GwtGiniInjector.getI()
                     .getStackPanelControllerFactory();
-            IStackPanelController iSlo = sFactory.construct(leftMenuD, bList,
-                    null);
-            SlU.registerWidgetListener0(leftMenuD, iSlo, new GetWidget());
+            IStackPanelController iSlo = null;
+            switch (mType) {
+            case LEFTPANEL:
+                iSlo = sFactory.construct(leftMenuD, bList, null);
+                break;
+            case UPPANELMENU:
+                IWebPanelResources iW = GwtGiniInjector.getI()
+                        .getWebPanelResources();
+                String iName = iW.getRes(IWebPanelResources.PANELMENU);
+                String iHtml = Utils.getImageHTML(iName, 0, 10, "Down");
+                iSlo = sFactory.constructDownMenu(leftMenuD, iHtml, bList);
+                break;
+            case LEFTSTACK:
+                iSlo = sFactory.constructStackMenu(leftMenuD, bList);
+                break;
+
+            }
+            SlU.registerWidgetListener0(leftMenuD, iSlo, new GetWidget(mType));
             iSlo.getSlContainer().registerSubscriber(leftMenuD,
                     ClickButtonType.StandClickEnum.ALL, clickButton);
             CellId cId = new CellId(0);
