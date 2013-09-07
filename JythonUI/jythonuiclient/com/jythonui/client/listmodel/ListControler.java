@@ -19,7 +19,6 @@ import java.util.Map;
 
 import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.gwtmodel.table.AVModelData;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType.IGetListValues;
 import com.gwtmodel.table.ICustomObject;
@@ -151,51 +150,54 @@ class ListControler {
         private final RowListDataManager rM;
         private final IVariablesContainer iCon;
         private final ICreateBackActionFactory bFactory;
-        private IVModelData vFooter = null;
+        private final IVModelData vFooter = new VModelData();
 
         private int lastRowNum;
         private PersistTypeEnum lastPersistAction;
         private ChangeFieldEditSignal lastC = null;
         private FinishEditRowSignal lastF = null;
 
-        private class FooterV extends AVModelData {
-
-            private final List<IGetFooter> fList;
-
-            FooterV(List<IGetFooter> fList) {
-                this.fList = fList;
-            }
-
-            @Override
-            public Object getF(IVField fie) {
-                String s = fie.getId();
-                for (IGetFooter f : fList) {
-                    if (f.getFie().equals(s)) {
-                        return f.getV().getValue();
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            public void setF(IVField fie, Object o) {
-            }
-
-            @Override
-            public boolean isValid(IVField fie) {
-                return false;
-            }
-
-            @Override
-            public List<IVField> getF() {
-                return null;
-            }
-
-        }
+        // private class FooterV extends AVModelData {
+        //
+        // private final List<IGetFooter> fList;
+        //
+        // FooterV(List<IGetFooter> fList) {
+        // this.fList = fList;
+        // }
+        //
+        // @Override
+        // public Object getF(IVField fie) {
+        // String s = fie.getId();
+        // for (IGetFooter f : fList) {
+        // if (f.getFie().equals(s)) {
+        // return f.getV().getValue();
+        // }
+        // }
+        // return null;
+        // }
+        //
+        // @Override
+        // public void setF(IVField fie, Object o) {
+        // }
+        //
+        // @Override
+        // public boolean isValid(IVField fie) {
+        // return false;
+        // }
+        //
+        // @Override
+        // public List<IVField> getF() {
+        // return null;
+        // }
+        //
+        // }
 
         private void drawFooter(List<IGetFooter> fList) {
             // persist current footer value in class variable
-            vFooter = new FooterV(fList);
+            // vFooter = new VModelData();
+            for (IGetFooter i : fList) {
+                vFooter.setF(VField.construct(i.getFie()), i.getV().getValue());
+            }
             getSlContainer().publish(dType, DataActionEnum.DrawFooterAction,
                     vFooter);
         }
