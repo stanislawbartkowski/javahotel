@@ -111,7 +111,46 @@ def modifDecimalFooter(var,list,name):
     currentfooter = addDecimal(currentfooter,val)
     var[footerdef] = currentfooter
     var["JFOOTER_COPY_"+list+"_"+name] = True
-
+    
+def modifTextFooter(var,list,col,amountcol) :
+   prevval=var["JVALBEFORE"]
+   val = var[col]
+   if prevval and val : return
+   if prevval==None and val==None : return
+   footerdef = "JFOOTER_"+list+"_"+col
+   currentfooter=var[footerdef]
+   amount = var[amountcol]
+   if val : currentfooter=addDecimal(currentfooter,amount)
+   else : currentfooter=minusDecimal(currentfooter,amount)
+   var[footerdef] = currentfooter
+   var["JFOOTER_COPY_"+list+"_"+col] = True
+   
+def modifTextDecimalFooter(var,list,col,amountcol):
+    if var[col] == None : return
+    footerdef = "JFOOTER_"+list+"_"+col
+    currentfooter = var[footerdef]
+    prevval = var["JVALBEFORE"]
+    val = var[amountcol]
+    currentfooter = minusDecimal(currentfooter,prevval)
+    currentfooter = addDecimal(currentfooter,val)
+    var[footerdef] = currentfooter
+    var["JFOOTER_COPY_"+list+"_"+col] = True
+    
+def removeTextFooter(var,list,col,amountcol) :
+    if var[col] == None : return
+    footerdef = "JFOOTER_"+list+"_"+col
+    currentfooter = var[footerdef]
+    val = var[amountcol]
+    currentfooter = minusDecimal(currentfooter,val)
+    var[footerdef] = currentfooter
+    var["JFOOTER_COPY_"+list+"_"+col] = True
+   
+   
+def setFooter(var,list,col,val) :
+    footerdef = "JFOOTER_"+list+"_"+col
+    var[footerdef] = val
+    var["JFOOTER_COPY_"+list+"_"+col] = True
+    
 def __defineEditMode(var,list,li,mode):      
     for l in li :
       var["JLIST_EDIT_"+list+"_"+l] = ""
@@ -186,6 +225,8 @@ class RegistryFile:
                    valt = long(val)
                elif type == "date" :
                    valt = self.__tod(val)
+               elif type == "decimal" :
+                   valt = float(val)
                else : valt = val
             elem[id] = valt
         return elem                                  
@@ -197,6 +238,7 @@ class RegistryFile:
         for k in l : 
             if k != self.__key : li.append(self.__getMapRR(k))
         setJMapList(var,self.__listid,li)
+        return li
         
     def __removeEntries(self,R):
         for key in R.getKeys() :
@@ -218,9 +260,17 @@ class RegistryFile:
                     vals = str(val)
                 elif type == "date" :
                     vals = self.__tostr(val)
+                elif type == "decimal" :
+                    vals = str(val)    
                 else : vals = val
                 RR.putEntry(id,vals)
         R.putEntry(k,"")
+        
+    def saveList(self,var):
+        self.removeAll()
+        li = var["JLIST_MAP"][self.__listid]
+        for m in li :
+            self.addMap(m)    
         
     def removeMap(self,var):
         id = var[self.__id]
