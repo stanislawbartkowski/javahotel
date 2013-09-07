@@ -7,11 +7,18 @@
                 <import>from testpack import footeredit</import>
                 <method>footeredit.doaction({0},{1})</method>
         </jython>
+        
+        <buttons>
+          <button id="save" displayname="Save" />
+        </buttons>
 
 
         <list id="list" displayname="List edit">
                 <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+                 <buttons-addlist>save</buttons-addlist>
+                 <buttons-validate>save</buttons-validate>
                 <columns>
+                  <column id="id" type="long" hidden="" />
                         <column id="leftk" displayname="Left" editable="" signalchange="" footer="" footertype="decimal"/>
                         <column id="amount" displayname="Amount" editable="" type="decimal"
                                 notempty="" signalchange="" />
