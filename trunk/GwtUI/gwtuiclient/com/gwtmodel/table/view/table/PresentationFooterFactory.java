@@ -83,7 +83,8 @@ class PresentationFooterFactory {
                 return null;
             }
             Object o = footerV.getF(he.getFie());
-            String val = FUtils.getValueOS(o, he.getFie());
+            String val = FUtils.getValueS(o, he.getfType().getType(), he
+                    .getfType().getAfterdot());
             return getHtml(he.getAlign(), he.getfType(), val);
         }
 

@@ -654,7 +654,7 @@ public class FUtils {
                         .getAfterdot());
             }
         } catch (java.lang.ClassCastException e) {
-            Utils.errAlert(LogT.getT().errorWhileReading(f.toString()), e);
+            Utils.errAlert(LogT.getT().errorWhileReading(f.getId()), e);
             throw e;
         }
     }
