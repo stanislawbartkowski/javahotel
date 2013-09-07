@@ -273,3 +273,11 @@ def concatDict(dic1,dic2):
     
 def today():
     return datetime.date.today()
+
+def getTypeUpList() :
+    return ("USER", "DATA", "UPINFO", "OWNER", "PRODUCT", "TITLE")
+
+def setStatusMessage(var,type,s = None):
+    var["JSTATUS_SET_"+type] = True
+    if s == None or s == "" : return
+    var["JSTATUS_TEXT_"+type] = s

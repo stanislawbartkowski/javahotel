@@ -42,6 +42,8 @@ public interface ICommonConsts {
     String LISTBUTTONSVALIDATE = "buttons-validate";
     String JROWCOPY = "JROWCOPY_";
     String JCOPY = "JCOPY_";
+    String JSTATUSSET="JSTATUS_SET_";
+    String JSTATUSTEXT="JSTATUS_TEXT_";
     String TYPE = "type";
     String STRINGTYPE = "string";
     String BOOLTYPE = "bool";
@@ -54,6 +56,9 @@ public interface ICommonConsts {
     String DEFVALUE = "defvalue";
     String COLNO = "colno";
     String FOOTER = "footer";
+    String FOOTERTYPE = "footertype";
+    String FOOTERALIGN = "footeralign";
+    String FOOTERAFTERDOT="footerafterdot";
     String ASXML = "asxml";
     String JXMLCONTENT = "JXMLCONTENT";
     String JXMLSETCONTENT = "JXMLCONTENTSET";

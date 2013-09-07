@@ -319,8 +319,8 @@ class ListControler {
                     if (vFooter != null) {
                         fval = vFooter.getF(fie);
                     }
-                    footerval.setValue(co.getFieldType(), fval,
-                            co.getAfterDot());
+                    footerval.setValue(co.getFooterType(), fval,
+                            co.getFooterAfterDot());
                     var.setValue(footervar, footerval);
                 }
                 // list of values

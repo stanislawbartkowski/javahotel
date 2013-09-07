@@ -14,7 +14,6 @@ package com.google.gwt.user.server.rpc.core.com.jythonui.shared;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.text.ParseException;
 
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;

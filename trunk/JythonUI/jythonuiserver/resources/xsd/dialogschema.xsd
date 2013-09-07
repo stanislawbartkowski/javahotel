@@ -186,6 +186,9 @@
 			<xs:element minOccurs="0" name="readonlychange" type="emptyT" />
 			<xs:element minOccurs="0" name="signalchange" type="emptyT" />
 			<xs:element minOccurs="0" name="footer" type="emptyT" />
+            <xs:element minOccurs="0" name="footertype" type="typeName" />
+            <xs:element minOccurs="0" name="footeralign" type="typeAlign" />
+            <xs:element minOccurs="0" name="footerafterdot" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="editable" type="emptyT" />
 			<xs:element minOccurs="0" name="signalbefore" type="emptyT" />
 		</xs:sequence>
@@ -211,6 +214,9 @@
 		<xs:attribute name="readonlychange" type="emptyT" />
 		<xs:attribute name="signalchange" type="emptyT" />
 		<xs:attribute name="footer" type="emptyT" />
+        <xs:attribute name="footertype" type="typeName" />
+        <xs:attribute name="footeralign" type="typeAlign" />
+        <xs:attribute name="footerafterdot" type="xs:nonNegativeInteger" />
 		<xs:attribute name="editable" type="emptyT" />
 		<xs:attribute name="signalbefore" type="emptyT" />
 	</xs:attributeGroup>

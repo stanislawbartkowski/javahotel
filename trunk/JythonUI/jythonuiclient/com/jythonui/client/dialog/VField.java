@@ -66,15 +66,19 @@ public class VField implements IVField {
         return id.equals(v.id);
     }
 
+    public static FieldDataType getFieldType(TT type, int afterdot) {
+        if (type == TT.BIGDECIMAL) {
+            return FieldDataType.constructBigDecimal(afterdot);
+        }
+        return FieldDataType.construct(type);
+    }
+
     @Override
     public FieldDataType getType() {
         if (eList != null) {
             return FieldDataType.constructStringList(eList);
         }
-        if (type == TT.BIGDECIMAL) {
-            return FieldDataType.constructBigDecimal(afterdot);
-        }
-        return FieldDataType.construct(type);
+        return getFieldType(type, afterdot);
     }
 
     @Override
