@@ -54,8 +54,7 @@ public class FieldItem extends ElemDescription {
         return getCustomT(t);
     }
 
-    public TT getFieldType() {
-        String t = getTypeName();
+    private TT getFieldType(String t) {
         if (CUtil.EmptyS(t) || CUtil.EqNS(t, ICommonConsts.STRINGTYPE)
                 || CUtil.EqNS(t, ICommonConsts.TEXTAREA)
                 || CUtil.EqNS(t, ICommonConsts.RICHTEXT)
@@ -84,6 +83,10 @@ public class FieldItem extends ElemDescription {
             return TT.BIGDECIMAL;
         }
         throw new JythonUIFatal(t + " unexpected type name");
+    }
+
+    public TT getFieldType() {
+        return getFieldType(getTypeName());
     }
 
     public boolean isNotEmpty() {
@@ -158,5 +161,24 @@ public class FieldItem extends ElemDescription {
         return isAttr(ICommonConsts.SIGNALBEFORE);
     }
 
+    public TT getFooterType() {
+        String tName = getAttr(ICommonConsts.FOOTERTYPE);
+        if (CUtil.EmptyS(tName))
+            tName = getTypeName();
+        return getFieldType(tName);
+    }
+
+    public String getFooterAlign() {
+        if (isAttr(ICommonConsts.FOOTERALIGN))
+            return getAttr(ICommonConsts.FOOTERALIGN);
+        return getAlign();
+    }
+
+    public int getFooterAfterDot() {
+        String a = getAttr(getAttr(ICommonConsts.FOOTERAFTERDOT));
+        if (CUtil.EmptyS(a))
+            a = getAttr(ICommonConsts.AFTERDOT);
+        return getAfterDot(a);
+    }
 
 }

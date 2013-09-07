@@ -105,7 +105,8 @@ class ReadDialog {
                 ICommonConsts.FROM, ICommonConsts.WIDTH, ICommonConsts.ALIGN,
                 ICommonConsts.HTMLID, ICommonConsts.DEFVALUE,
                 ICommonConsts.FOOTER, ICommonConsts.EDITCOL,
-                ICommonConsts.SIGNALBEFORE };
+                ICommonConsts.SIGNALBEFORE, ICommonConsts.FOOTERTYPE,
+                ICommonConsts.FOOTERALIGN, ICommonConsts.FOOTERAFTERDOT };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE,

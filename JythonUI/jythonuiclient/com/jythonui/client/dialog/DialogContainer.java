@@ -63,6 +63,7 @@ import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.AbstractDataModel;
 import com.gwtmodel.table.view.util.YesNoDialog;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.datepanel.DateLineManager;
 import com.jythonui.client.dialog.datepanel.RefreshData;
@@ -761,6 +762,28 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             if (!arg.getCheckVariables().isEmpty()) {
                 gManager.addLinesAndColumns(id, arg);
             }
+            JUtils.IVisitor statusC = new JUtils.IVisitor() {
+
+                @Override
+                public void action(String fie, String field) {
+                    IWebPanel.InfoType tType = null;
+                    try {
+                        tType = IWebPanel.InfoType.valueOf(fie);
+                    } catch (IllegalArgumentException e) {
+                        String mess = M.M().NotValidStatusTextType(field, fie);
+                        Utils.errAlert(mess, e);
+                    }
+                    String textF = ICommonConsts.JSTATUSTEXT + fie;
+                    String info = null;
+                    if (arg.getValue(textF) != null)
+                        info = arg.getValueS(textF);
+                    IWebPanel i = GwtGiniInjector.getI().getWebPanel();
+                    i.setPaneText(tType, info);
+                }
+
+            };
+            JUtils.visitListOfFields(arg, ICommonConsts.JSTATUSSET, statusC);
+
             JUtils.IVisitor visC = new JUtils.IVisitor() {
 
                 @Override

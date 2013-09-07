@@ -74,5 +74,7 @@ public interface JMessages extends Messages {
     String HelperOnlyForStringType(String id);
 
     String TabNotFilled(String tabid, String elemid);
+    
+    String NotValidStatusTextType(String varName, String typeId);
 
 }

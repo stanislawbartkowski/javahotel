@@ -161,6 +161,19 @@ public class CreateForm {
         FieldDataType.IGetListValues getEnum(String customT);
     }
 
+    private static VListHeaderDesc.ColAlign getA(String a) {
+        VListHeaderDesc.ColAlign al = null;
+        if (CUtil.EqNS(a, ICommonConsts.ALIGNL))
+            al = VListHeaderDesc.ColAlign.LEFT;
+
+        if (CUtil.EqNS(a, ICommonConsts.ALIGNR))
+            al = VListHeaderDesc.ColAlign.RIGHT;
+
+        if (CUtil.EqNS(a, ICommonConsts.ALIGNC))
+            al = VListHeaderDesc.ColAlign.CENTER;
+        return al;
+    }
+
     public static ColumnsDesc constructColumns(List<FieldItem> fList,
             DialSecurityInfo lInfo, ISelectFactory sFactory, IGetEnum iGet) {
         ColumnsDesc desc = new ColumnsDesc();
@@ -178,16 +191,7 @@ public class CreateForm {
                 }
             else
                 vf = VField.construct(f);
-            VListHeaderDesc.ColAlign al = null;
-            if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNL)) {
-                al = VListHeaderDesc.ColAlign.LEFT;
-            }
-            if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNR)) {
-                al = VListHeaderDesc.ColAlign.RIGHT;
-            }
-            if (CUtil.EqNS(f.getAlign(), ICommonConsts.ALIGNC)) {
-                al = VListHeaderDesc.ColAlign.CENTER;
-            }
+            VListHeaderDesc.ColAlign al = getA(f.getAlign());
             // TODO: can be null for combo, check it later
             IColumnImageSelect iHelper = null;
             if ((f.isHelper() || isSelect) && sFactory != null) {
@@ -203,7 +207,9 @@ public class CreateForm {
             if (f.isFooter()) {
                 if (desc.footList == null)
                     desc.footList = new ArrayList<VFooterDesc>();
-                VFooterDesc foot = new VFooterDesc(vf, al, vf.getType());
+                VFooterDesc foot = new VFooterDesc(vf,
+                        getA(f.getFooterAlign()), VField.getFieldType(
+                                f.getFooterType(), f.getFooterAfterDot()));
                 desc.footList.add(foot);
             }
         }
