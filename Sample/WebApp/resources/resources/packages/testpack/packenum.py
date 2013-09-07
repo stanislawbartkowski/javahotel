@@ -1,4 +1,6 @@
 from cutil import printVar
+from cutil import getTypeUpList
+from cutil import setJMapList
 
 def dialogaction(action,var) :
   printVar("packenum",action,var)
@@ -31,9 +33,7 @@ def dialogaction(action,var) :
   
 def helperaction(action,var) :
 
-  print "helperaction",action
-  for k in var.keys() : 
-    print k, var[k]
+  printVar("helperaction",action,var)
     
   seq = []
   for i in range(100) :
@@ -46,3 +46,12 @@ def helperaction(action,var) :
   map[action] = seq
   var["JLIST_MAP"] = map  
     
+    
+def uptextaction(action,var) :
+  printVar("uptextaction",action,var)
+  seq = []
+  for i in getTypeUpList() :
+        rec = {'id' : i, "name" : i }
+        seq.append(rec)
+ 
+  setJMapList(var,action,seq)    
