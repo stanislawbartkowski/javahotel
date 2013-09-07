@@ -25,5 +25,13 @@
       </columns>  
  
    </typedef>
+
+     <typedef id="uptext" type="combo" comboid="id" displayname = "name">
   
+     <jython>
+        <method>packenum.uptextaction({0},{1})</method>
+      </jython>
+      
+   </typedef>
+
 </typedefs>

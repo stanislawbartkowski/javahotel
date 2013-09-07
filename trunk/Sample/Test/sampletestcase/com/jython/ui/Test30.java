@@ -12,11 +12,15 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.DialogFormat;
+import com.jythonui.shared.FieldItem;
 
 public class Test30 extends TestHelper {
 
@@ -38,6 +42,17 @@ public class Test30 extends TestHelper {
         assertEquals(1, d.getLeftButtonList().size());
         assertEquals(2, d.getUpMenuList().size());
         assertEquals(4, d.getLeftStackList().size());
+    }
+
+    @Test
+    public void test3() {
+
+        DialogFormat d = findDialog("test63.xml");
+        assertNotNull(d);
+        FieldItem i = d.findList("list").getColumn("id_name");
+        assertEquals(TT.STRING, i.getFooterType());
+        i = d.findList("list").getColumn("name");
+        assertEquals("C", i.getFooterAlign());
     }
 
 }

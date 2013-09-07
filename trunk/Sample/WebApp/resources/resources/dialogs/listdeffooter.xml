@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <before />
+
+        <jython>
+                <import>from testpack import footeredit</import>
+                <method>footeredit.doaction({0},{1})</method>
+        </jython>
+
+
+        <list id="list" displayname="List edit">
+                <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+                <columns>
+                        <column id="leftk" displayname="Left" editable="" signalchange="" footer="" footertype="decimal"/>
+                        <column id="amount" displayname="Amount" editable="" type="decimal"
+                                notempty="" signalchange="" />
+                        <column id="rightk" displayname="Right" editable="" signalchange="" footer="" footertype="decimal"/>
+                </columns>
+        </list>
+
+
+</dialog>
