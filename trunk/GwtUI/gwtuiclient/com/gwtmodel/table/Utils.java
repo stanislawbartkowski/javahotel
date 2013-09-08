@@ -14,6 +14,7 @@ package com.gwtmodel.table;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +27,14 @@ import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.gwtmodel.table.factories.IGetCustomValues;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
@@ -383,5 +386,38 @@ public class Utils {
 		if ("en".equals(loca))
 			return null;
 		return loca;
+	}
+
+	public static List<IMapEntry> getCookies() {
+		List<IMapEntry> cList = new ArrayList<IMapEntry>();
+		Collection<String> cookies = Cookies.getCookieNames();
+		for (final String s : cookies) {
+			final String value = Cookies.getCookie(s);
+			IMapEntry i = new IMapEntry() {
+
+				@Override
+				public String getKey() {
+					return s;
+				}
+
+				@Override
+				public String getValue() {
+					return value;
+				}
+
+			};
+			cList.add(i);
+		}
+		return cList;
+	}
+
+	public static void SetCookie(String key, String value) {
+		Date today = DateUtil.getToday();
+		Date exp = DateUtil.addDaysD(today, 100);
+		Cookies.setCookie(key, value, exp);
+	}
+
+	public static void RemoveCookie(String key) {
+		Cookies.removeCookie(key);
 	}
 }
