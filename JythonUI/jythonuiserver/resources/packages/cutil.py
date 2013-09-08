@@ -7,7 +7,22 @@ from java.math import BigDecimal
 from com.jython.ui.shared import MUtil
 from com.gwtmodel.table.common.dateutil import DateFormatUtil
 
+LONG="long"
+DECIMAL="decimal"
+DATE="date"     
+BOOL="boolean"
+STRING="string"
 
+def getCookie(var,name):
+    cname="JCOOKIE_" + name
+    if var.has_key(cname) : return var[cname]
+    return None
+
+def setCookie(var,name,val=None):
+    cname="JCOOKIESET_" + name
+    var[cname] = True
+    if val : var["JCOOKIE_" + name] = val
+    
 def setJMapList(var,list,seq):
   if var.has_key("JLIST_MAP") : var["JLIST_MAP"][list] = seq
   else : var["JLIST_MAP"] = { list : seq }
@@ -18,6 +33,10 @@ def createArrayList() :
 def setFooter(var,list,column,val):
     var["JFOOTER_COPY_"+list+"_"+column] = True
     var["JFOOTER_"+list+"_"+column] = val
+    
+def setStatus(var,typ,val):
+  var["JSTATUS_SET_" + typ] = True
+  var["JSTATUS_TEXT_" + typ] = val  
 
 def checkGreaterZero(var,key):
   val = var[key]
@@ -183,7 +202,7 @@ class StorageRegistry() :
          
      def getKeys(self):
          return self.r.getKeys()    
-
+    
 class RegistryFile:
     
     def __init__(self,fa,realM,seqGen,map, listid,id):
@@ -221,11 +240,11 @@ class RegistryFile:
             val = RR.getEntryS(id)
             if val == None: valt = None 
             else :
-               if type == "long" :
+               if type == LONG :
                    valt = long(val)
-               elif type == "date" :
+               elif type == DATE :
                    valt = self.__tod(val)
-               elif type == "decimal" :
+               elif type == DECIMAL :
                    valt = float(val)
                else : valt = val
             elem[id] = valt
@@ -256,11 +275,11 @@ class RegistryFile:
             type = self.__map[id]
             if var.has_key(id) :
                 val = var[id]
-                if type == "long" :
+                if type == LONG :
                     vals = str(val)
-                elif type == "date" :
+                elif type == DATE :
                     vals = self.__tostr(val)
-                elif type == "decimal" :
+                elif type == DECIMAL :
                     vals = str(val)    
                 else : vals = val
                 RR.putEntry(id,vals)
