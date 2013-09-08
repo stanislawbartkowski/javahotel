@@ -76,5 +76,7 @@ public interface JMessages extends Messages {
     String TabNotFilled(String tabid, String elemid);
     
     String NotValidStatusTextType(String varName, String typeId);
+    
+    String SetCookieValueShoulbBool(String cName);
 
 }

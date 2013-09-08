@@ -41,212 +41,234 @@ import com.jythonui.shared.ListOfRows;
  */
 public class PerformVariableAction {
 
-    private PerformVariableAction() {
+	private PerformVariableAction() {
 
-    }
+	}
 
-    public interface VisitList {
+	public interface VisitList {
 
-        public interface IGetFooter {
-            String getFie();
+		public interface IGetFooter {
+			String getFie();
 
-            FieldValue getV();
-        }
+			FieldValue getV();
+		}
 
-        public class EditListMode {
-            private ChangeEditableRowsParam.ModifMode mode = ChangeEditableRowsParam.ModifMode.ADDCHANGEDELETEMODE;
-            private List<IVField> eList = new ArrayList<IVField>();
+		public class EditListMode {
+			private ChangeEditableRowsParam.ModifMode mode = ChangeEditableRowsParam.ModifMode.ADDCHANGEDELETEMODE;
+			private List<IVField> eList = new ArrayList<IVField>();
 
-            public ChangeEditableRowsParam.ModifMode getMode() {
-                return mode;
-            }
+			public ChangeEditableRowsParam.ModifMode getMode() {
+				return mode;
+			}
 
-            public List<IVField> geteList() {
-                return eList;
-            }
+			public List<IVField> geteList() {
+				return eList;
+			}
 
-        }
+		}
 
-        void accept(IDataType da, ListOfRows lRows);
+		void accept(IDataType da, ListOfRows lRows);
 
-        void acceptTypes(String typeName, ListOfRows lRows);
+		void acceptTypes(String typeName, ListOfRows lRows);
 
-        void acceptFooter(IDataType da, List<IGetFooter> fList);
+		void acceptFooter(IDataType da, List<IGetFooter> fList);
 
-        void acceptEditListMode(IDataType da, EditListMode e);
-    }
+		void acceptEditListMode(IDataType da, EditListMode e);
+	}
 
-    public static void perform(IYesNoAction iYesno, ISendCloseAction iClose,
-            final DialogVariables arg, IVariablesContainer iCon,
-            RowListDataManager liManager, final VisitList vis, WSize w,
-            IExecuteAfterModalDialog iEx) {
-        iCon.setVariablesToForm(arg);
-        // lists
-        for (final IDataType da : liManager.getList()) {
-            final String s = liManager.getLId(da);
-            ListOfRows lRows = arg.getList(s);
-            vis.accept(da, lRows);
-            final List<IGetFooter> fList = new ArrayList<IGetFooter>();
-            JUtils.IVisitor visDL = new JUtils.IVisitor() {
+	public static void perform(IYesNoAction iYesno, ISendCloseAction iClose,
+			final DialogVariables arg, IVariablesContainer iCon,
+			RowListDataManager liManager, final VisitList vis, WSize w,
+			IExecuteAfterModalDialog iEx) {
+		iCon.setVariablesToForm(arg);
+		// lists
+		for (final IDataType da : liManager.getList()) {
+			final String s = liManager.getLId(da);
+			ListOfRows lRows = arg.getList(s);
+			vis.accept(da, lRows);
+			final List<IGetFooter> fList = new ArrayList<IGetFooter>();
+			JUtils.IVisitor visDL = new JUtils.IVisitor() {
 
-                @Override
-                public void action(final String fie, String field) {
-                    FieldValue val = arg.getValue(field);
-                    if (val.getType() != TT.BOOLEAN) {
-                        String mess = M.M().FooterSetValueShouldBeBoolean(s,
-                                field);
-                        Utils.errAlert(mess);
-                        return;
-                    }
-                    if (!val.getValueB())
-                        return;
-                    String vName = ICommonConsts.JFOOTER + s + "_" + fie;
-                    final FieldValue v = arg.getValue(vName);
-                    if (v == null) {
-                        String mess = M.M().FooterSetDefinedButValueBot(field,
-                                vName);
-                        Utils.errAlert(mess);
-                        return;
-                    }
-                    VisitList.IGetFooter gFooter = new VisitList.IGetFooter() {
+				@Override
+				public void action(final String fie, String field) {
+					FieldValue val = arg.getValue(field);
+					if (val.getType() != TT.BOOLEAN) {
+						String mess = M.M().FooterSetValueShouldBeBoolean(s,
+								field);
+						Utils.errAlert(mess);
+						return;
+					}
+					if (!val.getValueB())
+						return;
+					String vName = ICommonConsts.JFOOTER + s + "_" + fie;
+					final FieldValue v = arg.getValue(vName);
+					if (v == null) {
+						String mess = M.M().FooterSetDefinedButValueBot(field,
+								vName);
+						Utils.errAlert(mess);
+						return;
+					}
+					VisitList.IGetFooter gFooter = new VisitList.IGetFooter() {
 
-                        @Override
-                        public String getFie() {
-                            return fie;
-                        }
+						@Override
+						public String getFie() {
+							return fie;
+						}
 
-                        @Override
-                        public FieldValue getV() {
-                            return v;
-                        }
+						@Override
+						public FieldValue getV() {
+							return v;
+						}
 
-                    };
-                    fList.add(gFooter);
-                }
-            };
-            String jKey = ICommonConsts.JFOOTERCOPY + s + "_";
-            JUtils.visitListOfFields(arg, jKey, visDL);
-            if (!fList.isEmpty())
-                vis.acceptFooter(da, fList);
+					};
+					fList.add(gFooter);
+				}
+			};
+			String jKey = ICommonConsts.JFOOTERCOPY + s + "_";
+			JUtils.visitListOfFields(arg, jKey, visDL);
+			if (!fList.isEmpty())
+				vis.acceptFooter(da, fList);
 
-            // check edit list
-            final VisitList.EditListMode listMode = new VisitList.EditListMode();
-            JUtils.IVisitor visEdit = new JUtils.IVisitor() {
+			// check edit list
+			final VisitList.EditListMode listMode = new VisitList.EditListMode();
+			JUtils.IVisitor visEdit = new JUtils.IVisitor() {
 
-                @Override
-                public void action(String fie, String field) {
-                    if (fie.equals(ICommonConsts.JLISTEDITMODE)) {
-                        String mode = arg.getValue(field).getValueS();
-                        try {
-                            listMode.mode = ChangeEditableRowsParam.ModifMode
-                                    .valueOf(mode);
-                        } catch (java.lang.IllegalArgumentException e) {
-                            Utils.errAlert(mode, e);
-                        }
+				@Override
+				public void action(String fie, String field) {
+					if (fie.equals(ICommonConsts.JLISTEDITMODE)) {
+						String mode = arg.getValue(field).getValueS();
+						try {
+							listMode.mode = ChangeEditableRowsParam.ModifMode
+									.valueOf(mode);
+						} catch (java.lang.IllegalArgumentException e) {
+							Utils.errAlert(mode, e);
+						}
 
-                    }
-                    IVField e = VField.construct(fie);
-                    listMode.eList.add(e);
-                }
+					}
+					IVField e = VField.construct(fie);
+					listMode.eList.add(e);
+				}
 
-            };
-            String eKey = ICommonConsts.JLISTEDIT + s + "_";
-            JUtils.visitListOfFields(arg, eKey, visEdit);
-            if (!listMode.eList.isEmpty())
-                vis.acceptEditListMode(da, listMode);
+			};
+			String eKey = ICommonConsts.JLISTEDIT + s + "_";
+			JUtils.visitListOfFields(arg, eKey, visEdit);
+			if (!listMode.eList.isEmpty())
+				vis.acceptEditListMode(da, listMode);
 
-        } // for
+		} // for
 
-        for (Entry<String, ListOfRows> e : arg.getEnumList().entrySet()) {
-            vis.acceptTypes(e.getKey(), e.getValue());
-        }
+		for (Entry<String, ListOfRows> e : arg.getEnumList().entrySet()) {
+			vis.acceptTypes(e.getKey(), e.getValue());
+		}
 
-        // it a little tricky but this way allows code reuse with performAction
-        String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG,
-                ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
-                ICommonConsts.JYESNOMESSAGE };
-        String[] param = { null, ICommonConsts.JBUTTONDIALOGSTART,
-                ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
-                ICommonConsts.JMESSAGE_TITLE };
-        String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, null, null,
-                ICommonConsts.JAFTERDIALOGACTION };
-        for (int i = 0; i < kom.length; i++) {
-            String p = arg.getValueS(kom[i]);
-            String par = null;
-            String par2 = null;
-            if (param[i] != null) {
-                par = arg.getValueS(param[i]);
-            }
-            if (param2[i] != null) {
-                par2 = arg.getValueS(param2[i]);
-            }
-            if (!CUtil.EmptyS(p))
-                performAction(iYesno, iClose, kom[i], p, par, par2, w, iCon,
-                        iEx, null);
-        }
-        if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
-            String resString = null;
-            FieldValue val = arg.getValue(ICommonConsts.JCLOSEDIALOG);
-            if (val.getType() == TT.STRING)
-                resString = val.getValueS();
-            performAction(null, iClose, ICommonConsts.JCLOSEDIALOG, null, null,
-                    null, w, iCon, iEx, resString);
-        }
-    }
+		// cookie
+		JUtils.IVisitor cookSet = new JUtils.IVisitor() {
 
-    private static boolean checkW(String action, String param, String param1,
-            final String param2, WSize w) {
-        if (w != null)
-            return true;
-        String mess = action + " " + param;
-        if (param1 != null)
-            mess += " " + param1;
-        if (param2 != null)
-            mess += " " + param2;
-        String alert = M.M().CannotCallActionHere(mess);
-        Utils.errAlert(alert);
-        return false;
-    }
+			@Override
+			public void action(String fie, String field) {
+				FieldValue val = arg.getValue(field);
+				if (val.getType() != TT.BOOLEAN) {
+					String mess = M.M().SetCookieValueShoulbBool(field);
+					Utils.errAlertB(mess);
+					return;
+				}
+				String valName = ICommonConsts.JCOOKIE + fie;
+				String s = arg.getValueS(valName);
+				if (CUtil.EmptyS(s)) {
+					Utils.RemoveCookie(fie);
+					return;
+				}
+				Utils.SetCookie(fie, s);
+			}
+		};
+		JUtils.visitListOfFields(arg, ICommonConsts.JCOOKIESET, cookSet);
 
-    public static void performAction(final IYesNoAction iYesno,
-            ISendCloseAction iClose, String action, String param,
-            String param1, final String param2, WSize w,
-            IVariablesContainer iCon, IExecuteAfterModalDialog iEx,
-            String resString) {
-        if (action.equals(ICommonConsts.JMAINDIALOG)) {
-            new RunAction().start(param);
-            return;
-        }
-        if (action.equals(ICommonConsts.JUPDIALOG)) {
-            if (!checkW(action, param, param1, param2, w))
-                return;
-            if (iEx != null)
-                iEx.setAction(param2);
-            new RunAction().upDialog(param, w, iCon, iEx, param1);
-            return;
-        }
-        if (action.equals(ICommonConsts.JOKMESSAGE)
-                || action.equals(ICommonConsts.JERRORMESSAGE)) {
-            if (!checkW(action, param, param1, param2, w))
-                return;
-            OkDialog ok = new OkDialog(param, param1);
-            ok.show(w);
-            return;
-        }
-        if (action.equals(ICommonConsts.JYESNOMESSAGE)) {
-            if (iYesno != null) {
-                if (!checkW(action, param, param1, param2, w))
-                    return;
-                iYesno.answer(param, param1, param2, w);
-            }
-            return;
-        }
-        if (action.equals(ICommonConsts.JCLOSEDIALOG)) {
-            if (iClose != null)
-                iClose.closeAction(resString);
-            return;
-        }
-        Utils.errAlert(M.M().UnknownAction(action, param));
-    }
+		// it a little tricky but this way allows code reuse with performAction
+		String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG,
+				ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
+				ICommonConsts.JYESNOMESSAGE };
+		String[] param = { null, ICommonConsts.JBUTTONDIALOGSTART,
+				ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
+				ICommonConsts.JMESSAGE_TITLE };
+		String[] param2 = { null, ICommonConsts.JAFTERDIALOGACTION, null, null,
+				ICommonConsts.JAFTERDIALOGACTION };
+		for (int i = 0; i < kom.length; i++) {
+			String p = arg.getValueS(kom[i]);
+			String par = null;
+			String par2 = null;
+			if (param[i] != null) {
+				par = arg.getValueS(param[i]);
+			}
+			if (param2[i] != null) {
+				par2 = arg.getValueS(param2[i]);
+			}
+			if (!CUtil.EmptyS(p))
+				performAction(iYesno, iClose, kom[i], p, par, par2, w, iCon,
+						iEx, null);
+		}
+		if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
+			String resString = null;
+			FieldValue val = arg.getValue(ICommonConsts.JCLOSEDIALOG);
+			if (val.getType() == TT.STRING)
+				resString = val.getValueS();
+			performAction(null, iClose, ICommonConsts.JCLOSEDIALOG, null, null,
+					null, w, iCon, iEx, resString);
+		}
+	}
+
+	private static boolean checkW(String action, String param, String param1,
+			final String param2, WSize w) {
+		if (w != null)
+			return true;
+		String mess = action + " " + param;
+		if (param1 != null)
+			mess += " " + param1;
+		if (param2 != null)
+			mess += " " + param2;
+		String alert = M.M().CannotCallActionHere(mess);
+		Utils.errAlert(alert);
+		return false;
+	}
+
+	public static void performAction(final IYesNoAction iYesno,
+			ISendCloseAction iClose, String action, String param,
+			String param1, final String param2, WSize w,
+			IVariablesContainer iCon, IExecuteAfterModalDialog iEx,
+			String resString) {
+		if (action.equals(ICommonConsts.JMAINDIALOG)) {
+			new RunAction().start(param);
+			return;
+		}
+		if (action.equals(ICommonConsts.JUPDIALOG)) {
+			if (!checkW(action, param, param1, param2, w))
+				return;
+			if (iEx != null)
+				iEx.setAction(param2);
+			new RunAction().upDialog(param, w, iCon, iEx, param1);
+			return;
+		}
+		if (action.equals(ICommonConsts.JOKMESSAGE)
+				|| action.equals(ICommonConsts.JERRORMESSAGE)) {
+			if (!checkW(action, param, param1, param2, w))
+				return;
+			OkDialog ok = new OkDialog(param, param1);
+			ok.show(w);
+			return;
+		}
+		if (action.equals(ICommonConsts.JYESNOMESSAGE)) {
+			if (iYesno != null) {
+				if (!checkW(action, param, param1, param2, w))
+					return;
+				iYesno.answer(param, param1, param2, w);
+			}
+			return;
+		}
+		if (action.equals(ICommonConsts.JCLOSEDIALOG)) {
+			if (iClose != null)
+				iClose.closeAction(resString);
+			return;
+		}
+		Utils.errAlert(M.M().UnknownAction(action, param));
+	}
 
 }
