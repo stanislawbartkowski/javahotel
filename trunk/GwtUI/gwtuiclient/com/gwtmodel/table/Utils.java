@@ -388,16 +388,24 @@ public class Utils {
 		return loca;
 	}
 
+	private static String jPrefix() {
+		IGetCustomValues c = GwtGiniInjector.getI().getCustomValues();
+		return c.getCustomValue(IGetCustomValues.JCOOKIEPREFIX);
+	}
+
 	public static List<IMapEntry> getCookies() {
 		List<IMapEntry> cList = new ArrayList<IMapEntry>();
 		Collection<String> cookies = Cookies.getCookieNames();
+		final String p = jPrefix();
 		for (final String s : cookies) {
+			if (!s.startsWith(p))
+				continue;
 			final String value = Cookies.getCookie(s);
 			IMapEntry i = new IMapEntry() {
 
 				@Override
 				public String getKey() {
-					return s;
+					return s.substring(p.length());
 				}
 
 				@Override
@@ -414,10 +422,10 @@ public class Utils {
 	public static void SetCookie(String key, String value) {
 		Date today = DateUtil.getToday();
 		Date exp = DateUtil.addDaysD(today, 100);
-		Cookies.setCookie(key, value, exp);
+		Cookies.setCookie(jPrefix() + key, value, exp);
 	}
 
 	public static void RemoveCookie(String key) {
-		Cookies.removeCookie(key);
+		Cookies.removeCookie(jPrefix() + key);
 	}
 }
