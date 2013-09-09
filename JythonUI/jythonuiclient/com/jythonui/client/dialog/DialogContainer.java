@@ -625,9 +625,12 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 			SendCloseSignal sig = new SendCloseSignal(id);
 			slMediator.getSlContainer().publish(
 					SendCloseSignal.constructSignal(dType), sig);
-			if (iClose != null) {
+			if (iClose != null)
 				iClose.closeAction(resString);
-			}
+//			else {
+//				IWebPanel i = GwtGiniInjector.getI().getWebPanel();
+//				i.setDCenter(null);
+//			}
 			if (iEx != null) {
 				iEx.setResultButton(id, resString);
 			}

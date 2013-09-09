@@ -45,6 +45,18 @@ def checkGreaterZero(var,key):
      return False
   return True
 
+def createEnum(list,getname,getdisplay=None):    
+    seq = []
+    for s in list :
+        id = getname(s)
+        if id == None : continue
+        m = {"id" : id }
+        if getdisplay :
+          m["name"] = id + " " + getdisplay(s)
+        else : m["name"] = getdisplay(s)
+        seq.append(m)
+    return seq 
+
 def copyVarToProp(var,prop,list):
     for l in list :
         val = var[l]
