@@ -191,6 +191,8 @@
             <xs:element minOccurs="0" name="footerafterdot" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="editable" type="emptyT" />
 			<xs:element minOccurs="0" name="signalbefore" type="emptyT" />
+			<xs:element minOccurs="0" name="imagecolumn" type="xs:nonNegativeInteger" />		
+			<xs:element minOccurs="0" name="imagelist" type="xs:string" />		
 		</xs:sequence>
 	</xs:group>
 
@@ -219,6 +221,8 @@
         <xs:attribute name="footerafterdot" type="xs:nonNegativeInteger" />
 		<xs:attribute name="editable" type="emptyT" />
 		<xs:attribute name="signalbefore" type="emptyT" />
+		<xs:attribute name="imagecolumn" type="xs:nonNegativeInteger" />
+		<xs:attribute name="imagelist" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">
@@ -363,12 +367,14 @@
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
+			<xs:element minOccurs="0" name="beforechangetab" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
 	<xs:attributeGroup name="tabpanelelemattrG">
 		<xs:attribute name="id" type="idType" />
 		<xs:attribute name="displayname" type="xs:string" />
+		<xs:attribute name="beforechangetab" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:element name="tabpanel">

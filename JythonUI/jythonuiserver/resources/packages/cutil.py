@@ -6,6 +6,7 @@ from java.util import ArrayList
 from java.math import BigDecimal
 from com.jython.ui.shared import MUtil
 from com.gwtmodel.table.common.dateutil import DateFormatUtil
+from com.jythonui.server.holder import Holder
 
 LONG="long"
 DECIMAL="decimal"
@@ -49,10 +50,12 @@ def createEnum(list,getname,getdisplay=None):
     seq = []
     for s in list :
         id = getname(s)
-        if id == None : continue
+        if id == None or id.strip() == "": continue
         m = {"id" : id }
-        if getdisplay :
-          m["name"] = id + " " + getdisplay(s)
+        if getdisplay :  
+          name = getdisplay(s)
+          if name == None : name = ""
+          m["name"] = id + " " + name 
         else : m["name"] = getdisplay(s)
         seq.append(m)
     return seq 
@@ -362,3 +365,15 @@ def setStatusMessage(var,type,s = None):
     var["JSTATUS_SET_"+type] = True
     if s == None or s == "" : return
     var["JSTATUS_TEXT_"+type] = s
+
+class DLIST() :
+  
+  def __init__(self,var,list) :
+    iServer = Holder.getiServer()
+    r = Holder.getRequest() 
+    d = iServer.findDialog(r,var["J_DIALOGNAME"])
+    self.fList = d.getDialog().findList(list)
+    
+  def onList(self,name) :
+    i = self.fList.getColumn(name)
+    return i != None

@@ -19,10 +19,9 @@ import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.Utils;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.datalisttype.DataListTypeFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
-import com.gwtmodel.table.rdef.IFormLineView;
-import com.gwtmodel.table.slotmodel.SlU;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.VField;
 import com.jythonui.shared.DialogVariables;
@@ -38,74 +37,85 @@ import com.jythonui.shared.RowIndex;
  */
 public class JUtils {
 
-    private JUtils() {
-    }
+	private JUtils() {
+	}
 
-    public interface IVisitor {
-        void action(String fie, String field);
-    };
+	public interface IVisitor {
+		void action(String fie, String field);
+	};
 
-    public static void visitListOfFields(DialogVariables var, String prefix,
-            IVisitor i) {
-        for (String key : var.getFields())
-            if (key.startsWith(prefix)) {
-                String fie = key.substring(prefix.length());
-                i.action(fie, key);
-            }
-    }
+	public static void visitListOfFields(DialogVariables var, String prefix,
+			IVisitor i) {
+		for (String key : var.getFields())
+			if (key.startsWith(prefix)) {
+				String fie = key.substring(prefix.length());
+				i.action(fie, key);
+			}
+	}
 
-    public static IDataListType constructList(RowIndex rI, ListOfRows rL,
-            IVField comboField, IVField displayFie) {
-        DataListTypeFactory lFactory = GwtGiniInjector.getI()
-                .getDataListTypeFactory();
+	public static IDataListType constructList(RowIndex rI, ListOfRows rL,
+			IVField comboField, IVField displayFie) {
+		DataListTypeFactory lFactory = GwtGiniInjector.getI()
+				.getDataListTypeFactory();
 
-        List<IVModelData> rList = new ArrayList<IVModelData>();
-        if (rL != null)
-            for (RowContent t : rL.getRowList()) {
-                RowVModelData r = new RowVModelData(rI, t);
-                rList.add(r);
-            }
-        return lFactory.construct(rList, comboField, displayFie);
-    }
+		List<IVModelData> rList = new ArrayList<IVModelData>();
+		if (rL != null)
+			for (RowContent t : rL.getRowList()) {
+				RowVModelData r = new RowVModelData(rI, t);
+				rList.add(r);
+			}
+		return lFactory.construct(rList, comboField, displayFie);
+	}
 
-    public static void setVariables(DialogVariables v, IVModelData vData) {
-        if (vData == null) {
-            return;
-        }
-        for (IVField fie : vData.getF()) {
-            Object o = vData.getF(fie);
-            // pass empty as null (None)
-            FieldValue fVal = new FieldValue();
-            fVal.setValue(fie.getType().getType(), o, fie.getType()
-                    .getAfterdot());
-            v.setValue(fie.getId(), fVal);
-        }
-    }
+	public static void setVariables(DialogVariables v, IVModelData vData) {
+		if (vData == null) {
+			return;
+		}
+		for (IVField fie : vData.getF()) {
+			Object o = vData.getF(fie);
+			// pass empty as null (None)
+			FieldValue fVal = new FieldValue();
+			fVal.setValue(fie.getType().getType(), o, fie.getType()
+					.getAfterdot());
+			v.setValue(fie.getId(), fVal);
+		}
+	}
 
-    public interface IFieldVisit {
-        void setField(VField v, FieldValue val);
-    }
+	public interface IFieldVisit {
+		void setField(VField v, FieldValue val);
+	}
 
-    public static void VisitVariable(final DialogVariables var, String listid,
-            final IFieldVisit i) {
-        JUtils.IVisitor vis = new JUtils.IVisitor() {
+	public static void VisitVariable(final DialogVariables var, String listid,
+			final IFieldVisit i) {
+		JUtils.IVisitor vis = new JUtils.IVisitor() {
 
-            @Override
-            public void action(String fie, String field) {
-                FieldValue val = var.getValue(fie);
-                if (val == null) {
-                    Utils.errAlert(M.M().ErrorNoValue(fie), field);
-                    return;
-                }
-                VField v = VField.construct(fie, val.getType());
-                i.setField(v, val);
-            }
-        };
-        String prefix = ICommonConsts.JCOPY;
-        if (listid != null) 
-            prefix = ICommonConsts.JROWCOPY + listid + "_";
-        else prefix = ICommonConsts.JCOPY;
-        JUtils.visitListOfFields(var, prefix, vis);
-    }
+			@Override
+			public void action(String fie, String field) {
+				FieldValue val = var.getValue(fie);
+				if (val == null) {
+					Utils.errAlert(M.M().ErrorNoValue(fie), field);
+					return;
+				}
+				VField v = VField.construct(fie, val.getType());
+				i.setField(v, val);
+			}
+		};
+		String prefix = ICommonConsts.JCOPY;
+		if (listid != null)
+			prefix = ICommonConsts.JROWCOPY + listid + "_";
+		else
+			prefix = ICommonConsts.JCOPY;
+		JUtils.visitListOfFields(var, prefix, vis);
+	}
+
+	public static String getJS(String s) {
+		if (CUtil.EmptyS(s)) {
+			return null;
+		}
+		if (!s.startsWith(ICommonConsts.IJSCALL)) {
+			return null;
+		}
+		return s.substring(ICommonConsts.IJSCALL.length());
+	}
 
 }
