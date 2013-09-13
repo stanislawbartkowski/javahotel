@@ -59,6 +59,7 @@ import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.ISlotable;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.tabpanelview.BeforeTabChange;
 import com.gwtmodel.table.tabpanelview.ITabPanelView;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.callback.CommonCallBack;
@@ -400,7 +401,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 			TabPanelViewFactory pFactory = GwtGiniInjector.getI()
 					.getTabPanelViewFactory();
 			for (int i = 0; i < d.getTabList().size(); i++)
-				pList.add(pFactory.construct(dType, cId));
+				pList.add(pFactory.construct(dType, cId, d.getTabList().get(i)
+						.getId()));
 			// fill cList
 			for (TabPanel tab : d.getTabList())
 				for (TabPanelElem e : tab.gettList())
@@ -455,6 +457,28 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 					pView.createView();
 				slMediator.registerSlotContainer(cId, pView);
 			}
+		}
+
+	}
+
+	private class BeforeChangeTab implements ISlotListener {
+
+		@Override
+		public void signal(ISlotSignalContext slContext) {
+			BeforeTabChange t = (BeforeTabChange) slContext.getCustom();
+			int tabno = t.getValue();
+			String tabId = t.getTabId();
+			TabPanel dPanel = DialogFormat.findE(d.getTabList(), tabId);
+			TabPanelElem tElem = dPanel.gettList().get(tabno);
+			if (!tElem.isBeforeChangeTabbSignal())
+				return;
+			DialogVariables v = iCon
+					.getVariables(ICommonConsts.BEFORECHANGETAB);
+			v.setValueS(ICommonConsts.TABID, tElem.getId());
+			v.setValueS(ICommonConsts.TABPANELID, dPanel.getId());
+			ExecuteAction.action(v, d.getId(), ICommonConsts.BEFORECHANGETAB,
+					new BackClass(ICommonConsts.BEFORECHANGETAB, false, null,
+							null));
 		}
 
 	}
@@ -557,6 +581,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 		}
 		CustomStringSlot sig = SendDialogFormSignal.constructSignal(dType);
 		slMediator.getSlContainer().publish(sig, new SendDialogFormSignal(d));
+		sig = BeforeTabChange.constructBeforeTabChangeSignal(dType);
+		slMediator.getSlContainer().registerSubscriber(sig,
+				new BeforeChangeTab());
+
 		//
 		if (bList != null) {
 			for (IDataType da : liManager.getList()) {
@@ -627,10 +655,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 					SendCloseSignal.constructSignal(dType), sig);
 			if (iClose != null)
 				iClose.closeAction(resString);
-//			else {
-//				IWebPanel i = GwtGiniInjector.getI().getWebPanel();
-//				i.setDCenter(null);
-//			}
+			// else {
+			// IWebPanel i = GwtGiniInjector.getI().getWebPanel();
+			// i.setDCenter(null);
+			// }
 			if (iEx != null) {
 				iEx.setResultButton(id, resString);
 			}
@@ -652,8 +680,6 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 		public void setResultButton(String buttonid, String resVal) {
 			if (CUtil.EmptyS(afterAction))
 				return;
-			// String JBUTTONRES = "JUPDIALOG_BUTTON";
-			// String JBUTTONDIALOGRES = "JUPDIALOG_RES";
 			DialogVariables v = iCon.getVariables(afterAction);
 			v.setValueS(ICommonConsts.JBUTTONRES, buttonid);
 			v.setValueS(ICommonConsts.JBUTTONDIALOGRES, resVal);

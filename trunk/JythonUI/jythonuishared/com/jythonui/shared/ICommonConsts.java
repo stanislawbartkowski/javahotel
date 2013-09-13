@@ -61,6 +61,9 @@ public interface ICommonConsts {
 	String FOOTERTYPE = "footertype";
 	String FOOTERALIGN = "footeralign";
 	String FOOTERAFTERDOT = "footerafterdot";
+	String IMAGECOLUMN = "imagecolumn";
+	String IMAGELIST = "imagelist";
+	String IJSCALL = "JS.";
 	String ASXML = "asxml";
 	String JXMLCONTENT = "JXMLCONTENT";
 	String JXMLSETCONTENT = "JXMLCONTENTSET";
@@ -102,6 +105,10 @@ public interface ICommonConsts {
 	String ACTIONPARAM1 = "actionparam1";
 	String ACTIONPARAM2 = "actionparam2";
 	String JEDITLISTROWACTION = "editlistrowaction";
+	String JCLICKIMAGEACTION = "clickimage";
+	String BEFORECHANGETAB = "beforechangetab";
+	String TABID = "tabid";
+	String TABPANELID = "tabpanelid";
 	String JEDITLISTROWNO = "JLIST_EDIT_ROWNO_";
 	String JEDITLISTACTION = "JLIST_EDIT_ACTION_";
 	String JEDITROWYESACTION = "JLIST_EDIT_ACTIONOK_";
