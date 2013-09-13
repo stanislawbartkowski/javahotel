@@ -13,6 +13,7 @@
 package com.gwtmodel.table.listdataview;
 
 import com.gwtmodel.table.ICustomObject;
+import com.google.common.base.Optional;
 
 /**
  * @author hotel
@@ -20,17 +21,17 @@ import com.gwtmodel.table.ICustomObject;
  */
 public class GetImageColSignalReturn implements ICustomObject {
 
-    private final String[] imageList;
+	private final Optional<String[]> imageList;
 
-    public GetImageColSignalReturn(String[] imageList) {
-        this.imageList = imageList;
-    }
+	public GetImageColSignalReturn(Optional<String[]> imageList) {
+		this.imageList = imageList;
+	}
 
-    /**
-     * @return the imageList
-     */
-    public String[] getImageList() {
-        return imageList;
-    }
+	/**
+	 * @return the imageList
+	 */
+	public Optional<String[]> getImageList() {
+		return imageList;
+	}
 
 }

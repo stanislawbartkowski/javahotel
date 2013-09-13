@@ -17,8 +17,8 @@ import com.gwtmodel.table.slotmodel.CellId;
 
 public class TabPanelViewFactory {
 
-    public ITabPanelView construct(IDataType dType, CellId panelId) {
-        return new TabPanelView(dType, panelId);
-    }
+	public ITabPanelView construct(IDataType dType, CellId panelId, String tabId) {
+		return new TabPanelView(dType, panelId, tabId);
+	}
 
 }
