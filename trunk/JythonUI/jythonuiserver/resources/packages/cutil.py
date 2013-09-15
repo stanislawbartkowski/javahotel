@@ -373,6 +373,7 @@ class DLIST() :
     r = Holder.getRequest() 
     d = iServer.findDialog(r,var["J_DIALOGNAME"])
     self.fList = d.getDialog().findList(list)
+    assert self.fList != None
     
   def onList(self,name) :
     i = self.fList.getColumn(name)
