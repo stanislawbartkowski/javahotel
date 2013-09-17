@@ -18,11 +18,12 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
-import com.gwtmodel.table.login.menudef.MenuPullContainer;
-import com.gwtmodel.table.login.menudef.MenuPullDesc;
+import com.gwtmodel.table.menudef.MenuPullContainer;
+import com.gwtmodel.table.menudef.MenuPullDesc;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.view.controlpanel.IContrButtonView;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
+
 import java.util.List;
 
 /**

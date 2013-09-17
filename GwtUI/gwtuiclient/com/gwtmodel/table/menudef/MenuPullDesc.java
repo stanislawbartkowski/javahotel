@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.login.menudef;
+package com.gwtmodel.table.menudef;
 
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import java.util.List;

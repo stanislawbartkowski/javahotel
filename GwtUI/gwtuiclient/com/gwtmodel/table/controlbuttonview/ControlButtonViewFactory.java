@@ -13,9 +13,10 @@
 package com.gwtmodel.table.controlbuttonview;
 
 import javax.inject.Inject;
+
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
-import com.gwtmodel.table.login.menudef.MenuPullContainer;
+import com.gwtmodel.table.menudef.MenuPullContainer;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
 import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
 
