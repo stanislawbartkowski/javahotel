@@ -19,7 +19,6 @@ import java.util.Map;
 
 import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.gwtmodel.table.CreateJSonForIVData;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType.IGetListValues;
 import com.gwtmodel.table.ICustomObject;
@@ -58,6 +57,7 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.listdataview.ChangeFieldEditSignal;
 import com.gwtmodel.table.listdataview.ClickColumnImageSignal;
 import com.gwtmodel.table.listdataview.DataIntegerSignal;
@@ -157,6 +157,7 @@ class ListControler {
 		private final IVariablesContainer iCon;
 		private final ICreateBackActionFactory bFactory;
 		private final IVModelData vFooter = new VModelData();
+		private final IJsonConvert iJson;
 
 		private int lastRowNum;
 		private PersistTypeEnum lastPersistAction;
@@ -805,7 +806,7 @@ class ListControler {
 				if (!CUtil.EmptyS(js)) {
 					IVModelData va = SlU.getVDataByI(dType,
 							DataListPersistAction.this, sig.getValue());
-					String jSon = CreateJSonForIVData.construct(va);
+					String jSon = iJson.construct(va);
 					s = Utils.callJsStringFun(js, jSon);
 				}
 
@@ -838,6 +839,7 @@ class ListControler {
 			this.rM = rM;
 			this.bFactory = bFactory;
 			this.iCon = iCon;
+			iJson = GwtGiniInjector.getI().getJsonConvert();
 			registerSubscriber(dType, DataActionEnum.ReadListAction,
 					new ReadList());
 			registerSubscriber(FormBeforeCompletedSignal.constructSignal(d),
