@@ -17,7 +17,6 @@ import java.util.List;
 
 import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.gwtmodel.table.CreateJSonForIVData;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.ICommand;
 import com.gwtmodel.table.ICustomObject;
@@ -36,6 +35,8 @@ import com.gwtmodel.table.controlbuttonview.ButtonRedirectActivateSignal;
 import com.gwtmodel.table.controlbuttonview.ButtonRedirectSignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.json.CreateJSonForIVData;
+import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.listdataview.ChunkReader.Chunk;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -78,6 +79,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 	private final HandleBeginEndLineEditing handleChange = new HandleBeginEndLineEditing();
 	private final List<IDataType> activateRedirect = new ArrayList<IDataType>();
 	private final ChunkReader cReader;
+	private final IJsonConvert iJson;
 
 	private final EditAfterFocusSynchronizer editSynch = new EditAfterFocusSynchronizer();
 
@@ -131,7 +133,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		}
 
 		public String newRowStyle(IVModelData line) {
-			return CreateJSonForIVData.construct(line);
+			return iJson.construct(line);
 		}
 	}
 
@@ -839,9 +841,9 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
 		@Override
 		public void click(WSize w, int row, IVField v, int imno) {
-//			WChoosedLine wC = tableView.getClicked();
-//			if (wC == null || wC.getChoosedLine() != row)
-//				tableView.setClicked(row, false);
+			// WChoosedLine wC = tableView.getClicked();
+			// if (wC == null || wC.getChoosedLine() != row)
+			// tableView.setClicked(row, false);
 			ISlotCustom sl = ClickColumnImageSignal
 					.constructSlotClickColumnSignal(dType);
 			ClickColumnImageSignal sig = new ClickColumnImageSignal(w, row, v,
@@ -908,6 +910,7 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 		this.selectedRow = selectedRow;
 		this.async = async;
 		constructView(treeView, async);
+		iJson = GwtGiniInjector.getI().getJsonConvert();
 		coFactory = GwtGiniInjector.getI().getSlotSignalContextFactory();
 		// subscriber
 		registerSubscriber(dType, DataActionEnum.DrawListAction, new DrawList());

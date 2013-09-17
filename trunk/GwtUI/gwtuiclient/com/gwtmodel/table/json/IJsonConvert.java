@@ -10,21 +10,11 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.pullmenu;
+package com.gwtmodel.table.json;
 
-import com.gwtmodel.table.menudef.MenuPullContainer;
-import com.gwtmodel.table.view.controlpanel.IContrButtonView;
-import com.gwtmodel.table.view.controlpanel.IControlClick;
+import com.gwtmodel.table.IVModelData;
 
-/**
- *
- * @author perseus
- */
-public class PullMenuFactory {
+public interface IJsonConvert {
 
-    public IContrButtonView construct(MenuPullContainer menu,
-            IControlClick click) {
-        return new PullMenuView(menu, click);
-
-    }
+	String construct(IVModelData line);
 }

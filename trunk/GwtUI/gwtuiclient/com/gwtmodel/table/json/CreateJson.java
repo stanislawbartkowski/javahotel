@@ -10,14 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table;
+package com.gwtmodel.table.json;
 
+import com.google.gwt.core.client.JsonUtils;
 import com.gwtmodel.table.common.CUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class CreateJson {
+class CreateJson {
 
     private final String objectName;
 
@@ -41,19 +43,19 @@ public class CreateJson {
     }
     private final Map<String, JsonElem> vals = new HashMap<String, JsonElem>();
 
-    public CreateJson(String objectName) {
+    CreateJson(String objectName) {
         this.objectName = objectName;
     }
 
-    public void addElem(String key, String val, boolean isNumber) {
+    void addElem(String key, String val, boolean isNumber) {
         vals.put(key, new JsonElem(val, isNumber));
     }
 
-    public void addElem(String key, String val) {
+    void addElem(String key, String val) {
         addElem(key, val, false);
     }
 
-    public String createJsonString() {
+    String createJsonString() {
         String res = "{ \"" + objectName + "\": {";
         boolean first = true;
         for (Entry<String, JsonElem> e : vals.entrySet()) {
@@ -71,11 +73,13 @@ public class CreateJson {
                 } else {
                     String s = e.getValue().getVal();
                     // escape all "
-                    s = s.replaceAll("\"", "");
+                    // TODO: remove now
+                    s = s.replaceAll("\"","");
+                    s = s.replaceAll("'", "");
                     // escape all \n
                     s = s.replaceAll("\n", "");                                        
-                    s = s.replaceAll("\r", "");  
-                    val = '\"' + s + '\"';
+                    s = s.replaceAll("\r", "");
+                    val = JsonUtils.escapeValue(s);
                 }
             }
             res += '\"' + e.getKey() + "\" : " + val;
