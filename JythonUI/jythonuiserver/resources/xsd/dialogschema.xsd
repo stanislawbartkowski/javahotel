@@ -367,7 +367,7 @@
 		<xs:sequence>
 			<xs:element minOccurs="0" name="id" type="idType" />
 			<xs:element minOccurs="0" name="displayname" type="xs:string" />
-			<xs:element minOccurs="0" name="beforechangetab" type="xs:string" />
+			<xs:element minOccurs="0" name="beforechangetab" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 

@@ -74,9 +74,12 @@ public interface JMessages extends Messages {
     String HelperOnlyForStringType(String id);
 
     String TabNotFilled(String tabid, String elemid);
-    
+
     String NotValidStatusTextType(String varName, String typeId);
-    
+
     String SetCookieValueShoulbBool(String cName);
+
+    String OnlyStringColumnImage(String id, String type, String typeS,
+            String ima);
 
 }

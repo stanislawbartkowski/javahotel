@@ -55,203 +55,210 @@ import com.jythonui.shared.TypedefDescr;
  */
 public class CreateForm {
 
-	private CreateForm() {
-	}
+    private CreateForm() {
+    }
 
-	private static String getDisplayName(FieldItem f) {
-		String name = f.getDisplayName();
-		if (name == null) {
-			name = M.J().DefaStringName();
-		}
-		return name;
-	}
+    private static String getDisplayName(FieldItem f) {
+        String name = f.getDisplayName();
+        if (name == null) {
+            name = M.J().DefaStringName();
+        }
+        return name;
+    }
 
-	public static FormLineContainer construct(DialogInfo dInfo,
-			IGetDataList iGet, EnumTypesList eList, IRequestForGWidget iHelper,
-			IConstructCustomDataType fType) {
-		DialogFormat d = dInfo.getDialog();
-		List<FieldItem> iList = d.getFieldList();
-		EditWidgetFactory eFactory = GwtGiniInjector.getI()
-				.getEditWidgetFactory();
-		List<FormField> fList = new ArrayList<FormField>();
-		for (FieldItem f : iList) {
-			IVField vf = VField.construct(f);
-			IFormLineView v;
-			String htmlId = f.getHtmlId();
-			if (!CUtil.EmptyS(f.getCustom())) {
-				TypedefDescr te = d.findCustomType(f.getCustom());
-				if (te == null) {
-					Utils.errAlert(f.getCustom(),
-							M.M().CannotFindCustomType(f.getTypeName()));
-				}
-				if (te.isComboType()) {
-					eList.add(vf, f.getCustom());
-					v = eFactory.constructListValuesCombo(vf, iGet,
-							!f.isNotEmpty(), htmlId);
-				} else {
-					IDataType dType = fType.construct(f.getTypeName());
-					v = eFactory.constructHelperList(vf, dType,
-							f.isHelperRefresh(), htmlId);
-				}
-			} else {
-				if (f.isPassword()) {
-					v = eFactory.constructPasswordField(vf, htmlId);
-				} else if (f.isHelper() || f.isTextArea() || f.isRichText()) {
-					if (f.isHelper() && (f.getFieldType() != TT.STRING)
-							&& f.getFieldType() != TT.DATE) {
-						String mess = M.M().HelperOnlyForStringType(f.getId());
-						Utils.errAlertB(mess);
-					}
-					if (f.getFieldType() == TT.STRING)
-						v = eFactory.constructTextField(vf, null,
-								f.isHelper() ? iHelper : null, f.isTextArea(),
-								f.isRichText(), f.isHelperRefresh(), htmlId);
-					else
-						v = eFactory.constructDateBoxCalendarWithHelper(vf,
-								iHelper, true, htmlId);
-				} else {
-					v = eFactory.constructEditWidget(vf, htmlId);
-				}
+    public static FormLineContainer construct(DialogInfo dInfo,
+            IGetDataList iGet, EnumTypesList eList, IRequestForGWidget iHelper,
+            IConstructCustomDataType fType) {
+        DialogFormat d = dInfo.getDialog();
+        List<FieldItem> iList = d.getFieldList();
+        EditWidgetFactory eFactory = GwtGiniInjector.getI()
+                .getEditWidgetFactory();
+        List<FormField> fList = new ArrayList<FormField>();
+        for (FieldItem f : iList) {
+            IVField vf = VField.construct(f);
+            IFormLineView v;
+            String htmlId = f.getHtmlId();
+            if (!CUtil.EmptyS(f.getCustom())) {
+                TypedefDescr te = d.findCustomType(f.getCustom());
+                if (te == null) {
+                    Utils.errAlert(f.getCustom(),
+                            M.M().CannotFindCustomType(f.getTypeName()));
+                }
+                if (te.isComboType()) {
+                    eList.add(vf, f.getCustom());
+                    v = eFactory.constructListValuesCombo(vf, iGet,
+                            !f.isNotEmpty(), htmlId);
+                } else {
+                    IDataType dType = fType.construct(f.getTypeName());
+                    v = eFactory.constructHelperList(vf, dType,
+                            f.isHelperRefresh(), htmlId);
+                }
+            } else {
+                if (f.isPassword()) {
+                    v = eFactory.constructPasswordField(vf, htmlId);
+                } else if (f.isHelper() || f.isTextArea() || f.isRichText()) {
+                    if (f.isHelper() && (f.getFieldType() != TT.STRING)
+                            && f.getFieldType() != TT.DATE) {
+                        String mess = M.M().HelperOnlyForStringType(f.getId());
+                        Utils.errAlertB(mess);
+                    }
+                    if (f.getFieldType() == TT.STRING)
+                        v = eFactory.constructTextField(vf, null,
+                                f.isHelper() ? iHelper : null, f.isTextArea(),
+                                f.isRichText(), f.isHelperRefresh(), htmlId);
+                    else
+                        v = eFactory.constructDateBoxCalendarWithHelper(vf,
+                                iHelper, true, htmlId);
+                } else {
+                    v = eFactory.constructEditWidget(vf, htmlId);
+                }
 
-			}
-			boolean modeSetAlready = false;
-			if (dInfo.getSecurity().isFieldHidden(f)) {
-				v.setHidden(true);
-				modeSetAlready = true;
-			}
-			if (dInfo.getSecurity().isFieldReadOnly(f)) {
-				v.setReadOnly(true);
-				modeSetAlready = true;
-			}
+            }
+            boolean modeSetAlready = false;
+            if (dInfo.getSecurity().isFieldHidden(f)) {
+                v.setHidden(true);
+                modeSetAlready = true;
+            }
+            if (dInfo.getSecurity().isFieldReadOnly(f)) {
+                v.setReadOnly(true);
+                modeSetAlready = true;
+            }
 
-			String name = null;
-			IVField fRange = null;
-			if (!CUtil.EmptyS(f.getFrom())) {
-				if (CUtil.EmptyS(f.getDisplayName())) {
-					name = MM.getL().BetweenFieldsRange();
-				}
-				FieldItem ff = d.findFieldItem(f.getFrom());
-				if (ff == null) {
-					Utils.errAlert(M.M().CannotFindFromField(
-							ICommonConsts.FROM, f.getFrom()));
-				} else
-					fRange = VField.construct(ff);
-			}
-			if (name == null)
-				name = getDisplayName(f);
+            String name = null;
+            IVField fRange = null;
+            if (!CUtil.EmptyS(f.getFrom())) {
+                if (CUtil.EmptyS(f.getDisplayName())) {
+                    name = MM.getL().BetweenFieldsRange();
+                }
+                FieldItem ff = d.findFieldItem(f.getFrom());
+                if (ff == null) {
+                    Utils.errAlert(M.M().CannotFindFromField(
+                            ICommonConsts.FROM, f.getFrom()));
+                } else
+                    fRange = VField.construct(ff);
+            }
+            if (name == null)
+                name = getDisplayName(f);
 
-			FormField fie = new FormField(name, v, vf, fRange,
-					f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready);
-			fList.add(fie);
-		}
-		return new FormLineContainer(fList);
-	}
+            FormField fie = new FormField(name, v, vf, fRange,
+                    f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready);
+            fList.add(fie);
+        }
+        return new FormLineContainer(fList);
+    }
 
-	public static class ColumnsDesc {
-		public List<VListHeaderDesc> hList = new ArrayList<VListHeaderDesc>();
-		public List<VFooterDesc> footList = new ArrayList<VFooterDesc>();
-		public int colvisNo = 0;
-	}
+    public static class ColumnsDesc {
+        public List<VListHeaderDesc> hList = new ArrayList<VListHeaderDesc>();
+        public List<VFooterDesc> footList = new ArrayList<VFooterDesc>();
+        public int colvisNo = 0;
+    }
 
-	public interface ISelectFactory {
+    public interface ISelectFactory {
 
-		IColumnImageSelect construct(IVField v, FieldItem f);
-	}
+        IColumnImageSelect construct(IVField v, FieldItem f);
+    }
 
-	public interface IGetEnum {
-		FieldDataType.IGetListValues getEnum(String customT);
-	}
+    public interface IGetEnum {
+        FieldDataType.IGetListValues getEnum(String customT);
+    }
 
-	private static VListHeaderDesc.ColAlign getA(String a) {
-		VListHeaderDesc.ColAlign al = null;
-		if (CUtil.EqNS(a, ICommonConsts.ALIGNL))
-			al = VListHeaderDesc.ColAlign.LEFT;
+    private static VListHeaderDesc.ColAlign getA(String a) {
+        VListHeaderDesc.ColAlign al = null;
+        if (CUtil.EqNS(a, ICommonConsts.ALIGNL))
+            al = VListHeaderDesc.ColAlign.LEFT;
 
-		if (CUtil.EqNS(a, ICommonConsts.ALIGNR))
-			al = VListHeaderDesc.ColAlign.RIGHT;
+        if (CUtil.EqNS(a, ICommonConsts.ALIGNR))
+            al = VListHeaderDesc.ColAlign.RIGHT;
 
-		if (CUtil.EqNS(a, ICommonConsts.ALIGNC))
-			al = VListHeaderDesc.ColAlign.CENTER;
-		return al;
-	}
+        if (CUtil.EqNS(a, ICommonConsts.ALIGNC))
+            al = VListHeaderDesc.ColAlign.CENTER;
+        return al;
+    }
 
-	public static ColumnsDesc constructColumns(List<FieldItem> fList,
-			DialSecurityInfo lInfo, ISelectFactory sFactory, IGetEnum iGet) {
-		ColumnsDesc desc = new ColumnsDesc();
-		List<VListHeaderDesc> heList = desc.hList;
-		for (FieldItem f : fList) {
-			IVField vf;
-			boolean isSelect = false;
-			if (!CUtil.EmptyS(f.getCustom()))
-				if (iGet.getEnum(f.getCustom()) != null)
-					vf = VField.construct(f.getId(),
-							iGet.getEnum(f.getCustom()));
-				else {
-					isSelect = true;
-					vf = VField.construct(f);
-				}
-			else
-				vf = VField.construct(f);
-			VListHeaderDesc.ColAlign al = getA(f.getAlign());
-			// TODO: can be null for combo, check it later
-			IColumnImageSelect iHelper = null;
-			int colNo = 0;
-			if ((f.isHelper() || isSelect || f.isImageColumn())
-					&& sFactory != null) {
-				iHelper = sFactory.construct(vf, f);
-				if (f.isImageColumn())
-					colNo = f.getImageColumn();
-			}
-			VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
-					lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
-					f.getActionId(), f.isColumnEditable(), al, f.getWidth(),
-					null, null, iHelper, colNo);
-			heList.add(v);
-			if (!f.isHidden())
-				desc.colvisNo++;
-			if (f.isFooter()) {
-				if (desc.footList == null)
-					desc.footList = new ArrayList<VFooterDesc>();
-				VFooterDesc foot = new VFooterDesc(vf,
-						getA(f.getFooterAlign()), VField.getFieldType(
-								f.getFooterType(), f.getFooterAfterDot()));
-				desc.footList.add(foot);
-			}
-		}
-		return desc;
-	}
+    public static ColumnsDesc constructColumns(List<FieldItem> fList,
+            DialSecurityInfo lInfo, ISelectFactory sFactory, IGetEnum iGet) {
+        ColumnsDesc desc = new ColumnsDesc();
+        List<VListHeaderDesc> heList = desc.hList;
+        for (FieldItem f : fList) {
+            IVField vf;
+            boolean isSelect = false;
+            if (!CUtil.EmptyS(f.getCustom()))
+                if (iGet.getEnum(f.getCustom()) != null)
+                    vf = VField.construct(f.getId(),
+                            iGet.getEnum(f.getCustom()));
+                else {
+                    isSelect = true;
+                    vf = VField.construct(f);
+                }
+            else
+                vf = VField.construct(f);
+            VListHeaderDesc.ColAlign al = getA(f.getAlign());
+            // TODO: can be null for combo, check it later
+            IColumnImageSelect iHelper = null;
+            int colNo = 0;
+            if ((f.isHelper() || isSelect || f.isImageColumn())
+                    && sFactory != null) {
+                iHelper = sFactory.construct(vf, f);
+                if (f.isImageColumn()) {
+                    if (vf.getType().getType() != TT.STRING) {
+                        String mess = M.M().OnlyStringColumnImage(f.getId(),
+                                f.getTypeName(), ICommonConsts.STRINGTYPE,
+                                ICommonConsts.IMAGECOLUMN);
+                        Utils.errAlert(mess);
+                    }
+                    colNo = f.getImageColumn();
+                }
+            }
+            VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
+                    lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
+                    f.getActionId(), f.isColumnEditable(), al, f.getWidth(),
+                    null, null, iHelper, colNo);
+            heList.add(v);
+            if (!f.isHidden())
+                desc.colvisNo++;
+            if (f.isFooter()) {
+                if (desc.footList == null)
+                    desc.footList = new ArrayList<VFooterDesc>();
+                VFooterDesc foot = new VFooterDesc(vf,
+                        getA(f.getFooterAlign()), VField.getFieldType(
+                                f.getFooterType(), f.getFooterAfterDot()));
+                desc.footList.add(foot);
+            }
+        }
+        return desc;
+    }
 
-	public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
-			ListFormat l, ISelectFactory sFactory, IGetEnum iGet) {
-		DialSecurityInfo lInfo = sInfo.getListSecur().get(l.getId());
-		ColumnsDesc desc = constructColumns(l.getColumns(), lInfo, sFactory,
-				iGet);
-		String lName = l.getDisplayName();
-		return new VListHeaderContainer(desc.hList, lName, l.getPageSize(),
-				null, l.getWidth(), null, desc.footList);
-	}
+    public static VListHeaderContainer constructColumns(SecurityInfo sInfo,
+            ListFormat l, ISelectFactory sFactory, IGetEnum iGet) {
+        DialSecurityInfo lInfo = sInfo.getListSecur().get(l.getId());
+        ColumnsDesc desc = constructColumns(l.getColumns(), lInfo, sFactory,
+                iGet);
+        String lName = l.getDisplayName();
+        return new VListHeaderContainer(desc.hList, lName, l.getPageSize(),
+                null, l.getWidth(), null, desc.footList);
+    }
 
-	private static ControlButtonDesc constructButton(ButtonItem b,
-			boolean enabled) {
+    private static ControlButtonDesc constructButton(ButtonItem b,
+            boolean enabled) {
 
-		String id = b.getId();
-		String dName = b.getDisplayName();
-		if (b.isHeaderButton())
-			return new ControlButtonDesc(dName, new ClickButtonType(
-					StandClickEnum.MENUTITLE), enabled);
-		else
-			return new ControlButtonDesc(dName, id, enabled);
-	}
+        String id = b.getId();
+        String dName = b.getDisplayName();
+        if (b.isHeaderButton())
+            return new ControlButtonDesc(dName, new ClickButtonType(
+                    StandClickEnum.MENUTITLE), enabled);
+        else
+            return new ControlButtonDesc(dName, id, enabled);
+    }
 
-	public static List<ControlButtonDesc> constructBList(SecurityInfo sInfo,
-			List<ButtonItem> iList) {
-		List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
-		for (ButtonItem b : iList) {
-			if (sInfo.isButtHidden(b))
-				continue;
-			bList.add(constructButton(b, !sInfo.isButtReadOnly(b)));
-		}
-		return bList;
-	}
+    public static List<ControlButtonDesc> constructBList(SecurityInfo sInfo,
+            List<ButtonItem> iList) {
+        List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
+        for (ButtonItem b : iList) {
+            if (sInfo.isButtHidden(b))
+                continue;
+            bList.add(constructButton(b, !sInfo.isButtReadOnly(b)));
+        }
+        return bList;
+    }
 
 }
