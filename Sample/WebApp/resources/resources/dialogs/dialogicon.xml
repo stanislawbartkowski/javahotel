@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <jscode>/js/image.js</jscode>
+        
+        <before />
+
+        <jython>
+                <import>from testpack import listicon</import>
+                <method>listicon.dialogaction({0},{1})</method>
+        </jython>
+
+        <buttons>
+                <button id="clearRecords" displayname="Clear all" actiontype="JYESNO_MESSAGE"
+                        actionparam="Do you really want to remove all records now ?"
+                        actionparam1="Warning before removing" actionparam2="clearrecords" />
+        </buttons>
+
+        <list id="list" displayname="List of records" elemformat="listicon.xml">
+                <columns>
+                        <column id="id" displayname="Key" type="long" />
+                        <column id="firstname" displayname="First name" />
+                        <column id="lastname" displayname="Last name" />
+                        <column id="credit" type="decimal" displayname="Credit" />
+                        <!--                        <column id="image" displayname="hhhhh" imagecolumn="1" imagelist="arrow_down.png" /> -->
+                        <column id="image" displayname="" imagecolumn="2" imagelist="JS.IMAGE.toimage" />
+                </columns>
+        </list>
+
+
+</dialog>
