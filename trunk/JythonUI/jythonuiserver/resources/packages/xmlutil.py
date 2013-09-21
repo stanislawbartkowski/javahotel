@@ -6,6 +6,19 @@ from cutil import toJDate
 from cutil import toJDateTime
 
 def getVar(map,dialogname,xml,listv):
+    """ Set map with values read from xml string for dialog form.
+    
+    Retrieves values from XML string and set values to the map (key->value). 
+    Retrieves values only for list of keys (not for all found in XML string)
+    
+    Args:
+       map : A map being set. Can be empty or contains some values already. In case of
+          conflict new value will overwrite existing value.
+       dialogname : Dialog name where form is available.
+       xml : XML string to be analyzed.
+       listv : List of keys to be set to the map. Only keys found in the list are set. 
+           Others are ignored.    
+    """
     iXml = Holder.getXMLTransformer();
     v = DialogVariables();
     iXml.fromXML(dialogname,v,xml);
