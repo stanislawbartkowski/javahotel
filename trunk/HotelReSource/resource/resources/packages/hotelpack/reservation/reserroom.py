@@ -28,11 +28,15 @@ from util.util import getPriceForPriceList
 from cutil import checkGreaterZero
 from cutil import setFooter
 from cutil import setJMapList
+from util.util import BILLLIST
 
 CLIST = ["name","descr"] + getCustFieldId()
 
+def _getResName(var) :
+    return var["resename"]
+
 def _listOfPayments(var) :
-  rese = var["resename"]
+  rese = _getResName(var)
   li = RESOP(var).getResAddPaymentList(rese)
   seq = []
   sum = SUMBDECIMAL()  
@@ -243,7 +247,20 @@ def showreseraction(action,var):
        
    if action == "guestdesc" :
        showCustomerDetails(var,var["cust_name"])
-           
+     
+def _ListOfBills(var) :
+   B = BILLLIST(var)
+   rese = _getResName(var)
+   bList = RESOP(var).findBillsForReservation(rese)
+   seq = []
+   for b in bList :
+     id = b.getName()
+     payer = b.getPayer()
+     da = b.getIssueDate()
+     ma = { "name" : id, "payerid" : payer }
+     seq.append(ma)
+   setJMapList(var,"billlist",seq)  
+  
      
 def showstay(action,var):     
    printvar("show stay",action,var)
@@ -251,6 +268,7 @@ def showstay(action,var):
      _setvarBefore(var)
      # after 
      _listOfPayments(var)
+     _ListOfBills(var)
      
    if action == "changetoreserv" and var["JYESANSWER"] :
      res = getReservForDay(var)
