@@ -99,6 +99,7 @@
 		<xs:attribute name="hidden" type="emptyT" />
 		<xs:attribute name="readonly" type="emptyT" />
 		<xs:attribute name="header" type="emptyT" />
+		
 	</xs:attributeGroup>
 
 	<xs:group name="dialogG">
@@ -110,6 +111,8 @@
 			<xs:element minOccurs="0" name="parent" type="xs:string" />
 			<xs:element minOccurs="0" name="types" type="xs:string" />
 			<xs:element minOccurs="0" name="asxml" type="listidsType" />
+            <xs:element minOccurs="0" name="clearleft" type="emptyT" />
+            <xs:element minOccurs="0" name="clearcentre" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -121,6 +124,8 @@
 		<xs:attribute name="parent" type="xs:string" />
 		<xs:attribute name="types" type="xs:string" />
 		<xs:attribute name="asxml" type="listidsType" />
+        <xs:attribute name="clearleft" type="emptyT" />
+        <xs:attribute name="clearcentre" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="listG">
@@ -186,13 +191,13 @@
 			<xs:element minOccurs="0" name="readonlychange" type="emptyT" />
 			<xs:element minOccurs="0" name="signalchange" type="emptyT" />
 			<xs:element minOccurs="0" name="footer" type="emptyT" />
-            <xs:element minOccurs="0" name="footertype" type="typeName" />
-            <xs:element minOccurs="0" name="footeralign" type="typeAlign" />
-            <xs:element minOccurs="0" name="footerafterdot" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="footertype" type="typeName" />
+			<xs:element minOccurs="0" name="footeralign" type="typeAlign" />
+			<xs:element minOccurs="0" name="footerafterdot" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="editable" type="emptyT" />
 			<xs:element minOccurs="0" name="signalbefore" type="emptyT" />
-			<xs:element minOccurs="0" name="imagecolumn" type="xs:nonNegativeInteger" />		
-			<xs:element minOccurs="0" name="imagelist" type="xs:string" />		
+			<xs:element minOccurs="0" name="imagecolumn" type="xs:nonNegativeInteger" />
+			<xs:element minOccurs="0" name="imagelist" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -216,9 +221,9 @@
 		<xs:attribute name="readonlychange" type="emptyT" />
 		<xs:attribute name="signalchange" type="emptyT" />
 		<xs:attribute name="footer" type="emptyT" />
-        <xs:attribute name="footertype" type="typeName" />
-        <xs:attribute name="footeralign" type="typeAlign" />
-        <xs:attribute name="footerafterdot" type="xs:nonNegativeInteger" />
+		<xs:attribute name="footertype" type="typeName" />
+		<xs:attribute name="footeralign" type="typeAlign" />
+		<xs:attribute name="footerafterdot" type="xs:nonNegativeInteger" />
 		<xs:attribute name="editable" type="emptyT" />
 		<xs:attribute name="signalbefore" type="emptyT" />
 		<xs:attribute name="imagecolumn" type="xs:nonNegativeInteger" />
@@ -435,18 +440,18 @@
 		</xs:complexType>
 	</xs:element>
 
-    <xs:element name="leftstack">
-        <xs:complexType>
-            <xs:sequence minOccurs="1" maxOccurs="unbounded">
-                <xs:element name="button">
-                    <xs:complexType>
-                        <xs:group ref="buttonG" />
-                        <xs:attributeGroup ref="buttonattrG" />
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+	<xs:element name="leftstack">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="button">
+					<xs:complexType>
+						<xs:group ref="buttonG" />
+						<xs:attributeGroup ref="buttonattrG" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:element name="actions">
 		<xs:complexType>
@@ -461,7 +466,6 @@
 		</xs:complexType>
 	</xs:element>
 
-
 	<xs:element name="dialog">
 		<xs:complexType>
 			<xs:sequence>
@@ -470,8 +474,8 @@
 				<xs:element minOccurs="0" ref="jython" />
 
 				<xs:element minOccurs="0" ref="leftmenu" />
-				
-                <xs:element minOccurs="0" ref="leftstack" />
+
+				<xs:element minOccurs="0" ref="leftstack" />
 
 				<xs:element minOccurs="0" ref="actions" />
 

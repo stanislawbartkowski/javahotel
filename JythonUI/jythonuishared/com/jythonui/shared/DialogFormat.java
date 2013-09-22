@@ -195,4 +195,11 @@ public class DialogFormat extends ElemDescription {
         return leftStackList;
     }
 
+    public boolean isClearLeft() {
+        return isAttr(ICommonConsts.CLEARLEFT);
+    }
+
+    public boolean isClearCentre() {
+        return isAttr(ICommonConsts.CLEARCENTRE);
+    }
 }

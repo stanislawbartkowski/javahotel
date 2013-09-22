@@ -65,6 +65,8 @@ public interface ICommonConsts {
 	String IMAGELIST = "imagelist";
 	String IJSCALL = "JS.";
 	String ASXML = "asxml";
+	String CLEARLEFT = "clearleft";
+	String CLEARCENTRE = "clearcentre";
 	String JXMLCONTENT = "JXMLCONTENT";
 	String JXMLSETCONTENT = "JXMLCONTENTSET";
 	int DEFAULTCOLNO = 14;
