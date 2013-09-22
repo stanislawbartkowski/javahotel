@@ -90,6 +90,11 @@ class JythonUIServer implements IJythonUIServer {
     @Override
     public DialogVariables runAction(RequestContext rcontext,
             DialogVariables v, String dialogName, String actionId) {
+        if (CUtil.EmptyS(actionId)) {
+            String mess = Holder.getM().getMess(IErrorCode.ERRORCODE70,
+                    ILogMess.ACIONIDCANNOTBENULL, dialogName);
+            error(mess);
+        }
         Util.setContext(rcontext);
         String locale = Util.getLocale();
         String securityToken = Util.getToken();
@@ -114,8 +119,8 @@ class JythonUIServer implements IJythonUIServer {
                             ICommonConsts.JXMLCONTENT);
                     error(mess);
                 }
-                Holder.getXMLTransformer().fromXML(dialogName, v,
-                        x.getValueS());
+                Holder.getXMLTransformer()
+                        .fromXML(dialogName, v, x.getValueS());
             }
 
         return v;
