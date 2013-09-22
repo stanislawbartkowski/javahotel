@@ -12,9 +12,7 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -53,6 +51,18 @@ public class Test30 extends TestHelper {
         assertEquals(TT.STRING, i.getFooterType());
         i = d.findList("list").getColumn("name");
         assertEquals("C", i.getFooterAlign());
+        assertFalse(d.isClearCentre());
+        assertFalse(d.isClearLeft());
+    }
+
+    @Test
+    public void test4() {
+
+        DialogFormat d = findDialog("test64.xml");
+        assertNotNull(d);
+        assertTrue(d.isClearCentre());
+        assertTrue(d.isClearLeft());
+
     }
 
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
-
 	<jython>
 		<import>from testpack import testclassbig</import>
 		<method>testclassbig.dialogactiontime({0},{1})</method>
