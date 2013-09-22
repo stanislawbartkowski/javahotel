@@ -42,6 +42,7 @@ import com.gwtmodel.table.htmlview.IHtmlPanelCallBack;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.injector.MM;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.util.PopupTip;
 import com.gwtmodel.table.view.util.YesNoDialog;
 
@@ -177,6 +178,9 @@ class WebPanel implements IWebPanel {
     @Override
     public void setMenuPanel(Widget w) {
         uPanel.addAndReplaceElement(w, HOTELHEADER_DOWNMENU);
+        // important: set id again to enable next replacement by
+        // HOTELHEADER_DOWNMENU
+        w.getElement().setId(HOTELHEADER_DOWNMENU);
     }
 
     @Override
@@ -298,7 +302,9 @@ class WebPanel implements IWebPanel {
     }
 
     @Override
-    public void setPaneText(InfoType t, String text) {
+    public void setPaneText(InfoType t, String te) {
+        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
+        String text = iMess.getMessage(te);
         switch (t) {
         case USER:
             userName.setText(text);

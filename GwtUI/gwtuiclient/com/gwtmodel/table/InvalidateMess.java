@@ -27,10 +27,7 @@ public class InvalidateMess {
     public InvalidateMess(final IVField fie, final boolean e, final String err) {
         this.fie = fie;
         this.empty = e;
-        if (err != null)
-            this.errmess = iMess.getMessage(err);
-        else
-            this.errmess = null;
+        this.errmess = iMess.getMessage(err);
     }
 
     public InvalidateMess(final IVField fie, final String err) {
