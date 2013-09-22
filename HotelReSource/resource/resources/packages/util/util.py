@@ -119,6 +119,13 @@ class CUSTOMERLIST(CRUDLIST) :
     def __init__(self,var):
         CRUDLIST.__init__(self,var)
         self.serviceS = H.getHotelCustomers()
+
+class BILLLIST(CRUDLIST) :
+
+    def __init__(self,var):
+        CRUDLIST.__init__(self,var)
+        self.serviceS = H.getCustomerBills()
+
                 
 class ROOMLIST(CRUDLIST):        
     def __init__(self,var):
@@ -176,11 +183,17 @@ class RESOP :
      def getResAddPaymentList(self,resId) :
          return self.service.getResAddPaymentList(getHotelName(self.var),resId)
        
+     def findBillsForReservation(self,resId) :
+         return self.service.findBillsForReservation(getHotelName(self.var),resId)
+       
 class RESFORM(CRUDLIST) :
 
     def __init__(self,var):
         CRUDLIST.__init__(self,var)
         self.serviceS = H.getResForm()
+        
+def isRoomService(service) :
+  return service == ServiceType.HOTEL
         
 def resStatus(rform):
     status = rform.getStatus()
@@ -216,8 +229,23 @@ def createArrayList() :
   return ArrayList()   
   
 def getHotelName(var):
+    """ Get com.gwthotel.admin.HotelId class for current session
+    
+    Args: var
+      
+    Returns:
+      com.gwthotel.admin.HotelId clas
+    """
     token = var["SECURITY_TOKEN"]
     return H.getHotelName(token)
+
+def getHotel(var) :
+    """ Get hotel name for current session
+    Args: var
+    
+    Returns: hotel name
+    """
+    return getHotelName(var).getHotel()
 
 def getAppId(var):
     token = var["SECURITY_TOKEN"]
@@ -301,6 +329,7 @@ class ConstructObject :
         oType = None
         if t == 0 : oType = HotelObjects.CUSTOMER
         if t == 1 : oType = HotelObjects.RESERVATION
+        if t == 2 : oType = HotelObjects.BILL
         return self.factory.construct(self.hotel,oType)
     
 def newCustomer(var) :
@@ -325,6 +354,10 @@ def newHotelService(var):
   
 def newResAddPayment() :
     return ReservationPaymentDetail()
+  
+def newBill() :
+    c = ConstructObject(var)
+    return c.getO(2)     
 
 def setCopy(var,li) :
   cutil.setCopy(var,li)  
@@ -417,4 +450,7 @@ def getPriceForPriceList(var,pricelist,service) :
       if service == p.getService() :
           pPrice = p
           break
-  return pPrice      
+  return pPrice   
+
+def getReseName(var) :
+  return var["resename"]

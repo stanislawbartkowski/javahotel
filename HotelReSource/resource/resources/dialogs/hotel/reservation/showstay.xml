@@ -12,8 +12,11 @@
 		<button id="guestdesc" displayname="Customer details" />
 		<button id="changetoreserv" displayname="Change to reservation"
 			actiontype="JYESNO_MESSAGE" actionparam="Do you want to change this stay to reservation ?"
-			actionparam1="Warning before change" actionparam2="changetoreserv" />
+			actionparam1="Warning before change" />
 		<button id="addpayment" displayname="Add payment" />
+                <button id="createbill" displayname="Create bill" actiontype="JUP_DIALOG"
+                        actionparam="hotel/reservation/createbill.xml"/>
+
 	</buttons>
 
 	<form>

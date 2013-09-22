@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Other services">
 
 	<before />
 			
@@ -9,7 +9,7 @@
 	</jython>
 
 
-	<list id="services" displayname="Other services" elemformat="hotel/otherelemservice.xml">
+	<list id="services" elemformat="hotel/otherelemservice.xml">
 		<columns>
 			<column id="name" displayname="@name" />
 			<column id="descr" displayname="@description" />

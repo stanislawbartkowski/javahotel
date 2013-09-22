@@ -1,14 +1,17 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname = "Reservation panel" >
 
 	<before />
-
+        
+        <clearleft />
+        
 	<jython>
 		<import>from hotelpack.reservation import reservation</import>
 		<method>reservation.reservationaction({0},{1})</method>
 	</jython>
+        
 
-	<dateline id="reservation" displayname="Reservation" lineid="name"
+	<dateline id="reservation" lineid="name"
 		defafile="empty" colno="10">
 		<columns>
 			<column id="name" displayname="@name" />
