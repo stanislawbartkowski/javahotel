@@ -12,13 +12,18 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import com.gwtmodel.table.common.TT;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.FieldItem;
+import com.jythonui.shared.JythonUIFatal;
 
 public class Test30 extends TestHelper {
 
@@ -62,6 +67,18 @@ public class Test30 extends TestHelper {
         assertNotNull(d);
         assertTrue(d.isClearCentre());
         assertTrue(d.isClearLeft());
+
+    }
+
+    @Test
+    public void test5() {
+
+        try {
+            DialogFormat d = findDialog("test65.xml");
+            fail("Should be failed as column before and boolean");
+        } catch (JythonUIFatal e) {
+            System.out.println("Exception as expected");
+        }
 
     }
 

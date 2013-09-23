@@ -3,6 +3,8 @@ from com.jython.ui.server.guice import ServiceInjector
 from java.util import Date
 from java.util import Calendar
 from cutil import printVar
+from cutil import setJMapList
+from cutil import setAddEditMode
 
 def toDate(value):
     if value == None : return None
@@ -36,6 +38,12 @@ def __create_listda(dop,var):
     if var.has_key("JLIST_MAP") : var["JLIST_MAP"]["listda"] = list
     else : var["JLIST_MAP"] = {"listda" : list}
 
+def __create_listb(var) :
+  li = []
+  elem = { "id" : 1, "name" : "rybka", "check" : True }
+  li.append(elem)
+  setJMapList(var,"listb",li)
+
 def editlistaction(action,var):
   printVar("editlistaction",action,var)
     
@@ -66,6 +74,10 @@ def editlistaction(action,var):
     var["JLIST_EDIT_listda_date1"] = ""
     var["JLIST_EDIT_listda_date2"] = ""
     var["JLIST_EDIT_listda_MODE"] = "CHANGEMODE" 
+    
+    __create_listb(var)
+    setAddEditMode(var,"listb",["id","name","check"])
+    
     return
 
   if action == "vali" :
@@ -92,6 +104,9 @@ def editlistaction(action,var):
          print "==============="    
 #        var["JERROR_pnumber"] = "Cannot be empty"
 
+
+  if var["JLIST_NAME"] == "listb" :      
+     var["JLIST_EDIT_ACTIONOK_listb"] = True
 
 
   if var["JLIST_NAME"] == "listda" :      
