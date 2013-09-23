@@ -9,15 +9,30 @@
         </jython>
         
         <buttons>
-                <button id="accept" displayname="Add payment" actiontype="JYESNO_MESSAGE" actionparam="Are you sure to create this bill ?"
-                        actionparam1="Confirmation"/>
+                <button id="accept" displayname="Create bill" />
                 <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
         </buttons>
         
-        <list id="poslist" displayname="Positions to pay" pagesize="10">
+        <list id="poslist" displayname="All billable" pagesize="10">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
-                        <column id="add" displayname="Add" type="bool" editable="" />
+                        <column id="billed" displayname="Billed" type="bool" />
+                        <column id="idp" type="long" hidden="" />
+                        <column id="room" displayname="Room" />
+                        <column id="resday" type="date" displayname="Night" />
+                        <column id="servday" type="date" displayname="Day" />
+                        <column id="guest" displayname="Guest" />
+                        <column id="service" displayname="Service" />
+                        <column id="servdescr" displayname="Description" />
+                        <column id="total" type="decimal" displayname="Price" footer="" />
+                </columns>
+       </list>
+
+        <list id="billlist" displayname="Not paid yet" pagesize="10">
+                <standbutt>TOOLS,FIND,FILTER</standbutt>
+                <buttons-addlist>accept</buttons-addlist>
+                <columns>
+                        <column id="add" displayname="Add" type="bool" editable="" signalchange="" />
                         <column id="idp" type="long" hidden="" />
                         <column id="room" displayname="Room" />
                         <column id="resday" type="date" displayname="Night" />

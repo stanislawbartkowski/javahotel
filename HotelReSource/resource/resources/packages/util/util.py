@@ -192,6 +192,12 @@ class RESFORM(CRUDLIST) :
         CRUDLIST.__init__(self,var)
         self.serviceS = H.getResForm()
         
+class BILL(CRUDLIST) :
+  
+    def __init__(self,var) :
+        CRUDLIST.__init__(self,var)
+        self.serviceS = H.getCustomerBills()
+        
 def isRoomService(service) :
   return service == ServiceType.HOTEL
         
@@ -219,7 +225,24 @@ def mapToXML(map,list,pre=None):
             if map[k] : val = str(map[k])
         s = s + "<" + e + ">" + val + "</" + e + ">"
     s = s + "</elem></root>"
-    return s        
+    return s 
+  
+def listNumberToCVS(li) :  
+  s = None
+  for l in li :
+    vals = str(l)
+    if s : s = s + "," + vals
+    else : s = vals
+  if s : return s
+  return ""
+
+def CVSToListNumber(s) :
+  if s == None : return []
+  li = []
+  for n in s.split(",") :
+    num = long(n)
+    li.append(num)
+  return li  
   
 def printvar(method,action,var): 
     cutil.printVar(method,action,var)
@@ -339,6 +362,10 @@ def newCustomer(var) :
 def newResForm(var):
     c = ConstructObject(var)
     return c.getO(1)   
+  
+def newBill(var) :
+    c = ConstructObject(var)
+    return c.getO(2)  
 
 def newResGuest(var):
     return ResGuest()
