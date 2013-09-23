@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.TT;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
@@ -113,6 +114,15 @@ class ValidateDialogFormat {
                 error(SHolder.getM().getMess(IErrorCode.ERRORCODE27,
                         ILogMess.TAGDUPLICATEDITENDTIFIER, l.getId(),
                         ICommonConsts.FIELD, id));
+            // check for editable, boolean and signalbefore
+            for (FieldItem f : l.getColumns()) {
+                if (f.isColumnEditable() && f.getFieldType() == TT.BOOLEAN
+                        && f.isSignalBefore()) {
+                    error(SHolder.getM().getMess(IErrorCode.ERRORCODE71,
+                            ILogMess.CANNOTEDITBOOLEANBEFORE, d.getId(),
+                            f.getId(), ICommonConsts.SIGNALBEFORE));
+                }
+            }
             sId.add(id);
         }
         for (CheckList c : d.getCheckList()) {
