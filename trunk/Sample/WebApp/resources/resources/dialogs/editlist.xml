@@ -48,5 +48,15 @@
 
 	</list>
 
+        <list id="listb" displayname="Edit list of boolean" aftereditrow="">
+                <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
+                <columns>
+                        <column id="id" displayname="id" type="long" editable=""/>
+                        <column id="name" displayname="Name" editable=""/>
+                        <column id="check" displayname="Check" type="bool" editable=""  signalchange="" />
+                </columns>
+
+        </list>
+
 
 </dialog>
