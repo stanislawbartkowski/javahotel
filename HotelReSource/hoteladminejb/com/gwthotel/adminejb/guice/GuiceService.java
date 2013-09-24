@@ -55,6 +55,7 @@ import com.jython.ui.server.jpatrans.JpaNonTransactionContext;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.MessProvider;
+import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
 import com.jythonui.server.storage.gensymimpl.SymGeneratorFactory;
@@ -153,7 +154,8 @@ public class GuiceService {
         IHotelObjectGenSymFactory getHotelObjectGenSymFactory(
                 final ISequenceRealmGenFactory seqFactory,
                 final ISymGeneratorFactory symFactory,
-                final IStorageJpaRegistryFactory regFactory) {
+                final IStorageJpaRegistryFactory regFactory,
+                final ISemaphore iSem) {
             return new IHotelObjectGenSymFactory() {
 
                 @Override
@@ -166,7 +168,7 @@ public class GuiceService {
                         }
                     };
                     IStorageRealmRegistry iReg = regFactory.construct(tFactory);
-                    ISequenceRealmGen iSeq = seqFactory.construct(iReg);
+                    ISequenceRealmGen iSeq = seqFactory.construct(iReg, iSem);
                     ISymGenerator iSym = symFactory.construct(iSeq);
                     return new HotelObjectGenSym(iSym);
                 }

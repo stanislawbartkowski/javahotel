@@ -49,8 +49,10 @@ import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.holder.Holder;
+import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.token.ICustomSecurity;
+import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.shared.CustomSecurity;
 import com.jythonui.shared.DialogFormat;
@@ -85,6 +87,7 @@ public class TestHelper {
     protected final IClearHotel iClear;
     protected final IXMLToMap ixMap;
     protected final ICustomerBills iBills;
+    protected final ISemaphore iSem;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -92,7 +95,7 @@ public class TestHelper {
     protected static final String TESTINSTANCE = IHotelConsts.INSTANCETEST;
 
     protected AppInstanceId getI() {
-        return iGetI.getInstance(TESTINSTANCE,"user");
+        return iGetI.getInstance(TESTINSTANCE, "user");
     }
 
     protected HotelId getH(String hotel) {
@@ -135,6 +138,7 @@ public class TestHelper {
         iClear = ServiceInjector.getClearHotel();
         ixMap = ServiceInjector.getXMLToMap();
         iBills = ServiceInjector.getCustomerBills();
+        iSem = SHolder.getSem();
 
     }
 

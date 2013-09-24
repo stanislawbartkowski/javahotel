@@ -57,6 +57,7 @@ import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
+import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -149,7 +150,8 @@ public class ServerService {
         IHotelObjectGenSymFactory getHotelObjectGenSymFactory(
                 final ISequenceRealmGenFactory seqFactory,
                 final ISymGeneratorFactory symFactory,
-                final IStorageJpaRegistryFactory regFactory) {
+                final IStorageJpaRegistryFactory regFactory,
+                final ISemaphore iSem) {
             return new IHotelObjectGenSymFactory() {
 
                 @Override
@@ -162,7 +164,7 @@ public class ServerService {
                         }
                     };
                     IStorageRealmRegistry iReg = regFactory.construct(tFactory);
-                    ISequenceRealmGen iSeq = seqFactory.construct(iReg);
+                    ISequenceRealmGen iSeq = seqFactory.construct(iReg,iSem);
                     ISymGenerator iSym = symFactory.construct(iSeq);
                     return new HotelObjectGenSym(iSym);
                 }
