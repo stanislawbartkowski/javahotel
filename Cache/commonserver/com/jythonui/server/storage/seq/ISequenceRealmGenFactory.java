@@ -12,10 +12,11 @@
  */
 package com.jythonui.server.storage.seq;
 
+import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 public interface ISequenceRealmGenFactory {
 
-    ISequenceRealmGen construct(IStorageRealmRegistry iReg);
+    ISequenceRealmGen construct(IStorageRealmRegistry iReg, ISemaphore iSem);
 
 }

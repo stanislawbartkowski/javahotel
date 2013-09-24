@@ -158,4 +158,23 @@ class StorageJpaRegistry implements IStorageRealmRegistry {
         return resList;
     }
 
+    @Override
+    public void addNewEntry(final String realM, final String key,
+            final byte[] value) {
+        doTransaction trans = new doTransaction() {
+
+            @Override
+            protected void dosth(EntityManager em) {
+                RegistryEntry e = new RegistryEntry();
+                e.setRegistryRealm(realM);
+                e.setRegistryEntry(key);
+                e.setValue(value);
+                em.persist(e);
+            }
+
+        };
+        trans.executeTran();
+
+    }
+
 }

@@ -18,10 +18,12 @@ public interface IStorageRealmRegistry {
 
     void putEntry(String realM, String key, byte[] value);
 
+    void addNewEntry(String realM, String key, byte[] value);
+
     byte[] getEntry(String realM, String key);
 
     void removeEntry(String realM, String key);
-    
+
     List<String> getKeys(String realM);
 
 }

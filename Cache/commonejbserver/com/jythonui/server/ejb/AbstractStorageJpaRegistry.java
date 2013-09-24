@@ -39,4 +39,10 @@ abstract class AbstractStorageJpaRegistry implements IStorageRealmRegistry {
     public List<String> getKeys(String realM) {
         return iStorage.getKeys(realM);
     }
+
+    @Override
+    public void addNewEntry(String realM, String key, byte[] value) {
+        iStorage.addNewEntry(realM, key, value);
+
+    }
 }

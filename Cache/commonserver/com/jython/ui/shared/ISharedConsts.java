@@ -22,4 +22,6 @@ public interface ISharedConsts {
 
     String JYTHONMESSSERVER = "jythonservermess";
 
+    int DEFEXPIRATIONSEC = 30;
+
 }

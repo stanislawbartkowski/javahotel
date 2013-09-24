@@ -13,31 +13,34 @@
 package com.jythonui.server.storage.seqimpl;
 
 import com.jython.ui.shared.UObjects;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 class SequenceRealmGen implements ISequenceRealmGen {
 
     private final IStorageRealmRegistry iReg;
-    private final IGetLogMess gMess;
+    private final ISemaphore iSem;
 
-    SequenceRealmGen(IStorageRealmRegistry iReg, IGetLogMess gMess) {
+    SequenceRealmGen(IStorageRealmRegistry iReg, ISemaphore iSem) {
         this.iReg = iReg;
-        this.gMess = gMess;
+        this.iSem = iSem;
     }
 
     @Override
     public Long genNext(String realM, String key) {
+        String semName = realM + "-SEQUENCE-" + key;
+        iSem.wait(semName, ISemaphore.DEFAULT);
         byte[] val = iReg.getEntry(realM, key);
         Long next;
         if (val == null) {
             next = new Long(0);
         } else {
-            next = (Long) UObjects.get(val, key, gMess);
+            next = (Long) UObjects.get(val, key);
         }
         next = next + 1;
-        iReg.putEntry(realM, key, UObjects.put(next, key, gMess));
+        iReg.putEntry(realM, key, UObjects.put(next, key));
+        iSem.signal(semName);
         return next;
     }
 
