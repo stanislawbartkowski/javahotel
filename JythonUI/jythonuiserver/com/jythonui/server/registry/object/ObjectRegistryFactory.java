@@ -12,26 +12,13 @@
  */
 package com.jythonui.server.registry.object;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.gwtmodel.commoncache.ICommonCache;
-import com.jython.ui.shared.ISharedConsts;
-import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.registry.IStorageRegistry;
 
 public class ObjectRegistryFactory {
 
-    private final IGetLogMess gMess;
-
-    @Inject
-    public ObjectRegistryFactory(
-            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
-        this.gMess = gMess;
-    }
-
     public ICommonCache construct(IStorageRegistry iRegistry) {
-        return new ObjectRegistry(iRegistry, gMess);
+        return new ObjectRegistry(iRegistry);
     }
 
 }

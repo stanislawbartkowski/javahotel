@@ -41,6 +41,7 @@ import com.jythonui.server.security.cache.ISecuritySessionPersistent;
 import com.jythonui.server.security.cache.impl.SecuritySessionStore;
 import com.jythonui.server.security.impl.SecurityJython;
 import com.jythonui.server.security.resolver.SecurityResolver;
+import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
 import com.jythonui.server.storage.gensymimpl.SymGeneratorFactory;
@@ -95,8 +96,9 @@ public class JythonServerService {
         @Provides
         @Singleton
         ISequenceRealmGen getSequenceRealmGen(
-                ISequenceRealmGenFactory seqFactory, IStorageRealmRegistry iReg) {
-            return seqFactory.construct(iReg);
+                ISequenceRealmGenFactory seqFactory,
+                IStorageRealmRegistry iReg, ISemaphore iSem) {
+            return seqFactory.construct(iReg, iSem);
         }
 
         @Provides
