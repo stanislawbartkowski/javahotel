@@ -43,6 +43,8 @@ import com.gwtmodel.testenhancer.notgae.TestEnhancer;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
+import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -70,6 +72,7 @@ public class ServerService {
                     StorageRealmProvider.class).in(Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
+            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
             bind(IHotelServices.class).toProvider(HotelServicesProvider.class)
                     .in(Singleton.class);
             bind(IHotelPriceList.class)
