@@ -30,6 +30,8 @@ import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurityConvert;
+import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
 
@@ -56,6 +58,8 @@ public class ServerService {
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(IStorageRealmRegistry.class).toProvider(StorageRegistryFactory.class).in(Singleton.class);
             bind(IDateRecordOp.class).to(DateRecordOp.class).in(Singleton.class);
+            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
+
 
             requestStatic();
         }

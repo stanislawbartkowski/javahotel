@@ -22,7 +22,6 @@ import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.storage.gensym.ISymGenerator;
-import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
 /**
