@@ -32,6 +32,7 @@ import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
+import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
 import com.jythonui.server.xml.IXMLTransformer;
@@ -57,6 +58,7 @@ public class TestHelper {
     protected final IDateRecordOp dOp;
     protected final IStorageRegistryFactory iReg;
     protected final IXMLTransformer iXml;
+    protected final ISemaphore iSem;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -73,6 +75,7 @@ public class TestHelper {
         dOp = ServiceInjector.getDateRecordOp();
         iReg = ServiceInjector.getStorageRegistryFactory();
         iXml = Holder.getXMLTransformer();
+        iSem = SHolder.getSem();
     }
 
     @Before
@@ -126,13 +129,16 @@ public class TestHelper {
     protected Date getD(int year, int m, int d) {
         return DateFormatUtil.toD(year, m, d);
     }
-    
+
     protected boolean eqD(int year, int m, int d, Date da) {
         int dd = DateFormatUtil.getY(da);
-        if (year != dd) return false;
+        if (year != dd)
+            return false;
         int mm = DateFormatUtil.getM(da);
-        if (m != mm) return false;
-        if (d != da.getDay()) return false;
+        if (m != mm)
+            return false;
+        if (d != da.getDay())
+            return false;
         return true;
     }
 

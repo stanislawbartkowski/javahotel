@@ -39,6 +39,8 @@ import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurityConvert;
+import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.semaphore.impl.SemaphoreSynch;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -70,6 +72,9 @@ public class ServerService {
                     StorageJpaRegistryFactory.class).in(Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
+//            bind(ISemaphore.class).to(JpaSemaphore.class).in(Singleton.class);
+//            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
+            bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);            
 
             requestStatic();
         }
