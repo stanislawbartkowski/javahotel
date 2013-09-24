@@ -20,22 +20,20 @@ import com.jythonui.server.registry.IStorageRegistry;
 class ObjectRegistry implements ICommonCache {
 
     private final IStorageRegistry iRegistry;
-    private final IGetLogMess gMess;
 
-    ObjectRegistry(IStorageRegistry iRegistry, IGetLogMess gMess) {
+    ObjectRegistry(IStorageRegistry iRegistry) {
         this.iRegistry = iRegistry;
-        this.gMess = gMess;
     }
 
     @Override
     public Object get(String key) {
         byte[] value = iRegistry.getEntry(key);
-        return UObjects.get(value, key, gMess);
+        return UObjects.get(value, key);
     }
 
     @Override
     public void put(String key, Object o) {
-        byte[] val = UObjects.put(o, key, gMess);
+        byte[] val = UObjects.put(o, key);
         if (val == null)
             return;
         iRegistry.putEntry(key, val);
@@ -49,7 +47,7 @@ class ObjectRegistry implements ICommonCache {
 
     @Override
     public void invalidate() {
-        // TODO: implement        
+        // TODO: implement
     }
 
 }
