@@ -12,15 +12,28 @@
  */
 package com.jython.ui.server.gaestoragekey;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 
+import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 public class StorageRegistryFactory implements Provider<IStorageRealmRegistry> {
 
+    private final IGetLogMess gMess;
+
+    @Inject
+    public StorageRegistryFactory(
+            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+        this.gMess = gMess;
+    }
+
     @Override
     public IStorageRealmRegistry get() {
-        return new GaeStorageRegistry();
+        return new GaeStorageRegistry(gMess);
     }
 
 }

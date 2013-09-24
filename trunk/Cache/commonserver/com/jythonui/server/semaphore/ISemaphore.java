@@ -10,21 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.storage.seqimpl;
+package com.jythonui.server.semaphore;
 
-import com.jythonui.server.semaphore.ISemaphore;
-import com.jythonui.server.storage.registry.IStorageRealmRegistry;
-import com.jythonui.server.storage.seq.ISequenceRealmGen;
-import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
+public interface ISemaphore {
 
-public class SequenceRealmGenFactory implements ISequenceRealmGenFactory {
+    int DEFAULT = -1;
 
-    @Override
-    public ISequenceRealmGen construct(IStorageRealmRegistry iReg,
-            ISemaphore iSem) {
+    void wait(String semaphoreName, int expirationsec);
 
-        return new SequenceRealmGen(iReg, iSem);
-
-    }
-
+    void signal(String sempahoreName);
 }

@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 
@@ -35,9 +36,10 @@ public class UObjects {
 
     }
 
-    public static Object get(byte[] value, String keyInfo, IGetLogMess gMess) {
+    public static Object get(byte[] value, String keyInfo) {
         if (value == null)
             return null;
+        IGetLogMess gMess = SHolder.getM();
         ByteArrayInputStream bu = new ByteArrayInputStream(value);
         ObjectInputStream inp;
         try {
@@ -56,7 +58,8 @@ public class UObjects {
         return null;
     }
 
-    public static byte[] put(Object o, String keyInfo, IGetLogMess gMess) {
+    public static byte[] put(Object o, String keyInfo) {
+        IGetLogMess gMess = SHolder.getM();
         ByteArrayOutputStream bu = new ByteArrayOutputStream();
         ObjectOutputStream outP;
         try {

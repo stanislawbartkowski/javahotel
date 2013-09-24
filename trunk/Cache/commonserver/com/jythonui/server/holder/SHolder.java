@@ -17,6 +17,7 @@ import javax.inject.Named;
 
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -31,13 +32,16 @@ public class SHolder {
 
     @Inject
     private static IStorageRealmRegistry iRegistry;
-    
+
     @Inject
     private static ISymGenerator iGenerator;
 
     @Inject
     @Named(ISharedConsts.JYTHONMESSSERVER)
     private static IGetLogMess logMess;
+
+    @Inject
+    private static ISemaphore iSem;
 
     public static IGetLogMess getM() {
         return logMess;
@@ -50,9 +54,13 @@ public class SHolder {
     public static IStorageRealmRegistry getStorageRegistry() {
         return iRegistry;
     }
-    
-    public ISymGenerator getSymGenerator() {
+
+    public static ISymGenerator getSymGenerator() {
         return iGenerator;
+    }
+
+    public static ISemaphore getSem() {
+        return iSem;
     }
 
 }

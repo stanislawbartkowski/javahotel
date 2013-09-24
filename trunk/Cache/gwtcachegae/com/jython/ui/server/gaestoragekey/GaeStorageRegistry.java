@@ -19,12 +19,23 @@ import java.util.List;
 
 import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.VoidWork;
+import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
+import com.jythonui.shared.JythonUIFatal;
 
 class GaeStorageRegistry implements IStorageRealmRegistry {
 
     static {
         ObjectifyService.register(RegistryEntry.class);
+    }
+
+    private final IGetLogMess gMess;
+
+    GaeStorageRegistry(IGetLogMess gMess) {
+        this.gMess = gMess;
     }
 
     @Override
@@ -78,4 +89,29 @@ class GaeStorageRegistry implements IStorageRealmRegistry {
         return res;
     }
 
+    @Override
+    public void addNewEntry(final String realM, final String key,
+            final byte[] value) {
+        // artificial to force uniqueness but no other idea for the time
+        // being
+        RegistryEntry re = findR(realM, key);
+        if (re != null) {
+            String mess = gMess.getMess(IErrorCode.ERRORCODE72,
+                    ILogMess.DUPLICATEDREGISTRYENTRY, realM, key);
+            throw new JythonUIFatal(mess);
+        }
+
+        ofy().transact(new VoidWork() {
+
+            @Override
+            public void vrun() {
+
+                RegistryEntry re = new RegistryEntry();
+                re.setRealM(realM);
+                re.setKey(key);
+                re.setValue(value);
+                ofy().save().entity(re).now();
+            }
+        });
+    }
 }

@@ -12,8 +12,6 @@
  */
 package com.gwtmodel.commoncache;
 
-import java.io.InvalidClassException;
-
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
