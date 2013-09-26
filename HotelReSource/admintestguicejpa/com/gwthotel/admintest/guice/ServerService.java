@@ -12,6 +12,7 @@
  */
 package com.gwthotel.admintest.guice;
 
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -44,6 +45,7 @@ import com.gwthotel.hotel.reservation.IReservationForm;
 import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.services.IHotelServices;
+import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
 import com.gwtmodel.testenhancer.ITestEnhancer;
@@ -56,6 +58,7 @@ import com.jython.ui.server.jpatrans.JpaEmTransactionContext;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.storage.gensym.ISymGenerator;
@@ -151,7 +154,8 @@ public class ServerService {
                 final ISequenceRealmGenFactory seqFactory,
                 final ISymGeneratorFactory symFactory,
                 final IStorageJpaRegistryFactory regFactory,
-                final ISemaphore iSem) {
+                final ISemaphore iSem,
+                final @Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
             return new IHotelObjectGenSymFactory() {
 
                 @Override
@@ -164,9 +168,9 @@ public class ServerService {
                         }
                     };
                     IStorageRealmRegistry iReg = regFactory.construct(tFactory);
-                    ISequenceRealmGen iSeq = seqFactory.construct(iReg,iSem);
+                    ISequenceRealmGen iSeq = seqFactory.construct(iReg, iSem);
                     ISymGenerator iSym = symFactory.construct(iSeq);
-                    return new HotelObjectGenSym(iSym);
+                    return new HotelObjectGenSym(iSym, lMess);
                 }
 
             };

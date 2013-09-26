@@ -12,6 +12,8 @@
  */
 package com.gwthotel.hotel.guice;
 
+import javax.inject.Named;
+
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
@@ -66,8 +68,9 @@ public class HotelCommonGuice {
 
         @Provides
         @Singleton
-        IHotelObjectGenSym getHotelObjectsTrans(ISymGenerator iGen) {
-            return new HotelObjectGenSym(iGen);
+        IHotelObjectGenSym getHotelObjectsTrans(ISymGenerator iGen,
+                @Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
+            return new HotelObjectGenSym(iGen, lMess);
         }
     }
 }

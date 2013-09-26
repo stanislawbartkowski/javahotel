@@ -47,6 +47,8 @@ import com.jythonui.server.defa.ServerPropertiesEnv;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.resbundle.Mess;
+import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
@@ -88,6 +90,8 @@ public class ServerService {
             bind(IAppInstanceHotel.class).toProvider(
                     HotelAppInstanceProvider.class).in(Singleton.class);
             bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
+                    Singleton.class);
+            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
 
             requestStatic();

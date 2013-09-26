@@ -23,7 +23,6 @@ import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.PropDescription;
 import com.gwtmodel.table.common.CUtil;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.shared.JythonUIFatal;
 
@@ -43,9 +42,9 @@ public class HotelObjectGenSym implements IHotelObjectGenSym {
 
     }
 
-    public HotelObjectGenSym(ISymGenerator iGen) {
+    public HotelObjectGenSym(ISymGenerator iGen, IGetLogMess lMess) {
         this.iGen = iGen;
-        this.lMess = SHolder.getM();
+        this.lMess = lMess;
     }
 
     private String genKey(HotelId hotelid, String oName) {

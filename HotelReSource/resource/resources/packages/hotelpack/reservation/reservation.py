@@ -8,7 +8,7 @@ import datetime
 from util.util import createResQueryElem
 from util.util import getServicesForRoom
 from util.util import eqDate
-from hotelpack.reservation.resutil import getReservForDay
+from util.util import getReservForDay
 from util.util import resStatus
 
 def __getList(var):

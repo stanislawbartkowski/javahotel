@@ -60,8 +60,8 @@
                 </columns>
         </list>  
 
-        <list id="billlist" displayname="Bills" pagesize = "5">
-                <standbutt>TOOLS,FIND,FILTER</standbutt>
+        <list id="billlist" pagesize="5" elemformat="hotel/reservation/billdesc.xml">
+                <standbutt>TOOLS,FIND,FILTER,SHOW,REMOVE</standbutt>
                 <columns>
                         <column id="name" displayname="Bill number" />
                         <column id="payerid" displayname="Payer" actionid="payerdetail" />

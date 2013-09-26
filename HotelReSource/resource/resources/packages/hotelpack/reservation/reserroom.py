@@ -18,25 +18,33 @@ from util.util import getCustFieldId
 from util.util import newResForm
 from util.util import createResFormElem
 from util.util import RESFORM
-from hotelpack.reservation.resutil import getReservForDay
+from util.util import getReservForDay
 from com.gwthotel.hotel.reservation import ResStatus
 from util.util import getCustFieldId
 from util.util import mapToXML
 from util.util import xmlToVar
-from hotelpack.reservation.resutil import showCustomerDetails
+from util.util import showCustomerDetails
 from util.util import getPriceForPriceList
 from cutil import checkGreaterZero
 from cutil import setFooter
 from cutil import setJMapList
 from util.util import BILLLIST
+from util.util import getReseName
+from util.util import setCustData
+from util.util import getPayments
+from cutil import addDecimal
+from cutil import BigDecimalToDecimal
+from util.util import BILLPOSADD
+from util.util import newBill
+
+
 
 CLIST = ["name","descr"] + getCustFieldId()
 
-def _getResName(var) :
-    return var["resename"]
+BILLIST="billlist"
 
 def _listOfPayments(var) :
-  rese = _getResName(var)
+  rese = getReseName(var)
   li = RESOP(var).getResAddPaymentList(rese)
   seq = []
   sum = SUMBDECIMAL()  
@@ -130,19 +138,9 @@ def _setvarBefore(var):
     custname = reservation.getCustomerName()
     assert custname != None
     var["resename"] = resname
-    CU = CUSTOMERLIST(var)
-    customer = CU.findElem(custname)
-    assert customer != None
-    li = []
-    for s in getCustFieldId() :
-      deid = "cust_" + s
-      li.append(deid)
-      val = customer.getAttr(s)
-      var[deid] = val
-    setCopy(var,li)
-    setCopy(var,["cust_name","cust_descr"])
-    var["cust_name"] = customer.getName()
-    var["cust_descr"] = customer.getDescription()
+        
+    setCustData(var,custname,"cust_")
+    
     list = []
     sum = SUMBDECIMAL()
     for r in reservation.getResDetail() :
@@ -224,8 +222,8 @@ def reseraction(action,var):
       added = RFORM.addElem(reservation)
       resename = added.getName()
       # --- 
-      var["JOK_MESSAGE"] = "Done. Reservation id " + resename
-      var["JMESSAGE_TITLE"] = "Reservation" 
+#      var["JOK_MESSAGE"] = "Done. Reservation id " + resename
+#      var["JMESSAGE_TITLE"] = "Reservation" 
       var["JCLOSE_DIALOG"] = True
       var["JREFRESH_DATELINE_reservation"] = ""
       
@@ -248,18 +246,29 @@ def showreseraction(action,var):
    if action == "guestdesc" :
        showCustomerDetails(var,var["cust_name"])
      
+def _countTotal(var,b,pli) :
+  
+  total = 0.0
+  for idp in b.getPayList() :
+    for pa in pli :
+       if idp == pa.getId() :
+         to = BigDecimalToDecimal(pa.getPriceTotal())
+         total = addDecimal(total,to)
+         
+  return total       
+     
 def _ListOfBills(var) :
-   B = BILLLIST(var)
-   rese = _getResName(var)
+   rese = getReseName(var)
    bList = RESOP(var).findBillsForReservation(rese)
    seq = []
+   pli = getPayments(var)
    for b in bList :
      id = b.getName()
      payer = b.getPayer()
      da = b.getIssueDate()
-     ma = { "name" : id, "payerid" : payer }
+     ma = { "name" : id, "payerid" : payer, "payerdescr" : b.getDescription(), "billtotal" : _countTotal(var,b,pli) }
      seq.append(ma)
-   setJMapList(var,"billlist",seq)  
+   setJMapList(var,BILLIST,seq)  
   
      
 def showstay(action,var):     
@@ -269,6 +278,9 @@ def showstay(action,var):
      # after 
      _listOfPayments(var)
      _ListOfBills(var)
+     
+   if action == "crud_readlist" and var["JLIST_NAME"] == BILLIST :
+     _ListOfBills(var)     
      
    if action == "changetoreserv" and var["JYESANSWER"] :
      res = getReservForDay(var)
@@ -293,7 +305,37 @@ def showstay(action,var):
    if action == "guestdetail" :
        showCustomerDetails(var,var["guestid"])
   
+def billdesc(action,var) :
+   printvar("bill desc",action,var)
+   
+   if action == "before" :
+     payername = var["payerid"]
+     setCustData(var,payername,"payer_")
+     LI = BILLPOSADD(var,"billlist")
+     billname = var["name"]
+     b = BILLLIST(var).findElem(billname)
+     pli = getPayments(var)
+     for idp in b.getPayList() :
+       for pa in pli :
+         if idp == pa.getId() : LI.addMa({},pa,idp)
+     LI.close()     
+     
+   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
+      var["JYESNO_MESSAGE"] = "Are you sure that you want to remove this bill ?"
+      var["JMESSAGE_TITLE"] = ""  
+      return
 
+   if action == "crud_remove"  and var["JCRUD_AFTERCONF"] :
+     billname = var["name"]
+     BILLLIST(var).deleteElemByName(billname)
+     var["JCLOSE_DIALOG"] = True
+           
+
+
+     
+
+
+  
 
      
       

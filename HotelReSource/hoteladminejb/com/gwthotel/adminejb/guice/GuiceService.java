@@ -12,6 +12,7 @@
  */
 package com.gwthotel.adminejb.guice;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -56,6 +57,7 @@ import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
 import com.jythonui.server.storage.gensymimpl.SymGeneratorFactory;
@@ -122,6 +124,8 @@ public class GuiceService {
 
             bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
                     Singleton.class);
+            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
+                    Singleton.class);
             // -----
 
         }
@@ -155,7 +159,8 @@ public class GuiceService {
                 final ISequenceRealmGenFactory seqFactory,
                 final ISymGeneratorFactory symFactory,
                 final IStorageJpaRegistryFactory regFactory,
-                final ISemaphore iSem) {
+                final ISemaphore iSem,
+                final @Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
             return new IHotelObjectGenSymFactory() {
 
                 @Override
@@ -170,7 +175,7 @@ public class GuiceService {
                     IStorageRealmRegistry iReg = regFactory.construct(tFactory);
                     ISequenceRealmGen iSeq = seqFactory.construct(iReg, iSem);
                     ISymGenerator iSym = symFactory.construct(iSeq);
-                    return new HotelObjectGenSym(iSym);
+                    return new HotelObjectGenSym(iSym, lMess);
                 }
 
             };
