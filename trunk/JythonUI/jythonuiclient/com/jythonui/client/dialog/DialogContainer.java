@@ -633,15 +633,15 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
                 @Override
                 public void click(boolean yes) {
-                    DialogVariables v = iCon.getVariables(param1);
+                    String action = param1;
+                    if (CUtil.EmptyS(param1) && bId != null)
+                        action = bId.getId();
+                    DialogVariables v = iCon.getVariables(action);
                     v.setValueB(ICommonConsts.JYESANSWER, yes);
                     v.copyVariables(addV);
                     // M.JR().runAction(v, d.getId(), param1,
                     // new BackClass(param1, false, w, null));
                     // 2013/04/14
-                    String action = param1;
-                    if (CUtil.EmptyS(param1) && bId != null)
-                        action = bId.getId();
                     ExecuteAction.action(v, d.getId(), action, new BackClass(
                             param1, false, w, null));
                 }
