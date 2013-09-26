@@ -3,7 +3,7 @@ from util.util import RESFORM
 from util.util import ROOMLIST 
 from util.util import RESOP
 from util.util import CUSTOMERLIST
-from hotelpack.reservation.resutil import showCustomerDetails
+from util.util import showCustomerDetails
 from cutil import setCopy
 from cutil import today
 from util.util import getPriceForPriceList

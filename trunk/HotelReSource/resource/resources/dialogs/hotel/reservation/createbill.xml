@@ -9,11 +9,25 @@
         </jython>
         
         <buttons>
-                <button id="accept" displayname="Create bill" />
+                <button id="accept" displayname="Issue bill" actiontype="JYESNO_MESSAGE" actionparam="Are you sure to issue this bill ?"
+                        actionparam1="Confirmation" />
                 <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
         </buttons>
         
-        <list id="poslist" displayname="All billable" pagesize="10">
+        <form>
+                <!-- cust description -->
+                <field id="payer_name" displayname="@name" readonly=""/>
+                <field id="payer_descr" displayname="Payer name" readonly=""/>
+                <field id="payer_firstname" displayname="@firstname" readonly="" />
+                <field id="payer_companyname" displayname="@companyname" hidden="" readonly="" />
+                <field id="payer_street" displayname="@street" hidden="" />
+                <field id="payer_zipcode" displayname="@zipcode" hidden="" readonly="" />
+                <field id="payer_email" displayname="@email" hidden="" readonly=""/>
+                <field id="payer_phone" displayname="@phone" hidden="" readonly="" />
+        </form>
+
+        
+        <list id="poslist" pagesize="10">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
                         <column id="billed" displayname="Billed" type="bool" />
@@ -28,7 +42,7 @@
                 </columns>
        </list>
 
-        <list id="billlist" displayname="Not paid yet" pagesize="10">
+        <list id="billlist" pagesize="10">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <buttons-addlist>accept</buttons-addlist>
                 <columns>
@@ -43,5 +57,11 @@
                         <column id="total" type="decimal" displayname="Price" footer="" />
                 </columns>
        </list>
+       
+       <tabpanel id="tab">
+                <tabelem id="billlist" displayname="Not paid" />
+                <tabelem id="poslist" displayname="All billable" />
+        </tabpanel>
+
 
 </dialog>

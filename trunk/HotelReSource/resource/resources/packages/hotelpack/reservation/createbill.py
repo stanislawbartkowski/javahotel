@@ -12,14 +12,18 @@ from cutil import minusDecimal
 from cutil import setFooter
 from cutil import BigDecimalToDecimal
 from sets import Set
-from util.util import BILL
+from util.util import BILLLIST
 from util.util import newBill
 from util.util import listNumberToCVS
 from util.util import CVSToListNumber
+from util.util import setCustData
+from cutil import today
+from cutil import toDate
+from util.util import getPayments
+from util.util import BILLPOSADD
 
 LIST="poslist"
 NOPAID="billlist"
-PAYBILL="paybill"
 
 class PAID :
   
@@ -33,53 +37,12 @@ class PAID :
  
   def onList(self,id) :
     return id in self.se
-
-class BILL :
-  
-  def __init__(self,var,liname) :
-    self.sumf = 0.0
-    self.var = var
-    self.liname = liname
-    self.li = []
     
-  def addMa(self,ma,r,idp) :
-    se = r.getServiceType()
-    resdate = None
-    servdate= None
-    if isRoomService(se) : resdate = r.getResDate()
-    else : servdate = r.getResDate()
-    total = r.getPriceTotal()
-    self.sumf = addDecimal(self.sumf,BigDecimalToDecimal(total))
-    guest = r.getGuestName()
-    room = r.getRoomName()
-    service = r.getService()
-    ma1 = { "idp" : idp, "room" : room, "resday" : resdate, "service" : service, "servday":servdate, "servdescr" : r.getDescription(),"guest" : guest, "total" : total }
-    ma.update(ma1)
-    self.li.append(ma)
-    
-  def close(self) :
-    setJMapList(self.var,self.liname,self.li)
-    setFooter(self.var,self.liname,"total",self.sumf)
-    
-def _getPayments(var) :    
-  rese = getReseName(var)
-  pli = RESOP(var).getResAddPaymentList(rese)
-  R = RESFORM(var)
-  # java.util.List
-  pli.addAll(R.findElem(rese).getResDetail())
-  return pli
-
 def _createPosList(var) :
-#  rese = getReseName(var)
-#  li = []
-#  pli = RESOP(var).getResAddPaymentList(rese)
-#  R = RESFORM(var)
-  # java.util.List
-#  pli.addAll(R.findElem(rese).getResDetail())
-  pli = _getPayments(var)
+  pli = getPayments(var)
   P = PAID(var)
-  L1 = BILL(var,LIST)
-  L2 = BILL(var,NOPAID)
+  L1 = BILLPOSADD(var,LIST)
+  L2 = BILLPOSADD(var,NOPAID)
   # list of bills
   sumf = 0.0
   for r in pli :
@@ -102,7 +65,13 @@ def doaction(action,var) :
   
   if action == "before" :
     _createPosList(var)
-    
+    # payer
+    rese = getReseName(var)
+    R = RESFORM(var)
+    r = R.findElem(rese)
+    payername = r.getCustomerName()
+    setCustData(var,payername,"payer_")
+
   if action == "columnchangeaction" :
      total = var["total"]
      footerf = var["JFOOTER_billlist_total"]
@@ -110,39 +79,22 @@ def doaction(action,var) :
      else : footerf = minusDecimal(footerf,total)
      setFooter(var,"billlist","total",footerf)
      
-  if action == "accept" :
-    li = var["JLIST_MAP"]["billlist"]
-    lNumb = None
-    for l in li :
-      if l["add"] : 
-        if lNumb == None : lNumb = []
-        lNumb.append(l["idp"])
-    if lNumb == None :
-      var["JERROR_MESSAGE"] = "Nothing is checked"
-      return
-    var["JUPDIALOG_START"] = listNumberToCVS(lNumb)
-    var["JUP_DIALOG"] = "hotel/reservation/billpayer.xml"
-    var['JAFTERDIALOG_ACTION'] = "finishbillpayer"
-    
-   
-
-def payerbill(action,var) :
-  printVar("payer bill",action,var)
-  
-  if action == "before" :
-    cvs = var["JUPDIALOG_START"]
-    li = CVSToListNumber(cvs)
-    lSe = Set(li)
-    pli = _getPayments(var)
-    L = BILL(var,PAYBILL)
-    for r in pli :
-      idp = r.getId()
-      if idp in lSe :
-         L.addMa( { },r,idp)
-    L.close()
-        
-      
-
-
-    
-     
+  if action == "accept" :    
+    b = newBill(var)
+    cust_name = var["payer_name"]
+    b.setGensymbol(True);
+    b.setPayer(cust_name)
+    b.setReseName(getReseName(var))
+    b.setIssueDate(toDate(today()))
+    for m in var["JLIST_MAP"][NOPAID] :
+      if m["add"] : 
+         idp = m["idp"]
+         b.getPayList().add(idp)
+         
+    if b.getPayList().size() == 0 :
+        var["JERROR_MESSAGE"] = "Nothing is checked"
+        return
+       
+    BILLLIST(var).addElem(b)
+    var["JCLOSE_DIALOG"] = True
+         

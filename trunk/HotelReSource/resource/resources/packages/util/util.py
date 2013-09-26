@@ -95,6 +95,10 @@ class CRUDLIST :
         
     def findElem(self,name):
         return self.serviceS.findElem(getHotelName(self.var),name)    
+      
+    def deleteElemByName(self,name) :
+        elem = self.findElem(name)
+        self.deleteElem(elem)
 
   
 class SERVICES(CRUDLIST) :
@@ -191,13 +195,7 @@ class RESFORM(CRUDLIST) :
     def __init__(self,var):
         CRUDLIST.__init__(self,var)
         self.serviceS = H.getResForm()
-        
-class BILL(CRUDLIST) :
-  
-    def __init__(self,var) :
-        CRUDLIST.__init__(self,var)
-        self.serviceS = H.getCustomerBills()
-        
+                
 def isRoomService(service) :
   return service == ServiceType.HOTEL
         
@@ -382,10 +380,6 @@ def newHotelService(var):
 def newResAddPayment() :
     return ReservationPaymentDetail()
   
-def newBill() :
-    c = ConstructObject(var)
-    return c.getO(2)     
-
 def setCopy(var,li) :
   cutil.setCopy(var,li)  
     
@@ -481,3 +475,70 @@ def getPriceForPriceList(var,pricelist,service) :
 
 def getReseName(var) :
   return var["resename"]
+
+def setCustData(var,custname,prefix) :
+    CU = CUSTOMERLIST(var)
+    customer = CU.findElem(custname)
+    assert customer != None
+    li = []
+    for s in getCustFieldId() :
+      deid = prefix + s
+      li.append(deid)
+      val = customer.getAttr(s)
+      var[deid] = val
+    setCopy(var,li)
+    setCopy(var,[prefix+"name",prefix+"descr"])
+    var[prefix+"name"] = customer.getName()
+    var[prefix+"descr"] = customer.getDescription()
+
+def getReservForDay(var):
+   R = RESOP(var)
+   room = var["JDATELINE_LINE"]
+   day = var["JDATELINE_DATE"]
+   query=createArrayList()
+   q = createResQueryElem(room,day)
+   query.add(q)
+   res = R.queryReservation(query)
+   return res
+
+def showCustomerDetails(var,custid):
+    var["JUP_DIALOG"] = "hotel/reservation/showcustomerdetails.xml"
+    print "details",custid
+    var["JUPDIALOG_START"] = custid
+    
+def getPayments(var) :    
+  rese = getReseName(var)
+  pli = RESOP(var).getResAddPaymentList(rese)
+  R = RESFORM(var)
+  # java.util.List
+  pli.addAll(R.findElem(rese).getResDetail())
+  return pli
+
+class BILLPOSADD :
+  
+  def __init__(self,var,liname) :
+    self.sumf = 0.0
+    self.var = var
+    self.liname = liname
+    self.li = []
+    
+  def addMa(self,ma,r,idp) :
+    se = r.getServiceType()
+    resdate = None
+    servdate= None
+    if isRoomService(se) : resdate = r.getResDate()
+    else : servdate = r.getResDate()
+    total = r.getPriceTotal()
+    self.sumf = cutil.addDecimal(self.sumf,cutil.BigDecimalToDecimal(total))
+    guest = r.getGuestName()
+    room = r.getRoomName()
+    service = r.getService()
+    ma1 = { "idp" : idp, "room" : room, "resday" : resdate, "service" : service, "servday":servdate, "servdescr" : r.getDescription(),"guest" : guest, "total" : total }
+    ma.update(ma1)
+    self.li.append(ma)
+    
+  def close(self) :
+    cutil.setJMapList(self.var,self.liname,self.li)
+    cutil.setFooter(self.var,self.liname,"total",self.sumf)
+
+
