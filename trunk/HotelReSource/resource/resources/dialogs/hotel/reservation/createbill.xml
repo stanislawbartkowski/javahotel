@@ -12,6 +12,7 @@
                 <button id="accept" displayname="Issue bill" actiontype="JYESNO_MESSAGE" actionparam="Are you sure to issue this bill ?"
                         actionparam1="Confirmation" />
                 <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
+                <button id="payerdetails" displayname="Payer details" />
         </buttons>
         
         <form>

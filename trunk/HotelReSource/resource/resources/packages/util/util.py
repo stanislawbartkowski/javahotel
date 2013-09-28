@@ -541,4 +541,10 @@ class BILLPOSADD :
     cutil.setJMapList(self.var,self.liname,self.li)
     cutil.setFooter(self.var,self.liname,"total",self.sumf)
 
+class HOTELTRANSACTION(cutil.SEMTRANSACTION) :
+  
+    def __init__(self,semid,var) :
+      semname = None
+      if semid == 0 : semname = "HOTELBILLSAVE"
+      cutil.SEMTRANSACTION.__init__(self,semname,var)
 

@@ -36,8 +36,7 @@ from cutil import addDecimal
 from cutil import BigDecimalToDecimal
 from util.util import BILLPOSADD
 from util.util import newBill
-
-
+from con import eqUL
 
 CLIST = ["name","descr"] + getCustFieldId()
 
@@ -251,7 +250,7 @@ def _countTotal(var,b,pli) :
   total = 0.0
   for idp in b.getPayList() :
     for pa in pli :
-       if idp == pa.getId() :
+       if eqUL(idp,pa.getId()) :
          to = BigDecimalToDecimal(pa.getPriceTotal())
          total = addDecimal(total,to)
          
@@ -262,13 +261,17 @@ def _ListOfBills(var) :
    bList = RESOP(var).findBillsForReservation(rese)
    seq = []
    pli = getPayments(var)
+   sumtotal = 0.0
    for b in bList :
      id = b.getName()
      payer = b.getPayer()
      da = b.getIssueDate()
-     ma = { "name" : id, "payerid" : payer, "payerdescr" : b.getDescription(), "billtotal" : _countTotal(var,b,pli) }
+     tot = _countTotal(var,b,pli)
+     sumtotal = addDecimal(sumtotal,tot)
+     ma = { "name" : id, "payerid" : payer, "payerdescr" : b.getDescription(), "billtotal" : tot }
      seq.append(ma)
-   setJMapList(var,BILLIST,seq)  
+   setJMapList(var,BILLIST,seq)
+   setFooter(var,BILLIST,"billtotal",sumtotal) 
   
      
 def showstay(action,var):     
@@ -281,6 +284,13 @@ def showstay(action,var):
      
    if action == "crud_readlist" and var["JLIST_NAME"] == BILLIST :
      _ListOfBills(var)     
+     
+   if action == "afterbill" :
+     res = var["JUPDIALOG_BUTTON"]
+     if res == "accept" : _ListOfBills(var)
+     
+   if action == "payerdetail" :
+      showCustomerDetails(var,var["payerid"])
      
    if action == "changetoreserv" and var["JYESANSWER"] :
      res = getReservForDay(var)
@@ -304,7 +314,7 @@ def showstay(action,var):
        
    if action == "guestdetail" :
        showCustomerDetails(var,var["guestid"])
-  
+         
 def billdesc(action,var) :
    printvar("bill desc",action,var)
    
@@ -316,8 +326,12 @@ def billdesc(action,var) :
      b = BILLLIST(var).findElem(billname)
      pli = getPayments(var)
      for idp in b.getPayList() :
+       print idp
        for pa in pli :
-         if idp == pa.getId() : LI.addMa({},pa,idp)
+         print "a=   " + str(pa.getId())
+         if eqUL(idp,pa.getId()) : 
+            print "add"
+            LI.addMa({},pa,idp)
      LI.close()     
      
    if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
