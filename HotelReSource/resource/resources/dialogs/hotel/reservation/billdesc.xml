@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Bill" >
+
+        <before/>
+
+        <parent>hotel/reservation/showstay.xml</parent>
+
+        <jython>
+                <import>from hotelpack.reservation import reserroom</import>
+                <method>reserroom.billdesc({0},{1})</method>
+        </jython>
+        
+         <form>
+                <!-- cust description -->
+                <field id="payer_name" displayname="@name" readonly=""/>
+                <field id="payer_descr" displayname="Payer name" readonly=""/>
+                <field id="payer_firstname" displayname="@firstname" readonly="" />
+                <field id="payer_companyname" displayname="@companyname" hidden="" readonly="" />
+                <field id="payer_street" displayname="@street" hidden="" />
+                <field id="payer_zipcode" displayname="@zipcode" hidden="" readonly="" />
+                <field id="payer_email" displayname="@email" hidden="" readonly=""/>
+                <field id="payer_phone" displayname="@phone" hidden="" readonly="" />
+        </form>
+        
+        <list id="billlist" pagesize="10">
+                <standbutt>TOOLS,FIND,FILTER</standbutt>
+                <columns>
+                        <column id="idp" type="long" hidden="" />
+                        <column id="room" displayname="Room" />
+                        <column id="resday" type="date" displayname="Night" />
+                        <column id="servday" type="date" displayname="Day" />
+                        <column id="guest" displayname="Guest" />
+                        <column id="service" displayname="Service" />
+                        <column id="servdescr" displayname="Description" />
+                        <column id="total" type="decimal" displayname="Price" footer="" />
+                </columns>
+       </list>
+
+       
+</dialog>

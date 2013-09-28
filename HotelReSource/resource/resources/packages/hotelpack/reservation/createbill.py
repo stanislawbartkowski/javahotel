@@ -21,9 +21,16 @@ from cutil import today
 from cutil import toDate
 from util.util import getPayments
 from util.util import BILLPOSADD
+from con import toL
+from util.util import getCustFieldId
+from util.util import mapToXML
+from util.util import xmlToVar
+from cutil import setCopy
+from util.util import HOTELTRANSACTION
 
 LIST="poslist"
 NOPAID="billlist"
+CLIST = ["name","descr"] + getCustFieldId()
 
 class PAID :
   
@@ -33,7 +40,7 @@ class PAID :
     self.se = Set()
     for b in bli :
       for l in b.getPayList() :
-        self.se.add(l)
+        self.se.add(toL(l))
  
   def onList(self,id) :
     return id in self.se
@@ -59,6 +66,31 @@ def _createPosList(var) :
   L2.close()
   
   setStandEditMode(var,NOPAID,["add"])
+                  
+class HOTELBILLSAVE(HOTELTRANSACTION) :
+  
+    def __init__(self,var) :
+      HOTELTRANSACTION.__init__(self,0,var)
+    
+    def run(self,var) :
+     b = newBill(var)
+     cust_name = var["payer_name"]
+     b.setGensymbol(True);
+     b.setPayer(cust_name)
+     b.setReseName(getReseName(var))
+     b.setIssueDate(toDate(today()))
+     for m in var["JLIST_MAP"][NOPAID] :
+       if m["add"] : 
+          idp = m["idp"]
+          b.getPayList().add(idp)
+         
+     if b.getPayList().size() == 0 :
+         var["JERROR_MESSAGE"] = "Nothing is checked"
+         return
+      
+     BILLLIST(var).addElem(b)
+     var["JCLOSE_DIALOG"] = True
+
 
 def doaction(action,var) :
   printVar("create bill",action,var)
@@ -78,23 +110,19 @@ def doaction(action,var) :
      if var["add"] : footerf = addDecimal(footerf,total)
      else : footerf = minusDecimal(footerf,total)
      setFooter(var,"billlist","total",footerf)
-     
-  if action == "accept" :    
-    b = newBill(var)
-    cust_name = var["payer_name"]
-    b.setGensymbol(True);
-    b.setPayer(cust_name)
-    b.setReseName(getReseName(var))
-    b.setIssueDate(toDate(today()))
-    for m in var["JLIST_MAP"][NOPAID] :
-      if m["add"] : 
-         idp = m["idp"]
-         b.getPayList().add(idp)
-         
-    if b.getPayList().size() == 0 :
-        var["JERROR_MESSAGE"] = "Nothing is checked"
-        return
-       
-    BILLLIST(var).addElem(b)
-    var["JCLOSE_DIALOG"] = True
+
+  if action == "accept" and var["JYESANSWER"] :    
+     H = HOTELBILLSAVE(var)
+     H.doTrans()
+              
+  if action == "payerdetails" :
+      var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+      var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
+      var["JUPDIALOG_START"] = mapToXML(var,CLIST,"payer_")
+
+  if action == "acceptdetails" :
+     xml = var["JUPDIALOG_RES"]
+     xmlToVar(var,xml,CLIST,"payer_")
+     setCopy(var,CLIST,None,"payer_")
+
          

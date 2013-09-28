@@ -15,7 +15,7 @@
 			actionparam1="Warning before change" />
 		<button id="addpayment" displayname="Add payment" />
                 <button id="createbill" displayname="Create bill" actiontype="JUP_DIALOG"
-                        actionparam="hotel/reservation/createbill.xml"/>
+                        actionparam="hotel/reservation/createbill.xml" actionparam2="afterbill"/>
 
 	</buttons>
 
