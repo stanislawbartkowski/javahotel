@@ -7,6 +7,10 @@ from java.math import BigDecimal
 from com.jython.ui.shared import MUtil
 from com.gwtmodel.table.common.dateutil import DateFormatUtil
 from com.jythonui.server.holder import Holder
+import con
+from com.jythonui.server.holder import SHolder
+from com.jythonui.server.semaphore import ISemaphore
+
 
 LONG="long"
 DECIMAL="decimal"
@@ -73,42 +77,31 @@ def copyPropToVar(var,prop,list,prefix=None):
         var[key] = val
 
 def toDate(value):
-    if value == None : return None
-    ca = Calendar.getInstance()
-    ca.clear()
-    ca.set(value.year,value.month - 1,value.day)
-    return ca.getTime()
+    return con.toDate(value)
 
 def eqDate(d1,d2):
-    dd1 = toDate(d1)
-    return dd1.equals(d2)
+    return con.eqDate(d1,d2)
 
 def toJDate(value):
-    if value == None : return None
-    y = DateFormatUtil.getY(value)
-    m = DateFormatUtil.getM(value)
-    d = DateFormatUtil.getD(value)
-    return datetime.date(y,m,d)
+    return con.toJDate(value)
     
 def toJDateTime(value):
-    if value == None : return None
-    y = DateFormatUtil.getY(value)
-    m = DateFormatUtil.getM(value)
-    d = DateFormatUtil.getD(value)
-    hh = value.getHours()
-    mm = value.getMinutes()
-    ss = value.getSeconds()
-    return datetime.datetime(y,m,d,hh,mm,ss)
+    return con.toJDateTime(value)
 
 def toB(value):
-    if value == None : return None
-    b = BigDecimal(value)
-    return MUtil.roundB(b)
+    return con.toB(value)
 
 def BigDecimalToDecimal(b):
-    if b : return b.doubleValue()
-    return None
+    return con.BigDecimalToDecimal(b)
 
+def mulIntDecimal(int,dec,afterdot=2):
+    return con.mulIntDecimal(int,dec,afterdot)
+
+def addDecimal(sum1,sum2,afterdot=2):
+   return con.addDecimal(sum1,sum2,afterdot)
+
+def minusDecimal(sum1,sum2,afterdot=2):
+   return con.minusDecimal(sum1,sum2,afterdot) 
 
 def setCopy(var,li, list=None,prefix=None) :
   for l in li :
@@ -118,24 +111,6 @@ def setCopy(var,li, list=None,prefix=None) :
     else : k = l
     var[c+k] = True
     
-def mulIntDecimal(int,dec,afterdot=2):
-    if int and dec :
-       return round(int * dec, afterdot)
-    return None 
-
-def addDecimal(sum1,sum2,afterdot=2):
-   if sum1 == None : return sum2
-   if sum2 == None : return sum1
-   return round(sum1 + sum2,afterdot)
-
-def minusDecimal(sum1,sum2,afterdot=2):
-   if sum1 == None : 
-       if sum2 == None : return None
-       return round(0 - sum2,afterdot)
-   if sum2 == None : return sum1
-   return round(sum1 - sum2,afterdot)
-
-
 def modifDecimalFooter(var,list,name):
     footerdef = "JFOOTER_"+list+"_"+name
     currentfooter = var[footerdef]
@@ -356,7 +331,7 @@ def concatDict(dic1,dic2):
     return res    
     
 def today():
-    return datetime.date.today()
+    return con.today()
 
 def getTypeUpList() :
     return ("USER", "DATA", "UPINFO", "OWNER", "PRODUCT", "TITLE")
@@ -378,3 +353,17 @@ class DLIST() :
   def onList(self,name) :
     i = self.fList.getColumn(name)
     return i != None
+
+class SEMTRANSACTION :
+  
+  def __init__(self,semname,var) :
+    self.i = SHolder.getSem()
+    self.semname = semname
+    self.var = var
+    
+  def doTrans(self) :
+    self.i.wait(self.semname,ISemaphore.DEFAULT) 
+    try :
+      self.run(self.var)
+    finally :
+      self.i.signal(self.semname)

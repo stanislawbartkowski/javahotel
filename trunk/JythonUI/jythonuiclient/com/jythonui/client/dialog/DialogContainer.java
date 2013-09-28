@@ -35,6 +35,7 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.TT;
 import com.gwtmodel.table.controlbuttonview.ControlButtonViewFactory;
 import com.gwtmodel.table.controlbuttonview.IControlButtonView;
 import com.gwtmodel.table.datamodelview.DataViewModelFactory;
@@ -124,6 +125,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     private final String startVal;
 
+    private ClickButtonType lastClicked = null;
+    private WSize lastWClicked = null;
+
     public DialogContainer(IDataType dType, DialogInfo info,
             IVariablesContainer pCon, ISendCloseAction iClose,
             DialogVariables addV, IExecuteAfterModalDialog iEx, String startVal) {
@@ -163,9 +167,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            IGWidget w = slContext.getGwtWidget();
-            clickAction.click(slContext.getSlType().getButtonClick()
-                    .getCustomButt(), new WSize(w));
+            lastWClicked = new WSize(slContext.getGwtWidget());
+            lastClicked = slContext.getSlType().getButtonClick();
+            clickAction.click(lastClicked.getCustomButt(), lastWClicked);
         }
 
     }
@@ -668,12 +672,13 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     SendCloseSignal.constructSignal(dType), sig);
             if (iClose != null)
                 iClose.closeAction(resString);
-            // else {
-            // IWebPanel i = GwtGiniInjector.getI().getWebPanel();
-            // i.setDCenter(null);
-            // }
             if (iEx != null) {
-                iEx.setResultButton(id, resString);
+                // id can be lost if confirmation
+                // so use "last button clicked" variable
+                String s = id;
+                if (s == null)
+                    s = lastClicked.getCustomButt();
+                iEx.setResultButton(s, resString);
             }
         }
 
@@ -697,7 +702,7 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             v.setValueS(ICommonConsts.JBUTTONRES, buttonid);
             v.setValueS(ICommonConsts.JBUTTONDIALOGRES, resVal);
             ExecuteAction.action(v, d.getId(), afterAction, new BackClass(
-                    afterAction, false, null, null));
+                    afterAction, false, lastWClicked, null));
         }
 
     }
@@ -751,6 +756,22 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 return;
             }
             runAction(id, w, bList);
+        }
+    }
+
+    private class SplitIntoTwo {
+        String id;
+        String action;
+
+        void extract(String fie, String field, String errC) {
+            String[] li = fie.split("_");
+            if (li.length != 2) {
+                String mess = M.M().InproperFormatCheckSet(field, errC);
+                Utils.errAlertB(mess);
+            }
+            id = li[0];
+            action = li[1];
+
         }
     }
 
@@ -837,32 +858,59 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
                 @Override
                 public void action(String fie, String field) {
-                    String[] li = fie.split("_");
-                    if (li.length != 2) {
-                        String mess = M.M().InproperFormatCheckSet(field,
-                                ICommonConsts.JSETATTRCHECK);
-                        Utils.errAlertB(mess);
-                    }
-                    String checkid = li[0];
-                    String action = li[1];
-                    CheckList cList = d.findCheckList(checkid);
+                    SplitIntoTwo t = new SplitIntoTwo();
+                    t.extract(fie, field, ICommonConsts.JSETATTRCHECK);
+                    // String[] li = fie.split("_");
+                    // if (li.length != 2) {
+                    // String mess = M.M().InproperFormatCheckSet(field,
+                    // ICommonConsts.JSETATTRCHECK);
+                    // Utils.errAlertB(mess);
+                    // }
+                    // String checkid = li[0];
+                    // String action = li[1];
+                    CheckList cList = d.findCheckList(t.id);
                     if (cList == null) {
-                        String mess = M.M().CannotFindCheckList(field, checkid);
+                        String mess = M.M().CannotFindCheckList(field, t.id);
                         Utils.errAlertB(mess);
                     }
-                    if (!action.equals(ICommonConsts.READONLY)) {
+                    if (!t.action.equals(ICommonConsts.READONLY)) {
                         String mess = M.M().CheckListActionNotExpected(field,
-                                action);
+                                t.action);
                         Utils.errAlertB(mess);
                     }
-                    String valS = ICommonConsts.JVALATTRCHECK + checkid + "_"
-                            + action;
-                    FieldValue val = arg.getValue(valS);
-                    gManager.modifAttr(checkid, action, val);
-
+                    // String valS = ICommonConsts.JVALATTRCHECK + t.id + "_"
+                    // + t.action;
+                    FieldValue val = arg.getValue(field);
+                    gManager.modifAttr(t.id, t.action, val);
                 }
             };
             JUtils.visitListOfFields(arg, ICommonConsts.JSETATTRCHECK, visC);
+
+            JUtils.IVisitor visB = new JUtils.IVisitor() {
+
+                @Override
+                public void action(String fie, String field) {
+                    SplitIntoTwo t = new SplitIntoTwo();
+                    t.extract(fie, field, ICommonConsts.JSETATTRBUTTON);
+                    if (!ICommonConsts.ENABLE.equals(t.action)) {
+                        String mess = M.M().CheckListActionNotExpected(field,
+                                t.action);
+                        Utils.errAlertB(mess);
+                    }
+                    FieldValue val = arg.getValue(field);
+                    if (val.getType() != TT.BOOLEAN) {
+                        String mess = M.M().FooterSetValueShouldBeBoolean(
+                                field, t.action);
+                        Utils.errAlertB(mess);
+                    }
+                    SlU.buttonEnable(dType, DialogContainer.this, t.id,
+                            val.getValueB());
+
+                }
+
+            };
+
+            JUtils.visitListOfFields(arg, ICommonConsts.JSETATTRBUTTON, visB);
 
             // refresh dateline
             for (String id : arg.getDatelineVariables().keySet()) {
