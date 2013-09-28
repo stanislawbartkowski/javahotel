@@ -409,6 +409,15 @@ public class SlU {
         vi.setReadOnly(!enable);
     }
 
+    public static void buttonEnable(IDataType dType, ISlotable iSlo,
+            String buttonC, boolean enable) {
+        ButtonAction a = new ButtonAction(
+                enable ? ButtonAction.Action.EnableButton
+                        : ButtonAction.Action.DisableButton);
+        ClickButtonType cl = new ClickButtonType(buttonC);
+        iSlo.getSlContainer().publish(dType, cl, a);
+    }
+
     public static VListHeaderContainer getHeaderList(IDataType dType,
             ISlotable iSlo) {
         ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(

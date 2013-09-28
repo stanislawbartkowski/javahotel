@@ -15,10 +15,9 @@ package com.gwtmodel.table.view.grid;
 import java.math.BigDecimal;
 
 public interface IGridViewDecimal extends IGridView {
-    
+
     void setRowDecimal(int row, int c, BigDecimal b);
 
     BigDecimal getCellDecimal(int row, int c);
-
 
 }
