@@ -12,9 +12,6 @@
  */
 package com.jythonui.server.defa;
 
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-
 import com.google.inject.Injector;
 
 //@Local
