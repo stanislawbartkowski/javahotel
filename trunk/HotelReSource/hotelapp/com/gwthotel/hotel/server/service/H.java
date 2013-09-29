@@ -26,6 +26,7 @@ import com.gwthotel.hotel.IHotelGetName;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
@@ -92,6 +93,9 @@ public class H {
 
     @Inject
     private static ICustomerBills iBills;
+
+    @Inject
+    private static IPaymentBillOp iPayment;
 
     public static IGetLogMess getL() {
         return lMess;
@@ -163,6 +167,10 @@ public class H {
 
     public static ICustomerBills getCustomerBills() {
         return iBills;
+    }
+
+    public static IPaymentBillOp getPaymentsOp() {
+        return iPayment;
     }
 
 }

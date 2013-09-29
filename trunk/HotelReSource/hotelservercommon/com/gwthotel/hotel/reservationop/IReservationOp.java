@@ -35,7 +35,7 @@ public interface IReservationOp {
 
     List<ReservationPaymentDetail> getResAddPaymentList(HotelId hotel,
             String resName);
-    
+
     List<CustomerBill> findBillsForReservation(HotelId hotel, String resName);
 
 }

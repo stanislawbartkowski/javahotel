@@ -30,6 +30,7 @@ import com.gwthotel.hotel.IGetAutomPatterns;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
@@ -87,13 +88,15 @@ public class ServerService {
             bind(IHotelCustomers.class)
                     .toProvider(HotelCustomersProvider.class).in(
                             Singleton.class);
+
+            // common
             bind(IAppInstanceHotel.class).toProvider(
                     HotelAppInstanceProvider.class).in(Singleton.class);
             bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
                     Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
-
+            // common
             requestStatic();
             requestStaticInjection(H.class);
         }
@@ -117,6 +120,12 @@ public class ServerService {
         ICustomerBills getCustomerBills() {
             return AdminEjbLocator.getCustomerBills();
         }
+        
+        @Provides
+        IPaymentBillOp getPaymentBillOp() {
+            return AdminEjbLocator.getBillPaymentOp();
+        }
+
 
     }
 

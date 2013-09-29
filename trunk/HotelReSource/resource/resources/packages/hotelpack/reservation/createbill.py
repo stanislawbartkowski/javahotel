@@ -73,6 +73,7 @@ class HOTELBILLSAVE(HOTELTRANSACTION) :
       HOTELTRANSACTION.__init__(self,0,var)
     
     def run(self,var) :
+     P = PAID(var)
      b = newBill(var)
      cust_name = var["payer_name"]
      b.setGensymbol(True);
@@ -80,8 +81,11 @@ class HOTELBILLSAVE(HOTELTRANSACTION) :
      b.setReseName(getReseName(var))
      b.setIssueDate(toDate(today()))
      for m in var["JLIST_MAP"][NOPAID] :
-       if m["add"] : 
+       if m["add"] :
           idp = m["idp"]
+          if P.onList(idp) :
+             var["JERROR_MESSAGE"] = "Trying to pay again. Check if someone else is billing just now !"
+             return
           b.getPayList().add(idp)
          
      if b.getPayList().size() == 0 :

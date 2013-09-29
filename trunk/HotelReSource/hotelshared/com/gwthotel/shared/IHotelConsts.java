@@ -32,6 +32,7 @@ public interface IHotelConsts {
     String HOTELRESERVATIONOPJNDI = "java:global/HotelReservationOp";
     String HOTELCLEAROPJNDI = "java:global/HotelClearOp";
     String HOTELBILLJNDI = "java:global/HotelBills";
+    String HOTELPAYMENTOPJNDI = "java:global/HotelPaymentOp";
 
     String HOTELREALM = "HotelRealm";
 
@@ -69,6 +70,9 @@ public interface IHotelConsts {
 
     String RESDATAROOMPROP = "room";
     String RESDATARESERVATIONID = "resid";
+
+    String PAYMENTBILLNAME = "paymentbillname";
+    String PAYMENTMETHOD = "paymentmethod";
 
     String INSTANCEDEFAULT = "AppInstanceDefault";
     String INSTANCETEST = "AppInstanceTest";

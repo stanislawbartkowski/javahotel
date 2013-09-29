@@ -23,6 +23,7 @@ import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
@@ -110,6 +111,10 @@ public class AdminEjbLocator {
 
     public static ICustomerBills getCustomerBills() {
         return construct(IHotelConsts.HOTELBILLJNDI);
+    }
+
+    public static IPaymentBillOp getBillPaymentOp() {
+        return construct(IHotelConsts.HOTELPAYMENTOPJNDI);
     }
 
 }

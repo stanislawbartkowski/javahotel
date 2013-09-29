@@ -38,7 +38,7 @@ public class EHotelReservation extends EHotelDict {
 
     @JoinColumn(name = "customer_id", nullable = false)
     private EHotelCustomer customer;
-    
+
     public EHotelCustomer getCustomer() {
         return customer;
     }
