@@ -97,7 +97,8 @@ class HotelReservations extends
 
     @Override
     protected void beforedeleteAll(EntityManager em, HotelId hotel) {
-        String[] queryS = { "deleteAllReservationsDetails",
+        String[] queryS = { "removeAllPayments",
+                "deleteAllReservationsDetails",
                 "deleteAllGuestsReservationFromHotel", "deleteAllAddPayment" };
         JUtils.runQueryForHotels(em, hotel, queryS);
     }
@@ -105,7 +106,9 @@ class HotelReservations extends
     @Override
     protected void beforedeleteElem(EntityManager em, HotelId hotel,
             EHotelReservation elem) {
-        String[] queryS = { "deleteAllReservationDetailsForReservation",
+        String[] queryS = { "removeAllPaymentsforReservation",
+                "removeBillsForReservation",
+                "deleteAllReservationDetailsForReservation",
                 "deleteGuestsFromReservation" };
         JUtils.runQueryForObject(em, elem, queryS);
     }

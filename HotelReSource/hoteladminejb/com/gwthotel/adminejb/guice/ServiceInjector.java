@@ -14,7 +14,6 @@ package com.gwthotel.adminejb.guice;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.gwthotel.admin.IHotelAdmin;
 
 /**
  * @author hotel

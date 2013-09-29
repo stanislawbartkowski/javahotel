@@ -308,5 +308,5 @@ class ReservationOp implements IReservationOp {
         comma.executeTran();
         return comma.bList;
     }
-
+    
 }

@@ -20,16 +20,16 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"hotel","name"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
 @NamedQueries({
-    @NamedQuery(name = "findAllRooms", query = "SELECT x FROM EHotelRoom x WHERE x.hotel = ?1"),
-    @NamedQuery(name = "deleteAllRooms", query = "DELETE FROM EHotelRoom x WHERE x.hotel = ?1"),
-    @NamedQuery(name = "findOneRoom", query = "SELECT x FROM EHotelRoom x WHERE x.hotel = ?1 AND x.name = ?2") })
-public class EHotelRoom extends EHotelDict  {
+        @NamedQuery(name = "findAllRooms", query = "SELECT x FROM EHotelRoom x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "deleteAllRooms", query = "DELETE FROM EHotelRoom x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "findOneRoom", query = "SELECT x FROM EHotelRoom x WHERE x.hotel = ?1 AND x.name = ?2") })
+public class EHotelRoom extends EHotelDict {
 
     @Column(nullable = false)
     private int noPersons;
-    
+
     public int getNoPersons() {
         return noPersons;
     }

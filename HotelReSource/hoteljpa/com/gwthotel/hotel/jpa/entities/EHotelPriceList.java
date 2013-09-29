@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"hotel","name"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
 @NamedQueries({
         @NamedQuery(name = "findAllPriceLists", query = "SELECT x FROM EHotelPriceList x WHERE x.hotel = ?1"),
         @NamedQuery(name = "deleteAllPriceLists", query = "DELETE FROM EHotelPriceList x WHERE x.hotel = ?1"),

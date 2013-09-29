@@ -22,19 +22,19 @@ import javax.persistence.UniqueConstraint;
 import com.gwthotel.hotel.ServiceType;
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"hotel","name"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel", "name" }))
 @NamedQueries({
-    @NamedQuery(name = "findAllServices", query = "SELECT x FROM EHotelServices x WHERE x.hotel = ?1"),
-    @NamedQuery(name = "deleteAllServices", query = "DELETE FROM EHotelServices x WHERE x.hotel = ?1"),
-    @NamedQuery(name = "findOneService", query = "SELECT x FROM EHotelServices x WHERE x.hotel = ?1 AND x.name = ?2") })
+        @NamedQuery(name = "findAllServices", query = "SELECT x FROM EHotelServices x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "deleteAllServices", query = "DELETE FROM EHotelServices x WHERE x.hotel = ?1"),
+        @NamedQuery(name = "findOneService", query = "SELECT x FROM EHotelServices x WHERE x.hotel = ?1 AND x.name = ?2") })
 public class EHotelServices extends EHotelDict {
-    
+
     @Column(nullable = false)
     private String vat;
-    
+
     @Column(nullable = false)
     private int noPersons;
-    
+
     @Column(nullable = false)
     private ServiceType serviceType;
 
@@ -61,7 +61,5 @@ public class EHotelServices extends EHotelDict {
     public void setServiceType(ServiceType serviceType) {
         this.serviceType = serviceType;
     }
-    
-    
-        
+
 }

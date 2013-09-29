@@ -64,7 +64,5 @@ public abstract class EHotelRoomCustomer {
     public Long getId() {
         return id;
     }
-    
-    
 
 }

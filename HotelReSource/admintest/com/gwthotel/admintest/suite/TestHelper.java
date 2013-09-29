@@ -38,6 +38,7 @@ import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelObjectsFactory;
 import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
+import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
@@ -88,6 +89,7 @@ public class TestHelper {
     protected final IXMLToMap ixMap;
     protected final ICustomerBills iBills;
     protected final ISemaphore iSem;
+    protected final IPaymentBillOp iPayOp;
 
     protected static final String HOTEL = "hotel";
     protected static final String HOTEL1 = "hotel1";
@@ -139,6 +141,7 @@ public class TestHelper {
         ixMap = ServiceInjector.getXMLToMap();
         iBills = ServiceInjector.getCustomerBills();
         iSem = SHolder.getSem();
+        iPayOp = H.getPaymentsOp();
 
     }
 

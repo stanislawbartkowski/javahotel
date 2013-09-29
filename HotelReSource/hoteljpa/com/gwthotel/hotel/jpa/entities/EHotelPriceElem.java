@@ -26,7 +26,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"hotel",
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "hotel",
         "service", "pricelist" }))
 @NamedQueries({
         @NamedQuery(name = "deletePricesForHotel", query = "DELETE FROM EHotelPriceElem x WHERE x.hotel = ?1"),

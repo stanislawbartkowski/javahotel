@@ -32,6 +32,7 @@ import com.gwthotel.hotel.jpa.IHotelObjectGenSymFactory;
 import com.gwthotel.hotel.jpa.bill.CustomerBillProvider;
 import com.gwthotel.hotel.jpa.clearobjects.ClearObjects;
 import com.gwthotel.hotel.jpa.customers.HotelCustomersProvider;
+import com.gwthotel.hotel.jpa.payment.PaymentOpProvider;
 import com.gwthotel.hotel.jpa.pricelist.HotelPriceListProvider;
 import com.gwthotel.hotel.jpa.prices.HotelPriceElemProvider;
 import com.gwthotel.hotel.jpa.reservation.HotelReservationProvider;
@@ -39,6 +40,7 @@ import com.gwthotel.hotel.jpa.reservationop.ReservationOpProvider;
 import com.gwthotel.hotel.jpa.rooms.HotelRoomsProvider;
 import com.gwthotel.hotel.jpa.services.HotelServicesProvider;
 import com.gwthotel.hotel.objectgensymimpl.HotelObjectGenSym;
+import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
 import com.gwthotel.hotel.reservation.IReservationForm;
@@ -61,6 +63,7 @@ import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.gensym.ISymGeneratorFactory;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
@@ -111,6 +114,9 @@ public class ServerService {
             bind(IReservationForm.class).toProvider(
                     HotelReservationProvider.class).in(Singleton.class);
 
+            bind(IPaymentBillOp.class).toProvider(PaymentOpProvider.class).in(
+                    Singleton.class);
+
             bind(IReservationOp.class).toProvider(ReservationOpProvider.class)
                     .in(Singleton.class);
             bind(IClearHotel.class).to(ClearObjects.class).in(Singleton.class);
@@ -119,6 +125,9 @@ public class ServerService {
                     StorageJpaRegistryFactory.class).in(Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
+            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
+                    Singleton.class);
+
             // -----
 
             requestStatic();
