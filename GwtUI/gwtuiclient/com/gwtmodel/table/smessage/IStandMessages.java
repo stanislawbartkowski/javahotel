@@ -31,6 +31,7 @@ interface IStandMessages {
     String USER = "user";
     String CHOOSE = "choose";
     String SELECT = "select";
+    String CANNOTBEEMPTY="cannotbeempty";
 
     char UPCASE = '1';
     char DOWNCASE = '2';
