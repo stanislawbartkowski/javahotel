@@ -50,6 +50,7 @@ public class GetStandardMessage implements IGetStandardMessage {
         cValues.put(IStandMessages.USER, MM.getL().User());
         cValues.put(IStandMessages.SELECT, MM.getL().Select());
         cValues.put(IStandMessages.CHOOSE, MM.getL().Choose());
+        cValues.put(IStandMessages.CANNOTBEEMPTY, MM.getL().EmptyFieldMessage());
         this.custValues = custValues;
     }
 
