@@ -42,11 +42,23 @@ def setFooter(var,list,column,val):
 def setStatus(var,typ,val):
   var["JSTATUS_SET_" + typ] = True
   var["JSTATUS_TEXT_" + typ] = val  
+  
+def setErrorField(var,f,mess) :
+   var["JERROR_"+f] = mess
 
+def checkEmpty(var,li) :
+  isempty = False
+  for f in li :
+    if var[f] : continue
+    isempty=True
+    setErrorField(var,f,"@cannotbeempty")
+  return isempty  
+  
 def checkGreaterZero(var,key):
   val = var[key]
   if val <= 0 :
-     var["JERROR_"+key] = "Should be greater then 0"
+     setErrorField(var,key,"Should be greater then 0")
+#     var["JERROR_"+key] = "Should be greater then 0"
      return False
   return True
 
