@@ -108,7 +108,7 @@ public class ServerService {
 
         @Provides
         IReservationOp getReservationOp() {
-            return AdminEjbLocator.getReservationOp();
+            return AdminEjbLocator.getReservationOp(); 
         }
 
         @Provides

@@ -63,10 +63,11 @@
         <list id="billlist" pagesize="5" elemformat="hotel/reservation/billdesc.xml">
                 <standbutt>TOOLS,FIND,FILTER,SHOW,REMOVE</standbutt>
                 <columns>
-                        <column id="name" displayname="Bill number" />
+                        <column id="billname" displayname="Bill number" />
                         <column id="payerid" displayname="Payer" actionid="payerdetail" />
                         <column id="payerdescr" displayname="Description" />
                         <column id="billtotal" type="decimal" displayname="Total" footer = "" />
+                        <column id="payments" type="decimal" displayname="Payments" footer = "" actionid="paymentslist" />
                 </columns>
         </list>
 

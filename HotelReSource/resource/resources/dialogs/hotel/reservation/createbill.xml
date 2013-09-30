@@ -2,6 +2,8 @@
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Create bill">
 
         <before />
+        
+         <types>hotel/typesenum.xml</types>
 
         <jython>
                 <import>from hotelpack.reservation import createbill</import>
@@ -9,13 +11,15 @@
         </jython>
         
         <buttons>
-                <button id="accept" displayname="Issue bill" actiontype="JYESNO_MESSAGE" actionparam="Are you sure to issue this bill ?"
-                        actionparam1="Confirmation" />
+                <button id="accept" displayname="Issue bill" />
                 <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
                 <button id="payerdetails" displayname="Payer details" />
         </buttons>
         
         <form>
+                <field id="paynow" displayname="Payment now" type="bool" />  
+                <field id="paymethod" displayname="Payment method" type="custom:paymentmethod" />
+                <field id="paymentdate" displayname="Date of payment" type="date" />
                 <!-- cust description -->
                 <field id="payer_name" displayname="@name" readonly=""/>
                 <field id="payer_descr" displayname="Payer name" readonly=""/>
@@ -45,7 +49,7 @@
 
         <list id="billlist" pagesize="10">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
-                <buttons-addlist>accept</buttons-addlist>
+                <buttons-addlist>acceptafteryes,accept</buttons-addlist>
                 <columns>
                         <column id="add" displayname="Add" type="bool" editable="" signalchange="" />
                         <column id="idp" type="long" hidden="" />
