@@ -13,7 +13,7 @@ from com.gwthotel.hotel.stay import ResGuest
 from cutil import createArrayList
 from com.gwthotel.hotel import ServiceType
 from com.gwthotel.hotel.services import HotelServices
-
+from com.gwthotel.hotel.payment import PaymentBill
 
 class MESS :
 
@@ -155,6 +155,21 @@ class PRICEELEM :
     def savePricesForPriceList(self,pricelist,list) :
         self.service.savePricesForPriceList(getHotelName(self.var),pricelist,list)
         
+class PAYMENTOP :        
+
+     def __init__(self,var):
+         self.var = var
+         self.service = H.getPaymentsOp()
+
+     def getPaymentsForBill(self,billName) :
+         return self.service.getPaymentsForBill(getHotelName(self.var),billName)
+       
+     def addPaymentForBill(self,billName,p) :
+         self.service.addPaymentForBill(getHotelName(self.var),billName,p)
+         
+     def removePaymentForBill(self,billName,id) :
+         self.service.removePaymentForBill(getHotelName(self.var),billName,id)
+        
 class RESOP :
      def __init__(self,var):
          self.var = var
@@ -195,6 +210,7 @@ class RESFORM(CRUDLIST) :
     def __init__(self,var):
         CRUDLIST.__init__(self,var)
         self.serviceS = H.getResForm()
+                
                 
 def isRoomService(service) :
   return service == ServiceType.HOTEL
@@ -364,6 +380,9 @@ def newResForm(var):
 def newBill(var) :
     c = ConstructObject(var)
     return c.getO(2)  
+  
+def newBillPayment() :
+   return PaymentBill()
 
 def newResGuest(var):
     return ResGuest()

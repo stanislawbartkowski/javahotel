@@ -27,10 +27,18 @@ from util.util import mapToXML
 from util.util import xmlToVar
 from cutil import setCopy
 from util.util import HOTELTRANSACTION
+from cutil import setCopy
+from util.util import MESS
+from cutil import checkEmpty
+from cutil import setErrorField
+from util.util import PAYMENTOP
+from util.util import newBillPayment
+from con import toB
 
 LIST="poslist"
 NOPAID="billlist"
 CLIST = ["name","descr"] + getCustFieldId()
+M=MESS()
 
 class PAID :
   
@@ -73,6 +81,7 @@ class HOTELBILLSAVE(HOTELTRANSACTION) :
       HOTELTRANSACTION.__init__(self,0,var)
     
     def run(self,var) :
+     self.total = 0.0
      P = PAID(var)
      b = newBill(var)
      cust_name = var["payer_name"]
@@ -83,6 +92,7 @@ class HOTELBILLSAVE(HOTELTRANSACTION) :
      for m in var["JLIST_MAP"][NOPAID] :
        if m["add"] :
           idp = m["idp"]
+          self.total = addDecimal(self.total,m["total"])
           if P.onList(idp) :
              var["JERROR_MESSAGE"] = "Trying to pay again. Check if someone else is billing just now !"
              return
@@ -92,9 +102,8 @@ class HOTELBILLSAVE(HOTELTRANSACTION) :
          var["JERROR_MESSAGE"] = "Nothing is checked"
          return
       
-     BILLLIST(var).addElem(b)
+     self.billName = BILLLIST(var).addElem(b).getName()
      var["JCLOSE_DIALOG"] = True
-
 
 def doaction(action,var) :
   printVar("create bill",action,var)
@@ -107,6 +116,8 @@ def doaction(action,var) :
     r = R.findElem(rese)
     payername = r.getCustomerName()
     setCustData(var,payername,"payer_")
+    var["paynow"] = True
+    setCopy(var,["paynow"])
 
   if action == "columnchangeaction" :
      total = var["total"]
@@ -115,9 +126,35 @@ def doaction(action,var) :
      else : footerf = minusDecimal(footerf,total)
      setFooter(var,"billlist","total",footerf)
 
-  if action == "accept" and var["JYESANSWER"] :    
+  if action == "accept" : 
+    exist = False 
+    for m in var["JLIST_MAP"][NOPAID] :
+      if m["add"] : exist = True
+    if not exist :
+      var["JERROR_MESSAGE"] = "Nothing is checked"
+      return
+    
+    if var["paynow"] :
+      if checkEmpty(var,["paymethod"]): return
+      
+    if not var["paynow"] :  
+      if checkEmpty(var,["paymethod","paymentdate"]): return
+      
+    var["JYESNO_MESSAGE"] = "Are you sure to issue this bill ?"
+    var['JAFTERDIALOG_ACTION'] = "acceptafteryes"
+
+  if action == "acceptafteryes" and var["JYESANSWER"] :    
      H = HOTELBILLSAVE(var)
      H.doTrans()
+     # semaphore transction is not needed here
+     if var["paynow"] :
+       billName = H.billName
+       p = newBillPayment()
+       p.setBillName(billName)
+       p.setPaymentMethod(var["paymethod"])
+       p.setDateOfPayment(toDate(today()))
+       p.setPaymentTotal(toB(H.total))
+       PAYMENTOP(var).addPaymentForBill(billName,p)       
               
   if action == "payerdetails" :
       var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 

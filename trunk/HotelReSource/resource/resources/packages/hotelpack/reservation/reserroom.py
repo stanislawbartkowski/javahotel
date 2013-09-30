@@ -37,6 +37,7 @@ from cutil import BigDecimalToDecimal
 from util.util import BILLPOSADD
 from util.util import newBill
 from con import eqUL
+from util.util import PAYMENTOP
 
 CLIST = ["name","descr"] + getCustFieldId()
 
@@ -255,6 +256,14 @@ def _countTotal(var,b,pli) :
          total = addDecimal(total,to)
          
   return total       
+
+def _countPayments(var,billName) :
+  pList = PAYMENTOP(var).getPaymentsForBill(billName)
+  suma = 0.0
+  for p in pList :
+    total = p.getPaymentTotal()
+    suma = addDecimal(suma,BigDecimalToDecimal(total))
+  return suma  
      
 def _ListOfBills(var) :
    rese = getReseName(var)
@@ -262,18 +271,21 @@ def _ListOfBills(var) :
    seq = []
    pli = getPayments(var)
    sumtotal = 0.0
+   footerpayments = 0.0
    for b in bList :
      id = b.getName()
      payer = b.getPayer()
      da = b.getIssueDate()
      tot = _countTotal(var,b,pli)
      sumtotal = addDecimal(sumtotal,tot)
-     ma = { "name" : id, "payerid" : payer, "payerdescr" : b.getDescription(), "billtotal" : tot }
+     paysum = _countPayments(var,id)
+     footerpayments = addDecimal(footerpayments,paysum)
+     ma = { "billname" : id, "payerid" : payer, "payerdescr" : b.getDescription(), "billtotal" : tot, "payments" : paysum }
      seq.append(ma)
    setJMapList(var,BILLIST,seq)
    setFooter(var,BILLIST,"billtotal",sumtotal) 
+   setFooter(var,BILLIST,"payments",footerpayments) 
   
-     
 def showstay(action,var):     
    printvar("show stay",action,var)
    if action == "before" :
@@ -285,9 +297,8 @@ def showstay(action,var):
    if action == "crud_readlist" and var["JLIST_NAME"] == BILLIST :
      _ListOfBills(var)     
      
-   if action == "afterbill" :
-     res = var["JUPDIALOG_BUTTON"]
-     if res == "accept" : _ListOfBills(var)
+   if action == "afterbill" and var["JUPDIALOG_BUTTON"] == "acceptafteryes" :
+     _ListOfBills(var)
      
    if action == "payerdetail" :
       showCustomerDetails(var,var["payerid"])
@@ -306,9 +317,14 @@ def showstay(action,var):
       var["JUP_DIALOG"]="hotel/reservation/addpayment.xml" 
       var["JAFTERDIALOG_ACTION"] = "afteraddpayment" 
       
+   if action == "paymentslist" :
+      var["JUP_DIALOG"]="hotel/reservation/listofpayment.xml" 
+      var["JAFTERDIALOG_ACTION"] = "afterlistpayments"
+      var["JUPDIALOG_START"] = var["billname"]
+      
    if action == "afteraddpayment" and var["JUPDIALOG_BUTTON"] == "addpayment" :
      _listOfPayments(var)
-     
+        
    if action == "guestdesc" :
        showCustomerDetails(var,var["cust_name"])
        
