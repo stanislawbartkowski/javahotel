@@ -413,7 +413,7 @@ class PresentationTable implements IGwtTableView {
         table.addRowHoverHandler(new RowHover());
     }
 
-    private class TColumnString extends TextColumn<Integer> {
+    private class TColumnString extends TextColumn<MutableInteger> {
 
         private final IVField iF;
         private final FieldDataType fType;
@@ -424,8 +424,8 @@ class PresentationTable implements IGwtTableView {
         }
 
         @Override
-        public String getValue(Integer object) {
-            IVModelData v = model.get(object);
+        public String getValue(MutableInteger object) {
+            IVModelData v = model.get(object.intValue());
             String key = FUtils.getValueS(v, iF);
             return fType.convertToString(key);
         }
