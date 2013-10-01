@@ -20,6 +20,7 @@
 	</buttons>
 
 	<form>
+               <field id="billlistwaschanged" type="bool" hidden="" />
 		<field id="resename" hidden="" />
 		<field id="name" displayname="Room" readonly="" />
 		<field id="nop" type="int" displayname="@nopersons" readonly="" />

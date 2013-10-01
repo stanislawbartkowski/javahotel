@@ -38,6 +38,7 @@ from util.util import BILLPOSADD
 from util.util import newBill
 from con import eqUL
 from util.util import PAYMENTOP
+from util import rutil
 
 CLIST = ["name","descr"] + getCustFieldId()
 
@@ -256,14 +257,6 @@ def _countTotal(var,b,pli) :
          total = addDecimal(total,to)
          
   return total       
-
-def _countPayments(var,billName) :
-  pList = PAYMENTOP(var).getPaymentsForBill(billName)
-  suma = 0.0
-  for p in pList :
-    total = p.getPaymentTotal()
-    suma = addDecimal(suma,BigDecimalToDecimal(total))
-  return suma  
      
 def _ListOfBills(var) :
    rese = getReseName(var)
@@ -278,13 +271,18 @@ def _ListOfBills(var) :
      da = b.getIssueDate()
      tot = _countTotal(var,b,pli)
      sumtotal = addDecimal(sumtotal,tot)
-     paysum = _countPayments(var,id)
+     paysum = rutil.countPayments(var,id)
      footerpayments = addDecimal(footerpayments,paysum)
      ma = { "billname" : id, "payerid" : payer, "payerdescr" : b.getDescription(), "billtotal" : tot, "payments" : paysum }
      seq.append(ma)
    setJMapList(var,BILLIST,seq)
    setFooter(var,BILLIST,"billtotal",sumtotal) 
    setFooter(var,BILLIST,"payments",footerpayments) 
+  
+def _setChangedFalse(var) :
+   var["billlistwaschanged"] = False
+   setCopy(var,["billlistwaschanged",])
+  
   
 def showstay(action,var):     
    printvar("show stay",action,var)
@@ -293,6 +291,12 @@ def showstay(action,var):
      # after 
      _listOfPayments(var)
      _ListOfBills(var)
+     _setChangedFalse(var)
+     return
+   
+   if var["billlistwaschanged"] :
+    _setChangedFalse(var)   
+    _ListOfBills(var)
      
    if action == "crud_readlist" and var["JLIST_NAME"] == BILLIST :
      _ListOfBills(var)     
@@ -338,7 +342,7 @@ def billdesc(action,var) :
      payername = var["payerid"]
      setCustData(var,payername,"payer_")
      LI = BILLPOSADD(var,"billlist")
-     billname = var["name"]
+     billname = var["billname"]
      b = BILLLIST(var).findElem(billname)
      pli = getPayments(var)
      for idp in b.getPayList() :
@@ -356,7 +360,7 @@ def billdesc(action,var) :
       return
 
    if action == "crud_remove"  and var["JCRUD_AFTERCONF"] :
-     billname = var["name"]
+     billname = var["billname"]
      BILLLIST(var).deleteElemByName(billname)
      var["JCLOSE_DIALOG"] = True
            
