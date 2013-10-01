@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <jython>
+                <import>from testpack import enablebutton</import>
+                <method>enablebutton.clickaction({0},{1})</method>
+        </jython>
+
+        <buttons>
+                <button id="click" displayname="Click me" />
+        </buttons>
+        
+        <form>
+                <field id="enable" type="bool" displayname= "Enable button" signalchange=""/>
+
+        </form>  
+
+
+</dialog>
