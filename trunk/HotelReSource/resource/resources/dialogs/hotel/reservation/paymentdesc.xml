@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Payment">
+
+        <before/>
+
+        <parent>hotel/reservation/listofpayment.xml</parent>
+        
+        <types>hotel/typesenum.xml</types>
+
+        <jython>
+                <import>from hotelpack.reservation import respaymentlist</import>
+                <method>respaymentlist.elempayment({0},{1})</method>
+        </jython>
+
+</dialog>
