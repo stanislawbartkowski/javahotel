@@ -1,11 +1,8 @@
-
+import cutil
 
 def dialogaction(action,var) :
 
-  print "actionlist",action
-  for k in var.keys() : 
-    print k
-    print var[k]
+  cutil.printVar("actionlist",action,var)
 
   if action == "before" :
       seq=[]

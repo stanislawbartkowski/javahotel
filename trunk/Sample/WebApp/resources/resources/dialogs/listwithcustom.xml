@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+
+        <before />
+        
+        <types>typecolor.xml</types>
+
+        <jython>
+                <import>from testpack import listwithcustom</import>
+                <method>listwithcustom.dialogaction({0},{1})</method>
+        </jython>
+
+        <buttons>
+                <button id="cleardata" displayname="Clear all" actiontype="JYESNO_MESSAGE"
+                        actionparam="Do you really want to remove all data now ?"
+                        actionparam1="Warning before removing" />
+        </buttons>
+
+        <list id="list" displayname="List" elemformat="colorelem.xml" >
+                <columns>
+                        <column id="id" type="long" hidden="" />
+                        <column id="number" displayname="Number" type="long"
+                                notempty=""/>
+                        <column id="dic" displayname="Color" type="custom:color" notempty=""/>
+                </columns>
+        </list>
+
+
+</dialog>
