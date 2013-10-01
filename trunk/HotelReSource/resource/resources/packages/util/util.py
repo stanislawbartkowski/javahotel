@@ -14,6 +14,7 @@ from cutil import createArrayList
 from com.gwthotel.hotel import ServiceType
 from com.gwthotel.hotel.services import HotelServices
 from com.gwthotel.hotel.payment import PaymentBill
+import rutil
 
 class MESS :
 
@@ -493,7 +494,8 @@ def getPriceForPriceList(var,pricelist,service) :
   return pPrice   
 
 def getReseName(var) :
-  return var["resename"]
+#  return var["resename"]
+  return rutil.getReseName(var)
 
 def setCustData(var,custname,prefix) :
     CU = CUSTOMERLIST(var)
@@ -526,12 +528,13 @@ def showCustomerDetails(var,custid):
     var["JUPDIALOG_START"] = custid
     
 def getPayments(var) :    
-  rese = getReseName(var)
-  pli = RESOP(var).getResAddPaymentList(rese)
-  R = RESFORM(var)
+  return rutil.getPayments(var)
+#  rese = getReseName(var)
+#  pli = RESOP(var).getResAddPaymentList(rese)
+#  R = RESFORM(var)
   # java.util.List
-  pli.addAll(R.findElem(rese).getResDetail())
-  return pli
+#  pli.addAll(R.findElem(rese).getResDetail())
+#  return pli
 
 class BILLPOSADD :
   
