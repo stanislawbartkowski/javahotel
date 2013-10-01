@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Payments for bill">
+
+        <before />
+        
+        <types>hotel/typesenum.xml</types>
+        
+        <jython>
+                <import>from hotelpack.reservation import respaymentlist</import>
+                <method>respaymentlist.listofpayments({0},{1})</method>
+        </jython>
+                
+        <form>
+          <field id="paybillname" hidden="" />
+          <field id="waschanged" type="bool" hidden="" />
+        </form>  
+
+        <list id="paymentslist" pagesize="5" elemformat="hotel/reservation/paymentdesc.xml">
+                <standbutt>TOOLS,FIND,FILTER,ADD,REMOVE</standbutt>
+                <columns>
+                        <column id="id" type="long" hidden="" />
+                        <column id="paymethod" displayname="Payment method" notempty="" type="custom:paymentmethod"/>
+                        <column id="paymentdate" displayname="Date" type="date" notempty=""/>
+                        <column id="paymenttotal" displayname="Amount" type="decimal" notempty="" footer=""/>
+                </columns>
+        </list>
+
+</dialog>
