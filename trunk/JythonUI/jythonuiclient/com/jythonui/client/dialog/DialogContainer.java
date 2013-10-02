@@ -596,7 +596,9 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         sig = BeforeTabChange.constructBeforeTabChangeSignal(dType);
         slMediator.getSlContainer().registerSubscriber(sig,
                 new BeforeChangeTab());
-
+        slMediator.getSlContainer().registerSubscriber(
+                CloseDialogByImage.constructSignal(dType),
+                new CloseDialogImage());
         //
         if (bList != null) {
             for (IDataType da : liManager.getList()) {
@@ -618,6 +620,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 }
             }
         }
+        if (!d.isBefore())
+            sendAfterBefore();
     }
 
     private class HandleYesNoDialog implements IYesNoAction {
@@ -680,6 +684,15 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     s = lastClicked.getCustomButt();
                 iEx.setResultButton(s, resString);
             }
+        }
+
+    }
+
+    private class CloseDialogImage implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            iEx.setResultButton(ICommonConsts.CLOSEDIALOGIMAGE, null);
         }
 
     }
@@ -775,6 +788,12 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         }
     }
 
+    private void sendAfterBefore() {
+        SignalAfterBefore sig = new SignalAfterBefore();
+        CustomStringSlot sl = SignalAfterBefore.constructSignal(dType);
+        slMediator.getSlContainer().publish(sl, sig);
+    }
+
     private class BackClass extends CommonCallBack<DialogVariables> {
 
         private final String id;
@@ -860,14 +879,6 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 public void action(String fie, String field) {
                     SplitIntoTwo t = new SplitIntoTwo();
                     t.extract(fie, field, ICommonConsts.JSETATTRCHECK);
-                    // String[] li = fie.split("_");
-                    // if (li.length != 2) {
-                    // String mess = M.M().InproperFormatCheckSet(field,
-                    // ICommonConsts.JSETATTRCHECK);
-                    // Utils.errAlertB(mess);
-                    // }
-                    // String checkid = li[0];
-                    // String action = li[1];
                     CheckList cList = d.findCheckList(t.id);
                     if (cList == null) {
                         String mess = M.M().CannotFindCheckList(field, t.id);
@@ -878,8 +889,6 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                                 t.action);
                         Utils.errAlertB(mess);
                     }
-                    // String valS = ICommonConsts.JVALATTRCHECK + t.id + "_"
-                    // + t.action;
                     FieldValue val = arg.getValue(field);
                     gManager.modifAttr(t.id, t.action, val);
                 }
@@ -940,6 +949,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
             JUtils.visitListOfFields(arg, ICommonConsts.JREFRESHDATELINE, visDL);
             VerifyJError.isError(DialogContainer.this, dType, arg,
                     DialogContainer.this);
+            if (before)
+                sendAfterBefore();
         }
     }
 

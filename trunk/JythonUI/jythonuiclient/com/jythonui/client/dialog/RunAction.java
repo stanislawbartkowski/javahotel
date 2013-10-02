@@ -12,6 +12,8 @@
  */
 package com.jythonui.client.dialog;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.ICustomObject;
@@ -19,8 +21,10 @@ import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.SynchronizeList;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
+import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.CellId;
+import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
@@ -45,13 +49,33 @@ import com.jythonui.shared.DialogVariables;
 public class RunAction implements IJythonUIClient {
 
     private final Synch sy = new Synch();
+    private final SynchM syM = new SynchM();
 
     private class Synch extends SynchronizeList {
 
         DialogFormat d;
-        MDialog mDial = null;
+        DialogContainer dI = null;
+        ISlotListener sl;
+        ISlotSignalContext slW;
+        boolean mainW = false;
 
         Synch() {
+            super(3);
+        }
+
+        @Override
+        protected void doTask() {
+            sl.signal(slW);
+        }
+
+    }
+
+    private class SynchM extends SynchronizeList {
+
+        MDialog mDial = null;
+        DialogFormat d;
+
+        SynchM() {
             super(2);
         }
 
@@ -60,8 +84,8 @@ public class RunAction implements IJythonUIClient {
             if (!CUtil.EmptyS(d.getDisplayName())) {
                 mDial.setTitle(d.getDisplayName());
             }
-        }
 
+        }
     }
 
     private class GetDialog implements ISlotListener {
@@ -72,7 +96,9 @@ public class RunAction implements IJythonUIClient {
             SendDialogFormSignal sig = (SendDialogFormSignal) o;
             sy.d = sig.getValue();
             sy.signalDone();
-            if (sy.mDial == null) {
+            syM.d = sy.d;
+            syM.signalDone();
+            if (sy.mainW) {
                 String dTitle = sy.d.getDisplayName();
                 // display dialog title in the status bar
                 IWebPanel i = GwtGiniInjector.getI().getWebPanel();
@@ -82,14 +108,32 @@ public class RunAction implements IJythonUIClient {
 
     }
 
+    private class CloseI implements ISignal {
+
+        private final IDataType dType;
+
+        CloseI(IDataType dType) {
+            this.dType = dType;
+        }
+
+        @Override
+        public void signal() {
+            CloseDialogByImage sig = new CloseDialogByImage();
+            CustomStringSlot sl = CloseDialogByImage.constructSignal(dType);
+            sy.dI.getSlContainer().publish(sl, sig);
+        }
+
+    }
+
     private class MDialog extends ModalDialog {
 
         private final Widget w;
 
-        MDialog(Widget w) {
+        MDialog(Widget w, IDataType dType) {
             super("");
             this.w = w;
             create();
+            this.setOnClose(new CloseI(dType));
         }
 
         @Override
@@ -107,11 +151,21 @@ public class RunAction implements IJythonUIClient {
         }
 
         @Override
-        public void signal(ISlotSignalContext slContext) {
-            Widget wd = slContext.getGwtWidget().getGWidget();
-            sy.mDial = new MDialog(wd);
-            sy.mDial.show(w);
-            sy.signalDone();
+        public void signal(final ISlotSignalContext slContext) {
+            final Widget wd = slContext.getGwtWidget().getGWidget();
+            // important : to show modal properly (calculate height and width)
+            Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+                @Override
+                public void execute() {
+                    syM.mDial = new MDialog(wd, slContext.getSlType()
+                            .getdType());
+                    syM.mDial.show(w);
+                    syM.signalDone();
+                }
+            });
+            // syM.mDial = new MDialog(wd, slContext.getSlType().getdType());
+            // syM.mDial.show(w);
+            // syM.signalDone();
         }
     }
 
@@ -130,15 +184,34 @@ public class RunAction implements IJythonUIClient {
 
         @Override
         public void signal(ISlotSignalContext slContext) {
-            if (sy.mDial != null) {
-                sy.mDial.hide();
+            if (syM.mDial != null) {
+                syM.mDial.hide();
                 // release reference
-                sy.mDial = null;
-            } else {
+                syM.mDial = null;
+            } else if (sy.mainW) {
                 IWebPanel i = GwtGiniInjector.getI().getWebPanel();
                 i.setDCenter(null);
             }
 
+        }
+
+    }
+
+    private class BeforeFinished implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            sy.signalDone();
+        }
+
+    }
+
+    private class GetW implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            sy.slW = slContext;
+            sy.signalDone();
         }
 
     }
@@ -173,10 +246,16 @@ public class RunAction implements IJythonUIClient {
             d.getSlContainer().registerSubscriber(
                     SendDialogFormSignal.constructSignal(dType),
                     new GetDialog());
-            SlU.registerWidgetListener0(dType, d, getW);
+            // SlU.registerWidgetListener0(dType, d, getW);
+            SlU.registerWidgetListener0(dType, d, new GetW());
             d.getSlContainer().registerSubscriber(
                     SendCloseSignal.constructSignal(dType), new CloseDialog());
+            d.getSlContainer().registerSubscriber(
+                    SignalAfterBefore.constructSignal(dType),
+                    new BeforeFinished());
             CellId cId = new CellId(0);
+            sy.dI = d;
+            sy.sl = getW;
             d.startPublish(cId);
         }
     }
@@ -184,6 +263,7 @@ public class RunAction implements IJythonUIClient {
     @Override
     public void start(String startdialogName) {
         IDataType dType = DataType.construct(startdialogName, null);
+        sy.mainW = true;
         M.JR().getDialogFormat(
                 RequestContextFactory.construct(),
                 startdialogName,
