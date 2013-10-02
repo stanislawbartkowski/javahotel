@@ -15,7 +15,7 @@ package com.gwtmodel.table;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- *
+ * 
  * @author stanislaw.bartkowski@gmail.com
  */
 public class WSize {
@@ -24,12 +24,14 @@ public class WSize {
     private final int left;
     private final int height;
     private final int width;
+    private final Widget w;
 
     public WSize(int top, int left, int height, int width) {
         this.top = top;
         this.left = left;
         this.height = height;
         this.width = width;
+        this.w = null;
     }
 
     public WSize(Widget w) {
@@ -37,6 +39,7 @@ public class WSize {
         this.left = w.getAbsoluteLeft();
         this.height = w.getOffsetHeight();
         this.width = w.getOffsetWidth();
+        this.w = w;
     }
 
     public WSize(IGWidget w) {
@@ -48,6 +51,7 @@ public class WSize {
         this.left = e.getAbsoluteLeft();
         this.height = e.getOffsetHeight();
         this.width = e.getOffsetWidth();
+        this.w = null;
     }
 
     public int getTop() {
@@ -65,4 +69,9 @@ public class WSize {
     public int getWidth() {
         return width;
     }
+
+    public Widget getW() {
+        return w;
+    }
+
 }
