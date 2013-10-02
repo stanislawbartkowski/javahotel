@@ -23,6 +23,7 @@ import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.IHotelProp;
+import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.service.gae.entities.EHotelDict;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
@@ -102,7 +103,7 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
     }
 
     @Override
-    public void addElem(HotelId hotel, T elem) {
+    public T addElem(HotelId hotel, T elem) {
         final E e = constructE();
         EHotel ho = findEHotel(hotel);
         toEDict(e, elem, ho);
@@ -111,7 +112,7 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
                 ofy().save().entity(e).now();
             }
         });
-
+        return elem;
     }
 
     private E findService(EHotel eh, T serv) {
@@ -153,19 +154,26 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         });
     }
 
-    @Override
-    public void deleteAll(final HotelId hotel) {
-        final EHotel eh = findEHotel(hotel);
-        final DeleteItem i = new DeleteItem();
-        beforeDelete(i, eh, null);
-        ofy().transact(new VoidWork() {
-            public void vrun() {
-                List<E> li = ofy().load().type(cl).ancestor(eh).list();
-                ofy().delete().entities(li);
-                i.removeItems();
-            }
-        });
+//    @Override
+//    public void deleteAll(final HotelId hotel) {
+//        final EHotel eh = findEHotel(hotel);
+//        final DeleteItem i = new DeleteItem();
+//        beforeDelete(i, eh, null);
+//        ofy().transact(new VoidWork() {
+//            public void vrun() {
+//                List<E> li = ofy().load().type(cl).ancestor(eh).list();
+//                ofy().delete().entities(li);
+//                i.removeItems();
+//            }
+//        });
 
+//    }
+    
+    @Override
+    public T findElem(HotelId hotel, String name) {
+        // TODO Auto-generated method stub
+        return null;
     }
+
 
 }

@@ -56,8 +56,8 @@ public class HotelPriceListImpl extends
 
     @Override
     protected void toE(EHotelPriceList e, HotelPriceList t) {
-        e.setPriceFrom(MUtil.toSqlDate(t.getFromDate()));
-        e.setPriceTo(MUtil.toSqlDate(t.getToDate()));
+        e.setPriceFrom(t.getFromDate());
+        e.setPriceTo(t.getToDate());
     }
 
     @Override

@@ -12,7 +12,8 @@
  */
 package com.gwthotel.hotel.service.gae.entities;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import com.googlecode.objectify.annotation.Entity;
 
