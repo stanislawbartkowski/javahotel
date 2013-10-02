@@ -18,7 +18,6 @@ import javax.inject.Provider;
 
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 public class StorageRegistryFactory implements Provider<IStorageRealmRegistry> {
