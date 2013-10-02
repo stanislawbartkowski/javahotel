@@ -41,7 +41,7 @@ public class HotelCustomersImpl extends
     @Override
     protected HotelCustomer constructProp(EHotelCustomer e) {
         HotelCustomer cu = new HotelCustomer();
-        HUtils.toTProperties(lMess, HUtils.getCustomerFields(), cu, e);
+        HUtils.toTProperties(HUtils.getCustomerFields(), cu, e);
         return cu;
     }
 
@@ -52,11 +52,12 @@ public class HotelCustomersImpl extends
 
     @Override
     protected void toE(EHotelCustomer e, HotelCustomer t) {
-        HUtils.toEProperties(lMess, HUtils.getCustomerFields(), e, t);
+        HUtils.toEProperties(HUtils.getCustomerFields(), e, t);
 
     }
 
     @Override
     protected void beforeDelete(DeleteItem i, EHotel ho, EHotelCustomer elem) {
     }
+
 }

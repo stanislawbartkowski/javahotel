@@ -55,7 +55,7 @@ public class HotelInstanceImpl implements IAppInstanceHotel {
     }
 
     @Override
-    public AppInstanceId getInstanceId(String instanceName) {
+    public AppInstanceId getInstanceId(String instanceName, String userName) {
         LoadResult<EInstance> p = ofy().load().type(EInstance.class)
                 .filter("name ==", instanceName).first();
         EInstance e = null;
@@ -74,11 +74,13 @@ public class HotelInstanceImpl implements IAppInstanceHotel {
         AppInstanceId i = new AppInstanceId();
         i.setInstanceName(instanceName);
         i.setId(e.getId());
+        i.setPerson(userName);
         return i;
     }
 
     @Override
-    public HotelId getHotelId(AppInstanceId instanceId, String hotelName) {
+    public HotelId getHotelId(AppInstanceId instanceId, String hotelName,
+            String userName) {
         EInstance ei = DictUtil.findI(lMess, instanceId);
         LoadResult<EHotel> p = ofy().load().type(EHotel.class).ancestor(ei)
                 .filter("name ==", hotelName).first();
@@ -89,6 +91,8 @@ public class HotelInstanceImpl implements IAppInstanceHotel {
         ho.setHotel(hotelName);
         ho.setId(p.now().getId());
         ho.setInstanceId(instanceId);
+        ho.setUserName(hotelName);
         return ho;
     }
+
 }

@@ -51,8 +51,8 @@ public class ServerService {
                     Singleton.class);
             bind(IHotelAdmin.class).to(HotelAdminGae.class).in(Singleton.class);
 
-            bind(IStorageRegistryFactory.class)
-                    .to(StorageRegistryFactory.class).in(Singleton.class);
+//            bind(IStorageRegistryFactory.class)
+//                    .to(StorageRegistryFactory.class).in(Singleton.class);
             bind(IHotelServices.class).to(HotelServiceImpl.class).in(
                     Singleton.class);
             bind(IHotelPriceList.class).to(HotelPriceListImpl.class).in(
