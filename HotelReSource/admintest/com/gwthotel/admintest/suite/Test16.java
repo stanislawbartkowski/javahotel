@@ -98,9 +98,9 @@ public class Test16 extends TestHelper {
         add = aList.get(0);
         assertEquals("Beverage", add.getDescription());
         assertEquals(guest1, add.getGuestName());
-        assertEquals(HUtils.roundB(new BigDecimal(100)), add.getPrice());
-        assertEquals(HUtils.roundB(new BigDecimal(150)), add.getPriceList());
-        assertEquals(HUtils.roundB(new BigDecimal(200)), add.getPriceTotal());
+        assertEqB(100.0, add.getPrice());
+        assertEqB(150.0, add.getPriceList());
+        assertEqB(200.0, add.getPriceTotal());
         assertEquals(2, add.getQuantity());
         assertEquals(toDate(2013, 4, 5), add.getServDate());
         assertEquals(SERVICE1, add.getService());

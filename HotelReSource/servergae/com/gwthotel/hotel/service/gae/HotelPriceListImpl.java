@@ -19,13 +19,14 @@ import javax.inject.Named;
 
 import com.googlecode.objectify.ObjectifyService;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.hotel.HotelObjects;
+import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceList;
 import com.gwthotel.shared.IHotelConsts;
-import com.jython.ui.shared.MUtil;
 import com.jythonui.server.getmess.IGetLogMess;
 
 public class HotelPriceListImpl extends
@@ -37,12 +38,13 @@ public class HotelPriceListImpl extends
     }
 
     @Inject
-    public HotelPriceListImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        super(lMess, EHotelPriceList.class);
+    public HotelPriceListImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
+            IHotelObjectGenSym iGen) {
+        super(lMess, EHotelPriceList.class, HotelObjects.PRICELIST, iGen);
     }
 
     @Override
-    protected HotelPriceList constructProp(EHotelPriceList e) {
+    protected HotelPriceList constructProp(EHotel ho, EHotelPriceList e) {
         HotelPriceList pr = new HotelPriceList();
         pr.setFromDate(e.getPriceFrom());
         pr.setToDate(e.getPriceTo());
@@ -55,7 +57,7 @@ public class HotelPriceListImpl extends
     }
 
     @Override
-    protected void toE(EHotelPriceList e, HotelPriceList t) {
+    protected void toE(EHotel ho, EHotelPriceList e, HotelPriceList t) {
         e.setPriceFrom(t.getFromDate());
         e.setPriceTo(t.getToDate());
     }

@@ -12,38 +12,34 @@
  */
 package com.gwthotel.hotel.service.gae.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
-import com.gwthotel.hotel.ServiceType;
+import com.gwthotel.hotel.reservation.ResStatus;
 
 @Entity
-public class EHotelServices extends EHotelDict {
+public class EHotelReservation extends EHotelDict {
 
-    private String vat;
-    private int noperson;
-    private ServiceType serviceType;
+    private Ref<EHotelCustomer> customer;
 
-    public String getVat() {
-        return vat;
+    private ResStatus status = ResStatus.OPEN;
+
+    public EHotelCustomer getCustomer() {
+        return customer.get();
     }
 
-    public void setVat(String vat) {
-        this.vat = vat;
+    public void setCustomer(EHotelCustomer customer) {
+        this.customer = Ref.create(customer);
     }
 
-    public int getNoperson() {
-        return noperson;
+    public ResStatus getStatus() {
+        return status;
     }
 
-    public void setNoperson(int noperson) {
-        this.noperson = noperson;
-    }
-
-    public ServiceType getServiceType() {
-        return serviceType;
-    }
-
-    public void setServiceType(ServiceType serviceType) {
-        this.serviceType = serviceType;
+    public void setStatus(ResStatus status) {
+        this.status = status;
     }
 
 }

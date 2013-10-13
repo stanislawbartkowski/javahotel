@@ -34,14 +34,14 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.DateUtil;
 
 public class Test13 extends TestHelper {
-    
+
     @Before
     public void before() {
         clearObjects();
         createHotels();
         DateUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
-    
+
     @Test
     public void test1() {
         Date d = DateFormatUtil.toD(2013, 6, 12);
@@ -53,18 +53,18 @@ public class Test13 extends TestHelper {
         rQuery.add(q);
         List<ResData> resList = iResOp.queryReservation(getH(HOTEL), rQuery);
         assertTrue(resList.isEmpty());
-        
+
         HotelRoom ro = new HotelRoom();
         ro.setName("R10");
         ro.setNoPersons(1);
         iRooms.addElem(getH(HOTEL), ro);
-        
+
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
         det.setResDate(d);
         det.setRoomName("R10");
         det.setPrice(new BigDecimal(100));
-        
+
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
         p.setGensymbol(true);
@@ -76,35 +76,41 @@ public class Test13 extends TestHelper {
         r.setGensymbol(true);
         r.getResDetail().add(det);
         r = iRes.addElem(getH(HOTEL), r);
-        
+
         resList = iResOp.queryReservation(getH(HOTEL), rQuery);
         assertFalse(resList.isEmpty());
-        
+
         r = iRes.findElem(getH(HOTEL), r.getName());
         assertNotNull(r);
-        iResOp.changeStatus(getH(HOTEL),r.getName(),ResStatus.CANCEL);
+        iResOp.changeStatus(getH(HOTEL), r.getName(), ResStatus.CANCEL);
         resList = iResOp.queryReservation(getH(HOTEL), rQuery);
-        assertTrue(resList.isEmpty());        
+        assertTrue(resList.isEmpty());
     }
 
-    @Test
-    public void test2() {
-        Date dFrom = DateFormatUtil.toD(2013, 6, 12);
-        Date dTo = DateFormatUtil.toD(2013, 6, 15);
-        List<ResQuery> rQuery = new ArrayList<ResQuery>();
+    class R {
+        List<ResQuery> rQuery;
+        String rese;
+        Date dFrom, dTo;
+    }
+
+    private R createRese() {
+        R r = new R();
+        r.dFrom = DateFormatUtil.toD(2013, 6, 12);
+        r.dTo = DateFormatUtil.toD(2013, 6, 15);
+        r.rQuery = new ArrayList<ResQuery>();
         ResQuery q = new ResQuery();
         q.setRoomName("R10");
-        q.setFromRes(dFrom);
-        q.setToRes(dTo);
-        rQuery.add(q);
+        q.setFromRes(r.dFrom);
+        q.setToRes(r.dTo);
+        r.rQuery.add(q);
         q = new ResQuery();
         q.setRoomName("R11");
-        q.setFromRes(dFrom);
-        q.setToRes(dTo);
-        rQuery.add(q);
-        List<ResData> resList = iResOp.queryReservation(getH(HOTEL), rQuery);
+        q.setFromRes(r.dFrom);
+        q.setToRes(r.dTo);
+        r.rQuery.add(q);
+        List<ResData> resList = iResOp.queryReservation(getH(HOTEL), r.rQuery);
         assertTrue(resList.isEmpty());
-        
+
         HotelRoom ro = new HotelRoom();
         ro.setName("R10");
         ro.setNoPersons(1);
@@ -113,47 +119,75 @@ public class Test13 extends TestHelper {
         ro.setName("R11");
         ro.setNoPersons(1);
         iRooms.addElem(getH(HOTEL), ro);
-                
+
         HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
         p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
-        ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
+        ReservationForm re = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
-        r.setCustomerName(p.getName());
-        r.setGensymbol(true);
+        re.setCustomerName(p.getName());
+        re.setGensymbol(true);
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
-        det.setResDate(dFrom);
+        det.setResDate(r.dFrom);
         det.setRoomName("R10");
         det.setPrice(new BigDecimal(100));
-        r.getResDetail().add(det);
+        re.getResDetail().add(det);
         det = new ReservationPaymentDetail();
         det.setNoP(1);
-        det.setResDate(dTo);
+        det.setResDate(r.dTo);
         det.setRoomName("R11");
         det.setPrice(new BigDecimal(100));
-        r.getResDetail().add(det);
-        r = iRes.addElem(getH(HOTEL), r);
-        
-        resList = iResOp.queryReservation(getH(HOTEL), rQuery);
-        assertFalse(resList.isEmpty());
-        assertEquals(2,resList.size());
+        re.getResDetail().add(det);
+        re = iRes.addElem(getH(HOTEL), re);
+        r.rese = re.getName();
+        return r;
+    }
 
-        rQuery = new ArrayList<ResQuery>();
-        q = new ResQuery();
+    @Test
+    public void test2() {
+
+        // ReservationForm r = null;
+        R re = createRese();
+
+        List<ResData> resList = iResOp.queryReservation(getH(HOTEL), re.rQuery);
+        assertFalse(resList.isEmpty());
+        assertEquals(2, resList.size());
+
+        re.rQuery = new ArrayList<ResQuery>();
+        ResQuery q = new ResQuery();
         q.setRoomName("R10");
-        q.setFromRes(dFrom);
-        q.setToRes(dTo);
-        rQuery.add(q);
+        q.setFromRes(re.dFrom);
+        q.setToRes(re.dTo);
+        re.rQuery.add(q);
 
-        resList = iResOp.queryReservation(getH(HOTEL), rQuery);
+        resList = iResOp.queryReservation(getH(HOTEL), re.rQuery);
         assertFalse(resList.isEmpty());
-        assertEquals(1,resList.size());
+        assertEquals(1, resList.size());
 
+        ReservationForm r = iRes.findElem(getH(HOTEL), re.rese);
         iRes.deleteElem(getH(HOTEL), r);
-        resList = iResOp.queryReservation(getH(HOTEL), rQuery);
+        resList = iResOp.queryReservation(getH(HOTEL), re.rQuery);
         assertTrue(resList.isEmpty());
+    }
+
+    @Test
+    public void test3() {
+        R re = createRese();
+
+        List<ResData> resList = iResOp.queryReservation(getH(HOTEL), re.rQuery);
+        assertFalse(resList.isEmpty());
+        assertEquals(2, resList.size());
+        ReservationForm r = iRes.findElem(getH(HOTEL), re.rese);
+        r.setStatus(ResStatus.STAY);
+        iRes.changeElem(getH(HOTEL), r);
+        r = iRes.findElem(getH(HOTEL), re.rese);
+        assertEquals(ResStatus.STAY, r.getStatus());
+        resList = iResOp.queryReservation(getH(HOTEL), re.rQuery);
+        assertFalse(resList.isEmpty());
+        assertEquals(2, resList.size());
+
     }
 
 }

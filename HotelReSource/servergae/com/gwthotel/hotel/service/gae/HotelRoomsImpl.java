@@ -26,6 +26,8 @@ import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.hotel.HotelObjects;
+import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.rooms.IHotelRooms;
 import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
@@ -45,8 +47,9 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     }
 
     @Inject
-    public HotelRoomsImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        super(lMess, EHotelRoom.class);
+    public HotelRoomsImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
+            IHotelObjectGenSym iGen) {
+        super(lMess, EHotelRoom.class, HotelObjects.ROOM, iGen);
     }
 
     @Override
@@ -95,7 +98,7 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     }
 
     @Override
-    protected HotelRoom constructProp(EHotelRoom e) {
+    protected HotelRoom constructProp(EHotel ho, EHotelRoom e) {
         HotelRoom r = new HotelRoom();
         r.setNoPersons(e.getNoPersons());
         return r;
@@ -107,7 +110,7 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     }
 
     @Override
-    protected void toE(EHotelRoom e, HotelRoom t) {
+    protected void toE(EHotel ho, EHotelRoom e, HotelRoom t) {
         e.setNoPersons(t.getNoPersons());
     }
 

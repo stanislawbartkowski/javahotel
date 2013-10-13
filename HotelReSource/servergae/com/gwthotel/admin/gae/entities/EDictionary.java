@@ -12,9 +12,10 @@
  */
 package com.gwthotel.admin.gae.entities;
 
+import java.util.Date;
+
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-
 
 public abstract class EDictionary {
 
@@ -23,6 +24,14 @@ public abstract class EDictionary {
     @Index
     private String name;
     private String description;
+
+    private String creationPerson;
+
+    private String modifPerson;
+
+    private Date creationDate;
+
+    private Date modifDate;
 
     public Long getId() {
         return id;
@@ -46,6 +55,38 @@ public abstract class EDictionary {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCreationPerson() {
+        return creationPerson;
+    }
+
+    public void setCreationPerson(String creationPerson) {
+        this.creationPerson = creationPerson;
+    }
+
+    public String getModifPerson() {
+        return modifPerson;
+    }
+
+    public void setModifPerson(String modifPerson) {
+        this.modifPerson = modifPerson;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getModifDate() {
+        return modifDate;
+    }
+
+    public void setModifDate(Date modifDate) {
+        this.modifDate = modifDate;
     }
 
 }
