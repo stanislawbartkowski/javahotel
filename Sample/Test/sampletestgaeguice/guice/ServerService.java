@@ -54,6 +54,7 @@ public class ServerService {
                     Singleton.class);
             bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
                     Singleton.class);
+            // common
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(IStorageRealmRegistry.class).toProvider(StorageRegistryFactory.class).in(Singleton.class);
