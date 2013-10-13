@@ -91,7 +91,7 @@ public class HotelInstanceImpl implements IAppInstanceHotel {
         ho.setHotel(hotelName);
         ho.setId(p.now().getId());
         ho.setInstanceId(instanceId);
-        ho.setUserName(hotelName);
+        ho.setUserName(userName);
         return ho;
     }
 

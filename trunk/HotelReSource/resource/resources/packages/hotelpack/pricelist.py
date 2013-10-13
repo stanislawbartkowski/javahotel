@@ -17,6 +17,8 @@ _WEEKENDPRICE="weekend"
 _WORKINGPRICE="working"
 M=MESS()
 
+PRICEOTHERS="pricesothers"
+
 def _createList(var):
     P = PRICELIST(var)
     seq = P.getList()
@@ -70,10 +72,12 @@ def _createPriceElemListForType(var,hotel):
     return defmap
 
 def _createPriceElemList(var): 
-    var["JCHECK_MAP"] = {"prices" : _createPriceElemListForType(var,True), "pricesothers" : _createPriceElemListForType(var,False)}     
+    var["JCHECK_MAP"] = {"prices" : _createPriceElemListForType(var,True), PRICEOTHERS : _createPriceElemListForType(var,False)}     
     
-def _constructPriceElemList(var):    
-    values = concatDict(var["JCHECK_MAP"]["prices"],var["JCHECK_MAP"]["pricesothers"])
+def _constructPriceElemList(var):
+    if var["JCHECK_MAP"].has_key(PRICEOTHERS) :
+      values = concatDict(var["JCHECK_MAP"]["prices"],var["JCHECK_MAP"][PRICEOTHERS])
+    else : values = var["JCHECK_MAP"]["prices"]  
     seq = SERVICES(var).getList() 
     a = createArrayList()
     for s in seq :

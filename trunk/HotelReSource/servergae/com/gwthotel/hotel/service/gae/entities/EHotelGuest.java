@@ -10,23 +10,27 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwthotel.admintest.suite;
+package com.gwthotel.hotel.service.gae.entities;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Index;
 
-/**
- * @author hotel
- * 
- */
-@RunWith(Suite.class)
-@SuiteClasses({ Test1.class, Test2.class, Test3.class, Test4.class,
-        Test5.class, Test6.class, Test7.class, Test8.class, Test9.class,
-        Test10.class, Test11.class, Test12.class, Test13.class, Test14.class,
-        Test15.class, Test16.class, Test17.class, Test18.class, Test19.class,
-        Test20.class })
-//@SuiteClasses({ Test13.class })
-public class AllTests {
+@Entity
+public class EHotelGuest extends EHotelRoomGuest {
+
+    private Ref<EHotelReservation> reservation;
+
+    @Index
+    private String resName;
+
+    public EHotelReservation getReservation() {
+        return reservation.get();
+    }
+
+    public void setReservation(EHotelReservation reservation) {
+        this.resName = reservation.getName();
+        this.reservation = Ref.create(reservation);
+    }
 
 }

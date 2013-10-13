@@ -75,6 +75,11 @@ public class Test12 extends TestHelper {
         se.setNoPersons(1);
         se.setVat("7%");
         iServices.addElem(getH(HOTEL), se);
+        
+        HotelRoom ro = new HotelRoom();
+        ro.setName("99");
+        ro.setNoPersons(1);
+        iRooms.addElem(getH(HOTEL), ro);
 
         ReservationForm r = (ReservationForm) hObjects.construct(getH(HOTEL),
                 HotelObjects.RESERVATION);
@@ -84,6 +89,7 @@ public class Test12 extends TestHelper {
 
         ReservationPaymentDetail det = new ReservationPaymentDetail();
         det.setNoP(1);
+        det.setRoomName("99");
         det.setResDate(res);
         det.setPrice(new BigDecimal(100));
         det.setService("1p1");
@@ -100,12 +106,12 @@ public class Test12 extends TestHelper {
         assertEquals(p.getName(), r.getCustomerName());
         assertEquals(1, r.getResDetail().size());
         det = r.getResDetail().get(0);
-        assertEquals(HUtils.roundB(new BigDecimal(100)), det.getPrice());
+        assertEqB(100.00, det.getPrice());
         assertEquals("1p1", det.getService());
-        assertNull(det.getRoomName());
+        assertEquals("99",det.getRoomName());
 
         // now change
-        HotelRoom ro = new HotelRoom();
+        ro = new HotelRoom();
         ro.setName("10");
         ro.setNoPersons(1);
         iRooms.addElem(getH(HOTEL), ro);

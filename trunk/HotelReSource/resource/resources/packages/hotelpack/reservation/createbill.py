@@ -161,7 +161,7 @@ def doaction(action,var) :
       var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
       var["JUPDIALOG_START"] = mapToXML(var,CLIST,"payer_")
 
-  if action == "acceptdetails" :
+  if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" :
      xml = var["JUPDIALOG_RES"]
      xmlToVar(var,xml,CLIST,"payer_")
      setCopy(var,CLIST,None,"payer_")

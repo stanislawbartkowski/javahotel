@@ -12,6 +12,8 @@
  */
 package com.gwthotel.hotel.service.gae.entities;
 
+import java.util.Date;
+
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Parent;
@@ -34,5 +36,50 @@ abstract class EHotelParent {
     public boolean isHotelSet() {
         return hotel != null;
     }
+    
+    private String creationPerson;
+
+    private String modifPerson;
+
+    private Date creationDate;
+
+    private Date modifDate;
+
+    public String getCreationPerson() {
+        return creationPerson;
+    }
+
+    public void setCreationPerson(String creationPerson) {
+        this.creationPerson = creationPerson;
+    }
+
+    public String getModifPerson() {
+        return modifPerson;
+    }
+
+    public void setModifPerson(String modifPerson) {
+        this.modifPerson = modifPerson;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getModifDate() {
+        return modifDate;
+    }
+
+    public void setModifDate(Date modifDate) {
+        this.modifDate = modifDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
 
 }

@@ -17,17 +17,29 @@ import com.gwthotel.admin.IAppInstanceHotel;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.gae.HotelAdminGae;
 import com.gwthotel.admin.gae.HotelInstanceImpl;
+import com.gwthotel.hotel.IClearHotel;
+import com.gwthotel.hotel.IGetAutomPatterns;
+import com.gwthotel.hotel.bill.ICustomerBills;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.guice.HotelCommonGuice.HotelServiceModule;
+import com.gwthotel.hotel.payment.IPaymentBillOp;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.gwthotel.hotel.prices.IHotelPriceElem;
+import com.gwthotel.hotel.reservation.IReservationForm;
+import com.gwthotel.hotel.reservationop.IReservationOp;
 import com.gwthotel.hotel.rooms.IHotelRooms;
+import com.gwthotel.hotel.server.autompatt.GetAutomPatterns;
 import com.gwthotel.hotel.server.service.H;
+import com.gwthotel.hotel.service.gae.ClearHotelImpl;
+import com.gwthotel.hotel.service.gae.HotelCustomerBillsImpl;
 import com.gwthotel.hotel.service.gae.HotelCustomersImpl;
 import com.gwthotel.hotel.service.gae.HotelPriceElemImpl;
 import com.gwthotel.hotel.service.gae.HotelPriceListImpl;
+import com.gwthotel.hotel.service.gae.HotelReservationImpl;
 import com.gwthotel.hotel.service.gae.HotelRoomsImpl;
 import com.gwthotel.hotel.service.gae.HotelServiceImpl;
+import com.gwthotel.hotel.service.gae.PaymentBillImpl;
+import com.gwthotel.hotel.service.gae.ReservationOpImpl;
 import com.gwthotel.hotel.services.IHotelServices;
 import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
@@ -36,7 +48,11 @@ import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
+import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.registry.IStorageRegistryFactory;
+import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
+import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 /**
  * @author hotel
@@ -53,8 +69,6 @@ public class ServerService {
             bind(ICommonCacheFactory.class).to(CommonCacheFactory.class).in(
                     Singleton.class);
             bind(IHotelAdmin.class).to(HotelAdminGae.class).in(Singleton.class);
-            bind(IStorageRegistryFactory.class)
-                    .to(StorageRegistryFactory.class).in(Singleton.class);
             bind(IsCached.class).to(Cached.class).in(Singleton.class);
             bind(IHotelServices.class).to(HotelServiceImpl.class).in(
                     Singleton.class);
@@ -68,6 +82,26 @@ public class ServerService {
                     .in(Singleton.class);
             bind(IAppInstanceHotel.class).to(HotelInstanceImpl.class).in(
                     Singleton.class);
+            bind(ICustomerBills.class).to(HotelCustomerBillsImpl.class).in(
+                    Singleton.class);
+            bind(IPaymentBillOp.class).to(PaymentBillImpl.class).in(
+                    Singleton.class);
+            bind(IReservationForm.class).to(HotelReservationImpl.class).in(
+                    Singleton.class);
+            bind(IReservationOp.class).to(ReservationOpImpl.class).in(
+                    Singleton.class);
+            bind(IClearHotel.class).to(ClearHotelImpl.class)
+                    .in(Singleton.class);
+
+            bind(IGetAutomPatterns.class).to(GetAutomPatterns.class).in(
+                    Singleton.class);
+            bind(IStorageRegistryFactory.class).to(
+                    StorageRealmRegistryFactory.class).in(Singleton.class);
+            bind(IStorageRealmRegistry.class).toProvider(
+                    StorageRegistryFactory.class).in(Singleton.class);
+            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
+                    Singleton.class);
+
             requestStatic();
             requestStaticInjection(H.class);
         }

@@ -70,8 +70,8 @@ public class Test8 extends TestHelper {
         pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         assertEquals(1, pList.size());
         eElem = pList.get(0);
-        assertEquals(eElem.getWeekendPrice(), HUtils.roundB(new BigDecimal(10.0)));
-        assertEquals(eElem.getWorkingPrice(), HUtils.roundB(new BigDecimal(20.0)));
+        assertEqB(10.0,eElem.getWeekendPrice());
+        assertEqB(20.0,eElem.getWorkingPrice());
         eElem.setWorkingPrice(new BigDecimal(30.0));
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);

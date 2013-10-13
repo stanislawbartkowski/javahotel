@@ -18,6 +18,8 @@ import javax.inject.Named;
 import com.googlecode.objectify.ObjectifyService;
 import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.HUtils;
+import com.gwthotel.hotel.HotelObjects;
+import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.customer.IHotelCustomers;
 import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
@@ -34,12 +36,13 @@ public class HotelCustomersImpl extends
     }
 
     @Inject
-    public HotelCustomersImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        super(lMess, EHotelCustomer.class);
+    public HotelCustomersImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
+            IHotelObjectGenSym iGen) {
+        super(lMess, EHotelCustomer.class, HotelObjects.CUSTOMER, iGen);
     }
 
     @Override
-    protected HotelCustomer constructProp(EHotelCustomer e) {
+    protected HotelCustomer constructProp(EHotel ho, EHotelCustomer e) {
         HotelCustomer cu = new HotelCustomer();
         HUtils.toTProperties(HUtils.getCustomerFields(), cu, e);
         return cu;
@@ -51,7 +54,7 @@ public class HotelCustomersImpl extends
     }
 
     @Override
-    protected void toE(EHotelCustomer e, HotelCustomer t) {
+    protected void toE(EHotel ho, EHotelCustomer e, HotelCustomer t) {
         HUtils.toEProperties(HUtils.getCustomerFields(), e, t);
 
     }

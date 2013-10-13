@@ -20,6 +20,8 @@ import javax.inject.Named;
 import com.googlecode.objectify.ObjectifyService;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.hotel.HotelObjects;
+import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
@@ -38,12 +40,13 @@ public class HotelServiceImpl extends
     }
 
     @Inject
-    public HotelServiceImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess) {
-        super(lMess, EHotelServices.class);
+    public HotelServiceImpl(@Named(IHotelConsts.MESSNAMED) IGetLogMess lMess,
+            IHotelObjectGenSym iGen) {
+        super(lMess, EHotelServices.class, HotelObjects.SERVICE, iGen);
     }
 
     @Override
-    protected HotelServices constructProp(EHotelServices e) {
+    protected HotelServices constructProp(EHotel ho, EHotelServices e) {
         return DictUtil.toS(e);
     }
 
@@ -53,20 +56,19 @@ public class HotelServiceImpl extends
     }
 
     @Override
-    protected void toE(EHotelServices e, HotelServices t) {
+    protected void toE(EHotel ho, EHotelServices e, HotelServices t) {
         e.setVat(t.getAttr(IHotelConsts.VATPROP));
         e.setNoperson(t.getNoPersons());
+        e.setServiceType(t.getServiceType());
 
     }
 
     @Override
     protected void beforeDelete(DeleteItem i, EHotel ho, EHotelServices elem) {
         if (elem != null) {
-            i.pList = ofy().load().type(EHotelPriceElem.class)
-                    .ancestor(ho)
+            i.pList = ofy().load().type(EHotelPriceElem.class).ancestor(ho)
                     .filter("serviceName == ", elem.getName()).list();
-            i.sList = ofy().load().type(EHotelRoomServices.class)
-                    .ancestor(ho)
+            i.sList = ofy().load().type(EHotelRoomServices.class).ancestor(ho)
                     .filter("serviceName == ", elem.getName()).list();
         } else {
             i.readAllPriceElems(ho);

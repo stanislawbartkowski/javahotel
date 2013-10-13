@@ -207,7 +207,7 @@ public class TestHelper {
     }
 
     protected void assertEqB(double b1, BigDecimal b2) {
-        assertEquals(new BigDecimal(b1), b2);
+        assertEquals(b1, b2.doubleValue(),2);
 
     }
 

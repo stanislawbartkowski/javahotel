@@ -17,13 +17,14 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.VoidWork;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;
 import com.gwthotel.admin.gae.entities.EHotel;
+import com.gwthotel.hotel.HUtils;
+import com.gwthotel.hotel.HotelObjects;
+import com.gwthotel.hotel.IHotelObjectGenSym;
 import com.gwthotel.hotel.IHotelProp;
-import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.service.gae.entities.EHotelDict;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
@@ -36,21 +37,26 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
 
     protected final IGetLogMess lMess;
     private final Class<E> cl;
+    private final IHotelObjectGenSym iGen;
+    private final HotelObjects o;
 
-    protected CrudGaeAbstract(IGetLogMess lMess, Class<E> cl) {
+    protected CrudGaeAbstract(IGetLogMess lMess, Class<E> cl, HotelObjects ho,
+            IHotelObjectGenSym iGen) {
         this.lMess = lMess;
         this.cl = cl;
+        this.o = ho;
+        this.iGen = iGen;
     }
 
     protected EHotel findEHotel(HotelId hotel) {
         return DictUtil.findEHotel(lMess, hotel);
     }
 
-    protected abstract T constructProp(E e);
+    protected abstract T constructProp(EHotel ho, E e);
 
     protected abstract E constructE();
 
-    protected abstract void toE(E e, T t);
+    protected abstract void toE(EHotel ho, E e, T t);
 
     protected class DeleteItem {
         public List<EHotelPriceElem> pList = null;
@@ -77,7 +83,7 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
     protected abstract void beforeDelete(DeleteItem i, EHotel ho, E elem);
 
     private T toProp(E e, EHotel ho) {
-        T dest = constructProp(e);
+        T dest = constructProp(ho, e);
         DictUtil.toProp(dest, e);
         dest.setAttr(IHotelConsts.HOTELPROP, ho.getName());
         return dest;
@@ -87,7 +93,7 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         DictUtil.toEDict(dest, sou);
         if (!dest.isHotelSet())
             dest.setHotel(hotel);
-        toE(dest, sou);
+        toE(hotel, dest, sou);
     }
 
     @Override
@@ -105,23 +111,25 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
     @Override
     public T addElem(HotelId hotel, T elem) {
         final E e = constructE();
+        iGen.genSym(hotel, elem, o);
         EHotel ho = findEHotel(hotel);
         toEDict(e, elem, ho);
+        HUtils.setCreateModif(hotel.getUserName(), e, true);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 ofy().save().entity(e).now();
             }
         });
-        return elem;
+        E e1 = findE(ho, elem.getName());
+        return toProp(e1, ho);
+    }
+
+    private E findE(EHotel eh, String name) {
+        return DictUtil.findE(eh, name, cl);
     }
 
     private E findService(EHotel eh, T serv) {
-        LoadResult<E> p = ofy().load().type(cl).ancestor(eh)
-                .filter("name == ", serv.getName()).first();
-        if (p == null) {
-            return null;
-        }
-        return p.now();
+        return findE(eh, serv.getName());
     }
 
     @Override
@@ -131,6 +139,7 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         if (serv == null) // TODO: more verbose log
             return;
         toEDict(serv, elem, ho);
+        HUtils.setCreateModif(hotel.getUserName(), serv, false);
         ofy().transact(new VoidWork() {
             public void vrun() {
                 ofy().save().entity(serv).now();
@@ -154,26 +163,12 @@ abstract public class CrudGaeAbstract<T extends PropDescription, E extends EHote
         });
     }
 
-//    @Override
-//    public void deleteAll(final HotelId hotel) {
-//        final EHotel eh = findEHotel(hotel);
-//        final DeleteItem i = new DeleteItem();
-//        beforeDelete(i, eh, null);
-//        ofy().transact(new VoidWork() {
-//            public void vrun() {
-//                List<E> li = ofy().load().type(cl).ancestor(eh).list();
-//                ofy().delete().entities(li);
-//                i.removeItems();
-//            }
-//        });
-
-//    }
-    
     @Override
     public T findElem(HotelId hotel, String name) {
-        // TODO Auto-generated method stub
-        return null;
+        EHotel ho = findEHotel(hotel);
+        E e = findE(ho, name);
+        if (e == null) return null;
+        return toProp(e, ho);
     }
-
 
 }

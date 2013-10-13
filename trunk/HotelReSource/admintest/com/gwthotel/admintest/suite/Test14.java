@@ -33,14 +33,14 @@ import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.DateUtil;
 
 public class Test14 extends TestHelper {
-    
+
     @Before
     public void before() {
         clearObjects();
         createHotels();
         DateUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
-    
+
     @Test
     public void test1() {
         HotelServices ho = new HotelServices();
@@ -51,9 +51,9 @@ public class Test14 extends TestHelper {
         iServices.addElem(getH(HOTEL), ho);
         ho = iServices.findElem(getH(HOTEL), "beef");
         assertNotNull(ho);
-        assertEquals(ServiceType.OTHER,ho.getServiceType());
+        assertEquals(ServiceType.OTHER, ho.getServiceType());
     }
-    
+
     @Test
     public void test2() {
         test1();
@@ -74,7 +74,7 @@ public class Test14 extends TestHelper {
         det.setPrice(new BigDecimal("100.0"));
         det.setPriceList(new BigDecimal("200.0"));
         det.setRoomName("P10");
-        det.setResDate(toDate(2013,4,10));
+        det.setResDate(toDate(2013, 4, 10));
         r.getResDetail().add(det);
         r = iRes.addElem(getH(HOTEL), r);
         String sym = r.getName();
@@ -82,8 +82,8 @@ public class Test14 extends TestHelper {
         r = iRes.findElem(getH(HOTEL), sym);
         assertNotNull(r);
         det = r.getResDetail().get(0);
-        assertEquals(HUtils.roundB(new BigDecimal("100.0")),det.getPrice());
-        assertEquals(HUtils.roundB(new BigDecimal("200.0")),det.getPriceList());
+        assertEqB(100.0, det.getPrice());
+        assertEqB(200.0, det.getPriceList());
 
     }
 
