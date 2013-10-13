@@ -24,6 +24,7 @@ import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
 import com.gwtmodel.table.common.PersistTypeEnum;
 import com.gwtmodel.table.composecontroller.ComposeControllerType;
@@ -156,8 +157,13 @@ class DataListActionItemFactory {
             String addTitle = GetActionName.getActionName(action);
             IGWidget w = slContext.getGwtWidget();
             VerticalPanel vp = new VerticalPanel();
-            d = new FormDialog(vp, LogT.getT().formRecordTitle(
-                    iMess.getMessage(title), addTitle), w, modal, aClose);
+            String titleDialog;
+            if (CUtil.EmptyS(title))
+                titleDialog = addTitle;
+            else
+                titleDialog = LogT.getT().formRecordTitle(
+                        iMess.getMessage(title), addTitle);
+            d = new FormDialog(vp, titleDialog, w, modal, aClose);
             d.show(wSize);
             if (o != null) {
                 d.setOnClose(o);
