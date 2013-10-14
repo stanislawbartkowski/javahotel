@@ -21,7 +21,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.LoadResult;
 import com.googlecode.objectify.ObjectifyService;
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.admin.gae.DictUtil;

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Add payment">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@addpaymentbutton">
 
 	<before />
 
@@ -11,36 +11,36 @@
 	</jython>
         
         <buttons>
-                <button id="accept" displayname="Add payment" actiontype="JYESNO_MESSAGE" actionparam="Are you sure to add this payment ?"
-                        actionparam1="Confirmation" actionparam2="addpayment" validate=""/>
+                <button id="accept" displayname="@addpaymentbutton" actiontype="JYESNO_MESSAGE" actionparam="@addpaymentask"
+                        actionparam1="@confirmation" actionparam2="addpayment" validate=""/>
                 <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
         </buttons>
 
 
 	<form>
-		<field id="paymentdate" displayname="Date" type="date" notempty="" />
-		<field id="pricelist" type="custom:allpricelist" displayname="Price list"
+		<field id="paymentdate" displayname="@paymentdate" type="date" notempty="" />
+		<field id="pricelist" type="custom:allpricelist" displayname="@pricelist"
 			signalchange="" />
-		<field id="service" type="custom:otherservice" displayname="Service"
+		<field id="service" type="custom:otherservice" displayname="@servicename"
 			signalchange="" />
-               <field id="pricefromlist" type="decimal" displayname="Price from list" readonly = "" />
-               <field id="price" type="decimal" displayname="Price" notempty="" signalchange=""/>
-               <field id="quantity" type="int" displayname="Quantity" notempty="" signalchange="" />
-               <field id="total" type="decimal" displayname="Total" readonly="" notempty=""  />
+               <field id="pricefromlist" type="decimal" displayname="@pricefromlist" readonly = "" />
+               <field id="price" type="decimal" displayname="@price" notempty="" signalchange=""/>
+               <field id="quantity" type="int" displayname="@quantity" notempty="" signalchange="" />
+               <field id="total" type="decimal" displayname="@totalprice" readonly="" notempty=""  />
                <field id="vat" type="custom:vattax" displayname="@vatname"
                         notempty="" />
                <field id="descr" displayname = "@description" /> 
 	</form>
 
-	<list id="roomlist" displayname="Persons to rooms" pagesize="5">
+	<list id="roomlist" displayname="@guests" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
 		<columns>
-			<column id="roomid" displayname="Room name" />
-			<column id="roomdesc" displayname="Description" />
+			<column id="roomid" displayname="@roomname" />
+			<column id="roomdesc" displayname="@roomdescription" />
 			<!-- guest description -->
-			<column id="name" displayname="id" actionid="guestdetail" />
-			<column id="descr" displayname="Guest description" />
-			<column id="firstname" displayname="Guest first name" />
+			<column id="guestname" displayname="@guestname" actionid="guestdetail" />
+			<column id="guestdescr" displayname="@guestdescription" />
+			<column id="firstname" displayname="@guestfirstname" />
 
 		</columns>
 	</list>

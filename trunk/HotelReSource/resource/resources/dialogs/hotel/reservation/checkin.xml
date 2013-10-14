@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Check in">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@checkinbutton">
 
 	<before />
 
@@ -9,22 +9,22 @@
 	</jython>
 
 	<buttons>
-		<button id="accept" displayname="Check in" actiontype="JYESNO_MESSAGE" actionparam="Are you sure to check them in ?"
-			actionparam1="Checkin confirmation" actionparam2="makecheckin" />
+		<button id="accept" displayname="@checkinbutton" actiontype="JYESNO_MESSAGE" actionparam="@checkinquestion"
+			actionparam1="@confirmation" actionparam2="makecheckin" />
 		<button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
 	</buttons>
 	
-	<list id="checkinlist" displayname="Persons to rooms" pagesize="5">
+	<list id="checkinlist" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
   		<buttons-addlist>makecheckin</buttons-addlist> 
 		<columns>
-			<column id="roomid" displayname="Room name" />
-			<column id="roomdesc" displayname="Description" />
+			<column id="roomid" displayname="@roomname" />
+			<column id="roomdesc" displayname="@roomdescription" />
 <!--  guest description -->			
-            <column id="guestselect" displayname="Name" actionid="selectguest" editable=""/>
-			<column id="name" displayname="id"/>
-			<column id="descr" displayname="Guest description" editable="" helper="guestdetails" />
-			<column id="firstname" displayname="Guest first name" editable=""/> 
+            <column id="guestselect" displayname="@select" actionid="selectguest" editable=""/>
+			<column id="name" displayname="@guestname"/>
+			<column id="descr" displayname="@guestdescription" editable="" helper="guestdetails" />
+			<column id="firstname" displayname="@guestfirstname" editable=""/> 
 			<column id="companyname" hidden=""/>
 			<column id="street" hidden="" />
 			<column id="zipcode" hidden=""/>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Bill" >
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@bill" >
 
         <before/>
 
@@ -13,7 +13,7 @@
          <form>
                 <!-- cust description -->
                 <field id="payer_name" displayname="@name" readonly=""/>
-                <field id="payer_descr" displayname="Payer name" readonly=""/>
+                <field id="payer_descr" displayname="@billpayername" readonly=""/>
                 <field id="payer_firstname" displayname="@firstname" readonly="" />
                 <field id="payer_companyname" displayname="@companyname" hidden="" readonly="" />
                 <field id="payer_street" displayname="@street" hidden="" />
@@ -26,13 +26,13 @@
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
                         <column id="idp" type="long" hidden="" />
-                        <column id="room" displayname="Room" />
-                        <column id="resday" type="date" displayname="Night" />
-                        <column id="servday" type="date" displayname="Day" />
-                        <column id="guest" displayname="Guest" />
-                        <column id="service" displayname="Service" />
-                        <column id="servdescr" displayname="Description" />
-                        <column id="total" type="decimal" displayname="Price" footer="" />
+                        <column id="room" displayname="@roomname" />
+                        <column id="resday" type="date" displayname="@staynight" />
+                        <column id="servday" type="date" displayname="@stayday" />
+                        <column id="guest" displayname="@guestname" />
+                        <column id="service" displayname="@servicename" />
+                        <column id="servdescr" displayname="@description" />
+                        <column id="total" type="decimal" displayname="@totalprice" footer="" />
                 </columns>
        </list>
 

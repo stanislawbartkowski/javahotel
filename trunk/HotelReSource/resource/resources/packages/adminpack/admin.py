@@ -8,6 +8,7 @@ from util.util import createArrayList
 from util.util import findElemInSeq
 from util.util import createSeq
 from util.util import HotelAdmin
+from util.util import clearHotel
 
 M = MESS()
 
@@ -39,8 +40,10 @@ def __readList(adminI,var,hotel):
     else : seq = adminI.getListOfPersons()
     list = []
     
-    for s in seq : 
-       list.append({"name" : s.getName(), "descr" : s.getDescription()} )
+    for s in seq :
+       ma = {"name" : s.getName(), "descr" : s.getDescription()}
+       if hotel : ma["clearhotel"] = M("clearhotel")
+       list.append(ma)
        
     map={}   
     if hotel : map["hotels"] = list
@@ -94,7 +97,21 @@ def hotelaction(action,var) :
   
   if action == "before" or action == "crud_readlist" :
       __readList(adminI,var,True)
-            
+      
+  if action == "clearhotel" :
+      var["JYESNO_MESSAGE"] = M("REMOVEALLDATAFROMHOTEL")
+      var["JMESSAGE_TITLE"] = M("REMOVECONFIRMATION")  
+      var["JAFTERDIALOG_ACTION"] = "clearhotelafter"
+      return
+   
+  if action == "clearhotelafter" and var["JYESANSWER"] :
+      var["JYESNO_MESSAGE"] = M("REMOVECONFIRMATION") + M("AREYOUSURE")
+      var["JMESSAGE_TITLE"] = M("REMOVECONFIRMATION")  
+      var["JAFTERDIALOG_ACTION"] = "clearhotelexecute"
+      return
+
+  if action == "clearhotelexecute" and var["JYESANSWER"] :
+      clearHotel(var,var["name"]) 
       
 def hotelelemaction(action,var):
 
@@ -123,7 +140,7 @@ def hotelelemaction(action,var):
       var["JCLOSE_DIALOG"] = True
       return
 
-  if action == "crud_change"  and not var["JCRUD_AFTERCONF"] :
+  if action == "crud_change" and not var["JCRUD_AFTERCONF"] :
       var["JYESNO_MESSAGE"] = M("CHANGEHOTELASK")
       var["JMESSAGE_TITLE"] = ""  
       return

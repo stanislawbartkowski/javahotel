@@ -13,6 +13,7 @@
 		<columns>
 			<column id="name" displayname="@name" />
 			<column id="descr" displayname="@description" />
+                       <column id="clearhotel" displayname="@clearhotel" actionid="clearhotel" />
 		</columns>
 	</list>
 

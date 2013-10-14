@@ -82,6 +82,10 @@ public class Test13 extends TestHelper {
 
         r = iRes.findElem(getH(HOTEL), r.getName());
         assertNotNull(r);
+        assertEquals("user", r.getCreationPerson());
+        assertNotNull(r.getCreationDate());
+        assertEquals("user", r.getModifPerson());
+        assertNotNull(r.getModifDate());
         iResOp.changeStatus(getH(HOTEL), r.getName(), ResStatus.CANCEL);
         resList = iResOp.queryReservation(getH(HOTEL), rQuery);
         assertTrue(resList.isEmpty());
@@ -181,13 +185,17 @@ public class Test13 extends TestHelper {
         assertEquals(2, resList.size());
         ReservationForm r = iRes.findElem(getH(HOTEL), re.rese);
         r.setStatus(ResStatus.STAY);
-        iRes.changeElem(getH(HOTEL), r);
+        iGetI.invalidateCache();
+        iRes.changeElem(getH1(HOTEL), r);
         r = iRes.findElem(getH(HOTEL), re.rese);
+        assertEquals("user", r.getCreationPerson());
+        assertNotNull(r.getCreationDate());
+        assertEquals("modifuser", r.getModifPerson());
+        assertNotNull(r.getModifDate());
         assertEquals(ResStatus.STAY, r.getStatus());
         resList = iResOp.queryReservation(getH(HOTEL), re.rQuery);
         assertFalse(resList.isEmpty());
         assertEquals(2, resList.size());
-
     }
 
 }

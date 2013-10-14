@@ -90,7 +90,6 @@ public class HotelReservationImpl implements IReservationForm {
         ReservationAdd add = new ReservationAdd(hotel, lMess, elem, true, iGen);
         add.beforeAdd();
         add.addTran();
-
     }
 
     @Override

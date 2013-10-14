@@ -23,6 +23,14 @@ class MESS :
 
   def __call__(self,key) :
       return self.M.getMessN(key)
+    
+def clearHotel(var,hotel) :
+   token = var["SECURITY_TOKEN"]
+   iGet = H.getInstanceHotelId()
+   aid = getAppId(var)
+   instance = aid.getInstanceName()
+   hi = iGet.getHotel(instance, hotel, aid.getPerson());
+   H.getClearHotel().clearObjects(hi)
   
 class HotelAdmin :
     
@@ -320,8 +328,10 @@ def createSeq(list,addName=False):
     for s in list :
         m = {}
         m["id"] = s.getName()
-        if addName :  m["displayname"] = s.getName() + " " + s.getDescription()
-        else : m["displayname"] = s.getDescription()
+        if s.getDescription() == None : m["displayname"] = m["id"]
+        else :
+          if addName :  m["displayname"] = s.getName() + " " + s.getDescription()
+          else : m["displayname"] = s.getDescription()
         seq.append(m)
     return seq    
 
@@ -368,7 +378,9 @@ class ConstructObject :
         if t == 0 : oType = HotelObjects.CUSTOMER
         if t == 1 : oType = HotelObjects.RESERVATION
         if t == 2 : oType = HotelObjects.BILL
-        return self.factory.construct(self.hotel,oType)
+        o = self.factory.construct(self.hotel,oType)
+        o.setGensymbol(True)
+        return o
     
 def newCustomer(var) :
     c = ConstructObject(var)
@@ -568,5 +580,7 @@ class HOTELTRANSACTION(cutil.SEMTRANSACTION) :
     def __init__(self,semid,var) :
       semname = None
       if semid == 0 : semname = "HOTELBILLSAVE"
+      if semid == 1 : semname = "HOTELMAKERESERVATION"
+      if semid == 2 : semname = "HOTELCHECKIN"
       cutil.SEMTRANSACTION.__init__(self,semname,var)
 

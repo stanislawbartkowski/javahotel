@@ -39,6 +39,10 @@ from util.util import newBill
 from con import eqUL
 from util.util import PAYMENTOP
 from util import rutil
+from util.util import HOTELTRANSACTION
+from util.util import MESS
+
+M = MESS()
 
 CLIST = ["name","descr"] + getCustFieldId()
 
@@ -153,42 +157,16 @@ def _setvarBefore(var):
     var["JFOOTER_COPY_reslist_price"] = True
     var["JFOOTER_reslist_price"] = sum.sum
   
-def reseraction(action,var):
-    printvar("reseraction",action,var)
-    if action == "signalchange" :
-        if var["changefield"] == "roomservice" : _createListOfDays(var)
-        if var["changefield"] == "roompricelist" : _createListOfDays(var)
-    
-    if action=="before" :
-        _setvarBefore(var)
-        
-    if action == "acceptdetails" :
-        xml = var["JUPDIALOG_RES"]
-        xmlToVar(var,xml,CLIST,"cust_")
-        setCopy(var,CLIST,None,"cust_")
-        
-    if action=="custdetails" :
-        var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
-        var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-        var["JUPDIALOG_START"] = mapToXML(var,CLIST,"cust_")
-        print "start",var["JUPDIALOG_START"]
-            
-    if action == "checkaval" :
-        _checkRese(var)
-
-    if action == "askforreservation" :
-      if not _checkRese(var) : return
-      var["JYESNO_MESSAGE"] = "Make reservation ?"
-      var["JMESSAGE_TITLE"] = ""  
-      var["JAFTERDIALOG_ACTION"] = "makereservation"
-
-    if action == "makereservation" :
-      if not var["JYESANSWER"] : return  
-      # TODO: fix !!! not transactional  
+class MAKERESE(HOTELTRANSACTION) :
+  
+   def __init__(self,var) :
+     HOTELTRANSACTION.__init__(self,1,var)
+     
+   def run(self,var) :
       res = _createResData(var)
       if not res[2] :
-          var["JERROR_MESSAGE"] = "Already reserved"
-          var["JMESSAGE_TITLE"] = "Cannot make reservation"  
+          var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
+          var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE") 
           return
       # customer firstly
       cust = newCustomer(var)
@@ -222,11 +200,42 @@ def reseraction(action,var):
       RFORM = RESFORM(var)
       added = RFORM.addElem(reservation)
       resename = added.getName()
-      # --- 
-#      var["JOK_MESSAGE"] = "Done. Reservation id " + resename
-#      var["JMESSAGE_TITLE"] = "Reservation" 
       var["JCLOSE_DIALOG"] = True
       var["JREFRESH_DATELINE_reservation"] = ""
+  
+  
+def reseraction(action,var):
+    printvar("reseraction",action,var)
+    if action == "signalchange" :
+        if var["changefield"] == "roomservice" : _createListOfDays(var)
+        if var["changefield"] == "roompricelist" : _createListOfDays(var)
+    
+    if action=="before" :
+        _setvarBefore(var)
+        
+    if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" :
+        xml = var["JUPDIALOG_RES"]
+        xmlToVar(var,xml,CLIST,"cust_")
+        setCopy(var,CLIST,None,"cust_")
+        
+    if action=="custdetails" :
+        var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
+        var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
+        var["JUPDIALOG_START"] = mapToXML(var,CLIST,"cust_")
+        print "start",var["JUPDIALOG_START"]
+            
+    if action == "checkaval" :
+        _checkRese(var)
+
+    if action == "askforreservation" :
+      if not _checkRese(var) : return
+      var["JYESNO_MESSAGE"] = M("MAKERESERVATIONASK")
+      var["JMESSAGE_TITLE"] = ""  
+      var["JAFTERDIALOG_ACTION"] = "makereservation"
+
+    if action == "makereservation" and var["JYESANSWER"] :
+      TRAN = MAKERESE(var)
+      TRAN.doTrans()
       
 def showreseraction(action,var):
    printvar("show reservaction",action,var)

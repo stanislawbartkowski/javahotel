@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Create bill">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@createbill">
 
         <before />
         
@@ -11,18 +11,18 @@
         </jython>
         
         <buttons>
-                <button id="accept" displayname="Issue bill" />
+                <button id="accept" displayname="@issuebillbutton" />
                 <button id="resign" displayname="@resign" actiontype="JCLOSE_DIALOG" />
-                <button id="payerdetails" displayname="Payer details" />
+                <button id="payerdetails" displayname="@payerdetailsbutton" />
         </buttons>
         
         <form>
-                <field id="paynow" displayname="Payment now" type="bool" />  
-                <field id="paymethod" displayname="Payment method" type="custom:paymentmethod" />
-                <field id="paymentdate" displayname="Date of payment" type="date" />
+                <field id="paynow" displayname="@billpaynow" type="bool" />  
+                <field id="paymethod" displayname="@paymentmethod" type="custom:paymentmethod" />
+                <field id="paymentdate" displayname="@dateofpayment" type="date" />
                 <!-- cust description -->
-                <field id="payer_name" displayname="@name" readonly=""/>
-                <field id="payer_descr" displayname="Payer name" readonly=""/>
+                <field id="payer_name" displayname="@billpayername" readonly=""/>
+                <field id="payer_descr" displayname="@billpayerdescription" readonly=""/>
                 <field id="payer_firstname" displayname="@firstname" readonly="" />
                 <field id="payer_companyname" displayname="@companyname" hidden="" readonly="" />
                 <field id="payer_street" displayname="@street" hidden="" />
@@ -35,15 +35,15 @@
         <list id="poslist" pagesize="10">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
-                        <column id="billed" displayname="Billed" type="bool" />
+                        <column id="billed" displayname="@billed" type="bool" />
                         <column id="idp" type="long" hidden="" />
-                        <column id="room" displayname="Room" />
-                        <column id="resday" type="date" displayname="Night" />
-                        <column id="servday" type="date" displayname="Day" />
-                        <column id="guest" displayname="Guest" />
-                        <column id="service" displayname="Service" />
-                        <column id="servdescr" displayname="Description" />
-                        <column id="total" type="decimal" displayname="Price" footer="" />
+                        <column id="room" displayname="@roomname" />
+                        <column id="resday" type="date" displayname="@staynight" />
+                        <column id="servday" type="date" displayname="@stayday" />
+                        <column id="guest" displayname="@guestname" />
+                        <column id="service" displayname="@servicename" />
+                        <column id="servdescr" displayname="@servicedescription" />
+                        <column id="total" type="decimal" displayname="@totalprice" footer="" />
                 </columns>
        </list>
 
@@ -51,21 +51,21 @@
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <buttons-addlist>acceptafteryes,accept</buttons-addlist>
                 <columns>
-                        <column id="add" displayname="Add" type="bool" editable="" signalchange="" />
+                        <column id="add" displayname="@addtobill" type="bool" editable="" signalchange="" />
                         <column id="idp" type="long" hidden="" />
-                        <column id="room" displayname="Room" />
-                        <column id="resday" type="date" displayname="Night" />
-                        <column id="servday" type="date" displayname="Day" />
-                        <column id="guest" displayname="Guest" />
-                        <column id="service" displayname="Service" />
-                        <column id="servdescr" displayname="Description" />
-                        <column id="total" type="decimal" displayname="Price" footer="" />
+                        <column id="room" displayname="@roomname" />
+                        <column id="resday" type="date" displayname="@staynight" />
+                        <column id="servday" type="date" displayname="@stayday" />
+                        <column id="guest" displayname="@guestname" />
+                        <column id="service" displayname="@servicename" />
+                        <column id="servdescr" displayname="@servicedescription" />
+                        <column id="total" type="decimal" displayname="@totalprice" footer="" />
                 </columns>
        </list>
        
        <tabpanel id="tab">
-                <tabelem id="billlist" displayname="Not paid" />
-                <tabelem id="poslist" displayname="All billable" />
+                <tabelem id="billlist" displayname="@tabtitlenotpaid" />
+                <tabelem id="poslist" displayname="@tabtitlebillable" />
         </tabpanel>
 
 
