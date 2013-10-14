@@ -24,123 +24,126 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 
 class TabPanelView extends AbstractSlotContainer implements ITabPanelView {
 
-	private final TabPanel tPanel = new TabPanel();
-	private final List<TabElem> tList = new ArrayList<TabElem>();
-	private CellId panelId;
-	private final String tabId;
+    private final TabPanel tPanel = new TabPanel();
+    private final List<TabElem> tList = new ArrayList<TabElem>();
+    private CellId panelId;
+    private final String tabId;
+    private final IGetStandardMessage iMess = GwtGiniInjector.getI()
+            .getStandardMessage();
 
-	class ClickBefore implements BeforeSelectionHandler<java.lang.Integer> {
+    class ClickBefore implements BeforeSelectionHandler<java.lang.Integer> {
 
-		@Override
-		public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
-			CustomStringSlot sl = BeforeTabChange
-					.constructBeforeTabChangeSignal(dType);
-			BeforeTabChange cu = new BeforeTabChange(event.getItem(),tabId);
-			publish(sl, cu);
-		}
+        @Override
+        public void onBeforeSelection(BeforeSelectionEvent<Integer> event) {
+            CustomStringSlot sl = BeforeTabChange
+                    .constructBeforeTabChangeSignal(dType);
+            BeforeTabChange cu = new BeforeTabChange(event.getItem(), tabId);
+            publish(sl, cu);
+        }
 
-	}
+    }
 
-	private class TabElem implements Comparable {
-		private final int orderNo;
-		private final CellId id;
-		private final String tabName;
-		private final String htmlPanel;
-		private Widget w = null;
+    private class TabElem implements Comparable {
+        private final int orderNo;
+        private final CellId id;
+        private final String tabName;
+        private final String htmlPanel;
+        private Widget w = null;
 
-		TabElem(int orderNo, CellId id, String tabName, String htmlPanel) {
-			this.id = id;
-			this.orderNo = orderNo;
-			this.tabName = tabName;
-			this.htmlPanel = htmlPanel;
-		}
+        TabElem(int orderNo, CellId id, String tabName, String htmlPanel) {
+            this.id = id;
+            this.orderNo = orderNo;
+            this.tabName = tabName;
+            this.htmlPanel = htmlPanel;
+        }
 
-		@Override
-		public int compareTo(Object o) {
-			TabElem e = (TabElem) o;
-			if (orderNo < e.orderNo)
-				return -1;
-			if (orderNo == e.orderNo)
-				return 0;
-			return 1;
-		}
-	}
+        @Override
+        public int compareTo(Object o) {
+            TabElem e = (TabElem) o;
+            if (orderNo < e.orderNo)
+                return -1;
+            if (orderNo == e.orderNo)
+                return 0;
+            return 1;
+        }
+    }
 
-	TabPanelView(IDataType dType, CellId id, String tabId) {
-		this.dType = dType;
-		this.panelId = id;
-		tPanel.addBeforeSelectionHandler(new ClickBefore());
-		this.tabId = tabId;
-	}
+    TabPanelView(IDataType dType, CellId id, String tabId) {
+        this.dType = dType;
+        this.panelId = id;
+        tPanel.addBeforeSelectionHandler(new ClickBefore());
+        this.tabId = tabId;
+    }
 
-	private class SList extends SynchronizeList {
+    private class SList extends SynchronizeList {
 
-		protected SList(int noSync) {
-			super(noSync);
-		}
+        protected SList(int noSync) {
+            super(noSync);
+        }
 
-		@SuppressWarnings("unchecked")
-		@Override
-		protected void doTask() {
-			Collections.sort(tList);
-			for (TabElem e : tList) {
-				tPanel.add(e.w, e.tabName);
-			}
-			tPanel.selectTab(0);
-		}
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void doTask() {
+            Collections.sort(tList);
+            for (TabElem e : tList)
+                tPanel.add(e.w, iMess.getMessage(e.tabName));
 
-	}
+            tPanel.selectTab(0);
+        }
 
-	private class SetWidget implements ISlotListener {
+    }
 
-		private final SList sLi;
+    private class SetWidget implements ISlotListener {
 
-		SetWidget(SList sLi) {
-			this.sLi = sLi;
-		}
+        private final SList sLi;
 
-		@Override
-		public void signal(ISlotSignalContext slContext) {
-			CellId cellId = slContext.getSlType().getCellId();
-			assert cellId != null : LogT.getT().CellCannotBeNull();
-			IGWidget gwtWidget = slContext.getGwtWidget();
-			for (TabElem e : tList) {
-				// compare references (not content)
-				if (e.id == cellId) {
-					e.w = gwtWidget.getGWidget();
-					sLi.signalDone();
-				}
-			}
-		}
-	}
+        SetWidget(SList sLi) {
+            this.sLi = sLi;
+        }
 
-	@Override
-	public CellId addPanel(int orderNo, String tabName, String htmlpanel) {
-		panelId = panelId.constructNext(dType);
-		tList.add(new TabElem(orderNo, panelId, tabName, htmlpanel));
-		return panelId;
-	}
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            CellId cellId = slContext.getSlType().getCellId();
+            assert cellId != null : LogT.getT().CellCannotBeNull();
+            IGWidget gwtWidget = slContext.getGwtWidget();
+            for (TabElem e : tList)
+                // compare references (not content)
+                if (e.id == cellId) {
+                    e.w = gwtWidget.getGWidget();
+                    sLi.signalDone();
+                }
+        }
+    }
 
-	@Override
-	public void createView() {
-		SList sLi = new SList(tList.size());
-		for (TabElem e : tList) {
-			registerSubscriber(dType, e.id, new SetWidget(sLi));
-		}
-	}
+    @Override
+    public CellId addPanel(int orderNo, String tabName, String htmlpanel) {
+        panelId = panelId.constructNext(dType);
+        tList.add(new TabElem(orderNo, panelId, tabName, htmlpanel));
+        return panelId;
+    }
 
-	@Override
-	public void startPublish(CellId cellId) {
-		publish(dType, cellId, new GWidget(tPanel));
-	}
+    @Override
+    public void createView() {
+        SList sLi = new SList(tList.size());
+        for (TabElem e : tList)
+            registerSubscriber(dType, e.id, new SetWidget(sLi));
+
+    }
+
+    @Override
+    public void startPublish(CellId cellId) {
+        publish(dType, cellId, new GWidget(tPanel));
+    }
 
 }
