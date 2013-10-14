@@ -184,18 +184,21 @@ public class DictUtil {
         }
     }
 
+    public static Double toDouble(BigDecimal b, boolean allownull) {
+        if (allownull && b == null)
+            return null;
+        return b.doubleValue();
+    }
+
     public static EResDetails toEResDetail(EHotel ho, EHotelReservation e,
             ReservationPaymentDetail r) {
         EResDetails er = new EResDetails();
         if (!CUtil.EmptyS(r.getGuestName()))
             er.setGuest(DictUtil.findCustomer(ho, r.getGuestName()));
         er.setNoP(r.getNoP());
-        er.setPrice(r.getPrice().doubleValue());
-        er.setPriceList(r.getPriceList() == null ? null : r.getPriceList()
-                .doubleValue());
-        er.setPriceTotal(r.getPriceTotal() == null ? null : r.getPriceTotal()
-                .doubleValue());
-        er.setResDate(r.getResDate());
+        er.setPrice(toDouble(r.getPrice(), false));
+        er.setPriceList(toDouble(r.getPriceList(), true));
+        er.setPriceTotal(toDouble(r.getPriceTotal(), true));
         er.setResDate(r.getResDate());
         if (!CUtil.EmptyS(r.getRoomName()))
             er.setRoom(DictUtil.findRoom(ho, r.getRoomName()));

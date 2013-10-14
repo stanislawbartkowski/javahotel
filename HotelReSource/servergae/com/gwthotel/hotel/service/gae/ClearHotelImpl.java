@@ -24,9 +24,13 @@ import com.gwthotel.admin.gae.entities.EHotel;
 import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.service.gae.entities.EBillPayment;
 import com.gwthotel.hotel.service.gae.entities.ECustomerBill;
+import com.gwthotel.hotel.service.gae.entities.EHotelCustomer;
+import com.gwthotel.hotel.service.gae.entities.EHotelGuest;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceElem;
 import com.gwthotel.hotel.service.gae.entities.EHotelPriceList;
 import com.gwthotel.hotel.service.gae.entities.EHotelReservation;
+import com.gwthotel.hotel.service.gae.entities.EHotelRoom;
+import com.gwthotel.hotel.service.gae.entities.EHotelRoomServices;
 import com.gwthotel.hotel.service.gae.entities.EHotelServices;
 import com.gwthotel.hotel.service.gae.entities.EResDetails;
 import com.gwthotel.shared.IHotelConsts;
@@ -48,9 +52,11 @@ public class ClearHotelImpl implements IClearHotel {
             public void vrun() {
                 // partial list
                 Class[] e = { EResDetails.class, EBillPayment.class,
-                        EHotelReservation.class, ECustomerBill.class,
-                        EHotelServices.class, EHotelPriceElem.class,
-                        EHotelPriceList.class };
+                        ECustomerBill.class, EHotelGuest.class,
+                        EHotelReservation.class, EHotelServices.class,
+                        EHotelRoomServices.class, EHotelPriceElem.class,
+                        EHotelPriceList.class, EHotelRoom.class,
+                        EHotelCustomer.class };
                 for (Class c : e) {
                     ofy().delete().entities(
                             (ofy().load().type(c).ancestor(eh).list()));

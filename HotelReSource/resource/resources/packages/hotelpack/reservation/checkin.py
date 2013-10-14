@@ -15,7 +15,10 @@ from util.util import newResGuest
 from cutil import createArrayList
 from util.util import newCustomer
 from cutil import copyVarToProp
+from util import util
+from util.util import MESS
 
+M = MESS()
 CUSTF = ["name","descr"] + getCustFieldId()
 CHECKINLIST= "checkinlist"
 
@@ -25,6 +28,41 @@ def __toMap(map,custid,CUST) :
     for n in CUSTF :
       map[n] = cust.getAttr(n)
 
+class MAKECHECKIN(util.HOTELTRANSACTION) :
+  
+   def __init__(self,var) :
+     util.HOTELTRANSACTION.__init__(self,1,var)
+     
+   def run(self,var) :
+     # double check (under semaphore) that reservation is not already changed to STAY
+     resName = var["resename"]
+     R = RESFORM(var)
+     ROP = RESOP(var)
+     CUST = CUSTOMERLIST(var)
+     r = R.findElem(resName)
+     if util.resStatus(r) == 1 :
+       var["JERROR_MESSAGE"] = M("ALREADYCHECKEDINMESS")
+       var["JMESSAGE_TITLE"] = M("ALREADYCHECKEDINTITLE")
+       return
+     a = createArrayList()
+     for cust in var["JLIST_MAP"][CHECKINLIST] :
+           if allEmpty(cust,CUSTF) :
+               continue
+           cid = cust["name"]
+           if cid == None : c = newCustomer(var)
+           else : c = CUST.findElem(cid)
+           copyVarToProp(cust,c,CUSTF)
+           if cid == None : cid = CUST.addElem(c).getName()
+           else : CUST.changeElem(c)
+           rGuest = newResGuest(var)
+           rGuest.setGuestName(cid)
+           rid = cust["roomid"]
+           rGuest.setRoomName(rid)
+           a.add(rGuest)
+     ROP.setResGuestList(resName,a)
+     ROP.changeStatusToStay(resName)
+     var["JCLOSE_DIALOG"] = True   
+     var["JREFRESH_DATELINE_reservation"] = ""
 
 def checkinaction(action,var):
     printVar("checkinaction",action,var)
@@ -36,27 +74,8 @@ def checkinaction(action,var):
     CUST = CUSTOMERLIST(var)
        
     if action == "makecheckin" and var["JYESANSWER"] :
-        a = createArrayList()
-        for cust in var["JLIST_MAP"][CHECKINLIST] :
-           print cust
-           if allEmpty(cust,CUSTF) :
-               continue
-           c = newCustomer(var)
-           copyVarToProp(cust,c,CUSTF)
-           cid = cust["name"]
-           if cid == None : cid = CUST.addElem(c)
-           else : CUST.changeElem(c)
-           rGuest = newResGuest(var)
-           rGuest.setGuestName(cid)
-           rid = cust["roomid"]
-           rGuest.setRoomName(rid)
-           print cid,rid
-           a.add(rGuest)
-        # TODO: not trsnactional !!!!   
-        ROP.setResGuestList(resName,a)
-        ROP.changeStatusToStay(resName)
-        var["JCLOSE_DIALOG"] = True   
-        var["JREFRESH_DATELINE_reservation"] = ""
+        TRANS = MAKECHECKIN(var)
+        TRANS.doTrans()
            
     if action == "guestdetails" and var[CHECKINLIST+"_lineset"] :
         var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 

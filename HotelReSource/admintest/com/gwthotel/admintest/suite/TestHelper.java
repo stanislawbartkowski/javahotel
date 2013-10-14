@@ -103,7 +103,12 @@ public class TestHelper {
     protected HotelId getH(String hotel) {
         return iGetI.getHotel(TESTINSTANCE, hotel, "user");
     }
+    
+    protected HotelId getH1(String hotel) {
+        return iGetI.getHotel(TESTINSTANCE, hotel, "modifuser");
+    }
 
+    
     protected void createHotels() {
         iGetI.invalidateCache();
         iAdmin.clearAll(getI());
@@ -131,13 +136,13 @@ public class TestHelper {
         iPriceElem = ServiceInjector.getHotelPriceElem();
         iRooms = ServiceInjector.getHotelRooms();
         iCustomers = ServiceInjector.getHotelCustomers();
-        iGetI = ServiceInjector.getInstanceHotel();
+        iGetI = H.getInstanceHotelId();
         iSeq = ServiceInjector.getSequenceRealmGen();
         iHGen = ServiceInjector.getHotelGenSym();
         hObjects = ServiceInjector.getHotelObjects();
         iRes = ServiceInjector.getReservationForm();
         iResOp = ServiceInjector.getReservationOp();
-        iClear = ServiceInjector.getClearHotel();
+        iClear = H.getClearHotel();
         ixMap = ServiceInjector.getXMLToMap();
         iBills = ServiceInjector.getCustomerBills();
         iSem = SHolder.getSem();

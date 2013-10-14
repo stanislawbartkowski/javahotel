@@ -21,6 +21,7 @@ import com.gwthotel.admin.IGetHotelRoles;
 import com.gwthotel.admin.IGetVatTaxes;
 import com.gwthotel.admin.IHotelAdmin;
 import com.gwthotel.admin.IXMLToMap;
+import com.gwthotel.hotel.IClearHotel;
 import com.gwthotel.hotel.IGetInstanceHotelId;
 import com.gwthotel.hotel.IHotelGetName;
 import com.gwthotel.hotel.IHotelObjectsFactory;
@@ -97,6 +98,9 @@ public class H {
     @Inject
     private static IPaymentBillOp iPayment;
 
+    @Inject
+    private static IClearHotel iClear;
+
     public static IGetLogMess getL() {
         return lMess;
     }
@@ -171,6 +175,14 @@ public class H {
 
     public static IPaymentBillOp getPaymentsOp() {
         return iPayment;
+    }
+
+    public static IClearHotel getClearHotel() {
+        return iClear;
+    }
+
+    public static IGetInstanceHotelId getInstanceHotelId() {
+        return iGet;
     }
 
 }

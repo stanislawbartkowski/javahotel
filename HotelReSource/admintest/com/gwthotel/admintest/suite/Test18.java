@@ -12,7 +12,9 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,9 +25,11 @@ import org.junit.Test;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.customer.HotelCustomer;
+import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
+import com.gwthotel.hotel.services.HotelServices;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.DateUtil;
 
@@ -140,5 +144,23 @@ public class Test18 extends TestHelper {
         assertNotNull(b.getCreationDate());
         assertNotNull(b.getModifDate());
         eqDate(b.getIssueDate(), 2010, 10, 12);
+    }
+
+    @Test
+    public void test5() {
+        test4();
+        iClear.clearObjects(getH(HOTEL));
+        List<ReservationForm> rList = iRes.getList(getH(HOTEL));
+        assertTrue(rList.isEmpty());
+        List<CustomerBill> bL = iBills.getList(getH(HOTEL));
+        assertTrue(bL.isEmpty());
+        List<HotelCustomer> cList = iCustomers.getList(getH(HOTEL));
+        assertTrue(cList.isEmpty());
+        List<HotelRoom> roList = iRooms.getList(getH(HOTEL));
+        assertTrue(roList.isEmpty());
+        List<HotelServices> seList = iServices.getList(getH(HOTEL));
+        assertTrue(seList.isEmpty());
+        List<HotelPriceList> prList = iPrice.getList(getH(HOTEL));
+        assertTrue(prList.isEmpty());
     }
 }

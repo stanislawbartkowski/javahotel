@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Stay">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@stay">
 
 	<before />
 
@@ -9,12 +9,12 @@
 	</jython>
 
 	<buttons>
-		<button id="guestdesc" displayname="Customer details" />
-		<button id="changetoreserv" displayname="Change to reservation"
-			actiontype="JYESNO_MESSAGE" actionparam="Do you want to change this stay to reservation ?"
-			actionparam1="Warning before change" />
-		<button id="addpayment" displayname="Add payment" />
-                <button id="createbill" displayname="Create bill" actiontype="JUP_DIALOG"
+		<button id="guestdesc" displayname="@guestdetails" />
+		<button id="changetoreserv" displayname="@changetoreservationbutton"
+			actiontype="JYESNO_MESSAGE" actionparam="@changetoreservationask"
+			actionparam1="@confirmation" />
+		<button id="addpayment" displayname="@addpaymentbutton" />
+                <button id="createbill" displayname="@createbill" actiontype="JUP_DIALOG"
                         actionparam="hotel/reservation/createbill.xml" actionparam2="afterbill"/>
 
 	</buttons>
@@ -22,42 +22,42 @@
 	<form>
                <field id="billlistwaschanged" type="bool" hidden="" />
 		<field id="resename" hidden="" />
-		<field id="name" displayname="Room" readonly="" />
+		<field id="name" displayname="@roomname" readonly="" />
 		<field id="nop" type="int" displayname="@nopersons" readonly="" />
-		<field id="desc" displayname="@description" readonly="" />
+		<field id="desc" displayname="@roomdescription" readonly="" />
 		<!-- cust description -->
-		<field id="cust_name" displayname="@name" hidden="" />
-		<field id="cust_descr" displayname="Guest description" readonly="" />
-		<field id="cust_firstname" displayname="@firstname" readonly="" />
-		<field id="cust_companyname" displayname="@companyname" hidden="" />
-		<field id="cust_street" displayname="@street" hidden="" />
-		<field id="cust_zipcode" displayname="@zipcode" hidden="" />
-		<field id="cust_email" displayname="@email" hidden="" />
-		<field id="cust_phone" displayname="@phone" hidden="" />
+		<field id="cust_name" displayname="@guestname" hidden="" />
+		<field id="cust_descr" displayname="@guestdescription" readonly="" />
+		<field id="cust_firstname" displayname="@guestfirstname" readonly="" />
+		<field id="cust_companyname" hidden="" />
+		<field id="cust_street" hidden="" />
+		<field id="cust_zipcode" hidden="" />
+		<field id="cust_email" hidden="" />
+		<field id="cust_phone" hidden="" />
 
 	</form>
 
-	<list id="reslist" displayname="Reservation details" pagesize="5">
+	<list id="reslist" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
 		<columns>
 			<column id="name" displayname="@name" />
-			<column id="resday" type="date" displayname="Night" />
-			<column id="service" displayname="Service" />
-			<column id="price" type="decimal" displayname="Price" footer="" />
+			<column id="resday" type="date" displayname="@staynight" />
+			<column id="service" displayname="@servicename" />
+			<column id="price" type="decimal" displayname="@totalprice" footer="" />
 		</columns>
 	</list>
         
-        <list id="paymentlist" displayname="Additional payments" pagesize = "5">
+        <list id="paymentlist" pagesize = "5">
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
-                        <column id="roomid" displayname="@name" />
-                        <column id="guestid" displayname="Guest" actionid="guestdetail" />
-                        <column id="guestdescr" displayname="Descrption" />
-                        <column id="guestfirstname" displayname="First name" />                        
-                        <column id="servdescr" displayname="@description" />
-                        <column id="quantity" displayname="Quantity" type="int" />
-                        <column id="price" type="decimal" displayname="Price" />
-                        <column id="total" type="decimal" displayname="Payment" footer = "" />
+                        <column id="roomid" displayname="@roomname" />
+                        <column id="guestid" displayname="@guestname" actionid="guestdetail" />
+                        <column id="guestdescr" displayname="@guestdescription" />
+                        <column id="guestfirstname" displayname="@guestfirstname" />                        
+                        <column id="servdescr" displayname="@servicedescription" />
+                        <column id="quantity" displayname="@quantity" type="int" />
+                        <column id="price" type="decimal" displayname="@price" />
+                        <column id="total" type="decimal" displayname="@totalprice" footer = "" />
                 </columns>
         </list>  
 

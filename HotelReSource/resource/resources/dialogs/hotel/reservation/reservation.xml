@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname = "Reservation panel" >
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname = "@reservationpanel" >
 
 	<before />
         
@@ -15,7 +15,7 @@
 		defafile="empty" colno="10">
 		<columns>
 			<column id="name" displayname="@name" />
-			<column id="noperson" displayname="no" type="int" />
+			<column id="noperson" displayname="@roomcapacitypanel" type="int" />
 			<column id="descr" displayname="@description" />
 		</columns>
 		<files>

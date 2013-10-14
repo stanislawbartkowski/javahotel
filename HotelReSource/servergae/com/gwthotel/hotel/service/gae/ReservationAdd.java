@@ -65,14 +65,12 @@ class ReservationAdd {
             }
             d.setServiceType(ServiceType.HOTEL);
         }
-        if (change) {
+        if (change)
             deList = DictUtil.findResDetailsForRes(ho, elem.getName(),
                     ServiceType.HOTEL);
-            HUtils.setCreateModif(hotel.getUserName(), elem, false);
-        } else {
+        else
             iGen.genSym(hotel, elem, HotelObjects.RESERVATION);
-            HUtils.setCreateModif(hotel.getUserName(), elem, true);
-        }
+
     }
 
     void addTran() {
@@ -81,6 +79,7 @@ class ReservationAdd {
             e = DictUtil.findReservation(ho, elem.getName());
         else
             e = new EHotelReservation();
+        HUtils.setCreateModif(hotel.getUserName(), e, !change);
         DictUtil.toEDict(e, elem);
         e.setCustomer(DictUtil.findCustomer(ho, elem.getCustomerName()));
         e.setStatus(elem.getStatus());
@@ -96,6 +95,9 @@ class ReservationAdd {
                 for (EResDetails r : eRes) {
                     r.setReservation(e);
                     r.setHotel(ho);
+                    // for hotel services copy Price to PriceTotal
+                    if (r.getPriceTotal() == null)
+                        r.setPriceTotal(r.getPrice());
                 }
                 ofy().save().entities(eRes);
             }

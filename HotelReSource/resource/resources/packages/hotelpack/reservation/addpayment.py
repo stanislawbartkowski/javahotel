@@ -31,7 +31,7 @@ def _createList(var):
        c = CU.findElem(guest)
        descr = c.getDescription()
        firstname = c.getAttr("firstname")
-       list.append({"roomid" : room,"roomdesc" : rdescr, "name" : guest, "descr" : descr,"firstname" : firstname})
+       list.append({"roomid" : room,"roomdesc" : rdescr, "guestname" : guest, "guestdescr" : descr,"firstname" : firstname})
    var["JLIST_MAP"] = { RLIST : list}
 
 LI = ["paymentdate","pricelist","service","pricefromlist","price","descr","quantity","total"]
@@ -110,7 +110,7 @@ def _addPayment(var) :
      serv = var["service"]
      if var[RLIST+"_lineset"] :
        room = var["roomid"]
-       guest = var["name"]
+       guest = var["guestname"]
      if room == None :
        room = var["JDATELINE_LINE"]
      if guest == None :
@@ -121,8 +121,6 @@ def _addPayment(var) :
      r.setPriceTotal(total)
      r.setServDate(da)
      r.setDescription(descr)
-#     r.setVat(vat) 
-#    TODO: addvar
      r.setService(serv)
      r.setGuestName(guest)
      r.setRoomName(room)
@@ -151,7 +149,7 @@ def doaction(action,var):
     if action == "guestdetail" and var[RLIST+"_lineset"] :
         showCustomerDetails(var,var["name"])
         
-    if action == "addpayment" :
+    if action == "addpayment" and var["JYESANSWER"] :
       if not checkGreaterZero(var,"quantity") : return
       _addPayment(var)
       var["JCLOSE_DIALOG"] = True
