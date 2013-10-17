@@ -65,6 +65,8 @@ public class ReservationOpImpl implements IReservationOp {
             for (EResDetails er : re) {
                 if (er.getReservation().getStatus() == ResStatus.CANCEL)
                     continue;
+                if (er.getServiceType() != ServiceType.HOTEL)
+                    continue;
                 ResData res = new ResData();
                 res.setResDate(er.getResDate());
                 res.setRoomName(er.getRoom().getName());
