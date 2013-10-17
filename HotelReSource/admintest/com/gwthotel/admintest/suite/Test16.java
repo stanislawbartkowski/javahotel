@@ -21,7 +21,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.customer.HotelCustomer;

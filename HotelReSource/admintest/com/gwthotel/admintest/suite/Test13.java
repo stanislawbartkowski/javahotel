@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.gwthotel.hotel.HotelObjects;
+import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.reservation.ResStatus;
 import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
@@ -30,6 +31,8 @@ import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.rooms.HotelRoom;
+import com.gwthotel.hotel.services.HotelServices;
+import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.DateUtil;
 
@@ -196,6 +199,48 @@ public class Test13 extends TestHelper {
         resList = iResOp.queryReservation(getH(HOTEL), re.rQuery);
         assertFalse(resList.isEmpty());
         assertEquals(2, resList.size());
+    }
+
+    @Test
+    public void test4() {
+        R re = createRese();
+        List<ResQuery>rQuery = new ArrayList<ResQuery>();
+        ResQuery q = new ResQuery();
+        q.setRoomName("R10");
+        q.setFromRes(re.dFrom);
+        q.setToRes(re.dFrom);
+        rQuery.add(q);
+        List<ResData> resList = iResOp.queryReservation(getH(HOTEL), rQuery);
+        assertEquals(1,resList.size());
+        
+        HotelServices ho = new HotelServices();
+        ho.setName("beef");
+        ho.setDescription("Restaurant");
+        ho.setAttr(IHotelConsts.VATPROP, "7%");
+        ho.setServiceType(ServiceType.OTHER);
+        iServices.addElem(getH(HOTEL), ho);
+
+        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
+                HotelObjects.CUSTOMER);
+        p.setGensymbol(true);
+        String guest1 = iCustomers.addElem(getH(HOTEL), p).getName();
+        
+        ReservationPaymentDetail add = new ReservationPaymentDetail();
+        add.setDescription("beef");
+        add.setGuestName(guest1);
+        add.setPrice(new BigDecimal(100));
+        add.setPriceList(new BigDecimal(150.00));
+        add.setPriceTotal(new BigDecimal(200.0));
+        add.setQuantity(2);
+        add.setRoomName("R10");
+        add.setServDate(re.dFrom);
+        add.setService("beef");
+        add.setVat("22%");
+        iResOp.addResAddPayment(getH(HOTEL), re.rese, add);
+        
+        resList = iResOp.queryReservation(getH(HOTEL), rQuery);
+        assertEquals(1,resList.size());
+
     }
 
 }
