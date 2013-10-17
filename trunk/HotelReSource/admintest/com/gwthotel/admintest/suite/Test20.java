@@ -121,6 +121,10 @@ public class Test20 extends TestHelper {
         }
         pList = iPayOp.getPaymentsForBill(getH(HOTEL), b.getName());
         assertEquals(30, pList.size());
+        for (PaymentBill bb : pList) {
+            System.out.println(bb.getBillName());
+            assertNotNull(bb.getBillName());
+        }
         // remove bill
         iBills.deleteElem(getH(HOTEL), b);
         assertNull(iBills.findElem(getH(HOTEL), b.getName()));
