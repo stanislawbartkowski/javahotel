@@ -12,6 +12,8 @@
  */
 package com.gwthotel.hotel.service.gae;
 
+import java.math.BigInteger;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -58,15 +60,20 @@ public class HotelCustomerBillsImpl extends
         e.setPayer(DictUtil.findCustomer(ho, t.getPayer()));
         e.setReservation(DictUtil.findReservation(ho, t.getReseName()));
         e.getResDetails().clear();
-        e.getResDetails().addAll(t.getPayList());
+        // important: after calling this method from Jython there could be
+        // BigInteger instead of Long
+        for (Object o : t.getPayList()) {
+            Long l;
+            if (o instanceof BigInteger)
+                l = ((BigInteger) o).longValue();
+            else
+                l = (Long) o;
+            e.getResDetails().add(l);
+        }
     }
 
     @Override
-    protected void beforeDelete(
-            com.gwthotel.hotel.service.gae.crud.CrudGaeAbstract.DeleteItem i,
-            EHotel ho, ECustomerBill elem) {
-        // TODO Auto-generated method stub
-
+    protected void beforeDelete(DeleteItem i, EHotel ho, ECustomerBill elem) {
     }
 
 }

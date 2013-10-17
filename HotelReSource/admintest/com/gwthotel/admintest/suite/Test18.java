@@ -123,6 +123,8 @@ public class Test18 extends TestHelper {
         List<CustomerBill> bList = iResOp.findBillsForReservation(getH(HOTEL),
                 resName);
         assertEquals(1, bList.size());
+        System.out.println(bList.get(0).getName());
+        assertNotNull(bList.get(0).getName());
         HotelCustomer cust = (HotelCustomer) hObjects.construct(getH(HOTEL),
                 HotelObjects.CUSTOMER);
         cust.setGensymbol(true);

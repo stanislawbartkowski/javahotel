@@ -12,9 +12,6 @@
  */
 package com.gwthotel.hotel.service.gae.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.gwthotel.hotel.reservation.ResStatus;

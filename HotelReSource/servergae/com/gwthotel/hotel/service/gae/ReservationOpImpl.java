@@ -155,8 +155,11 @@ public class ReservationOpImpl implements IReservationOp {
         List<ECustomerBill> re = ofy().load().type(ECustomerBill.class)
                 .ancestor(eh).filter("resName ==", resName).list();
         List<CustomerBill> bList = new ArrayList<CustomerBill>();
-        for (ECustomerBill b : re)
-            bList.add(DictUtil.toCustomerBill(b));
+        for (ECustomerBill b : re) {
+            CustomerBill bi = DictUtil.toCustomerBill(b);
+            DictUtil.toProp(bi, b);
+            bList.add(bi);
+        }
         return bList;
     }
 

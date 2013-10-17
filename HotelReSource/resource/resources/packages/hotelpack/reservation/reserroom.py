@@ -275,14 +275,15 @@ def _ListOfBills(var) :
    sumtotal = 0.0
    footerpayments = 0.0
    for b in bList :
-     id = b.getName()
+     bName = b.getName()
+     assert bName != None
      payer = b.getPayer()
      da = b.getIssueDate()
      tot = _countTotal(var,b,pli)
      sumtotal = addDecimal(sumtotal,tot)
-     paysum = rutil.countPayments(var,id)
+     paysum = rutil.countPayments(var,bName)
      footerpayments = addDecimal(footerpayments,paysum)
-     ma = { "billname" : id, "payerid" : payer, "payerdescr" : b.getDescription(), "billtotal" : tot, "payments" : paysum }
+     ma = { "billname" : bName, "payerid" : payer, "payerdescr" : b.getDescription(), "billtotal" : tot, "payments" : paysum }
      seq.append(ma)
    setJMapList(var,BILLIST,seq)
    setFooter(var,BILLIST,"billtotal",sumtotal) 
@@ -331,6 +332,7 @@ def showstay(action,var):
       var["JAFTERDIALOG_ACTION"] = "afteraddpayment" 
       
    if action == "paymentslist" :
+      assert var["billname"] != None
       var["JUP_DIALOG"]="hotel/reservation/listofpayment.xml" 
       var["JAFTERDIALOG_ACTION"] = "afterlistpayments"
       var["JUPDIALOG_START"] = var["billname"]
