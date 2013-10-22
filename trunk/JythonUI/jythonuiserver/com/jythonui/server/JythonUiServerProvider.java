@@ -17,7 +17,6 @@ import javax.inject.Provider;
 
 import com.gwtmodel.commoncache.ICommonCache;
 import com.jythonui.server.security.ISecurity;
-import com.jythonui.server.xml.IXMLTransformer;
 
 /**
  * @author hotel
