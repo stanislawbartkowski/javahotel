@@ -1,10 +1,12 @@
 package com.gwtmodel.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Properties;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 /*
  * Copyright 2013 stanislawbartkowski@gmail.com 
@@ -19,10 +21,12 @@ import java.util.Properties;
  * limitations under the License.
  */
 
-public class ReadUTF8Properties {
+public class ReadUTF8Properties { 
 
-	public static String getFileContent(String name) throws IOException {
-		return new String(Files.readAllBytes(Paths.get(name)));
+	private static String getFileContent(String name) throws IOException {
+// does not work in Google App Engine, use Guava goodies	    
+//		return new String(Files.readAllBytes(Paths.get(name)));
+	    return Files.toString(new File(name),  Charsets.UTF_8);
 	}
 
 	private static String toLatin1(String s) {
