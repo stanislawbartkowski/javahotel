@@ -27,6 +27,7 @@ def setCookie(var,name,val=None):
     cname="JCOOKIESET_" + name
     var[cname] = True
     if val : var["JCOOKIE_" + name] = val
+    else : var["JCOOKIE_" + name] = ""
     
 def setJMapList(var,list,seq):
   if var.has_key("JLIST_MAP") : var["JLIST_MAP"][list] = seq
@@ -211,6 +212,8 @@ class RegistryFile:
         self.__fa = fa
         self.__realM = realM
         self.__seqGen = seqGen
+        if seqGen == None :
+            self.__seqGen = SHolder.getSequenceRealmGen()
         self.__key = "GEN_KEY";
         self.__map = map
         self.__listid = listid
@@ -234,7 +237,7 @@ class RegistryFile:
              da = datetime.date(ti.tm_year,ti.tm_mon,ti.tm_mday)
              return da
          
-    def __getMapRR(self,k):
+    def getMapRR(self,k):
         RR = self.__getRR(k)
         elem = {}
         for id in self.__map.keys() :
@@ -257,7 +260,7 @@ class RegistryFile:
         l = R.getKeys()
         li = []
         for k in l : 
-            if k != self.__key : li.append(self.__getMapRR(k))
+            if k != self.__key : li.append(self.getMapRR(k))
         setJMapList(var,self.__listid,li)
         return li
         
@@ -379,3 +382,16 @@ class SEMTRANSACTION :
       self.run(self.var)
     finally :
       self.i.signal(self.semname)
+
+class GenSeq :
+  
+  def __init__(self,realM,keyM) :
+    self.h = SHolder.getSequenceRealmGen()
+    self.realM = realM
+    self.keyM = keyM
+    
+  def nextKey(self) :
+    return self.h.genNext(self.realM,self.keyM)
+  
+  def removeKey(self) :
+    self.h.remove(self.realM,self.keyM)
