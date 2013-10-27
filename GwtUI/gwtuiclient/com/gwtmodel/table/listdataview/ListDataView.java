@@ -35,7 +35,6 @@ import com.gwtmodel.table.controlbuttonview.ButtonRedirectActivateSignal;
 import com.gwtmodel.table.controlbuttonview.ButtonRedirectSignal;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.LogT;
-import com.gwtmodel.table.json.CreateJSonForIVData;
 import com.gwtmodel.table.json.IJsonConvert;
 import com.gwtmodel.table.listdataview.ChunkReader.Chunk;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
