@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -27,71 +28,78 @@ import com.jythonui.shared.RequestContext;
 
 public class Holder {
 
-    @Inject
-    private static IJythonUIServer iServer;
+	@Inject
+	private static IJythonUIServer iServer;
 
-    @Inject
-    private static IJythonClientRes iClient;
+	@Inject
+	private static IJythonClientRes iClient;
 
-    @Inject
-    private static ISecurity iSec;
+	@Inject
+	private static ISecurity iSec;
 
-    @Inject
-    private static IXMLTransformer iXml;
+	@Inject
+	private static IXMLTransformer iXml;
 
-    private static boolean auth = false;
+	@Inject
+	private static IGetConnection getConnection;
 
-    @Inject
-    @Named(IConsts.APPMESS)
-    private static IAppMess appMess;
+	private static boolean auth = false;
 
-    @Inject
-    private static ISecurityConvert iConvert;
+	@Inject
+	@Named(IConsts.APPMESS)
+	private static IAppMess appMess;
 
-    private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
+	@Inject
+	private static ISecurityConvert iConvert;
 
-    public static boolean isAuth() {
-        return auth;
-    }
+	private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
-    public static void setAuth(boolean pauth) {
-        auth = pauth;
-    }
+	public static boolean isAuth() {
+		return auth;
+	}
 
-    public static IJythonUIServer getiServer() {
-        return iServer;
-    }
+	public static void setAuth(boolean pauth) {
+		auth = pauth;
+	}
 
-    public static IJythonClientRes getiClient() {
-        return iClient;
-    }
+	public static IJythonUIServer getiServer() {
+		return iServer;
+	}
 
-    public static ISecurity getiSec() {
-        return iSec;
-    }
+	public static IJythonClientRes getiClient() {
+		return iClient;
+	}
 
-    public static void setContext(RequestContext req) {
-        locale.set(req);
-    }
+	public static ISecurity getiSec() {
+		return iSec;
+	}
 
-    public static RequestContext getRequest() {
-        return locale.get();
-    }
+	public static void setContext(RequestContext req) {
+		locale.set(req);
+	}
 
-    public static IAppMess getAppMess() {
-        return appMess;
-    }
+	public static RequestContext getRequest() {
+		return locale.get();
+	}
 
-    public static ISecurityConvert getSecurityConvert() {
-        return iConvert;
-    }
+	public static IAppMess getAppMess() {
+		return appMess;
+	}
 
-    public static IGetLogMess getM() {
-        return SHolder.getM();
-    }
+	public static ISecurityConvert getSecurityConvert() {
+		return iConvert;
+	}
 
-    public static IXMLTransformer getXMLTransformer() {
-        return iXml;
-    }
+	public static IGetLogMess getM() {
+		return SHolder.getM();
+	}
+
+	public static IXMLTransformer getXMLTransformer() {
+		return iXml;
+	}
+
+	public static IGetConnection getJDBCConnection() {
+		return getConnection;
+	}
 
 }
