@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.gwtmodel.table.common.CUtil;
 import com.jython.ui.shared.ISharedConsts;
 import com.jython.ui.shared.MUtil;
 import com.jythonui.server.IJythonClientRes;
@@ -33,8 +32,10 @@ import com.jythonui.shared.RequestContext;
 
 public class GetClientProperties implements IJythonClientRes {
 
+    @SuppressWarnings("unused")
     static final private Logger log = Logger
             .getLogger(GetClientProperties.class.getName());
+    @SuppressWarnings("unused")
     private final IGetLogMess gMess;
 
     @Inject

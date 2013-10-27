@@ -21,6 +21,7 @@ import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.JythonUiServerProvider;
 import com.jythonui.server.defa.CommonCacheProvider;
 import com.jythonui.server.defa.GetClientProperties;
@@ -51,6 +52,7 @@ import com.jythonui.server.storage.seq.ISequenceRealmGenFactory;
 import com.jythonui.server.storage.seqimpl.SequenceRealmGenFactory;
 import com.jythonui.server.xml.IXMLTransformer;
 import com.jythonui.server.xml.XMLTransformer;
+import com.jythonui.server.xmlmap.XMLMap;
 
 /**
  * @author hotel
@@ -91,6 +93,7 @@ public class JythonServerService {
                     Singleton.class);
             bind(IXMLTransformer.class).to(XMLTransformer.class).in(
                     Singleton.class);
+            bind(IXMLToMap.class).to(XMLMap.class).in(Singleton.class);
         }
 
         @Provides
