@@ -97,7 +97,6 @@ def _toMap(map):
     return ma     
     
 def toMap(xmls):
-  print "toMap",xmls
   x = Holder.getMapXML();
   iR = x.getMap(xmls)  
   rmap = _toMap(iR.getMap())

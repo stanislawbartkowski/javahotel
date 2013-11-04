@@ -119,6 +119,7 @@ public interface ICommonConsts {
     String BUTTONS = "buttons";
     String JUPDIALOG = "JUP_DIALOG";
     String JCLOSEDIALOG = "JCLOSE_DIALOG";
+    String JCLOSEBUTTON = "JCLOSE_BUTTON";
     String ACTIONS = "actions";
     String ACTION = "action";
     String ACTIONID = "actionid";

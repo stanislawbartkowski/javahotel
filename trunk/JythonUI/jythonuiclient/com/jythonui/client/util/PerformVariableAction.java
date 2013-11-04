@@ -204,15 +204,20 @@ public class PerformVariableAction {
 			}
 			if (!CUtil.EmptyS(p))
 				performAction(iYesno, iClose, kom[i], p, par, par2, w, iCon,
-						iEx, null);
+						iEx);
 		}
 		if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
 			String resString = null;
+			String closeButton = null;
 			FieldValue val = arg.getValue(ICommonConsts.JCLOSEDIALOG);
 			if (val.getType() == TT.STRING)
 				resString = val.getValueS();
-			performAction(null, iClose, ICommonConsts.JCLOSEDIALOG, null, null,
-					null, w, iCon, iEx, resString);
+			val = arg.getValue(ICommonConsts.JCLOSEBUTTON);
+			if (val != null)
+				closeButton = val.getValueS();
+
+			performAction(null, iClose, ICommonConsts.JCLOSEDIALOG, resString,
+					closeButton, null, w, iCon, iEx);
 		}
 	}
 
@@ -233,8 +238,7 @@ public class PerformVariableAction {
 	public static void performAction(final IYesNoAction iYesno,
 			ISendCloseAction iClose, String action, String param,
 			String param1, final String param2, WSize w,
-			IVariablesContainer iCon, IExecuteAfterModalDialog iEx,
-			String resString) {
+			IVariablesContainer iCon, IExecuteAfterModalDialog iEx) {
 		if (action.equals(ICommonConsts.JMAINDIALOG)) {
 			new RunAction().start(param);
 			return;
@@ -263,9 +267,10 @@ public class PerformVariableAction {
 			}
 			return;
 		}
+		// JCloseDialog: param : resString, param1: resButton
 		if (action.equals(ICommonConsts.JCLOSEDIALOG)) {
 			if (iClose != null)
-				iClose.closeAction(resString);
+				iClose.closeAction(param, param1);
 			return;
 		}
 		Utils.errAlert(M.M().UnknownAction(action, param));
