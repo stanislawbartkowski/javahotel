@@ -16,10 +16,10 @@ import com.gwtmodel.commoncache.ICommonCache;
 
 public class SimpleMapCacheFactory implements ICommonCacheFactory {
 
-    @Override
-    public ICommonCache construct(String cName) {
-        return new SimpleMapCache();
+	@Override
+	public ICommonCache construct(String cName) {
+		return new SimpleMapCache();
 
-    }
+	}
 
 }
