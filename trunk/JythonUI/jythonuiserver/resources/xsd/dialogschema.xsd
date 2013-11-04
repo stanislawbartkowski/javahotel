@@ -198,6 +198,8 @@
 			<xs:element minOccurs="0" name="signalbefore" type="emptyT" />
 			<xs:element minOccurs="0" name="imagecolumn" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="imagelist" type="xs:string" />
+            <xs:element minOccurs="0" name="editclass" type="xs:string" />
+            <xs:element minOccurs="0" name="editcss" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -228,6 +230,8 @@
 		<xs:attribute name="signalbefore" type="emptyT" />
 		<xs:attribute name="imagecolumn" type="xs:nonNegativeInteger" />
 		<xs:attribute name="imagelist" type="xs:string" />
+        <xs:attribute name="editclass" type="xs:string" />
+        <xs:attribute name="editcss" type="xs:string" />		
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">

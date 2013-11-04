@@ -130,7 +130,7 @@ public interface ICommonConsts {
     String JMESSAGE_TITLE = "JMESSAGE_TITLE";
     String JAFTERDIALOGACTION = "JAFTERDIALOG_ACTION";
     String JBUTTONRES = "JUPDIALOG_BUTTON";
-    String CLOSEDIALOGIMAGE ="closeimage";
+    String CLOSEDIALOGIMAGE = "closeimage";
     String JBUTTONDIALOGRES = "JUPDIALOG_RES";
     String JBUTTONDIALOGSTART = "JUPDIALOG_START";
     String JCRUD_AFTERCONF = "JCRUD_AFTERCONF";
@@ -173,6 +173,8 @@ public interface ICommonConsts {
     String VALIDATEOP = "op";
     String VALIDATEID1 = "id1";
     String WIDTH = "width";
+    String EDITCLASS = "editclass";
+    String EDITCSS = "editcss";
     String PAGESIZE = "pagesize";
     String ALIGN = "align";
     String ALIGNL = "L";
