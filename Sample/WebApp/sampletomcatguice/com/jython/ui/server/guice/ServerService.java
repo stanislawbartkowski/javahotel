@@ -31,7 +31,9 @@ import com.jythonui.datastore.DateLineOp;
 import com.jythonui.datastore.DateRecordOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
+import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.SecurityNullConvert;
@@ -78,6 +80,9 @@ public class ServerService {
                     StorageJpaRegistryFactory.class).in(Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
+            bind(IGetConnection.class)
+                    .toProvider(EmptyConnectionProvider.class).in(
+                            Singleton.class);
             // -----
 
             requestStatic();

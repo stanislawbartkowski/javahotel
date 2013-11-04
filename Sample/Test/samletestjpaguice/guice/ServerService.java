@@ -33,7 +33,9 @@ import com.jythonui.datastore.DateLineOp;
 import com.jythonui.datastore.DateRecordOp;
 import com.jythonui.datastore.EntityManagerFactoryProvider;
 import com.jythonui.datastore.PersonOp;
+import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.SecurityNullConvert;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
@@ -72,9 +74,12 @@ public class ServerService {
                     StorageJpaRegistryFactory.class).in(Singleton.class);
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
-//            bind(ISemaphore.class).to(JpaSemaphore.class).in(Singleton.class);
-//            bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
-            bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);            
+            // bind(ISemaphore.class).to(JpaSemaphore.class).in(Singleton.class);
+            // bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
+            bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
+            bind(IGetConnection.class)
+                    .toProvider(EmptyConnectionProvider.class).in(
+                            Singleton.class);
 
             requestStatic();
         }
@@ -99,6 +104,7 @@ public class ServerService {
                 }
             };
         }
+
         // -----
 
     }
