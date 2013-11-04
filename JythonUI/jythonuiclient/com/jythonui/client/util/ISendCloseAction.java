@@ -14,6 +14,6 @@ package com.jythonui.client.util;
 
 public interface ISendCloseAction {
     
-    void closeAction(String resString);
+    void closeAction(String resString, String resButton);
 
 }

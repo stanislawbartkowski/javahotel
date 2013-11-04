@@ -159,7 +159,7 @@ class GetViewController implements IGetViewControllerFactory {
             private class CloseD implements ISendCloseAction {
 
                 @Override
-                public void closeAction(String resString) {
+                public void closeAction(String resString, String resButton) {
                     publish(dType, DataActionEnum.PersistDataSuccessSignal, e);
                 }
             }

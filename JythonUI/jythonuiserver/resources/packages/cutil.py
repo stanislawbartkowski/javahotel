@@ -18,6 +18,14 @@ DATE="date"
 BOOL="boolean"
 STRING="string"
 
+class MESS :
+
+  def __init__(self):
+      self.M = Holder.getAppMess()
+
+  def __call__(self,key) :
+      return self.M.getCustomMess().getAttr(key)
+
 def getCookie(var,name):
     cname="JCOOKIE_" + name
     if var.has_key(cname) : return var[cname]
@@ -33,6 +41,12 @@ def setJMapList(var,list,seq):
   if var.has_key("JLIST_MAP") : var["JLIST_MAP"][list] = seq
   else : var["JLIST_MAP"] = { list : seq }
 
+def setJCheckList(var,list,seq):
+  if var.has_key("JCHECK_MAP") : 
+    if var["JCHECK_MAP"].has_key(list) : var["JCHECK_MAP"][list].update(seq)
+    else : var["JCHECK_MAP"][list] = seq
+  else : var["JCHECK_MAP"] = { list : seq }
+
 def createArrayList() :
   return ArrayList()   
   
@@ -44,7 +58,7 @@ def setStatus(var,typ,val):
   var["JSTATUS_SET_" + typ] = True
   var["JSTATUS_TEXT_" + typ] = val  
   
-def setErrorField(var,f,mess) :
+def setErrorField(var,f,mess="") :
    var["JERROR_"+f] = mess
 
 def checkEmpty(var,li) :
@@ -116,13 +130,22 @@ def addDecimal(sum1,sum2,afterdot=2):
 def minusDecimal(sum1,sum2,afterdot=2):
    return con.minusDecimal(sum1,sum2,afterdot) 
 
-def setCopy(var,li, list=None,prefix=None) :
+def setCopy(var,li, listt=None,prefix=None) :
+  if type(li) != list :
+      li = [li]  
   for l in li :
-    if list : c = "JROWCOPY_" + list + "_"  
+    if listt : c = "JROWCOPY_" + listt + "_"  
     else : c = "JCOPY_"
     if prefix : k = prefix + l
     else : k = l
     var[c+k] = True
+
+def removeDecimalFooter(var,list,name) :
+    footerdef = "JFOOTER_"+list+"_"+name
+    currentfooter = var[footerdef]
+    val = var[name]
+    currentfooter = con.minusDecimal(currentfooter,val)
+    setFooter(var,list,name,currentfooter)
     
 def modifDecimalFooter(var,list,name):
     footerdef = "JFOOTER_"+list+"_"+name
@@ -283,7 +306,8 @@ class RegistryFile:
                 if type == LONG :
                     vals = str(val)
                 elif type == DATE :
-                    vals = self.__tostr(val)
+                    if val == None : vals = None
+                    else : vals = self.__tostr(val)
                 elif type == DECIMAL :
                     vals = str(val)    
                 else : vals = val
@@ -382,6 +406,10 @@ class SEMTRANSACTION :
       self.run(self.var)
     finally :
       self.i.signal(self.semname)
+
+  def doTransRes(self) :
+      self.doTrans()
+      return self.res
 
 class GenSeq :
   
