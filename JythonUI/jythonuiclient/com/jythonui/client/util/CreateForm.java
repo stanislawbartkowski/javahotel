@@ -211,7 +211,7 @@ public class CreateForm {
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
                     lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
                     f.getActionId(), f.isColumnEditable(), al, f.getWidth(),
-                    null, null, iHelper, colNo);
+                    f.getEditClass(), f.getEditCss(), iHelper, colNo);
             heList.add(v);
             if (!f.isHidden())
                 desc.colvisNo++;
