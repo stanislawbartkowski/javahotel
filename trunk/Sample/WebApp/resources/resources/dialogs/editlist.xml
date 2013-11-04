@@ -48,12 +48,12 @@
 
 	</list>
 
-        <list id="listb" displayname="Edit list of boolean" aftereditrow="">
+        <list id="listb" displayname="Edit list of boolean" aftereditrow="" width="90%">
                 <standbutt>TOOLS,SHOW,FIND,FILTER</standbutt>
                 <columns>
-                        <column id="id" displayname="id" type="long" editable=""/>
-                        <column id="name" displayname="Name" editable=""/>
-                        <column id="check" displayname="Check" type="bool" editable=""  signalchange="" />
+                        <column id="id" displayname="id" type="long" editable="" width="20%"/>
+                        <column id="name" displayname="Name" editable="" width="60%" editcss="background-color:#d0e4fe;" />
+                        <column id="check" displayname="Check" type="bool" editable=""  signalchange=""  width="10%" />
                 </columns>
 
         </list>
