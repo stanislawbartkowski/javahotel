@@ -47,7 +47,7 @@ public class CreateFormView {
      */
     public static void replace(HTMLPanel ha, String htmlId, Widget w) {
         try {
-//            w.getElement().setId(htmlId);
+            // w.getElement().setId(htmlId);
             // ha.add(w, htmlId);
             ha.addAndReplaceElement(w, htmlId);
         } catch (NoSuchElementException e) {
@@ -112,6 +112,11 @@ public class CreateFormView {
         Grid g = new Grid(rows, 2);
         rows = 0;
         for (FormField d : fList) {
+            if (d.isLabel()) {
+                g.setWidget(rows, 0, d.getELine().getGWidget());
+                rows++;
+                continue;
+            }
             if (d.isRange()) {
                 continue;
             }

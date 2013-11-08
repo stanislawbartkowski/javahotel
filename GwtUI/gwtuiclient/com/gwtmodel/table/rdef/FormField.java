@@ -27,10 +27,11 @@ public class FormField {
     private boolean disabled;
     private final String tabId;
     private final boolean modeSetAlready;
+    private final boolean label;
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
             IVField fRange, boolean readOnlyIfModif, boolean readOnlyIfAdd,
-            String tabId, boolean modeSetAlready) {
+            String tabId, boolean modeSetAlready, boolean label) {
         this.pLabel = p;
         if (e == null) {
             assert fie != null : LogT.getT().cannotBeNull();
@@ -45,13 +46,14 @@ public class FormField {
         this.fRange = fRange;
         this.tabId = tabId;
         this.modeSetAlready = modeSetAlready;
+        this.label = label;
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
             IVField fRange, boolean readOnlyIfModif, boolean readOnlyIfAdd,
-            boolean modeSetAlready) {
+            boolean modeSetAlready,boolean label) {
         this(p, e, fie, fRange, readOnlyIfModif, readOnlyIfAdd, null,
-                modeSetAlready);
+                modeSetAlready, label);
 
     }
 
@@ -63,20 +65,20 @@ public class FormField {
     }
 
     public FormField(final String p, final IVField fie) {
-        this(p, null, fie, null, false, false, null, false);
+        this(p, null, fie, null, false, false, null, false, false);
     }
 
     public FormField(final String p, final IFormLineView e) {
-        this(p, e, null, null, false, false, null, false);
+        this(p, e, null, null, false, false, null, false, false);
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie,
             IVField fRange) {
-        this(p, e, fie, fRange, false, false, null, false);
+        this(p, e, fie, fRange, false, false, null, false, false);
     }
 
     public FormField(final String p, final IFormLineView e, final IVField fie) {
-        this(p, e, fie, null, false, false, null, false);
+        this(p, e, fie, null, false, false, null, false, false);
     }
 
     public boolean isReadOnlyIfModif() {
@@ -139,4 +141,7 @@ public class FormField {
         return modeSetAlready;
     }
 
+    public boolean isLabel() {
+        return label;
+    }
 }
