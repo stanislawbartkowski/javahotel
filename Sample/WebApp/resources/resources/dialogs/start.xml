@@ -45,6 +45,7 @@
  <upmenu>
   <button id="dialogxml" displayname="Dialog base xml" actiontype="JMAIN_DIALOG" actionparam="dialogtabxml.xml" />
   <button id="dialogicon" displayname="List with icon" actiontype="JMAIN_DIALOG" actionparam="dialogicon.xml" />
+  <button id="dialoglabel" displayname="Label dialog" actiontype="JMAIN_DIALOG" actionparam="dialoglabel.xml" />
 </upmenu>
 
  <form>

@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.ListFormat;
 
 public class Test31 extends TestHelper {
@@ -60,5 +61,15 @@ public class Test31 extends TestHelper {
         assertEquals("40%", li.getColumn("id_name").getWidth());
         assertEquals("ee", li.getColumn("name").getEditClass());
         assertEquals("rybka", li.getColumn("date").getEditCss());
+    }
+
+    @Test
+    public void test3() {
+        DialogFormat d = findDialog("test68.xml");
+        assertNotNull(d);
+        FieldItem f = d.findFieldItem("globtime");
+        assertTrue(f.isLabel());
+        f = d.findFieldItem("globdate");
+        assertFalse(f.isLabel());
     }
 }
