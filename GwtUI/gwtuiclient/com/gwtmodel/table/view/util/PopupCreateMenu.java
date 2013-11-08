@@ -23,6 +23,8 @@ import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IGWidget;
 import com.gwtmodel.table.buttoncontrolmodel.ControlButtonDesc;
 import com.gwtmodel.table.buttoncontrolmodel.ListOfControlDesc;
+import com.gwtmodel.table.injector.GwtGiniInjector;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.view.controlpanel.IControlClick;
 
 /**
@@ -31,51 +33,53 @@ import com.gwtmodel.table.view.controlpanel.IControlClick;
  */
 public class PopupCreateMenu {
 
-    private static class BCall implements Command {
+	private static class BCall implements Command {
 
-        private final ControlButtonDesc bdef;
-        private final Widget w;
-        private final IControlClick co;
+		private final ControlButtonDesc bdef;
+		private final Widget w;
+		private final IControlClick co;
 
-        private BCall(final ControlButtonDesc b, final Widget w,
-                IControlClick co) {
-            this.bdef = b;
-            this.w = w;
-            this.co = co;
-        }
+		private BCall(final ControlButtonDesc b, final Widget w,
+				IControlClick co) {
+			this.bdef = b;
+			this.w = w;
+			this.co = co;
+		}
 
-        public void execute() {
-            co.click(bdef, w);
-        }
-    }
+		public void execute() {
+			co.click(bdef, w);
+		}
+	}
 
-    public static MenuBar createMenu(final ListOfControlDesc coP,
-            final IControlClick cli, final Widget w) {
+	public static MenuBar createMenu(final ListOfControlDesc coP,
+			final IControlClick cli, final Widget w) {
 
-        MenuBar menu = null;
-        if (coP != null) {
-            List<ControlButtonDesc> cL = coP.getcList();
+		IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
+		MenuBar menu = null;
+		if (coP != null) {
+			List<ControlButtonDesc> cL = coP.getcList();
 
-            menu = new MenuBar(true);
-            for (ControlButtonDesc b : cL) {
-                BCall bc = new BCall(b, w, cli);
-                // add menu item 'html name' to select it easier by selenium
-                MenuItem i = menu.addItem(b.getDisplayName(), bc);
-                i.getElement().setId(b.getActionId().getHtmlElementName());
-            }
-        }
-        return menu;
-    }
+			menu = new MenuBar(true);
+			for (ControlButtonDesc b : cL) {
+				BCall bc = new BCall(b, w, cli);
+				// add menu item 'html name' to select it easier by selenium
+				MenuItem i = menu.addItem(iMess.getMessage(b.getDisplayName()),
+						bc);
+				i.getElement().setId(b.getActionId().getHtmlElementName());
+			}
+		}
+		return menu;
+	}
 
-    public static IGWidget createImageMenu(String imageHtml,
-            final ListOfControlDesc coP, final IControlClick cli, final Widget w) {
+	public static IGWidget createImageMenu(String imageHtml,
+			final ListOfControlDesc coP, final IControlClick cli, final Widget w) {
 
-        HorizontalPanel hp = new HorizontalPanel();
-        MenuBar menu = createMenu(coP, cli, w);
-        MenuBar mp = new MenuBar();
-        hp.add(mp);
-        mp.addItem(imageHtml, true, menu);
-        return new GWidget(hp);
-    }
+		HorizontalPanel hp = new HorizontalPanel();
+		MenuBar menu = createMenu(coP, cli, w);
+		MenuBar mp = new MenuBar();
+		hp.add(mp);
+		mp.addItem(imageHtml, true, menu);
+		return new GWidget(hp);
+	}
 
 }
