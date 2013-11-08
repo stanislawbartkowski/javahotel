@@ -77,7 +77,9 @@ public class CreateForm {
             IVField vf = VField.construct(f);
             IFormLineView v;
             String htmlId = f.getHtmlId();
-            if (!CUtil.EmptyS(f.getCustom())) {
+            if (f.isLabel()) {
+                v = eFactory.constructLabelField(vf, f.getDisplayName());
+            } else if (!CUtil.EmptyS(f.getCustom())) {
                 TypedefDescr te = d.findCustomType(f.getCustom());
                 if (te == null) {
                     Utils.errAlert(f.getCustom(),
@@ -140,7 +142,8 @@ public class CreateForm {
                 name = getDisplayName(f);
 
             FormField fie = new FormField(name, v, vf, fRange,
-                    f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready);
+                    f.isReadOnlyChange(), f.isReadOnlyAdd(), modeSetAlready,
+                    f.isLabel());
             fList.add(fie);
         }
         return new FormLineContainer(fList);

@@ -109,7 +109,8 @@ class ReadDialog {
                 ICommonConsts.SIGNALBEFORE, ICommonConsts.FOOTERTYPE,
                 ICommonConsts.FOOTERALIGN, ICommonConsts.FOOTERAFTERDOT,
                 ICommonConsts.IMAGECOLUMN, ICommonConsts.IMAGELIST,
-                ICommonConsts.EDITCLASS, ICommonConsts.EDITCSS };
+                ICommonConsts.EDITCLASS, ICommonConsts.EDITCSS,
+                ICommonConsts.LABEL };
         private final String[] listTag = { ICommonConsts.ID,
                 ICommonConsts.DISPLAYNAME, ICommonConsts.ELEMFORMAT,
                 ICommonConsts.STANDBUTT, ICommonConsts.PAGESIZE,
