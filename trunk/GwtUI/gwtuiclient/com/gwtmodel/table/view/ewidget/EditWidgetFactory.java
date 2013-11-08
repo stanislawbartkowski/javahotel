@@ -34,6 +34,10 @@ public class EditWidgetFactory {
         this.cValues = cValues;
     }
 
+    public IFormLineView constructLabelField(IVField v, String displayName) {
+        return new VLabel(v, displayName);
+    }
+
     // used
     public RadioBoxString constructRadioBoxString(IVField v, IGetDataList iGet,
             final boolean enable, String htmlName) {
