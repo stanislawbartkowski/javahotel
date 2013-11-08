@@ -47,109 +47,109 @@ import com.jythonui.shared.CustomSecurity;
 
 public class LoginPage {
 
-    private LoginPage() {
-    }
+	private LoginPage() {
+	}
 
-    static class DataValidate extends AbstractSlotContainer implements
-            IDataValidateAction {
+	static class DataValidate extends AbstractSlotContainer implements
+			IDataValidateAction {
 
-        private final ICommand ok;
-        private final String shiroRealm;
-        private final CustomSecurity iCustom;
+		private final ICommand ok;
+		private final String shiroRealm;
+		private final CustomSecurity iCustom;
 
-        private class LoginValid extends CommonCallBack<String> {
+		private class LoginValid extends CommonCallBack<String> {
 
-            private final String user;
+			private final String user;
 
-            LoginValid(String user) {
-                this.user = user;
-            }
+			LoginValid(String user) {
+				this.user = user;
+			}
 
-            @Override
-            public void onMySuccess(String arg) {
-                if (arg == null) {
-                    IVField password = new LoginField(LoginField.F.PASSWORD);
-                    List<InvalidateMess> eList = new ArrayList<InvalidateMess>();
-                    InvalidateMess mess = new InvalidateMess(password, MM
-                            .getL().UserNameOrPasswordInvalid());
-                    eList.add(mess);
-                    publish(dType,
-                            DataActionEnum.ChangeViewFormToInvalidAction,
-                            new InvalidateFormContainer(eList));
-                    return;
-                }
-                M.setUserName(user);
-                M.setSecToken(arg);
-                IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
-                wPanel.setPaneText(IWebPanel.InfoType.USER, user);
-                wPanel.setDCenter(null);
-                ok.execute();
-            }
+			@Override
+			public void onMySuccess(String arg) {
+				if (arg == null) {
+					IVField password = new LoginField(LoginField.F.PASSWORD);
+					List<InvalidateMess> eList = new ArrayList<InvalidateMess>();
+					InvalidateMess mess = new InvalidateMess(password, MM
+							.getL().UserNameOrPasswordInvalid());
+					eList.add(mess);
+					publish(dType,
+							DataActionEnum.ChangeViewFormToInvalidAction,
+							new InvalidateFormContainer(eList));
+					return;
+				}
+				M.setUserName(user);
+				M.setSecToken(arg);
+				IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
+				wPanel.setPaneText(IWebPanel.InfoType.USER, user);
+				wPanel.setDCenter(null);
+				ok.execute();
+			}
 
-        }
+		}
 
-        private class LoginButton implements ISlotListener {
+		private class LoginButton implements ISlotListener {
 
-            private final LoginDataModelFactory logFactory = new LoginDataModelFactory();
+			private final LoginDataModelFactory logFactory = new LoginDataModelFactory();
 
-            @Override
-            public void signal(ISlotSignalContext slContext) {
-                IVField login = new LoginField(LoginField.F.LOGINNAME);
-                IVField password = new LoginField(LoginField.F.PASSWORD);
-                IVModelData lData = logFactory.construct(dType);
-                lData = getGetterIVModelData(dType,
-                        GetActionEnum.GetViewModelEdited, lData);
-                List<InvalidateMess> eMess = ValidateUtil.checkEmpty(lData,
-                        login, password);
-                if (eMess != null) {
-                    publish(dType,
-                            DataActionEnum.ChangeViewFormToInvalidAction,
-                            new InvalidateFormContainer(eMess));
-                    return;
-                }
-                String sLogin = (String) lData.getF(login);
-                String sPass = (String) lData.getF(password);
-                M.JR().login(shiroRealm, sLogin, sPass, iCustom,
-                        new LoginValid(sLogin));
-            }
+			@Override
+			public void signal(ISlotSignalContext slContext) {
+				IVField login = new LoginField(LoginField.F.LOGINNAME);
+				IVField password = new LoginField(LoginField.F.PASSWORD);
+				IVModelData lData = logFactory.construct(dType);
+				lData = getGetterIVModelData(dType,
+						GetActionEnum.GetViewModelEdited, lData);
+				List<InvalidateMess> eMess = ValidateUtil.checkEmpty(lData,
+						login, password);
+				if (eMess != null) {
+					publish(dType,
+							DataActionEnum.ChangeViewFormToInvalidAction,
+							new InvalidateFormContainer(eMess));
+					return;
+				}
+				String sLogin = (String) lData.getF(login);
+				String sPass = (String) lData.getF(password);
+				M.JR().login(shiroRealm, sLogin, sPass, iCustom,
+						new LoginValid(sLogin));
+			}
 
-        }
+		}
 
-        DataValidate(IDataType dType, String shiroRealm,
-                CustomSecurity iCustom, ICommand ok) {
-            this.dType = dType;
-            this.ok = ok;
-            this.iCustom = iCustom;
-            this.shiroRealm = shiroRealm;
-            this.getSlContainer().registerSubscriber(dType,
-                    ClickButtonType.StandClickEnum.ACCEPT, new LoginButton());
-        }
+		DataValidate(IDataType dType, String shiroRealm,
+				CustomSecurity iCustom, ICommand ok) {
+			this.dType = dType;
+			this.ok = ok;
+			this.iCustom = iCustom;
+			this.shiroRealm = shiroRealm;
+			this.getSlContainer().registerSubscriber(dType,
+					ClickButtonType.StandClickEnum.ACCEPT, new LoginButton());
+		}
 
-    }
+	}
 
-    static class GetWidget implements ISlotListener {
+	static class GetWidget implements ISlotListener {
 
-        @Override
-        public void signal(ISlotSignalContext slContext) {
-            IGWidget w = slContext.getGwtWidget();
-            IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
-            wPanel.setDCenter(w.getGWidget());
-        }
-    }
+		@Override
+		public void signal(ISlotSignalContext slContext) {
+			IGWidget w = slContext.getGwtWidget();
+			IWebPanel wPanel = GwtGiniInjector.getI().getWebPanel();
+			wPanel.setDCenter(w.getGWidget());
+		}
+	}
 
-    public static void login(String shiroRealm, CustomSecurity iCustom,
-            ICommand ok) {
-        IDataType dType = Empty.getDataType();
-        CellId ce = new CellId(0);
-        LoginViewFactory lFactory = GwtGiniInjector.getI()
-                .getLoginViewFactory();
-        LoginDataModelFactory logFactory = new LoginDataModelFactory();
-        FormLineContainer lForm = lFactory.construct();
-        ILoginDataView lView = lFactory.contructView(ce, dType, lForm,
-                logFactory, new DataValidate(dType, shiroRealm, iCustom, ok));
-        SlU.registerWidgetListener0(dType, lView, new GetWidget());
-        lView.startPublish(null);
+	public static void login(String shiroRealm, CustomSecurity iCustom,
+			ICommand ok) {
+		IDataType dType = Empty.getDataType();
+		CellId ce = new CellId(0);
+		LoginViewFactory lFactory = GwtGiniInjector.getI()
+				.getLoginViewFactory();
+		LoginDataModelFactory logFactory = new LoginDataModelFactory();
+		FormLineContainer lForm = lFactory.construct();
+		ILoginDataView lView = lFactory.contructView(ce, dType, lForm,
+				logFactory, new DataValidate(dType, shiroRealm, iCustom, ok));
+		SlU.registerWidgetListener0(dType, lView, new GetWidget());
+		lView.startPublish(null);
 
-    }
+	}
 
 }

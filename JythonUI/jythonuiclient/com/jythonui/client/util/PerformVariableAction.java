@@ -22,8 +22,10 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.TT;
+import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.view.table.ChangeEditableRowsParam;
 import com.gwtmodel.table.view.util.OkDialog;
+import com.gwtmodel.table.view.webpanel.IWebPanel;
 import com.jythonui.client.M;
 import com.jythonui.client.dialog.RunAction;
 import com.jythonui.client.dialog.VField;
@@ -186,7 +188,7 @@ public class PerformVariableAction {
 		// it a little tricky but this way allows code reuse with performAction
 		String[] kom = { ICommonConsts.JMAINDIALOG, ICommonConsts.JUPDIALOG,
 				ICommonConsts.JOKMESSAGE, ICommonConsts.JERRORMESSAGE,
-				ICommonConsts.JYESNOMESSAGE };
+				ICommonConsts.JYESNOMESSAGE};
 		String[] param = { null, ICommonConsts.JBUTTONDIALOGSTART,
 				ICommonConsts.JMESSAGE_TITLE, ICommonConsts.JMESSAGE_TITLE,
 				ICommonConsts.JMESSAGE_TITLE };
@@ -205,6 +207,11 @@ public class PerformVariableAction {
 			if (!CUtil.EmptyS(p))
 				performAction(iYesno, iClose, kom[i], p, par, par2, w, iCon,
 						iEx);
+		}
+		if (arg.getValue(ICommonConsts.JLOGOUTACTION) != null) {
+			performAction(null, iClose, ICommonConsts.JLOGOUTACTION, null,
+					null, null, w, iCon, iEx);
+			return;
 		}
 		if (arg.getValue(ICommonConsts.JCLOSEDIALOG) != null) {
 			String resString = null;
@@ -239,6 +246,11 @@ public class PerformVariableAction {
 			ISendCloseAction iClose, String action, String param,
 			String param1, final String param2, WSize w,
 			IVariablesContainer iCon, IExecuteAfterModalDialog iEx) {
+		if (action.equals(ICommonConsts.JLOGOUTACTION)) {
+			IWebPanel i = GwtGiniInjector.getI().getWebPanel();
+			i.logOut();
+			return;
+		}
 		if (action.equals(ICommonConsts.JMAINDIALOG)) {
 			new RunAction().start(param);
 			return;
