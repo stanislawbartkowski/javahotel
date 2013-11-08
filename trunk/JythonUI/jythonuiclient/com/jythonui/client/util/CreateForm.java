@@ -250,6 +250,7 @@ public class CreateForm {
                     StandClickEnum.MENUTITLE), enabled);
         else
             return new ControlButtonDesc(dName, id, enabled);
+//        return new ControlButtonDesc("default_closeicon",dName, new ClickButtonType(id), enabled);
     }
 
     public static List<ControlButtonDesc> constructBList(SecurityInfo sInfo,
