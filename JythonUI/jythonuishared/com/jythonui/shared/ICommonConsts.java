@@ -63,6 +63,7 @@ public interface ICommonConsts {
     String FOOTERAFTERDOT = "footerafterdot";
     String IMAGECOLUMN = "imagecolumn";
     String IMAGELIST = "imagelist";
+    String LABEL = "label";
     String IJSCALL = "JS.";
     String ASXML = "asxml";
     String CLEARLEFT = "clearleft";

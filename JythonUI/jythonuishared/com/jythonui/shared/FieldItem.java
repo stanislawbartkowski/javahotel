@@ -205,4 +205,8 @@ public class FieldItem extends ElemDescription {
         return getAttr(ICommonConsts.EDITCLASS);
     }
 
+    public boolean isLabel() {
+        return isAttr(ICommonConsts.LABEL);
+    }
+
 }

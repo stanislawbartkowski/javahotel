@@ -200,6 +200,7 @@
 			<xs:element minOccurs="0" name="imagelist" type="xs:string" />
             <xs:element minOccurs="0" name="editclass" type="xs:string" />
             <xs:element minOccurs="0" name="editcss" type="xs:string" />
+            <xs:element minOccurs="0" name="label" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -231,7 +232,8 @@
 		<xs:attribute name="imagecolumn" type="xs:nonNegativeInteger" />
 		<xs:attribute name="imagelist" type="xs:string" />
         <xs:attribute name="editclass" type="xs:string" />
-        <xs:attribute name="editcss" type="xs:string" />		
+        <xs:attribute name="editcss" type="xs:string" />
+        <xs:attribute name="label" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">
