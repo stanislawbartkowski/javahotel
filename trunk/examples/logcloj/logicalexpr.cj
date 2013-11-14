@@ -56,7 +56,7 @@
 (defn parse 
   "parse string expression
    returns three element vector (Polish notation: (operator, left operand, right operand)
-   left/right operand can be an atomic operand (variable) or subexpression (another tripple vector)"
+   left/right operand can be an atomic operand (variable) or subexpression (another triada)"
       [str]
       ; tokenize str (expression) to the list of tokens
       (let 
