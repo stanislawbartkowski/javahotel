@@ -39,6 +39,7 @@ public class XMLToMap implements IXMLToMap {
 
             @Override
             protected PropDescription constructT() {
+                @SuppressWarnings("serial")
                 PropDescription prop = new PropDescription() {
 
                 };
