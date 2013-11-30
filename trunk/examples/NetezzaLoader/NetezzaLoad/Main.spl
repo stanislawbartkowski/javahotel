@@ -1,0 +1,68 @@
+namespace NetezzaLoad ;
+
+use com.ibm.streams.db::ODBCAppend ;
+use com.ibm.streams.db.netezza::NetezzaPrepareLoad ;
+use com.ibm.streams.db.netezza::NetezzaLoad ;
+
+composite Main
+{
+	graph
+		(stream<int64 numb, rstring name> FlowOfData) as Beacon_1 = Beacon()
+		{
+			logic
+				state : list<rstring> rList = [ 'Hello world', 'I\'m here', "Hello Kitty",
+					"Good bye, cruel world" ] ;
+			param
+				iterations : 10 ;
+			output
+				FlowOfData : numb =(int64)(random() * 32000.0), name = rList
+					[(int32)(random() *(float64) size(rList)) ] ;
+		}
+
+		() as Custom_2 = Custom(FlowOfData as S)
+		{
+		//			logic
+		//				onTuple FlowOfData : println(S) ;
+
+		}
+		
+		() as ToODBC = ODBCAppend(FlowOfData)
+		{
+			param
+				connection : "warehouse" ;
+				access : "towarehouse" ;
+		}
+		
+		(stream<rstring buf> NetezzaPrepareLoad_4_out0) as NetezzaPrepareLoad_4 =
+			NetezzaPrepareLoad(FlowOfData)
+		{
+			param
+				access : "netezzaLoad" ;
+		}
+
+		() as Custom_5 = Custom(NetezzaPrepareLoad_4_out0 as S)
+		{
+		//			logic
+		//				onTuple NetezzaPrepareLoad_4_out0 : println(S) ;
+
+		}
+
+		stream<rstring errorString, int32 sqlcode, rstring sqlmessage,
+			rstring sqlstate> NetezzaLoad_6 = NetezzaLoad(NetezzaPrepareLoad_4_out0)
+		{
+			param
+				connection : "warehouse" ;
+				access : "netezzaLoad" ;
+				LogDir : "/tmp/myDirectory";
+		}
+
+		() as Custom_7 = Custom(NetezzaLoad_6 as S)
+		{
+			logic
+				onTuple S : println(S) ;
+		}
+
+}
+
+
+
