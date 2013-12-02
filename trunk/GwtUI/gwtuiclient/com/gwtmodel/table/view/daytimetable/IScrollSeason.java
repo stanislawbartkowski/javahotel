@@ -13,15 +13,12 @@
 package com.gwtmodel.table.view.daytimetable;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
 public interface IScrollSeason {
-
-    int getStartNo();
 
     /**
      * Creates scroll panel.
@@ -32,10 +29,11 @@ public interface IScrollSeason {
      *            number of columns
      * 
      */
-    void createVPanel(List<Date> dList, final int panelW);
+    void createVPanel(Date firstData, Date lastDate,final int panelW);
 
     /**
      * Refresh using current settings
      */
+    // TODO : remove, deprecated
     void refresh();
 }

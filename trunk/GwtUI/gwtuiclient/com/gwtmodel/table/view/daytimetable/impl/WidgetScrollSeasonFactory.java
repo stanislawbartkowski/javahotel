@@ -12,21 +12,21 @@
  */
 package com.gwtmodel.table.view.daytimetable.impl;
 
+import java.util.Date;
+
+import com.gwtmodel.table.view.daytimetable.IDatePanelScroll;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
-import java.util.Date;
 
 /**
  * 
  * @author stanislawbartkowski@gmail.com
  */
-public class WidgetScrollSeasonFactory {
+public class WidgetScrollSeasonFactory implements IDatePanelScroll {
 
-
+    @Override
     public IScrollSeason getScrollSeason(final IDrawPartSeason i,
             final Date today) {
-        // return new MonthSeasonScrollWidget(pLoc, i, periodNo);
-        // return new DaySeasonScrollWidget(pLoc, i, periodNo);
-        return new DaySeasonPanelWidget(i, today);
+        return new ScrollWidget(i, today);
     }
 }

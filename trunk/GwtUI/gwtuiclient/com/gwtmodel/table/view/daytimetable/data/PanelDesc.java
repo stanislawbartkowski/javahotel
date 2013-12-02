@@ -10,37 +10,36 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.daytimetable;
 
-import java.util.Date;
+package com.gwtmodel.table.view.daytimetable.data;
 
 /**
- * @author hotel
- * 
+ *
+ * @author stanislawbartkowski@gmail.com
  */
-public interface IDrawPartSeasonContext {
+public class PanelDesc {
+
+    private final boolean scrollLeftActive;
+    private final boolean scrollRightActive;
+
+    PanelDesc(boolean l, boolean r) {
+        this.scrollLeftActive = l;
+        this.scrollRightActive = r;
+    }
+
 
     /**
-     * Get date related to position c
-     * 
-     * @param c
-     *            relative position to the beginning
-     * @return Date
+     * @return the scrollLeftActive
      */
-    Date getD(int c);
+    public boolean isScrollLeftActive() {
+        return scrollLeftActive;
+    }
 
     /**
-     * Get position for the first date in the window
-     * 
-     * @return Position
+     * @return the scrollRightActive
      */
-    int getFirstD();
+    public boolean isScrollRightActive() {
+        return scrollRightActive;
+    }
 
-    /**
-     * Get position of the last day in the window
-     * 
-     * @return Position
-     */
-    int getLastD();
-        
 }

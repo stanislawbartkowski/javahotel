@@ -10,37 +10,21 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.daytimetable;
+package com.gwtmodel.table.view.daytimetable.implold;
 
+import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
+import com.gwtmodel.table.view.daytimetable.IScrollSeason;
 import java.util.Date;
 
 /**
- * @author hotel
  * 
+ * @author stanislawbartkowski@gmail.com
  */
-public interface IDrawPartSeasonContext {
+public class WidgetScrollSeasonFactory {
 
-    /**
-     * Get date related to position c
-     * 
-     * @param c
-     *            relative position to the beginning
-     * @return Date
-     */
-    Date getD(int c);
 
-    /**
-     * Get position for the first date in the window
-     * 
-     * @return Position
-     */
-    int getFirstD();
-
-    /**
-     * Get position of the last day in the window
-     * 
-     * @return Position
-     */
-    int getLastD();
-        
+    public IScrollSeason getScrollSeason(final IDrawPartSeason i,
+            final Date today) {
+        return new DaySeasonPanelWidget(i, today);
+    }
 }
