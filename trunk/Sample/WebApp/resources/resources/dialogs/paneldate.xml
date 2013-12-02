@@ -19,7 +19,7 @@
 	</buttons>
 
 	<dateline id="dateline" displayname="List of rooms" lineid="id"
-		colno="10" pagesize="10" defafile="name1">
+		colno="12" pagesize="10" defafile="name1">
 		<columns>
 			<column id="id" type="long" hidden="" />
 			<column id="displayname" displayname="Room" />
