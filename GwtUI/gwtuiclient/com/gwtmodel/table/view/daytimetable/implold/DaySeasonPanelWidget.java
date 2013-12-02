@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.daytimetable.impl;
+package com.gwtmodel.table.view.daytimetable.implold;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -129,11 +129,12 @@ class DaySeasonPanelWidget implements IScrollSeason {
         return dW.getStartNo();
     }
 
-    public void createVPanel(List<Date> dList, int panelW) {
+    @Override
+    public void createVPanel(Date firstDate,Date lastDate, int panelW) {
 
         vp.clear();
 
-        final CallWidget ca = new CallWidget(dList, panelW);
+        final CallWidget ca = new CallWidget(null, panelW);
 
         IHtmlPanelCallBack mBack = new IHtmlPanelCallBack() {
 

@@ -42,7 +42,7 @@ import com.gwtmodel.table.stackpanelcontroller.StackPanelControllerFactory;
 import com.gwtmodel.table.tabpanelview.TabPanelViewFactory;
 import com.gwtmodel.table.view.checkstring.CheckDictModelFactory;
 import com.gwtmodel.table.view.controlpanel.ContrButtonViewFactory;
-import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
+import com.gwtmodel.table.view.daytimetable.IDatePanelScroll;
 import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 import com.gwtmodel.table.view.grid.GridViewFactory;
 import com.gwtmodel.table.view.pullmenu.PullMenuFactory;
@@ -55,81 +55,81 @@ import com.gwtmodel.table.view.webpanel.WebPanelFactory;
 @GinModules(GwtTableInjectModule.class)
 public interface GwtTableInjector extends Ginjector {
 
-	TablesFactories getTablesFactories();
+    TablesFactories getTablesFactories();
 
-	SlotTypeFactory getSlotTypeFactory();
+    SlotTypeFactory getSlotTypeFactory();
 
-	SlotListContainer getSlotListContainer();
+    SlotListContainer getSlotListContainer();
 
-	TableDataControlerFactory getTableDataControlerFactory();
+    TableDataControlerFactory getTableDataControlerFactory();
 
-	SlotSignalContextFactory getSlotSignalContextFactory();
+    SlotSignalContextFactory getSlotSignalContextFactory();
 
-	ITableAbstractFactories getITableAbstractFactories();
+    ITableAbstractFactories getITableAbstractFactories();
 
-	ComposeControllerFactory getComposeControllerFactory();
+    ComposeControllerFactory getComposeControllerFactory();
 
-	DataViewModelFactory getDataViewModelFactory();
+    DataViewModelFactory getDataViewModelFactory();
 
-	CheckDictModelFactory getCheckDictModelFactory();
+    CheckDictModelFactory getCheckDictModelFactory();
 
-	ReadResFactory getReadResFactory();
+    ReadResFactory getReadResFactory();
 
-	GridViewFactory getGridViewFactory();
+    GridViewFactory getGridViewFactory();
 
-	ITableCustomFactories getTableFactoriesContainer();
+    ITableCustomFactories getTableFactoriesContainer();
 
-	GwtTableFactory getGwtTableFactory();
+    GwtTableFactory getGwtTableFactory();
 
-	EditWidgetFactory getEditWidgetFactory();
+    EditWidgetFactory getEditWidgetFactory();
 
-	SlotMediatorFactory getSlotMediatorFactory();
+    SlotMediatorFactory getSlotMediatorFactory();
 
-	PanelViewFactory getPanelViewFactory();
+    PanelViewFactory getPanelViewFactory();
 
-	HtmlPanelFactory getHtmlPanelFactory();
+    HtmlPanelFactory getHtmlPanelFactory();
 
-	ControlButtonFactory getControlButtonFactory();
+    ControlButtonFactory getControlButtonFactory();
 
-	ContrButtonViewFactory getContrButtonViewFactory();
+    ContrButtonViewFactory getContrButtonViewFactory();
 
-	WebPanelFactory getWebPanelFactory();
+    WebPanelFactory getWebPanelFactory();
 
-	IWebPanel getWebPanel();
+    IWebPanel getWebPanel();
 
-	ControlButtonViewFactory getControlButtonViewFactory();
+    ControlButtonViewFactory getControlButtonViewFactory();
 
-	ICallContext getCallContext();
+    ICallContext getCallContext();
 
-	StackPanelButtonFactory getStackPanelButtonFactory();
+    StackPanelButtonFactory getStackPanelButtonFactory();
 
-	MailTestFactory getMailTestFactory();
+    MailTestFactory getMailTestFactory();
 
-	StackPanelFactory getStackPanelFactory();
+    StackPanelFactory getStackPanelFactory();
 
-	StackPanelControllerFactory getStackPanelControllerFactory();
+    StackPanelControllerFactory getStackPanelControllerFactory();
 
-	EditChooseRecordFactory getEditChooseRecordFactory();
+    EditChooseRecordFactory getEditChooseRecordFactory();
 
-	WidgetScrollSeasonFactory getWidgetScrollSeasonFactory();
+    ViewStackPanelFactory getViewStackPanelFactory();
 
-	ViewStackPanelFactory getViewStackPanelFactory();
+    ChooseListFactory getChooseListFactory();
 
-	ChooseListFactory getChooseListFactory();
+    PullMenuFactory getPullMenuFactory();
 
-	PullMenuFactory getPullMenuFactory();
+    DataListTypeFactory getDataListTypeFactory();
 
-	DataListTypeFactory getDataListTypeFactory();
+    IGetStandardMessage getStandardMessage();
 
-	IGetStandardMessage getStandardMessage();
+    IGetCustomValues getCustomValues();
 
-	IGetCustomValues getCustomValues();
+    IWebPanelResources getWebPanelResources();
 
-	IWebPanelResources getWebPanelResources();
+    LoginViewFactory getLoginViewFactory();
 
-	LoginViewFactory getLoginViewFactory();
+    TabPanelViewFactory getTabPanelViewFactory();
 
-	TabPanelViewFactory getTabPanelViewFactory();
+    IJsonConvert getJsonConvert();
 
-	IJsonConvert getJsonConvert();
+    IDatePanelScroll getDatePanelScroll();
 }

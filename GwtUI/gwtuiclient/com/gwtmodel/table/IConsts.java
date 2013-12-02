@@ -34,4 +34,5 @@ public interface IConsts {
     String LOGOUTHTMLNAME = "logout";
     String UKNOWNHTMLNAME = "XXX";
     String EMPTYCLASSSTYLE = "dialog-empty-field";
+    int MonthPanel = 12;
 }

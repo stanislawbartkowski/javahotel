@@ -14,33 +14,8 @@ package com.gwtmodel.table.view.daytimetable;
 
 import java.util.Date;
 
-/**
- * @author hotel
- * 
- */
-public interface IDrawPartSeasonContext {
+public interface IDatePanelScroll {
 
-    /**
-     * Get date related to position c
-     * 
-     * @param c
-     *            relative position to the beginning
-     * @return Date
-     */
-    Date getD(int c);
+    IScrollSeason getScrollSeason(final IDrawPartSeason i, final Date today);
 
-    /**
-     * Get position for the first date in the window
-     * 
-     * @return Position
-     */
-    int getFirstD();
-
-    /**
-     * Get position of the last day in the window
-     * 
-     * @return Position
-     */
-    int getLastD();
-        
 }

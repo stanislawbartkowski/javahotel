@@ -10,7 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.daytimetable.impl;
+package com.gwtmodel.table.view.daytimetable.implold;
+
+import java.util.Date;
+import java.util.List;
 
 import com.gwtmodel.table.daytimeline.DaySeasonScrollData;
 import com.gwtmodel.table.daytimeline.MoveSkip;
@@ -18,8 +21,6 @@ import com.gwtmodel.table.daytimeline.PanelDesc;
 import com.gwtmodel.table.daytimeline.YearMonthPe;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 
@@ -46,11 +47,6 @@ class DayLineWidget {
         @Override
         public int getLastD() {
             return sData.getLastD();
-        }
-
-        @Override
-        public Date getTodayC() {
-            return sData.getTodayC();
         }
 
     }

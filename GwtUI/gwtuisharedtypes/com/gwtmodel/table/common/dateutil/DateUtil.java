@@ -15,6 +15,7 @@ package com.gwtmodel.table.common.dateutil;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.gwtmodel.table.common.PeriodT;
 
 /**
@@ -37,9 +38,7 @@ public class DateUtil {
      */
     public static Date NextDayD(final Date di) {
         Date d = copyDate(di);
-        long ti = d.getTime();
-        ti += DAY_IN_MILISECONDS;
-        d.setTime(ti);
+        CalendarUtil.addDaysToDate(d, 1);
         return d;
     }
 
@@ -51,9 +50,7 @@ public class DateUtil {
      */
     public static Date PrevDayD(final Date di) {
         Date d = copyDate(di);
-        long ti = d.getTime();
-        ti -= DAY_IN_MILISECONDS;
-        d.setTime(ti);
+        CalendarUtil.addDaysToDate(d, -1);
         return d;
     }
 
@@ -65,7 +62,7 @@ public class DateUtil {
      * @return Date copy of source
      */
     private static Date copyDate(final Date d) {
-        return new Date(d.getTime());
+        return CalendarUtil.copyDate(d);
     }
 
     /**
@@ -192,9 +189,7 @@ public class DateUtil {
     }
 
     public static int noDays(final Date from, Date to) {
-        long dif = to.getTime() - from.getTime();
-        long l = dif / DAY_IN_MILISECONDS;
-        return (int) l;
+        return CalendarUtil.getDaysBetween(from, to);
     }
 
     public static int noLodgings(final Date from, Date to) {
@@ -250,10 +245,7 @@ public class DateUtil {
 
     public static Date addDaysD(final Date di, int noD) {
         Date d = copyDate(di);
-        while (noD > 0) {
-            d = NextDayD(d);
-            noD--;
-        }
+        CalendarUtil.addDaysToDate(d, noD);
         return d;
     }
 
@@ -267,5 +259,29 @@ public class DateUtil {
             d2 = copyDate(pe1.getTo());
         }
         return new PeriodT(d1, d2);
+    }
+
+    public static boolean isOkDate(int y, int m, int d) {
+        if (d == 29 && m == 2) {
+            if (y % 100 == 0)
+                return false;
+            if (y % 4 == 0)
+                return true;
+            return false;
+        }
+        if (d <= 30)
+            return true;
+        if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10
+                || m == 12)
+            return true;
+        return false;
+    }
+
+    public static Date toLastMonthDay(int y, int m) {
+        Date dd = DateFormatUtil.toD(y, m, 1);
+        while (DateFormatUtil.getM(dd) == m) {
+            dd = NextDayD(dd);
+        }
+        return PrevDayD(dd);
     }
 }

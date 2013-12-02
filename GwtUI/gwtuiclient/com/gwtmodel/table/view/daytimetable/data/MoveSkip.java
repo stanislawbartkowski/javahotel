@@ -10,37 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.daytimetable;
-
-import java.util.Date;
+package com.gwtmodel.table.view.daytimetable.data;
 
 /**
- * @author hotel
- * 
+ *
+ * @author stanislawbartkowski@gmail.com
  */
-public interface IDrawPartSeasonContext {
+public enum MoveSkip {
 
-    /**
-     * Get date related to position c
-     * 
-     * @param c
-     *            relative position to the beginning
-     * @return Date
-     */
-    Date getD(int c);
-
-    /**
-     * Get position for the first date in the window
-     * 
-     * @return Position
-     */
-    int getFirstD();
-
-    /**
-     * Get position of the last day in the window
-     * 
-     * @return Position
-     */
-    int getLastD();
-        
+    BEG, LEFT, RIGHT, END
 }

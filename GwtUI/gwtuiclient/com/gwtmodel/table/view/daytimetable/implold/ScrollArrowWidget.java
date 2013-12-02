@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.view.daytimetable.impl;
+package com.gwtmodel.table.view.daytimetable.implold;
 
 import java.util.ArrayList;
 import java.util.Date;
