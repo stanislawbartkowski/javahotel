@@ -20,9 +20,13 @@ import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.ValueUpdater;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.BrowserEvents;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.safehtml.client.SafeHtmlTemplates;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
@@ -42,8 +46,6 @@ import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.gwtmodel.table.common.dateutil.DateUtil;
-import com.gwtmodel.table.daytimeline.CalendarTable;
-import com.gwtmodel.table.daytimeline.CalendarTable.PeriodType;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -55,10 +57,10 @@ import com.gwtmodel.table.tabledef.IGHeader;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.callback.CommonCallBack;
+import com.gwtmodel.table.view.daytimetable.IDatePanelScroll;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
-import com.gwtmodel.table.view.daytimetable.impl.WidgetScrollSeasonFactory;
 import com.gwtmodel.table.view.table.GwtTableFactory;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
@@ -118,6 +120,14 @@ public class DateLineManager implements ISetGetVar {
         gFactory = GwtGiniInjector.getI().getGwtTableFactory();
     }
 
+    interface HeaderTemplate extends SafeHtmlTemplates {
+
+        @SafeHtmlTemplates.Template("<p class=\"header-date\">{0} {1} <br/>{2}</p>")
+        SafeHtml input(int day, String month, String weekday);
+    }
+
+    private HeaderTemplate headerInput = GWT.create(HeaderTemplate.class);
+
     private class DateLineSlot extends AbstractSlotContainer {
 
         private final CellId cell;
@@ -146,7 +156,6 @@ public class DateLineManager implements ISetGetVar {
 
         private CellData getCellData(Context context, MutableInteger i) {
             int col = context.getColumn();
-            // int row = context.getIndex();
             int row = i.intValue();
             Object lid = getId(row);
             Date dCol = sData.getD(sData.getFirstD() + col - rowCol);
@@ -285,6 +294,25 @@ public class DateLineManager implements ISetGetVar {
                         return d;
                     }
 
+                    @Override
+                    public void render(Context context, SafeHtmlBuilder sb) {
+                        if (sData == null)
+                            return;
+                        Date d = sData.getD(sData.getFirstD() + col);
+                        // String[] weekdays =
+                        // LocaleInfo.getCurrentLocale().getDateTimeFormatInfo().weekdaysNarrow();
+                        String[] months = LocaleInfo.getCurrentLocale()
+                                .getDateTimeFormatInfo().monthsShort();
+                        String[] weekdays = LocaleInfo.getCurrentLocale()
+                                .getDateTimeFormatInfo().weekdaysShort();
+                        // sb.appendEscaped(months[DateFormatUtil.getM(d)-1]);
+                        // sb.appendEscaped(weekdays[d.getDay()]);
+                        int day = DateFormatUtil.getD(d);
+                        String m = months[DateFormatUtil.getM(d) - 1];
+                        String w = weekdays[d.getDay()];
+                        sb.append(headerInput.input(day, m, w));
+                    }
+
                 }
 
                 @SuppressWarnings("rawtypes")
@@ -420,9 +448,6 @@ public class DateLineManager implements ISetGetVar {
                 ColumnsDesc desc = CreateForm.constructColumns(
                         dList.getColList(), null, null, null);
                 rowCol = desc.colvisNo;
-                // for (VListHeaderDesc v : vList)
-                // if (!v.isHidden())
-                // rowCol++;
 
                 for (int i = 0; i < dList.getColNo(); i++) {
                     VListHeaderDesc vNagl = new VListHeaderDesc(new CustomH(i),
@@ -537,15 +562,14 @@ public class DateLineManager implements ISetGetVar {
 
         @Override
         public void startPublish(CellId cellId) {
-            WidgetScrollSeasonFactory wFactory = GwtGiniInjector.getI()
-                    .getWidgetScrollSeasonFactory();
+            IDatePanelScroll wFactory = GwtGiniInjector.getI()
+                    .getDatePanelScroll();
             iSeason = wFactory.getScrollSeason(new DrawPart(),
                     DateUtil.getToday());
-            Date fDate = DateFormatUtil.toD(2013, 1, 1);
-            Date lDate = DateFormatUtil.toD(2013, 12, 31);
-            List<Date> listD = CalendarTable.listOfDates(fDate, lDate,
-                    PeriodType.byDay);
-            iSeason.createVPanel(listD, dList.getColNo());
+            // TODO: parameter
+            Date firstDate = DateFormatUtil.toD(2012, 1, 1);
+            Date lastDate = DateFormatUtil.toD(2020, 12, 31);
+            iSeason.createVPanel(firstDate, lastDate, dList.getColNo());
             sy.signalDone();
         }
 
