@@ -8,8 +8,8 @@
       <uri index="1" value="NetezzaLoad/MainControl.spl"/>
     </uriTable>
     <namespace name="NetezzaLoad">
-      <compositeOp column="11" line="7" name="MainControl" potentialMain="true" uriIndex="1"/>
-      <compositeOp column="11" line="7" name="Main" potentialMain="true" uriIndex="2"/>
+      <compositeOp column="11" line="30" name="MainControl" potentialMain="true" uriIndex="1"/>
+      <compositeOp column="11" line="31" name="Main" potentialMain="true" uriIndex="2"/>
     </namespace>
     <dependency>
       <common:name>com.ibm.streams.db</common:name>
