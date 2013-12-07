@@ -1,12 +1,36 @@
+/*
+ * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
 namespace NetezzaLoad ;
 
 use com.ibm.streams.db::ODBCAppend ;
 use com.ibm.streams.db.netezza::NetezzaPrepareLoad ;
 use com.ibm.streams.db.netezza::NetezzaLoad ;
 
+/**
+ * Operator description
+ * 1: Produces a flow of tuples in shape of : random, string
+ * 2: Test, print console
+ * 3: Gate, latches, stop tuples until connection credentials are sent
+ * 4: Send credentials to NetezzaLoad and ODBCAppend, unclock the gate
+ * 5: ODBCAppend, load data to Netezza via ODBC 
+ * 6: NetezzaPrepareLoad, prerequisite for NetezzaLoad
+ * 7: NetezzaLoad, load data to Netezza
+ */
+
 composite MainControl
 {
 	graph
+	    // 1
 		(stream<int64 numb, rstring name> ToGate) as Beacon_1 = Beacon()
 		{
 			logic
@@ -19,6 +43,7 @@ composite MainControl
 					[(int32)(random() *(float64) size(rList)) ] ;
 		}
 
+        // 2
 		() as Custom_2 = Custom(FlowOfData as S)
 		{
 		//			logic
@@ -26,10 +51,12 @@ composite MainControl
 
 		}
 		
+		// 3
 		stream<S> FlowOfData = Switch(ToGate as S ;Control) {
 		  param status : true;
 		}
 
+        // 4
 		(stream<map<rstring, rstring> m> ControlPort; stream<boolean open> Control) = Custom()
 		{
 			logic
@@ -40,6 +67,7 @@ composite MainControl
 				}
 		}
 
+        // 5
 		() as ToODBC = ODBCAppend(FlowOfData ; ControlPort)
 		{
 			logic
@@ -52,6 +80,7 @@ composite MainControl
 				connectionPassword : "bad password";
 		}
 
+        // 6
 		(stream<rstring buf> NetezzaPrepareLoad_4_out0) as NetezzaPrepareLoad_4 =
 			NetezzaPrepareLoad(FlowOfData)
 		{
@@ -66,6 +95,7 @@ composite MainControl
 
 		}
 
+        // 7
 		stream<rstring errorString, int32 sqlcode, rstring sqlmessage,
 			rstring sqlstate> NetezzaLoad_6 = NetezzaLoad(NetezzaPrepareLoad_4_out0; ControlPort)
 		{
