@@ -3,7 +3,7 @@
   <connection_specifications>
     <!-- Here, you must substitute the DB name, DB user id, and DB password that are meaningful to your needs. -->
     <connection_specification name="warehouse">
-      <ODBC database="NZSQL" user="testuser" password="secret" />
+      <ODBC database="NZSQL" user="testuser" password="secret" /> 
     </connection_specification>
   </connection_specifications>
 
