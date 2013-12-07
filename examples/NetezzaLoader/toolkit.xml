@@ -4,10 +4,12 @@
   <toolkit name="NetezzaLoader" requiredProductVersion="3.0.0" version="1.0.0">
     <description/>
     <uriTable>
-      <uri index="1" value="NetezzaLoad/Main.spl"/>
+      <uri index="2" value="NetezzaLoad/Main.spl"/>
+      <uri index="1" value="NetezzaLoad/MainControl.spl"/>
     </uriTable>
     <namespace name="NetezzaLoad">
-      <compositeOp column="11" line="7" name="Main" potentialMain="true" uriIndex="1"/>
+      <compositeOp column="11" line="7" name="MainControl" potentialMain="true" uriIndex="1"/>
+      <compositeOp column="11" line="7" name="Main" potentialMain="true" uriIndex="2"/>
     </namespace>
     <dependency>
       <common:name>com.ibm.streams.db</common:name>
