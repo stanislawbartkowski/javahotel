@@ -1,12 +1,37 @@
+/*
+ * Copyright 2012 stanislawbartkowski@gmail.com 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
 namespace NetezzaLoad ;
 
 use com.ibm.streams.db::ODBCAppend ;
 use com.ibm.streams.db.netezza::NetezzaPrepareLoad ;
 use com.ibm.streams.db.netezza::NetezzaLoad ;
 
+/**
+ * Sample code showing how to use ODBCAppend and NetezzaLoader to load data into Netezza Appliance
+ * Short description of operators
+ * 1 : Produces a flow of data in shape of number,rstring
+ * 2 : Test operator, print console
+ * 3 : ODBCAppend, load flow of data to the Netezza using ODBCAppend, consumer of 1
+ * 4 : NetezzaPrepareLoad, consumer of 1, prerequisite for NetezzaLoad
+ * 5 : Test, print console
+ * 6 : NetezzaLoad, load flow of data to Netezza
+ * 7 : Test, print console
+ */
+
 composite Main
 {
 	graph
+	    // 1	
 		(stream<int64 numb, rstring name> FlowOfData) as Beacon_1 = Beacon()
 		{
 			logic
@@ -19,6 +44,7 @@ composite Main
 					[(int32)(random() *(float64) size(rList)) ] ;
 		} 
 
+        // 2 
 		() as Custom_2 = Custom(FlowOfData as S)
 		{
 		//			logic
@@ -26,6 +52,7 @@ composite Main
 
 		}
 				
+        // 3				
 		() as ToODBC = ODBCAppend(FlowOfData)
 		{
 			param
@@ -33,13 +60,15 @@ composite Main
 				access : "towarehouse" ;
 		}
 		
+		// 4
 		(stream<rstring buf> NetezzaPrepareLoad_4_out0) as NetezzaPrepareLoad_4 =
 			NetezzaPrepareLoad(FlowOfData)
 		{
 			param
 				access : "netezzaLoad" ;
 		}
-
+		
+        // 5
 		() as Custom_5 = Custom(NetezzaPrepareLoad_4_out0 as S)
 		{
 		//			logic
@@ -47,7 +76,7 @@ composite Main
 
 		}
 
-/*
+        // 6 
 		stream<rstring errorString, int32 sqlcode, rstring sqlmessage,
 			rstring sqlstate> NetezzaLoad_6 = NetezzaLoad(NetezzaPrepareLoad_4_out0)
 		{
@@ -62,7 +91,7 @@ composite Main
 			logic
 				onTuple S : println(S) ;
 		}
-*/
+
 }
 
 
