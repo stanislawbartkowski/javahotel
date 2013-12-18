@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.common.base.Joiner;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.DateCell;
@@ -31,6 +32,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.gwtmodel.table.DateUtil;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.GWidget;
@@ -45,7 +47,6 @@ import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.CellId;
@@ -122,8 +123,8 @@ public class DateLineManager implements ISetGetVar {
 
     interface HeaderTemplate extends SafeHtmlTemplates {
 
-        @SafeHtmlTemplates.Template("<p class=\"header-date\">{0} {1} <br/>{2}</p>")
-        SafeHtml input(int day, String month, String weekday);
+        @SafeHtmlTemplates.Template("<p class=\"header-date {0}\">{1} {2} <br/>{3}</p>")
+        SafeHtml input(String addClass, int day, String month, String weekday);
     }
 
     private HeaderTemplate headerInput = GWT.create(HeaderTemplate.class);
@@ -250,6 +251,15 @@ public class DateLineManager implements ISetGetVar {
             return new CVField(i);
         }
 
+        private boolean isWeekend(Date d) {
+            int weekday = DateUtil.weekDay(d);
+            return ((weekday == 6) || (weekday == 0));
+        }
+
+        private boolean isToday(Date d) {
+            return DateUtil.eqDate(DateFormatUtil.getToday(), d);
+        }
+
         private class TableModel implements IGwtTableModel {
 
             DateLineVariables v = null;
@@ -310,7 +320,11 @@ public class DateLineManager implements ISetGetVar {
                         int day = DateFormatUtil.getD(d);
                         String m = months[DateFormatUtil.getM(d) - 1];
                         String w = weekdays[d.getDay()];
-                        sb.append(headerInput.input(day, m, w));
+                        Joiner join = Joiner.on(' ').skipNulls();
+                        sb.append(headerInput.input(join.join(
+                                isToday(d) ? ICommonConsts.HEADER_TODAY : null,
+                                isWeekend(d) ? ICommonConsts.HEADER_WEEKEND
+                                        : null), day, m, w));
                     }
 
                 }
@@ -484,6 +498,28 @@ public class DateLineManager implements ISetGetVar {
                 return null;
             }
 
+            @Override
+            public String getClassName() {
+                if (dList.getClassName() != null)
+                    return dList.getClassName();
+                return ICommonConsts.DATEPANELCLASSDEFAULT;
+            }
+
+            @Override
+            public String getClassNameForColumn(IVField v) {
+                if (sData == null)
+                    return null;
+                if (!(v instanceof CVField))
+                    return null;
+                CVField c = (CVField) v;
+                Date d = sData.getD(c.cId);
+                Joiner join = Joiner.on(' ').skipNulls();
+                return join.join(isToday(d) ? ICommonConsts.CELL_COLUMN_TODAY
+                        : null,
+                        isWeekend(d) ? (ICommonConsts.CELL_COLUMN_WEEKEND)
+                                : null);
+            }
+
         }
 
         private class Synch extends SynchronizeList {
@@ -565,7 +601,7 @@ public class DateLineManager implements ISetGetVar {
             IDatePanelScroll wFactory = GwtGiniInjector.getI()
                     .getDatePanelScroll();
             iSeason = wFactory.getScrollSeason(new DrawPart(),
-                    DateUtil.getToday());
+                    DateFormatUtil.getToday());
             // TODO: parameter
             Date firstDate = DateFormatUtil.toD(2012, 1, 1);
             Date lastDate = DateFormatUtil.toD(2020, 12, 31);

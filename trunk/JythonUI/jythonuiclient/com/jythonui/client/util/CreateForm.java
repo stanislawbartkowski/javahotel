@@ -214,7 +214,8 @@ public class CreateForm {
             VListHeaderDesc v = new VListHeaderDesc(getDisplayName(f), vf,
                     lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
                     f.getActionId(), f.isColumnEditable(), al, f.getWidth(),
-                    f.getEditClass(), f.getEditCss(), iHelper, colNo);
+                    f.getEditClass(), f.getEditCss(), iHelper, colNo,
+                    f.getColumnClass());
             heList.add(v);
             if (!f.isHidden())
                 desc.colvisNo++;
@@ -250,7 +251,8 @@ public class CreateForm {
                     StandClickEnum.MENUTITLE), enabled);
         else
             return new ControlButtonDesc(dName, id, enabled);
-//        return new ControlButtonDesc("default_closeicon",dName, new ClickButtonType(id), enabled);
+        // return new ControlButtonDesc("default_closeicon",dName, new
+        // ClickButtonType(id), enabled);
     }
 
     public static List<ControlButtonDesc> constructBList(SecurityInfo sInfo,

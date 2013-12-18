@@ -209,4 +209,8 @@ public class FieldItem extends ElemDescription {
         return isAttr(ICommonConsts.LABEL);
     }
 
+    public String getColumnClass() {
+        return getAttr(ICommonConsts.COLUMNCLASS);
+    }
+
 }
