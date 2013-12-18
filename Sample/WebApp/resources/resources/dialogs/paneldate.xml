@@ -19,10 +19,10 @@
 	</buttons>
 
 	<dateline id="dateline" displayname="List of rooms" lineid="id"
-		colno="12" pagesize="10" defafile="name1">
+		colno="20" pagesize="10" defafile="name1" >
 		<columns>
 			<column id="id" type="long" hidden="" />
-			<column id="displayname" displayname="Room" />
+			<column id="displayname" displayname="Room" columnclass = "roomcolumnClass" editcss="margin-right:3em;" />
 		</columns>
 		<files>
 			<filedef id="name1" file="x.html" />
