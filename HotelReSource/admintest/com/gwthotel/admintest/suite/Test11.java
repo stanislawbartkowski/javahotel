@@ -22,7 +22,6 @@ import org.junit.Test;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.DateUtil;
 
 public class Test11 extends TestHelper {
 
@@ -30,21 +29,23 @@ public class Test11 extends TestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        DateUtil.setTestToday(DateFormatUtil.toD(2013,6,13));
+        DateFormatUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
     @Test
     public void test1() {
-        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL), HotelObjects.CUSTOMER);
+        HotelCustomer p = (HotelCustomer) hObjects.construct(getH(HOTEL),
+                HotelObjects.CUSTOMER);
         p.setGensymbol(true);
         p = iCustomers.addElem(getH(HOTEL), p);
         System.out.println(p.getName());
-        assertEquals("2013 / 1 /C",p.getName());
+        assertEquals("2013 / 1 /C", p.getName());
         List<HotelCustomer> hList = iCustomers.getList(getH(HOTEL));
-        assertEquals(1,hList.size());
-        assertEquals("2013 / 1 /C",hList.get(0).getName());
-        for (int i=0; i<100; i++) {
-            p = (HotelCustomer) hObjects.construct(getH(HOTEL), HotelObjects.CUSTOMER);
+        assertEquals(1, hList.size());
+        assertEquals("2013 / 1 /C", hList.get(0).getName());
+        for (int i = 0; i < 100; i++) {
+            p = (HotelCustomer) hObjects.construct(getH(HOTEL),
+                    HotelObjects.CUSTOMER);
             p.setGensymbol(true);
             p = iCustomers.addElem(getH(HOTEL), p);
         }

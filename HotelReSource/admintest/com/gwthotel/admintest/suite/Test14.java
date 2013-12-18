@@ -20,17 +20,15 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.customer.HotelCustomer;
-import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.DateUtil;
 
 public class Test14 extends TestHelper {
 
@@ -38,7 +36,7 @@ public class Test14 extends TestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        DateUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        DateFormatUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
     @Test

@@ -14,25 +14,24 @@ package com.gwthotel.admintest.suite;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.customer.HotelCustomer;
-import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.gwtmodel.util.DayOp;
 
 public class Test12 extends TestHelper {
 
@@ -40,7 +39,7 @@ public class Test12 extends TestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        DateUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        DateFormatUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
     @Test
@@ -75,7 +74,7 @@ public class Test12 extends TestHelper {
         se.setNoPersons(1);
         se.setVat("7%");
         iServices.addElem(getH(HOTEL), se);
-        
+
         HotelRoom ro = new HotelRoom();
         ro.setName("99");
         ro.setNoPersons(1);
@@ -108,7 +107,7 @@ public class Test12 extends TestHelper {
         det = r.getResDetail().get(0);
         assertEqB(100.00, det.getPrice());
         assertEquals("1p1", det.getService());
-        assertEquals("99",det.getRoomName());
+        assertEquals("99", det.getRoomName());
 
         // now change
         ro = new HotelRoom();
@@ -124,7 +123,7 @@ public class Test12 extends TestHelper {
         assertEquals(1, rList.size());
         r = rList.get(0);
         det = r.getResDetail().get(0);
-//        assertEquals(HUtils.roundB(new BigDecimal(200)), det.getPrice());
+        // assertEquals(HUtils.roundB(new BigDecimal(200)), det.getPrice());
         assertEqB(200, det.getPrice());
         assertEquals("1p1", det.getService());
         assertEquals("10", det.getRoomName());
@@ -166,9 +165,12 @@ public class Test12 extends TestHelper {
                     getH(HOTEL), HotelObjects.RESERVATION);
             r.setCustomerName("CUST" + i);
             r.setGensymbol(true);
+            // Calendar c = Calendar.getInstance();
             // r.setName("RES"+i);
             for (int j = 0; j < 100; j++) {
-                res = DateUtil.NextDayD(res);
+                // c.setTime(res);
+                // c.add(Calendar.DATE, 1);
+                res = DayOp.incDay(res);
                 ReservationPaymentDetail det = new ReservationPaymentDetail();
                 det.setNoP(1);
                 det.setResDate(res);
