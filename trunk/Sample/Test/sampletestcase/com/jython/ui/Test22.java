@@ -20,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.DateUtil;
 
 public class Test22 extends TestHelper {
     
@@ -58,7 +57,7 @@ public class Test22 extends TestHelper {
     @Test
     public void test2() {
         Date today = DateFormatUtil.toD(2008, 5, 2);
-        DateUtil.setTestToday(today);
+        DateFormatUtil.setTestToday(today);
         String sym = iSym.genSym(REALM, KEY1, PATTERN);
         System.out.println(sym);      
         assertEquals("5 S/ 1 /B",sym);

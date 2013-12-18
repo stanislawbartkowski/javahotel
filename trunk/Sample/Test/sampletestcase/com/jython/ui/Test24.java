@@ -12,13 +12,15 @@
  */
 package com.jython.ui;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.util.Date;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.gwtmodel.util.DayOp;
 import com.jython.ui.server.datastore.IDateLineElem;
 
 public class Test24 extends TestHelper {
@@ -27,46 +29,46 @@ public class Test24 extends TestHelper {
     public void test1() {
         iOp.clearAll();
         Long id = new Long(1);
-        Date da = getD(2012,2,4);
+        Date da = getD(2012, 2, 4);
         IDateLineElem e = iOp.findElem(id, da);
         assertNull(e);
         iOp.addormodifElem(id, da, 5, "rybka");
         e = iOp.findElem(id, da);
         assertNotNull(e);
-        assertEquals(5,e.getNumb());
-        assertEquals("rybka",e.getInfo());
+        assertEquals(5, e.getNumb());
+        assertEquals("rybka", e.getInfo());
         iOp.removeElem(id, da);
         e = iOp.findElem(id, da);
         assertNull(e);
     }
-    
+
     @Test
     public void test2() {
         iOp.clearAll();
-        Date da = getD(2012,2,4);
+        Date da = getD(2012, 2, 4);
         Date dt = da;
-        for (int i=0; i<100; i++) {
+        for (int i = 0; i < 100; i++) {
             Long id = new Long(1);
-            iOp.addormodifElem(id, dt, i*2, "Hello");           
-            dt = DateUtil.addDaysD(dt, 1);
+            iOp.addormodifElem(id, dt, i * 2, "Hello");
+            dt = DayOp.incDay(dt);
         }
         dt = da;
         int no = 0;
-        for (int i=0; i<100; i++) {
+        for (int i = 0; i < 100; i++) {
             Long id = new Long(1);
             IDateLineElem el = iOp.findElem(id, dt);
-            dt = DateUtil.addDaysD(dt, 1);
+            dt = DayOp.incDay(dt);
             assertNotNull(el);
             no = i;
         }
-        assertEquals(99,no);
+        assertEquals(99, no);
         Long id = new Long(1);
         IDateLineElem el = iOp.findElem(id, da);
         assertNotNull(el);
-        iOp.addormodifElem(id, da, el.getNumb(), "Ciao");           
+        iOp.addormodifElem(id, da, el.getNumb(), "Ciao");
         el = iOp.findElem(id, da);
         assertNotNull(el);
-        assertEquals("Ciao",el.getInfo());
+        assertEquals("Ciao", el.getInfo());
     }
 
 }
