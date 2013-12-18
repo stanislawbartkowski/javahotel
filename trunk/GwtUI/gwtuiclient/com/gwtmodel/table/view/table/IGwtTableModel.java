@@ -37,4 +37,8 @@ public interface IGwtTableModel {
     int treeLevel(int row);
 
     IRowEditAction getRowEditAction();
+
+    String getClassName();
+
+    String getClassNameForColumn(IVField v);
 }

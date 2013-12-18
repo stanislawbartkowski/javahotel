@@ -10,13 +10,16 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.common.dateutil;
+package com.gwtmodel.table;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
+import com.google.common.base.Objects;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.gwtmodel.table.common.PeriodT;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 
 /**
  * Utilities related to date methods
@@ -214,35 +217,6 @@ public class DateUtil {
         return 0;
     }
 
-    private static Date testToday = null;
-
-    /**
-     * Only for testing purpose. Change the day to be reported as 'today'
-     * 
-     * @param d
-     *            New 'today' day
-     */
-    public static void setTestToday(final Date d) {
-        testToday = d;
-    }
-
-    /**
-     * Get today date Important: can be modified by setTestToday method
-     * 
-     * @return today
-     */
-    public static Date getToday() {
-        DateP d = new DateP();
-        Date tt;
-        if (testToday != null) {
-            tt = testToday;
-        } else {
-            tt = new Date();
-        }
-        d.setD(tt);
-        return d.getD();
-    }
-
     public static Date addDaysD(final Date di, int noD) {
         Date d = copyDate(di);
         CalendarUtil.addDaysToDate(d, noD);
@@ -284,4 +258,22 @@ public class DateUtil {
         }
         return PrevDayD(dd);
     }
+
+    private static final String[] months;
+    private static final String[] polmonths = { "Styczeń", "Luty", "Marzec",
+            "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień",
+            "Październik", "Listopad", "Grudzień" };
+    static {
+        if (Objects.equal(Utils.getLocale(), "pl")) {
+            months = polmonths;
+        } else {
+            months = LocaleInfo.getCurrentLocale().getDateTimeFormatInfo()
+                    .monthsFull();
+        }
+    }
+
+    public static String[] getMonths() {
+        return months;
+    }
+
 }

@@ -13,10 +13,12 @@
 package com.gwtmodel.table.view.table;
 
 import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -30,6 +32,7 @@ import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
 
 /**
@@ -81,11 +84,40 @@ class PresentationCellFactory extends PresentationCellHelper {
         SafeHtml input();
     }
 
-    private class TColumn extends TextColumn<MutableInteger> {
+    // extends AbstractSafeHtmlCell<String>
+    interface StringTemplate extends SafeHtmlTemplates {
+
+        @SafeHtmlTemplates.Template("<span style=\"{0}\" class=\"{1}\">{2}</span>")
+        SafeHtml input(String value, String style, String classC);
+    }
+
+    private class ATextCell extends TextCell {
+
+        private final StringTemplate template = GWT
+                .create(StringTemplate.class);
+
+        private final VListHeaderDesc he;
+
+        ATextCell(VListHeaderDesc he) {
+            this.he = he;
+        }
+
+        @Override
+        public void render(Context context, SafeHtml value, SafeHtmlBuilder sb) {
+            if (value != null) {
+                sb.append(template.input(getS(he.getInputStyle()),
+                        getS(he.getInputClass()), value.asString()));
+            }
+        }
+
+    }
+
+    private class TColumn extends Column<MutableInteger, String> {
 
         private final IVField iF;
 
-        TColumn(IVField iF) {
+        TColumn(IVField iF, VListHeaderDesc he) {
+            super(new ATextCell(he));
             this.iF = iF;
         }
 
@@ -141,15 +173,15 @@ class PresentationCellFactory extends PresentationCellHelper {
 
         @Override
         public Object getValObj(MutableInteger key) {
-//            IVModelData v = model.get(key.intValue());
-//            return FUtils.getValue(v, iF);
+            // IVModelData v = model.get(key.intValue());
+            // return FUtils.getValue(v, iF);
             return null;
         }
 
         @Override
         public void setValObj(MutableInteger key, Object o) {
-//            IVModelData v = model.get(key.intValue());
-//            v.setF(iF, o);
+            // IVModelData v = model.get(key.intValue());
+            // v.setF(iF, o);
         }
     }
 
@@ -202,8 +234,8 @@ class PresentationCellFactory extends PresentationCellHelper {
     }
 
     @SuppressWarnings("rawtypes")
-    Column constructTextCol(IVField v) {
-        return new TColumn(v);
+    Column constructTextCol(IVField v, VListHeaderDesc he) {
+        return new TColumn(v, he);
     }
 
     @SuppressWarnings("rawtypes")

@@ -23,13 +23,13 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.gwtmodel.table.DateUtil;
 import com.gwtmodel.table.Empty;
 import com.gwtmodel.table.GFocusWidgetFactory;
 import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.DateUtil;
 import com.gwtmodel.table.factories.IWebPanelResources;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.MM;
@@ -59,8 +59,6 @@ public class ScrollWidget implements IScrollSeason {
     private final HorizontalPanel mPanel = new HorizontalPanel();
     private final HorizontalPanel dPanel = new HorizontalPanel();
     private final ListBox cyList = new ListBox();
-    private final String[] months = LocaleInfo.getCurrentLocale()
-            .getDateTimeFormatInfo().monthsFull();
 
     private Date firstDay, lastDay;
 
@@ -153,7 +151,7 @@ public class ScrollWidget implements IScrollSeason {
 
     private String getMonthName(int i) {
         Date d = DatePanelUtil.getPanelMonth(panelMonth, i);
-        return months[DateFormatUtil.getM(d) - 1];
+        return DateUtil.getMonths()[DateFormatUtil.getM(d) - 1];
     }
 
     private void redraw(Date dCur) {
@@ -224,7 +222,8 @@ public class ScrollWidget implements IScrollSeason {
         for (int i = 0; i < panelMonth.pSize; i++) {
             Button l = new Button(getMonthName(i), new MonthButton(i));
             l.setStyleName("month-style");
-            IGFocusWidget w = GFocusWidgetFactory.construct(l, MM.getL().GotoMonth());
+            IGFocusWidget w = GFocusWidgetFactory.construct(l, MM.getL()
+                    .GotoMonth());
             mPanel.add(w.getGWidget());
         }
 
@@ -248,10 +247,4 @@ public class ScrollWidget implements IScrollSeason {
         setCurrentDate();
         dPart.refresh(new DrawContext());
     }
-
-    @Override
-    public void refresh() {
-
-    }
-
 }

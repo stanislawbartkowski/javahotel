@@ -48,6 +48,7 @@ public class VListHeaderDesc {
     private final String inputStyle;
     private final IColumnImageSelect iColSelect;
     private final int imageNo;
+    private final String columnClass;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
         assert fie != null : LogT.getT().cannotBeNull();
@@ -63,6 +64,7 @@ public class VListHeaderDesc {
         this.inputStyle = null;
         this.iColSelect = null;
         this.imageNo = 0;
+        this.columnClass = null;
     }
 
     /**
@@ -81,18 +83,18 @@ public class VListHeaderDesc {
 
     public VListHeaderDesc(String headerString, IVField fie) {
         this(headerString, fie, false, null, false, null, null, null, null,
-                null, 0);
+                null, 0,null);
     }
 
     public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
         this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(),
-                false, null, null, null, null, null, 0);
+                false, null, null, null, null, null, 0,null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
             String buttonAction, boolean editable, ColAlign align,
             String colWidth, String inputClass, String inputStyle,
-            IColumnImageSelect iColSelect, int imageNo) {
+            IColumnImageSelect iColSelect, int imageNo, String columnClass) {
         assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = headerString;
         this.fie = fie;
@@ -106,18 +108,19 @@ public class VListHeaderDesc {
         this.inputStyle = inputStyle;
         this.iColSelect = iColSelect;
         this.imageNo = imageNo;
+        this.columnClass = columnClass;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
             String buttonAction, boolean editable, ColAlign align,
             String colWidth) {
         this(headerString, fie, hidden, buttonAction, editable, align,
-                colWidth, null, null, null, 0);
+                colWidth, null, null, null, 0,null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
         this(headerString, fie, hidden, null, false, null, null, null, null,
-                null, 0);
+                null, 0,null);
     }
 
     public String getHeaderString() {
@@ -172,6 +175,10 @@ public class VListHeaderDesc {
 
     public boolean isImageCol() {
         return imageNo > 0;
+    }
+
+    public String getColumnClass() {
+        return columnClass;
     }
 
 }

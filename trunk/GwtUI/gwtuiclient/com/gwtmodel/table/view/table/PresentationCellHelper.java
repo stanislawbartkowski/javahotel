@@ -62,6 +62,10 @@ abstract class PresentationCellHelper {
         this.model = model;
     }
 
+    protected String getS(String value) {
+        return value == null ? "" : value;
+    }
+    
     protected class CheckBoxColumn extends Column<MutableInteger, Boolean> {
 
         private final IVField iF;

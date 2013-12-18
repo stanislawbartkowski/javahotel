@@ -91,10 +91,6 @@ abstract class PresentationEditCellHelper extends PresentationCellHelper {
         int row(MutableInteger key);
     }
 
-    private String getS(String value) {
-        return value == null ? "" : value;
-    }
-
     protected void addInputSb(SafeHtmlBuilder sb, MutableInteger i,
             String value, VListHeaderDesc he) {
         String sClass = null;

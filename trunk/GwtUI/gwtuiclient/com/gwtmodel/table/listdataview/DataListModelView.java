@@ -34,6 +34,7 @@ class DataListModelView implements IGwtTableModel {
     private IRowEditAction rAction;
     private long size = 0;
     private final ChunkReader cRead;
+    private String className;
 
     DataListModelView(ChunkReader cRead) {
         this.lClicked = null;
@@ -42,6 +43,10 @@ class DataListModelView implements IGwtTableModel {
 
     void setSize(long size) {
         this.size = size;
+    }
+
+    void setClassName(String className) {
+        this.className = className;
     }
 
     void setHeaderList(VListHeaderContainer heList) {
@@ -125,4 +130,14 @@ class DataListModelView implements IGwtTableModel {
         cRead.readChunkRange(startw, rangew, fSort, asc, signal);
     }
 
+    @Override
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public String getClassNameForColumn(IVField v) {
+        return null;
+    }
+       
 }
