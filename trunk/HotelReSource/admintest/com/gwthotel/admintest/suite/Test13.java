@@ -12,7 +12,10 @@
  */
 package com.gwthotel.admintest.suite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,15 +29,14 @@ import com.gwthotel.hotel.HotelObjects;
 import com.gwthotel.hotel.ServiceType;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.hotel.reservation.ResStatus;
-import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservation.ReservationForm;
+import com.gwthotel.hotel.reservation.ReservationPaymentDetail;
 import com.gwthotel.hotel.reservationop.ResData;
 import com.gwthotel.hotel.reservationop.ResQuery;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.services.HotelServices;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.DateUtil;
 
 public class Test13 extends TestHelper {
 
@@ -42,7 +44,7 @@ public class Test13 extends TestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        DateUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        DateFormatUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
     @Test

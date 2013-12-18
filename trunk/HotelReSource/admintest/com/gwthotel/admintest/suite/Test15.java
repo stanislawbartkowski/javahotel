@@ -27,7 +27,6 @@ import com.gwthotel.hotel.reservation.ReservationForm;
 import com.gwthotel.hotel.rooms.HotelRoom;
 import com.gwthotel.hotel.stay.ResGuest;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.DateUtil;
 
 public class Test15 extends TestHelper {
 
@@ -35,7 +34,7 @@ public class Test15 extends TestHelper {
     public void before() {
         clearObjects();
         createHotels();
-        DateUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
+        DateFormatUtil.setTestToday(DateFormatUtil.toD(2013, 6, 13));
     }
 
     @Test
