@@ -14,8 +14,11 @@ package com.gwtmodel.table.view.table;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.google.common.base.Joiner;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
@@ -63,6 +66,7 @@ import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.InvalidateFormContainer;
 import com.gwtmodel.table.InvalidateMess;
+import com.gwtmodel.table.MutableInteger;
 import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WChoosedLine;
 import com.gwtmodel.table.WSize;
@@ -77,7 +81,6 @@ import com.gwtmodel.table.tabledef.VListHeaderContainer;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
 import com.gwtmodel.table.view.table.PresentationEditCellHelper.IGetField;
 import com.gwtmodel.table.view.util.PopUpHint;
-import com.gwtmodel.table.MutableInteger;
 
 /**
  * 
@@ -127,6 +130,8 @@ class PresentationTable implements IGwtTableView {
     private final boolean async;
     private IGetStandardMessage iMess = GwtGiniInjector.getI()
             .getStandardMessage();
+
+    private final Map<Integer, VListHeaderDesc> iMap = new HashMap<Integer, VListHeaderDesc>();
 
     private class MyAsyncProvider extends AsyncDataProvider<MutableInteger> {
 
@@ -198,10 +203,13 @@ class PresentationTable implements IGwtTableView {
 
     private void setWrapCol() {
         for (int i = 0; i < table.getColumnCount(); i++) {
+            VListHeaderDesc he = iMap.get(i);
+            Joiner join = Joiner.on(" ").skipNulls();
+            String aClass = join.join(model.getClassNameForColumn(he.getFie()),
+                    he.getColumnClass(), noWrap ? null : IConsts.nowrapStyle);
             Column<MutableInteger, ?> co = table.getColumn(i);
-            co.setCellStyleNames(noWrap ? IConsts.nowrapStyle : "");
+            co.setCellStyleNames(aClass);
         }
-
     }
 
     /**
@@ -252,16 +260,13 @@ class PresentationTable implements IGwtTableView {
                             wChoosed.getChoosedLine()));
             MutableInteger sel = selectionModel.getSelectedObject();
             if (sel == null) {
-                LogT.getLT().info("aaaaa");
                 return;
             }
             // neither cell position nor column are available
             wChoosed = pgetClicked(sel, null, null);
             if (model.getIClicked() != null) {
-                LogT.getLT().info("vvvv");
                 model.getIClicked().clicked(wChoosed);
             }
-            LogT.getLT().info("bbbbbb");
             if (selectEnabled()) {
                 iClick.execute(whilefind);
                 LogT.getLT().info(
@@ -538,7 +543,7 @@ class PresentationTable implements IGwtTableView {
             table.setWidth(vo.getWidthDef(), true);
         }
         List<VListHeaderDesc> li = vo.getVisHeList();
-        // int colNo = 0;
+        int colNo = 0;
         for (VListHeaderDesc he : li) {
             boolean editable = he.isEditable();
             @SuppressWarnings("rawtypes")
@@ -595,7 +600,7 @@ class PresentationTable implements IGwtTableView {
                         if (editable || he.isImageCol()) {
                             co = faEdit.constructEditTextCol(he);
                         } else {
-                            co = fa.constructTextCol(he.getFie());
+                            co = fa.constructTextCol(he.getFie(), he);
                         }
                         break;
                     }
@@ -684,6 +689,8 @@ class PresentationTable implements IGwtTableView {
                 table.addColumnSortHandler(sortHandler);
             }
             // ColumnSortEvent.fire(myTable, myTable.getColumnSortList());
+            iMap.put(colNo, he);
+            colNo++;
         } // for
         columnC = true;
         setWrapCol();
@@ -812,6 +819,7 @@ class PresentationTable implements IGwtTableView {
     @Override
     public void refresh() {
         createHeader();
+        setWrapCol();
         drawRows();
     }
 
@@ -852,6 +860,8 @@ class PresentationTable implements IGwtTableView {
 
     @Override
     public void setModel(IGwtTableModel model) {
+        if (model.getClassName() != null)
+            vPanel.setStyleName(model.getClassName());
         this.model = model;
         fa.setModel(model);
         faEdit.setModel(model);

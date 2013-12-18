@@ -141,4 +141,34 @@ public class DateFormatUtil {
         toD(dd, y, m, d);
         return dd;
     }
+
+    private static Date testToday = null;
+
+    /**
+     * Only for testing purpose. Change the day to be reported as 'today'
+     * 
+     * @param d
+     *            New 'today' day
+     */
+    public static void setTestToday(final Date d) {
+        testToday = d;
+    }
+
+    /**
+     * Get today date Important: can be modified by setTestToday method
+     * 
+     * @return today
+     */
+    public static Date getToday() {
+        DateP d = new DateP();
+        Date tt;
+        if (testToday != null) {
+            tt = testToday;
+        } else {
+            tt = new Date();
+        }
+        d.setD(tt);
+        return d.getD();
+    }
+
 }

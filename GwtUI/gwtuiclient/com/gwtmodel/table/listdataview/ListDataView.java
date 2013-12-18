@@ -898,11 +898,12 @@ class ListDataView extends AbstractSlotContainer implements IListDataView {
 
 	ListDataView(GwtTableFactory gFactory, IDataType dType,
 			IGetCellValue gValue, boolean selectedRow, boolean unSelectAtOnce,
-			boolean treeView, boolean async) {
+			boolean treeView, boolean async, String className) {
 		cReader = new ChunkReader(new ReadChunk());
 		listView = new DataListModelView(cReader);
 		listView.setrAction(new RowActionListener());
 		listView.setUnSelectAtOnce(unSelectAtOnce);
+		listView.setClassName(className);
 		this.dType = dType;
 		this.gFactory = gFactory;
 		this.gValue = gValue;

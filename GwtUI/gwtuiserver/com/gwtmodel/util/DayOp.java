@@ -10,36 +10,20 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
+package com.gwtmodel.util;
 
-package com.gwtmodel.table.view.daytimetable.data;
+import java.util.Calendar;
+import java.util.Date;
 
-/**
- *
- * @author stanislawbartkowski@gmail.com
- */
-public class PanelDesc {
+public class DayOp {
 
-    private final boolean scrollLeftActive;
-    private final boolean scrollRightActive;
-
-    PanelDesc(boolean l, boolean r) {
-        this.scrollLeftActive = l;
-        this.scrollRightActive = r;
+    private DayOp() {
     }
 
-
-    /**
-     * @return the scrollLeftActive
-     */
-    public boolean isScrollLeftActive() {
-        return scrollLeftActive;
+    public static Date incDay(Date d) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        c.add(Calendar.DATE, 1);
+        return c.getTime();
     }
-
-    /**
-     * @return the scrollRightActive
-     */
-    public boolean isScrollRightActive() {
-        return scrollRightActive;
-    }
-
 }

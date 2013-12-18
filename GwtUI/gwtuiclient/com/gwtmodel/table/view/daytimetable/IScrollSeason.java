@@ -31,9 +31,4 @@ public interface IScrollSeason {
      */
     void createVPanel(Date firstData, Date lastDate,final int panelW);
 
-    /**
-     * Refresh using current settings
-     */
-    // TODO : remove, deprecated
-    void refresh();
 }

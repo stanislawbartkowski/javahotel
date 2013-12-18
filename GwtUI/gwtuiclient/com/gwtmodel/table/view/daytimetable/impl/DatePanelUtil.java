@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.gwtmodel.table.DateUtil;
 import com.gwtmodel.table.common.dateutil.DateFormatUtil;
-import com.gwtmodel.table.common.dateutil.DateUtil;
 
 class DatePanelUtil {
 
