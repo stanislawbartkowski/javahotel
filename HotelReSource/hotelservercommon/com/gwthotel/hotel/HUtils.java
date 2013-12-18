@@ -27,7 +27,7 @@ import com.gwthotel.mess.IHError;
 import com.gwthotel.mess.IHMess;
 import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
-import com.gwtmodel.table.common.dateutil.DateUtil;
+import com.gwtmodel.table.common.dateutil.DateFormatUtil;
 import com.jython.ui.shared.MUtil;
 import com.jythonui.shared.JythonUIFatal;
 
@@ -85,7 +85,7 @@ public class HUtils {
     }
 
     private static void setD(Object o, String propname) {
-        Date d = DateUtil.getToday();
+        Date d = DateFormatUtil.getToday();
         try {
             BeanUtils.setProperty(o, propname, d);
         } catch (IllegalAccessException | InvocationTargetException e) {
