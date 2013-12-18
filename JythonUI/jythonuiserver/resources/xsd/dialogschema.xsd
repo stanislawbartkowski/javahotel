@@ -99,7 +99,7 @@
 		<xs:attribute name="hidden" type="emptyT" />
 		<xs:attribute name="readonly" type="emptyT" />
 		<xs:attribute name="header" type="emptyT" />
-		
+
 	</xs:attributeGroup>
 
 	<xs:group name="dialogG">
@@ -111,8 +111,8 @@
 			<xs:element minOccurs="0" name="parent" type="xs:string" />
 			<xs:element minOccurs="0" name="types" type="xs:string" />
 			<xs:element minOccurs="0" name="asxml" type="listidsType" />
-            <xs:element minOccurs="0" name="clearleft" type="emptyT" />
-            <xs:element minOccurs="0" name="clearcentre" type="emptyT" />
+			<xs:element minOccurs="0" name="clearleft" type="emptyT" />
+			<xs:element minOccurs="0" name="clearcentre" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -124,8 +124,8 @@
 		<xs:attribute name="parent" type="xs:string" />
 		<xs:attribute name="types" type="xs:string" />
 		<xs:attribute name="asxml" type="listidsType" />
-        <xs:attribute name="clearleft" type="emptyT" />
-        <xs:attribute name="clearcentre" type="emptyT" />
+		<xs:attribute name="clearleft" type="emptyT" />
+		<xs:attribute name="clearcentre" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="listG">
@@ -198,9 +198,10 @@
 			<xs:element minOccurs="0" name="signalbefore" type="emptyT" />
 			<xs:element minOccurs="0" name="imagecolumn" type="xs:nonNegativeInteger" />
 			<xs:element minOccurs="0" name="imagelist" type="xs:string" />
-            <xs:element minOccurs="0" name="editclass" type="xs:string" />
-            <xs:element minOccurs="0" name="editcss" type="xs:string" />
-            <xs:element minOccurs="0" name="label" type="xs:string" />
+			<xs:element minOccurs="0" name="editclass" type="xs:string" />
+			<xs:element minOccurs="0" name="editcss" type="xs:string" />
+			<xs:element minOccurs="0" name="label" type="xs:string" />
+			<xs:element minOccurs="0" name="columnclass" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -231,9 +232,10 @@
 		<xs:attribute name="signalbefore" type="emptyT" />
 		<xs:attribute name="imagecolumn" type="xs:nonNegativeInteger" />
 		<xs:attribute name="imagelist" type="xs:string" />
-        <xs:attribute name="editclass" type="xs:string" />
-        <xs:attribute name="editcss" type="xs:string" />
-        <xs:attribute name="label" type="emptyT" />
+		<xs:attribute name="editclass" type="xs:string" />
+		<xs:attribute name="editcss" type="xs:string" />
+		<xs:attribute name="label" type="emptyT" />
+		<xs:attribute name="columnclass" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">
@@ -276,6 +278,7 @@
 			<xs:element minOccurs="0" name="dateid" type="idType" />
 			<xs:element minOccurs="0" name="file" type="xs:string" />
 			<xs:element minOccurs="0" name="defafile" type="xs:string" />
+			<xs:element minOccurs="0" name="cssclass" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -288,6 +291,7 @@
 		<xs:attribute name="dateid" type="idType" />
 		<xs:attribute name="file" type="xs:string" />
 		<xs:attribute name="defafile" type="xs:string" />
+		<xs:attribute name="cssclass" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:group name="formfileG">

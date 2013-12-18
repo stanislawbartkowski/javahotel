@@ -127,4 +127,8 @@ public abstract class ElemDescription implements Serializable {
         return CUtil.getInteger(s);
     }
 
+    public String getClassName() {
+        return getAttr(ICommonConsts.CLASSNAME);
+    }
+
 }
