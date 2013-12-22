@@ -42,7 +42,9 @@ import com.gwthotel.hotel.services.IHotelServices;
 import com.gwthotel.resource.GetResourceJNDI;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.gwtmodel.mapcache.SimpleMapCacheFactory;
+import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.ServerPropertiesEnv;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
@@ -96,6 +98,10 @@ public class ServerService {
                     Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
+            bind(IGetConnection.class)
+                    .toProvider(EmptyConnectionProvider.class).in(
+                            Singleton.class);
+
             // common
             requestStatic();
             requestStaticInjection(H.class);
@@ -108,7 +114,7 @@ public class ServerService {
 
         @Provides
         IReservationOp getReservationOp() {
-            return AdminEjbLocator.getReservationOp(); 
+            return AdminEjbLocator.getReservationOp();
         }
 
         @Provides
@@ -120,12 +126,11 @@ public class ServerService {
         ICustomerBills getCustomerBills() {
             return AdminEjbLocator.getCustomerBills();
         }
-        
+
         @Provides
         IPaymentBillOp getPaymentBillOp() {
             return AdminEjbLocator.getBillPaymentOp();
         }
-
 
     }
 

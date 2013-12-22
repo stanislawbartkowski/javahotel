@@ -1,0 +1,11 @@
+.header-room {
+/*    margin-right:5em; */   
+}
+
+.roomcolumnClass {
+    background-color:#FFDDAA;
+}
+
+th.header-room * {
+    padding-right:4px;
+}

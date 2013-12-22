@@ -45,7 +45,9 @@ import com.gwtmodel.commoncache.CommonCacheFactory;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.ui.server.gaecached.Cached;
 import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
+import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.ServerProperties;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
@@ -101,6 +103,9 @@ public class ServerService {
                     StorageRegistryFactory.class).in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
+            bind(IGetConnection.class)
+                    .toProvider(EmptyConnectionProvider.class).in(
+                            Singleton.class);
 
             requestStatic();
             requestStaticInjection(H.class);
