@@ -17,20 +17,6 @@ import com.gwtmodel.table.injector.LogT;
 
 public class VListHeaderDesc {
 
-    /**
-     * @return the inputClass
-     */
-    public String getInputClass() {
-        return inputClass;
-    }
-
-    /**
-     * @return the inputStyle
-     */
-    public String getInputStyle() {
-        return inputStyle;
-    }
-
     public enum ColAlign {
 
         LEFT, CENTER, RIGHT
@@ -49,6 +35,7 @@ public class VListHeaderDesc {
     private final IColumnImageSelect iColSelect;
     private final int imageNo;
     private final String columnClass;
+    private final String headerClass;
 
     public VListHeaderDesc(IGHeader gHeader, IVField fie) {
         assert fie != null : LogT.getT().cannotBeNull();
@@ -65,6 +52,7 @@ public class VListHeaderDesc {
         this.iColSelect = null;
         this.imageNo = 0;
         this.columnClass = null;
+        this.headerClass = null;
     }
 
     /**
@@ -83,18 +71,19 @@ public class VListHeaderDesc {
 
     public VListHeaderDesc(String headerString, IVField fie) {
         this(headerString, fie, false, null, false, null, null, null, null,
-                null, 0,null);
+                null, 0, null, null);
     }
 
     public VListHeaderDesc(IVField fie, VListHeaderDesc v) {
         this(v.getHeaderString(), fie, v.isHidden(), v.getButtonAction(),
-                false, null, null, null, null, null, 0,null);
+                false, null, null, null, null, null, 0, null, null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
             String buttonAction, boolean editable, ColAlign align,
             String colWidth, String inputClass, String inputStyle,
-            IColumnImageSelect iColSelect, int imageNo, String columnClass) {
+            IColumnImageSelect iColSelect, int imageNo, String columnClass,
+            String headerClass) {
         assert fie != null : LogT.getT().cannotBeNull();
         this.headerString = headerString;
         this.fie = fie;
@@ -109,18 +98,23 @@ public class VListHeaderDesc {
         this.iColSelect = iColSelect;
         this.imageNo = imageNo;
         this.columnClass = columnClass;
+        this.headerClass = headerClass;
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden,
             String buttonAction, boolean editable, ColAlign align,
             String colWidth) {
         this(headerString, fie, hidden, buttonAction, editable, align,
-                colWidth, null, null, null, 0,null);
+                colWidth, null, null, null, 0, null, null);
     }
 
     public VListHeaderDesc(String headerString, IVField fie, boolean hidden) {
         this(headerString, fie, hidden, null, false, null, null, null, null,
-                null, 0,null);
+                null, 0, null, null);
+    }
+
+    public String getHeaderClass() {
+        return headerClass;
     }
 
     public String getHeaderString() {
@@ -181,4 +175,17 @@ public class VListHeaderDesc {
         return columnClass;
     }
 
+    /**
+     * @return the inputClass
+     */
+    public String getInputClass() {
+        return inputClass;
+    }
+
+    /**
+     * @return the inputStyle
+     */
+    public String getInputStyle() {
+        return inputStyle;
+    }
 }
