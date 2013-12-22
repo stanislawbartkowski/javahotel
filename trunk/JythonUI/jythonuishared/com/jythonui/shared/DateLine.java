@@ -55,7 +55,7 @@ public class DateLine extends ElemDescription {
     public String getDefaFile() {
         return getAttr(ICommonConsts.DATELINEDEFAFILE);
     }
-    
+
     public String getForm() {
         return ICommonConsts.DATELINEFORMDEFAULT;
     }
@@ -67,8 +67,11 @@ public class DateLine extends ElemDescription {
     public List<FieldItem> constructDataLine() {
         List<FieldItem> colList = new ArrayList<FieldItem>();
         colList.add(getFieldId());
-        DialogFormat.addDefStringCols(colList,
-                getForm());
+        FieldItem f = new FieldItem();
+        f.setId(ICommonConsts.JDATELINESPAN);
+        f.setAttr(ICommonConsts.TYPE, ICommonConsts.INTTYPE);
+        colList.add(f);
+        DialogFormat.addDefStringCols(colList, getForm());
         DialogFormat.addDefDataCols(colList, getDateColId());
         return colList;
     }

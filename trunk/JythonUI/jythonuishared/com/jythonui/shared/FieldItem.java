@@ -213,4 +213,8 @@ public class FieldItem extends ElemDescription {
         return getAttr(ICommonConsts.COLUMNCLASS);
     }
 
+    public String getHeaderClass() {
+        return getAttr(ICommonConsts.HEADERCLASS);
+    }
+
 }

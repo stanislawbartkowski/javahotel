@@ -183,6 +183,7 @@ public interface ICommonConsts {
     String EDITCLASS = "editclass";
     String EDITCSS = "editcss";
     String COLUMNCLASS = "columnclass";
+    String HEADERCLASS = "headerclass";
     String DATEPANELCLASSDEFAULT = "datepanel";
     String CLASSNAME = "cssclass";
     String PAGESIZE = "pagesize";
@@ -233,6 +234,7 @@ public interface ICommonConsts {
     String JDATELINEQUERYLIST = "JDATELINE_QUERYLIST";
     String JDATELINELINEDEF = "linedef";
     String JDATELINEVALUES = "values";
+    String JDATELINESPAN = "colspan";
 
     String JDATELINELINEID = "JDATELINE_LINE";
     String JDATELINEDATEID = "JDATELINE_DATE";
