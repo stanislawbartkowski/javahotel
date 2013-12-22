@@ -51,6 +51,10 @@ public class RowIndex {
         return fArray[iMap.get(id)];
     }
 
+    public int getInde(String id) {
+        return iMap.get(id);
+    }
+
     /**
      * If RowIndex (column) contains field
      * 

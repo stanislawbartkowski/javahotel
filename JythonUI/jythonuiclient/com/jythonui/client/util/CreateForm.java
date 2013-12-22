@@ -215,7 +215,7 @@ public class CreateForm {
                     lInfo == null ? f.isHidden() : lInfo.isFieldHidden(f),
                     f.getActionId(), f.isColumnEditable(), al, f.getWidth(),
                     f.getEditClass(), f.getEditCss(), iHelper, colNo,
-                    f.getColumnClass());
+                    f.getColumnClass(), f.getHeaderClass());
             heList.add(v);
             if (!f.isHidden())
                 desc.colvisNo++;

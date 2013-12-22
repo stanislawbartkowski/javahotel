@@ -63,6 +63,7 @@ import com.gwtmodel.table.view.daytimetable.IDrawPartSeason;
 import com.gwtmodel.table.view.daytimetable.IDrawPartSeasonContext;
 import com.gwtmodel.table.view.daytimetable.IScrollSeason;
 import com.gwtmodel.table.view.table.GwtTableFactory;
+import com.gwtmodel.table.view.table.IGetColSpan;
 import com.gwtmodel.table.view.table.IGwtTableModel;
 import com.gwtmodel.table.view.table.IGwtTableView;
 import com.gwtmodel.table.view.table.IListClicked;
@@ -140,10 +141,12 @@ public class DateLineManager implements ISetGetVar {
         private final IDataType publishType;
         private final TableModel tModel = new TableModel();
         private IDrawPartSeasonContext sData = null;
+        private final RowIndex rColI;
         private final RowIndex rI;
         private DateLineVariables dVariables;
         private int rowCol;
         private final IPerformClickAction iClick;
+        private final SpanColContainer span = new SpanColContainer();
 
         private class CellData {
             final Object lId;
@@ -157,17 +160,41 @@ public class DateLineManager implements ISetGetVar {
 
         private CellData getCellData(Context context, MutableInteger i) {
             int col = context.getColumn();
+            return getCellData(i, col);
+        }
+
+        private CellData getCellData(MutableInteger i, int col) {
             int row = i.intValue();
             Object lid = getId(row);
             Date dCol = sData.getD(sData.getFirstD() + col - rowCol);
             return new CellData(lid, dCol);
+        }
 
+        private RowContent findRowContent(CellData cData) {
+            RowContent val = null;
+            FieldItem fId = dList.getFieldId();
+            if (dVariables != null)
+                for (RowContent r : dVariables.getValues().getRowList()) {
+                    FieldValue rO = rI.get(r, fId.getId());
+                    int comp = FUtils.compareValue(cData.lId, rO.getValue(),
+                            fId.getFieldType(), fId.getAfterDot());
+                    if (comp != 0)
+                        continue;
+                    FieldValue d = rI.get(r, dList.getDateColId());
+                    comp = DateUtil.compareDate(cData.date, d.getValueD());
+                    if (comp != 0)
+                        continue;
+                    val = r;
+                    break;
+                }
+            return val;
         }
 
         private class DrawContent extends CommonCallBack<DialogVariables> {
 
             @Override
             public void onMySuccess(DialogVariables arg) {
+                span.clear();
                 dVariables = arg.getDatelineVariables().get(dList.getId());
                 if (dVariables == null) {
                     String mess = M.M().NoValuesRelatedTo(
@@ -176,6 +203,34 @@ public class DateLineManager implements ISetGetVar {
                     Utils.errAlert(mess);
                 }
                 iTable.refresh();
+            }
+
+        }
+
+        private class GetColSpan implements IGetColSpan {
+
+            private final int spanNum;
+
+            GetColSpan() {
+                RowIndex rI = new RowIndex(dList.constructDataLine());
+                spanNum = rI.getInde(ICommonConsts.JDATELINESPAN);
+            }
+
+            @Override
+            public int get(MutableInteger rowNo, int colNo) {
+                if (colNo < rowCol)
+                    return 0;
+                CellData cData = getCellData(rowNo, colNo);
+                RowContent r = findRowContent(cData);
+                int spanC = 0;
+                if (r != null) {
+                    FieldValue val = r.getRow(spanNum);
+                    if (val.getValue() != null && val.getValueI() > 1)
+                        spanC = val.getValueI();
+                }
+                if (spanC != 0)
+                    span.addSpanInfo(rowNo, colNo, spanC);
+                return spanC;
             }
 
         }
@@ -272,7 +327,7 @@ public class DateLineManager implements ISetGetVar {
             @Override
             public IVModelData get(int row) {
                 RowContent r = v.getLines().getRowList().get(row);
-                return new RowVModelData(rI, r);
+                return new RowVModelData(rColI, r);
             }
 
             @Override
@@ -332,8 +387,6 @@ public class DateLineManager implements ISetGetVar {
                 @SuppressWarnings("rawtypes")
                 private class DataCell extends AbstractCell<MutableInteger> {
 
-                    private final RowIndex rI = new RowIndex(
-                            dList.constructDataLine());
                     private final int noC = dList.constructDataLine().size();
 
                     DataCell() {
@@ -345,31 +398,14 @@ public class DateLineManager implements ISetGetVar {
                             SafeHtmlBuilder sb) {
                         CellData cData = getCellData(context, value);
                         RowContent val = null;
-                        FieldItem fId = dList.getFieldId();
                         if (dVariables != null)
-                            for (RowContent r : dVariables.getValues()
-                                    .getRowList()) {
-                                FieldValue rO = rI.get(r, fId.getId());
-                                FieldValue d = rI.get(r, dList.getDateColId());
-                                int comp = FUtils.compareValue(cData.lId,
-                                        rO.getValue(), fId.getFieldType(),
-                                        fId.getAfterDot());
-                                if (comp != 0)
-                                    continue;
-                                comp = DateUtil.compareDate(cData.date,
-                                        d.getValueD());
-                                if (comp != 0)
-                                    continue;
-                                val = r;
-                                break;
-                            }
+                            val = findRowContent(cData);
                         String formId = null;
-                        if (val == null) {
+                        if (val == null)
                             formId = dList.getDefaFile();
-                        } else {
+                        else {
                             FieldValue form = rI.get(val, dList.getForm());
                             formId = form.getValueS();
-
                         }
                         FormDef fo = DialogFormat.findE(dList.getFormList(),
                                 formId);
@@ -407,7 +443,9 @@ public class DateLineManager implements ISetGetVar {
                             ValueUpdater<MutableInteger> valueUpdater) {
                         String eventType = event.getType();
                         if (eventType.equals(BrowserEvents.CLICK)) {
-                            CellData cData = getCellData(context, value);
+                            int col = context.getColumn();
+                            col = span.recalculateCol(value, col);
+                            CellData cData = getCellData(value, col);
                             lastId = dList.getId();
                             aVar.clear();
                             FieldItem fId = dList.getFieldId();
@@ -590,9 +628,10 @@ public class DateLineManager implements ISetGetVar {
             sl = RefreshData.constructRequestForRefreshData(dType);
             registerSubscriber(sl, new RequestForRefresh());
             iTable = gFactory.construct(null, null, null, null, null, null,
-                    false);
+                    false, new GetColSpan());
             iTable.setModel(tModel);
-            rI = new RowIndex(dl.getColList());
+            rColI = new RowIndex(dl.getColList());
+            rI = new RowIndex(dList.constructDataLine());
             this.iClick = iClick;
         }
 
