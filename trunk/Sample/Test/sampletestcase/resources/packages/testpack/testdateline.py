@@ -1,9 +1,8 @@
 import datetime
+import cutil
 
 def dialogaction(action,var) :
-  print "testchecklist",action
-  for k in var.keys() : 
-    print k, var[k]
+  cutil.printVar("testchecklist",action,var);  
     
   if action == "before" :
        seq = []
@@ -20,5 +19,17 @@ def dialogaction(action,var) :
        for i in range(1,10) :
            d = datetime.date(2013,1,2)
            map = {"id" : i, "datecol" : d, "form" : "rybka", "0" : "super", "1" : i}
+           vals.append(map)
+       var["JDATELINE_MAP"] = {"dateline" : { "values" : vals}}
+
+def dialogactionnew(action,var) :
+    
+  cutil.printVar("dialogactionnew",action,var);  
+
+  if action == "datelinevalues" :
+       vals = []
+       for i in range(1,10) :
+           d = datetime.date(2013,1,2)
+           map = {"id" : i, "datecol" : d, "colspan" : 2, "form" : "rybka", "0" : "super", "1" : i}
            vals.append(map)
        var["JDATELINE_MAP"] = {"dateline" : { "values" : vals}}

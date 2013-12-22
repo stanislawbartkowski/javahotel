@@ -22,7 +22,7 @@
 		colno="20" pagesize="10" defafile="name1" >
 		<columns>
 			<column id="id" type="long" hidden="" />
-			<column id="displayname" displayname="Room" columnclass = "roomcolumnClass" editcss="margin-right:3em;" />
+			<column id="displayname" displayname="Room" columnclass = "roomcolumnClass" editcss="margin-right:3em;" headerclass = "header-room" />
 		</columns>
 		<files>
 			<filedef id="name1" file="x.html" />
