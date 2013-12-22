@@ -22,7 +22,7 @@ import com.gwtmodel.table.WSize;
 import java.util.List;
 
 public interface IGwtTableView extends IGWidget {
-
+    
     void refresh();
 
     WChoosedLine getClicked();

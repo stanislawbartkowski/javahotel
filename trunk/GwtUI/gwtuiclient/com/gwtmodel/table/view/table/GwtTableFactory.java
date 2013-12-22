@@ -18,9 +18,9 @@ public class GwtTableFactory {
 
     public IGwtTableView construct(IRowClick click, ICommand actionColumn,
             IGetCellValue gValue, INewEditLineFocus iLineFocus,
-            ILostFocusEdit lostFocus, IColumnImage iImage, boolean async) {
+            ILostFocusEdit lostFocus, IColumnImage iImage, boolean async, IGetColSpan iSpan) {
         return new PresentationTable(click, actionColumn, gValue, iLineFocus,
-                lostFocus, iImage, async);
+                lostFocus, iImage, async, iSpan);
     }
 
     public IGwtTableView constructTree(IRowClick click) {

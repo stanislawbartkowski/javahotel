@@ -109,6 +109,8 @@ class PresentationTable implements IGwtTableView {
     /**
      * If column definition has been provided.
      */
+
+    private final IGetColSpan iSpan;
     private boolean columnC = false;
     final SingleSelectionModel<MutableInteger> selectionModel = new SingleSelectionModel<MutableInteger>();
     private WChoosedLine wChoosed;
@@ -199,6 +201,7 @@ class PresentationTable implements IGwtTableView {
 
     private boolean selectEnabled() {
         return iClick != null;
+        // table.getRowContainer().
     }
 
     private void setWrapCol() {
@@ -206,7 +209,7 @@ class PresentationTable implements IGwtTableView {
             VListHeaderDesc he = iMap.get(i);
             Joiner join = Joiner.on(" ").skipNulls();
             String aClass = join.join(model.getClassNameForColumn(he.getFie()),
-                    he.getColumnClass(), noWrap ? null : IConsts.nowrapStyle);
+                    he.getColumnClass(), noWrap ? IConsts.nowrapStyle : null);
             Column<MutableInteger, ?> co = table.getColumn(i);
             co.setCellStyleNames(aClass);
         }
@@ -386,13 +389,15 @@ class PresentationTable implements IGwtTableView {
 
     PresentationTable(IRowClick iClick, ICommand actionColumn,
             IGetCellValue gValue, INewEditLineFocus iEditFocus,
-            ILostFocusEdit lostFocus, IColumnImage iIma, boolean async) {
+            ILostFocusEdit lostFocus, IColumnImage iIma, boolean async,
+            final IGetColSpan iSpan) {
         this.iEditFocus = iEditFocus;
         this.iClick = iClick;
         this.lostFocus = lostFocus;
         this.iActionColumn = actionColumn;
         this.gValue = gValue;
         this.async = async;
+        this.iSpan = iSpan;
         selectionModel.addSelectionChangeHandler(new SelectionChange());
         // dList = dProvider.getList();
         // set selection only if iClick defined
@@ -416,6 +421,17 @@ class PresentationTable implements IGwtTableView {
         faEdit = new PresentationEditCellFactory(e, table, new StartEditLine(),
                 this, iIma);
         table.addRowHoverHandler(new RowHover());
+        if (iSpan != null) {
+            SpanCellBuilder.IGetSpanColValue<MutableInteger> i = new SpanCellBuilder.IGetSpanColValue<MutableInteger>() {
+
+                @Override
+                public int get(MutableInteger rowNo, int colNo) {
+                    return iSpan.get(rowNo, colNo);
+                }
+
+            };
+            table.setTableBuilder(new SpanCellBuilder<MutableInteger>(table, i));
+        }
     }
 
     private class TColumnString extends TextColumn<MutableInteger> {
@@ -671,6 +687,8 @@ class PresentationTable implements IGwtTableView {
             if (header == null) {
                 header = footFactory.constructHeader(he);
             }
+            if (he.getHeaderClass() != null)
+                header.setHeaderStyleNames(he.getHeaderClass());
             if (footer != null) {
                 table.addColumn(co, header, footFactory.constructFooter(footer));
             } else {
@@ -730,6 +748,7 @@ class PresentationTable implements IGwtTableView {
         if (size != 0) {
             table.setPageSize(size);
         }
+        // table.getRowElement(0).getCells().getItem(10).setColSpan(colSpan);
         if (async) {
             // removing and adding table is necessary to force redraw
             int no = sPager.getPage();
@@ -739,7 +758,6 @@ class PresentationTable implements IGwtTableView {
                 aProvider.removeDataDisplay(table);
             }
             aProvider.addDataDisplay(table);
-            // table.setRowCount((int) model.getSize(), true);
             table.redraw();
         } else {
             dProvider.getList().clear();
@@ -747,10 +765,9 @@ class PresentationTable implements IGwtTableView {
                 dProvider.getList().add(new MutableInteger(i));
             }
         }
-        // int size = model.getHeaderList().getPageSize();
-        // if (size != 0) {
-        // table.setPageSize(size);
-        // }
+
+        // setSpan();
+
         table.setPageStart(setSelected().pStart);
         int aNo = vPanel.getWidgetCount();
         String title = model.getHeaderList().getListTitle();

@@ -10,30 +10,13 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.gwtmodel.table.tabledef;
+package com.gwtmodel.table.view.table;
 
-import com.gwtmodel.table.FieldDataType;
-import com.gwtmodel.table.IVField;
+import com.gwtmodel.table.MutableInteger;
 
-/**
- * @author hotel
- * 
- */
-public class VFooterDesc extends VListHeaderDesc {
 
-    private final FieldDataType fType;
-
-    public VFooterDesc(IVField fie, ColAlign align, FieldDataType fType) {
-        super(null, fie, false, null, false, align, null, null, null, null, 0,
-                null, null);
-        this.fType = fType;
-    }
-
-    /**
-     * @return the fType
-     */
-    public FieldDataType getfType() {
-        return fType;
-    }
+public interface IGetColSpan {
+    
+    int get(MutableInteger row, int colNo);
 
 }
