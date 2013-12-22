@@ -12,11 +12,11 @@
         
 
 	<dateline id="reservation" lineid="name"
-		defafile="empty" colno="10">
+		defafile="empty" colno="18">
 		<columns>
-			<column id="name" displayname="@name" />
-			<column id="noperson" displayname="@roomcapacitypanel" type="int" />
-			<column id="descr" displayname="@description" />
+			<column id="name" displayname="@name" columnclass = "roomcolumnClass" editcss="margin-right:1em;" headerclass = "header-room"/>
+			<column id="noperson" displayname="@roomcapacitypanel" type="int" columnclass = "roomcolumnClass" editcss="margin-right:1em;" headerclass = "header-room"/>
+			<column id="descr" displayname="@description" columnclass = "roomcolumnClass" editcss="margin-right:2em;" headerclass = "header-room"/>
 		</columns>
 		<files>
 			<filedef id="empty" file="hotel/reservation/roomempty.html" />

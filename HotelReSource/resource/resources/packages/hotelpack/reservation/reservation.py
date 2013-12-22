@@ -78,6 +78,8 @@ def reservationaction(action,var):
            dto = s["JDATELINE_TO"]
            name = s["name"]
            dt = dfrom
+           prevres = None
+           prevmap = None
            while dt <= dto :
                resid = None
                for ans in resList :
@@ -88,12 +90,18 @@ def reservationaction(action,var):
                        break
                    
                if resid != None :
-                   rform = RFORM.findElem(resid)
-                   sta = resStatus(rform)
-                   if sta == 1 : form = "stay"
-                   else : form = "reserved"
-                   map = {"name" : name, "datecol" : dt, "form" : form, "0" : resid}
-                   vals.append(map)    
+                   if resid == prevres : 
+                      prevmap["colspan"] = prevmap["colspan"] + 1
+                   else :   
+                     if prevmap : vals.append(prevmap) 
+                     rform = RFORM.findElem(resid)
+                     sta = resStatus(rform)
+                     if sta == 1 : form = "stay"
+                     else : form = "reserved"
+                     map = {"name" : name, "datecol" : dt,"colspan" : 1, "form" : form, "0" : resid}
+                     prevmap = map
+                     prevres = resid
                dt = dt + dl
+           if prevmap : vals.append(prevmap)
             
        var["JDATELINE_MAP"] = {"reservation" : { "values" : vals}}

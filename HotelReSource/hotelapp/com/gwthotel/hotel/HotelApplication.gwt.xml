@@ -26,7 +26,8 @@
   <source path='client'/>
   <source path='shared'/>
   
-    <stylesheet src='res/css/standard_table.css'/>
+  <stylesheet src='res/css/hotel.css'/>
+  <stylesheet src='res/css/standard_table.css'/>
   <inherits name="com.google.gwt.logging.Logging"/>
   <set-property name="gwt.logging.popupHandler" value="DISABLED" />
   <set-property name="gwt.logging.enabled" value="FALSE"/> 
