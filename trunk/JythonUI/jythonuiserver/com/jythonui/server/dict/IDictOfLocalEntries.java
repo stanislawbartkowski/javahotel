@@ -10,21 +10,32 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.dict;
 
-public interface IConsts {
-    String SECURITYMEMNAME = "SecurityCache";
-    String SECURITYREGISTRY = "SecurityRegistry";
-    String COMMONCACHENAME = "CommonCache";
-    String CACHEDNOW = "CachedNow";
-    String APPMESS = "AppBundle";
+public interface IDictOfLocalEntries {
 
-    String DIALOGDIR = "dialogs";
-    String PACKAGEDIR = "packages";
-    String BUNDLEDIR = "bundle";
+    class DictEntry {
+        private String key;
+        private String name;
 
-    String COUNTRIESDICT = "countries";
-    String TITLESDICT = "titles";
-    String IDTYPEDICT = "idtype";
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+    }
+    
+    DictEntry[] getList(String lang);
 
 }

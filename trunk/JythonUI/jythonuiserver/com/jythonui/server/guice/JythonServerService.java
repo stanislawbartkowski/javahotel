@@ -15,18 +15,26 @@ package com.jythonui.server.guice;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.JythonUiServerProvider;
+import com.jythonui.server.Util;
 import com.jythonui.server.defa.CommonCacheProvider;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.SecurityMemCacheProvider;
 import com.jythonui.server.defa.SecurityPersistentStorageProvider;
+import com.jythonui.server.dict.IDictOfLocalEntries;
+import com.jythonui.server.dict.IDictOfLocalEntries.DictEntry;
+import com.jythonui.server.dict.IGetLocalizedDict;
+import com.jythonui.server.dict.ListOfCountries;
+import com.jythonui.server.dict.ReadDict;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
@@ -34,6 +42,7 @@ import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.registry.object.ObjectRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.resbundle.Mess;
+import com.jythonui.server.resimpl.GetResourceMapImpl;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
 import com.jythonui.server.security.ISecuritySessionCache;
@@ -88,12 +97,17 @@ public class JythonServerService {
                     Singleton.class);
             bind(ISequenceRealmGenFactory.class).to(
                     SequenceRealmGenFactory.class).in(Singleton.class);
+            bind(IGetResourceMap.class).to(GetResourceMapImpl.class).in(
+                    Singleton.class);
 
             bind(ISymGeneratorFactory.class).to(SymGeneratorFactory.class).in(
                     Singleton.class);
             bind(IXMLTransformer.class).to(XMLTransformer.class).in(
                     Singleton.class);
             bind(IXMLToMap.class).to(XMLMap.class).in(Singleton.class);
+            bind(IDictOfLocalEntries.class)
+                    .annotatedWith(Names.named(IConsts.COUNTRIESDICT))
+                    .to(ListOfCountries.class).in(Singleton.class);
         }
 
         @Provides
@@ -115,6 +129,50 @@ public class JythonServerService {
             requestStaticInjection(Holder.class);
             requestStaticInjection(SHolder.class);
         }
+
+        @Provides
+        @Named(IConsts.COUNTRIESDICT)
+        @Singleton
+        IGetLocalizedDict getListOfCountries(
+                @Named(IConsts.COUNTRIESDICT) final IDictOfLocalEntries iList) {
+            return new IGetLocalizedDict() {
+
+                @Override
+                public DictEntry[] getList() {
+                    return iList.getList(Util.getLocale());
+                }
+
+            };
+        }
+
+        @Provides
+        @Named(IConsts.TITLESDICT)
+        @Singleton
+        IGetLocalizedDict getListOfTitles(final IGetResourceMap iGet) {
+            return new IGetLocalizedDict() {
+
+                @Override
+                public DictEntry[] getList() {
+                    return ReadDict.getList(iGet, IConsts.TITLESDICT);
+                }
+
+            };
+        }
+
+        @Provides
+        @Named(IConsts.IDTYPEDICT)
+        @Singleton
+        IGetLocalizedDict getListOfIdTypes(final IGetResourceMap iGet) {
+            return new IGetLocalizedDict() {
+
+                @Override
+                public DictEntry[] getList() {
+                    return ReadDict.getList(iGet, IConsts.IDTYPEDICT);
+                }
+
+            };
+        }
+
     }
 
 }

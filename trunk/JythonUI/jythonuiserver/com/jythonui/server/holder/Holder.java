@@ -20,6 +20,7 @@ import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.IXMLToMap;
+import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.security.ISecurity;
@@ -55,6 +56,18 @@ public class Holder {
 
     @Inject
     private static IXMLToMap xmlMap;
+
+    @Inject
+    @Named(IConsts.COUNTRIESDICT)
+    private static IGetLocalizedDict iListC;
+
+    @Inject
+    @Named(IConsts.TITLESDICT)
+    private static IGetLocalizedDict iListT;
+
+    @Inject
+    @Named(IConsts.IDTYPEDICT)
+    private static IGetLocalizedDict iListI;
 
     private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
@@ -108,6 +121,18 @@ public class Holder {
 
     public static IXMLToMap getMapXML() {
         return xmlMap;
+    }
+
+    public static IGetLocalizedDict getListOfCountries() {
+        return iListC;
+    }
+
+    public static IGetLocalizedDict getListOfTitles() {
+        return iListT;
+    }
+
+    public static IGetLocalizedDict getListOfIdTypes() {
+        return iListI;
     }
 
 }

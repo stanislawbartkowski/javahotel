@@ -12,19 +12,10 @@
  */
 package com.jythonui.server;
 
-public interface IConsts {
-    String SECURITYMEMNAME = "SecurityCache";
-    String SECURITYREGISTRY = "SecurityRegistry";
-    String COMMONCACHENAME = "CommonCache";
-    String CACHEDNOW = "CachedNow";
-    String APPMESS = "AppBundle";
+import java.util.Map;
 
-    String DIALOGDIR = "dialogs";
-    String PACKAGEDIR = "packages";
-    String BUNDLEDIR = "bundle";
-
-    String COUNTRIESDICT = "countries";
-    String TITLESDICT = "titles";
-    String IDTYPEDICT = "idtype";
+public interface IGetResourceMap {
+    
+    Map<String,String> getResourceMap(String dir,String bundle);
 
 }
