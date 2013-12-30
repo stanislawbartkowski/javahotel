@@ -22,6 +22,7 @@ import org.junit.Test;
 import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.shared.IHotelConsts;
+import com.jython.ui.shared.ISharedConsts;
 
 public class Test10 extends TestHelper {
 
@@ -87,7 +88,7 @@ public class Test10 extends TestHelper {
             else
                 co.setAttr(s, "a " + s);
         }
-        co.setMale(true);
+        // co.setMale(ISharedConsts.MALEDICT);
         co.setDoctype('A');
         iCustomers.addElem(getH(HOTEL), co);
         co = iCustomers.findElem(getH(HOTEL), "C001");
@@ -100,12 +101,12 @@ public class Test10 extends TestHelper {
                 assertEquals("a " + s, val);
         }
         assertEquals('A', co.getDoctype());
-        assertTrue(co.isMale());
+        assertEquals(ISharedConsts.MALEDICT, co.getSex());
         // change male
-        co.setMale(false);
+        co.setSex(ISharedConsts.FEMALEDICT);
         iCustomers.changeElem(getH(HOTEL), co);
         co = iCustomers.findElem(getH(HOTEL), "C001");
-        assertFalse(co.isMale());
+        assertEquals(ISharedConsts.FEMALEDICT, co.getSex());
     }
 
 }

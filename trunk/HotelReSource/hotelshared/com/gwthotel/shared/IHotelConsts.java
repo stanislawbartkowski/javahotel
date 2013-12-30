@@ -98,4 +98,5 @@ public interface IHotelConsts {
     String CREATIONDATEPROPERTY = "creationDate";
     String MODIFPERSONPROPERTY = "modifPerson";
     String MODIFDATEPROPERTY = "modifDate";
+        
 }

@@ -39,7 +39,7 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
             HotelId hotel) {
         HotelCustomer ho = new HotelCustomer();
         toTProperties(HUtils.getCustomerFields(), ho, sou);
-        ho.setMale(sou.isMale());
+        ho.setSex(sou.getSex());
         ho.setDoctype(sou.getDoctype());
         return ho;
     }
@@ -54,7 +54,7 @@ class HotelJpaCustomers extends AbstractJpaCrud<HotelCustomer, EHotelCustomer>
             EntityManager em, HotelId hotel) {
         toEProperties(HUtils.getCustomerFields(), dest, sou);
         dest.setDoctype(sou.getDoctype());
-        dest.setMale(sou.isMale());
+        dest.setSex(sou.getSex());
     }
 
     @Override

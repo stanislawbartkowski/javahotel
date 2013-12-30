@@ -29,7 +29,7 @@ public class EHotelCustomer extends EHotelDict {
 
     private String firstname;
     private String surname;
-    private boolean male;
+    private char sex; // F - female, M - male
 
     private char doctype; // I - Id card, P - passport
     private String docnumb;
@@ -59,14 +59,6 @@ public class EHotelCustomer extends EHotelDict {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public boolean isMale() {
-        return male;
-    }
-
-    public void setMale(boolean male) {
-        this.male = male;
     }
 
     public char getDoctype() {
@@ -155,6 +147,14 @@ public class EHotelCustomer extends EHotelDict {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public char getSex() {
+        return sex;
+    }
+
+    public void setSex(char sex) {
+        this.sex = sex;
     }
 
 }

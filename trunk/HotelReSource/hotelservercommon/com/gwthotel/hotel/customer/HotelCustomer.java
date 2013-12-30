@@ -13,20 +13,42 @@
 package com.gwthotel.hotel.customer;
 
 import com.gwthotel.shared.PropDescription;
+import com.jython.ui.shared.ISharedConsts;
+
+/**
+ * @author hotel
+ * Customer description class
+ * Additional attributes:
+ * 
+ *   com.gwthotel.shared.IHotelConsts
+ *   String CUSTOMERFIRSTNAMEPROP = "firstname";
+ *   String CUSTOMERSURNAMEPROP = "surname";
+ *   String CUSTOMERDOCNUMBPROP="docnumb";    
+ *   String CUSTOMEREMAILPROP = "email";
+ *   String CUSTOMERPHONE1PROP = "phone1";
+ *   String CUSTOMERPHONE2PROP = "phone2";
+ *   String CUSTOMERFAXPROP="fax";    
+ *   String CUSTOMERCOUNTRYPROP="country";
+ *   String CUSTOMERSTREETPROP = "street";
+ *   String CUSTOMERPOSTALCODEPROP = "postalcode";
+ *   String CUSTOMERCITYPROP="city";
+ *   String CUSTOMERREGIONPROP="region";
+ *
+ **/
 
 public class HotelCustomer extends PropDescription {
 
     private static final long serialVersionUID = 1L;
 
-    private boolean male;
+    private char sex = ISharedConsts.MALEDICT;
     private char doctype;
 
-    public boolean isMale() {
-        return male;
+    public char getSex() {
+        return sex;
     }
 
-    public void setMale(boolean male) {
-        this.male = male;
+    public void setSex(char sex) {
+        this.sex = sex;
     }
 
     public char getDoctype() {
