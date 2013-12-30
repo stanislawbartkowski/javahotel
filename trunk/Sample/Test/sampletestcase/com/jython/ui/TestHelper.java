@@ -27,6 +27,7 @@ import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.registry.IStorageRegistryFactory;
@@ -59,6 +60,9 @@ public class TestHelper {
     protected final IStorageRegistryFactory iReg;
     protected final IXMLTransformer iXml;
     protected final ISemaphore iSem;
+    protected final IGetLocalizedDict iListC;
+    protected final IGetLocalizedDict iListT;
+    protected final IGetLocalizedDict iListI;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -76,12 +80,18 @@ public class TestHelper {
         iReg = ServiceInjector.getStorageRegistryFactory();
         iXml = Holder.getXMLTransformer();
         iSem = SHolder.getSem();
+        iListC = Holder.getListOfCountries();
+        iListT = Holder.getListOfTitles();
+        iListI = Holder.getListOfIdTypes();
     }
 
     @Before
     public void setUp() {
         iTest.beforeTest();
         Holder.setAuth(false);
+        RequestContext req = new RequestContext();
+        req.setLocale("pl");
+        Holder.setContext(req);
     }
 
     @After
