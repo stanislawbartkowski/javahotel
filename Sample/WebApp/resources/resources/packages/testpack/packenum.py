@@ -1,6 +1,8 @@
 from cutil import printVar
 from cutil import getTypeUpList
 from cutil import setJMapList
+from cutil import createEnum
+from cutil import enumDictAction
 
 def dialogaction(action,var) :
   printVar("packenum",action,var)
@@ -55,3 +57,21 @@ def uptextaction(action,var) :
         seq.append(rec)
  
   setJMapList(var,action,seq)    
+  
+from com.jythonui.server.holder import Holder  
+
+def getDict(what) :
+  if what == "countries" : return Holder.getListOfCountries().getList()
+  if what == "titles" : return Holder.getListOfTitles().getList()
+  if what == "idtypes" : return Holder.getListOfIdTypes().getList()
+
+def langaction(action,var,what) :
+    enumDictAction(action,var,what)
+#  printVar("coutries action",action,var)
+#  iC = getDict(what)
+#  seq = createEnum(iC,lambda c : c.getKey(),lambda c : c.getName(), False)
+#  print iC
+#  for c in iC :
+#    rec = {'id' : c.getKey(), 'name' : c.getName() }
+#    seq.append(rec)
+#  setJMapList(var,action,seq)  

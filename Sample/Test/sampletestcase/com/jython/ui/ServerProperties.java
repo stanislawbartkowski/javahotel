@@ -12,10 +12,7 @@
  */
 package com.jython.ui;
 
-import java.net.URL;
-
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.JythonUiServerProvider;
 
 /**
  * @author hotel

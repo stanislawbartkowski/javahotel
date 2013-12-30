@@ -23,8 +23,10 @@ import com.jython.ui.server.datastore.gae.DateLineOp;
 import com.jython.ui.server.datastore.gae.DateRecordOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
 import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
+import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.GetClientProperties;
 import com.jythonui.server.defa.IsCached;
 import com.jythonui.server.defa.SecurityNullConvert;
@@ -67,6 +69,9 @@ public class ServerService {
                     .in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(
                     Singleton.class);
+            bind(IGetConnection.class)
+                    .toProvider(EmptyConnectionProvider.class).in(
+                            Singleton.class);
             requestStatic();
         }
     }
