@@ -19,6 +19,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.customer.HotelCustomer;
 import com.gwthotel.shared.IHotelConsts;
 
@@ -74,6 +75,37 @@ public class Test10 extends TestHelper {
         co = hList.get(0);
         assertEquals("C002", co.getName());
         assertEquals("Hi", co.getAttr(IHotelConsts.CUSTOMERFIRSTNAMEPROP));
+    }
+
+    @Test
+    public void test3() {
+        HotelCustomer co = new HotelCustomer();
+        co.setName("C001");
+        for (String s : HUtils.getCustomerFields()) {
+            if (s.equals(IHotelConsts.CUSTOMERCOUNTRYPROP))
+                co.setAttr(s, "vv");
+            else
+                co.setAttr(s, "a " + s);
+        }
+        co.setMale(true);
+        co.setDoctype('A');
+        iCustomers.addElem(getH(HOTEL), co);
+        co = iCustomers.findElem(getH(HOTEL), "C001");
+        for (String s : HUtils.getCustomerFields()) {
+            String val = co.getAttr(s);
+            System.out.println(val);
+            if (s.equals(IHotelConsts.CUSTOMERCOUNTRYPROP))
+                assertEquals("vv", val);
+            else
+                assertEquals("a " + s, val);
+        }
+        assertEquals('A', co.getDoctype());
+        assertTrue(co.isMale());
+        // change male
+        co.setMale(false);
+        iCustomers.changeElem(getH(HOTEL), co);
+        co = iCustomers.findElem(getH(HOTEL), "C001");
+        assertFalse(co.isMale());
     }
 
 }

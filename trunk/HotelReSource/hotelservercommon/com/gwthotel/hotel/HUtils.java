@@ -73,10 +73,15 @@ public class HUtils {
 
     public static String[] getCustomerFields() {
         String[] lProperty = { IHotelConsts.CUSTOMERFIRSTNAMEPROP,
-                IHotelConsts.CUSTOMERCOMPANYNAMEPROP,
-                IHotelConsts.CUSTOMERSTREETPROP,
-                IHotelConsts.CUSTOMERZIPCODEPROP,
-                IHotelConsts.CUSTOMEREMAILPROP, IHotelConsts.CUSTOMERPHONEPROP };
+                IHotelConsts.CUSTOMERSURNAMEPROP,
+                IHotelConsts.CUSTOMERPOSTALCODEPROP,
+                IHotelConsts.CUSTOMEREMAILPROP,
+                IHotelConsts.CUSTOMERPHONE1PROP,
+                IHotelConsts.CUSTOMERDOCNUMBPROP,
+                IHotelConsts.CUSTOMERPHONE2PROP, IHotelConsts.CUSTOMERFAXPROP,
+                IHotelConsts.CUSTOMERCOUNTRYPROP,
+                IHotelConsts.CUSTOMERSTREETPROP, IHotelConsts.CUSTOMERCITYPROP,
+                IHotelConsts.CUSTOMERREGIONPROP };
         return lProperty;
     }
 
