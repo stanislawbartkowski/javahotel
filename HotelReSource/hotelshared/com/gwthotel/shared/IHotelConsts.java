@@ -49,11 +49,17 @@ public interface IHotelConsts {
     String PRICELISTPRICEPROP = "priceprice";
 
     String CUSTOMERFIRSTNAMEPROP = "firstname";
-    String CUSTOMERCOMPANYNAMEPROP = "companyname";
-    String CUSTOMERSTREETPROP = "street";
-    String CUSTOMERZIPCODEPROP = "zipcode";
+    String CUSTOMERSURNAMEPROP = "surname";
+    String CUSTOMERDOCNUMBPROP="docnumb";    
     String CUSTOMEREMAILPROP = "email";
-    String CUSTOMERPHONEPROP = "phone";
+    String CUSTOMERPHONE1PROP = "phone1";
+    String CUSTOMERPHONE2PROP = "phone2";
+    String CUSTOMERFAXPROP="fax";    
+    String CUSTOMERCOUNTRYPROP="country";
+    String CUSTOMERSTREETPROP = "street";
+    String CUSTOMERPOSTALCODEPROP = "postalcode";
+    String CUSTOMERCITYPROP="city";
+    String CUSTOMERREGIONPROP="region";
 
     String RESDETSERVICENAMEPROP = "servicename";
     String RESDETVATPROP = "rasvat";

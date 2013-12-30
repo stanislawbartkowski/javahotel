@@ -12,6 +12,7 @@
  */
 package com.gwthotel.hotel.jpa.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,11 +28,22 @@ import javax.persistence.UniqueConstraint;
 public class EHotelCustomer extends EHotelDict {
 
     private String firstname;
-    private String companyname;
-    private String street;
-    private String zipcode;
+    private String surname;
+    private boolean male;
+
+    private char doctype; // I - Id card, P - passport
+    private String docnumb;
     private String email;
-    private String phone;
+    private String phone1;
+    private String phone2;
+    private String fax;
+
+    @Column(length = 2)
+    private String country;
+    private String street;
+    private String postalcode;
+    private String city;
+    private String region;
 
     public String getFirstname() {
         return firstname;
@@ -41,28 +53,36 @@ public class EHotelCustomer extends EHotelDict {
         this.firstname = firstname;
     }
 
-    public String getCompanyname() {
-        return companyname;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setCompanyname(String companyname) {
-        this.companyname = companyname;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public String getStreet() {
-        return street;
+    public boolean isMale() {
+        return male;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setMale(boolean male) {
+        this.male = male;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public char getDoctype() {
+        return doctype;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setDoctype(char doctype) {
+        this.doctype = doctype;
+    }
+
+    public String getDocnumb() {
+        return docnumb;
+    }
+
+    public void setDocnumb(String docnumb) {
+        this.docnumb = docnumb;
     }
 
     public String getEmail() {
@@ -73,12 +93,68 @@ public class EHotelCustomer extends EHotelDict {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhone1() {
+        return phone1;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone1(String phone1) {
+        this.phone1 = phone1;
+    }
+
+    public String getPhone2() {
+        return phone2;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getPostalcode() {
+        return postalcode;
+    }
+
+    public void setPostalcode(String postalcode) {
+        this.postalcode = postalcode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
 }

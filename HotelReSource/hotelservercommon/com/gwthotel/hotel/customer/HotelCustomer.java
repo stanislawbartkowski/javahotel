@@ -18,4 +18,23 @@ public class HotelCustomer extends PropDescription {
 
     private static final long serialVersionUID = 1L;
 
+    private boolean male;
+    private char doctype;
+
+    public boolean isMale() {
+        return male;
+    }
+
+    public void setMale(boolean male) {
+        this.male = male;
+    }
+
+    public char getDoctype() {
+        return doctype;
+    }
+
+    public void setDoctype(char doctype) {
+        this.doctype = doctype;
+    }
+
 }
