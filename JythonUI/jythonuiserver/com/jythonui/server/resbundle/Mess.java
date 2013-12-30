@@ -12,123 +12,81 @@
  */
 package com.jythonui.server.resbundle;
 
-import java.io.IOException;
 import java.util.Map;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
-import com.gwtmodel.util.ReadUTF8Properties;
+import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
+import com.jythonui.server.getbundle.ReadBundle;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
-import com.jythonui.server.holder.Holder;
-import com.jythonui.server.logmess.IErrorCode;
-import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.CustomMessages;
-import com.jythonui.shared.JythonUIFatal;
 
 public class Mess implements IAppMess {
 
-	private final IJythonUIServerProperties iRes;
-	private IGetLogMess iMess = null;
-	private String lastloca = null;
-	static final private Logger log = Logger.getLogger(Mess.class.getName());
+    private final IJythonUIServerProperties iRes;
+    private final IGetResourceMap iGet;
+    private IGetLogMess iMess = null;
+    private String lastloca = null;
 
-	static private void error(String mess, Throwable e) {
-		log.log(Level.SEVERE, mess);
-		throw new JythonUIFatal(mess, e);
-	}
+    @Inject
+    public Mess(IJythonUIServerProperties iRes, IGetResourceMap iGet) {
+        this.iRes = iRes;
+        this.iGet = iGet;
+    }
 
-	static private void debug(String mess) {
-		log.fine(mess);
-	}
+    private boolean localeChanged() {
+        String loc = Util.getLocale();
+        if ((loc == null) && (lastloca == null))
+            return false;
+        if ((loc == null) && (lastloca != null))
+            return true;
+        if ((loc != null) && (lastloca == null))
+            return true;
+        return !loc.equals(lastloca);
+    }
 
-	@Inject
-	public Mess(IJythonUIServerProperties iRes) {
-		this.iRes = iRes;
-	}
+    private void setMess() {
+        if ((iMess == null) || !iRes.isCached() || localeChanged()) {
+            // Map<String, String> mess = ReadBundle.getBundle(Util.getLocale(),
+            // iRes.getBundleBase(), "messages");
+            Map<String, String> mess = iGet.getResourceMap(
+                    iRes.getBundleBase(), "messages");
+            iMess = GetLogMessFactory.construct(mess);
+            lastloca = Util.getLocale();
+        }
+    }
 
-	private boolean localeChanged() {
-		String loc = Util.getLocale();
-		if ((loc == null) && (lastloca == null))
-			return false;
-		if ((loc == null) && (lastloca != null))
-			return true;
-		if ((loc != null) && (lastloca == null))
-			return true;
-		return !loc.equals(lastloca);
-	}
+    @Override
+    public String getMess(String errCode, String key, String... params) {
+        setMess();
+        return iMess.getMess(errCode, key, params);
+    }
 
-	private void setMess() {
-		if ((iMess == null) || !iRes.isCached() || localeChanged()) {
-			String propdefaS = iRes.getBundleBase() + "/messages.properties";
-			String propS = null;
-			String loc = Util.getLocale();
-			debug("setMess locale=" + loc);
-			if (loc != null) {
-				propS = iRes.getBundleBase() + "/messages_" + Util.getLocale()
-						+ ".properties";
-				debug("locale not null " + propS);
-			}
-			Properties defa = null;
-			try {
-				defa = ReadUTF8Properties.readProperties(propdefaS);
-			} catch (IOException e) {
-				error(Holder.getM().getMess(IErrorCode.ERRORCODE46,
-						ILogMess.ERRORWHILELOADINGBUNDLERESOURCE,
-						iRes.getBundleBase()), e);
-			}
-			Properties prop = null;
-			try {
-				if (propS != null)
-					prop = ReadUTF8Properties.readProperties(propS);
-			} catch (IOException e1) {
-				// expected, do nothing
-				debug(propS + " not found");
-			}
-			if (prop == null)
-				iMess = GetLogMessFactory.construct(defa);
-			else {
-				iMess = GetLogMessFactory.construct(prop, defa);
-				debug("combine : " + propS + " " + propdefaS);
+    @Override
+    public String getMessN(String key, String... params) {
+        setMess();
+        return iMess.getMessN(key, params);
+    }
 
-			}
-			lastloca = loc;
-		}
-	}
+    @Override
+    public CustomMessages getCustomMess() {
+        if (iRes.getBundleBase() == null)
+            return null;
+        setMess();
+        CustomMessages cust = new CustomMessages();
+        Map<String, String> ma = iMess.getMess();
+        for (String key : ma.keySet()) {
+            cust.setAttr(key, ma.get(key));
+        }
+        return cust;
+    }
 
-	@Override
-	public String getMess(String errCode, String key, String... params) {
-		setMess();
-		return iMess.getMess(errCode, key, params);
-	}
-
-	@Override
-	public String getMessN(String key, String... params) {
-		setMess();
-		return iMess.getMessN(key, params);
-	}
-
-	@Override
-	public CustomMessages getCustomMess() {
-		if (iRes.getBundleBase() == null)
-			return null;
-		setMess();
-		CustomMessages cust = new CustomMessages();
-		Map<String, String> ma = iMess.getMess();
-		for (String key : ma.keySet()) {
-			cust.setAttr(key, ma.get(key));
-		}
-		return cust;
-	}
-
-	@Override
-	public Map<String, String> getMess() {
-		return iMess.getMess();
-	}
+    @Override
+    public Map<String, String> getMess() {
+        return iMess.getMess();
+    }
 
 }

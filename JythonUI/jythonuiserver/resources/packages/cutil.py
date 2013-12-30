@@ -77,7 +77,7 @@ def checkGreaterZero(var,key):
      return False
   return True
 
-def createEnum(list,getname,getdisplay=None):    
+def createEnum(list,getname,getdisplay=None,addid=True):    
     seq = []
     for s in list :
         id = getname(s)
@@ -86,8 +86,9 @@ def createEnum(list,getname,getdisplay=None):
         if getdisplay :  
           name = getdisplay(s)
           if name == None : name = ""
-          m["name"] = id + " " + name 
-        else : m["name"] = getdisplay(s)
+          if addid : m["name"] = id + " " + name 
+          else : m["name"] = name
+        else : m["name"] = id
         seq.append(m)
     return seq 
 
@@ -423,3 +424,14 @@ class GenSeq :
   
   def removeKey(self) :
     self.h.remove(self.realM,self.keyM)
+    
+def getDict(what) :
+  if what == "countries" : return Holder.getListOfCountries().getList()
+  if what == "titles" : return Holder.getListOfTitles().getList()
+  if what == "idtypes" : return Holder.getListOfIdTypes().getList()
+
+def enumDictAction(action,var,what) :
+  printVar("coutries action",action,var)
+  iC = getDict(what)
+  seq = createEnum(iC,lambda c : c.getKey(),lambda c : c.getName(), False)
+  setJMapList(var,action,seq)      
