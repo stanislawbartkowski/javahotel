@@ -60,11 +60,6 @@ def uptextaction(action,var) :
   
 from com.jythonui.server.holder import Holder  
 
-def getDict(what) :
-  if what == "countries" : return Holder.getListOfCountries().getList()
-  if what == "titles" : return Holder.getListOfTitles().getList()
-  if what == "idtypes" : return Holder.getListOfIdTypes().getList()
-
 def langaction(action,var,what) :
     enumDictAction(action,var,what)
 #  printVar("coutries action",action,var)

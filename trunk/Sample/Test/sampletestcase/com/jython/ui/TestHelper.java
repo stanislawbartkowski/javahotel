@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -26,6 +26,7 @@ import com.gwtmodel.testenhancer.ITestEnhancer;
 import com.jython.ui.server.datastore.IDateLineOp;
 import com.jython.ui.server.datastore.IDateRecordOp;
 import com.jython.ui.server.datastore.IPersonOp;
+import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IJythonUIServer;
 import com.jythonui.server.dict.IGetLocalizedDict;
 import com.jythonui.server.holder.Holder;
@@ -63,6 +64,8 @@ public class TestHelper {
     protected final IGetLocalizedDict iListC;
     protected final IGetLocalizedDict iListT;
     protected final IGetLocalizedDict iListI;
+    protected final IGetLocalizedDict iListP;
+    protected final IDefaultData dData;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -83,15 +86,23 @@ public class TestHelper {
         iListC = Holder.getListOfCountries();
         iListT = Holder.getListOfTitles();
         iListI = Holder.getListOfIdTypes();
+        iListP = Holder.getListOfPayment();
+        dData = Holder.getDefaultData();
+    }
+
+    protected void putLocale(String lang) {
+        RequestContext req = new RequestContext();
+        req.setLocale(lang);
+        Holder.setContext(req);
+
     }
 
     @Before
     public void setUp() {
         iTest.beforeTest();
         Holder.setAuth(false);
-        RequestContext req = new RequestContext();
-        req.setLocale("pl");
-        Holder.setContext(req);
+        putLocale("pl");
+        dData.clear();
     }
 
     @After

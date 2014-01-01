@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -49,6 +49,53 @@ public class Test32 extends TestHelper {
         for (IDictOfLocalEntries.DictEntry c : iListI.getList()) {
             System.out.println(c.getKey() + " " + c.getName());
         }
+    }
+
+    @Test
+    public void test4() {
+
+        assertTrue(iListP.getList().length > 0);
+        for (IDictOfLocalEntries.DictEntry c : iListP.getList()) {
+            System.out.println(c.getKey() + " " + c.getName());
+        }
+    }
+
+    @Test
+    public void test5() {
+        String val = dData.getValue("keyM");
+        assertNull(val);
+        dData.putValue("keyM", "hello");
+        val = dData.getValue("keyM");
+        assertEquals("hello", val);
+        putLocale(null);
+        val = dData.getValue("keyM");
+        assertNull(val);
+        putLocale("pl");
+        val = dData.getValue("keyM");
+        assertEquals("hello", val);
+    }
+
+    @Test
+    public void test6() {
+        String val = dData.getValue("locM");
+        assertEquals("pl", val);
+        putLocale(null);
+        val = dData.getValue("locM");
+        assertNull(val);
+
+        val = dData.getValue("noLoc");
+        assertEquals("mniam", val);
+        putLocale(null);
+        val = dData.getValue("noLoc");
+        assertEquals("mniam", val);
+
+        putLocale("pl");
+        val = dData.getValue("locM");
+        assertEquals("pl", val);
+        dData.putValue("locM", "hello");
+        val = dData.getValue("locM");
+        assertEquals("hello", val);
+
     }
 
 }
