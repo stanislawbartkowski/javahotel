@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -12,28 +12,9 @@
  */
 package com.jythonui.server;
 
-import com.gwtmodel.commoncache.ICommonCache;
 
-/**
- * @author hotel
- * 
- */
-public class MCached {
-
-    private final ICommonCache mCache;
-    private final IJythonUIServerProperties p;
-
-    MCached( IJythonUIServerProperties p,ICommonCache mCache) {
-        this.mCache = mCache;
-        this.p = p;
-    }
-
-    public boolean isCached() {
-        return p.isCached();
-    }
-
-    public ICommonCache getC() {
-        return mCache;
-    }
+public interface IStorageMemContainerFactory {
+    
+    IStorageMemCache construct(String realm);
 
 }

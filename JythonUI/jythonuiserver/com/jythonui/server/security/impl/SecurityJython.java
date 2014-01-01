@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -20,12 +20,13 @@ import javax.inject.Named;
 import org.apache.shiro.subject.Subject;
 
 import com.jython.ui.shared.ISharedConsts;
+import com.jythonui.server.IConsts;
+import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
-import com.jythonui.server.security.ISecuritySessionCache;
 import com.jythonui.server.security.token.ICustomSecurity;
 
 public class SecurityJython implements ISecurity {
@@ -38,7 +39,7 @@ public class SecurityJython implements ISecurity {
     private final ISecurityResolver iResolver;
 
     @Inject
-    public SecurityJython(ISecuritySessionCache iCache,
+    public SecurityJython(@Named(IConsts.SECURITYREALM) IStorageMemCache iCache,
             ISecurityResolver iResolver,
             @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
         cCache = new SubjectCache(iCache, gMess);

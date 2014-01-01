@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -19,7 +19,6 @@ import javax.inject.Inject;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
-import com.jythonui.server.getbundle.ReadBundle;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.shared.CustomMessages;
@@ -86,6 +85,7 @@ public class Mess implements IAppMess {
 
     @Override
     public Map<String, String> getMess() {
+        setMess();        
         return iMess.getMess();
     }
 

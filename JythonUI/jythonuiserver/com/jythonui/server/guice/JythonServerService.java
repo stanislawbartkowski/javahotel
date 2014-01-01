@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -20,16 +20,18 @@ import com.google.inject.name.Names;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IDefaultData;
+import com.jythonui.server.IGetAppProp;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.IStorageMemCache;
+import com.jythonui.server.IStorageMemContainerFactory;
 import com.jythonui.server.IXMLToMap;
-import com.jythonui.server.JythonUiServerProvider;
 import com.jythonui.server.Util;
 import com.jythonui.server.defa.CommonCacheProvider;
 import com.jythonui.server.defa.GetClientProperties;
-import com.jythonui.server.defa.SecurityMemCacheProvider;
-import com.jythonui.server.defa.SecurityPersistentStorageProvider;
+import com.jythonui.server.defadata.DefaDataImpl;
 import com.jythonui.server.dict.IDictOfLocalEntries;
 import com.jythonui.server.dict.IDictOfLocalEntries.DictEntry;
 import com.jythonui.server.dict.IGetLocalizedDict;
@@ -38,17 +40,16 @@ import com.jythonui.server.dict.ReadDict;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
+import com.jythonui.server.impl.GetAppProperties;
+import com.jythonui.server.impl.JythonUiServerProvider;
 import com.jythonui.server.logmess.MessProvider;
+import com.jythonui.server.memstorage.MemStorageCacheFactory;
 import com.jythonui.server.registry.object.ObjectRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.resbundle.Mess;
 import com.jythonui.server.resimpl.GetResourceMapImpl;
 import com.jythonui.server.security.ISecurity;
 import com.jythonui.server.security.ISecurityResolver;
-import com.jythonui.server.security.ISecuritySessionCache;
-import com.jythonui.server.security.cache.ISecuritySessionMemCache;
-import com.jythonui.server.security.cache.ISecuritySessionPersistent;
-import com.jythonui.server.security.cache.impl.SecuritySessionStore;
 import com.jythonui.server.security.impl.SecurityJython;
 import com.jythonui.server.security.resolver.SecurityResolver;
 import com.jythonui.server.semaphore.ISemaphore;
@@ -76,18 +77,11 @@ public class JythonServerService {
                     .toProvider(JythonUiServerProvider.class).in(
                             Singleton.class);
             bind(ISecurity.class).to(SecurityJython.class).in(Singleton.class);
-            bind(ISecuritySessionCache.class).to(SecuritySessionStore.class)
-                    .in(Singleton.class);
             bind(ISecurityResolver.class).to(SecurityResolver.class).in(
                     Singleton.class);
             bind(ObjectRegistryFactory.class).in(Singleton.class);
-            bind(ISecuritySessionPersistent.class).toProvider(
-                    SecurityPersistentStorageProvider.class)
-                    .in(Singleton.class);
             bind(ICommonCache.class).toProvider(CommonCacheProvider.class).in(
                     Singleton.class);
-            bind(ISecuritySessionMemCache.class).toProvider(
-                    SecurityMemCacheProvider.class).in(Singleton.class);
             bind(IAppMess.class).annotatedWith(Names.named(IConsts.APPMESS))
                     .to(Mess.class).in(Singleton.class);
             bind(IGetLogMess.class)
@@ -108,6 +102,11 @@ public class JythonServerService {
             bind(IDictOfLocalEntries.class)
                     .annotatedWith(Names.named(IConsts.COUNTRIESDICT))
                     .to(ListOfCountries.class).in(Singleton.class);
+            bind(IStorageMemContainerFactory.class).to(
+                    MemStorageCacheFactory.class).in(Singleton.class);
+            bind(IDefaultData.class).to(DefaDataImpl.class).in(Singleton.class);
+            bind(IGetAppProp.class).to(GetAppProperties.class).in(
+                    Singleton.class);
         }
 
         @Provides
@@ -173,6 +172,35 @@ public class JythonServerService {
             };
         }
 
+        @Provides
+        @Named(IConsts.PAYMENTDICT)
+        @Singleton
+        IGetLocalizedDict getListOfPayment(final IGetResourceMap iGet) {
+            return new IGetLocalizedDict() {
+
+                @Override
+                public DictEntry[] getList() {
+                    return ReadDict.getList(iGet, IConsts.PAYMENTDICT);
+                }
+
+            };
+        }
+
+        @Provides
+        @Named(IConsts.SECURITYREALM)
+        @Singleton
+        IStorageMemCache getSecurityCache(
+                final IStorageMemContainerFactory cFactory) {
+            return cFactory.construct(IConsts.SECURITYREALM);
+        }
+
+        @Provides
+        @Named(IConsts.DEFADATAREALM)
+        @Singleton
+        IStorageMemCache getDefaDataCache(
+                final IStorageMemContainerFactory cFactory) {
+            return cFactory.construct(IConsts.DEFADATAREALM);
+        }
     }
 
 }

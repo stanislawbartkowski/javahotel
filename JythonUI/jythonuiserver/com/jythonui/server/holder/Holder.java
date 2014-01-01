@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.jythonui.server.IConsts;
+import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonClientRes;
 import com.jythonui.server.IJythonUIServer;
@@ -68,6 +69,13 @@ public class Holder {
     @Inject
     @Named(IConsts.IDTYPEDICT)
     private static IGetLocalizedDict iListI;
+
+    @Inject
+    @Named(IConsts.PAYMENTDICT)
+    private static IGetLocalizedDict iListP;
+
+    @Inject
+    private static IDefaultData dData;
 
     private static final ThreadLocal<RequestContext> locale = new ThreadLocal<RequestContext>();
 
@@ -133,6 +141,14 @@ public class Holder {
 
     public static IGetLocalizedDict getListOfIdTypes() {
         return iListI;
+    }
+
+    public static IGetLocalizedDict getListOfPayment() {
+        return iListP;
+    }
+
+    public static IDefaultData getDefaultData() {
+        return dData;
     }
 
 }
