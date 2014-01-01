@@ -3,6 +3,8 @@
 
 	<before />
 
+        <types>hotel/typesenum.xml,hotel/reservation/restypes.xml</types>
+
 	<jython>
 		<import>from hotelpack.reservation import reserroom</import>
 		<method>reserroom.showstay({0},{1})</method>
@@ -26,15 +28,22 @@
 		<field id="nop" type="int" displayname="@nopersons" readonly="" />
 		<field id="desc" displayname="@roomdescription" readonly="" />
 		<!-- cust description -->
-		<field id="cust_name" displayname="@guestname" hidden="" />
-		<field id="cust_descr" displayname="@guestdescription" readonly="" />
-		<field id="cust_firstname" displayname="@guestfirstname" readonly="" />
-		<field id="cust_companyname" hidden="" />
-		<field id="cust_street" hidden="" />
-		<field id="cust_zipcode" hidden="" />
-		<field id="cust_email" hidden="" />
-		<field id="cust_phone" hidden="" />
-
+                <field id="cust_name" displayname="@guestid" readonly="" />
+                <field id="cust_descr" displayname="@description" hidden="" />
+                <field id="cust_title" displayname="@title" type="custom:titles" notempty="" />
+                <field id="cust_surname" displayname="@surname" />
+                <field id="cust_firstname" displayname="@firstname" />
+                <field id="cust_country" displayname="@country" type="custom:countries" notempty="" />
+                <field id="cust_region" displayname="@region" hidden=""/>
+                <field id="cust_postalcode" displayname="@postalcode" hidden=""/>
+                <field id="cust_city" displayname="@city" hidden=""/>
+                <field id="cust_street" displayname="@street" hidden=""/>
+                <field id="cust_email" displayname="@email" hidden=""/>
+                <field id="cust_phone1" displayname="@phone1" hidden=""/>
+                <field id="cust_phone2" displayname="@phone2" hidden=""/>
+                <field id="cust_fax" displayname="@fax" hidden=""/>
+                <field id="cust_doctype" displayname="@doctype" type="custom:idtypes" notempty="" hidden=""/>
+                <field id="cust_docnumb" displayname="@docnumb" hidden="" />
 	</form>
 
 	<list id="reslist" pagesize="5">

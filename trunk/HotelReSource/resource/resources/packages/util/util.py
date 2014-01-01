@@ -14,6 +14,7 @@ from cutil import createArrayList
 from com.gwthotel.hotel import ServiceType
 from com.gwthotel.hotel.services import HotelServices
 from com.gwthotel.hotel.payment import PaymentBill
+from com.gwthotel.hotel import HUtils
 import rutil
 
 class MESS :
@@ -297,13 +298,17 @@ def getAppId(var):
     token = var["SECURITY_TOKEN"]
     return H.getInstanceId(token)
 
-def copyNameDescr(desc,var):
-    desc.setName(var["name"])
-    desc.setDescription(var["descr"])
+def __toV(s,prefix) :
+  if prefix : return prefix + s
+  return s
+
+def copyNameDescr(desc,var,prefix=None):
+    desc.setName(var[__toV("name",prefix)])
+    desc.setDescription(var[__toV("descr",prefix)])
     
-def toVarNameDesc(var,sou):
-    var["name"] = sou.getName()
-    var["descr"] = sou.getDescription()    
+def toVarNameDesc(var,sou,prefix=None):
+    var[__toV("name",prefix)] = sou.getName()
+    var[__toV("descr",prefix)] = sou.getDescription()    
       
 def findElemInSeq(pname,seq):
     for s in seq : 
@@ -335,13 +340,13 @@ def createSeq(list,addName=False):
         seq.append(m)
     return seq    
 
-def toVar(var,sou,list):
+def toVar(var,sou,list,prefix=None):
     for s in list :
-        var[s] = sou.getAttr(s)
+        var[__toV(s,prefix)] = sou.getAttr(s)
         
-def toP(dest,var,list):
+def toP(dest,var,list,prefix=None):
     for s in list :
-        dest.setAttr(s,var[s])   
+        dest.setAttr(s,var[__toV(s,prefix)])   
         
 def duplicatedName(var,S,duplicateM):    
     seq = S.getList()
@@ -382,10 +387,6 @@ class ConstructObject :
         o.setGensymbol(True)
         return o
     
-def newCustomer(var) :
-    c = ConstructObject(var)
-    return c.getO(0)  
-
 def newResForm(var):
     c = ConstructObject(var)
     return c.getO(1)   
@@ -414,21 +415,7 @@ def newResAddPayment() :
   
 def setCopy(var,li) :
   cutil.setCopy(var,li)  
-    
-def getCustFieldId():
-    return ["firstname","companyname","street","zipcode","email","phone"]
-    
-def createCustomerList(var):
-    C = CUSTOMERLIST(var)
-    CLIST = getCustFieldId()
-    seq = []
-    for c in C.getList() :
-        v = {}
-        toVarNameDesc(v,c)
-        toVar(v,c,CLIST)
-        seq.append(v)
-    return seq    
-    
+        
 def getServicesForRoom(var,room):
   RO = ROOMLIST(var)
   services = RO.getRoomServices(room)
@@ -452,8 +439,7 @@ def getServicesForRoom(var,room):
   if len(li) == 0 : return None
   f = lambda(e) : e[0] == e[1]
   liList = removeDuplicates(liList,f)
-  return [li,liList]
-  
+  return [li,liList]  
   
 def createEnumFromList(li, f = lambda elem : [elem.getName(), elem.getDescription()]):
     seq= []
@@ -509,21 +495,6 @@ def getReseName(var) :
 #  return var["resename"]
   return rutil.getReseName(var)
 
-def setCustData(var,custname,prefix) :
-    CU = CUSTOMERLIST(var)
-    customer = CU.findElem(custname)
-    assert customer != None
-    li = []
-    for s in getCustFieldId() :
-      deid = prefix + s
-      li.append(deid)
-      val = customer.getAttr(s)
-      var[deid] = val
-    setCopy(var,li)
-    setCopy(var,[prefix+"name",prefix+"descr"])
-    var[prefix+"name"] = customer.getName()
-    var[prefix+"descr"] = customer.getDescription()
-
 def getReservForDay(var):
    R = RESOP(var)
    room = var["JDATELINE_LINE"]
@@ -533,20 +504,9 @@ def getReservForDay(var):
    query.add(q)
    res = R.queryReservation(query)
    return res
-
-def showCustomerDetails(var,custid):
-    var["JUP_DIALOG"] = "hotel/reservation/showcustomerdetails.xml"
-    print "details",custid
-    var["JUPDIALOG_START"] = custid
     
 def getPayments(var) :    
   return rutil.getPayments(var)
-#  rese = getReseName(var)
-#  pli = RESOP(var).getResAddPaymentList(rese)
-#  R = RESFORM(var)
-  # java.util.List
-#  pli.addAll(R.findElem(rese).getResDetail())
-#  return pli
 
 class BILLPOSADD :
   
@@ -584,3 +544,67 @@ class HOTELTRANSACTION(cutil.SEMTRANSACTION) :
       if semid == 2 : semname = "HOTELCHECKIN"
       cutil.SEMTRANSACTION.__init__(self,semname,var)
 
+# ---------- CUSTOMER ---------
+
+def newCustomer(var) :
+    c = ConstructObject(var)
+    return c.getO(0)  
+
+def __toS(ch) :
+   print ch
+   return ch
+ 
+def __toCh(s) :
+   return s[0]
+
+def customerFromVar(var,prefix=None) :
+    c = newCustomer(var)
+    copyNameDescr(c,var,prefix)
+    toP(c,var,getCustFieldId(),prefix)
+    c.setSex(__toCh(var[__toV("title",prefix)]))
+    c.setDoctype(__toCh(var[__toV("doctype",prefix)]))
+    return c
+  
+def customerToVar(v,c,prefix=None) :
+    toVarNameDesc(v,c,prefix)
+    toVar(v,c,getCustFieldId(),prefix)
+    v[__toV("title",prefix)] = __toS(c.getSex())
+    v[__toV("doctype",prefix)] = __toS(c.getDoctype())
+
+def getCustFieldId():
+  sL = HUtils.getCustomerFields()
+  seq = []
+  for s in sL : seq.append(s)
+  return seq
+
+def getCustFieldIdAll() :
+  l = getCustFieldId() + ["title","doctype","name","descr"]
+  return l
+    
+def createCustomerList(var):
+    C = CUSTOMERLIST(var)
+    CLIST = getCustFieldId()
+    seq = []
+    for c in C.getList() :
+        v = {}
+        customerToVar(v,c)
+        seq.append(v)
+    return seq    
+
+def setCustVarCopy(var,prefix) :
+    cutil.setCopy(var,getCustFieldIdAll(),None,prefix)
+
+def setCustData(var,custname,prefix=None) :
+    CU = CUSTOMERLIST(var)
+    customer = CU.findElem(custname)
+    assert customer != None
+    customerToVar(var,customer,prefix)
+    setCustVarCopy(var,prefix)
+
+def showCustomerDetails(var,custid):
+    var["JUP_DIALOG"] = "hotel/reservation/showcustomerdetails.xml"
+#    print "details",custid
+    var["JUPDIALOG_START"] = custid
+
+
+# ------------------------------

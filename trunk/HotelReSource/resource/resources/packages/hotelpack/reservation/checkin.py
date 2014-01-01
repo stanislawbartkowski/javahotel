@@ -17,16 +17,17 @@ from util.util import newCustomer
 from cutil import copyVarToProp
 from util import util
 from util.util import MESS
+from util.util import getCustFieldIdAll
+from util.util import customerToVar
 
 M = MESS()
-CUSTF = ["name","descr"] + getCustFieldId()
+CUSTF = getCustFieldIdAll()
 CHECKINLIST= "checkinlist"
 
 def __toMap(map,custid,CUST) :
     cust = CUST.findElem(custid)
     map["guestselect"] = cust.getName()
-    for n in CUSTF :
-      map[n] = cust.getAttr(n)
+    customerToVar(map,cust)    
 
 class MAKECHECKIN(util.HOTELTRANSACTION) :
   
@@ -46,8 +47,7 @@ class MAKECHECKIN(util.HOTELTRANSACTION) :
        return
      a = createArrayList()
      for cust in var["JLIST_MAP"][CHECKINLIST] :
-           if allEmpty(cust,CUSTF) :
-               continue
+           if allEmpty(cust,CUSTF) : continue
            cid = cust["name"]
            if cid == None : c = newCustomer(var)
            else : c = CUST.findElem(cid)
@@ -138,7 +138,7 @@ def checkinaction(action,var):
                         map["guestselect"] = "<select>"        
                     list.append(map)
             var["JLIST_MAP"] = { CHECKINLIST : list}
-            setStandEditMode(var,CHECKINLIST,["descr","firstname"])
+            setStandEditMode(var,CHECKINLIST,["surname","firstname","title","country"])
             resform = R.findElem(resName)
             if isResOpen(resform) and not wasGuest :
                 custid = resform.getCustomerName()

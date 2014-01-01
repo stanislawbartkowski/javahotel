@@ -9,6 +9,7 @@ from util.util import MESS
 from util.util import newCustomer
 from util.util import getCustFieldId
 from util.util import createCustomerList
+from util.util import customerFromVar
 
 M = MESS()
     
@@ -22,11 +23,11 @@ def _duplicatedCustomerName(var):
     R = CUSTOMERLIST(var)
     return duplicatedName(var,R,M("DUPLICATEDCUSTOMERNAME"))    
     
-def _createCustomer(var):
-    h = newCustomer(var)
-    copyNameDescr(h,var)
-    toP(h,var,CLIST)
-    return h
+#def _createCustomer(var):
+#    h = newCustomer(var)
+#    copyNameDescr(h,var)
+#    toP(h,var,CLIST)
+#    return h
     
 def customerlistaction(action,var):
   printvar("customerlistaction",action,var)
@@ -45,7 +46,7 @@ def elemcustomeraction(action,var):
       return
       
   if action == "crud_add"  and var["JCRUD_AFTERCONF"] :
-      R.addElem(_createCustomer(var))
+      R.addElem(customerFromVar(var))
       var["JCLOSE_DIALOG"] = True
       return
 
@@ -55,7 +56,7 @@ def elemcustomeraction(action,var):
       return
 
   if action == "crud_change"  and var["JCRUD_AFTERCONF"] :
-      R.changeElem(_createCustomer(var))      
+      R.changeElem(customerFromVar(var))      
       var["JCLOSE_DIALOG"] = True
 
   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
@@ -64,5 +65,5 @@ def elemcustomeraction(action,var):
       return
   
   if action == "crud_remove"  and var["JCRUD_AFTERCONF"] :
-      R.deleteElem(_createCustomer(var))
+      R.deleteElem(customerFromVar(var))
       var["JCLOSE_DIALOG"] = True              

@@ -6,8 +6,11 @@ from util.util import CUSTOMERLIST
 from util.util import xmlToVar
 from util.util import mapToXML
 from cutil import copyPropToVar
+from util.util import getCustFieldIdAll
+from util.util import setCustVarCopy
+from util.util import setCustData
 
-CLIST = ["name","descr"] + getCustFieldId()
+CLIST = getCustFieldIdAll()
 
 def custdetails(action,var):
   printvar ("custdetails,", action,var)
@@ -15,24 +18,15 @@ def custdetails(action,var):
   if action == "before" :
       xml = var["JUPDIALOG_START"]
       xmlToVar(var,xml,CLIST,"de_")
-      setCopy(var,CLIST,None,"de_")
+      setCustVarCopy(var,"de_")
       
   if action == "accept" :
       var["JCLOSE_DIALOG"] = mapToXML(var,CLIST,"de_")
       
   if action == "selectcustomer" :
       c_name = var["JUPDIALOG_RES"]
-      if c_name == None : return
-      
-      C = CUSTOMERLIST(var)
-      cu = C.findElem(c_name)
-      li = []
-      for s in CLIST :
-          deid = "de_" + s
-          li.append(deid)
-          var[deid] = cu.getAttr(s)
-          print deid, var[deid]
-      setCopy(var,li)    
+      if c_name == None : return      
+      setCustData(var,c_name,"de_")
 
 def custlist (action,var):
   printvar ("list,", action,var)
@@ -48,18 +42,6 @@ def showcustdetails(action,var):
   printvar ("showcustdetails,", action,var)
   if action == "before" :
       custid =  var["JUPDIALOG_START"]
-      C = CUSTOMERLIST(var)
-      c = C.findElem(custid)
-      setCopy(var,CLIST,None,"cust_")
-      copyPropToVar(var,c,CLIST,"cust_")
-
-
-#      li = []
-#      for s in CLIST :
-#          cuid = "cust_" + s
-#          li.append(cuid)
-#      setCopy(var,li)
-      
-    
+      setCustData(var,custid,"cust_")    
       
  

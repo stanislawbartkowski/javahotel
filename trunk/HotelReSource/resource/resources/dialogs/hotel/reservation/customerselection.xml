@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com"  displayname="@lofcustomer">
 
 	<before />
+
+        <types>hotel/typesenum.xml</types>
 
 	<jython>
 		<import>from hotelpack.reservation import custdetails</import>
@@ -14,17 +16,25 @@
 	</buttons>
 
 
-	<list id="customerlist" displayname="@lofcustomer">
+	<list id="customerlist">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
 		<columns>
-			<column id="name" displayname="@name" />
-			<column id="descr" displayname="@description" />
-			<column id="firstname" displayname="@firstname" />
-			<column id="companyname" displayname="@companyname" />
-			<column id="street" displayname="@street" />
-			<column id="zipcode" displayname="@zipcode" />
-			<column id="email" displayname="@email" />
-			<column id="phone" displayname="@phone" />
+                       <column id="name" displayname="@custid" />
+                       <column id="descr" displayname="@description" hidden="" />
+                       <column id="title" displayname="@title" type="custom:titles" />
+                       <column id="surname" displayname="@surname" />
+                       <column id="firstname" displayname="@firstname" />
+                       <column id="country" displayname="@country" type="custom:countries" />
+                       <column id="region" hidden="" />
+                       <column id="postalcode" displayname="@postalcode" />
+                       <column id="city" displayname="@city" />
+                       <column id="street" displayname="@street" />
+                       <column id="email" displayname="@email" />
+                       <column id="phone1" displayname="@phone1" />
+                       <column id="phone2" displayname="@phone2" hidden=""/>
+                       <column id="fax" displayname="@fax" hidden=""/>
+                       <column id="doctype" displayname="@doctype" type="custom:idtypes" notempty="" hidden="" />
+                       <column id="docnumb" displayname="@docnumb" hidden="" />
 		</columns>
 	</list>
 
