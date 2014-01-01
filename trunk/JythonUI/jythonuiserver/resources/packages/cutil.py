@@ -429,9 +429,10 @@ def getDict(what) :
   if what == "countries" : return Holder.getListOfCountries().getList()
   if what == "titles" : return Holder.getListOfTitles().getList()
   if what == "idtypes" : return Holder.getListOfIdTypes().getList()
+  if what == "payments" : return Holder.getListOfPayment().getList()
 
 def enumDictAction(action,var,what) :
-  printVar("coutries action",action,var)
+  printVar("countries action",action,var)
   iC = getDict(what)
   seq = createEnum(iC,lambda c : c.getKey(),lambda c : c.getName(), False)
   setJMapList(var,action,seq)      

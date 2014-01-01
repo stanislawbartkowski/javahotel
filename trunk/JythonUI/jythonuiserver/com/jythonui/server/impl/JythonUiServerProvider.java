@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,12 +10,14 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server;
+package com.jythonui.server.impl;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
 
 import com.gwtmodel.commoncache.ICommonCache;
+import com.jythonui.server.IJythonUIServer;
+import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.security.ISecurity;
 
 /**

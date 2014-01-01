@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -12,9 +12,10 @@
  */
 package com.jythonui.server.registry.object;
 
+import java.util.List;
+
 import com.gwtmodel.commoncache.ICommonCache;
 import com.jython.ui.shared.UObjects;
-import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.registry.IStorageRegistry;
 
 class ObjectRegistry implements ICommonCache {
@@ -47,7 +48,11 @@ class ObjectRegistry implements ICommonCache {
 
     @Override
     public void invalidate() {
-        // TODO: implement
+        // TODO: add hoc done, improve, make transactional
+        // used now only in test environment
+        List<String> keys = iRegistry.getKeys();
+        for (String k : keys)
+            iRegistry.removeEntry(k);
     }
 
 }

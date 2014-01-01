@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -13,8 +13,10 @@
 package com.jythonui.server;
 
 public interface IConsts {
-    String SECURITYMEMNAME = "SecurityCache";
-    String SECURITYREGISTRY = "SecurityRegistry";
+    
+    String SECURITYREALM = "SecuryRealm";
+    String DEFADATAREALM = "DefaultDataRealm";
+
     String COMMONCACHENAME = "CommonCache";
     String CACHEDNOW = "CachedNow";
     String APPMESS = "AppBundle";
@@ -26,5 +28,6 @@ public interface IConsts {
     String COUNTRIESDICT = "countries";
     String TITLESDICT = "titles";
     String IDTYPEDICT = "idtype";
+    String PAYMENTDICT = "payment";
 
 }

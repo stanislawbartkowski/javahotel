@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -28,10 +28,10 @@ import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.util.VerifyXML;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IJythonUIServerProperties;
-import com.jythonui.server.MCached;
 import com.jythonui.server.Util;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.holder.SHolder;
+import com.jythonui.server.impl.MCached;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
 import com.jythonui.shared.DialogFormat;

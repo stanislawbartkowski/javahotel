@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -26,17 +26,17 @@ import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 
+import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.Holder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.security.ISecuritySessionCache;
 import com.jythonui.server.security.token.ICustomSecurity;
 import com.jythonui.server.security.token.PasswordSecurityToken;
 
 class SubjectCache {
 
-    private final ISecuritySessionCache iCache;
+    private final IStorageMemCache iCache;
     private final IGetLogMess gMess;
 
     class CurrentSubject {
@@ -50,7 +50,7 @@ class SubjectCache {
     private static final Logger log = Logger.getLogger(SubjectCache.class
             .getName());
 
-    SubjectCache(ISecuritySessionCache iCache, IGetLogMess gMess) {
+    SubjectCache(IStorageMemCache iCache, IGetLogMess gMess) {
         this.iCache = iCache;
         this.gMess = gMess;
     }

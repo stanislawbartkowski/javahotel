@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -10,34 +10,27 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jythonui.server.security.cache.impl;
+package com.jythonui.server.memstorage;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import com.jython.ui.shared.ISharedConsts;
+import com.gwtmodel.commoncache.ICommonCache;
+import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.logmess.ILogMess;
-import com.jythonui.server.security.ISecuritySessionCache;
-import com.jythonui.server.security.cache.ISecuritySessionMemCache;
-import com.jythonui.server.security.cache.ISecuritySessionPersistent;
 
-public class SecuritySessionStore implements ISecuritySessionCache {
+class StorageCache implements IStorageMemCache {
 
-    private final ISecuritySessionMemCache iMemCache;
-    private final ISecuritySessionPersistent iPersistent;
+    private final ICommonCache iMemCache;
+    private final ICommonCache iPersistent;
     private final IGetLogMess gMess;
 
-    private static final Logger log = Logger
-            .getLogger(SecuritySessionStore.class.getName());
+    private static final Logger log = Logger.getLogger(StorageCache.class
+            .getName());
 
-    @Inject
-    public SecuritySessionStore(ISecuritySessionMemCache iMemCache,
-            ISecuritySessionPersistent iPersistent,
-            @Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
+    StorageCache(ICommonCache iMemCache, ICommonCache iPersistent,
+            IGetLogMess gMess) {
         this.iMemCache = iMemCache;
         this.iPersistent = iPersistent;
         this.gMess = gMess;
@@ -72,7 +65,7 @@ public class SecuritySessionStore implements ISecuritySessionCache {
     @Override
     public void invalidate() {
         iMemCache.invalidate();
-        iPersistent.invalidate();        
+        iPersistent.invalidate();
     }
 
 }
