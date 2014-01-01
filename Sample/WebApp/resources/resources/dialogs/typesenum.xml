@@ -57,6 +57,14 @@
       </jython>
       
    </typedef>
+   
+   <typedef id="payments" type="combo" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>packenum.langaction({0},{1},"payments")</method>
+      </jython>
+      
+   </typedef>
 
 
 </typedefs>
