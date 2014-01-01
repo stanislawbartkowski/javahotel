@@ -17,6 +17,28 @@ from com.gwthotel.hotel.payment import PaymentBill
 from com.gwthotel.hotel import HUtils
 import rutil
 
+# 0 : defsex
+# 1 : defcountry
+# 2 : defidcard
+# 3 : defpayment
+class HOTELDEFADATA(cutil.DEFAULTDATA) :
+  
+  def __init__(self) :
+    cutil.DEFAULTDATA.__init__(self)
+    
+  def __getV(self,what) :
+    if what == 0 : return "defsex"
+    elif what == 1 : return "defcountry"
+    elif what == 2 : return "defidcard"
+    elif what == 3 : return "defpayment"
+    
+  def getDataH(self,what) :
+    return self.getData(self.__getV(what))
+  
+  def putDataH(self,what,value) :
+    self.putData(self.__getV(what),value)
+    
+
 class MESS :
 
   def __init__(self):
@@ -508,33 +530,6 @@ def getReservForDay(var):
 def getPayments(var) :    
   return rutil.getPayments(var)
 
-class BILLPOSADD :
-  
-  def __init__(self,var,liname) :
-    self.sumf = 0.0
-    self.var = var
-    self.liname = liname
-    self.li = []
-    
-  def addMa(self,ma,r,idp) :
-    se = r.getServiceType()
-    resdate = None
-    servdate= None
-    if isRoomService(se) : resdate = r.getResDate()
-    else : servdate = r.getResDate()
-    total = r.getPriceTotal()
-    self.sumf = cutil.addDecimal(self.sumf,cutil.BigDecimalToDecimal(total))
-    guest = r.getGuestName()
-    room = r.getRoomName()
-    service = r.getService()
-    ma1 = { "idp" : idp, "room" : room, "resday" : resdate, "service" : service, "servday":servdate, "servdescr" : r.getDescription(),"guest" : guest, "total" : total }
-    ma.update(ma1)
-    self.li.append(ma)
-    
-  def close(self) :
-    cutil.setJMapList(self.var,self.liname,self.li)
-    cutil.setFooter(self.var,self.liname,"total",self.sumf)
-
 class HOTELTRANSACTION(cutil.SEMTRANSACTION) :
   
     def __init__(self,semid,var) :
@@ -557,12 +552,15 @@ def __toS(ch) :
 def __toCh(s) :
    return s[0]
 
-def customerFromVar(var,prefix=None) :
-    c = newCustomer(var)
+def customerDataFromVar(c,var,prefix=None) :
     copyNameDescr(c,var,prefix)
     toP(c,var,getCustFieldId(),prefix)
     c.setSex(__toCh(var[__toV("title",prefix)]))
     c.setDoctype(__toCh(var[__toV("doctype",prefix)]))
+
+def customerFromVar(var,prefix=None) :
+    c = newCustomer(var)
+    customerDataFromVar(c,var,prefix)
     return c
   
 def customerToVar(v,c,prefix=None) :
@@ -580,6 +578,11 @@ def getCustFieldId():
 def getCustFieldIdAll() :
   l = getCustFieldId() + ["title","doctype","name","descr"]
   return l
+
+def getCustFieldIdWithout() :
+  l = getCustFieldId() + ["name","descr"]
+  l.remove("country")
+  return l  
     
 def createCustomerList(var):
     C = CUSTOMERLIST(var)
@@ -589,7 +592,10 @@ def createCustomerList(var):
         v = {}
         customerToVar(v,c)
         seq.append(v)
-    return seq    
+    return seq
+  
+def toCustomerVar(var,c,prefix,clist = ["name","surname","firstname"]) :
+    toVar(var,c,clist,prefix)
 
 def setCustVarCopy(var,prefix) :
     cutil.setCopy(var,getCustFieldIdAll(),None,prefix)
@@ -606,5 +612,27 @@ def showCustomerDetails(var,custid):
 #    print "details",custid
     var["JUPDIALOG_START"] = custid
 
+def setDefaCustomerNotCopy(var,prefix=None) :
+   D = HOTELDEFADATA()
+   title = D.getDataH(0)
+   country = D.getDataH(1)
+   doctype = D.getDataH(2)
+   var[__toV("title",prefix)] = title
+   var[__toV("country",prefix)] = country
+   var[__toV("doctype",prefix)] = doctype
+
+def setDefaCustomer(var,prefix=None) :
+   setDefaCustomerNotCopy(var,prefix)
+   cutil.setCopy(var,["title","country","doctype"],None,prefix)
+   
+def saveDefaCustomer(var,prefix=None) :
+   D = HOTELDEFADATA()
+   title = var[__toV("title",prefix)]
+   country = var[__toV("country",prefix)]
+   doctype = var[__toV("doctype",prefix)]
+   D.putDataH(0,title)
+   D.putDataH(1,country)
+   D.putDataH(2,doctype)
+  
 
 # ------------------------------

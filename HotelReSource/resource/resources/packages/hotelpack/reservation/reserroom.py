@@ -34,7 +34,6 @@ from util.util import setCustData
 from util.util import getPayments
 from cutil import addDecimal
 from cutil import BigDecimalToDecimal
-from util.util import BILLPOSADD
 from util.util import newBill
 from con import eqUL
 from util.util import PAYMENTOP
@@ -43,26 +42,12 @@ from util.util import HOTELTRANSACTION
 from util.util import MESS
 from util.util import customerFromVar
 from util.util import getCustFieldIdAll
+from util.util import setDefaCustomer
+from util.util import saveDefaCustomer
 
 M = MESS()
 
-BILLIST="billlist"
-
-def _listOfPayments(var) :
-  rese = getReseName(var)
-  li = RESOP(var).getResAddPaymentList(rese)
-  seq = []
-  sum = SUMBDECIMAL()  
-  CU = CUSTOMERLIST(var)
-  for e in li :
-    g = e.getGuestName()    
-    customer = CU.findElem(g)
-    fName = customer.getAttr("firstname")
-    map = { "roomid" : e.getRoomName(), "guestid" :g, "guestdescr" : customer.getDescription(), "guestfirstname" : fName, "total" : e.getPriceTotal(), "price" : e.getPrice(), "servdescr" : e.getDescription(), "quantity" : e.getQuantity() }
-    seq.append(map)
-    sum.add(e.getPriceTotal())
-  setJMapList(var,"paymentlist",seq)
-  setFooter(var,"paymentlist","total",sum.sum)
+CUST="cust_"
 
 def _createResData(var):
   service = var["roomservice"]
@@ -113,50 +98,7 @@ def _checkRese(var):
   var["JERROR_MESSAGE"] = "Already reserved"
   var["JMESSAGE_TITLE"] = "Cannot make reservation"  
   return False
-     
-     
-def _setvarBefore(var):
-    R = ROOMLIST(var)
-    roomname = var["JDATELINE_LINE"]
-    res = getReservForDay(var)
-    room = R.findElem(roomname)
-    assert room != None
-    nop = room.getNoPersons()
-    var["name"] = roomname
-    var["desc"] = room.getDescription()
-    var["nop"] = nop
-    if len(res) == 0 :
-      setCopy(var,["resename","name","datecol","nop","desc","resdays"])
-      date = var["JDATELINE_DATE"]
-      var["datecol"] = date
-      var["resdays"] = 1
-      var["resename"] = None
-      return
-  
-    setCopy(var,["resename","name","nop"])
-    assert len(res) == 1
-    resname = res[0].getResId()
-    assert resname != None
-    RFORM = RESFORM(var)
-    reservation = RFORM.findElem(resname)
-    assert reservation != None
-    custname = reservation.getCustomerName()
-    assert custname != None
-    var["resename"] = resname
-        
-    setCustData(var,custname,"cust_")
-    
-    list = []
-    sum = SUMBDECIMAL()
-    for r in reservation.getResDetail() :
-         map = { "name" : r.getRoomName(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService() }
-         list.append(map)
-         sum.add(r.getPrice())
-
-    var["JLIST_MAP"] = { "reslist" : list}
-    var["JFOOTER_COPY_reslist_price"] = True
-    var["JFOOTER_reslist_price"] = sum.sum
-  
+           
 class MAKERESE(HOTELTRANSACTION) :
   
    def __init__(self,var) :
@@ -169,7 +111,7 @@ class MAKERESE(HOTELTRANSACTION) :
           var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE") 
           return
       # customer firstly
-      cust = customerFromVar(var,"cust_")
+      cust = customerFromVar(var,CUST)
       R = CUSTOMERLIST(var)
       name = var["cust_name"]
       if not emptyS(name) :
@@ -178,6 +120,7 @@ class MAKERESE(HOTELTRANSACTION) :
       else :
           cust.setGensymbol(True);
           name = R.addElem(cust).getName()
+      saveDefaCustomer(var,CUST)               
       # --- customer added
       reservation = newResForm(var)
       reservation.setGensymbol(True);
@@ -200,23 +143,23 @@ class MAKERESE(HOTELTRANSACTION) :
   
 def reseraction(action,var):
     printvar("reseraction",action,var)
+    
     if action == "signalchange" :
         if var["changefield"] == "roomservice" : _createListOfDays(var)
         if var["changefield"] == "roompricelist" : _createListOfDays(var)
     
     if action=="before" :
-        _setvarBefore(var)
+        rutil.setvarBefore(var)
         
     if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" :
         xml = var["JUPDIALOG_RES"]
-        xmlToVar(var,xml,getCustFieldIdAll(),"cust_")
-        setCopy(var,getCustFieldIdAll(),None,"cust_")
+        xmlToVar(var,xml,getCustFieldIdAll(),CUST)
+        setCopy(var,getCustFieldIdAll(),None,CUST)
         
     if action=="custdetails" :
         var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-        var["JUPDIALOG_START"] = mapToXML(var,getCustFieldIdAll(),"cust_")
-        print "start",var["JUPDIALOG_START"]
+        var["JUPDIALOG_START"] = mapToXML(var,getCustFieldIdAll(),CUST)
             
     if action == "checkaval" :
         _checkRese(var)
@@ -229,158 +172,4 @@ def reseraction(action,var):
 
     if action == "makereservation" and var["JYESANSWER"] :
       TRAN = MAKERESE(var)
-      TRAN.doTrans()
-      
-def showreseraction(action,var):
-   printvar("show reservaction",action,var)
-   if action == "before" :
-     _setvarBefore(var)
-     
-   if action == "cancelreserv" and var["JYESANSWER"] :
-     res = getReservForDay(var)
-     resname = res[0].getResId()
-     R = RESOP(var)
-     R.changeStatusToCancel(resname)
-     var["JCLOSE_DIALOG"] = True
-     var["JREFRESH_DATELINE_reservation"] = ""
-     
-   if action == "aftercheckin" and var["JUPDIALOG_BUTTON"] == "makecheckin" :
-       var["JCLOSE_DIALOG"] = True
-       
-   if action == "guestdesc" :
-       showCustomerDetails(var,var["cust_name"])
-     
-def _countTotal(var,b,pli) :
-  
-  total = 0.0
-  for idp in b.getPayList() :
-    for pa in pli :
-       if eqUL(idp,pa.getId()) :
-         to = BigDecimalToDecimal(pa.getPriceTotal())
-         total = addDecimal(total,to)
-         
-  return total       
-     
-def _ListOfBills(var) :
-   rese = getReseName(var)
-   bList = RESOP(var).findBillsForReservation(rese)
-   seq = []
-   pli = getPayments(var)
-   sumtotal = 0.0
-   footerpayments = 0.0
-   for b in bList :
-     bName = b.getName()
-     assert bName != None
-     payer = b.getPayer()
-     da = b.getIssueDate()
-     tot = _countTotal(var,b,pli)
-     sumtotal = addDecimal(sumtotal,tot)
-     paysum = rutil.countPayments(var,bName)
-     footerpayments = addDecimal(footerpayments,paysum)
-     ma = { "billname" : bName, "payerid" : payer, "payerdescr" : b.getDescription(), "billtotal" : tot, "payments" : paysum }
-     seq.append(ma)
-   setJMapList(var,BILLIST,seq)
-   setFooter(var,BILLIST,"billtotal",sumtotal) 
-   setFooter(var,BILLIST,"payments",footerpayments) 
-  
-def _setChangedFalse(var) :
-   var["billlistwaschanged"] = False
-   setCopy(var,["billlistwaschanged",])
-  
-  
-def showstay(action,var):     
-   printvar("show stay",action,var)
-   if action == "before" :
-     _setvarBefore(var)
-     # after 
-     _listOfPayments(var)
-     _ListOfBills(var)
-     _setChangedFalse(var)
-     return
-   
-   if var["billlistwaschanged"] :
-    _setChangedFalse(var)   
-    _ListOfBills(var)
-     
-   if action == "crud_readlist" and var["JLIST_NAME"] == BILLIST :
-     _ListOfBills(var)     
-     
-   if action == "afterbill" and var["JUPDIALOG_BUTTON"] == "acceptafteryes" :
-     _ListOfBills(var)
-     
-   if action == "payerdetail" :
-      showCustomerDetails(var,var["payerid"])
-     
-   if action == "changetoreserv" and var["JYESANSWER"] :
-     res = getReservForDay(var)
-     resname = res[0].getResId()
-     R = RESOP(var)
-     R.changeStatusToReserv(resname)
-     a = createArrayList()
-     R.setResGuestList(resname,a)
-     var["JCLOSE_DIALOG"] = True
-     var["JREFRESH_DATELINE_reservation"] = ""
-     
-   if action == "addpayment" :
-      var["JUP_DIALOG"]="hotel/reservation/addpayment.xml" 
-      var["JAFTERDIALOG_ACTION"] = "afteraddpayment" 
-      
-   if action == "paymentslist" :
-      assert var["billname"] != None
-      var["JUP_DIALOG"]="hotel/reservation/listofpayment.xml" 
-      var["JAFTERDIALOG_ACTION"] = "afterlistpayments"
-      var["JUPDIALOG_START"] = var["billname"]
-      
-   if action == "afteraddpayment" and var["JUPDIALOG_BUTTON"] == "addpayment" :
-     _listOfPayments(var)
-        
-   if action == "guestdesc" :
-       showCustomerDetails(var,var["cust_name"])
-       
-   if action == "guestdetail" :
-       showCustomerDetails(var,var["guestid"])
-         
-def billdesc(action,var) :
-   printvar("bill desc",action,var)
-   
-   if action == "before" :
-     payername = var["payerid"]
-     setCustData(var,payername,"payer_")
-     LI = BILLPOSADD(var,"billlist")
-     billname = var["billname"]
-     b = BILLLIST(var).findElem(billname)
-     pli = getPayments(var)
-     for idp in b.getPayList() :
-       print idp
-       for pa in pli :
-         print "a=   " + str(pa.getId())
-         if eqUL(idp,pa.getId()) : 
-            print "add"
-            LI.addMa({},pa,idp)
-     LI.close()     
-     
-   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :
-      var["JYESNO_MESSAGE"] = "Are you sure that you want to remove this bill ?"
-      var["JMESSAGE_TITLE"] = ""  
-      return
-
-   if action == "crud_remove"  and var["JCRUD_AFTERCONF"] :
-     billname = var["billname"]
-     BILLLIST(var).deleteElemByName(billname)
-     var["JCLOSE_DIALOG"] = True
-           
-
-
-     
-
-
-  
-
-     
-      
-
-     
-   
-      
-      
-      
+      TRAN.doTrans()                   

@@ -27,8 +27,7 @@
                <field id="price" type="decimal" displayname="@price" notempty="" signalchange=""/>
                <field id="quantity" type="int" displayname="@quantity" notempty="" signalchange="" />
                <field id="total" type="decimal" displayname="@totalprice" readonly="" notempty=""  />
-               <field id="vat" type="custom:vattax" displayname="@vatname"
-                        notempty="" />
+               <field id="vat" type="custom:vattax" displayname="@vatname" notempty="" />
                <field id="descr" displayname = "@description" /> 
 	</form>
 
@@ -38,9 +37,9 @@
 			<column id="roomid" displayname="@roomname" />
 			<column id="roomdesc" displayname="@roomdescription" />
 			<!-- guest description -->
-			<column id="guestname" displayname="@guestname" actionid="guestdetail" />
-			<column id="guestdescr" displayname="@guestdescription" />
-			<column id="firstname" displayname="@guestfirstname" />
+			<column id="guest_name" displayname="@guestid" actionid="guestdetail" />
+			<column id="guest_surname" displayname="@surname" />
+			<column id="guest_firstname" displayname="@guestfirstname" />
 
 		</columns>
 	</list>

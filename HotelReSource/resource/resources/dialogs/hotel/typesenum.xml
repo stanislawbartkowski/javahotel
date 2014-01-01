@@ -12,12 +12,12 @@
       </jython>    
  
    </typedef>
-
-    <typedef id="paymentmethod" type="combo" comboid="id" displayname="name" >
+   
+    <typedef id="payments" type="combo" comboid="id" displayname="name" >
   
      <jython>
-        <method>defenum.paymentmethodenum({0},{1})</method>
-      </jython>    
+        <method>defenum.dictaction({0},{1},"payments")</method>
+      </jython>
  
    </typedef>
    

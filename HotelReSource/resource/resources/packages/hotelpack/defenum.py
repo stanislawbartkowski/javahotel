@@ -16,18 +16,6 @@ def serviceenum(action,var) :
       seq.append({"id" : v.getName(), "name" : v.getDescription()})
         
   var["JLIST_MAP"] = { "vattax" : seq}
-  
-def paymentmethodenum(action,var) :  
-
-  cutil.printVar ("paymentmethod", action,var)
-
-  seq = [
-    { "id" : "CA", "name" : "Cache" } ,
-    { "id" : "CC", "name" : "Credit Card" },
-    { "id" : "TR", "name" : "Transfer" },
-  ]
-          
-  var["JLIST_MAP"] = { "paymentmethod" : seq}
- 
+   
 def dictaction(action,var,what) :
     cutil.enumDictAction(action,var,what)

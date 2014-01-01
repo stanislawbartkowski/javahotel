@@ -6,8 +6,8 @@
         <types>hotel/typesenum.xml,hotel/reservation/restypes.xml</types>
 
 	<jython>
-		<import>from hotelpack.reservation import reserroom</import>
-		<method>reserroom.showstay({0},{1})</method>
+		<import>from hotelpack.reservation import showstay</import>
+		<method>showstay.showstay({0},{1})</method>
 	</jython>
 
 	<buttons>
@@ -60,9 +60,9 @@
                 <standbutt>TOOLS,FIND,FILTER</standbutt>
                 <columns>
                         <column id="roomid" displayname="@roomname" />
-                        <column id="guestid" displayname="@guestname" actionid="guestdetail" />
-                        <column id="guestdescr" displayname="@guestdescription" />
-                        <column id="guestfirstname" displayname="@guestfirstname" />                        
+                        <column id="guest_name" displayname="@guestid" actionid="guestdetail" />
+                        <column id="guest_surname" displayname="@surname" />
+                        <column id="guest_firstname" displayname="@guestfirstname" />                        
                         <column id="servdescr" displayname="@servicedescription" />
                         <column id="quantity" displayname="@quantity" type="int" />
                         <column id="price" type="decimal" displayname="@price" />
@@ -74,17 +74,18 @@
                 <standbutt>TOOLS,FIND,FILTER,SHOW,REMOVE</standbutt>
                 <columns>
                         <column id="billname" displayname="@billname" />
-                        <column id="payerid" displayname="@billpayername" actionid="payerdetail" />
-                        <column id="payerdescr" displayname="@billpayerdescription" />
+                        <column id="payer_name" displayname="@billpayerid" actionid="payerdetail" />
+                        <column id="payer_surname" displayname="@surname" />
+                        <column id="payer_firstname" displayname="@firstname" />                        
                         <column id="billtotal" type="decimal" displayname="@totalprice" footer = "" />
                         <column id="payments" type="decimal" displayname="@paymentsum" footer = "" actionid="paymentslist" />
                 </columns>
         </list>
 
         <tabpanel id="tab">
-                <tabelem id="reslist" displayname="Hotel services" />
-                <tabelem id="paymentlist" displayname="Other services" />
-                <tabelem id="billlist" displayname="Bill list" /> 
+                <tabelem id="reslist" displayname="@hotelservices" />
+                <tabelem id="paymentlist" displayname="@otherservice" />
+                <tabelem id="billlist" displayname="@billlist" /> 
         </tabpanel>
 
 
