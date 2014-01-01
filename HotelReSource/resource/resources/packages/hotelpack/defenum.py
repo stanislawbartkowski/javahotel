@@ -29,3 +29,5 @@ def paymentmethodenum(action,var) :
           
   var["JLIST_MAP"] = { "paymentmethod" : seq}
  
+def dictaction(action,var,what) :
+    cutil.enumDictAction(action,var,what)

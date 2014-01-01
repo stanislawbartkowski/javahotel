@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@customer" >
 
 	<before />
 
 	<parent>hotel/customerlist.xml</parent>
+        
+        <types>hotel/typesenum.xml</types>
 
 	<jython>
 		<import>from hotelpack import customerlist</import>
@@ -11,14 +13,22 @@
 	</jython>
 
 	<form>
-		<field id="name" displayname="@name" readonlychange="" notempty="" />
-		<field id="descr" displayname="@description" />
-		<field id="firstname" displayname="@firstname" />
-		<field id="companyname" displayname="@companyname" />
-		<field id="street" displayname="@street" />
-		<field id="zipcode" displayname="@zipcode" />
-		<field id="email" displayname="@email" />
-		<field id="phone" displayname="@phone" />		
+                <field id="name" displayname="@custid" readonlychange="" />
+                <field id="descr" displayname="@description" hidden="" />
+                <field id="title" displayname="@title" type="custom:titles" notempty="" />
+                <field id="surname" displayname="@surname" />
+                <field id="firstname" displayname="@firstname" />
+                <field id="country" displayname="@country" type="custom:countries" notempty="" />
+                <field id="region" displayname="@region" />
+                <field id="postalcode" displayname="@postalcode" />
+                <field id="city" displayname="@city" />
+                <field id="street" displayname="@street" />
+                <field id="email" displayname="@email" />
+                <field id="phone1" displayname="@phone1" />
+                <field id="phone2" displayname="@phone2" />
+                <field id="fax" displayname="@fax" />
+                <field id="doctype" displayname="@doctype" type="custom:idtypes" notempty="" />
+                <field id="docnumb" displayname="@docnumb" />
 	</form>
 	
 </dialog>

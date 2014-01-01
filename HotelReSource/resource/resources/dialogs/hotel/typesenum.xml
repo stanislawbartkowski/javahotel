@@ -20,5 +20,30 @@
       </jython>    
  
    </typedef>
+   
+    <typedef id="countries" type="combo" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>defenum.dictaction({0},{1},"countries")</method>
+      </jython>
+      
+   </typedef>
+
+   <typedef id="titles" type="combo" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>defenum.dictaction({0},{1},"titles")</method>
+      </jython>
+      
+   </typedef>
+   
+   <typedef id="idtypes" type="combo" comboid="id" displayname = "name">
+  
+     <jython>
+        <method>defenum.dictaction({0},{1},"idtypes")</method>
+      </jython>
+      
+   </typedef>
+
 
 </typedefs>

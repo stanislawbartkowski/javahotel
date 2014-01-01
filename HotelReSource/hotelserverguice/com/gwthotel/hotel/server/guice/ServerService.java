@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 stanislawbartkowski@gmail.com 
+ * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -60,7 +60,9 @@ import com.jython.ui.server.jpatrans.ITransactionContext;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jython.ui.server.jpatrans.JpaEmTransactionContext;
 import com.jython.ui.server.jpatrans.JpaTransactionContext;
+import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonUIServerProperties;
+import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.IGetResourceJNDI;
 import com.jythonui.server.defa.ServerPropertiesEnv;
 import com.jythonui.server.defa.StorageRealmRegistryFactory;
@@ -133,6 +135,9 @@ public class ServerService {
             bind(IStorageRegistryFactory.class).to(
                     StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);
+            bind(IGetConnection.class)
+                    .toProvider(EmptyConnectionProvider.class).in(
+                            Singleton.class);
 
             // common
 

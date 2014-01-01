@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Reservation">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@reservationdetails">
 
 	<before />
+        
+        <types>hotel/typesenum.xml,hotel/reservation/restypes.xml</types>
 
 	<jython>
 		<import>from hotelpack.reservation import reserroom</import>
@@ -9,7 +11,7 @@
 	</jython>
 
 	<buttons>
-		<button id="guestdesc" displayname="Customer detail" />
+		<button id="guestdesc" displayname="@guestdetails" />
 		<button id="cancelres" displayname="Cancel reservation"
 			actiontype="JYESNO_MESSAGE" actionparam="Do you really want to cancel this reservation ?"
 			actionparam1="Warning before canceling" actionparam2="cancelreserv" />
@@ -19,28 +21,36 @@
 
 	<form>
 		<field id="resename" hidden="" />
-		<field id="name" displayname="Room" readonly="" />
+		<field id="name" displayname="@name" readonly="" />
 		<field id="nop" type="int" displayname="@nopersons" readonly="" />
 		<field id="desc" displayname="@description" readonly="" />
 		<!-- cust description -->
-		<field id="cust_name" displayname="@name" hidden="" />
-		<field id="cust_descr" displayname="Guest description" readonly="" />
-		<field id="cust_firstname" displayname="@firstname" readonly="" />
-		<field id="cust_companyname" displayname="@companyname" hidden="" />
-		<field id="cust_street" displayname="@street" hidden="" />
-		<field id="cust_zipcode" displayname="@zipcode" hidden="" />
-		<field id="cust_email" displayname="@email" hidden="" />
-		<field id="cust_phone" displayname="@phone" hidden="" />
+                <field id="cust_name" displayname="@guestid" readonly="" />
+                <field id="cust_descr" displayname="@description" hidden="" />
+                <field id="cust_title" displayname="@title" type="custom:titles" notempty="" />
+                <field id="cust_surname" displayname="@surname" />
+                <field id="cust_firstname" displayname="@firstname" />
+                <field id="cust_country" displayname="@country" type="custom:countries" notempty="" />
+                <field id="cust_region" displayname="@region" hidden=""/>
+                <field id="cust_postalcode" displayname="@postalcode" hidden=""/>
+                <field id="cust_city" displayname="@city" hidden=""/>
+                <field id="cust_street" displayname="@street" hidden=""/>
+                <field id="cust_email" displayname="@email" hidden=""/>
+                <field id="cust_phone1" displayname="@phone1" hidden=""/>
+                <field id="cust_phone2" displayname="@phone2" hidden=""/>
+                <field id="cust_fax" displayname="@fax" hidden=""/>
+                <field id="cust_doctype" displayname="@doctype" type="custom:idtypes" notempty="" hidden=""/>
+                <field id="cust_docnumb" displayname="@docnumb" hidden="" />
 
 	</form>
 
-	<list id="reslist" displayname="Reservation details" pagesize="5">
+	<list id="reslist" displayname="@reservationdetails" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
 		<columns>
-			<column id="name" displayname="@name" />
-			<column id="resday" type="date" displayname="Night" />
-			<column id="service" displayname="Service" />
-			<column id="price" type="decimal" displayname="Price" footer="" />
+			<column id="name" displayname="@roomname" />
+			<column id="resday" type="date" displayname="@night" />
+			<column id="service" displayname="@servicename" />
+			<column id="price" type="decimal" displayname="@price" footer="" />
 		</columns>
 	</list>
 

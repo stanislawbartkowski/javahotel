@@ -41,10 +41,10 @@ from util.util import PAYMENTOP
 from util import rutil
 from util.util import HOTELTRANSACTION
 from util.util import MESS
+from util.util import customerFromVar
+from util.util import getCustFieldIdAll
 
 M = MESS()
-
-CLIST = ["name","descr"] + getCustFieldId()
 
 BILLIST="billlist"
 
@@ -169,15 +169,9 @@ class MAKERESE(HOTELTRANSACTION) :
           var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE") 
           return
       # customer firstly
-      cust = newCustomer(var)
+      cust = customerFromVar(var,"cust_")
       R = CUSTOMERLIST(var)
       name = var["cust_name"]
-      for s in getCustFieldId() :
-          deid = "cust_" + s
-          val = var[deid]
-          cust.setAttr(s,val)
-      desc = var["cust_descr"]
-      cust.setDescription(desc)
       if not emptyS(name) :
           cust.setName(name)
           R.changeElem(cust)
@@ -215,13 +209,13 @@ def reseraction(action,var):
         
     if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" :
         xml = var["JUPDIALOG_RES"]
-        xmlToVar(var,xml,CLIST,"cust_")
-        setCopy(var,CLIST,None,"cust_")
+        xmlToVar(var,xml,getCustFieldIdAll(),"cust_")
+        setCopy(var,getCustFieldIdAll(),None,"cust_")
         
     if action=="custdetails" :
         var["JUP_DIALOG"]="hotel/reservation/customerdetails.xml" 
         var["JAFTERDIALOG_ACTION"] = "acceptdetails" 
-        var["JUPDIALOG_START"] = mapToXML(var,CLIST,"cust_")
+        var["JUPDIALOG_START"] = mapToXML(var,getCustFieldIdAll(),"cust_")
         print "start",var["JUPDIALOG_START"]
             
     if action == "checkaval" :

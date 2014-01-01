@@ -2,6 +2,8 @@
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@checkinbutton">
 
 	<before />
+        
+        <types>hotel/typesenum.xml,hotel/reservation/restypes.xml</types>
 
 	<jython>
 		<import>from hotelpack.reservation import checkin</import>
@@ -21,16 +23,23 @@
 			<column id="roomid" displayname="@roomname" />
 			<column id="roomdesc" displayname="@roomdescription" />
 <!--  guest description -->			
-            <column id="guestselect" displayname="@select" actionid="selectguest" editable=""/>
-			<column id="name" displayname="@guestname"/>
-			<column id="descr" displayname="@guestdescription" editable="" helper="guestdetails" />
+                       <column id="guestselect" displayname="@select" actionid="selectguest" editable=""/>
+			<column id="name" displayname="@guestid"/>
+                       <column id="descr" displayname="@description" hidden="" />
+                       <column id="title" displayname="@title" editable="" type="custom:titles"/> 
+			<column id="surname" displayname="@surname" editable="" helper="guestdetails" />
 			<column id="firstname" displayname="@guestfirstname" editable=""/> 
-			<column id="companyname" hidden=""/>
-			<column id="street" hidden="" />
-			<column id="zipcode" hidden=""/>
-			<column id="email" hidden=""/>
-			<column id="phone" hidden="" />
-			
+                       <column id="country" displayname="@country" type="custom:countries" hidden=""/>
+                       <column id="region" hidden="" />
+                       <column id="postalcode" displayname="@postalcode" hidden=""/>
+                       <column id="city" displayname="@city" hidden=""/>
+                       <column id="street" displayname="@street" hidden=""/>
+                       <column id="email" displayname="@email" hidden=""/>
+                       <column id="phone1" displayname="@phone1" hidden=""/>
+                       <column id="phone2" displayname="@phone2" hidden=""/>
+                       <column id="fax" displayname="@fax" hidden=""/>
+                       <column id="doctype" displayname="@doctype" type="custom:idtypes" hidden="" />
+                       <column id="docnumb" displayname="@docnumb" hidden="" />			
 		</columns>
 	</list>
 
