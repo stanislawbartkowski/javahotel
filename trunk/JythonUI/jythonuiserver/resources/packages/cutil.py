@@ -436,3 +436,16 @@ def enumDictAction(action,var,what) :
   iC = getDict(what)
   seq = createEnum(iC,lambda c : c.getKey(),lambda c : c.getName(), False)
   setJMapList(var,action,seq)      
+
+class DEFAULTDATA :
+  
+  def __init__(self) :
+    self.h = Holder.getDefaultData()
+    
+  def getData(self,key,defa=None) :
+    val = self.h.getValue(key)
+    if val : return val
+    return defa
+  
+  def putData(self,key,defa) :
+    self.h.putValue(key,defa)        
