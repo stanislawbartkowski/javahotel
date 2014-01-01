@@ -18,17 +18,25 @@
         
         <form>
                 <field id="paynow" displayname="@billpaynow" type="bool" />  
-                <field id="paymethod" displayname="@paymentmethod" type="custom:paymentmethod" />
+                <field id="paymethod" displayname="@paymentmethod" type="custom:payments" />
                 <field id="paymentdate" displayname="@dateofpayment" type="date" />
                 <!-- cust description -->
-                <field id="payer_name" displayname="@billpayername" readonly=""/>
-                <field id="payer_descr" displayname="@billpayerdescription" readonly=""/>
-                <field id="payer_firstname" displayname="@firstname" readonly="" />
-                <field id="payer_companyname" displayname="@companyname" hidden="" readonly="" />
-                <field id="payer_street" displayname="@street" hidden="" />
-                <field id="payer_zipcode" displayname="@zipcode" hidden="" readonly="" />
-                <field id="payer_email" displayname="@email" hidden="" readonly=""/>
-                <field id="payer_phone" displayname="@phone" hidden="" readonly="" />
+                <field id="payer_name" displayname="@billpayerid" readonly="" />
+                <field id="payer_descr" displayname="@billpayerdescription" hidden="" />
+                <field id="payer_title" displayname="@title" type="custom:titles" notempty="" />
+                <field id="payer_surname" displayname="@surname" />
+                <field id="payer_firstname" displayname="@firstname" />
+                <field id="payer_country" displayname="@country" type="custom:countries" notempty="" />
+                <field id="payer_region" displayname="@region" hidden=""/>
+                <field id="payer_postalcode" displayname="@postalcode" hidden=""/>
+                <field id="payer_city" displayname="@city" hidden=""/>
+                <field id="payer_street" displayname="@street" hidden=""/>
+                <field id="payer_email" displayname="@email" hidden=""/>
+                <field id="payer_phone1" displayname="@phone1" hidden=""/>
+                <field id="payer_phone2" displayname="@phone2" hidden=""/>
+                <field id="payer_fax" displayname="@fax" hidden=""/>
+                <field id="payer_doctype" displayname="@doctype" type="custom:idtypes" notempty="" hidden=""/>
+                <field id="payer_docnumb" displayname="@docnumb" hidden="" />
         </form>
 
         
@@ -40,7 +48,7 @@
                         <column id="room" displayname="@roomname" />
                         <column id="resday" type="date" displayname="@staynight" />
                         <column id="servday" type="date" displayname="@stayday" />
-                        <column id="guest" displayname="@guestname" />
+                        <column id="guest_name" displayname="@guestid" actionid="guestdetail"/>
                         <column id="service" displayname="@servicename" />
                         <column id="servdescr" displayname="@servicedescription" />
                         <column id="total" type="decimal" displayname="@totalprice" footer="" />
@@ -56,7 +64,7 @@
                         <column id="room" displayname="@roomname" />
                         <column id="resday" type="date" displayname="@staynight" />
                         <column id="servday" type="date" displayname="@stayday" />
-                        <column id="guest" displayname="@guestname" />
+                        <column id="guest_name" displayname="@guestid" actionid="guestdetail" />
                         <column id="service" displayname="@servicename" />
                         <column id="servdescr" displayname="@servicedescription" />
                         <column id="total" type="decimal" displayname="@totalprice" footer="" />

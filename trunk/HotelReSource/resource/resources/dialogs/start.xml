@@ -10,8 +10,8 @@
 </jython>
 
  <upmenu>
-    <button id="reservation" displayname="Reservation" actiontype="JMAIN_DIALOG" actionparam="hotel/reservation/reservation.xml"/>
-    <button id="administrator" displayname="Administrator" actiontype="JMAIN_DIALOG" actionparam="administratormenu.xml" />
+    <button id="reservation" displayname="@reservationpanel" actiontype="JMAIN_DIALOG" actionparam="hotel/reservation/reservation.xml"/>
+    <button id="administrator" displayname="@administrator" actiontype="JMAIN_DIALOG" actionparam="administratormenu.xml" />
   </upmenu>
 
 </dialog>

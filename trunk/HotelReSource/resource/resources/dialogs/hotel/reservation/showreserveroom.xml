@@ -6,16 +6,16 @@
         <types>hotel/typesenum.xml,hotel/reservation/restypes.xml</types>
 
 	<jython>
-		<import>from hotelpack.reservation import reserroom</import>
-		<method>reserroom.showreseraction({0},{1})</method>
+		<import>from hotelpack.reservation import showrese</import>
+		<method>showrese.showreseraction({0},{1})</method>
 	</jython>
 
 	<buttons>
 		<button id="guestdesc" displayname="@guestdetails" />
-		<button id="cancelres" displayname="Cancel reservation"
-			actiontype="JYESNO_MESSAGE" actionparam="Do you really want to cancel this reservation ?"
-			actionparam1="Warning before canceling" actionparam2="cancelreserv" />
-		<button id="checkin" displayname="Check in" actiontype="JUP_DIALOG"
+		<button id="cancelres" displayname="@cancelreservation"
+			actiontype="JYESNO_MESSAGE" actionparam="@cancelreservationconfirmation"
+			actionparam1="@warningcancelreservation" actionparam2="cancelreserv" />
+		<button id="checkin" displayname="@checkinbutton" actiontype="JUP_DIALOG"
 			actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin"/>
 	</buttons>
 

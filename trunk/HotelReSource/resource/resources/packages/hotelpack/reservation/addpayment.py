@@ -14,6 +14,7 @@ from cutil import checkGreaterZero
 from util.util import newResAddPayment
 from cutil import toDate
 from cutil import toB
+from util import util
 
 RLIST = "roomlist"
 
@@ -29,9 +30,9 @@ def _createList(var):
        guest = g.getGuestName()
        rdescr = ROOM.findElem(room).getDescription() 
        c = CU.findElem(guest)
-       descr = c.getDescription()
-       firstname = c.getAttr("firstname")
-       list.append({"roomid" : room,"roomdesc" : rdescr, "guestname" : guest, "guestdescr" : descr,"firstname" : firstname})
+       map = {"roomid" : room, "roomdesc" : rdescr }
+       util.toCustomerVar(map,c,"guest_")
+       list.append(map)
    var["JLIST_MAP"] = { RLIST : list}
 
 LI = ["paymentdate","pricelist","service","pricefromlist","price","descr","quantity","total"]
@@ -110,7 +111,7 @@ def _addPayment(var) :
      serv = var["service"]
      if var[RLIST+"_lineset"] :
        room = var["roomid"]
-       guest = var["guestname"]
+       guest = var["guest_name"]
      if room == None :
        room = var["JDATELINE_LINE"]
      if guest == None :
@@ -147,7 +148,7 @@ def doaction(action,var):
         if var["changefield"] == "price" : _setAfterPrice(var)
         
     if action == "guestdetail" and var[RLIST+"_lineset"] :
-        showCustomerDetails(var,var["name"])
+        showCustomerDetails(var,var["guest_name"])
         
     if action == "addpayment" and var["JYESANSWER"] :
       if not checkGreaterZero(var,"quantity") : return

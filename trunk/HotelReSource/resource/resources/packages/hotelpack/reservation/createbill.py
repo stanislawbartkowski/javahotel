@@ -20,7 +20,6 @@ from util.util import setCustData
 from cutil import today
 from cutil import toDate
 from util.util import getPayments
-from util.util import BILLPOSADD
 from con import toL
 from util.util import getCustFieldId
 from util.util import mapToXML
@@ -34,17 +33,19 @@ from cutil import setErrorField
 from util.util import PAYMENTOP
 from util.util import newBillPayment
 from con import toB
+from util import util
+from util import rutil
 
 LIST="poslist"
 NOPAID="billlist"
-CLIST = ["name","descr"] + getCustFieldId()
+CLIST=util.getCustFieldIdAll()
 M=MESS()
 
 class PAID :
   
   def __init__(self,var) :
-    rese = getReseName(var)
-    bli = RESOP(var).findBillsForReservation(rese)
+    rese = util.getReseName(var)
+    bli = util.RESOP(var).findBillsForReservation(rese)
     self.se = Set()
     for b in bli :
       for l in b.getPayList() :
@@ -56,8 +57,8 @@ class PAID :
 def _createPosList(var) :
   pli = getPayments(var)
   P = PAID(var)
-  L1 = BILLPOSADD(var,LIST)
-  L2 = BILLPOSADD(var,NOPAID)
+  L1 = rutil.BILLPOSADD(var,LIST)
+  L2 = rutil.BILLPOSADD(var,NOPAID)
   # list of bills
   sumf = 0.0
   for r in pli :
@@ -99,7 +100,7 @@ class HOTELBILLSAVE(HOTELTRANSACTION) :
           b.getPayList().add(idp)
          
      if b.getPayList().size() == 0 :
-         var["JERROR_MESSAGE"] = "Nothing is checked"
+         var["JERROR_MESSAGE"] = "@nothingischecked"
          return
       
      self.billName = BILLLIST(var).addElem(b).getName()
@@ -117,8 +118,12 @@ def doaction(action,var) :
     payername = r.getCustomerName()
     setCustData(var,payername,"payer_")
     var["paynow"] = True
-    setCopy(var,["paynow"])
-
+    setCopy(var,["paynow","paymethod"])
+    var["paymethod"] = util.HOTELDEFADATA().getDataH(3)    
+    
+  if action == "guestdetail" :
+       util.showCustomerDetails(var,var["guest_name"])
+    
   if action == "columnchangeaction" :
      total = var["total"]
      footerf = var["JFOOTER_billlist_total"]
@@ -131,7 +136,7 @@ def doaction(action,var) :
     for m in var["JLIST_MAP"][NOPAID] :
       if m["add"] : exist = True
     if not exist :
-      var["JERROR_MESSAGE"] = "Nothing is checked"
+      var["JERROR_MESSAGE"] = "@nothingischecked"
       return
     
     if var["paynow"] :
@@ -140,10 +145,11 @@ def doaction(action,var) :
     if not var["paynow"] :  
       if checkEmpty(var,["paymethod","paymentdate"]): return
       
-    var["JYESNO_MESSAGE"] = "Are you sure to issue this bill ?"
+    var["JYESNO_MESSAGE"] = "@areyousuretoissuebill"
     var['JAFTERDIALOG_ACTION'] = "acceptafteryes"
 
   if action == "acceptafteryes" and var["JYESANSWER"] :    
+     util.HOTELDEFADATA().putDataH(3,var["paymethod"])
      H = HOTELBILLSAVE(var)
      H.doTrans()
      # semaphore transction is not needed here

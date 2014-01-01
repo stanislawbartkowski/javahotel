@@ -4,22 +4,32 @@
         <before/>
 
         <parent>hotel/reservation/showstay.xml</parent>
+        
+        <types>hotel/typesenum.xml</types>
 
         <jython>
-                <import>from hotelpack.reservation import reserroom</import>
-                <method>reserroom.billdesc({0},{1})</method>
+                <import>from hotelpack.reservation import billdesc</import>
+                <method>billdesc.billdesc({0},{1})</method>
         </jython>
         
          <form>
                 <!-- cust description -->
-                <field id="payer_name" displayname="@name" readonly=""/>
-                <field id="payer_descr" displayname="@billpayername" readonly=""/>
-                <field id="payer_firstname" displayname="@firstname" readonly="" />
-                <field id="payer_companyname" displayname="@companyname" hidden="" readonly="" />
-                <field id="payer_street" displayname="@street" hidden="" />
-                <field id="payer_zipcode" displayname="@zipcode" hidden="" readonly="" />
-                <field id="payer_email" displayname="@email" hidden="" readonly=""/>
-                <field id="payer_phone" displayname="@phone" hidden="" readonly="" />
+                <field id="payer_name" displayname="@guestid" readonly="" />
+                <field id="payer_descr" displayname="@description" hidden="" />
+                <field id="payer_title" displayname="@title" type="custom:titles" notempty="" />
+                <field id="payer_surname" displayname="@surname" />
+                <field id="payer_firstname" displayname="@firstname" />
+                <field id="payer_country" displayname="@country" type="custom:countries" notempty="" />
+                <field id="payer_region" displayname="@region" hidden=""/>
+                <field id="payer_postalcode" displayname="@postalcode" hidden=""/>
+                <field id="payer_city" displayname="@city" hidden=""/>
+                <field id="payer_street" displayname="@street" hidden=""/>
+                <field id="payer_email" displayname="@email" hidden=""/>
+                <field id="payer_phone1" displayname="@phone1" hidden=""/>
+                <field id="payer_phone2" displayname="@phone2" hidden=""/>
+                <field id="payer_fax" displayname="@fax" hidden=""/>
+                <field id="payer_doctype" displayname="@doctype" type="custom:idtypes" notempty="" hidden=""/>
+                <field id="payer_docnumb" displayname="@docnumb" hidden="" />
         </form>
         
         <list id="billlist" pagesize="10">
@@ -28,8 +38,10 @@
                         <column id="idp" type="long" hidden="" />
                         <column id="room" displayname="@roomname" />
                         <column id="resday" type="date" displayname="@staynight" />
-                        <column id="servday" type="date" displayname="@stayday" />
-                        <column id="guest" displayname="@guestname" />
+                        <column id="servday" type="date" displayname="@stayday" />                        
+                        <column id="guest_name" displayname="@billpayerid" actionid="payerdetail" />
+                        <column id="guest_surname" displayname="@surname" />
+                        <column id="guest_firstname" displayname="@firstname" />                        
                         <column id="service" displayname="@servicename" />
                         <column id="servdescr" displayname="@description" />
                         <column id="total" type="decimal" displayname="@totalprice" footer="" />

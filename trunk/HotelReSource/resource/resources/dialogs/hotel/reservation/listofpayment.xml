@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="Payments for bill">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@paymentsforbill">
 
         <before />
         
@@ -19,9 +19,9 @@
                 <standbutt>TOOLS,FIND,FILTER,ADD,REMOVE</standbutt>
                 <columns>
                         <column id="id" type="long" hidden="" />
-                        <column id="paymethod" displayname="Payment method" notempty="" type="custom:paymentmethod"/>
-                        <column id="paymentdate" displayname="Date" type="date" notempty=""/>
-                        <column id="paymenttotal" displayname="Amount" type="decimal" notempty="" footer=""/>
+                        <column id="paymethod" displayname="@paymentmethod" notempty="" type="custom:payments"/>
+                        <column id="paymentdate" displayname="@dateofpayment" type="date" notempty=""/>
+                        <column id="paymenttotal" displayname="@billamount" type="decimal" notempty="" footer=""/>
                 </columns>
         </list>
 

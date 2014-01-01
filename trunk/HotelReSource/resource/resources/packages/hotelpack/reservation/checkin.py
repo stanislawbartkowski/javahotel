@@ -19,6 +19,10 @@ from util import util
 from util.util import MESS
 from util.util import getCustFieldIdAll
 from util.util import customerToVar
+from util.util import saveDefaCustomer
+from util.util import setDefaCustomerNotCopy
+from util.util import getCustFieldIdWithout
+from util.util import customerDataFromVar
 
 M = MESS()
 CUSTF = getCustFieldIdAll()
@@ -47,13 +51,15 @@ class MAKECHECKIN(util.HOTELTRANSACTION) :
        return
      a = createArrayList()
      for cust in var["JLIST_MAP"][CHECKINLIST] :
-           if allEmpty(cust,CUSTF) : continue
+           if allEmpty(cust,getCustFieldIdWithout()) : continue
            cid = cust["name"]
            if cid == None : c = newCustomer(var)
            else : c = CUST.findElem(cid)
-           copyVarToProp(cust,c,CUSTF)
+#           copyVarToProp(cust,c,CUSTF)
+           customerDataFromVar(c,cust)
            if cid == None : cid = CUST.addElem(c).getName()
            else : CUST.changeElem(c)
+           saveDefaCustomer(cust)
            rGuest = newResGuest(var)
            rGuest.setGuestName(cid)
            rid = cust["roomid"]
@@ -135,7 +141,9 @@ def checkinaction(action,var):
                                 wasGuest = True
                                 break
                     if not found :
-                        map["guestselect"] = "<select>"        
+                        map["guestselect"] = "<select>"
+                        setDefaCustomerNotCopy(map)
+                        
                     list.append(map)
             var["JLIST_MAP"] = { CHECKINLIST : list}
             setStandEditMode(var,CHECKINLIST,["surname","firstname","title","country"])

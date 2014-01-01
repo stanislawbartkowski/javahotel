@@ -1,4 +1,3 @@
-#from util.util import PAYMENTOP
 import cutil
 import con
 import util
@@ -41,3 +40,73 @@ def countTotal(var,b,pli) :
          total = con.addDecimal(total,to)
          
   return total       
+
+def setvarBefore(var,cust="cust_"):
+    R = util.ROOMLIST(var)
+    roomname = var["JDATELINE_LINE"]
+    res = util.getReservForDay(var)
+    room = R.findElem(roomname)
+    assert room != None
+    nop = room.getNoPersons()
+    var["name"] = roomname
+    var["desc"] = room.getDescription()
+    var["nop"] = nop
+    if len(res) == 0 :
+      util.setCopy(var,["resename","name","datecol","nop","desc","resdays"])
+      date = var["JDATELINE_DATE"]
+      var["datecol"] = date
+      var["resdays"] = 1
+      var["resename"] = None
+      util.setDefaCustomer(var,cust)
+      return
+  
+    util.setCopy(var,["resename","name","nop"])
+    assert len(res) == 1
+    resname = res[0].getResId()
+    assert resname != None
+    RFORM = util.RESFORM(var)
+    reservation = RFORM.findElem(resname)
+    assert reservation != None
+    custname = reservation.getCustomerName()
+    assert custname != None
+    var["resename"] = resname
+        
+    util.setCustData(var,custname,cust)
+    
+    list = []
+    sum = util.SUMBDECIMAL()
+    for r in reservation.getResDetail() :
+         map = { "name" : r.getRoomName(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService() }
+         list.append(map)
+         sum.add(r.getPrice())
+
+    var["JLIST_MAP"] = { "reslist" : list}
+    var["JFOOTER_COPY_reslist_price"] = True
+    var["JFOOTER_reslist_price"] = sum.sum
+
+class BILLPOSADD :
+  
+  def __init__(self,var,liname) :
+    self.sumf = 0.0
+    self.var = var
+    self.liname = liname
+    self.li = []
+    
+  def addMa(self,ma,r,idp) :
+    se = r.getServiceType()
+    resdate = None
+    servdate= None
+    if util.isRoomService(se) : resdate = r.getResDate()
+    else : servdate = r.getResDate()
+    total = r.getPriceTotal()
+    self.sumf = cutil.addDecimal(self.sumf,cutil.BigDecimalToDecimal(total))
+    guest = r.getGuestName()
+    room = r.getRoomName()
+    service = r.getService()
+    ma1 = { "idp" : idp, "room" : room, "resday" : resdate, "service" : service, "servday":servdate, "servdescr" : r.getDescription(),"guest_name" : guest, "total" : total }
+    ma.update(ma1)
+    self.li.append(ma)
+    
+  def close(self) :
+    cutil.setJMapList(self.var,self.liname,self.li)
+    cutil.setFooter(self.var,self.liname,"total",self.sumf)
