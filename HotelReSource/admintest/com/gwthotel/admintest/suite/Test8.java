@@ -22,7 +22,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gwthotel.hotel.HUtils;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.prices.HotelPriceElem;
 import com.gwthotel.hotel.services.HotelServices;
