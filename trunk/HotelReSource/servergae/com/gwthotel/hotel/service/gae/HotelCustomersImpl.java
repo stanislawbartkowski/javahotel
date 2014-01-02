@@ -45,6 +45,8 @@ public class HotelCustomersImpl extends
     protected HotelCustomer constructProp(EHotel ho, EHotelCustomer e) {
         HotelCustomer cu = new HotelCustomer();
         HUtils.toTProperties(HUtils.getCustomerFields(), cu, e);
+        cu.setDoctype(e.getDoctype());
+        cu.setSex(e.getSex());
         return cu;
     }
 
@@ -56,7 +58,8 @@ public class HotelCustomersImpl extends
     @Override
     protected void toE(EHotel ho, EHotelCustomer e, HotelCustomer t) {
         HUtils.toEProperties(HUtils.getCustomerFields(), e, t);
-
+        e.setDoctype(t.getDoctype());
+        e.setSex(t.getSex());
     }
 
     @Override
