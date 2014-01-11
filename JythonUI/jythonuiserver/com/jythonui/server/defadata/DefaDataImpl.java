@@ -12,15 +12,12 @@
  */
 package com.jythonui.server.defadata;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.gwtmodel.table.common.CUtil;
-import com.jython.ui.shared.MUtil;
 import com.jythonui.server.IConsts;
 import com.jythonui.server.IDefaultData;
 import com.jythonui.server.IGetAppProp;
