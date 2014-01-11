@@ -12,20 +12,15 @@
  */
 package com.jythonui.server.getmess;
 
-import java.util.Properties;
+import java.util.Map;
 
 public class GetLogMessFactory {
 
     private GetLogMessFactory() {
     }
 
-    public static IGetLogMess construct(Properties prop) {
-        return new GetLogMess(prop, null);
-
-    }
-
-    public static IGetLogMess construct(Properties prop, Properties defa) {
-        return new GetLogMess(prop, defa);
+    public static IGetLogMess construct(Map<String, String> prop) {
+        return new GetLogMess(prop);
     }
 
 }
