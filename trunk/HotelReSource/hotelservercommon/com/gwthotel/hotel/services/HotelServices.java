@@ -22,6 +22,10 @@ public class HotelServices extends PropDescription {
 
     private int noPersons;
     private ServiceType serviceType = ServiceType.HOTEL;
+    private boolean perperson;
+    private int noExtraBeds;
+    private int noChildren;
+
 
     public int getNoPersons() {
         return noPersons;
@@ -45,6 +49,30 @@ public class HotelServices extends PropDescription {
 
     public String getVat() {
         return getAttr(IHotelConsts.VATPROP);
+    }
+
+    public boolean isPerperson() {
+        return perperson;
+    }
+
+    public void setPerperson(boolean perperson) {
+        this.perperson = perperson;
+    }
+
+    public int getNoExtraBeds() {
+        return noExtraBeds;
+    }
+
+    public void setNoExtraBeds(int noExtraBeds) {
+        this.noExtraBeds = noExtraBeds;
+    }
+
+    public int getNoChildren() {
+        return noChildren;
+    }
+
+    public void setNoChildren(int noChildren) {
+        this.noChildren = noChildren;
     }
 
 }

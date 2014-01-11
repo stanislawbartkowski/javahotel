@@ -71,8 +71,9 @@ class HotelJpaPrices implements IHotelPriceElem {
                 HotelPriceElem e = new HotelPriceElem();
                 e.setPriceList(p.getPricelist().getName());
                 e.setService(p.getService().getName());
-                e.setWeekendPrice(p.getWeekendprice());
-                e.setWorkingPrice(p.getWorkingprice());
+                e.setPrice(p.getPrice());
+                e.setChildrenPrice(p.getChildrenPrice());
+                e.setExtrabedsPrice(p.getExtrabedsPrice());
                 pList.add(e);
             }
         }
@@ -122,8 +123,12 @@ class HotelJpaPrices implements IHotelPriceElem {
                 eElem.setHotel(hotel.getId());
                 eElem.setPricelist(ePriceList);
                 eElem.setService(eS);
-                eElem.setWeekendprice(HUtils.roundB(e.getWeekendPrice()));
-                eElem.setWorkingprice(HUtils.roundB(e.getWorkingPrice()));
+                // eElem.setWeekendprice(HUtils.roundB(e.getWeekendPrice()));
+                // eElem.setWorkingprice(HUtils.roundB(e.getWorkingPrice()));
+                eElem.setPrice(HUtils.roundB(e.getPrice()));
+                eElem.setChildrenPrice(HUtils.roundB(e.getChildrenPrice()));
+                eElem.setExtrabedsPrice(HUtils.roundB(e.getExtrabedsPrice()));
+
                 em.persist(eElem);
             }
         }

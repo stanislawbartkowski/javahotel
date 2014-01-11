@@ -54,6 +54,10 @@ public class JUtils {
         ho.setNoPersons(sou.getNoPersons());
         ho.setAttr(IHotelConsts.VATPROP, sou.getVat());
         ho.setServiceType(sou.getServiceType());
+        ho.setNoChildren(sou.getNoChildren());
+        ho.setNoExtraBeds(sou.getNoExtraBeds());
+        ho.setPerperson(sou.isPerperson());
+
         return ho;
     }
 

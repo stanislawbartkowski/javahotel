@@ -42,9 +42,11 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
 
     @Override
     protected HotelRoom toT(EHotelRoom sou, EntityManager em, HotelId hotel) {
-        HotelRoom ho = new HotelRoom();
-        ho.setNoPersons(sou.getNoPersons());
-        return ho;
+        HotelRoom dest = new HotelRoom();
+        dest.setNoPersons(sou.getNoPersons());
+        dest.setNoChildren(sou.getNoChildren());
+        dest.setNoExtraBeds(sou.getNoExtraBeds());
+        return dest;
     }
 
     @Override
@@ -56,6 +58,8 @@ class HotelJpaRooms extends AbstractJpaCrud<HotelRoom, EHotelRoom> implements
     protected void toE(EHotelRoom dest, HotelRoom sou, EntityManager em,
             HotelId hotel) {
         dest.setNoPersons(sou.getNoPersons());
+        dest.setNoChildren(sou.getNoChildren());
+        dest.setNoExtraBeds(sou.getNoExtraBeds());
     }
 
     @Override

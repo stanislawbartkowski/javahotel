@@ -61,24 +61,25 @@ public class Test8 extends TestHelper {
         assertTrue(pList.isEmpty());
         HotelPriceElem eElem = new HotelPriceElem();
         eElem.setService(SERVICE1);
-        eElem.setWeekendPrice(new BigDecimal(10.0));
-        eElem.setWorkingPrice(new BigDecimal(20.0));
+        eElem.setPrice(new BigDecimal(10.0));
+        eElem.setChildrenPrice(new BigDecimal(12.2));
+        eElem.setExtrabedsPrice(new BigDecimal(13.3));
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);
         iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
         pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         assertEquals(1, pList.size());
         eElem = pList.get(0);
-        assertEqB(10.0,eElem.getWeekendPrice());
-        assertEqB(20.0,eElem.getWorkingPrice());
-        eElem.setWorkingPrice(new BigDecimal(30.0));
+        assertEqB(10.0, eElem.getPrice());
+        assertEqB(12.2, eElem.getChildrenPrice());
+        assertEqB(13.3, eElem.getExtrabedsPrice());
+        
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);
         iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
         pList = iPriceElem.getPricesForPriceList(getH(HOTEL), PRICE1);
         eElem = pList.get(0);
-        assertEquals(new BigDecimal(10),eElem.getWeekendPrice());
-        assertEquals(new BigDecimal(30),eElem.getWorkingPrice());
+        assertEquals(new BigDecimal(10), eElem.getPrice());
     }
 
     @Test
@@ -88,8 +89,7 @@ public class Test8 extends TestHelper {
                 getH(HOTEL), PRICE1);
         HotelPriceElem eElem = new HotelPriceElem();
         eElem.setService(SERVICE1);
-        eElem.setWeekendPrice(new BigDecimal(10.0));
-        eElem.setWorkingPrice(new BigDecimal(20.0));
+        eElem.setPrice(new BigDecimal(10.0));
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);
         iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
@@ -110,8 +110,7 @@ public class Test8 extends TestHelper {
                 getH(HOTEL), PRICE1);
         HotelPriceElem eElem = new HotelPriceElem();
         eElem.setService(SERVICE1);
-        eElem.setWeekendPrice(new BigDecimal(10.0));
-        eElem.setWorkingPrice(new BigDecimal(20.0));
+        eElem.setPrice(new BigDecimal(10.0));
         pList = new ArrayList<HotelPriceElem>();
         pList.add(eElem);
         iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
@@ -140,8 +139,7 @@ public class Test8 extends TestHelper {
         for (int i = 0; i < 90; i++) {
             HotelPriceElem eElem = new HotelPriceElem();
             eElem.setService("s" + i);
-            eElem.setWeekendPrice(new BigDecimal(10.0 + i));
-            eElem.setWorkingPrice(new BigDecimal(20.0 + i));
+            eElem.setPrice(new BigDecimal(10.0 + i));
             pList.add(eElem);
         }
         iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
@@ -150,8 +148,9 @@ public class Test8 extends TestHelper {
         for (int i = 80; i < 100; i++) {
             HotelPriceElem eElem = new HotelPriceElem();
             eElem.setService("s" + i);
-            eElem.setWeekendPrice(new BigDecimal(30.0 + i));
-            eElem.setWorkingPrice(new BigDecimal(40.0 + i));
+            eElem.setPrice(new BigDecimal(30.0 + i));
+            eElem.setChildrenPrice(new BigDecimal(40.0 + i));
+            eElem.setExtrabedsPrice(new BigDecimal(50.0 + i));
             pList.add(eElem);
         }
         iPriceElem.savePricesForPriceList(getH(HOTEL), PRICE1, pList);
@@ -163,8 +162,7 @@ public class Test8 extends TestHelper {
         boolean found = false;
         for (HotelPriceElem e : pList) {
             if (e.getService().equals("s81")) {
-                assertEquals(e.getWeekendPrice(), new BigDecimal(111.0));
-                assertEquals(e.getWorkingPrice(), new BigDecimal(121.0));
+                assertEquals(e.getPrice(), new BigDecimal(111.0));
                 found = true;
             }
         }

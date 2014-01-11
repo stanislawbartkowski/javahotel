@@ -19,12 +19,32 @@ public class HotelRoom extends PropDescription {
     private static final long serialVersionUID = 1L;
     private int noPersons;
 
+    private int noExtraBeds;
+
+    private int noChildren;
+
     public int getNoPersons() {
         return noPersons;
     }
 
     public void setNoPersons(int noPersons) {
         this.noPersons = noPersons;
+    }
+
+    public int getNoExtraBeds() {
+        return noExtraBeds;
+    }
+
+    public void setNoExtraBeds(int noExtraBeds) {
+        this.noExtraBeds = noExtraBeds;
+    }
+
+    public int getNoChildren() {
+        return noChildren;
+    }
+
+    public void setNoChildren(int noChildren) {
+        this.noChildren = noChildren;
     }
 
 }

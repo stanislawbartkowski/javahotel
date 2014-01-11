@@ -36,13 +36,20 @@ public class Test6 extends TestHelper {
         ho.setName("1p1");
         ho.setDescription("One person in one person room");
         ho.setNoPersons(2);
+        ho.setNoChildren(3);
+        ho.setNoExtraBeds(4);
+        ho.setPerperson(false);
         ho.setAttr(IHotelConsts.VATPROP, "7%");
         ho = iServices.addElem(getH(HOTEL), ho);
         System.out.println(ho.getCreationPerson());
-        assertEquals("user",ho.getCreationPerson());
-        assertEquals("user",ho.getModifPerson());
+        assertEquals("user", ho.getCreationPerson());
+        assertEquals("user", ho.getModifPerson());
         assertNotNull(ho.getCreationDate());
         assertNotNull(ho.getModifDate());
+        assertEquals(2, ho.getNoPersons());
+        assertEquals(3, ho.getNoChildren());
+        assertEquals(4, ho.getNoExtraBeds());
+        assertFalse(ho.isPerperson());
 
         List<HotelServices> hList = iServices.getList(getH(HOTEL));
         assertEquals(1, hList.size());
@@ -79,13 +86,15 @@ public class Test6 extends TestHelper {
         assertEquals(90, hList.size());
         HotelServices ho = hList.get(10);
         ho.setNoPersons(9);
+        ho.setPerperson(true);
         String sym = ho.getName();
         iServices.changeElem(getH(HOTEL1), ho);
         hList = iServices.getList(getH(HOTEL1));
         assertEquals(90, hList.size());
-//        ho = hList.get(10);
+        // ho = hList.get(10);
         ho = iServices.findElem(getH(HOTEL1), sym);
         assertEquals(9, ho.getNoPersons());
+        assertTrue(ho.isPerperson());
 
         hList = iServices.getList(getH(HOTEL));
         ho = hList.get(10);
@@ -114,7 +123,7 @@ public class Test6 extends TestHelper {
         addList(HOTEL, 100);
         addList(HOTEL1, 90);
         List<HotelServices> hList = iServices.getList(getH(HOTEL));
-        iServices.deleteElem(getH(HOTEL),hList.get(0));
+        iServices.deleteElem(getH(HOTEL), hList.get(0));
         hList = iServices.getList(getH(HOTEL));
         assertEquals(99, hList.size());
         hList = iServices.getList(getH(HOTEL1));

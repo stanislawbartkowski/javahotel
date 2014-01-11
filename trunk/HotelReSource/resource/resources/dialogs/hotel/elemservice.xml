@@ -13,12 +13,13 @@
 	</jython>
 
 	<form>
-		<field id="name" displayname="@name" readonlychange="" notempty="" />
-		<field id="descr" displayname="@description" />
-		<field id="noperson" type="int" displayname="@nopersons"
-			notempty="" />
-		<field id="vat" type="custom:vattax" displayname="@vatname"
-			notempty="" />
+	       <field id="name" displayname="@name" readonlychange="" notempty="" />
+	       <field id="descr" displayname="@description" />
+               <field id="noperson" type="int" displayname="@nopersons" notempty="" />
+               <field id="noextrabeds" type="int" displayname="Number of extra beds" />
+               <field id="nochildren" type="int" displayname="Number of childer"  />
+               <field id="perperson" type="bool" displayname="Per person" notempty="" />
+	       <field id="vat" type="custom:vattax" displayname="@vatname" notempty="" />
 	</form>
 
 </dialog>

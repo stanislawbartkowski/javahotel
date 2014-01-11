@@ -20,23 +20,32 @@ import com.gwthotel.shared.PropDescription;
 public class HotelPriceElem extends PropDescription {
 
     private static final long serialVersionUID = 1L;
-    private BigDecimal workingPrice;
-    private BigDecimal weekendPrice;
+    private BigDecimal price;    
+    private BigDecimal childrenPrice;
+    private BigDecimal extrabedsPrice;
 
-    public BigDecimal getWorkingPrice() {
-        return workingPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public BigDecimal getWeekendPrice() {
-        return weekendPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
-    public void setWorkingPrice(BigDecimal b) {
-        this.workingPrice = b;
+    public BigDecimal getChildrenPrice() {
+        return childrenPrice;
     }
 
-    public void setWeekendPrice(BigDecimal b) {
-        this.weekendPrice = b;
+    public void setChildrenPrice(BigDecimal childrenPrice) {
+        this.childrenPrice = childrenPrice;
+    }
+
+    public BigDecimal getExtrabedsPrice() {
+        return extrabedsPrice;
+    }
+
+    public void setExtrabedsPrice(BigDecimal extrabedsPrice) {
+        this.extrabedsPrice = extrabedsPrice;
     }
 
     public void setService(String service) {
