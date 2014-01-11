@@ -18,7 +18,6 @@ import javax.inject.Named;
 import com.gwtmodel.commoncache.ICommonCache;
 import com.gwtmodel.mapcache.ICommonCacheFactory;
 import com.jython.ui.shared.ISharedConsts;
-import com.jythonui.server.IConsts;
 import com.jythonui.server.IStorageMemCache;
 import com.jythonui.server.IStorageMemContainerFactory;
 import com.jythonui.server.getmess.IGetLogMess;
@@ -46,8 +45,8 @@ public class MemStorageCacheFactory implements IStorageMemContainerFactory {
 
     @Override
     public IStorageMemCache construct(String realm) {
-        ICommonCache cCache = cFactory.construct(IConsts.SECURITYREALM);
-        IStorageRegistry sRegistry = iStorage.construct(IConsts.SECURITYREALM);
+        ICommonCache cCache = cFactory.construct(realm);
+        IStorageRegistry sRegistry = iStorage.construct(realm);
         ICommonCache rCache = oProvider.construct(sRegistry);
         return new StorageCache(cCache, rCache, gMess);
 

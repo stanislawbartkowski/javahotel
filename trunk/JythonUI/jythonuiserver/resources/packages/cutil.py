@@ -69,11 +69,11 @@ def checkEmpty(var,li) :
     setErrorField(var,f,"@cannotbeempty")
   return isempty  
   
-def checkGreaterZero(var,key):
+def checkGreaterZero(var,key,empty=True):
+  if var[key] == None : return empty  
   val = var[key]
   if val <= 0 :
-     setErrorField(var,key,"Should be greater then 0")
-#     var["JERROR_"+key] = "Should be greater then 0"
+     setErrorField(var,key,"@numbergreater")
      return False
   return True
 

@@ -12,15 +12,18 @@
  */
 package com.jythonui.server.resbundle;
 
+import java.net.URL;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.IGetResourceMap;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.Util;
 import com.jythonui.server.getmess.GetLogMessFactory;
 import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.shared.CustomMessages;
 
 public class Mess implements IAppMess {
@@ -29,6 +32,7 @@ public class Mess implements IAppMess {
     private final IGetResourceMap iGet;
     private IGetLogMess iMess = null;
     private String lastloca = null;
+    private Map<String,String> commonmess = null;
 
     @Inject
     public Mess(IJythonUIServerProperties iRes, IGetResourceMap iGet) {
@@ -49,8 +53,9 @@ public class Mess implements IAppMess {
 
     private void setMess() {
         if ((iMess == null) || !iRes.isCached() || localeChanged()) {
-            // Map<String, String> mess = ReadBundle.getBundle(Util.getLocale(),
-            // iRes.getBundleBase(), "messages");
+            URL u = Mess.class.getClassLoader().getResource(ISharedConsts.RESOURCES + "/mess");
+            // use full path
+            commonmess = iGet.getResourceMap(u.getFile(),  "commonmess");
             Map<String, String> mess = iGet.getResourceMap(
                     iRes.getBundleBase(), "messages");
             iMess = GetLogMessFactory.construct(mess);
@@ -76,6 +81,10 @@ public class Mess implements IAppMess {
             return null;
         setMess();
         CustomMessages cust = new CustomMessages();
+        // firstly common mess
+        for (String key : commonmess.keySet()) {
+            cust.setAttr(key, commonmess.get(key));
+        }        
         Map<String, String> ma = iMess.getMess();
         for (String key : ma.keySet()) {
             cust.setAttr(key, ma.get(key));
