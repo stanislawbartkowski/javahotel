@@ -25,8 +25,8 @@ def _createList(var):
     
     for s in seq : 
        list.append({"name" : s.getName(), "descr" : s.getDescription(), 
-                    "vat" : s.getAttr("vat"), "noperson" : s.getNoPersons(), "noextrabeds" : s.getNoExtraBeds(),
-                    "nochildren" : s.getNoChildren(),"perperson" : s.isPerperson(),
+                    "vat" : s.getAttr("vat"), "noperson" : s.getNoPersons(), "noextrabeds" : util.getIntField(s.getNoExtraBeds()),
+                    "nochildren" : util.getIntField(s.getNoChildren()),"perperson" : s.isPerperson(),
                     "vatname" : _getVatName(s.getAttr("vat"))} )
        
     var["JLIST_MAP"] = { "services" : list}
@@ -49,21 +49,23 @@ def serviceaction(action,var) :
   
   if action == "before" or action == "crud_readlist" :
     _createList(var)
-    
+        
 def _createService(var):
    se = HotelServices()
    copyNameDescr(se,var)
    se.setAttr("vat",var["vat"])
+   D.putDataH(14,var["vat"])
    nop = var["noperson"]
    D.putDataHI(10,nop)
    se.setNoPersons(nop)
    noe = var["noextrabeds"]
    D.putDataHI(11,noe)
-   se.setNoExtraBeds(noe)
+   util.setIntField(var,"noextrabeds", lambda val : se.setNoExtraBeds(val))
    noc = var["nochildren"]
    D.putDataHI(12,noc)
-   se.setNoChildren(noc)   
+   util.setIntField(var,"nochildren",lambda val : se.setNoChildren(val))
    se.setPerperson(var["perperson"])
+   D.putDataHB(13,var["perperson"])
    return se    
 
 def elemserviceaction(action,var) :
@@ -76,7 +78,9 @@ def elemserviceaction(action,var) :
     var["noperson"] = D.getDataHI(10)
     var["noextrabeds"] = D.getDataHI(11)
     var["nochildren"] = D.getDataHI(12)
-    cutil.setCopy(var,["noperson","noextrabeds","nochildren"])
+    var["vat"] = D.getDataH(14)
+    var["perperson"] = D.getDataHB(13)
+    cutil.setCopy(var,["noperson","noextrabeds","nochildren","vat","perperson"])
     
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :

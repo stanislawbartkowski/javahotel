@@ -17,6 +17,15 @@ from com.gwthotel.hotel.payment import PaymentBill
 from com.gwthotel.hotel import HUtils
 import rutil
 
+
+def setIntField(var,key,setF) :
+  if var[key] == None : setF(-1)
+  else : setF(var[key])
+  
+def getIntField(val) :
+  if val == -1 : return None
+  return val
+
 # 0 : defsex
 # 1 : defcountry
 # 2 : defidcard
@@ -35,20 +44,25 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
     elif what == 11 : return "lastnoextrabeds"
     elif what == 12 : return "lastnochildren"
     elif what == 13 : return "lastperperson"
+    elif what == 14 : return "lastvatused"
     
-  def getDataH(self,what) :
-    return self.getData(self.__getV(what))
+  def getDataH(self,what,defa=None) :
+    return self.getData(self.__getV(what),defa)
   
   def putDataH(self,what,value) :
     self.putData(self.__getV(what),value)
 
   def getDataHI(self,what) :
-    v = self.getDataH(what)
-    if v == None : return None
-    return int(v)
+    return self.getDataI(self.__getV(what))
   
   def putDataHI(self,what,v) :
-    self.putDataH(what,str(v))
+    self.putDataI(self.__getV(what),v)
+    
+  def getDataHB(self,what) :
+    return self.getDataB(self.__getV(what)) 
+    
+  def putDataHB(self,what,val) :
+    self.putDataB(self.__getV(what),val)
 
 class MESS :
 
@@ -65,7 +79,7 @@ def clearHotel(var,hotel) :
    instance = aid.getInstanceName()
    hi = iGet.getHotel(instance, hotel, aid.getPerson());
    H.getClearHotel().clearObjects(hi)
-  
+     
 class HotelAdmin :
     
     def __init__(self,var) :
