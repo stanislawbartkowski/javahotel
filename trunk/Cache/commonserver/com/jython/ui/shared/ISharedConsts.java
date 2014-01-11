@@ -24,4 +24,7 @@ public interface ISharedConsts {
 
     int DEFEXPIRATIONSEC = 30;
 
+    char MALEDICT = 'M';
+    char FEMALEDICT = 'F';
+
 }

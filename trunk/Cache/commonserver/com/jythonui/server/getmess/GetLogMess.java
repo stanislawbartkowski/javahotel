@@ -13,26 +13,18 @@
 package com.jythonui.server.getmess;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-
-import com.jython.ui.shared.MUtil;
 
 class GetLogMess implements IGetLogMess {
 
-    private final Properties mess;
-    private final Properties messdefa;
+    private final Map<String, String> prop;
 
-    GetLogMess(Properties mess, Properties messdefa) {
-        this.mess = mess;
-        this.messdefa = messdefa;
+    GetLogMess(Map<String, String> prop) {
+        this.prop = prop;
     }
 
     public String getMess(String errCode, String key, String... params) {
-        String m = mess.getProperty(key);
-        if (m == null && messdefa != null)
-            m = messdefa.getProperty(key);
+        String m = prop.get(key);
         if (errCode == null)
             return MessageFormat.format(m, params);
         return errCode + " " + MessageFormat.format(m, params);
@@ -44,12 +36,7 @@ class GetLogMess implements IGetLogMess {
 
     @Override
     public Map<String, String> getMess() {
-        Map<String, String> ma = new HashMap<String, String>();
-        if (messdefa != null) {
-            MUtil.toElem(ma, messdefa);
-        }
-        MUtil.toElem(ma, mess);
-        return ma;
+        return prop;
     }
 
 }
