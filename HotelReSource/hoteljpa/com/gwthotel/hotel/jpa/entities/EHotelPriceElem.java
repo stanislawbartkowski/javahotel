@@ -48,8 +48,12 @@ public class EHotelPriceElem {
     @JoinColumn(name = "pricelist_id", nullable = false)
     private EHotelPriceList pricelist;
 
-    private BigDecimal weekendprice;
-    private BigDecimal workingprice;
+    
+    @Column(nullable = false)
+    private BigDecimal price;
+    
+    private BigDecimal childrenPrice;
+    private BigDecimal extrabedsPrice;
 
     public Long getId() {
         return id;
@@ -57,22 +61,6 @@ public class EHotelPriceElem {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public BigDecimal getWeekendprice() {
-        return weekendprice;
-    }
-
-    public void setWeekendprice(BigDecimal weekendprice) {
-        this.weekendprice = weekendprice;
-    }
-
-    public BigDecimal getWorkingprice() {
-        return workingprice;
-    }
-
-    public void setWorkingprice(BigDecimal workingprice) {
-        this.workingprice = workingprice;
     }
 
     public Long getHotel() {
@@ -98,5 +86,31 @@ public class EHotelPriceElem {
     public void setPricelist(EHotelPriceList pricelist) {
         this.pricelist = pricelist;
     }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public BigDecimal getChildrenPrice() {
+        return childrenPrice;
+    }
+
+    public void setChildrenPrice(BigDecimal childrenPrice) {
+        this.childrenPrice = childrenPrice;
+    }
+
+    public BigDecimal getExtrabedsPrice() {
+        return extrabedsPrice;
+    }
+
+    public void setExtrabedsPrice(BigDecimal extrabedsPrice) {
+        this.extrabedsPrice = extrabedsPrice;
+    }
+    
+    
 
 }

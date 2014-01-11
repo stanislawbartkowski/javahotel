@@ -31,13 +31,24 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
     elif what == 1 : return "defcountry"
     elif what == 2 : return "defidcard"
     elif what == 3 : return "defpayment"
+    elif what == 10 : return "lastnopersons"
+    elif what == 11 : return "lastnoextrabeds"
+    elif what == 12 : return "lastnochildren"
+    elif what == 13 : return "lastperperson"
     
   def getDataH(self,what) :
     return self.getData(self.__getV(what))
   
   def putDataH(self,what,value) :
     self.putData(self.__getV(what),value)
-    
+
+  def getDataHI(self,what) :
+    v = self.getDataH(what)
+    if v == None : return None
+    return int(v)
+  
+  def putDataHI(self,what,v) :
+    self.putDataH(what,str(v))
 
 class MESS :
 

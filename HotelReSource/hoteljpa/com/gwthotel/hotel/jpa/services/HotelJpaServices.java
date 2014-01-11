@@ -51,6 +51,9 @@ class HotelJpaServices extends AbstractJpaCrud<HotelServices, EHotelServices>
         dest.setNoPersons(sou.getNoPersons());
         dest.setVat(sou.getAttr(IHotelConsts.VATPROP));
         dest.setServiceType(sou.getServiceType());
+        dest.setNoChildren(sou.getNoChildren());
+        dest.setNoExtraBeds(sou.getNoExtraBeds());
+        dest.setPerperson(sou.isPerperson());
     }
 
     @Override
