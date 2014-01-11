@@ -82,8 +82,9 @@ public class DefaDataImpl implements IDefaultData {
     @Override
     public void putValue(String key, String value) {
         if (CUtil.EmptyS(value))
-            return;
-        mCache.put(getUserLocalized(key), value);
+            mCache.remove(getUserLocalized(key));
+        else
+            mCache.put(getUserLocalized(key), value);
     }
 
     @Override
