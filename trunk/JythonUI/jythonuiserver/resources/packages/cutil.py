@@ -447,5 +447,25 @@ class DEFAULTDATA :
     if val : return val
     return defa
   
-  def putData(self,key,defa) :
-    self.h.putValue(key,defa)        
+  def putData(self,key,val) :
+    self.h.putValue(key,val)     
+    
+  def getDataI(self,key) :
+    v = self.getData(key)
+    if v == None : return None
+    return int(v)
+  
+  def putDataI(self,key,v) :
+    if v == None : self.putData(key,None)
+    else : self.putData(key,str(v))
+    
+  def getDataB(self,key,defa=True) :
+    val = self.getData(key)
+    if val == None : return defa 
+    if val == "1" : return True
+    return False
+    
+  def putDataB(self,key,val) :
+    if val : self.putData(key,"1")
+    else : self.putData(key,"0")    
+   
