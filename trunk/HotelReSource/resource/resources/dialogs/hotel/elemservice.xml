@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@hotelservice">
 
 	<before />
 
@@ -16,9 +16,9 @@
 	       <field id="name" displayname="@name" readonlychange="" notempty="" />
 	       <field id="descr" displayname="@description" />
                <field id="noperson" type="int" displayname="@nopersons" notempty="" />
-               <field id="noextrabeds" type="int" displayname="Number of extra beds" />
-               <field id="nochildren" type="int" displayname="Number of children"  />
-               <field id="perperson" type="bool" displayname="Per person" notempty="" />
+               <field id="noextrabeds" type="int" displayname="@nofextrabeds" />
+               <field id="nochildren" type="int" displayname="@nofchildren"  />
+               <field id="perperson" type="bool" displayname="@perperson" notempty="" />
 	       <field id="vat" type="custom:vattax" displayname="@vatname" notempty="" />
 	</form>
 

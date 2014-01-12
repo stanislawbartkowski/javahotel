@@ -11,13 +11,28 @@
 	</jython>
 
 	<form>
-		<field id="name" displayname="@name" readonlychange="" notempty="" />
-		<field id="descr" displayname="@description" />
-		<field id="noperson" type="int" displayname="@nopersons"
-			notempty="" />
+          <field id="name" displayname="@name" readonlychange="" notempty="" />
+	  <field id="descr" displayname="@description" />
+	  <field id="noperson" type="int" displayname="@nopersons" notempty="" />
+          <field id="noextrabeds" type="int" displayname="@nofextrabeds" />
+          <field id="nochildren" type="int" displayname="@nofchildren"  />
 	</form>
-	
-	<checklist id="services" displayname="@services" >
-	</checklist>
+
+        <list id="services" pagesize="10" elemformat="hotel/elemserviceshow.xml">
+                <standbutt>TOOLS,FIND,FILTER,SHOW</standbutt>
+                <buttons-addlist>ADD,MODIF</buttons-addlist>
+                <columns>
+                      <column id="check" displayname="" type="bool" editable="" signalchange="" />
+                      <column id="service" displayname="@servicename" />
+                      <column id="servdescr" displayname="@servicedescription" />
+                      <column id="perperson" type="bool" displayname="@perperson" />
+                      <column id="noperson" type="int" displayname="@nopersons" hidden=""/>
+                      <column id="noextrabeds" type="int" displayname="@nofextrabeds" hidden="" />
+                      <column id="nochildren" type="int" displayname="@nofchildren" hidden=""/>
+                      <column id="vat" hidden=""/>
+                      <column id="vatname" displayname="@vatname" hidden=""/>
+                </columns>
+       </list>
+
 
 </dialog>
