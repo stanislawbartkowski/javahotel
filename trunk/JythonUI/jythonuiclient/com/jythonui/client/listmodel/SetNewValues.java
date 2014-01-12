@@ -24,8 +24,8 @@ class SetNewValues extends CustomObjectValue<VModelData> {
         super(value);
     }
 
-    private static final String SET_NEW_VALUES = SetNewValues.class
-            .getName() + "SET_NEW_VALUES";
+    private static final String SET_NEW_VALUES = SetNewValues.class.getName()
+            + "SET_NEW_VALUES";
 
     static CustomStringSlot constructSignal(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, SET_NEW_VALUES);

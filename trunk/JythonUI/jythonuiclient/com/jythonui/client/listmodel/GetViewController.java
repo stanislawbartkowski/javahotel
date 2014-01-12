@@ -29,6 +29,7 @@ import com.gwtmodel.table.factories.IGetViewControllerFactory;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.injector.ICallContext;
 import com.gwtmodel.table.injector.LogT;
+import com.gwtmodel.table.injector.MM;
 import com.gwtmodel.table.slotmodel.AbstractSlotContainer;
 import com.gwtmodel.table.slotmodel.DataActionEnum;
 import com.gwtmodel.table.slotmodel.ISlotListener;
@@ -278,8 +279,12 @@ class GetViewController implements IGetViewControllerFactory {
 
         DialogInfo dInfo = rM.getDialogInfo();
         DialogFormat dElem = li.getfElem();
-        SecurityInfo elemSec = new SecurityInfo(dInfo.getSecurity().getlSecur()
-                .get(li.getId()));
+        assert dElem != null;
+        SecurityInfo elemSec = li.getElemSec();
+        assert elemSec != null;
+        // SecurityInfo elemSec = new
+        // SecurityInfo(dInfo.getSecurity().getlSecur()
+        // .get(li.getId()));
         DialogInfo elemInfo = new DialogInfo(dElem, elemSec, null);
         DialogContainer sLo = new DialogContainer(da, elemInfo, iCon, null,
                 addV, null, null);

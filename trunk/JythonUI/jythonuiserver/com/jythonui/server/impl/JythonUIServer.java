@@ -12,6 +12,7 @@
  */
 package com.jythonui.server.impl;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,6 +61,24 @@ class JythonUIServer implements IJythonUIServer {
         this.mCached = new MCached(p, mCache);
         this.iSec = iSec;
     }
+    
+    private void setElemSecurityInfo(SecurityInfo si,String token,List<ListFormat> lis) {
+        for (ListFormat li : lis) {
+            // columns
+            SecurityInfo sList = AddSecurityInfo.createForColumns(iSec, token,
+                    li);
+            si.getListSecur().put(li.getId(), sList);
+            // crud dialog
+            DialogFormat dElem = li.getfElem();
+            // ignore if not exist
+            if (dElem == null)
+                continue;
+            SecurityInfo sl = AddSecurityInfo.create(iSec, token, dElem);
+            li.setElemSec(sl);
+            // recursive
+            setElemSecurityInfo(sl,token,dElem.getListList());
+        }        
+    }
 
     @Override
     public DialogInfo findDialog(RequestContext rcontext, String dialogName) {
@@ -73,19 +92,20 @@ class JythonUIServer implements IJythonUIServer {
         CustomMessages custMess = null;
         if (!p.isCached())
             custMess = Holder.getAppMess().getCustomMess();
-        for (ListFormat li : d.getListList()) {
-            // columns
-            SecurityInfo sList = AddSecurityInfo.createForColumns(iSec, token,
-                    li);
-            si.getListSecur().put(li.getId(), sList);
-            // crud dialog
-            DialogFormat dElem = li.getfElem();
-            // ignore if not exist
-            if (dElem == null)
-                continue;
-            SecurityInfo sl = AddSecurityInfo.create(iSec, token, dElem);
-            si.getlSecur().put(li.getId(), sl);
-        }
+        setElemSecurityInfo(si,token,d.getListList());
+//        for (ListFormat li : d.getListList()) {
+//            // columns
+//            SecurityInfo sList = AddSecurityInfo.createForColumns(iSec, token,
+//                    li);
+//            si.getListSecur().put(li.getId(), sList);
+//            // crud dialog
+//            DialogFormat dElem = li.getfElem();
+//            // ignore if not exist
+//            if (dElem == null)
+//                continue;
+//            SecurityInfo sl = AddSecurityInfo.create(iSec, token, dElem);
+//            li.setElemSec(sl);
+//        }
         return new DialogInfo(d, si, custMess);
     }
 

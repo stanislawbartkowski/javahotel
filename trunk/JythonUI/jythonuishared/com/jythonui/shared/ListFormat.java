@@ -27,6 +27,7 @@ public class ListFormat extends ElemDescription {
     private List<FieldItem> colList = new ArrayList<FieldItem>();
     private List<ValidateRule> valList = new ArrayList<ValidateRule>();
     private DialogFormat fElem;
+    private SecurityInfo elemSec;
 
     public String getElemFormat() {
         return getAttr(ICommonConsts.ELEMFORMAT);
@@ -49,6 +50,14 @@ public class ListFormat extends ElemDescription {
      */
     public void setfElem(DialogFormat fElem) {
         this.fElem = fElem;
+    }
+
+    public SecurityInfo getElemSec() {
+        return elemSec;
+    }
+
+    public void setElemSec(SecurityInfo elemSec) {
+        this.elemSec = elemSec;
     }
 
     public String getStandButt() {
