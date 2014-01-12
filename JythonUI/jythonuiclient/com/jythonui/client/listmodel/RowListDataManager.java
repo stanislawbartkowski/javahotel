@@ -192,7 +192,6 @@ public class RowListDataManager implements ISetGetVar {
                 }
                 if (!val.getValueB())
                     continue;
-                // ListFormat li = lMap.get(dType);
                 RowActionOk signal = new RowActionOk(vData);
                 CustomStringSlot sl = RowActionOk.constructSignal(dType);
                 iSlo.getSlContainer().publish(sl, signal);

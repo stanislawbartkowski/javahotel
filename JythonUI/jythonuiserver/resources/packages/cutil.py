@@ -197,7 +197,9 @@ def setFooter(var,list,col,val) :
     var[footerdef] = val
     var["JFOOTER_COPY_"+list+"_"+col] = True
     
-def __defineEditMode(var,list,li,mode):      
+def __defineEditMode(var,list,li,mode):
+    if type(li) != list :
+      li = [li]       
     for l in li :
       var["JLIST_EDIT_"+list+"_"+l] = ""
     var["JLIST_EDIT_"+list+"_MODE"] = mode

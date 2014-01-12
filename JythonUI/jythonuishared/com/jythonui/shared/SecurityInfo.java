@@ -17,13 +17,9 @@ import java.util.Map;
 
 public class SecurityInfo extends DialSecurityInfo {
 
-    private Map<String, DialSecurityInfo> lSecur = new HashMap<String, DialSecurityInfo>();
+    private static final long serialVersionUID = 1L;
     private Map<String, DialSecurityInfo> listSecur = new HashMap<String, DialSecurityInfo>();
 
-    public Map<String, DialSecurityInfo> getlSecur() {
-        return lSecur;
-    }
-    
     public Map<String, DialSecurityInfo> getListSecur() {
         return listSecur;
     }

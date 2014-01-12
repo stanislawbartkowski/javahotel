@@ -849,11 +849,6 @@ class ListControler {
 
         }
 
-        // ISlotCustom sl = ClickColumnImageSignal
-        // .constructSlotClickColumnSignal(dType);
-        // ClickColumnImageSignal sig = new ClickColumnImageSignal(w, row, v,
-        // imno);
-
         DataListPersistAction(IDataType d, RowListDataManager rM,
                 IVariablesContainer iCon, ICreateBackActionFactory bFactory) {
             this.dType = d;
