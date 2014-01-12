@@ -5,8 +5,11 @@ from util.util import newOtherService
 from util.util import copyNameDescr
 from util.util import MESS
 from util.util import getVatName
+from util import util
+import cutil
 
 M = MESS()
+D = util.HOTELDEFADATA()
 
 def _createList(var):
     serv = SERVICES(var)
@@ -24,6 +27,7 @@ def _createService(var):
    se = newOtherService(var)
    copyNameDescr(se,var)
    se.setAttr("vat",var["vat"])
+   D.putDataH(15,var["vat"])
    return se    
 
 def serviceaction(action,var) :
@@ -37,6 +41,10 @@ def elemserviceaction(action,var):
   printVar("elem service action",action,var)    
     
   serv = SERVICES(var)
+
+  if action == "before" and var["JCRUD_DIALOG"] == "crud_add" :
+    var["vat"] = D.getDataH(15)
+    cutil.setCopy(var,"vat")
     
   if action == "crud_add"  and not var["JCRUD_AFTERCONF"] :
       if duplicateService(var) : return          

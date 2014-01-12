@@ -14,6 +14,8 @@
 			<column id="name" displayname="@name" />
 			<column id="descr" displayname="@description" />
 			<column id="noperson" type="int" displayname="@nopersons" />
+                       <column id="noextrabeds" type="int" displayname="@nofextrabeds" />
+                       <column id="nochildren" type="int" displayname="@nofchildren"  />
 		</columns>
 	</list>
 

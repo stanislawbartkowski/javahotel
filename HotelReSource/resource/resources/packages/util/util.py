@@ -45,6 +45,7 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
     elif what == 12 : return "lastnochildren"
     elif what == 13 : return "lastperperson"
     elif what == 14 : return "lastvatused"
+    elif what == 15 : return "lastvatusedextra"
     
   def getDataH(self,what,defa=None) :
     return self.getData(self.__getV(what),defa)

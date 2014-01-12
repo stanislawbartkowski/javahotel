@@ -14,9 +14,9 @@
 			<column id="name" displayname="@name" />
 			<column id="descr" displayname="@description" />
 			<column id="noperson" type="int" displayname="@nopersons" />
-                       <column id="noextrabeds" type="int" displayname="Number of extra beds" />
-                       <column id="nochildren" type="int" displayname="Number of children" />
-                       <column id="perperson" type="bool" displayname="Per person" />
+                       <column id="noextrabeds" type="int" displayname="@nofextrabeds" />
+                       <column id="nochildren" type="int" displayname="@nofchildren" />
+                       <column id="perperson" type="bool" displayname="@perperson" />
 			<column id="vat" hidden=""/>
 			<column id="vatname" displayname="@vatname"/>
 		</columns>
