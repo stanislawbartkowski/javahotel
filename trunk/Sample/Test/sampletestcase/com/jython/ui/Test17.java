@@ -33,7 +33,7 @@ public class Test17 extends TestHelper {
         DialogInfo i = findDialog(t, "test41.xml");
         assertNotNull(i);
         assertEquals(0, i.getDialog().getCheckList().size());
-        DialSecurityInfo elem = i.getSecurity().getlSecur().get("lista");
+        DialSecurityInfo elem = i.getSecurity().getListSecur().get("lista");
         assertNotNull(elem);
         assertFalse(elem.getFieldSec().get("id").contains("hidden"));
 
@@ -41,7 +41,7 @@ public class Test17 extends TestHelper {
         assertNotNull(t1);
         i = findDialog(t1, "test41.xml");
         assertNotNull(i);
-        elem = i.getSecurity().getlSecur().get("lista");
+        elem = i.getSecurity().getListSecur().get("lista");
         assertNotNull(elem);
         assertTrue(elem.getFieldSec().get("id").contains("hidden"));
         iSec.logout(t);
