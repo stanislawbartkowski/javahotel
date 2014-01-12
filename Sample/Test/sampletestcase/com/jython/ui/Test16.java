@@ -12,17 +12,13 @@
  */
 package com.jython.ui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.jythonui.server.holder.Holder;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
+import com.jythonui.shared.JythonUIFatal;
 
 public class Test16 extends TestHelper {
 
@@ -33,7 +29,14 @@ public class Test16 extends TestHelper {
         assertNotNull(d);
         Holder.setAuth(true);
         // security enabled : null is expected
-        d = findDialog("test38.xml");
+        d = null;
+        try {
+           d = findDialog("test38.xml");
+           // not expected
+           fail();           
+        } catch (JythonUIFatal e) {
+            // expected            
+        }
         assertNull(d);
     }
 

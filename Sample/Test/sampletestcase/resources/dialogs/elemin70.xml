@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
-<parent>test46.xml</parent>
+<parent>elem70.xml</parent>
+
 </dialog>

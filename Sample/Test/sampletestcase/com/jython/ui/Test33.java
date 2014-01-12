@@ -26,7 +26,28 @@ public class Test33 extends TestHelper {
         String enmess = appMess.getCustomMess().getAttr("numbergreater");
         System.out.println(enmess);
         assertNotNull(enmess);
-        assertNotEquals(plmess,enmess);
+        assertNotEquals(plmess, enmess);
+    }
+
+    @Test
+    public void test2() {
+        dData.putValue("newkey", "hello");
+        String val = dData.getValue("newkey");
+        assertEquals("hello", val);
+        dData.putValue("newkey", null);
+        val = dData.getValue("newkey");
+        assertNull(val);
+    }
+
+    @Test
+    public void test3() {
+        putLocale("en");
+        dData.putValue("newkey", "hello");
+        String val = dData.getValue("newkey");
+        assertEquals("hello", val);
+        dData.putValue("newkey", null);
+        val = dData.getValue("newkey");
+        assertNull(val);
     }
 
 }
