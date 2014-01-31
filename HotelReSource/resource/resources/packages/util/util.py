@@ -16,6 +16,7 @@ from com.gwthotel.hotel.services import HotelServices
 from com.gwthotel.hotel.payment import PaymentBill
 from com.gwthotel.hotel import HUtils
 import rutil
+from com.gwthotel.hotel.rooms import HotelRoom
 
 
 def setIntField(var,key,setF) :
@@ -36,16 +37,23 @@ class HOTELDEFADATA(cutil.DEFAULTDATA) :
     cutil.DEFAULTDATA.__init__(self)
     
   def __getV(self,what) :
+    
     if what == 0 : return "defsex"
     elif what == 1 : return "defcountry"
     elif what == 2 : return "defidcard"
     elif what == 3 : return "defpayment"
+    
     elif what == 10 : return "lastnopersons"
     elif what == 11 : return "lastnoextrabeds"
     elif what == 12 : return "lastnochildren"
     elif what == 13 : return "lastperperson"
     elif what == 14 : return "lastvatused"
     elif what == 15 : return "lastvatusedextra"
+    
+    elif what == 20 : return "lastroomservices"
+    elif what == 21 : return "lastroomnopersons"
+    elif what == 22 : return "lastroomnochildren"
+    elif what == 23 : return "lastroomnoextrabeds"
     
   def getDataH(self,what,defa=None) :
     return self.getData(self.__getV(what),defa)
@@ -358,9 +366,10 @@ def toVarNameDesc(var,sou,prefix=None):
     var[__toV("name",prefix)] = sou.getName()
     var[__toV("descr",prefix)] = sou.getDescription()    
       
-def findElemInSeq(pname,seq):
+def findElemInSeq(pname,seq, getN = None):
+    if getN == None : getN = lambda s : s.getName()
     for s in seq : 
-       name = s.getName()
+       name = getN(s)
        if name == pname : return s
     return None  
           
@@ -455,6 +464,9 @@ def newOtherService(var):
     se.setNoPersons(-1)
     return se
 
+def newHotelRoom() :
+    return HotelRoom()
+
 def newHotelService(var):
     return HotelServices()
   
@@ -477,9 +489,8 @@ def getServicesForRoom(var,room):
       prList = PE.getPricesForPriceList(p.getName())
       for price in prList :
           service = price.getService()
-          prWE = price.getWeekendPrice()
-          prWO = price.getWorkingPrice()
-          if prWE == None or prWO == None : continue
+          pr = price.getPrice()
+          if pr == None : continue
           for s in services :
               if s.getName() == service : 
                 li.append(s) 

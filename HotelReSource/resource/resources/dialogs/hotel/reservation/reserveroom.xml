@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com" displayname="@makereservation">
 
+ <htmlpanel>hotel/reservation/html/reserveroom.html</htmlpanel>
+
 	<before />
 
 	<types>hotel/typesenum.xml,hotel/reservation/restypes.xml</types>
