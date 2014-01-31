@@ -35,4 +35,5 @@ public interface IConsts {
     String UKNOWNHTMLNAME = "XXX";
     String EMPTYCLASSSTYLE = "dialog-empty-field";
     int MonthPanel = 12;
+    String LABELPREFIX="label-";
 }

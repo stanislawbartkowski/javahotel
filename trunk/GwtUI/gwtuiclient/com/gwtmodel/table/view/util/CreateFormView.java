@@ -22,13 +22,16 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.gwtmodel.table.IConsts;
 import com.gwtmodel.table.IGFocusWidget;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.GwtGiniInjector;
 import com.gwtmodel.table.rdef.FormField;
+import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.smessage.IGetStandardMessage;
+import com.gwtmodel.table.view.ewidget.EditWidgetFactory;
 
 public class CreateFormView {
 
@@ -67,13 +70,28 @@ public class CreateFormView {
     }
 
     public static void setHtml(HTMLPanel pa, List<FormField> fList) {
+        EditWidgetFactory eFactory = GwtGiniInjector.getI()
+                .getEditWidgetFactory();
+        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
         for (FormField d : fList) {
             String htmlId = d.getELine().getHtmlName();
             if (CUtil.EmptyS(htmlId)) {
                 continue;
             }
             Widget w = d.getELine().getGWidget();
+            // in case of label always visible
+            if (d.isLabel())
+                w.setVisible(true);
             replace(pa, htmlId, w);
+            if (d.isLabel())
+                continue;
+            String labelId = IConsts.LABELPREFIX + htmlId;
+            if (pa.getElementById(labelId) != null) {
+                IFormLineView v = eFactory.constructLabelField(d.getFie(),
+                        iMess.getMessage(d.getPLabel()));
+                replace(pa, labelId, v.getGWidget());
+            }
+
         }
     }
 
