@@ -19,7 +19,7 @@ import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class SendPanelElemSignal implements ICustomObject {
@@ -45,10 +45,11 @@ public class SendPanelElemSignal implements ICustomObject {
     public IGWidget getGwtWidget() {
         return gwtWidget;
     }
-    private static final String SIGNAL_ID = SendPanelElemSignal.class.getName() + "PANEL_ELEM_SEND_HTMLID";
 
-    public static CustomStringSlot constructSlotSendPanelElem(
-            IDataType dType) {
+    private static final String SIGNAL_ID = SendPanelElemSignal.class.getName()
+            + "PANEL_ELEM_SEND_HTMLID";
+
+    public static CustomStringSlot constructSlotSendPanelElem(IDataType dType) {
         return new CustomStringDataTypeSlot(dType, SIGNAL_ID);
     }
 }
