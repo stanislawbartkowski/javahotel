@@ -1,7 +1,6 @@
 from util.util import printvar
 from util.util import ROOMLIST
 from util.util import findElemInSeq
-from com.gwthotel.hotel.rooms import HotelRoom
 from util.util import copyNameDescr
 from util.util import SERVICES
 from util.util import createSeq
@@ -10,11 +9,11 @@ from util.util import MESS
 from util import util
 import cutil
 
-
 M = MESS()
 
 RLIST="roomlist"
 SERVLIST="services"
+D = util.HOTELDEFADATA()
 
 def _setNumb(map,s) :
   map["noperson"] = s.getNoPersons()
@@ -60,16 +59,29 @@ def _notValidRoomDesc(var):
       var["JERROR_descr"] = M("checkatleastoneservice")
       return True      
     return False
-
         
-def _createRoom(var):
-   pr = HotelRoom()
+def _createRoom(var,a = None):
+   pr = util.newHotelRoom()
    copyNameDescr(pr,var)
-   pr.setNoPersons(var["noperson"])
+   nop = var["noperson"]
+   pr.setNoPersons(nop)
    noe = var["noextrabeds"]
    util.setIntField(var,"noextrabeds", lambda val : pr.setNoExtraBeds(val))
    noc = var["nochildren"]
    util.setIntField(var,"nochildren",lambda val : pr.setNoChildren(val))
+   
+   if a :
+     ss = None 
+     for s in a :
+       if ss == None : ss = ''
+       else : ss = ss + ',' 
+       ss = ss + s
+     D.putDataH(20,ss)
+     
+   D.putDataHI(21,nop)  
+   D.putDataHI(22,noc)  
+   D.putDataHI(23,noe)  
+   
    return pr
 
 def _createServicesList(var):
@@ -77,13 +89,23 @@ def _createServicesList(var):
     R = ROOMLIST(var)
     
     slist = []
-    if var["name"] :
+    if var["JCRUD_DIALOG"] == "crud_change" :
+      getN = None
       slist = R.getRoomServices(var["name"])
+    else :
+      ss = D.getDataH(20)
+      print ss
+      slist = ss.split(',')
+      getN = lambda s : s
+      var["noperson"] = D.getDataHI(21)
+      var["nochildren"] = D.getDataHI(22)
+      var["noextrabeds"] = D.getDataHI(23)
+      cutil.setCopy(var,["noperson","nochildren","noextrabeds"])
       
     seq = S.getRoomServices()
     list = []
     for s in seq :
-      check = findElemInSeq(s.getName(),slist) != None
+      check = findElemInSeq(s.getName(),slist, getN) != None
       map = {"check" : check ,"service" : s.getName(), "servdescr" : s.getDescription(), "perperson" : s.isPerperson()}
       _setNumb(map,s)
       list.append( map )
@@ -120,8 +142,9 @@ def elemroomaction(action,var) :
       return
       
   if action == "crud_add"  and var["JCRUD_AFTERCONF"] :
-      R.addElem(_createRoom(var))
-      R.setRoomServices(var["name"],_getServiceList(var))
+      a = _getServiceList(var)
+      R.addElem(_createRoom(var,a))
+      R.setRoomServices(var["name"],a)
       var["JCLOSE_DIALOG"] = True
       return
 
@@ -132,8 +155,9 @@ def elemroomaction(action,var) :
       return
 
   if action == "crud_change"  and var["JCRUD_AFTERCONF"] :
-      R.changeElem(_createRoom(var))
-      R.setRoomServices(var["name"],_getServiceList(var))
+      a = _getServiceList(var)
+      R.changeElem(_createRoom(var,a))
+      R.setRoomServices(var["name"],a)
       var["JCLOSE_DIALOG"] = True
 
   if action == "crud_remove"  and not var["JCRUD_AFTERCONF"] :

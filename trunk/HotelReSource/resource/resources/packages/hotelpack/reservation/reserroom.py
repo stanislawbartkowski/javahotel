@@ -73,7 +73,7 @@ def _createResData(var):
   pPrice = getPriceForPriceList(var,pricelist,service)
 # getResDate      
   for i in range(resdays) :
-      price = pPrice.getWorkingPrice()
+      price = pPrice.getPrice()
       avail = True
       for re in rList :
           rdata = re.getResDate()

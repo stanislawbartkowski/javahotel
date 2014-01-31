@@ -13,8 +13,9 @@ from util.util import MESS
 from util.util import createSeq
 from cutil import concatDict
 
-_WEEKENDPRICE="weekend"
-_WORKINGPRICE="working"
+_PRICE="price"
+_PRICECHILDREN="children"
+_PRICEEXTRABDEDS="extrabeds"
 M=MESS()
 
 PRICEOTHERS="pricesothers"
@@ -47,10 +48,11 @@ def _createPriceList(var):
 
 def _createPriceElemListForType(var,hotel):
     P = PRICEELEM(var)
-    if hotel : displayname = M("WORKINGPRICE")
-    else: displayname = "Price"
-    columns = [{"id" :_WEEKENDPRICE,  "displayname" : displayname}]
-    if hotel : columns.append({"id" :_WORKINGPRICE, "displayname" : M("WEEKENDPRICE")})
+    displayname = M("pricelistprice")
+    columns = [{"id" :_PRICE,  "displayname" : displayname}]
+    if hotel : 
+       columns.append({"id" :_PRICECHILDREN, "displayname" : M("pricelistchildren")})
+       columns.append({"id" :_PRICEEXTRABDEDS, "displayname" : M("pricelistextraprice")})
     
     if hotel: seq = SERVICES(var).getRoomServices()
     else : seq = SERVICES(var).getOtherServices()
@@ -67,8 +69,10 @@ def _createPriceElemListForType(var,hotel):
         for p in prices :
             service = p.getService()
             if id == service :
-              defmap[id] = [{"id" : _WEEKENDPRICE, "val" : p.getWeekendPrice()}]
-              if hotel : defmap[id].append({"id" : _WORKINGPRICE, "val" : p.getWorkingPrice()})
+              defmap[id] = [{"id" : _PRICE, "val" : p.getPrice()}]
+              if hotel : 
+                defmap[id].append({"id" : _PRICECHILDREN, "val" : p.getChildrenPrice()})
+                defmap[id].append({"id" : _PRICEEXTRABDEDS, "val" : p.getExtrabedsPrice()})
     return defmap
 
 def _createPriceElemList(var): 
@@ -88,8 +92,9 @@ def _constructPriceElemList(var):
             notnull = False
             for v in values[id] :
                 if v["val"] == None : continue
-                if v["id"] == _WEEKENDPRICE : p.setWeekendPrice(toB(v["val"]))
-                if v["id"] == _WORKINGPRICE : p.setWorkingPrice(toB(v["val"]))
+                if v["id"] == _PRICE : p.setPrice(toB(v["val"]))
+                if v["id"] == _PRICECHILDREN : p.setChildrenPrice(toB(v["val"]))
+                if v["id"] == _PRICEEXTRABDEDS : p.setExtrabedsPrice(toB(v["val"]))
                 notnull = True
             if notnull : a.add(p)
     return a        
@@ -103,10 +108,10 @@ def _notValidPriceElemList(var):
     a = _constructPriceElemList(var)
     err = []
     for p in a :
-        print p.getService(),p.getWeekendPrice(),p.getWorkingPrice()
         serv = p.getService()
-        _verPrice(err,serv,_WEEKENDPRICE,p.getWeekendPrice())
-        _verPrice(err,serv,_WORKINGPRICE,p.getWorkingPrice())
+        _verPrice(err,serv,_PRICE,p.getPrice())
+        _verPrice(err,serv,_PRICECHILDREN,p.getChildrenPrice())
+        _verPrice(err,serv,_PRICEEXTRABDEDS,p.getExtrabedsPrice())
     if len(err) == 0 : return False
     var["JCHECK_MAP"] = {"prices" : {"JERROR" : err}}
     print var["JCHECK_MAP"]
