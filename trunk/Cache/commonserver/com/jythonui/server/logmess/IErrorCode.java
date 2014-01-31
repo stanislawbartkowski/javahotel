@@ -87,4 +87,5 @@ public interface IErrorCode {
     String ERRORCODE72 = "E0072";
     String ERRORCODE73 = "E0073";
     String ERRORCODE74 = "E0074";
+    String ERRORCODE75 = "E0075";
 }
