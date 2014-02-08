@@ -53,6 +53,7 @@ def today():
 
 def mulIntDecimal(int,dec,afterdot=2):
     if int and dec :
+       if type(dec) == BigDecimal : dec = BigDecimalToDecimal(dec) 
        return round(int * dec, afterdot)
     return None 
 
