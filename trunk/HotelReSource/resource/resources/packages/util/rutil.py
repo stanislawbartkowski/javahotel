@@ -2,9 +2,24 @@ import cutil
 import con
 import util
 
-
 def getReseName(var) :
   return var["resename"]
+
+def createResQueryElem(roomname,dfrom,dto):
+    q = ResQuery()
+    q.setFromRes(toDate(dfrom))
+    q.setToRes(toDate(dto))
+    q.setRoomName(roomname)
+    return q
+
+def createResFormElem(roomname,service,date,nop,price):
+    r = util.newResAddPayment()
+    r.setRoomName(roomname)
+    r.setNoP(nop)
+    r.setPrice(price)
+    r.setService(service)
+    r.setResDate(toDate(date))
+    return r
 
 def getPayments(var) :    
   rese = getReseName(var)
@@ -39,7 +54,7 @@ def countTotal(var,b,pli) :
          to = con.BigDecimalToDecimal(pa.getPriceTotal())
          total = con.addDecimal(total,to)
          
-  return total       
+  return total
 
 def setvarBefore(var,cust="cust_"):
     R = util.ROOMLIST(var)
@@ -51,8 +66,11 @@ def setvarBefore(var,cust="cust_"):
     var["name"] = roomname
     var["desc"] = room.getDescription()
     var["nop"] = nop
+    var["noextrabeds"] = room.getNoExtraBeds()
+    var["nochildren"] = room.getNoChildren()
+    var["resnop"] = room.getNoChildren()
     if len(res) == 0 :
-      util.setCopy(var,["resename","name","datecol","nop","desc","resdays"])
+      util.setCopy(var,["resename","name","datecol","nop","desc","resdays","noextrabeds","nochildren","resnop"])
       date = var["JDATELINE_DATE"]
       var["datecol"] = date
       var["resdays"] = 1
@@ -75,8 +93,9 @@ def setvarBefore(var,cust="cust_"):
     
     list = []
     sum = util.SUMBDECIMAL()
+    S = util.SERVICES(var)
     for r in reservation.getResDetail() :
-         map = { "name" : r.getRoomName(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService() }
+         map = { "name" : r.getRoomName(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService(), "serviceperperson" : S.findElem(r.getService()).isPerperson() }
          list.append(map)
          sum.add(r.getPrice())
 

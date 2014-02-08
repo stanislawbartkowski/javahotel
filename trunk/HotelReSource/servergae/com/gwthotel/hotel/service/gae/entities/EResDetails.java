@@ -36,9 +36,23 @@ public class EResDetails extends EHotelRoomGuest {
 
     private Double priceList;
 
+    private int noChildren;
+
+    private Double priceChildren;
+
+    private Double priceListChildren;
+
+    private int noExtraBeds;
+
+    private Double priceExtraBeds;
+
+    private Double priceListExtraBeds;
+
     private Double priceTotal;
 
     private ServiceType serviceType;
+
+    private boolean perperson;
 
     private Ref<EHotelServices> service;
 
@@ -131,6 +145,62 @@ public class EResDetails extends EHotelRoomGuest {
 
     public void setVatTax(String vatTax) {
         this.vatTax = vatTax;
+    }
+
+    public int getNoChildren() {
+        return noChildren;
+    }
+
+    public void setNoChildren(int noChildren) {
+        this.noChildren = noChildren;
+    }
+
+    public Double getPriceChildren() {
+        return priceChildren;
+    }
+
+    public void setPriceChildren(Double priceChildren) {
+        this.priceChildren = priceChildren;
+    }
+
+    public Double getPriceListChildren() {
+        return priceListChildren;
+    }
+
+    public void setPriceListChildren(Double priceListChildren) {
+        this.priceListChildren = priceListChildren;
+    }
+
+    public int getNoExtraBeds() {
+        return noExtraBeds;
+    }
+
+    public void setNoExtraBeds(int noExtraBeds) {
+        this.noExtraBeds = noExtraBeds;
+    }
+
+    public Double getPriceExtraBeds() {
+        return priceExtraBeds;
+    }
+
+    public void setPriceExtraBeds(Double priceExtraBeds) {
+        this.priceExtraBeds = priceExtraBeds;
+    }
+
+    public Double getPriceListExtraBeds() {
+        return priceListExtraBeds;
+    }
+
+    public void setPriceListExtraBeds(Double priceListExtraBeds) {
+        this.priceListExtraBeds = priceListExtraBeds;
+    }
+
+    public boolean isPerperson() {
+        return perperson;
+    }
+
+    public void setPerperson(boolean perperson) {
+        this.perperson = perperson;
     }
 
 }

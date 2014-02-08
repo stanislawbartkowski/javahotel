@@ -1,4 +1,3 @@
-from util.util import printvar
 from util.util import PRICELIST
 from util.util import copyNameDescr
 from util.util import findElemInSeq
@@ -9,16 +8,19 @@ from util.util import SERVICES
 from util.util import createArrayList
 from com.gwthotel.hotel.prices import HotelPriceElem
 from util.util import toB
-from util.util import MESS
-from util.util import createSeq
 from cutil import concatDict
+from util import util
+import cutil
 
 _PRICE="price"
 _PRICECHILDREN="children"
 _PRICEEXTRABDEDS="extrabeds"
-M=MESS()
+M=util.MESS()
 
 PRICEOTHERS="pricesothers"
+_PRICES="prices"
+
+_PRICELIST="pricelist"
 
 def _createList(var):
     P = PRICELIST(var)
@@ -29,7 +31,7 @@ def _createList(var):
        list.append({"name" : s.getName(), "descr" : s.getDescription(), 
                     "validfrom" : s.getFromDate(), "validto" :  s.getToDate()} )
        
-    var["JLIST_MAP"] = { "pricelist" : list}
+    var["JLIST_MAP"] = { _PRICELIST : list}
 
 def _duplicatedPriceList(var):    
     P = PRICELIST(var)
@@ -54,9 +56,13 @@ def _createPriceElemListForType(var,hotel):
        columns.append({"id" :_PRICECHILDREN, "displayname" : M("pricelistchildren")})
        columns.append({"id" :_PRICEEXTRABDEDS, "displayname" : M("pricelistextraprice")})
     
-    if hotel: seq = SERVICES(var).getRoomServices()
-    else : seq = SERVICES(var).getOtherServices()
-    lines = createSeq(seq)
+    S = SERVICES(var)
+    if hotel: seq = S.getRoomServices()
+    else : seq = S.getOtherServices()
+    if hotel :
+      displayname = lambda(s) : s.getName() + M("serviceperperson") if S.findElem(s.getName()).isPerperson() else  s.getName() + M("serviceperroom")
+      lines = util.createSeq(seq,False,displayname)
+    else : lines = util.createSeq(seq)
 
     defmap = {"lines" : lines, "columns" : columns}
 
@@ -76,12 +82,12 @@ def _createPriceElemListForType(var,hotel):
     return defmap
 
 def _createPriceElemList(var): 
-    var["JCHECK_MAP"] = {"prices" : _createPriceElemListForType(var,True), PRICEOTHERS : _createPriceElemListForType(var,False)}     
+    var["JCHECK_MAP"] = {_PRICES : _createPriceElemListForType(var,True), PRICEOTHERS : _createPriceElemListForType(var,False)}     
     
 def _constructPriceElemList(var):
     if var["JCHECK_MAP"].has_key(PRICEOTHERS) :
-      values = concatDict(var["JCHECK_MAP"]["prices"],var["JCHECK_MAP"][PRICEOTHERS])
-    else : values = var["JCHECK_MAP"]["prices"]  
+      values = concatDict(var["JCHECK_MAP"][_PRICES],var["JCHECK_MAP"][PRICEOTHERS])
+    else : values = var["JCHECK_MAP"][_PRICES]  
     seq = SERVICES(var).getList() 
     a = createArrayList()
     for s in seq :
@@ -113,8 +119,7 @@ def _notValidPriceElemList(var):
         _verPrice(err,serv,_PRICECHILDREN,p.getChildrenPrice())
         _verPrice(err,serv,_PRICEEXTRABDEDS,p.getExtrabedsPrice())
     if len(err) == 0 : return False
-    var["JCHECK_MAP"] = {"prices" : {"JERROR" : err}}
-    print var["JCHECK_MAP"]
+    var["JCHECK_MAP"] = {_PRICES : {"JERROR" : err}}
     return True
 #    map["JERROR"] = err
     
@@ -125,14 +130,14 @@ def _savePriceElemList(var):
 
 def pricelistaction(action,var) :
 
-  printvar ("price list action", action,var)
+  cutil.printVar ("price list action", action,var)
   
   if action == "before" or action == "crud_readlist" :
     _createList(var)
   
 def  elempricelistaction(action,var) :
 
-  printvar ("elem price action", action,var)
+  cutil.printVar ("elem price action", action,var)
   P = PRICELIST(var)
   
   if action == "before" :

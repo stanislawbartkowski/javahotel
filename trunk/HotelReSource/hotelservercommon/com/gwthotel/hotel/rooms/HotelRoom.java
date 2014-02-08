@@ -12,6 +12,7 @@
  */
 package com.gwthotel.hotel.rooms;
 
+import com.gwthotel.shared.IHotelConsts;
 import com.gwthotel.shared.PropDescription;
 
 public class HotelRoom extends PropDescription {
@@ -19,9 +20,9 @@ public class HotelRoom extends PropDescription {
     private static final long serialVersionUID = 1L;
     private int noPersons;
 
-    private int noExtraBeds;
+    private int noExtraBeds = IHotelConsts.PERSONIDNO;
 
-    private int noChildren;
+    private int noChildren = IHotelConsts.PERSONIDNO;
 
     public int getNoPersons() {
         return noPersons;

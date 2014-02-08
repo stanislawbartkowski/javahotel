@@ -23,7 +23,9 @@
 		<field id="name" displayname="@roomname" readonly="" />
 		<field id="nop" type="int" displayname="@nopersons" readonly="" />
 		<field id="desc" displayname="@description" readonly="" />
-		<field id="datecol" type="date" displayname="@firstnight"
+               <field id="noextrabeds" type="int" displayname="@nofextrabeds" readonly="" />
+               <field id="nochildren" type="int" displayname="@nofchildren" readonly=""/>
+         	<field id="datecol" type="date" displayname="@firstnight"
 			readonly="" />
 		<field id="resdays" type="int" displayname="@numberofnights"
 			notempty="" />
@@ -31,6 +33,14 @@
 			displayname="@pricelist" notempty="" signalchange="" />
 		<field id="roomservice" type="custom:roomservice" displayname="@servicename"
 			notempty="" signalchange="" />
+                <field id="serviceperperson" type="bool" displayname="@perperson" notempty="" signalchange="" />
+                <field id="respriceperroom" type="decimal" displayname="Price per room" />
+                <field id="resnop" type="int" displayname="Number of persons" notempty="" />
+                <field id="respriceperson" type="decimal" displayname="Price per person" />
+                <field id="resnochildren" type="int" displayname="Number of children" />
+                <field id="respricechildren" type="decimal" displayname="Price per child" />                
+                <field id="resnoextrabeds" type="int" displayname="Number of extra beds" />
+                <field id="respriceextrabeds" type="decimal" displayname="Price per extra beds" />            
 		<!-- cust description -->
                 <field id="cust_name" displayname="@guestid" readonly="" />
                 <field id="cust_descr" displayname="@description" hidden="" />
@@ -52,11 +62,18 @@
 
 	<list id="reslist" displayname="Reservation details" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
+               <buttons-addlist>askforreservation</buttons-addlist> 
 		<columns>
 			<column id="avail" type="bool" displayname="A" />
-			<column id="name" displayname="@roomname" />
+			<column id="resroomname" displayname="@roomname" />
 			<column id="resday" type="date" displayname="@night" />
-			<column id="price" type="decimal" displayname="@price" footer="" />
+                       <column id="rline_nop" type="int" displayname="@nopersons" /> 
+                       <column id="rlist_priceperson" type="decimal" displayname="Price per person" />
+                       <column id="rlist_noc" type="int" displayname="Number of childer" />
+                       <column id="rlist_pricechildren" type="decimal" displayname="Price per children" />
+                       <column id="rlist_noe" type="int" displayname="Number of extra beds" />
+                       <column id="rlist_priceextra" type="decimal" displayname="Price per extra beds" />
+			<column id="rlist_pricetotal" type="decimal" displayname="@price" footer="" />
 		</columns>
 	</list>
 

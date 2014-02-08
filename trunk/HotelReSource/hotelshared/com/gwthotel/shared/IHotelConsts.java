@@ -16,6 +16,8 @@ public interface IHotelConsts {
 
     String ID = "Id";
 
+    int PERSONIDNO = -1;
+
     String NAME = "name";
     String DESCRIPTION = "descr";
 
@@ -50,16 +52,16 @@ public interface IHotelConsts {
 
     String CUSTOMERFIRSTNAMEPROP = "firstname";
     String CUSTOMERSURNAMEPROP = "surname";
-    String CUSTOMERDOCNUMBPROP="docnumb";    
+    String CUSTOMERDOCNUMBPROP = "docnumb";
     String CUSTOMEREMAILPROP = "email";
     String CUSTOMERPHONE1PROP = "phone1";
     String CUSTOMERPHONE2PROP = "phone2";
-    String CUSTOMERFAXPROP="fax";    
-    String CUSTOMERCOUNTRYPROP="country";
+    String CUSTOMERFAXPROP = "fax";
+    String CUSTOMERCOUNTRYPROP = "country";
     String CUSTOMERSTREETPROP = "street";
     String CUSTOMERPOSTALCODEPROP = "postalcode";
-    String CUSTOMERCITYPROP="city";
-    String CUSTOMERREGIONPROP="region";
+    String CUSTOMERCITYPROP = "city";
+    String CUSTOMERREGIONPROP = "region";
 
     String RESDETSERVICENAMEPROP = "servicename";
     String RESDETVATPROP = "rasvat";
@@ -98,5 +100,5 @@ public interface IHotelConsts {
     String CREATIONDATEPROPERTY = "creationDate";
     String MODIFPERSONPROPERTY = "modifPerson";
     String MODIFDATEPROPERTY = "modifDate";
-        
+
 }

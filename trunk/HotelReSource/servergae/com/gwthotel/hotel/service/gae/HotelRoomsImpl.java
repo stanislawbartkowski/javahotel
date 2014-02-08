@@ -112,6 +112,8 @@ public class HotelRoomsImpl extends CrudGaeAbstract<HotelRoom, EHotelRoom>
     @Override
     protected void toE(EHotel ho, EHotelRoom e, HotelRoom t) {
         e.setNoPersons(t.getNoPersons());
+        e.setNoChildren(t.getNoChildren());
+        e.setNoExtraBeds(t.getNoExtraBeds());
     }
 
     @Override

@@ -12,38 +12,21 @@
  */
 package com.gwthotel.hotel.service.gae.entities;
 
-import java.math.BigDecimal;
-
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
-import com.jython.ui.shared.MUtil;
 
 @Entity
 public class EHotelPriceElem extends EHotelParent {
 
-    private Double weekendPrice;
-    private Double workingPrice;
+    private Double childrenPrice;
+    private Double extrabedsPrice;
+    private Double price;
+
 
     @Index
     private String serviceName;
     @Index
     private String pricelistName;
-
-    public BigDecimal getWeekendPrice() {
-        return MUtil.toB(weekendPrice);
-    }
-
-    public void setWeekendPrice(BigDecimal weekendPrice) {
-        this.weekendPrice = MUtil.toD(weekendPrice);
-    }
-
-    public BigDecimal getWorkingPrice() {
-        return MUtil.toB(workingPrice);
-    }
-
-    public void setWorkingPrice(BigDecimal workingPrice) {
-        this.workingPrice = MUtil.toD(workingPrice);
-    }
 
     public String getServiceName() {
         return serviceName;
@@ -60,5 +43,31 @@ public class EHotelPriceElem extends EHotelParent {
     public void setPricelistName(String pricelistName) {
         this.pricelistName = pricelistName;
     }
+
+    public Double getChildrenPrice() {
+        return childrenPrice;
+    }
+
+    public void setChildrenPrice(Double childrenPrice) {
+        this.childrenPrice = childrenPrice;
+    }
+
+    public Double getExtrabedsPrice() {
+        return extrabedsPrice;
+    }
+
+    public void setExtrabedsPrice(Double extrabedsPrice) {
+        this.extrabedsPrice = extrabedsPrice;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+    
+    
 
 }

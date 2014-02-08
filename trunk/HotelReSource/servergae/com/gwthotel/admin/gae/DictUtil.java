@@ -87,7 +87,10 @@ public class DictUtil {
         HotelServices h = new HotelServices();
         h.setAttr(IHotelConsts.VATPROP, e.getVat());
         h.setNoPersons(e.getNoperson());
+        h.setNoChildren(e.getNoChildren());
+        h.setNoExtraBeds(e.getNoExtraBeds());
         h.setServiceType(e.getServiceType());
+        h.setPerperson(e.isPerperson());
         toProp(h, e);
         return h;
     }
@@ -155,7 +158,7 @@ public class DictUtil {
         return rLi;
     }
 
-    private static BigDecimal toBD(Double b) {
+    public static BigDecimal toBD(Double b) {
         if (b == null)
             return null;
         return new BigDecimal(b);
@@ -170,9 +173,16 @@ public class DictUtil {
             dd.setNoP(d.getNoP());
             dd.setPrice(toBD(d.getPrice()));
             dd.setPriceList(toBD(d.getPriceList()));
+            dd.setNoChildren(d.getNoChildren());
+            dd.setPriceChildren(toBD(d.getPriceChildren()));
+            dd.setPriceListChildren(toBD(d.getPriceListChildren()));
+            dd.setNoExtraBeds(d.getNoExtraBeds());
+            dd.setPriceExtraBeds(toBD(d.getPriceExtraBeds()));
+            dd.setPriceListExtraBeds(toBD(d.getPriceListExtraBeds()));
             dd.setPriceTotal(toBD(d.getPriceTotal()));
             dd.setQuantity(d.getNoP());
             dd.setServDate(d.getResDate());
+            dd.setPerperson(d.isPerperson());
             dd.setResDate(d.getResDate());
             if (d.getService() != null)
                 dd.setService(d.getService().getName());
@@ -199,6 +209,13 @@ public class DictUtil {
         er.setPrice(toDouble(r.getPrice(), false));
         er.setPriceList(toDouble(r.getPriceList(), true));
         er.setPriceTotal(toDouble(r.getPriceTotal(), true));
+        er.setNoChildren(r.getNoChildren());
+        er.setPriceChildren(toDouble(r.getPriceChildren(), true));
+        er.setPriceListChildren(toDouble(r.getPriceListChildren(), true));
+        er.setNoExtraBeds(r.getNoExtraBeds());
+        er.setPriceExtraBeds(toDouble(r.getPriceExtraBeds(), true));
+        er.setPriceListExtraBeds(toDouble(r.getPriceListExtraBeds(), true));
+        er.setPerperson(r.isPerperson());
         er.setResDate(r.getResDate());
         if (!CUtil.EmptyS(r.getRoomName()))
             er.setRoom(DictUtil.findRoom(ho, r.getRoomName()));

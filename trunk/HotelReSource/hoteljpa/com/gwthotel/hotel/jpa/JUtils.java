@@ -143,12 +143,19 @@ public class JUtils {
         det.setNoP(r.getNoP());
         det.setPrice(r.getPrice());
         det.setPriceList(r.getPriceList());
+        det.setNoChildren(r.getNoChildren());
+        det.setPriceChildren(r.getPriceChildren());
+        det.setPriceListChildren(r.getPriceListChildren());
+        det.setNoExtraBeds(r.getNoExtraBeds());
+        det.setPriceExtraBeds(r.getPriceExtraBeds());
+        det.setPriceListExtraBeds(r.getPriceListExtraBeds());
         det.setPriceTotal(r.getTotal());
         det.setResDate(r.getResDate());
         det.setServiceType(r.getServiceType());
         det.setId(r.getId());
         det.setVat(r.getServicevat());
         det.setDescription(r.getDescription());
+        det.setPerperson(r.isPerperson());
 
         if (r.getRoom() != null)
             det.setRoomName(r.getRoom().getName());
@@ -179,11 +186,18 @@ public class JUtils {
         dest.setNoP(sou.getNoP());
         dest.setPrice(HUtils.roundB(sou.getPrice()));
         dest.setPriceList(HUtils.roundB(sou.getPriceList()));
+        dest.setNoChildren(sou.getNoChildren());
+        dest.setPriceChildren(HUtils.roundB(sou.getPriceChildren()));
+        dest.setPriceListChildren(HUtils.roundB(sou.getPriceListChildren()));
+        dest.setNoExtraBeds(sou.getNoExtraBeds());
+        dest.setPriceExtraBeds(HUtils.roundB(sou.getPriceExtraBeds()));
+        dest.setPriceListExtraBeds(HUtils.roundB(sou.getPriceListExtraBeds()));
         dest.setResDate(sou.getResDate());
         dest.setTotal(HUtils.roundB(sou.getPriceTotal()));
         dest.setServiceType(sou.getServiceType());
         dest.setServicevat(sou.getVat());
         dest.setDescription(sou.getDescription());
+        dest.setPerperson(sou.isPerperson());
     }
 
     public static void toCustomerBill(EntityManager em, HotelId hotel,

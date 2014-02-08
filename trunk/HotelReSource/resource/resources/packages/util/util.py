@@ -17,14 +17,14 @@ from com.gwthotel.hotel.payment import PaymentBill
 from com.gwthotel.hotel import HUtils
 import rutil
 from com.gwthotel.hotel.rooms import HotelRoom
-
+from com.gwthotel.shared import IHotelConsts
 
 def setIntField(var,key,setF) :
-  if var[key] == None : setF(-1)
+  if var[key] == None : setF(IHotelConsts.PERSONIDNO)
   else : setF(var[key])
   
 def getIntField(val) :
-  if val == -1 : return None
+  if val == IHotelConsts.PERSONIDNO : return None
   return val
 
 # 0 : defsex
@@ -385,15 +385,17 @@ def eqDate(d1,d2):
 def toB(value):
     return cutil.toB(value)
 
-def createSeq(list,addName=False):    
+def createSeq(list,addName=False, displayname=None):    
     seq = []
     for s in list :
         m = {}
         m["id"] = s.getName()
-        if s.getDescription() == None : m["displayname"] = m["id"]
+        if displayname : m["displayname"] = displayname(s)
         else :
-          if addName :  m["displayname"] = s.getName() + " " + s.getDescription()
-          else : m["displayname"] = s.getDescription()
+          if s.getDescription() == None : m["displayname"] = m["id"]
+          else :
+            if addName :  m["displayname"] = s.getName() + " " + s.getDescription()
+            else : m["displayname"] = s.getDescription()
         seq.append(m)
     return seq    
 
@@ -411,23 +413,6 @@ def duplicatedName(var,S,duplicateM):
       var["JERROR_name"] = duplicatedM
       return True
     return False
-
-def createResQueryElem(roomname,dfrom,dto=None):
-    if dto == None : dto = dfrom
-    q = ResQuery()
-    q.setFromRes(toDate(dfrom))
-    q.setToRes(toDate(dto))
-    q.setRoomName(roomname)
-    return q
-
-def createResFormElem(roomname,service,date,nop,price):
-    r = ReservationPaymentDetail()
-    r.setRoomName(roomname)
-    r.setNoP(nop)
-    r.setPrice(price)
-    r.setService(service)
-    r.setResDate(toDate(date))
-    return r
 
 class ConstructObject :
     
@@ -522,7 +507,9 @@ class SUMBDECIMAL :
         self.sum = 0.0
        
     def add(self,b):
-        if b : self.sum = self.sum + b.floatValue()    
+        if b : 
+          if type(b) == BigDecimal : self.sum = self.sum + b.floatValue()    
+          else : self.sum = self.sum + b
                 
 def duplicateService(var):    
     serv = SERVICES(var)
