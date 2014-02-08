@@ -31,6 +31,7 @@ import com.gwtmodel.table.rdef.FormLineContainer;
 import com.gwtmodel.table.rdef.IFormLineView;
 import com.gwtmodel.table.slotmodel.ClickButtonType;
 import com.gwtmodel.table.slotmodel.ClickButtonType.StandClickEnum;
+import com.gwtmodel.table.smessage.IGetStandardMessage;
 import com.gwtmodel.table.tabledef.IColumnImageSelect;
 import com.gwtmodel.table.tabledef.VFooterDesc;
 import com.gwtmodel.table.tabledef.VListHeaderContainer;
@@ -73,12 +74,14 @@ public class CreateForm {
         EditWidgetFactory eFactory = GwtGiniInjector.getI()
                 .getEditWidgetFactory();
         List<FormField> fList = new ArrayList<FormField>();
+        IGetStandardMessage iMess = GwtGiniInjector.getI().getStandardMessage();
         for (FieldItem f : iList) {
             IVField vf = VField.construct(f);
             IFormLineView v;
             String htmlId = f.getHtmlId();
             if (f.isLabel()) {
-                v = eFactory.constructLabelField(vf, f.getDisplayName());
+                v = eFactory.constructLabelField(vf,
+                        iMess.getMessage(f.getDisplayName()));
             } else if (!CUtil.EmptyS(f.getCustom())) {
                 TypedefDescr te = d.findCustomType(f.getCustom());
                 if (te == null) {
