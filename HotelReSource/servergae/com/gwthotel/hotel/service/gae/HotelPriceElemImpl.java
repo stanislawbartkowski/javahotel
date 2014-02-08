@@ -57,8 +57,11 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
         List<HotelPriceElem> outList = new ArrayList<HotelPriceElem>();
         for (EHotelPriceElem e : li) {
             HotelPriceElem elem = new HotelPriceElem();
-            elem.setWeekendPrice(e.getWeekendPrice());
-            elem.setWorkingPrice(e.getWorkingPrice());
+            // elem.setWeekendPrice(e.getWeekendPrice());
+            // elem.setWorkingPrice(e.getWorkingPrice());
+            elem.setPrice(DictUtil.toBD(e.getPrice()));
+            elem.setChildrenPrice(DictUtil.toBD(e.getChildrenPrice()));
+            elem.setExtrabedsPrice(DictUtil.toBD(e.getExtrabedsPrice()));
             elem.setPriceList(pricelist);
             elem.setService(e.getServiceName());
             outList.add(elem);
@@ -67,8 +70,8 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
     }
 
     @Override
-    public void savePricesForPriceList(final HotelId hotel, final String pricelist,
-            final List<HotelPriceElem> pList) {
+    public void savePricesForPriceList(final HotelId hotel,
+            final String pricelist, final List<HotelPriceElem> pList) {
         final EHotel ho = findEHotel(hotel);
         final List<EHotelPriceElem> li = ofy().load()
                 .type(EHotelPriceElem.class).ancestor(ho)
@@ -80,8 +83,13 @@ public class HotelPriceElemImpl implements IHotelPriceElem {
                 ofy().delete().entities(li).now();
                 for (HotelPriceElem e : pList) {
                     EHotelPriceElem elem = new EHotelPriceElem();
-                    elem.setWeekendPrice(e.getWeekendPrice());
-                    elem.setWorkingPrice(e.getWorkingPrice());
+                    // elem.setWeekendPrice(e.getWeekendPrice());
+                    // elem.setWorkingPrice(e.getWorkingPrice());
+                    elem.setPrice(DictUtil.toDouble(e.getPrice(), false));
+                    elem.setChildrenPrice(DictUtil.toDouble(
+                            e.getChildrenPrice(), true));
+                    elem.setExtrabedsPrice(DictUtil.toDouble(
+                            e.getExtrabedsPrice(), true));
                     elem.setHotel(ho);
                     elem.setPricelistName(pricelist);
                     elem.setServiceName(e.getService());

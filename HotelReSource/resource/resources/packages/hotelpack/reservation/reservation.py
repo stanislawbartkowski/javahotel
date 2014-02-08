@@ -18,7 +18,7 @@ def __getList(var):
     
     for s in seq : 
        list.append({"name" : s.getName(), "descr" : s.getDescription(), 
-                    "noperson" : s.getNoPersons()} )
+                    "noperson" : s.getNoPersons() } )
     return list        
        
 
@@ -36,13 +36,13 @@ def reservationaction(action,var):
       RFORM = RESFORM(var)
       services = RO.getRoomServices(room)
       if len(services) == 0 :
-           var['JERROR_MESSAGE'] = "No services assigned to this room"
-           var['JMESSAGE_TITLE'] = "Incomplete hotel configuration"
+           var['JERROR_MESSAGE'] = "@noserviceassigned"
+           var['JMESSAGE_TITLE'] = "@incompleteconfiguration"
            return
       li = getServicesForRoom(var,room)
       if li == None :
-           var['JERROR_MESSAGE'] = "There are services assigned to this room but no price list for this services defined"
-           var['JMESSAGE_TITLE'] = "Incomplete hotel configuration"
+           var['JERROR_MESSAGE'] = "@nopricelistforthisservice"
+           var['JMESSAGE_TITLE'] = "@incompleteconfiguration"
            return
        
       res = getReservForDay(var)

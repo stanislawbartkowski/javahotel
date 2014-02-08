@@ -22,10 +22,10 @@
                 <standbutt>TOOLS,FIND,FILTER,SHOW</standbutt>
                 <buttons-addlist>ADD,MODIF</buttons-addlist>
                 <columns>
-                      <column id="check" displayname="" type="bool" editable="" signalchange="" />
+                      <column id="check" displayname="@perperson" type="bool" editable="" signalchange="" />
                       <column id="service" displayname="@servicename" />
                       <column id="servdescr" displayname="@servicedescription" />
-                      <column id="perperson" type="bool" displayname="@perperson" />
+                      <column id="perperson" type="bool" displayname="@perperson" hidden="" />
                       <column id="noperson" type="int" displayname="@nopersons" hidden=""/>
                       <column id="noextrabeds" type="int" displayname="@nofextrabeds" hidden="" />
                       <column id="nochildren" type="int" displayname="@nofchildren" hidden=""/>

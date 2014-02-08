@@ -20,6 +20,10 @@ public class EHotelServices extends EHotelDict {
 
     private String vat;
     private int noperson;
+    private int noExtraBeds;
+    private int noChildren;
+    private boolean perperson;
+
     private ServiceType serviceType;
 
     public String getVat() {
@@ -44,6 +48,30 @@ public class EHotelServices extends EHotelDict {
 
     public void setServiceType(ServiceType serviceType) {
         this.serviceType = serviceType;
+    }
+
+    public int getNoExtraBeds() {
+        return noExtraBeds;
+    }
+
+    public void setNoExtraBeds(int noExtraBeds) {
+        this.noExtraBeds = noExtraBeds;
+    }
+
+    public int getNoChildren() {
+        return noChildren;
+    }
+
+    public void setNoChildren(int noChildren) {
+        this.noChildren = noChildren;
+    }
+
+    public boolean isPerperson() {
+        return perperson;
+    }
+
+    public void setPerperson(boolean perperson) {
+        this.perperson = perperson;
     }
 
 }

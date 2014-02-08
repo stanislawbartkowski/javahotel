@@ -40,9 +40,23 @@ public class ReservationPaymentDetail extends AbstractResHotelGuest {
 
     private BigDecimal priceList;
 
+    private int noChildren = IHotelConsts.PERSONIDNO;
+
+    private BigDecimal priceChildren;
+
+    private BigDecimal priceListChildren;
+
+    private int noExtraBeds = IHotelConsts.PERSONIDNO;
+
+    private BigDecimal priceExtraBeds;
+
+    private BigDecimal priceListExtraBeds;
+
     private BigDecimal priceTotal;
 
     private ServiceType serviceType;
+
+    private boolean perperson = true;
 
     public Date getResDate() {
         return resDate;
@@ -122,6 +136,62 @@ public class ReservationPaymentDetail extends AbstractResHotelGuest {
 
     public void setServiceType(ServiceType serviceType) {
         this.serviceType = serviceType;
+    }
+
+    public int getNoChildren() {
+        return noChildren;
+    }
+
+    public void setNoChildren(int noChildren) {
+        this.noChildren = noChildren;
+    }
+
+    public BigDecimal getPriceChildren() {
+        return priceChildren;
+    }
+
+    public void setPriceChildren(BigDecimal priceChildren) {
+        this.priceChildren = priceChildren;
+    }
+
+    public BigDecimal getPriceListChildren() {
+        return priceListChildren;
+    }
+
+    public void setPriceListChildren(BigDecimal priceListChildren) {
+        this.priceListChildren = priceListChildren;
+    }
+
+    public int getNoExtraBeds() {
+        return noExtraBeds;
+    }
+
+    public void setNoExtraBeds(int noExtraBeds) {
+        this.noExtraBeds = noExtraBeds;
+    }
+
+    public BigDecimal getPriceExtraBeds() {
+        return priceExtraBeds;
+    }
+
+    public void setPriceExtraBeds(BigDecimal priceExtraBeds) {
+        this.priceExtraBeds = priceExtraBeds;
+    }
+
+    public BigDecimal getPriceListExtraBeds() {
+        return priceListExtraBeds;
+    }
+
+    public void setPriceListExtraBeds(BigDecimal priceListExtraBeds) {
+        this.priceListExtraBeds = priceListExtraBeds;
+    }
+
+    public boolean isPerperson() {
+        return perperson;
+    }
+
+    public void setPerperson(boolean perperson) {
+        this.perperson = perperson;
     }
 
 }

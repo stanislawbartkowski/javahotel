@@ -19,6 +19,26 @@ public class EHotelRoom extends EHotelDict {
 
     private int noPersons;
 
+    private int noExtraBeds;
+
+    public int getNoExtraBeds() {
+        return noExtraBeds;
+    }
+
+    public void setNoExtraBeds(int noExtraBeds) {
+        this.noExtraBeds = noExtraBeds;
+    }
+
+    public int getNoChildren() {
+        return noChildren;
+    }
+
+    public void setNoChildren(int noChildren) {
+        this.noChildren = noChildren;
+    }
+
+    private int noChildren;
+
     public int getNoPersons() {
         return noPersons;
     }

@@ -59,6 +59,9 @@ public class HotelServiceImpl extends
     protected void toE(EHotel ho, EHotelServices e, HotelServices t) {
         e.setVat(t.getAttr(IHotelConsts.VATPROP));
         e.setNoperson(t.getNoPersons());
+        e.setNoChildren(t.getNoChildren());
+        e.setNoExtraBeds(t.getNoExtraBeds());
+        e.setPerperson(t.isPerperson());
         e.setServiceType(t.getServiceType());
 
     }
