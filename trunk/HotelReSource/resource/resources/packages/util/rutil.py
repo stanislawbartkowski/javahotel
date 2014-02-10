@@ -1,25 +1,36 @@
 import cutil
 import con
 import util
+from com.gwthotel.hotel.reservationop import ResQuery
 
 def getReseName(var) :
   return var["resename"]
 
 def createResQueryElem(roomname,dfrom,dto):
     q = ResQuery()
-    q.setFromRes(toDate(dfrom))
-    q.setToRes(toDate(dto))
+    q.setFromRes(cutil.toDate(dfrom))
+    q.setToRes(cutil.toDate(dto))
     q.setRoomName(roomname)
     return q
 
-def createResFormElem(roomname,service,date,nop,price):
-    r = util.newResAddPayment()
-    r.setRoomName(roomname)
-    r.setNoP(nop)
-    r.setPrice(price)
-    r.setService(service)
-    r.setResDate(toDate(date))
-    return r
+def getReservForDay(var):
+   R = util.RESOP(var)
+   room = var["JDATELINE_LINE"]
+   day = var["JDATELINE_DATE"]
+   query=cutil.createArrayList()
+   q = createResQueryElem(room,day,day)
+   query.add(q)
+   res = R.queryReservation(query)
+   return res
+
+#def createResFormElem(roomname,service,date,nop,price):
+#    r = util.newResAddPayment()
+#    r.setRoomName(roomname)
+#    r.setNoP(nop)
+#    r.setPrice(price)
+#    r.setService(service)
+#    r.setResDate(toDate(date))
+#    return r
 
 def getPayments(var) :    
   rese = getReseName(var)
@@ -59,7 +70,7 @@ def countTotal(var,b,pli) :
 def setvarBefore(var,cust="cust_"):
     R = util.ROOMLIST(var)
     roomname = var["JDATELINE_LINE"]
-    res = util.getReservForDay(var)
+    res = getReservForDay(var)
     room = R.findElem(roomname)
     assert room != None
     nop = room.getNoPersons()

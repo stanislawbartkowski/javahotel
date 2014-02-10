@@ -9,15 +9,11 @@ from util.util import createEnumFromList
 from util.util import emptyS
 from util.util import SUMBDECIMAL
 from util.util import RESOP
-from util.util import createArrayList
-from util.util import createResQueryElem
 from util.util import eqDate
 from util.util import newCustomer
 from util.util import CUSTOMERLIST
 from util.util import getCustFieldId
 from util.util import newResForm
-from util.util import createResFormElem
-from util.util import getReservForDay
 from com.gwthotel.hotel.reservation import ResStatus
 from util.util import getCustFieldId
 from util.util import mapToXML
@@ -30,9 +26,6 @@ from util.util import BILLLIST
 from util.util import getReseName
 from util.util import setCustData
 from util.util import getPayments
-from cutil import addDecimal
-from cutil import BigDecimalToDecimal
-from util.util import newBill
 from con import eqUL
 from util.util import PAYMENTOP
 from util.util import HOTELTRANSACTION
@@ -63,7 +56,6 @@ def _createResData(var):
   list = []
   dt = date
   sum = SUMBDECIMAL()
-  PE = PRICEELEM(var)
   resnop = var["resnop"]
   perperson = var["serviceperperson"]
   priceroom = var["respriceperroom"]
@@ -82,13 +74,15 @@ def _createResData(var):
     price = con.addDecimal(price,con.mulIntDecimal(resextra,priceextra))
   else : price = priceroom    
   
-  query = createArrayList()
+  query = cutil.createArrayList()
   RES = RESOP(var)
-  qelem = createResQueryElem(roomname,date,date+datetime.timedelta(resdays))
+  qelem = rutil.createResQueryElem(roomname,date,date+datetime.timedelta(resdays))
   query.add(qelem)
   rList = RES.queryReservation(query)
   allavail = True
   
+  (listprice,listpricechild,listpriceextra) = _getPriceList(var)
+
 #  pPrice = getPriceForPriceList(var,pricelist,service)
 # getResDate      
   for i in range(resdays) :
@@ -99,7 +93,9 @@ def _createResData(var):
           if eqDate(dt,rdata) : avail = allavail = False
       
       map = { "avail" : avail, "resroomname" : roomname, "resday" : dt, "rlist_pricetotal" : price, "rline_nop" : resnop,"rlist_priceperson" : priceperson,
-              "rlist_noc" : resnoc, "rlist_pricechildren" : pricechildren, "rlist_noe" : resextra, "rlist_priceextra" : priceextra}
+              "rlist_noc" : resnoc, "rlist_pricechildren" : pricechildren, "rlist_noe" : resextra, "rlist_priceextra" : priceextra,
+              "rlist_pricelistperson" : listprice, "rlist_pricelistchildren" : listpricechild, "rlist_pricelistextrabeds" : listpriceextra,
+              "rlist_serviceperperson" : perperson, "rlist_roomservice" : service, "rlist_roompricelist" : pricelist}
       list.append(map)
       dt = dt + dl
       sum.add(price)
@@ -114,7 +110,7 @@ def _getPriceList(var) :
   priceextra = None
   serv = var["roomservice"]
   pricelist = var["roompricelist"]
-  if serv != None and proclist != None return  
+  if serv != None and pricelist != None :
     P = PRICEELEM(var)
     prices = P.getPricesForPriceList(pricelist)
     for s in prices :
@@ -123,7 +119,7 @@ def _getPriceList(var) :
         price = s.getPrice()
         pricechild = s.getChildrenPrice()
         priceextra = s.getExtrabedsPrice()
-  return (price,pricechild,proceextra)
+  return (price,pricechild,priceextra)
 
 def _setAfterServiceName(var) :
   S = util.SERVICES(var)
@@ -133,7 +129,7 @@ def _setAfterServiceName(var) :
   cutil.setCopy(var,"serviceperperson")  
 
 def _setAfterPriceList(var) :
-  (price,pricechild,proceextra) = _getPriceList(var)
+  (price,pricechild,priceextra) = _getPriceList(var)
   var["respriceperson"] = price
   var["respricechildren"] = pricechild
   var["respriceextrabeds"] = priceextra    
@@ -174,16 +170,16 @@ def _checkRese(var):
   
 def _checkAvailibity(var) :
   list = var["JLIST_MAP"][RESLIST]
-  if not var["avail"] :
-     var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
-     var["JMESSAGE_TITLE"] = "Not everything is available"
-     return False
   RES = RESOP(var)
-  query = createArrayList()
+  query = cutil.createArrayList()
   for p in list :
+    if not p["avail"] :
+       var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
+       var["JMESSAGE_TITLE"] = "Not everything is available"
+       return False
     dat = p["resday"]
     roomname = p["resroomname"]
-    qelem = createResQueryElem(roomname,date,date+datetime.timedelta(1))
+    qelem = rutil.createResQueryElem(roomname,dat,dat+datetime.timedelta(1))
     query.add(qelem)
   rList = RES.queryReservation(query)
   if len(rList) > 0 :
@@ -215,22 +211,36 @@ class MAKERESE(HOTELTRANSACTION) :
       saveDefaCustomer(var,CUST)               
       # --- customer added
       
-      # --- pricelist
-      # important: current pricelist and service is taken
-      (price,pricechild,proceextra) = _getPriceList(var)
-      
       reservation = newResForm(var)
       reservation.setGensymbol(True);
       reservation.setCustomerName(name)
       service = var["roomservice"]
       nop = var["nop"]
       reselist = reservation.getResDetail()
-      for re in res[0] :
-          roomname = re["name"]
-          price = re["price"]
-          dt = re["resday"]
-          ele = rutil.createResFormElem(roomname,service,dt,nop,price)
-          reselist.add(ele)
+      rlist = var["JLIST_MAP"][RESLIST]
+      for re in rlist :
+          r = util.newResAddPayment()
+          r.setRoomName(re["resroomname"])
+          r.setService(re["rlist_roomservice"])
+          r.setResDate(con.toDate(re["resday"]))
+          r.setPerperson(re["rlist_serviceperperson"])
+          
+          r.setNoP(re["rline_nop"])
+          r.setPrice(con.toB(re["rlist_priceperson"]))
+          r.setPriceList(con.toB(re["rlist_pricelistperson"]))
+          
+          util.setIntField(re,"rlist_noc",lambda v : r.setNoChildren(v))
+          r.setPriceChildren(con.toB(re["rlist_pricechildren"]))
+          r.setPriceListChildren(con.toB(re["rlist_pricelistchildren"]))
+          
+          util.setIntField(re,"rlist_noe",lambda v : r.setNoExtraBeds(v))
+          r.setPriceExtraBeds(con.toB(re["rlist_priceextra"]))
+          r.setPriceListExtraBeds(con.toB(re["rlist_pricelistextrabeds"]))
+          
+          r.setPriceTotal(con.toB(re["rlist_pricetotal"]))
+          
+          reselist.add(r)
+          
       RFORM = util.RESFORM(var)
       added = RFORM.addElem(reservation)
       resename = added.getName()

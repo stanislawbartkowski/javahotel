@@ -4,7 +4,6 @@ from java.util import Date
 from java.util import Calendar
 from java.math import BigDecimal
 from com.gwthotel.hotel import HotelObjects
-from com.gwthotel.hotel.reservationop import ResQuery
 from com.gwthotel.hotel.reservation import ReservationPaymentDetail
 import cutil
 from com.gwthotel.hotel.reservation import ResStatus
@@ -540,16 +539,6 @@ def getPriceForPriceList(var,pricelist,service) :
 def getReseName(var) :
 #  return var["resename"]
   return rutil.getReseName(var)
-
-def getReservForDay(var):
-   R = RESOP(var)
-   room = var["JDATELINE_LINE"]
-   day = var["JDATELINE_DATE"]
-   query=createArrayList()
-   q = createResQueryElem(room,day)
-   query.add(q)
-   res = R.queryReservation(query)
-   return res
     
 def getPayments(var) :    
   return rutil.getPayments(var)
