@@ -62,7 +62,7 @@
 
 	<list id="reslist" displayname="Reservation details" pagesize="5">
 		<standbutt>TOOLS,FIND,FILTER</standbutt>
-               <buttons-addlist>askforreservation</buttons-addlist> 
+               <buttons-addlist>askforreservation,makereservation</buttons-addlist> 
 		<columns>
 			<column id="avail" type="bool" displayname="A" />
 			<column id="resroomname" displayname="@roomname" />
@@ -74,6 +74,12 @@
                        <column id="rlist_noe" type="int" displayname="Number of extra beds" />
                        <column id="rlist_priceextra" type="decimal" displayname="Price per extra beds" />
 			<column id="rlist_pricetotal" type="decimal" displayname="@price" footer="" />
+                       <column id="rlist_roomservice"  hidden="" />
+                       <column id="rlist_roompricelist" hidden="" />
+                       <column id="rlist_serviceperperson" type="bool" hidden="" />
+                       <column id="rlist_pricelistperson" type="decimal" hidden="" />
+                       <column id="rlist_pricelistchildren" type="decimal" hidden="" />
+                       <column id="rlist_pricelistextrabeds" type="decimal" hidden="" />
 		</columns>
 	</list>
 

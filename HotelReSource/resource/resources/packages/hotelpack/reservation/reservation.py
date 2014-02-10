@@ -5,11 +5,10 @@ from util.util import RESOP
 from util.util import createArrayList
 from util.util import RESFORM
 import datetime
-from util.util import createResQueryElem
 from util.util import getServicesForRoom
 from util.util import eqDate
-from util.util import getReservForDay
 from util.util import resStatus
+from util import rutil
 
 def __getList(var):
     R = ROOMLIST(var)
@@ -45,7 +44,7 @@ def reservationaction(action,var):
            var['JMESSAGE_TITLE'] = "@incompleteconfiguration"
            return
        
-      res = getReservForDay(var)
+      res = rutil.getReservForDay(var)
 
       if res.isEmpty() : var["JUP_DIALOG"] = "hotel/reservation/reserveroom.xml"
       else : 
@@ -66,7 +65,7 @@ def reservationaction(action,var):
            dfrom = s["JDATELINE_FROM"]
            dto = s["JDATELINE_TO"]
            name = s["name"]
-           q = createResQueryElem(name,dfrom,dto)
+           q = rutil.createResQueryElem(name,dfrom,dto)
            query.add(q)
         
        resList = R.queryReservation(query)
