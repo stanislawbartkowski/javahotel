@@ -13,23 +13,21 @@
 package com.gwtmodel.table.view.table;
 
 import com.google.gwt.cell.client.AbstractCell;
-import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 import com.google.gwt.cell.client.ActionCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType;
 import com.gwtmodel.table.IVField;
 import com.gwtmodel.table.IVModelData;
 import com.gwtmodel.table.MutableInteger;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.injector.LogT;
 import com.gwtmodel.table.tabledef.VListHeaderDesc;
@@ -61,6 +59,10 @@ class PresentationCellFactory extends PresentationCellHelper {
 
         @Override
         public void render(Context context, Boolean value, SafeHtmlBuilder sb) {
+            if (value == null) {
+                Utils.internalErrorAlert(LogT.getT().NoEditCheckBox());
+                assert false : LogT.getT().NoEditCheckBox();
+            }
             if (value) {
                 sb.append(INPUT_CHECKED);
             } else {
