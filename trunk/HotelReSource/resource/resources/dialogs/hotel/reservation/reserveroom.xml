@@ -26,7 +26,7 @@
                <field id="noextrabeds" type="int" displayname="@nofextrabeds" readonly="" />
                <field id="nochildren" type="int" displayname="@nofchildren" readonly=""/>
          	<field id="datecol" type="date" displayname="@firstnight"
-			readonly="" />
+			readonly="" notempty="" />
 		<field id="resdays" type="int" displayname="@numberofnights"
 			notempty="" />
 		<field id="roompricelist" type="custom:roompricelist"

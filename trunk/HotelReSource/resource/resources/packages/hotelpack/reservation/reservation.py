@@ -52,7 +52,8 @@ def reservationaction(action,var):
           resid = ares.getResId()
           rform = RFORM.findElem(resid)
           sta = resStatus(rform)
-          if sta == 0 : var["JUP_DIALOG"] = "hotel/reservation/showreserveroom.xml"
+#          if sta == 0 : var["JUP_DIALOG"] = "hotel/reservation/showreserveroom.xml"
+          if sta == 0 : var["JUP_DIALOG"] = "hotel/reservation/reserveroom.xml"
           else: var["JUP_DIALOG"] = "hotel/reservation/showstay.xml"
       
     if action == "datelinevalues" :

@@ -1,12 +1,11 @@
 from com.gwthotel.hotel.server.service import H
-from util.util import MESS
 import cutil
 
 taxList = H.getVatTaxes()
 
 def serviceenum(action,var) :
 
-  cutil.printVar ("serviceenum", action,var)
+#  cutil.printVar ("serviceenum", action,var)
   
   seq = []
   

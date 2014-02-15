@@ -27,6 +27,7 @@ import com.gwthotel.hotel.bill.CustomerBill;
 import com.gwthotel.hotel.jpa.entities.ECustomerBill;
 import com.gwthotel.hotel.jpa.entities.EHotelCustomer;
 import com.gwthotel.hotel.jpa.entities.EHotelDict;
+import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.jpa.entities.EHotelReservation;
 import com.gwthotel.hotel.jpa.entities.EHotelReservationDetail;
 import com.gwthotel.hotel.jpa.entities.EHotelRoom;
@@ -107,6 +108,11 @@ public class JUtils {
         return getElemE(em, hotel, "findOneService", s);
     }
 
+    public static EHotelPriceList findPriceList(EntityManager em,
+            HotelId hotel, String s) {
+        return getElemE(em, hotel, "findOnePriceList", s);
+    }
+
     public static EHotelCustomer findCustomer(EntityManager em, HotelId hotel,
             String s) {
         EHotelCustomer cu = getElemE(em, hotel, "findOneCustomer", s);
@@ -163,6 +169,8 @@ public class JUtils {
             det.setService(r.getService().getName());
         if (r.getCustomer() != null)
             det.setGuestName(r.getCustomer().getName());
+        if (r.getPriceListName() != null)
+            det.setPriceListName(r.getPriceListName().getName());
     }
 
     public static void ToEReservationDetails(EntityManager em, HotelId hotel,
@@ -176,6 +184,12 @@ public class JUtils {
         if (!CUtil.EmptyS(serviceName)) {
             EHotelServices serv = JUtils.findService(em, hotel, serviceName);
             dest.setService(serv);
+        }
+        String priceListName = sou.getPriceListName();
+        if (!CUtil.EmptyS(priceListName)) {
+            EHotelPriceList ePrice = JUtils.findPriceList(em, hotel,
+                    priceListName);
+            dest.setPriceListName(ePrice);
         }
         String custName = sou.getGuestName();
         if (!CUtil.EmptyS(custName)) {

@@ -80,7 +80,7 @@ class HotelReservations extends
             JUtils.ToEReservationDetails(em, hotel, d, r);
             d.setReservation(elem);
             d.setServiceType(ServiceType.HOTEL);
-            d.setTotal(HUtils.roundB(r.getPrice()));
+//            d.setTotal(HUtils.roundB(r.getPrice()));
             em.persist(d);
         }
     }
