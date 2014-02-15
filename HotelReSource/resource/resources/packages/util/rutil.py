@@ -70,7 +70,6 @@ def countTotal(var,b,pli) :
 def setvarBefore(var,cust="cust_"):
     R = util.ROOMLIST(var)
     roomname = var["JDATELINE_LINE"]
-    res = getReservForDay(var)
     room = R.findElem(roomname)
     assert room != None
     nop = room.getNoPersons()
@@ -80,8 +79,9 @@ def setvarBefore(var,cust="cust_"):
     var["noextrabeds"] = room.getNoExtraBeds()
     var["nochildren"] = room.getNoChildren()
     var["resnop"] = room.getNoChildren()
+    util.setCopy(var,["resename","name","datecol","nop","desc","resdays","noextrabeds","nochildren","resnop"])
+    res = getReservForDay(var)
     if len(res) == 0 :
-      util.setCopy(var,["resename","name","datecol","nop","desc","resdays","noextrabeds","nochildren","resnop"])
       date = var["JDATELINE_DATE"]
       var["datecol"] = date
       var["resdays"] = 1
@@ -89,7 +89,6 @@ def setvarBefore(var,cust="cust_"):
       util.setDefaCustomer(var,cust)
       return
   
-    util.setCopy(var,["resename","name","nop"])
     assert len(res) == 1
     resname = res[0].getResId()
     assert resname != None
@@ -105,14 +104,27 @@ def setvarBefore(var,cust="cust_"):
     list = []
     sum = util.SUMBDECIMAL()
     S = util.SERVICES(var)
+    mindate = None
     for r in reservation.getResDetail() :
-         map = { "name" : r.getRoomName(), "resday" : r.getResDate(), "price" : r.getPrice(), "service" : r.getService(), "serviceperperson" : S.findElem(r.getService()).isPerperson() }
+                 
+         map = { "avail" : True, "resroomname" : r.getRoomName(), "resday" : r.getResDate(), "rlist_pricetotal" : con.BigDecimalToDecimal(r.getPriceTotal()), 
+              "rline_nop" : r.getNoP(),"rlist_priceperson" : con.BigDecimalToDecimal(r.getPrice()),
+              "rlist_noc" : util.getIntField(r.getNoChildren()), "rlist_pricechildren" : con.BigDecimalToDecimal(r.getPriceChildren()),
+              "rlist_noe" : util.getIntField(r.getNoExtraBeds()), "rlist_priceextra" : con.BigDecimalToDecimal(r.getPriceExtraBeds()),
+              "rlist_pricelistperson" : con.BigDecimalToDecimal(r.getPriceList()), "rlist_pricelistchildren" : con.BigDecimalToDecimal(r.getPriceListChildren()), 
+              "rlist_pricelistextrabeds" :  con.BigDecimalToDecimal(r.getPriceListExtraBeds()), "rlist_serviceperperson" : r.isPerperson(), 
+              "rlist_roomservice" : r.getService(), "rlist_roompricelist" : None}
+              
+         if mindate == None : mindate = r.getResDate()
+         elif mindate > r.getResDate() : mindate = r.getResDate()
+
          list.append(map)
          sum.add(r.getPrice())
 
-    var["JLIST_MAP"] = { "reslist" : list}
-    var["JFOOTER_COPY_reslist_price"] = True
-    var["JFOOTER_reslist_price"] = sum.sum
+    var["datecol"] = mindate
+    var["resdays"] = len(reservation.getResDetail())
+    cutil.setJMapList(var,"reslist",list)
+    cutil.setFooter(var,"reslist","rlist_pricetotal",sum.sum)
 
 class BILLPOSADD :
   

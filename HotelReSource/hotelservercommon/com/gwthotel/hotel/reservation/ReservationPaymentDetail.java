@@ -90,6 +90,14 @@ public class ReservationPaymentDetail extends AbstractResHotelGuest {
         return getAttr(IHotelConsts.RESDETSERVICENAMEPROP);
     }
 
+    public void setPriceListName(String priceName) {
+        setAttr(IHotelConsts.RESDETPRICELISTNAMEPROP, priceName);
+    }
+
+    public String getPriceListName() {
+        return getAttr(IHotelConsts.RESDETPRICELISTNAMEPROP);
+    }
+
     public BigDecimal getPriceList() {
         return priceList;
     }

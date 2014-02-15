@@ -102,13 +102,16 @@ class HotelJpaPrices implements IHotelPriceElem {
         protected void dosth(EntityManager em) {
             Map<String, EHotelServices> mService = new HashMap<String, EHotelServices>();
 
-            Query q = JUtils.createHotelQuery(em, hotel, "findOnePriceList");
-            q.setParameter(2, priceList);
-            EHotelPriceList ePriceList = (EHotelPriceList) q.getSingleResult();
+            // Query q = JUtils.createHotelQuery(em, hotel, "findOnePriceList");
+            // q.setParameter(2, priceList);
+            // EHotelPriceList ePriceList = (EHotelPriceList)
+            // q.getSingleResult();
+            EHotelPriceList ePriceList = JUtils.findPriceList(em, hotel,
+                    priceList);
             // do not catch exception, one element is expected
 
             // remove all price elems
-            q = em.createNamedQuery("deletePricesForHotelAndPriceList");
+            Query q = em.createNamedQuery("deletePricesForHotelAndPriceList");
             q.setParameter(1, ePriceList);
             q.executeUpdate();
 

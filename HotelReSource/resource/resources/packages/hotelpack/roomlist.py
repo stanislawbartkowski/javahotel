@@ -5,11 +5,10 @@ from util.util import copyNameDescr
 from util.util import SERVICES
 from util.util import createSeq
 from util.util import createArrayList
-from util.util import MESS
 from util import util
 import cutil
 
-M = MESS()
+M = util.MESS()
 
 RLIST="roomlist"
 SERVLIST="services"
@@ -94,8 +93,8 @@ def _createServicesList(var):
       slist = R.getRoomServices(var["name"])
     else :
       ss = D.getDataH(20)
-      print ss
-      slist = ss.split(',')
+      if ss == None : slist = []
+      else : slist = ss.split(',')
       getN = lambda s : s
       var["noperson"] = D.getDataHI(21)
       var["nochildren"] = D.getDataHI(22)

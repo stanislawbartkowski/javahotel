@@ -44,6 +44,9 @@ M = util.MESS()
 CUST="cust_"
 RESLIST="reslist"
 
+def _newRese(var) :
+  return rutil.getReseName(var) == None
+
 def _createResData(var):
   service = var["roomservice"]
   if emptyS(service) : return None
@@ -82,15 +85,16 @@ def _createResData(var):
   allavail = True
   
   (listprice,listpricechild,listpriceextra) = _getPriceList(var)
+  resename = rutil.getReseName(var)
 
-#  pPrice = getPriceForPriceList(var,pricelist,service)
-# getResDate      
   for i in range(resdays) :
 #      price = pPrice.getPrice()
       avail = True
       for re in rList :
           rdata = re.getResDate()
-          if eqDate(dt,rdata) : avail = allavail = False
+          if eqDate(dt,rdata) : 
+            if resename == None or resename != re.getResId() : 
+              avail = allavail = False
       
       map = { "avail" : avail, "resroomname" : roomname, "resday" : dt, "rlist_pricetotal" : price, "rline_nop" : resnop,"rlist_priceperson" : priceperson,
               "rlist_noc" : resnoc, "rlist_pricechildren" : pricechildren, "rlist_noe" : resextra, "rlist_priceextra" : priceextra,
@@ -144,9 +148,10 @@ def _setAfterPerPerson(var) :
 
 def _createListOfDays(var): 
   rData = _createResData(var)
-  if rData == None : return
-  setJMapList(var,"reslist",rData[0])
-  setFooter(var,"reslist","rlist_pricetotal",rData[1])
+  if rData == None : return None
+#  assert rData != None
+  setJMapList(var,RESLIST,rData[0])
+  setFooter(var,RESLIST,"rlist_pricetotal",rData[1])
   return rData[2]
 
 def _checkNoAndPrice(var,no,price) :
@@ -164,8 +169,8 @@ def _checkRese(var):
   if not _checkNoAndPrice(var,"resnoextrabeds","respriceextrabeds") : return False
     
   if _createListOfDays(var) : return True
-  var["JERROR_MESSAGE"] = M("alreadyreserved")
-  var["JMESSAGE_TITLE"] = M("cannotmakereservation")  
+  var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
+  var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE") 
   return False
   
 def _checkAvailibity(var) :
@@ -182,7 +187,14 @@ def _checkAvailibity(var) :
     qelem = rutil.createResQueryElem(roomname,dat,dat+datetime.timedelta(1))
     query.add(qelem)
   rList = RES.queryReservation(query)
-  if len(rList) > 0 :
+  # analize if other reservation
+  resename = rutil.getReseName(var)
+  alreadyres = len(rList)
+  if resename  :
+    alreadyres = 0
+    for r in rList :
+      if r.getResId() != resename : alreadyres = alreadyres + 1
+  if alreadyres :
      var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
      var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE") 
      return False
@@ -194,10 +206,7 @@ class MAKERESE(HOTELTRANSACTION) :
      HOTELTRANSACTION.__init__(self,1,var)
      
    def run(self,var) :     
-      if not _checkAvailibity(var) :
-          var["JERROR_MESSAGE"] = M("ALREADYRESERVEDMESSAGE")
-          var["JMESSAGE_TITLE"] = M("ALREADYRESERVEDTITLE") 
-          return
+      if not _checkAvailibity(var) : return
       # customer firstly
       cust = customerFromVar(var,CUST)
       R = CUSTOMERLIST(var)
@@ -211,8 +220,10 @@ class MAKERESE(HOTELTRANSACTION) :
       saveDefaCustomer(var,CUST)               
       # --- customer added
       
+      resename = rutil.getReseName(var) 
       reservation = newResForm(var)
-      reservation.setGensymbol(True);
+      if resename : reservation.setName(resename)
+      else : reservation.setGensymbol(True);
       reservation.setCustomerName(name)
       service = var["roomservice"]
       nop = var["nop"]
@@ -242,8 +253,8 @@ class MAKERESE(HOTELTRANSACTION) :
           reselist.add(r)
           
       RFORM = util.RESFORM(var)
-      added = RFORM.addElem(reservation)
-      resename = added.getName()
+      if resename : RFORM.changeElem(reservation)
+      else : RFORM.addElem(reservation)
       var["JCLOSE_DIALOG"] = True
       var["JREFRESH_DATELINE_reservation"] = ""
         
@@ -270,13 +281,13 @@ def reseraction(action,var):
           
         if var["changefield"] == "roomservice" : 
             _setAfterServiceName(var)
-            if not var["changeafterfocus"] : 
+            if not var["changeafterfocus"] and _newRese(var) : 
                _createListOfDays(var)
                _setAfterPriceList(var)
                _setAfterPerPerson(var)
         if var["changefield"] == "roompricelist" : 
             _setAfterPriceList(var)
-            if not var["changeafterfocus"] : 
+            if not var["changeafterfocus"] and _newRese(var): 
               _createListOfDays(var)
               _setAfterServiceName(var)
               _setAfterPerPerson(var)

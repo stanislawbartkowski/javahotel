@@ -65,6 +65,7 @@ public interface IHotelConsts {
 
     String RESDETSERVICENAMEPROP = "servicename";
     String RESDETVATPROP = "rasvat";
+    String RESDETPRICELISTNAMEPROP = "pricelistname";
 
     String RESGUESTCUSTID = "guestcustomer";
     String RESGUESTROOMID = "guestroom";

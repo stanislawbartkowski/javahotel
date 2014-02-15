@@ -51,6 +51,9 @@ public class EHotelReservationDetail extends EHotelRoomCustomer {
     @JoinColumn(name = "service_id", nullable = true)
     private EHotelServices service;
 
+    @JoinColumn(name = "pricelist_id")
+    private EHotelPriceList pricelist;
+
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date resDate;
@@ -91,7 +94,7 @@ public class EHotelReservationDetail extends EHotelRoomCustomer {
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private ServiceType serviceType;
-    
+
     @Column(nullable = false)
     private boolean perperson;
 
@@ -226,7 +229,13 @@ public class EHotelReservationDetail extends EHotelRoomCustomer {
     public void setPerperson(boolean perperson) {
         this.perperson = perperson;
     }
-    
-    
+
+    public EHotelPriceList getPriceListName() {
+        return pricelist;
+    }
+
+    public void setPriceListName(EHotelPriceList pricelist) {
+        this.pricelist = pricelist;
+    }
 
 }

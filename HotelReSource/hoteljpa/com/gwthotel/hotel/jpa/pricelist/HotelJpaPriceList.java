@@ -13,7 +13,6 @@
 package com.gwthotel.hotel.jpa.pricelist;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import com.gwthotel.admin.HotelId;
 import com.gwthotel.hotel.HotelObjects;
@@ -24,7 +23,6 @@ import com.gwthotel.hotel.jpa.entities.EHotelPriceList;
 import com.gwthotel.hotel.pricelist.HotelPriceList;
 import com.gwthotel.hotel.pricelist.IHotelPriceList;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
-import com.jython.ui.shared.MUtil;
 
 class HotelJpaPriceList extends
         AbstractJpaCrud<HotelPriceList, EHotelPriceList> implements
