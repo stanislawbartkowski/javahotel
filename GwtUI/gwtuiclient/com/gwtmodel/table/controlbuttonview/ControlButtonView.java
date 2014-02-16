@@ -78,9 +78,29 @@ class ControlButtonView extends AbstractSlotContainer implements
         public void signal(ISlotSignalContext slContext) {
             LogT.getLS().info(
                     LogT.getT().receivedSignalLog(
-                    slContext.getSlType().toString()));
+                            slContext.getSlType().toString()));
             vButton.setEnable(actionId,
                     bAction.getAction() == ButtonAction.Action.EnableButton);
+        }
+    }
+
+    private class HideButton implements ISlotListener {
+
+        private final ButtonAction bAction;
+        private final ClickButtonType actionId;
+
+        HideButton(ButtonAction bAction, ClickButtonType actionId) {
+            this.actionId = actionId;
+            this.bAction = bAction;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            LogT.getLS().info(
+                    LogT.getT().receivedSignalLog(
+                            slContext.getSlType().toString()));
+            vButton.setHidden(actionId,
+                    bAction.getAction() == ButtonAction.Action.HideButton);
         }
     }
 
@@ -101,9 +121,9 @@ class ControlButtonView extends AbstractSlotContainer implements
 
     /**
      * Listener for 'force button' action
-     *
+     * 
      * @author hotel
-     *
+     * 
      */
     private class ForceButton implements ISlotListener {
 
@@ -146,6 +166,12 @@ class ControlButtonView extends AbstractSlotContainer implements
         registerSubscriber(dType, b.getActionId(), ba, e);
     }
 
+    private void registerhide(ButtonAction.Action bA, ControlButtonDesc b) {
+        ButtonAction ba = new ButtonAction(bA);
+        HideButton e = new HideButton(ba, b.getActionId());
+        registerSubscriber(dType, b.getActionId(), ba, e);
+    }
+
     ControlButtonView(ContrButtonViewFactory vFactory,
             ListOfControlDesc listButton, IDataType dType, boolean hori) {
         this.dType = dType;
@@ -153,6 +179,8 @@ class ControlButtonView extends AbstractSlotContainer implements
         for (ControlButtonDesc b : listButton.getcList()) {
             register(ButtonAction.Action.EnableButton, b);
             register(ButtonAction.Action.DisableButton, b);
+            registerhide(ButtonAction.Action.HideButton, b);
+            registerhide(ButtonAction.Action.ShowButton, b);
             ButtonAction bR = new ButtonAction(
                     ButtonAction.Action.RedirectButton);
             registerSubscriber(dType, b.getActionId(), bR,
@@ -179,7 +207,8 @@ class ControlButtonView extends AbstractSlotContainer implements
     public void startPublish(CellId cellId) {
         IGWidget w = this.getMainHtmlWidget();
         if (vButton != null) {
-            CustomStringSlot cSlot = ButtonSendListOfButtons.constructSlotSendListOfButtons(dType);
+            CustomStringSlot cSlot = ButtonSendListOfButtons
+                    .constructSlotSendListOfButtons(dType);
             ButtonSendListOfButtons sl = new ButtonSendListOfButtons(vButton);
             publish(cSlot, sl);
         }

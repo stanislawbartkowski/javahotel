@@ -15,7 +15,7 @@ package com.gwtmodel.table;
 import com.google.gwt.event.dom.client.ClickHandler;
 
 /**
- *
+ * 
  * @author perseus
  */
 public interface IGFocusWidget extends IGWidget {
@@ -23,6 +23,8 @@ public interface IGFocusWidget extends IGWidget {
     void addClickHandler(ClickHandler h);
 
     void setEnabled(boolean enabled);
+
+    void setHidden(boolean hidden);
 
     boolean isEnabled();
 }

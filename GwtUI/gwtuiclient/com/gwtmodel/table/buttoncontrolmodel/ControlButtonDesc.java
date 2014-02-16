@@ -21,38 +21,40 @@ public class ControlButtonDesc {
     private final ClickButtonType actionId;
     private final boolean textimage;
     private final boolean enabled;
+    private final boolean hidden;
 
     public ControlButtonDesc(final String imageHtml, final String displayName,
-            final ClickButtonType actionId, boolean enabled) {
+            final ClickButtonType actionId, boolean enabled, boolean hidden) {
         this.imageHtml = imageHtml;
         this.displayName = displayName;
         this.actionId = actionId;
         textimage = false;
         this.enabled = enabled;
+        this.hidden = hidden;
     }
 
     public ControlButtonDesc(final String imageHtml, final String displayName,
             final ClickButtonType actionId) {
-        this(imageHtml, displayName, actionId, true);
+        this(imageHtml, displayName, actionId, true, false);
     }
 
     public ControlButtonDesc(final String contrName,
             final ClickButtonType actionId) {
-        this(null, contrName, actionId, true);
+        this(null, contrName, actionId, true, false);
     }
 
     public ControlButtonDesc(final String contrName,
-            final ClickButtonType actionId, boolean enabled) {
-        this(null, contrName, actionId, enabled);
+            final ClickButtonType actionId, boolean enabled, boolean hidden) {
+        this(null, contrName, actionId, enabled, hidden);
     }
 
     public ControlButtonDesc(final String contrName, String actionId) {
-        this(null, contrName, new ClickButtonType(actionId), true);
+        this(null, contrName, new ClickButtonType(actionId), true, false);
     }
 
     public ControlButtonDesc(final String contrName, String actionId,
-            boolean enabled) {
-        this(null, contrName, new ClickButtonType(actionId), enabled);
+            boolean enabled, boolean hidden) {
+        this(null, contrName, new ClickButtonType(actionId), enabled, hidden);
     }
 
     public boolean isTextimage() {
@@ -89,6 +91,10 @@ public class ControlButtonDesc {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public boolean isHidden() {
+        return hidden;
     }
 
 }

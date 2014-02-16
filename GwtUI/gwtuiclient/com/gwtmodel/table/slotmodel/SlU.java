@@ -418,6 +418,14 @@ public class SlU {
         iSlo.getSlContainer().publish(dType, cl, a);
     }
 
+    public static void buttonHidden(IDataType dType, ISlotable iSlo,
+            String buttonC, boolean hide) {
+        ButtonAction a = new ButtonAction(hide ? ButtonAction.Action.HideButton
+                : ButtonAction.Action.ShowButton);
+        ClickButtonType cl = new ClickButtonType(buttonC);
+        iSlo.getSlContainer().publish(dType, cl, a);
+    }
+
     public static VListHeaderContainer getHeaderList(IDataType dType,
             ISlotable iSlo) {
         ISlotSignalContext slContext = iSlo.getSlContainer().getGetterContext(

@@ -50,6 +50,13 @@ public class GFocusWidgetFactory {
             FocusWidget f = (FocusWidget) getGWidget();
             return f.isEnabled();
         }
+
+        @Override
+        public void setHidden(boolean hidden) {
+            FocusWidget f = (FocusWidget) getGWidget();
+            f.setVisible(!hidden);
+
+        }
     }
 
     private static class FTip extends PopupTip implements IGFocusWidget {
@@ -80,6 +87,11 @@ public class GFocusWidgetFactory {
         public boolean isEnabled() {
             Button b = (Button) this.getWidget();
             return b.isEnabled();
+        }
+
+        @Override
+        public void setHidden(boolean hidden) {
+            
         }
     }
 

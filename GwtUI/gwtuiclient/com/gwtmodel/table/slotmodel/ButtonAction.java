@@ -19,15 +19,19 @@ package com.gwtmodel.table.slotmodel;
 
 /**
  * Button action description
+ * 
  * @author hotel
  */
 public class ButtonAction {
 
     public enum Action {
-        ClickButton, // click button 
+        ClickButton, // click button
         EnableButton, // enable button
         DisableButton, // disable button
-        RedirectButton, // redirect button, make button behave like another button
+        HideButton, // hide button
+        ShowButton, // show button
+        RedirectButton, // redirect button, make button behave like another
+                        // button
         ForceButton // artificially causes push button
     }
 

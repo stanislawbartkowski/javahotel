@@ -93,4 +93,10 @@ class PullMenuView implements IContrButtonView {
     public Widget getGWidget() {
         return mbar;
     }
+
+    @Override
+    public void setHidden(ClickButtonType actionId, boolean hidden) {
+        // TODO Auto-generated method stub
+        
+    }
 }
