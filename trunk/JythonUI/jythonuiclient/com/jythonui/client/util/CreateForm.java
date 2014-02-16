@@ -245,26 +245,23 @@ public class CreateForm {
     }
 
     private static ControlButtonDesc constructButton(ButtonItem b,
-            boolean enabled) {
+            boolean enabled, boolean hidden) {
 
         String id = b.getId();
         String dName = b.getDisplayName();
         if (b.isHeaderButton())
             return new ControlButtonDesc(dName, new ClickButtonType(
-                    StandClickEnum.MENUTITLE), enabled);
+                    StandClickEnum.MENUTITLE), enabled, hidden);
         else
-            return new ControlButtonDesc(dName, id, enabled);
-        // return new ControlButtonDesc("default_closeicon",dName, new
-        // ClickButtonType(id), enabled);
+            return new ControlButtonDesc(dName, id, enabled, hidden);
     }
 
     public static List<ControlButtonDesc> constructBList(SecurityInfo sInfo,
             List<ButtonItem> iList) {
         List<ControlButtonDesc> bList = new ArrayList<ControlButtonDesc>();
         for (ButtonItem b : iList) {
-            if (sInfo.isButtHidden(b))
-                continue;
-            bList.add(constructButton(b, !sInfo.isButtReadOnly(b)));
+            bList.add(constructButton(b, !sInfo.isButtReadOnly(b),
+                    sInfo.isButtHidden(b)));
         }
         return bList;
     }

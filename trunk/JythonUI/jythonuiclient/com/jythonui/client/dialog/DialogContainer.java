@@ -908,7 +908,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 public void action(String fie, String field) {
                     SplitIntoTwo t = new SplitIntoTwo();
                     t.extract(fie, field, ICommonConsts.JSETATTRBUTTON);
-                    if (!ICommonConsts.ENABLE.equals(t.action)) {
+                    if (!ICommonConsts.ENABLE.equals(t.action)
+                            && !ICommonConsts.HIDDEN.equals(t.action)) {
                         String mess = M.M().CheckListActionNotExpected(field,
                                 t.action);
                         Utils.errAlertB(mess);
@@ -919,8 +920,12 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                                 field, t.action);
                         Utils.errAlertB(mess);
                     }
-                    SlU.buttonEnable(dType, DialogContainer.this, t.id,
-                            val.getValueB());
+                    if (ICommonConsts.ENABLE.equals(t.action))
+                        SlU.buttonEnable(dType, DialogContainer.this, t.id,
+                                val.getValueB());
+                    if (ICommonConsts.HIDDEN.equals(t.action))
+                        SlU.buttonHidden(dType, DialogContainer.this, t.id,
+                                val.getValueB());
 
                 }
 
