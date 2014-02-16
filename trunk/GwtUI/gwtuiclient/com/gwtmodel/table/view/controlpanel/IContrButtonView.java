@@ -23,6 +23,8 @@ import com.gwtmodel.table.slotmodel.ClickButtonType;
 public interface IContrButtonView extends IGWidget {
 
     void setEnable(ClickButtonType actionId, boolean enable);
+    
+    void setHidden(ClickButtonType actionId, boolean hidden);
 
     void setHtml(IGWidget g);
 

@@ -50,6 +50,15 @@ class ContrButtonView implements IContrButtonView {
     }
 
     @Override
+    public void setHidden(ClickButtonType actionId, boolean hidden) {
+        IGFocusWidget b = iBut.get(actionId);
+        if (b == null) {
+            return;
+        }
+        b.setHidden(hidden);
+    }
+
+    @Override
     public void setHtml(IGWidget gw) {
         Widget w = gw.getGWidget();
         pa = (HTMLPanel) w;
@@ -105,12 +114,9 @@ class ContrButtonView implements IContrButtonView {
             if (!hori) {
                 but.getGWidget().setWidth("100%");
             }
-            if (!b.isEnabled())
-                but.setEnabled(false);
-            else {
-                but.setEnabled(true);
-                but.addClickHandler(new Click(b));
-            }
+            but.setEnabled(b.isEnabled());
+            but.addClickHandler(new Click(b));
+            but.setHidden(b.isHidden());
             hP.add(but.getGWidget());
             iBut.put(b.getActionId(), but);
             cBut.put(b.getActionId(), b);
@@ -137,4 +143,5 @@ class ContrButtonView implements IContrButtonView {
         ControlButtonDesc b = cBut.get(actionId);
         co.click(b, f.getGWidget());
     }
+
 }
