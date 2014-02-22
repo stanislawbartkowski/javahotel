@@ -113,7 +113,7 @@ def setvarBefore(var,cust="cust_"):
               "rlist_noe" : util.getIntField(r.getNoExtraBeds()), "rlist_priceextra" : con.BigDecimalToDecimal(r.getPriceExtraBeds()),
               "rlist_pricelistperson" : con.BigDecimalToDecimal(r.getPriceList()), "rlist_pricelistchildren" : con.BigDecimalToDecimal(r.getPriceListChildren()), 
               "rlist_pricelistextrabeds" :  con.BigDecimalToDecimal(r.getPriceListExtraBeds()), "rlist_serviceperperson" : r.isPerperson(), 
-              "rlist_roomservice" : r.getService(), "rlist_roompricelist" : None}
+              "rlist_roomservice" : r.getService(), "rlist_roompricelist" : r.getPriceListName()}
               
          if mindate == None : mindate = r.getResDate()
          elif mindate > r.getResDate() : mindate = r.getResDate()
@@ -121,6 +121,7 @@ def setvarBefore(var,cust="cust_"):
          list.append(map)
          sum.add(r.getPrice())
 
+    print mindate
     var["datecol"] = mindate
     var["resdays"] = len(reservation.getResDetail())
     cutil.setJMapList(var,"reslist",list)

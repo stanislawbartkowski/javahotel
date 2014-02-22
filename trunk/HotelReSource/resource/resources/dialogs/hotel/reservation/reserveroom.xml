@@ -16,6 +16,12 @@
 		<button id="checkaval" displayname="@checkavailability" validate="" />
 		<button id="custdetails" displayname="@guestdetails" />
 		<button id="askforreservation" displayname="@makereservation" validate="" />
+                <button id="cancelres" displayname="@cancelreservation"
+                        actiontype="JYESNO_MESSAGE" actionparam="@cancelreservationconfirmation"
+                        actionparam1="@warningcancelreservation" actionparam2="cancelreserv" hidden=""/>
+                <button id="checkin" displayname="@checkinbutton" actiontype="JUP_DIALOG"
+                        actionparam="hotel/reservation/checkin.xml" actionparam2="aftercheckin" hidden=""/>
+
 	</buttons>
 
 	<form>

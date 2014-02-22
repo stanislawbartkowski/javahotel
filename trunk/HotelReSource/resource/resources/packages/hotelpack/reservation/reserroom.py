@@ -23,7 +23,6 @@ from util.util import getPriceForPriceList
 from cutil import setFooter
 from cutil import setJMapList
 from util.util import BILLLIST
-from util.util import getReseName
 from util.util import setCustData
 from util.util import getPayments
 from con import eqUL
@@ -43,6 +42,9 @@ M = util.MESS()
 
 CUST="cust_"
 RESLIST="reslist"
+
+def showButton(var,buttonid,show=True) :
+   var["JSETATTR_BUTTON_" + buttonid + "_hidden"] = not show
 
 def _newRese(var) :
   return rutil.getReseName(var) == None
@@ -235,6 +237,7 @@ class MAKERESE(HOTELTRANSACTION) :
           r.setService(re["rlist_roomservice"])
           r.setResDate(con.toDate(re["resday"]))
           r.setPerperson(re["rlist_serviceperperson"])
+          r.setPriceListName(re["rlist_roompricelist"])
           
           r.setNoP(re["rline_nop"])
           r.setPrice(con.toB(re["rlist_priceperson"]))
@@ -275,6 +278,16 @@ def _checkCurrentRese(var) :
 def reseraction(action,var):
     printvar("reseraction",action,var)
     
+    if action == "cancelreserv" and var["JYESANSWER"] :
+     resname = rutil.getReseName(var)
+     R = util.RESOP(var)
+     R.changeStatusToCancel(resname)
+     var["JCLOSE_DIALOG"] = True
+     var["JREFRESH_DATELINE_reservation"] = ""
+     
+    if action == "aftercheckin" and var["JUPDIALOG_BUTTON"] == "makecheckin" :
+       var["JCLOSE_DIALOG"] = True        
+    
     if action == "signalchange" :
         if var["changefield"] == "serviceperperson" :
           _setAfterPerPerson(var)
@@ -294,6 +307,9 @@ def reseraction(action,var):
     
     if action=="before" :
         rutil.setvarBefore(var)
+        if not _newRese(var) :
+          showButton(var,"cancelres")
+          showButton(var,"checkin")
         
     if action == "acceptdetails" and var["JUPDIALOG_BUTTON"] == "accept" :
         xml = var["JUPDIALOG_RES"]
