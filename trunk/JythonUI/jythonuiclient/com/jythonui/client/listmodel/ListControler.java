@@ -21,6 +21,7 @@ import com.google.common.base.Optional;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.gwtmodel.table.FUtils;
 import com.gwtmodel.table.FieldDataType.IGetListValues;
+import com.gwtmodel.table.GWidget;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataListType;
 import com.gwtmodel.table.IDataType;
@@ -103,6 +104,8 @@ import com.jythonui.client.util.PerformVariableAction.VisitList;
 import com.jythonui.client.util.PerformVariableAction.VisitList.IGetFooter;
 import com.jythonui.client.util.ValidateForm;
 import com.jythonui.client.variables.IVariablesContainer;
+import com.jythonui.shared.ButtonItem;
+import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.FieldItem;
 import com.jythonui.shared.FieldValue;
@@ -1134,9 +1137,27 @@ class ListControler {
 
     }
 
+    private static class CustomClick implements ISlotListener {
+
+        private final IPerformClickAction custClick;
+
+        CustomClick(IPerformClickAction custClick) {
+            this.custClick = custClick;
+        }
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            WSize w = new WSize(slContext.getGwtWidget());
+            String s = slContext.getSlType().getButtonClick().getCustomButt();
+            custClick.click(s, w);
+        }
+
+    }
+
     static ISlotable contruct(RowListDataManager rM, IDataType da,
             CellId panelId, IVariablesContainer iCon,
-            IPerformClickAction iClick, ICreateBackActionFactory backFactory) {
+            IPerformClickAction iClick, ICreateBackActionFactory backFactory,
+            IPerformClickAction custClick) {
         TableDataControlerFactory tFactory = GwtGiniInjector.getI()
                 .getTableDataControlerFactory();
         ControlButtonFactory buFactory = GwtGiniInjector.getI()
@@ -1147,6 +1168,7 @@ class ListControler {
         ListFormat li = rM.getFormat(da);
         List<ControlButtonDesc> crudList = bFactory.constructCrudListButtons();
         List<ControlButtonDesc> cList;
+        List<ControlButtonDesc> customList = new ArrayList<ControlButtonDesc>();
         if (!CUtil.EmptyS(li.getStandButt())) {
             String[] liButton = li.getStandButt().split(",");
             cList = new ArrayList<ControlButtonDesc>();
@@ -1173,11 +1195,18 @@ class ListControler {
                 if (s.equals(ICommonConsts.BUTT_FIND)) {
                     bu = StandClickEnum.FIND;
                 }
-                if (bu == null) {
-                    continue;
+                String actionButt = FieldItem.getCustomT(s);
+                ControlButtonDesc b = null;
+                if (!CUtil.EmptyS(actionButt)) {
+                    ButtonItem but = DialogFormat.findE(rM.getDialogInfo()
+                            .getDialog().getActionList(), actionButt);
+                    b = CreateForm.constructButton(but, true, false);
+                    customList.add(b);
                 }
-                ControlButtonDesc b = buFactory.constructButt(bu);
-                cList.add(b);
+                if (bu != null)
+                    b = buFactory.constructButt(bu);
+                if (b != null)
+                    cList.add(b);
             }
         } else {
             cList = crudList;
@@ -1198,6 +1227,11 @@ class ListControler {
         i.getSlContainer().registerSubscriber(da,
                 DataActionEnum.TableCellClicked,
                 new ActionClicked(iClick, iCon));
+        for (ControlButtonDesc b : customList) {
+            i.getSlContainer().registerSubscriber(da, b.getActionId(),
+                    new CustomClick(custClick));
+        }
+
         return i;
     }
 

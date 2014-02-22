@@ -23,6 +23,7 @@ import com.gwtmodel.table.common.TT;
 import com.jythonui.server.holder.SHolder;
 import com.jythonui.server.logmess.IErrorCode;
 import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.shared.ButtonItem;
 import com.jythonui.shared.CheckList;
 import com.jythonui.shared.DateLine;
 import com.jythonui.shared.DialogFormat;
@@ -93,6 +94,26 @@ class ValidateDialogFormat {
                 listTag));
     }
 
+    private static void checkListCustomButton(DialogFormat d, ListFormat l) {
+        if (!l.isAttr(ICommonConsts.STANDBUTT))
+            return;
+        String[] cButtons = l.getStandButt().split(",");
+        for (String s : cButtons) {
+            String customButt = FieldItem.getCustomT(s);
+            if (CUtil.EmptyS(customButt))
+                continue;
+            // check if custom button is action list
+            ButtonItem b = DialogFormat.findE(d.getActionList(), customButt);
+            if (b == null) {
+                error(SHolder.getM().getMess(IErrorCode.ERRORCODE76,
+                        ILogMess.STANDBUTTONNOTINACTION, d.getId(), l.getId(),
+                        l.getStandButt(), customButt,
+                        ICommonConsts.ACTIONS));
+            }
+        }
+
+    }
+
     static void validate(DialogFormat d) {
         validateL(ICommonConsts.LEFTMENU, ICommonConsts.BUTTON,
                 d.getLeftButtonList());
@@ -103,6 +124,7 @@ class ValidateDialogFormat {
             idNotNull(ICommonConsts.LIST, l);
             validateL(ICommonConsts.COLUMNS, ICommonConsts.COLUMN,
                     l.getColumns());
+
         }
         Set<String> sId = new HashSet<String>();
         for (FieldItem f : d.getFieldList()) {
@@ -125,6 +147,8 @@ class ValidateDialogFormat {
             }
             sId.add(id);
         }
+        for (ListFormat l : d.getListList())
+            checkListCustomButton(d, l);
         for (CheckList c : d.getCheckList()) {
             idNotNull(ICommonConsts.CHECKLIST, c);
             String type = c.getAttr(ICommonConsts.TYPE);

@@ -13,7 +13,6 @@
 package com.jythonui.client.dialog;
 
 import com.gwtmodel.table.WSize;
-import com.jythonui.shared.DialogVariables;
 
 public interface IPerformClickAction {
 
