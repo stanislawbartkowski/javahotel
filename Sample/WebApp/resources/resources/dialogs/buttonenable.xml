@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <dialog xmlns="http://www.jythongwt.dialogxsd.com">
 
+<before/>
+
         <jython>
                 <import>from testpack import enablebutton</import>
                 <method>enablebutton.clickaction({0},{1})</method>
@@ -12,7 +14,10 @@
         
         <form>
                 <field id="enable" type="bool" displayname= "Enable button" signalchange=""/>
-
+                <field id="hide" type="bool" displayname="Hide button" signalchange="" />
+                <field id="enableperson" type="bool" displayname="Enable person name" signalchange="" />
+                
+                <field id="custid" displayname="Person name" />
         </form>  
 
 

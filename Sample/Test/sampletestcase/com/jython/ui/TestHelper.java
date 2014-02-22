@@ -42,6 +42,7 @@ import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
 import com.jythonui.shared.RequestContext;
+import com.jythonui.server.storage.blob.IBlobHandler;
 
 /**
  * @author hotel
@@ -66,6 +67,7 @@ public class TestHelper {
     protected final IGetLocalizedDict iListI;
     protected final IGetLocalizedDict iListP;
     protected final IDefaultData dData;
+    protected final IBlobHandler iBlob;
 
     protected final static String realmIni = "classpath:resources/shiro/shiro.ini";
     protected final static String derbyIni = "classpath:resources/shiro/shiroderby.ini";
@@ -88,6 +90,7 @@ public class TestHelper {
         iListI = Holder.getListOfIdTypes();
         iListP = Holder.getListOfPayment();
         dData = Holder.getDefaultData();
+        iBlob = SHolder.getBlobHandler();
     }
 
     protected void putLocale(String lang) {
