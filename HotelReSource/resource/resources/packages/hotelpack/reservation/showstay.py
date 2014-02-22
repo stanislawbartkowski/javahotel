@@ -70,7 +70,6 @@ def showstay(action,var):
      _listOfPayments(var)
      _ListOfBills(var)
      _setChangedFalse(var)
-     return
    
    if var["billlistwaschanged"] :
     _setChangedFalse(var)   
