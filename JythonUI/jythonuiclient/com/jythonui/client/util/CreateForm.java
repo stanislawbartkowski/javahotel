@@ -244,7 +244,7 @@ public class CreateForm {
                 null, l.getWidth(), null, desc.footList);
     }
 
-    private static ControlButtonDesc constructButton(ButtonItem b,
+    public static ControlButtonDesc constructButton(ButtonItem b,
             boolean enabled, boolean hidden) {
 
         String id = b.getId();

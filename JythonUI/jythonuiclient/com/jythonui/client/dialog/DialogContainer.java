@@ -566,7 +566,8 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 liManager.addList(da, id, f);
                 CellId panelId = pView.addElemC(id, dType);
                 ISlotable i = liManager.constructListControler(da, panelId,
-                        iCon, new ListClick(da), new BackFactory());
+                        iCon, new ListClick(da), new BackFactory(),
+                        new ActionButton(d.getActionList()));
                 slMediator.registerSlotContainer(panelId, i);
                 slMediator.getSlContainer().registerSubscriber(dType,
                         ClickButtonType.StandClickEnum.ALL,

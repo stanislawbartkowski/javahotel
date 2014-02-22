@@ -127,9 +127,9 @@ public class RowListDataManager implements ISetGetVar {
 
     public ISlotable constructListControler(IDataType da, CellId panelId,
             IVariablesContainer iCon, IPerformClickAction iAction,
-            ICreateBackActionFactory bFactory) {
+            ICreateBackActionFactory bFactory,IPerformClickAction custAction) {
         return ListControler.contruct(this, da, panelId, iCon, iAction,
-                bFactory);
+                bFactory,custAction);
     }
 
     IVModelData contructE(IDataType da) {

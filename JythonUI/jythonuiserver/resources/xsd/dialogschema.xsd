@@ -44,7 +44,7 @@
 	<xs:simpleType name="listStand">
 		<xs:restriction base="xs:string">
 			<xs:pattern
-				value="(((TOOLS|ADD|MODIF|REMOVE|SHOW|FIND|FILTER),)*(TOOLS|ADD|MODIF|REMOVE|SHOW|FIND|FILTER)?)" />
+				value="(((TOOLS|ADD|MODIF|REMOVE|SHOW|FIND|FILTER|custom:.*),)*(TOOLS|ADD|MODIF|REMOVE|SHOW|FIND|FILTER|custom:.*)?)" />
 		</xs:restriction>
 	</xs:simpleType>
 

@@ -26,6 +26,16 @@ class MESS :
   def __call__(self,key) :
       return self.M.getCustomMess().getAttr(key)
 
+
+def enableButton(var,buttid,enable=True) :
+      var["JSETATTR_BUTTON_"+buttid+"_enable"] = enable
+      
+def hideButton(var,buttid,hide=True) :
+      var["JSETATTR_BUTTON_"+buttid+"_hidden"] = hide    
+
+def enableField(var,fieldid,enable=True) :
+      var["JSETATTR_FIELD_"+fieldid+"_enable"] = enable
+
 def getCookie(var,name):
     cname="JCOOKIE_" + name
     if var.has_key(cname) : return var[cname]
