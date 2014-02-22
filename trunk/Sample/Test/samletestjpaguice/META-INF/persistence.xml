@@ -7,6 +7,7 @@
 		<class>com.jythonui.datastore.DateLineElem</class>
 		<class>com.jythonui.datastore.DateRecord</class>
 		<class>com.jython.ui.server.jpastoragekey.entity.RegistryEntry</class>
+        <class>com.jython.ui.server.jpastoragekey.entity.BlobEntry</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
 			<property name="javax.persistence.jdbc.url"

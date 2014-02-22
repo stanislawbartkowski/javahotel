@@ -19,7 +19,7 @@
   <button id="listfooter" displayname="List footer" actiontype="JMAIN_DIALOG" actionparam="listdeffooter.xml" />
   <button id="listnext" displayname="Different lists" header="" />
   <button id="listwithcustom" displayname="List with custom" actiontype="JMAIN_DIALOG" actionparam="listwithcustom.xml" />
-
+  <button id="dialogattach" displayname="Dialog with attachment" actiontype="JMAIN_DIALOG" actionparam="dialogattach.xml" />
 </leftstack>
 
  <form>
