@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright 2014 stanislawbartkowski@gmail.com 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -27,23 +27,24 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class UploadFile extends Composite {
-    
+
     interface ISubmitRes {
         void execute(String res);
     }
-    
+
     private class SCompleted implements SubmitCompleteHandler {
-        
+
         ISubmitRes i;
 
         @Override
         public void onSubmitComplete(SubmitCompleteEvent event) {
             i.execute(event.getResults());
         }
-        
+
     }
 
-    private static UploadFileUiBinder uiBinder = GWT.create(UploadFileUiBinder.class);
+    private static UploadFileUiBinder uiBinder = GWT
+            .create(UploadFileUiBinder.class);
     @UiField(provided = true)
     Widget comment;
     @UiField(provided = true)
@@ -52,7 +53,7 @@ public class UploadFile extends Composite {
     Label labelcomment;
     @UiField
     Label labelfile;
-    
+
     private SCompleted s = new SCompleted();
 
     interface UploadFileUiBinder extends UiBinder<Widget, UploadFile> {

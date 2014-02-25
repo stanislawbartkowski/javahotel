@@ -15,6 +15,7 @@ package com.gwtmodel.table.view.util;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtmodel.table.IGWidget;
@@ -102,34 +103,34 @@ abstract public class ModalDialog {
 
     public void show(final WSize w, final SolidPos sPos) {
 
-// TODO: showRelativeTo seems not working properly        
-//        if (w.getW() != null) {
-//            dBox.showRelativeTo(w.getW());
-//        } else
-            dBox.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
+        // TODO: showRelativeTo seems not working properly
+        // if (w.getW() != null) {
+        // dBox.showRelativeTo(w.getW());
+        // } else
+        dBox.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
 
-                @Override
-                public void setPosition(int offsetWidth, int offsetHeight) {
-                    assert w != null : LogT.getT().cannotBeNull();
-                    int maxwi = Window.getClientWidth();
-                    int maxhei = Window.getClientHeight();
-                    int t = w.getTop() + w.getHeight();
-                    int l = w.getLeft();
+            @Override
+            public void setPosition(int offsetWidth, int offsetHeight) {
+                assert w != null : LogT.getT().cannotBeNull();
+                int maxwi = Window.getClientWidth();
+                int maxhei = Window.getClientHeight();
+                int t = w.getTop() + w.getHeight();
+                int l = w.getLeft();
 
-                    int left = MaxI.min(maxwi - offsetWidth, l);
-                    int top = MaxI.min(maxhei - offsetHeight, t);
-                    if (sPos.getStartl() != -1) {
-                        top = sPos.getStartl();
-                    }
-                    if (sPos.getStartcol() != -1) {
-                        left = sPos.getStartcol();
-                    }
-                    if (top < 0) {
-                        top = 0;
-                    }
-                    dBox.setPopupPosition(left, top);
+                int left = MaxI.min(maxwi - offsetWidth, l);
+                int top = MaxI.min(maxhei - offsetHeight, t);
+                if (sPos.getStartl() != -1) {
+                    top = sPos.getStartl();
                 }
-            });
+                if (sPos.getStartcol() != -1) {
+                    left = sPos.getStartcol();
+                }
+                if (top < 0) {
+                    top = 0;
+                }
+                dBox.setPopupPosition(left, top);
+            }
+        });
     }
 
     public void show(final WSize w) {
