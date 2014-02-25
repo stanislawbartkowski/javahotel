@@ -6,7 +6,7 @@
 	<xs:simpleType name="typeName">
 		<xs:restriction base="xs:string">
 			<xs:pattern
-				value="int|string|textarea|richtext|bool|decimal|long|date|datetime|password|custom:.*" />
+				value="int|string|textarea|richtext|bool|decimal|long|date|datetime|password|upload|custom:.*" />
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -113,6 +113,7 @@
 			<xs:element minOccurs="0" name="asxml" type="listidsType" />
 			<xs:element minOccurs="0" name="clearleft" type="emptyT" />
 			<xs:element minOccurs="0" name="clearcentre" type="emptyT" />
+			<xs:element minOccurs="0" name="formpanel" type="emptyT" />
 		</xs:sequence>
 	</xs:group>
 
@@ -126,6 +127,7 @@
 		<xs:attribute name="asxml" type="listidsType" />
 		<xs:attribute name="clearleft" type="emptyT" />
 		<xs:attribute name="clearcentre" type="emptyT" />
+		<xs:attribute name="formpanel" type="emptyT" />
 	</xs:attributeGroup>
 
 	<xs:group name="listG">
@@ -202,7 +204,7 @@
 			<xs:element minOccurs="0" name="editcss" type="xs:string" />
 			<xs:element minOccurs="0" name="label" type="xs:string" />
 			<xs:element minOccurs="0" name="columnclass" type="xs:string" />
-            <xs:element minOccurs="0" name="headerclass" type="xs:string" />
+			<xs:element minOccurs="0" name="headerclass" type="xs:string" />
 		</xs:sequence>
 	</xs:group>
 
@@ -237,7 +239,7 @@
 		<xs:attribute name="editcss" type="xs:string" />
 		<xs:attribute name="label" type="emptyT" />
 		<xs:attribute name="columnclass" type="xs:string" />
-        <xs:attribute name="headerclass" type="xs:string" />
+		<xs:attribute name="headerclass" type="xs:string" />
 	</xs:attributeGroup>
 
 	<xs:group name="checklistG">

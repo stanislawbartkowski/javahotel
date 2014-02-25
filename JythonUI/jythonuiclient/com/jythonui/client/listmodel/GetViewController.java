@@ -162,6 +162,12 @@ class GetViewController implements IGetViewControllerFactory {
                 public void closeAction(String resString, String resButton) {
                     publish(dType, DataActionEnum.PersistDataSuccessSignal, e);
                 }
+
+                @Override
+                public void submitAction() {
+                    // do nothing
+                    
+                }
             }
 
             private class YesNo implements IYesNoAction {

@@ -17,18 +17,17 @@ import com.gwtmodel.table.slotmodel.CustomObjectValue;
 import com.gwtmodel.table.slotmodel.CustomStringDataTypeSlot;
 import com.gwtmodel.table.slotmodel.CustomStringSlot;
 
-class SendCloseSignal extends CustomObjectValue<String> {
+class SendSubmitSignal extends CustomObjectValue<String> {
 
-    SendCloseSignal(String b) {
+    SendSubmitSignal(String b) {
         super(b);
     }
 
-    private static final String CLOSE_SIGNAL = SendCloseSignal.class.getName()
-            + "_CLOSE_DIALOG";
+    private static final String SUBMIT_SIGNAL = SendSubmitSignal.class
+            .getName() + "_SUBMIT";
 
     static CustomStringSlot constructSignal(IDataType dType) {
-        return new CustomStringDataTypeSlot(dType, CLOSE_SIGNAL);
+        return new CustomStringDataTypeSlot(dType, SUBMIT_SIGNAL);
     }
-
 
 }

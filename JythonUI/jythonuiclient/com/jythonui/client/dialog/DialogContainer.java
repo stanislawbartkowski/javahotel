@@ -275,6 +275,11 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                 close.execute();
             }
 
+            @Override
+            public void submitAction() {
+
+            }
+
         }
 
         @Override
@@ -492,6 +497,24 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
 
     }
 
+    private class AfterSubmitClass implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            AfterUploadSubmitSignal t = (AfterUploadSubmitSignal) slContext
+                    .getCustom();
+            String res = t.getValue();
+            WSize ws = t.getwS();
+            String submitId = t.getSubmitId();
+
+            DialogVariables v = iCon.getVariables(submitId);
+            v.setValueS(ICommonConsts.JSUBMITERES, res);
+            ExecuteAction.action(v, d.getId(), ICommonConsts.AFTERSUBMIT,
+                    new BackClass(null, false, ws, null));
+        }
+
+    }
+
     @Override
     public void startPublish(CellId cId) {
 
@@ -605,6 +628,10 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
         slMediator.getSlContainer().registerSubscriber(
                 CloseDialogByImage.constructSignal(dType),
                 new CloseDialogImage());
+        slMediator.getSlContainer().registerSubscriber(
+                AfterUploadSubmitSignal.constructSignal(dType),
+                new AfterSubmitClass());
+
         //
         if (bList != null) {
             for (IDataType da : liManager.getList()) {
@@ -692,6 +719,15 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     s = resButton;
                 iEx.setResultButton(s, resString);
             }
+        }
+
+        @Override
+        public void submitAction() {
+            SendSubmitSignal sig = new SendSubmitSignal(id);
+            slMediator.getSlContainer().publish(
+                    SendSubmitSignal.constructSignal(dType), sig);
+            if (iClose != null)
+                iClose.submitAction();
         }
 
     }
