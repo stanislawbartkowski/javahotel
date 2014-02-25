@@ -12,14 +12,25 @@
  */
 package com.jython.ui.server.jpastoragekey;
 
+import com.jython.ui.server.jpastoragekey.entity.RegistryEntry;
 import com.jython.ui.server.jpatrans.ITransactionContextFactory;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 
 public class StorageJpaRegistryFactory implements IStorageJpaRegistryFactory {
 
+    private static final String[] q = { "findRegistryEntry",
+            "removeRegistryEntry", "getListRegistryEntry" };
+
     @Override
     public IStorageRealmRegistry construct(ITransactionContextFactory iC) {
-        return new StorageJpaRegistry(iC);
+        return new AbstractStorageJpaRegistry(iC, q) {
+
+            @Override
+            RegistryEntry construct() {
+                return new RegistryEntry();
+            }
+
+        };
     }
 
 }
