@@ -18,6 +18,7 @@ import javax.inject.Named;
 import com.jython.ui.shared.ISharedConsts;
 import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.semaphore.ISemaphore;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.gensym.ISymGenerator;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.jythonui.server.storage.seq.ISequenceRealmGen;
@@ -43,6 +44,9 @@ public class SHolder {
     @Inject
     private static ISemaphore iSem;
 
+    @Inject
+    private static IBlobHandler iBlob;
+
     public static IGetLogMess getM() {
         return logMess;
     }
@@ -61,6 +65,10 @@ public class SHolder {
 
     public static ISemaphore getSem() {
         return iSem;
+    }
+
+    public static IBlobHandler getBlobHandler() {
+        return iBlob;
     }
 
 }

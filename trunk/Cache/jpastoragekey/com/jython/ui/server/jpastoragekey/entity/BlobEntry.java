@@ -20,12 +20,11 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "registryRealm",
-        "registryEntry" }))
+"registryEntry" }))
 @NamedQueries({
-        @NamedQuery(name = "findRegistryEntry", query = "SELECT x FROM RegistryEntry x WHERE x.registryRealm = ?1 AND x.registryEntry = ?2"),
-        @NamedQuery(name = "getListRegistryEntry", query = "SELECT x.registryEntry FROM RegistryEntry x WHERE x.registryRealm = ?1"),
-        @NamedQuery(name = "removeRegistryEntry", query = "DELETE FROM RegistryEntry x WHERE x.registryRealm = ?1 AND x.registryEntry = ?2") })
-public class RegistryEntry extends AbstractRegistryEntry {
-
+        @NamedQuery(name = "findBlobEntry", query = "SELECT x FROM BlobEntry x WHERE x.registryRealm = ?1 AND x.registryEntry = ?2"),
+        @NamedQuery(name = "getListBlobEntry", query = "SELECT x.registryEntry FROM BlobEntry x WHERE x.registryRealm = ?1"),
+        @NamedQuery(name = "removeBlobEntry", query = "DELETE FROM BlobEntry x WHERE x.registryRealm = ?1 AND x.registryEntry = ?2") })
+public class BlobEntry extends AbstractRegistryEntry {
 
 }
