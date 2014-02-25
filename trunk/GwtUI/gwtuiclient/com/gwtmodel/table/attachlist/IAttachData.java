@@ -15,11 +15,10 @@ package com.gwtmodel.table.attachlist;
 import com.gwtmodel.table.slotmodel.ISlotable;
 
 /**
- *
+ * 
  * @author perseus
  */
 
-
 public interface IAttachData extends ISlotable {
-    
+
 }

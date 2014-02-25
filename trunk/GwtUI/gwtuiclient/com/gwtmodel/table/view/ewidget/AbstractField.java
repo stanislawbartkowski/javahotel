@@ -62,7 +62,10 @@ abstract class AbstractField extends PopupTip implements IFormLineView {
             boolean checkenable, String htmlName, List<ITouchListener> iTouch) {
         assert v != null : LogT.getT().cannotBeNull();
         this.cValues = cValues;
-        this.iTouch = iTouch;
+        if (iTouch != null)
+            this.iTouch = iTouch;
+        else
+            this.iTouch = new ArrayList<ITouchListener>();
         lC = null;
         checkBoxVal = checkenable;
         isCheckBox = true;

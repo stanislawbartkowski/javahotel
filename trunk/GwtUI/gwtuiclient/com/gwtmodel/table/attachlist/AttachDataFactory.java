@@ -18,12 +18,14 @@ import com.gwtmodel.table.factories.IHeaderListContainer;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 
 /**
- *
+ * 
  * @author perseus
  */
 public class AttachDataFactory {
 
-    public IAttachDataView construct(IDataType dType, ISlotListener setGwt, IHeaderListContainer iHeader, IComposeControllerTypeFactory compFactory) {
+    public IAttachDataView construct(IDataType dType, ISlotListener setGwt,
+            IHeaderListContainer iHeader,
+            IComposeControllerTypeFactory compFactory) {
         return new AttachDataView(dType, setGwt, iHeader, compFactory);
     }
 }
