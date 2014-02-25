@@ -57,6 +57,7 @@ public interface ICommonConsts {
     String DECIMALTYPE = "decimal";
     String DATETYPE = "date";
     String DATETIMETYPE = "datetime";
+    String UPLOADTYPE = "upload";
     String INTTYPE = "int";
     String LONGTYPE = "long";
     String AFTERDOT = "afterdot";
@@ -71,6 +72,7 @@ public interface ICommonConsts {
     String LABEL = "label";
     String IJSCALL = "JS.";
     String ASXML = "asxml";
+    String FORMPANEL = "formpanel";
     String CLEARLEFT = "clearleft";
     String CLEARCENTRE = "clearcentre";
     String JXMLCONTENT = "JXMLCONTENT";
@@ -129,6 +131,7 @@ public interface ICommonConsts {
     String ACTIONS = "actions";
     String ACTION = "action";
     String ACTIONID = "actionid";
+    String JSUBMIT = "J_SUBMIT";
     String JOKMESSAGE = "JOK_MESSAGE";
     String JYESNOMESSAGE = "JYESNO_MESSAGE";
     String JYESANSWER = "JYESANSWER";
@@ -151,6 +154,8 @@ public interface ICommonConsts {
     String TYPEDEF = "typedef";
     String CUSTOMTYPE = "custom:";
     String SIGNALCHANGE = "signalchange";
+    String AFTERSUBMIT = "aftersubmit";
+    String JSUBMITERES = "JSUBMITRES";
     String SIGNALBEFORE = "signalbefore";
     String JCHANGESIGNALBEFORE = "JLIST_EDIT_BEFORE";
     String JVALBEFORE = "JVALBEFORE";
@@ -262,4 +267,9 @@ public interface ICommonConsts {
 
     String GWT_LOCALE = "GWT_LOCALE";
 
+    String FILENAMEID = "FILENAMEID";
+    String UPLOADFILEERROR = "UPLOAD_FILE_ERROR";
+    
+    String BLOBUPLOAD_REALM = "BLOBUPLOAD_REALM";
+    String BLOBUPLOAD_KEY = "BLOBUPLOAD_GEN_KEY";
 }

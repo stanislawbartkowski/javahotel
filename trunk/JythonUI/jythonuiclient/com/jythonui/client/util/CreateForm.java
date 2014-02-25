@@ -79,7 +79,9 @@ public class CreateForm {
             IVField vf = VField.construct(f);
             IFormLineView v;
             String htmlId = f.getHtmlId();
-            if (f.isLabel()) {
+            if (f.isUploadType()) {
+                v = eFactory.constructEditFileName(vf, htmlId);
+            } else if (f.isLabel()) {
                 v = eFactory.constructLabelField(vf,
                         iMess.getMessage(f.getDisplayName()));
             } else if (!CUtil.EmptyS(f.getCustom())) {

@@ -83,5 +83,7 @@ public interface JMessages extends Messages {
             String ima);
     
     String CustomTypeIsNull(String customType);
+    
+    String ErrorWhileUploading();
 
 }

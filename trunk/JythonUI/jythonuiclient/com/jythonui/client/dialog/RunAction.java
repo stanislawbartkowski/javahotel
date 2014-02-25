@@ -12,13 +12,18 @@
  */
 package com.jythonui.client.dialog;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.gwtmodel.table.ICustomObject;
 import com.gwtmodel.table.IDataType;
 import com.gwtmodel.table.SynchronizeList;
+import com.gwtmodel.table.Utils;
 import com.gwtmodel.table.WSize;
 import com.gwtmodel.table.common.CUtil;
 import com.gwtmodel.table.common.ISignal;
@@ -28,6 +33,7 @@ import com.gwtmodel.table.slotmodel.CustomStringSlot;
 import com.gwtmodel.table.slotmodel.ISlotListener;
 import com.gwtmodel.table.slotmodel.ISlotSignalContext;
 import com.gwtmodel.table.slotmodel.SlU;
+import com.gwtmodel.table.tabpanelview.BeforeTabChange;
 import com.gwtmodel.table.view.callback.CommonCallBack;
 import com.gwtmodel.table.view.util.ModalDialog;
 import com.gwtmodel.table.view.webpanel.IWebPanel;
@@ -41,6 +47,7 @@ import com.jythonui.client.variables.IVariablesContainer;
 import com.jythonui.shared.DialogFormat;
 import com.jythonui.shared.DialogInfo;
 import com.jythonui.shared.DialogVariables;
+import com.jythonui.shared.ICommonConsts;
 
 /**
  * @author hotel
@@ -81,9 +88,8 @@ public class RunAction implements IJythonUIClient {
 
         @Override
         protected void doTask() {
-            if (!CUtil.EmptyS(d.getDisplayName())) {
-                mDial.setTitle(d.getDisplayName());
-            }
+
+            mDial.setDialogFormat(d);
 
         }
     }
@@ -125,11 +131,12 @@ public class RunAction implements IJythonUIClient {
 
     }
 
-    private class MDialog extends ModalDialog {
+    private class UpDialog extends ModalDialog {
 
         private final Widget w;
+        private ModalDialog md;
 
-        MDialog(Widget w, IDataType dType) {
+        UpDialog(Widget w, IDataType dType) {
             super("");
             this.w = w;
             create();
@@ -140,6 +147,108 @@ public class RunAction implements IJythonUIClient {
         protected void addVP(VerticalPanel vp) {
             vp.add(w);
         }
+    }
+
+    private class SCompleted implements SubmitCompleteHandler {
+
+        private final IDataType dType;
+        private WSize wS;
+        private String submitId;
+
+        SCompleted(IDataType dType) {
+            this.dType = dType;
+        }
+
+        void setWS(WSize wS) {
+            this.wS = wS;
+        }
+
+        void setSubmitId(String id) {
+            this.submitId = id;
+        }
+
+        @Override
+        public void onSubmitComplete(SubmitCompleteEvent event) {
+            String res = event.getResults();
+            // remove html tags
+            res = res.replaceAll("<[^>]*>", "");
+            if (res.startsWith(ICommonConsts.UPLOADFILEERROR)) {
+                String mess = M.M().ErrorWhileUploading();
+                Utils.errAlert(mess);
+                return;
+            }
+
+            // String files[] = res.split(",");
+            // for (String s : files) {
+            // String file[] = s.split(":");
+            // int i = 0;
+            // }
+            AfterUploadSubmitSignal sig = new AfterUploadSubmitSignal(res, wS,
+                    submitId);
+            CustomStringSlot sl = AfterUploadSubmitSignal
+                    .constructSignal(dType);
+            sy.dI.getSlContainer().publish(sl, sig);
+        }
+
+    }
+
+    private class MDialog {
+
+        private final Widget w;
+        private UpDialog md;
+        private final IDataType dType;
+        private DialogFormat d;
+        private WSize wS;
+        private FormPanel formP;
+        private final SCompleted sC;
+
+        MDialog(Widget w, IDataType dType) {
+            this.w = w;
+            this.dType = dType;
+            sC = new SCompleted(dType);
+        }
+
+        private void setDialogFormat(DialogFormat d) {
+            this.d = d;
+            if (d.isFormPanel()) {
+                formP = new FormPanel();
+                formP.add(w);
+                String action = GWT.getHostPageBaseURL() + "/upLoadHandler";
+                formP.setAction(action);
+                formP.setEncoding(FormPanel.ENCODING_MULTIPART);
+                formP.setMethod(FormPanel.METHOD_POST);
+                formP.addSubmitCompleteHandler(sC);
+                md = new UpDialog(formP, dType);
+            } else
+                md = new UpDialog(w, dType);
+            if (!CUtil.EmptyS(d.getDisplayName())) {
+                md.setTitle(d.getDisplayName());
+            }
+            show();
+        }
+
+        private void show() {
+            if ((md != null) && wS != null)
+                md.show(wS);
+        }
+
+        private void hide() {
+            if (md != null)
+                md.hide();
+        }
+
+        private void setW(WSize w) {
+            wS = w;
+            sC.setWS(w);
+            show();
+        }
+
+        private void submitAction(String id) {
+            sC.setSubmitId(id);
+            if (formP != null)
+                formP.submit();
+        }
+
     }
 
     private class GetUpWidget implements ISlotListener {
@@ -159,13 +268,11 @@ public class RunAction implements IJythonUIClient {
                 public void execute() {
                     syM.mDial = new MDialog(wd, slContext.getSlType()
                             .getdType());
-                    syM.mDial.show(w);
+                    // syM.mDial.show(w);
+                    syM.mDial.setW(w);
                     syM.signalDone();
                 }
             });
-            // syM.mDial = new MDialog(wd, slContext.getSlType().getdType());
-            // syM.mDial.show(w);
-            // syM.signalDone();
         }
     }
 
@@ -176,6 +283,16 @@ public class RunAction implements IJythonUIClient {
             Widget w = slContext.getGwtWidget().getGWidget();
             IWebPanel i = GwtGiniInjector.getI().getWebPanel();
             i.setDCenter(w);
+        }
+
+    }
+
+    private class SubmitDialog implements ISlotListener {
+
+        @Override
+        public void signal(ISlotSignalContext slContext) {
+            SendSubmitSignal t = (SendSubmitSignal) slContext.getCustom();
+            syM.mDial.submitAction(t.getValue());
         }
 
     }
@@ -250,6 +367,10 @@ public class RunAction implements IJythonUIClient {
             SlU.registerWidgetListener0(dType, d, new GetW());
             d.getSlContainer().registerSubscriber(
                     SendCloseSignal.constructSignal(dType), new CloseDialog());
+            d.getSlContainer()
+                    .registerSubscriber(
+                            SendSubmitSignal.constructSignal(dType),
+                            new SubmitDialog());
             d.getSlContainer().registerSubscriber(
                     SignalAfterBefore.constructSignal(dType),
                     new BeforeFinished());
