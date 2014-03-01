@@ -16,6 +16,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,9 +29,11 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.gwtmodel.table.common.CUtil;
+import com.jythonui.server.getmess.IGetLogMess;
 import com.jythonui.server.holder.SHolder;
-import com.jythonui.server.storage.blob.IBlobHandler;
-import com.jythonui.server.storage.seq.ISequenceRealmGen;
+import com.jythonui.server.logmess.IErrorCode;
+import com.jythonui.server.logmess.ILogMess;
+import com.jythonui.server.newblob.IAddNewBlob;
 import com.jythonui.shared.ICommonConsts;
 
 /**
@@ -39,13 +43,15 @@ import com.jythonui.shared.ICommonConsts;
 @SuppressWarnings("serial")
 public class UpLoadFile extends HttpServlet {
 
+    private static final Logger log = Logger.getLogger(UpLoadFile.class
+            .getName());
+
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletFileUpload upload = new ServletFileUpload();
 
-        ISequenceRealmGen iSeq = SHolder.getSequenceRealmGen();
-        IBlobHandler iBlob = SHolder.getBlobHandler();
+        IAddNewBlob addB = SHolder.getAddBlob();
 
         PrintWriter out = response.getWriter();
         boolean first = true;
@@ -58,7 +64,6 @@ public class UpLoadFile extends HttpServlet {
                 if (item.isFormField())
                     continue;
 
-                String name = item.getFieldName();
                 String fName = item.getName();
                 // nothing uploaded
                 if (CUtil.EmptyS(fName))
@@ -73,10 +78,8 @@ public class UpLoadFile extends HttpServlet {
                 }
                 bout.close();
                 // store blob content
-                Long bkey = iSeq.genNext(ICommonConsts.BLOBUPLOAD_REALM,
-                        ICommonConsts.BLOBUPLOAD_KEY);
-                iBlob.addBlob(ICommonConsts.BLOBUPLOAD_REALM, bkey.toString(),
-                        bout.toByteArray());
+                String bkey = addB.addNewBlob(ICommonConsts.BLOBUPLOAD_REALM,
+                        ICommonConsts.BLOBUPLOAD_KEY, bout.toByteArray());
                 if (!first)
                     out.print(',');
                 first = false;
@@ -88,8 +91,11 @@ public class UpLoadFile extends HttpServlet {
             } // while
 
         } catch (Exception e) {
-            e.printStackTrace();
             out.print(ICommonConsts.UPLOADFILEERROR);
+            IGetLogMess iLog = SHolder.getM();
+            String mess = iLog.getMess(IErrorCode.ERRORCODE77,
+                    ILogMess.ERRORWHILEUPLOADING);
+            log.log(Level.SEVERE, mess, e);
         }
         out.close();
 

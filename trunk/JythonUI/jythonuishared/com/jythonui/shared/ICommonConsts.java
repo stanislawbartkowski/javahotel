@@ -58,6 +58,7 @@ public interface ICommonConsts {
     String DATETYPE = "date";
     String DATETIMETYPE = "datetime";
     String UPLOADTYPE = "upload";
+    String DOWNLOADTYPE = "download";
     String INTTYPE = "int";
     String LONGTYPE = "long";
     String AFTERDOT = "afterdot";
@@ -267,9 +268,9 @@ public interface ICommonConsts {
 
     String GWT_LOCALE = "GWT_LOCALE";
 
-    String FILENAMEID = "FILENAMEID";
     String UPLOADFILEERROR = "UPLOAD_FILE_ERROR";
-    
+
     String BLOBUPLOAD_REALM = "BLOBUPLOAD_REALM";
     String BLOBUPLOAD_KEY = "BLOBUPLOAD_GEN_KEY";
+    String BLOBDOWNLOADPARAM = "param";
 }
