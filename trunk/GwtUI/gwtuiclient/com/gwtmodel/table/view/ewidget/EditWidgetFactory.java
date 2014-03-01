@@ -38,6 +38,10 @@ public class EditWidgetFactory {
         return new VLabel(v, displayName);
     }
 
+    public IFormLineView constructAnchorField(IVField v) {
+        return new AnchorField(v);
+    }
+
     // used
     public RadioBoxString constructRadioBoxString(IVField v, IGetDataList iGet,
             final boolean enable, String htmlName) {
