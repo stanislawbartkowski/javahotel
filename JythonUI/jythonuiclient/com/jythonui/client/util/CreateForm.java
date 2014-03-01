@@ -81,6 +81,8 @@ public class CreateForm {
             String htmlId = f.getHtmlId();
             if (f.isUploadType()) {
                 v = eFactory.constructEditFileName(vf, htmlId);
+            } else if (f.isDownloadType()) {
+                v = eFactory.constructAnchorField(vf);
             } else if (f.isLabel()) {
                 v = eFactory.constructLabelField(vf,
                         iMess.getMessage(f.getDisplayName()));

@@ -213,7 +213,8 @@ public class RunAction implements IJythonUIClient {
             if (d.isFormPanel()) {
                 formP = new FormPanel();
                 formP.add(w);
-                String action = GWT.getHostPageBaseURL() + "/upLoadHandler";
+//                String action = GWT.getHostPageBaseURL() + "/upLoadHandler";
+                String action = Utils.getURLServlet("upLoadHandler");
                 formP.setAction(action);
                 formP.setEncoding(FormPanel.ENCODING_MULTIPART);
                 formP.setMethod(FormPanel.METHOD_POST);

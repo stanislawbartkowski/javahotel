@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.gwtmodel.table.IClickYesNo;
 import com.gwtmodel.table.ICommand;
@@ -372,7 +373,20 @@ public class DialogContainer extends AbstractSlotMediatorContainer {
                     if (i == null) {
                         return;
                     }
-                    i.setValObj(val.getValue());
+                    FieldItem def = d.findFieldItem(v.getId());
+                    if (def.isDownloadType()) {
+                        String s = val.getValueS();
+                        String ff[] = s.split(":");
+                        String title = ff[2];
+//                        String u = GWT.getHostPageBaseURL()
+//                                + "/downLoadHandler";
+                        String u = Utils.getURLServlet("downLoadHandler");
+//                                + "/downLoadHandler";
+                        String link = Utils.createURL(u, ICommonConsts.BLOBDOWNLOADPARAM, s,null);
+                        i.setValObj(title + "|" + link);
+
+                    } else
+                        i.setValObj(val.getValue());
                 }
             };
             JUtils.VisitVariable(var, null, iVisit);

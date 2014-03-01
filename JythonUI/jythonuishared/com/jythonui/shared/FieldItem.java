@@ -59,6 +59,7 @@ public class FieldItem extends ElemDescription {
                 || CUtil.EqNS(t, ICommonConsts.TEXTAREA)
                 || CUtil.EqNS(t, ICommonConsts.RICHTEXT)
                 || CUtil.EqNS(t, ICommonConsts.UPLOADTYPE)
+                || CUtil.EqNS(t, ICommonConsts.DOWNLOADTYPE)
                 || CUtil.EqNS(t, ICommonConsts.PASSWORD)) {
             return TT.STRING;
         }
@@ -100,6 +101,10 @@ public class FieldItem extends ElemDescription {
 
     public boolean isUploadType() {
         return CUtil.EqNS(getTypeName(), ICommonConsts.UPLOADTYPE);
+    }
+
+    public boolean isDownloadType() {
+        return CUtil.EqNS(getTypeName(), ICommonConsts.DOWNLOADTYPE);
     }
 
     public boolean isReadOnlyAdd() {

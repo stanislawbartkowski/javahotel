@@ -31,6 +31,7 @@ import com.jythonui.server.IXMLToMap;
 import com.jythonui.server.Util;
 import com.jythonui.server.defa.CommonCacheProvider;
 import com.jythonui.server.defa.GetClientProperties;
+import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.defadata.DefaDataImpl;
 import com.jythonui.server.dict.IDictOfLocalEntries;
 import com.jythonui.server.dict.IDictOfLocalEntries.DictEntry;
@@ -44,6 +45,9 @@ import com.jythonui.server.impl.GetAppProperties;
 import com.jythonui.server.impl.JythonUiServerProvider;
 import com.jythonui.server.logmess.MessProvider;
 import com.jythonui.server.memstorage.MemStorageCacheFactory;
+import com.jythonui.server.newblob.IAddNewBlob;
+import com.jythonui.server.newblob.impl.AddNewBlob;
+import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.registry.object.ObjectRegistryFactory;
 import com.jythonui.server.resbundle.IAppMess;
 import com.jythonui.server.resbundle.Mess;
@@ -107,6 +111,10 @@ public class JythonServerService {
             bind(IDefaultData.class).to(DefaDataImpl.class).in(Singleton.class);
             bind(IGetAppProp.class).to(GetAppProperties.class).in(
                     Singleton.class);
+            // common
+            bind(IStorageRegistryFactory.class).to(
+                    StorageRealmRegistryFactory.class).in(Singleton.class);
+            bind(IAddNewBlob.class).to(AddNewBlob.class).in(Singleton.class);
         }
 
         @Provides
