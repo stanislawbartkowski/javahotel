@@ -72,10 +72,10 @@ public class ServerService {
                     Singleton.class);
 
             // common
-            bind(IStorageJpaRegistryFactory.class).to(
-                    StorageJpaRegistryFactory.class).in(Singleton.class);
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
+//            bind(IStorageJpaRegistryFactory.class).to(
+//                    StorageJpaRegistryFactory.class).in(Singleton.class);
+//            bind(IStorageRegistryFactory.class).to(
+//                    StorageRealmRegistryFactory.class).in(Singleton.class);
             // bind(ISemaphore.class).to(JpaSemaphore.class).in(Singleton.class);
             // bind(ISemaphore.class).to(SemaphoreRegistry.class).in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreSynch.class).in(Singleton.class);

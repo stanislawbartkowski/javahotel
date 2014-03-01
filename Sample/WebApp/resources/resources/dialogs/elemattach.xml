@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com">
+<displayname>Person</displayname>
+<parent>dialogattach.xml</parent>
+
+ <form>
+   <field id="firstname" displayname="First name" />
+   <field id="lastname" displayname="Last name" />
+ </form>
+</dialog>
