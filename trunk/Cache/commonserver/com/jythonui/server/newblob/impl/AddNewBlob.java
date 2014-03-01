@@ -10,29 +10,31 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.gaestoragekey;
+package com.jythonui.server.newblob.impl;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
-import com.googlecode.objectify.ObjectifyService;
-import com.jython.ui.shared.ISharedConsts;
-import com.jythonui.server.getmess.IGetLogMess;
+import com.jythonui.server.newblob.IAddNewBlob;
+import com.jythonui.server.storage.blob.IBlobHandler;
+import com.jythonui.server.storage.seq.ISequenceRealmGen;
 
-public class GaeStorageRegistry extends  AbstractStorageRegistry {
+public class AddNewBlob implements IAddNewBlob {
 
-    static {
-        ObjectifyService.register(RegistryEntry.class);
-    }
+    private final ISequenceRealmGen iSeq;
+    private final IBlobHandler iBlob;
 
     @Inject
-    public GaeStorageRegistry(@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
-        super(gMess,RegistryEntry.class);
+    public AddNewBlob(ISequenceRealmGen iSeq, IBlobHandler iBlob) {
+        this.iSeq = iSeq;
+        this.iBlob = iBlob;
     }
 
     @Override
-    AbstractRegistryEntry construct() {
-        return new RegistryEntry();
+    public String addNewBlob(String realM, String key, byte[] content) {
+        Long bkey = iSeq.genNext(realM, key);
+        String skey = key + "-" + bkey;
+        iBlob.addBlob(realM, skey, content);
+        return skey;
     }
 
 }
