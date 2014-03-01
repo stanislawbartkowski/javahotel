@@ -80,8 +80,8 @@ public class ServerService {
             // common
             bind(IStorageJpaRegistryFactory.class).to(
                     StorageJpaRegistryFactory.class).in(Singleton.class);
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
+//            bind(IStorageRegistryFactory.class).to(
+//                    StorageRealmRegistryFactory.class).in(Singleton.class);
             bind(IGetConnection.class)
                     .toProvider(EmptyConnectionProvider.class).in(
                             Singleton.class);

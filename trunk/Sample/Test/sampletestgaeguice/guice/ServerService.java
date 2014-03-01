@@ -23,17 +23,17 @@ import com.jython.ui.server.datastore.IPersonOp;
 import com.jython.ui.server.datastore.gae.DateLineOp;
 import com.jython.ui.server.datastore.gae.DateRecordOp;
 import com.jython.ui.server.datastore.gae.PersonOp;
-import com.jython.ui.server.gaestoragekey.StorageRegistryFactory;
+import com.jython.ui.server.gaestoragekey.BlobStorage;
+import com.jython.ui.server.gaestoragekey.GaeStorageRegistry;
 import com.jythonui.server.IGetConnection;
 import com.jythonui.server.IJythonUIServerProperties;
 import com.jythonui.server.defa.EmptyConnectionProvider;
 import com.jythonui.server.defa.SecurityNullConvert;
-import com.jythonui.server.defa.StorageRealmRegistryFactory;
 import com.jythonui.server.guice.JythonServerService.JythonServiceModule;
-import com.jythonui.server.registry.IStorageRegistryFactory;
 import com.jythonui.server.security.ISecurityConvert;
 import com.jythonui.server.semaphore.ISemaphore;
 import com.jythonui.server.semaphore.impl.SemaphoreRegistry;
+import com.jythonui.server.storage.blob.IBlobHandler;
 import com.jythonui.server.storage.registry.IStorageRealmRegistry;
 import com.table.testenhancer.gae.LocalDataStoreTestEnvironment;
 
@@ -57,10 +57,11 @@ public class ServerService {
             bind(ISecurityConvert.class).to(SecurityNullConvert.class).in(
                     Singleton.class);
             // common
-            bind(IStorageRegistryFactory.class).to(
-                    StorageRealmRegistryFactory.class).in(Singleton.class);
-            bind(IStorageRealmRegistry.class).toProvider(
-                    StorageRegistryFactory.class).in(Singleton.class);
+            // bind(IStorageRegistryFactory.class).to(
+            // StorageRealmRegistryFactory.class).in(Singleton.class);
+            bind(IBlobHandler.class).to(BlobStorage.class).in(Singleton.class);
+            bind(IStorageRealmRegistry.class).to(GaeStorageRegistry.class).in(
+                    Singleton.class);
             bind(IDateRecordOp.class).to(DateRecordOp.class)
                     .in(Singleton.class);
             bind(ISemaphore.class).to(SemaphoreRegistry.class).in(

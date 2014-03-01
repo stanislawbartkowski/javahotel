@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<dialog xmlns="http://www.jythongwt.dialogxsd.com" formpanel="">
+
+        <before />
+
+        <jython>
+                <import>from testpack import listattach</import>
+                <method>listattach.attachaction({0},{1})</method>
+        </jython>
+        
+        <buttons>
+          <!--          <button id="submitaction" displayname="Submit" actiontype="J_SUBMIT" /> -->
+          <button id="submitaction" displayname="Submit" validate="" /> 
+          <button id="addpdf" displayname="PDF" actiontype="JYESNO_MESSAGE" actionparam="Do you want to add sample PDF ?" />
+        </buttons>
+
+        <form>
+                <field id="info" displayname="Info" />
+                <field id="uploadfile" displayname="Upload" type="upload" notempty="" />
+        </form>
+
+</dialog>
