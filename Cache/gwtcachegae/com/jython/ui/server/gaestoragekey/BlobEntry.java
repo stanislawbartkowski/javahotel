@@ -12,27 +12,8 @@
  */
 package com.jython.ui.server.gaestoragekey;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import com.googlecode.objectify.annotation.Entity;
 
-import com.googlecode.objectify.ObjectifyService;
-import com.jython.ui.shared.ISharedConsts;
-import com.jythonui.server.getmess.IGetLogMess;
-
-public class GaeStorageRegistry extends  AbstractStorageRegistry {
-
-    static {
-        ObjectifyService.register(RegistryEntry.class);
-    }
-
-    @Inject
-    public GaeStorageRegistry(@Named(ISharedConsts.JYTHONMESSSERVER) IGetLogMess gMess) {
-        super(gMess,RegistryEntry.class);
-    }
-
-    @Override
-    AbstractRegistryEntry construct() {
-        return new RegistryEntry();
-    }
-
+@Entity
+class BlobEntry extends AbstractRegistryEntry {
 }

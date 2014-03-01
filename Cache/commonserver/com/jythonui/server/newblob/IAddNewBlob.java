@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and 
  * limitations under the License.
  */
-package com.jython.ui.server.gaestoragekey;
+package com.jythonui.server.newblob;
 
-import com.googlecode.objectify.annotation.Entity;
-
-@Entity
-class RegistryEntry extends AbstractRegistryEntry {
+public interface IAddNewBlob {
+    
+     String addNewBlob(String realM, String key, byte[] content);
 
 }

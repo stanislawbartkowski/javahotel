@@ -13,8 +13,6 @@
 package com.jythonui.server.semaphore.impl;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
