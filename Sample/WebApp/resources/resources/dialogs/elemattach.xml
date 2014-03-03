@@ -6,5 +6,12 @@
  <form>
    <field id="firstname" displayname="First name" />
    <field id="lastname" displayname="Last name" />
+   
+   <field id="filename" hidden="" />
+   <field id="info" hidden="" />
+   <field id="key" hidden="" />
+   <field id="realm" hidden="" />
+   <field id="upload" hidden="" />
+
  </form>
 </dialog>

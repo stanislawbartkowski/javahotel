@@ -37,20 +37,18 @@ def readFileList(var) :
        F.readList(var)
        seq = var["JLIST_MAP"]["list"]
        for s in seq :
-#         if s["filename"] == None : s["filename"] = "attach"
          realm = s["realm"]
          key = s["key"]
          filename=s["filename"]
          s["upload"] = "upload"
-#         if realm == None : s["download"] = None
-#         else : s["download"] = realm + ":" + key + ":" + filename
-         
-  
            
 
 def dialogaction(action,var) :
   cutil.printVar("listattach",action,var)
   
+  if action == "upload" and var["list_lineset"] :
+     var["JUP_DIALOG"] = "attachsomething.xml"
+    
   
   if action == "before" or action == "crud_readlist" :
        F.readList(var)
@@ -80,6 +78,14 @@ def dialogaction(action,var) :
   if action == "crud_remove" :
      F.removeMap(var)
      var["JCLOSE_DIALOG"] = True
+     
+def _setVals(var,realm,key,filename) :
+    var["realm"] = realm
+    var["key"] = key
+    var["filename"] = filename
+    F.addMap(var)
+    cutil.setCopy(var,["filename","realm","key","info"],"list")
+    var["JCLOSE_DIALOG"] = True  
 
 def attachaction(action,var) :
   cutil.printVar("attach action",action,var)
@@ -99,25 +105,16 @@ def attachaction(action,var) :
     realm = elems[0]
     key = elems[1]
     filename = elems[2]
-    var["realm"] = realm
-    var["key"] = key
-    var["filename"] = filename
-    F.addMap(var)
-    var["JCLOSE_DIALOG"] = True
+    _setVals(var,realm,key,filename)
     
-  if action == "addpdf" :
+  if action == "addpdf" and var["JYESANSWER"] :
     b = createPDF(var)
 #    print "dok=",b.length
-    print b,len(b)
     i = SHolder.getAddBlob()
     realm = "TESTPDF"
     key = "PDF"
     bkey = i.addNewBlob(realm,key,b)
-    var["realm"] = realm
-    var["key"] = bkey
-    var["filename"] = "test.pdf"
-    F.addMap(var)
-    var["JCLOSE_DIALOG"] = True     
+    _setVals(var,realm,bkey,"test.pdf")
   
 def downaction(action,var) :
   cutil.printVar("download action",action,var)
