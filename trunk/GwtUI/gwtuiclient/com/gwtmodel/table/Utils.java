@@ -81,10 +81,9 @@ public class Utils {
 
     public static String getURLServlet(String servletN) {
         String u = GWT.getHostPageBaseURL();
-//        if (GWT.isProdMode())
-            return u + servletN;
-//        else
-//            return GWT.getModuleBaseURL() + servletN;
+        // important: not add "/" between (the result is double //)
+        // it works for Tomcat but not for GoogleAppEngine (jetty)
+        return u + servletN; 
     }
 
     public static String getResAdr(final String res) {
