@@ -9,7 +9,7 @@
         </jython>
        <actions>
          <action id="show" displayname="Show something" actiontype="JOK_MESSAGE" actionparam="Hello" actionparam1="Title" />
-         <action id="upload" displayname="Upload" actiontype="JUP_DIALOG" actionparam="attachsomething.xml" />
+         <action id="upload" displayname="Upload" imagebutton="arrow_up.png" />
        </actions>
         
         <buttons>
